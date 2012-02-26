@@ -43,12 +43,12 @@ namespace LightStudio.PokemonBattle.Room
     bool IPlayerController.UseMove(Move move, Position target)
     {
       //TODO: verify
-      sendCommand(new InputCommand(ActionInput.UseMoveAction(move, target)));
+      sendCommand(new InputCommand(ActionInput.UseMove(move, target)));
       return true;
     }
     bool IPlayerController.Switch(SimPokemon withdraw, Pokemon sendout)
     {
-      sendCommand(new InputCommand(ActionInput.SwitchPokemonAction(withdraw, sendout)));
+      sendCommand(new InputCommand(ActionInput.Switch(withdraw, sendout)));
       return true;
     }
     bool IPlayerController.Struggle(SimPokemon pm)

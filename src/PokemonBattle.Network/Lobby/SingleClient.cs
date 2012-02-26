@@ -11,7 +11,11 @@ namespace LightStudio.PokemonBattle.Messaging
 {
   internal class SingleClient : DisposableObject, IBattleClient
   {
-    public event Action<IUserController> EnterSucceed;
+    event Action<IUserController> IBattleClient.EnterSucceed
+    {
+      add { user.EnterSucceed += value; }
+      remove { user.EnterSucceed -= value; }
+    }
     private readonly Player user;
 
     public SingleClient(int hostId, Game.GameSettings settings)
@@ -28,7 +32,6 @@ namespace LightStudio.PokemonBattle.Messaging
     {
       if (user.Role == UserRole.Player)
       {
-        user.EnterSucceed += EnterSucceed;
         user.JoinGame(pokemons, 1);
       }
     }

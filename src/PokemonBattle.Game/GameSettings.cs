@@ -86,6 +86,19 @@ namespace LightStudio.PokemonBattle.Game
         }
       }
     }
+    public int OnboardPokemonsPerPlayer
+    {
+      get
+      {
+        switch (Mode)
+        {
+          case GameMode.Single:
+            return 1;
+          default:
+            return 0;
+        }
+      }
+    }
     public Terrain Terrain
     {
       get { return terrain; }

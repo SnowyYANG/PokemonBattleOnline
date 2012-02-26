@@ -12,6 +12,14 @@ namespace LightStudio.PokemonBattle.Game
   /// </summary>
   internal class OnboardPokemon
   {
+    private static double LvToCoeff(int lv)
+    {
+      double denominator = 2, numerator = 2;
+      if (lv > 0) numerator += lv;
+      else denominator -= lv;
+      return numerator / denominator;
+    }
+
     private readonly Pokemon pokemon;
     private readonly ConditionsDictionary conditions;
     private readonly PokemonOutward Outward; //幻影
@@ -29,7 +37,6 @@ namespace LightStudio.PokemonBattle.Game
     public readonly SixD Lv5D;
     public int AccuracyLv;
     public int AvoidanceLv;
-    public readonly Move[] Moves;
     #endregion
 
     public readonly Position Position;
@@ -53,9 +60,8 @@ namespace LightStudio.PokemonBattle.Game
       Ev = new SixD(pokemon.Ev);
       Static = new SixD(pokemon.Static);
       Lv5D = new SixD();
-      Moves = new Move[4] { pokemon.Moves[0], pokemon.Moves[1], pokemon.Moves[2], pokemon.Moves[3] };
 
-      Position = new Position(pokemon.TeamId,x);
+      Position = new Position(pokemon.TeamId, x);
 
       //幻影new完后覆盖属性
       Outward = new PokemonOutward(this, pokemon.Hp);
@@ -126,21 +132,6 @@ namespace LightStudio.PokemonBattle.Game
         pokemon.Hp.Value = hp;
         Outward.Hurt();
       }
-    }
-    #endregion
-
-    public bool HasAvailableAbility(int abilityId)
-    {
-      return Ability.Id == abilityId;
-    }
-
-    #region 7D
-    private static double LvToCoeff(int lv)
-    {
-      double denominator = 2, numerator = 2;
-      if (lv > 0) numerator += lv;
-      else denominator -= lv;
-      return numerator / denominator;
     }
     #endregion
   }

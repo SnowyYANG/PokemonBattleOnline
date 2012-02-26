@@ -8,23 +8,35 @@ namespace LightStudio.PokemonBattle.Game
 {
   internal class Controller : IController
   {
-    private readonly TurnBuilder turnBuilder;
-    private readonly ActionInput[] actions;
-    Random random;
+    event Action IController.PokemonWithdrawing
+    {
+      add { switchController.PokemonWithdrawing += value; }
+      remove { switchController.PokemonWithdrawing -= value; }
+    }
+    event Action IController.PokemonSendout
+    {
+      add { switchController.PokemonSendout += value; }
+      remove { switchController.PokemonSendout -= value; }
+    }
+
+    public readonly TurnBuilder TurnBuilder;
+    public readonly GameContext Game;
+    public readonly Board Board;
+    private readonly SwitchController switchController;
+    private readonly InputController inputController;
+    
+    private Random random;
 
     public Controller(GameContext game)
     {
       Game = game;
-      turnBuilder = new TurnBuilder(game);
-      actions = new ActionInput[game.Settings.PlayersPerTeam * game.Settings.TeamCount];
+      TurnBuilder = new TurnBuilder(game);
+      switchController = new SwitchController(this);
+      inputController = new InputController(this);
     }
 
-    public GameContext Game
-    { get; private set; }
-    public Board Board
-    { get; private set; }
-    public List<PokemonProxy> ActivePokemons
-    { get; private set; }
+    public List<IPokemonProxy> OnboardPokemons
+    { get { return Board.Pokemons; } }
 
     #region Service
     public int GetRandomInt(int min, int max)
@@ -34,30 +46,35 @@ namespace LightStudio.PokemonBattle.Game
     #endregion
 
     #region Input
-    public bool Switch(PokemonProxy withdraw, Pokemon sendout)
+    internal bool InputSwitch(PokemonProxy withdraw, Pokemon sendout)
     {
-      if (withdraw.Action == Action.Standby && withdraw.Owner == sendout.Owner && sendout.Hp.Value > 0)
-      {
-        withdraw.Action = Action.Switch;
-        withdraw.SwitchPokemon = sendout;
-        return true;
-      }
-      return false;
+      return inputController.Switch(withdraw, sendout);
     }
-    public bool SelectMove(PokemonProxy pm, Move move, Position position = null)
+    internal bool InputSendout(Pokemon sendout, Position position)
     {
+      return inputController.Sendout(sendout, position);
+    }
+    internal bool InputSelectMove(MoveProxy move, Position position)
+    {
+      return inputController.SelectMove(move, position);
+    }
+    internal bool InputStruggle(PokemonProxy pm)
+    {
+      return inputController.Struggle(pm);
     }
     #endregion
 
     #region Sort
-    private int ComparePokemon(PokemonProxy a, PokemonProxy b)
+    private int ComparePokemon(IPokemonProxy _a, IPokemonProxy _b)
     {
-      if (a.Action == Action.Switch && b.Action == Action.Switch) return a.Speed - b.Speed;
-      if (a.Action == Action.Switch) return 1;
-      if (b.Action == Action.Switch) return -1;
+      PokemonProxy a = _a as PokemonProxy;
+      PokemonProxy b = _b as PokemonProxy;
+      if (a.Action == PokemonAction.Switch && b.Action == PokemonAction.Switch) return a.Speed - b.Speed;
+      if (a.Action == PokemonAction.Switch) return 1;
+      if (b.Action == PokemonAction.Switch) return -1;
 
-      if (a.SelectMove.Type.Priority != b.SelectMove.Type.Priority)
-        return a.SelectMove.Type.Priority - b.SelectMove.Type.Priority;
+      if (a.SelectMove.Priority != b.SelectMove.Priority)
+        return a.SelectMove.Priority - b.SelectMove.Priority;
 
       #warning unfinished Items
       //if (a.Item != b.Item)//1=先制爪/先制果发动 0=无道具 -1=后攻尾/满腹香炉发动
@@ -73,40 +90,49 @@ namespace LightStudio.PokemonBattle.Game
     }
     private void SortActivePokemons()
     {
-      int n = ActivePokemons.Count;
+      int n = OnboardPokemons.Count;
       for (int i = 0; i < n - 1; i++)
       {
         int j;
         j = GetRandomInt(i, n - 1);
-        PokemonProxy temp = ActivePokemons[i];
-        ActivePokemons[i] = ActivePokemons[j];
-        ActivePokemons[j] = temp;
+        IPokemonProxy temp = OnboardPokemons[i];
+        OnboardPokemons[i] = OnboardPokemons[j];
+        OnboardPokemons[j] = temp;
       }
-      ActivePokemons.Sort(ComparePokemon);
+      OnboardPokemons.Sort(ComparePokemon);
     }
     #endregion
 
-    #region Switch
-    public void Withdraw(int pmId)
+    #region Switch or Sendout
+    public bool CanWithdraw(IPokemonProxy pm)
     {
-      throw new NotImplementedException();
+      return switchController.CanWithdraw(pm as PokemonProxy);
     }
-    public void Sendout(int pmId)
+    public bool CanSendout(Pokemon pm, Position position)
     {
-      throw new NotImplementedException();
-      //int i = player.GetPokemonIndex(withdraw.Id);
-      //int j = player.GetPokemonIndex(sendout.Id);
-      //if (j >= Game.Settings.XBound)
-      //{
-      //  Pokemon temp = player.Pokemons[i];
-      //  player.Pokemons[i] = player.Pokemons[j];
-      //  player.Pokemons[j] = temp;
-      //}
+      return switchController.CanSendout(pm, position);
     }
-    public void Sendout(Player player, int pmIndex)
+    public bool Withdraw(IPokemonProxy pm)
     {
-      throw new NotImplementedException();
+      return switchController.Withdraw(pm as PokemonProxy);
+    }
+    public bool Sendout(Pokemon pm, Position position)
+    {
+      return switchController.CanSendout(pm, position);
     }
     #endregion
+
+    public bool HasAvailableAbility(int abilityId)
+    {
+      foreach (PokemonProxy pm in OnboardPokemons)
+        if (pm.HasWorkingAbility(abilityId)) return true;
+      return false;
+    }
+    public bool HasAvailableAbility(int teamId, int abilityId)
+    {
+      foreach (PokemonProxy pm in OnboardPokemons)
+        if (pm.Position.Team == teamId && pm.HasWorkingAbility(abilityId)) return true;
+      return false;
+    }  
   }
 }

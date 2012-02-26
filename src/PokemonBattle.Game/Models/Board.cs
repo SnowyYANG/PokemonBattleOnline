@@ -9,12 +9,12 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  public class Board
+  internal class Board
   {
-    public readonly List<OnboardPokemon> Pokemons;
+    public readonly List<IPokemonProxy> Pokemons;
     public readonly ConditionsDictionary Conditions;
     public readonly ConditionsDictionary[] FieldConditions;
-    readonly OnboardPokemon[,] pokemons;
+    readonly PokemonProxy[,] pokemons;
     readonly Terrain terrain;
     readonly GameMode mode;
     Weather weather;
@@ -24,14 +24,14 @@ namespace LightStudio.PokemonBattle.Game
       mode = settings.Mode;
       weather = Data.Weather.Normal;
       terrain = settings.Terrain;
-      pokemons = new OnboardPokemon[settings.TeamCount, settings.XBound];
-      Pokemons = new List<OnboardPokemon>();
+      pokemons = new PokemonProxy[settings.TeamCount, settings.XBound];
+      Pokemons = new List<IPokemonProxy>();
       Conditions = new ConditionsDictionary();
       FieldConditions = new ConditionsDictionary[settings.TeamCount];
       for (int i = 0; i < settings.TeamCount; i++) FieldConditions[i] = new ConditionsDictionary();
     }
 
-    public OnboardPokemon this[int team, int x]
+    public PokemonProxy this[int team, int x]
     {
       get { return pokemons[team, x]; }
       set
@@ -47,24 +47,12 @@ namespace LightStudio.PokemonBattle.Game
     public Weather Weather
     { get { return weather; } }
 
-    public OnboardPokemon GetOnboardPm(int id)
+    public PokemonProxy GetPokemon(int id)
     {
-      OnboardPokemon r = null;
-      foreach (OnboardPokemon p in Pokemons)
+      PokemonProxy r = null;
+      foreach (PokemonProxy p in Pokemons)
         if (p.Id == id) r = p;
       return r;
-    }
-    public bool HasAvailableAbility(int abilityId)
-    {
-      foreach (OnboardPokemon pm in Pokemons)
-        if (pm.HasAvailableAbility(abilityId)) return true;
-      return false;
-    }
-    public bool HasAvailableAbility(int teamId, int abilityId)
-    {
-      foreach (OnboardPokemon pm in Pokemons)
-        if (pm.Position.Team == teamId && pm.HasAvailableAbility(abilityId)) return true;
-      return false;
     }
   }
 }

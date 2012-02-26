@@ -24,6 +24,7 @@ namespace LightStudio.PokemonBattle.Game
 
     public readonly Board Board;
     public readonly Team[] Teams;
+    private readonly Controller Controller;
 
     public GameContext(GameSettings settings)
     {
@@ -32,17 +33,18 @@ namespace LightStudio.PokemonBattle.Game
       for (int i = 0; i < settings.TeamCount; i++)
         Teams[i] = new Team(i, settings);
       Board = new Board(settings);
+      Controller = new Controller(this);
     }
 
     public GameSettings Settings
     { get; private set; }
 
-    private void CheckForNextTurn()//考虑调整到IController
-    {
+    //private void CheckForNextTurn()//考虑调整到IController
+    //{
       
-      RequireInput(Teams[0].Players[0]);
-      RequireInput(Teams[1].Players[0]);
-    }
+    //  RequireInput(Teams[0].Players[0]);
+    //  RequireInput(Teams[1].Players[0]);
+    //}
     private void OnGameEnd()
     {
       if (GameEnd != null)
@@ -85,14 +87,14 @@ namespace LightStudio.PokemonBattle.Game
         switch (Settings.Mode)
         {
           case GameMode.Single:
-            turnBuilder.NewTurn();
-            Board[0, 0] = new OnboardPokemon(Teams[0].Players[0].Pokemons[0], 0);
-            turnBuilder.AddSendout(Teams[0].Players[0].Id, Board[0, 0].Id);
-            Board[1, 0] = new OnboardPokemon(Teams[1].Players[0].Pokemons[0], 0);
-            turnBuilder.AddSendout(Teams[1].Players[0].Id, Board[1, 0].Id);
-            Turn(turnBuilder.GetLeapTurn()); //第0回合已经结束了
-            CheckForNextTurn();
-            break;
+            //turnBuilder.NewTurn();
+            //Board[0, 0] = new OnboardPokemon(Teams[0].Players[0].Pokemons[0], 0);
+            //turnBuilder.AddSendout(Teams[0].Players[0].Id, Board[0, 0].Id);
+            //Board[1, 0] = new OnboardPokemon(Teams[1].Players[0].Pokemons[0], 0);
+            //turnBuilder.AddSendout(Teams[1].Players[0].Id, Board[1, 0].Id);
+            //Turn(turnBuilder.GetLeapTurn()); //第0回合已经结束了
+            //CheckForNextTurn();
+            //break;
           default:
             return false;
         }
@@ -102,11 +104,12 @@ namespace LightStudio.PokemonBattle.Game
     }
     bool IGame.InputAction(int playerId, ActionInput action)
     {
-      return ActionInput.InputAction(this, GetPlayer(playerId), action);
+      return action.Input(Controller, GetPlayer(playerId));
     }
     Turn IGame.GetLastLeapTurn() // for spectator
     {
-      return turnBuilder.GetLeapTurn(); //is null possible?
+      return null;
+      //return turnBuilder.GetLeapTurn(); //is null possible?
     }
     #endregion
   }

@@ -10,17 +10,22 @@ namespace LightStudio.PokemonBattle.Game
   /// </summary>
   public interface IController
   {
-    Board Board { get; }
-    List<PokemonProxy> ActivePokemons { get; } //押后等技能
+    event Action PokemonWithdrawing;
+    event Action PokemonSendout;
+    /// <summary>
+    /// do NOT add or remove, sort and randomly access only
+    /// </summary>
+    List<IPokemonProxy> OnboardPokemons { get; } //押后等技能
 
     #region Service
     int GetRandomInt(int min, int max);
     #endregion
 
     #region Switch
-    void Withdraw(int pmId);
-    void Sendout(int pmId);
-    void Sendout(Player player, int pmIndex);
+    bool CanWithdraw(IPokemonProxy pm);
+    bool CanSendout(Pokemon pm, Position position);
+    bool Withdraw(IPokemonProxy pm);
+    bool Sendout(Pokemon pm, Position position);
     #endregion
   }
 }

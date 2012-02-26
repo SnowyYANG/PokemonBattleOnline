@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataModels\GameElementProxy.cs" />
     <Compile Include="DataModels\IText.cs" />
     <Compile Include="DataModels\PairValue.cs" />
     <Compile Include="Messaging\Lobby\LobbyService.cs" />

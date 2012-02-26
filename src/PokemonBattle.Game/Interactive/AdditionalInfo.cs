@@ -11,7 +11,7 @@ namespace LightStudio.PokemonBattle.Interactive
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class PokemonAdditionalInfo
   {
-    public static PokemonAdditionalInfo RivalAbilityNotify(OnboardPokemon pm)
+    internal static PokemonAdditionalInfo RivalAbilityNotify(PokemonProxy pm)
     {
       PokemonAdditionalInfo info = new PokemonAdditionalInfo();
       info.Id = pm.Id;
@@ -19,14 +19,14 @@ namespace LightStudio.PokemonBattle.Interactive
       info.receiversId = new int[0];
       return info;
     }
-    public static PokemonAdditionalInfo OwnerMovesNotify(OnboardPokemon pm)
+    internal static PokemonAdditionalInfo OwnerMovesNotify(PokemonProxy pm)
     {
       PokemonAdditionalInfo info = new PokemonAdditionalInfo();
       info.Id = pm.Id;
       info.MoveIds = new int[4];
       for (int i = 0; i < 4; i++)
         if (pm.Moves[i] != null) info.MoveIds[i] = pm.Moves[i].Id;
-      info.receiversId = new int[] { pm.Owner.Id };
+      info.receiversId = new int[] { pm.Pokemon.Owner.Id };
       return info;
     }
     

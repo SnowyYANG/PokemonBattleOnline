@@ -10,7 +10,7 @@ namespace LightStudio.PokemonBattle.Interactive
   /// <summary>
   /// thread safe?
   /// </summary>
-  public class TurnBuilder
+  internal class TurnBuilder
   {
     private GameContext game;
     private Turn lastTurn;
@@ -32,7 +32,7 @@ namespace LightStudio.PokemonBattle.Interactive
       TeamOutward[] t = new TeamOutward[game.Teams.Length];
       for (int i = 0; i < t.Length; i++) t[i] = game.Teams[i].GetOutward();
       PokemonOutward[] p = new PokemonOutward[game.Board.Pokemons.Count];
-      for (int i = 0; i < p.Length; i++) p[i] = game.Board.Pokemons[i].GetOutward();
+      for (int i = 0; i < p.Length; i++) p[i] = (game.Board.Pokemons[i] as PokemonProxy).OnboardPokemon.GetOutward();
       lastTurn = turn;
       turn = new Turn(t, p, game.Board.Weather);
     }
@@ -45,9 +45,9 @@ namespace LightStudio.PokemonBattle.Interactive
       return turn;
     }
 
-    public void AddSendout(int playerId, int pmId)
+    public void AddSendout(Player player, PokemonProxy pm)
     {
-      turn.AddEvent(new SendOut(playerId, game.Board.GetOnboardPm(pmId).GetOutward()));
+      turn.AddEvent(new SendOut(player.Id, pm.OnboardPokemon.GetOutward()));
     }
   }
 }

@@ -10,7 +10,11 @@ namespace LightStudio.PokemonBattle.Messaging
 {
   internal class SingleHost : DisposableObject, IBattleClient, IBattleHost
   {
-    public event Action<IUserController> EnterSucceed;
+    event Action<IUserController> IBattleClient.EnterSucceed
+    {
+      add { user.EnterSucceed += value; }
+      remove { user.EnterSucceed -= value; }
+    }
     private Host host;
     private Player user;
 
@@ -37,7 +41,6 @@ namespace LightStudio.PokemonBattle.Messaging
 
     public void Start(PokemonCustomInfo[] pokemons)
     {
-      user.EnterSucceed += EnterSucceed;
       user.JoinGame(pokemons, 0);
     }
 
@@ -52,7 +55,6 @@ namespace LightStudio.PokemonBattle.Messaging
       base.DisposeManagedResources();
       host.Dispose();
       user.Dispose();
-      EnterSucceed = delegate { };
     }
 
     #region Handle Message

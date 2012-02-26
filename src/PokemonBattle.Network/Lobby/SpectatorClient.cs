@@ -11,7 +11,11 @@ namespace LightStudio.PokemonBattle.Messaging
 {
   internal class SpectatorClient : DisposableObject, IBattleClient
   {
-    public event Action<IUserController> EnterSucceed;
+    event Action<IUserController> IBattleClient.EnterSucceed
+    {
+      add { user.EnterSucceed += value; }
+      remove { user.EnterSucceed -= value; }
+    }
     private readonly Room.User user;
 
     public SpectatorClient(int hostId)
