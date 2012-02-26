@@ -1,0 +1,40 @@
+﻿<?xml version="1.0"?>
+<pack xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+      language="english" default="false">
+  <item key="0">
+    <value>{BorderBrush = #FF00FF00, BorderThickness = (4,1)}Game Started</value>
+  </item>
+  <item key="1">
+    <value>{TextAlignment = Right}{Begin Turn} {@e.Turn}</value>
+  </item>
+  <item key="2">
+    <value>{TextAlignment = Right}{@board, EndTurnDisplay, Format = {0}'s {1}: {2} Hp}</value>
+  </item>
+  <item key="3">
+    <value>{}{@local.Add(pm, @board.GetPokemon(@e.SpriteId))}{@pm.Owner} sent out {@pm}(Lv.{@pm.Lv} {@pm.PokemonType})!</value>
+  </item>
+  <item key="4">
+    <value>{}{@local.Add(pm, @board.GetPokemon(@e.SpriteId))}{@pm.Owner} withdrew {@pm}!</value>
+  </item>
+  <item key="6">
+    <value>{}{@local.Add(pm, @board.GetPokemon(@e.SubjectId))}{@pm} used {@pm.GetMove(@e.SkillId)}</value>
+  </item>
+  <item key="7">
+    <value>{}(non-visible){@local.Add(pm, @board.GetPokemon(@e.SubjectId))}{@pm} used {@pm.GetMove(@e.SkillId)} towards {@board.GetPokemon(@e.TargetId)}</value>
+  </item>
+  <item key="8">
+    <value>{}{Missed, Foreground = Red}</value>
+  </item>
+  <item key="9">
+    <value>{}{@local.Add(pm, @board.GetPokemon(@e.AttackDetails.DefenserId))}{@e.AttackDetails, ShowAttack, Pokemon = @pm, Board = @board, DamageFormat = {0} got damage({1}), NoEffectFormat = It has no effect on {0}, CT = It's a critical attack!, Effective = It's very effective!, NotEffective = It's not effective...}</value>
+  </item>
+  <item key="10">
+    <value>{Foreground = Red}{@board.GetPlayer(@e.SubjectId)} quited</value>
+  </item>
+  <item key="11">
+    <value>{}(non-visible){@local.Add(pm, @board.GetPokemon(@e.SubjectId))}{@pm}'s Hp changed to {@e.Hp}</value>
+  </item>
+  <item key="13">
+    <value>{}(non-visible){@local.Add(pm, @board.GetPokemon(@e.SubjectId))}{@local.Add(move, @pm.GetMove(@e.SkillId))}{@pm}'s {@move}'s PP changed to {@e.PP}</value>
+  </item>
+</pack>

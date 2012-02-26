@@ -1,0 +1,7 @@
+<DataConfiguration xmlns="http://www.lightstudio.cc/">
+  <BackPath>image\back\{0}.png</BackPath>
+  <FemaleBackPath>image\back\female\{0}.png</FemaleBackPath>
+  <FemaleFrontPath>image\front\female\{0}.png</FemaleFrontPath>
+  <FrontPath>image\front\{0}.png</FrontPath>
+  <IconPath>image\icon\{0:000}.png</IconPath>
+</DataConfiguration>

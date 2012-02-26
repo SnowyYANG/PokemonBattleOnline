@@ -1,0 +1,20 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                    xmlns:pm="clr-namespace:LightStudio.PokemonBattle.Data;assembly=PokemonBattle.Data"
+                    xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements">
+    <DataTemplate x:Key="LocalizedText">
+        <TextBlock>
+            <i:Interaction.Behaviors>
+                <ui:LocalizedProperty Property="TextBlock.Text" Key="{Binding}"/>
+            </i:Interaction.Behaviors>
+        </TextBlock>
+    </DataTemplate>
+    <DataTemplate x:Key="LocalizedDataText">
+        <TextBlock>
+            <i:Interaction.Behaviors>
+                <ui:LocalizedProperty Property="TextBlock.Text" Key="{Binding}" StringService="{x:Static pm:DataService.DataString}"/>
+            </i:Interaction.Behaviors>
+        </TextBlock>
+    </DataTemplate>
+</ResourceDictionary>

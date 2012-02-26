@@ -1,0 +1,115 @@
+﻿<?xml version="1.0"?>
+<pack xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" language="chinese" default="false">
+  <item key="Hardy" value="努力" />
+  <item key="Lonely" value="寂寞" />
+  <item key="Brave" value="勇敢" />
+  <item key="Adamant" value="固执" />
+  <item key="Naughty" value="顽皮" />
+  <item key="Bold" value="大胆" />
+  <item key="Docile" value="坦率" />
+  <item key="Relaxed" value="悠闲" />
+  <item key="Impish" value="淘气" />
+  <item key="Lax" value="无虑" />
+  <item key="Timid" value="胆小" />
+  <item key="Hasty" value="急躁" />
+  <item key="Serious" value="认真" />
+  <item key="Jolly" value="开朗" />
+  <item key="Naive" value="天真" />
+  <item key="Modest" value="谨慎" />
+  <item key="Mild" value="温和" />
+  <item key="Quiet" value="冷静" />
+  <item key="Bashful" value="腼腆" />
+  <item key="Rash" value="马虎" />
+  <item key="Calm" value="安静" />
+  <item key="Gentle" value="温顺" />
+  <item key="Sassy" value="傲慢" />
+  <item key="Careful" value="慎重" />
+  <item key="Quirky" value="浮躁" />
+  <item key="Bug" value="虫" />
+  <item key="Dark" value="恶" />
+  <item key="Dragon" value="龙" />
+  <item key="Electric" value="电" />
+  <item key="Fighting" value="格斗" />
+  <item key="Fire" value="火" />
+  <item key="Flying" value="飞行" />
+  <item key="Ghost" value="鬼" />
+  <item key="Grass" value="草" />
+  <item key="Ground" value="地面" />
+  <item key="Ice" value="冰" />
+  <item key="Normal" value="普通" />
+  <item key="Poison" value="毒" />
+  <item key="Psychic" value="超能" />
+  <item key="Rock" value="岩" />
+  <item key="Steel" value="钢铁" />
+  <item key="Water" value="水" />
+  <item key="Physical" value="物理" />
+  <item key="Special" value="特殊" />
+  <item key="Status" value="变化" />
+  <item key="Hp" value="体力" />
+  <item key="Atk" value="物攻" />
+  <item key="Def" value="物防" />
+  <item key="Speed" value="速度" />
+  <item key="SpAtk" value="特攻" />
+  <item key="SpDef" value="特防" />
+  <item key="Stats" value="能力" />
+  <item key="Moves" value="技能" />
+  <item key="Category" value="类型"/>
+  <item key="Power" value="威力"/>
+  <item key="Accuracy" value="命中"/>
+  <item key="Individual Values" value="个体值" />
+  <item key="Effort Values" value="努力值" />
+  <item key="Hidden Power" value="觉醒力量" />
+  <item key="Name" value="名称" />
+  <item key="Type" value="属性" />
+  <item key="Item" value="道具" />
+  <item key="Ability" value="特性" />
+  <item key="Pokemon" value="精灵" />
+  <item key="Lv" value="等级" />
+  <item key="Gender" value="性别" />
+  <item key="Nature" value="性格" />
+  <item key="Base Stats" value="种族值"/>
+  <item key="Height" value="身高"/>
+  <item key="Weight" value="体重"/>
+
+  <item key="(nature ignored)" value="（无视性格）"/>
+  <item key="Results" value="结果"/>
+  <item key="Search" value="搜索" />
+  <item key="Settings" value="设置" />
+  <item key="OK" value="确认"/>
+  <item key="Cancel" value="取消" />
+  <item key="Search Result" value="搜索结果" />
+  <item key="Clear" value="清空" />
+  <item key="Open" value="打开" />
+  <item key="Close" value="关闭" />
+  <item key="Remove" value="删除" />
+  <item key="Rename" value="重命名" />
+  <item key="Edit" value="编辑" />
+  <item key="Save" value="保存" />
+  <item key="New Box" value="新建箱子" />
+  <item key="New Team" value="新建队伍" />
+  <item key="NewPokemon" value="新建精灵" />
+  <item key="Remaining EV Points" value="未分配努力值" />
+  <item key="Chinese" value="中文"/>
+  <item key="Boxes" value="箱子"/>
+  <item key="Teams" value="队伍"/>
+  <item key="Recycler" value="回收站"/>
+  <item key="None" value="无"/>
+  <item key="MoveTo" value="移动到"/>
+  <item key="CopyTo" value="复制到"/>
+  <item key="SwapWith" value="交换"/>
+  <item key="Replace" value="替换"/>
+  <item key="Export" value="导出"/>
+  <item key="Import" value="导入"/>
+  <item key="FolderExportFail" value="导出文件夹失败"/>
+  <item key="FolderImportFail" value="导入文件夹失败"/>
+  <item key="XmlFileFilter" value="Xml文件(*.xml)|*.xml"/>
+  <item key="AutoSave Interval(minutes)" value="自动保存间隔(分钟)"/>
+  <item key="Recycler Size" value="回收站容量"/>
+  <item key="Reset" value="重置"/>
+  <item key="Lobby" value="大厅"/>
+  <item key="All" value="全部"/>
+  <item key="Editor" value="编辑器"/>
+  <item key="Login" value="登陆"/>
+  <item key="new box" value="新箱子"/>
+  <item key="new team" value="新队伍"/>
+</pack>

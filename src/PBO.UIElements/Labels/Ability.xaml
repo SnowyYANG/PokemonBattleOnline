@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements">
+    <DataTemplate x:Key="AbilityLabel">
+        <ContentControl Content="{Binding Name}" ContentTemplate="{x:Static ui:Controls.LocalizedDataText}">
+            <ContentControl.ToolTip>
+                <ToolTip Content="{Binding Description}" ContentTemplate="{x:Static ui:Controls.LocalizedDataText}"/>
+            </ContentControl.ToolTip>
+        </ContentControl>
+    </DataTemplate>
+</ResourceDictionary>

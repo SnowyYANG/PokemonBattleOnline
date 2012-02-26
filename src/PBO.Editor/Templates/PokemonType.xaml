@@ -1,0 +1,40 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                    xmlns:d="clr-namespace:LightStudio.PokemonBattle.Data;assembly=PokemonBattle.Data"
+                    xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements;assembly=PBO.UIElements"
+                    xmlns:c="clr-namespace:LightStudio.PokemonBattle.PBO.Converters;assembly=PBO.UIElements"
+                    xmlns:local="clr-namespace:LightStudio.PokemonBattle.PBO.Editor">
+    <DataTemplate x:Key="PokemonType">
+        <StackPanel Orientation="Horizontal">
+            <ToolTipService.ToolTip>
+                <ToolTip>
+                    <ToolTip.Template>
+                        <ControlTemplate>
+                            <Border Background="#C0ffffff">
+                                <Image Height="32" Width="32">
+                                    <Image.Source>
+                                        <Binding Path="Id">
+                                            <Binding.Converter>
+                                                <c:IdIconConverter/>
+                                            </Binding.Converter>
+                                        </Binding>
+                                    </Image.Source>
+                                </Image>
+                            </Border>
+                        </ControlTemplate>
+                    </ToolTip.Template>
+                </ToolTip>
+            </ToolTipService.ToolTip>
+            <TextBlock>
+                <Run Text="{Binding Number, StringFormat=No.{0: 000}, Mode=OneWay}"/>
+				<Run Text=" "/>
+                <Run>
+                    <i:Interaction.Behaviors>
+                        <ui:LocalizedProperty Property="Run.Text" Key="{Binding Name}" StringService="{x:Static d:DataService.DataString}"/>
+                    </i:Interaction.Behaviors>
+                </Run>
+            </TextBlock>
+        </StackPanel>
+    </DataTemplate>
+</ResourceDictionary>

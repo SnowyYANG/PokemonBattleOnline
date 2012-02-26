@@ -1,0 +1,6 @@
+﻿<Canvas x:Class="LightStudio.PokemonBattle.PBO.Battle.OPokemon2D"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       Height="192" Width="192" IsHitTestVisible="False" SnapsToDevicePixels="True">
+    <Image x:Name="main" Height="192" Width="192"/>
+</Canvas>

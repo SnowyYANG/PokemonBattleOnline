@@ -1,0 +1,101 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    				xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    				xmlns:local="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements"
+                    xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+                    xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements"
+                    xmlns:pm="clr-namespace:LightStudio.PokemonBattle.Data;assembly=PokemonBattle.Data">
+    <Style TargetType="{x:Type local:ClearableComboBox}">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="#707070"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="Padding" Value="4,3"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+        <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        <Setter Property="CanClear" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ClearableComboBox}">
+                    <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" UseLayoutRounding="True">
+                        <ComboBox x:Name="PART_Selector" IsDropDownOpen="{Binding IsDropDownOpen,RelativeSource={RelativeSource TemplatedParent}}" MaxDropDownHeight="{TemplateBinding MaxDropDownHeight}" BorderBrush="{TemplateBinding BorderBrush}" ItemsSource="{TemplateBinding ItemsSource}" IsEditable="{TemplateBinding IsEditable}" IsReadOnly="{TemplateBinding IsReadOnly}" IsEnabled="{TemplateBinding IsEnabled}" SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}}" ItemTemplate="{TemplateBinding ItemTemplate}" ItemContainerStyle="{TemplateBinding ItemContainerStyle}" ItemsPanel="{TemplateBinding ItemsPanel}" SelectedValuePath="{TemplateBinding SelectedValuePath}" DisplayMemberPath="{TemplateBinding DisplayMemberPath}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" Background="{TemplateBinding Background}">
+                            <ComboBox.Template>
+                                <ControlTemplate TargetType="{x:Type ComboBox}">
+                                    <Grid x:Name="MainGrid" UseLayoutRounding="True" Background="{TemplateBinding Background}">
+                                        <Popup x:Name="PART_Popup" AllowsTransparency="true" Focusable="False" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" Margin="1" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
+                                            <Microsoft_Windows_Themes:SystemDropShadowChrome x:Name="Shdw" Color="Transparent" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{Binding ActualWidth, ElementName=MainGrid}">
+                                                <Border x:Name="DropDownBorder" BorderBrush="Gray" BorderThickness="1" Background="#F8F8F8">
+                                                    <ScrollViewer x:Name="DropDownScrollViewer">
+                                                        <Grid RenderOptions.ClearTypeHint="Enabled">
+                                                            <Canvas HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
+                                                                <Rectangle x:Name="OpaqueRect" Fill="{Binding Background, ElementName=DropDownBorder}" Height="{Binding ActualHeight, ElementName=DropDownBorder}" Width="{Binding ActualWidth, ElementName=DropDownBorder}"/>
+                                                            </Canvas>
+                                                            <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" Margin="0,1,0,0"/>
+                                                        </Grid>
+                                                    </ScrollViewer>
+                                                </Border>
+                                            </Microsoft_Windows_Themes:SystemDropShadowChrome>
+                                        </Popup>
+                                        <ToggleButton OverridesDefaultStyle="True" IsTabStop="False" Focusable="False" ClickMode="Press" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsEnabled="{TemplateBinding IsEnabled}">
+                                            <ToggleButton.Template>
+                                                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                    <Border Name="border" Background="Transparent" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                                                    	<Path Name="Arrow" Data="M 0 1 L 3.5 5 L 7 1 Z" Fill="Gray" HorizontalAlignment="Right" Margin="3,1" VerticalAlignment="Center"/>
+													</Border>
+                                                    <ControlTemplate.Triggers>
+                                                    	<Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="border" Property="Background" Value="#20000000"/>
+                                                    		<Setter Property="Fill" TargetName="Arrow" Value="#6ca9d8"/>                                     	
+														</Trigger>
+                                                        <Trigger Property="IsChecked" Value="true">
+                                                            <Setter Property="Fill" TargetName="Arrow" Value="Blue"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsEnabled" Value="false">
+                                                            <Setter Property="Visibility" TargetName="Arrow" Value="Hidden"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </ToggleButton.Template>
+                                        </ToggleButton>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="HasDropShadow" SourceName="PART_Popup" Value="true">
+                                            <Setter Property="Margin" TargetName="Shdw" Value="0,0,5,5"/>
+                                            <Setter Property="Color" TargetName="Shdw" Value="#71000000"/>
+                                        </Trigger>
+                                        <Trigger Property="HasItems" Value="false">
+                                            <Setter Property="Height" TargetName="DropDownBorder" Value="95"/>
+                                        </Trigger>
+                                        <Trigger Property="IsGrouping" Value="true">
+                                            <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                                        </Trigger>
+                                        <Trigger Property="ScrollViewer.CanContentScroll" SourceName="DropDownScrollViewer" Value="false">
+                                            <Setter Property="Canvas.Top" TargetName="OpaqueRect" Value="{Binding VerticalOffset, ElementName=DropDownScrollViewer}"/>
+                                            <Setter Property="Canvas.Left" TargetName="OpaqueRect" Value="{Binding HorizontalOffset, ElementName=DropDownScrollViewer}"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </ComboBox.Template>
+                        </ComboBox>
+                        <DockPanel Name="forepanel" Margin="0,0,13,0" LastChildFill="True">
+                            <Button x:Name="PART_CancelButton" Style="{x:Static ui:Controls.XButton}" ToolTip="{Binding [Clear], Source={x:Static pm:DataService.String}}" Foreground="Gray" IsEnabled="{TemplateBinding IsEnabled}" Margin="0,-1,0,0" DockPanel.Dock="Right"/>
+                            <ContentPresenter ContentTemplate="{TemplateBinding ItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Content="{TemplateBinding SelectedItem}" ContentStringFormat="{TemplateBinding ItemStringFormat}" IsHitTestVisible="false" Margin="4,3,2,3" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="True"/>
+                        </DockPanel>
+                    </Grid>
+					<ControlTemplate.Triggers>
+						<Trigger Property="SelectedItem" Value="{x:Null}">
+							<Setter TargetName="PART_CancelButton" Property="Visibility" Value="Hidden"/>
+						</Trigger>
+                        <Trigger Property="CanClear" Value="False">
+                            <Setter TargetName="PART_CancelButton" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+						<Trigger Property="IsEnabled" Value="False">
+							<Setter TargetName="forepanel" Property="Margin" Value="0"/>
+						</Trigger>
+					</ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

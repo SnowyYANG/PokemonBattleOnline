@@ -1,0 +1,32 @@
+﻿<ResourceDictionary	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="clr-namespace:LightStudio.PokemonBattle.Data;assembly=PokemonBattle.Data"
+                    xmlns:c="clr-namespace:LightStudio.PokemonBattle.PBO.Converters">
+    <DataTemplate x:Key="MoveCategoryLabel">
+        <DataTemplate.Resources>
+            <c:MoveCategoryText x:Key="CategoryTextConverter"/>
+        </DataTemplate.Resources>
+        <Image Name="img" Width="28" Height="14" SnapsToDevicePixels="True" Stretch="Uniform">
+            <Image.ToolTip>
+                <Binding Converter="{StaticResource CategoryTextConverter}"/>
+            </Image.ToolTip>
+        </Image>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding}">
+                <DataTrigger.Value>
+                    <d:MoveCategory>Physical</d:MoveCategory>
+                </DataTrigger.Value>
+                <Setter TargetName="img" Property="Source" Value="/PBO.UIElements;component/Images/Labels/Physical.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Status">
+                <Setter TargetName="img" Property="Source" Value="/PBO.UIElements;component/Images/Labels/Neutral.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}">
+                <DataTrigger.Value>
+                    <d:MoveCategory>Special</d:MoveCategory>
+                </DataTrigger.Value>
+                <Setter TargetName="img" Property="Source" Value="/PBO.UIElements;component/Images/Labels/Special.png"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>

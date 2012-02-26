@@ -1,0 +1,16 @@
+﻿<Window x:Class="LightStudio.PokemonBattle.PBO.Battle.BattleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:my="clr-namespace:LightStudio.PokemonBattle.PBO.Battle"
+        Title="BattleWindow" MinHeight="384" MinWidth="600" Width="600" Closing="Window_Closing" Closed="Window_Closed">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <my:NDS x:Name="nds" Grid.Column="1" VerticalAlignment="Top"/>
+        <my:BattleReport x:Name="br" Grid.Column="2"/>
+        <Label x:Name="mask" Content="正在等待主机开始对战..." Background="Black" Foreground="White" Grid.ColumnSpan="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+    </Grid>
+</Window>

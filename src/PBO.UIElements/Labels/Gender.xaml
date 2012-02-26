@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements">
+    <DataTemplate x:Key="GenderLabel">
+        <TextBlock Name="gender"/>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding}" Value="Male">
+                <Setter TargetName="gender" Property="Text" Value="♂"/>
+                <Setter TargetName="gender" Property="Foreground" Value="#7090f8"/>
+                <Setter TargetName="gender" Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect ShadowDepth="1" BlurRadius="1" Color="#0000f0"/>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Female">
+                <Setter TargetName="gender" Property="Text" Value="♀"/>
+                <Setter TargetName="gender" Property="Foreground" Value="#f87070"/>
+                <Setter TargetName="gender" Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect ShadowDepth="1" BlurRadius="1" Color="#e00000"/>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+    <DataTemplate x:Key="GenderLabelShowNone">
+        <ContentPresenter Content="{Binding}">
+            <ContentPresenter.Style>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="ContentTemplate" Value="{StaticResource GenderLabel}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding}" Value="None">
+                            <Setter Property="ContentTemplate" Value="{x:Static ui:Controls.LocalizedText}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentPresenter.Style>
+        </ContentPresenter>
+    </DataTemplate>
+</ResourceDictionary>

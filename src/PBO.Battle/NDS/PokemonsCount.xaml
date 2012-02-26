@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DataTemplate x:Key="OBalls">
+        <DataTemplate.Resources>
+            <Style TargetType="TextBlock">
+                <Style.Triggers>
+                    <Trigger Property="Text" Value="0">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </DataTemplate.Resources>
+        <StackPanel Orientation="Horizontal"><!-- TextBlock.Width=18 -->
+            <Image Source="/PBO.UIElements;component/images/Balls/ONormal.png" Visibility="{Binding ElementName=normal,Path=Visibility}" Width="14" Height="14"/>
+            <TextBlock Name="normal" Text="{Binding Normal}" Margin="0,0,2,0"/>
+            <Image Source="/PBO.UIElements;component/images/Balls/OAbnormal.png" Visibility="{Binding ElementName=abnormal,Path=Visibility}" Width="14" Height="14"/>
+            <TextBlock Name="abnormal" Text="{Binding Abnormal}" Margin="0,0,2,0"/>
+            <Image Source="/PBO.UIElements;component/images/Balls/ODying.png" Visibility="{Binding ElementName=dying,Path=Visibility}" Width="14" Height="14"/>
+            <TextBlock Name="dying" Text="{Binding Dying}"/>
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="RBalls">
+        <DataTemplate.Resources>
+            <Style TargetType="TextBlock">
+                <Style.Triggers>
+                    <Trigger Property="Text" Value="0">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </DataTemplate.Resources>
+        <StackPanel Orientation="Horizontal"><!-- TextBlock.Width=14 -->
+            <Image Source="/PBO.UIElements;component/images/Balls/RDying.png" Visibility="{Binding ElementName=dying,Path=Visibility}" Width="8" Height="7"/>
+            <TextBlock Name="dying" Text="{Binding Dying}" Margin="0,0,1,0" FontSize="9" Foreground="White"/>
+            <Image Source="/PBO.UIElements;component/images/Balls/RAbnormal.png" Visibility="{Binding ElementName=abnormal,Path=Visibility}" Width="8" Height="7"/>
+            <TextBlock Name="abnormal" Text="{Binding Abnormal}" Margin="0,0,1,0" FontSize="9" Foreground="White"/>
+            <Image Source="/PBO.UIElements;component/images/Balls/RNormal.png" Visibility="{Binding ElementName=normal,Path=Visibility}" Width="8" Height="7"/>
+            <TextBlock Name="normal" Text="{Binding Normal}" FontSize="9" Foreground="White"/>
+        </StackPanel>
+    </DataTemplate>
+</ResourceDictionary>

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<pack xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+      language="chinese" default="true">
+  <item key="0">
+    <value>{}游戏开始</value>
+  </item>
+  <item key="1">
+    <value>{}开始回合{@e.Turn}</value>
+  </item>
+  <item key="2">
+    <value>{}结束回合{@e.Turn}</value>
+  </item>
+  <item key="3">
+    <value>{}{@local.Add(pm, @game.GetSprite(@e.SpriteId))}{@pm.Owner}放出了{@pm.Id}(Lv.{@pm.Lv} {@pm.PokemonType})!</value>
+  </item>
+  <item key="4">
+    <value>{}{@local.Add(pm, @game.GetSprite(@e.SpriteId))}{@pm.Owner}收回了{@pm.Id}!</value>
+  </item>
+  <item key="6">
+    <value>{}{@local.Add(pm, @game.GetSprite(@e.SubjectId))}{@pm.Id}使用了{@pm.GetMove(@e.SkillId)}</value>
+  </item>
+  <item key="7">
+    <value>{}{@local.Add(pm, @game.GetSprite(@e.SubjectId))}{@pm.Id}对{@game.GetSprite(@e.TargetId)}使用了{@pm.GetMove(@e.SkillId)}</value>
+  </item>
+  <item key="8">
+    <value>{}{@local.Add(pm, @game.GetSprite(@e.SubjectId))}{@pm.Id}的技能没有命中</value>
+  </item>
+  <item key="9">
+    <value>{}{@local.Add(pm, @game.GetSprite(@e.AttackDetails.DefenserId))}{@pm.Id.Id}受到了伤害
+伤害({@e.AttackDetails.Damage}) 属性相克({@e.AttackDetails.TypeEffect}) 会心修正({@e.AttackDetails.CtEffect})</value>
+  </item>
+  <item key="10">
+    <value>{Foreground = Red}{@board.GetPlayer(@e.SubjectId)}退出了游戏</value>
+  </item>
+  <item key="11">
+    <value>{}{@local.Add(pm, @game.GetSprite(@e.SubjectId))}{@pm.Id}的体力改变为{@e.Hp}</value>
+  </item>
+  <item key="13">
+    <value>{}{@local.Add(pm, @game.GetSprite(@e.SubjectId))}{@local.Add(move, @pm.GetMove(@e.SkillId))}{@pm.Id}的{@move}技能的PP改变为{@e.PP}</value>
+  </item>
+</pack>

@@ -1,0 +1,136 @@
+﻿<UserControl x:Class="LightStudio.PokemonBattle.PBO.Battle.BGBall"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Height="192" Width="256">
+    <UserControl.Background>
+        <SolidColorBrush x:Name="bg" Color="#181818"/>
+    </UserControl.Background>
+    <UserControl.OpacityMask>
+        <DrawingBrush Stretch="None">
+            <DrawingBrush.Drawing>
+                <GeometryDrawing Geometry="M0,0 L256,0 256,192 0,192" Brush="Black"/>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+    </UserControl.OpacityMask>
+    <Grid>
+        <Grid.Effect>
+            <BlurEffect x:Name="blur" Radius="0"/>
+        </Grid.Effect>
+        <Rectangle Margin="0,0,0,97">
+            <Rectangle.Fill>
+                <DrawingBrush Stretch="None" AlignmentY="Bottom">
+                    <DrawingBrush.Drawing>
+                        <DrawingGroup>
+                            <GeometryDrawing Geometry="F1 M 139.242,65.8055C 137.423,29.5668 107.254,0.739563 70.303,0.739563C 33.1877,0.739563 2.91434,29.8239 1.34171,66.2897L 43.1387,67.8164C 43.1387,67.8164 47.5359,61.3899 69.8596,61.3899C 92.1834,61.3899 96.8342,67.8587 96.8342,67.8587L 139.242,65.8055 Z ">
+                                <GeometryDrawing.Brush>
+                                    <SolidColorBrush x:Name="upOuter" Color="#300810"/>
+                                </GeometryDrawing.Brush>
+                            </GeometryDrawing>
+                            <GeometryDrawing Geometry="F1 M 139.083,65.9763C 137.184,28.1149 105.384,1.83279 68.9694,1.83279C 32.3924,1.83279 2.5498,30.456 1,66.3929">
+                                <GeometryDrawing.Pen>
+                                    <Pen Thickness="2" LineJoin="Round" Brush="Black"/>
+                                </GeometryDrawing.Pen>
+                            </GeometryDrawing>
+                            <GeometryDrawing Geometry="F1 M 23.3958,66.4554L 42.8959,67.2054C 42.8959,67.2054 48.0209,60.7054 70.0208,60.7054C 92.0208,60.7054 96.5208,67.3304 96.5208,67.3304L 117.833,66.0804C 117.833,66.0804 111.396,43.5804 70.3125,41.9971C 51.2891,41.264 28.8013,51.858 23.3958,66.4554 Z ">
+                                <GeometryDrawing.Brush>
+                                    <SolidColorBrush x:Name="upInner" Color="#380810"/>
+                                </GeometryDrawing.Brush>
+                            </GeometryDrawing>
+                            <GeometryDrawing Geometry="F1 M 139.242,65.566C 137.423,29.3272 107.254,0.500031 70.3029,0.500031C 33.1877,0.500031 2.91431,29.5843 1.34167,66.0501L 43.1387,67.5769C 43.1387,67.5769 47.5358,61.1503 69.8596,61.1503C 92.1833,61.1503 96.8342,67.6191 96.8342,67.6191L 139.242,65.566 Z ">
+                                <GeometryDrawing.Pen>
+                                    <Pen Thickness="1.3" LineJoin="Round" Brush="Black"/>
+                                </GeometryDrawing.Pen>
+                            </GeometryDrawing>
+                        </DrawingGroup>
+                    </DrawingBrush.Drawing>
+                    <DrawingBrush.Transform>
+                        <TransformGroup>
+                            <ScaleTransform x:Name="scale" CenterX="128" CenterY="96" ScaleX="1" ScaleY="{Binding ElementName=scale,Path=ScaleX}"/>
+                            <TranslateTransform x:Name="upTrans"/>
+                        </TransformGroup>
+                    </DrawingBrush.Transform>
+                </DrawingBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle Margin="0,97,0,0">
+            <Rectangle.Fill>
+                <DrawingBrush Stretch="None" AlignmentY="Top">
+                    <DrawingBrush.Drawing>
+                        <DrawingGroup>
+                            <GeometryDrawing  Geometry="F1 M 1.00003,73.8032C 2.81842,110.042 32.9879,138.869 69.9388,138.869C 107.054,138.869 137.327,109.785 138.9,73.3191L 97.103,71.7924C 97.103,71.7924 92.7058,78.2189 70.3821,78.2189C 48.0583,78.2189 43.4075,71.7501 43.4075,71.7501L 1.00003,73.8032 Z">
+                                <GeometryDrawing.Brush>
+                                    <SolidColorBrush x:Name="downOuter" Color="#383840"/>
+                                </GeometryDrawing.Brush>
+                            </GeometryDrawing>
+                            <GeometryDrawing Geometry="F1 M 1.15826,73.6325C 3.05811,111.494 34.8572,137.776 71.2722,137.776C 107.849,137.776 137.692,109.153 139.242,73.2158">
+                                <GeometryDrawing.Pen>
+                                    <Pen Thickness="2" LineJoin="Round" Brush="Black"/>
+                                </GeometryDrawing.Pen>
+                            </GeometryDrawing>
+                            <GeometryDrawing Geometry="F1 M 116.846,73.1533L 97.3457,72.4033C 97.3457,72.4033 92.2207,78.9033 70.2208,78.9033C 48.2208,78.9033 43.7208,72.2783 43.7208,72.2783L 22.4082,73.5283C 22.4082,73.5283 28.8458,96.0283 69.9291,97.6116C 88.9525,98.3448 111.44,87.7508 116.846,73.1533 Z">
+                                <GeometryDrawing.Brush>
+                                    <SolidColorBrush x:Name="downInner" Color="#404040"/>
+                                </GeometryDrawing.Brush>
+                            </GeometryDrawing>
+                            <GeometryDrawing Geometry="F1 M 1.00003,74.0427C 2.81842,110.281 32.9879,139.109 69.9388,139.109C 107.054,139.109 137.327,110.024 138.9,73.5587L 97.103,72.0319C 97.103,72.0319 92.7058,78.4584 70.3821,78.4584C 48.0583,78.4584 43.4075,71.9896 43.4075,71.9896L 1.00003,74.0427 Z ">
+                                <GeometryDrawing.Pen>
+                                    <Pen Thickness="1.3" LineJoin="Round" Brush="Black"/>
+                                </GeometryDrawing.Pen>
+                            </GeometryDrawing>
+                        </DrawingGroup>
+                    </DrawingBrush.Drawing>
+                    <DrawingBrush.Transform>
+                        <TransformGroup>
+                            <ScaleTransform CenterX="128" CenterY="0" ScaleX="{Binding ElementName=scale,Path=ScaleX}" ScaleY="{Binding ElementName=scale,Path=ScaleX}"/>
+                            <TranslateTransform x:Name="downTrans"/>
+                        </TransformGroup>
+                    </DrawingBrush.Transform>
+                </DrawingBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+    </Grid>
+    <UserControl.Resources>
+        <Storyboard x:Key="Shine">
+            <ColorAnimation Storyboard.TargetName="bg" Storyboard.TargetProperty="Color" To="#504848" Duration="0:0:0.3"/>
+            <ColorAnimation Storyboard.TargetName="upOuter" Storyboard.TargetProperty="Color" To="#900020" Duration="0:0:0.3"/>
+            <ColorAnimation Storyboard.TargetName="upInner" Storyboard.TargetProperty="Color" To="#b00028" Duration="0:0:0.3"/>
+            <ColorAnimation Storyboard.TargetName="downInner" Storyboard.TargetProperty="Color" To="#d8d8e0" Duration="0:0:0.3"/>
+            <ColorAnimation Storyboard.TargetName="downOuter" Storyboard.TargetProperty="Color" To="#c8c0e8" Duration="0:0:0.3"/>
+        </Storyboard>
+        <Storyboard x:Key="Light">
+            <ColorAnimation Storyboard.TargetName="bg" Storyboard.TargetProperty="Color" To="#403030" Duration="0:0:0.3"/>
+            <ColorAnimation Storyboard.TargetName="upOuter" Storyboard.TargetProperty="Color" To="#900020" Duration="0:0:0.3"/>
+            <ColorAnimation Storyboard.TargetName="upInner" Storyboard.TargetProperty="Color" To="#b00028" Duration="0:0:0.3"/>
+            <ColorAnimation Storyboard.TargetName="downInner" Storyboard.TargetProperty="Color" To="#d8d8e0" Duration="0:0:0.3"/>
+            <ColorAnimation Storyboard.TargetName="downOuter" Storyboard.TargetProperty="Color" To="#c8c0e8" Duration="0:0:0.3"/>
+        </Storyboard>
+        <Storyboard x:Key="Dark">
+            <ColorAnimation Storyboard.TargetName="bg" Storyboard.TargetProperty="Color" To="#181818" Duration="0:0:0.3"/>
+            <ColorAnimation Storyboard.TargetName="upOuter" Storyboard.TargetProperty="Color" To="#300810" Duration="0:0:0.3"/>
+            <ColorAnimation Storyboard.TargetName="upInner" Storyboard.TargetProperty="Color" To="#380810" Duration="0:0:0.3"/>
+            <ColorAnimation Storyboard.TargetName="downInner" Storyboard.TargetProperty="Color" To="#404040" Duration="0:0:0.3"/>
+            <ColorAnimation Storyboard.TargetName="downOuter" Storyboard.TargetProperty="Color" To="#383840" Duration="0:0:0.3"/>
+        </Storyboard>
+        <Storyboard x:Key="Blur">
+            <DoubleAnimation Storyboard.TargetName="blur" Storyboard.TargetProperty="Radius" To="15" Duration="0:0:0.3"/>
+        </Storyboard>
+        <Storyboard x:Key="Sharp">
+            <DoubleAnimation Storyboard.TargetName="blur" Storyboard.TargetProperty="Radius" To="0" Duration="0:0:0.3"/>
+        </Storyboard>
+        <Storyboard x:Key="Far">
+            <DoubleAnimation Storyboard.TargetName="scale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.3"/>
+            <DoubleAnimation Storyboard.TargetName="upTrans" Storyboard.TargetProperty="Y" To="0" Duration="0:0:0.3"/>
+            <DoubleAnimation Storyboard.TargetName="downTrans" Storyboard.TargetProperty="Y" To="0" Duration="0:0:0.3"/>
+        </Storyboard>
+        <Storyboard x:Key="Near">
+            <DoubleAnimation Storyboard.TargetName="scale" Storyboard.TargetProperty="ScaleX" To="3" Duration="0:0:0.3"/>
+            <DoubleAnimation Storyboard.TargetName="upTrans" Storyboard.TargetProperty="Y" To="0" Duration="0:0:0.3"/>
+            <DoubleAnimation Storyboard.TargetName="downTrans" Storyboard.TargetProperty="Y" To="0" Duration="0:0:0.3"/>
+        </Storyboard>
+        <Storyboard x:Key="Inner">
+            <DoubleAnimation Storyboard.TargetName="scale" Storyboard.TargetProperty="ScaleX" To="2.9" Duration="0:0:0.3"/>
+            <DoubleAnimation Storyboard.TargetName="upTrans" Storyboard.TargetProperty="Y" To="-67" Duration="0:0:0.3"/>
+            <DoubleAnimation Storyboard.TargetName="downTrans" Storyboard.TargetProperty="Y" To="35" Duration="0:0:0.3"/>
+        </Storyboard>
+    </UserControl.Resources>
+</UserControl>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<pack xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" language="english" default="true">
+  <item key="Accuracy" value="Acc."/>
+  <item key="Category" value="Cat."/>
+  <item key="FolderExportFail" value="Failed to export the folder"/>
+  <item key="FolderImportFail" value="Failed to import folder"/>
+  <item key="XmlFileFilter" value="Xml File(*.xml)|*.xml"/>
+  <item key="Chinese" value="ÖÐÎÄ"/>
+</pack>

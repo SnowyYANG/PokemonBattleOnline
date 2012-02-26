@@ -1,0 +1,47 @@
+﻿<Window x:Class="LightStudio.PokemonBattle.PBO.Server.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Server - Pokemon Battle Online" Height="350" Width="525" Closing="Window_Closing" WindowState="Maximized">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListView x:Name="usersView" Margin="0,25,0,0">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Height" Value="48"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsSelected,RelativeSource={RelativeSource AncestorType=ListViewItem}}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="InnerAvatar">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Avatar.InnerAvatar}" Width="48" Height="48"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="State" DisplayMemberBinding="{Binding State}"/>
+                    <GridViewColumn Header="Sign" DisplayMemberBinding="{Binding Sign}"/>
+                    <GridViewColumn Header="UrlAvatar" DisplayMemberBinding="{Binding Avatar.Url}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TextBox x:Name="chat" Grid.Column="1" IsReadOnly="True" IsReadOnlyCaretVisible="True" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" Margin="3,0,0,0"/>
+        <Rectangle x:Name="mask" Grid.ColumnSpan="2" Fill="#80ffffff"/>
+        <Button x:Name="s" Content="Start" VerticalAlignment="Top" Height="25" Click="Button_Click" Foreground="Red"/>
+        <GridSplitter Width="3" Grid.Column="1" HorizontalAlignment="Left" Background="#a0b0c0" ShowsPreview="True" />
+    </Grid>
+</Window>

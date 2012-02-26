@@ -1,0 +1,34 @@
+﻿<ResourceDictionary  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:c="clr-namespace:LightStudio.PokemonBattle.PBO.Converters">
+    <DataTemplate x:Key="PokemonStateLabel">
+        <DataTemplate.Resources>
+            <c:PokemonStateText x:Key="StateTextConverter"/>
+        </DataTemplate.Resources>
+        <Image Name="img" Height="6" Width="19" SnapsToDevicePixels="True" Stretch="Uniform" ToolTip="{Binding Converter={StaticResource StateTextConverter}}"/>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding}" Value="Burned">
+                <Setter TargetName="img" Property="Source" Value="/PBO.UIElements;component/Images/Labels/BRN.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Frozen">
+                <Setter TargetName="img" Property="Source" Value="/PBO.UIElements;component/Images/Labels/FRZ.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Paralyzed">
+                <Setter TargetName="img" Property="Source" Value="/PBO.UIElements;component/Images/Labels/PAR.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Poisoned">
+                <Setter TargetName="img" Property="Source" Value="/PBO.UIElements;component/Images/Labels/PSN.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="BadlyPoisoned">
+                <Setter TargetName="img" Property="Source" Value="/PBO.UIElements;component/Images/Labels/bPSN.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Sleeping">
+                <Setter TargetName="img" Property="Source" Value="/PBO.UIElements;component/Images/Labels/SLP.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Faint">
+                <Setter TargetName="img" Property="Source" Value="/PBO.UIElements;component/Images/Labels/FNT.png"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>   
+</ResourceDictionary>
+    

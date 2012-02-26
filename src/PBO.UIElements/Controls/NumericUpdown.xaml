@@ -1,0 +1,106 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements">
+    <Style TargetType="{x:Type ui:NumericUpdown}">
+		<Setter Property="MinWidth" Value="25"/>
+		<Setter Property="MinHeight" Value="18"/>
+    	<Setter Property="BorderBrush" Value="Gray"/>
+    	<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="HorizontalContentAlignment" Value="Right"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+		<Setter Property="SmallChange" Value="1"/>
+        <Setter Property="LargeChange" Value="1"/>
+        <Setter Property="Maximum" Value="100"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="DragScale" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:NumericUpdown}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Name="column" Width="{TemplateBinding DragMax}"/>
+                                <ColumnDefinition Width="21"/>
+                            </Grid.ColumnDefinitions>
+                            <Rectangle Visibility="{Binding Visibility,ElementName=PART_Drag}" Fill="{TemplateBinding Foreground}" Width="{TemplateBinding DragValue}" HorizontalAlignment="Left"/>
+                            <TextBox Name="PART_TextBox" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" BorderThickness="0" Background="Transparent" Foreground="Black" Padding="0,3,2,3">
+                                <TextBox.Effect>
+                                    <DropShadowEffect Color="White" BlurRadius="5" ShadowDepth="0"/>
+                                </TextBox.Effect>
+                            </TextBox>
+                            <RepeatButton Grid.Column="1" Name="PART_DecreaseButton" Foreground="#808080">
+								<RepeatButton.Template>
+									<ControlTemplate TargetType="RepeatButton">
+										<Grid Background="Transparent">
+											<Grid.RowDefinitions>
+												<RowDefinition Height="*"/>
+												<RowDefinition Height="*"/>
+											</Grid.RowDefinitions>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition/>
+												<ColumnDefinition Width="*"/>
+											</Grid.ColumnDefinitions>
+											<Polyline Name="tri" Grid.RowSpan="2" Grid.ColumnSpan="2" Stretch="Fill" Points="0,0 0,22 22,22" Fill="Transparent"/>
+											<Polyline Grid.Row="1" Points="0,0 7,0 3.5,4" Fill="{TemplateBinding Foreground}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+										</Grid>
+										<ControlTemplate.Triggers>
+											<Trigger Property="IsMouseOver" Value="True">
+												<Setter TargetName="tri" Property="Fill" Value="#9090d0"/>
+											</Trigger>
+											<Trigger Property="IsPressed" Value="True">
+												<Setter TargetName="tri" Property="Fill" Value="#000080"/>
+											</Trigger>
+										</ControlTemplate.Triggers>
+									</ControlTemplate>
+								</RepeatButton.Template>
+							</RepeatButton>
+                            <RepeatButton Grid.Column="1" Name="PART_IncreaseButton" Foreground="#808080">
+                                <RepeatButton.Template>
+                                    <ControlTemplate TargetType="RepeatButton">
+										<Grid>
+											<Grid.RowDefinitions>
+												<RowDefinition Height="*"/>
+												<RowDefinition Height="*"/>
+											</Grid.RowDefinitions>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="*"/>
+												<ColumnDefinition/>
+											</Grid.ColumnDefinitions>
+											<Polygon Name="tri" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="Fill" Points="0,0 22,0 22,22" SnapsToDevicePixels="True" Fill="Transparent"/>
+											<Polygon Grid.Column="1" Points="0,4 7,4 3.5,0" Fill="{TemplateBinding Foreground}" VerticalAlignment="Center"/>
+										</Grid>
+										<ControlTemplate.Triggers>
+											<Trigger Property="IsMouseOver" Value="True">
+												<Setter TargetName="tri" Property="Fill" Value="#c89098"/>
+											</Trigger>
+											<Trigger Property="IsPressed" Value="True">
+												<Setter TargetName="tri" Property="Fill" Value="#800000"/>
+											</Trigger>
+										</ControlTemplate.Triggers>
+									</ControlTemplate>
+                                </RepeatButton.Template>
+                            </RepeatButton>
+							<Polyline Grid.Column="1" Width="23" Stretch="Fill" StrokeMiterLimit="0" Points="0,22 0,0 22,22" Margin="0,-1,-0.5,-1" StrokeThickness="1" Stroke="{TemplateBinding BorderBrush}" SnapsToDevicePixels="True" Fill="{x:Null}"/>
+                            <Canvas>
+                                <Thumb x:Name="PART_Drag" Visibility="Visible" Cursor="SizeWE" Width="6" Height="{Binding ActualHeight,ElementName=PART_TextBox}">
+                                    <Thumb.Template>
+                                        <ControlTemplate>
+                                            <Rectangle Fill="Transparent"/>
+                                        </ControlTemplate>
+                                    </Thumb.Template>
+                                </Thumb>
+                            </Canvas>
+                        </Grid>
+					</Border>
+					<ControlTemplate.Triggers>
+                        <Trigger Property="DragScale" Value="0">
+                            <Setter TargetName="PART_Drag" Property="IsEnabled" Value="False"/>
+                            <Setter TargetName="PART_Drag" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="column" Property="Width" Value="*"/>
+                        </Trigger>
+					</ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="LightStudio.PokemonBattle.PBO.Lobby.Login"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:pbo="clr-namespace:LightStudio.PokemonBattle.PBO;assembly=PBO.UIElements"
+             xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements;assembly=PBO.UIElements"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:pm="clr-namespace:LightStudio.PokemonBattle.Data;assembly=PokemonBattle.Data"
+             mc:Ignorable="d"
+             Height="100" MinWidth="150" MaxWidth="300" Background="WhiteSmoke" BorderThickness="2" BorderBrush="#FFAAAAAA">
+    <Grid>
+        <ContentPresenter x:Name="avatar" ContentTemplate="{x:Static ui:Cartes.DetailedAvatar}" Height="60" Width="60" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,2,0,0"/>
+        <TextBox Name="avatarUrl" Foreground="Gray" VerticalAlignment="Top" Margin="70,37,0,0" BorderThickness="0,0,0,1" TextAlignment="Right" TextChanged="avatarUrl_TextChanged" Background="{x:Null}" />
+        <TextBox Name="name" VerticalAlignment="Top" Margin="70,6,3,0" BorderThickness="0,0,0,1" FontSize="14" Background="{x:Null}" />
+        <Button Name="button" Content="{Binding [Login], Source={x:Static pm:DataService.String}}" Click="button_Click" HorizontalContentAlignment="Left" Padding="30,0" FontWeight="Bold" VerticalAlignment="Bottom" Height="30" Background="#FFC4C4C4" BorderBrush="White" />
+        <ComboBox Name="servers" IsEditable="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" VerticalContentAlignment="Center" Height="30" BorderThickness="0" Background="{x:Null}">
+            <ComboBoxItem Content="221.137.62.177" IsSelected="True"/>
+            <ComboBoxItem Content="127.0.0.1"/>
+        </ComboBox>
+        <Canvas Height="10" VerticalAlignment="Top">
+            <ListBox x:Name="innerAvs" ItemsSource="{x:Static pbo:AvatarVM.InnerAvatars}" SelectedIndex="{Binding ElementName=avatar,Path=Content.InnerAvatarId}" ItemsPanel="{x:Static ui:Controls.WrapPanel}" Width="{Binding ActualWidth,RelativeSource={RelativeSource AncestorType=Canvas}}" Canvas.Bottom="0" BorderThickness="0" Background="Transparent">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Image Height="48" Width="48" Source="{Binding}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Padding" Value="3"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.Style>
+                    <Style TargetType="ListBox">
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver,ElementName=avatar}" Value="False"/>
+                                    <Condition Binding="{Binding IsMouseOver,ElementName=innerAvs}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.Style>
+            </ListBox>
+        </Canvas>
+    </Grid>
+</UserControl>
