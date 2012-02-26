@@ -1,0 +1,5 @@
+﻿--- Pokemon Battle Online v0.8 ---
+
+项目开发中，初入请看issues和wiki
+项目请用Visual Studio 2010打开
+项目依赖IronPython，请在此下载 --> http://ironpython.codeplex.com/
