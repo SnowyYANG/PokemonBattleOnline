@@ -19,9 +19,13 @@ namespace LightStudio.PokemonBattle.Game
     { get { return Model.Id; } }
     public int PP
     { get { return Model.PP.Value; } }
-
     public int Priority
     { get { return Model.Type.Priority; } }
+
+    public bool CanBeSelected
+    { get { throw new NotImplementedException(); } } //PP>0
+    public bool CanBeExecuted
+    { get { throw new NotImplementedException(); } }
 
     //在特效接口处
     //public Position[] GetSelectTarget(Position position)

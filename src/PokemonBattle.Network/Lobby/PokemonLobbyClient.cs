@@ -22,11 +22,7 @@ namespace LightStudio.PokemonBattle.Messaging
     public const byte REFUSE_CHALLENGE = 5;
     public const byte CANCEL_CHALLENGE = 6;
 
-    public event Action<Room.IUserController> EnterSucceed
-    {
-      add { if (battleClient != null) battleClient.EnterSucceed += value; }
-      remove { if (battleClient != null) battleClient.EnterSucceed -= value; }
-    }
+    public event Action<Room.IUserController> EnterSucceed;
     private object roomLock; //make sure one room one time
     private IBattleClient battleClient;
     private IBattleHost battleHost;
@@ -38,7 +34,7 @@ namespace LightStudio.PokemonBattle.Messaging
     {
       roomLock = new object();
       LobbyService.Register(this);
-      EnterSucceed += (user) =>
+      EnterSucceed = (user) =>
         {
           user.Quited += () =>
             {
@@ -209,6 +205,7 @@ namespace LightStudio.PokemonBattle.Messaging
     private void StartGame(PokemonCustomInfo[] pokemonsTeam)
     {
       //roomLock is already locked
+      battleClient.EnterSucceed += EnterSucceed;
       battleClient.MessageSent += (sender, e) =>
         SendMessage(GAME_MESSAGE, writer =>
         {

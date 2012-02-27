@@ -31,8 +31,11 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     internal void Init(Room.IUserController userController)
     {
       var game = userController.Game;
-      opms.ItemsSource = game.Board.Teams[userController.PlayerController.Player.TeamId];
-      rpms.ItemsSource = game.Board.Teams[1 - userController.PlayerController.Player.TeamId];
+      int observerTeamId;
+      if (userController.PlayerController != null) observerTeamId = userController.PlayerController.Player.TeamId;
+      else observerTeamId = 0;
+      opms.ItemsSource = game.Board.Teams[observerTeamId];
+      rpms.ItemsSource = game.Board.Teams[1 - observerTeamId];
       IControlPanel controlPanel;
       switch (game.Settings.Mode)
       {
@@ -46,7 +49,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       }
       cp.Init(controlPanel);
       subtitle.Init(controlPanel);
-      board.Init(game.Board, userController.PlayerController.Player.TeamId);
+      board.Init(game.Board, observerTeamId);
 
       //game.RegisterUI(subtitle);
       //cp.Init(game.ControlPanel);

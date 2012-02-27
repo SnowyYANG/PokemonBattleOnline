@@ -79,17 +79,13 @@ namespace LightStudio.PokemonBattle.Room
     {
       EnterFailed(message);
     }
-    void IRoomInformer.InformEnterSucceed(Game.GameSettings settings, int[] players, int[] spectators, int[] ids)
+    void IRoomInformer.InformEnterSucceed(Game.GameSettings settings, int[] players, int[] spectators)
     {
       this.players = new ObservableCollection<int>(players);
       this.spectators = new ObservableCollection<int>(spectators);
       Players = new ReadOnlyObservableCollection<int>(this.players);
       Spectators = new ReadOnlyObservableCollection<int>(this.spectators);
       game = new GameOutward(settings);
-      if (PlayerController != null)
-      {
-        PlayerController.SetSimulator(ids);
-      }
       EnterSucceed(this);
     }
     void IGameInformer.InformTimeUp(IList<int> breakers)
@@ -140,10 +136,10 @@ namespace LightStudio.PokemonBattle.Room
     {
       InformRequireInput();
     }
-    protected abstract void InformInputFail();
-    void IGameInformer.InformInputFail()
+    protected abstract void InformInputFail(ActionInputFailure f);
+    void IGameInformer.InformInputFail(ActionInputFailure f)
     {
-      InformInputFail();
+      InformInputFail(f);
     }
     protected abstract void InformInputSucceed();
     void IGameInformer.InformInputSucceed()

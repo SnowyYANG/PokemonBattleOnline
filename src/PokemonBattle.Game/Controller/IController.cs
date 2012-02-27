@@ -22,7 +22,6 @@ namespace LightStudio.PokemonBattle.Game
     #endregion
 
     #region Switch
-    bool CanWithdraw(IPokemonProxy pm);
     bool CanSendout(Pokemon pm, Position position);
     bool Withdraw(IPokemonProxy pm);
     bool Sendout(Pokemon pm, Position position);

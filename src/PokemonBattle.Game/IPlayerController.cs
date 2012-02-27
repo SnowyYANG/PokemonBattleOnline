@@ -21,7 +21,6 @@ namespace LightStudio.PokemonBattle.Game
   {
     Player Player { get; }
     IList<SimPokemon> ActivePokemons { get; }
-    void SetSimulator(int[] ids);
 
     bool UseMove(Move move, Position target = null);
     bool Switch(SimPokemon withdraw, Pokemon sendout);

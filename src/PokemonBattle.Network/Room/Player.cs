@@ -19,6 +19,7 @@ namespace LightStudio.PokemonBattle.Room
       : base(hostId)
     {
       listeners = new List<IPlayerControllerEvents>();
+      EnterSucceed += (uc) => game = new SimGame(Messaging.LobbyService.User.Id, teamId, pokemons, Game.Settings);
     }
 
     public override UserRole Role
@@ -35,11 +36,6 @@ namespace LightStudio.PokemonBattle.Room
     IList<SimPokemon> IPlayerController.ActivePokemons
     { get { return game.ActivePokemons; } }
 
-    void IPlayerController.SetSimulator(int[] ids)
-    {
-      Game.Settings.SetIds(ids);
-      game = new SimGame(Messaging.LobbyService.User.Id, teamId, pokemons, Game.Settings);
-    }
     bool IPlayerController.UseMove(Move move, Position target)
     {
       //TODO: verify
@@ -103,7 +99,7 @@ namespace LightStudio.PokemonBattle.Room
       foreach(IPlayerControllerEvents l in listeners)
         l.RequireInput();
     }
-    protected override void InformInputFail()
+    protected override void InformInputFail(ActionInputFailure f)
     {
     }
     protected override void InformInputSucceed()

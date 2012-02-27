@@ -108,8 +108,13 @@ namespace LightStudio.PokemonBattle.Room
     }
     void IGameManager.Input(int userId, ActionInput action)
     {
-      if (State == RoomState.GameStarted)
-        game.InputAction(userId, action);
+      Game.Player p = game.GetPlayer(userId);
+      if (p != null && State == RoomState.GameStarted)
+      {
+        ActionInputFailure f = game.InputAction(userId, action);
+        if (f == null) InformInputSucceed(p);
+        else InformInputFail(p, f);
+      }
     }
     #endregion
 
@@ -194,6 +199,10 @@ namespace LightStudio.PokemonBattle.Room
     {
       OnSendInformation(new TurnInfo(turn));
     }
+    void InformAdditionalInfo(PokemonAdditionalInfo info)
+    {
+      OnSendInformation(new PmAddionalInfo(info), info.GetReceiversId());
+    }
 
     void InformRequestTie()
     {
@@ -206,14 +215,9 @@ namespace LightStudio.PokemonBattle.Room
     {
       OnSendInformation(new RequireInputInfo(), player.Id);
     }
-    void InformAdditionalInfo(PokemonAdditionalInfo info)
+    void InformInputFail(Game.Player player, ActionInputFailure failure)
     {
-      OnSendInformation(new PmAddionalInfo(info), info.GetReceiversId());
-    }
-    void InformInputFail(Game.Player player)
-    {
-      //黑眼神？黑眼神的显示信息要放在战报里么
-      OnSendInformation(new InputFailInfo(), player.Id);
+      OnSendInformation(new InputFailInfo(failure), player.Id);
     }
     void InformInputSucceed(Game.Player player)
     {

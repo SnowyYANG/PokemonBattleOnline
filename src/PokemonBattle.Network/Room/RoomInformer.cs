@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Room
     void InformUserQuit(int userId);
     void InformUserKicked(int userId);
     void InformEnterFailed(string message);//Join or Observe Game
-    void InformEnterSucceed(Game.GameSettings settings, int[] players, int[] spectators, int[] ids);
+    void InformEnterSucceed(Game.GameSettings settings, int[] players, int[] spectators);
   }
 
   [DataContract(Namespace = Namespaces.DEFAULT)]
@@ -166,7 +166,8 @@ namespace LightStudio.PokemonBattle.Room
     }
     void IUserInformation.Execute(IUser user)
     {
-      user.InformEnterSucceed(Settings, Players, Spectators, Ids);
+      if (Ids != null) Settings.SetIds(Ids); //序列化后
+      user.InformEnterSucceed(Settings, Players, Spectators);
     }
   }
 }

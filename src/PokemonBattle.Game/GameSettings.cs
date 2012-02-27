@@ -122,6 +122,7 @@ namespace LightStudio.PokemonBattle.Game
     }
     public void SetIds(int[] ids)
     {
+      if (idQue != null) System.Diagnostics.Debugger.Break();
       idQue = new Queue<int>(ids);
     }
     public int NextId()

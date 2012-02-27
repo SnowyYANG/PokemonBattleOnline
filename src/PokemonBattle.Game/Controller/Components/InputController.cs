@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LightStudio.PokemonBattle.Interactive;
 
 namespace LightStudio.PokemonBattle.Game
 {
@@ -20,46 +21,34 @@ namespace LightStudio.PokemonBattle.Game
         if (p.Action == PokemonAction.WaitingForInput) return;
       if (InputFinished != null) InputFinished();
     }
-    public bool Switch(PokemonProxy withdraw, Pokemon sendout)
+    public ActionInputFailure Switch(PokemonProxy withdraw, Pokemon sendout)
     {
-      if (withdraw.Action == PokemonAction.WaitingForInput && withdraw.Pokemon.Owner == sendout.Owner && sendout.Hp.Value > 0)
-      {
-        withdraw.Action = PokemonAction.Switch;
-        withdraw.SwitchPokemon = sendout;
-        return true;
-      }
-      return false;
+      if (withdraw.Action == PokemonAction.WaitingForInput && withdraw.Pokemon.Owner == sendout.Owner)
+        return withdraw.InputSwitch(sendout);
+      return new OtherActionInputFailure("InputController");
     }
     /// <summary>
-    /// 死亡交换或蜻蜓返
+    /// 死亡交换或蜻蜓返，与原作不同同时挂两头也是依次立刻交换
     /// </summary>
     /// <param name="sendout"></param>
     /// <param name="position"></param>
-    /// <returns></returns>
-    public bool Sendout(Pokemon sendout, Position position)
+    /// <returns>succeed or not</returns>
+    public ActionInputFailure Sendout(Pokemon sendout, Position position)
     {
-      if (Controller.CanSendout(sendout, position))
-      {
-        return Controller.Sendout(sendout, position);
-      }
-      return false;
+      if (Controller.Sendout(sendout, position)) return null;
+      return new OtherActionInputFailure("InputController");
     }
-    public bool SelectMove(MoveProxy move, Position position = null)
+    public ActionInputFailure SelectMove(MoveProxy move, Position position)
     {
-      PokemonProxy pm = move.Owner;
-      if (pm.Action == PokemonAction.WaitingForInput && pm.Hp > 0 && move.PP > 0)
-      {
-        #warning 锁技能
-        pm.Action = PokemonAction.Moving;
-        pm.SelectMove = move;
-        pm.SelectTarget = position;
-        return true;
-      }
-      return false;
+      if (move.Owner.Action == PokemonAction.WaitingForInput)
+        return move.Owner.SelectMove(move, position);
+      return new OtherActionInputFailure("InputController");
     }
-    public bool Struggle(PokemonProxy pokemon)
+    public ActionInputFailure Struggle(PokemonProxy pokemon)
     {
-      return false;
+      if (pokemon.Action == PokemonAction.WaitingForInput)
+        return pokemon.SelectMove(pokemon.StruggleMove, null);
+      return new OtherActionInputFailure("InputController");
     }
   }
 }

@@ -45,16 +45,18 @@ namespace LightStudio.PokemonBattle.Interactive
     /// <summary>
     /// 只判断pm归属权问题
     /// </summary>
-    internal bool Input(Controller controller, Player player)
+    internal ActionInputFailure Input(Controller controller, Player player)
     {
       if (SendoutId != 0)
       {
         Pokemon sendout = controller.Game.GetPokemon(SendoutId);
-        if (ActionId == 0 && sendout.Owner == player)
-            return controller.InputSendout(sendout, Position);
-        foreach (PokemonProxy p in controller.OnboardPokemons)
-          if (p.Pokemon.SwitchId == ActionId && p.Pokemon.Owner == player)
-            return controller.InputSwitch(p, sendout);
+        if (sendout.Owner == player)
+        {
+          if (ActionId == 0) return controller.InputSendout(sendout, Position);
+          foreach (PokemonProxy p in controller.OnboardPokemons)
+            if (p.Pokemon.SwitchId == ActionId && p.Pokemon.Owner == player)
+              return controller.InputSwitch(p, sendout);
+        }
       }
       else
       {
@@ -66,7 +68,7 @@ namespace LightStudio.PokemonBattle.Interactive
               controller.InputSelectMove(m, Position);
           }
       }
-      return false;
+      return new OtherActionInputFailure("ActionInput");
     }
   }
 }

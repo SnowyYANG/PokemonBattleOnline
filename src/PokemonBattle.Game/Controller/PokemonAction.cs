@@ -5,13 +5,15 @@ using System.Text;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  enum PokemonAction
+  public enum PokemonAction
   {
     WaitingForInput,
-    Switch,
+    WillSwitch,
+    WillMove,
+    Switching,
     Moving,
-    Stiff,
     Done,
+    Stiff,
     Faint
   }
 }

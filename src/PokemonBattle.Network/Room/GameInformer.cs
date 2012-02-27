@@ -20,7 +20,7 @@ namespace LightStudio.PokemonBattle.Room
     void InformRequestTie();
     void InformTieRejected();
     void InformRequireInput();
-    void InformInputFail();
+    void InformInputFail(ActionInputFailure f);
     void InformInputSucceed();
   }
 
@@ -151,9 +151,17 @@ namespace LightStudio.PokemonBattle.Room
   [DataContract(Namespace = Namespaces.DEFAULT)]
   class InputFailInfo : IUserInformation
   {
+    [DataMember]
+    ActionInputFailure Failure;
+
+    public InputFailInfo(ActionInputFailure failure)
+    {
+      Failure = failure;
+    }
+
     void IUserInformation.Execute(IUser user)
     {
-      user.InformInputFail();
+      user.InformInputFail(Failure);
     }
   }
 

@@ -8,5 +8,9 @@ namespace LightStudio.PokemonBattle.Game
   public interface IMoveProxy
   {
     int Id { get; }
+
+    int Priority { get; }
+
+    bool CanBeSelected { get; }
   }
 }

@@ -32,7 +32,7 @@ namespace LightStudio.PokemonBattle.Room
     {
       error("收到非法的消息，数据包损毁或房间主机程序被修改");
     }
-    protected override void InformInputFail()
+    protected override void InformInputFail(Interactive.ActionInputFailure f)
     {
       error("收到非法的消息，数据包损毁或房间主机程序被修改");
     }

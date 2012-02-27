@@ -10,20 +10,20 @@ namespace LightStudio.PokemonBattle.Game
   {
     event Action IController.PokemonWithdrawing
     {
-      add { switchController.PokemonWithdrawing += value; }
-      remove { switchController.PokemonWithdrawing -= value; }
+      add { SwitchController.PokemonWithdrawing += value; }
+      remove { SwitchController.PokemonWithdrawing -= value; }
     }
     event Action IController.PokemonSendout
     {
-      add { switchController.PokemonSendout += value; }
-      remove { switchController.PokemonSendout -= value; }
+      add { SwitchController.PokemonSendout += value; }
+      remove { SwitchController.PokemonSendout -= value; }
     }
 
     public readonly TurnBuilder TurnBuilder;
     public readonly GameContext Game;
     public readonly Board Board;
-    private readonly SwitchController switchController;
-    private readonly InputController inputController;
+    internal readonly SwitchController SwitchController;
+    internal readonly InputController InputController;
     
     private Random random;
 
@@ -31,8 +31,8 @@ namespace LightStudio.PokemonBattle.Game
     {
       Game = game;
       TurnBuilder = new TurnBuilder(game);
-      switchController = new SwitchController(this);
-      inputController = new InputController(this);
+      SwitchController = new SwitchController(this);
+      InputController = new InputController(this);
     }
 
     public List<IPokemonProxy> OnboardPokemons
@@ -46,21 +46,21 @@ namespace LightStudio.PokemonBattle.Game
     #endregion
 
     #region Input
-    internal bool InputSwitch(PokemonProxy withdraw, Pokemon sendout)
+    internal ActionInputFailure InputSwitch(PokemonProxy withdraw, Pokemon sendout)
     {
-      return inputController.Switch(withdraw, sendout);
+      return InputController.Switch(withdraw, sendout);
     }
-    internal bool InputSendout(Pokemon sendout, Position position)
+    internal ActionInputFailure InputSendout(Pokemon sendout, Position position)
     {
-      return inputController.Sendout(sendout, position);
+      return InputController.Sendout(sendout, position);
     }
-    internal bool InputSelectMove(MoveProxy move, Position position)
+    internal ActionInputFailure InputSelectMove(MoveProxy move, Position position)
     {
-      return inputController.SelectMove(move, position);
+      return InputController.SelectMove(move, position);
     }
-    internal bool InputStruggle(PokemonProxy pm)
+    internal ActionInputFailure InputStruggle(PokemonProxy pm)
     {
-      return inputController.Struggle(pm);
+      return InputController.Struggle(pm);
     }
     #endregion
 
@@ -69,12 +69,12 @@ namespace LightStudio.PokemonBattle.Game
     {
       PokemonProxy a = _a as PokemonProxy;
       PokemonProxy b = _b as PokemonProxy;
-      if (a.Action == PokemonAction.Switch && b.Action == PokemonAction.Switch) return a.Speed - b.Speed;
-      if (a.Action == PokemonAction.Switch) return 1;
-      if (b.Action == PokemonAction.Switch) return -1;
+      if (a.Action == PokemonAction.WillSwitch && b.Action == PokemonAction.WillSwitch) return a.Speed - b.Speed;
+      if (a.Action == PokemonAction.WillSwitch) return 1;
+      if (b.Action == PokemonAction.WillSwitch) return -1;
 
-      if (a.SelectMove.Priority != b.SelectMove.Priority)
-        return a.SelectMove.Priority - b.SelectMove.Priority;
+      if (a.SelectedMove.Priority != b.SelectedMove.Priority)
+        return a.SelectedMove.Priority - b.SelectedMove.Priority;
 
       #warning unfinished Items
       //if (a.Item != b.Item)//1=先制爪/先制果发动 0=无道具 -1=后攻尾/满腹香炉发动
@@ -104,21 +104,17 @@ namespace LightStudio.PokemonBattle.Game
     #endregion
 
     #region Switch or Sendout
-    public bool CanWithdraw(IPokemonProxy pm)
-    {
-      return switchController.CanWithdraw(pm as PokemonProxy);
-    }
     public bool CanSendout(Pokemon pm, Position position)
     {
-      return switchController.CanSendout(pm, position);
+      return SwitchController.CanSendout(pm, position);
     }
     public bool Withdraw(IPokemonProxy pm)
     {
-      return switchController.Withdraw(pm as PokemonProxy);
+      return SwitchController.Withdraw(pm as PokemonProxy);
     }
     public bool Sendout(Pokemon pm, Position position)
     {
-      return switchController.CanSendout(pm, position);
+      return SwitchController.CanSendout(pm, position);
     }
     #endregion
 

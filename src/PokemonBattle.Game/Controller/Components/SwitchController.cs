@@ -19,7 +19,7 @@ namespace LightStudio.PokemonBattle.Game
 
     public bool CanWithdraw(PokemonProxy pm)
     {
-      #warning 黑眼神
+      //黑眼神状态不能防止任何强制交换的技能或道具效果。 
       return pm != null && pm.Pokemon.Owner.AlivePms > GameSettings.OnboardPokemonsPerPlayer;
     }
     public bool CanSendout(Pokemon pm, Position position)
@@ -49,7 +49,6 @@ namespace LightStudio.PokemonBattle.Game
           p.Pokemons[j] = temp;
         }
         PokemonProxy pokemonProxy = new PokemonProxy(Controller, pm, position);
-        pokemonProxy.Action = PokemonAction.Done;
         Board[position.Team, position.X] = pokemonProxy;
         lastPokemonIds[position.Team, position.X] = pokemonProxy.Id;
         TurnBuilder.AddSendout(pokemonProxy.Pokemon.Owner, pokemonProxy); 

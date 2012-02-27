@@ -102,7 +102,7 @@ namespace LightStudio.PokemonBattle.Game
       }
       return false;
     }
-    bool IGame.InputAction(int playerId, ActionInput action)
+    ActionInputFailure IGame.InputAction(int playerId, ActionInput action)
     {
       return action.Input(Controller, GetPlayer(playerId));
     }
