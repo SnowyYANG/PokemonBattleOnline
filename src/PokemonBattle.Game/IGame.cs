@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.Game
     bool Start();
     bool SetPlayer(int teamId, int userId, PokemonCustomInfo[] pokemons);
     Player GetPlayer(int id);
-    ActionInputFailure InputAction(int player, ActionInput action);
+    bool InputAction(int player, ActionInput action);
     Turn GetLastLeapTurn();
   }
   public static class GameFactory

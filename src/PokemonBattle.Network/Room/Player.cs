@@ -99,7 +99,7 @@ namespace LightStudio.PokemonBattle.Room
       foreach(IPlayerControllerEvents l in listeners)
         l.RequireInput();
     }
-    protected override void InformInputFail(ActionInputFailure f)
+    protected override void InformInputFail()
     {
     }
     protected override void InformInputSucceed()

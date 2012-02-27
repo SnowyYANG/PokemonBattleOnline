@@ -111,9 +111,8 @@ namespace LightStudio.PokemonBattle.Room
       Game.Player p = game.GetPlayer(userId);
       if (p != null && State == RoomState.GameStarted)
       {
-        ActionInputFailure f = game.InputAction(userId, action);
-        if (f == null) InformInputSucceed(p);
-        else InformInputFail(p, f);
+        if (game.InputAction(userId, action)) InformInputSucceed(p);
+        else InformInputFail(p);
       }
     }
     #endregion
@@ -215,9 +214,9 @@ namespace LightStudio.PokemonBattle.Room
     {
       OnSendInformation(new RequireInputInfo(), player.Id);
     }
-    void InformInputFail(Game.Player player, ActionInputFailure failure)
+    void InformInputFail(Game.Player player)
     {
-      OnSendInformation(new InputFailInfo(failure), player.Id);
+      OnSendInformation(new InputFailInfo(), player.Id);
     }
     void InformInputSucceed(Game.Player player)
     {

@@ -45,7 +45,7 @@ namespace LightStudio.PokemonBattle.Interactive
     /// <summary>
     /// 只判断pm归属权问题
     /// </summary>
-    internal ActionInputFailure Input(Controller controller, Player player)
+    internal bool Input(Controller controller, Player player)
     {
       if (SendoutId != 0)
       {
@@ -68,7 +68,7 @@ namespace LightStudio.PokemonBattle.Interactive
               controller.InputSelectMove(m, Position);
           }
       }
-      return new OtherActionInputFailure("ActionInput");
+      return false;
     }
   }
 }

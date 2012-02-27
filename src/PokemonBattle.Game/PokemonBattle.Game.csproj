@@ -54,7 +54,6 @@
     <Compile Include="Controller\Components\SwitchController.cs" />
     <Compile Include="GameService.cs" />
     <Compile Include="IGame.cs" />
-    <Compile Include="Interactive\ActionInputFailure.cs" />
     <Compile Include="Interactive\SimGame.cs" />
     <Compile Include="Interactive\ActionInput.cs" />
     <Compile Include="Interactive\ActionType.cs" />

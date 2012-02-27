@@ -18,6 +18,7 @@ namespace LightStudio.PokemonBattle.Game
       add { SwitchController.PokemonSendout += value; }
       remove { SwitchController.PokemonSendout -= value; }
     }
+    event Action<Player> RequireInput;
 
     public readonly TurnBuilder TurnBuilder;
     public readonly GameContext Game;
@@ -38,27 +39,31 @@ namespace LightStudio.PokemonBattle.Game
     public List<IPokemonProxy> OnboardPokemons
     { get { return Board.Pokemons; } }
 
-    #region Service
+    #region <IController> Service
     public int GetRandomInt(int min, int max)
     {
       return random.Next(min, max);
     }
     #endregion
 
+    public void Turn()
+    {
+    }
+
     #region Input
-    internal ActionInputFailure InputSwitch(PokemonProxy withdraw, Pokemon sendout)
+    internal bool InputSwitch(PokemonProxy withdraw, Pokemon sendout)
     {
       return InputController.Switch(withdraw, sendout);
     }
-    internal ActionInputFailure InputSendout(Pokemon sendout, Position position)
+    internal bool InputSendout(Pokemon sendout, Position position)
     {
       return InputController.Sendout(sendout, position);
     }
-    internal ActionInputFailure InputSelectMove(MoveProxy move, Position position)
+    internal bool InputSelectMove(MoveProxy move, Position position)
     {
       return InputController.SelectMove(move, position);
     }
-    internal ActionInputFailure InputStruggle(PokemonProxy pm)
+    internal bool InputStruggle(PokemonProxy pm)
     {
       return InputController.Struggle(pm);
     }
@@ -103,7 +108,7 @@ namespace LightStudio.PokemonBattle.Game
     }
     #endregion
 
-    #region Switch or Sendout
+    #region <IController> Switch or Sendout
     public bool CanSendout(Pokemon pm, Position position)
     {
       return SwitchController.CanSendout(pm, position);

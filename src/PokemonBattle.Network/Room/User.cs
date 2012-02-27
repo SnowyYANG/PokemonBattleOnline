@@ -136,10 +136,10 @@ namespace LightStudio.PokemonBattle.Room
     {
       InformRequireInput();
     }
-    protected abstract void InformInputFail(ActionInputFailure f);
-    void IGameInformer.InformInputFail(ActionInputFailure f)
+    protected abstract void InformInputFail();
+    void IGameInformer.InformInputFail()
     {
-      InformInputFail(f);
+      InformInputFail();
     }
     protected abstract void InformInputSucceed();
     void IGameInformer.InformInputSucceed()

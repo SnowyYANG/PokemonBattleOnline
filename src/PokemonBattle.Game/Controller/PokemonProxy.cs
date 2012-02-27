@@ -73,7 +73,7 @@ namespace LightStudio.PokemonBattle.Game
     }
 
     #region Input
-    internal ActionInputFailure InputSwitch(Pokemon sendout)
+    internal bool InputSwitch(Pokemon sendout)
     {
       #warning 踩影子
       if (CanWithdraw && Controller.CanSendout(sendout, this.Position) &&
@@ -81,20 +81,20 @@ namespace LightStudio.PokemonBattle.Game
       {
         Action = PokemonAction.WillSwitch;
         SwitchPokemon = sendout;
-        return null;
+        return true;
       }
-      return new OtherActionInputFailure("PokemonProxy");
+      return false;
     }
-    internal ActionInputFailure SelectMove(IMoveProxy move, Position position)
+    internal bool SelectMove(IMoveProxy move, Position position)
     {
       if (CanSelectMove && move.CanBeSelected)
       {
         Action = PokemonAction.WillMove;
         SelectedMove = move;
         SelectedTarget = position;
-        return null;
+        return true;
       }
-      return new OtherActionInputFailure("PokemonProxy");
+      return false;
     }
     #endregion
   }
