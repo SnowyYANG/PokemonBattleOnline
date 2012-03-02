@@ -20,5 +20,16 @@ namespace LightStudio.PokemonBattle.Game
         base[key] = value;
       }
     }
+
+    public T Get<T>(string key)
+    {
+      object v = this[key];
+      if (v is T) return (T)v;
+      return default(T);
+    }
+    public void Set<T>(string key, T value)
+    {
+      this[key] = value;
+    }
   }
 }

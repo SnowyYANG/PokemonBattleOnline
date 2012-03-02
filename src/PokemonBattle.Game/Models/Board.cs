@@ -13,7 +13,7 @@ namespace LightStudio.PokemonBattle.Game
   {
     public readonly List<IPokemonProxy> Pokemons;
     public readonly ConditionsDictionary Conditions;
-    public readonly ConditionsDictionary[] FieldConditions;
+    public readonly ConditionsDictionary[] TeamConditions;
     readonly PokemonProxy[,] pokemons;
     readonly Terrain terrain;
     readonly GameMode mode;
@@ -27,8 +27,8 @@ namespace LightStudio.PokemonBattle.Game
       pokemons = new PokemonProxy[settings.TeamCount, settings.XBound];
       Pokemons = new List<IPokemonProxy>();
       Conditions = new ConditionsDictionary();
-      FieldConditions = new ConditionsDictionary[settings.TeamCount];
-      for (int i = 0; i < settings.TeamCount; i++) FieldConditions[i] = new ConditionsDictionary();
+      TeamConditions = new ConditionsDictionary[settings.TeamCount];
+      for (int i = 0; i < settings.TeamCount; i++) TeamConditions[i] = new ConditionsDictionary();
     }
 
     public PokemonProxy this[int team, int x]

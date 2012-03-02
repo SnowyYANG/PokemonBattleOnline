@@ -50,6 +50,7 @@
     <Compile Include="Controller\Controller.cs" />
     <Compile Include="Controller\IController.cs" />
     <Compile Include="Controller\MoveProxy.cs" />
+    <Compile Include="Controller\Comparer.cs" />
     <Compile Include="Controller\PokemonProxy.cs" />
     <Compile Include="Controller\Components\SwitchController.cs" />
     <Compile Include="GameService.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="IPlayerController.cs" />
     <Compile Include="Models\Move.cs" />
     <Compile Include="Models\OnboardPokemon.cs" />
+    <Compile Include="Models\Tile.cs" />
     <Compile Include="Outward\BoardOutward.cs" />
     <Compile Include="Outward\GameOutward.cs" />
     <Compile Include="Outward\TeamOutward.cs" />
