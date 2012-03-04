@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace LightStudio.Tactic.Messaging
+namespace LightStudio
 {
     internal abstract class SyncObject : DisposableObject
     {

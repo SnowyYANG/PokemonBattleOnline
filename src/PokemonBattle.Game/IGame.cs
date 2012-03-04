@@ -13,8 +13,8 @@ namespace LightStudio.PokemonBattle.Game
   public interface IGame
   {
     event Action<int, int> GameEnd;
-    event Action<Turn> Turn;
-    event Action<Player> RequireInput;
+    event Action<ReportFragment> ReportUpdated;
+    event Action<int[]> RequireInput;
 
     bool Prepared { get; }
     GameSettings Settings { get; }
@@ -23,7 +23,7 @@ namespace LightStudio.PokemonBattle.Game
     bool SetPlayer(int teamId, int userId, PokemonCustomInfo[] pokemons);
     Player GetPlayer(int id);
     bool InputAction(int player, ActionInput action);
-    Turn GetLastLeapTurn();
+    ReportFragment GetLastLeapFragment();
   }
   public static class GameFactory
   {

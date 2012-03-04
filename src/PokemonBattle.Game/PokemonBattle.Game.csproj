@@ -42,30 +42,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\Components\ControllerComponent.cs" />
+    <Compile Include="Controller\Components\TurnController.cs" />
     <Compile Include="Controller\GameElementIds.cs" />
-    <Compile Include="Controller\IMoveProxy.cs" />
     <Compile Include="Controller\Components\InputController.cs" />
-    <Compile Include="Controller\IPokemonProxy.cs" />
     <Compile Include="Controller\PokemonAction.cs" />
     <Compile Include="Controller\Controller.cs" />
-    <Compile Include="Controller\IController.cs" />
     <Compile Include="Controller\MoveProxy.cs" />
     <Compile Include="Controller\Comparer.cs" />
     <Compile Include="Controller\PokemonProxy.cs" />
     <Compile Include="Controller\Components\SwitchController.cs" />
     <Compile Include="GameService.cs" />
     <Compile Include="IGame.cs" />
+    <Compile Include="Interactive\ReportBuilder.cs" />
+    <Compile Include="Interactive\ReportFragment.cs" />
     <Compile Include="Interactive\SimGame.cs" />
     <Compile Include="Interactive\ActionInput.cs" />
     <Compile Include="Interactive\ActionType.cs" />
     <Compile Include="Models\Board.cs" />
-    <Compile Include="ConditionsDictionary.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameSettings.cs" />
     <Compile Include="Interactive\GameEvent.cs" />
     <Compile Include="Interactive\AdditionalInfo.cs" />
-    <Compile Include="Interactive\TurnBuilder.cs" />
     <Compile Include="IPlayerController.cs" />
+    <Compile Include="Models\Field.cs" />
     <Compile Include="Models\Move.cs" />
     <Compile Include="Models\OnboardPokemon.cs" />
     <Compile Include="Models\Tile.cs" />
@@ -80,7 +79,6 @@
     <Compile Include="Interactive\SimPokemon.cs" />
     <Compile Include="Models\SixD.cs" />
     <Compile Include="Models\Team.cs" />
-    <Compile Include="Interactive\Turn.cs" />
     <Compile Include="Rule.cs" />
   </ItemGroup>
   <ItemGroup>

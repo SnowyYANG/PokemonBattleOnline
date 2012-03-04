@@ -6,60 +6,76 @@ using LightStudio.PokemonBattle.Interactive;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  internal class Controller : IController
+  public class Controller
   {
-    event Action IController.PokemonWithdrawing
+    public event Action PokemonWithdrawing
     {
       add { SwitchController.PokemonWithdrawing += value; }
       remove { SwitchController.PokemonWithdrawing -= value; }
     }
-    event Action IController.PokemonSendout
+    internal event Action<int[]> RequireInput
     {
-      add { SwitchController.PokemonSendout += value; }
-      remove { SwitchController.PokemonSendout -= value; }
+      add { InputController.RequireInput += value; }
+      remove { InputController.RequireInput -= value; }
     }
-    event Action<Player> RequireInput;
+    internal event Action<ReportFragment> ReportUpdated;
 
-    public readonly TurnBuilder TurnBuilder;
-    public readonly GameContext Game;
-    public readonly Board Board;
-    internal readonly SwitchController SwitchController;
-    internal readonly InputController InputController;
+    public readonly ReportBuilder ReportBuilder;
+    internal readonly GameContext Game;
+    private readonly SwitchController SwitchController;
+    private readonly InputController InputController;
+    private readonly TurnController TurnController;
     
     private Random random;
 
-    public Controller(GameContext game)
+    internal Controller(GameContext game)
     {
       Game = game;
-      TurnBuilder = new TurnBuilder(game);
+      ReportBuilder = new ReportBuilder(game);
       SwitchController = new SwitchController(this);
       InputController = new InputController(this);
+      TurnController = new TurnController(this);
     }
 
-    public List<IPokemonProxy> OnboardPokemons
-    { get { return Board.Pokemons; } }
+    public List<PokemonProxy> OnboardPokemons
+    { get { return TurnController.OnboardPokemons; } }
+    public IEnumerable<Tile> Tiles
+    { get { return TurnController.Tiles; } }
 
-    #region <IController> Service
+    #region Access
     public int GetRandomInt(int min, int max)
     {
       return random.Next(min, max);
     }
+    public Tile GetTile(int team, int x)
+    {
+      return Game.Board[team, x];
+    }
     #endregion
 
-    public void Turn()
+    #region Turn Loop
+    internal void StartGameLoop()
     {
+      TurnController.BeginTurn();
     }
+    #endregion
 
     #region Input
+    internal void ContinueAfterInput(Action inputFinished)
+    {
+      random = new Random();
+      ReportUpdated(ReportBuilder.GetFragment());
+      InputController.ContinueAfterInput(inputFinished);
+    }
     internal bool InputSwitch(PokemonProxy withdraw, Pokemon sendout)
     {
       return InputController.Switch(withdraw, sendout);
     }
-    internal bool InputSendout(Pokemon sendout, Position position)
+    internal bool InputSendout(Pokemon sendout, Tile position)
     {
       return InputController.Sendout(sendout, position);
     }
-    internal bool InputSelectMove(MoveProxy move, Position position)
+    internal bool InputSelectMove(MoveProxy move, Tile position)
     {
       return InputController.SelectMove(move, position);
     }
@@ -69,57 +85,26 @@ namespace LightStudio.PokemonBattle.Game
     }
     #endregion
 
-    #region Sort
-    private int ComparePokemon(IPokemonProxy _a, IPokemonProxy _b)
+    #region Switch or Sendout
+    public bool CanSendout(Tile tile)
     {
-      PokemonProxy a = _a as PokemonProxy;
-      PokemonProxy b = _b as PokemonProxy;
-      if (a.Action == PokemonAction.WillSwitch && b.Action == PokemonAction.WillSwitch) return a.Speed - b.Speed;
-      if (a.Action == PokemonAction.WillSwitch) return 1;
-      if (b.Action == PokemonAction.WillSwitch) return -1;
-
-      if (a.SelectedMove.Priority != b.SelectedMove.Priority)
-        return a.SelectedMove.Priority - b.SelectedMove.Priority;
-
-      #warning unfinished Items
-      //if (a.Item != b.Item)//1=先制爪/先制果发动 0=无道具 -1=后攻尾/满腹香炉发动
-      //  return (a.Item - b.Item);
-
-      bool aIsStall = a.HasWorkingAbility(AbilityIds.STALL);
-      bool bIsStall = b.HasWorkingAbility(AbilityIds.STALL);
-      if (aIsStall && !bIsStall) return -1;
-      if (!aIsStall && bIsStall) return 1;
-
-      if (Board.Conditions["TrickRoom"] != null) return b.Speed - a.Speed;
-      else return a.Speed - b.Speed;
+      return SwitchController.CanSendout(tile);
     }
-    private void SortActivePokemons()
+    public bool CanWithdraw(PokemonProxy pm)
     {
-      int n = OnboardPokemons.Count;
-      for (int i = 0; i < n - 1; i++)
-      {
-        int j;
-        j = GetRandomInt(i, n - 1);
-        IPokemonProxy temp = OnboardPokemons[i];
-        OnboardPokemons[i] = OnboardPokemons[j];
-        OnboardPokemons[j] = temp;
-      }
-      OnboardPokemons.Sort(ComparePokemon);
+      return SwitchController.CanWithdraw(pm);
     }
-    #endregion
-
-    #region <IController> Switch or Sendout
-    public bool CanSendout(Pokemon pm, Position position)
+    public bool CanSendout(Pokemon pm, Tile tile)
     {
-      return SwitchController.CanSendout(pm, position);
+      return SwitchController.CanSendout(pm, tile);
     }
-    public bool Withdraw(IPokemonProxy pm)
+    public bool Withdraw(PokemonProxy pm)
     {
-      return SwitchController.Withdraw(pm as PokemonProxy);
+      return SwitchController.Withdraw(pm);
     }
-    public bool Sendout(Pokemon pm, Position position)
+    public bool Sendout(Tile position)
     {
-      return SwitchController.CanSendout(pm, position);
+      return SwitchController.Sendout(position);
     }
     #endregion
 

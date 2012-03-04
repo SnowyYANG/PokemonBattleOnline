@@ -54,7 +54,7 @@ namespace LightStudio.PokemonBattle.Room
     #region Information
     void IUser.ExecuteInformation(IUserInformation info)
     {
-      info.Execute(this);
+      UIDispatcher.Invoke((Action<IUser>)(info.Execute), this);
     }
     void IRoomInformer.InformChat(int userId, MessageTarget target, string content)
     {
@@ -104,12 +104,12 @@ namespace LightStudio.PokemonBattle.Room
       GameEnd();
     }
 
-    protected virtual void InformTurn(Turn turn)
+    protected virtual void InformTurn(ReportFragment turn)
     {
       if (RoomState != RoomState.GameStarted) RoomState = RoomState.GameStarted;
       game.Update(turn);
     }
-    void IGameInformer.InformTurn(Turn turn)
+    void IGameInformer.InformReportUpdate(ReportFragment turn)
     {
       InformTurn(turn);
     }

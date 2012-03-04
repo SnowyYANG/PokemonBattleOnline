@@ -47,7 +47,7 @@ namespace LightStudio.PokemonBattle.Messaging
     public void OnReceived(IMessage message)
     {
       IUserInformation info = message.GetMessageObjectOrNull() as IUserInformation;
-      if (info != null) UIDispatcher.Invoke((Action<IUserInformation>)((IUser)user).ExecuteInformation, info);
+      if (info != null) ((IUser)user).ExecuteInformation(info);
     }
 
     public event EventHandler<MessageSentEventArgs> MessageSent = delegate { };

@@ -63,6 +63,10 @@ namespace LightStudio.PokemonBattle.PBO
     {
       dispatcher.Invoke(method, args);
     }
+    void IUIDispatcher.BeginInvoke(Delegate method, params object[] args)
+    {
+      dispatcher.BeginInvoke(method, args);
+    }
     void IDisposable.Dispose()
     {
     }

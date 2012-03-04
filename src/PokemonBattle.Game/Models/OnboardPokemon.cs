@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using LightStudio.Tactic.DataModels;
 using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game
@@ -10,7 +11,7 @@ namespace LightStudio.PokemonBattle.Game
   /// <summary>
   /// 在场pm数据副本，不一定正在对战，比如“转盘”
   /// </summary>
-  internal class OnboardPokemon
+  public class OnboardPokemon : ConditionalObject
   {
     private static double LvToCoeff(int lv)
     {
@@ -21,7 +22,6 @@ namespace LightStudio.PokemonBattle.Game
     }
 
     private readonly Pokemon pokemon;
-    private readonly ConditionsDictionary conditions;
     private readonly PokemonOutward Outward; //幻影
     public readonly Player Owner;
 
@@ -48,7 +48,6 @@ namespace LightStudio.PokemonBattle.Game
     internal OnboardPokemon(Pokemon pokemon, int x)
     {
       this.pokemon = pokemon;
-      conditions = new ConditionsDictionary();
       Owner = pokemon.Owner;
 
       Type1 = pokemon.PokemonType.Type1;

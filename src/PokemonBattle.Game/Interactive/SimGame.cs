@@ -12,6 +12,7 @@ namespace LightStudio.PokemonBattle.Interactive
     public readonly Player Player;
     public readonly Team Team;
     public readonly SimPokemon[] Pokemons;
+    public readonly GameSettings Settings;
     private readonly List<SimPokemon> pokemons;
 
     public SimGame(int userId, int teamId, PokemonCustomInfo[] pms, GameSettings settings)
@@ -26,7 +27,7 @@ namespace LightStudio.PokemonBattle.Interactive
     public List<SimPokemon> ActivePokemons
     { get { return pokemons; } }
 
-    public void Update(Turn turn)
+    public void Update(ReportFragment turn)
     {
       foreach (GameEvent e in turn.Events)
         e.Update(this);

@@ -5,11 +5,11 @@ using System.Text;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  internal class MoveProxy : Tactic.DataModels.GameElementProxy<IController, Move>, IMoveProxy
+  public class MoveProxy : Tactic.DataModels.GameElementProxy<Controller, Move>
   {
     internal PokemonProxy Owner;
     
-    public MoveProxy(IController controller, Move move, PokemonProxy owner)
+    internal MoveProxy(Controller controller, Move move, PokemonProxy owner)
       : base(controller, move)
     {
       Owner = owner;
@@ -21,6 +21,8 @@ namespace LightStudio.PokemonBattle.Game
     { get { return Model.PP.Value; } }
     public int Priority
     { get { return Model.Type.Priority; } }
+    public Tile SelectedTarget
+    { get; internal set; }
 
     public bool CanBeSelected
     { get { throw new NotImplementedException(); } } //PP>0

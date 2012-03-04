@@ -130,6 +130,24 @@ namespace LightStudio.PokemonBattle.Game
       if (idGen != null) return idGen.NextId();
       return idQue.Dequeue();
     }
+    public int GetPlayerIndex(int x)
+    {
+      switch (Mode)
+      {
+        case GameMode.Single:
+          return 0;
+      }
+      return -1;
+    }
+    public int GetPokemonIndex(int x)
+    {
+      switch (Mode)
+      {
+        case GameMode.Single:
+          return 0;
+      }
+      return -1;
+    }
 
     public void WriteToMessage(BinaryWriter writer)
     {

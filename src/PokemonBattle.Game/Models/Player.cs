@@ -29,10 +29,10 @@ namespace LightStudio.PokemonBattle.Game
         if (p.Id == pmId) return p;
       return null;
     }
-    public int GetPokemonIndex(int pmId)
+    public int GetPokemonIndex(Pokemon pm)
     {
       for (int i = 0; i < Pokemons.Length; i++)
-        if (Pokemons[i].Id == pmId) return i;
+        if (Pokemons[i] == pm) return i;
       return -1;
     }
   }

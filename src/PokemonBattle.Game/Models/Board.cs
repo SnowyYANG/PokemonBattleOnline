@@ -9,49 +9,61 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  internal class Board
+  internal class Board : ConditionalObject
   {
-    public readonly List<IPokemonProxy> Pokemons;
-    public readonly ConditionsDictionary Conditions;
-    public readonly ConditionsDictionary[] TeamConditions;
-    readonly PokemonProxy[,] pokemons;
-    readonly Terrain terrain;
-    readonly GameMode mode;
-    Weather weather;
+    private readonly Field[] fields;
+    private readonly Tile[,] tileMap;
+    private readonly Terrain terrain;
+    public readonly int TeamCount;
+    public readonly int XBound;
 
-    public Board(GameSettings settings)
+    public Board(GameContext game)
     {
-      mode = settings.Mode;
-      weather = Data.Weather.Normal;
+      GameSettings settings = game.Settings;
+      GameMode mode = settings.Mode;
+      TeamCount = settings.TeamCount;
+      XBound = settings.XBound;
+      Weather = Weather.Normal;
       terrain = settings.Terrain;
-      pokemons = new PokemonProxy[settings.TeamCount, settings.XBound];
-      Pokemons = new List<IPokemonProxy>();
-      Conditions = new ConditionsDictionary();
-      TeamConditions = new ConditionsDictionary[settings.TeamCount];
-      for (int i = 0; i < settings.TeamCount; i++) TeamConditions[i] = new ConditionsDictionary();
-    }
-
-    public PokemonProxy this[int team, int x]
-    {
-      get { return pokemons[team, x]; }
-      set
       {
-        if (pokemons[team, x] != null)
-          Pokemons.Remove(pokemons[team, x]);
-        pokemons[team, x] = value;
-        if (value != null) Pokemons.Add(pokemons[team, x]);
+        tileMap = new Tile[TeamCount, XBound];
+        for (int i = 0; i < TeamCount; i++)
+          for (int j = 0; j < XBound; j++)
+            tileMap[i, j] = new Tile(i, j, game.Teams[i].Players[settings.GetPlayerIndex(j)]);
+      }
+      {
+        fields = new Field[TeamCount];
+        for (int i = 0; i < TeamCount; i++)
+          fields[i] = new Field();
       }
     }
-    public GameMode Mode
-    { get { return mode; } }
+
+    public Field this[int team]
+    { 
+      get
+      {
+        if (team >= 0 && team < fields.Length)
+          return fields[team];
+        return null;
+      }
+    }
+    public Tile this[int team, int x]
+    { 
+      get
+      {
+        if (team >= 0 && team < tileMap.Length && x >= 0 && x < tileMap.Length)
+          return tileMap[team, x];
+        return null;
+      }
+    }
     public Weather Weather
-    { get { return weather; } }
+    { get; set; }
 
     public PokemonProxy GetPokemon(int id)
     {
       PokemonProxy r = null;
-      foreach (PokemonProxy p in Pokemons)
-        if (p.Id == id) r = p;
+      foreach (Tile t in tileMap)
+        if (t.Pokemon != null && t.Pokemon.Id == id) r = t.Pokemon;
       return r;
     }
   }

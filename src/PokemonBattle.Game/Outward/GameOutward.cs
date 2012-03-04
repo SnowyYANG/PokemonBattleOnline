@@ -34,7 +34,7 @@ namespace LightStudio.PokemonBattle.Game
       listeners = new List<IGameOutwardEvents>();
     }
 
-    public void Update(Turn turn)
+    public void Update(ReportFragment turn)
     {
       if (turn.Teams != null)
       {

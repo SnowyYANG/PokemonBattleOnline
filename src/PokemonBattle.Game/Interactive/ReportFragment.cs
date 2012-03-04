@@ -11,7 +11,7 @@ namespace LightStudio.PokemonBattle.Interactive
   [KnownType(typeof(BeginTurn))]
   [KnownType(typeof(SendOut))]
   [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class Turn
+  public class ReportFragment
   {
     [DataMember(EmitDefaultValue = false)]
     public readonly TeamOutward[] Teams;
@@ -26,14 +26,14 @@ namespace LightStudio.PokemonBattle.Interactive
     /// <summary>
     /// 为了节约流量，只在用户第一次进入房间的时候给出teams/pms/weather信息
     /// </summary>
-    internal Turn(TeamOutward[] teams, PokemonOutward[] pms, Weather weather)
+    internal ReportFragment(TeamOutward[] teams, PokemonOutward[] pms, Weather weather)
     {
       Teams = teams;
       pokemons = pms;
       Weather = weather;
       Events = new List<GameEvent>();
     }
-    internal Turn(List<GameEvent> events)
+    internal ReportFragment(List<GameEvent> events)
     {
       Events = events;
     }

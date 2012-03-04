@@ -13,7 +13,7 @@ namespace LightStudio.PokemonBattle.Room
     void InformTimeUp(IList<int> breakers);
     void InformTimeElapsed(int remainingSeconds);
     void InformGameResult(int[] gameResult, bool isStoped);
-    void InformTurn(Turn turn); //all
+    void InformReportUpdate(ReportFragment fragment); //all
 
     void InformPmAdditional(PokemonAdditionalInfo pms);
     
@@ -99,18 +99,18 @@ namespace LightStudio.PokemonBattle.Room
   }
 
   [DataContract(Namespace = Namespaces.DEFAULT)]
-  class TurnInfo : IUserInformation
+  class ReportUpdateInfo : IUserInformation
   {
     [DataMember]
-    Turn Turn;
+    ReportFragment Fragment;
 
-    public TurnInfo(Turn turn)
+    public ReportUpdateInfo(ReportFragment turn)
     {
-      Turn = turn;
+      Fragment = turn;
     }
     void IUserInformation.Execute(IUser user)
     {
-      user.InformTurn(Turn);
+      user.InformReportUpdate(Fragment);
     }
   }
 

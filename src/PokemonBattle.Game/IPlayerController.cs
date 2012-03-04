@@ -20,9 +20,9 @@ namespace LightStudio.PokemonBattle.Game
   public interface IPlayerController : IDisposable
   {
     Player Player { get; }
-    IList<SimPokemon> ActivePokemons { get; }
+    SimGame Game { get; }
 
-    bool UseMove(Move move, Position target = null);
+    bool UseMove(Move move, Tile tile = null);
     bool Switch(SimPokemon withdraw, Pokemon sendout);
     bool Struggle(SimPokemon pm);
     //bool TurnLeft();

@@ -52,7 +52,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     public Weather Weather
     { get { return board.Weather; } }
     public SimPokemon ControllingPokemon
-    { get { return controller.ActivePokemons.FirstOrDefault(); } }
+    { get { return controller.Game.ActivePokemons.FirstOrDefault(); } }
     public Visibility UndoVisibility
     { get { return Visibility.Collapsed; } }
     public bool IsFightEnabled
@@ -74,21 +74,23 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     public void Pokemon_Click(Pokemon pokemon)
     {
       MessageBox.Show(pokemon.Id.ToString());
-      //if (ControllingPokemon.CanSwitch && pokemon.Hp > 0 && pokemon.PositionOnBoard == null)
-      //  controller.Switch(ControllingPokemon, pokemon);
+      return;
+      if (ControllingPokemon.CanSwitch && pokemon.Hp.Value > 0 && controller.Player.GetPokemonIndex(pokemon) > controller.Game.Settings.OnboardPokemonsPerPlayer )
+        controller.Switch(ControllingPokemon, pokemon);
     }
     public void Move_Click(Move move)
     {
       MessageBox.Show(move.Id.ToString());
-      //if (ControllingPokemon.CanUseMove && move.Available)
-      //  controller.UseMove(move);
+      return;
+      if (ControllingPokemon.CanUseMove && move.CanSelect)
+        controller.UseMove(move);
     }
     public void Struggle_Click()
     {
       if (ControllingPokemon != null)
         MessageBox.Show(ControllingPokemon.Id.ToString());
-      //if (ControllingPokemon.CanStruggle)
-      //  controller.Struggle(ControllingPokemon);
+      if (ControllingPokemon.CanStruggle)
+        controller.Struggle(ControllingPokemon);
     }
     public void Giveup_Click()
     {

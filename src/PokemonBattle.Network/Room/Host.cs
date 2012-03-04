@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using LightStudio.Tactic;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Interactive;
 using LightStudio.PokemonBattle.Game;
@@ -14,22 +15,24 @@ namespace LightStudio.PokemonBattle.Room
   {
     public event PropertyChangedEventHandler PropertyChanged = delegate { };
     public event Action Closed = delegate { };
+    private readonly Dispatcher dispatcher;
     private readonly HashSet<int> users;
     private readonly ObservableCollection<int> players;
     private readonly ObservableCollection<int> spectators;
     private readonly IGame game;
-    private RoomState _state;
+    private RoomState state;
     
     public Host(GameSettings settings)
     {
+      dispatcher = new Dispatcher(true);
       users = new HashSet<int>();
       players = new ObservableCollection<int>();
       spectators = new ObservableCollection<int>();
       Players = new ReadOnlyObservableCollection<int>(players);
       Spectators = new ReadOnlyObservableCollection<int>(spectators);
       game = GameFactory.CreateGame(settings);
-      game.Turn += (turn) => InformTurn(turn);
-      game.RequireInput += (player) => InformRequireInput(player);
+      game.ReportUpdated += (fragment) => InformReportUpdate(fragment);
+      game.RequireInput += (playerIds) => InformRequireInput(playerIds);
     }
 
     public ReadOnlyObservableCollection<int> Spectators
@@ -38,12 +41,12 @@ namespace LightStudio.PokemonBattle.Room
     { get; private set; }
     public RoomState State
     {
-      get { return _state; }
+      get { return state; }
       private set
       {
-        if (_state != value)
+        if (state != value)
         {
-          _state = value;
+          state = value;
           OnPropertyChanged(STATE);
         }
       }
@@ -54,7 +57,7 @@ namespace LightStudio.PokemonBattle.Room
     #region Commands
     void IHost.ExecuteCommand(IHostCommand command, int senderId)
     {
-      command.Execute(this, senderId);
+      dispatcher.Invoke((Action<IHost, int>)(command.Execute), this, senderId);
     }
     void IRoomManager.Chat(int userId, MessageTarget target, int targetId, string content)
     {
@@ -194,9 +197,9 @@ namespace LightStudio.PokemonBattle.Room
       State = RoomState.GameEnd;
       OnSendInformation(GameResultInfo.GameStop());
     }
-    void InformTurn(Turn turn)
+    void InformReportUpdate(ReportFragment fragment)
     {
-      OnSendInformation(new TurnInfo(turn));
+      OnSendInformation(new ReportUpdateInfo(fragment));
     }
     void InformAdditionalInfo(PokemonAdditionalInfo info)
     {
@@ -210,9 +213,9 @@ namespace LightStudio.PokemonBattle.Room
     {
     }
 
-    void InformRequireInput(Game.Player player)
+    void InformRequireInput(int[] playerIds)
     {
-      OnSendInformation(new RequireInputInfo(), player.Id);
+      OnSendInformation(new RequireInputInfo(), playerIds);
     }
     void InformInputFail(Game.Player player)
     {

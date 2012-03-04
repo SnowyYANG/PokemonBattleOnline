@@ -10,6 +10,7 @@ namespace LightStudio
     void Start();
     void Invoke(Action action);
     void Invoke(Delegate method, params object[] args);
+    void BeginInvoke(Delegate method, params object[] args);
   }
   public static class UIDispatcher
   {
@@ -28,6 +29,10 @@ namespace LightStudio
     public static void Invoke(Delegate method, params object[] args)
     {
       current.Invoke(method, args);
+    }
+    public static void BeginInvoke(Delegate method, params object[] args)
+    {
+      current.BeginInvoke(method, args);
     }
   }
 }

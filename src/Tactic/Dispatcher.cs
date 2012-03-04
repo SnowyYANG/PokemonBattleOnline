@@ -6,7 +6,7 @@ using System.Diagnostics.Contracts;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LightStudio.Tactic.Messaging
+namespace LightStudio
 {
     public class Dispatcher : DisposableObject
     {
@@ -14,10 +14,6 @@ namespace LightStudio.Tactic.Messaging
         private ManualResetEvent addWorkEvent;
         private object addWorkLock;
         private Thread thread;
-
-        public Dispatcher()
-            : this(false)
-        { }
 
         public Dispatcher(bool autoStart)
         {

@@ -6,8 +6,14 @@ using LightStudio.PokemonBattle.Interactive;
 
 namespace LightStudio.PokemonBattle.Game
 {
+  /// <summary>
+  /// 我记得这是单线程的，Host那边用了Dispatcher
+  /// </summary>
   internal class InputController : ControllerComponent
   {
+    internal event Action<int[]> RequireInput;
+    internal event Action<Player> InputSucceed;
+    HashSet<int> players;
     private Action InputFinished;
 
     public InputController(Controller controller)
@@ -15,16 +21,31 @@ namespace LightStudio.PokemonBattle.Game
     {
     }
 
-    private void CheckForInputFinished()
+    private void CheckInputSucceed(Player player)
     {
-      foreach (PokemonProxy p in Controller.OnboardPokemons)
-        if (p.Action == PokemonAction.WaitingForInput) return;
-      if (InputFinished != null) InputFinished();
+      foreach (Tile t in Controller.Tiles)
+        if (t.ResponsiblePlayer == player)
+          if (t.Pokemon != null)
+          {
+            if (t.Pokemon.Action == PokemonAction.WaitingForInput) return;
+          }
+          else
+          {
+            if (t.WillSendoutPokemon == null) return;
+          }
+      InputSucceed(player);
+      players.Remove(player.Id);
+      if (players.Count == 0 && InputFinished != null) InputFinished();
     }
-    public void RequireInput(Action inputFinished)
+    public void ContinueAfterInput(Action inputFinished)
     {
-      foreach (PokemonProxy p in Controller.OnboardPokemons)
-        if (p.Action == PokemonAction.WaitingForInput) ;
+      players = new HashSet<int>();
+      InputFinished = inputFinished;
+      foreach (Tile t in Controller.Tiles)
+        if (Controller.CanSendout(t) || t.Pokemon.Action != PokemonAction.WaitingForInput)
+          players.Add(t.ResponsiblePlayer.Id);
+      if (players.Count > 0) RequireInput(players.ToArray());
+      else InputFinished();
     }
     public bool Switch(PokemonProxy withdraw, Pokemon sendout)
     {
@@ -33,26 +54,39 @@ namespace LightStudio.PokemonBattle.Game
       return false;
     }
     /// <summary>
-    /// 死亡交换或蜻蜓返，与原作不同同时挂两头也是依次立刻交换
+    /// 死亡交换或蜻蜓返，与原作不同同时挂两头也是依次立刻交换 〈— 真要这样做我就傻了
     /// </summary>
     /// <param name="sendout"></param>
     /// <param name="position"></param>
     /// <returns>succeed or not</returns>
-    public bool Sendout(Pokemon sendout, Position position)
+    public bool Sendout(Pokemon sendout, Tile position)
     {
-      if (Controller.Sendout(sendout, position)) return true;
+      if (Controller.CanSendout(sendout, position))
+      {
+        position.WillSendoutPokemon = sendout;
+        CheckInputSucceed(position.ResponsiblePlayer);
+        return true;
+      }
       return false;
     }
-    public bool SelectMove(MoveProxy move, Position position)
+    public bool SelectMove(MoveProxy move, Tile target)
     {
       if (move.Owner.Action == PokemonAction.WaitingForInput)
-        return move.Owner.SelectMove(move, position);
+      {
+        bool r = move.Owner.SelectMove(move, target);
+        if (r) CheckInputSucceed(target.ResponsiblePlayer);
+        return r;
+      }
       return false;
     }
     public bool Struggle(PokemonProxy pokemon)
     {
       if (pokemon.Action == PokemonAction.WaitingForInput)
-        return pokemon.SelectMove(pokemon.StruggleMove, null);
+      {
+        bool r = pokemon.SelectMove(pokemon.StruggleMove, null);
+        if (r) CheckInputSucceed(pokemon.OnboardPokemon.Owner);
+        return r;
+      }
       return false;
     }
   }

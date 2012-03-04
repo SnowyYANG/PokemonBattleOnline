@@ -11,17 +11,17 @@ namespace LightStudio.PokemonBattle.Interactive
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class ActionInput
   {
-    public static ActionInput UseMove(Move move, Position target)
+    public static ActionInput UseMove(Move move, Tile target)
     {
-      return new ActionInput(move.Id) { Position = target };
+      return new ActionInput(move.Id) { TargetTeam = target.Team, TargetX = target.X };
     }
     public static ActionInput Switch(SimPokemon withdraw, Pokemon sendout)
     {
       return new ActionInput(withdraw.SwitchId) { SendoutId = sendout.Id };
     }
-    public static ActionInput Sendout(Pokemon sendout, Position position)
+    public static ActionInput Sendout(Pokemon sendout, Tile target)
     {
-      return new ActionInput(0) { SendoutId = sendout.Id, Position = position };
+      return new ActionInput(0) { SendoutId = sendout.Id, TargetTeam = target.Team, TargetX = target.X };
     }
     public static ActionInput Struggle(SimPokemon pm)
     {
@@ -32,7 +32,10 @@ namespace LightStudio.PokemonBattle.Interactive
     int ActionId;
 
     [DataMember(EmitDefaultValue = false)]
-    Position Position;
+    int TargetTeam = -1;
+
+    [DataMember(EmitDefaultValue = false)]
+    int TargetX = -1;
 
     [DataMember(EmitDefaultValue = false)]
     int SendoutId;
@@ -52,7 +55,8 @@ namespace LightStudio.PokemonBattle.Interactive
         Pokemon sendout = controller.Game.GetPokemon(SendoutId);
         if (sendout.Owner == player)
         {
-          if (ActionId == 0) return controller.InputSendout(sendout, Position);
+          if (ActionId == 0)
+            return controller.InputSendout(sendout, controller.GetTile(TargetTeam, TargetX));
           foreach (PokemonProxy p in controller.OnboardPokemons)
             if (p.Pokemon.SwitchId == ActionId && p.Pokemon.Owner == player)
               return controller.InputSwitch(p, sendout);
@@ -65,7 +69,7 @@ namespace LightStudio.PokemonBattle.Interactive
           {
             if (p.Pokemon.StruggleId == ActionId) controller.InputStruggle(p);
             foreach (MoveProxy m in p.Moves)
-              controller.InputSelectMove(m, Position);
+              controller.InputSelectMove(m, controller.GetTile(TargetTeam, TargetX));
           }
       }
       return false;

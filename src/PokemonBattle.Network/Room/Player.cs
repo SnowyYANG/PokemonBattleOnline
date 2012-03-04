@@ -5,6 +5,7 @@ using System.Text;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
 using LightStudio.PokemonBattle.Interactive;
+using LightStudio.Tactic.Messaging.Lobby;
 
 namespace LightStudio.PokemonBattle.Room
 {
@@ -19,12 +20,12 @@ namespace LightStudio.PokemonBattle.Room
       : base(hostId)
     {
       listeners = new List<IPlayerControllerEvents>();
-      EnterSucceed += (uc) => game = new SimGame(Messaging.LobbyService.User.Id, teamId, pokemons, Game.Settings);
+      EnterSucceed += (uc) => game = new SimGame(LobbyService.User.Id, teamId, pokemons, Game.Settings);
     }
 
     public override UserRole Role
     { get { return UserRole.Player; } }
-    public override Game.IPlayerController PlayerController
+    public override IPlayerController PlayerController
     { get { return this; } }
     protected void Input(int userId, ActionInput action)
     {
@@ -33,10 +34,10 @@ namespace LightStudio.PokemonBattle.Room
     #region IPlayerController
     Game.Player IPlayerController.Player
     { get { return game.Player; } }
-    IList<SimPokemon> IPlayerController.ActivePokemons
-    { get { return game.ActivePokemons; } }
+    SimGame IPlayerController.Game
+    { get { return game; } }
 
-    bool IPlayerController.UseMove(Move move, Position target)
+    bool IPlayerController.UseMove(Move move, Tile target)
     {
       //TODO: verify
       sendCommand(new InputCommand(ActionInput.UseMove(move, target)));
@@ -74,7 +75,7 @@ namespace LightStudio.PokemonBattle.Room
     }
     #endregion
 
-    protected override void InformTurn(Turn turn)
+    protected override void InformTurn(ReportFragment turn)
     {
       base.InformTurn(turn);
       game.Update(turn);

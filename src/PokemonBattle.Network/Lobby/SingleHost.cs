@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.Tactic.Messaging;
+using LightStudio.Tactic.Messaging.Lobby;
 using LightStudio.PokemonBattle.Room;
 using LightStudio.PokemonBattle.Data;
 
@@ -63,13 +64,13 @@ namespace LightStudio.PokemonBattle.Messaging
     {
       IMessagable obj = message.GetMessageObjectOrNull();
       if (obj != null)
-        if (obj is IHostCommand) UIDispatcher.Invoke((Action<IHostCommand, int>)((IHost)host).ExecuteCommand, obj, senderId);
-        else if (obj is IUserInformation) UIDispatcher.Invoke((Action<IUserInformation>)((IUser)user).ExecuteInformation, obj);
+        if (obj is IHostCommand) ((IHost)host).ExecuteCommand((IHostCommand)obj, senderId);
+        else if (obj is IUserInformation) ((IUser)user).ExecuteInformation((IUserInformation)obj);
     }
     public void OnReceived(IMessage message)
     {
       IUserInformation info = message.GetMessageObjectOrNull() as IUserInformation;
-      if (info != null) UIDispatcher.Invoke((Action<IUserInformation>)((IUser)user).ExecuteInformation, info);
+      if (info != null) ((IUser)user).ExecuteInformation(info);
     }
 
     public event EventHandler<MessageSentEventArgs> MessageSent;
