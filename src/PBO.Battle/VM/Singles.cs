@@ -25,7 +25,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
       board = c.Game.Board;
       teamPms = c.Game.Teams[controller.Player.TeamId];
       rivalPms = c.Game.Teams[1 - controller.Player.TeamId];
-      selectedPanel = (int)ControlPanelIndex.INACTIVE;
+      selectedPanel = ControlPanelIndex.INACTIVE;
       //controller.Board.MyTeam.PokemonOnBoardChanged += (sender, e) =>
       //  {
       //    if (e.NewPokemon != null) pokemonsInBall.Remove(e.NewPokemon);
@@ -73,23 +73,17 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     }
     public void Pokemon_Click(Pokemon pokemon)
     {
-      MessageBox.Show(pokemon.Id.ToString());
-      return;
       if (ControllingPokemon.CanSwitch && pokemon.Hp.Value > 0 &&
         pokemon.IndexInOwner > controller.Game.Settings.Mode.OnboardPokemonsPerPlayer())
         controller.Switch(ControllingPokemon, pokemon);
     }
     public void Move_Click(Move move)
     {
-      MessageBox.Show(move.Id.ToString());
-      return;
       if (ControllingPokemon.CanUseMove && move.CanSelect)
         controller.UseMove(move);
     }
     public void Struggle_Click()
     {
-      if (ControllingPokemon != null)
-        MessageBox.Show(ControllingPokemon.Id.ToString());
       if (ControllingPokemon.CanStruggle)
         controller.Struggle(ControllingPokemon);
     }

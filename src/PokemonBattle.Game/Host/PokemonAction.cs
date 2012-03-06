@@ -8,7 +8,7 @@ namespace LightStudio.PokemonBattle.Game
   public enum PokemonAction
   {
     WaitingForInput,
-    WillWithdraw,
+    WillSwitch,
     WillMove,
     Switching,
     Moving,

@@ -64,6 +64,7 @@ namespace LightStudio.PokemonBattle.Game
     #region Turn Loop
     internal void StartGameLoop()
     {
+      ReportBuilder.NewFragment();
       TurnController.BeginTurn();
     }
     #endregion
@@ -97,9 +98,9 @@ namespace LightStudio.PokemonBattle.Game
     {
       return SwitchController.CanSendout(tile);
     }
-    public bool CanSendout(Tile tile, int sendoutIndex)
+    public bool CanSendout(Pokemon pokemon)
     {
-      return SwitchController.CanSendout(tile, sendoutIndex);
+      return SwitchController.CanSendout(pokemon);
     }
     public bool CanWithdraw(PokemonProxy pm)
     {

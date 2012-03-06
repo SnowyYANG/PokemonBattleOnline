@@ -23,14 +23,9 @@ namespace LightStudio.PokemonBattle.Game
     {
       return tile.Pokemon == null && Controller.GetPlayer(tile).AlivePms > GameSettings.Mode.OnboardPokemonsPerPlayer();
     }
-    public bool CanSendout(Tile tile, int sendoutIndex)
+    public bool CanSendout(Pokemon pokemon)
     {
-      if (CanSendout(tile))
-      {
-        Pokemon pm = Controller.GetPlayer(tile).GetPokemon(sendoutIndex);
-        return pm != null && pm.Hp.Value > 0 && sendoutIndex >= GameSettings.Mode.OnboardPokemonsPerPlayer();
-      }
-      return false;
+      return pokemon != null && pokemon.Hp.Value > 0 && pokemon.IndexInOwner >= GameSettings.Mode.OnboardPokemonsPerPlayer();
     }
 
     public bool Withdraw(PokemonProxy pm)
@@ -49,7 +44,7 @@ namespace LightStudio.PokemonBattle.Game
       Player p = Controller.GetPlayer(tile);
       int origin = Game.Settings.Mode.GetPokemonIndex(tile.X);
       int sendout = tile.WillSendoutPokemonIndex;
-      if (CanSendout(tile, sendout))
+      if ((ReportBuilder.TurnNumber == 0 && origin == sendout) || (CanSendout(tile) && CanSendout(p.GetPokemon(sendout))))
       {
         p.SwitchPokemon(origin, sendout);
         PokemonProxy pm = new PokemonProxy(Controller, p.GetPokemon(sendout), tile);

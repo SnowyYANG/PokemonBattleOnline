@@ -20,6 +20,7 @@ namespace LightStudio.PokemonBattle.Interactive
       Team = new Team(teamId, settings);
       Player = Team.AddPlayer(userId, pms);
       Pokemons = new SimPokemon[settings.Mode.XBound()];
+      Settings = settings;
       pokemons = new List<SimPokemon>();
     }
 

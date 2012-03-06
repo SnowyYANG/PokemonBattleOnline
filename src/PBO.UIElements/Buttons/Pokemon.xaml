@@ -57,8 +57,12 @@
                 <DrawingBrush>
                     <DrawingBrush.Drawing>
                         <DrawingGroup>
-                            <GeometryDrawing Brush="Black" Geometry="F1 M 121.271,45.4167L 126.646,34.5417L 126.646,23.6666L 120.479,0.500061L 7.08328,0.541626L 1.45828,23.6666L 1.45827,34.5417L 6.83327,45.4167L 121.271,45.4167 Z "/>
-                            <ImageDrawing RenderOptions.EdgeMode="Aliased" Rect="-1,-1,32,32" ImageSource="{Binding Content.PokemonType.Id,RelativeSource={RelativeSource AncestorType=Button},Converter={StaticResource IconConverter}}"/>
+                            <GeometryDrawing Brush="Black" Geometry="F1 M 120,45.5L 125.5,34.5L 125.5,23.5L 119.5,0.5L 6.0,0.5L 0.5,23.5L 0.5,34.5L 6,45.5Z">
+                                <GeometryDrawing.Pen>
+                                    <Pen Brush="Black" Thickness="1"/>
+                                </GeometryDrawing.Pen>
+                            </GeometryDrawing>
+                            <ImageDrawing Rect="-1,-1,32,32" ImageSource="{Binding Content.PokemonType.Id,RelativeSource={RelativeSource AncestorType=Button},Converter={StaticResource IconConverter}}"/>
                         </DrawingGroup>
                     </DrawingBrush.Drawing>
                 </DrawingBrush>
@@ -74,12 +78,12 @@
                                     <Pen Brush="#808080"/>
                                 </GeometryDrawing.Pen>
                             </GeometryDrawing>
-                            <GeometryDrawing Geometry="F1 M 119.443,43.5006L 124.646,33.473L 124.646,23.4453L 118.525,2.23401L 8.90346,2.12213L 3.45818,23.4453L 3.45818,33.473L 8.66142,43.5006L 119.443,43.5006 Z ">
+                            <GeometryDrawing Geometry="F1 M 118.25,43.5L 124,33.5L 124,23.5L 118,2L 8,2L 2,23.5L 2,33.5L 7.75,43.5Z">
                                 <GeometryDrawing.Pen>
                                     <Pen Brush="#88D018" Thickness="4"/>
                                 </GeometryDrawing.Pen>
                             </GeometryDrawing>
-                            <GeometryDrawing Brush="{x:Static ui:Buttons.Luster}" Geometry="F1 M 121.271,45.4167L 126.646,34.5417L 126.646,23.6666L 120.479,0.500061L 7.08328,0.541626L 1.45828,23.6666L 1.45827,34.5417L 6.83327,45.4167L 121.271,45.4167 Z ">
+                            <GeometryDrawing Brush="{x:Static ui:Buttons.Luster}" Geometry="F1 M 120,45.5L 125.5,34.5L 125.5,23.5L 119.5,0.5L 6.0,0.5L 0.5,23.5L 0.5,34.5L 6,45.5Z">
                                 <GeometryDrawing.Pen>
                                     <Pen Brush="Black"/>
                                 </GeometryDrawing.Pen>
@@ -105,12 +109,12 @@
                                             <Pen Brush="#a05050"/>
                                         </GeometryDrawing.Pen>
                                     </GeometryDrawing>
-                                    <GeometryDrawing Geometry="F1 M 119.443,43.5006L 124.646,33.473L 124.646,23.4453L 118.525,2.23401L 8.90346,2.12213L 3.45818,23.4453L 3.45818,33.473L 8.66142,43.5006L 119.443,43.5006 Z ">
+                                    <GeometryDrawing Geometry="F1 M 118.25,43.5L 124,33.5L 124,23.5L 118,2L 8,2L 2,23.5L 2,33.5L 7.75,43.5Z">
                                         <GeometryDrawing.Pen>
                                             <Pen Brush="#e03038" Thickness="4"/>
                                         </GeometryDrawing.Pen>
                                     </GeometryDrawing>
-                                    <GeometryDrawing Brush="{x:Static ui:Buttons.Luster}" Geometry="F1 M 121.271,45.4167L 126.646,34.5417L 126.646,23.6666L 120.479,0.500061L 7.08328,0.541626L 1.45828,23.6666L 1.45827,34.5417L 6.83327,45.4167L 121.271,45.4167 Z ">
+                                    <GeometryDrawing Brush="{x:Static ui:Buttons.Luster}" Geometry="F1 M 120,45.5L 125.5,34.5L 125.5,23.5L 119.5,0.5L 6.0,0.5L 0.5,23.5L 0.5,34.5L 6,45.5Z">
                                         <GeometryDrawing.Pen>
                                             <Pen Brush="Black"/>
                                         </GeometryDrawing.Pen>

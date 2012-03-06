@@ -2,9 +2,36 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements;assembly=PBO.UIElements"
              MinHeight="192" MinWidth="256" UseLayoutRounding="True" SnapsToDevicePixels="True" KeyDown="UserControl_KeyDown" Focusable="True">
     <Grid>
         <Image Source="/PBO.Battle;component/images/tempterrain.jpg" SnapsToDevicePixels="True" Width="256"/>
+        <Rectangle>
+            <Rectangle.Fill>
+                <DrawingBrush Stretch="None">
+                    <DrawingBrush.Drawing>
+                        <DrawingGroup>
+                            <GeometryDrawing Brush="#d08080" Geometry="M3,24.5 L123,24.5 L123,29.5 L3,29.5">
+                                <GeometryDrawing.Pen>
+                                    <Pen Brush="#a05050"/>
+                                </GeometryDrawing.Pen>
+                            </GeometryDrawing>
+                            <GeometryDrawing Geometry="F1 M 118.5,43.5L 124.5,33.5L 124.5,23.5L 118.5,2L 9,2L 2,23.5L 2,33.5L 8.5,43.5L 119.5,43.5Z">
+                                <GeometryDrawing.Pen>
+                                    <Pen Brush="#e03038" Thickness="4"/>
+                                </GeometryDrawing.Pen>
+                            </GeometryDrawing>
+                            <GeometryDrawing Brush="{x:Static ui:Buttons.Luster}" Geometry="F1 M 120,45.5L 125.5,34.5L 125.5,23.5L 119.5,0.5L 6.0,0.5L 0.5,23.5L 0.5,34.5L 6,45.5Z">
+                                <GeometryDrawing.Pen>
+                                    <Pen Brush="Black"/>
+                                </GeometryDrawing.Pen>
+                            </GeometryDrawing>
+                        </DrawingGroup>
+                    </DrawingBrush.Drawing>
+
+                </DrawingBrush>
+            </Rectangle.Fill>
+        </Rectangle>
         <Viewport3D Width="256" Height="192" UseLayoutRounding="True" SnapsToDevicePixels="True" ClipToBounds="False" IsHitTestVisible="False" RenderOptions.EdgeMode="Aliased" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Viewport3D.Camera>
                 <PerspectiveCamera x:Name="camera" LookDirection="-1,0,-2" UpDirection="0,1,0" Position="5,3,15" FieldOfView="45" FarPlaneDistance="40" NearPlaneDistance="8" />

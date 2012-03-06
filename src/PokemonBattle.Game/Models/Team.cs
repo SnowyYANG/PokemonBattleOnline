@@ -9,7 +9,6 @@ namespace LightStudio.PokemonBattle.Game
   public class Team
   {
     public readonly int Id;
-    public readonly int PlayerCount;
     public readonly Dictionary<int, Pokemon> Pokemons;
     private readonly List<Player> players;
     private readonly GameSettings settings;
@@ -18,27 +17,21 @@ namespace LightStudio.PokemonBattle.Game
     {
       Id = id;
       this.settings = settings;
-      switch (settings.Mode)
-      {
-        case GameMode.Single:
-          PlayerCount = 1;
-          break;
-      }
       players = new List<Player>();
       Pokemons = new Dictionary<int, Pokemon>();
     }
     public IEnumerable<Player> Players
     { get { return players; } }
     internal bool Prepared
-    { get { return players.Count == PlayerCount; } }
+    { get { return players.Count == settings.Mode.PlayersPerTeam(); } }
 
     internal Player AddPlayer(int userId, PokemonCustomInfo[] pokemons)
     {
-      if (players.Count < PlayerCount)
+      if (players.Count < settings.Mode.PlayersPerTeam())
       {
         Player player = new Player(userId, this.Id, pokemons, settings);
         players.Add(player);
-        if (players.Count == PlayerCount)
+        if (players.Count == settings.Mode.PlayersPerTeam())
           foreach (Player p in players)
             foreach (Pokemon pm in p.Pokemons)
               Pokemons.Add(pm.Id, pm);

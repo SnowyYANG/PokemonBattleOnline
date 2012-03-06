@@ -232,7 +232,7 @@ namespace LightStudio.PokemonBattle.Room
     }
     public void StartGame()
     {
-      game.Start();
+      if (game.Start()) State = RoomState.GameStarted;
     }
     public void CloseRoom()
     {

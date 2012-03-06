@@ -57,7 +57,6 @@ namespace LightStudio.PokemonBattle.Game
 
     public void BeginTurn()
     {
-      ReportBuilder.AddNewTurn();
       bool needInput = false;
       foreach (PokemonProxy p in OnboardPokemons)
         needInput |= p.CheckNeedInput();
@@ -78,8 +77,9 @@ namespace LightStudio.PokemonBattle.Game
     }
     public void Action() //蜻蜓返的inputFinished
     {
-      foreach(PokemonProxy p in OnboardPokemons)
-        if (p.Action == PokemonAction.WillMove || p.Action == PokemonAction.WillWithdraw)
+      ReportBuilder.AddNewTurn();
+      foreach (PokemonProxy p in OnboardPokemons)
+        if (p.Action == PokemonAction.WillMove || p.Action == PokemonAction.WillSwitch)
         {
           p.Act();
         }

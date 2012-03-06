@@ -21,7 +21,6 @@ namespace LightStudio.PokemonBattle.Interactive
     {
       this.game = game;
       TurnNumber = -1;
-      NewFragment();
     }
 
     public int TurnNumber

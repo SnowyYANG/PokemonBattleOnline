@@ -88,12 +88,14 @@ namespace LightStudio.PokemonBattle.Game
       }
       return false;
     }
-    internal bool InputWithdraw()
+    internal bool InputSwitch(int sendoutIndex)
     {
       #warning 踩影子 我受不了啦用事件吧
-      if (CanWithdraw && true)
+      if (CanWithdraw && Controller.CanSendout(Pokemon.Owner.GetPokemon(sendoutIndex)) &&
+        true)
       {
-        Action = PokemonAction.WillWithdraw;
+        Action = PokemonAction.WillSwitch;
+        Tile.WillSendoutPokemonIndex = sendoutIndex;
         return true;
       }
       return false;
@@ -111,7 +113,7 @@ namespace LightStudio.PokemonBattle.Game
     }
     internal bool UndoInput()
     {
-      if (Action == PokemonAction.WillWithdraw || Action == PokemonAction.WillMove)
+      if (Action == PokemonAction.WillMove || Action == PokemonAction.WillSwitch)
       {
         Action = PokemonAction.WaitingForInput;
         return true;
