@@ -20,6 +20,7 @@ namespace LightStudio.PokemonBattle.Interactive
     internal ReportBuilder(GameContext game)
     {
       this.game = game;
+      TurnNumber = -1;
       NewFragment();
     }
 
@@ -38,8 +39,9 @@ namespace LightStudio.PokemonBattle.Interactive
       TeamOutward[] t = new TeamOutward[game.Teams.Length];
       for (int i = 0; i < t.Length; i++) t[i] = game.Teams[i].GetOutward();
       List<PokemonOutward> p = new List<PokemonOutward>();
-      foreach(Tile tile in game.Board.Tiles)
-        if (tile.Pokemon != null) p.Add(tile.Pokemon.OnboardPokemon.GetOutward());
+      for (int i = 0; i < game.Board.TeamCount; i++)
+        for (int j = 0; j < game.Board.XBound; j++)
+          if (game.Board[i, j].Pokemon != null) p.Add(game.Board[i, j].Pokemon.GetOutward());
       current = new ReportFragment(t, p.ToArray(), game.Board.Weather);
     }
     internal ReportFragment GetFragment()
@@ -53,11 +55,18 @@ namespace LightStudio.PokemonBattle.Interactive
 
     internal void AddNewTurn()
     {
-      current.AddEvent(new BeginTurn(TurnNumber++));
+      current.AddEvent(new BeginTurn(++TurnNumber));
     }
-    public void AddSendout(Player player, PokemonProxy pm)
+    internal void AddSendout(PokemonProxy pm)
     {
-      current.AddEvent(new SendOut(player.Id, pm.OnboardPokemon.GetOutward()));
+      current.AddEvent(new SendOut(pm.Pokemon.Owner.Id, pm.GetOutward()));
+    }
+    internal void AddWithdraw(PokemonProxy pm)
+    {
+      //xxx倒下了
+      //xxx把xxx收了回去
+      //xxx回到了xxx身边
+      System.Diagnostics.Debugger.Break();
     }
   }
 }

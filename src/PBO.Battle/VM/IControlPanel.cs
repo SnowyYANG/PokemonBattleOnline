@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
   interface IControlPanel : INotifyPropertyChanged
   {
     int SelectedPanel { get; set; }
-    Pokemon[] Pokemons { get; }
+    IEnumerable<Pokemon> Pokemons { get; } //it's a readonly IList infact, fine with WPF.Binding
     TargetPanel TargetPanel { get; }
     int Time { get; }
 

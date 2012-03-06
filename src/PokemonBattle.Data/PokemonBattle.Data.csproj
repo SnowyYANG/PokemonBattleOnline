@@ -75,7 +75,6 @@
     <Compile Include="Rom\Ability.cs" />
     <Compile Include="enums\MoveInnerClass.cs" />
     <Compile Include="Rom\MoveAttachment.cs" />
-    <Compile Include="enums\GameMode.cs" />
     <Compile Include="enums\PokemonState.cs" />
     <Compile Include="enums\Terrain.cs" />
     <Compile Include="enums\Weather.cs" />

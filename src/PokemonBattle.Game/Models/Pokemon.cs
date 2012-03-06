@@ -69,6 +69,10 @@ namespace LightStudio.PokemonBattle.Game
       State = PokemonState.Normal;
       Hp = new PairValue(Static.Hp, Static.Hp, 48);
     }
+
+    public int IndexInOwner
+    { get { return Owner.GetPokemonIndex(this); } }
+
     private int GetState(StatType type)
     {
       if (type == StatType.Hp) return PokemonStatHelper.GetHp(Base.Hp, (byte)Iv.Hp, (byte)Ev.Hp, (byte)Lv);

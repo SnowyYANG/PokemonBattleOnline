@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Windows.Threading;
 using System.IO;
 using XmlSerializer = System.Xml.Serialization.XmlSerializer;
 
 namespace LightStudio.PokemonBattle.PBO
 {
-  public class UIDispatcher
+  public class WpfDispatcher
   {
     #region static
-    static UIDispatcher current;
-    public static UIDispatcher Current
+    static WpfDispatcher current;
+    public static WpfDispatcher Current
     { get { return current; } }
 
     private static bool TryInvoke(Action action)//thread safe
@@ -25,9 +24,9 @@ namespace LightStudio.PokemonBattle.PBO
       }
       return false;
     }
-    public static void Init(Dispatcher dispatcher)
+    public static void Init(System.Windows.Threading.Dispatcher dispatcher)
     {
-      if (current == null) current = new UIDispatcher(dispatcher);
+      if (current == null) current = new WpfDispatcher(dispatcher);
     }
     public static void Invoke(Delegate method, params object[] args)
     {
@@ -44,9 +43,9 @@ namespace LightStudio.PokemonBattle.PBO
     #endregion
 
     readonly Dictionary<string, object> configs;
-    readonly Dispatcher dispatcher;
-    
-    private UIDispatcher(Dispatcher dispatcher)
+    readonly System.Windows.Threading.Dispatcher dispatcher;
+
+    private WpfDispatcher(System.Windows.Threading.Dispatcher dispatcher)
     {
       this.dispatcher = dispatcher;
       dispatcher.ShutdownFinished += SaveConfigs;

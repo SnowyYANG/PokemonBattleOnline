@@ -12,9 +12,9 @@ namespace LightStudio.PokemonBattle.PBO
   public class WpfDispatcher : IUIDispatcher
   {
     readonly Dictionary<string, object> configs;
-    readonly Dispatcher dispatcher;
-    
-    public WpfDispatcher(Dispatcher dispatcher)
+    readonly System.Windows.Threading.Dispatcher dispatcher;
+
+    public WpfDispatcher(System.Windows.Threading.Dispatcher dispatcher)
     {
       this.dispatcher = dispatcher;
       dispatcher.ShutdownFinished += SaveConfigs;

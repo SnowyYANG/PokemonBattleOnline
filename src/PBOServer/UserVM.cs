@@ -57,7 +57,7 @@ namespace LightStudio.PokemonBattle.PBO
 
     void OnPropertyChanged(string propertyname)
     {
-      UIDispatcher.Invoke(() =>
+      WpfDispatcher.Invoke(() =>
         {
           if (PropertyChanged != null)
             PropertyChanged(this, new PropertyChangedEventArgs(propertyname));

@@ -11,7 +11,7 @@ using LightStudio.PokemonBattle.Game;
 
 namespace LightStudio.PokemonBattle.Room
 {
-  public class Host : IHost, INotifyPropertyChanged
+  public class Host : IHost, INotifyPropertyChanged, IDisposable
   {
     public event PropertyChangedEventHandler PropertyChanged = delegate { };
     public event Action Closed = delegate { };
@@ -252,6 +252,7 @@ namespace LightStudio.PokemonBattle.Room
     {
       PropertyChanged = delegate { };
       SendInformation = delegate { };
+      dispatcher.Dispose();
     }
   }
 }

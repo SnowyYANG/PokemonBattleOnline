@@ -15,14 +15,20 @@ namespace LightStudio.PokemonBattle.Game
     {
       comparer = new Comparer(Game.Board);
       tiles = new List<Tile>(Board.TeamCount * Board.XBound);
+      OnboardPokemons = new List<PokemonProxy>();
       for (int i = 0; i < Board.TeamCount; i++)
-        for (int j = 0; j < Board.XBound; j++) tiles.Add(Board[i, j]);
+        for (int j = 0; j < Board.XBound; j++)
+        {
+          Tile t = Board[i, j];
+          tiles.Add(t);
+          if (t.Pokemon != null) OnboardPokemons.Add(t.Pokemon); //当然在构造函数里是多此一举的一步
+        }
     }
 
     public List<PokemonProxy> OnboardPokemons
-    { get { throw new NotImplementedException(); } }
-    public IEnumerable<Tile> Tiles
     { get; private set; }
+    public IEnumerable<Tile> Tiles
+    { get { return tiles; } }
 
     private void SortOnboardPokemons()
     {
@@ -35,7 +41,7 @@ namespace LightStudio.PokemonBattle.Game
         OnboardPokemons[i] = OnboardPokemons[j];
         OnboardPokemons[j] = temp;
       }
-      //OnboardPokemons.Sort(ComparePokemon);
+      OnboardPokemons.Sort(comparer);
     }
     private void SortTiles()
     {
@@ -52,9 +58,16 @@ namespace LightStudio.PokemonBattle.Game
     public void BeginTurn()
     {
       ReportBuilder.AddNewTurn();
+      bool needInput = false;
       foreach (PokemonProxy p in OnboardPokemons)
-        p.CheckNeedInput();
-      Controller.ContinueAfterInput(Prepare);
+        needInput |= p.CheckNeedInput();
+      if (needInput) Controller.ContinueAfterInput(Prepare);
+      else
+      {
+        //这算为了性能没有Prepare()么？
+        SortOnboardPokemons();
+        Action();
+      }
     }
     private void Prepare()
     {
@@ -63,43 +76,50 @@ namespace LightStudio.PokemonBattle.Game
         p.Prepare();
       Action();
     }
-    public void Action()
+    public void Action() //蜻蜓返的inputFinished
     {
       foreach(PokemonProxy p in OnboardPokemons)
         if (p.Action == PokemonAction.WillMove || p.Action == PokemonAction.WillSwitch)
         {
           p.Act();
         }
+      foreach (PokemonProxy p in OnboardPokemons)
+        if (p.Action != PokemonAction.Done && p.Action != PokemonAction.Done && p.Action != PokemonAction.Stiff)
+          return;
       EndTurnEffects();
     }
     private void EndTurnEffects()
     {
+      EndTurnCheckForInput();
     }
-    public void EndTurnSwitch()
+    private void EndTurnCheckForInput()
     {
+      bool startNextTurn = true;
       foreach(Tile t in Tiles)
         if (t.Pokemon == null && Controller.CanSendout(t))
         {
+          startNextTurn = false;
           if (ReportBuilder.TurnNumber == 0)
+            t.WillSendoutPokemonIndex = GameSettings.Mode.GetPokemonIndex(t.X);
+          else
           {
-            switch (GameSettings.Mode)
-            {
-              case Data.GameMode.Single:
-#warning 想像一下并非如此，再输入的过程中精灵就已经交换了，估计Sendout是一触即发的，WillSendoutPokemon也不需要吧
-                t.WillSendoutPokemon = t.ResponsiblePlayer.Pokemons[0];
-                break;
-            }
+            Controller.ContinueAfterInput(EndTurnSendout);
+            return;
           }
-          else Controller.ContinueAfterInput(EndTurnSwitch);
-          break;
         }
+      if (startNextTurn) NextTurn();
+      else EndTurnSendout();//第0回合专用
+    }
+    private void EndTurnSendout()
+    {
       foreach(Tile t in Tiles)
-        if (t.WillSendoutPokemon != null)
+        if (ReportBuilder.TurnNumber == 0 || t.WillSendoutPokemonIndex > Tile.NOPM_INDEX)
         {
           Controller.Sendout(t);
         }
+      EndTurnCheckForInput();
     }
-    public void NextTurn()
+    private void NextTurn()
     {
       //缓慢启动与其他状态
       BeginTurn();

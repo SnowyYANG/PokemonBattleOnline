@@ -41,16 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\Components\ControllerComponent.cs" />
-    <Compile Include="Controller\Components\TurnController.cs" />
-    <Compile Include="Controller\GameElementIds.cs" />
-    <Compile Include="Controller\Components\InputController.cs" />
-    <Compile Include="Controller\PokemonAction.cs" />
-    <Compile Include="Controller\Controller.cs" />
-    <Compile Include="Controller\MoveProxy.cs" />
-    <Compile Include="Controller\Comparer.cs" />
-    <Compile Include="Controller\PokemonProxy.cs" />
-    <Compile Include="Controller\Components\SwitchController.cs" />
+    <Compile Include="Host\Controller\ControllerComponent.cs" />
+    <Compile Include="Host\Controller\Turn.cs" />
+    <Compile Include="Host\GameElementIds.cs" />
+    <Compile Include="Host\Controller\Input.cs" />
+    <Compile Include="Host\PokemonAction.cs" />
+    <Compile Include="Host\Controller\Controller.cs" />
+    <Compile Include="Host\MoveProxy.cs" />
+    <Compile Include="Host\Comparer.cs" />
+    <Compile Include="Host\PokemonProxy.cs" />
+    <Compile Include="Host\Controller\Switch.cs" />
+    <Compile Include="GameMode.cs" />
     <Compile Include="GameService.cs" />
     <Compile Include="IGame.cs" />
     <Compile Include="Interactive\ReportBuilder.cs" />

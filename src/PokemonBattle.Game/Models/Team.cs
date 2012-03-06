@@ -10,8 +10,8 @@ namespace LightStudio.PokemonBattle.Game
   {
     public readonly int Id;
     public readonly int PlayerCount;
-    public readonly List<Player> Players;
     public readonly Dictionary<int, Pokemon> Pokemons;
+    private readonly List<Player> players;
     private readonly GameSettings settings;
 
     public Team(int id, GameSettings settings)
@@ -24,31 +24,32 @@ namespace LightStudio.PokemonBattle.Game
           PlayerCount = 1;
           break;
       }
-      Players = new List<Player>();
+      players = new List<Player>();
       Pokemons = new Dictionary<int, Pokemon>();
     }
+    public IEnumerable<Player> Players
+    { get { return players; } }
     internal bool Prepared
-    { get { return Players.Count == PlayerCount; } }
+    { get { return players.Count == PlayerCount; } }
 
-    internal bool AddPlayer(int userId, PokemonCustomInfo[] pokemons)
+    internal Player AddPlayer(int userId, PokemonCustomInfo[] pokemons)
     {
-      if (Players.Count < PlayerCount)
+      if (players.Count < PlayerCount)
       {
-        Players.Add(new Player(userId, this.Id, pokemons, settings));
-        if (Players.Count == PlayerCount)
-          foreach (Player p in Players)
+        Player player = new Player(userId, this.Id, pokemons, settings);
+        players.Add(player);
+        if (players.Count == PlayerCount)
+          foreach (Player p in players)
             foreach (Pokemon pm in p.Pokemons)
               Pokemons.Add(pm.Id, pm);
-        return true;
+        return player;
       }
-      return false;
+      return null;
     }
 
-    public Player GetPlayer(int userId)
+    public Player GetPlayer(int index)
     {
-      foreach (Player p in Players)
-        if (p.Id == userId) return p;
-      return null;
+      return players.ValueOrDefault(index);
     }
 
     public TeamOutward GetOutward()

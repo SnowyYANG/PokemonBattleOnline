@@ -21,15 +21,15 @@ namespace LightStudio.PokemonBattle.Game
     {
       GameSettings settings = game.Settings;
       GameMode mode = settings.Mode;
-      TeamCount = settings.TeamCount;
-      XBound = settings.XBound;
+      TeamCount = mode.TeamCount();
+      XBound = mode.XBound();
       Weather = Weather.Normal;
       terrain = settings.Terrain;
       {
         tileMap = new Tile[TeamCount, XBound];
         for (int i = 0; i < TeamCount; i++)
           for (int j = 0; j < XBound; j++)
-            tileMap[i, j] = new Tile(i, j, game.Teams[i].Players[settings.GetPlayerIndex(j)]);
+            tileMap[i, j] = new Tile(i, j);
       }
       {
         fields = new Field[TeamCount];

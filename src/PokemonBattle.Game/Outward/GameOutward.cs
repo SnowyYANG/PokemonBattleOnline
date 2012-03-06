@@ -28,8 +28,8 @@ namespace LightStudio.PokemonBattle.Game
     {
       Settings = settings;
       Board = new BoardOutward(Settings);
-      Teams = new TeamOutward[Settings.TeamCount];
-      for (int t = 0; t < Settings.TeamCount; t++)
+      Teams = new TeamOutward[Settings.Mode.TeamCount()];
+      for (int t = 0; t < Settings.Mode.TeamCount(); t++)
         Teams[t] = new TeamOutward(6, 0, 0);
       listeners = new List<IGameOutwardEvents>();
     }
@@ -38,10 +38,10 @@ namespace LightStudio.PokemonBattle.Game
     {
       if (turn.Teams != null)
       {
-        for (int t = 0; t < Settings.TeamCount; t++)
+        for (int t = 0; t < Settings.Mode.TeamCount(); t++)
         {
           Teams[t].Update(turn.Teams[t]);
-          for (int x = 0; x < Settings.XBound; x++)
+          for (int x = 0; x < Settings.Mode.XBound(); x++)
             Board[t, x] = turn[t, x];
           Board.Weather = turn.Weather;
         }

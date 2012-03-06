@@ -8,39 +8,34 @@ namespace LightStudio.PokemonBattle.Game
 {
   public sealed class Tile : ConditionalObject
   {
+    public const int NOPM_INDEX = 0;
+
     public readonly int Team;
     public readonly int X;
-    public readonly Player ResponsiblePlayer; //位置交换在4P情况下不可用
-    private PokemonProxy pokemon;
     private int speed;
 
-    internal Tile(int team, int x, Player responsiblePlayer)
+    internal Tile(int team, int x)
     {
       Team = team;
       X = x;
       speed = (team << 3) + x;
+      WillSendoutPokemonIndex = x;
     }
 
     public PokemonProxy Pokemon
-    {
-      get { return pokemon; }
-      set
-      {
-        if (!Object.ReferenceEquals(value, pokemon))
-        {
-          if (value == null || value.Pokemon.Owner != ResponsiblePlayer) return;
-          pokemon = value;
-        }
-      }
-    }
-    public Pokemon WillSendoutPokemon
+    { get; internal set; }
+
+    /// <summary>
+    /// 原作输入的过程中精灵就已经交换了，估计Sendout是一触即发的（无法解释按速度的上场顺序），不需要WillSendoutPokemon
+    /// </summary>
+    public int WillSendoutPokemonIndex
     { get; internal set; }
     public int Speed
     { 
       get
       {
-        if (pokemon != null && pokemon.Speed != speed)
-          speed = pokemon.Speed;
+        if (Pokemon != null && Pokemon.Speed != speed)
+          speed = Pokemon.Speed;
         return speed;
       }
     }

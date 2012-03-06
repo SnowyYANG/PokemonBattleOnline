@@ -31,14 +31,14 @@ namespace LightStudio.PokemonBattle.Game
     internal BoardOutward(GameSettings settings)
     {
       this.settings = settings;
-      teams = new ObservableCollection<PokemonOutward>[settings.TeamCount];
-      Teams = new ReadOnlyObservableCollection<PokemonOutward>[settings.TeamCount];
+      teams = new ObservableCollection<PokemonOutward>[settings.Mode.TeamCount()];
+      Teams = new ReadOnlyObservableCollection<PokemonOutward>[settings.Mode.TeamCount()];
       pokemons = new List<PokemonOutward>();
       weather = Data.Weather.Normal;
       Terrain = settings.Terrain;
 
-      var empty = new PokemonOutward[settings.XBound];
-      for (int i = 0; i < settings.TeamCount; i++)
+      var empty = new PokemonOutward[settings.Mode.XBound()];
+      for (int i = 0; i < settings.Mode.TeamCount(); i++)
       {
         teams[i] = new ObservableCollection<PokemonOutward>(empty);
         Teams[i] = new ReadOnlyObservableCollection<PokemonOutward>(teams[i]);

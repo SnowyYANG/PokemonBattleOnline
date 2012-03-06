@@ -52,14 +52,14 @@ namespace LightStudio.PokemonBattle.Game
       }
     }
 
-    internal PokemonOutward(OnboardPokemon pm, PairValue hp)
+    internal PokemonOutward(Pokemon pm, Position position)
     {
       _listeners = new List<IPokemonOutwardEvents>();
       OwnerId = pm.Owner.Id;
       Id = pm.Id;
-      Hp = hp;
+      Hp = pm.Hp;
       Lv = pm.Lv;
-      Position = pm.Position;
+      Position = position;
     }
 
     [DataMember]
@@ -72,63 +72,99 @@ namespace LightStudio.PokemonBattle.Game
     public int Lv { get; private set; }
 
     #region Events
+    /// <summary>
+    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
+    /// </summary>
     public void Faint()
     {
       foreach (IPokemonOutwardEvents l in listeners)
         l.Faint();
     }
+    /// <summary>
+    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
+    /// </summary>
     public void Hurt()
     {
       foreach (IPokemonOutwardEvents l in listeners)
         l.Hurt();
     }
+    /// <summary>
+    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
+    /// </summary>
     public void PositionChanged()
     {
       foreach (IPokemonOutwardEvents l in listeners)
         l.PositionChanged();
     }
+    /// <summary>
+    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
+    /// </summary>
     public void UseItem()
     {
       foreach (IPokemonOutwardEvents l in listeners)
         l.UseItem();
     }
+    /// <summary>
+    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
+    /// </summary>
     public void UseMove(int moveType)
     {
       foreach (IPokemonOutwardEvents l in listeners)
         l.UseMove(moveType);
     }
+    /// <summary>
+    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
+    /// </summary>
     public void HpRecovered(int currentHp)
     {
       Hp.Value = currentHp;
       foreach (IPokemonOutwardEvents l in listeners)
         l.HpRecovered();
     }
+    /// <summary>
+    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
+    /// </summary>
     public void Lv5DUp()
     {
       foreach (IPokemonOutwardEvents l in listeners)
         l.Lv5DUp();
     }
+    /// <summary>
+    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
+    /// </summary>
     public void Lv5DDown()
     {
       foreach (IPokemonOutwardEvents l in listeners)
         l.Lv5DDown();
     }
+    /// <summary>
+    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
+    /// </summary>
     public void SubstituteAppear()
     {
       foreach (IPokemonOutwardEvents l in listeners)
         l.SubstituteAppear();
     }
+    /// <summary>
+    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
+    /// </summary>
     public void SubstituteDisappear()
     {
       foreach (IPokemonOutwardEvents l in listeners)
         l.SubstituteDisappear();
     }
+    /// <summary>
+    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
+    /// </summary>
     public void ImageIdChanged()
     {
       foreach (IPokemonOutwardEvents l in listeners)
         l.ImageIdChanged();
       OnPropertyChanged(); //顺序没错
     }
+    /// <summary>
+    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
+    /// </summary>
     public void Withdrawn()
     {
       foreach (IPokemonOutwardEvents l in listeners)
@@ -141,10 +177,16 @@ namespace LightStudio.PokemonBattle.Game
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs("Name"));//据说性别虽然改变但不会显示出来
     }
+    /// <summary>
+    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
+    /// </summary>
     public void AddListener(IPokemonOutwardEvents listener)
     {
       listeners.Add(listener);
     }
+    /// <summary>
+    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
+    /// </summary>
     public void RemoveListener(IPokemonOutwardEvents listener)
     {
       listeners.Remove(listener);

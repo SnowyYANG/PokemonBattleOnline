@@ -56,49 +56,6 @@ namespace LightStudio.PokemonBattle.Game
       get { return mode; }
       set { if (!IsLocked) mode = value; }
     }
-    public int XBound
-    { 
-      get
-      {
-        switch (Mode)
-        {
-          case GameMode.Single:
-            return 1;
-          default:
-            System.Diagnostics.Debugger.Break();
-            return 0;
-        }
-      }
-    }
-    public int TeamCount
-    { get { return 2; } }
-    public int PlayersPerTeam
-    {
-      get
-      {
-        switch (Mode)
-        {
-          case GameMode.Single:
-            return 1;
-          default:
-            System.Diagnostics.Debugger.Break();
-            return 0;
-        }
-      }
-    }
-    public int OnboardPokemonsPerPlayer
-    {
-      get
-      {
-        switch (Mode)
-        {
-          case GameMode.Single:
-            return 1;
-          default:
-            return 0;
-        }
-      }
-    }
     public Terrain Terrain
     {
       get { return terrain; }
@@ -129,24 +86,6 @@ namespace LightStudio.PokemonBattle.Game
     {
       if (idGen != null) return idGen.NextId();
       return idQue.Dequeue();
-    }
-    public int GetPlayerIndex(int x)
-    {
-      switch (Mode)
-      {
-        case GameMode.Single:
-          return 0;
-      }
-      return -1;
-    }
-    public int GetPokemonIndex(int x)
-    {
-      switch (Mode)
-      {
-        case GameMode.Single:
-          return 0;
-      }
-      return -1;
     }
 
     public void WriteToMessage(BinaryWriter writer)

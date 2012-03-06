@@ -25,6 +25,11 @@ namespace LightStudio
       dict.TryGetValue(key, out value);
       return value;
     }
+    public static T ValueOrDefault<T>(this IList<T> list, int index)
+    {
+      if (index >= 0 && index < list.Count) return list[index];
+      return default(T);
+    }
     public static bool DeValue<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, out TValue value)
     {
       if (dict.TryGetValue(key, out value))

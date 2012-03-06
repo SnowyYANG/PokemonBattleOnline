@@ -63,7 +63,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     { get { return teamPms; } }
     public TeamOutward RivalTeamPokemonsCount
     { get { return rivalPms; } }
-    public Pokemon[] Pokemons
+    public IEnumerable<Pokemon> Pokemons
     { get { return controller.Player.Pokemons; } }
 
     protected void OnPropertyChanged(string propertyName)
@@ -75,7 +75,8 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     {
       MessageBox.Show(pokemon.Id.ToString());
       return;
-      if (ControllingPokemon.CanSwitch && pokemon.Hp.Value > 0 && controller.Player.GetPokemonIndex(pokemon) > controller.Game.Settings.OnboardPokemonsPerPlayer )
+      if (ControllingPokemon.CanSwitch && pokemon.Hp.Value > 0 &&
+        pokemon.IndexInOwner > controller.Game.Settings.Mode.OnboardPokemonsPerPlayer())
         controller.Switch(ControllingPokemon, pokemon);
     }
     public void Move_Click(Move move)

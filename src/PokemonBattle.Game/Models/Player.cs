@@ -10,30 +10,39 @@ namespace LightStudio.PokemonBattle.Game
   {
     public readonly int Id;
     public readonly int TeamId;
-    public readonly Pokemon[] Pokemons;
+    private readonly Pokemon[] pokemons;
 
     public Player(int userId, int teamId, PokemonCustomInfo[] pokemons, GameSettings settings)
     {
       Id = userId;
       TeamId = teamId;
-      Pokemons = new Pokemon[pokemons.Length];
+      this.pokemons = new Pokemon[pokemons.Length];
       for (int i = 0; i < pokemons.Length; i++)
-        Pokemons[i] = new Pokemon(this, pokemons[i], settings);
+        this.pokemons[i] = new Pokemon(this, pokemons[i], settings);
     }
+    public IEnumerable<Pokemon> Pokemons
+    { get { return pokemons; } }
     public int AlivePms
-    { get { return Pokemons.Count((pm) => pm.Hp.Value > 0); } }
+    { get { return pokemons.Count((pm) => pm.Hp.Value > 0); } }
 
-    public Pokemon GetPokemon(int pmId)
+    public Pokemon GetPokemon(int pmIndex)
     {
-      foreach (Pokemon p in Pokemons)
-        if (p.Id == pmId) return p;
-      return null;
+      return pokemons.ValueOrDefault(pmIndex);
     }
     public int GetPokemonIndex(Pokemon pm)
     {
-      for (int i = 0; i < Pokemons.Length; i++)
-        if (Pokemons[i] == pm) return i;
+      for (int i = 0; i < pokemons.Length; i++)
+        if (pokemons[i] == pm) return i;
       return -1;
+    }
+    public void SwitchPokemon(int origin, int sendout)
+    {
+      if (origin >= 0 && origin < pokemons.Length && sendout >= 0 && sendout < pokemons.Length)
+      {
+        Pokemon temp = pokemons[origin];
+        pokemons[origin] = pokemons[sendout];
+        pokemons[sendout] = temp;
+      }
     }
   }
 }

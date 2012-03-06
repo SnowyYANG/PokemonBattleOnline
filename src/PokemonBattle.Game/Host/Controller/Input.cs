@@ -11,8 +11,9 @@ namespace LightStudio.PokemonBattle.Game
   /// </summary>
   internal class InputController : ControllerComponent
   {
-    internal event Action<int[]> RequireInput;
-    internal event Action<Player> InputSucceed;
+    public event Action<ReportFragment> ReportUpdated;
+    public event Action<int[]> RequireInput;
+    public event Action<Player> InputSucceed;
     HashSet<int> players;
     private Action InputFinished;
 
@@ -24,16 +25,16 @@ namespace LightStudio.PokemonBattle.Game
     private void CheckInputSucceed(Player player)
     {
       foreach (Tile t in Controller.Tiles)
-        if (t.ResponsiblePlayer == player)
+        if (Controller.GetPlayer(t) == player)
           if (t.Pokemon != null)
           {
             if (t.Pokemon.Action == PokemonAction.WaitingForInput) return;
           }
           else
           {
-            if (t.WillSendoutPokemon == null) return;
+            if (t.WillSendoutPokemonIndex == t.X) return;
           }
-      InputSucceed(player);
+      if (InputSucceed != null) InputSucceed(player);
       players.Remove(player.Id);
       if (players.Count == 0 && InputFinished != null) InputFinished();
     }
@@ -43,28 +44,26 @@ namespace LightStudio.PokemonBattle.Game
       InputFinished = inputFinished;
       foreach (Tile t in Controller.Tiles)
         if (Controller.CanSendout(t) || t.Pokemon.Action != PokemonAction.WaitingForInput)
-          players.Add(t.ResponsiblePlayer.Id);
-      if (players.Count > 0) RequireInput(players.ToArray());
+          players.Add(Controller.GetPlayer(t).Id);
+      if (players.Count > 0)
+      {
+        if (ReportUpdated != null) ReportUpdated(ReportBuilder.GetFragment());
+        if (RequireInput != null) RequireInput(players.ToArray());
+      }
       else InputFinished();
     }
-    public bool Switch(PokemonProxy withdraw, Pokemon sendout)
+    public bool Switch(PokemonProxy withdraw, int sendoutIndex)
     {
-      if (withdraw.Action == PokemonAction.WaitingForInput && withdraw.Pokemon.Owner == sendout.Owner)
-        return withdraw.InputSwitch(sendout);
+      if (withdraw.Action == PokemonAction.WaitingForInput)
+        return withdraw.InputSwitch(sendoutIndex);
       return false;
     }
-    /// <summary>
-    /// 死亡交换或蜻蜓返，与原作不同同时挂两头也是依次立刻交换 〈— 真要这样做我就傻了
-    /// </summary>
-    /// <param name="sendout"></param>
-    /// <param name="position"></param>
-    /// <returns>succeed or not</returns>
-    public bool Sendout(Pokemon sendout, Tile position)
+    public bool Sendout(Tile position, int sendoutIndex)
     {
-      if (Controller.CanSendout(sendout, position))
+      if (Controller.CanSendout(position, sendoutIndex))
       {
-        position.WillSendoutPokemon = sendout;
-        CheckInputSucceed(position.ResponsiblePlayer);
+        position.WillSendoutPokemonIndex = sendoutIndex;
+        CheckInputSucceed(Controller.GetPlayer(position));
         return true;
       }
       return false;
@@ -74,7 +73,7 @@ namespace LightStudio.PokemonBattle.Game
       if (move.Owner.Action == PokemonAction.WaitingForInput)
       {
         bool r = move.Owner.SelectMove(move, target);
-        if (r) CheckInputSucceed(target.ResponsiblePlayer);
+        if (r) CheckInputSucceed(Controller.GetPlayer(target));
         return r;
       }
       return false;
@@ -84,7 +83,7 @@ namespace LightStudio.PokemonBattle.Game
       if (pokemon.Action == PokemonAction.WaitingForInput)
       {
         bool r = pokemon.SelectMove(pokemon.StruggleMove, null);
-        if (r) CheckInputSucceed(pokemon.OnboardPokemon.Owner);
+        if (r) CheckInputSucceed(pokemon.Pokemon.Owner);
         return r;
       }
       return false;

@@ -11,7 +11,7 @@ namespace LightStudio.PokemonBattle.Game
   /// <summary>
   /// 在场pm数据副本，不一定正在对战，比如“转盘”
   /// </summary>
-  public class OnboardPokemon : ConditionalObject
+  internal class OnboardPokemon : ConditionalObject
   {
     private static double LvToCoeff(int lv)
     {
@@ -20,10 +20,6 @@ namespace LightStudio.PokemonBattle.Game
       else denominator -= lv;
       return numerator / denominator;
     }
-
-    private readonly Pokemon pokemon;
-    private readonly PokemonOutward Outward; //幻影
-    public readonly Player Owner;
 
     #region Data
     public BattleType Type1;
@@ -47,9 +43,6 @@ namespace LightStudio.PokemonBattle.Game
 
     internal OnboardPokemon(Pokemon pokemon, int x)
     {
-      this.pokemon = pokemon;
-      Owner = pokemon.Owner;
-
       Type1 = pokemon.PokemonType.Type1;
       Type2 = pokemon.PokemonType.Type2;
       Gender = pokemon.Gender;
@@ -61,77 +54,30 @@ namespace LightStudio.PokemonBattle.Game
       Lv5D = new SixD();
 
       Position = new Position(pokemon.TeamId, x);
-
-      //幻影new完后覆盖属性
-      Outward = new PokemonOutward(this, pokemon.Hp);
-      Outward.Name = pokemon.Name;
-      Outward.Gender = Gender;
-      Outward.ImageId = pokemon.PokemonType.Id;
     }
-
-    #region Properties
-    public int Id
-    { get { return pokemon.Id; } }
-    public int StruggleId
-    { get { return pokemon.StruggleId; } }
-    public int SwitchId
-    { get { return pokemon.SwitchId; } }
-    public string Name
-    { get { return pokemon.Name; } }
-    public int Lv
-    { get { return pokemon.Lv; } }
-    public int MaxHp
-    { get { return pokemon.Hp.Origin; } }
-    public int Hp
-    {
-      get { return pokemon.Hp.Value; }
-      set { pokemon.Hp.Value = value; }
-    }
-    public PokemonNature Nature
-    { get { return pokemon.Nature; } }
-    public PokemonState State
-    {
-      get { return pokemon.State; }
-      set { pokemon.State = value; }
-    }
-    public Item Item
-    {
-      get { return pokemon.Item; }
-      set { pokemon.Item = value; }
-    }
-    #endregion
-
-    public PokemonOutward GetOutward()
-    {
-      return Outward;
-    }
-
-    #region HpChange
-    /// <summary>
-    /// 到这一步特性道具什么的无视了，要查特效（比如坚硬）提前查
-    /// </summary>
-    /// <param name="damage"></param>
-    public void Hurt(int damage)
-    {
-      if (damage < pokemon.Hp.Value)
-      {
-        pokemon.Hp.Value -= damage;
-        Outward.Hurt();
-      }
-      else
-      {
-        pokemon.Hp.Value = 0;
-        Outward.Faint();
-      }
-    }
-    public void HurtTo(int hp)
-    {
-      if (hp > 0 && hp <= Hp) //就为了闪烁效果变成<=
-      {
-        pokemon.Hp.Value = hp;
-        Outward.Hurt();
-      }
-    }
-    #endregion
+    //#region HpChange
+    ///// <summary>
+    ///// 到这一步特性道具什么的无视了，要查特效（比如坚硬）提前查
+    ///// </summary>
+    ///// <param name="damage"></param>
+    //public void Hurt(int damage)
+    //{
+    //  if (damage < pokemon.Hp.Value)
+    //  {
+    //    pokemon.Hp.Value -= damage;
+    //  }
+    //  else
+    //  {
+    //    pokemon.Hp.Value = 0;
+    //  }
+    //}
+    //public void HurtTo(int hp)
+    //{
+    //  if (hp > 0 && hp <= Hp) //就为了闪烁效果变成<=
+    //  {
+    //    pokemon.Hp.Value = hp;
+    //  }
+    //}
+    //#endregion
   }
 }

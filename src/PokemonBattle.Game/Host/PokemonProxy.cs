@@ -7,36 +7,39 @@ using LightStudio.PokemonBattle.Interactive;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  public class PokemonProxy : Tactic.DataModels.GameElementProxy<Controller, OnboardPokemon>
+  public class PokemonProxy
   { 
     internal readonly Pokemon Pokemon;
     internal readonly OnboardPokemon OnboardPokemon;
+    protected readonly Controller Controller;
+    private PokemonOutward Outward; //幻影
 
     internal PokemonProxy(Controller controller, Pokemon pokemon, Tile tile)
-      : base(controller, new OnboardPokemon(pokemon, tile.X))
     {
+      Controller = controller;
+      Pokemon = pokemon;
+      OnboardPokemon = new OnboardPokemon(pokemon, tile.X);
+
       Moves = new MoveProxy[4];
       for (int i = 0; i < 4; i++)
         if (pokemon.Moves[i] != null) Moves[i] = new MoveProxy(Controller, pokemon.Moves[i], this);
       StruggleMove = new MoveProxy(controller, new Move(165, Controller.Game.Settings), this);
-      Pokemon = (controller as Controller).Game.GetPokemon(Model.Id);
-      OnboardPokemon = Model;
       Action = PokemonAction.Done;
+
+      BuildOutward();
     }
 
     public int Id
-    { get { return Model.Id; } }
+    { get { return Pokemon.Id; } }
     public PokemonAction Action
     { get; private set; }
     public MoveProxy SelectedMove //先取
-    { get; private set; }
-    internal Pokemon SwitchPokemon
     { get; private set; }
     internal Tile Tile
     { get { return Controller.GetTile(Position.Team, Position.X); } }
 
     public int Hp
-    { get { return Model.Hp; } }
+    { get { return Pokemon.Hp.Value; } }
     #region 7D
     public int Atk
     { get { throw new NotImplementedException(); } }
@@ -50,11 +53,14 @@ namespace LightStudio.PokemonBattle.Game
     { get { throw new NotImplementedException(); } }
     #endregion
     public Ability Ability
-    { get { return Model.Ability; } }
+    { 
+      get { return OnboardPokemon.Ability; }
+      set { }
+    }
     public Item Item
-    { get { return Model.Item; } }
+    { get { return Pokemon.Item; } }
     public Position Position
-    { get { return Model.Position; } }
+    { get { return OnboardPokemon.Position; } }
     public MoveProxy[] Moves
     { get; private set; }
     public MoveProxy StruggleMove
@@ -69,7 +75,7 @@ namespace LightStudio.PokemonBattle.Game
 
     public bool HasWorkingAbility(int abilityId)
     {
-      return Model.Ability.Id == abilityId && true;
+      return Ability.Id == abilityId && true;
     }
 
     #region Input
@@ -82,14 +88,14 @@ namespace LightStudio.PokemonBattle.Game
       }
       return false;
     }
-    internal bool InputSwitch(Pokemon sendout)
+    internal bool InputSwitch(int sendoutIndex)
     {
-      #warning 踩影子
-      if (CanWithdraw && Controller.CanSendout(sendout, Tile) &&
+      #warning 踩影子 我受不了啦用事件吧
+      if (CanWithdraw && Controller.CanSendout(Tile, sendoutIndex) &&
         true)
       {
         Action = PokemonAction.WillSwitch;
-        SwitchPokemon = sendout;
+        Tile.WillSendoutPokemonIndex = sendoutIndex;
         return true;
       }
       return false;
@@ -112,6 +118,19 @@ namespace LightStudio.PokemonBattle.Game
     }
     public void Act()
     {
+    }
+
+    public void BuildOutward()
+    {
+      //幻影new完后覆盖属性
+      Outward = new PokemonOutward(Pokemon, OnboardPokemon.Position);
+      Outward.Name = Pokemon.Name;
+      Outward.Gender = Pokemon.Gender;
+      Outward.ImageId = Pokemon.PokemonType.Id;
+    }
+    public PokemonOutward GetOutward()
+    {
+      return Outward;
     }
   }
 }

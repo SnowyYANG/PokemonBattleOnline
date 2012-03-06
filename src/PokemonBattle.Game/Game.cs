@@ -31,8 +31,8 @@ namespace LightStudio.PokemonBattle.Game
     public GameContext(GameSettings settings)
     {
       Settings = settings;
-      Teams = new Team[settings.TeamCount];
-      for (int i = 0; i < settings.TeamCount; i++)
+      Teams = new Team[settings.Mode.TeamCount()];
+      for (int i = 0; i < Teams.Length; i++)
         Teams[i] = new Team(i, settings);
       Board = new Board(this);
       Controller = new Controller(this);
@@ -74,7 +74,7 @@ namespace LightStudio.PokemonBattle.Game
     bool IGame.SetPlayer(int teamId, int userId, PokemonCustomInfo[] pokemons)
     {
       //TODO: Verify
-      return Teams[teamId].AddPlayer(userId, pokemons);
+      return Teams[teamId].AddPlayer(userId, pokemons) != null;
     }
     bool IGame.Start()
     {

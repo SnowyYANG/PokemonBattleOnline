@@ -31,7 +31,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     }
     void Challenge()
     {
-      new StartBattle(client, Model, new Game.GameSettings(Data.GameMode.Single), false).Show();
+      new StartBattle(client, Model, new Game.GameSettings(Game.GameMode.Single), false).Show();
     }
   }
 }

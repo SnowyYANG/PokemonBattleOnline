@@ -8,7 +8,7 @@ namespace LightStudio.PokemonBattle.Game
 {
   public class Controller
   {
-    public event Action PokemonWithdrawing
+    public event Action PokemonWithdrawing //追击
     {
       add { SwitchController.PokemonWithdrawing += value; }
       remove { SwitchController.PokemonWithdrawing -= value; }
@@ -18,7 +18,11 @@ namespace LightStudio.PokemonBattle.Game
       add { InputController.RequireInput += value; }
       remove { InputController.RequireInput -= value; }
     }
-    internal event Action<ReportFragment> ReportUpdated;
+    internal event Action<ReportFragment> ReportUpdated
+    {
+      add { InputController.ReportUpdated += value; }
+      remove { InputController.ReportUpdated -= value; }
+    }
 
     public readonly ReportBuilder ReportBuilder;
     internal readonly GameContext Game;
@@ -51,6 +55,10 @@ namespace LightStudio.PokemonBattle.Game
     {
       return Game.Board[team, x];
     }
+    internal Player GetPlayer(Tile tile)
+    {
+      return Game.Teams[tile.Team].GetPlayer(Game.Settings.Mode.GetPlayerIndex(tile.X));
+    }
     #endregion
 
     #region Turn Loop
@@ -64,16 +72,15 @@ namespace LightStudio.PokemonBattle.Game
     internal void ContinueAfterInput(Action inputFinished)
     {
       random = new Random();
-      ReportUpdated(ReportBuilder.GetFragment());
       InputController.ContinueAfterInput(inputFinished);
     }
-    internal bool InputSwitch(PokemonProxy withdraw, Pokemon sendout)
+    internal bool InputSwitch(PokemonProxy withdraw, int sendoutIndex)
     {
-      return InputController.Switch(withdraw, sendout);
+      return InputController.Switch(withdraw, sendoutIndex);
     }
-    internal bool InputSendout(Pokemon sendout, Tile position)
+    internal bool InputSendout(Tile position, int sendoutIndex)
     {
-      return InputController.Sendout(sendout, position);
+      return InputController.Sendout(position, sendoutIndex);
     }
     internal bool InputSelectMove(MoveProxy move, Tile position)
     {
@@ -90,13 +97,13 @@ namespace LightStudio.PokemonBattle.Game
     {
       return SwitchController.CanSendout(tile);
     }
+    public bool CanSendout(Tile tile, int sendoutIndex)
+    {
+      return SwitchController.CanSendout(tile, sendoutIndex);
+    }
     public bool CanWithdraw(PokemonProxy pm)
     {
       return SwitchController.CanWithdraw(pm);
-    }
-    public bool CanSendout(Pokemon pm, Tile tile)
-    {
-      return SwitchController.CanSendout(pm, tile);
     }
     public bool Withdraw(PokemonProxy pm)
     {

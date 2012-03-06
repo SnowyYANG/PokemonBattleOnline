@@ -17,11 +17,11 @@ namespace LightStudio.PokemonBattle.Interactive
     }
     public static ActionInput Switch(SimPokemon withdraw, Pokemon sendout)
     {
-      return new ActionInput(withdraw.SwitchId) { SendoutId = sendout.Id };
+      return new ActionInput(withdraw.SwitchId) { SendoutIndex = sendout.IndexInOwner };
     }
     public static ActionInput Sendout(Pokemon sendout, Tile target)
     {
-      return new ActionInput(0) { SendoutId = sendout.Id, TargetTeam = target.Team, TargetX = target.X };
+      return new ActionInput(0) { SendoutIndex = sendout.IndexInOwner, TargetTeam = target.Team, TargetX = target.X };
     }
     public static ActionInput Struggle(SimPokemon pm)
     {
@@ -38,7 +38,7 @@ namespace LightStudio.PokemonBattle.Interactive
     int TargetX = -1;
 
     [DataMember(EmitDefaultValue = false)]
-    int SendoutId;
+    int SendoutIndex;
 
     private ActionInput(int actionId)
     {
@@ -50,17 +50,13 @@ namespace LightStudio.PokemonBattle.Interactive
     /// </summary>
     internal bool Input(Controller controller, Player player)
     {
-      if (SendoutId != 0)
+      if (SendoutIndex != 0) //虽然用-1更好，不过0也不会错，还省流量
       {
-        Pokemon sendout = controller.Game.GetPokemon(SendoutId);
-        if (sendout.Owner == player)
-        {
-          if (ActionId == 0)
-            return controller.InputSendout(sendout, controller.GetTile(TargetTeam, TargetX));
-          foreach (PokemonProxy p in controller.OnboardPokemons)
-            if (p.Pokemon.SwitchId == ActionId && p.Pokemon.Owner == player)
-              return controller.InputSwitch(p, sendout);
-        }
+        if (ActionId == 0)
+          return controller.InputSendout(controller.GetTile(TargetTeam, TargetX), SendoutIndex);
+        foreach (PokemonProxy p in controller.OnboardPokemons)
+          if (p.Pokemon.SwitchId == ActionId && p.Pokemon.Owner == player)
+            return controller.InputSwitch(p, SendoutIndex);
       }
       else
       {

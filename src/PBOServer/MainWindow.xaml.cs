@@ -28,7 +28,7 @@ namespace LightStudio.PokemonBattle.PBO.Server
 
     public MainWindow()
     {
-      UIDispatcher.Init(Dispatcher);
+      WpfDispatcher.Init(Dispatcher);
       InitializeComponent();
       StartServer();
     }
@@ -84,7 +84,7 @@ namespace LightStudio.PokemonBattle.PBO.Server
     void model_UserChanged(LobbyServer sender, int userId)
     {
       //thread
-      UIDispatcher.Invoke(() =>
+      WpfDispatcher.Invoke(() =>
         {
           User u = sender.GetUser(userId);
           UserVM uvm = usersDictionary.ValueOrDefault(userId);
@@ -106,7 +106,7 @@ namespace LightStudio.PokemonBattle.PBO.Server
     void model_MessageBroadcast(LobbyServer model, int userId, string content)
     {
       User u = model.GetUser(userId);
-      UIDispatcher.Invoke(() =>
+      WpfDispatcher.Invoke(() =>
         {
           if (u != null) chat.AppendText("\n" + u.Name + ": " + content);
           else chat.AppendText("\n" + "[" + userId + "]" + ": " + content);
