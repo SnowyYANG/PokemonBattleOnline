@@ -54,15 +54,25 @@ namespace LightStudio.PokemonBattle.Game
     }
     public bool Switch(PokemonProxy withdraw, int sendoutIndex)
     {
+      if (withdraw.Action == PokemonAction.WillWithdraw)
+        withdraw.Pokemon.Owner.SwitchPokemon(withdraw.Pokemon.IndexInOwner, GameSettings.Mode.GetPokemonIndex(withdraw.Tile.X));
+      withdraw.UndoInput();
       if (withdraw.Action == PokemonAction.WaitingForInput)
-        return withdraw.InputSwitch(sendoutIndex);
+      {
+        if (withdraw.InputWithdraw())
+        {
+          withdraw.Pokemon.Owner.SwitchPokemon(withdraw.Pokemon.IndexInOwner, sendoutIndex);
+          CheckInputSucceed(withdraw.Pokemon.Owner);
+        }
+      }
       return false;
     }
     public bool Sendout(Tile position, int sendoutIndex)
     {
       if (Controller.CanSendout(position, sendoutIndex))
       {
-        position.WillSendoutPokemonIndex = sendoutIndex;
+        Player player = Controller.GetPlayer(position);
+        player.SwitchPokemon(GameSettings.Mode.GetPokemonIndex(position.X), sendoutIndex);
         CheckInputSucceed(Controller.GetPlayer(position));
         return true;
       }
@@ -70,16 +80,18 @@ namespace LightStudio.PokemonBattle.Game
     }
     public bool SelectMove(MoveProxy move, Tile target)
     {
+      move.Owner.UndoInput();
       if (move.Owner.Action == PokemonAction.WaitingForInput)
       {
         bool r = move.Owner.SelectMove(move, target);
-        if (r) CheckInputSucceed(Controller.GetPlayer(target));
+        if (r) CheckInputSucceed(move.Owner.Pokemon.Owner);
         return r;
       }
       return false;
     }
     public bool Struggle(PokemonProxy pokemon)
     {
+      pokemon.UndoInput();
       if (pokemon.Action == PokemonAction.WaitingForInput)
       {
         bool r = pokemon.SelectMove(pokemon.StruggleMove, null);

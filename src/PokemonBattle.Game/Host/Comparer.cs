@@ -16,9 +16,9 @@ namespace LightStudio.PokemonBattle.Game
 
     public int Compare(PokemonProxy a, PokemonProxy b)
     {
-      if (a.Action == PokemonAction.WillSwitch && b.Action == PokemonAction.WillSwitch) return CompareSpeed(a.Speed, b.Speed);
-      if (a.Action == PokemonAction.WillSwitch) return 1;
-      if (b.Action == PokemonAction.WillSwitch) return -1;
+      if (a.Action == PokemonAction.WillWithdraw && b.Action == PokemonAction.WillWithdraw) return CompareSpeed(a.Speed, b.Speed);
+      if (a.Action == PokemonAction.WillWithdraw) return 1;
+      if (b.Action == PokemonAction.WillWithdraw) return -1;
 
       if (a.SelectedMove.Priority != b.SelectedMove.Priority)
         return a.SelectedMove.Priority - b.SelectedMove.Priority;
