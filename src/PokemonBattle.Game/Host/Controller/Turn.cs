@@ -55,21 +55,17 @@ namespace LightStudio.PokemonBattle.Game
       }
     }
 
-    public void BeginTurn()
+    internal void BeginTurn()
     {
       bool needInput = false;
       foreach (PokemonProxy p in OnboardPokemons)
         needInput |= p.CheckNeedInput();
       if (needInput) Controller.ContinueAfterInput(Prepare);
-      else
-      {
-        //这算为了性能没有Prepare()么？
-        SortOnboardPokemons();
-        Action();
-      }
+      else Prepare();
     }
     private void Prepare()
     {
+      ReportBuilder.AddNewTurn();
       SortOnboardPokemons();
       foreach (PokemonProxy p in OnboardPokemons)
         p.Prepare();
@@ -77,16 +73,15 @@ namespace LightStudio.PokemonBattle.Game
     }
     public void Action() //蜻蜓返的inputFinished
     {
-      ReportBuilder.AddNewTurn();
-      foreach (PokemonProxy p in OnboardPokemons)
-        if (p.Action == PokemonAction.WillMove || p.Action == PokemonAction.WillSwitch)
+      bool canEndTurn = true;
+      foreach (PokemonProxy p in OnboardPokemons)//OnboardPokemons可能变动
+        if (p.Act())
         {
-          p.Act();
+          canEndTurn = false;
+          break;
         }
-      foreach (PokemonProxy p in OnboardPokemons)
-        if (p.Action != PokemonAction.Done && p.Action != PokemonAction.Done && p.Action != PokemonAction.Stiff)
-          return;
-      EndTurnEffects();
+      if (canEndTurn) EndTurnEffects();
+      else Action();
     }
     private void EndTurnEffects()
     {

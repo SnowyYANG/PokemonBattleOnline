@@ -49,9 +49,8 @@ namespace LightStudio.PokemonBattle.Interactive
     /// <summary>
     /// 虽然是private set，但每个技能还是能set的
     /// </summary>
-    public Move[] Moves { get; private set; }
-    public bool IsActive { get; internal set; }
-    public bool CanUseMove { get; internal set; }
+    public SimMove[] Moves { get; private set; }
+    public bool CanSelectMove { get; internal set; }
     public bool CanStruggle { get; internal set; }
     public bool CanSwitch { get; internal set; }
 
@@ -66,11 +65,12 @@ namespace LightStudio.PokemonBattle.Interactive
       Outward = outward;
       //Owner = pokemon.Owner;
       Position = outward.Position;
-      Moves = new Move[4] { pokemon.Moves[0], pokemon.Moves[1], pokemon.Moves[2], pokemon.Moves[3] };
-      IsActive = true;
-      foreach (Move m in Moves)
-        if (m != null && m.PP.Value > 0) CanUseMove = true;
-      CanStruggle = !CanUseMove;
+      Moves = new SimMove[4];
+      for (int i = 0; i < 4; i++)
+        if (pokemon.Moves[i] != null) Moves[i] = new SimMove(pokemon.Moves[i]);
+      foreach (SimMove m in Moves)
+        if (m != null && m.CanBeSelected) CanSelectMove = true;
+      CanStruggle = !CanSelectMove;
       CanSwitch = true;
     }
   }

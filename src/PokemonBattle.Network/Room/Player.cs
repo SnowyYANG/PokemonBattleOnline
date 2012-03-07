@@ -37,7 +37,7 @@ namespace LightStudio.PokemonBattle.Room
     SimGame IPlayerController.Game
     { get { return game; } }
 
-    bool IPlayerController.UseMove(Move move, Tile target)
+    bool IPlayerController.UseMove(SimMove move, Tile target)
     {
       //TODO: verify
       sendCommand(new InputCommand(ActionInput.UseMove(move, target)));
@@ -102,9 +102,13 @@ namespace LightStudio.PokemonBattle.Room
     }
     protected override void InformInputFail()
     {
+      foreach (IPlayerControllerEvents l in listeners)
+        l.InputFailed();
     }
     protected override void InformInputSucceed()
     {
+      foreach (IPlayerControllerEvents l in listeners)
+        l.InputSucceeded();
     }
     #endregion
 

@@ -45,65 +45,12 @@ namespace LightStudio.PokemonBattle.Interactive
     }
     #endregion
 
-    public abstract IText GetGameLog();
+    public abstract IText GetGameLog(GameOutward game);
     public virtual void Update(GameOutward game)
     {
     }
     public virtual void Update(SimGame game)
     {
-    }
-  }
-
-  [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class BeginTurn : GameEvent
-  {
-    [DataMember(EmitDefaultValue = false)]
-    int TurnNumber;
-
-    public BeginTurn(int turnNumber)
-    {
-      TurnNumber = turnNumber;
-    }
-    public override IText GetGameLog()
-    {
-      if (TurnNumber == 0) return GetGameLog(GAMESTART);
-      IText t = GetGameLog(BEGINTURN);
-      t.SetData(TurnNumber);
-      return t;
-    }
-  }
-  
-  [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class SendOut : GameEvent
-  {
-    [DataMember]
-    public int PlayerId { get; private set; }
-    [DataMember]
-    public PokemonOutward Pokemon { get; private set; }
-
-    public SendOut(int playerId, PokemonOutward pokemon)
-    {
-      PlayerId = playerId;
-      Pokemon = pokemon;
-    }
-    public override IText GetGameLog()
-    {
-      IText t = GetGameLog(SENDOUT);
-      t.SetData(this);
-      return t;
-    }
-    public override void Update(GameOutward game)
-    {
-      game.Board[Pokemon.Position.Team, Pokemon.Position.X] = Pokemon;
-      game.Board.PokemonSentout(Pokemon.Position.Team, Pokemon.Position.X);
-    }
-    public override void Update(SimGame game)
-    {
-      if (Pokemon.Position.Team == game.Team.Id)
-      {
-        game.Pokemons[Pokemon.Position.X] = new SimPokemon(game.Team.Pokemons[Pokemon.Id], Pokemon);
-        game.ActivePokemons.Add(game.Pokemons[Pokemon.Position.X]);
-      }
     }
   }
 }

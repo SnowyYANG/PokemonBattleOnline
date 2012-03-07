@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.Game
     Player Player { get; }
     SimGame Game { get; }
 
-    bool UseMove(Move move, Tile tile = null);
+    bool UseMove(SimMove move, Tile tile = null);
     bool Switch(SimPokemon withdraw, Pokemon sendout);
     bool Struggle(SimPokemon pm);
     //bool TurnLeft();

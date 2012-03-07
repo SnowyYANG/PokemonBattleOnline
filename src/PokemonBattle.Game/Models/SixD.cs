@@ -6,14 +6,24 @@ using StatType = LightStudio.PokemonBattle.Data.StatType;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  public class ReadOnly6D
+  public interface I6D
   {
-    public readonly int Hp;
-    public readonly int Atk;
-    public readonly int Def;
-    public readonly int SpAtk;
-    public readonly int SpDef;
-    public readonly int Speed;
+    int Hp { get; }
+    int Atk { get; }
+    int Def { get; }
+    int SpAtk { get; }
+    int SpDef { get; }
+    int Speed { get; }
+    int GetStat(StatType type);
+  }
+  public class ReadOnly6D : I6D
+  {
+    public int Hp { get; private set; }
+    public int Atk { get; private set; }
+    public int Def { get; private set; }
+    public int SpAtk { get; private set; }
+    public int SpDef { get; private set; }
+    public int Speed { get; private set; }
 
     public ReadOnly6D()
     {
@@ -80,14 +90,14 @@ namespace LightStudio.PokemonBattle.Game
   /// <summary>
   /// 这东西存的是引用，所以不要在pm间直接传来传去，不用struct是为了性能及避免隐藏的错误
   /// </summary>
-  public class SixD
+  public class SixD : I6D
   {
-    public int Hp;
-    public int Atk;
-    public int Def;
-    public int SpAtk;
-    public int SpDef;
-    public int Speed;
+    public int Hp { get; set; }
+    public int Atk { get; set; }
+    public int Def { get; set; }
+    public int SpAtk { get; set; }
+    public int SpDef { get; set; }
+    public int Speed { get; set; }
 
     public SixD()
     {

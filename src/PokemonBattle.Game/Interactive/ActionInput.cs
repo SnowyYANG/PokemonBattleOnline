@@ -11,9 +11,9 @@ namespace LightStudio.PokemonBattle.Interactive
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class ActionInput
   {
-    public static ActionInput UseMove(Move move, Tile target)
+    public static ActionInput UseMove(SimMove move, Tile target)
     {
-      return new ActionInput(move.Id) { TargetTeam = target.Team, TargetX = target.X };
+      return new ActionInput(move.Move.Id) { TargetTeam = target.Team, TargetX = target.X };
     }
     public static ActionInput Switch(SimPokemon withdraw, Pokemon sendout)
     {

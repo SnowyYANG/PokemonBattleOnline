@@ -22,7 +22,7 @@ namespace LightStudio.Tactic.DataModels
     bool IsUnderlined { get; }
     Alignment Alignment { get; }
 
-    void SetData(object data);
+    void SetData(params object[] data);
     string Text { get; }
     IText[] Contents { get; }
   }
@@ -81,7 +81,7 @@ namespace LightStudio.Tactic.DataModels
       }
     }
 
-    public virtual void SetData(object data)
+    public virtual void SetData(params object[] data)
     {
       if (Contents != null)
         foreach (IText t in Contents)

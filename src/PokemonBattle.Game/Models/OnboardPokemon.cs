@@ -11,17 +11,10 @@ namespace LightStudio.PokemonBattle.Game
   /// <summary>
   /// 在场pm数据副本，不一定正在对战，比如“转盘”
   /// </summary>
-  internal class OnboardPokemon : ConditionalObject
+  public class OnboardPokemon : ConditionalObject
   {
-    private static double LvToCoeff(int lv)
-    {
-      double denominator = 2, numerator = 2;
-      if (lv > 0) numerator += lv;
-      else denominator -= lv;
-      return numerator / denominator;
-    }
-
     #region Data
+    public readonly Position Position;
     public BattleType Type1;
     public BattleType Type2;
     public PokemonGender Gender;
@@ -29,17 +22,11 @@ namespace LightStudio.PokemonBattle.Game
     public readonly SixD Base; //百变怪变成会围攻
     public readonly SixD Iv; //模仿觉醒力
     public readonly SixD Ev;
-    public readonly SixD Static; //包含性格修正，不包含等级修正
-    public readonly SixD Lv5D;
-    public int AccuracyLv;
-    public int AvoidanceLv;
+    public readonly SixD Static; //力量交换，包含性格修正，不包含等级修正
+    private readonly SixD lv5D;
+    private int accuracyLv;
+    private int evasionLv;
     #endregion
-
-    public readonly Position Position;
-    public bool IsActive { get; internal set; } //这个是外界设置吧
-    public bool CanUseMove { get; internal set; }
-    public bool CanStruggle { get; internal set; }
-    public bool CanSwitch { get; internal set; }
 
     internal OnboardPokemon(Pokemon pokemon, int x)
     {
@@ -51,10 +38,24 @@ namespace LightStudio.PokemonBattle.Game
       Iv = new SixD(pokemon.Iv);
       Ev = new SixD(pokemon.Ev);
       Static = new SixD(pokemon.Static);
-      Lv5D = new SixD();
+      lv5D = new SixD();
 
       Position = new Position(pokemon.TeamId, x);
     }
+
+    public double Get5D(StatType stat)
+    {
+      double coeff;
+      {
+        int lv = lv5D.GetStat(stat);
+        double denominator = 2, numerator = 2;
+        if (lv > 0) numerator += lv;
+        else denominator -= lv;
+        coeff = numerator / denominator;
+      }
+      return Static.GetStat(stat) * coeff;
+    }
+
     //#region HpChange
     ///// <summary>
     ///// 到这一步特性道具什么的无视了，要查特效（比如坚硬）提前查

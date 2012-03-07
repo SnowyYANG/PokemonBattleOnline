@@ -96,15 +96,16 @@ namespace LightStudio.PokemonBattle.Data
       Triggers[key] = value;
     }
 
-    public override void SetData(object data)
+    public override void SetData(params object[] data)
     {
-      if (string.IsNullOrWhiteSpace(PropertyName)) Value = data;
+      if (data.Length < 1) return;
+      if (string.IsNullOrWhiteSpace(PropertyName)) Value = data[0];
       else
       {
-        PropertyInfo p = data.GetType().GetProperty(PropertyName);
-        if (p != null) Value = p.GetValue(data, null);
+        PropertyInfo p = data[0].GetType().GetProperty(PropertyName);
+        if (p != null) Value = p.GetValue(data[0], null);
       }
-      base.SetData(data);
+      base.SetData(data[0]);
     }
   }
 }

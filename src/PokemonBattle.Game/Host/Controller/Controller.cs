@@ -8,7 +8,7 @@ namespace LightStudio.PokemonBattle.Game
 {
   public class Controller
   {
-    public event Action PokemonWithdrawing //追击
+    public event Action<PokemonProxy> PokemonWithdrawing //追击
     {
       add { SwitchController.PokemonWithdrawing += value; }
       remove { SwitchController.PokemonWithdrawing -= value; }
@@ -17,6 +17,11 @@ namespace LightStudio.PokemonBattle.Game
     {
       add { InputController.RequireInput += value; }
       remove { InputController.RequireInput -= value; }
+    }
+    internal event Action<Player> InputSucceed
+    {
+      add { InputController.InputSucceed += value; }
+      remove { InputController.InputSucceed -= value; }
     }
     internal event Action<ReportFragment> ReportUpdated
     {
@@ -59,6 +64,18 @@ namespace LightStudio.PokemonBattle.Game
     {
       return Game.Teams[tile.Team].GetPlayer(Game.Settings.Mode.GetPlayerIndex(tile.X));
     }
+    public bool HasAvailableAbility(int abilityId)
+    {
+      foreach (PokemonProxy pm in OnboardPokemons)
+        if (pm.HasWorkingAbility(abilityId)) return true;
+      return false;
+    }
+    public bool HasAvailableAbility(int teamId, int abilityId)
+    {
+      foreach (PokemonProxy pm in OnboardPokemons)
+        if (pm.Position.Team == teamId && pm.HasWorkingAbility(abilityId)) return true;
+      return false;
+    }
     #endregion
 
     #region Turn Loop
@@ -66,6 +83,10 @@ namespace LightStudio.PokemonBattle.Game
     {
       ReportBuilder.NewFragment();
       TurnController.BeginTurn();
+    }
+    public void Action() //蜻蜓返专用后门
+    {
+      TurnController.Action();
     }
     #endregion
 
@@ -115,18 +136,5 @@ namespace LightStudio.PokemonBattle.Game
       return SwitchController.Sendout(position);
     }
     #endregion
-
-    public bool HasAvailableAbility(int abilityId)
-    {
-      foreach (PokemonProxy pm in OnboardPokemons)
-        if (pm.HasWorkingAbility(abilityId)) return true;
-      return false;
-    }
-    public bool HasAvailableAbility(int teamId, int abilityId)
-    {
-      foreach (PokemonProxy pm in OnboardPokemons)
-        if (pm.Position.Team == teamId && pm.HasWorkingAbility(abilityId)) return true;
-      return false;
-    }  
   }
 }

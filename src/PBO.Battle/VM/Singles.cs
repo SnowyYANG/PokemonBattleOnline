@@ -56,7 +56,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     public Visibility UndoVisibility
     { get { return Visibility.Collapsed; } }
     public bool IsFightEnabled
-    { get { return ControllingPokemon != null && (ControllingPokemon.CanStruggle || ControllingPokemon.CanUseMove); } }
+    { get { return ControllingPokemon != null && (ControllingPokemon.CanStruggle || ControllingPokemon.CanSelectMove); } }
     public bool IsSwitchEnabled
     { get { return ControllingPokemon != null && ControllingPokemon.CanSwitch; } }
     public TeamOutward TeamPokemonsCount
@@ -74,12 +74,12 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     public void Pokemon_Click(Pokemon pokemon)
     {
       if (ControllingPokemon.CanSwitch && pokemon.Hp.Value > 0 &&
-        pokemon.IndexInOwner > controller.Game.Settings.Mode.OnboardPokemonsPerPlayer())
+        pokemon.IndexInOwner >= controller.Game.Settings.Mode.OnboardPokemonsPerPlayer())
         controller.Switch(ControllingPokemon, pokemon);
     }
-    public void Move_Click(Move move)
+    public void Move_Click(SimMove move)
     {
-      if (ControllingPokemon.CanUseMove && move.CanSelect)
+      if (ControllingPokemon.CanSelectMove && move.CanBeSelected)
         controller.UseMove(move);
     }
     public void Struggle_Click()

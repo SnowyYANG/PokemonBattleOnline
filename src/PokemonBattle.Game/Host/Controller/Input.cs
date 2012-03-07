@@ -34,8 +34,8 @@ namespace LightStudio.PokemonBattle.Game
           {
             if (t.WillSendoutPokemonIndex == t.X) return;
           }
-      if (InputSucceed != null) InputSucceed(player);
       players.Remove(player.Id);
+      if (InputSucceed != null) InputSucceed(player);
       if (players.Count == 0 && InputFinished != null) InputFinished();
     }
     public void ContinueAfterInput(Action inputFinished)
@@ -55,9 +55,12 @@ namespace LightStudio.PokemonBattle.Game
     }
     public bool Switch(PokemonProxy withdraw, int sendoutIndex)
     {
-      withdraw.UndoInput();
-      if (withdraw.Action == PokemonAction.WaitingForInput)
-        return withdraw.InputSwitch(sendoutIndex);
+      if (withdraw.UndoInput())
+      {
+        bool r = withdraw.InputSwitch(sendoutIndex);
+        if (r) CheckInputSucceed(withdraw.Pokemon.Owner);
+        return r;
+      }
       return false;
     }
     public bool Sendout(Tile position, int sendoutIndex)
@@ -72,8 +75,7 @@ namespace LightStudio.PokemonBattle.Game
     }
     public bool SelectMove(MoveProxy move, Tile target)
     {
-      move.Owner.UndoInput();
-      if (move.Owner.Action == PokemonAction.WaitingForInput)
+      if (move.Owner.UndoInput())
       {
         bool r = move.Owner.SelectMove(move, target);
         if (r) CheckInputSucceed(move.Owner.Pokemon.Owner);

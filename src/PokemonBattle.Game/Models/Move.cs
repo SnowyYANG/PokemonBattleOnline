@@ -12,11 +12,6 @@ namespace LightStudio.PokemonBattle.Game
     public MoveType Type { get; private set; }
     public PairValue PP { get; private set; }
 
-    /// <summary>
-    /// CanSelect不代表技能一定能用，http://www.smogon.com/dp/articles/move_restrictions#disable
-    /// </summary>
-    public bool CanSelect { get; internal set; }
-
     public Move(int moveType, GameSettings settings)
     {
       Id = settings.NextId();

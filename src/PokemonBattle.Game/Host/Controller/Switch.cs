@@ -7,7 +7,8 @@ namespace LightStudio.PokemonBattle.Game
 {
   class SwitchController : ControllerComponent
   {
-    public event Action PokemonWithdrawing;
+    //如果追击的攻击范围内对方交换怪兽，则追击无视原本所选目标，改为攻击对方最快交换的怪兽。
+    public event Action<PokemonProxy> PokemonWithdrawing;
 
     public SwitchController(Controller controller)
       : base(controller)
@@ -21,7 +22,10 @@ namespace LightStudio.PokemonBattle.Game
     }
     public bool CanSendout(Tile tile)
     {
-      return tile.Pokemon == null && Controller.GetPlayer(tile).AlivePms > GameSettings.Mode.OnboardPokemonsPerPlayer();
+      Player p = Controller.GetPlayer(tile);
+      return tile.Pokemon == null &&
+        (p.AlivePms > GameSettings.Mode.OnboardPokemonsPerPlayer() ||
+        (p.AlivePms == GameSettings.Mode.OnboardPokemonsPerPlayer() && p.GetPokemon(GameSettings.Mode.GetPokemonIndex(tile.X)).Hp.Value == 0));
     }
     public bool CanSendout(Pokemon pokemon)
     {
@@ -32,10 +36,11 @@ namespace LightStudio.PokemonBattle.Game
     {
       if (CanWithdraw(pm))
       {
-        if (PokemonWithdrawing != null) PokemonWithdrawing();
+        if (PokemonWithdrawing != null) PokemonWithdrawing(pm);
         pm.Tile.Pokemon = null;
         Controller.OnboardPokemons.Remove(pm);
         ReportBuilder.AddWithdraw(pm);
+        return true;
       }
       return false;
     }
@@ -46,11 +51,11 @@ namespace LightStudio.PokemonBattle.Game
       int sendout = tile.WillSendoutPokemonIndex;
       if ((ReportBuilder.TurnNumber == 0 && origin == sendout) || (CanSendout(tile) && CanSendout(p.GetPokemon(sendout))))
       {
-        p.SwitchPokemon(origin, sendout);
         PokemonProxy pm = new PokemonProxy(Controller, p.GetPokemon(sendout), tile);
+        p.SwitchPokemon(origin, sendout); //为了幻影交换必须在构建实例之后
         tile.Pokemon = pm;
         tile.WillSendoutPokemonIndex = Tile.NOPM_INDEX;
-        Controller.OnboardPokemons.Add(pm);
+        Controller.OnboardPokemons.Insert(0, pm);
         ReportBuilder.AddSendout(pm); 
         return true;
       }

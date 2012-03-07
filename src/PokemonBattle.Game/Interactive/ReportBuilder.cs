@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Game;
 using LightStudio.PokemonBattle.Data;
+using LightStudio.PokemonBattle.Interactive.GameEvents;
 
 namespace LightStudio.PokemonBattle.Interactive
 {
@@ -62,10 +63,7 @@ namespace LightStudio.PokemonBattle.Interactive
     }
     internal void AddWithdraw(PokemonProxy pm)
     {
-      //xxx倒下了
-      //xxx把xxx收了回去
-      //xxx回到了xxx身边
-      System.Diagnostics.Debugger.Break();
+      current.AddEvent(new Withdraw(pm));
     }
   }
 }

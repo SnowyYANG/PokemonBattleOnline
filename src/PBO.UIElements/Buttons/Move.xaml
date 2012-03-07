@@ -47,7 +47,7 @@
                         <ContentControl Content="{Binding Type.Type}" ContentTemplate="{x:Static ui:Labels.BattleType}" Canvas.Left="20" Canvas.Top="24" Width="35"/>
                     </Canvas>
                     <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding CanSelect}" Value="False">
+                        <DataTrigger Binding="{Binding CanBeSelected}" Value="False">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
                     </DataTemplate.Triggers>

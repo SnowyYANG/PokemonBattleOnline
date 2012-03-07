@@ -15,6 +15,7 @@ namespace LightStudio.PokemonBattle.Game
     event Action<int, int> GameEnd;
     event Action<ReportFragment> ReportUpdated;
     event Action<int[]> RequireInput;
+    event Action<Player> InputSucceed;
 
     bool Prepared { get; }
     GameSettings Settings { get; }

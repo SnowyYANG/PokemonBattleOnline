@@ -23,6 +23,11 @@ namespace LightStudio.PokemonBattle.Game
       add { Controller.RequireInput += value; }
       remove { Controller.RequireInput -= value; }
     }
+    public event Action<Player> InputSucceed
+    {
+      add { Controller.InputSucceed += value; }
+      remove { Controller.InputSucceed -= value; }
+    }
 
     public readonly Board Board;
     public readonly Team[] Teams;

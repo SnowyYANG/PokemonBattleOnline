@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
+using LightStudio.PokemonBattle.Interactive;
 using LightStudio.PokemonBattle.PBO.Battle.VM;
 
 namespace LightStudio.PokemonBattle.PBO.Battle
@@ -70,7 +71,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     }
     private void move_Click(object sender, RoutedEventArgs e)
     {
-      Move move = ((Button)sender).Content as Move;
+      SimMove move = ((Button)sender).Content as SimMove;
       if (move != null) vm.Move_Click(move);
     }
     private void pokemon_Click(object sender, RoutedEventArgs e)

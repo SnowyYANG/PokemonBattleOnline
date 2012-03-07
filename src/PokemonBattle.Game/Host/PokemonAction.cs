@@ -10,6 +10,8 @@ namespace LightStudio.PokemonBattle.Game
     WaitingForInput,
     WillSwitch,
     WillMove,
+    SwitchPrepared,
+    MovePrepared,
     Switching,
     Moving,
     Done,

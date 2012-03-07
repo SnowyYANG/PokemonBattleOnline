@@ -8,11 +8,31 @@ using LightStudio.PokemonBattle.Interactive;
 namespace LightStudio.PokemonBattle.Game
 {
   public class PokemonProxy
-  { 
+  {
+    private static PokemonOutward BuildOutward(PokemonProxy p)
+    {
+      //幻影new完后覆盖属性
+      Pokemon opm = p.Pokemon;
+      PokemonOutward o = new PokemonOutward(opm, p.OnboardPokemon.Position);
+      if (p.HasWorkingAbility(AbilityIds.ILLUSION))
+      {
+        foreach (Pokemon pm in p.Pokemon.Owner.Pokemons)
+          if (pm.Hp.Value > 0) opm = pm;
+        if (opm != p.Pokemon) ;//追加状态，幻影解除时使用
+      }
+      else
+      {
+        o.Name = opm.Name;
+        o.Gender = opm.Gender;
+        o.ImageId = opm.PokemonType.Id;
+      }
+      return o;
+    }
+
     internal readonly Pokemon Pokemon;
     internal readonly OnboardPokemon OnboardPokemon;
     protected readonly Controller Controller;
-    private PokemonOutward Outward; //幻影
+    private readonly PokemonOutward Outward; //幻影
 
     internal PokemonProxy(Controller controller, Pokemon pokemon, Tile tile)
     {
@@ -26,7 +46,7 @@ namespace LightStudio.PokemonBattle.Game
       StruggleMove = new MoveProxy(controller, new Move(165, Controller.Game.Settings), this);
       Action = PokemonAction.Done;
 
-      BuildOutward();
+      Outward = BuildOutward(this);
     }
 
     public int Id
@@ -40,7 +60,7 @@ namespace LightStudio.PokemonBattle.Game
 
     public int Hp
     { get { return Pokemon.Hp.Value; } }
-    #region 7D
+    #region 5D
     public int Atk
     { get { throw new NotImplementedException(); } }
     public int Def
@@ -50,7 +70,7 @@ namespace LightStudio.PokemonBattle.Game
     public int SpDef
     { get { throw new NotImplementedException(); } }
     public int Speed
-    { get { throw new NotImplementedException(); } }
+    { get { return (int)OnboardPokemon.Get5D(StatType.Speed); } }
     #endregion
     public Ability Ability
     { 
@@ -111,32 +131,58 @@ namespace LightStudio.PokemonBattle.Game
       }
       return false;
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns>是否可输入</returns>
     internal bool UndoInput()
     {
       if (Action == PokemonAction.WillMove || Action == PokemonAction.WillSwitch)
-      {
         Action = PokemonAction.WaitingForInput;
-        return true;
-      }
-      return false;
+      return Action == PokemonAction.WaitingForInput;
     }
     #endregion
 
-    public void Prepare()
+    public void Debut()
     {
+      ;//特性
+      ;//道具
     }
-    public void Act()
+    internal void Prepare()
     {
+      if (Action == PokemonAction.WillMove)
+      {
+        System.Diagnostics.Debugger.Break();
+        Action = PokemonAction.MovePrepared;
+      }
+      else if (Action == PokemonAction.WillSwitch)
+      {
+        Action = PokemonAction.SwitchPrepared;
+      }
+    }
+    private int lastActTurn = 0;
+    public bool Act()
+    {
+      if (Hp == 0 || lastActTurn == Controller.ReportBuilder.TurnNumber) return false;
+      lastActTurn = Controller.ReportBuilder.TurnNumber;
+      switch(Action)
+      {
+        case PokemonAction.SwitchPrepared:
+          Action = PokemonAction.Switching;
+          if (Controller.Withdraw(this))
+            if (Controller.Sendout(Tile))
+              Tile.Pokemon.Debut();
+          Action = PokemonAction.Done;
+          break;
+        case PokemonAction.MovePrepared:
+          System.Diagnostics.Debugger.Break();
+          break;
+        default:
+          return false;
+      }
+      return true;
     }
 
-    public void BuildOutward()
-    {
-      //幻影new完后覆盖属性
-      Outward = new PokemonOutward(Pokemon, OnboardPokemon.Position);
-      Outward.Name = Pokemon.Name;
-      Outward.Gender = Pokemon.Gender;
-      Outward.ImageId = Pokemon.PokemonType.Id;
-    }
     public PokemonOutward GetOutward()
     {
       return Outward;
