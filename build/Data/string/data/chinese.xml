@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <pack xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" language="chinese" default="false">
   <item key="Pound" value="拍打" />
   <item key="Karate Chop" value="空手刀" />
@@ -1255,7 +1255,7 @@
   <item key="Heat Rampage" value="热暴走" />
   <item key="Heatproof" value="耐热" />
   <item key="Heavy Metal" value="重金属" />
-  <item key="Herbivore " value="食草" />
+  <item key="Herbivore" value="食草" />
   <item key="Honey Gather" value="蜜蜂" />
   <item key="Huge Power" value="强有力" />
   <item key="Hustle" value="紧张" />
@@ -1265,7 +1265,7 @@
   <item key="Illuminate" value="发光" />
   <item key="Illusion" value="幻影" />
   <item key="Immunity" value="免疫" />
-  <item key="Inconsistent " value="心意不定" />
+  <item key="Inconsistent" value="心意不定" />
   <item key="Inner Focus" value="精神力" />
   <item key="Insomnia" value="不眠" />
   <item key="Intimidate" value="威吓" />
@@ -1284,8 +1284,8 @@
   <item key="Magnet Pull" value="磁力" />
   <item key="Marvel Scale" value="神奇鳞片" />
   <item key="Minus" value="负极" />
-  <item key="Miracle Skin " value="奇迹皮肤" />
-  <item key="Mischievous Heart " value="恶作剧之心" />
+  <item key="Miracle Skin" value="奇迹皮肤" />
+  <item key="Mischievous Heart" value="恶作剧之心" />
   <item key="Mold Breaker" value="破格" />
   <item key="Motor Drive" value="电力引擎" />
   <item key="Multi-Scale" value="多重鳞片" />
@@ -1500,4 +1500,6 @@
   <item key="Dark Gem" value="恶之宝石" />
   <item key="Steel Gem" value="钢之宝石" />
   <item key="Normal Gem" value="普之宝石" />
+  <item key="RSVP Mail" value="邀请信件"/>
+  <item key="Berry Juice" value="树果汁"/>
 </pack>
