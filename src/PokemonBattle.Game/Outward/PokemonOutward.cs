@@ -77,6 +77,7 @@ namespace LightStudio.PokemonBattle.Game
     /// </summary>
     public void Faint()
     {
+      var listeners = this.listeners.ToArray();
       foreach (IPokemonOutwardEvents l in listeners)
         l.Faint();
     }
@@ -167,6 +168,7 @@ namespace LightStudio.PokemonBattle.Game
     /// </summary>
     public void Withdrawn()
     {
+      var listeners = this.listeners.ToArray();
       foreach (IPokemonOutwardEvents l in listeners)
         l.Withdrawn();
     }

@@ -32,7 +32,6 @@ namespace LightStudio.PokemonBattle.Room
       Spectators = new ReadOnlyObservableCollection<int>(spectators);
       game = GameFactory.CreateGame(settings);
       game.ReportUpdated += InformReportUpdate;
-      game.RequireInput += InformRequireInput;
       game.InputSucceed += InformInputSucceed;
     }
 
@@ -197,9 +196,13 @@ namespace LightStudio.PokemonBattle.Room
       State = RoomState.GameEnd;
       OnSendInformation(GameResultInfo.GameStop());
     }
-    void InformReportUpdate(ReportFragment fragment)
+    void InformReportUpdate(ReportFragment fragment, int[] playersNeedInput)
     {
-      OnSendInformation(new ReportUpdateInfo(fragment));
+      HashSet<int> watchOnly = new HashSet<int>(users);
+      watchOnly.RemoveWhere((id) => playersNeedInput.Contains(id));
+      OnSendInformation(new ReportUpdateInfo(fragment, true));
+      foreach(int id in playersNeedInput)
+        OnSendInformation(new ReportUpdateInfo(fragment, false), id);
     }
     void InformAdditionalInfo(PokemonAdditionalInfo info)
     {
@@ -213,10 +216,6 @@ namespace LightStudio.PokemonBattle.Room
     {
     }
 
-    void InformRequireInput(int[] playerIds)
-    {
-      OnSendInformation(new RequireInputInfo(), playerIds);
-    }
     void InformInputFail(int userId)
     {
       OnSendInformation(new InputFailInfo(), userId);

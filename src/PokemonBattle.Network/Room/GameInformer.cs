@@ -19,7 +19,6 @@ namespace LightStudio.PokemonBattle.Room
     
     void InformRequestTie();
     void InformTieRejected();
-    void InformRequireInput();
     void InformInputFail();
     void InformInputSucceed();
   }
@@ -104,12 +103,17 @@ namespace LightStudio.PokemonBattle.Room
     [DataMember]
     ReportFragment Fragment;
 
-    public ReportUpdateInfo(ReportFragment turn)
+    [DataMember(EmitDefaultValue = false)]
+    bool WatchOnly;
+
+    public ReportUpdateInfo(ReportFragment turn, bool watchOnly)
     {
       Fragment = turn;
+      WatchOnly = watchOnly;
     }
     void IUserInformation.Execute(IUser user)
     {
+      Fragment.NeedInput = WatchOnly;
       user.InformReportUpdate(Fragment);
     }
   }
@@ -154,15 +158,6 @@ namespace LightStudio.PokemonBattle.Room
     void IUserInformation.Execute(IUser user)
     {
       user.InformInputFail();
-    }
-  }
-
-  [DataContract(Namespace = Namespaces.DEFAULT)]
-  class RequireInputInfo : IUserInformation
-  {
-    void IUserInformation.Execute(IUser user)
-    {
-      user.InformRequireInput();
     }
   }
 

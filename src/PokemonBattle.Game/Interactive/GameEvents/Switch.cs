@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
       PlayerId = playerId;
       Pokemon = pokemon;
     }
-    public override IText GetGameLog(GameOutward game)
+    public override IText GetGameLog()
     {
       IText t = GetGameLog(SENDOUT);
       t.SetData(this);
@@ -38,7 +38,11 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
       if (Pokemon.Position.Team == game.Team.Id)
       {
         game.Pokemons[Pokemon.Position.X] = new SimPokemon(game.Team.Pokemons[Pokemon.Id], Pokemon);
-        game.ActivePokemons.Add(game.Pokemons[Pokemon.Position.X]);
+        game.ActivePokemons.Add(Pokemon.Position.X, game.Pokemons[Pokemon.Position.X]);
+        if (Pokemon.OwnerId == game.Player.Id)
+        {
+          game.Player.SwitchPokemon(game.Settings.Mode.GetPokemonIndex(Pokemon.Position.X), game.Player.GetPokemonIndex(Pokemon.Id));
+        }
       }
     }
   }
@@ -47,27 +51,44 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
   public class Withdraw : GameEvent
   {
     [DataMember]
-    int TeamId { get; private set; }
+    int Team { get; set; }
 
     [DataMember]
-    int X { get; private set; }
-    
+    int X { get; set; }
+
     internal Withdraw(PokemonProxy pm)
     {
-      PmId = pm.Id;
-      if (pm.Hp == 0) ;//xxx倒下了
-      else if (pm.Action == PokemonAction.Switching) ;//xxx把xxx收了回去
-      else ;//xxx回到了xxx身边
+      Team = pm.Tile.Team;
+      X = pm.Tile.X;
     }
-    public override IText GetGameLog(GameOutward game)
+    public override IText GetGameLog()
     {
+      System.Diagnostics.Debugger.Break();
       return null;
     }
     public override void Update(GameOutward game)
     {
+      PokemonOutward pm = game.Board[Team, X];
+      if (pm.Hp.Value == 0)
+      {
+        pm.Faint();
+        //text = xxx倒下了
+      }
+      else
+      {
+        pm.Withdrawn();
+        //text = xxx把xxx收了回去
+        //else ;//xxx回到了xxx身边
+      }
+      game.Board[Team, X] = null;
     }
     public override void Update(SimGame game)
     {
+      if (Team == game.Player.TeamId)
+      {
+        game.ActivePokemons.Remove(X);
+        game.Pokemons[X] = null;
+      }
     }
   }
 }

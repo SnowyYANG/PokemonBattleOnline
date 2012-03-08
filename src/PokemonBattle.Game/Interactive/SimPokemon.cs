@@ -11,8 +11,6 @@ namespace LightStudio.PokemonBattle.Interactive
   {
     private readonly Pokemon pokemon;
     public readonly Position Position;
-    public PokemonOutward Outward
-    { get; private set; }
 
     public int Id
     { get { return pokemon.Id; } }
@@ -62,7 +60,6 @@ namespace LightStudio.PokemonBattle.Interactive
     internal SimPokemon(Pokemon pokemon, PokemonOutward outward)
     {
       this.pokemon = pokemon;
-      Outward = outward;
       //Owner = pokemon.Owner;
       Position = outward.Position;
       Moves = new SimMove[4];

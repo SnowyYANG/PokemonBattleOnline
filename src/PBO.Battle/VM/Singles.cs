@@ -26,13 +26,6 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
       teamPms = c.Game.Teams[controller.Player.TeamId];
       rivalPms = c.Game.Teams[1 - controller.Player.TeamId];
       selectedPanel = ControlPanelIndex.INACTIVE;
-      //controller.Board.MyTeam.PokemonOnBoardChanged += (sender, e) =>
-      //  {
-      //    if (e.NewPokemon != null) pokemonsInBall.Remove(e.NewPokemon);
-      //    if (e.OldPokemon != null) pokemonsInBall.Add(e.OldPokemon);
-      //  };
-      //pokemonsInBall = new List<IPokemon>(controller.Player.Pokemons.Where(p => p.PositionOnBoard == null));//如果中途加载的话有可能存在正在战斗的精灵
-      //this.controller_IsActiveChanged(null, null);
     }
 
     public int Time
@@ -52,7 +45,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     public Weather Weather
     { get { return board.Weather; } }
     public SimPokemon ControllingPokemon
-    { get { return controller.Game.ActivePokemons.FirstOrDefault(); } }
+    { get { return controller.Game.ActivePokemons.ValueOrDefault(0); } }
     public Visibility UndoVisibility
     { get { return Visibility.Collapsed; } }
     public bool IsFightEnabled

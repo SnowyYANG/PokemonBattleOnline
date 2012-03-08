@@ -145,6 +145,7 @@ namespace LightStudio.PokemonBattle.Game
 
     public void Debut()
     {
+      ;//场地效果
       ;//特性
       ;//道具
     }

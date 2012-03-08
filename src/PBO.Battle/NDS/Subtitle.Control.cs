@@ -17,8 +17,6 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     private class Control
     {
       Subtitle nest;
-      Dictionary<string, object> dictionary;
-      //BlockTranslator translator;
 
       public Control(Subtitle subtitle)
       {
@@ -56,34 +54,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       public void EventFinished()
       {
         nest.timer.Stop();
-        //gameEventControl.Interrupt();
       }
-
-      //void IUIInnerControl.Init(Game game)
-      //{
-        //gameEventControl = game.GameEventControl;
-        //dictionary = gameEventControl.Dictionary;
-        //translator = gameEventControl.Translator;
-        //game.ControlPanel.PropertyChanged += ControlPanel_PropertyChanged;
-      //}
-      //void IUIInnerControl.EventOccurred(GameEvent e)
-      //{
-        //gameEventDictionary["e"] = e.GameEvent;
-        //string expression = DataService.GameLog.GetGameLogExpression(e.GameEvent.Type);
-        //if (expression != null)
-        //{
-        //  //ISegment[] s = SegmentReader.ReadSegments(expression, gameEventDictionary);
-        //  //SetTextForcibly(s[0].ToString());
-        //}
-        //switch (e.Type)
-        //{
-        //  case EventType.BeginTurn:
-        //    nest.SetTextForcibly("主机响应中...");
-        //    break;
-        //  case EventType.HpChange:
-        //    break;
-        //}
-      //}
     }
   }
 }

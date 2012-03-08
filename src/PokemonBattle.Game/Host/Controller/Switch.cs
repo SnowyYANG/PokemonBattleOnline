@@ -55,7 +55,7 @@ namespace LightStudio.PokemonBattle.Game
         p.SwitchPokemon(origin, sendout); //为了幻影交换必须在构建实例之后
         tile.Pokemon = pm;
         tile.WillSendoutPokemonIndex = Tile.NOPM_INDEX;
-        Controller.OnboardPokemons.Insert(0, pm);
+        Controller.OnboardPokemons.Add(pm);
         ReportBuilder.AddSendout(pm); 
         return true;
       }

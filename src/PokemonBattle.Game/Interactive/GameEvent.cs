@@ -45,7 +45,7 @@ namespace LightStudio.PokemonBattle.Interactive
     }
     #endregion
 
-    public abstract IText GetGameLog(GameOutward game);
+    public abstract IText GetGameLog();
     public virtual void Update(GameOutward game)
     {
     }

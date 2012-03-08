@@ -41,6 +41,8 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     }
     void IPokemonOutwardEvents.Faint()
     {
+      pokemon.RemoveListener(this);
+      pokemon = null;
     }
     void IPokemonOutwardEvents.Hurt()
     {

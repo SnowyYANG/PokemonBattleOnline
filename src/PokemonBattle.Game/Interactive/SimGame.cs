@@ -13,7 +13,6 @@ namespace LightStudio.PokemonBattle.Interactive
     public readonly Team Team;
     public readonly SimPokemon[] Pokemons;
     public readonly GameSettings Settings;
-    private readonly List<SimPokemon> pokemons;
 
     public SimGame(int userId, int teamId, PokemonCustomInfo[] pms, GameSettings settings)
     {
@@ -21,16 +20,22 @@ namespace LightStudio.PokemonBattle.Interactive
       Player = Team.AddPlayer(userId, pms);
       Pokemons = new SimPokemon[settings.Mode.XBound()];
       Settings = settings;
-      pokemons = new List<SimPokemon>();
+      ActivePokemons = new SortedList<int, SimPokemon>(1);
     }
 
-    public List<SimPokemon> ActivePokemons
-    { get { return pokemons; } }
+    //逆鳞/暴走/花瓣舞为2～3回合，回合结束混乱 <-- 需要AdditionalInfo么..
+    public SortedList<int, SimPokemon> ActivePokemons
+    { get; private set; }
 
     public void Update(ReportFragment turn)
     {
-      foreach (GameEvent e in turn.Events)
-        e.Update(this);
+      Update(turn.BeginUseEvent());
+    }
+    private void Update(GameEvent e)
+    {
+      GameEvent e = turn.BeginUseEvent();
+      e.Update(this);
+      turn.EndUseEvent(Update);
     }
     /// <summary>
     /// 注意和Update(Turn)的顺序

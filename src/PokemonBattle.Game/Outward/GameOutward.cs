@@ -18,7 +18,7 @@ namespace LightStudio.PokemonBattle.Game
     /// <summary>
     /// game start, or an observer
     /// </summary>
-    public event System.Action LeapTurn;
+    public event Action LeapTurn;
     public readonly GameSettings Settings;
     public readonly BoardOutward Board;
     public readonly TeamOutward[] Teams;
@@ -49,9 +49,9 @@ namespace LightStudio.PokemonBattle.Game
       }
       foreach (GameEvent e in turn.Events)
       {
-        e.Update(this);
         foreach (IGameOutwardEvents l in listeners)
           l.EventOccurred(e);
+        e.Update(this);
       }
     }
 

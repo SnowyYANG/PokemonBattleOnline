@@ -11,6 +11,7 @@ namespace LightStudio.PokemonBattle.Interactive
 {
   [KnownType(typeof(BeginTurn))]
   [KnownType(typeof(SendOut))]
+  [KnownType(typeof(Withdraw))]
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class ReportFragment
   {
@@ -18,11 +19,14 @@ namespace LightStudio.PokemonBattle.Interactive
     public readonly TeamOutward[] Teams;
     [DataMember(EmitDefaultValue = false)]
     public readonly Weather Weather;
+    
     [DataMember(EmitDefaultValue = false)]
-    public readonly List<GameEvent> Events;
-
+    private readonly Queue<GameEvent> Events;
     [DataMember(EmitDefaultValue = false)]
     private readonly PokemonOutward[] pokemons; //onBoardOnly
+
+    public bool NeedInput
+    { get; set; }
 
     /// <summary>
     /// 为了节约流量，只在用户第一次进入房间的时候给出teams/pms/weather信息
@@ -32,11 +36,15 @@ namespace LightStudio.PokemonBattle.Interactive
       Teams = teams;
       pokemons = pms;
       Weather = weather;
-      Events = new List<GameEvent>();
+      Events = new Queue<GameEvent>();
     }
-    internal ReportFragment(List<GameEvent> events)
+    /// <summary>
+    /// 构建一个non-Leap的战报段
+    /// </summary>
+    /// <param name="events"></param>
+    internal ReportFragment(ReportFragment fragment)
     {
-      Events = events;
+      Events = fragment.Events;
     }
 
     public PokemonOutward this[int team, int x]
@@ -54,9 +62,30 @@ namespace LightStudio.PokemonBattle.Interactive
       }
     }
 
+    /// <summary>
+    /// Host使用
+    /// </summary>
+    /// <param name="e"></param>
     internal void AddEvent(GameEvent e)
     {
-      Events.Add(e);
+      Events.Enqueue(e);
+    }
+    private Action<GameEvent> nextEvent;
+    private int eventUsers;
+    public GameEvent BeginUseEvent()
+    {
+      eventUsers++;
+      return Events.Peek();
+    }
+    public void EndUseEvent(Action<GameEvent> next)
+    {
+      nextEvent += next;
+      eventUsers--;
+      if (eventUsers == 0)
+      {
+        Events.Dequeue();
+        if (nextEvent != null) nextEvent(Events.Peek()); //呼别暴栈
+      }
     }
   }
 }

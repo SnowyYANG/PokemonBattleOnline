@@ -13,17 +13,12 @@ namespace LightStudio.PokemonBattle.Game
       add { SwitchController.PokemonWithdrawing += value; }
       remove { SwitchController.PokemonWithdrawing -= value; }
     }
-    internal event Action<int[]> RequireInput
-    {
-      add { InputController.RequireInput += value; }
-      remove { InputController.RequireInput -= value; }
-    }
     internal event Action<Player> InputSucceed
     {
       add { InputController.InputSucceed += value; }
       remove { InputController.InputSucceed -= value; }
     }
-    internal event Action<ReportFragment> ReportUpdated
+    internal event Action<ReportFragment, int[]> ReportUpdated
     {
       add { InputController.ReportUpdated += value; }
       remove { InputController.ReportUpdated -= value; }

@@ -22,7 +22,6 @@ namespace LightStudio.PokemonBattle.Game
     public readonly Terrain Terrain;
 
     private readonly ObservableCollection<PokemonOutward>[] teams;
-    private readonly List<PokemonOutward> pokemons;
     private readonly GameSettings settings;
     private Weather weather;
     
@@ -33,7 +32,6 @@ namespace LightStudio.PokemonBattle.Game
       this.settings = settings;
       teams = new ObservableCollection<PokemonOutward>[settings.Mode.TeamCount()];
       Teams = new ReadOnlyObservableCollection<PokemonOutward>[settings.Mode.TeamCount()];
-      pokemons = new List<PokemonOutward>();
       weather = Data.Weather.Normal;
       Terrain = settings.Terrain;
 
@@ -55,8 +53,6 @@ namespace LightStudio.PokemonBattle.Game
         //不一定是PmSendout
         var old = this[team, x];
         if ((old == null && value == null) || ((old != null && value != null) && (old.Id == value.Id))) return;
-        if (old != null) pokemons.Remove(old);
-        pokemons.Add(value);
         teams[team][x] = value;
       }
     }

@@ -13,15 +13,10 @@ namespace LightStudio.PokemonBattle.Game
   internal class GameContext : IGame
   {
     public event Action<int, int> GameEnd;
-    public event Action<ReportFragment> ReportUpdated
+    public event Action<ReportFragment, int[]> ReportUpdated
     {
       add { Controller.ReportUpdated += value; }
       remove { Controller.ReportUpdated -= value; }
-    }
-    public event Action<int[]> RequireInput
-    {
-      add { Controller.RequireInput += value; }
-      remove { Controller.RequireInput -= value; }
     }
     public event Action<Player> InputSucceed
     {

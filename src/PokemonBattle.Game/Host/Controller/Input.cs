@@ -11,8 +11,7 @@ namespace LightStudio.PokemonBattle.Game
   /// </summary>
   internal class InputController : ControllerComponent
   {
-    public event Action<ReportFragment> ReportUpdated;
-    public event Action<int[]> RequireInput;
+    public event Action<ReportFragment, int[]> ReportUpdated;
     public event Action<Player> InputSucceed;
     HashSet<int> players;
     private Action InputFinished;
@@ -48,8 +47,7 @@ namespace LightStudio.PokemonBattle.Game
       if (players.Count > 0)
       {
         ReportBuilder.NewFragment();
-        if (ReportUpdated != null) ReportUpdated(ReportBuilder.GetFragment());
-        if (RequireInput != null) RequireInput(players.ToArray());
+        if (ReportUpdated != null) ReportUpdated(ReportBuilder.GetFragment(), players.ToArray());
       }
       else InputFinished();
     }

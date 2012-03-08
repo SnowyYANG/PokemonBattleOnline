@@ -71,7 +71,7 @@ namespace LightStudio.PokemonBattle.Game
     }
 
     public int IndexInOwner
-    { get { return Owner.GetPokemonIndex(this); } }
+    { get { return Owner.GetPokemonIndex(Id); } }
 
     private int GetState(StatType type)
     {

@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading;
+using LightStudio.Tactic.DataModels;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
 using LightStudio.PokemonBattle.Interactive;
@@ -35,7 +37,8 @@ namespace LightStudio.PokemonBattle.PBO.Battle
 
       void IGameOutwardEvents.EventOccurred(GameEvent e)
       {
-      //  string expression = e.GetGameLogExpression();
+        Thread.Sleep(200);
+        //IText text = e.GetGameLog();
       //  if (!string.IsNullOrEmpty(expression))
       //  {
       //    Block b = new Paragraph(new Run(expression + e.GetGameLogArgs().ToString()));

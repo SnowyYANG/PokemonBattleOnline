@@ -13,8 +13,7 @@ namespace LightStudio.PokemonBattle.Game
   public interface IGame
   {
     event Action<int, int> GameEnd;
-    event Action<ReportFragment> ReportUpdated;
-    event Action<int[]> RequireInput;
+    event Action<ReportFragment, int[]> ReportUpdated;
     event Action<Player> InputSucceed;
 
     bool Prepared { get; }

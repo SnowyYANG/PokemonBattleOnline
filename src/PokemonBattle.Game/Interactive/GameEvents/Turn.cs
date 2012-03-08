@@ -19,7 +19,7 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     {
       TurnNumber = turnNumber;
     }
-    public override IText GetGameLog(GameOutward game)
+    public override IText GetGameLog()
     {
       if (TurnNumber == 0) return GetGameLog(GAMESTART);
       IText t = GetGameLog(BEGINTURN);

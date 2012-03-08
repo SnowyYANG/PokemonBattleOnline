@@ -33,7 +33,7 @@ namespace LightStudio.PokemonBattle.Interactive
       {
         lastLeapFragment = current;
         if (lastFragment == null) lastFragment = lastLeapFragment;
-        else lastFragment = new ReportFragment(lastFragment.Events);
+        else lastFragment = new ReportFragment(lastLeapFragment);
       }
       
       TeamOutward[] t = new TeamOutward[game.Teams.Length];
