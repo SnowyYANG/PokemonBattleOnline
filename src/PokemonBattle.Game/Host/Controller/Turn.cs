@@ -8,51 +8,48 @@ namespace LightStudio.PokemonBattle.Game
   internal class TurnController : ControllerComponent
   {
     private readonly Comparer comparer;
-    private readonly List<Tile> tiles;
+    private readonly Tile[] tiles;
 
     public TurnController(Controller controller)
       : base(controller)
     {
       comparer = new Comparer(Game.Board);
-      tiles = new List<Tile>(Board.TeamCount * Board.XBound);
+      tiles = new Tile[Board.TeamCount * Board.XBound];
       OnboardPokemons = new List<PokemonProxy>();
+      int k = -1;
       for (int i = 0; i < Board.TeamCount; i++)
         for (int j = 0; j < Board.XBound; j++)
-        {
-          Tile t = Board[i, j];
-          tiles.Add(t);
-          if (t.Pokemon != null) OnboardPokemons.Add(t.Pokemon); //当然在构造函数里是多此一举的一步
-        }
+          tiles[++k] = Board[i, j];
     }
 
     public List<PokemonProxy> OnboardPokemons
     { get; private set; }
     public IEnumerable<Tile> Tiles
-    { get { return tiles; } }
+    { get; private set; }
 
     private void SortOnboardPokemons()
     {
-      int n = OnboardPokemons.Count;
-      for (int i = 0; i < n - 1; i++)
+      for (int i = 0; i < OnboardPokemons.Count - 1; i++)
       {
         int j;
-        j = GetRandomInt(i, n - 1);
+        j = GetRandomInt(i, OnboardPokemons.Count - 1);
         PokemonProxy temp = OnboardPokemons[i];
         OnboardPokemons[i] = OnboardPokemons[j];
         OnboardPokemons[j] = temp;
       }
-      OnboardPokemons.Sort(comparer);
+      OnboardPokemons = new List<PokemonProxy>(OnboardPokemons.OrderBy((pm) => pm, comparer));
     }
     private void SortTiles()
     {
-      for (int i = 0; i < tiles.Count - 1; i++)
+      for (int i = 0; i < tiles.Length - 1; i++)
       {
         int j;
-        j = GetRandomInt(i, tiles.Count - 1);
+        j = GetRandomInt(i, tiles.Length - 1);
         Tile temp = tiles[i];
         tiles[i] = tiles[j];
         tiles[j] = temp;
       }
+      Tiles = tiles.OrderBy((pm) => pm, comparer).ToArray();
     }
 
     internal void BeginTurn()
@@ -85,6 +82,10 @@ namespace LightStudio.PokemonBattle.Game
     }
     private void EndTurnEffects()
     {
+      SortTiles();
+      //TODO:
+      //
+
       EndTurnCheckForInput();
     }
     private void EndTurnCheckForInput()
@@ -112,6 +113,7 @@ namespace LightStudio.PokemonBattle.Game
         {
           Controller.Sendout(t);
         }
+      SortTiles();
       EndTurnCheckForInput();
     }
     private void NextTurn()

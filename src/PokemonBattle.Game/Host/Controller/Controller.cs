@@ -39,6 +39,7 @@ namespace LightStudio.PokemonBattle.Game
       SwitchController = new SwitchController(this);
       InputController = new InputController(this);
       TurnController = new TurnController(this);
+      random = new Random();
     }
 
     public List<PokemonProxy> OnboardPokemons

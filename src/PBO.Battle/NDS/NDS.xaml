@@ -4,30 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:my="clr-namespace:LightStudio.PokemonBattle.PBO.Battle">
     <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/PBO.Battle;component/NDS/StateBars.xaml"/>  
-            </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="ListBox">
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="ItemContainerStyle">
-                    <Setter.Value>
-                        <Style TargetType="ListBoxItem">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Content,RelativeSource={RelativeSource Self}}" Value="{x:Null}">
-                                    <Setter Property="Visibility" Value="Hidden"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </ResourceDictionary>
+        <ResourceDictionary Source="/PBO.Battle;component/NDS/StateBars.xaml"/>  
     </UserControl.Resources>
     <Canvas Height="384" MinWidth="256" MaxWidth="256">
         <my:BattleField2D x:Name="board"/>
-        <ListBox x:Name="opms" ItemTemplate="{StaticResource ResourceKey=OStateBar}" SnapsToDevicePixels="True" Background="{x:Null}" Canvas.Right="-1" Canvas.Top="105" HorizontalContentAlignment="Right" IsHitTestVisible="False" IsTabStop="False">
+        <ListBox x:Name="opms" ItemTemplate="{StaticResource ResourceKey=OStateBar}" SnapsToDevicePixels="True" Background="{x:Null}" Canvas.Right="-1" Canvas.Top="105" BorderThickness="0" Padding="0" HorizontalContentAlignment="Right" IsHitTestVisible="False" IsTabStop="False">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Template">
@@ -70,7 +51,17 @@
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
-        <ItemsControl x:Name="rpms" SnapsToDevicePixels="True" Background="{x:Null}" Canvas.Left="-1" ItemTemplate="{StaticResource ResourceKey=RStateBar}" Canvas.Top="29" HorizontalContentAlignment="Left"/>
+        <ItemsControl x:Name="rpms" SnapsToDevicePixels="True" Background="{x:Null}" Canvas.Left="-1" ItemTemplate="{StaticResource ResourceKey=RStateBar}" Canvas.Top="29" HorizontalContentAlignment="Left">
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Content,RelativeSource={RelativeSource Self}}" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
         <my:Subtitle x:Name="subtitle" Canvas.Top="147"/>
         <my:ControlPanel x:Name="cp" Canvas.Bottom="0"/>
     </Canvas>

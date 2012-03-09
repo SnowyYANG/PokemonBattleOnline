@@ -198,11 +198,7 @@ namespace LightStudio.PokemonBattle.Room
     }
     void InformReportUpdate(ReportFragment fragment, int[] playersNeedInput)
     {
-      HashSet<int> watchOnly = new HashSet<int>(users);
-      watchOnly.RemoveWhere((id) => playersNeedInput.Contains(id));
-      if (watchOnly.Count > 0) OnSendInformation(new ReportUpdateInfo(fragment, true), watchOnly.ToArray());
-      foreach(int id in playersNeedInput)
-        OnSendInformation(new ReportUpdateInfo(fragment, false), id);
+      OnSendInformation(new ReportUpdateInfo(fragment));
     }
     void InformAdditionalInfo(PokemonAdditionalInfo info)
     {

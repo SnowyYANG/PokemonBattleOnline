@@ -16,21 +16,24 @@ namespace LightStudio.PokemonBattle.Game
 
     public int Compare(PokemonProxy a, PokemonProxy b)
     {
-      if (a.Action == PokemonAction.WillSwitch && b.Action == PokemonAction.WillSwitch) return CompareSpeed(a.Speed, b.Speed);
-      if (a.Action == PokemonAction.WillSwitch) return 1;
-      if (b.Action == PokemonAction.WillSwitch) return -1;
+      if (a.Action == PokemonAction.WillSwitch && b.Action == PokemonAction.WillSwitch) goto SPEED;
+      if (a.Action == PokemonAction.WillSwitch) return -1;
+      if (b.Action == PokemonAction.WillSwitch) return 1;
 
       if (a.SelectedMove.Priority != b.SelectedMove.Priority)
-        return a.SelectedMove.Priority - b.SelectedMove.Priority;
+        return b.SelectedMove.Priority - a.SelectedMove.Priority;
 
 #warning unfinished Items
       //if (a.Item != b.Item)//1=先制爪/先制果发动 0=无道具 -1=后攻尾/满腹香炉发动
-      //  return (a.Item - b.Item);
+      //  return (b.Item - a.Item);
 
       bool aIsStall = a.HasWorkingAbility(AbilityIds.STALL);
       bool bIsStall = b.HasWorkingAbility(AbilityIds.STALL);
-      if (aIsStall && !bIsStall) return -1;
-      if (!aIsStall && bIsStall) return 1;
+      if (aIsStall == bIsStall) goto SPEED;
+      if (aIsStall) return 1;
+      if (bIsStall) return -1;
+
+      SPEED:
       return CompareSpeed(a.Speed, b.Speed);
     }
     public int Compare(Tile a, Tile b)
@@ -39,8 +42,8 @@ namespace LightStudio.PokemonBattle.Game
     }
     private int CompareSpeed(int a, int b)
     {
-      if (board.HasCondition("TrickRoom")) return b - a;
-      else return a - b;
+      if (board.HasCondition("TrickRoom")) return a - b;
+      else return b - a;
     }
   }
 }

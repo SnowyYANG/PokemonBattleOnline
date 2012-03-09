@@ -26,7 +26,7 @@ namespace LightStudio.PokemonBattle.Game
 
     protected int GetRandomInt(int min, int max)
     {
-      return Controller.GetRandomInt(min, max);
+      return Controller.GetRandomInt(min, max + 1);
     }
   }
 }

@@ -25,9 +25,6 @@ namespace LightStudio.PokemonBattle.Interactive
     [DataMember(EmitDefaultValue = false)]
     private readonly PokemonOutward[] pokemons; //onBoardOnly
 
-    public bool NeedInput
-    { get; set; }
-
     /// <summary>
     /// 为了节约流量，只在用户第一次进入房间的时候给出teams/pms/weather信息
     /// </summary>

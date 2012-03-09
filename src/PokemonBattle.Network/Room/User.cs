@@ -17,7 +17,7 @@ namespace LightStudio.PokemonBattle.Room
     Spectator
   }
   
-  internal abstract class User : IUser, IUserController
+  internal abstract class User : IUser, IUserController, IDisposable
   {
     protected readonly int HostId;
 
@@ -169,6 +169,7 @@ namespace LightStudio.PokemonBattle.Room
       EnterFailed = delegate { };
       EnterSucceed = delegate { };
       GameEnd = delegate { };
+      gameEventsDispatcher.Dispose();
     }
   }
 }

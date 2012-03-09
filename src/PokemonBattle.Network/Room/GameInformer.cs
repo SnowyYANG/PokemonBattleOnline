@@ -103,17 +103,12 @@ namespace LightStudio.PokemonBattle.Room
     [DataMember]
     ReportFragment Fragment;
 
-    [DataMember(EmitDefaultValue = false)]
-    bool WatchOnly;
-
-    public ReportUpdateInfo(ReportFragment turn, bool watchOnly)
+    public ReportUpdateInfo(ReportFragment turn)
     {
       Fragment = turn;
-      WatchOnly = watchOnly;
     }
     void IUserInformation.Execute(IUser user)
     {
-      Fragment.NeedInput = !WatchOnly;
       user.InformReportUpdate(Fragment);
     }
   }

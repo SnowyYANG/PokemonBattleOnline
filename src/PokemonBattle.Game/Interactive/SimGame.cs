@@ -30,13 +30,13 @@ namespace LightStudio.PokemonBattle.Interactive
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="turn"></param>
+    /// <param name="report"></param>
     /// <returns>RequireInput</returns>
-    public bool Update(ReportFragment turn)
+    public bool Update(ReportFragment report)
     {
-      foreach(GameEvent e in turn.Events)
+      foreach(GameEvent e in report.Events)
         e.Update(this);
-      return turn.NeedInput;
+      return ActivePokemons.Count > 0;
     }
     /// <summary>
     /// 注意和Update(Turn)的顺序

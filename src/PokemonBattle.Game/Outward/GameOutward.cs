@@ -52,7 +52,7 @@ namespace LightStudio.PokemonBattle.Game
         });
       foreach (GameEvent e in turn.Events)
       {
-        System.Threading.Thread.Sleep(200);
+        System.Threading.Thread.Sleep(500);
         UIDispatcher.Invoke(() =>
           {
             foreach (IGameOutwardEvents l in listeners)

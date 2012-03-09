@@ -41,6 +41,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     }
     void IPokemonOutwardEvents.Faint()
     {
+      //动画
       pokemon.RemoveListener(this);
       pokemon = null;
     }
@@ -76,6 +77,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     }
     void IPokemonOutwardEvents.Withdrawn()
     {
+      main.Source = null;
       pokemon.RemoveListener(this);
       pokemon = null;
     }

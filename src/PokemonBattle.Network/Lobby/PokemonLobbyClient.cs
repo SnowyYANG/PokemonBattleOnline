@@ -40,8 +40,16 @@ namespace LightStudio.PokemonBattle.Messaging
             {
               lock (roomLock)
               {
-                battleClient = null;
-                battleHost = null;
+                if (battleHost != null)
+                {
+                  battleHost.Dispose();
+                  battleHost = null;
+                }
+                if (battleClient != null)
+                {
+                  battleClient.Dispose();
+                  battleClient = null;
+                }
                 challengingPms = null;
                 if (User.State == UserState.Battling || User.State == UserState.Watching)
                   ChangeState(UserState.Normal);
