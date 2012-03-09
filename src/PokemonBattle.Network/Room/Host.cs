@@ -200,7 +200,7 @@ namespace LightStudio.PokemonBattle.Room
     {
       HashSet<int> watchOnly = new HashSet<int>(users);
       watchOnly.RemoveWhere((id) => playersNeedInput.Contains(id));
-      OnSendInformation(new ReportUpdateInfo(fragment, true));
+      if (watchOnly.Count > 0) OnSendInformation(new ReportUpdateInfo(fragment, true), watchOnly.ToArray());
       foreach(int id in playersNeedInput)
         OnSendInformation(new ReportUpdateInfo(fragment, false), id);
     }

@@ -75,10 +75,14 @@ namespace LightStudio.PokemonBattle.Room
     }
     #endregion
 
-    protected override void InformTurn(ReportFragment turn)
+    protected override void InformReportUpdate(ReportFragment fragment)
     {
-      game.Update(turn);
-      base.InformTurn(turn);
+      base.InformReportUpdate(fragment);
+      UIDispatcher.Invoke(() =>
+        {
+          if (game.Update(fragment))
+            foreach (IPlayerControllerEvents listner in listeners) listner.RequireInput();
+        });
     }
     protected override void InformPmAdditional(Interactive.PokemonAdditionalInfo info)
     {

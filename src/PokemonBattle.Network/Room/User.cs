@@ -35,10 +35,12 @@ namespace LightStudio.PokemonBattle.Room
     private ObservableCollection<int> players;
     private ObservableCollection<int> spectators;
     private GameOutward game;
-    
+    private Dispatcher gameEventsDispatcher;
+
     protected User(int hostId)
     {
       HostId = hostId;
+      gameEventsDispatcher = new Dispatcher(true);
     }
 
     public ReadOnlyObservableCollection<int> Spectators { get; private set; }
@@ -104,16 +106,15 @@ namespace LightStudio.PokemonBattle.Room
       GameEnd();
     }
 
-    protected virtual void InformTurn(ReportFragment turn)
+    protected virtual void InformReportUpdate(ReportFragment fragment)
     {
       if (RoomState != RoomState.GameStarted) RoomState = RoomState.GameStarted;
-      game.Update(turn);
+      game.Update(fragment);
     }
-    void IGameInformer.InformReportUpdate(ReportFragment turn)
+    void IGameInformer.InformReportUpdate(ReportFragment fragment)
     {
-      InformTurn(turn);
+      gameEventsDispatcher.BeginInvoke((Action<ReportFragment>)InformReportUpdate, fragment);
     }
-
 
     #region Player Only
     protected abstract void InformPmAdditional(PokemonAdditionalInfo pminfo);

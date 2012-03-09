@@ -21,7 +21,7 @@ namespace LightStudio.PokemonBattle.Interactive
     public readonly Weather Weather;
     
     [DataMember(EmitDefaultValue = false)]
-    private readonly Queue<GameEvent> Events;
+    private readonly Queue<GameEvent> events;
     [DataMember(EmitDefaultValue = false)]
     private readonly PokemonOutward[] pokemons; //onBoardOnly
 
@@ -36,7 +36,7 @@ namespace LightStudio.PokemonBattle.Interactive
       Teams = teams;
       pokemons = pms;
       Weather = weather;
-      Events = new Queue<GameEvent>();
+      events = new Queue<GameEvent>();
     }
     /// <summary>
     /// 构建一个non-Leap的战报段
@@ -44,7 +44,7 @@ namespace LightStudio.PokemonBattle.Interactive
     /// <param name="events"></param>
     internal ReportFragment(ReportFragment fragment)
     {
-      Events = fragment.Events;
+      events = fragment.events;
     }
 
     public PokemonOutward this[int team, int x]
@@ -52,15 +52,18 @@ namespace LightStudio.PokemonBattle.Interactive
       get
       {
         PokemonOutward value = null;
-        foreach (PokemonOutward p in pokemons)
-          if (p.Position.Team == team && p.Position.X == x)
-          {
-            value = p;
-            break;
-          }
+        if (pokemons != null)
+          foreach (PokemonOutward p in pokemons)
+            if (p.Position.Team == team && p.Position.X == x)
+            {
+              value = p;
+              break;
+            }
         return value;
       }
     }
+    public IEnumerable<GameEvent> Events
+    { get { return events; } }
 
     /// <summary>
     /// Host使用
@@ -68,24 +71,7 @@ namespace LightStudio.PokemonBattle.Interactive
     /// <param name="e"></param>
     internal void AddEvent(GameEvent e)
     {
-      Events.Enqueue(e);
-    }
-    private Action<GameEvent> nextEvent;
-    private int eventUsers;
-    public GameEvent BeginUseEvent()
-    {
-      eventUsers++;
-      return Events.Peek();
-    }
-    public void EndUseEvent(Action<GameEvent> next)
-    {
-      nextEvent += next;
-      eventUsers--;
-      if (eventUsers == 0)
-      {
-        Events.Dequeue();
-        if (nextEvent != null) nextEvent(Events.Peek()); //呼别暴栈
-      }
+      events.Enqueue(e);
     }
   }
 }

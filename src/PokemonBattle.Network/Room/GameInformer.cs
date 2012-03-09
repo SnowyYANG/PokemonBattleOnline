@@ -113,7 +113,7 @@ namespace LightStudio.PokemonBattle.Room
     }
     void IUserInformation.Execute(IUser user)
     {
-      Fragment.NeedInput = WatchOnly;
+      Fragment.NeedInput = !WatchOnly;
       user.InformReportUpdate(Fragment);
     }
   }

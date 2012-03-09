@@ -27,15 +27,16 @@ namespace LightStudio.PokemonBattle.Interactive
     public SortedList<int, SimPokemon> ActivePokemons
     { get; private set; }
 
-    public void Update(ReportFragment turn)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="turn"></param>
+    /// <returns>RequireInput</returns>
+    public bool Update(ReportFragment turn)
     {
-      Update(turn.BeginUseEvent());
-    }
-    private void Update(GameEvent e)
-    {
-      GameEvent e = turn.BeginUseEvent();
-      e.Update(this);
-      turn.EndUseEvent(Update);
+      foreach(GameEvent e in turn.Events)
+        e.Update(this);
+      return turn.NeedInput;
     }
     /// <summary>
     /// 注意和Update(Turn)的顺序

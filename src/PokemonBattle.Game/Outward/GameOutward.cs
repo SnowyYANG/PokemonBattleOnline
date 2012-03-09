@@ -36,22 +36,29 @@ namespace LightStudio.PokemonBattle.Game
 
     public void Update(ReportFragment turn)
     {
-      if (turn.Teams != null)
-      {
-        for (int t = 0; t < Settings.Mode.TeamCount(); t++)
+      UIDispatcher.Invoke(() =>
         {
-          Teams[t].Update(turn.Teams[t]);
-          for (int x = 0; x < Settings.Mode.XBound(); x++)
-            Board[t, x] = turn[t, x];
-          Board.Weather = turn.Weather;
-        }
-        LeapTurn();
-      }
+          if (turn.Teams != null)
+          {
+            for (int t = 0; t < Settings.Mode.TeamCount(); t++)
+            {
+              Teams[t].Update(turn.Teams[t]);
+              for (int x = 0; x < Settings.Mode.XBound(); x++)
+                Board[t, x] = turn[t, x];
+              Board.Weather = turn.Weather;
+            }
+            LeapTurn();
+          }
+        });
       foreach (GameEvent e in turn.Events)
       {
-        foreach (IGameOutwardEvents l in listeners)
-          l.EventOccurred(e);
-        e.Update(this);
+        System.Threading.Thread.Sleep(200);
+        UIDispatcher.Invoke(() =>
+          {
+            foreach (IGameOutwardEvents l in listeners)
+              l.EventOccurred(e);
+            e.Update(this);
+          });
       }
     }
 

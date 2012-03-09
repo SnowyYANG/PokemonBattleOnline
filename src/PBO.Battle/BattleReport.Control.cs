@@ -37,7 +37,6 @@ namespace LightStudio.PokemonBattle.PBO.Battle
 
       void IGameOutwardEvents.EventOccurred(GameEvent e)
       {
-        Thread.Sleep(200);
         //IText text = e.GetGameLog();
       //  if (!string.IsNullOrEmpty(expression))
       //  {
