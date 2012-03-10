@@ -19,8 +19,7 @@ namespace LightStudio.PokemonBattle.Room
     
     void InformRequestTie();
     void InformTieRejected();
-    void InformInputFail();
-    void InformInputSucceed();
+    void InformInputResult(bool succeed, string message, bool allDone);
   }
 
   [DataContract(Namespace = Namespaces.DEFAULT)]
@@ -148,20 +147,27 @@ namespace LightStudio.PokemonBattle.Room
   }
 
   [DataContract(Namespace = Namespaces.DEFAULT)]
-  class InputFailInfo : IUserInformation
+  class InputResultInfo : IUserInformation
   {
-    void IUserInformation.Execute(IUser user)
-    {
-      user.InformInputFail();
-    }
-  }
+    [DataMember(EmitDefaultValue = false)]
+    bool IsFailed;
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
-  class InputSucceedInfo : IUserInformation
-  {
+    [DataMember(EmitDefaultValue = false)]
+    string Message;
+
+    [DataMember(EmitDefaultValue = false)]
+    bool AllDone;
+
+    public InputResultInfo(InputResult result)
+    {
+      IsFailed = !result.IsSucceeded;
+      Message = result.Message;
+      AllDone = result.AllDone;
+    }
+    
     void IUserInformation.Execute(IUser user)
     {
-      user.InformInputSucceed();
+      user.InformInputResult(!IsFailed, Message, AllDone);
     }
   }
 }

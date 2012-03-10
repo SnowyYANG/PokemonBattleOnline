@@ -51,8 +51,6 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       subtitle.Init(controlPanel);
       board.Init(game.Board, observerTeamId);
 
-      //game.RegisterUI(subtitle);
-      //cp.Init(game.ControlPanel);
       controlPanel.PropertyChanged += (sender, e) =>
         {
           const string CP = "ControllingPokemon";

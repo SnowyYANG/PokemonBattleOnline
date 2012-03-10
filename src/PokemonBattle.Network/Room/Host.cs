@@ -32,7 +32,6 @@ namespace LightStudio.PokemonBattle.Room
       Spectators = new ReadOnlyObservableCollection<int>(spectators);
       game = GameFactory.CreateGame(settings);
       game.ReportUpdated += InformReportUpdate;
-      game.InputSucceed += InformInputSucceed;
     }
 
     public ReadOnlyObservableCollection<int> Spectators
@@ -113,8 +112,9 @@ namespace LightStudio.PokemonBattle.Room
     {
       if (State == RoomState.GameStarted)
       {
-        if (!game.InputAction(userId, action))
-          InformInputFail(userId);
+        InputResult r = game.InputAction(userId, action);
+        InformInputResult(r, userId);
+        if (r.AllDone) game.Continue();
       }
     }
     #endregion
@@ -212,13 +212,9 @@ namespace LightStudio.PokemonBattle.Room
     {
     }
 
-    void InformInputFail(int userId)
+    void InformInputResult(InputResult result, int userId)
     {
-      OnSendInformation(new InputFailInfo(), userId);
-    }
-    void InformInputSucceed(Game.Player player)
-    {
-      OnSendInformation(new InputSucceedInfo(), player.Id);
+      OnSendInformation(new InputResultInfo(result), userId);
     }
     #endregion
 

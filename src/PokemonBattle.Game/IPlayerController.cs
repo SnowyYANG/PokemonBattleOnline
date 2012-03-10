@@ -10,8 +10,7 @@ namespace LightStudio.PokemonBattle.Game
   public interface IPlayerControllerEvents
   {
     void RequireInput();
-    void InputSucceeded();
-    void InputFailed();
+    void InputResult(bool ok, string message, bool allDone);
     void TieRequested();
     void TieRejected();
     void TimeElapsed(int remainingSeconds);

@@ -13,11 +13,6 @@ namespace LightStudio.PokemonBattle.Game
       add { SwitchController.PokemonWithdrawing += value; }
       remove { SwitchController.PokemonWithdrawing -= value; }
     }
-    internal event Action<Player> InputSucceed
-    {
-      add { InputController.InputSucceed += value; }
-      remove { InputController.InputSucceed -= value; }
-    }
     internal event Action<ReportFragment, int[]> ReportUpdated
     {
       add { InputController.ReportUpdated += value; }
@@ -31,6 +26,7 @@ namespace LightStudio.PokemonBattle.Game
     private readonly TurnController TurnController;
     
     private Random random;
+    private Action inputFinished;
 
     internal Controller(GameContext game)
     {
@@ -80,6 +76,10 @@ namespace LightStudio.PokemonBattle.Game
       ReportBuilder.NewFragment();
       TurnController.BeginTurn();
     }
+    internal void ContinueGameLoop()
+    {
+      if (inputFinished != null) inputFinished();
+    }
     public void Action() //蜻蜓返专用后门
     {
       TurnController.Action();
@@ -87,24 +87,27 @@ namespace LightStudio.PokemonBattle.Game
     #endregion
 
     #region Input
-    internal void ContinueAfterInput(Action inputFinished)
+    internal void PauseForInput(Action inputFinished)
     {
       random = new Random();
-      InputController.ContinueAfterInput(inputFinished);
+      if (InputController.PauseForInput())
+        this.inputFinished = inputFinished;
+      else
+        inputFinished();
     }
-    internal bool InputSwitch(PokemonProxy withdraw, int sendoutIndex)
+    internal InputResult InputSwitch(PokemonProxy withdraw, int sendoutIndex)
     {
       return InputController.Switch(withdraw, sendoutIndex);
     }
-    internal bool InputSendout(Tile position, int sendoutIndex)
+    internal InputResult InputSendout(Tile position, int sendoutIndex)
     {
       return InputController.Sendout(position, sendoutIndex);
     }
-    internal bool InputSelectMove(MoveProxy move, Tile position)
+    internal InputResult InputSelectMove(MoveProxy move, Tile position)
     {
       return InputController.SelectMove(move, position);
     }
-    internal bool InputStruggle(PokemonProxy pm)
+    internal InputResult InputStruggle(PokemonProxy pm)
     {
       return InputController.Struggle(pm);
     }

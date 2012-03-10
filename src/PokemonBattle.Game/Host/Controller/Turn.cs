@@ -57,7 +57,7 @@ namespace LightStudio.PokemonBattle.Game
       bool needInput = false;
       foreach (PokemonProxy p in OnboardPokemons)
         needInput |= p.CheckNeedInput();
-      if (needInput) Controller.ContinueAfterInput(Prepare);
+      if (needInput) Controller.PauseForInput(Prepare);
       else Prepare();
     }
     private void Prepare()
@@ -99,7 +99,7 @@ namespace LightStudio.PokemonBattle.Game
             t.WillSendoutPokemonIndex = GameSettings.Mode.GetPokemonIndex(t.X);
           else
           {
-            Controller.ContinueAfterInput(EndTurnSendout);
+            Controller.PauseForInput(EndTurnSendout);
             return;
           }
         }

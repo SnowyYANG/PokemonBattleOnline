@@ -9,9 +9,6 @@ using LightStudio.PokemonBattle.PBO.Battle.VM;
 
 namespace LightStudio.PokemonBattle.PBO.Battle
 {
-  /// <summary>
-  /// Interaction logic for Subtitle.xaml
-  /// </summary>
   public partial class Subtitle : System.Windows.Controls.Border
   {
     private class Control
@@ -51,6 +48,12 @@ namespace LightStudio.PokemonBattle.PBO.Battle
           if (cp.ControllingPokemon != null && cp.ControllingPokemon.Hp > 0)
             nest.SetTextForcibly(cp.ControllingPokemon.Name + "要做什么？");
       }
+      public void ControlPanel_InputFailed(string message)
+      {
+        if (message != null) nest.SetTextForcibly(message);
+        else System.Windows.MessageBox.Show("InputFailed");
+      }
+
       public void EventFinished()
       {
         nest.timer.Stop();

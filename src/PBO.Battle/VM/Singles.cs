@@ -13,6 +13,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
   class Singles : IControlPanel, IPlayerControllerEvents
   {
     public event PropertyChangedEventHandler PropertyChanged;
+    public event Action<string> InputFailed;
     IPlayerController controller;
     int selectedPanel;
     BoardOutward board;
@@ -100,14 +101,15 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
       else selectedPanel = ControlPanelIndex.MAIN;
       OnPropertyChanged(null);
     }
-    void IPlayerControllerEvents.InputSucceeded()
+    void IPlayerControllerEvents.InputResult(bool suceeded, string message, bool allDone)
     {
-      SelectedPanel = (int)ControlPanelIndex.INACTIVE;
-      OnPropertyChanged("ControllingPokemon");
-    }
-    void IPlayerControllerEvents.InputFailed()
-    {
-      System.Windows.MessageBox.Show("Debug.InputFailed");
+      if (allDone)
+      {
+        SelectedPanel = (int)ControlPanelIndex.INACTIVE;
+        OnPropertyChanged("ControllingPokemon");
+      }
+      else
+        if (InputFailed != null) InputFailed(message);
     }
     void IPlayerControllerEvents.TieRequested()
     {

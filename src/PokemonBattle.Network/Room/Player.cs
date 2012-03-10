@@ -75,6 +75,7 @@ namespace LightStudio.PokemonBattle.Room
     }
     #endregion
 
+    #region Update
     protected override void InformReportUpdate(ReportFragment fragment)
     {
       base.InformReportUpdate(fragment);
@@ -88,6 +89,7 @@ namespace LightStudio.PokemonBattle.Room
     {
       game.Update(info);
     }
+    #endregion
 
     #region Tie
     protected override void InformRequestTie()
@@ -99,15 +101,10 @@ namespace LightStudio.PokemonBattle.Room
     #endregion
 
     #region Input
-    protected override void InformInputFail()
+    protected override void InformInputResult(bool ok, string message, bool allDone)
     {
       foreach (IPlayerControllerEvents l in listeners)
-        l.InputFailed();
-    }
-    protected override void InformInputSucceed()
-    {
-      foreach (IPlayerControllerEvents l in listeners)
-        l.InputSucceeded();
+        l.InputResult(ok, message, allDone);
     }
     #endregion
 

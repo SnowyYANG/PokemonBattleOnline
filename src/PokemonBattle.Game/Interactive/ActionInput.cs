@@ -8,12 +8,41 @@ using LightStudio.PokemonBattle.Game;
 
 namespace LightStudio.PokemonBattle.Interactive
 {
+  public class InputResult
+  {
+    public static InputResult Succeed(bool allDone = false)
+    {
+      return new InputResult(true, null, allDone);
+    }
+    public static InputResult Fail(string message = null)
+    {
+      return new InputResult(false, message, false);
+    }
+
+    public readonly bool IsSucceeded;
+    public readonly bool AllDone;
+    public readonly string Message;
+
+    private InputResult(bool succeed, string message, bool allDone)
+    {
+      IsSucceeded = succeed;
+      AllDone = allDone;
+      Message = message;
+    }
+  }
+  
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class ActionInput
   {
     public static ActionInput UseMove(SimMove move, Tile target)
     {
-      return new ActionInput(move.Move.Id) { TargetTeam = target.Team, TargetX = target.X };
+      ActionInput i =  new ActionInput(move.Move.Id);
+      if (target != null)
+      { 
+        i.TargetTeam = target.Team;
+        i.TargetX = target.X;
+      }
+      return i;
     }
     public static ActionInput Switch(SimPokemon withdraw, Pokemon sendout)
     {
@@ -38,7 +67,7 @@ namespace LightStudio.PokemonBattle.Interactive
     int TargetX = -1;
 
     [DataMember(EmitDefaultValue = false)]
-    int SendoutIndex;
+    int SendoutIndex = 0;
 
     private ActionInput(int actionId)
     {
@@ -48,7 +77,7 @@ namespace LightStudio.PokemonBattle.Interactive
     /// <summary>
     /// 只判断pm归属权问题
     /// </summary>
-    internal bool Input(Controller controller, Player player)
+    internal InputResult Input(Controller controller, Player player)
     {
       if (SendoutIndex != 0) //虽然用-1更好，不过0也不会错，还省流量
       {
@@ -65,10 +94,11 @@ namespace LightStudio.PokemonBattle.Interactive
           {
             if (p.Pokemon.StruggleId == ActionId) controller.InputStruggle(p);
             foreach (MoveProxy m in p.Moves)
-              controller.InputSelectMove(m, controller.GetTile(TargetTeam, TargetX));
+              if (m.Id == ActionId)
+                return controller.InputSelectMove(m, controller.GetTile(TargetTeam, TargetX));
           }
       }
-      return false;
+      return InputResult.Fail("ActionInput.Input");
     }
   }
 }

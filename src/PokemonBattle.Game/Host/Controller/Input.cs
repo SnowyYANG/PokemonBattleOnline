@@ -12,35 +12,31 @@ namespace LightStudio.PokemonBattle.Game
   internal class InputController : ControllerComponent
   {
     public event Action<ReportFragment, int[]> ReportUpdated;
-    public event Action<Player> InputSucceed;
-    HashSet<int> players;
-    private Action InputFinished;
+    private HashSet<int> players;
 
     public InputController(Controller controller)
       : base(controller)
     {
     }
 
-    private void CheckInputSucceed(Player player)
+    private InputResult CheckInputSucceed(Player player)
     {
       foreach (Tile t in Controller.Tiles)
         if (Controller.GetPlayer(t) == player)
           if (t.Pokemon != null)
           {
-            if (t.Pokemon.Action == PokemonAction.WaitingForInput) return;
+            if (t.Pokemon.Action == PokemonAction.WaitingForInput) return InputResult.Succeed();
           }
           else
           {
-            if (t.WillSendoutPokemonIndex == t.X) return;
+            if (t.WillSendoutPokemonIndex == t.X) return InputResult.Succeed();
           }
       players.Remove(player.Id);
-      if (InputSucceed != null) InputSucceed(player);
-      if (players.Count == 0 && InputFinished != null) InputFinished();
+      return InputResult.Succeed(true);
     }
-    public void ContinueAfterInput(Action inputFinished)
+    public bool PauseForInput()
     {
       players = new HashSet<int>();
-      InputFinished = inputFinished;
       foreach (Tile t in Controller.Tiles)
         if (Controller.CanSendout(t) || t.Pokemon.Action == PokemonAction.WaitingForInput)
           players.Add(Controller.GetPlayer(t).Id);
@@ -48,49 +44,46 @@ namespace LightStudio.PokemonBattle.Game
       {
         ReportBuilder.NewFragment();
         if (ReportUpdated != null) ReportUpdated(ReportBuilder.GetFragment(), players.ToArray());
-      }
-      else InputFinished();
-    }
-    public bool Switch(PokemonProxy withdraw, int sendoutIndex)
-    {
-      if (withdraw.UndoInput())
-      {
-        bool r = withdraw.InputSwitch(sendoutIndex);
-        if (r) CheckInputSucceed(withdraw.Pokemon.Owner);
-        return r;
-      }
-      return false;
-    }
-    public bool Sendout(Tile position, int sendoutIndex)
-    {
-      if (Controller.CanSendout(position) && Controller.CanSendout(Controller.GetPlayer(position).GetPokemon(sendoutIndex)))
-      {
-        position.WillSendoutPokemonIndex = sendoutIndex;
-        CheckInputSucceed(Controller.GetPlayer(position));
         return true;
       }
       return false;
     }
-    public bool SelectMove(MoveProxy move, Tile target)
+    public InputResult Switch(PokemonProxy withdraw, int sendoutIndex)
+    {
+      if (withdraw.UndoInput())
+      {
+        string m = withdraw.InputSwitch(sendoutIndex);
+        if (m == null) return CheckInputSucceed(withdraw.Pokemon.Owner);
+        return InputResult.Fail(m == string.Empty ? null : m);
+      }
+      return InputResult.Fail("当前精灵没有等待训练师的命令");
+    }
+    public InputResult Sendout(Tile tile, int sendoutIndex)
+    {
+      if (!Controller.CanSendout(tile)) return InputResult.Fail("非空场地或已经没有可以送出的精灵了");
+      if (!Controller.CanSendout(Controller.GetPlayer(tile).GetPokemon(sendoutIndex))) return InputResult.Fail("这只精灵无法被送出");
+      tile.WillSendoutPokemonIndex = sendoutIndex;
+      return CheckInputSucceed(Controller.GetPlayer(tile));
+    }
+    public InputResult SelectMove(MoveProxy move, Tile target)
     {
       if (move.Owner.UndoInput())
       {
-        bool r = move.Owner.SelectMove(move, target);
-        if (r) CheckInputSucceed(move.Owner.Pokemon.Owner);
-        return r;
+        string m = move.Owner.SelectMove(move, target);
+        if (m == null) return CheckInputSucceed(move.Owner.Pokemon.Owner);
+        return InputResult.Fail(m == string.Empty ? null : m);
       }
-      return false;
+      return InputResult.Fail("当前精灵没有等待训练师的命令");
     }
-    public bool Struggle(PokemonProxy pokemon)
+    public InputResult Struggle(PokemonProxy pokemon)
     {
-      pokemon.UndoInput();
-      if (pokemon.Action == PokemonAction.WaitingForInput)
+      if (pokemon.UndoInput())
       {
-        bool r = pokemon.SelectMove(pokemon.StruggleMove, null);
-        if (r) CheckInputSucceed(pokemon.Pokemon.Owner);
-        return r;
+        string m = pokemon.SelectMove(pokemon.StruggleMove, null);
+        if (m == null) return CheckInputSucceed(pokemon.Pokemon.Owner);
+        return InputResult.Fail(m == string.Empty ? null : m);
       }
-      return false;
+      return InputResult.Fail("当前精灵没有等待训练师的命令");
     }
   }
 }

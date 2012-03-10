@@ -39,6 +39,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     internal void Init(IControlPanel controlPanel)
     {
       controlPanel.PropertyChanged += control.ControlPanel_PropertyChanged;
+      controlPanel.InputFailed += control.ControlPanel_InputFailed;
     }
 
     void timer_Tick(object sender, EventArgs e)

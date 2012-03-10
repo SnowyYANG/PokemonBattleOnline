@@ -36,9 +36,6 @@
                         <TextBlock Text="{Binding Hp.Value}" Canvas.Right="40" Canvas.Bottom="4"/>
                     </Canvas>
                     <DataTemplate.Triggers>
-                        <!--<DataTrigger Binding="{Binding}" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>-->
                         <DataTrigger Binding="{Binding State}" Value="Normal">
                             <Setter TargetName="level" Property="Visibility" Value="Visible"/>
                         </DataTrigger>

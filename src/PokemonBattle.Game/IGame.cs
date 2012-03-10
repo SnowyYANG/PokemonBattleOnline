@@ -14,15 +14,15 @@ namespace LightStudio.PokemonBattle.Game
   {
     event Action<int, int> GameEnd;
     event Action<ReportFragment, int[]> ReportUpdated;
-    event Action<Player> InputSucceed;
 
     bool Prepared { get; }
     GameSettings Settings { get; }
 
     bool Start();
+    void Continue();
     bool SetPlayer(int teamId, int userId, PokemonCustomInfo[] pokemons);
     Player GetPlayer(int id);
-    bool InputAction(int player, ActionInput action);
+    InputResult InputAction(int player, ActionInput action);
     ReportFragment GetLastLeapFragment();
   }
   public static class GameFactory

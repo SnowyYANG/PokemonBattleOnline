@@ -89,8 +89,11 @@ namespace LightStudio.PokemonBattle.Game
     #region Predict
     public bool CanWithdraw
     { get { return Controller.CanWithdraw(this); } }
+    /// <summary>
+    /// 和Struggle一起的
+    /// </summary>
     public bool CanSelectMove
-    { get { throw new NotImplementedException(); } }//Hp>0
+    { get { return Hp > 0; } }
     #endregion
 
     public bool HasWorkingAbility(int abilityId)
@@ -108,28 +111,23 @@ namespace LightStudio.PokemonBattle.Game
       }
       return false;
     }
-    internal bool InputSwitch(int sendoutIndex)
+    internal string InputSwitch(int sendoutIndex)
     {
-      #warning 踩影子 我受不了啦用事件吧
-      if (CanWithdraw && Controller.CanSendout(Pokemon.Owner.GetPokemon(sendoutIndex)) &&
-        true)
-      {
-        Action = PokemonAction.WillSwitch;
-        Tile.WillSendoutPokemonIndex = sendoutIndex;
-        return true;
-      }
-      return false;
+      if (!CanWithdraw) return "不能把精灵收回来";
+#warning 踩影子 我受不了啦用事件吧
+      if (!Controller.CanSendout(Pokemon.Owner.GetPokemon(sendoutIndex))) return "无法送出";
+      Action = PokemonAction.WillSwitch;
+      Tile.WillSendoutPokemonIndex = sendoutIndex;
+      return null;
     }
-    internal bool SelectMove(MoveProxy move, Tile target)
+    internal string SelectMove(MoveProxy move, Tile target)
     {
-      if (CanSelectMove && move.CanBeSelected)
-      {
-        Action = PokemonAction.WillMove;
-        SelectedMove = move;
-        SelectedMove.SelectedTarget = target;
-        return true;
-      }
-      return false;
+      if (!CanSelectMove) return "";
+      if (!move.CanBeSelected) return "";
+      Action = PokemonAction.WillMove;
+      SelectedMove = move;
+      SelectedMove.SelectedTarget = target;
+      return null;
     }
     /// <summary>
     /// 

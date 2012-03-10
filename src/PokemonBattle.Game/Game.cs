@@ -18,11 +18,6 @@ namespace LightStudio.PokemonBattle.Game
       add { Controller.ReportUpdated += value; }
       remove { Controller.ReportUpdated -= value; }
     }
-    public event Action<Player> InputSucceed
-    {
-      add { Controller.InputSucceed += value; }
-      remove { Controller.InputSucceed -= value; }
-    }
 
     public readonly Board Board;
     public readonly Team[] Teams;
@@ -85,7 +80,11 @@ namespace LightStudio.PokemonBattle.Game
       }
       return false;
     }
-    bool IGame.InputAction(int playerId, ActionInput action)
+    void IGame.Continue()
+    {
+      Controller.ContinueGameLoop();
+    }
+    InputResult IGame.InputAction(int playerId, ActionInput action)
     {
       return action.Input(Controller, GetPlayer(playerId));
     }
