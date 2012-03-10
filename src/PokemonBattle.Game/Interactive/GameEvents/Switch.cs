@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using LightStudio.Tactic.DataModels;
+using LightStudio.Tactic.Messaging.Lobby;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
 
@@ -25,7 +26,7 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     public override IText GetGameLog()
     {
       IText t = GetGameLog(SENDOUT);
-      t.SetData(this);
+      t.SetData(LobbyService.GetUserName(PlayerId), Pokemon);
       return t;
     }
     public override void Update(GameOutward game)
@@ -56,6 +57,10 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     [DataMember]
     int X { get; set; }
 
+    string pokemonName;
+    string playerName;
+    bool isFaint;
+
     internal Withdraw(PokemonProxy pm)
     {
       Team = pm.Tile.Team;
@@ -63,16 +68,28 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     }
     public override IText GetGameLog()
     {
-      System.Diagnostics.Debugger.Break();
-      return null;
+      IText t;
+      if (isFaint)
+      {
+        t = GetGameLog(FAINT);
+        t.SetData(pokemonName);
+      }
+      else
+      {
+        t = GetGameLog(WITHDRAW);
+        t.SetData(playerName, pokemonName);
+      }
+      return t;
     }
     public override void Update(GameOutward game)
     {
       PokemonOutward pm = game.Board[Team, X];
+      pokemonName = pm.Name;
+      playerName = LobbyService.GetUserName(pm.OwnerId);
       if (pm.Hp.Value == 0)
       {
         pm.Faint();
-        //text = xxx倒下了
+        isFaint = true;
       }
       else
       {

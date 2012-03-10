@@ -8,6 +8,9 @@ using LightStudio.Tactic.DataModels.IO;
 
 namespace LightStudio.PokemonBattle.Data
 {
+  [KnownType(typeof(LogText))]
+  [KnownType(typeof(LogLine))]
+  [KnownType(typeof(LogObject))]
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class GameLog : SimpleData
   {

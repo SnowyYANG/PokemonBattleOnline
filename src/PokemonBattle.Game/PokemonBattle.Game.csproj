@@ -55,6 +55,7 @@
     <Compile Include="GameService.cs" />
     <Compile Include="IGame.cs" />
     <Compile Include="Interactive\GameEvent.cs" />
+    <Compile Include="Interactive\GameEvents\Simple.cs" />
     <Compile Include="Interactive\GameEvents\Switch.cs" />
     <Compile Include="Interactive\GameEvents\Turn.cs" />
     <Compile Include="Interactive\ReportBuilder.cs" />

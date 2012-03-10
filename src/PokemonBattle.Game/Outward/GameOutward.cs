@@ -36,9 +36,8 @@ namespace LightStudio.PokemonBattle.Game
 
     public void Update(ReportFragment turn)
     {
-      UIDispatcher.Invoke(() =>
-        {
-          if (turn.Teams != null)
+      if (turn.Teams != null)
+        UIDispatcher.Invoke(() =>
           {
             for (int t = 0; t < Settings.Mode.TeamCount(); t++)
             {
@@ -48,16 +47,15 @@ namespace LightStudio.PokemonBattle.Game
               Board.Weather = turn.Weather;
             }
             LeapTurn();
-          }
-        });
+          });
       foreach (GameEvent e in turn.Events)
       {
         System.Threading.Thread.Sleep(500);
         UIDispatcher.Invoke(() =>
           {
+            e.Update(this);
             foreach (IGameOutwardEvents l in listeners)
               l.EventOccurred(e);
-            e.Update(this);
           });
       }
     }

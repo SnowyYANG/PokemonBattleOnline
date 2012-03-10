@@ -23,7 +23,14 @@ namespace LightStudio.Tactic.DataModels
     Alignment Alignment { get; }
 
     void SetData(params object[] data);
+    void ClearData();
+    /// <summary>
+    /// Text works only when Contents is null
+    /// </summary>
     string Text { get; }
+    /// <summary>
+    /// Text works only when Contents is null
+    /// </summary>
     IText[] Contents { get; }
   }
 
@@ -81,11 +88,18 @@ namespace LightStudio.Tactic.DataModels
       }
     }
 
+    protected object[] Data
+    { get; private set; }
     public virtual void SetData(params object[] data)
     {
+      Data = data;
       if (Contents != null)
         foreach (IText t in Contents)
           t.SetData(data);
+    }
+    public void ClearData()
+    {
+      Data = null;
     }
   }
 }

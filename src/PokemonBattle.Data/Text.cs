@@ -51,6 +51,21 @@ namespace LightStudio.PokemonBattle.Data
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class LogText : TextBase
   {
+    private static readonly object[] NODATA = new object[0];
+
+    [DataMember]
+    public override string Text
+    {
+      get
+      {
+        return string.Format(base.Text, Data ?? NODATA);
+      }
+      protected set
+      {
+        base.Text = value;
+      }
+    }
+    
     public LogText(string text)
       : base(text)
     {

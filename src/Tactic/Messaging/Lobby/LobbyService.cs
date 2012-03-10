@@ -27,5 +27,11 @@ namespace LightStudio.Tactic.Messaging.Lobby
     {
       return client.GetUser(userId);
     }
+    public static string GetUserName(int userId)
+    {
+      User u = GetUser(userId);
+      if (u == null) return "#" + userId.ToString();
+      else return u.Name;
+    }
   }
 }

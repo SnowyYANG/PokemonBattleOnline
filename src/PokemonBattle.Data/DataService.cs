@@ -23,6 +23,7 @@ namespace LightStudio.PokemonBattle.Data
     public static GameLog GameLog { get; private set; }
     public static IDomainStringService String { get; private set; }
     public static IDomainStringService DataString { get; private set; }
+
     public static IEnumerable<Ability> Abilities
     { get { return romData.Abilities.Values; } }
     public static IEnumerable<Item> Items
@@ -45,9 +46,8 @@ namespace LightStudio.PokemonBattle.Data
 
       Image = new ImageService(dataCollection, configuration);
 
-      //GameLog = new GameLog(logStringService);
-
       romData = RomData.Load();
+      GameLog = GameLog.Load(stringService.Language);
     }
     private static void ClearImpl()
     {

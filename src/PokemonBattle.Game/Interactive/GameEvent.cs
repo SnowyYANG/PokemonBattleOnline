@@ -20,6 +20,7 @@ namespace LightStudio.PokemonBattle.Interactive
     protected const string ENDTURN = "EndTurn";
     protected const string SENDOUT = "SendOut";
     protected const string WITHDRAW = "WithDraw";
+    protected const string FAINT = "Faint";
     protected const string MOVE = "Move";
     protected const string EXERTSKILL = "ExertSkill";
     protected const string EXERTSKILLONTARGET = "ExertSkillOnTarget";
