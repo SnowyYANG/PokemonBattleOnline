@@ -76,9 +76,13 @@ namespace LightStudio.PokemonBattle.Game
     {
       if (inputFinished != null && !InputController.NeedInput) inputFinished();
     }
-    public void Act() //蜻蜓返、脱离按钮、追击死亡专用后门
+    public void ActMove() //蜻蜓返、脱离按钮
     {
-      TurnController.Act();
+      TurnController.ActMove();
+    }
+    public void Switch()//追击死亡专用后门
+    {
+      TurnController.Switch();
     }
     #endregion
 

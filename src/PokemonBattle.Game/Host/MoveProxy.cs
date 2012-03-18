@@ -21,8 +21,6 @@ namespace LightStudio.PokemonBattle.Game
     { get { return Model.PP.Value; } }
     public int Priority
     { get { return Model.Type.Priority; } }
-    public Tile SelectedTarget
-    { get; internal set; }
 
     /// <summary>
     /// CanSelect不代表技能一定能用，http://www.smogon.com/dp/articles/move_restrictions#disable
@@ -35,14 +33,6 @@ namespace LightStudio.PokemonBattle.Game
         return PP > 0;
       }
     } //PP>0
-    public bool CanBeExecuted
-    { 
-      get
-      { 
-        
-        return PP > 0;
-      }
-    }
 
     //在特效接口处
     //public Position[] GetSelectTarget(Position position)
@@ -53,5 +43,8 @@ namespace LightStudio.PokemonBattle.Game
     //    }
     //  return new Position[] { position };
     //}
+    public void Act(Tile selectTarget)
+    {
+    }
   }
 }

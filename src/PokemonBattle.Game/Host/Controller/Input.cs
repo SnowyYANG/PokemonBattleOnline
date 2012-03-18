@@ -43,7 +43,7 @@ namespace LightStudio.PokemonBattle.Game
     public void PauseForTurnInput()
     {
       foreach (PokemonProxy p in Controller.OnboardPokemons)
-        if (p.Action == PokemonAction.WaitingForInput) players.Add(p.Id);
+        if (p.Action == PokemonAction.WaitingForInput) players.Add(p.Pokemon.Owner.Id);
     }
     public void PauseForEndTurnInput()
     {

@@ -29,6 +29,10 @@ namespace LightStudio.PokemonBattle.Game
       if (CanExecute()) Execute();
     }
 
+    protected PokemonProxy[] GetTargets(Tile selectTarget)
+    {
+      return null;
+    }
     public bool CanExecute() //梦话new
     {
       throw new NotImplementedException();

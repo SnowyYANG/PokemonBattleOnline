@@ -68,26 +68,34 @@ namespace LightStudio.PokemonBattle.Game
         p.Prepare();
       Switch();
       Pre_UseMove();
-      Act();
+      ActMove();
     }
     public void Switch()
     {
-      foreach (PokemonProxy p in OnboardPokemons)
-        p.Switch();
+    LOOP:
+      PokemonProxy p = OnboardPokemons.FirstOrDefault((pm) => pm.Action == PokemonAction.SwitchPrepared);
+      if (p == null) return;
+      p.Switch();
+      goto LOOP;  
     }
-    public void Pre_UseMove()
+    private void Pre_UseMove()
     {
       foreach (PokemonProxy p in OnboardPokemons)
         p.Pre_Move();
     }
-    public void Act() //蜻蜓返的inputFinished
+    public void ActMove() //蜻蜓返的inputFinished
     {
+    LOOP:
       PokemonProxy p = OnboardPokemons.FirstOrDefault((pm) => pm.CanActMove);
-      if (p == null) EndTurnEffects();
+      if (p == null)
+      {
+        EndTurnEffects();
+        return;
+      }
       else
       {
         p.ActMove();
-        Act();
+        goto LOOP;
       }
     }
     private void EndTurnEffects()

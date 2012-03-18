@@ -49,12 +49,9 @@ namespace LightStudio.PokemonBattle.Game
       Outward = BuildOutward(this);
     }
 
+    #region Data
     public int Id
     { get { return Pokemon.Id; } }
-    public PokemonAction Action
-    { get; private set; }
-    public MoveProxy SelectedMove //先取
-    { get; private set; }
     internal Tile Tile
     { get { return Controller.GetTile(Position.Team, Position.X); } }
 
@@ -85,6 +82,7 @@ namespace LightStudio.PokemonBattle.Game
     { get; private set; }
     public MoveProxy StruggleMove
     { get; private set; }
+    #endregion
 
     #region Predict
     public bool CanWithdraw
@@ -94,6 +92,7 @@ namespace LightStudio.PokemonBattle.Game
     /// </summary>
     public bool CanSelectMove
     { get { return Hp > 0; } }
+    private int lastActTurn = 0;
     public bool CanActMove
     {
       get
@@ -105,6 +104,12 @@ namespace LightStudio.PokemonBattle.Game
     #endregion
 
     #region Input
+    public PokemonAction Action
+    { get; private set; }
+    public MoveProxy SelectedMove //先取
+    { get; private set; }
+    public Tile SelectedTarget
+    { get; private set; }
     internal bool CheckNeedInput()
     {
       if (Action == PokemonAction.Done)
@@ -129,7 +134,7 @@ namespace LightStudio.PokemonBattle.Game
       if (!move.CanBeSelected) return "";
       Action = PokemonAction.WillMove;
       SelectedMove = move;
-      SelectedMove.SelectedTarget = target;
+      SelectedTarget = target;
       return null;
     }
     /// <summary>
@@ -166,7 +171,6 @@ namespace LightStudio.PokemonBattle.Game
         Action = PokemonAction.SwitchPrepared;
       }
     }
-    private int lastActTurn = 0;
 
     internal void Switch()
     {
@@ -175,7 +179,7 @@ namespace LightStudio.PokemonBattle.Game
         Action = PokemonAction.Switching;
         if (Controller.Withdraw(this)) //追击，无论死没死都已经收回了
         {
-          if (this.Hp == 0) Controller.PauseForSendoutInput(Controller.Act, Tile);
+          if (this.Hp == 0) Controller.PauseForSendoutInput(Controller.Switch, Tile);
           else Controller.Sendout(Tile);
         }
         Action = PokemonAction.Done;
@@ -188,10 +192,6 @@ namespace LightStudio.PokemonBattle.Game
     internal void Pre_Move()
     {
     }
-    /// <summary>
-    /// 对于有RequireInput可能的，会改动OnBoardPokemon列表的，return true
-    /// </summary>
-    /// <returns></returns>
     public void ActMove()
     {
       if (!CanActMove) return;
@@ -200,7 +200,7 @@ namespace LightStudio.PokemonBattle.Game
       {
         case PokemonAction.MovePrepared:
           Action = PokemonAction.Moving;
-
+          SelectedMove.Act(SelectedTarget);
           break;
         case PokemonAction.Moving:
           System.Diagnostics.Debugger.Break();
