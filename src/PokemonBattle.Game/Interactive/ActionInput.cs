@@ -10,7 +10,7 @@ namespace LightStudio.PokemonBattle.Interactive
 {
   public class InputResult
   {
-    public static InputResult Succeed(bool allDone = false)
+    public static InputResult Succeed(bool allDone)
     {
       return new InputResult(true, null, allDone);
     }

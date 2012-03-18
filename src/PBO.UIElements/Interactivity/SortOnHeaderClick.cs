@@ -102,6 +102,4 @@ namespace LightStudio.PokemonBattle.PBO.UIElements.Interactivity
       obj.SetValue(SortPropertyProperty, value);
     }
   }
-
-
 }

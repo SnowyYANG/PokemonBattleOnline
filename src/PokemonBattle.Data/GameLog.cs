@@ -16,18 +16,23 @@ namespace LightStudio.PokemonBattle.Data
   {
     public static GameLog Load(string language)
     {
-      return LoadFromXml<GameLog>("log\\" + language + ".xml");
+      return LoadFromXml<GameLog>("Data\\log\\" + language + ".xml");
     }
     
     [DataMember]
-    private Dictionary<string, IText> logs;
+    public Dictionary<string, IText> logs;
 
-    internal GameLog()
+    public GameLog()
     {
       logs = new Dictionary<string, IText>();
     }
 
     public IText this[string eventType]
     { get { return logs.ValueOrDefault(eventType); } }
+
+    public void Save(string language)
+    {
+      base.SaveXml("Data\\logs\\" + language + ".xml");
+    }
   }
 }

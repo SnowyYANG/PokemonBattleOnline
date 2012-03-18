@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EModels\AbilityE.cs" />
+    <Compile Include="EModels\ItemE.cs" />
+    <Compile Include="EModels\MoveE.cs" />
     <Compile Include="Host\Controller\ControllerComponent.cs" />
     <Compile Include="Host\Controller\Turn.cs" />
     <Compile Include="Host\GameElementIds.cs" />

@@ -65,7 +65,7 @@ namespace LightStudio.PokemonBattle.Data
     #region HiddenPower
 
     #region HiddenTypes
-    private static readonly BattleType[] HiddenTypes = new[] { 
+    private static readonly BattleType[] hiddenTypes = new[] { 
       BattleType.Fighting, 
       BattleType.Flying,
       BattleType.Poison,
@@ -82,6 +82,8 @@ namespace LightStudio.PokemonBattle.Data
       BattleType.Ice,
       BattleType.Dragon,
       BattleType.Dark};
+    public static IEnumerable<BattleType> HiddenPowerTypes
+    { get { return hiddenTypes; } }
     #endregion
 
     #region Built-in Hidden Power IV set
@@ -112,7 +114,7 @@ namespace LightStudio.PokemonBattle.Data
     public static BattleType GetHiddenPowerBattleType(params byte[] statIvs)
     {
       int value = GetHiddenPowerBinaryValue(0, statIvs);
-      return HiddenTypes[value * 15 / 63];
+      return hiddenTypes[value * 15 / 63];
     }
 
     /// <summary>

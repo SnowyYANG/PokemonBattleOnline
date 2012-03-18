@@ -55,26 +55,23 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       {
         return text.IsItalic ? FontStyles.Italic : FontStyles.Normal;
       }
-      private static Thickness GetBorderThickness(IText text)
+      private static TextDecorationCollection GetTextDecorations(IText text)
       {
-        return text.IsUnderlined ? new Thickness(0, 0, 0, 1) : new Thickness(0);
+        return text.IsUnderlined ? TextDecorations.Underline : null;
       }
-      private static Block GetBlock(IText text)
+      private static void AddInline(Paragraph paragraph, IText text)
       {
-        Paragraph p = new Paragraph()
-        {
-          TextAlignment = GetAlignment(text),
-          Background = GetBackground(text),
-          Foreground = GetForeground(text),
-          FontSize = text.FontSize,
-          FontWeight = GetFontWeight(text),
-          FontStyle = GetFontStyle(text),
-          BorderThickness = GetBorderThickness(text),
-          BorderBrush = GetForeground(text)
-        };
         if (text.Contents == null)
         {
-          p.Inlines.Add(new Run(text.Text));
+          paragraph.Inlines.Add(new Run(text.Text)
+            {
+              Background = GetBackground(text),
+              Foreground = GetForeground(text),
+              FontSize = text.FontSize,
+              FontWeight = GetFontWeight(text),
+              FontStyle = GetFontStyle(text),
+              TextDecorations = GetTextDecorations(text)
+            });
         }
         else
         {
@@ -82,27 +79,38 @@ namespace LightStudio.PokemonBattle.PBO.Battle
           //foreach (IText t in text.Contents)
           //  p.Inlines.Add(GetBlock(t));
         }
-        return p;
       }
       #endregion
 
       BattleReport nest;
+      Paragraph current;
 
       public Control(BattleReport battlereport)
       {
-        this.nest = battlereport;
+        nest = battlereport;
       }
 
       void IGameOutwardEvents.EventOccurred(GameEvent e)
       {
         IText text = e.GetGameLog();
-        Block b = GetBlock(text);
-        text.ClearData();
-        nest.AddBlock(b);
-        if (e is Interactive.GameEvents.BeginTurn)
+        if (text != null)
         {
-          nest.nowTurn = new LinkedListNode<Block>(b);
-          nest.turnsBookmark.AddLast(nest.nowTurn);
+          if (current == null || GetAlignment(text) != current.TextAlignment)
+          {
+            current = new Paragraph() { TextAlignment = GetAlignment(text) };
+            nest.AddBlock(current);
+          }
+          AddInline(current, text);
+          text.ClearData();
+          if (e is Interactive.GameEvents.BeginTurn)
+          {
+            nest.nowTurn = new LinkedListNode<TextElement>(current.Inlines.Last());
+            nest.turnsBookmark.AddLast(nest.nowTurn);
+          }
+        }
+        else
+        {
+          nest.AddBlock(new Paragraph(new Run(e.GetType().Name) { Foreground = Brushes.Red }));
         }
       }
     }

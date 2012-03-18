@@ -12,14 +12,11 @@ namespace LightStudio.Tactic.Serialization
 {
   public static class Serializer
   {
-    private static readonly HashSet<Type> knownTypes = new HashSet<Type>{ /*
-        typeof(Point), typeof(Range), typeof(DynamicObject), typeof(NamedDynamicObject), 
-        typeof(SkillType), typeof(SpriteType), typeof(SpriteCustomInfo), typeof(SkillItem),
-        typeof(Terrain), typeof(PropertyDictionary)*/};
+    private static readonly HashSet<Type> knownTypes = new HashSet<Type>();
 
     public static DataContractSerializer GetSerializer(Type type)
     {
-      return new DataContractSerializer(type, null, Int32.MaxValue,
+      return new DataContractSerializer(type, knownTypes, Int32.MaxValue,
           false, false, null, new Resolver());
     }
     private static XmlReader GetXmlReader(Stream stream)

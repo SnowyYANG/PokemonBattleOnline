@@ -46,7 +46,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     public Weather Weather
     { get { return board.Weather; } }
     public SimPokemon ControllingPokemon
-    { get { return controller.Game.ActivePokemons.ValueOrDefault(0); } }
+    { get; private set; }
     public Visibility UndoVisibility
     { get { return Visibility.Collapsed; } }
     public bool IsFightEnabled
@@ -97,7 +97,8 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
 
     void IPlayerControllerEvents.RequireInput()
     {
-      if (ControllingPokemon.Hp == 0) selectedPanel = ControlPanelIndex.POKEMONS;
+      ControllingPokemon = controller.Game.ActivePokemons.ValueOrDefault(0);
+      if (ControllingPokemon == null) selectedPanel = ControlPanelIndex.POKEMONS; //死亡交换时精灵已经被收回了
       else selectedPanel = ControlPanelIndex.MAIN;
       OnPropertyChanged(null);
     }
@@ -106,6 +107,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
       if (allDone)
       {
         SelectedPanel = (int)ControlPanelIndex.INACTIVE;
+        ControllingPokemon = null;
         OnPropertyChanged("ControllingPokemon");
       }
       else

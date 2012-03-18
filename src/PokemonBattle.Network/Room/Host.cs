@@ -114,7 +114,7 @@ namespace LightStudio.PokemonBattle.Room
       {
         InputResult r = game.InputAction(userId, action);
         InformInputResult(r, userId);
-        if (r.AllDone) game.Continue();
+        if (r.AllDone) game.TryContinue();
       }
     }
     #endregion

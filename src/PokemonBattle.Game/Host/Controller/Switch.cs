@@ -32,11 +32,11 @@ namespace LightStudio.PokemonBattle.Game
       return pokemon != null && pokemon.Hp.Value > 0 && pokemon.IndexInOwner >= GameSettings.Mode.OnboardPokemonsPerPlayer();
     }
 
-    public bool Withdraw(PokemonProxy pm)
+    public bool Withdraw(PokemonProxy pm, bool canPursuit)
     {
       if (CanWithdraw(pm))
       {
-        if (PokemonWithdrawing != null) PokemonWithdrawing(pm);
+        if (canPursuit && PokemonWithdrawing != null) PokemonWithdrawing(pm);
         pm.Tile.Pokemon = null;
         Controller.OnboardPokemons.Remove(pm);
         ReportBuilder.AddWithdraw(pm);
@@ -44,7 +44,7 @@ namespace LightStudio.PokemonBattle.Game
       }
       return false;
     }
-    public bool Sendout(Tile tile)
+    public bool Sendout(Tile tile, bool debut)
     {
       Player p = Controller.GetPlayer(tile);
       int origin = Game.Settings.Mode.GetPokemonIndex(tile.X);
@@ -56,7 +56,8 @@ namespace LightStudio.PokemonBattle.Game
         tile.Pokemon = pm;
         tile.WillSendoutPokemonIndex = Tile.NOPM_INDEX;
         Controller.OnboardPokemons.Add(pm);
-        ReportBuilder.AddSendout(pm); 
+        ReportBuilder.AddSendout(pm);
+        if (debut) pm.Debut();
         return true;
       }
       return false;

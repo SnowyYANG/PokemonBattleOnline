@@ -22,14 +22,14 @@ namespace LightStudio.PokemonBattle.PBO.Battle
   {
     ScrollViewer scroll;
     //if (scroll != null) scroll.ScrollToEnd();
-    LinkedList<Block> turnsBookmark;
-    LinkedListNode<Block> nowTurn;
+    LinkedList<TextElement> turnsBookmark;
+    LinkedListNode<TextElement> nowTurn;
     Control controller;
     
     public BattleReport()
     {
       InitializeComponent();
-      turnsBookmark = new LinkedList<Block>();
+      turnsBookmark = new LinkedList<TextElement>();
       this.controller = new Control(this);
     }
 

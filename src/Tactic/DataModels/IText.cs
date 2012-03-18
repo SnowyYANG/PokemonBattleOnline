@@ -37,15 +37,28 @@ namespace LightStudio.Tactic.DataModels
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public abstract class TextBase : IText
   {
+    public const UInt32 DEFAULT_FOREGROUND = 0xff000000;
+    public const double DEFAILT_FONTSIZE = 15;
+    
     [DataMember(EmitDefaultValue = false)]
     private string text;
 
     [DataMember(EmitDefaultValue = false)]
     public UInt32 Background { get; protected set; }
-    [DataMember]
-    public UInt32 Foreground { get; protected set; }
-    [DataMember]
-    public double FontSize { get; protected set; }
+    [DataMember(EmitDefaultValue = false)]
+    private UInt32 foreground;
+    public UInt32 Foreground
+    {
+      get { return DEFAULT_FOREGROUND ^ foreground; }
+      protected set { foreground = DEFAULT_FOREGROUND ^ value; }
+    }
+    [DataMember(EmitDefaultValue = false)]
+    private double fontSize;
+    public double FontSize
+    {
+      get { return fontSize + DEFAILT_FONTSIZE; }
+      protected set { fontSize = value - DEFAILT_FONTSIZE; }
+    }
     [DataMember(EmitDefaultValue = false)]
     public bool IsBold { get; protected set; }
     [DataMember(EmitDefaultValue = false)]
@@ -57,7 +70,7 @@ namespace LightStudio.Tactic.DataModels
     [DataMember(EmitDefaultValue = false)]
     public virtual IText[] Contents { get; protected set; }
 
-    private TextBase(string text, IText[] content, UInt32 fg = 0xff000000, bool isBold = false, bool isItalic = false, bool isUnderlined = false, double fontSize = 15, Alignment alignment = Alignment.Left, UInt32 bg = 0)
+    private TextBase(string text, IText[] content, UInt32 fg = DEFAULT_FOREGROUND, bool isBold = false, bool isItalic = false, bool isUnderlined = false, double fontSize = DEFAILT_FONTSIZE, Alignment alignment = Alignment.Left, UInt32 bg = 0)
     {
       Foreground = fg;
       IsBold = isBold;

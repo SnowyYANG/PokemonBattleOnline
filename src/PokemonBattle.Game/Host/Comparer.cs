@@ -27,8 +27,8 @@ namespace LightStudio.PokemonBattle.Game
       //if (a.Item != b.Item)//1=先制爪/先制果发动 0=无道具 -1=后攻尾/满腹香炉发动
       //  return (b.Item - a.Item);
 
-      bool aIsStall = a.HasWorkingAbility(AbilityIds.STALL);
-      bool bIsStall = b.HasWorkingAbility(AbilityIds.STALL);
+      bool aIsStall = a.Ability.Id == AbilityIds.STALL;
+      bool bIsStall = b.Ability.Id == AbilityIds.STALL;
       if (aIsStall == bIsStall) goto SPEED;
       if (aIsStall) return 1;
       if (bIsStall) return -1;

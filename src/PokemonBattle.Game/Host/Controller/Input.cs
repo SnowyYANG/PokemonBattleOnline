@@ -17,7 +17,13 @@ namespace LightStudio.PokemonBattle.Game
     public InputController(Controller controller)
       : base(controller)
     {
+      players = new HashSet<int>();
     }
+
+    public bool NeedInput
+    { get { return players.Count > 0; } }
+    public IEnumerable<int> Players
+    { get { return players; } }
 
     private InputResult CheckInputSucceed(Player player)
     {
@@ -25,28 +31,29 @@ namespace LightStudio.PokemonBattle.Game
         if (Controller.GetPlayer(t) == player)
           if (t.Pokemon != null)
           {
-            if (t.Pokemon.Action == PokemonAction.WaitingForInput) return InputResult.Succeed();
+            if (t.Pokemon.Action == PokemonAction.WaitingForInput) return InputResult.Succeed(false);
           }
           else
           {
-            if (t.WillSendoutPokemonIndex == t.X) return InputResult.Succeed();
+            if (Controller.CanSendout(t)) return InputResult.Succeed(false);
           }
       players.Remove(player.Id);
       return InputResult.Succeed(true);
     }
-    public bool PauseForInput()
+    public void PauseForTurnInput()
     {
-      players = new HashSet<int>();
+      foreach (PokemonProxy p in Controller.OnboardPokemons)
+        if (p.Action == PokemonAction.WaitingForInput) players.Add(p.Id);
+    }
+    public void PauseForEndTurnInput()
+    {
       foreach (Tile t in Controller.Tiles)
-        if (Controller.CanSendout(t) || t.Pokemon.Action == PokemonAction.WaitingForInput)
-          players.Add(Controller.GetPlayer(t).Id);
-      if (players.Count > 0)
-      {
-        ReportBuilder.NewFragment();
-        if (ReportUpdated != null) ReportUpdated(ReportBuilder.GetFragment(), players.ToArray());
-        return true;
-      }
-      return false;
+        if (Controller.CanSendout(t)) players.Add(Controller.GetPlayer(t).Id);
+    }
+    public void PauseForSendoutInput(Tile tile)
+    {
+      if (Controller.CanSendout(tile))
+          players.Add(Controller.GetPlayer(tile).Id);
     }
     public InputResult Switch(PokemonProxy withdraw, int sendoutIndex)
     {

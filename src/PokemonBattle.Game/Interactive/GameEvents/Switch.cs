@@ -26,7 +26,7 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     public override IText GetGameLog()
     {
       IText t = GetGameLog(SENDOUT);
-      t.SetData(LobbyService.GetUserName(PlayerId), Pokemon);
+      t.SetData(LobbyService.GetUserName(PlayerId), Pokemon.Name, Pokemon.Lv, DataService.DataString[DataService.GetPokemonType(Pokemon.ImageId).Name]);
       return t;
     }
     public override void Update(GameOutward game)
@@ -72,12 +72,12 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
       if (isFaint)
       {
         t = GetGameLog(FAINT);
-        t.SetData(pokemonName);
+        if (t != null) t.SetData(pokemonName);
       }
       else
       {
         t = GetGameLog(WITHDRAW);
-        t.SetData(playerName, pokemonName);
+        if (t != null) t.SetData(playerName, pokemonName);
       }
       return t;
     }

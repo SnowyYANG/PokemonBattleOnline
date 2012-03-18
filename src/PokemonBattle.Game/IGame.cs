@@ -19,7 +19,7 @@ namespace LightStudio.PokemonBattle.Game
     GameSettings Settings { get; }
 
     bool Start();
-    void Continue();
+    void TryContinue();
     bool SetPlayer(int teamId, int userId, PokemonCustomInfo[] pokemons);
     Player GetPlayer(int id);
     InputResult InputAction(int player, ActionInput action);

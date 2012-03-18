@@ -20,7 +20,7 @@ namespace LightStudio.PokemonBattle.Interactive
       Player = Team.AddPlayer(userId, pms);
       Pokemons = new SimPokemon[settings.Mode.XBound()];
       Settings = settings;
-      ActivePokemons = new SortedList<int, SimPokemon>(1);
+      ActivePokemons = new SortedList<int, SimPokemon>(settings.Mode.XBound());
     }
 
     //逆鳞/暴走/花瓣舞为2～3回合，回合结束混乱 <-- 需要AdditionalInfo么..

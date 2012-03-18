@@ -13,11 +13,7 @@ namespace LightStudio.PokemonBattle.Game
       add { SwitchController.PokemonWithdrawing += value; }
       remove { SwitchController.PokemonWithdrawing -= value; }
     }
-    internal event Action<ReportFragment, int[]> ReportUpdated
-    {
-      add { InputController.ReportUpdated += value; }
-      remove { InputController.ReportUpdated -= value; }
-    }
+    internal event Action<ReportFragment, int[]> ReportUpdated;
 
     public readonly ReportBuilder ReportBuilder;
     internal readonly GameContext Game;
@@ -59,13 +55,13 @@ namespace LightStudio.PokemonBattle.Game
     public bool HasAvailableAbility(int abilityId)
     {
       foreach (PokemonProxy pm in OnboardPokemons)
-        if (pm.HasWorkingAbility(abilityId)) return true;
+        if (pm.Ability.Id == abilityId) return true;
       return false;
     }
     public bool HasAvailableAbility(int teamId, int abilityId)
     {
       foreach (PokemonProxy pm in OnboardPokemons)
-        if (pm.Position.Team == teamId && pm.HasWorkingAbility(abilityId)) return true;
+        if (pm.Position.Team == teamId && pm.Ability.Id == abilityId) return true;
       return false;
     }
     #endregion
@@ -76,22 +72,41 @@ namespace LightStudio.PokemonBattle.Game
       ReportBuilder.NewFragment();
       TurnController.BeginTurn();
     }
-    internal void ContinueGameLoop()
+    internal void TryContinueGameLoop()
     {
-      if (inputFinished != null) inputFinished();
+      if (inputFinished != null && !InputController.NeedInput) inputFinished();
     }
-    public void Action() //蜻蜓返专用后门
+    public void Act() //蜻蜓返、脱离按钮、追击死亡专用后门
     {
-      TurnController.Action();
+      TurnController.Act();
     }
     #endregion
 
     #region Input
-    internal void PauseForInput(Action inputFinished)
+    internal void PauseForSendoutInput(Action inputFinished, Tile tile) //逃生按钮、追击死亡
     {
-      random = new Random();
-      if (InputController.PauseForInput())
+      InputController.PauseForSendoutInput(tile);
+      PauseForInput(inputFinished);
+    }
+    internal void PauseForTurnInput(Action inputFinished)
+    {
+      InputController.PauseForTurnInput();
+      PauseForInput(inputFinished);
+    }
+    internal void PauseForEndTurnInput(Action inputFinished)
+    {
+      InputController.PauseForEndTurnInput();
+      PauseForInput(inputFinished);
+    }
+    private void PauseForInput(Action inputFinished)
+    {
+      if (InputController.NeedInput)
+      {
+        random = new Random();
+        ReportBuilder.NewFragment();
+        if (ReportUpdated != null) ReportUpdated(ReportBuilder.GetFragment(), InputController.Players.ToArray());
         this.inputFinished = inputFinished;
+      }
       else
         inputFinished();
     }
@@ -126,13 +141,13 @@ namespace LightStudio.PokemonBattle.Game
     {
       return SwitchController.CanWithdraw(pm);
     }
-    public bool Withdraw(PokemonProxy pm)
+    public bool Withdraw(PokemonProxy pm, bool canPursuit = true)
     {
-      return SwitchController.Withdraw(pm);
+      return SwitchController.Withdraw(pm, canPursuit);
     }
-    public bool Sendout(Tile position)
+    public bool Sendout(Tile position, bool debut = true)
     {
-      return SwitchController.Sendout(position);
+      return SwitchController.Sendout(position, debut);
     }
     #endregion
   }

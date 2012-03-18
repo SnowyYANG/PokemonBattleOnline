@@ -80,9 +80,9 @@ namespace LightStudio.PokemonBattle.Game
       }
       return false;
     }
-    void IGame.Continue()
+    void IGame.TryContinue()
     {
-      Controller.ContinueGameLoop();
+      Controller.TryContinueGameLoop();
     }
     InputResult IGame.InputAction(int playerId, ActionInput action)
     {

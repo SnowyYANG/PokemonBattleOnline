@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Game
       //幻影new完后覆盖属性
       Pokemon opm = p.Pokemon;
       PokemonOutward o = new PokemonOutward(opm, p.OnboardPokemon.Position);
-      if (p.HasWorkingAbility(AbilityIds.ILLUSION))
+      if (p.Ability.Id == AbilityIds.ILLUSION)
       {
         foreach (Pokemon pm in p.Pokemon.Owner.Pokemons)
           if (pm.Hp.Value > 0) opm = pm;
@@ -44,7 +44,7 @@ namespace LightStudio.PokemonBattle.Game
       for (int i = 0; i < 4; i++)
         if (pokemon.Moves[i] != null) Moves[i] = new MoveProxy(Controller, pokemon.Moves[i], this);
       StruggleMove = new MoveProxy(controller, new Move(165, Controller.Game.Settings), this);
-      Action = PokemonAction.Done;
+      Action = PokemonAction.Debuting;
 
       Outward = BuildOutward(this);
     }
@@ -94,12 +94,15 @@ namespace LightStudio.PokemonBattle.Game
     /// </summary>
     public bool CanSelectMove
     { get { return Hp > 0; } }
-    #endregion
-
-    public bool HasWorkingAbility(int abilityId)
+    public bool CanActMove
     {
-      return Ability.Id == abilityId && true;
+      get
+      {
+        return Hp > 0 && lastActTurn != Controller.ReportBuilder.TurnNumber &&
+          (Action == PokemonAction.MovePrepared || Action == PokemonAction.Stiff || Action == PokemonAction.Moving);
+      }
     }
+    #endregion
 
     #region Input
     internal bool CheckNeedInput()
@@ -143,9 +146,13 @@ namespace LightStudio.PokemonBattle.Game
 
     public void Debut()
     {
-      ;//场地效果
-      ;//特性
-      ;//道具
+      if (Action == PokemonAction.Debuting)
+      {
+        ;//场地效果
+        ;//特性
+        ;//道具
+        Action = PokemonAction.Done;
+      }
     }
     internal void Prepare()
     {
@@ -160,26 +167,49 @@ namespace LightStudio.PokemonBattle.Game
       }
     }
     private int lastActTurn = 0;
-    public bool Act()
+
+    internal void Switch()
     {
-      if (Hp == 0 || lastActTurn == Controller.ReportBuilder.TurnNumber) return false;
+      if (Action == PokemonAction.SwitchPrepared)
+      {
+        Action = PokemonAction.Switching;
+        if (Controller.Withdraw(this)) //追击，无论死没死都已经收回了
+        {
+          if (this.Hp == 0) Controller.PauseForSendoutInput(Controller.Act, Tile);
+          else Controller.Sendout(Tile);
+        }
+        Action = PokemonAction.Done;
+      }
+    }
+    /// <summary>
+    /// 就为了气合拳...
+    /// </summary>
+    /// <returns></returns>
+    internal void Pre_Move()
+    {
+    }
+    /// <summary>
+    /// 对于有RequireInput可能的，会改动OnBoardPokemon列表的，return true
+    /// </summary>
+    /// <returns></returns>
+    public void ActMove()
+    {
+      if (!CanActMove) return;
       lastActTurn = Controller.ReportBuilder.TurnNumber;
       switch(Action)
       {
-        case PokemonAction.SwitchPrepared:
-          Action = PokemonAction.Switching;
-          if (Controller.Withdraw(this))
-            if (Controller.Sendout(Tile))
-              Tile.Pokemon.Debut();
+        case PokemonAction.MovePrepared:
+          Action = PokemonAction.Moving;
+
+          break;
+        case PokemonAction.Moving:
+          System.Diagnostics.Debugger.Break();
+          //多回合技能，还没想好就这样写大丈夫？
+          break;
+        case PokemonAction.Stiff:
           Action = PokemonAction.Done;
           break;
-        case PokemonAction.MovePrepared:
-          System.Diagnostics.Debugger.Break();
-          break;
-        default:
-          return false;
       }
-      return true;
     }
 
     public PokemonOutward GetOutward()

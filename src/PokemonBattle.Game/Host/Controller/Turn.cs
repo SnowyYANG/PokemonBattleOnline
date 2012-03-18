@@ -57,7 +57,7 @@ namespace LightStudio.PokemonBattle.Game
       bool needInput = false;
       foreach (PokemonProxy p in OnboardPokemons)
         needInput |= p.CheckNeedInput();
-      if (needInput) Controller.PauseForInput(Prepare);
+      if (needInput) Controller.PauseForTurnInput(Prepare);
       else Prepare();
     }
     private void Prepare()
@@ -66,19 +66,29 @@ namespace LightStudio.PokemonBattle.Game
       SortOnboardPokemons();
       foreach (PokemonProxy p in OnboardPokemons)
         p.Prepare();
-      Action();
+      Switch();
+      Pre_UseMove();
+      Act();
     }
-    public void Action() //蜻蜓返的inputFinished
+    public void Switch()
     {
-      bool canEndTurn = true;
-      foreach (PokemonProxy p in OnboardPokemons)//OnboardPokemons可能变动
-        if (p.Act())
-        {
-          canEndTurn = false;
-          break;
-        }
-      if (canEndTurn) EndTurnEffects();
-      else Action();
+      foreach (PokemonProxy p in OnboardPokemons)
+        p.Switch();
+    }
+    public void Pre_UseMove()
+    {
+      foreach (PokemonProxy p in OnboardPokemons)
+        p.Pre_Move();
+    }
+    public void Act() //蜻蜓返的inputFinished
+    {
+      PokemonProxy p = OnboardPokemons.FirstOrDefault((pm) => pm.CanActMove);
+      if (p == null) EndTurnEffects();
+      else
+      {
+        p.ActMove();
+        Act();
+      }
     }
     private void EndTurnEffects()
     {
@@ -99,7 +109,7 @@ namespace LightStudio.PokemonBattle.Game
             t.WillSendoutPokemonIndex = GameSettings.Mode.GetPokemonIndex(t.X);
           else
           {
-            Controller.PauseForInput(EndTurnSendout);
+            Controller.PauseForEndTurnInput(EndTurnSendout);
             return;
           }
         }
@@ -109,11 +119,11 @@ namespace LightStudio.PokemonBattle.Game
     private void EndTurnSendout()
     {
       foreach(Tile t in Tiles)
-        if (ReportBuilder.TurnNumber == 0 || t.WillSendoutPokemonIndex > Tile.NOPM_INDEX)
-        {
-          Controller.Sendout(t);
-        }
+        if (ReportBuilder.TurnNumber == 0 || t.WillSendoutPokemonIndex != Tile.NOPM_INDEX)
+          Controller.Sendout(t, false);
       SortTiles();
+      foreach (Tile t in Tiles)
+        if (t.Pokemon != null) t.Pokemon.Debut();
       EndTurnCheckForInput();
     }
     private void NextTurn()

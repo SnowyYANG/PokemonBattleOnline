@@ -10,8 +10,6 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     {
         public static readonly PokemonNature[] Natures;
 
-        public static readonly BattleType[] HiddenPowerTypes;
-
         public static readonly BattleType[] BattleTypes;
 
         //public static readonly string[] Languages = new[] { "English", "Chinese" };
@@ -20,8 +18,6 @@ namespace LightStudio.PokemonBattle.PBO.Editor
         {
             Natures = (PokemonNature[])Enum.GetValues(typeof(PokemonNature));
             BattleTypes = (BattleType[])Enum.GetValues(typeof(BattleType));
-            HiddenPowerTypes = BattleTypes.
-                Where(t => t != BattleType.Invalid && t != BattleType.Normal).ToArray();
         }
     }
 }
