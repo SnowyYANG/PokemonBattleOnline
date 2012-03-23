@@ -10,20 +10,14 @@ namespace LightStudio.PokemonBattle.Game
   /// <summary>
   /// 这必须是单线程的...
   /// </summary>
-  internal class GameContext : IGame
+  public class GameContext : IGame
   {
-    public event Action<int, int> GameEnd;
-    public event Action<ReportFragment, int[]> ReportUpdated
-    {
-      add { Controller.ReportUpdated += value; }
-      remove { Controller.ReportUpdated -= value; }
-    }
-
     public readonly Board Board;
     public readonly Team[] Teams;
     private readonly Controller Controller;
+    private Action<int, int> gameEnd;
 
-    public GameContext(GameSettings settings)
+    internal GameContext(GameSettings settings)
     {
       Settings = settings;
       Teams = new Team[settings.Mode.TeamCount()];
@@ -38,8 +32,8 @@ namespace LightStudio.PokemonBattle.Game
 
     private void OnGameEnd()
     {
-      if (GameEnd != null)
-        GameEnd(Teams[0].Pokemons.Values.Count((pm) => pm.Hp.Value > 0), Teams[1].Pokemons.Values.Count((pm) => pm.Hp.Value > 0));
+      if (gameEnd != null)
+        gameEnd(Teams[0].Pokemons.Values.Count((pm) => pm.Hp.Value > 0), Teams[1].Pokemons.Values.Count((pm) => pm.Hp.Value > 0));
     }
     public Pokemon GetPokemon(int id)
     {
@@ -57,6 +51,17 @@ namespace LightStudio.PokemonBattle.Game
     }
 
     #region IGame Only
+    event Action<int, int> IGame.GameEnd
+    {
+      add { gameEnd += value; }
+      remove { gameEnd -= value; }
+    }
+    event Action<ReportFragment, int[]> IGame.ReportUpdated
+    {
+      add { Controller.ReportUpdated += value; }
+      remove { Controller.ReportUpdated -= value; }
+    }
+
     bool IGame.Prepared
     {
       get

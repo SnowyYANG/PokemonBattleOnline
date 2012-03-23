@@ -102,7 +102,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
           }
           AddInline(current, text);
           text.ClearData();
-          if (e is Interactive.GameEvents.BeginTurn)
+          if (e.GetType().Name == "BeginTurn")
           {
             nest.nowTurn = new LinkedListNode<TextElement>(current.Inlines.Last());
             nest.turnsBookmark.AddLast(nest.nowTurn);

@@ -60,6 +60,14 @@ namespace LightStudio.Tactic.Globalization
   }
   public class LanguagePack
   {
+    // Fields
+    private const string DEFAULT = "default";
+    private const string ITEM = "item";
+    private const string KEY = "key";
+    private const string LANGUAGE = "language";
+    private const string ROOT = "pack";
+    private const string VALUE = "value";
+
     private static string ReadAttribute(XElement xml, string name)
     {
       XAttribute attribute = xml.Attribute(name);
@@ -74,7 +82,6 @@ namespace LightStudio.Tactic.Globalization
       }
       return null;
     }
-    
     public static LanguagePack CreateFromStream(Stream stream)
     {
       return CreateFromXml(XElement.Load(stream));
@@ -117,14 +124,6 @@ namespace LightStudio.Tactic.Globalization
       }
       return pack;
     }
-
-    // Fields
-    public const string DefaultString = "default";
-    public const string ItemString = "item";
-    public const string KeyString = "key";
-    public const string LanguageString = "language";
-    public const string RootString = "pack";
-    public const string ValueString = "value";
 
     // Methods
     public LanguagePack()

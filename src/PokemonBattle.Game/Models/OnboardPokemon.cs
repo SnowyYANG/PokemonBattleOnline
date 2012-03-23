@@ -18,7 +18,7 @@ namespace LightStudio.PokemonBattle.Game
     public BattleType Type1;
     public BattleType Type2;
     public PokemonGender Gender;
-    public Ability Ability;
+    public int Ability; //特性交换用，不可为0，未必是有效的特性
     public readonly SixD Base; //百变怪变成会围攻
     public readonly SixD Iv; //模仿觉醒力
     public readonly SixD Ev;
@@ -33,7 +33,7 @@ namespace LightStudio.PokemonBattle.Game
       Type1 = pokemon.PokemonType.Type1;
       Type2 = pokemon.PokemonType.Type2;
       Gender = pokemon.Gender;
-      Ability = pokemon.Ability;
+      Ability = pokemon.Ability.Id;
       Base = new SixD(pokemon.Base);
       Iv = new SixD(pokemon.Iv);
       Ev = new SixD(pokemon.Ev);

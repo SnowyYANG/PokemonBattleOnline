@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Interactive
     {
       PokemonAdditionalInfo info = new PokemonAdditionalInfo();
       info.Id = pm.Id;
-      info.Ability = pm.Ability;
+      info.AbilityId = pm.Ability.Id;
       info.receiversId = new int[0];
       return info;
     }
@@ -35,7 +35,7 @@ namespace LightStudio.PokemonBattle.Interactive
     [DataMember(EmitDefaultValue = false)]
     int[] MoveIds;
     [DataMember(EmitDefaultValue = false)]
-    Ability Ability;
+    int AbilityId;
 
     int[] receiversId;
     public int[] GetReceiversId()

@@ -2,20 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
-namespace LightStudio.Tactic.DataModels
+namespace LightStudio
 {
-    public class IdGenerator
+  public class IdGenerator
+  {
+    private int currentId;
+
+    public IdGenerator(int idBase = 0)
     {
-        private int IdBase = 0;
-        public int NextId()
-        {
-          lock (this)
-            return ++IdBase;
-        }
-        public void Reset()
-        {
-            IdBase = 0;
-        }
+      currentId = idBase;
     }
+
+    public int NextId()
+    {
+      int id = Interlocked.Increment(ref currentId);
+      return id;
+    }
+  }
 }

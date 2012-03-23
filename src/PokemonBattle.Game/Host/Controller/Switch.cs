@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LightStudio.PokemonBattle.Interactive.GameEvents;
 
 namespace LightStudio.PokemonBattle.Game
 {
@@ -39,7 +40,7 @@ namespace LightStudio.PokemonBattle.Game
         if (canPursuit && PokemonWithdrawing != null) PokemonWithdrawing(pm);
         pm.Tile.Pokemon = null;
         Controller.OnboardPokemons.Remove(pm);
-        ReportBuilder.AddWithdraw(pm);
+        ReportBuilder.Add(new Withdraw(pm));
         return true;
       }
       return false;
@@ -56,7 +57,7 @@ namespace LightStudio.PokemonBattle.Game
         tile.Pokemon = pm;
         tile.WillSendoutPokemonIndex = Tile.NOPM_INDEX;
         Controller.OnboardPokemons.Add(pm);
-        ReportBuilder.AddSendout(pm);
+        ReportBuilder.Add(new SendOut(pm));
         if (debut) pm.Debut();
         return true;
       }

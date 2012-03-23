@@ -23,10 +23,11 @@ namespace LightStudio.PokemonBattle.Game
       return s;
     }
 
-    private readonly Tactic.DataModels.IdGenerator idGen;
+    private readonly IdGenerator idGen;
     private Queue<int> idQue;
+    private List<Rule> rules;
     [DataMember]
-    private readonly List<Rule> rules;
+    private List<int> ruleIds;
     [DataMember]
     private GameMode mode;
     [DataMember]
@@ -42,8 +43,9 @@ namespace LightStudio.PokemonBattle.Game
     /// <param name="terrain"></param>
     public GameSettings(GameMode mode, double ppUp = 1.6, Terrain terrain = Terrain.Path)
     {
-      idGen = new Tactic.DataModels.IdGenerator();
+      idGen = new IdGenerator();
       rules = new List<Rule>();
+      ruleIds = new List<int>();
       this.mode = mode;
       this.ppUp = ppUp;
       this.terrain = terrain;
@@ -66,21 +68,36 @@ namespace LightStudio.PokemonBattle.Game
       get { return ppUp; }
       set { if (!IsLocked) ppUp = value; }
     }
-    public IEnumerable<Rule> Rules
-    { get { return rules; } }
+    public IEnumerable<Rule> ChosenRules
+    { 
+      get
+      {
+        if (rules == null)
+        {
+          rules = new List<Rule>();
+          foreach (int i in ruleIds) rules.Add(GameService.GetRule(i));
+        }
+        return rules;
+      }
+    }
+    public IRule Rule
+    { get; private set; }
 
     public void Lock()
     {
       IsLocked = true;
+      Rule = new CombinedRule(ruleIds);
     }
     public void AddRule(Rule rule)
     {
+      ruleIds.Add(rule.Id);
       rules.Add(rule);
     }
     public void SetIds(int[] ids)
     {
-      if (idQue != null) System.Diagnostics.Debugger.Break();
+      if (IsLocked) return;
       idQue = new Queue<int>(ids);
+      Lock();
     }
     public int NextId()
     {
@@ -92,8 +109,8 @@ namespace LightStudio.PokemonBattle.Game
     {
       writer.Write((byte)Mode);
       writer.Write(PPUp);
-      writer.Write(Rules.Count());
-      foreach (Rule r in Rules)
+      writer.Write(ChosenRules.Count());
+      foreach (Rule r in ChosenRules)
         writer.Write(r.Id);
     }
   }

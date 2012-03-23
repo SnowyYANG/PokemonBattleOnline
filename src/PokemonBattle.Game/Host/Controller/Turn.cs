@@ -65,7 +65,7 @@ namespace LightStudio.PokemonBattle.Game
       ReportBuilder.AddNewTurn();
       SortOnboardPokemons();
       foreach (PokemonProxy p in OnboardPokemons)
-        p.Prepare();
+        p.AttachBehaviors();
       Switch();
       Pre_UseMove();
       ActMove();
@@ -73,7 +73,7 @@ namespace LightStudio.PokemonBattle.Game
     public void Switch()
     {
     LOOP:
-      PokemonProxy p = OnboardPokemons.FirstOrDefault((pm) => pm.Action == PokemonAction.SwitchPrepared);
+      PokemonProxy p = OnboardPokemons.FirstOrDefault((pm) => pm.Action == PokemonAction.WillSwitch);
       if (p == null) return;
       p.Switch();
       goto LOOP;  
@@ -127,7 +127,7 @@ namespace LightStudio.PokemonBattle.Game
     private void EndTurnSendout()
     {
       foreach(Tile t in Tiles)
-        if (ReportBuilder.TurnNumber == 0 || t.WillSendoutPokemonIndex != Tile.NOPM_INDEX)
+        if (t.WillSendoutPokemonIndex != Tile.NOPM_INDEX)
           Controller.Sendout(t, false);
       SortTiles();
       foreach (Tile t in Tiles)

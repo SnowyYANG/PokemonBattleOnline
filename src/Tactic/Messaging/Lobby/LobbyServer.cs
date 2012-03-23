@@ -41,8 +41,10 @@ namespace LightStudio.Tactic.Messaging.Lobby
     {
       //thread safe?
       User user;
-      if (users.DeValue(userId, out user))
+      users.TryGetValue(userId, out user);
+      if (user != null)
       {
+        users.Remove(userId);
         LoggerFacade.LogDebug(string.Format("LobbyServer: user {0} exited", user.Name));
         Broadcast(ServerInterpreter.OnUserExited(userId));
         OnUserChanged(userId);

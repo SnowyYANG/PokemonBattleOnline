@@ -47,7 +47,7 @@ namespace LightStudio.Tactic.DataModels.IO
     }
     public static DataCollection Load(string indexFile, string baseDir)
     {
-      using (var stream = File.Open(indexFile, FileMode.Open))
+      using (var stream = File.Open(indexFile, FileMode.Open, FileAccess.Read))
         return Load(stream, baseDir);
     }
 
@@ -146,19 +146,19 @@ namespace LightStudio.Tactic.DataModels.IO
       }
     }
 
-    public void Save(Stream stream)
-    {
-      Contract.Requires(stream != null);
+    //public void Save(Stream stream)
+    //{
+    //  Contract.Requires(stream != null);
 
-      var element = new XElement(XmlFormatter.DataCollectionString);
-      element.Add(new XAttribute(XmlFormatter.NameString, Name));
-      element.Add(rootDirectory.ToXml());
-      element.Save(stream);
-    }
-    public void Save(string indexFile)
-    {
-      using (var stream = File.Create(indexFile))
-        Save(stream);
-    }
+    //  var element = new XElement(XmlFormatter.DataCollectionString);
+    //  element.Add(new XAttribute(XmlFormatter.NameString, Name));
+    //  element.Add(rootDirectory.ToXml());
+    //  element.Save(stream);
+    //}
+    //public void Save(string indexFile)
+    //{
+    //  using (var stream = File.Create(indexFile))
+    //    Save(stream);
+    //}
   }
 }

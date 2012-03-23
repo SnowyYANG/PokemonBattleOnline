@@ -86,7 +86,7 @@
             <Label Content="{Binding [Name], Source={x:Static pm:DataService.String}}"/>
         	<TextBox Text="{Binding Model.Name}" MaxLength="{x:Static pm:UserDataRules.NameLength}"  Width="155" HorizontalAlignment="Right"/>
         	<Label Grid.Row="1" Content="{Binding [Pokemon], Source={x:Static pm:DataService.String}}"/>
-            <ui:ClearableComboBox ItemsSource="{x:Static pm:DataService.Pokemons}" SelectedItem="{Binding PokemonType}" ItemTemplate="{x:Static local:Resources.PokemonType}" Grid.Row="1" ItemsPanel="{StaticResource VirtualPanel}" Margin="45,0,0,0"/><!-- VirtualizingStackPanel.VirtualizationMode="Recycling"/>-->
+            <ui:ClearableComboBox ItemsSource="{x:Static pm:DataService.Pokemons}" SelectedItem="{Binding PokemonType}" ItemTemplate="{x:Static local:Resources.PokemonType}" Grid.Row="1" ItemsPanel="{StaticResource VirtualPanel}" Margin="45,0,0,0" VirtualizingStackPanel.VirtualizationMode="Recycling"/>
             <Label Grid.Row="2" HorizontalAlignment="Left" Content="{Binding [Type], Source={x:Static pm:DataService.String}}"/>
             <ContentPresenter Content="{Binding PokemonType.Type1}" Margin="45,0,0,0"/>
             <ContentPresenter Content="{Binding PokemonType.Type2}" Margin="93,0,0,0"/>

@@ -7,17 +7,13 @@ namespace LightStudio
 {
   public static class extensions
   {
-    public static void AddAll<T>(this ICollection<T> collection, IEnumerable<T> items)
+    public static void Add<T>(this ICollection<T> collection, IEnumerable<T> items)
     {
-      foreach (var item in items)
-        collection.Add(item);
+      foreach (var i in items) collection.Add(i);
     }
-    public static void AddAll<TKey, TValue>(this IDictionary<TKey, TValue> dict, IEnumerable<KeyValuePair<TKey, TValue>> items)
+    public static void Remove<T>(this ICollection<T> collection, IEnumerable<T> items)
     {
-      foreach (var item in items)
-      {
-        dict.Add(item);
-      }
+      foreach (T i in items) collection.Remove(i);
     }
     public static TValue ValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key)
     {
@@ -29,15 +25,6 @@ namespace LightStudio
     {
       if (index >= 0 && index < list.Count) return list[index];
       return default(T);
-    }
-    public static bool DeValue<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, out TValue value)
-    {
-      if (dict.TryGetValue(key, out value))
-      {
-        dict.Remove(key);
-        return true;
-      }
-      return false;
     }
   }
 }

@@ -29,10 +29,10 @@ namespace LightStudio.PokemonBattle.Game
       return o;
     }
 
-    internal readonly Pokemon Pokemon;
-    internal readonly OnboardPokemon OnboardPokemon;
-    protected readonly Controller Controller;
-    private readonly PokemonOutward Outward; //幻影
+    public readonly Pokemon Pokemon;
+    public readonly OnboardPokemon OnboardPokemon;
+    public readonly PokemonOutward Outward; //幻影
+    public readonly Controller Controller;
 
     internal PokemonProxy(Controller controller, Pokemon pokemon, Tile tile)
     {
@@ -69,13 +69,16 @@ namespace LightStudio.PokemonBattle.Game
     public int Speed
     { get { return (int)OnboardPokemon.Get5D(StatType.Speed); } }
     #endregion
-    public Ability Ability
+    public IAbilityE Ability
     { 
-      get { return OnboardPokemon.Ability; }
-      set { }
+      get
+      { 
+        //需要检查胃液状态么？要检查破格么？
+        return GameService.GetAbility(OnboardPokemon.Ability);
+      }
     }
-    public Item Item
-    { get { return Pokemon.Item; } }
+    public IItemE Item
+    { get { return GameService.GetItem(Pokemon.Item); } }
     public Position Position
     { get { return OnboardPokemon.Position; } }
     public MoveProxy[] Moves
@@ -98,7 +101,7 @@ namespace LightStudio.PokemonBattle.Game
       get
       {
         return Hp > 0 && lastActTurn != Controller.ReportBuilder.TurnNumber &&
-          (Action == PokemonAction.MovePrepared || Action == PokemonAction.Stiff || Action == PokemonAction.Moving);
+          (Action == PokemonAction.MoveAttached || Action == PokemonAction.Stiff || Action == PokemonAction.Moving);
       }
     }
     #endregion
@@ -159,22 +162,15 @@ namespace LightStudio.PokemonBattle.Game
         Action = PokemonAction.Done;
       }
     }
-    internal void Prepare()
+    internal void AttachBehaviors()
     {
       if (Action == PokemonAction.WillMove)
-      {
-        System.Diagnostics.Debugger.Break();
-        Action = PokemonAction.MovePrepared;
-      }
-      else if (Action == PokemonAction.WillSwitch)
-      {
-        Action = PokemonAction.SwitchPrepared;
-      }
+        Action = PokemonAction.MoveAttached;
     }
 
     internal void Switch()
     {
-      if (Action == PokemonAction.SwitchPrepared)
+      if (Action == PokemonAction.WillSwitch)
       {
         Action = PokemonAction.Switching;
         if (Controller.Withdraw(this)) //追击，无论死没死都已经收回了
@@ -198,7 +194,7 @@ namespace LightStudio.PokemonBattle.Game
       lastActTurn = Controller.ReportBuilder.TurnNumber;
       switch(Action)
       {
-        case PokemonAction.MovePrepared:
+        case PokemonAction.MoveAttached:
           Action = PokemonAction.Moving;
           SelectedMove.Act(SelectedTarget);
           break;
@@ -210,11 +206,6 @@ namespace LightStudio.PokemonBattle.Game
           Action = PokemonAction.Done;
           break;
       }
-    }
-
-    public PokemonOutward GetOutward()
-    {
-      return Outward;
     }
   }
 }

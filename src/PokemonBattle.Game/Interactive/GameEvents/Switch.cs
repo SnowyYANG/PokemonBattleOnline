@@ -11,45 +11,53 @@ using LightStudio.PokemonBattle.Game;
 namespace LightStudio.PokemonBattle.Interactive.GameEvents
 {
   [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class SendOut : GameEvent
+  internal class SendOut : GameEvent
   {
     [DataMember]
     public int PlayerId { get; private set; }
     [DataMember]
-    public PokemonOutward Pokemon { get; private set; }
+    public PokemonOutward[] Pms { get; private set; }
 
-    internal SendOut(int playerId, PokemonOutward pokemon)
+    internal SendOut(params PokemonProxy[] pms)
     {
-      PlayerId = playerId;
-      Pokemon = pokemon;
+      PlayerId = pms[0].Pokemon.Id;
+      Pms = new PokemonOutward[pms.Length];
+      for (int i = 0; i < pms.Length; ++i) Pms[i] = pms[i].Outward;
     }
+
     public override IText GetGameLog()
     {
       IText t = GetGameLog(SENDOUT);
-      t.SetData(LobbyService.GetUserName(PlayerId), Pokemon.Name, Pokemon.Lv, DataService.DataString[DataService.GetPokemonType(Pokemon.ImageId).Name]);
+      //
+      t.SetData(LobbyService.GetUserName(PlayerId),  DataService.GameLog.ConvertMultiObjects(
+        (p) => string.Format("{0}(Lv.{1} {2})", p.Name, p.Lv, DataService.DataString[DataService.GetPokemonType(p.ImageId).Name]), Pms));
       return t;
     }
     public override void Update(GameOutward game)
     {
-      game.Board[Pokemon.Position.Team, Pokemon.Position.X] = Pokemon;
-      game.Board.PokemonSentout(Pokemon.Position.Team, Pokemon.Position.X);
+      foreach (PokemonOutward p in Pms)
+      {
+        game.Board[p.Position.Team, p.Position.X] = p;
+        game.Board.PokemonSentout(p.Position.Team, p.Position.X);
+      }
     }
     public override void Update(SimGame game)
     {
-      if (Pokemon.Position.Team == game.Team.Id)
-      {
-        game.Pokemons[Pokemon.Position.X] = new SimPokemon(game.Team.Pokemons[Pokemon.Id], Pokemon);
-        game.ActivePokemons.Add(Pokemon.Position.X, game.Pokemons[Pokemon.Position.X]);
-        if (Pokemon.OwnerId == game.Player.Id)
+      if (game.Team.HasPlayer(PlayerId))
+        foreach (PokemonOutward p in Pms)
         {
-          game.Player.SwitchPokemon(game.Settings.Mode.GetPokemonIndex(Pokemon.Position.X), game.Player.GetPokemonIndex(Pokemon.Id));
+          game.Pokemons[p.Position.X] = new SimPokemon(game.Team.Pokemons[p.Id], p);
+          game.ActivePokemons.Add(p.Position.X, game.Pokemons[p.Position.X]);
+          if (PlayerId == game.Player.Id)
+          {
+            game.Player.SwitchPokemon(game.Settings.Mode.GetPokemonIndex(p.Position.X), game.Player.GetPokemonIndex(p.Id));
+          }
         }
-      }
     }
   }
 
   [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class Withdraw : GameEvent
+  internal class Withdraw : GameEvent
   {
     [DataMember]
     int Team { get; set; }
@@ -61,7 +69,7 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     string playerName;
     bool isFaint;
 
-    internal Withdraw(PokemonProxy pm)
+    public Withdraw(PokemonProxy pm)
     {
       Team = pm.Tile.Team;
       X = pm.Tile.X;

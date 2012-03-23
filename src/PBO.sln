@@ -21,6 +21,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonBattle.Network", "Po
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonBattle.Game", "PokemonBattle.Game\PokemonBattle.Game.csproj", "{5F1D7698-AD1E-462A-AEED-063BCB80DF89}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PokemonBattle.Effects", "PokemonBattle.Effects\PokemonBattle.Effects.pyproj", "{938534E7-0605-4746-9115-B5BBF236D00B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F6EA4F9B-5305-4043-B103-764944ED7E3D}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\Data\log\chinese.xml = ..\build\Data\log\chinese.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -184,6 +191,21 @@ Global
 		{5F1D7698-AD1E-462A-AEED-063BCB80DF89}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5F1D7698-AD1E-462A-AEED-063BCB80DF89}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5F1D7698-AD1E-462A-AEED-063BCB80DF89}.Release|x86.ActiveCfg = Release|Any CPU
+		{938534E7-0605-4746-9115-B5BBF236D00B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{938534E7-0605-4746-9115-B5BBF236D00B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{938534E7-0605-4746-9115-B5BBF236D00B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{938534E7-0605-4746-9115-B5BBF236D00B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{938534E7-0605-4746-9115-B5BBF236D00B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{938534E7-0605-4746-9115-B5BBF236D00B}.DllBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{938534E7-0605-4746-9115-B5BBF236D00B}.DllBuild|Any CPU.Build.0 = Debug|Any CPU
+		{938534E7-0605-4746-9115-B5BBF236D00B}.DllBuild|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{938534E7-0605-4746-9115-B5BBF236D00B}.DllBuild|Mixed Platforms.Build.0 = Debug|Any CPU
+		{938534E7-0605-4746-9115-B5BBF236D00B}.DllBuild|x86.ActiveCfg = Debug|Any CPU
+		{938534E7-0605-4746-9115-B5BBF236D00B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{938534E7-0605-4746-9115-B5BBF236D00B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{938534E7-0605-4746-9115-B5BBF236D00B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{938534E7-0605-4746-9115-B5BBF236D00B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{938534E7-0605-4746-9115-B5BBF236D00B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

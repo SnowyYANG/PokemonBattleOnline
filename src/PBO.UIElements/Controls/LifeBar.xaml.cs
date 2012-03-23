@@ -21,8 +21,8 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
   /// </summary>
   public partial class LifeBar : Border
   {
-    const int YELLOWBAR_MAXLENGTH = 23;
-    const int REDBAR_MAXLENGTH = 7;
+    const int YELLOWBAR_MAXLENGTH = 24;
+    const int REDBAR_MAXLENGTH = 10;
     static readonly SolidColorBrush GREEN;
     static readonly SolidColorBrush GREENSHADOW;
     static readonly SolidColorBrush YELLOW;

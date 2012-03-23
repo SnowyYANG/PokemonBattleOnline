@@ -41,7 +41,7 @@ namespace LightStudio.PokemonBattle.Interactive
       List<PokemonOutward> p = new List<PokemonOutward>();
       for (int i = 0; i < game.Board.TeamCount; i++)
         for (int j = 0; j < game.Board.XBound; j++)
-          if (game.Board[i, j].Pokemon != null) p.Add(game.Board[i, j].Pokemon.GetOutward());
+          if (game.Board[i, j].Pokemon != null) p.Add(game.Board[i, j].Pokemon.Outward);
       current = new ReportFragment(t, p.ToArray(), game.Board.Weather);
     }
     internal ReportFragment GetFragment()
@@ -57,13 +57,14 @@ namespace LightStudio.PokemonBattle.Interactive
     {
       current.AddEvent(new BeginTurn(++TurnNumber));
     }
-    internal void AddSendout(PokemonProxy pm)
+    public void Add(GameEvent e)
     {
-      current.AddEvent(new SendOut(pm.Pokemon.Owner.Id, pm.GetOutward()));
+      current.AddEvent(e);
     }
-    internal void AddWithdraw(PokemonProxy pm)
+    public void Add(string key, params string[] data)
     {
-      current.AddEvent(new Withdraw(pm));
+      if (data.Length == 1) current.AddEvent(new SoloEvent(key, data[0]));
+      else current.AddEvent(new SimpleEvent(key, data));
     }
   }
 }

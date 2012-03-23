@@ -9,7 +9,7 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  internal class Board : ConditionalObject
+  public class Board : ConditionalObject
   {
     private readonly Field[] fields;
     private readonly Tile[,] tileMap;
@@ -17,7 +17,7 @@ namespace LightStudio.PokemonBattle.Game
     public readonly int TeamCount;
     public readonly int XBound;
 
-    public Board(GameContext game)
+    internal Board(GameContext game)
     {
       GameSettings settings = game.Settings;
       GameMode mode = settings.Mode;

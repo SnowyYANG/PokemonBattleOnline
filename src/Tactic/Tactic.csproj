@@ -45,14 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataModels\ConditionalObject.cs" />
-    <Compile Include="DataModels\GameElementProxy.cs" />
+    <Compile Include="DataModels\DisposableObject.cs" />
+    <Compile Include="DataModels\IdGenerator.cs" />
     <Compile Include="DataModels\IText.cs" />
     <Compile Include="DataModels\PairValue.cs" />
-    <Compile Include="Dispatcher.cs" />
     <Compile Include="Messaging\Lobby\LobbyService.cs" />
-    <Compile Include="SyncList.cs" />
-    <Compile Include="SyncObject.cs" />
-    <Compile Include="UIDispatcher.cs" />
+    <Compile Include="Scripting.cs" />
     <Compile Include="DataModels\IO\DataCollection.cs" />
     <Compile Include="DataModels\IO\DataDirectory.cs" />
     <Compile Include="DataModels\IO\DataFile.cs" />
@@ -65,11 +63,7 @@
     <Compile Include="DataModels\IO\RootDirectory.cs" />
     <Compile Include="DataModels\IO\SimpleData.cs" />
     <Compile Include="DataModels\IO\XmlFormatter.cs" />
-    <Compile Include="DataModels\ExecutableGameElement.cs" />
-    <Compile Include="DataModels\ExecutableElement.cs" />
     <Compile Include="DataModels\GameElement.cs" />
-    <Compile Include="DataModels\IdGenerator.cs" />
-    <Compile Include="DataModels\Range.cs" />
     <Compile Include="extensions.cs" />
     <Compile Include="Globalization\IDomainStringService.cs" />
     <Compile Include="Globalization\IStringService.cs" />
@@ -127,8 +121,6 @@
     <Compile Include="Messaging\TextMessage.cs" />
     <Compile Include="Messaging\Utilities\DataContractResolver.cs" />
     <Compile Include="Messaging\Utilities\DeflateResolver.cs" />
-    <Compile Include="DisposableObject.cs" />
-    <Compile Include="Messaging\Utilities\IdGenerator.cs" />
     <Compile Include="Messaging\Utilities\IMessageResolver.cs" />
     <Compile Include="Messaging\Utilities\MessageResolverFacade.cs" />
     <Compile Include="Messaging\Utilities\MessageWaiter.cs" />
@@ -137,6 +129,10 @@
     <Compile Include="Security\XmlVerifier.cs" />
     <Compile Include="Serialization\Resolver.cs" />
     <Compile Include="Serialization\Serializer.cs" />
+    <Compile Include="Threading\Dispatcher.cs" />
+    <Compile Include="Threading\SyncList.cs" />
+    <Compile Include="Threading\SyncObject.cs" />
+    <Compile Include="Threading\UIDispatcher.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -7,11 +7,7 @@ namespace LightStudio.Tactic.Globalization
 {
   public interface IStringService
   {
-    // Methods
     IDomainStringService GetDomainService(string domain);
-
-    // Properties
-    IDomainStringService this[string domain] { get; }
     string Language { get; set; }
   }
 }

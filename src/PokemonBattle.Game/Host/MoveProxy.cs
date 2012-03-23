@@ -5,22 +5,25 @@ using System.Text;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  public class MoveProxy : Tactic.DataModels.GameElementProxy<Controller, Move>
+  public class MoveProxy
   {
-    internal PokemonProxy Owner;
+    public readonly Move Move;
+    internal readonly PokemonProxy Owner;
+    protected readonly Controller Controller;
     
     internal MoveProxy(Controller controller, Move move, PokemonProxy owner)
-      : base(controller, move)
     {
+      Controller = controller;
+      Move = move;
       Owner = owner;
     }
 
     public int Id
-    { get { return Model.Id; } }
+    { get { return Move.Id; } }
     public int PP
-    { get { return Model.PP.Value; } }
+    { get { return Move.PP.Value; } }
     public int Priority
-    { get { return Model.Type.Priority; } }
+    { get { return Move.Type.Priority; } }
 
     /// <summary>
     /// CanSelect不代表技能一定能用，http://www.smogon.com/dp/articles/move_restrictions#disable

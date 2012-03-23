@@ -22,15 +22,6 @@ namespace LightStudio.Tactic.Globalization
       return this.domains[domainName];
     }
 
-    // Properties
-    public IDomainStringService this[string domainName]
-    {
-      get
-      {
-        return this.GetDomainService(domainName);
-      }
-    }
-
     public string Language
     {
       get

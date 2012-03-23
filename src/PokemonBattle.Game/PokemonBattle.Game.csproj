@@ -42,11 +42,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EModels\AbilityE.cs" />
+    <Compile Include="EModels\AttackMoveE.cs" />
+    <Compile Include="EModels\BattleContext.cs" />
+    <Compile Include="EModels\IMoveE.cs" />
     <Compile Include="EModels\ItemE.cs" />
     <Compile Include="EModels\MoveE.cs" />
+    <Compile Include="EModels\Rule.cs" />
+    <Compile Include="EModels\StatusMoveE.cs" />
+    <Compile Include="GameElements.cs" />
     <Compile Include="Host\Controller\ControllerComponent.cs" />
     <Compile Include="Host\Controller\Turn.cs" />
-    <Compile Include="Host\GameElementIds.cs" />
     <Compile Include="Host\Controller\Input.cs" />
     <Compile Include="Host\PokemonAction.cs" />
     <Compile Include="Host\Controller\Controller.cs" />
@@ -87,7 +92,6 @@
     <Compile Include="Interactive\SimPokemon.cs" />
     <Compile Include="Models\SixD.cs" />
     <Compile Include="Models\Team.cs" />
-    <Compile Include="Rule.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PokemonBattle.Data\PokemonBattle.Data.csproj">

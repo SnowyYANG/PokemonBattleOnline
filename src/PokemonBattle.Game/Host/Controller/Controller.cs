@@ -34,6 +34,8 @@ namespace LightStudio.PokemonBattle.Game
       random = new Random();
     }
 
+    public Board Board
+    { get; private set; }
     public List<PokemonProxy> OnboardPokemons
     { get { return TurnController.OnboardPokemons; } }
     public IEnumerable<Tile> Tiles

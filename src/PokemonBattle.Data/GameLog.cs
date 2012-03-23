@@ -29,10 +29,32 @@ namespace LightStudio.PokemonBattle.Data
 
     public IText this[string eventType]
     { get { return logs.ValueOrDefault(eventType); } }
-
-    public void Save(string language)
+    /// <summary>
+    /// 暂不支持多语言
+    /// </summary>
+    public string ConvertMultiObjects<T>(Func<T, string> convert, IList<T> args)
     {
-      base.SaveXml("Data\\logs\\" + language + ".xml");
+      //1: XXX
+      //2: XXX和XXX
+      //3: XXX, XXX和XXX
+      StringBuilder sb = new StringBuilder();
+      sb.Append(convert(args[0]));
+      if (args.Count > 1)
+      {
+        for (int i = 1; i < args.Count - 1; ++i)
+        {
+          sb.Append(", ");
+          sb.Append(convert(args[i]));
+        }
+        sb.Append("和");
+        sb.Append(convert(args[args.Count - 1]));
+      }
+      return sb.ToString();
     }
+
+    //public void Save(string language)
+    //{
+    //  base.SaveXml("Data\\logs\\" + language + ".xml");
+    //}
   }
 }

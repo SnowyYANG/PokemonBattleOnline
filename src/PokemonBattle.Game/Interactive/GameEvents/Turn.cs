@@ -10,7 +10,7 @@ using LightStudio.PokemonBattle.Game;
 namespace LightStudio.PokemonBattle.Interactive.GameEvents
 {
   [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class BeginTurn : GameEvent
+  internal class BeginTurn : GameEvent
   {
     [DataMember(EmitDefaultValue = false)]
     int TurnNumber;

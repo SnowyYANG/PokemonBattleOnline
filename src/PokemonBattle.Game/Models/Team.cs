@@ -30,6 +30,7 @@ namespace LightStudio.PokemonBattle.Game
       if (players.Count < settings.Mode.PlayersPerTeam())
       {
         Player player = new Player(userId, this.Id, pokemons, settings);
+        if (HasPlayer(userId)) return null;
         players.Add(player);
         if (players.Count == settings.Mode.PlayersPerTeam())
           foreach (Player p in players)
@@ -40,6 +41,12 @@ namespace LightStudio.PokemonBattle.Game
       return null;
     }
 
+    public bool HasPlayer(int id)
+    {
+      foreach (Player p in players)
+        if (p.Id == id) return true;
+      return false;
+    }
     public Player GetPlayer(int index)
     {
       return players.ValueOrDefault(index);

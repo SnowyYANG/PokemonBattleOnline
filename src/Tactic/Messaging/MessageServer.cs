@@ -12,7 +12,7 @@ namespace LightStudio.Tactic.Messaging
 
     #region Variables And Properties
 
-    private ThreadSafeIdGenerator idGenerator;
+    private IdGenerator idGenerator;
  
     /// <summary>
     /// better to be protected AND internal
@@ -31,7 +31,7 @@ namespace LightStudio.Tactic.Messaging
     {
       Contract.Requires(acceptor != null);
 
-      this.idGenerator = new ThreadSafeIdGenerator(idBase);
+      this.idGenerator = new IdGenerator(idBase);
       this.Acceptor = acceptor;
       this.Acceptor.Accepted +=
           (sender, e) => OnSessionCreated(CreateSession(idGenerator.NextId(), e.Messager));

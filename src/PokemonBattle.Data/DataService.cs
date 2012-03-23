@@ -25,13 +25,13 @@ namespace LightStudio.PokemonBattle.Data
     public static IDomainStringService DataString { get; private set; }
 
     public static IEnumerable<Ability> Abilities
-    { get { return romData.Abilities.Values; } }
+    { get; private set; }
     public static IEnumerable<Item> Items
-    { get { return romData.Items.Values; } }
+    { get; private set; }
     public static IEnumerable<PokemonType> Pokemons
-    { get { return romData.Pokemons.Values; } }
+    { get; private set; }
     public static IEnumerable<MoveType> Moves
-    { get { return romData.Moves.Values; } }
+    { get; private set; }
 
     #region private methods
     private static void LoadImpl(string baseDir, IStringService stringService)
@@ -82,6 +82,10 @@ namespace LightStudio.PokemonBattle.Data
       Contract.Requires(baseDir != null);
       Contract.Requires(stringService != null);
       LoadImpl(baseDir, stringService);
+      Abilities = romData.Abilities.Values;
+      Items = romData.Items.Values;
+      Pokemons = romData.Pokemons.Values;
+      Moves = romData.Moves.Values;
       IsLoaded = true;
     }
     public static void Clear()
