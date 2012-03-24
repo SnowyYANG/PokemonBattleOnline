@@ -79,7 +79,7 @@ namespace LightStudio.PokemonBattle.Messaging
               OnChatMessageReceived(GetUser(senderId), reader.ReadString());
               break;
             case CHALLENGE:
-              OnChallenged(senderId, GameSettings.ReadFromMessage(reader));
+              OnChallenged(senderId, reader.ReadSettings());
               break;
             case CANCEL_CHALLENGE:
               OnChallengeCanceled(senderId);
@@ -127,6 +127,7 @@ namespace LightStudio.PokemonBattle.Messaging
     public event Action<User, GameSettings> Challenged = delegate { };
     private void OnChallenged(int userId, GameSettings settings)
     {
+      settings.Lock();
       Challenged(GetUser(userId), settings);
     }
     public bool Challenge(int target, PokemonCustomInfo[] pokemons, GameSettings settings)
@@ -137,9 +138,10 @@ namespace LightStudio.PokemonBattle.Messaging
         {
           if (challengingPms == null)
           {
-            SendMessage(CHALLENGE, writer => settings.WriteToMessage(writer), target);
+            SendMessage(CHALLENGE, writer => writer.WriteSettings(settings), target);
             challengingPms = pokemons;
             currentSettings = settings;
+            currentSettings.Lock();
             return true;
           }
         }

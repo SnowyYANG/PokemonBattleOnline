@@ -20,7 +20,7 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
 
     internal SendOut(params PokemonProxy[] pms)
     {
-      PlayerId = pms[0].Pokemon.Id;
+      PlayerId = pms[0].Pokemon.Owner.Id;
       Pms = new PokemonOutward[pms.Length];
       for (int i = 0; i < pms.Length; ++i) Pms[i] = pms[i].Outward;
     }

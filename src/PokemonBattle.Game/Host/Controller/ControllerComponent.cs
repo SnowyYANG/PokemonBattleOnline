@@ -17,7 +17,7 @@ namespace LightStudio.PokemonBattle.Game
 
     protected ReportBuilder ReportBuilder
     { get { return Controller.ReportBuilder; } }
-    protected GameSettings GameSettings
+    protected IGameSettings GameSettings
     { get { return Controller.Game.Settings; } }
     protected GameContext Game
     { get { return Controller.Game; } }

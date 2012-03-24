@@ -82,7 +82,7 @@ namespace LightStudio.Tactic.DataModels.IO
         return null;
       string path = rootDirectory.GetAbsolutePath(relativePath);
       if (File.Exists(path))
-        return File.Open(path, FileMode.Open);
+        return File.Open(path, FileMode.Open, FileAccess.Read);
       return null;
     }
 

@@ -13,7 +13,7 @@ namespace LightStudio.PokemonBattle.Game
     private readonly List<Player> players;
     private readonly GameSettings settings;
 
-    public Team(int id, GameSettings settings)
+    internal Team(int id, GameSettings settings)
     {
       Id = id;
       this.settings = settings;

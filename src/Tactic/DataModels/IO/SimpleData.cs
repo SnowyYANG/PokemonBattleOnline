@@ -20,7 +20,7 @@ namespace LightStudio.Tactic.DataModels.IO
     }
     protected static T LoadFromDat<T>(string fileName) where T : SimpleData
     {
-      using (FileStream f = new FileStream(fileName, FileMode.Open))
+      using (FileStream f = new FileStream(fileName, FileMode.Open, FileAccess.Read))
       using (DeflateStream s = new DeflateStream(f, CompressionMode.Decompress))
         return (T)Serializer.Deserialize<T>(s);
     }

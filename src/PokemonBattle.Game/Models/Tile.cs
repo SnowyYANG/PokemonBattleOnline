@@ -8,7 +8,7 @@ namespace LightStudio.PokemonBattle.Game
 {
   public sealed class Tile : ConditionalObject
   {
-    public const int NOPM_INDEX = 0;
+    public const int NOPM_INDEX = -1;
 
     public readonly int Team;
     public readonly int X;

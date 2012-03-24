@@ -14,12 +14,13 @@ namespace LightStudio.PokemonBattle.Game
   {
     public readonly Board Board;
     public readonly Team[] Teams;
+    internal readonly GameSettings GameSettings;
     private readonly Controller Controller;
     private Action<int, int> gameEnd;
 
     internal GameContext(GameSettings settings)
     {
-      Settings = settings;
+      GameSettings = settings;
       Teams = new Team[settings.Mode.TeamCount()];
       for (int i = 0; i < Teams.Length; i++)
         Teams[i] = new Team(i, settings);
@@ -27,8 +28,8 @@ namespace LightStudio.PokemonBattle.Game
       Controller = new Controller(this);
     }
 
-    public GameSettings Settings
-    { get; private set; }
+    public IGameSettings Settings
+    { get { return GameSettings; } }
 
     private void OnGameEnd()
     {
@@ -62,6 +63,8 @@ namespace LightStudio.PokemonBattle.Game
       remove { Controller.ReportUpdated -= value; }
     }
 
+    GameSettings IGame.Settings
+    { get { return GameSettings; } }
     bool IGame.Prepared
     {
       get

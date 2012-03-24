@@ -12,7 +12,7 @@ namespace LightStudio.PokemonBattle.Game
     public readonly int TeamId;
     private readonly Pokemon[] pokemons;
 
-    public Player(int userId, int teamId, PokemonCustomInfo[] pokemons, GameSettings settings)
+    internal Player(int userId, int teamId, PokemonCustomInfo[] pokemons, GameSettings settings)
     {
       Id = userId;
       TeamId = teamId;

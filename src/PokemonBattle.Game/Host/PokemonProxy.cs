@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Game
       //幻影new完后覆盖属性
       Pokemon opm = p.Pokemon;
       PokemonOutward o = new PokemonOutward(opm, p.OnboardPokemon.Position);
-      if (p.Ability.Id == AbilityIds.ILLUSION)
+      if (p.OnboardPokemon.Ability == AbilityIds.ILLUSION)
       {
         foreach (Pokemon pm in p.Pokemon.Owner.Pokemons)
           if (pm.Hp.Value > 0) opm = pm;
@@ -43,7 +43,7 @@ namespace LightStudio.PokemonBattle.Game
       Moves = new MoveProxy[4];
       for (int i = 0; i < 4; i++)
         if (pokemon.Moves[i] != null) Moves[i] = new MoveProxy(Controller, pokemon.Moves[i], this);
-      StruggleMove = new MoveProxy(controller, new Move(165, Controller.Game.Settings), this);
+      StruggleMove = new MoveProxy(controller, new Move(165, Controller.Game.GameSettings), this);
       Action = PokemonAction.Debuting;
 
       Outward = BuildOutward(this);

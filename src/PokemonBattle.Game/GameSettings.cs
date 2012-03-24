@@ -9,23 +9,22 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class GameSettings : IMessagable
+  public interface IGameSettings
   {
-    public static GameSettings ReadFromMessage(BinaryReader reader)
-    {
-      GameSettings s = new GameSettings((GameMode)reader.ReadByte());
-      s.PPUp = reader.ReadDouble();
-      int n = reader.ReadInt32();
-      while (n-- > 0)
-        s.AddRule(GameService.GetRule(reader.ReadInt32()));
-      s.Lock();
-      return s;
-    }
-
+    GameMode Mode { get; }
+    Terrain Terrain { get; }
+    double PPUp { get; }
+    IRule Rule { get; }
+  }
+  
+  [DataContract(Namespace = Namespaces.DEFAULT)]
+  public class GameSettings : IGameSettings, IMessagable
+  {
+    private bool isLocked;
     private readonly IdGenerator idGen;
     private Queue<int> idQue;
     private List<Rule> rules;
+    private IRule combinedRule;
     [DataMember]
     private List<int> ruleIds;
     [DataMember]
@@ -50,23 +49,21 @@ namespace LightStudio.PokemonBattle.Game
       this.ppUp = ppUp;
       this.terrain = terrain;
     }
-    
-    public bool IsLocked
-    { get; private set; }
+
     public GameMode Mode
     {
       get { return mode; }
-      set { if (!IsLocked) mode = value; }
+      set { if (!isLocked) mode = value; }
     }
     public Terrain Terrain
     {
       get { return terrain; }
-      set { if (!IsLocked) terrain = value; }
+      set { if (!isLocked) terrain = value; }
     }
     public double PPUp
     {
       get { return ppUp; }
-      set { if (!IsLocked) ppUp = value; }
+      set { if (!isLocked) ppUp = value; }
     }
     public IEnumerable<Rule> ChosenRules
     { 
@@ -80,13 +77,21 @@ namespace LightStudio.PokemonBattle.Game
         return rules;
       }
     }
-    public IRule Rule
-    { get; private set; }
+    IRule IGameSettings.Rule
+    { get { return combinedRule; } }
 
+    internal int NextId()
+    {
+      if (idGen != null) return idGen.NextId();
+      return idQue.Dequeue();
+    }
     public void Lock()
     {
-      IsLocked = true;
-      Rule = new CombinedRule(ruleIds);
+      lock (this)
+      {
+        isLocked = true;
+        combinedRule = new CombinedRule(ruleIds);
+      }
     }
     public void AddRule(Rule rule)
     {
@@ -95,23 +100,9 @@ namespace LightStudio.PokemonBattle.Game
     }
     public void SetIds(int[] ids)
     {
-      if (IsLocked) return;
+      if (isLocked) return;
       idQue = new Queue<int>(ids);
       Lock();
-    }
-    public int NextId()
-    {
-      if (idGen != null) return idGen.NextId();
-      return idQue.Dequeue();
-    }
-
-    public void WriteToMessage(BinaryWriter writer)
-    {
-      writer.Write((byte)Mode);
-      writer.Write(PPUp);
-      writer.Write(ChosenRules.Count());
-      foreach (Rule r in ChosenRules)
-        writer.Write(r.Id);
     }
   }
 }

@@ -19,7 +19,7 @@ namespace LightStudio.PokemonBattle.Game
 
     internal Board(GameContext game)
     {
-      GameSettings settings = game.Settings;
+      IGameSettings settings = game.Settings;
       GameMode mode = settings.Mode;
       TeamCount = mode.TeamCount();
       XBound = mode.XBound();

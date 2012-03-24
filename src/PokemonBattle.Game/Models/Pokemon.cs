@@ -38,7 +38,7 @@ namespace LightStudio.PokemonBattle.Game
     public readonly int StruggleId;
     public readonly int SwitchId;
 
-    public Pokemon(Player owner, PokemonCustomInfo custom, GameSettings settings)
+    internal Pokemon(Player owner, PokemonCustomInfo custom, GameSettings settings)
     {
       Id = settings.NextId();
       Owner = owner;
