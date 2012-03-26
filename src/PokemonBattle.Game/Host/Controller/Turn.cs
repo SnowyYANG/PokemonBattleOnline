@@ -81,7 +81,7 @@ namespace LightStudio.PokemonBattle.Game
     private void Pre_UseMove()
     {
       foreach (PokemonProxy p in OnboardPokemons)
-        p.Pre_Move();
+        p.PreMove();
     }
     public void ActMove() //蜻蜓返的inputFinished
     {

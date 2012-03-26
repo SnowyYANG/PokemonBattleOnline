@@ -24,8 +24,6 @@ namespace LightStudio.PokemonBattle.Game
     public readonly SixD Ev;
     public readonly SixD Static; //力量交换，包含性格修正，不包含等级修正
     private readonly SixD lv5D;
-    private int accuracyLv;
-    private int evasionLv;
     #endregion
 
     internal OnboardPokemon(Pokemon pokemon, int x)
@@ -43,7 +41,12 @@ namespace LightStudio.PokemonBattle.Game
       Position = new Position(pokemon.TeamId, x);
     }
 
-    public double Get5D(StatType stat)
+    public int AccuracyLv
+    { get; private set; }
+    public int EvasionLv
+    { get; private set; }
+
+    public int Get5D(StatType stat)
     {
       double coeff;
       {
@@ -53,32 +56,7 @@ namespace LightStudio.PokemonBattle.Game
         else denominator -= lv;
         coeff = numerator / denominator;
       }
-      return Static.GetStat(stat) * coeff;
+      return (int)(Static.GetStat(stat) * coeff);
     }
-
-    //#region HpChange
-    ///// <summary>
-    ///// 到这一步特性道具什么的无视了，要查特效（比如坚硬）提前查
-    ///// </summary>
-    ///// <param name="damage"></param>
-    //public void Hurt(int damage)
-    //{
-    //  if (damage < pokemon.Hp.Value)
-    //  {
-    //    pokemon.Hp.Value -= damage;
-    //  }
-    //  else
-    //  {
-    //    pokemon.Hp.Value = 0;
-    //  }
-    //}
-    //public void HurtTo(int hp)
-    //{
-    //  if (hp > 0 && hp <= Hp) //就为了闪烁效果变成<=
-    //  {
-    //    pokemon.Hp.Value = hp;
-    //  }
-    //}
-    //#endregion
   }
 }

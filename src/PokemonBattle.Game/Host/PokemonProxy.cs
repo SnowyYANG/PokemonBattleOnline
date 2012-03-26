@@ -57,18 +57,6 @@ namespace LightStudio.PokemonBattle.Game
 
     public int Hp
     { get { return Pokemon.Hp.Value; } }
-    #region 5D
-    public int Atk
-    { get { throw new NotImplementedException(); } }
-    public int Def
-    { get { throw new NotImplementedException(); } }
-    public int SpAtk
-    { get { throw new NotImplementedException(); } }
-    public int SpDef
-    { get { throw new NotImplementedException(); } }
-    public int Speed
-    { get { return (int)OnboardPokemon.Get5D(StatType.Speed); } }
-    #endregion
     public IAbilityE Ability
     { 
       get
@@ -85,6 +73,26 @@ namespace LightStudio.PokemonBattle.Game
     { get; private set; }
     public MoveProxy StruggleMove
     { get; private set; }
+    #endregion
+
+    #region 5D
+    private int Get5D(StatType stat)
+    {
+      int v = OnboardPokemon.Get5D(stat);
+      v = (int)(v * Ability.Get5DRevise(this, stat));
+      v *= (int)(v * Item.Get5DRevise(this, stat));
+      return v;
+    }
+    public int Atk
+    { get { return Get5D(StatType.Atk); } }
+    public int Def
+    { get { return Get5D(StatType.Def); } }
+    public int SpAtk
+    { get { return Get5D(StatType.SpAtk); } }
+    public int SpDef
+    { get { return Get5D(StatType.SpDef); } }
+    public int Speed
+    { get { return Get5D(StatType.Speed); } }
     #endregion
 
     #region Predict
@@ -152,13 +160,14 @@ namespace LightStudio.PokemonBattle.Game
     }
     #endregion
 
-    public void Debut()
+    #region internal
+    internal void Debut()
     {
       if (Action == PokemonAction.Debuting)
       {
         ;//场地效果
-        ;//特性
-        ;//道具
+        Ability.Debut(this);//特性
+        Item.Debut(this);//道具
         Action = PokemonAction.Done;
       }
     }
@@ -185,10 +194,11 @@ namespace LightStudio.PokemonBattle.Game
     /// 就为了气合拳...
     /// </summary>
     /// <returns></returns>
-    internal void Pre_Move()
+    internal void PreMove()
     {
+      SelectedMove.PreMove();
     }
-    public void ActMove()
+    internal void ActMove()
     {
       if (!CanActMove) return;
       lastActTurn = Controller.ReportBuilder.TurnNumber;
@@ -196,7 +206,7 @@ namespace LightStudio.PokemonBattle.Game
       {
         case PokemonAction.MoveAttached:
           Action = PokemonAction.Moving;
-          SelectedMove.Act(SelectedTarget);
+          SelectedMove.Act();
           break;
         case PokemonAction.Moving:
           System.Diagnostics.Debugger.Break();
@@ -207,5 +217,6 @@ namespace LightStudio.PokemonBattle.Game
           break;
       }
     }
+    #endregion
   }
 }

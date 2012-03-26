@@ -15,8 +15,19 @@ namespace LightStudio.PokemonBattle.Game
     {
     }
 
-    public void Act()
+    protected override void Execute(PokemonProxy pm)
     {
+      AtkContext atk = new AtkContext(pm);
+      BuildTargets(atk);
+      if (atk.Targets.Count() == 0) return;
+      
+      //发动属性宝石
+      atk.Attacker.Item.ImplementMove(atk);
+      //生成攻击次数
+      if (Move.MinTimes != Move.MaxTimes) atk.Times = TIMES25[atk.Controller.GetRandomInt(0, 7)];
+      else atk.Times = Move.MinTimes;
+
+
     }
     protected void PostEffect()
     {

@@ -44,6 +44,8 @@
     <Compile Include="EModels\AbilityE.cs" />
     <Compile Include="EModels\AttackMoveE.cs" />
     <Compile Include="EModels\BattleContext.cs" />
+    <Compile Include="EModels\IAbilityE.cs" />
+    <Compile Include="EModels\IItemE.cs" />
     <Compile Include="EModels\IMoveE.cs" />
     <Compile Include="EModels\ItemE.cs" />
     <Compile Include="EModels\MoveE.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="GameService.cs" />
     <Compile Include="IGame.cs" />
     <Compile Include="Interactive\GameEvent.cs" />
+    <Compile Include="Interactive\GameEvents\Ability.cs" />
     <Compile Include="Interactive\GameEvents\Simple.cs" />
     <Compile Include="Interactive\GameEvents\Switch.cs" />
     <Compile Include="Interactive\GameEvents\Turn.cs" />

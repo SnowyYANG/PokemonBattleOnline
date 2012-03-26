@@ -21,6 +21,8 @@ namespace LightStudio.PokemonBattle.Game
       abilities = new IAbilityE[DataService.Abilities.Count() + 1];
       items = new IItemE[DataService.Items.Count() + 1];
       rules = new Dictionary<int, Rule>();
+      items[0] = new ItemE0();
+      abilities[0] = new AbilityE0();
     }
 
     public static IMoveE GetMove(int id)
@@ -51,28 +53,31 @@ namespace LightStudio.PokemonBattle.Game
     {
       if (unlocked)
       {
-        moves[move.Move.Id] = move;
+        if (move.Move.Id > 0 && move.Move.Id < moves.Length)
+          moves[move.Move.Id] = move;
       }
     }
     public static void RegisterAbility(IAbilityE ability)
     {
       if (unlocked)
       {
-        abilities[ability.Id] = ability;
+        if (ability.Id > 0 && ability.Id < abilities.Length)
+          abilities[ability.Id] = ability;
       }
     }
     public static void RegisterItem(IItemE item)
     {
       if (unlocked)
       {
-        items[item.Id] = item;
+        if (item.Id > 0 && item.Id < abilities.Length)
+          items[item.Id] = item;
       }
     }
     public static void RegisterRule(Rule rule)
     {
       if (unlocked)
       {
-        rules[rule.Id] = rule;
+        rules.Add(rule.Id, rule);
       }
     }
   }

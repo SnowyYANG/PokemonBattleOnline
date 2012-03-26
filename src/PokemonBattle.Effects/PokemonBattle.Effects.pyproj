@@ -27,7 +27,14 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="BrickBreak.py" />
+    <None Include="Abilities\Weather.py" />
+    <None Include="Items\Gem.py" />
+    <None Include="Moves\BrickBreak.py" />
     <None Include="references.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Items" />
+    <Folder Include="Moves" />
+    <Folder Include="Abilities" />
   </ItemGroup>
 </Project>

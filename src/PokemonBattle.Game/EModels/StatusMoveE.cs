@@ -19,5 +19,10 @@ namespace LightStudio.PokemonBattle.Game
     protected virtual void Override_Act() //D要override
     {
     }
+
+    protected override void Execute(PokemonProxy pm)
+    {
+      System.Diagnostics.Debugger.Break();
+    }
   }
 }

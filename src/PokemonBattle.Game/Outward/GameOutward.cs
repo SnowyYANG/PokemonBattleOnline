@@ -34,6 +34,13 @@ namespace LightStudio.PokemonBattle.Game
       listeners = new List<IGameOutwardEvents>();
     }
 
+    public PokemonOutward GetPokemon(int id)
+    {
+      foreach (var team in Board.Teams)
+        foreach (var pm in team)
+          if (pm.Id == id) return pm;
+      return null;
+    }
     public void Update(ReportFragment turn)
     {
       if (turn.Teams != null)

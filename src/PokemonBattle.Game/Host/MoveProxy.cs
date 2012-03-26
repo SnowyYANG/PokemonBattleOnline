@@ -10,12 +10,14 @@ namespace LightStudio.PokemonBattle.Game
     public readonly Move Move;
     internal readonly PokemonProxy Owner;
     protected readonly Controller Controller;
+    private readonly IMoveE e;
     
     internal MoveProxy(Controller controller, Move move, PokemonProxy owner)
     {
       Controller = controller;
       Move = move;
       Owner = owner;
+      e = GameService.GetMove(move.Id);
     }
 
     public int Id
@@ -37,17 +39,17 @@ namespace LightStudio.PokemonBattle.Game
       }
     } //PP>0
 
-    //在特效接口处
-    //public Position[] GetSelectTarget(Position position)
-    //{
-    //  if (position == null)
-    //    switch (Model.Type.Range)
-    //    {
-    //    }
-    //  return new Position[] { position };
-    //}
-    public void Act(Tile selectTarget)
+    public void Attach()
     {
+      e.Attach();
+    }
+    public void PreMove()
+    {
+      e.PreAct();
+    }
+    public void Act()
+    {
+      e.Act(Owner);
     }
   }
 }
