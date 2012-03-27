@@ -10,8 +10,10 @@
              Height="100" MinWidth="150" MaxWidth="300" Background="WhiteSmoke" BorderThickness="2" BorderBrush="#FFAAAAAA">
     <Grid>
         <ContentPresenter x:Name="avatar" ContentTemplate="{x:Static ui:Cartes.DetailedAvatar}" Height="60" Width="60" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,2,0,0"/>
-        <TextBox Name="avatarUrl" Foreground="Gray" VerticalAlignment="Top" Margin="70,37,0,0" BorderThickness="0,0,0,1" TextAlignment="Right" TextChanged="avatarUrl_TextChanged" Background="{x:Null}" />
-        <TextBox Name="name" VerticalAlignment="Top" Margin="70,6,3,0" BorderThickness="0,0,0,1" FontSize="14" Background="{x:Null}" />
+        <TextBlock Name="textAvatarUrl" TextAlignment="Right" Margin="70,37,0,36">头像URL</TextBlock>
+        <TextBox Name="avatarUrl" Foreground="Gray"  GotFocus="textAvatarUrlHidden" VerticalAlignment="Top"  LostFocus="textAvatarUrlVisible" Margin="70,37,0,0" BorderThickness="0,0,0,1" TextAlignment="Right" TextChanged="avatarUrl_TextChanged" Background="{x:Null}" />
+        <TextBlock Name="textName" TextAlignment="Left" Margin="70,6,3,67">用户名</TextBlock>
+        <TextBox Name="name" GotFocus="textNameHidden" LostFocus="textNameVisible" VerticalAlignment="Top" Margin="70,6,3,0" BorderThickness="0,0,0,1" FontSize="14" Background="{x:Null}" />
         <Button Name="button" Content="{Binding [Login], Source={x:Static pm:DataService.String}}" Click="button_Click" HorizontalContentAlignment="Left" Padding="30,0" FontWeight="Bold" VerticalAlignment="Bottom" Height="30" Background="#FFC4C4C4" BorderBrush="White" />
         <ComboBox Name="servers" IsEditable="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" VerticalContentAlignment="Center" Height="30" BorderThickness="0" Background="{x:Null}">
             <ComboBoxItem Content="221.137.62.177" IsSelected="True"/>

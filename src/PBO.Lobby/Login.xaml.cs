@@ -102,5 +102,29 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
       if (timer.IsEnabled) timer.Stop();
       timer.Start();
     }
+
+
+
+    private void textAvatarUrlHidden(object sender, RoutedEventArgs e)
+    {
+        this.textAvatarUrl.Visibility = Visibility.Hidden;
+    }
+
+    private void textAvatarUrlVisible(object sender, RoutedEventArgs e)
+    {
+        if(this.avatarUrl.Text.Length == 0)
+            this.textAvatarUrl.Visibility = Visibility.Visible;
+    }
+
+    private void textNameVisible(object sender, RoutedEventArgs e)
+    {
+        if (this.name.Text.Length == 0)
+            this.textName.Visibility = Visibility.Visible;
+    }
+
+    private void textNameHidden(object sender, RoutedEventArgs e)
+    {
+        this.textName.Visibility = Visibility.Hidden;
+    }  
   }
 }
