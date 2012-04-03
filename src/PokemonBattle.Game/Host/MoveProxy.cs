@@ -49,7 +49,8 @@ namespace LightStudio.PokemonBattle.Game
     }
     public void Act()
     {
-      e.Act(Owner);
+      if (Owner.CanExecute())
+        e.Execute(Owner);
     }
   }
 }

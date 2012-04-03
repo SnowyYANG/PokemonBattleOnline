@@ -11,6 +11,7 @@ namespace LightStudio.PokemonBattle.Game
   {
     protected static readonly double[,] BATTLE_TYPE_EFFECT = new double[18, 18]{ { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 2, 1, 1, 0.5, 0.5, 0.5, 0.5, 2, 1, 1, 1, 0.5, 2, 1, 0.5, 1 }, { 1, 1, 0.5, 1, 1, 0.5, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 0.5, 1 }, { 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 1 }, { 1, 1, 1, 0.5, 0.5, 1, 1, 2, 1, 0.5, 0, 1, 1, 1, 1, 1, 1, 2 }, { 1, 0.5, 2, 1, 1, 1, 1, 0.5, 0, 1, 1, 2, 2, 0.5, 0.5, 2, 2, 1 }, { 1, 2, 1, 0.5, 1, 1, 0.5, 1, 1, 2, 1, 2, 1, 1, 1, 0.5, 2, 0.5 }, { 1, 2, 1, 1, 0.5, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 0.5, 0.5, 1 }, { 1, 1, 0.5, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0, 1, 2, 1, 0.5, 1 }, { 1, 0.5, 1, 0.5, 1, 1, 0.5, 0.5, 1, 0.5, 2, 1, 1, 0.5, 1, 2, 0.5, 2 }, { 1, 0.5, 1, 1, 2, 1, 2, 0, 1, 0.5, 1, 1, 1, 2, 1, 2, 2, 1 }, { 1, 1, 1, 2, 1, 1, 0.5, 2, 1, 2, 2, 0.5, 1, 1, 1, 1, 0.5, 0.5 }, { 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0.5, 0.5, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 2, 0.5, 1, 1, 0.5, 1, 0.5, 0, 1 }, { 1, 1, 0, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 0.5, 1, 0.5, 1 }, { 1, 2, 1, 1, 1, 0.5, 2, 2, 1, 1, 0.5, 2, 1, 1, 1, 1, 0.5, 1 }, { 1, 1, 1, 1, 0.5, 1, 0.5, 1, 1, 1, 1, 2, 1, 1, 1, 2, 0.5, 0.5 }, { 1, 1, 1, 0.5, 1, 1, 2, 1, 1, 0.5, 2, 1, 1, 1, 1, 2, 1, 0.5 } };
     protected static readonly int[] TIMES25 = new int[8] { 2, 2, 2, 3, 3, 3, 4, 5 };
+    protected static readonly double[] LV_ACC = { 0.33, 0.36, 0.43, 0.5, 0.6, 0.75, 1, 1.33, 1.66, 2, 2.5, 2.66, 3 };
     protected static string ConvertMultiToString<T>(Func<T, string> convert, IList<T> args)
     {
       return DataService.GameLog.ConvertMultiObjects(convert, args);
@@ -26,16 +27,8 @@ namespace LightStudio.PokemonBattle.Game
 
     public void Attach() { } //追击new
     public void PreAct() { } //气合拳new
-    public void Act(PokemonProxy pm)
-    {
-      if (CanExecute(pm)) Execute(pm);
-    }
 
-    protected bool CanExecute(PokemonProxy pm) //梦话new
-    {
-      throw new NotImplementedException();
-    }
-    protected abstract void Execute(PokemonProxy pm); //变化技能和攻击技能分开写吧
+    public abstract void Execute(PokemonProxy pm); //变化技能和攻击技能分开写吧
     protected void BuildTargets(AtkContext atk)
     {
       var report = atk.Controller.ReportBuilder;
@@ -45,25 +38,23 @@ namespace LightStudio.PokemonBattle.Game
         var ts = GetRangeTiles(atk);
         if (ts == null) return;
         targets = new List<DefContext>();
+        var miss = new List<DefContext>();
+        foreach (Tile t in ts)
+          if (t.Pokemon != null)
+          {
+            var pm = t.Pokemon;
+            DefContext def = new DefContext(atk, pm);
+            if (IsYInRange(def) || def.NoGuard) targets.Add(def);
+            else miss.Add(def);
+          }
+        if (miss.Count > 0)
         {
-          var miss = new List<DefContext>();
-          foreach (Tile t in ts)
-            if (t.Pokemon != null)
-            {
-              var pm = t.Pokemon;
-              DefContext def = new DefContext(atk, pm);
-              if (IsYInRange(def) || def.NoGuard) targets.Add(def);
-              else miss.Add(def);
-            }
-          if (miss.Count > 0)
-          {
-            report.Add(new SoloEvent("Miss", ConvertMultiToString((d) => d.Defender.Outward.Name, miss)));
-            targets.Remove(miss);
-          }
-          else if (targets.Count == 0)
-          {
-            report.Add(new SimpleEvent("Fail"));
-          }
+          report.Add(new SoloEvent("Miss", ConvertMultiToString((d) => d.Defender.Outward.Name, miss)));
+          targets.Remove(miss);
+        }
+        else if (targets.Count == 0)
+        {
+          report.Add(new SimpleEvent("Fail"));
         }
       }
       #endregion
@@ -97,7 +88,7 @@ namespace LightStudio.PokemonBattle.Game
       }
       #endregion
       #region Check for Telepathy (and possibly other abilities)
-      if (!atk.Attacker.Ability.IgnoreDefenderAbility)
+      if (!atk.Attacker.Ability.IgnoreDefenderAbility) //为了性能
       {
         var abnoeffect = new List<DefContext>();
         foreach (DefContext def in targets)
@@ -108,6 +99,11 @@ namespace LightStudio.PokemonBattle.Game
       #region Check for misses
       if (atk.Attacker.Ability.Id != AbilityIds.NO_GUARD && Move.Accuracy < 0x65)
       {
+        if (atk.Attacker.Item.Id == ItemIds.MICLE_BERRY) //神秘果
+        {
+          atk.Attacker.Item.Raise(atk.Attacker);
+          return;
+        }
         atk.Attacker.Ability.CalculatingAccuracy(atk); //计算攻击方命中修正
         atk.Attacker.Item.CalculatingAccuracy(atk);
         var miss = new List<DefContext>();
@@ -148,8 +144,10 @@ namespace LightStudio.PokemonBattle.Game
           if (def.Defender.Pokemon.Lv > def.AtkContext.Attacker.Pokemon.Lv) def.BattleTypeRevise = 0;
           else def.BattleTypeRevise = BATTLE_TYPE_EFFECT[(int)def.Defender.OnboardPokemon.Type1, (int)def.AtkContext.Type] * BATTLE_TYPE_EFFECT[(int)def.Defender.OnboardPokemon.Type2, (int)def.AtkContext.Type];
           break;
+        default:
+          def.BattleTypeRevise = 1;
+          break;
       }
-      def.BattleTypeRevise = 1;
     }
     protected virtual IEnumerable<Tile> GetRangeTiles(AtkContext atk)
     {
@@ -238,15 +236,39 @@ namespace LightStudio.PokemonBattle.Game
     }
     protected bool CanHit(DefContext def)
     {
-      if (Move.Accuracy == 0x65) return true;
+      AtkContext atk = def.AtkContext;
+      Controller controller = atk.Controller;
       int acc;
       if (Move.Class == MoveInnerClass.OHKO) //等级原因的“完全没有效果”已经判断过了
-        acc = Move.Accuracy + def.AtkContext.Attacker.Pokemon.Lv - def.Defender.Pokemon.Lv;
+        acc = Move.Accuracy + atk.Attacker.Pokemon.Lv - def.Defender.Pokemon.Lv;
       else
       {
+        int lv;
+        if (def.Ability.Id == AbilityIds.UNAWARE) lv = 0;
+        else lv = def.AtkContext.Attacker.OnboardPokemon.AccuracyLv;
+        //如果攻击方是天然特性，防御方的回避等级按0计算。 
+        //将攻击方的命中等级减去防御方的回避等级。 
+        if (atk.Attacker.Ability.Id != AbilityIds.UNAWARE)
+          lv -= def.Defender.OnboardPokemon.EvasionLv;
+        if (lv < -6) lv = -6;
+        else if (lv > 6) lv = 6;
+        //用技能基础命中乘以命中等级修正，向下取整。
+        acc = (int)(Move.Accuracy * LV_ACC[lv + 6]);
+
+        def.Ability.CalculatingAccuracy(def);
+        def.Defender.Item.CalculatingAccuracy(def);
+        acc = (int)(acc * atk.AccuracyRevise);
+        acc = (int)(acc * def.AccuracyRevise);
+        
+        //如果场上存在重力，命中×5/3。
+        if (controller.Board.HasCondition("Gravity"))
+        {
+          acc *= 5;
+          acc /= 3;
+        }
       }
-    MISS:
-      return false;
+      //产生1～100的随机数，如果小于等于命中，判定为命中，否则判定为失误。
+      return controller.GetRandomInt(1, 100) <= acc;
     }
     protected virtual bool IsYInRange(DefContext def)
     {

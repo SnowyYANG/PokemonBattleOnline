@@ -42,8 +42,9 @@ namespace LightStudio.PokemonBattle.PBO.Battle
         };
     }
 
-    private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
     {
+      base.OnClosing(e);
       if (userController != null && userController.RoomState != RoomState.GameEnd)
       {
         var result = UIElements.ShowMessageBox.ClosingInBattle(this);
@@ -51,8 +52,9 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       }
     }
 
-    private void Window_Closed(object sender, EventArgs e)
+    protected override void OnClosed(EventArgs e)
     {
+      base.OnClosed(e);
       userController.Quit();
     }
   }

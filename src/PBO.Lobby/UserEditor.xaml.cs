@@ -64,7 +64,6 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     {
       RefreshState(UserState.Aggressive);
     }
-
     private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
     {
       sign.IsEditing = true;

@@ -32,7 +32,7 @@ namespace LightStudio.PokemonBattle.Game
 
     public PairValue Hp { get; private set; }
     public Item Item { get; set; }
-    public PokemonState State { get; set; } //notify?
+    public PokemonState State { get; set; }
     #endregion
 
     public readonly int StruggleId;
@@ -66,7 +66,6 @@ namespace LightStudio.PokemonBattle.Game
       Static = new ReadOnly6D(GetState(StatType.Hp), GetState(StatType.Atk), GetState(StatType.Def), GetState(StatType.SpAtk), GetState(StatType.SpDef), GetState(StatType.Speed));
       
       if (custom.ItemId.HasValue) Item = DataService.GetItem(custom.ItemId.Value);
-      State = PokemonState.Normal;
       Hp = new PairValue(Static.Hp, Static.Hp, 48);
     }
 

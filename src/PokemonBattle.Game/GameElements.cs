@@ -5,6 +5,10 @@ using System.Text;
 
 namespace LightStudio.PokemonBattle.Game
 {
+  static class MoveIds
+  {
+    public const int SLEEP_TALK = 214;
+  }
   static class AbilityIds
   {
     public const int ADAPTABILITY = 1;

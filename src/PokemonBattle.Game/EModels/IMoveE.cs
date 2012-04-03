@@ -11,6 +11,6 @@ namespace LightStudio.PokemonBattle.Game
     MoveType Move { get; }
     void Attach();
     void PreAct();
-    void Act(PokemonProxy pm);
+    void Execute(PokemonProxy pm);
   }
 }

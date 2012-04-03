@@ -112,7 +112,9 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
       if (Team == game.Player.TeamId)
       {
         game.ActivePokemons.Remove(X);
+        SimPokemon pm = game.Pokemons[X];
         game.Pokemons[X] = null;
+        if (pm.Hp == 0) pm.State = PokemonState.Faint;
       }
     }
   }

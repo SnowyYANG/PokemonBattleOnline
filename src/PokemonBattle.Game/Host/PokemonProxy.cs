@@ -57,11 +57,24 @@ namespace LightStudio.PokemonBattle.Game
 
     public int Hp
     { get { return Pokemon.Hp.Value; } }
+    public PokemonState State
+    {
+      get { return Pokemon.State; }
+      set
+      {
+        if (State != value)
+        {
+          State = value;
+          if (State != PokemonState.Faint)
+            Controller.ReportBuilder.AddStateChanged(this);
+        }
+      }
+    }
     public IAbilityE Ability
     { 
       get
       { 
-        //需要检查胃液状态么？要检查破格么？
+        //需要检查胃液状态么？
         return GameService.GetAbility(OnboardPokemon.Ability);
       }
     }
@@ -75,7 +88,7 @@ namespace LightStudio.PokemonBattle.Game
     { get; private set; }
     #endregion
 
-    #region 5D
+    #region 7D
     private int Get5D(StatType stat)
     {
       int v = OnboardPokemon.Get5D(stat);
@@ -111,6 +124,38 @@ namespace LightStudio.PokemonBattle.Game
         return Hp > 0 && lastActTurn != Controller.ReportBuilder.TurnNumber &&
           (Action == PokemonAction.MoveAttached || Action == PokemonAction.Stiff || Action == PokemonAction.Moving);
       }
+    }
+    internal bool CanExecute() //梦话...
+    {
+      //冰冻
+      if (State == PokemonState.Frozen)
+      {
+        if (SelectedMove.Move.Type.AdvancedFlags.AvailableEvenFrozen || Controller.GetRandomInt(0, 3) == 0)
+          State = PokemonState.Normal;
+        else Controller.ReportBuilder.Add("Frozen", Pokemon.Name);
+      }
+      //睡觉..梦话
+      if (State == PokemonState.Sleeping)
+      {
+        int count = OnboardPokemon.GetCondition<int>("Sleeping");
+        count--;
+        if (Ability.Id == AbilityIds.EARLY_BIRD) count--;
+        OnboardPokemon.SetCondition("Sleeping", count);
+        if (count == 0) State = PokemonState.Normal;
+        else Controller.ReportBuilder.Add("Sleeping", Pokemon.Name);
+      }
+      //懒惰 
+      //残废 
+      //封印 
+      //回复封印 
+      //混乱 
+      //害怕 
+      //  不屈之心
+      //挑拨 
+      //重力 
+      //着迷 
+      //麻痹
+      return true;
     }
     #endregion
 

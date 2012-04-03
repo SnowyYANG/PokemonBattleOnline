@@ -112,4 +112,6 @@
   <item key="Login" value="登陆"/>
   <item key="new box" value="新箱子"/>
   <item key="new team" value="新队伍"/>
+  <item key="Username" value="用户名"/>
+  <item key="Avatar URL" value="头像URL"/>
 </pack>

@@ -43,13 +43,11 @@ namespace LightStudio.PokemonBattle.PBO
       if (c1.ActualWidth == 0) c1.Width = GLMIN;
       else c1.Width = new GridLength(ActualWidth - border);
     }
-
     private void switchEditor_Click(object sender, RoutedEventArgs e)
     {
       if (c0.ActualWidth == 0) c1.Width = GLMIN;
       else c1.Width = GL0;
     }
-
     private void Rectangle_SizeChanged(object sender, SizeChangedEventArgs e)
     {
       double w = e.NewSize.Width;
@@ -64,26 +62,25 @@ namespace LightStudio.PokemonBattle.PBO
         else c1.Width = new GridLength(ActualWidth - border);
       }
     }
-
+    private void Grid_Loaded(object sender, RoutedEventArgs e)
+    {
+      border = ActualWidth - ((Grid)sender).ActualWidth;
+    }
     private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
     {
       if (e.WidthChanged)
         if (c1.ActualWidth == e.PreviousSize.Width - border) c1.Width = new GridLength(ActualWidth - border);
     }
 
-    private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
     {
+      base.OnClosing(e);
       e.Cancel = lobby.Window_Closing() || editor.Window_Closing();
     }
-
-    private void Window_Closed(object sender, EventArgs e)
+    protected override void OnClosed(EventArgs e)
     {
+      base.OnClosed(e);
       lobby.Window_Closed();
-    }
-
-    private void Grid_Loaded(object sender, RoutedEventArgs e)
-    {
-      border = ActualWidth - ((Grid)sender).ActualWidth;
     }
   }
 }

@@ -33,7 +33,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
       GrayB1 = Helper.NewBrush(0xff181818);
       GrayF = Helper.NewBrush(0xfff8f8f8);
 
-      SelectedItemBg = Helper.NewBrush(0xff9fc9eb);
+      SelectedItemBg = Helper.NewBrush(0x804294de);
 
       BlueM = Helper.NewBrush(0xff0080e8);
       OrangeM = Helper.NewBrush(0xffe88800);

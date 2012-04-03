@@ -107,14 +107,13 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     {
       if (controller != null)
       {
-        //那个Intern的string岂不是悲剧了 放不出来了
         controller.ChatMessageReceived -= controller_ChatMessageReceived;
       }
       if (client != null)
       {
         speaking.Clear();
         chat.Inlines.Clear();
-        userName = client.User.Name; //userName = String.Intern(client.User.Name); //还是算了
+        userName = client.User.Name;
         controller = client;
         controller.BroadcastReceived += controller_BroadcastReceived;
         controller.ChatMessageReceived += controller_ChatMessageReceived;

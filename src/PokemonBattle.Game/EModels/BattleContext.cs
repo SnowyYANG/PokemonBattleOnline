@@ -45,12 +45,14 @@ namespace LightStudio.PokemonBattle.Game
     public int Damage;
     public double BattleTypeRevise;
     public double DamageRevise;
+    public double AccuracyRevise;
     
     public DefContext(AtkContext a, PokemonProxy pm)
     {
       AtkContext = a;
       Defender = pm;
       NoGuard = a.Attacker.Ability.Id == AbilityIds.NO_GUARD || pm.OnboardPokemon.HasCondition("NoGuard") || pm.Ability.Id == AbilityIds.NO_GUARD;
+      AccuracyRevise = 1d;
     }
 
     /// <summary>
@@ -58,5 +60,15 @@ namespace LightStudio.PokemonBattle.Game
     /// </summary>
     public bool NoGuard
     { get; private set; }
+
+    public IAbilityE Ability
+    {
+      get
+      {
+        if (AtkContext.Attacker.Ability.IgnoreDefenderAbility)
+          return GameService.GetAbility(0);
+        return Defender.Ability;
+      }
+    }
   }
 }

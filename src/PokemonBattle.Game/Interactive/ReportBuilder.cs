@@ -55,7 +55,11 @@ namespace LightStudio.PokemonBattle.Interactive
 
     internal void AddNewTurn()
     {
-      current.AddEvent(new BeginTurn(++TurnNumber));
+      Add(new BeginTurn(++TurnNumber));
+    }
+    internal void AddStateChanged(PokemonProxy pm)
+    {
+      Add(new PokemonStateChange(pm));
     }
     public void Add(GameEvent e)
     {
@@ -63,8 +67,8 @@ namespace LightStudio.PokemonBattle.Interactive
     }
     public void Add(string key, params string[] data)
     {
-      if (data.Length == 1) current.AddEvent(new SoloEvent(key, data[0]));
-      else current.AddEvent(new SimpleEvent(key, data));
+      if (data.Length == 1) Add(new SoloEvent(key, data[0]));
+      else Add(new SimpleEvent(key, data));
     }
   }
 }

@@ -312,7 +312,7 @@
         						<Border BorderBrush="{TemplateBinding Background}" BorderThickness="0,3" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
         							<StackPanel Margin="5,1">
         								<GridViewRowPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                        <ContentPresenter x:Name="des" HorizontalAlignment="Stretch" Margin="30,1,0,0" Content="{Binding Content.MoveType.Description, RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{x:Static ui:Controls.LocalizedDataText}" Visibility="Collapsed">
+                                        <ContentPresenter x:Name="des" HorizontalAlignment="Stretch" Margin="30,1,0,0" Content="{Binding MoveType.Description}" ContentTemplate="{x:Static ui:Controls.LocalizedDataText}" Visibility="Collapsed">
                                             <ContentPresenter.Resources>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -321,15 +321,18 @@
                                         </ContentPresenter>
                                     </StackPanel>
         						</Border>
-        						<ControlTemplate.Triggers>
-        							<Trigger Property="IsMouseOver" Value="true">
-        								<Setter Property="Background" Value="#e0e0e0"/>
-        							</Trigger>
-        							<Trigger Property="IsSelected" Value="true">
-        								<Setter Property="Background" Value="{x:Static ui:Brushes.SelectedItemBg}"/>
-        								<Setter TargetName="des" Property="Visibility" Value="Visible"/>
-        							</Trigger>
-        						</ControlTemplate.Triggers>
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                    </DataTrigger>
+        				            <Trigger Property="IsMouseOver" Value="true">
+        					            <Setter Property="Background" Value="#80a0a0a0"/>
+        				            </Trigger>
+        				            <Trigger Property="IsSelected" Value="true">
+        					            <Setter Property="Background" Value="{x:Static ui:Brushes.SelectedItemBg}"/>
+        					            <Setter TargetName="des" Property="Visibility" Value="Visible"/>
+        				            </Trigger>
+                                </ControlTemplate.Triggers>
         					</ControlTemplate>
         				</Setter.Value>
         			</Setter>
