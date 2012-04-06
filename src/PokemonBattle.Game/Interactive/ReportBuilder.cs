@@ -52,15 +52,11 @@ namespace LightStudio.PokemonBattle.Interactive
     {
       return lastLeapFragment;
     }
-
-    internal void AddNewTurn()
+    internal void NewTurn()
     {
       Add(new BeginTurn(++TurnNumber));
     }
-    internal void AddStateChanged(PokemonProxy pm)
-    {
-      Add(new PokemonStateChange(pm));
-    }
+
     public void Add(GameEvent e)
     {
       current.AddEvent(e);

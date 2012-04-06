@@ -13,9 +13,9 @@ namespace LightStudio.PokemonBattle.Game
     bool CanChangeState(PokemonProxy pm, PokemonState state);
   }
   
-  public abstract class Rule : GameElement, IRule
+  public class Rule : GameElement, IRule
   {
-    protected Rule(int id, string name, string description) : base(id)
+    public Rule(int id, string name, string description) : base(id)
     {
       Name = name;
       Description = description;
@@ -23,7 +23,10 @@ namespace LightStudio.PokemonBattle.Game
     public new string Description
     { get; private set; }
 
-    public abstract bool CanChangeState(PokemonProxy pm, PokemonState state);
+    public virtual bool CanChangeState(PokemonProxy pm, PokemonState state)
+    {
+      return true;
+    }
   }
 
   internal class CombinedRule : IRule

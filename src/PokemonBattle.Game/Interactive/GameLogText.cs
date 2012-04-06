@@ -5,8 +5,10 @@ using System.Text;
 using System.Runtime.Serialization;
 using System.Reflection;
 using LightStudio.Tactic.DataModels;
+using LightStudio.PokemonBattle.Data;
+using LightStudio.PokemonBattle.Game;
 
-namespace LightStudio.PokemonBattle.Data
+namespace LightStudio.PokemonBattle.Interactive
 {
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class LogLine : TextBase
@@ -53,12 +55,23 @@ namespace LightStudio.PokemonBattle.Data
   {
     private static readonly object[] NODATA = new object[0];
 
-    [DataMember]
     public override string Text
     {
       get
       {
-        return string.Format(base.Text, Data ?? NODATA);
+        string[] textData = null;
+        if (Data != null)
+        {
+          textData = new string[Data.Length];
+          for (int i = 0; i < textData.Length; ++i)
+          {
+            object o = Data[i];
+            if (o is GameElement) textData[i] = ((GameElement)o).Name;
+            else if (o is PokemonOutward) textData[i] = ((PokemonOutward)o).Name;
+            else textData[i] = o.ToString();
+          }
+        }
+        return string.Format(base.Text, textData ?? NODATA);
       }
       protected set
       {

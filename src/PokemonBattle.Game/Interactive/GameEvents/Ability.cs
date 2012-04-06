@@ -16,9 +16,6 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     int PmId;
 
     [DataMember(EmitDefaultValue = false)]
-    string LogKey;
-    
-    [DataMember(EmitDefaultValue = false)]
     int OldAbId;
 
     [DataMember]
@@ -28,17 +25,16 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     Ability ab;
     Ability oldAb;
 
-    public AbilityEvent(PokemonProxy pm, Ability ab, string logKey)
+    public AbilityEvent(PokemonProxy pm)
     {
       PmId = pm.Id;
-      AbId = ab.Id;
-      LogKey = logKey;
+      AbId = pm.Ability.Id;
     }
-    public AbilityEvent(PokemonProxy pm, Ability from, Ability to)
+    public AbilityEvent(PokemonProxy pm, int fromId, int toId)
     {
       PmId = pm.Id;
-      OldAbId = from.Id;
-      AbId = to.Id;
+      OldAbId = fromId;
+      AbId = toId;
     }
 
     public override IText GetGameLog()
@@ -47,12 +43,12 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
       if (OldAbId == 0)
       {
         t = GetGameLog("AbChange");
-        t.SetData(pm.Name, oldAb, ab); 
+        t.SetData(pm, oldAb, ab); 
       }
-      else if (LogKey != null)
+      else
       {
-        t = GetGameLog(LogKey);
-        t.SetData(pm.Name);
+        t = GetGameLog("Ability");
+        t.SetData(pm, ab);
       }
       return t;
     }
@@ -60,9 +56,12 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     {
       pm = game.GetPokemon(PmId);
       ab = DataService.GetAbility(AbId);
-      oldAb = DataService.GetAbility(OldAbId);
       if (OldAbId == 0) game.Board.ShowAbility(pm, ab);
-      else game.Board.AbilityChanged(pm, oldAb, ab);
+      else
+      {
+        oldAb = DataService.GetAbility(OldAbId);
+        game.Board.AbilityChanged(pm, oldAb, ab);
+      }
     }
   }
 }

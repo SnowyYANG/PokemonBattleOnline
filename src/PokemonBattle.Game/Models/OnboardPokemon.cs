@@ -24,6 +24,8 @@ namespace LightStudio.PokemonBattle.Game
     public readonly SixD Ev;
     public readonly SixD Static; //力量交换，包含性格修正，不包含等级修正
     private readonly SixD lv5D;
+    private int accuracyLv;
+    private int evasionLv;
     #endregion
 
     internal OnboardPokemon(Pokemon pokemon, int x)
@@ -41,10 +43,12 @@ namespace LightStudio.PokemonBattle.Game
       Position = new Position(pokemon.TeamId, x);
     }
 
+    public I6D Lv5D
+    { get { return lv5D; } }
     public int AccuracyLv
-    { get; private set; }
+    { get { return accuracyLv; } }
     public int EvasionLv
-    { get; private set; }
+    { get { return evasionLv; } }
 
     public int Get5D(StatType stat)
     {
@@ -57,6 +61,46 @@ namespace LightStudio.PokemonBattle.Game
         coeff = numerator / denominator;
       }
       return (int)(Static.GetStat(stat) * coeff);
+    }
+    private void ChangeLv7D(ref int lv, int change)
+    {
+      lv += change;
+      if (lv > 6) lv = 6;
+      else if (lv < -6) lv = -6;
+    }
+    public void ChangeLv7D(StatType stat, int change)
+    {
+      switch (stat)
+      {
+        case StatType.Accuracy:
+          ChangeLv7D(ref accuracyLv, change);
+          break;
+        case StatType.Evasion:
+          ChangeLv7D(ref evasionLv, change);
+          break;
+        case StatType.Atk:
+          ChangeLv7D(ref lv5D.Atk, change);
+          break;
+        case StatType.Def:
+          ChangeLv7D(ref lv5D.Def, change);
+          break;
+        case StatType.SpAtk:
+          ChangeLv7D(ref lv5D.SpAtk, change);
+          break;
+        case StatType.SpDef:
+          ChangeLv7D(ref lv5D.SpDef, change);
+          break;
+        case StatType.Speed:
+          ChangeLv7D(ref lv5D.Speed, change);
+          break;
+        case StatType.All:
+          ChangeLv7D(ref lv5D.Atk, change);
+          ChangeLv7D(ref lv5D.Def, change);
+          ChangeLv7D(ref lv5D.SpAtk, change);
+          ChangeLv7D(ref lv5D.SpDef, change);
+          ChangeLv7D(ref lv5D.Speed, change);
+          break;
+      }
     }
   }
 }

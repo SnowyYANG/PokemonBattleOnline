@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Game
       //幻影new完后覆盖属性
       Pokemon opm = p.Pokemon;
       PokemonOutward o = new PokemonOutward(opm, p.OnboardPokemon.Position);
-      if (p.OnboardPokemon.Ability == AbilityIds.ILLUSION)
+      if (p.Ability.Illusion())
       {
         foreach (Pokemon pm in p.Pokemon.Owner.Pokemons)
           if (pm.Hp.Value > 0) opm = pm;
@@ -49,6 +49,23 @@ namespace LightStudio.PokemonBattle.Game
       Outward = BuildOutward(this);
     }
 
+    private void AddReport(GameEvent e)
+    {
+      Controller.ReportBuilder.Add(e);
+    }
+    private void AddReport(string key, params string[] data)
+    {
+      Controller.ReportBuilder.Add(key, data);
+    }
+    private void AddReportPm(string key, PokemonProxy pm)
+    {
+      Controller.ReportBuilder.Add(key, pm.Pokemon.Name);
+    }
+    private void AddReportPm(string key)
+    {
+      AddReportPm(key, this);
+    }
+
     #region Data
     public int Id
     { get { return Pokemon.Id; } }
@@ -66,15 +83,15 @@ namespace LightStudio.PokemonBattle.Game
         {
           State = value;
           if (State != PokemonState.Faint)
-            Controller.ReportBuilder.AddStateChanged(this);
+            AddReport(new Interactive.GameEvents.PokemonStateChange(this));
         }
       }
     }
     public IAbilityE Ability
     { 
       get
-      { 
-        //需要检查胃液状态么？
+      {
+        if (OnboardPokemon.HasCondition("GastroAcid")) return GameService.NULL_ABILITY;
         return GameService.GetAbility(OnboardPokemon.Ability);
       }
     }
@@ -106,6 +123,30 @@ namespace LightStudio.PokemonBattle.Game
     { get { return Get5D(StatType.SpDef); } }
     public int Speed
     { get { return Get5D(StatType.Speed); } }
+    public void ChangeLv7D(StatType stat, int change)
+    {
+      Ability.Lv7DChanging(ref stat, ref change);
+      if (change == 0) return;
+
+      string statName = DataService.String[stat.ToString()];
+      int oldValue = stat == StatType.Accuracy ? OnboardPokemon.AccuracyLv : stat == StatType.Evasion ? OnboardPokemon.EvasionLv : Get5D(stat);
+      if (oldValue > 6 && change > 0)
+      {
+        AddReport("Lv7DMax", Pokemon.Name, statName);
+        return;
+      }
+      else if (oldValue < -6 && change < 0)
+      {
+        AddReport("Lv7DMin", Pokemon.Name, statName);
+        return;
+      }
+      if (change == 1) AddReport("Lv7DUp", Pokemon.Name, statName);
+      else if (change == -1) AddReport("Lv7DDown", Pokemon.Name, statName);
+      else if (change > 1) AddReport("Lv7DUp2", Pokemon.Name, statName);
+      else AddReport("Lv7DDown2", Pokemon.Name, statName);
+      Ability.Lv7DChanged();
+      SpItems.CheckWhiteHerb(this);
+    }
     #endregion
 
     #region Predict
@@ -125,36 +166,97 @@ namespace LightStudio.PokemonBattle.Game
           (Action == PokemonAction.MoveAttached || Action == PokemonAction.Stiff || Action == PokemonAction.Moving);
       }
     }
-    internal bool CanExecute() //梦话...
+    internal bool CanExecute()
     {
+      //睡觉..梦话/打鼾
+      if (State == PokemonState.Sleeping)
+      {
+        int count = OnboardPokemon.GetCondition<int>("Sleeping");
+        count--;
+        if (Ability.EarlyBird()) count--;
+        OnboardPokemon.SetCondition("Sleeping", count);
+        if (count <= 0) State = PokemonState.Normal;
+        else
+        {
+          AddReportPm("Sleeping", this);
+          if (!SelectedMove.AvailableEvenSleeping())
+            return false;
+        }
+      }
       //冰冻
       if (State == PokemonState.Frozen)
       {
         if (SelectedMove.Move.Type.AdvancedFlags.AvailableEvenFrozen || Controller.GetRandomInt(0, 3) == 0)
           State = PokemonState.Normal;
-        else Controller.ReportBuilder.Add("Frozen", Pokemon.Name);
-      }
-      //睡觉..梦话
-      if (State == PokemonState.Sleeping)
-      {
-        int count = OnboardPokemon.GetCondition<int>("Sleeping");
-        count--;
-        if (Ability.Id == AbilityIds.EARLY_BIRD) count--;
-        OnboardPokemon.SetCondition("Sleeping", count);
-        if (count == 0) State = PokemonState.Normal;
-        else Controller.ReportBuilder.Add("Sleeping", Pokemon.Name);
+        else AddReportPm("Frozen");
       }
       //懒惰 
-      //残废 
+      //残废
+      {
+        //When a Pokémon uses the move Disable, it locks the last move executed by the target.
+        //This lock prevents both the selection and execution of the move and remains in effect for 4-7 rounds or until the target leaves the field.
+        //If the last action taken by the target was not an executed move, Disable fails.
+        //If the targeted move has no PP left, Disable fails.
+        //Only one move can be Disabled per Pokémon at any given time.
+        dynamic disable = OnboardPokemon.GetCondition<dynamic>("Disable");
+        if (disable != null)
+        {
+          disable.Count--;
+          OnboardPokemon.SetCondition("Disable", disable);
+          if (disable.MoveId == SelectedMove.Move.Type.Id)
+            return false;
+        }
+      }
       //封印 
-      //回复封印 
-      //混乱 
-      //害怕 
-      //  不屈之心
+      //回复封印
+      if (SelectedMove.Move.Type.AdvancedFlags.IsHeal && OnboardPokemon.GetCondition<int>("HealBlock") > 0)
+      {
+        AddReportPm("HealBlock");
+        return false;
+      }
+      //混乱
+      {
+        int count = OnboardPokemon.GetCondition<int>("Confuse");
+        if (count > 0)
+        {
+          count--;
+          if (count <= 0)
+          {
+            OnboardPokemon.RemoveCondition("Confuse");
+            AddReportPm("DeConfuse");
+          }
+          else
+          {
+            OnboardPokemon.SetCondition("Confuse", count);
+            AddReportPm("Confuse");
+          }
+          if (Controller.GetRandomInt(0, 1) == 0)
+          {
+            //自伤
+            return false;
+          }
+        }
+      }
+      //害怕，不屈之心
+      if (OnboardPokemon.HasCondition("Flinch"))
+      {
+        AddReportPm("Flinch");
+        OnboardPokemon.RemoveCondition("Flinch");
+        SpAbilities.CheckSteadfast(this);
+      }
       //挑拨 
       //重力 
       //着迷 
       //麻痹
+      if (State == PokemonState.Paralyzed)
+      {
+        AddReportPm("Paralyzed");
+        if (Controller.GetRandomInt(0, 3) == 0)
+        {
+          AddReportPm("ParalyzedWork");
+          return false;
+        }
+      }
       return true;
     }
     #endregion
@@ -241,7 +343,8 @@ namespace LightStudio.PokemonBattle.Game
     /// <returns></returns>
     internal void PreMove()
     {
-      SelectedMove.PreMove();
+      if (Action == PokemonAction.MoveAttached)
+        SelectedMove.PreMove();
     }
     internal void ActMove()
     {

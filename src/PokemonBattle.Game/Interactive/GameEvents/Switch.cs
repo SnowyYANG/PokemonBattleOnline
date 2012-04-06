@@ -29,7 +29,7 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     {
       IText t = GetGameLog(SENDOUT);
       //
-      t.SetData(LobbyService.GetUserName(PlayerId),  DataService.GameLog.ConvertMultiObjects(
+      t.SetData(LobbyService.GetUserName(PlayerId),  GameService.Logs.ConvertMultiObjects(
         (p) => string.Format("{0}(Lv.{1} {2})", p.Name, p.Lv, DataService.DataString[DataService.GetPokemonType(p.ImageId).Name]), Pms));
       return t;
     }

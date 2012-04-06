@@ -15,6 +15,9 @@ namespace LightStudio.PokemonBattle.Data
     Speed,
     Accuracy,
     Evasion,
+    /// <summary>
+    /// 是指A/D/SA/SD/S，共5个
+    /// </summary>
     All,
     Hp
   }

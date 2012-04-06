@@ -15,11 +15,15 @@ namespace LightStudio
     {
       foreach (T i in items) collection.Remove(i);
     }
-    public static TValue ValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key)
+    public static TValue ValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue defaultValue)
     {
-      TValue value;
+      TValue value = defaultValue;
       dict.TryGetValue(key, out value);
       return value;
+    }
+    public static TValue ValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key)
+    {
+      return ValueOrDefault(dict, key, default(TValue));
     }
     public static T ValueOrDefault<T>(this IList<T> list, int index)
     {

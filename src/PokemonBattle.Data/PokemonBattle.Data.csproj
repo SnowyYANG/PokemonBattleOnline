@@ -81,7 +81,6 @@
     <Compile Include="Rom\Item.cs" />
     <Compile Include="Rom\MoveLv7DChange.cs" />
     <Compile Include="Rom\MoveTypeAdvancedFlags.cs" />
-    <Compile Include="Text.cs" />
     <Compile Include="Rom\MoveLearnItem.cs" />
     <Compile Include="Rom\RomData.cs" />
     <Compile Include="UserData\DataChangeObserver.cs" />
@@ -114,7 +113,6 @@
     <Compile Include="enums\PokemonGender.cs" />
     <Compile Include="enums\PokemonNature.cs" />
     <Compile Include="UserData\UserPokemonData.cs" />
-    <Compile Include="GameLog.cs" />
     <Compile Include="ImageService.cs" />
     <Compile Include="enums\MoveCategory.cs" />
     <Compile Include="enums\MoveRange.cs" />

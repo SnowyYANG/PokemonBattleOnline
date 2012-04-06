@@ -43,10 +43,6 @@ namespace LightStudio.PokemonBattle.Game
     {
       e.Attach();
     }
-    public void PreMove()
-    {
-      e.PreAct();
-    }
     public void Act()
     {
       if (Owner.CanExecute())

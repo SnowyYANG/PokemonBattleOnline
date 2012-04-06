@@ -92,12 +92,12 @@ namespace LightStudio.PokemonBattle.Game
   /// </summary>
   public class SixD : I6D
   {
-    public int Hp { get; set; }
-    public int Atk { get; set; }
-    public int Def { get; set; }
-    public int SpAtk { get; set; }
-    public int SpDef { get; set; }
-    public int Speed { get; set; }
+    public int Hp;
+    public int Atk;
+    public int Def;
+    public int SpAtk;
+    public int SpDef;
+    public int Speed;
 
     public SixD()
     {
@@ -124,6 +124,19 @@ namespace LightStudio.PokemonBattle.Game
       SpDef = values.SpDef;
       Speed = values.Speed;
     }
+
+    int I6D.Hp
+    { get { return Hp; } }
+    int I6D.Atk
+    { get { return Atk; } }
+    int I6D.Def
+    { get { return Def; } }
+    int I6D.SpAtk
+    { get { return SpAtk; } }
+    int I6D.SpDef
+    { get { return SpDef; } }
+    int I6D.Speed
+    { get { return Speed; } }
 
     public int GetStat(StatType type)
     {

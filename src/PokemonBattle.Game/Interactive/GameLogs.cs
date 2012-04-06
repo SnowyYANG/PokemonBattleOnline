@@ -6,23 +6,23 @@ using System.Runtime.Serialization;
 using LightStudio.Tactic.DataModels;
 using LightStudio.Tactic.DataModels.IO;
 
-namespace LightStudio.PokemonBattle.Data
+namespace LightStudio.PokemonBattle.Interactive
 {
   [KnownType(typeof(LogText))]
   [KnownType(typeof(LogLine))]
   [KnownType(typeof(LogObject))]
   [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class GameLog : SimpleData
+  public class GameLogs : SimpleData
   {
-    public static GameLog Load(string language)
+    public static GameLogs Load(string language)
     {
-      return LoadFromXml<GameLog>("Data\\log\\" + language + ".xml");
+      return LoadFromXml<GameLogs>("Data\\log\\" + language + ".xml");
     }
     
     [DataMember]
     public Dictionary<string, IText> logs;
 
-    public GameLog()
+    public GameLogs()
     {
       logs = new Dictionary<string, IText>();
     }

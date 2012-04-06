@@ -16,7 +16,7 @@ namespace LightStudio.PokemonBattle.Game
 
     public int Compare(PokemonProxy a, PokemonProxy b)
     {
-      int aS = 0, bS = 0;
+      int aS = 1, bS = 1;
 
       if (a.Action == PokemonAction.WillSwitch && b.Action == PokemonAction.WillSwitch) goto SPEED;
       if (a.Action == PokemonAction.WillSwitch) return -1;
@@ -25,30 +25,37 @@ namespace LightStudio.PokemonBattle.Game
       if (a.SelectedMove.Priority != b.SelectedMove.Priority)
         return b.SelectedMove.Priority - a.SelectedMove.Priority;
 
-#warning unfinished Items
-      //if (a.Item != b.Item)//1=先制爪/先制果发动 0=无道具 -1=后攻尾/满腹香炉发动<--同时带这个慢的先出
-      //  return (b.Item - a.Item);
-
-      bool aIsStall = a.Ability.Id == AbilityIds.STALL;
-      bool bIsStall = b.Ability.Id == AbilityIds.STALL;
-      if (aIsStall == bIsStall) goto SPEED;
-      if (aIsStall) return 1;
-      if (bIsStall) return -1;
-
       {
-        var aField = a.Controller.Board[a.Tile.Team];
-        aS = a.Speed;
-        if (aField.HasCondition("TailWind")) aS <<= 1;
-        if (aField.HasCondition("Swamp")) aS = (aS + 1) >> 2; //小数点是0.5以下就舍去，如果是0.75就四舍五入
+        int aItem = a.Item.CompareValue(a);
+        int bItem = b.Item.CompareValue(b);
+        if (aItem != bItem)//1=先制爪/先制果发动 0=无道具 -1=后攻尾/满腹香炉发动<--同时带这个慢的先出
+          return (bItem - aItem);
+        if (aItem == -1) aS = bS = -1;
       }
+
       {
-        var bField = b.Controller.Board[b.Tile.Team];
-        bS = b.Speed;
-        if (bField.HasCondition("TailWind")) bS <<= 1;
-        if (bField.HasCondition("Swamp")) bS = (bS + 1) >> 2;
+        bool aIsStall = a.Ability.Stall();
+        bool bIsStall = b.Ability.Stall();
+        if (aIsStall == bIsStall) goto SPEED;
+        if (aIsStall) return 1;
+        if (bIsStall) return -1;
       }
 
     SPEED:
+      {
+        var aField = a.Controller.Board[a.Tile.Team];
+        int speed = a.Speed;
+        if (aField.HasCondition("TailWind")) speed <<= 1;
+        if (aField.HasCondition("Swamp")) speed = (aS + 1) >> 2; //小数点是0.5以下就舍去，如果是0.75就四舍五入
+        aS *= speed;
+      }
+      {
+        var bField = b.Controller.Board[b.Tile.Team];
+        int speed = b.Speed;
+        if (bField.HasCondition("TailWind")) speed <<= 1;
+        if (bField.HasCondition("Swamp")) speed = (speed + 1) >> 2;
+        bS *= speed;
+      }
       return CompareSpeed(aS, bS);
     }
     public int Compare(Tile a, Tile b)

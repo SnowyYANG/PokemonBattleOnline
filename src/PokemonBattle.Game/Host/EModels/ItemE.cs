@@ -6,11 +6,12 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  public abstract class ItemE : IItemE
+  public class ItemE : IItemE
   {
     protected readonly Item Item;
+    protected readonly string LogKey;
 
-    protected ItemE(int id)
+    public ItemE(int id, string logKey = null)
     {
       Item = DataService.GetItem(id);
     }
@@ -18,24 +19,25 @@ namespace LightStudio.PokemonBattle.Game
     int IItemE.Id
     { get { return Item.Id; } }
 
-    protected void SafeRaise(PokemonProxy pm)
+    public virtual bool CanLost(PokemonProxy pm) { return true; }
+    public virtual int CompareValue(PokemonProxy pm) { return 0; }
+    public virtual double Get5DRevise(PokemonProxy pm, StatType stat) { return 1; }
+
+    protected virtual void RaiseImpl(PokemonProxy pm)
+    {
+      if (LogKey != null) pm.Controller.ReportBuilder.Add(LogKey, pm.Pokemon.Name);
+    }
+    public void Raise(PokemonProxy pm) //不必包含虫食、啄食、投掷
     {
       if (pm.Pokemon.Item == Item) //奇妙的单实例道具
       {
-        Raise(pm);
+        RaiseImpl(pm);
         if (Item.IsOneTime) pm.Pokemon.Item = null;
       }
     }
 
-    public virtual bool CanLost(PokemonProxy pm) { return true; }
-    public virtual double Get5DRevise(PokemonProxy pm, StatType stat) { return 1; }
-
-    public virtual void Raise(PokemonProxy pm) //啄食 虫食
-    {
-    }
-    public virtual void Debut(PokemonProxy pm)
-    {
-    }
+    public virtual void Attach(PokemonProxy pm) { }
+    public virtual void Debut(PokemonProxy pm) { }
     public virtual void HpChanged(PokemonProxy pm) { }
     public virtual void ImplementMove(AtkContext atk) { }
     public virtual void ConditionAdded(PokemonProxy pm, string condition) { }

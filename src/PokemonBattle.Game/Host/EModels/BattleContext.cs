@@ -16,7 +16,8 @@ namespace LightStudio.PokemonBattle.Game
     { get; private set; }
     public BattleType Type;
     public int Power;
-    public int AtkValue; //攻击力 × （攻击方等级 × 2 ÷ 5 + 2）
+    public int AtkRaw; //攻击力 × （攻击方等级 × 2 ÷ 5 + 2）
+    public int AtkLv; //攻击等级
     public int Times;
     public double AccuracyRevise;
     public double PowerRevise;
@@ -41,7 +42,7 @@ namespace LightStudio.PokemonBattle.Game
   {
     public readonly AtkContext AtkContext;
     public readonly PokemonProxy Defender;
-    public int DefValue; // 防御力 ÷ 50 
+    public int DefValue; // 防御力 × 防御等级 ÷ 50 
     public int Damage;
     public double BattleTypeRevise;
     public double DamageRevise;
@@ -51,7 +52,7 @@ namespace LightStudio.PokemonBattle.Game
     {
       AtkContext = a;
       Defender = pm;
-      NoGuard = a.Attacker.Ability.Id == AbilityIds.NO_GUARD || pm.OnboardPokemon.HasCondition("NoGuard") || pm.Ability.Id == AbilityIds.NO_GUARD;
+      NoGuard = a.Attacker.Ability.NoGuard() || pm.Ability.NoGuard() || pm.OnboardPokemon.HasCondition("NoGuard");
       AccuracyRevise = 1d;
     }
 
@@ -65,7 +66,7 @@ namespace LightStudio.PokemonBattle.Game
     {
       get
       {
-        if (AtkContext.Attacker.Ability.IgnoreDefenderAbility)
+        if (AtkContext.Attacker.Ability.IgnoreDefenderAbility())
           return GameService.GetAbility(0);
         return Defender.Ability;
       }

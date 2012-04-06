@@ -21,6 +21,10 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
       GameLogKey = gameLogKey;
       Solo = solo;
     }
+    public SoloEvent(string gameLogKey, GameElement solo)
+      : this(gameLogKey, solo.Name)
+    {
+    }
     
     public override IText GetGameLog()
     {

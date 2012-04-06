@@ -20,7 +20,7 @@ namespace LightStudio.PokemonBattle.Data
 
     public static bool IsLoaded { get; private set; }
     public static ImageService Image { get; private set; }
-    public static GameLog GameLog { get; private set; }
+    public static string CurrentLanguage { get; private set; }
     public static IDomainStringService String { get; private set; }
     public static IDomainStringService DataString { get; private set; }
 
@@ -47,7 +47,6 @@ namespace LightStudio.PokemonBattle.Data
       Image = new ImageService(dataCollection, configuration);
 
       romData = RomData.Load();
-      GameLog = GameLog.Load(stringService.Language);
     }
     private static void ClearImpl()
     {
@@ -82,6 +81,7 @@ namespace LightStudio.PokemonBattle.Data
       Contract.Requires(baseDir != null);
       Contract.Requires(stringService != null);
       LoadImpl(baseDir, stringService);
+      CurrentLanguage = stringService.Language;
       Abilities = romData.Abilities.Values;
       Items = romData.Items.Values;
       Pokemons = romData.Pokemons.Values;

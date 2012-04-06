@@ -11,21 +11,18 @@ namespace LightStudio.PokemonBattle.Game
   {
     private readonly int id;
     protected readonly Ability Ability;
-    protected readonly string LogKey;
 
     public AbilityE(int id, string logKey = null)
     {
       this.id = id;
       Ability = DataService.GetAbility(id);
-      LogKey = logKey;
     }
     int IAbilityE.Id
     { get { return id; } }
-    public bool IgnoreDefenderAbility { get { return false; } }
 
     protected void Raise(PokemonProxy pm)
     {
-      pm.Controller.ReportBuilder.Add(new AbilityEvent(pm, Ability, LogKey));
+      pm.Controller.ReportBuilder.Add(new AbilityEvent(pm));
     }
 
     public virtual bool CanWithdraw(PokemonProxy pm) { return true; }
@@ -35,8 +32,8 @@ namespace LightStudio.PokemonBattle.Game
 
     public virtual void Debut(PokemonProxy pm) { }
     public virtual void Attacked(DefContext def) { }
-    public virtual void Lv8DChanging(ref StatType stat, ref int value) { }
-    public virtual void Lv8DChanged() { }
+    public virtual void Lv7DChanging(ref StatType stat, ref int value) { }
+    public virtual void Lv7DChanged() { }
     public virtual void StateChanged(PokemonProxy sub, PokemonProxy obj, PokemonState state) { }
     public virtual void KO(DefContext atk) { }
     public virtual void CalculatingMoveType(ref BattleType type) { }

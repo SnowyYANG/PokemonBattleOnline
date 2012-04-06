@@ -35,7 +35,7 @@ namespace LightStudio.PokemonBattle.Game
     }
 
     public Board Board
-    { get; private set; }
+    { get { return Game.Board; } }
     public List<PokemonProxy> OnboardPokemons
     { get { return TurnController.OnboardPokemons; } }
     public IEnumerable<Tile> Tiles

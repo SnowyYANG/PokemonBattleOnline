@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Game
     protected static readonly double[] LV_ACC = { 0.33, 0.36, 0.43, 0.5, 0.6, 0.75, 1, 1.33, 1.66, 2, 2.5, 2.66, 3 };
     protected static string ConvertMultiToString<T>(Func<T, string> convert, IList<T> args)
     {
-      return DataService.GameLog.ConvertMultiObjects(convert, args);
+      return GameService.Logs.ConvertMultiObjects(convert, args);
     }
 
     protected MoveE(MoveType moveType)
@@ -24,9 +24,10 @@ namespace LightStudio.PokemonBattle.Game
 
     public MoveType Move
     { get; private set; }
+    public virtual bool AvailableEvenSleeping
+    { get { return false; } }
 
-    public void Attach() { } //追击new
-    public void PreAct() { } //气合拳new
+    public virtual void Attach() { } //追击new
 
     public abstract void Execute(PokemonProxy pm); //变化技能和攻击技能分开写吧
     protected void BuildTargets(AtkContext atk)
@@ -68,7 +69,7 @@ namespace LightStudio.PokemonBattle.Game
       }
       if (noeffect.Count > 0)
       {
-        report.Add(new SoloEvent("NoEffect", DataService.GameLog.ConvertMultiObjects((d) => d.Defender.Outward.Name, noeffect)));
+        report.Add(new SoloEvent("NoEffect", GameService.Logs.ConvertMultiObjects((d) => d.Defender.Outward.Name, noeffect)));
         targets.Remove(noeffect);
       }
       #endregion
@@ -82,13 +83,13 @@ namespace LightStudio.PokemonBattle.Game
           if (d.Defender.OnboardPokemon.HasCondition("Protect")) protect.Add(d);
         if (protect.Count > 0)
         {
-          report.Add(new SoloEvent("ProtectSelf", DataService.GameLog.ConvertMultiObjects((d) => d.Defender.Outward.Name, protect)));
+          report.Add(new SoloEvent("ProtectSelf", GameService.Logs.ConvertMultiObjects((d) => d.Defender.Outward.Name, protect)));
           targets.Remove(protect);
         }
       }
       #endregion
       #region Check for Telepathy (and possibly other abilities)
-      if (!atk.Attacker.Ability.IgnoreDefenderAbility) //为了性能
+      if (!atk.Attacker.Ability.IgnoreDefenderAbility()) //为了性能
       {
         var abnoeffect = new List<DefContext>();
         foreach (DefContext def in targets)
@@ -97,13 +98,9 @@ namespace LightStudio.PokemonBattle.Game
       }
       #endregion
       #region Check for misses
-      if (atk.Attacker.Ability.Id != AbilityIds.NO_GUARD && Move.Accuracy < 0x65)
+      if (!atk.Attacker.Ability.NoGuard() && Move.Accuracy < 0x65)
       {
-        if (atk.Attacker.Item.Id == ItemIds.MICLE_BERRY) //神秘果
-        {
-          atk.Attacker.Item.Raise(atk.Attacker);
-          return;
-        }
+        if (SpItems.CheckMicleBerry(atk)) return;
         atk.Attacker.Ability.CalculatingAccuracy(atk); //计算攻击方命中修正
         atk.Attacker.Item.CalculatingAccuracy(atk);
         var miss = new List<DefContext>();
@@ -244,11 +241,11 @@ namespace LightStudio.PokemonBattle.Game
       else
       {
         int lv;
-        if (def.Ability.Id == AbilityIds.UNAWARE) lv = 0;
+        if (def.Ability.Unaware()) lv = 0;
         else lv = def.AtkContext.Attacker.OnboardPokemon.AccuracyLv;
         //如果攻击方是天然特性，防御方的回避等级按0计算。 
         //将攻击方的命中等级减去防御方的回避等级。 
-        if (atk.Attacker.Ability.Id != AbilityIds.UNAWARE)
+        if (atk.Attacker.Ability.Unaware())
           lv -= def.Defender.OnboardPokemon.EvasionLv;
         if (lv < -6) lv = -6;
         else if (lv > 6) lv = 6;

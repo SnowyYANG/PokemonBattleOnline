@@ -42,7 +42,7 @@ namespace LightStudio.PokemonBattle.Interactive
 
     protected static IText GetGameLog(string type)
     {
-      return DataService.GameLog[type];
+      return GameService.Logs[type];
     }
     #endregion
 

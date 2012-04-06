@@ -62,7 +62,7 @@ namespace LightStudio.PokemonBattle.Game
     }
     private void Prepare()
     {
-      ReportBuilder.AddNewTurn();
+      ReportBuilder.NewTurn();
       SortOnboardPokemons();
       foreach (PokemonProxy p in OnboardPokemons)
         p.AttachBehaviors();
