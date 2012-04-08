@@ -197,6 +197,8 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       Model.SpAtkEv = 0;
       Model.SpDefEv = 0;
     }
+    public Visibility HasHiddenPower
+    { get { return Model!=null? (Model.MoveIds.Contains(237)? Visibility.Visible : Visibility.Hidden) : Visibility.Hidden; } }
 
     void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {

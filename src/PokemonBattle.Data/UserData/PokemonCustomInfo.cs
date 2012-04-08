@@ -407,6 +407,7 @@ namespace LightStudio.PokemonBattle.Data
       if (moveIds.Count < 4 && !moveIds.Contains(moveId))
       {
         moveIds.Add(moveId);
+        OnPropertyChanged("HasHiddenPower");
         OnPropertyChanged("MoveIds");//对绑定没什么意义，主要是手动订阅
         return true;
       }

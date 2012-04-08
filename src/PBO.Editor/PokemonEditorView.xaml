@@ -238,8 +238,8 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="7" FontWeight="Bold" Text="{Binding [Hidden Power], Mode=OneWay, Source={x:Static pm:DataService.String}}"/>
-            <ui:ClearableComboBox Margin="3,0" Grid.Column="3" Grid.Row="7" ItemsSource="{x:Static pm:PokemonStatHelper.HiddenPowerTypes}" ItemTemplate="{x:Static ui:Labels.BattleType}">
+            <TextBlock VerticalAlignment="Center" Visibility="{Binding HasHiddenPower}" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="7" FontWeight="Bold" Text="{Binding [Hidden Power], Mode=OneWay, Source={x:Static pm:DataService.String}}"/>
+           <ui:ClearableComboBox Margin="3,0" Visibility="{Binding HasHiddenPower}" Grid.Column="3" Grid.Row="7" ItemsSource="{x:Static pm:PokemonStatHelper.HiddenPowerTypes}" ItemTemplate="{x:Static ui:Labels.BattleType}">
                 <ui:ClearableComboBox.Resources>
                     <Style TargetType="ContentPresenter">
                         <Setter Property="Width" Value="39"/>
@@ -256,7 +256,7 @@
                     </MultiBinding>
                 </ui:ClearableComboBox.SelectedItem>
             </ui:ClearableComboBox>
-            <TextBlock VerticalAlignment="Center" Grid.Column="4" Grid.Row="7" Padding="0">
+            <TextBlock VerticalAlignment="Center" Visibility="{Binding HasHiddenPower}" Grid.Column="4" Grid.Row="7" Padding="0">
                 <Run Text="{Binding HiddenPowerPower, Mode=OneWay}"/>
                 <Run Text="{Binding [Power], Mode=OneWay, Source={x:Static pm:DataService.String}}"/>
             </TextBlock>
