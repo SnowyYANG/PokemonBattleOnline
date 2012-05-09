@@ -75,7 +75,6 @@
     <Compile Include="Rom\Ability.cs" />
     <Compile Include="Rom\enums\MoveInnerClass.cs" />
     <Compile Include="Rom\MoveAttachment.cs" />
-    <Compile Include="Rom\enums\Terrain.cs" />
     <Compile Include="Rom\Item.cs" />
     <Compile Include="Rom\MoveLv7DChange.cs" />
     <Compile Include="Rom\MoveTypeAdvancedFlags.cs" />

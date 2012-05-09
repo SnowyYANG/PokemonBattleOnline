@@ -105,6 +105,7 @@
     <Compile Include="Models\Move.cs" />
     <Compile Include="Models\OnboardPokemon.cs" />
     <Compile Include="Models\PokemonState.cs" />
+    <Compile Include="Models\Terrain.cs" />
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Client\BoardOutward.cs" />
     <Compile Include="Client\GameOutward.cs" />

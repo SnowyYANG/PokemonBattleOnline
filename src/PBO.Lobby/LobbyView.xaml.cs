@@ -89,7 +89,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     }
     internal void Window_Closed()
     {
-      vm.Exit();
+      if (vm != null) vm.Exit();
     }
   }
 }

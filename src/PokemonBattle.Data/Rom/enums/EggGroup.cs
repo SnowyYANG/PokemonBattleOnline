@@ -5,23 +5,23 @@ using System.Text;
 
 namespace LightStudio.PokemonBattle.Data
 {
-    public enum EggGroup : byte
-    {
-        Invalid,
-        Bug,
-        Ditto,
-        Dragon,
-        Fairy,
-        Flying,
-        Ground,
-        HumanShape,
-        Indeterminate,
-        Mineral,
-        Monster,
-        NoEgg,
-        Plant,
-        Water1,
-        Water2,
-        Water3
-    }
+  public enum EggGroup : byte
+  {
+    Invalid,
+    Bug,
+    Ditto,
+    Dragon,
+    Fairy,
+    Flying,
+    Ground,
+    HumanShape,
+    Indeterminate,
+    Mineral,
+    Monster,
+    NoEgg,
+    Plant,
+    Water1,
+    Water2,
+    Water3
+  }
 }

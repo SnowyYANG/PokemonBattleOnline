@@ -5,11 +5,11 @@ using System.Text;
 
 namespace LightStudio.PokemonBattle.Data
 {
-    public enum MoveCategory : byte
-    {
-        Invalid,
-        Physical,
-        Special,
-        Status
-    }
+  public enum MoveCategory : byte
+  {
+    Invalid,
+    Physical,
+    Special,
+    Status
+  }
 }
