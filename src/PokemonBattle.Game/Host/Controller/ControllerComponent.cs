@@ -23,10 +23,5 @@ namespace LightStudio.PokemonBattle.Game
     { get { return Controller.Game; } }
     protected Board Board
     { get { return Controller.Game.Board; } }
-
-    protected int GetRandomInt(int min, int max)
-    {
-      return Controller.GetRandomInt(min, max + 1);
-    }
   }
 }

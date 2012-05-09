@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.Game
     }
     public IEnumerable<Pokemon> Pokemons
     { get { return pokemons; } }
-    public int AlivePms
+    public int PmsAlive
     { get { return pokemons.Count((pm) => pm.Hp.Value > 0); } }
 
     public Pokemon GetPokemon(int pmIndex)

@@ -24,24 +24,53 @@ namespace LightStudio.PokemonBattle.Game
     void Withdrawn();
   }
 
+  [KnownType(typeof(PairValue))]
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class PokemonOutward : INotifyPropertyChanged
   {
-    public event PropertyChangedEventHandler PropertyChanged;
-    
     [DataMember]
     internal readonly int Id;
     [DataMember]
+    public readonly Position Position;
+
+    [DataMember]
     public int OwnerId { get; private set; }
     [DataMember]
-    public readonly Position Position;
+    public string Name { get; internal set; }
     [DataMember]
-    public PokemonState State { get; set; }
+    public int ImageId { get; internal set; }
+    [DataMember(EmitDefaultValue = false)]
+    public PokemonGender Gender { get; internal set; }
+    [DataMember(EmitDefaultValue = false)]
+    public PokemonState State { get; internal set; }
+    [DataMember(EmitDefaultValue = false)]
+    public bool IsSubstitute { get; internal set; }
     [DataMember]
-    public int ImageId { get; set; }
-    //[DataMember]
-    //public double Weight; //扬起尘土
+    public PairValue Hp { get; private set; }
+    [DataMember]
+    public int Lv { get; private set; }
 
+    #region Host
+    internal PokemonOutward(PokemonProxy pm)
+    {
+      Pokemon o = pm.OnboardPokemon.GetCondition<Pokemon>("Illusion") ?? pm.Pokemon;
+      _listeners = new List<IPokemonOutwardEvents>();
+      OwnerId = pm.Pokemon.Owner.Id;
+      Id = pm.Id;
+      Position = new Position(pm.Pokemon.TeamId, pm.OnboardPokemon.X, pm.OnboardPokemon.CoordY);
+      State = pm.State;
+      IsSubstitute = pm.OnboardPokemon.HasCondition("Substitute");
+      Hp = new PairValue(pm.Pokemon.Hp.Origin, pm.Pokemon.Hp.Value, 48);
+      Lv = pm.Pokemon.Lv;
+
+      Name = o.Name;
+      ImageId = o.PokemonType.Id;
+      Gender = o.Gender;
+    }
+    #endregion
+
+    #region Client
+    public event PropertyChangedEventHandler PropertyChanged;
     private List<IPokemonOutwardEvents> _listeners;
     private List<IPokemonOutwardEvents> listeners
     { 
@@ -51,25 +80,6 @@ namespace LightStudio.PokemonBattle.Game
         return _listeners;
       }
     }
-
-    internal PokemonOutward(Pokemon pm, Position position)
-    {
-      _listeners = new List<IPokemonOutwardEvents>();
-      OwnerId = pm.Owner.Id;
-      Id = pm.Id;
-      Hp = pm.Hp;
-      Lv = pm.Lv;
-      Position = position;
-    }
-
-    [DataMember]
-    public string Name { get; internal set; }
-    [DataMember]
-    public PokemonGender Gender { get; internal set; }
-    [DataMember]
-    public PairValue Hp { get; private set; }
-    [DataMember]
-    public int Lv { get; private set; }
 
     #region Events
     /// <summary>
@@ -84,16 +94,19 @@ namespace LightStudio.PokemonBattle.Game
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
-    public void Hurt()
+    public void Hurt(int damage)
     {
+      Hp.Value -= damage;
       foreach (IPokemonOutwardEvents l in listeners)
         l.Hurt();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
-    public void PositionChanged()
+    public void PositionChanged(int x, CoordY y)
     {
+      Position.X = x;
+      Position.Y = y;
       foreach (IPokemonOutwardEvents l in listeners)
         l.PositionChanged();
     }
@@ -179,19 +192,14 @@ namespace LightStudio.PokemonBattle.Game
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs("Name"));//据说性别虽然改变但不会显示出来
     }
-    /// <summary>
-    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
-    /// </summary>
     public void AddListener(IPokemonOutwardEvents listener)
     {
       listeners.Add(listener);
     }
-    /// <summary>
-    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
-    /// </summary>
     public void RemoveListener(IPokemonOutwardEvents listener)
     {
       listeners.Remove(listener);
     }
+    #endregion
   }
 }

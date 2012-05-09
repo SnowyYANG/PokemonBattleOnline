@@ -11,41 +11,35 @@ namespace LightStudio.PokemonBattle.Game
     int Id { get; }
 
     bool CanWithdraw(PokemonProxy pm);
-    bool CanChangeState(PokemonState state);
+    bool CanAddState(PokemonProxy by, AttachedState state);
     bool CanImplement(DefContext def); //auto raise
     double Get5DRevise(PokemonProxy pm, StatType stat);
 
-    void Debut(PokemonProxy pm);
+    void Attach(PokemonProxy pm);
     void Attacked(DefContext def);
     void Lv7DChanging(ref StatType stat, ref int value);//性情乖僻
-    void Lv7DChanged();
-    void StateChanged(PokemonProxy sub, PokemonProxy obj, PokemonState state);//同步率
-    void KO(DefContext atk); //自信过剩，不是引爆
-    void CalculatingMoveType(ref BattleType type); //普通皮肤
     void CalculatingAccuracy(AtkContext atk);
     void CalculatingAccuracy(DefContext def);
+    void CalculatingPower(AtkContext atk);
   }
 
   public static partial class GameService
   {
-    private class AbilityE0 : IAbilityE
+    private sealed class AbilityE0 : IAbilityE
     {
       public int Id { get { return 0; } }
 
       public bool CanWithdraw(PokemonProxy pm) { return true; }
-      public bool CanChangeState(PokemonState state) { return true; }
+      public bool CanAddState(PokemonProxy by, AttachedState state) { return true; }
       public bool CanImplement(DefContext def) { return true; } //auto raise
       public double Get5DRevise(PokemonProxy pm, StatType stat) { return 1; }
 
-      public void Debut(PokemonProxy pm) { }
+      public void Attach(PokemonProxy pm) { }
       public void Attacked(DefContext def) { }
       public void Lv7DChanging(ref StatType stat, ref int value) { }//性情乖僻
-      public void Lv7DChanged() { }
-      public void StateChanged(PokemonProxy sub, PokemonProxy obj, PokemonState state) { }//同步率
-      public void KO(DefContext atk) { } //自信过剩，不是引爆
-      public void CalculatingMoveType(ref BattleType type) { } //普通皮肤
       public void CalculatingAccuracy(AtkContext atk) { }
       public void CalculatingAccuracy(DefContext def) { }
+      public void CalculatingPower(AtkContext atk) { }
     }
   }
 }

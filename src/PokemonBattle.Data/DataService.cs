@@ -9,6 +9,7 @@ using System.Diagnostics.Contracts;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.Tactic.Globalization;
 using LightStudio.Tactic.DataModels.IO;
+using LightStudio.Tactic.DataModels;
 
 namespace LightStudio.PokemonBattle.Data
 {
@@ -110,6 +111,14 @@ namespace LightStudio.PokemonBattle.Data
     public static MoveType GetMoveType(int id)
     {
       return romData.GetMoveType(id);
+    }
+    public static string GetLocalizedName(this GameElement e)
+    {
+      return DataString[e.Name];
+    }
+    public static string GetLocalizedName(this BattleType type)
+    {
+      return DataService.String[type.ToString()];
     }
     #endregion
   }

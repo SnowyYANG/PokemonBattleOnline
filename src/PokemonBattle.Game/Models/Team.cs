@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game
 {
@@ -25,7 +24,7 @@ namespace LightStudio.PokemonBattle.Game
     internal bool Prepared
     { get { return players.Count == settings.Mode.PlayersPerTeam(); } }
 
-    internal Player AddPlayer(int userId, PokemonCustomInfo[] pokemons)
+    internal Player AddPlayer(int userId, Data.PokemonCustomInfo[] pokemons)
     {
       if (players.Count < settings.Mode.PlayersPerTeam())
       {

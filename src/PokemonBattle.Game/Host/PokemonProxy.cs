@@ -3,150 +3,85 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Interactive;
+using LightStudio.PokemonBattle.Interactive.GameEvents;
+using LightStudio.PokemonBattle.Game.Sp;
 
 namespace LightStudio.PokemonBattle.Game
 {
   public class PokemonProxy
   {
-    private static PokemonOutward BuildOutward(PokemonProxy p)
-    {
-      //幻影new完后覆盖属性
-      Pokemon opm = p.Pokemon;
-      PokemonOutward o = new PokemonOutward(opm, p.OnboardPokemon.Position);
-      if (p.Ability.Illusion())
-      {
-        foreach (Pokemon pm in p.Pokemon.Owner.Pokemons)
-          if (pm.Hp.Value > 0) opm = pm;
-        if (opm != p.Pokemon) ;//追加状态，幻影解除时使用
-      }
-      else
-      {
-        o.Name = opm.Name;
-        o.Gender = opm.Gender;
-        o.ImageId = opm.PokemonType.Id;
-      }
-      return o;
-    }
-
     public readonly Pokemon Pokemon;
     public readonly OnboardPokemon OnboardPokemon;
-    public readonly PokemonOutward Outward; //幻影
     public readonly Controller Controller;
 
     internal PokemonProxy(Controller controller, Pokemon pokemon, Tile tile)
     {
       Controller = controller;
       Pokemon = pokemon;
+      Tile = tile;
       OnboardPokemon = new OnboardPokemon(pokemon, tile.X);
 
       Moves = new MoveProxy[4];
       for (int i = 0; i < 4; i++)
-        if (pokemon.Moves[i] != null) Moves[i] = new MoveProxy(Controller, pokemon.Moves[i], this);
-      StruggleMove = new MoveProxy(controller, new Move(165, Controller.Game.GameSettings), this);
+        if (pokemon.Moves[i] != null) Moves[i] = new MoveProxy(pokemon.Moves[i], this);
+      StruggleMove = new MoveProxy(new Move(Sp.Moves.STRUGGLE, Controller.Game.GameSettings), this);
       Action = PokemonAction.Debuting;
 
-      Outward = BuildOutward(this);
+      Abilities.CheckIllusion(this);
     }
 
-    private void AddReport(GameEvent e)
+    private void AddReport(Interactive.GameEvent e)
     {
       Controller.ReportBuilder.Add(e);
     }
-    private void AddReport(string key, params string[] data)
+    private void AddReport(string key)
     {
-      Controller.ReportBuilder.Add(key, data);
+      Controller.ReportBuilder.Add(key);
     }
-    private void AddReportPm(string key, PokemonProxy pm)
+    internal void AddReportPm(string key, params string[] data)
     {
-      Controller.ReportBuilder.Add(key, pm.Pokemon.Name);
-    }
-    private void AddReportPm(string key)
-    {
-      AddReportPm(key, this);
+      Controller.ReportBuilder.Add(key, this, data);
     }
 
     #region Data
     public int Id
     { get { return Pokemon.Id; } }
-    internal Tile Tile
-    { get { return Controller.GetTile(Position.Team, Position.X); } }
+    public Tile Tile
+    { get; internal set; }
 
     public int Hp
-    { get { return Pokemon.Hp.Value; } }
+    { 
+      get { return Pokemon.Hp.Value; }
+      set
+      {
+        Pokemon.SetHp(value);
+        Item.HpChanged(this);
+      }
+    }
     public PokemonState State
-    {
+    { 
       get { return Pokemon.State; }
       set
       {
-        if (State != value)
-        {
-          State = value;
-          if (State != PokemonState.Faint)
-            AddReport(new Interactive.GameEvents.PokemonStateChange(this));
-        }
+        Pokemon.State = value;
+        if (State != PokemonState.Faint)
+          AddReport(new Interactive.GameEvents.StateChange(this));
       }
     }
     public IAbilityE Ability
     { 
       get
       {
-        if (OnboardPokemon.HasCondition("GastroAcid")) return GameService.NULL_ABILITY;
+        if (Tile == null || OnboardPokemon.HasCondition("GastroAcid")) return GameService.NULL_ABILITY;
         return GameService.GetAbility(OnboardPokemon.Ability);
       }
     }
     public IItemE Item
     { get { return GameService.GetItem(Pokemon.Item); } }
-    public Position Position
-    { get { return OnboardPokemon.Position; } }
     public MoveProxy[] Moves
     { get; private set; }
     public MoveProxy StruggleMove
     { get; private set; }
-    #endregion
-
-    #region 7D
-    private int Get5D(StatType stat)
-    {
-      int v = OnboardPokemon.Get5D(stat);
-      v = (int)(v * Ability.Get5DRevise(this, stat));
-      v *= (int)(v * Item.Get5DRevise(this, stat));
-      return v;
-    }
-    public int Atk
-    { get { return Get5D(StatType.Atk); } }
-    public int Def
-    { get { return Get5D(StatType.Def); } }
-    public int SpAtk
-    { get { return Get5D(StatType.SpAtk); } }
-    public int SpDef
-    { get { return Get5D(StatType.SpDef); } }
-    public int Speed
-    { get { return Get5D(StatType.Speed); } }
-    public void ChangeLv7D(StatType stat, int change)
-    {
-      Ability.Lv7DChanging(ref stat, ref change);
-      if (change == 0) return;
-
-      string statName = DataService.String[stat.ToString()];
-      int oldValue = stat == StatType.Accuracy ? OnboardPokemon.AccuracyLv : stat == StatType.Evasion ? OnboardPokemon.EvasionLv : Get5D(stat);
-      if (oldValue > 6 && change > 0)
-      {
-        AddReport("Lv7DMax", Pokemon.Name, statName);
-        return;
-      }
-      else if (oldValue < -6 && change < 0)
-      {
-        AddReport("Lv7DMin", Pokemon.Name, statName);
-        return;
-      }
-      if (change == 1) AddReport("Lv7DUp", Pokemon.Name, statName);
-      else if (change == -1) AddReport("Lv7DDown", Pokemon.Name, statName);
-      else if (change > 1) AddReport("Lv7DUp2", Pokemon.Name, statName);
-      else AddReport("Lv7DDown2", Pokemon.Name, statName);
-      Ability.Lv7DChanged();
-      SpItems.CheckWhiteHerb(this);
-    }
     #endregion
 
     #region Predict
@@ -162,108 +97,47 @@ namespace LightStudio.PokemonBattle.Game
     {
       get
       {
-        return Hp > 0 && lastActTurn != Controller.ReportBuilder.TurnNumber &&
+        return Hp > 0 && lastActTurn != Controller.TurnNumber &&
           (Action == PokemonAction.MoveAttached || Action == PokemonAction.Stiff || Action == PokemonAction.Moving);
       }
     }
     internal bool CanExecute()
     {
-      //睡觉..梦话/打鼾
-      if (State == PokemonState.Sleeping)
+      return
+        OnboardPokemon.GetCondition("Sleeping").CanExecute() &&
+        Sp.Conditions.Frozen.CanExecute(this) &&
+        //懒惰
+        OnboardPokemon.GetCondition("Disable").CanExecute() &&
+        OnboardPokemon.GetCondition("Imprison").CanExecute() &&
+        OnboardPokemon.GetCondition("HealBlock").CanExecute() &&
+        //混乱
+        OnboardPokemon.GetCondition("Confuse").CanExecute() &&
+        //害怕，不屈之心
+        OnboardPokemon.GetCondition("Flinch").CanExecute() &&
+        //挑拨 
+        //重力 
+        //着迷 
+        Sp.Conditions.Paralyzed.CanExecute(this);
+    }
+    public bool CanAddState(AttachedState state)
+    {
+      switch (state)
       {
-        int count = OnboardPokemon.GetCondition<int>("Sleeping");
-        count--;
-        if (Ability.EarlyBird()) count--;
-        OnboardPokemon.SetCondition("Sleeping", count);
-        if (count <= 0) State = PokemonState.Normal;
-        else
-        {
-          AddReportPm("Sleeping", this);
-          if (!SelectedMove.AvailableEvenSleeping())
-            return false;
-        }
+        case AttachedState.Burn:
+        case AttachedState.Freeze:
+        case AttachedState.Paralysis:
+        case AttachedState.Poison:
+        case AttachedState.Sleep:
+          return State == PokemonState.Normal;
+        default:
+          return OnboardPokemon.HasCondition(state.ToString());
       }
-      //冰冻
-      if (State == PokemonState.Frozen)
-      {
-        if (SelectedMove.Move.Type.AdvancedFlags.AvailableEvenFrozen || Controller.GetRandomInt(0, 3) == 0)
-          State = PokemonState.Normal;
-        else AddReportPm("Frozen");
-      }
-      //懒惰 
-      //残废
-      {
-        //When a Pokémon uses the move Disable, it locks the last move executed by the target.
-        //This lock prevents both the selection and execution of the move and remains in effect for 4-7 rounds or until the target leaves the field.
-        //If the last action taken by the target was not an executed move, Disable fails.
-        //If the targeted move has no PP left, Disable fails.
-        //Only one move can be Disabled per Pokémon at any given time.
-        dynamic disable = OnboardPokemon.GetCondition<dynamic>("Disable");
-        if (disable != null)
-        {
-          disable.Count--;
-          OnboardPokemon.SetCondition("Disable", disable);
-          if (disable.MoveId == SelectedMove.Move.Type.Id)
-            return false;
-        }
-      }
-      //封印 
-      //回复封印
-      if (SelectedMove.Move.Type.AdvancedFlags.IsHeal && OnboardPokemon.GetCondition<int>("HealBlock") > 0)
-      {
-        AddReportPm("HealBlock");
-        return false;
-      }
-      //混乱
-      {
-        int count = OnboardPokemon.GetCondition<int>("Confuse");
-        if (count > 0)
-        {
-          count--;
-          if (count <= 0)
-          {
-            OnboardPokemon.RemoveCondition("Confuse");
-            AddReportPm("DeConfuse");
-          }
-          else
-          {
-            OnboardPokemon.SetCondition("Confuse", count);
-            AddReportPm("Confuse");
-          }
-          if (Controller.GetRandomInt(0, 1) == 0)
-          {
-            //自伤
-            return false;
-          }
-        }
-      }
-      //害怕，不屈之心
-      if (OnboardPokemon.HasCondition("Flinch"))
-      {
-        AddReportPm("Flinch");
-        OnboardPokemon.RemoveCondition("Flinch");
-        SpAbilities.CheckSteadfast(this);
-      }
-      //挑拨 
-      //重力 
-      //着迷 
-      //麻痹
-      if (State == PokemonState.Paralyzed)
-      {
-        AddReportPm("Paralyzed");
-        if (Controller.GetRandomInt(0, 3) == 0)
-        {
-          AddReportPm("ParalyzedWork");
-          return false;
-        }
-      }
-      return true;
     }
     #endregion
 
     #region Input
     public PokemonAction Action
-    { get; private set; }
+    { get; internal set; }
     public MoveProxy SelectedMove //先取
     { get; private set; }
     public Tile SelectedTarget
@@ -312,9 +186,8 @@ namespace LightStudio.PokemonBattle.Game
     {
       if (Action == PokemonAction.Debuting)
       {
-        ;//场地效果
-        Ability.Debut(this);//特性
-        Item.Debut(this);//道具
+        Ability.Attach(this);//特性
+        Items.CheckAirBalloon(this);//道具
         Action = PokemonAction.Done;
       }
     }
@@ -329,10 +202,11 @@ namespace LightStudio.PokemonBattle.Game
       if (Action == PokemonAction.WillSwitch)
       {
         Action = PokemonAction.Switching;
+        Tile tile = Tile;
         if (Controller.Withdraw(this)) //追击，无论死没死都已经收回了
         {
           if (this.Hp == 0) Controller.PauseForSendoutInput(Controller.Switch, Tile);
-          else Controller.Sendout(Tile);
+          else Controller.Sendout(tile);
         }
         Action = PokemonAction.Done;
       }
@@ -349,7 +223,7 @@ namespace LightStudio.PokemonBattle.Game
     internal void ActMove()
     {
       if (!CanActMove) return;
-      lastActTurn = Controller.ReportBuilder.TurnNumber;
+      lastActTurn = Controller.TurnNumber;
       switch(Action)
       {
         case PokemonAction.MoveAttached:
@@ -357,14 +231,178 @@ namespace LightStudio.PokemonBattle.Game
           SelectedMove.Act();
           break;
         case PokemonAction.Moving:
+#warning 多回合技能
           System.Diagnostics.Debugger.Break();
-          //多回合技能，还没想好就这样写大丈夫？
+          Action = PokemonAction.Done;
           break;
         case PokemonAction.Stiff:
           Action = PokemonAction.Done;
           break;
       }
     }
+    internal PokemonOutward GetOutward()
+    {
+      return new PokemonOutward(this);
+    }
     #endregion
+
+    #region ChangeHp
+    public void MoveHurt(DefContext def)
+    {
+      if (def.Damage >= Hp)
+      {
+        def.Damage = Hp;
+        if (Abilities.Remain1Hp(this) || Items.Remain1Hp(this))
+        {
+          def.Damage--;
+          ((PairValue)Pokemon.Hp).Value = 1;
+        }
+        else ((PairValue)Pokemon.Hp).Value = 0;
+      }
+      else ((PairValue)Pokemon.Hp).Value -= def.Damage;
+      OnboardPokemon.SetCondition("Damage", new { Damage = def.Damage, By = def.AtkContext.Attacker.Id });
+    }
+    public void DamagePercentage(DefContext def, sbyte percentage)
+    {
+      int v = def.Damage * percentage / 100;
+      if (percentage > 0)
+      {
+        if (Item.BigRoot()) v = (int)(v * 1.3);
+        if (Abilities.RaiseAbility(def.Defender, Abilities.LIQUID_OOZE))
+        {
+          Hp -= v;
+          Controller.ReportBuilder.Add(new Interactive.GameEvents.HpChange(this, "Hurt"));
+        }
+        else
+        {
+          Hp += v;
+          Controller.ReportBuilder.Add(new Interactive.GameEvents.HpChange(this, "HpRecover"));
+        }
+      }
+      else //ReHurt
+      {
+        if (Ability.RockHead()) return;
+        Hp -= v;
+        Controller.ReportBuilder.Add(new Interactive.GameEvents.HpChange(this, "ReHurt"));
+      }
+    }
+    public void EffectHurt()
+    {
+    }
+    #endregion
+
+    public void ConsumeItem()
+    {
+      OnboardPokemon.SetCondition("UsedItem", Pokemon.Item);
+      Pokemon.Item = null;
+    }
+    public void CheckFaint()
+    {
+      if (Hp == 0)
+      {
+        Controller.Withdraw(this, false);
+        State = PokemonState.Faint;
+        Controller.Board[Pokemon.TeamId].SetCondition("LastFaintTurn", Controller.TurnNumber);
+      }
+    }
+    private void ChangeLv7D(PokemonProxy by, StatType stat, int change)
+    {
+      if (change == 0) return;
+      if (by != this) Ability.Lv7DChanging(ref stat, ref change);
+      if (change == 0) return;
+
+      string statName = DataService.String[stat.ToString()];
+      int oldValue = stat == StatType.Accuracy ? OnboardPokemon.AccuracyLv : stat == StatType.Evasion ? OnboardPokemon.EvasionLv : OnboardPokemon.Lv5D.GetStat(stat);
+      if (oldValue > 6 && change > 0)
+      {
+        AddReportPm("Lv7DMax", statName);
+        return;
+      }
+      else if (oldValue < -6 && change < 0)
+      {
+        AddReportPm("Lv7DMin", statName);
+        return;
+      }
+      if (stat == StatType.Accuracy) OnboardPokemon.AccuracyLv += change;
+      else if (stat == StatType.Evasion) OnboardPokemon.EvasionLv += change;
+      else OnboardPokemon.ChangeLv7D(stat, change);
+      if (change == 1) AddReportPm("Lv7DUp", statName);
+      else if (change == -1) AddReportPm("Lv7DDown", statName);
+      else if (change > 1) AddReportPm("Lv7DUp2", statName);
+      else AddReportPm("Lv7DDown2", statName);
+      if (by != this && change < 0) Abilities.CheckDefiant(this);
+    }
+    public void ChangeLv7D(PokemonProxy by, int a, int d = 0, int sa = 0, int sd = 0, int s = 0, int ac = 0, int e = 0)
+    {
+      ChangeLv7D(by, StatType.Atk, a);
+      ChangeLv7D(by, StatType.Def, d);
+      ChangeLv7D(by, StatType.SpAtk, sa);
+      ChangeLv7D(by, StatType.SpDef, sd);
+      ChangeLv7D(by, StatType.Speed, s);
+      ChangeLv7D(by, StatType.Accuracy, ac);
+      ChangeLv7D(by, StatType.Evasion, e);
+      Items.CheckWhiteHerb(this);
+    }
+    public void ChangeLv7D(AtkContext atk)
+    {
+      foreach (MoveLv7DChange c in atk.Move.Lv7DChanges)
+      {
+        if (c.Probability == 0 || atk.RandomHappen(c.Probability))
+          ChangeLv7D(atk.Attacker, c.Type, c.Change);
+      }
+      Items.CheckWhiteHerb(this);
+    }
+    private void AddStateImplement(PokemonProxy by, AttachedState state, int turn)
+    {
+      switch (state)
+      {
+        case AttachedState.Burn:
+          State = PokemonState.Burned;
+          goto POKEMON_STATE;
+        case AttachedState.Freeze:
+          State = PokemonState.Frozen;
+          goto POKEMON_STATE;
+        case AttachedState.Paralysis:
+          State = PokemonState.Paralyzed;
+          goto POKEMON_STATE;
+        case AttachedState.Poison:
+          if (turn == 0) State = PokemonState.Poisoned;
+          else
+          {
+            State = PokemonState.BadlyPoisoned;
+            OnboardPokemon.SetCondition("BadlyPoison", new Sp.Conditions.BadlyPoison(this));
+          }
+          goto POKEMON_STATE;
+        case AttachedState.Sleep:
+          OnboardPokemon.SetCondition("Sleeping", new Sp.Conditions.Sleeping(this, turn));
+          goto POKEMON_STATE;
+        default:
+          System.Diagnostics.Debugger.Break();
+          goto DONE;
+      }
+    POKEMON_STATE:
+      Abilities.CheckSynchronize(this, by, state, turn);
+    DONE:  
+      Item.StateAdded(this, state);
+    }
+    public void AddState(PokemonProxy by, AttachedState state, int turn = 0)
+    {
+      if (CanAddState(state) && Ability.CanAddState(by, state))
+        AddStateImplement(by, state, turn);
+    }
+    public void AddState(AtkContext atk)
+    {
+      MoveAttachment attachment = atk.Move.Attachment;
+      if (CanAddState(attachment.State) &&
+         atk.RandomHappen(attachment.Probability) &&
+         Ability.CanAddState(atk.Attacker, attachment.State))
+      {
+        int turn;
+        #warning 特性道具对回合影响
+        if (attachment.MinTurn != attachment.MaxTurn) turn = Controller.GetRandomInt(attachment.MinTurn, attachment.MaxTurn);
+        else turn = attachment.MinTurn;
+        AddStateImplement(atk.Attacker, attachment.State, turn);
+      }
+    }
   }
 }

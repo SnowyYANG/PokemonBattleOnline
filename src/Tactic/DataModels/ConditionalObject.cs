@@ -20,10 +20,15 @@ namespace LightStudio.Tactic.DataModels
     {
       return markConditions.Contains(name) || valueConditions.ContainsKey(name);
     }
-    public void SetCondition(string name, object value = null)
+    public bool SetCondition(string name, object value = null)
     {
-      if (value == null) markConditions.Add(name);
-      else valueConditions[name] = value;
+      if (value == null) return markConditions.Add(name);
+      else
+      {
+        if (valueConditions.ContainsKey(name)) return false;
+        valueConditions[name] = value;
+        return true;
+      }
     }
     public T GetCondition<T>(string name)
     {

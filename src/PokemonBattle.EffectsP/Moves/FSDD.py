@@ -1,4 +1,4 @@
-class Gem:
+class FSDD(StatusMoveE):
     """description of class"""
 
 

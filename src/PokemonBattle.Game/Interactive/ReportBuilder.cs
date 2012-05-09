@@ -8,9 +8,6 @@ using LightStudio.PokemonBattle.Interactive.GameEvents;
 
 namespace LightStudio.PokemonBattle.Interactive
 {
-  /// <summary>
-  /// thread safe?
-  /// </summary>
   public class ReportBuilder
   {
     private GameContext game;
@@ -41,7 +38,7 @@ namespace LightStudio.PokemonBattle.Interactive
       List<PokemonOutward> p = new List<PokemonOutward>();
       for (int i = 0; i < game.Board.TeamCount; i++)
         for (int j = 0; j < game.Board.XBound; j++)
-          if (game.Board[i, j].Pokemon != null) p.Add(game.Board[i, j].Pokemon.Outward);
+          if (game.Board[i, j].Pokemon != null) p.Add(game.Board[i, j].Pokemon.GetOutward());
       current = new ReportFragment(t, p.ToArray(), game.Board.Weather);
     }
     internal ReportFragment GetFragment()
@@ -61,10 +58,13 @@ namespace LightStudio.PokemonBattle.Interactive
     {
       current.AddEvent(e);
     }
-    public void Add(string key, params string[] data)
+    public void Add(string key, PokemonProxy pm, params string[] data)
     {
-      if (data.Length == 1) Add(new SoloEvent(key, data[0]));
-      else Add(new SimpleEvent(key, data));
+      Add(new PmEvent(key, pm, data));
+    }
+    public void Add(string key)
+    {
+      Add(new SimpleEvent(key));
     }
   }
 }

@@ -32,7 +32,7 @@ namespace LightStudio.PokemonBattle.Game
       for (int i = 0; i < OnboardPokemons.Count - 1; i++)
       {
         int j;
-        j = GetRandomInt(i, OnboardPokemons.Count - 1);
+        j = Controller.GetRandomInt(i, OnboardPokemons.Count - 1);
         PokemonProxy temp = OnboardPokemons[i];
         OnboardPokemons[i] = OnboardPokemons[j];
         OnboardPokemons[j] = temp;
@@ -44,7 +44,7 @@ namespace LightStudio.PokemonBattle.Game
       for (int i = 0; i < tiles.Length - 1; i++)
       {
         int j;
-        j = GetRandomInt(i, tiles.Length - 1);
+        j = Controller.GetRandomInt(i, tiles.Length - 1);
         Tile temp = tiles[i];
         tiles[i] = tiles[j];
         tiles[j] = temp;

@@ -56,7 +56,17 @@ namespace LightStudio.PokemonBattle.Room
     #region Commands
     void IHost.ExecuteCommand(IHostCommand command, int senderId)
     {
-      dispatcher.Invoke((Action<IHost, int>)(command.Execute), this, senderId);
+      dispatcher.Invoke(() =>
+      {
+        try
+        {
+          command.Execute(this, senderId);
+        }
+        catch
+        {
+          System.Diagnostics.Debugger.Break();
+        }
+      });
     }
     void IRoomManager.Chat(int userId, MessageTarget target, int targetId, string content)
     {

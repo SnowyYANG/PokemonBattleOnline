@@ -26,18 +26,15 @@ namespace LightStudio.PokemonBattle.Game
     }
 
     public virtual bool CanWithdraw(PokemonProxy pm) { return true; }
-    public virtual bool CanChangeState(PokemonState state) { return true; }
+    public virtual bool CanAddState(PokemonProxy by, AttachedState state) { return true; }
     public virtual bool CanImplement(DefContext def) { return true; } //auto raise
     public virtual double Get5DRevise(PokemonProxy pm, StatType stat) { return 1; }
 
-    public virtual void Debut(PokemonProxy pm) { }
+    public virtual void Attach(PokemonProxy pm) { }
     public virtual void Attacked(DefContext def) { }
     public virtual void Lv7DChanging(ref StatType stat, ref int value) { }
-    public virtual void Lv7DChanged() { }
-    public virtual void StateChanged(PokemonProxy sub, PokemonProxy obj, PokemonState state) { }
-    public virtual void KO(DefContext atk) { }
-    public virtual void CalculatingMoveType(ref BattleType type) { }
     public virtual void CalculatingAccuracy(AtkContext atk) { }
     public virtual void CalculatingAccuracy(DefContext def) { }
+    public virtual void CalculatingPower(AtkContext atk) { }
   }
 }

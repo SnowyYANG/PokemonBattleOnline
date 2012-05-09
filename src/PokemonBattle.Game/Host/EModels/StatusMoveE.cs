@@ -13,16 +13,25 @@ namespace LightStudio.PokemonBattle.Game
     {
     }
 
-    public void Act() //1、2、3、5、A、B、C、D
+    protected virtual void Act() //1、2、3、5、A、B、C、D
     {
-    }
-    protected virtual void Override_Act() //D要override
-    {
+      switch (Move.Class)
+      {
+        case MoveInnerClass.ConfusionWithLv7DChange:
+          break;
+        case MoveInnerClass.ForceToShift:
+          break;
+        case MoveInnerClass.HpRecover:
+          break;
+        case MoveInnerClass.Lv7DChange:
+          break;
+      }
     }
 
     public override void Execute(PokemonProxy pm)
     {
       System.Diagnostics.Debugger.Break();
+      pm.Action = PokemonAction.Done;
     }
   }
 }

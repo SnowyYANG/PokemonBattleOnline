@@ -3,56 +3,98 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using LightStudio.Tactic.DataModels;
+using LightStudio.PokemonBattle.Game;
 
 namespace LightStudio.PokemonBattle.Interactive.GameEvents
 {
   [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class SoloEvent: GameEvent
+  public class SimpleEvent : GameEvent
   {
     [DataMember]
-    string Solo;
+    string Key;
 
-    [DataMember]
-    string GameLogKey;
-    
-    public SoloEvent(string gameLogKey, string solo)
+    public SimpleEvent(string gameLogKey)
     {
-      GameLogKey = gameLogKey;
-      Solo = solo;
+      Key = gameLogKey;
     }
-    public SoloEvent(string gameLogKey, GameElement solo)
-      : this(gameLogKey, solo.Name)
-    {
-    }
-    
     public override IText GetGameLog()
     {
-      IText t = GetGameLog(GameLogKey);
-      if (t != null) t.SetData(Solo);
+      return GetGameLog(Key);
+    }
+  }
+  
+  [DataContract(Namespace = Namespaces.DEFAULT)]
+  public class PmEvent: GameEvent
+  {
+    [DataMember]
+    string Key;
+
+    [DataMember]
+    int Pm;
+
+    [DataMember(EmitDefaultValue = false)]
+    string Arg;
+
+    [DataMember(EmitDefaultValue = false)]
+    string[] Args;
+
+    public PmEvent(string gameLogKey, PokemonProxy pm, params string[] args)
+    {
+      Key = gameLogKey;
+      Pm = pm.Id;
+      if (args.Length == 1) Arg = args[0];
+      else if (args.Length > 1) Args = args;
+    }
+
+    private PokemonOutward pm;
+    public override void Update(GameOutward game)
+    {
+      pm = game.GetPokemon(Pm);
+    }
+    public override IText GetGameLog()
+    {
+      IText t = GetGameLog(Key);
+      if (t != null)
+      {
+        if (Arg != null) t.SetData(pm, Arg);
+        else if (Args != null) t.SetData(pm, Args);
+        else t.SetData(pm);
+      }
       return t;
     }
   }
 
   [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class SimpleEvent : GameEvent
+  public class MultiPmEvent : GameEvent
   {
-    [DataMember(EmitDefaultValue = false)]
-    string[] Data;
+    [DataMember]
+    string Key;
 
     [DataMember]
-    string GameLogKey;
+    int[] Pms;
 
-    public SimpleEvent(string gameLogKey, params string[] data)
+    public MultiPmEvent(string key, IList<PokemonProxy> pms)
     {
-      GameLogKey = gameLogKey;
-      if (data.Length > 0) Data = data;
+      Key = key;
+      Pms = pms.Select((p) => p.Id).ToArray();
+    }
+    public MultiPmEvent(string key, IList<DefContext> pms)
+    {
+      Key = key;
+      Pms = pms.Select((p) => p.Defender.Id).ToArray();
     }
 
+    PokemonOutward[] pms;
+    public override void Update(GameOutward game)
+    {
+      pms = new PokemonOutward[Pms.Length];
+      for (int i = 0; i < Pms.Length; ++i)
+        pms[i] = game.GetPokemon(Pms[i]);
+    }
     public override IText GetGameLog()
     {
-      IText t = GetGameLog(GameLogKey);
-      if (t != null && Data != null) t.SetData(Data);
+      IText t = GetGameLog(Key);
+      t.SetData(GameService.Logs.ConvertMultiObjects((p) => p.Name, pms));
       return t;
     }
   }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using LightStudio.Tactic.DataModels;
 using LightStudio.Tactic.Messaging.Lobby;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
@@ -22,15 +21,15 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     {
       PlayerId = pms[0].Pokemon.Owner.Id;
       Pms = new PokemonOutward[pms.Length];
-      for (int i = 0; i < pms.Length; ++i) Pms[i] = pms[i].Outward;
+      for (int i = 0; i < pms.Length; ++i) Pms[i] = pms[i].GetOutward();
     }
 
     public override IText GetGameLog()
     {
-      IText t = GetGameLog(SENDOUT);
+      IText t = GetGameLog("SendOut");
       //
       t.SetData(LobbyService.GetUserName(PlayerId),  GameService.Logs.ConvertMultiObjects(
-        (p) => string.Format("{0}(Lv.{1} {2})", p.Name, p.Lv, DataService.DataString[DataService.GetPokemonType(p.ImageId).Name]), Pms));
+        (p) => string.Format("{0}(Lv.{1} {2})", p.Name, p.Lv, DataService.GetPokemonType(p.ImageId).GetLocalizedName()), Pms));
       return t;
     }
     public override void Update(GameOutward game)
@@ -46,8 +45,8 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
       if (game.Team.HasPlayer(PlayerId))
         foreach (PokemonOutward p in Pms)
         {
-          game.Pokemons[p.Position.X] = new SimPokemon(game.Team.Pokemons[p.Id], p);
-          game.ActivePokemons.Add(p.Position.X, game.Pokemons[p.Position.X]);
+          game.OnboardPokemons[p.Position.X] = new SimPokemon(game.Team.Pokemons[p.Id], p);
+          game.ActivePokemons.Add(p.Position.X, game.OnboardPokemons[p.Position.X]);
           if (PlayerId == game.Player.Id)
           {
             game.Player.SwitchPokemon(game.Settings.Mode.GetPokemonIndex(p.Position.X), game.Player.GetPokemonIndex(p.Id));
@@ -71,20 +70,20 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
 
     public Withdraw(PokemonProxy pm)
     {
-      Team = pm.Tile.Team;
-      X = pm.Tile.X;
+      Team = pm.Pokemon.TeamId;
+      X = pm.OnboardPokemon.X;
     }
     public override IText GetGameLog()
     {
       IText t;
       if (isFaint)
       {
-        t = GetGameLog(FAINT);
+        t = GetGameLog("Faint");
         if (t != null) t.SetData(pokemonName);
       }
       else
       {
-        t = GetGameLog(WITHDRAW);
+        t = GetGameLog("Withdraw");
         if (t != null) t.SetData(playerName, pokemonName);
       }
       return t;
@@ -112,8 +111,8 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
       if (Team == game.Player.TeamId)
       {
         game.ActivePokemons.Remove(X);
-        SimPokemon pm = game.Pokemons[X];
-        game.Pokemons[X] = null;
+        SimPokemon pm = game.OnboardPokemons[X];
+        game.OnboardPokemons[X] = null;
         if (pm.Hp == 0) pm.State = PokemonState.Faint;
       }
     }

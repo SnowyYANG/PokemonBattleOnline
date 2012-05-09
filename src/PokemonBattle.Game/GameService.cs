@@ -58,7 +58,7 @@ namespace LightStudio.PokemonBattle.Game
             moves[id] = new AttackMoveE(move);
             break;
           default:
-            System.Diagnostics.Debugger.Break();
+            //System.Diagnostics.Debugger.Break();
             break;
         }
       }
@@ -85,7 +85,7 @@ namespace LightStudio.PokemonBattle.Game
     {
       unlocked = false;
     }
-    public static void RegisterMove(IMoveE move)
+    public static void Register(IMoveE move)
     {
       if (unlocked)
       {
@@ -93,7 +93,7 @@ namespace LightStudio.PokemonBattle.Game
           moves[move.Move.Id] = move;
       }
     }
-    public static void RegisterAbility(IAbilityE ability)
+    public static void Register(IAbilityE ability)
     {
       if (unlocked)
       {
@@ -101,7 +101,7 @@ namespace LightStudio.PokemonBattle.Game
           abilities[ability.Id] = ability;
       }
     }
-    public static void RegisterItem(IItemE item)
+    public static void Register(IItemE item)
     {
       if (unlocked)
       {
@@ -109,7 +109,7 @@ namespace LightStudio.PokemonBattle.Game
           items[item.Id] = item;
       }
     }
-    public static void RegisterRule(Rule rule)
+    public static void Register(Rule rule)
     {
       if (unlocked)
       {

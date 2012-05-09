@@ -1,4 +1,4 @@
-class BrickBreak(MoveE):
+class BrickBreak(AttackMoveE):
     """description of class"""
     def CanImplement(atk):
         #¼ì²é¹âÖ®±Ú 

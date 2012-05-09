@@ -16,19 +16,20 @@ namespace LightStudio.PokemonBattle.PBO
   /// </summary>
   public partial class App : Application
   {
-    void InitDataService()
+    void InitGameService()
     {
       DataService.Load(System.IO.Path.GetFullPath("Data"), new StringService() { Language = "Chinese" });
       DataService.String.DefaultLanguage = "Chinese";
       DataService.DataString.DefaultLanguage = "Chinese";
       DataService.String.ReturnKeyOnFallback = true;
       DataService.DataString.ReturnKeyOnFallback = true;
+      Effects.EffectsRegister.Register();
     }
     
     protected override void OnStartup(StartupEventArgs e)
     {
       base.OnStartup(e);
-      InitDataService();
+      InitGameService();
       UIDispatcher.Init(new WpfDispatcher(Application.Current.Dispatcher));
       new MainWindow().Show();
     }

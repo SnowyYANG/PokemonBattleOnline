@@ -4,61 +4,37 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using System.Reflection;
-using LightStudio.Tactic.DataModels;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
 
 namespace LightStudio.PokemonBattle.Interactive
 {
   [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class LogLine : TextBase
+  public class LogText : Tactic.DataModels.TextBase<IText>, IText
   {
-    private static readonly LogText LineBreak = new LogText("\n");
-
-    public LogLine(string text)
+    private static readonly string[] NODATA = new string[] { "{0}", "{1}", "{2}", "{3}", "{4}", "{5}" };
+    
+    public LogText(string text)
       : base(text)
     {
     }
-    public LogLine(params IText[] contents)
+    public LogText(params IText[] contents)
       : base(contents)
     {
     }
 
-    public override string Text
-    {
-      get
-      {
-        return base.Text + "\n";
-      }
-      protected set
-      {
-        base.Text = value;
-      }
-    }
-    public override IText[] Contents
-    {
-      get
-      {
-        var r = base.Contents.ToList();
-        r.Add(LineBreak);
-        return r.ToArray();
-      }
-      protected set
-      {
-        base.Contents = value;
-      }
-    }
-  }
-
-  [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class LogText : TextBase
-  {
-    private static readonly object[] NODATA = new object[0];
+    [DataMember(EmitDefaultValue = false)]
+    public bool HiddenInBattle
+    { get; protected set; }
+    [DataMember(EmitDefaultValue = false)]
+    public bool HiddenAfterBattle
+    { get; protected set; }
 
     public override string Text
     {
       get
       {
+        if (base.Text == null) return null;
         string[] textData = null;
         if (Data != null)
         {
@@ -66,8 +42,8 @@ namespace LightStudio.PokemonBattle.Interactive
           for (int i = 0; i < textData.Length; ++i)
           {
             object o = Data[i];
-            if (o is GameElement) textData[i] = ((GameElement)o).Name;
-            else if (o is PokemonOutward) textData[i] = ((PokemonOutward)o).Name;
+            if (o is PokemonOutward) textData[i] = ((PokemonOutward)o).Name;
+            else if (o is Tactic.DataModels.GameElement) textData[i] = ((Tactic.DataModels.GameElement)o).GetLocalizedName();
             else textData[i] = o.ToString();
           }
         }
@@ -78,62 +54,23 @@ namespace LightStudio.PokemonBattle.Interactive
         base.Text = value;
       }
     }
-    
-    public LogText(string text)
-      : base(text)
-    {
-    }
-    public LogText(params IText[] contents)
-      : base(contents)
-    {
-    }
-  }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class LogObject : TextBase
-  {
-    [DataMember(EmitDefaultValue = false)]
-    string PropertyName;
-    [DataMember(EmitDefaultValue = false)]
-    Dictionary<string, string> Triggers;
-
-    object Value;
-
-    public LogObject(string propertyName)
+    public IText Clone()
     {
-      PropertyName = propertyName;
-    }
-
-    public override string Text
-    {
-      get
-      {
-        if (Value == null) return null;
-        string s = Value.ToString();
-        if (Triggers != null) s = Triggers.ValueOrDefault(s);
-        return s;
-      }
-      protected set
-      {
-      }
-    }
-
-    public void AddTrigger(string key, string value)
-    {
-      if (Triggers == null) Triggers = new Dictionary<string, string>();
-      Triggers[key] = value;
-    }
-
-    public override void SetData(params object[] data)
-    {
-      if (data.Length < 1) return;
-      if (string.IsNullOrWhiteSpace(PropertyName)) Value = data[0];
-      else
-      {
-        PropertyInfo p = data[0].GetType().GetProperty(PropertyName);
-        if (p != null) Value = p.GetValue(data[0], null);
-      }
-      base.SetData(data[0]);
+      return new LogText()
+        {
+          Alignment = this.Alignment,
+          Background = this.Background,
+          Contents = this.Contents,
+          FontSize = this.FontSize,
+          Foreground = this.Foreground,
+          HiddenAfterBattle = this.HiddenAfterBattle,
+          HiddenInBattle = this.HiddenInBattle,
+          IsBold = this.IsBold,
+          IsItalic = this.IsItalic,
+          IsUnderlined = this.IsUnderlined,
+          Text = base.Text
+        };
     }
   }
 }

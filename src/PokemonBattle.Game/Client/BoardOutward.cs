@@ -32,7 +32,7 @@ namespace LightStudio.PokemonBattle.Game
       this.settings = settings;
       teams = new ObservableCollection<PokemonOutward>[settings.Mode.TeamCount()];
       Teams = new ReadOnlyObservableCollection<PokemonOutward>[settings.Mode.TeamCount()];
-      weather = Data.Weather.Normal;
+      weather = Weather.Normal;
       Terrain = settings.Terrain;
 
       var empty = new PokemonOutward[settings.Mode.XBound()];

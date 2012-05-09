@@ -59,27 +59,6 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       {
         return text.IsUnderlined ? TextDecorations.Underline : null;
       }
-      private static void AddInline(Paragraph paragraph, IText text)
-      {
-        if (text.Contents == null)
-        {
-          paragraph.Inlines.Add(new Run(text.Text)
-            {
-              Background = GetBackground(text),
-              Foreground = GetForeground(text),
-              FontSize = text.FontSize,
-              FontWeight = GetFontWeight(text),
-              FontStyle = GetFontStyle(text),
-              TextDecorations = GetTextDecorations(text)
-            });
-        }
-        else
-        {
-          System.Diagnostics.Debugger.Break();
-          //foreach (IText t in text.Contents)
-          //  p.Inlines.Add(GetBlock(t));
-        }
-      }
       #endregion
 
       BattleReport nest;
@@ -95,12 +74,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
         IText text = e.GetGameLog();
         if (text != null)
         {
-          if (current == null || GetAlignment(text) != current.TextAlignment)
-          {
-            current = new Paragraph() { TextAlignment = GetAlignment(text) };
-            nest.AddBlock(current);
-          }
-          AddInline(current, text);
+          AddText(text);
           text.ClearData();
           if (e.GetType().Name == "BeginTurn")
           {
@@ -112,6 +86,29 @@ namespace LightStudio.PokemonBattle.PBO.Battle
         {
           nest.AddBlock(new Paragraph(new Run(e.GetType().Name) { Foreground = Brushes.Red }));
         }
+      }
+      private void AddInline(Paragraph paragraph, IText text)
+      {
+        if (text.Contents == null)
+          paragraph.Inlines.Add(new Run(text.Text)
+            {
+              Background = GetBackground(text),
+              Foreground = GetForeground(text),
+              FontSize = text.FontSize,
+              FontWeight = GetFontWeight(text),
+              FontStyle = GetFontStyle(text),
+              TextDecorations = GetTextDecorations(text)
+            });
+        else foreach (IText t in text.Contents) AddText(t);
+      }
+      private void AddText(IText text)
+      {
+        if (current == null || GetAlignment(text) != current.TextAlignment)
+        {
+          current = new Paragraph() { TextAlignment = GetAlignment(text) };
+          nest.AddBlock(current);
+        }
+        AddInline(current, text);
       }
     }
   }

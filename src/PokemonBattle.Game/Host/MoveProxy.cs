@@ -8,22 +8,29 @@ namespace LightStudio.PokemonBattle.Game
   public class MoveProxy
   {
     public readonly Move Move;
-    internal readonly PokemonProxy Owner;
-    protected readonly Controller Controller;
+    public readonly PokemonProxy Owner;
     private readonly IMoveE e;
     
-    internal MoveProxy(Controller controller, Move move, PokemonProxy owner)
+    internal MoveProxy(Move move, PokemonProxy owner)
     {
-      Controller = controller;
       Move = move;
       Owner = owner;
-      e = GameService.GetMove(move.Id);
+      e = GameService.GetMove(move.Type.Id);
     }
 
     public int Id
     { get { return Move.Id; } }
     public int PP
-    { get { return Move.PP.Value; } }
+    { 
+      get { return Move.PP.Value; }
+      set
+      {
+        if (value < 0) value = 0;
+        Move.PP.Value = value;
+      }
+    }
+    public Data.MoveType Type
+    { get { return Move.Type; } }
     public int Priority
     { get { return Move.Type.Priority; } }
 
@@ -46,7 +53,13 @@ namespace LightStudio.PokemonBattle.Game
     public void Act()
     {
       if (Owner.CanExecute())
+      {
+        Owner.Controller.ReportBuilder.Add(new Interactive.GameEvents.UseMove(this));
+        if (Move.Type.Id != Sp.Moves.STRUGGLE)
+          Move.PP.Value--;
         e.Execute(Owner);
+      }
+      else Owner.Action = PokemonAction.Done;
     }
   }
 }

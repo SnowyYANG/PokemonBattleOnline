@@ -11,14 +11,14 @@ namespace LightStudio.PokemonBattle.Interactive
   {
     public readonly Player Player;
     public readonly Team Team;
-    public readonly SimPokemon[] Pokemons;
+    public readonly SimPokemon[] OnboardPokemons;
     public readonly GameSettings Settings;
 
     public SimGame(int userId, int teamId, PokemonCustomInfo[] pms, GameSettings settings)
     {
       Team = new Team(teamId, settings);
       Player = Team.AddPlayer(userId, pms);
-      Pokemons = new SimPokemon[settings.Mode.XBound()];
+      OnboardPokemons = new SimPokemon[settings.Mode.XBound()];
       Settings = settings;
       ActivePokemons = new SortedList<int, SimPokemon>(settings.Mode.XBound());
     }
@@ -36,7 +36,7 @@ namespace LightStudio.PokemonBattle.Interactive
     {
       foreach(GameEvent e in report.Events)
         e.Update(this);
-      return ActivePokemons.Count > 0;
+      return ActivePokemons.Count > 0 || (OnboardPokemons.Contains(null) && Player.PmsAlive > OnboardPokemons.Count((p) => p != null));
     }
     /// <summary>
     /// 注意和Update(Turn)的顺序

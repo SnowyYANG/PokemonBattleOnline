@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LightStudio.PokemonBattle.Game.Sp;
 
 namespace LightStudio.PokemonBattle.Game
 {
@@ -22,8 +23,14 @@ namespace LightStudio.PokemonBattle.Game
       if (a.Action == PokemonAction.WillSwitch) return -1;
       if (b.Action == PokemonAction.WillSwitch) return 1;
 
-      if (a.SelectedMove.Priority != b.SelectedMove.Priority)
-        return b.SelectedMove.Priority - a.SelectedMove.Priority;
+      {
+        int aP = a.SelectedMove.Priority;
+        int bP = b.SelectedMove.Priority;
+        if (a.SelectedMove.Type.Category == Data.MoveCategory.Status && a.Ability.Prankster()) aP++;
+        if (a.SelectedMove.Type.Category == Data.MoveCategory.Status && b.Ability.Prankster()) bP++;
+        if (aP != bP)
+          return bP - aP;
+      }
 
       {
         int aItem = a.Item.CompareValue(a);
@@ -43,18 +50,18 @@ namespace LightStudio.PokemonBattle.Game
 
     SPEED:
       {
-        var aField = a.Controller.Board[a.Tile.Team];
-        int speed = a.Speed;
-        if (aField.HasCondition("TailWind")) speed <<= 1;
-        if (aField.HasCondition("Swamp")) speed = (aS + 1) >> 2; //小数点是0.5以下就舍去，如果是0.75就四舍五入
-        aS *= speed;
+        var aField = a.Controller.Board[a.Pokemon.TeamId];
+        int sRaw = a.OnboardPokemon.Static.Speed;
+        if (aField.HasCondition("TailWind")) sRaw <<= 1;
+        if (aField.HasCondition("Swamp")) sRaw = (aS + 1) >> 2; //小数点是0.5以下就舍去，如果是0.75就四舍五入
+        aS *= OnboardPokemon.Get5D(sRaw, a.OnboardPokemon.Lv5D.Speed);
       }
       {
-        var bField = b.Controller.Board[b.Tile.Team];
-        int speed = b.Speed;
-        if (bField.HasCondition("TailWind")) speed <<= 1;
-        if (bField.HasCondition("Swamp")) speed = (speed + 1) >> 2;
-        bS *= speed;
+        var bField = b.Controller.Board[b.Pokemon.TeamId];
+        int sRaw = b.OnboardPokemon.Static.Speed;
+        if (bField.HasCondition("TailWind")) sRaw <<= 1;
+        if (bField.HasCondition("Swamp")) sRaw = (sRaw + 1) >> 2;
+        bS *= OnboardPokemon.Get5D(sRaw, b.OnboardPokemon.Lv5D.Speed);
       }
       return CompareSpeed(aS, bS);
     }

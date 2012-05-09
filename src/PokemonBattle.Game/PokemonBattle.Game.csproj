@@ -42,6 +42,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\SimPokemon.cs" />
+    <Compile Include="Host\EModels\Sp\Conditions\BadlyPoison.cs" />
+    <Compile Include="Host\EModels\Sp\Conditions\ConfuseFlinch.cs" />
+    <Compile Include="Interactive\GameEvents\DeIllusion.cs" />
+    <Compile Include="Host\EModels\Sp\Conditions\Disable.cs" />
+    <Compile Include="Host\EModels\Sp\Conditions\FlashFire.cs" />
+    <Compile Include="Host\EModels\Sp\Conditions\Frozen.cs" />
+    <Compile Include="Host\EModels\Sp\Conditions\HealBlock.cs" />
+    <Compile Include="Host\EModels\Sp\Conditions\Paralyzed.cs" />
+    <Compile Include="Host\EModels\Sp\Conditions\Sleeping.cs" />
+    <Compile Include="Host\EModels\Sp\Conditions\Substitute.cs" />
+    <Compile Include="Interactive\GameEvents\Substitute.cs" />
+    <Compile Include="Interactive\GameEvents\UseMove.cs" />
+    <Compile Include="Models\Condition.cs" />
+    <Compile Include="Host\EModels\Sp\Conditions\Imprison.cs" />
     <Compile Include="Host\EModels\AbilityE.cs" />
     <Compile Include="Host\EModels\AttackMoveE.cs" />
     <Compile Include="Host\EModels\BattleContext.cs" />
@@ -51,9 +65,9 @@
     <Compile Include="Host\EModels\ItemE.cs" />
     <Compile Include="Host\EModels\MoveE.cs" />
     <Compile Include="Host\EModels\Rule.cs" />
-    <Compile Include="Host\EModels\SpAbilities.cs" />
-    <Compile Include="Host\EModels\SpItems.cs" />
-    <Compile Include="Host\EModels\SpMoves.cs" />
+    <Compile Include="Host\EModels\Sp\Abilities.cs" />
+    <Compile Include="Host\EModels\Sp\Items.cs" />
+    <Compile Include="Host\EModels\Sp\Moves.cs" />
     <Compile Include="Host\EModels\StatusMoveE.cs" />
     <Compile Include="Host\Controller\ControllerComponent.cs" />
     <Compile Include="Host\Controller\Turn.cs" />
@@ -69,7 +83,7 @@
     <Compile Include="IGame.cs" />
     <Compile Include="Interactive\GameEvent.cs" />
     <Compile Include="Interactive\GameEvents\Ability.cs" />
-    <Compile Include="Interactive\GameEvents\Pokemon.cs" />
+    <Compile Include="Interactive\GameEvents\PmPropertyChange.cs" />
     <Compile Include="Interactive\GameEvents\Simple.cs" />
     <Compile Include="Interactive\GameEvents\Switch.cs" />
     <Compile Include="Interactive\GameEvents\Turn.cs" />
@@ -86,9 +100,11 @@
     <Compile Include="GameSettings.cs" />
     <Compile Include="Interactive\AdditionalInfo.cs" />
     <Compile Include="IPlayerController.cs" />
+    <Compile Include="Models\ConditionalObject.cs" />
     <Compile Include="Models\Field.cs" />
     <Compile Include="Models\Move.cs" />
     <Compile Include="Models\OnboardPokemon.cs" />
+    <Compile Include="Models\PokemonState.cs" />
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Client\BoardOutward.cs" />
     <Compile Include="Client\GameOutward.cs" />
@@ -97,6 +113,7 @@
     <Compile Include="Models\Pokemon.cs" />
     <Compile Include="Client\PokemonOutward.cs" />
     <Compile Include="Models\Position.cs" />
+    <Compile Include="Models\Weather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\SixD.cs" />
     <Compile Include="Models\Team.cs" />

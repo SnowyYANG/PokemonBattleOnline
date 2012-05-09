@@ -12,7 +12,7 @@ namespace LightStudio.Tactic.DataModels
     Center,
     Right
   }
-  public interface IText
+  public interface IText<T> where T : IText<T>
   {
     UInt32 Background { get; }
     UInt32 Foreground { get; }
@@ -31,11 +31,11 @@ namespace LightStudio.Tactic.DataModels
     /// <summary>
     /// Text works only when Contents is null
     /// </summary>
-    IText[] Contents { get; }
+    T[] Contents { get; }
   }
 
   [DataContract(Namespace = Namespaces.DEFAULT)]
-  public abstract class TextBase : IText
+  public abstract class TextBase<T> : IText<T> where T : IText<T>
   {
     public const UInt32 DEFAULT_FOREGROUND = 0xff000000;
     public const double DEFAILT_FONTSIZE = 15;
@@ -68,9 +68,9 @@ namespace LightStudio.Tactic.DataModels
     [DataMember(EmitDefaultValue = false)]
     public Alignment Alignment { get; protected set; }
     [DataMember(EmitDefaultValue = false)]
-    public virtual IText[] Contents { get; protected set; }
+    public virtual T[] Contents { get; protected set; }
 
-    private TextBase(string text, IText[] content, UInt32 fg = DEFAULT_FOREGROUND, bool isBold = false, bool isItalic = false, bool isUnderlined = false, double fontSize = DEFAILT_FONTSIZE, Alignment alignment = Alignment.Left, UInt32 bg = 0)
+    private TextBase(string text, T[] content, UInt32 fg = DEFAULT_FOREGROUND, bool isBold = false, bool isItalic = false, bool isUnderlined = false, double fontSize = DEFAILT_FONTSIZE, Alignment alignment = Alignment.Left, UInt32 bg = 0)
     {
       Foreground = fg;
       IsBold = isBold;
@@ -82,7 +82,7 @@ namespace LightStudio.Tactic.DataModels
       this.text = text;
       Contents = content;
     }
-    protected TextBase(params IText[] contents)
+    protected TextBase(params T[] contents)
       : this(null, contents)
     {
     }
@@ -107,7 +107,7 @@ namespace LightStudio.Tactic.DataModels
     {
       Data = data;
       if (Contents != null)
-        foreach (IText t in Contents)
+        foreach (T t in Contents)
           t.SetData(data);
     }
     public void ClearData()

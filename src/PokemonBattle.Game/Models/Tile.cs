@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.Tactic.DataModels;
 
 namespace LightStudio.PokemonBattle.Game
 {
@@ -33,8 +32,8 @@ namespace LightStudio.PokemonBattle.Game
     { 
       get
       {
-        if (Pokemon != null && Pokemon.Speed != speed)
-          speed = Pokemon.Speed;
+        if (Pokemon != null)
+          speed = OnboardPokemon.Get5D(Pokemon.OnboardPokemon.Static.Speed, Pokemon.OnboardPokemon.Lv5D.Speed);
         return speed;
       }
     }

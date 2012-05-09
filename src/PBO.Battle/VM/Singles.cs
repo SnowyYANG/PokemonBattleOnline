@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Windows;
-using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
 using LightStudio.PokemonBattle.Interactive;
 
@@ -51,8 +50,6 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     { get { return Visibility.Collapsed; } }
     public bool IsFightEnabled
     { get { return ControllingPokemon != null && (ControllingPokemon.CanStruggle || ControllingPokemon.CanSelectMove); } }
-    public bool IsSwitchEnabled
-    { get { return ControllingPokemon != null && ControllingPokemon.CanSwitch; } }
     public TeamOutward TeamPokemonsCount
     { get { return teamPms; } }
     public TeamOutward RivalTeamPokemonsCount
@@ -67,7 +64,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     }
     public void Pokemon_Click(Pokemon pokemon)
     {
-      if (ControllingPokemon.CanSwitch && pokemon.Hp.Value > 0 &&
+      if ((ControllingPokemon == null || ControllingPokemon.CanSwitch) && pokemon.Hp.Value > 0 &&
         pokemon.IndexInOwner >= controller.Game.Settings.Mode.OnboardPokemonsPerPlayer())
         controller.Switch(ControllingPokemon, pokemon);
     }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using LightStudio.Tactic.DataModels;
 using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game
@@ -51,7 +50,7 @@ namespace LightStudio.PokemonBattle.Game
     { 
       get
       {
-        if (team >= 0 && team < tileMap.Length && x >= 0 && x < tileMap.Length)
+        if (team >= 0 && team < TeamCount && x >= 0 && x < XBound)
           return tileMap[team, x];
         return null;
       }

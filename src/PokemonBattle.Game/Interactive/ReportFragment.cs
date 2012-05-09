@@ -9,12 +9,20 @@ using LightStudio.PokemonBattle.Interactive.GameEvents;
 
 namespace LightStudio.PokemonBattle.Interactive
 {
-  [KnownType(typeof(BeginTurn))]
-  [KnownType(typeof(SendOut))]
-  [KnownType(typeof(Withdraw))]
+  [KnownType("KnownEvents")]
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class ReportFragment
   {
+    static HashSet<Type> knownGameEvents = new HashSet<Type>() { typeof(AbilityEvent), typeof(BeginTurn), typeof(DeIllusion), typeof(HpChange), typeof(StateChange), typeof(MoveHurts), typeof(MultiPmEvent), typeof(PmEvent), typeof(SimpleEvent), typeof(Substitute), typeof(SendOut), typeof(UseMove), typeof(Withdraw) };
+    static IEnumerable<Type> KnownEvents()
+    {
+      return knownGameEvents;
+    }
+    public static void AddEventType<T>() where T : GameEvent
+    {
+      knownGameEvents.Add(typeof(T));
+    }
+    
     [DataMember(EmitDefaultValue = false)]
     public readonly TeamOutward[] Teams;
     [DataMember(EmitDefaultValue = false)]

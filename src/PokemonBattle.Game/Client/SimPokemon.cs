@@ -10,7 +10,8 @@ namespace LightStudio.PokemonBattle.Interactive
   public class SimPokemon
   {
     private readonly Pokemon pokemon;
-    public readonly Position Position;
+    private readonly PokemonOutward outward;
+    public int X;
 
     public int Id
     { get { return pokemon.Id; } }
@@ -25,7 +26,7 @@ namespace LightStudio.PokemonBattle.Interactive
     public int Hp
     {
       get { return pokemon.Hp.Value; }
-      set { pokemon.Hp.Value = value; }
+      set { pokemon.SetHp(value); }
     }
     public PokemonNature Nature
     { get { return pokemon.Nature; } }
@@ -60,8 +61,7 @@ namespace LightStudio.PokemonBattle.Interactive
     internal SimPokemon(Pokemon pokemon, PokemonOutward outward)
     {
       this.pokemon = pokemon;
-      //Owner = pokemon.Owner;
-      Position = outward.Position;
+      X = outward.Position.X;
       Moves = new SimMove[4];
       for (int i = 0; i < 4; i++)
         if (pokemon.Moves[i] != null) Moves[i] = new SimMove(pokemon.Moves[i]);

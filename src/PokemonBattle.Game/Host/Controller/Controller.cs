@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Interactive;
+using LightStudio.PokemonBattle.Game.Sp;
 
 namespace LightStudio.PokemonBattle.Game
 {
@@ -40,31 +41,33 @@ namespace LightStudio.PokemonBattle.Game
     { get { return TurnController.OnboardPokemons; } }
     public IEnumerable<Tile> Tiles
     { get { return TurnController.Tiles; } }
+    public int TurnNumber
+    { get { return ReportBuilder.TurnNumber; } }
 
     #region Access
+    internal Player GetPlayer(Tile tile)
+    {
+      return Game.Teams[tile.Team].GetPlayer(Game.Settings.Mode.GetPlayerIndex(tile.X));
+    }
     public int GetRandomInt(int min, int max)
     {
-      return random.Next(min, max);
+      return random.Next(min, max + 1);
+    }
+    public bool RandomHappen(int percentage)
+    {
+      return random.Next(100) < percentage;
+    }
+    public bool OneNth(int n)
+    {
+      return random.Next(n) == 0;
     }
     public Tile GetTile(int team, int x)
     {
       return Game.Board[team, x];
     }
-    internal Player GetPlayer(Tile tile)
+    public Weather GetAvailableWeather()
     {
-      return Game.Teams[tile.Team].GetPlayer(Game.Settings.Mode.GetPlayerIndex(tile.X));
-    }
-    public bool HasAvailableAbility(int abilityId)
-    {
-      foreach (PokemonProxy pm in OnboardPokemons)
-        if (pm.Ability.Id == abilityId) return true;
-      return false;
-    }
-    public bool HasAvailableAbility(int teamId, int abilityId)
-    {
-      foreach (PokemonProxy pm in OnboardPokemons)
-        if (pm.Position.Team == teamId && pm.Ability.Id == abilityId) return true;
-      return false;
+      return Abilities.HaveCloudNine(this) ? Weather.Invalid : Board.Weather;
     }
     #endregion
 

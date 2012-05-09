@@ -31,6 +31,7 @@ namespace LightStudio.Tactic.Messaging.Lobby
     public LobbyClient(IMessageClient client) : base(client)
     {
       userId = -1;
+      users = new ConcurrentDictionary<int, User>();
     }
 
     public bool IsLogined { get; private set; }
@@ -115,7 +116,7 @@ namespace LightStudio.Tactic.Messaging.Lobby
       Send(ClientInterpreter.CompleteLogin(avatar));
       //users = new ConcurrentDictionary<int, User>(1, userList.Length);
       userId = id;
-      users = new ConcurrentDictionary<int, User>();
+      users.Clear();
       foreach (var user in userList) users[user.Id] = user;
       LoggerFacade.LogDebug("LobbyClient : logining");
       //LoginSucceeded();

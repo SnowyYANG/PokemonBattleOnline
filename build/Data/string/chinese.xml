@@ -70,6 +70,13 @@
   <item key="Base Stats" value="种族值"/>
   <item key="Height" value="身高"/>
   <item key="Weight" value="体重"/>
+  <item key="Burned" value="烧伤"/>
+  <item key="Faint" value="濒死"/>
+  <item key="Frozen" value="冻结"/>
+  <item key="Paralyzed" value="麻痹"/>
+  <item key="Poisoned" value="中毒"/>
+  <item key="BadlyPoisoned" value="剧毒"/>
+  <item key="Sleeping" value="睡眠"/>
 
   <item key="(nature ignored)" value="（无视性格）"/>
   <item key="Results" value="结果"/>

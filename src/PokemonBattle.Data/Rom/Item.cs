@@ -7,11 +7,18 @@ using LightStudio.Tactic.DataModels;
 
 namespace LightStudio.PokemonBattle.Data
 {
+  public enum ItemType
+  {
+    Normal,
+    OneTime,
+    Berry
+  }
+  
   [DataContract(Namespace=Namespaces.DEFAULT)]
   public class Item : GameElement
   {
     [DataMember(EmitDefaultValue = false)]
-    public bool IsOneTime { get; private set; }
+    public ItemType Type { get; private set; }
 
     [DataMember]
     public int FlingPower { get; private set; }

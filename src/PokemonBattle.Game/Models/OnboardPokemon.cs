@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using LightStudio.Tactic.DataModels;
 using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game
@@ -13,8 +12,22 @@ namespace LightStudio.PokemonBattle.Game
   /// </summary>
   public class OnboardPokemon : ConditionalObject
   {
+    private static readonly PmCondition NULL = new NullPmCondition();
+    public static int Get5D(int val, int lv)
+    {
+      double coeff;
+      {
+        double denominator = 2, numerator = 2;
+        if (lv > 0) numerator += lv;
+        else denominator -= lv;
+        coeff = numerator / denominator;
+      }
+      return (int)(val * coeff);
+    }
+    
     #region Data
-    public readonly Position Position;
+    public int X;
+    public CoordY CoordY;
     public BattleType Type1;
     public BattleType Type2;
     public PokemonGender Gender;
@@ -40,28 +53,37 @@ namespace LightStudio.PokemonBattle.Game
       Static = new SixD(pokemon.Static);
       lv5D = new SixD();
 
-      Position = new Position(pokemon.TeamId, x);
+      X = x; //CoordY 默认值
     }
 
     public I6D Lv5D
     { get { return lv5D; } }
     public int AccuracyLv
-    { get { return accuracyLv; } }
-    public int EvasionLv
-    { get { return evasionLv; } }
-
-    public int Get5D(StatType stat)
-    {
-      double coeff;
+    { 
+      get { return accuracyLv; }
+      set
       {
-        int lv = lv5D.GetStat(stat);
-        double denominator = 2, numerator = 2;
-        if (lv > 0) numerator += lv;
-        else denominator -= lv;
-        coeff = numerator / denominator;
+        if (value < -6) value = -6;
+        if (value > 6) value = 6;
+        accuracyLv = value;
       }
-      return (int)(Static.GetStat(stat) * coeff);
     }
+    public int EvasionLv
+    { 
+      get { return evasionLv; }
+      set
+      {
+        if (value < -6) value = -6;
+        if (value > 6) value = 6;
+        evasionLv = value;
+      }
+    }
+
+    public new PmCondition GetCondition(string name)
+    {
+      return GetCondition<PmCondition>(name) ?? NULL;
+    }
+
     private void ChangeLv7D(ref int lv, int change)
     {
       lv += change;
@@ -100,6 +122,18 @@ namespace LightStudio.PokemonBattle.Game
           ChangeLv7D(ref lv5D.SpDef, change);
           ChangeLv7D(ref lv5D.Speed, change);
           break;
+      }
+    }
+    public bool HasType(BattleType type)
+    {
+      return Type1 == type || Type2 == type;
+    }
+
+    private sealed class NullPmCondition : PmCondition
+    {
+      public NullPmCondition()
+        : base(null, null)
+      {
       }
     }
   }

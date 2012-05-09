@@ -7,8 +7,19 @@ using System.Runtime.Serialization;
 
 namespace LightStudio
 {
+  public interface IPairValue : INotifyPropertyChanged
+  {
+    int Origin { get; }
+    int Value { get; }
+    double Percentage { get; }
+    double NormalizedValue { get; }
+    bool IsIncreased { get; }
+    bool IsDecreased { get; }
+    bool IsChanged { get; }
+  }
+
   [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class PairValue : INotifyPropertyChanged
+  public class PairValue : IPairValue
   {
     public event PropertyChangedEventHandler PropertyChanged;
     [DataMember]

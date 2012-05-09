@@ -30,7 +30,7 @@ namespace LightStudio.PokemonBattle.Game
     public readonly ReadOnly6D Ev;
     public ReadOnly6D Static { get; private set; }
 
-    public PairValue Hp { get; private set; }
+    private PairValue hp;
     public Item Item { get; set; }
     public PokemonState State { get; set; }
     #endregion
@@ -66,16 +66,24 @@ namespace LightStudio.PokemonBattle.Game
       Static = new ReadOnly6D(GetState(StatType.Hp), GetState(StatType.Atk), GetState(StatType.Def), GetState(StatType.SpAtk), GetState(StatType.SpDef), GetState(StatType.Speed));
       
       if (custom.ItemId.HasValue) Item = DataService.GetItem(custom.ItemId.Value);
-      Hp = new PairValue(Static.Hp, Static.Hp, 48);
+      hp = new PairValue(Static.Hp, Static.Hp, 48);
     }
 
     public int IndexInOwner
     { get { return Owner.GetPokemonIndex(Id); } }
+    public IPairValue Hp
+    { get { return hp; } }
 
     private int GetState(StatType type)
     {
       if (type == StatType.Hp) return PokemonStatHelper.GetHp(Base.Hp, (byte)Iv.Hp, (byte)Ev.Hp, (byte)Lv);
       else return PokemonStatHelper.GetStat(type, Nature, Base.GetStat(type), (byte)Iv.GetStat(type), (byte)Ev.GetStat(type), (byte)Lv);
+    }
+    internal void SetHp(int value)
+    {
+      if (value < 0) value = 0;
+      else if (value > Hp.Origin) value = Hp.Origin;
+      hp.Value = value;
     }
   }
 }

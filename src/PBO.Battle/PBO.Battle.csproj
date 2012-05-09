@@ -59,12 +59,9 @@
     <Compile Include="Board2D\BattleField2D.xaml.cs">
       <DependentUpon>BattleField2D.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Board2D\RPokemon2D.xaml.cs">
-      <DependentUpon>RPokemon2D.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Board2D\OPokemon2D.xaml.cs">
-      <DependentUpon>OPokemon2D.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Board2D\OPokemon2D.cs" />
+    <Compile Include="Board2D\Pokemon2DBase.cs" />
+    <Compile Include="Board2D\RPokemon2D.cs" />
     <Compile Include="Board3D\BattleField3D.xaml.cs">
       <DependentUpon>BattleField3D.xaml</DependentUpon>
     </Compile>
@@ -96,14 +93,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Board2D\BattleField2D.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Board2D\RPokemon2D.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Board2D\OPokemon2D.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

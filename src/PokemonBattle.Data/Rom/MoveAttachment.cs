@@ -13,20 +13,38 @@ namespace LightStudio.PokemonBattle.Data
     Sleep = 0x02,
     Freeze = 0x03,
     Burn = 0x04,
-    Poison = 0x05, //毒和剧毒都是，按持续时间分别
+    /// <summary>
+    /// 毒和剧毒都是，按持续时间分别
+    /// </summary>
+    Poison = 0x05,
     Confusion = 0x06,
-    Infatuation = 0x07, //着迷
+    /// <summary>
+    /// //着迷
+    /// </summary>
+    Infatuation = 0x07, 
     Trapped = 0x08,
     Nightmare = 0x09,
+    /// <summary>
+    /// 寻衅
+    /// </summary>
     Torment = 0x0C,
     Disable = 0x0D,
     Yawn = 0x0E,
     HealBlock = 0x0F,
-    CanAttack = 0x11, //嗅觉，奇迹之眼，并不是让技能类型本身修正>=1...
+    /// <summary>
+    /// 嗅觉，奇迹之眼
+    /// </summary>
+    CanAttack = 0x11,
     LeechSeed = 0x12,
-    Embargo = 0x13, //扣押，5回合内不得使用道具
+    /// <summary>
+    /// 扣押，5回合内不得使用道具
+    /// </summary>
+    Embargo = 0x13,
     PerishSong = 0x14,
-    Ingrain = 0x15, //扎根
+    /// <summary>
+    /// 扎根
+    /// </summary>
+    Ingrain = 0x15,
     Special = -1 //三角攻击 击坠 念动力
   }
   
@@ -44,13 +62,13 @@ namespace LightStudio.PokemonBattle.Data
   {
     [DataMember]
     public AttachedState State { get; private set; }
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public byte Probability { get; private set; } //0和100都是必中，但有区别
     [DataMember]
     public AttachedCategory Category { get; private set; }
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public byte MinTurn { get; private set; }
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public byte MaxTurn { get; private set; }
   }
 }

@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Data
   public class PokemonCustomInfo : ICloneable, INotifyPropertyChanged
   {
     private string DefaultName
-    { get { return DataService.DataString[DataService.GetPokemonType(PokemonTypeId).Name]; } }
+    { get { return DataService.GetPokemonType(PokemonTypeId).GetLocalizedName(); } }
 
     [DataMember]
     private string _name;
@@ -407,7 +407,6 @@ namespace LightStudio.PokemonBattle.Data
       if (moveIds.Count < 4 && !moveIds.Contains(moveId))
       {
         moveIds.Add(moveId);
-        OnPropertyChanged("HasHiddenPower");
         OnPropertyChanged("MoveIds");//对绑定没什么意义，主要是手动订阅
         return true;
       }

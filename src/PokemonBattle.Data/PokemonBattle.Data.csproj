@@ -73,11 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Rom\Ability.cs" />
-    <Compile Include="enums\MoveInnerClass.cs" />
+    <Compile Include="Rom\enums\MoveInnerClass.cs" />
     <Compile Include="Rom\MoveAttachment.cs" />
-    <Compile Include="enums\PokemonState.cs" />
-    <Compile Include="enums\Terrain.cs" />
-    <Compile Include="enums\Weather.cs" />
+    <Compile Include="Rom\enums\Terrain.cs" />
     <Compile Include="Rom\Item.cs" />
     <Compile Include="Rom\MoveLv7DChange.cs" />
     <Compile Include="Rom\MoveTypeAdvancedFlags.cs" />
@@ -93,7 +91,7 @@
     <Compile Include="UserData\RecyclerInfo.cs" />
     <Compile Include="UserData\Interfaces\IPokemonRecycler.cs" />
     <Compile Include="UserData\PokemonRecycler.cs" />
-    <Compile Include="enums\StatType.cs" />
+    <Compile Include="Rom\enums\StatType.cs" />
     <Compile Include="UserData\Interfaces\IPokemonCollection.cs" />
     <Compile Include="UserData\UserData.cs" />
     <Compile Include="UserData\UserDataRules.cs" />
@@ -107,15 +105,15 @@
     <Compile Include="Utilities\PokemonValidator.cs" />
     <Compile Include="Utilities\PokemonStatHelper.cs" />
     <Compile Include="DataService.cs" />
-    <Compile Include="enums\BattleType.cs" />
-    <Compile Include="enums\EggGroup.cs" />
-    <Compile Include="enums\MoveLearnMethod.cs" />
-    <Compile Include="enums\PokemonGender.cs" />
-    <Compile Include="enums\PokemonNature.cs" />
+    <Compile Include="Rom\enums\BattleType.cs" />
+    <Compile Include="Rom\enums\EggGroup.cs" />
+    <Compile Include="Rom\enums\MoveLearnMethod.cs" />
+    <Compile Include="Rom\enums\PokemonGender.cs" />
+    <Compile Include="Rom\enums\PokemonNature.cs" />
     <Compile Include="UserData\UserPokemonData.cs" />
     <Compile Include="ImageService.cs" />
-    <Compile Include="enums\MoveCategory.cs" />
-    <Compile Include="enums\MoveRange.cs" />
+    <Compile Include="Rom\enums\MoveCategory.cs" />
+    <Compile Include="Rom\enums\MoveRange.cs" />
     <Compile Include="Rom\MoveType.cs" />
     <Compile Include="UserData\PokemonCustomInfo.cs" />
     <Compile Include="Rom\PokemonType.cs" />

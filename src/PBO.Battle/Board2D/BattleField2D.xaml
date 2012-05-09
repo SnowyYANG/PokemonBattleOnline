@@ -5,7 +5,7 @@
              Height="192" Width="256" UseLayoutRounding="True" SnapsToDevicePixels="True" ClipToBounds="True">
     <Grid>
         <Image Source="/PBO.Battle;component/images/path.png" SnapsToDevicePixels="True" Width="256" Height="192"/>
-        <my:RPokemon2D x:Name="rpm" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,14,8,0" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
-        <my:OPokemon2D x:Name="opm" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,24,0,0" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+        <my:RPokemon2D x:Name="rpm" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,62,52,0" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+        <my:OPokemon2D x:Name="opm" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="101,120,0,0" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
     </Grid>
 </UserControl>

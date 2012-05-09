@@ -58,7 +58,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
           {
             var p = (sender as IControlPanel).ControllingPokemon;
             if (p == null) opms.SelectedIndex = -1;
-            else opms.SelectedIndex = p.Position.X;
+            else opms.SelectedIndex = p.X;
           }
         };
     }
