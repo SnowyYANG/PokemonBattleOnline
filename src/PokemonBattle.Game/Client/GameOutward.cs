@@ -38,7 +38,7 @@ namespace LightStudio.PokemonBattle.Game
     {
       foreach (var team in Board.Teams)
         foreach (var pm in team)
-          if (pm.Id == id) return pm;
+          if (pm != null && pm.Id == id) return pm;
       return null;
     }
     public void Update(ReportFragment turn)

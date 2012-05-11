@@ -41,7 +41,7 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
       Pokemon pm = game.Team.Pokemons.ValueOrDefault(Pm);
       if (pm != null)
         foreach (Move m in pm.Moves)
-          if (m.Type.Id == Move) m.PP.Value--;
+          if (m != null && m.Type.Id == Move) m.PP.Value--;
     }
   }
 }
