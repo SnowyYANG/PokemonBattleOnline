@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameInitSettings.cs" />
     <Compile Include="Lobby\ChatMessageReceivedEventArgs.cs" />
     <Compile Include="GameTimer.cs" />
     <Compile Include="Lobby\IBattleRoom.cs" />

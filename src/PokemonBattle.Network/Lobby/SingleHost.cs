@@ -19,7 +19,7 @@ namespace LightStudio.PokemonBattle.Messaging
     private Host host;
     private Player user;
 
-    public SingleHost(int adminId, Game.GameSettings settings)
+    public SingleHost(int adminId, GameInitSettings settings)
     {
       host = new Host(settings);
       host.SendInformation += (info, ids) => OnMessageSent(info.ToMessage(), ids);

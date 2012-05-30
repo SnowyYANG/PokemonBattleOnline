@@ -26,7 +26,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     Point lastPosition;
 
     /// <param name="settings">主动的话这个不应该是null么</param>
-    public StartBattle(PokemonLobbyClient client, User rival, GameSettings settings, bool isPassitive)
+    public StartBattle(PokemonLobbyClient client, User rival, Room.GameInitSettings settings, bool isPassitive)
     {
       InitializeComponent();
       DataContext = vm = new StartBattleVM(client, rival, settings, isPassitive);

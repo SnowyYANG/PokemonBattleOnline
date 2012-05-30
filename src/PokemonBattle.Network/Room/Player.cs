@@ -20,15 +20,17 @@ namespace LightStudio.PokemonBattle.Room
       : base(hostId)
     {
       listeners = new List<IPlayerControllerEvents>();
-      EnterSucceed += (uc) => game = new SimGame(LobbyService.User.Id, teamId, pokemons, Game.Settings);
     }
 
     public override UserRole Role
     { get { return UserRole.Player; } }
     public override IPlayerController PlayerController
     { get { return this; } }
-    protected void Input(int userId, ActionInput action)
+
+    protected override void InformEnterSucceed(GameInitSettings settings, int[] players, int[] spectators)
     {
+      base.InformEnterSucceed(settings, players, spectators);
+      game = new SimGame(LobbyService.User.Id, teamId, pokemons, Game.Settings, settings.NextId);
     }
 
     #region IPlayerController

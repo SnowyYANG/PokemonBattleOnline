@@ -2,23 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.IO;
 using System.Runtime.Serialization;
 using LightStudio.Tactic.Messaging;
-using LightStudio.PokemonBattle.Data;
+using LightStudio.PokemonBattle.Game;
 
-namespace LightStudio.PokemonBattle.Game
+namespace LightStudio.PokemonBattle.Room
 {
-  public interface IGameSettings
-  {
-    GameMode Mode { get; }
-    Terrain Terrain { get; }
-    double PPUp { get; }
-    IRule Rule { get; }
-  }
-  
   [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class GameSettings : IGameSettings, IMessagable
+  public class GameInitSettings : IGameSettings, IMessagable
   {
     private bool isLocked;
     private readonly IdGenerator idGen;
@@ -40,7 +31,7 @@ namespace LightStudio.PokemonBattle.Game
     /// <param name="mode"></param>
     /// <param name="ppUp"></param>
     /// <param name="terrain"></param>
-    public GameSettings(GameMode mode, double ppUp = 1.6, Terrain terrain = Terrain.Path)
+    public GameInitSettings(GameMode mode, double ppUp = 1.6, Terrain terrain = Terrain.Path)
     {
       idGen = new IdGenerator();
       rules = new List<Rule>();
@@ -66,7 +57,7 @@ namespace LightStudio.PokemonBattle.Game
       set { if (!isLocked) ppUp = value; }
     }
     public IEnumerable<Rule> ChosenRules
-    { 
+    {
       get
       {
         if (rules == null)
@@ -98,11 +89,33 @@ namespace LightStudio.PokemonBattle.Game
       ruleIds.Add(rule.Id);
       rules.Add(rule);
     }
-    public void SetIds(int[] ids)
+    internal void SetIds(int[] ids)
     {
       if (isLocked) return;
       idQue = new Queue<int>(ids);
       Lock();
+    }
+
+    private class CombinedRule : IRule
+    {
+      private List<IRule> rules;
+
+      public CombinedRule(IEnumerable<int> ids)
+      {
+        rules = new List<IRule>(ids.Count());
+        foreach (int i in ids)
+        {
+          Rule r = GameService.GetRule(i);
+          if (r != null) rules.Add(r);
+        }
+      }
+
+      public bool CanChangeState(PokemonProxy pm, PokemonState state)
+      {
+        foreach (IRule r in rules)
+          if (!r.CanChangeState(pm, state)) return false;
+        return true;
+      }
     }
   }
 }

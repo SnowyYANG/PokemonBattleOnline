@@ -28,7 +28,7 @@ namespace LightStudio.PokemonBattle.Game
         tileMap = new Tile[TeamCount, XBound];
         for (int i = 0; i < TeamCount; i++)
           for (int j = 0; j < XBound; j++)
-            tileMap[i, j] = new Tile(i, j);
+            tileMap[i, j] = new Tile(i, j, settings);
       }
       {
         fields = new Field[TeamCount];

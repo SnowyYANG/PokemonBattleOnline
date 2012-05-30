@@ -22,12 +22,12 @@ namespace LightStudio.PokemonBattle.Game
     public readonly Terrain Terrain;
 
     private readonly ObservableCollection<PokemonOutward>[] teams;
-    private readonly GameSettings settings;
+    private readonly IGameSettings settings;
     private Weather weather;
     
     private readonly List<IBoardOutwardEvents> listeners;
 
-    internal BoardOutward(GameSettings settings)
+    internal BoardOutward(IGameSettings settings)
     {
       this.settings = settings;
       teams = new ObservableCollection<PokemonOutward>[settings.Mode.TeamCount()];

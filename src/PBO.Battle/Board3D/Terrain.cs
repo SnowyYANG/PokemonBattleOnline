@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
+using LightStudio.PokemonBattle.Game;
 using Point = System.Windows.Point;
-using TerrainType = LightStudio.PokemonBattle.Data.Terrain;
 
 namespace LightStudio.PokemonBattle.PBO.Battle.Board3D
 {
@@ -53,7 +53,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle.Board3D
         TRIANGLE_INDICES.Freeze();
       }
     }
-    static Material GetMaterial(TerrainType terrain)
+    static Material GetMaterial(Terrain terrain)
     {
       return new DiffuseMaterial(Brushes.Blue);
     }
@@ -66,7 +66,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle.Board3D
     /// <param name="x"></param>
     /// <param name="r"></param>
     /// <param name="terrain"></param>
-    public Terrain3D(double z, double r, TerrainType terrain)
+    public Terrain3D(double z, double r, Terrain terrain)
     {
       MeshGeometry3D mesh = new MeshGeometry3D();
       Point3D p3d = new Point3D();

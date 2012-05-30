@@ -13,12 +13,12 @@ namespace LightStudio.PokemonBattle.Game
     public readonly int X;
     private int speed;
 
-    internal Tile(int team, int x)
+    internal Tile(int team, int x, IGameSettings gameSettings)
     {
       Team = team;
       X = x;
       speed = (team << 3) + x;
-      WillSendoutPokemonIndex = NOPM_INDEX;
+      WillSendoutPokemonIndex = gameSettings.Mode.GetPokemonIndex(x);
     }
 
     public PokemonProxy Pokemon

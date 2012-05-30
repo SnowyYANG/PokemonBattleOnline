@@ -18,7 +18,7 @@ namespace LightStudio.PokemonBattle.Messaging
     }
     private readonly Player user;
 
-    public SingleClient(int hostId, Game.GameSettings settings)
+    public SingleClient(int hostId)
     {
       HostId = hostId;
       user = new Player(hostId);

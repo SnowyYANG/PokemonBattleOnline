@@ -42,7 +42,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     DispatcherTimer timer;
     bool isWaiting;
 
-    public StartBattleVM(PokemonLobbyClient client, User rival, GameSettings settings, bool isPassive)
+    public StartBattleVM(PokemonLobbyClient client, User rival, GameInitSettings settings, bool isPassive)
     {
       this.client = client;
       Rival = rival;
@@ -75,7 +75,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     public ImageSource RivalAvatar { get; private set; }
     public MenuCommand OkCommand { get; private set; }
     public MenuCommand CancelCommand { get; private set; }
-    public GameSettings GameSettings { get; private set; }
+    public GameInitSettings GameSettings { get; private set; }
     public ReadOnlyObservableCollection<IPokemonFolder> Teams { get; private set; }
     public IPokemonFolder ChosenTeam
     {

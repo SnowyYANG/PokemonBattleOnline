@@ -20,9 +20,10 @@ namespace LightStudio.PokemonBattle.Room
     private readonly ObservableCollection<int> players;
     private readonly ObservableCollection<int> spectators;
     private readonly IGame game;
+    private readonly GameInitSettings gameSettings;
     private RoomState state;
     
-    public Host(GameSettings settings)
+    public Host(GameInitSettings settings)
     {
       dispatcher = new Dispatcher(true);
       users = new HashSet<int>();
@@ -30,8 +31,9 @@ namespace LightStudio.PokemonBattle.Room
       spectators = new ObservableCollection<int>();
       Players = new ReadOnlyObservableCollection<int>(players);
       Spectators = new ReadOnlyObservableCollection<int>(spectators);
-      game = GameFactory.CreateGame(settings);
+      game = GameFactory.CreateGame(settings, settings.NextId);
       game.ReportUpdated += InformReportUpdate;
+      gameSettings = settings;
     }
 
     public ReadOnlyObservableCollection<int> Spectators
@@ -171,9 +173,9 @@ namespace LightStudio.PokemonBattle.Room
           ids.Add(pm.StruggleId);
           ids.Add(pm.SwitchId);
         }
-        OnSendInformation(new EnterSucceedInfo(game.Settings, players.ToArray(), spectators.ToArray(), ids.ToArray()), userId);
+        OnSendInformation(new EnterSucceedInfo(gameSettings, players.ToArray(), spectators.ToArray(), ids.ToArray()), userId);
       }
-      else OnSendInformation(new EnterSucceedInfo(game.Settings, players.ToArray(), spectators.ToArray()), userId);
+      else OnSendInformation(new EnterSucceedInfo(gameSettings, players.ToArray(), spectators.ToArray()), userId);
     }
     void InformTimeUp(IList<int> breakers)
     {

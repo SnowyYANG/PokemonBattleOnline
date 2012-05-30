@@ -9,7 +9,7 @@ using LightStudio.Tactic.Messaging.Lobby;
 using LightStudio.Tactic.Serialization;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
-//using LightStudio.PokemonBattle.Room;
+using GameInitSettings = LightStudio.PokemonBattle.Room.GameInitSettings;
 
 namespace LightStudio.PokemonBattle.Messaging
 {
@@ -27,7 +27,7 @@ namespace LightStudio.PokemonBattle.Messaging
     private IBattleClient battleClient;
     private IBattleHost battleHost;
     private PokemonCustomInfo[] challengingPms;
-    private GameSettings currentSettings; //被挑战的临时游戏设置与此变量无关
+    private GameInitSettings currentSettings; //被挑战的临时游戏设置与此变量无关
 
     public PokemonLobbyClient(IPAddress serverAddress, int serverPort)
       : base(new TcpMessageClient(serverAddress, serverPort))
@@ -124,13 +124,13 @@ namespace LightStudio.PokemonBattle.Messaging
     #endregion
 
     #region Challenge
-    public event Action<User, GameSettings> Challenged = delegate { };
-    private void OnChallenged(int userId, GameSettings settings)
+    public event Action<User, GameInitSettings> Challenged = delegate { };
+    private void OnChallenged(int userId, GameInitSettings settings)
     {
       settings.Lock();
       Challenged(GetUser(userId), settings);
     }
-    public bool Challenge(int target, PokemonCustomInfo[] pokemons, GameSettings settings)
+    public bool Challenge(int target, PokemonCustomInfo[] pokemons, GameInitSettings settings)
     {
       User u = GetUser(target);
       if (u != null && u.State != UserState.Battling && pokemons != null && pokemons.Length > 0) //it's impossible for a client to get UserState.Invalid
@@ -205,7 +205,7 @@ namespace LightStudio.PokemonBattle.Messaging
         {
           SendMessage(ACCEPT_CHALLENGE, challenger);
           //假如对方房间还没设好怎么办...测试了似乎没问题？
-          battleClient = new SingleClient(challenger, currentSettings);
+          battleClient = new SingleClient(challenger);
           StartGame(pokemons);
           challengingPms = null;
           return true;

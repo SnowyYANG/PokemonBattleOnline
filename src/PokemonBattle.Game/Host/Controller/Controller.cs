@@ -24,6 +24,9 @@ namespace LightStudio.PokemonBattle.Game
     
     private Random random;
     private Action inputFinished;
+#if DEBUG
+    private Random randomSeeds;
+#endif
 
     internal Controller(GameContext game)
     {
@@ -32,7 +35,12 @@ namespace LightStudio.PokemonBattle.Game
       SwitchController = new SwitchController(this);
       InputController = new InputController(this);
       TurnController = new TurnController(this);
+#if DEBUG
+      randomSeeds = new Random(1);
+      random = new Random(randomSeeds.Next());
+#else
       random = new Random();
+#endif
     }
 
     public Board Board
@@ -111,7 +119,11 @@ namespace LightStudio.PokemonBattle.Game
     {
       if (InputController.NeedInput)
       {
+#if DEBUG
+        random = new Random(randomSeeds.Next());
+#else
         random = new Random();
+#endif
         ReportBuilder.NewFragment();
         if (ReportUpdated != null) ReportUpdated(ReportBuilder.GetFragment(), InputController.Players.ToArray());
         this.inputFinished = inputFinished;

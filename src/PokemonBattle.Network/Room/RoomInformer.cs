@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Room
     void InformUserQuit(int userId);
     void InformUserKicked(int userId);
     void InformEnterFailed(string message);//Join or Observe Game
-    void InformEnterSucceed(Game.GameSettings settings, int[] players, int[] spectators);
+    void InformEnterSucceed(GameInitSettings settings, int[] players, int[] spectators);
   }
 
   [DataContract(Namespace = Namespaces.DEFAULT)]
@@ -145,7 +145,7 @@ namespace LightStudio.PokemonBattle.Room
   class EnterSucceedInfo : IUserInformation
   {
     [DataMember(EmitDefaultValue = false)]
-    public Game.GameSettings Settings
+    public GameInitSettings Settings
     { get; private set; }
 
     [DataMember]
@@ -157,7 +157,7 @@ namespace LightStudio.PokemonBattle.Room
     [DataMember(EmitDefaultValue = false)]
     int[] Ids;
 
-    public EnterSucceedInfo(Game.GameSettings settings, int[] players, int[] spectators, int[] ids = null)
+    public EnterSucceedInfo(GameInitSettings settings, int[] players, int[] spectators, int[] ids = null)
     {
       this.Settings = settings;
       Players = players;

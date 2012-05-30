@@ -44,6 +44,7 @@
     <Compile Include="Client\SimPokemon.cs" />
     <Compile Include="Host\EModels\Sp\Conditions\BadlyPoison.cs" />
     <Compile Include="Host\EModels\Sp\Conditions\ConfuseFlinch.cs" />
+    <Compile Include="IGameSettings.cs" />
     <Compile Include="Interactive\GameEvents\DeIllusion.cs" />
     <Compile Include="Host\EModels\Sp\Conditions\Disable.cs" />
     <Compile Include="Host\EModels\Sp\Conditions\FlashFire.cs" />
@@ -97,7 +98,6 @@
     <Compile Include="Client\SimMove.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="GameSettings.cs" />
     <Compile Include="Interactive\AdditionalInfo.cs" />
     <Compile Include="IPlayerController.cs" />
     <Compile Include="Models\ConditionalObject.cs" />

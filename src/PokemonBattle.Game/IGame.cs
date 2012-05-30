@@ -16,7 +16,7 @@ namespace LightStudio.PokemonBattle.Game
     event Action<ReportFragment, int[]> ReportUpdated;
 
     bool Prepared { get; }
-    GameSettings Settings { get; }
+    IGameSettings Settings { get; }
 
     bool Start();
     void TryContinue();
@@ -27,9 +27,9 @@ namespace LightStudio.PokemonBattle.Game
   }
   public static class GameFactory
   {
-    public static IGame CreateGame(GameSettings settings)
+    public static IGame CreateGame(IGameSettings settings, Func<int> nextId)
     {
-      return new GameContext(settings);
+      return new GameContext(settings, nextId);
     }
   }
 }

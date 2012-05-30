@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using LightStudio.PokemonBattle.Game;
+using LightStudio.PokemonBattle.Room;
 
 namespace LightStudio.PokemonBattle.Messaging
 {
   internal static class IOExtensions
   {
-    public static GameSettings ReadSettings(this BinaryReader reader)
+    public static GameInitSettings ReadSettings(this BinaryReader reader)
     {
-      GameSettings s = new GameSettings((GameMode)reader.ReadByte());
+      GameInitSettings s = new GameInitSettings((GameMode)reader.ReadByte());
       s.PPUp = reader.ReadDouble();
       int n = reader.ReadInt32();
       while (n-- > 0)
@@ -19,7 +20,7 @@ namespace LightStudio.PokemonBattle.Messaging
       return s;
     }
 
-    public static void WriteSettings(this BinaryWriter writer, GameSettings settings)
+    public static void WriteSettings(this BinaryWriter writer, GameInitSettings settings)
     {
       writer.Write((byte)settings.Mode);
       writer.Write(settings.PPUp);

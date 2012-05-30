@@ -12,11 +12,11 @@ namespace LightStudio.PokemonBattle.Interactive
     public readonly Player Player;
     public readonly Team Team;
     public readonly SimPokemon[] OnboardPokemons;
-    public readonly GameSettings Settings;
+    public readonly IGameSettings Settings;
 
-    public SimGame(int userId, int teamId, PokemonCustomInfo[] pms, GameSettings settings)
+    public SimGame(int userId, int teamId, PokemonCustomInfo[] pms, IGameSettings settings, Func<int> nextId)
     {
-      Team = new Team(teamId, settings);
+      Team = new Team(teamId, settings, nextId);
       Player = Team.AddPlayer(userId, pms);
       OnboardPokemons = new SimPokemon[settings.Mode.XBound()];
       Settings = settings;

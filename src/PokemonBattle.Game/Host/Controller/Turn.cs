@@ -108,21 +108,13 @@ namespace LightStudio.PokemonBattle.Game
     }
     private void EndTurnCheckForInput()
     {
-      bool startNextTurn = true;
-      foreach(Tile t in Tiles)
-        if (t.Pokemon == null && Controller.CanSendout(t))
+      foreach (Tile t in Tiles)
+        if (t.Pokemon == null && (ReportBuilder.TurnNumber == 0 || Controller.CanSendout(t)))
         {
-          startNextTurn = false;
-          if (ReportBuilder.TurnNumber == 0)
-            t.WillSendoutPokemonIndex = GameSettings.Mode.GetPokemonIndex(t.X);
-          else
-          {
-            Controller.PauseForEndTurnInput(EndTurnSendout);
-            return;
-          }
+          EndTurnSendout();
+          return;
         }
-      if (startNextTurn) NextTurn();
-      else EndTurnSendout();//第0回合专用
+      NextTurn();
     }
     private void EndTurnSendout()
     {

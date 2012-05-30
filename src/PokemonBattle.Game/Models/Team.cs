@@ -10,12 +10,14 @@ namespace LightStudio.PokemonBattle.Game
     public readonly int Id;
     public readonly Dictionary<int, Pokemon> Pokemons;
     private readonly List<Player> players;
-    private readonly GameSettings settings;
+    private readonly IGameSettings settings;
+    private readonly Func<int> nextId;
 
-    internal Team(int id, GameSettings settings)
+    internal Team(int id, IGameSettings settings, Func<int> nextId)
     {
       Id = id;
       this.settings = settings;
+      this.nextId = nextId;
       players = new List<Player>();
       Pokemons = new Dictionary<int, Pokemon>();
     }
@@ -28,7 +30,7 @@ namespace LightStudio.PokemonBattle.Game
     {
       if (players.Count < settings.Mode.PlayersPerTeam())
       {
-        Player player = new Player(userId, this.Id, pokemons, settings);
+        Player player = new Player(userId, this.Id, pokemons, settings, nextId);
         if (HasPlayer(userId)) return null;
         players.Add(player);
         if (players.Count == settings.Mode.PlayersPerTeam())

@@ -81,13 +81,9 @@ namespace LightStudio.PokemonBattle.Room
     {
       EnterFailed(message);
     }
-    void IRoomInformer.InformEnterSucceed(Game.GameSettings settings, int[] players, int[] spectators)
+    void IRoomInformer.InformEnterSucceed(GameInitSettings settings, int[] players, int[] spectators)
     {
-      this.players = new ObservableCollection<int>(players);
-      this.spectators = new ObservableCollection<int>(spectators);
-      Players = new ReadOnlyObservableCollection<int>(this.players);
-      Spectators = new ReadOnlyObservableCollection<int>(this.spectators);
-      game = new GameOutward(settings);
+      InformEnterSucceed(settings, players, spectators);
       EnterSucceed(this);
     }
     void IGameInformer.InformTimeUp(IList<int> breakers)
@@ -106,6 +102,14 @@ namespace LightStudio.PokemonBattle.Room
       GameEnd();
     }
 
+    protected virtual void InformEnterSucceed(GameInitSettings settings, int[] players, int[] spectators)
+    {
+      this.players = new ObservableCollection<int>(players);
+      this.spectators = new ObservableCollection<int>(spectators);
+      Players = new ReadOnlyObservableCollection<int>(this.players);
+      Spectators = new ReadOnlyObservableCollection<int>(this.spectators);
+      game = new GameOutward(settings);
+    }
     protected virtual void InformReportUpdate(ReportFragment fragment)
     {
       if (RoomState != RoomState.GameStarted) RoomState = RoomState.GameStarted;

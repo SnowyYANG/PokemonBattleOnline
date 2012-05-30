@@ -19,12 +19,12 @@ namespace LightStudio.PokemonBattle.Game
     /// game start, or an observer
     /// </summary>
     public event Action LeapTurn;
-    public readonly GameSettings Settings;
+    public readonly IGameSettings Settings;
     public readonly BoardOutward Board;
     public readonly TeamOutward[] Teams;
     private readonly List<IGameOutwardEvents> listeners;
 
-    public GameOutward(GameSettings settings)
+    public GameOutward(IGameSettings settings)
     {
       Settings = settings;
       Board = new BoardOutward(Settings);

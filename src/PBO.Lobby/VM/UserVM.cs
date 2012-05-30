@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using LightStudio.Tactic.Messaging.Lobby;
 using LightStudio.PokemonBattle.Messaging;
+using LightStudio.PokemonBattle.Room;
 using LightStudio.PokemonBattle.PBO.UIElements;
 
 namespace LightStudio.PokemonBattle.PBO.Lobby
@@ -31,7 +32,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     }
     void Challenge()
     {
-      new StartBattle(client, Model, new Game.GameSettings(Game.GameMode.Single), false).Show();
+      new StartBattle(client, Model, new GameInitSettings(Game.GameMode.Single), false).Show();
     }
   }
 }

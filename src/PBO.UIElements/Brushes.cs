@@ -46,6 +46,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
       GeometryGroup gg = new GeometryGroup();
       gg.Children.Add(new LineGeometry(new Point(0.5, 0), new Point(0.5, size)));
       gg.Children.Add(new LineGeometry(new Point(1, 0.5), new Point(size, 0.5)));
+      b.Stretch = Stretch.None;
       b.Drawing = new GeometryDrawing(null, new Pen(Color, 1), gg);
       b.Viewport = new Rect(0, 0, size, size);
       b.ViewportUnits = BrushMappingMode.Absolute;
@@ -56,8 +57,8 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
     {
       DrawingBrush b = new DrawingBrush();
       DrawingGroup dg = new DrawingGroup();
-      dg.Children.Add(new GeometryDrawing(null, new Pen(System.Windows.Media.Brushes.Transparent, 1), new LineGeometry(new Point(0.5, 0), new Point(0.5, size))));
       dg.Children.Add(new GeometryDrawing(null, new Pen(Color, 1), new LineGeometry(new Point(0, 0.5), new Point(1, 0.5))));
+      b.Stretch = Stretch.None;
       b.Drawing = dg;
       b.Viewport = new Rect(0, 0, 1, size);
       b.ViewportUnits = BrushMappingMode.Absolute;

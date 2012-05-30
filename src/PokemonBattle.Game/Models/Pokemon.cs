@@ -38,9 +38,9 @@ namespace LightStudio.PokemonBattle.Game
     public readonly int StruggleId;
     public readonly int SwitchId;
 
-    internal Pokemon(Player owner, PokemonCustomInfo custom, GameSettings settings)
+    internal Pokemon(Player owner, PokemonCustomInfo custom, IGameSettings settings, Func<int> nextId)
     {
-      Id = settings.NextId();
+      Id = nextId();
       Owner = owner;
       TeamId = owner.TeamId;
 
@@ -55,9 +55,9 @@ namespace LightStudio.PokemonBattle.Game
         Moves = new Move[4];
         int i = 0;
         foreach (int moveId in custom.MoveIds)
-          if (i < 4) Moves[i++] = new Move(moveId, settings);
-        StruggleId = settings.NextId();
-        SwitchId = settings.NextId();
+          if (i < 4) Moves[i++] = new Move(nextId(), moveId, settings);
+        StruggleId = nextId();
+        SwitchId = nextId();
       }
 
       Base = new ReadOnly6D(PokemonType.BaseHp, PokemonType.BaseAtk, PokemonType.BaseDef, PokemonType.BaseSpAtk, PokemonType.BaseSpDef, PokemonType.BaseSpeed);
