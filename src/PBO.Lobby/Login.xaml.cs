@@ -125,6 +125,12 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     private void textNameHidden(object sender, RoutedEventArgs e)
     {
         this.textName.Visibility = Visibility.Hidden;
-    }  
+    }
+
+    private void servers_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+            button_Click(sender, e);
+    }
   }
 }

@@ -15,7 +15,7 @@
         <TextBlock Name="textName" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="70,10,0,0" Text="{Binding [Username], Source={x:Static pm:DataService.String}}" Foreground="Gray"/>
         <TextBox Name="name" GotFocus="textNameHidden" LostFocus="textNameVisible" VerticalAlignment="Top" Margin="70,6,3,0" BorderThickness="0,0,0,1" FontSize="14" Background="{x:Null}" />
         <Button Name="button" Content="{Binding [Login], Source={x:Static pm:DataService.String}}" Click="button_Click" HorizontalContentAlignment="Left" Padding="30,0" FontWeight="Bold" VerticalAlignment="Bottom" Height="30" Background="#FFC4C4C4" BorderBrush="White" />
-        <ComboBox Name="servers" IsEditable="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" VerticalContentAlignment="Center" Height="30" BorderThickness="0" Background="{x:Null}">
+        <ComboBox Name="servers" IsEditable="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" VerticalContentAlignment="Center" Height="30" BorderThickness="0" Background="{x:Null}" SelectionChanged="servers_SelectionChanged" KeyDown="servers_KeyDown">
             <ComboBoxItem Content="221.137.62.252" IsSelected="True"/>
             <ComboBoxItem Content="127.0.0.1"/>
         </ComboBox>
