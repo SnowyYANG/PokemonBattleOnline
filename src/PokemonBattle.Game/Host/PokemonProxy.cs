@@ -69,15 +69,9 @@ namespace LightStudio.PokemonBattle.Game
       }
     }
     public IAbilityE Ability
-    { 
-      get
-      {
-        if (Tile == null || OnboardPokemon.HasCondition("GastroAcid")) return GameService.NULL_ABILITY;
-        return GameService.GetAbility(OnboardPokemon.Ability);
-      }
-    }
+    { get { return Tile == null || OnboardPokemon.HasCondition("GastroAcid") ? GameService.NULL_ABILITY : GameService.GetAbility(OnboardPokemon.Ability); } }
     public IItemE Item
-    { get { return GameService.GetItem(Pokemon.Item); } }
+    { get { return Tile == null || OnboardPokemon.HasCondition("Detain") ? GameService.NULL_ITEM : GameService.GetItem(Pokemon.Item); } }
     public MoveProxy[] Moves
     { get; private set; }
     public MoveProxy StruggleMove
@@ -296,14 +290,16 @@ namespace LightStudio.PokemonBattle.Game
       OnboardPokemon.SetCondition("UsedItem", Pokemon.Item);
       Pokemon.Item = null;
     }
-    public void CheckFaint()
+    public bool CheckFaint()
     {
       if (Hp == 0)
       {
         Controller.Withdraw(this, false);
         State = PokemonState.Faint;
         Controller.Board[Pokemon.TeamId].SetCondition("LastFaintTurn", Controller.TurnNumber);
+        return true;
       }
+      return false;
     }
     private void ChangeLv7D(PokemonProxy by, StatType stat, int change)
     {

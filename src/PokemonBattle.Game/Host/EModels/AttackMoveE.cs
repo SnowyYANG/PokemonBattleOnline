@@ -18,13 +18,23 @@ namespace LightStudio.PokemonBattle.Game
 
     private void Implement(IEnumerable<DefContext> defs)
     {
-      if (defs.Count() > 0)
+      if (defs.Count() == 0) return;
+      DefContext def = defs.First();
+      if (Move.Class == MoveInnerClass.OHKO && !Sp.Conditions.Substitute.OHKO(def))
       {
-        DefContext def = defs.First();
+        def.Damage = def.Defender.Hp;
+        MoveHurts e = new MoveHurts();
+        def.Defender.MoveHurt(def);
+        e.SetHurt(defs);
+        def.Defender.Controller.ReportBuilder.Add("OHKO");
+        ImplementEffect(def);
+      }
+      else
+      {
         AtkContext atk = def.AtkContext;
         PokemonProxy a = atk.Attacker;
-        int m = atk.Times + 1;
-        while (--m > 0)
+        int m = 0;
+        do
         {
           bool allSub = true;
           foreach (DefContext d in defs)
@@ -42,19 +52,20 @@ namespace LightStudio.PokemonBattle.Game
               d.Defender.MoveHurt(d);
             e.SetHurt(defs);
           }
-          
+
           if (Move.HurtPercentage > 0)
             a.DamagePercentage(def, Move.HurtPercentage);
           if (Move.Class == MoveInnerClass.AttackWithSelfLv7DChange)
             a.ChangeLv7D(atk);
 
           foreach (DefContext d in defs)
-          {
             if (!d.HitSubstitute) ImplementEffect(d);
-            if (def.AtkContext.Times > 1)
-              ; //攻击了x次
-          }
-        }// while --m
+          m++;
+          if (def.Defender.Hp == 0 || a.Hp == 0 || a.State == PokemonState.Sleeping || a.State == PokemonState.Frozen)
+            break;
+        } while (m < atk.Times);
+        if (Move.MaxTimes > 1)
+          a.Controller.ReportBuilder.Add("Hits", a, m.ToString());
 
         if (a.Hp > 0)
         {
@@ -65,7 +76,7 @@ namespace LightStudio.PokemonBattle.Game
             a.Controller.ReportBuilder.Add(new HpChange(a, "ReHurt"));
           }
         }
-      }//if (def.Count() > 0)
+      }// else OHKO
     }
     public override void Execute(PokemonProxy pm)
     {
@@ -85,7 +96,7 @@ namespace LightStudio.PokemonBattle.Game
         if (atk.Targets == null) goto DONE;
       }
 
-      Calculate(atk);
+      if (Move.Class != MoveInnerClass.OHKO) Calculate(atk);
 
       int atkTeam = atk.Attacker.Pokemon.TeamId;
       Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
@@ -144,7 +155,7 @@ namespace LightStudio.PokemonBattle.Game
       else if (atk.Type == BattleType.Electric && pm.Controller.Board.HasCondition("MudSport"))
         atk.Power >>= 1;
       //计算防御方对威力的修正
-      if (atk.Power > 1) //固定伤害
+      if (atk.Power > 1)
         foreach (DefContext def in atk.Targets)
           Abilities.CalculatePowerRevise(def);    
       
@@ -256,7 +267,7 @@ namespace LightStudio.PokemonBattle.Game
       atk.Attacker.CheckFaint();
       d.CheckFaint();
       Abilities.CheckMoxie(def);
-      if (def.AtkContext.Times > 1) d.Item.HpChanged(d);
+      if (Move.MaxTimes > 1) d.Item.HpChanged(d);
     }
     protected virtual void PostEffect(AtkContext atk)
     {
