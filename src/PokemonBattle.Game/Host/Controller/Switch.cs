@@ -42,6 +42,7 @@ namespace LightStudio.PokemonBattle.Game
         pm.Tile = null;
         Controller.OnboardPokemons.Remove(pm);
         ReportBuilder.Add(new Withdraw(pm));
+        Sp.Abilities.Withdrawn(pm);
         return true;
       }
       return false;

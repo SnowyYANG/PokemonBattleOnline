@@ -8,22 +8,18 @@ namespace LightStudio.PokemonBattle.Game.Sp
 {
   public static class Moves
   {
-    const int SOLORBEAM = 76;
-    const int TRI_ATTACK = 161;
     public const int STRUGGLE = 165;
-    const int SNORE = 173;
-    const int SLEEP_TALK = 214;
-    const int FOCUS_PUNCH = 264;
-    const int FOUL_PLAY = 492;
 
     public static bool AvailableEvenSleeping(this MoveProxy move)
     {
+      const int SNORE = 173;
+      const int SLEEP_TALK = 214;
       return move.Type.Id == SLEEP_TALK || move.Type.Id == SNORE;
     }
 
     public static void PreMove(this MoveProxy move)
     {
-      if (move.Type.Id == FOCUS_PUNCH)
+      if (move.Type.Id == 264)
       {
       }
     }
@@ -31,7 +27,7 @@ namespace LightStudio.PokemonBattle.Game.Sp
     public static bool CalculateFoulPlayAtk(AtkContext atk)
     {
       PokemonProxy pm = atk.Target.Defender;
-      if (atk.Move.Id == FOUL_PLAY && pm != null)
+      if (atk.Move.Id == 492 && pm != null)
       {
         atk.AtkRaw = atk.Attacker.OnboardPokemon.Static.Atk;
         atk.AtkRaw = (int)(atk.AtkRaw * atk.Attacker.Ability.Get5DRevise(pm, StatType.Atk));
@@ -42,14 +38,14 @@ namespace LightStudio.PokemonBattle.Game.Sp
     }
     public static void CheckSolarbeam(AtkContext atk)
     {
-      if (atk.Move.Id == SOLORBEAM)
+      if (atk.Move.Id == 76)
       {
       }
     }
     public static bool CheckTriAttack(DefContext def)
     {
       Controller c = def.Defender.Controller;
-      if (def.AtkContext.Move.Id == TRI_ATTACK)
+      if (def.AtkContext.Move.Id == 161)
       {
         if (c.OneNth(5))
         {

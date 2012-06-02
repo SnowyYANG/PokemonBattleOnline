@@ -122,6 +122,14 @@ namespace LightStudio.PokemonBattle.Game.Sp
         }
       }
     }
+    public static void Withdrawn(PokemonProxy pm)
+    {
+#warning SimGame更新
+      const int NATURAL_CURE = 84;
+      const int REGENERATOR = 104;
+      if (pm.Ability.Id == NATURAL_CURE) pm.Hp += pm.Pokemon.Hp.Origin / 3;
+      else if (pm.Ability.Id == REGENERATOR) pm.Pokemon.State = PokemonState.Normal;
+    }
     public static void CalculatePowerRevise(DefContext def)
     {
       //如果防御方是耐热特性，攻击方火属性技能威力×0.5。
@@ -134,10 +142,10 @@ namespace LightStudio.PokemonBattle.Game.Sp
       int id = def.Ability.Id;
       if (type == BattleType.Fire)
       {
-        if (id == HEATPROOF || id == THICK_FAT) def.PowerRevise = 0.5d;
-        else if (id == DRY_SKIN) def.PowerRevise = 1.25d;
+        if (id == HEATPROOF || id == THICK_FAT) def.PowerRevise *= 0.5d;
+        else if (id == DRY_SKIN) def.PowerRevise *= 1.25d;
       }
-      else if (id == THICK_FAT && type == BattleType.Ice) def.PowerRevise = 0.5d;
+      else if (id == THICK_FAT && type == BattleType.Ice) def.PowerRevise *= 0.5d;
     }
     public static bool CalculateType(AtkContext atk)
     {
