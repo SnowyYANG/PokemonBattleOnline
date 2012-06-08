@@ -18,7 +18,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT</a:Key><a:Value i:type="LogText"><text>命中了{0}的要害！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT_s</a:Key><a:Value i:type="LogText"><text>打中了要害！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>OHKO</a:Key><a:Value i:type="LogText"><text>一击必杀！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Hits</a:Key><a:Value i:type="LogText"><text>{1}连击！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Hits</a:Key><a:Value i:type="LogText"><text>{0}连击！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnSleeping</a:Key><a:Value i:type="LogText"><text>{0}睡着了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Sleeping</a:Key><a:Value i:type="LogText"><text>{0}睡得很香...
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeSleeping</a:Key><a:Value i:type="LogText"><text>{0}醒了过来！
@@ -68,9 +68,11 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Prepare507</a:Key><a:Value i:type="LogText"><text>{0}把{1}带到空中去了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Prepare553</a:Key><a:Value i:type="LogText"><text>{0}被寒光笼罩！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Prepare554</a:Key><a:Value i:type="LogText"><text>{0}被寒气笼罩！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SkyDropFree</a:Key><a:Value i:type="LogText"><text>{0}从自由下落中解除了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Earthquake</a:Key><a:Value i:type="LogText"><text>震级{0}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeIllusion</a:Key><a:Value i:type="LogText"><text>{0}的幻影解除了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>RaiseItem</a:Key><a:Value i:type="LogText"><text>{0}使用了{1}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Gem</a:Key><a:Value i:type="LogText"><text>{0}提高了技能的威力！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnBalloon</a:Key><a:Value i:type="LogText"><text>{0}使用气球浮在空中！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>PowerHerb</a:Key><a:Value i:type="LogText"><text>{0}使用了力量香草！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Ability</a:Key><a:Value i:type="LogText"><text>{0}的{1}特性——</text></a:Value></a:KeyValueOfstringanyType></logs></GameLogs>

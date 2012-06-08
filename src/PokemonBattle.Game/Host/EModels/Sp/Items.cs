@@ -13,11 +13,14 @@ namespace LightStudio.PokemonBattle.Game.Sp
     const int EJECT_BUTTON = 111;
     #endregion
 
+    static Items()
+    {
+    }
+
     private static void RaiseItem(this PokemonProxy pm, string key = "RaiseItem")
     {
-      pm.Controller.ReportBuilder.Add(key, pm, pm.Pokemon.Item.GetLocalizedName());
-      if (pm.Pokemon.Item.Type != ItemType.Normal)
-        pm.ConsumeItem();
+      pm.Controller.ReportBuilder.Add(new Interactive.GameEvents.UseItem(key, pm));
+      if (pm.Pokemon.Item.Type != ItemType.Normal) pm.ConsumeItem();
     }
     public static void RaiseItem(this PokemonProxy pm)
     {
@@ -100,6 +103,15 @@ namespace LightStudio.PokemonBattle.Game.Sp
       const int KINGS_ROCK = 10, RAZOR_FANG = 97;
       int item = def.AtkContext.Attacker.Item.Id;
       return (item == KINGS_ROCK || item == RAZOR_FANG) && def.Defender.Controller.GetRandomInt(0, 9) == 0;
+    }
+    public static bool CheckPowerHerb(PokemonProxy pm)
+    {
+      if (pm.Item.Id == 48)
+      {
+        RaiseItem(pm, "PowerHerb");
+        return true;
+      }
+      return false;
     }
   }
 }

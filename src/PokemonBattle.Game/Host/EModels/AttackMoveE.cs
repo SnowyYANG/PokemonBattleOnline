@@ -11,8 +11,8 @@ namespace LightStudio.PokemonBattle.Game
 {
   public class AttackMoveE : MoveE
   {
-    public AttackMoveE(MoveType move)
-      : base(move)
+    public AttackMoveE(int moveId)
+      : base(DataService.GetMoveType(moveId))
     {
     }
 
@@ -65,7 +65,7 @@ namespace LightStudio.PokemonBattle.Game
             break;
         } while (m < atk.Times);
         if (Move.MaxTimes > 1)
-          a.Controller.ReportBuilder.Add("Hits", a, m.ToString());
+          a.Controller.ReportBuilder.Add("Hits", m.ToString());
 
         if (a.Hp > 0)
         {
@@ -80,9 +80,11 @@ namespace LightStudio.PokemonBattle.Game
     }
     public override void Execute(PokemonProxy pm)
     {
-      if (Move.AdvancedFlags.PrepareOneTurn && PrepareOneTurn(pm))
+      if (pm.AtkContext == null) pm.AtkContext = new AtkContext(pm, Move);
+      if (Move.AdvancedFlags.PrepareOneTurn && PrepareOneTurn(pm) && !Sp.Items.CheckPowerHerb(pm))
         return;
-      AtkContext atk = new AtkContext(pm, Move);
+      AtkContext atk = pm.AtkContext;
+      pm.OnboardPokemon.CoordY = CoordY.Plate;
       if (!Abilities.CalculateType(atk)) CalculateType(atk);
       var targets = GetRangeTiles(atk).ToArray();
       if (targets.Length == 0)
@@ -112,7 +114,13 @@ namespace LightStudio.PokemonBattle.Game
 
     protected virtual bool PrepareOneTurn(PokemonProxy pm)
     {
-      throw new NotImplementedException();
+      if (pm.Action == PokemonAction.MoveAttached)
+      {
+        pm.AddReportPm("Prepare" + Move.Id.ToString());
+        pm.Action = PokemonAction.Moving;
+        return true;
+      }
+      return false;
     }
     protected virtual void CalculatePower(AtkContext atk)
     {
@@ -174,7 +182,6 @@ namespace LightStudio.PokemonBattle.Game
         if (type == BattleType.Water) atk.DamageRevise1.Enqueue(1.5);
         else if (type == BattleType.Fire) atk.DamageRevise1.Enqueue(0.5);
       }
-      Moves.CheckSolarbeam(atk);
       //引火
       Sp.Conditions.FlashFire.ReviseDamage1(atk);
       //宝石、节拍器、生命玉

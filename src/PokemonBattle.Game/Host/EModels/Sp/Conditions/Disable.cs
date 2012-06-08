@@ -22,7 +22,10 @@ namespace LightStudio.PokemonBattle.Game.Sp.Conditions
       //If the targeted move has no PP left, Disable fails.
       //Only one move can be Disabled per Pokémon at any given time.
       if (MoveId == pm.SelectedMove.Type.Id)
+      {
+        pm.Controller.ReportBuilder.Add(new Interactive.GameEvents.ToPlate("Disable", pm));
         return false;
+      }
       return true;
     }
     public override void EndTurn()

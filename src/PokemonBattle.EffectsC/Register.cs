@@ -16,13 +16,20 @@ namespace LightStudio.PokemonBattle.Effects
     public static void Register()
     {
         GameService.Register(new Illusion());
-        GameService.Register(new GrassKnot(DataService.GetMoveType(447)));
-        GameService.Register(new GrassKnot(DataService.GetMoveType(67)));
-        GameService.Register(new SpRangeMove(DataService.GetMoveType(87), CoordY.Air));
-        GameService.Register(new SpRangeMove(DataService.GetMoveType(327), CoordY.Air));
-        GameService.Register(new SpRangeMove(DataService.GetMoveType(542), CoordY.Air));
-        GameService.Register(new SpRangeMove(DataService.GetMoveType(479), CoordY.Air));
-        
+
+        GameService.Register(new GrassKnot(447));
+        GameService.Register(new GrassKnot(67));
+        GameService.Register(new SpRangeMove(87, CoordY.Air));
+        GameService.Register(new SpRangeMove(327, CoordY.Air));
+        GameService.Register(new SpRangeMove(542, CoordY.Air));
+        GameService.Register(new SpRangeMove(479, CoordY.Air));
+        GameService.Register(new Leap(340, CoordY.Air));//bounce
+        GameService.Register(new Leap(19, CoordY.Air));//fly
+        GameService.Register(new Leap(291, CoordY.Water));//dives
+        GameService.Register(new Leap(91, CoordY.Underground));//dig
+        GameService.Register(new Leap(467, CoordY.Another));//shadow
+        GameService.Register(new SolarBeam());
+        GameService.Register(new SkullBash());
     }
   }
 }

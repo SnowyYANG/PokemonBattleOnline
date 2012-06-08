@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.Game.Sp.Conditions
       } 
       if (pm.Controller.OneNth(2))
       {
-        //自伤
+        //自伤，送回战斗平面
         return false;
       }
       return true;

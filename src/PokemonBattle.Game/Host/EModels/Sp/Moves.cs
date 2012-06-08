@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
+using LightStudio.PokemonBattle.Interactive.GameEvents;
 
 namespace LightStudio.PokemonBattle.Game.Sp
 {
@@ -36,12 +37,6 @@ namespace LightStudio.PokemonBattle.Game.Sp
       }
       return false;
     }
-    public static void CheckSolarbeam(AtkContext atk)
-    {
-      if (atk.Move.Id == 76)
-      {
-      }
-    }
     public static bool CheckTriAttack(DefContext def)
     {
       Controller c = def.Defender.Controller;
@@ -56,6 +51,15 @@ namespace LightStudio.PokemonBattle.Game.Sp
         return true;
       }
       return false;
+    }
+    public static void CheckSkyDrop(AtkContext atk)
+    {
+      if (atk.Move.Id == 507)
+      {
+        var d = atk.Target.Defender;
+        d.OnboardPokemon.CoordY = CoordY.Plate;
+        d.Controller.ReportBuilder.Add(new ToPlate("SkyDropFree", d));
+      }
     }
   }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LightStudio.PokemonBattle.Interactive.GameEvents;
 
 namespace LightStudio.PokemonBattle.Game.Sp.Conditions
 {
@@ -14,7 +15,7 @@ namespace LightStudio.PokemonBattle.Game.Sp.Conditions
         p.AddReportPm("Paralyzed");
         if (p.Controller.OneNth(4))
         {
-          p.AddReportPm("ParalyzedWork");
+          p.Controller.ReportBuilder.Add(new ToPlate("ParalyzedWork", p));
           return false;
         }
       }

@@ -18,11 +18,10 @@ namespace LightStudio.PokemonBattle.Game.Sp.Conditions
       count--;
       if (pm.Ability.EarlyBird()) count--;
       pm.OnboardPokemon.SetCondition("Sleeping", count);
-      if (count <= 0)
-        pm.State = PokemonState.Normal; //auto Remove
+      if (count <= 0) pm.State = PokemonState.Normal; //auto Remove
       else
       {
-        AddReportPm("Sleeping");
+        AddReport(new Interactive.GameEvents.ToPlate("Sleeping", pm));
         if (!pm.SelectedMove.AvailableEvenSleeping())//梦话打鼾
           return false;
       }

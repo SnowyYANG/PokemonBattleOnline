@@ -46,20 +46,10 @@ namespace LightStudio.PokemonBattle.Game
       }
     } //PP>0
 
-    public void Attach()
+    public void Execute()
     {
-      e.Attach();
-    }
-    public void Act()
-    {
-      if (Owner.CanExecute())
-      {
-        Owner.Controller.ReportBuilder.Add(new Interactive.GameEvents.UseMove(this));
-        if (Move.Type.Id != Sp.Moves.STRUGGLE)
-          Move.PP.Value--;
-        e.Execute(Owner);
-      }
-      else Owner.Action = PokemonAction.Done;
+      Owner.Controller.ReportBuilder.Add(new Interactive.GameEvents.UseMove(this));
+      e.Execute(Owner);
     }
   }
 }

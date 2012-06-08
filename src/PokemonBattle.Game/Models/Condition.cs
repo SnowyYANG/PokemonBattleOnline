@@ -34,6 +34,10 @@ namespace LightStudio.PokemonBattle.Game
       this.pm = pm;
     }
 
+    protected void AddReport(Interactive.GameEvent e)
+    {
+      pm.Controller.ReportBuilder.Add(e);
+    }
     protected void AddReportPm(string key)
     {
       pm.AddReportPm(key);

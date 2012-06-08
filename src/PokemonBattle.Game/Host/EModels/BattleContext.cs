@@ -53,6 +53,11 @@ namespace LightStudio.PokemonBattle.Game
     public DefContext Target
     { get; private set; }
 
+    internal void Execute()
+    {
+      Controller.ReportBuilder.Add(new Interactive.GameEvents.ToPlate("UseMove", Attacker, Move.GetLocalizedName()));
+      GameService.GetMove(Move.Id).Execute(Attacker);
+    }
     public void SetTargets(IEnumerable<DefContext> targets)
     {
       if (Targets == null)

@@ -68,6 +68,16 @@ namespace LightStudio.PokemonBattle.Game
           AddReport(new Interactive.GameEvents.StateChange(this));
       }
     }
+    private AtkContext atkContext;
+    public AtkContext AtkContext
+    { 
+      get { return atkContext; }
+      set
+      {
+        if (atkContext == null)
+          atkContext = value;
+      }
+    }
     public IAbilityE Ability
     { get { return Tile == null || OnboardPokemon.HasCondition("GastroAcid") ? GameService.NULL_ABILITY : GameService.GetAbility(OnboardPokemon.Ability); } }
     public IItemE Item
@@ -218,19 +228,23 @@ namespace LightStudio.PokemonBattle.Game
     {
       if (!CanActMove) return;
       lastActTurn = Controller.TurnNumber;
-      switch(Action)
+      switch (Action)
       {
-        case PokemonAction.MoveAttached:
-          Action = PokemonAction.Moving;
-          SelectedMove.Act();
-          break;
-        case PokemonAction.Moving:
-#warning 多回合技能
-          System.Diagnostics.Debugger.Break();
-          Action = PokemonAction.Done;
-          break;
         case PokemonAction.Stiff:
           Action = PokemonAction.Done;
+          break;
+        case PokemonAction.Moving:
+          bool c = CanExecute();
+          Sp.Moves.CheckSkyDrop(AtkContext);
+          if (c) AtkContext.Execute();
+          else OnboardPokemon.CoordY = CoordY.Plate;
+          break;
+        case PokemonAction.MoveAttached:
+          if (!CanExecute()) goto case PokemonAction.Stiff;
+          if (SelectedMove.Move.Id != Sp.Moves.STRUGGLE)
+            SelectedMove.PP--;
+          atkContext = null;
+          SelectedMove.Execute();
           break;
       }
     }

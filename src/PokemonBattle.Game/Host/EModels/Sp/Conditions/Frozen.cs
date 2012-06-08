@@ -16,7 +16,7 @@ namespace LightStudio.PokemonBattle.Game.Sp.Conditions
           p.State = PokemonState.Normal;
         else
         {
-          p.AddReportPm("Frozen");
+          p.Controller.ReportBuilder.Add(new Interactive.GameEvents.ToPlate("Frozen", p));
           return false;
         }
       }

@@ -29,6 +29,7 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     public override void Update(GameOutward game)
     {
       pm = game.GetPokemon(Pm);
+      pm.ChangePosition(pm.Position.X, CoordY.Plate);
     }
     public override IText GetGameLog()
     {

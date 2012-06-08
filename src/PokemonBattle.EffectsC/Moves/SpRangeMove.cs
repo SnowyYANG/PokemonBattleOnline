@@ -12,8 +12,8 @@ namespace LightStudio.PokemonBattle.Effects.Moves
     {
       CoordY y;
         
-        public SpRangeMove(MoveType  m, CoordY y)
-            : base(m)
+        public SpRangeMove(int mId, CoordY y)
+            : base(mId)
         {
             this.y = y;
             

@@ -27,7 +27,7 @@ namespace LightStudio.PokemonBattle.Game
     protected virtual void RaiseImpl(PokemonProxy pm)
     {
       if (LogKey != null)
-        pm.Controller.ReportBuilder.Add(LogKey, pm, Item.GetLocalizedName());
+        pm.Controller.ReportBuilder.Add(new Interactive.GameEvents.UseItem(LogKey, pm, Item));
     }
     public void Raise(PokemonProxy pm) //不必包含虫食、啄食、投掷
     {

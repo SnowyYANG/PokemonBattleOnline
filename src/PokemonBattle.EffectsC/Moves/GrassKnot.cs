@@ -10,8 +10,8 @@ namespace LightStudio.PokemonBattle.Effects.Moves
 {
     class GrassKnot : AttackMoveE
     {
-        public GrassKnot(MoveType move)
-            :base(move)
+        public GrassKnot(int moveId)
+            :base(moveId)
         {
         }
 

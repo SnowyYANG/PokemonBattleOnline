@@ -103,7 +103,7 @@ namespace LightStudio.PokemonBattle.Game
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
-    public void PositionChanged(int x, CoordY y)
+    public void ChangePosition(int x, CoordY y)
     {
       Position.X = x;
       Position.Y = y;

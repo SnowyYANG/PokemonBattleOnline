@@ -13,13 +13,24 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     [DataMember]
     string Key;
 
-    public SimpleEvent(string gameLogKey)
+    [DataMember(EmitDefaultValue = false)]
+    string Arg;
+
+    [DataMember(EmitDefaultValue = false)]
+    string[] Args;
+
+    public SimpleEvent(string gameLogKey, string[] args)
     {
       Key = gameLogKey;
+      if (args.Length == 1) Arg = args[0];
+      else if (args.Length > 1) Args = args;
     }
     public override IText GetGameLog()
     {
-      return GetGameLog(Key);
+      var t = GetGameLog(Key);
+      if (Arg != null) t.SetData(Arg);
+      else if (Args != null) t.SetData(Args);
+      return t;
     }
   }
   
@@ -29,8 +40,8 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     [DataMember]
     string Key;
 
-    [DataMember]
-    int Pm;
+    [DataMember(EmitDefaultValue = false)]
+    protected int Pm;
 
     [DataMember(EmitDefaultValue = false)]
     string Arg;
@@ -46,7 +57,7 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
       else if (args.Length > 1) Args = args;
     }
 
-    private PokemonOutward pm;
+    protected PokemonOutward pm;
     public override void Update(GameOutward game)
     {
       pm = game.GetPokemon(Pm);

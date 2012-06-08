@@ -189,4 +189,62 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
       return new LogText(ts.ToArray());
     }
   }
+
+  [DataContract(Namespace = Namespaces.DEFAULT)]
+  public class ToPlate : PmEvent
+  {
+    public ToPlate(string gameLogKey, PokemonProxy pm, params string[] args)
+      : base(gameLogKey, pm, args)
+    {
+    }
+    
+    public override void Update(GameOutward game)
+    {
+      base.Update(game);
+      pm.ChangePosition(pm.Position.X, CoordY.Plate);
+    }
+  }
+
+  [DataContract(Namespace = Namespaces.DEFAULT)]
+  public class UseItem : GameEvent
+  {
+    [DataMember]
+    string Key;
+    [DataMember]
+    int Pm;
+    [DataMember(EmitDefaultValue = false)]
+    int Item;
+
+    public UseItem(string logKey, PokemonProxy pm)
+    {
+      Key = logKey;
+      Pm = pm.Id;
+    }
+    public UseItem(string logKey, PokemonProxy pm, Item i)
+      : this(logKey, pm)
+    {
+      Item = i.Id;
+    }
+    private PokemonOutward pm;
+    private Item i;
+    public override void Update(GameOutward game)
+    {
+      pm = game.GetPokemon(Pm);
+      if (Item > 0) i = DataService.GetItem(Item);
+    }
+    public override IText GetGameLog()
+    {
+      IText t = GetGameLog(Key);
+      t.SetData(pm, i);
+      return t;
+    }
+    public override void Update(SimGame game)
+    {
+      if (i == null) return;
+      var pm = game.Team.Pokemons.ValueOrDefault(Pm);
+      if (pm != null && i.Type != ItemType.Normal)
+        pm.Item = null;
+    }
+  }
 }
+

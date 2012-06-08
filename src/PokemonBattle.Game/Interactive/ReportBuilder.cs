@@ -62,9 +62,9 @@ namespace LightStudio.PokemonBattle.Interactive
     {
       Add(new PmEvent(key, pm, data));
     }
-    public void Add(string key)
+    public void Add(string key, params string[] data)
     {
-      Add(new SimpleEvent(key));
+      Add(new SimpleEvent(key, data));
     }
   }
 }

@@ -31,6 +31,7 @@ namespace LightStudio.PokemonBattle.Game
     public override void Execute(PokemonProxy pm)
     {
       System.Diagnostics.Debugger.Break();
+
       pm.Action = PokemonAction.Done;
     }
   }

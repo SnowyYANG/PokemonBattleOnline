@@ -42,6 +42,7 @@ namespace LightStudio.PokemonBattle.Interactive
           for (int i = 0; i < textData.Length; ++i)
           {
             object o = Data[i];
+            if (o == null) continue;
             if (o is PokemonOutward) textData[i] = ((PokemonOutward)o).Name;
             else if (o is Tactic.DataModels.GameElement) textData[i] = ((Tactic.DataModels.GameElement)o).GetLocalizedName();
             else textData[i] = o.ToString();
