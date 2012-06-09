@@ -15,9 +15,9 @@ namespace LightStudio.PokemonBattle.Game
     protected static readonly double[] LV_ACC = { 0.33, 0.36, 0.43, 0.5, 0.6, 0.75, 1, 1.33, 1.66, 2, 2.5, 2.66, 3 };
     protected static readonly int[] LV_CT = { 16, 8, 4, 3, 2, 0 };
 
-    protected MoveE(MoveType moveType)
+    protected MoveE(int moveId)
     {
-      this.Move = moveType;
+      this.Move = DataService.GetMoveType(moveId);
     }
 
     public MoveType Move

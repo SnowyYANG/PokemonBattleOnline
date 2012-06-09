@@ -19,6 +19,12 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT_s</a:Key><a:Value i:type="LogText"><text>打中了要害！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>OHKO</a:Key><a:Value i:type="LogText"><text>一击必杀！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Hits</a:Key><a:Value i:type="LogText"><text>{0}连击！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Lv7DUp</a:Key><a:Value i:type="LogText"><text>{0}的{1}提升了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Lv7DDown</a:Key><a:Value i:type="LogText"><text>{0}的{1}下降了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Lv7DUp2</a:Key><a:Value i:type="LogText"><text>{0}的{1}疯狂提升！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Lv7DDown2</a:Key><a:Value i:type="LogText"><text>{0}的{1}疯狂下降！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Lv7DMax</a:Key><a:Value i:type="LogText"><text>{0}的{1}不能再提升了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Lv7DMin</a:Key><a:Value i:type="LogText"><text>{0}的{1}不能再下降了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnSleeping</a:Key><a:Value i:type="LogText"><text>{0}睡着了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Sleeping</a:Key><a:Value i:type="LogText"><text>{0}睡得很香...
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeSleeping</a:Key><a:Value i:type="LogText"><text>{0}醒了过来！

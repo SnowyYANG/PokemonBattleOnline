@@ -8,8 +8,8 @@ namespace LightStudio.PokemonBattle.Game
 {
   public class StatusMoveE : MoveE
   {
-    public StatusMoveE(MoveType move)
-      : base(move)
+    public StatusMoveE(int moveId)
+      : base(moveId)
     {
     }
 

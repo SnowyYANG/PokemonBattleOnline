@@ -48,14 +48,14 @@ namespace LightStudio.PokemonBattle.Game
           case MoveInnerClass.HpRecover:
           case MoveInnerClass.Lv7DChange:
           case MoveInnerClass.ConfusionWithLv7DChange:
-            moves[id] = new StatusMoveE(move);
+            moves[id] = new StatusMoveE(id);
             break;
           case MoveInnerClass.Attack:
           case MoveInnerClass.AttackAndAbsorb:
           case MoveInnerClass.AttackWithSelfLv7DChange:
           case MoveInnerClass.AttackWithState:
           case MoveInnerClass.AttackWithTargetLv7DChange:
-            moves[id] = new AttackMoveE(move);
+            moves[id] = new AttackMoveE(id);
             break;
           default:
             //System.Diagnostics.Debugger.Break();

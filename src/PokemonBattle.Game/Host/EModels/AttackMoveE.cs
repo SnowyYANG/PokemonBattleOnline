@@ -12,7 +12,7 @@ namespace LightStudio.PokemonBattle.Game
   public class AttackMoveE : MoveE
   {
     public AttackMoveE(int moveId)
-      : base(DataService.GetMoveType(moveId))
+      : base(moveId)
     {
     }
 
