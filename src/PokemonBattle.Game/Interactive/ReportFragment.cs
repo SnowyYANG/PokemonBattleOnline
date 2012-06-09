@@ -13,7 +13,7 @@ namespace LightStudio.PokemonBattle.Interactive
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class ReportFragment
   {
-    static HashSet<Type> knownGameEvents = new HashSet<Type>() { typeof(AbilityEvent), typeof(BeginTurn), typeof(DeIllusion), typeof(HpChange), typeof(StateChange), typeof(MoveHurts), typeof(MultiPmEvent), typeof(PmEvent), typeof(SimpleEvent), typeof(Substitute), typeof(SendOut), typeof(ToPlate), typeof(UseItem), typeof(UseMove), typeof(Withdraw) };
+    static HashSet<Type> knownGameEvents = new HashSet<Type>() { typeof(AbilityEvent), typeof(BeginTurn), typeof(DeIllusion), typeof(HpChange), typeof(StateChange), typeof(MoveHurts), typeof(MultiPmEvent), typeof(PmEvent), typeof(SimpleEvent), typeof(Substitute), typeof(SendOut), typeof(PositionChange), typeof(UseItem), typeof(UseMove), typeof(Withdraw) };
     static IEnumerable<Type> KnownEvents()
     {
       return knownGameEvents;

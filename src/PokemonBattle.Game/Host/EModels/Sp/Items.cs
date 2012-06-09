@@ -13,10 +13,6 @@ namespace LightStudio.PokemonBattle.Game.Sp
     const int EJECT_BUTTON = 111;
     #endregion
 
-    static Items()
-    {
-    }
-
     private static void RaiseItem(this PokemonProxy pm, string key = "RaiseItem")
     {
       pm.Controller.ReportBuilder.Add(new Interactive.GameEvents.UseItem(key, pm));

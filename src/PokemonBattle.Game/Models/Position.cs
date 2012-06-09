@@ -14,18 +14,24 @@ namespace LightStudio.PokemonBattle.Game
     Underground,
     Another
   }
+  public interface IPosition
+  {
+    int Team { get; }
+    int X { get; }
+    CoordY Y { get; }
+  }
   /// <summary>
   /// reference type, dont share among pokemons
   /// </summary>
   [DataContract(Namespace=Namespaces.DEFAULT)]
-  public class Position
+  public class Position : IPosition
   {
     [DataMember(EmitDefaultValue = false)]
-    public readonly int Team;
+    public int Team { get; private set; }
     [DataMember(EmitDefaultValue = false)]
-    public int X; //转盘用负数横坐标会不会很有趣
+    public int X { get; set; } //转盘用负数横坐标会不会很有趣
     [DataMember(EmitDefaultValue = false)]
-    public CoordY Y;
+    public CoordY Y { get; set; }
 
     public Position(int team, int x, CoordY y = CoordY.Plate)
     {

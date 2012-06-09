@@ -9,18 +9,21 @@ namespace LightStudio.PokemonBattle.Effects.Moves
 {
   class Leap : AttackMoveE
   {
-    private CoordY y;
+    private readonly CoordY Y;
     
     public Leap(int id, CoordY y)
       : base(id)
     {
+      Y = y;
     }
     
     protected override bool PrepareOneTurn(PokemonProxy pm)
     {
-      if (base.PrepareOneTurn(pm))
+      if (pm.Action == PokemonAction.MoveAttached)
       {
-        pm.OnboardPokemon.CoordY = y;
+        pm.Controller.ReportBuilder.Add(new Interactive.GameEvents.PositionChange("Prepare" + Move.Id.ToString(), pm, Y));
+        pm.Action = PokemonAction.Moving;
+        pm.OnboardPokemon.CoordY = Y;
         return true;
       }
       return false;

@@ -10,8 +10,10 @@ namespace LightStudio.PokemonBattle.Game
   /// <summary>
   /// do NOT binding directly
   /// </summary>
-  public class Pokemon
+  public class Pokemon : INotifyPropertyChanged
   {
+    private static readonly PropertyChangedEventArgs ITEM = new PropertyChangedEventArgs("Item");
+    public event PropertyChangedEventHandler PropertyChanged;
     public readonly int Id;
     public readonly Player Owner;
     public readonly int TeamId;
@@ -31,7 +33,20 @@ namespace LightStudio.PokemonBattle.Game
     public ReadOnly6D Static { get; private set; }
 
     private PairValue hp;
-    public Item Item { get; set; }
+    private Item _item;
+    public Item Item
+    {
+      get { return _item; }
+      set
+      {
+        if (_item != value)
+        {
+          _item = value;
+          if (PropertyChanged != null)
+            PropertyChanged(this, ITEM);
+        }
+      }
+    }
     public PokemonState State { get; set; }
     #endregion
 

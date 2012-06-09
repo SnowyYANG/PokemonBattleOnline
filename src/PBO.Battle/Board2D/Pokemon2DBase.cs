@@ -60,6 +60,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     }
     void IPokemonOutwardEvents.PositionChanged()
     {
+      main.Visibility = pokemon.Position.Y == CoordY.Plate ? Visibility.Visible : Visibility.Collapsed;
     }
     void IPokemonOutwardEvents.UseItem() //褐色光圈
     {

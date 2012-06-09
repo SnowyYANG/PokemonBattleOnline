@@ -27,7 +27,6 @@ namespace LightStudio.PokemonBattle.Game
     
     #region Data
     public int X;
-    private CoordY _coordY;
     public CoordY CoordY;
     public BattleType Type1;
     public BattleType Type2;

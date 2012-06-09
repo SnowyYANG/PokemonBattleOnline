@@ -191,17 +191,25 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
   }
 
   [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class ToPlate : PmEvent
+  public class PositionChange : PmEvent
   {
-    public ToPlate(string gameLogKey, PokemonProxy pm, params string[] args)
+    [DataMember(EmitDefaultValue = false)]
+    CoordY Y;
+    
+    public PositionChange(string gameLogKey, PokemonProxy pm, params string[] args)
       : base(gameLogKey, pm, args)
     {
+    }
+    public PositionChange(string gameLogKey, PokemonProxy pm, CoordY y)
+      :base(gameLogKey, pm)
+    {
+      Y = y;
     }
     
     public override void Update(GameOutward game)
     {
       base.Update(game);
-      pm.ChangePosition(pm.Position.X, CoordY.Plate);
+      pm.ChangePosition(pm.Position.X, Y);
     }
   }
 
@@ -230,6 +238,7 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     public override void Update(GameOutward game)
     {
       pm = game.GetPokemon(Pm);
+      if (Key == "PowerHerb") pm.ChangePosition(pm.Position.X, CoordY.Plate);
       if (Item > 0) i = DataService.GetItem(Item);
     }
     public override IText GetGameLog()
@@ -240,9 +249,8 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     }
     public override void Update(SimGame game)
     {
-      if (i == null) return;
       var pm = game.Team.Pokemons.ValueOrDefault(Pm);
-      if (pm != null && i.Type != ItemType.Normal)
+      if (pm.Item.Type != ItemType.Normal)
         pm.Item = null;
     }
   }

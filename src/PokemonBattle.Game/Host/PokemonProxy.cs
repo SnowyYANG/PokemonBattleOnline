@@ -141,7 +141,7 @@ namespace LightStudio.PokemonBattle.Game
 
     #region Input
     public PokemonAction Action
-    { get; internal set; }
+    { get; set; }
     public MoveProxy SelectedMove //先取
     { get; private set; }
     public Tile SelectedTarget

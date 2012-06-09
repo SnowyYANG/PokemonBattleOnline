@@ -23,7 +23,7 @@ namespace LightStudio.PokemonBattle.Game.Sp.Conditions
       //Only one move can be Disabled per Pokémon at any given time.
       if (MoveId == pm.SelectedMove.Type.Id)
       {
-        pm.Controller.ReportBuilder.Add(new Interactive.GameEvents.ToPlate("Disable", pm));
+        pm.Controller.ReportBuilder.Add(new Interactive.GameEvents.PositionChange("Disable", pm));
         return false;
       }
       return true;

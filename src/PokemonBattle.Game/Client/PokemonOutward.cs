@@ -31,7 +31,7 @@ namespace LightStudio.PokemonBattle.Game
     [DataMember]
     internal readonly int Id;
     [DataMember]
-    public readonly Position Position;
+    private readonly Position _position;
 
     [DataMember]
     public int OwnerId { get; private set; }
@@ -49,6 +49,8 @@ namespace LightStudio.PokemonBattle.Game
     public PairValue Hp { get; private set; }
     [DataMember]
     public int Lv { get; private set; }
+    public IPosition Position
+    { get { return _position; } }
 
     #region Host
     internal PokemonOutward(PokemonProxy pm)
@@ -57,7 +59,7 @@ namespace LightStudio.PokemonBattle.Game
       _listeners = new List<IPokemonOutwardEvents>();
       OwnerId = pm.Pokemon.Owner.Id;
       Id = pm.Id;
-      Position = new Position(pm.Pokemon.TeamId, pm.OnboardPokemon.X, pm.OnboardPokemon.CoordY);
+      _position = new Position(pm.Pokemon.TeamId, pm.OnboardPokemon.X, pm.OnboardPokemon.CoordY);
       State = pm.State;
       IsSubstitute = pm.OnboardPokemon.HasCondition("Substitute");
       Hp = new PairValue(pm.Pokemon.Hp.Origin, pm.Pokemon.Hp.Value, 48);
@@ -105,8 +107,9 @@ namespace LightStudio.PokemonBattle.Game
     /// </summary>
     public void ChangePosition(int x, CoordY y)
     {
-      Position.X = x;
-      Position.Y = y;
+      if (Position.X == x && Position.Y == y) return;
+      _position.X = x;
+      _position.Y = y;
       foreach (IPokemonOutwardEvents l in listeners)
         l.PositionChanged();
     }

@@ -55,7 +55,7 @@ namespace LightStudio.PokemonBattle.Game
 
     internal void Execute()
     {
-      Controller.ReportBuilder.Add(new Interactive.GameEvents.ToPlate("UseMove", Attacker, Move.GetLocalizedName()));
+      Controller.ReportBuilder.Add(new Interactive.GameEvents.PositionChange("UseMove", Attacker, Move.GetLocalizedName()));
       GameService.GetMove(Move.Id).Execute(Attacker);
     }
     public void SetTargets(IEnumerable<DefContext> targets)
