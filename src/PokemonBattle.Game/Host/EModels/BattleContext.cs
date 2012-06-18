@@ -11,37 +11,38 @@ namespace LightStudio.PokemonBattle.Game
   {
     public readonly MoveProxy MoveProxy; //压力、诅咒身躯，针对一开始选的技能
     public readonly MoveType Move; //生成技能在后期
-    public readonly bool SheerForceActive;
     public BattleType Type;
+    public Modifier AccuracyModifier = 0x1000;
     public bool MultiTargets;
-    public int Power;
     public int CTLv;
     public int AtkRaw;
     public int AtkLv;
     public int Times;
-    public double AccuracyRevise = 1d;
-    /// <summary>
-    /// 
-    /// </summary>
-    public Queue<double> DamageRevise1 = new Queue<double>();
-    /// <summary>
-    /// 宝石、节拍器、生命玉
-    /// </summary>
-    public double DamageRevise2 = 1d;
-    /// <summary>
-    /// 本属性修正/适应力
-    /// </summary>
-    public double DamageRevise3 = 1d;
+    private bool? _sheerForceActive;
+    public bool SheerForceActive
+    { 
+      get
+      {
+        if (_sheerForceActive == null)
+          _sheerForceActive =
+            Attacker.Ability.SheerForce() && (
+            Move.Class == MoveInnerClass.AttackWithTargetLv7DChange ||
+            Move.FlinchProbability > 0 ||
+            (Move.Attachment != null && Move.Attachment.Probability > 0) ||
+            (Move.Class == MoveInnerClass.AttackWithSelfLv7DChange && Move.Lv7DChanges.First().Change > 0));
+        return _sheerForceActive.Value;
+      }
+    }
+    public Modifier AtkModifier = 0x1000;
+    public Modifier WeatherModifier = 0x1000;
+    public Modifier STAB = 0x1000; //本属性修正/适应力
+    public Modifier PowerModifier_Item = 0x1000;
+    public Modifier PowerModifier_Board = 0x1000;
     
-    public AtkContext(PokemonProxy pm, MoveType move)
+    internal AtkContext(PokemonProxy pm, MoveType move)
     {
       MoveProxy = pm.SelectedMove;
       Move = move;
-      SheerForceActive = Attacker.Ability.SheerForce() && (
-        move.Class == MoveInnerClass.AttackWithTargetLv7DChange ||
-        move.FlinchProbability > 0 ||
-        (move.Attachment != null && move.Attachment.Probability > 0) ||
-        (move.Class == MoveInnerClass.AttackWithSelfLv7DChange && move.Lv7DChanges.First().Change > 0));
     }
 
     public Controller Controller
@@ -79,13 +80,15 @@ namespace LightStudio.PokemonBattle.Game
     public readonly AtkContext AtkContext;
     public readonly PokemonProxy Defender;
     public int Damage;
+    public int BasePower;
     public bool IsCt;
     public bool HitSubstitute;
-    public double PowerRevise = 1d;
-    public double EffectRevise = 1d;
-    public double AccuracyRevise = 1d;
+    /// <summary>
+    /// bit operation, -2, -1, 0, 1, 2, -0x7f for no effect
+    /// </summary>
+    public sbyte EffectRevise;
     
-    public DefContext(AtkContext a, PokemonProxy pm)
+    internal DefContext(AtkContext a, PokemonProxy pm)
     {
       AtkContext = a;
       Defender = pm;
@@ -112,6 +115,10 @@ namespace LightStudio.PokemonBattle.Game
       PokemonProxy a = AtkContext.Attacker;
       return Defender.Controller.Board[Defender.Tile.Team].HasCondition(condition) &&
         (Defender.Tile.Team == a.Tile.Team || !AtkContext.Attacker.Ability.Infiltrator());
+    }
+    public void ModifyDamage(Int16 modifier)
+    {
+      Damage = (Damage * modifier + 0x800) >> 12;
     }
   }
 }

@@ -29,7 +29,7 @@
   <ItemGroup>
     <None Include="Abilities\Weather.py" />
     <None Include="Items\Gem.py" />
-    <None Include="Moves\BrickBreak.py" />
+    <None Include="Moves\MustHit.py" />
     <None Include="references.py" />
   </ItemGroup>
   <ItemGroup>

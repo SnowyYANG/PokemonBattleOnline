@@ -14,6 +14,10 @@ namespace LightStudio.PokemonBattle.Game.Sp
     public const int STURDY = 138;
     #endregion
 
+    public static IEnumerable<PokemonProxy> TeamOnboardPms(this PokemonProxy pm)
+    {
+      return pm.Controller.GetOnboardPokemons(pm.Pokemon.TeamId);
+    }
     public static bool RaiseAbility(this PokemonProxy pm, int abilityId)
     {
       if (pm.Ability.Id != abilityId) return false;
@@ -38,6 +42,10 @@ namespace LightStudio.PokemonBattle.Game.Sp
     {
       return ability.Id == 40;
     }
+    public static bool Guts(this IAbilityE ability)
+    {
+      return ability.Id == 41;
+    }
     public static bool Prankster(this IAbilityE ability)
     {
       return ability.Id == 78;
@@ -57,10 +65,6 @@ namespace LightStudio.PokemonBattle.Game.Sp
     public static bool Infiltrator(this IAbilityE ability)
     {
       return ability.Id == 122;
-    }
-    public static bool Sniper(this IAbilityE ability)
-    {
-      return ability.Id == 124;
     }
     public static bool Stall(this IAbilityE ability)
     {
@@ -86,10 +90,12 @@ namespace LightStudio.PokemonBattle.Game.Sp
     }
     #endregion
 
-    public static bool HaveCloudNine(Controller c)
+    public static bool IgnoreWeather(Controller c)
     {
+      const int AIR_LOCK = 3;
+      const int CLOUD_NINE = 14;
       foreach (PokemonProxy p in c.OnboardPokemons)
-        if (p.Ability.Id == 14) return true;
+        if (p.Ability.Id == AIR_LOCK || p.Ability.Id == CLOUD_NINE) return true;
       return false;
     }
     public static void CheckPressure(DefContext def)
@@ -105,22 +111,33 @@ namespace LightStudio.PokemonBattle.Game.Sp
       if (pm.RaiseAbility(133))
         pm.ChangeLv7D(pm, 0, 0, 0, 0, 1);
     }
-    public static void CheckTintedLens(DefContext def)
+    public static Modifier TintedLens(DefContext def)
     {
-      if (def.EffectRevise < 1 && def.AtkContext.Attacker.Ability.Id == 150)
-        def.Damage <<= 1;
+      if (def.EffectRevise < 0 && def.AtkContext.Attacker.Ability.Id == 150)
+        return 0x2000;
+      return 0x1000;
     }
-    public static void CheckFilterSolidRock(DefContext def)
+    public static Modifier FriendGuard(DefContext def)
     {
-      if (def.EffectRevise > 1)
+      Modifier m = 0x1000;
+      foreach (PokemonProxy pm in def.Defender.TeamOnboardPms())
+        if (pm != def.Defender && pm.Ability.Id == 38) m *= 0xC00;
+      return m;
+    }
+    public static Modifier Sniper(DefContext def)
+    {
+      if (def.IsCt && def.AtkContext.Attacker.Ability.Id == 124)
+        return 0x1800;
+      return 0x1000;
+    }
+    public static Modifier FilterSolidRock(DefContext def)
+    {
+      if (def.EffectRevise > 0)
       {
         int id = def.Ability.Id;
-        if (id == 32 || id == 128)
-        {
-          def.Damage *= 3;
-          def.Damage >>= 2;
-        }
+        if (id == 32 || id == 128) return 0xC00;
       }
+      return 0x1000;
     }
     public static void Withdrawn(PokemonProxy pm)
     {
@@ -130,22 +147,50 @@ namespace LightStudio.PokemonBattle.Game.Sp
       if (pm.Ability.Id == NATURAL_CURE) pm.Hp += pm.Pokemon.Hp.Origin / 3;
       else if (pm.Ability.Id == REGENERATOR) pm.Pokemon.State = PokemonState.Normal;
     }
-    public static void CalculatePowerRevise(DefContext def)
+    public static Modifier ThickFat(DefContext def)
+    {
+      BattleType type = def.AtkContext.Move.Type;
+      if ((type == BattleType.Ice || type == BattleType.Fire) && def.Ability.Id == 149)
+        return 0x800;
+      return 0x1000;
+    }
+    public static Modifier PowerModifier(DefContext def)
     {
       //如果防御方是耐热特性，攻击方火属性技能威力×0.5。
       const int HEATPROOF = 46;
       //如果防御方是干燥肌肤特性，攻击方火属性技能威力×1.25。 
       const int DRY_SKIN = 25;
-      //如果防御方是厚脂肪特性，攻击方火或冰属性技能威力×0.5。 
-      const int THICK_FAT = 149;
-      BattleType type = def.AtkContext.Type;
+
       int id = def.Ability.Id;
-      if (type == BattleType.Fire)
+      ushort d = 0x1000;
+      if (def.AtkContext.Type == BattleType.Fire)
       {
-        if (id == HEATPROOF || id == THICK_FAT) def.PowerRevise *= 0.5d;
-        else if (id == DRY_SKIN) def.PowerRevise *= 1.25d;
+        if (id == HEATPROOF) d = 0x800;
+        else if (id == DRY_SKIN) d = 0x1800;
       }
-      else if (id == THICK_FAT && type == BattleType.Ice) def.PowerRevise *= 0.5d;
+      Modifier r = d;
+      if (def.AtkContext.SheerForceActive) r *= 0x14cd;
+      return r;
+    }
+    public static void FlowerGift(AtkContext atk)
+    {
+      if (atk.Move.Category == MoveCategory.Physical && atk.Controller.GetAvailableWeather() == Weather.IntenseSunlight)
+      {
+        Modifier m = 0x1000;
+        foreach (PokemonProxy pm in atk.Attacker.TeamOnboardPms())
+          if (pm.Pokemon.PokemonType.Number == 421 && pm.Ability.Id == 35) m *= 0x1800;
+        if (m != 0x1000) atk.AtkModifier *= m;
+      }
+    }
+    public static Modifier FlowerGift(DefContext def)
+    {
+      Modifier m = 0x1000;
+      if (def.AtkContext.Move.Category == MoveCategory.Special && def.AtkContext.Controller.GetAvailableWeather() == Weather.IntenseSunlight)
+      {
+        foreach (PokemonProxy pm in def.Defender.TeamOnboardPms())
+          if (pm.Pokemon.PokemonType.Number == 421 && pm.Ability.Id == 35) m *= 0x1800;
+      }
+      return m;
     }
     public static bool CalculateType(AtkContext atk)
     {
@@ -220,6 +265,28 @@ namespace LightStudio.PokemonBattle.Game.Sp
         def.Defender.Controller.ReportBuilder.Add(new AbilityEvent(def.Defender));
         def.Defender.AddReportPm("TypeChange", def.AtkContext.Type.GetLocalizedName());
       }
+    }
+
+    public static Modifier Multiscale(DefContext def)
+    {
+      if (def.Ability.Id == 81 && def.Defender.Hp == def.Defender.Pokemon.Hp.Origin)
+        return 0x800;
+      return 0x1000;
+    }
+    public static Modifier Hustle(AtkContext atk)
+    {
+      if (atk.Attacker.Ability.Id == 51 && atk.Move.Category == MoveCategory.Physical)
+        return 0x800;
+      return 0x1000;
+    }
+    public static void AccuracyModifier(AtkContext atk)
+    {
+      const int COMPOUNDEYES = 17, HUSTLE = 51, VICTORY_STAR = 157;
+      int ab = atk.Attacker.Ability.Id;
+      if (ab == COMPOUNDEYES) atk.AccuracyModifier = 0x14CC;
+      else if (ab == HUSTLE && atk.Move.Category == MoveCategory.Physical) atk.AccuracyModifier = 0x1800;
+      foreach (PokemonProxy pm in atk.Attacker.TeamOnboardPms())
+        if (pm.Ability.Id == VICTORY_STAR) atk.AccuracyModifier *= 0x1199;
     }
   }
 }

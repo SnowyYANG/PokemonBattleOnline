@@ -28,6 +28,9 @@ namespace LightStudio.PokemonBattle.Game
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class PokemonOutward : INotifyPropertyChanged
   {
+    private static readonly PropertyChangedEventArgs NAME = new PropertyChangedEventArgs("Name");
+    private static readonly PropertyChangedEventArgs STATE = new PropertyChangedEventArgs("State");
+    
     [DataMember]
     internal readonly int Id;
     [DataMember]
@@ -36,13 +39,37 @@ namespace LightStudio.PokemonBattle.Game
     [DataMember]
     public int OwnerId { get; private set; }
     [DataMember]
-    public string Name { get; internal set; }
+    private string _name;
+    public string Name
+    {
+      get { return _name; }
+      internal set
+      {
+        if (_name != value)
+        {
+          _name = value;
+          OnPropertyChanged(NAME);
+        }
+      }
+    }
     [DataMember]
     public int ImageId { get; internal set; }
     [DataMember(EmitDefaultValue = false)]
     public PokemonGender Gender { get; internal set; }
     [DataMember(EmitDefaultValue = false)]
-    public PokemonState State { get; internal set; }
+    private PokemonState _state;
+    public PokemonState State
+    { 
+      get { return _state; }
+      internal set
+      {
+        if (_state != value)
+        {
+          _state = value;
+          OnPropertyChanged(STATE);
+        }
+      }
+    }
     [DataMember(EmitDefaultValue = false)]
     public bool IsSubstitute { get; internal set; }
     [DataMember]
@@ -177,7 +204,6 @@ namespace LightStudio.PokemonBattle.Game
     {
       foreach (IPokemonOutwardEvents l in listeners)
         l.ImageIdChanged();
-      OnPropertyChanged(); //顺序没错
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
@@ -190,10 +216,10 @@ namespace LightStudio.PokemonBattle.Game
     }
     #endregion
 
-    private void OnPropertyChanged()
+    private void OnPropertyChanged(PropertyChangedEventArgs e)
     {
       if (PropertyChanged != null)
-        PropertyChanged(this, new PropertyChangedEventArgs("Name"));//据说性别虽然改变但不会显示出来
+        PropertyChanged(this, e);//据说性别虽然改变但不会显示出来
     }
     public void AddListener(IPokemonOutwardEvents listener)
     {

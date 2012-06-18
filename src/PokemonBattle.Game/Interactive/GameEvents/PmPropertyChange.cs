@@ -122,8 +122,8 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
           int id = d.Defender.Id;
           pms.Add(id);
           damages.Add(d.Damage);
-          if (d.EffectRevise > 1) sh.Add(id);
-          else if (d.EffectRevise < 1) wh.Add(id);
+          if (d.EffectRevise > 0) sh.Add(id);
+          else if (d.EffectRevise < 0) wh.Add(id);
           if (d.IsCt) ct.Add(id);
         }
       if (pms.Count > 0) Pms = pms.ToArray();
@@ -250,7 +250,7 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     public override void Update(SimGame game)
     {
       var pm = game.Team.Pokemons.ValueOrDefault(Pm);
-      if (pm.Item.Type != ItemType.Normal)
+      if (pm != null && pm.Item.Type != ItemType.Normal)
         pm.Item = null;
     }
   }

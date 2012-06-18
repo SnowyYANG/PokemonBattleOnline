@@ -54,15 +54,45 @@ namespace LightStudio.PokemonBattle.Game.Sp
       }
       return false;
     }
-    public static void CheckExpertBelt(DefContext def)
+    public static void WideLens(AtkContext atk)
     {
-      if (def.EffectRevise > 1 && def.AtkContext.Attacker.Item.Id == 45)
-        def.Damage = (int)(def.Damage * 1.2);
+      if (atk.Attacker.Item.Id == 42)
+        atk.AccuracyModifier *= 0x1199;
+    }
+    public static Modifier ZoomLens(DefContext target)
+    {
+      if (target.AtkContext.Attacker.Item.Id == 53) ;
+      return 0x1000;
+    }
+    public static Modifier AccuracyModifier(DefContext def)
+    {
+      const int BRIGHT_POWDER = 4, LAX_INCENSE = 37;
+      int i = def.Defender.Item.Id;
+      ushort r = 0x1000;
+      if (i == BRIGHT_POWDER) r = 0xE66;
+      else if (i == LAX_INCENSE) r = 0xF34;
+      return r;
+    }
+    public static Modifier DamageFinalModifier(DefContext target)
+    {
+      //If the user is holding the item Metronome. If n is the number of time the current move was used successfully and successively, the value of the modifier is 0x1000+n*0x333 if n≤4 and 0x2000 otherwise.
+      const int METRONOME = 54;
+      //If the user is holding an expert belt and the move was super effective.
+      const int EXPERT_BELT = 45;
+      //If the user is holding a Life Orb.
+      const int LIFE_ORB = 47;
+
+      PokemonProxy aer = target.AtkContext.Attacker;
+      int item = aer.Item.Id;
+      ushort r = 0x1000;
+      if (target.EffectRevise > 0 && aer.Item.Id == EXPERT_BELT)
+        r = 0x1333;
+      return r;
     }
     /// <summary>
     /// 气球的提示信息不是Attach而是Debut，是唯一会Debut的道具
     /// </summary>
-    public static void CheckAirBalloon(PokemonProxy pm)
+    public static void AirBalloon(PokemonProxy pm)
     {
       if (pm.Item.Id == 105)
         pm.AddReportPm("EnBalloon");

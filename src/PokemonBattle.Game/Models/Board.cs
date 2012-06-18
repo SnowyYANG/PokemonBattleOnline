@@ -26,9 +26,11 @@ namespace LightStudio.PokemonBattle.Game
       terrain = settings.Terrain;
       {
         tileMap = new Tile[TeamCount, XBound];
+        _tiles = new Tile[TeamCount * XBound];
+        int t = 0;
         for (int i = 0; i < TeamCount; i++)
           for (int j = 0; j < XBound; j++)
-            tileMap[i, j] = new Tile(i, j, settings);
+            tileMap[i, j] = _tiles[t++] = new Tile(i, j, settings);
       }
       {
         fields = new Field[TeamCount];
@@ -37,6 +39,9 @@ namespace LightStudio.PokemonBattle.Game
       }
     }
 
+    private Tile[] _tiles;
+    public IEnumerable<Tile> Tiles
+    { get { return _tiles; } }
     public Field this[int team]
     { 
       get
@@ -57,13 +62,5 @@ namespace LightStudio.PokemonBattle.Game
     }
     public Weather Weather
     { get; set; }
-
-    public PokemonProxy GetPokemon(int id)
-    {
-      PokemonProxy r = null;
-      foreach (Tile t in tileMap)
-        if (t.Pokemon != null && t.Pokemon.Id == id) r = t.Pokemon;
-      return r;
-    }
   }
 }

@@ -12,7 +12,11 @@ namespace LightStudio.PokemonBattle.Game
 
     bool CanLost(PokemonProxy pm);
     int CompareValue(PokemonProxy pm);
-    double Get5DRevise(PokemonProxy pm, StatType stat);
+    /// <summary>
+    /// Atk/Def/SpAtk/SpDef/Speed
+    /// </summary>
+    Modifier ADSModifier(PokemonProxy pm, StatType stat);
+    Modifier DamageFinalModifier(DefContext def);
     int GetCtLvRevise(PokemonProxy pm);
 
     void Raise(PokemonProxy pm);
@@ -23,11 +27,7 @@ namespace LightStudio.PokemonBattle.Game
     /// 红线、柿果、精神香草、5树果
     /// </summary>
     void StateAdded(PokemonProxy pm, AttachedState state);
-    void CalculatingAccuracy(AtkContext atk);
-    void CalculatingAccuracy(DefContext def);
-    void CalculatingPower(AtkContext atk);
-    void ReviseDamage2(AtkContext atk);
-    void ReviseDamage3(DefContext def);
+    void CalculatingPowerModifier(AtkContext atk);
     void Attacked(DefContext def);
   }
 
@@ -39,19 +39,16 @@ namespace LightStudio.PokemonBattle.Game
 
       public bool CanLost(PokemonProxy pm) { return true; }
       public int CompareValue(PokemonProxy pm) { return 0; }
-      public double Get5DRevise(PokemonProxy pm, StatType stat) { return 1; }
+      public Modifier ADSModifier(PokemonProxy pm, StatType stat) { return 0x1000; }
+      public Modifier DamageFinalModifier(DefContext def) { return 0x1000; }
       public int GetCtLvRevise(PokemonProxy pm) { return 0; }
 
       public void Raise(PokemonProxy pm) { }
 
       public void Attach(PokemonProxy pm) { }
       public void HpChanged(PokemonProxy pm) { }
-      public void ReviseDamage2(AtkContext atk) { }
       public void StateAdded(PokemonProxy pm, AttachedState state) { }
-      public void CalculatingAccuracy(AtkContext atk) { }
-      public void CalculatingAccuracy(DefContext def) { }
-      public void CalculatingPower(AtkContext atk) { }
-      public void ReviseDamage3(DefContext def) { }
+      public void CalculatingPowerModifier(AtkContext atk) { }
       public void Attacked(DefContext def) { }
     }
   }

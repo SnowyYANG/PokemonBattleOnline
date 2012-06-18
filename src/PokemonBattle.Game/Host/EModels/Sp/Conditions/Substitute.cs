@@ -27,8 +27,8 @@ namespace LightStudio.PokemonBattle.Game.Sp.Conditions
         if (def.Damage > hp) def.Damage = hp;
         hp -= def.Damage;
         def.Defender.AddReportPm("HurtSubstitute");
-        if (def.EffectRevise > 1) c.ReportBuilder.Add("SuperHurt_s");
-        else if (def.EffectRevise < 1) c.ReportBuilder.Add("WeakHurt_s");
+        if (def.EffectRevise > 0) c.ReportBuilder.Add("SuperHurt_s");
+        else if (def.EffectRevise < 0) c.ReportBuilder.Add("WeakHurt_s");
         if (def.IsCt) c.ReportBuilder.Add("CT_s");
         if (hp == 0) Disappear(def.Defender);
         else def.Defender.OnboardPokemon.SetCondition("Substitute", hp);

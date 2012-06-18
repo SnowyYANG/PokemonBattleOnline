@@ -15,14 +15,10 @@ namespace LightStudio.PokemonBattle.Game
     private static readonly PmCondition NULL = new NullPmCondition();
     public static int Get5D(int val, int lv)
     {
-      double coeff;
-      {
-        double denominator = 2, numerator = 2;
-        if (lv > 0) numerator += lv;
-        else denominator -= lv;
-        coeff = numerator / denominator;
-      }
-      return (int)(val * coeff);
+      int denominator = 2, numerator = 2;
+      if (lv > 0) numerator += lv;
+      else denominator -= lv;
+      return val * numerator / denominator;
     }
     
     #region Data

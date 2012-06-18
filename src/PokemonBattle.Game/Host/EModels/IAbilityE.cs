@@ -13,33 +13,34 @@ namespace LightStudio.PokemonBattle.Game
     bool CanWithdraw(PokemonProxy pm);
     bool CanAddState(PokemonProxy by, AttachedState state);
     bool CanImplement(DefContext def); //auto raise
-    double Get5DRevise(PokemonProxy pm, StatType stat);
+    /// <summary>
+    /// Atk/Def/SpAtk/SpDef/Speed
+    /// </summary>
+    Modifier ADSModifier(PokemonProxy pm, StatType stat);
+    Modifier PowerModifier(DefContext target);
+    Modifier AccuracyModifier(DefContext def);
 
     void Attach(PokemonProxy pm);
     void Attacked(DefContext def);
     void Lv7DChanging(ref StatType stat, ref int value);//性情乖僻
-    void CalculatingAccuracy(AtkContext atk);
-    void CalculatingAccuracy(DefContext def);
-    void CalculatingPower(AtkContext atk);
+
   }
 
   public static partial class GameService
   {
     private sealed class AbilityE0 : IAbilityE
     {
-      public int Id { get { return 0; } }
+      int IAbilityE.Id { get { return 0; } }
 
-      public bool CanWithdraw(PokemonProxy pm) { return true; }
-      public bool CanAddState(PokemonProxy by, AttachedState state) { return true; }
-      public bool CanImplement(DefContext def) { return true; } //auto raise
-      public double Get5DRevise(PokemonProxy pm, StatType stat) { return 1; }
-
-      public void Attach(PokemonProxy pm) { }
-      public void Attacked(DefContext def) { }
-      public void Lv7DChanging(ref StatType stat, ref int value) { }//性情乖僻
-      public void CalculatingAccuracy(AtkContext atk) { }
-      public void CalculatingAccuracy(DefContext def) { }
-      public void CalculatingPower(AtkContext atk) { }
+      bool IAbilityE.CanWithdraw(PokemonProxy pm) { return true; }
+      bool IAbilityE.CanAddState(PokemonProxy by, AttachedState state) { return true; }
+      bool IAbilityE.CanImplement(DefContext def) { return true; } //auto raise
+      Modifier IAbilityE.ADSModifier(PokemonProxy pm, StatType stat) { return 0x1000; }
+      Modifier IAbilityE.PowerModifier(DefContext target) { return 0x1000; }
+      Modifier IAbilityE.AccuracyModifier(DefContext def) { return 0x1000; }
+      void IAbilityE.Attach(PokemonProxy pm) { }
+      void IAbilityE.Attacked(DefContext def) { }
+      void IAbilityE.Lv7DChanging(ref StatType stat, ref int value) { }//性情乖僻
     }
   }
 }

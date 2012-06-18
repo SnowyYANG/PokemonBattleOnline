@@ -50,7 +50,6 @@
     <Compile Include="DataModels\IText.cs" />
     <Compile Include="DataModels\PairValue.cs" />
     <Compile Include="Messaging\Lobby\LobbyService.cs" />
-    <Compile Include="Scripting.cs" />
     <Compile Include="DataModels\IO\DataCollection.cs" />
     <Compile Include="DataModels\IO\DataDirectory.cs" />
     <Compile Include="DataModels\IO\DataFile.cs" />
@@ -69,12 +68,11 @@
     <Compile Include="Globalization\IStringService.cs" />
     <Compile Include="Globalization\LanguagePack.cs" />
     <Compile Include="Globalization\StringService.cs" />
-    <Compile Include="Logging\Category.cs" />
-    <Compile Include="Logging\ConsoleLogger.cs" />
-    <Compile Include="Logging\DebugLogger.cs" />
-    <Compile Include="Logging\ILogger.cs" />
-    <Compile Include="Logging\LoggerFacade.cs" />
-    <Compile Include="Logging\Priority.cs" />
+    <Compile Include="Service\Category.cs" />
+    <Compile Include="Service\DebugLogger.cs" />
+    <Compile Include="Service\ILogger.cs" />
+    <Compile Include="Service\LoggerFacade.cs" />
+    <Compile Include="Service\Priority.cs" />
     <Compile Include="Messaging\Contract\IMessageCenterContract.cs" />
     <Compile Include="Messaging\Contract\IMessageClientContract.cs" />
     <Compile Include="Messaging\Contract\IMessagerContract.cs" />
@@ -129,6 +127,7 @@
     <Compile Include="Security\XmlVerifier.cs" />
     <Compile Include="Serialization\Resolver.cs" />
     <Compile Include="Serialization\Serializer.cs" />
+    <Compile Include="Service\Scripting.cs" />
     <Compile Include="Threading\Dispatcher.cs" />
     <Compile Include="Threading\SyncList.cs" />
     <Compile Include="Threading\SyncObject.cs" />

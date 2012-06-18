@@ -78,6 +78,8 @@ namespace LightStudio.PokemonBattle.Game
           atkContext = value;
       }
     }
+    public DefContext DefContext
+    { get; private set; }
     public IAbilityE Ability
     { get { return Tile == null || OnboardPokemon.HasCondition("GastroAcid") ? GameService.NULL_ABILITY : GameService.GetAbility(OnboardPokemon.Ability); } }
     public IItemE Item
@@ -86,6 +88,27 @@ namespace LightStudio.PokemonBattle.Game
     { get; private set; }
     public MoveProxy StruggleMove
     { get; private set; }
+    public int Speed
+    { 
+      get
+      {
+        int speed = OnboardPokemon.Get5D(OnboardPokemon.Static.Speed, OnboardPokemon.Lv5D.Speed);
+        if (State == PokemonState.Paralyzed) speed >>= 1;
+        speed *= Ability.ADSModifier(this, StatType.Speed);
+        speed *= Item.ADSModifier(this, StatType.Speed);
+        if (Controller.Board[Pokemon.TeamId].HasCondition("TailWind")) speed <<= 1;
+        if (Controller.Board[Pokemon.TeamId].HasCondition("Swamp")) speed = (speed + 1) >> 2; //小数点是0.5以下就舍去，如果是0.75就四舍五入
+        return speed;
+      }
+    }
+    public void BuildAtkContext(MoveType move)
+    {
+      AtkContext = new AtkContext(this, move);
+    }
+    public void BuildDefContext(AtkContext atk)
+    {
+      DefContext = new DefContext(atk, this);
+    }
     #endregion
 
     #region Predict
@@ -191,7 +214,7 @@ namespace LightStudio.PokemonBattle.Game
       if (Action == PokemonAction.Debuting)
       {
         Ability.Attach(this);//特性
-        Items.CheckAirBalloon(this);//道具
+        Items.AirBalloon(this);//道具
         Action = PokemonAction.Done;
       }
     }

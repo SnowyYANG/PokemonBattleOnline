@@ -80,7 +80,7 @@ namespace LightStudio.PokemonBattle.Game
     }
     public override void Execute(PokemonProxy pm)
     {
-      if (pm.AtkContext == null) pm.AtkContext = new AtkContext(pm, Move);
+      if (pm.AtkContext == null) pm.BuildAtkContext(Move);
       if (Move.AdvancedFlags.PrepareOneTurn && PrepareOneTurn(pm) && !Sp.Items.CheckPowerHerb(pm))
         return;
       AtkContext atk = pm.AtkContext;
@@ -122,23 +122,41 @@ namespace LightStudio.PokemonBattle.Game
       }
       return false;
     }
-    protected virtual void CalculatePower(AtkContext atk)
+    protected virtual void CalculateBasePower(DefContext def)
     {
-      atk.Power = Move.Power;
+      def.BasePower = Move.Power;
+    }
+    protected virtual Modifier GetPowerModifier(DefContext def)
+    {
+      return 0x1000;
     }
     protected virtual void Calculate(AtkContext atk) //固定伤害、大爆炸、佯攻override
     {
       PokemonProxy pm = atk.Attacker;
 
-      atk.CTLv = Move.CtLv;
-      if (!Moves.CalculateFoulPlayAtk(atk))
       {
-        StatType st = Move.Category == MoveCategory.Physical ? StatType.Atk : StatType.SpAtk;
-        atk.AtkRaw = pm.OnboardPokemon.Static.GetStat(st);
-        atk.AtkRaw = (int)(atk.AtkRaw * pm.Ability.Get5DRevise(pm, st));
-        atk.AtkRaw = (int)(atk.AtkRaw * pm.Item.Get5DRevise(pm, st));
-        atk.AtkLv = pm.OnboardPokemon.Lv5D.GetStat(st);
+        atk.Attacker.Item.CalculatingPowerModifier(atk);
+        if (atk.Type == BattleType.Fire)
+        {
+          if (pm.Controller.Board.HasCondition("WaterSport")) atk.PowerModifier_Board = 0x800;
+        }
+        else if (atk.Type == BattleType.Electric && pm.Controller.Board.HasCondition("MudSport"))
+          atk.PowerModifier_Board = 0x800;
       }
+
+      {
+        OnboardPokemon p;
+        if (Move.FoulPlay()) p = atk.Target.Defender.OnboardPokemon;
+        else p = pm.OnboardPokemon;
+        StatType st = Move.Category == MoveCategory.Physical ? StatType.Atk : StatType.SpAtk;
+        atk.AtkRaw = p.Static.GetStat(st);
+        atk.AtkLv = p.Lv5D.GetStat(st);
+        atk.AtkModifier *= pm.Ability.ADSModifier(pm, st);
+        Abilities.FlowerGift(atk);
+        atk.AtkModifier *= pm.Item.ADSModifier(pm, st);
+      }
+
+      atk.CTLv = Move.CtLv;
       if (atk.CTLv < 5)
       {
         if (pm.OnboardPokemon.HasCondition("FocusEnergy")) atk.CTLv += 2;
@@ -146,106 +164,120 @@ namespace LightStudio.PokemonBattle.Game
         atk.CTLv += pm.Item.GetCtLvRevise(pm);
         if (atk.CTLv > 4) atk.CTLv = 4;
       }
-      
+
       //生成攻击次数
       if (!Sp.Abilities.CheckSkillLink(atk) && Move.MinTimes != Move.MaxTimes)
         atk.Times = TIMES25[atk.Controller.GetRandomInt(0, 7)];
       else atk.Times = Move.MinTimes;
       if (atk.Times == 0) atk.Times = 1;
-      //计算技能实际威力
-      CalculatePower(atk);
-      atk.Attacker.Ability.CalculatingPower(atk);
-      atk.Attacker.Item.CalculatingPower(atk);
-      if (atk.Type == BattleType.Fire)
-      {
-        if (pm.Controller.Board.HasCondition("WaterSport")) atk.Power >>= 1;
-      }
-      else if (atk.Type == BattleType.Electric && pm.Controller.Board.HasCondition("MudSport"))
-        atk.Power >>= 1;
-      //计算防御方对威力的修正
-      if (atk.Power > 1)
-        foreach (DefContext def in atk.Targets)
-          Abilities.CalculatePowerRevise(def);    
-      
-      //双打
-      if (atk.MultiTargets) atk.DamageRevise1.Enqueue(0.75);
+
       //天气
       Weather w = atk.Controller.GetAvailableWeather();
       BattleType type = atk.Type;
       if (w == Weather.IntenseSunlight)
       {
-        if (type == BattleType.Water) atk.DamageRevise1.Enqueue(0.5);
-        else if (type == BattleType.Fire) atk.DamageRevise1.Enqueue(1.5);
+        if (type == BattleType.Water) atk.WeatherModifier = 0x800;
+        else if (type == BattleType.Fire) atk.WeatherModifier = 0x1800;
       }
       else if (w == Weather.HeavyRain)
       {
-        if (type == BattleType.Water) atk.DamageRevise1.Enqueue(1.5);
-        else if (type == BattleType.Fire) atk.DamageRevise1.Enqueue(0.5);
+        if (type == BattleType.Water) atk.WeatherModifier = 0x1800;
+        else if (type == BattleType.Fire) atk.WeatherModifier = 0x800;
       }
-      //引火
-      Sp.Conditions.FlashFire.ReviseDamage1(atk);
       //宝石、节拍器、生命玉
-      atk.Attacker.Item.ReviseDamage2(atk);
       //本属性修正
       if (atk.Attacker.OnboardPokemon.HasType(atk.Type))
-        atk.DamageRevise3 = atk.Attacker.Ability.Adaptability() ? 2 : 1.5;
+        atk.STAB = (ushort)(atk.Attacker.Ability.Adaptability() ? 0x2000 : 0x1800);
     }
     protected virtual void Calculate(DefContext def) //固定伤害override
     {
       AtkContext atk = def.AtkContext;
       PokemonProxy aer = atk.Attacker;
       Controller c = aer.Controller;
-      StatType st = Move.Category == MoveCategory.Physical ? StatType.Def : StatType.SpDef;
       int defRaw = 0;
-      int atkLv = 0;
-      int defLv = 0;
 
       if (!(c.Board[def.Defender.Pokemon.TeamId].HasCondition("LuckyChant") || def.Ability.CannotBeCted()))
         if (Move.CtLv > 5) def.IsCt = true;
         else def.IsCt = c.OneNth(LV_CT[atk.CTLv]);
 
-      defRaw = def.Defender.OnboardPokemon.Static.GetStat(st);
-      if (!def.Ability.Unaware()) atkLv = atk.AtkLv;
-      if (!aer.Ability.Unaware()) defLv = def.Defender.OnboardPokemon.Lv5D.GetStat(st);
-
-      def.Damage = (int)(aer.Pokemon.Lv * 0.4 + 2);
-      def.Damage *= (int)(atk.Power * def.PowerRevise);
-      def.Damage *= OnboardPokemon.Get5D(atk.AtkRaw, atkLv);
-      def.Damage /= OnboardPokemon.Get5D(defRaw, defLv);
+      def.Damage = aer.Pokemon.Lv * 2 / 5 + 2;
+      {
+        CalculateBasePower(def);
+        Modifier m = atk.Attacker.Ability.PowerModifier(def);
+        m *= Abilities.PowerModifier(def);
+        m *= atk.PowerModifier_Item;
+        m *= GetPowerModifier(def);
+        m *= atk.PowerModifier_Board;
+        def.Damage *= (def.BasePower * m);
+      }
+      {
+        int atkLv = 0;
+        if (!(def.Ability.Unaware() || (def.IsCt && atk.AtkLv < 0)))
+          atkLv = atk.AtkLv;
+        int a = OnboardPokemon.Get5D(atk.AtkRaw, atkLv);
+        Modifier m = Abilities.ThickFat(def);
+        def.Damage *= (a * Abilities.Hustle(atk)) * (m * atk.AtkModifier); //计算顺序有异，但介于具体数值，精度无损
+      }
+      {
+        StatType st = Move.Category == MoveCategory.Physical ? StatType.Def : StatType.SpDef;
+        defRaw = def.Defender.OnboardPokemon.Static.GetStat(st);
+        int defLv = 0;
+        if (!(aer.Ability.Unaware() || Move.ChipAway())) defLv = def.Defender.OnboardPokemon.Lv5D.GetStat(st);
+        if (def.IsCt && defLv > 0) defLv = 0;
+        int d = OnboardPokemon.Get5D(defRaw, defLv);
+        Modifier m = 0x1000;
+        if (!aer.Ability.IgnoreDefenderAbility())
+        {
+          m = def.Ability.ADSModifier(def.Defender, st); //Marvel Scale only
+          m *= Abilities.FlowerGift(def);
+        }
+        m *= def.Defender.Item.ADSModifier(def.Defender, st);
+        def.Damage /= (d * m);
+      }
       def.Damage /= 50;
-      //修正1
-      {
-        //反射盾·光之壁
-#warning
-        //攻击方（双打、天气修正、引火）
-        foreach(double r in atk.DamageRevise1)
-          def.Damage = (int)(def.Damage * r);
-      }
       def.Damage += 2;
-      //修正2
+      //1.Apply the multi-target modifier
+      if (atk.MultiTargets) def.ModifyDamage(0xC00);
+      //2.Apply the weather modifier
+      def.Damage *= atk.WeatherModifier;
+      //3.In case of a critical hit, double the value
+      if (def.IsCt) def.Damage <<= 1;
+      //4.Alter with a random factor
+      def.Damage *= aer.Controller.GetRandomInt(85, 100);
+      def.Damage /= 100;
+      //5.Apply STAB modifier
+      def.Damage *= atk.STAB;
+      //6.Alter with type effectiveness
+      if (def.EffectRevise > 0) def.Damage >>= def.EffectRevise;
+      else if (def.EffectRevise < 0) def.Damage <<= -def.EffectRevise;
+      //7.Alter with user's burn
+      if (Move.Category == MoveCategory.Physical && aer.State == PokemonState.Burned && !aer.Ability.Guts())
+        def.Damage >>= 1;
+      //8.Make sure damage is at least 1
+      if (def.Damage < 1) def.Damage = 1;
+      //9.Apply the final modifier
       {
-        //会心一击
-        if (def.IsCt) def.Damage *= aer.Ability.Sniper()? 3 : 2;
-        //先取
-#warning
-        //宝石、节拍器、生命玉
-        def.Damage = (int)(def.Damage * atk.DamageRevise2);
-      }
-      def.Damage = (int)(def.Damage * (aer.Controller.GetRandomInt(85, 100) / 100d));
-      //随机数后
-      {
-        //属性加成、适应力（属性相克前）
-        def.Damage = (int)(def.Damage * atk.DamageRevise3);
-        //属性相克
-        def.Damage = (int)(def.Damage * def.EffectRevise);
-        //有色眼镜（属性相克后）
-        Abilities.CheckTintedLens(def);
-        //达人腰带（属性相克后）
-        Items.CheckExpertBelt(def);
-        //过滤器、坚岩
-        Abilities.CheckFilterSolidRock(def);
-        //抗属性果（属性相克后）
-        def.Defender.Item.ReviseDamage3(def);
+        Modifier m = 0x1000;
+        //If the target's side is affected by Reflect, the move used was physical, the user's ability isn't Infiltrator and the critical hit flag isn't set. 
+        //The value of the modificator is 0xA8F if there is more than one Pokemon per side of the field and 0x800 otherwise.
+        //Same as above with Light Screen and special moves.
+
+        //If the target's ability is Multiscale and the target is at full health.
+        m *= Abilities.Multiscale(def);
+        //If the user's ability is Tinted Lens and the move wasn't very effective.
+        m *= Abilities.TintedLens(def);
+        //If one of the target's allies' ability is Friend Guard.
+        m *= Abilities.FriendGuard(def);
+        //If user has ability Sniper and move was a critical hit.
+        m *= Abilities.Sniper(def);
+        //If the target's ability is Solid Rock or Filter and the move was super effective.
+        m *= Abilities.FilterSolidRock(def);
+        //metronome expertbelt lifeorb
+        m *= Items.DamageFinalModifier(def);
+        //If the target is holding a damage lowering berry of the attack's type.
+        m *= def.Defender.Item.DamageFinalModifier(def);
+        
+        def.Damage *= m;
       }
     }
     protected virtual void ImplementEffect(DefContext def)

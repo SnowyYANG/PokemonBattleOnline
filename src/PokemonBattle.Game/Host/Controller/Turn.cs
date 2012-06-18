@@ -14,12 +14,8 @@ namespace LightStudio.PokemonBattle.Game
       : base(controller)
     {
       comparer = new Comparer(Game.Board);
-      tiles = new Tile[Board.TeamCount * Board.XBound];
+      tiles = Board.Tiles.ToArray(); //this is a copy
       OnboardPokemons = new List<PokemonProxy>();
-      int k = -1;
-      for (int i = 0; i < Board.TeamCount; i++)
-        for (int j = 0; j < Board.XBound; j++)
-          tiles[++k] = Board[i, j];
     }
 
     public List<PokemonProxy> OnboardPokemons

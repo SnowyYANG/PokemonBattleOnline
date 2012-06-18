@@ -105,7 +105,7 @@ namespace LightStudio.PokemonBattle.Game
     {
       if (unlocked)
       {
-        if (item.Id > 0 && item.Id < abilities.Length)
+        if (item.Id > 0 && item.Id < items.Length)
           items[item.Id] = item;
       }
     }

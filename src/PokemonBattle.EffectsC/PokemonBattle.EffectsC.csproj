@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abilities\FlashFire.cs" />
     <Compile Include="Abilities\Illusion.cs" />
     <Compile Include="Conditions\Taunt.cs" />
     <Compile Include="Moves\GrassKnot.cs" />

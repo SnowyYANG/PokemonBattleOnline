@@ -33,7 +33,7 @@ namespace LightStudio.PokemonBattle.Game
       get
       {
         if (Pokemon != null)
-          speed = OnboardPokemon.Get5D(Pokemon.OnboardPokemon.Static.Speed, Pokemon.OnboardPokemon.Lv5D.Speed);
+          speed = Pokemon.Speed;
         return speed;
       }
     }

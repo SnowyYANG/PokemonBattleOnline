@@ -25,17 +25,13 @@ namespace LightStudio.PokemonBattle.Game.Sp
       }
     }
 
-    public static bool CalculateFoulPlayAtk(AtkContext atk)
+    public static bool FoulPlay(this MoveType move)
     {
-      PokemonProxy pm = atk.Target.Defender;
-      if (atk.Move.Id == 492 && pm != null)
-      {
-        atk.AtkRaw = atk.Attacker.OnboardPokemon.Static.Atk;
-        atk.AtkRaw = (int)(atk.AtkRaw * atk.Attacker.Ability.Get5DRevise(pm, StatType.Atk));
-        atk.AtkRaw = (int)(atk.AtkRaw * atk.Attacker.Item.Get5DRevise(pm, StatType.Atk));
-        return true;
-      }
-      return false;
+      return move.Id == 492;
+    }
+    public static bool ChipAway(this MoveType move)
+    {
+      return move.Id == 498;
     }
     public static bool CheckTriAttack(DefContext def)
     {

@@ -49,20 +49,8 @@ namespace LightStudio.PokemonBattle.Game
       }
 
     SPEED:
-      {
-        var aField = a.Controller.Board[a.Pokemon.TeamId];
-        int sRaw = a.OnboardPokemon.Static.Speed;
-        if (aField.HasCondition("TailWind")) sRaw <<= 1;
-        if (aField.HasCondition("Swamp")) sRaw = (aS + 1) >> 2; //小数点是0.5以下就舍去，如果是0.75就四舍五入
-        aS *= OnboardPokemon.Get5D(sRaw, a.OnboardPokemon.Lv5D.Speed);
-      }
-      {
-        var bField = b.Controller.Board[b.Pokemon.TeamId];
-        int sRaw = b.OnboardPokemon.Static.Speed;
-        if (bField.HasCondition("TailWind")) sRaw <<= 1;
-        if (bField.HasCondition("Swamp")) sRaw = (sRaw + 1) >> 2;
-        bS *= OnboardPokemon.Get5D(sRaw, b.OnboardPokemon.Lv5D.Speed);
-      }
+      aS *= a.Speed;
+      bS *= b.Speed;
       return CompareSpeed(aS, bS);
     }
     public int Compare(Tile a, Tile b)

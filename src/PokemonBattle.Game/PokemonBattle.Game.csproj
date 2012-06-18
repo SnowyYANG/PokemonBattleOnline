@@ -42,12 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\SimPokemon.cs" />
+    <Compile Include="Host\EModels\Modifier.cs" />
     <Compile Include="Host\EModels\Sp\Conditions\BadlyPoison.cs" />
     <Compile Include="Host\EModels\Sp\Conditions\ConfuseFlinch.cs" />
     <Compile Include="IGameSettings.cs" />
     <Compile Include="Interactive\GameEvents\DeIllusion.cs" />
     <Compile Include="Host\EModels\Sp\Conditions\Disable.cs" />
-    <Compile Include="Host\EModels\Sp\Conditions\FlashFire.cs" />
     <Compile Include="Host\EModels\Sp\Conditions\Frozen.cs" />
     <Compile Include="Host\EModels\Sp\Conditions\HealBlock.cs" />
     <Compile Include="Host\EModels\Sp\Conditions\Paralyzed.cs" />

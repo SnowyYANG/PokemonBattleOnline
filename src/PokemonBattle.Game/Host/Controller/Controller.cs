@@ -45,8 +45,14 @@ namespace LightStudio.PokemonBattle.Game
 
     public Board Board
     { get { return Game.Board; } }
+    /// <summary>
+    /// sorted by speed
+    /// </summary>
     public List<PokemonProxy> OnboardPokemons
     { get { return TurnController.OnboardPokemons; } }
+    /// <summary>
+    /// sorted by speed
+    /// </summary>
     public IEnumerable<Tile> Tiles
     { get { return TurnController.Tiles; } }
     public int TurnNumber
@@ -75,7 +81,14 @@ namespace LightStudio.PokemonBattle.Game
     }
     public Weather GetAvailableWeather()
     {
-      return Abilities.HaveCloudNine(this) ? Weather.Invalid : Board.Weather;
+      return Abilities.IgnoreWeather(this) ? Weather.Invalid : Board.Weather;
+    }
+    /// <summary>
+    /// sorted by speed
+    /// </summary>
+    public IEnumerable<PokemonProxy> GetOnboardPokemons(int teamId)
+    {
+      return OnboardPokemons.Where((p) => p.Pokemon.TeamId == teamId);
     }
     #endregion
 

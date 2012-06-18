@@ -15,21 +15,21 @@ namespace LightStudio.PokemonBattle.Effects.Moves
         {
         }
 
-        protected override void CalculatePower(AtkContext atk)
+        protected override void CalculateBasePower(DefContext def)
         {
-            double w = atk.Target.Defender.Pokemon.PokemonType.Weight;
+            double w = def.Defender.Pokemon.PokemonType.Weight;
             if (w >= 200)
-                atk.Power = 120;
+                def.BasePower = 120;
             else if (w >= 100)
-                atk.Power = 100;
+                def.BasePower = 100;
             else if (w >= 50)
-                atk.Power = 80;
+                def.BasePower = 80;
             else if (w >= 25)
-                atk.Power = 60;
+                def.BasePower = 60;
             else if (w >= 10)
-                atk.Power = 40;
+                def.BasePower = 40;
             else
-                atk.Power = 20;
+                def.BasePower = 20;
         }
     }
 }

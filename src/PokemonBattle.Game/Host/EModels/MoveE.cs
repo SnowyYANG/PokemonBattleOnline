@@ -10,7 +10,7 @@ namespace LightStudio.PokemonBattle.Game
 {
   public abstract class MoveE : IMoveE
   {
-    protected static readonly double[,] BATTLE_TYPE_EFFECT = new double[18, 18]{ { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 2, 1, 1, 0.5, 0.5, 0.5, 0.5, 2, 1, 1, 1, 0.5, 2, 1, 0.5, 1 }, { 1, 1, 0.5, 1, 1, 0.5, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 0.5, 1 }, { 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 1 }, { 1, 1, 1, 0.5, 0.5, 1, 1, 2, 1, 0.5, 0, 1, 1, 1, 1, 1, 1, 2 }, { 1, 0.5, 2, 1, 1, 1, 1, 0.5, 0, 1, 1, 2, 2, 0.5, 0.5, 2, 2, 1 }, { 1, 2, 1, 0.5, 1, 1, 0.5, 1, 1, 2, 1, 2, 1, 1, 1, 0.5, 2, 0.5 }, { 1, 2, 1, 1, 0.5, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 0.5, 0.5, 1 }, { 1, 1, 0.5, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0, 1, 2, 1, 0.5, 1 }, { 1, 0.5, 1, 0.5, 1, 1, 0.5, 0.5, 1, 0.5, 2, 1, 1, 0.5, 1, 2, 0.5, 2 }, { 1, 0.5, 1, 1, 2, 1, 2, 0, 1, 0.5, 1, 1, 1, 2, 1, 2, 2, 1 }, { 1, 1, 1, 2, 1, 1, 0.5, 2, 1, 2, 2, 0.5, 1, 1, 1, 1, 0.5, 0.5 }, { 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0.5, 0.5, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 2, 0.5, 1, 1, 0.5, 1, 0.5, 0, 1 }, { 1, 1, 0, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 0.5, 1, 0.5, 1 }, { 1, 2, 1, 1, 1, 0.5, 2, 2, 1, 1, 0.5, 2, 1, 1, 1, 1, 0.5, 1 }, { 1, 1, 1, 1, 0.5, 1, 0.5, 1, 1, 1, 1, 2, 1, 1, 1, 2, 0.5, 0.5 }, { 1, 1, 1, 0.5, 1, 1, 2, 1, 1, 0.5, 2, 1, 1, 1, 1, 2, 1, 0.5 } };
+    protected static readonly sbyte[,] BATTLE_TYPE_EFFECT = new sbyte[18, 18] { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 1, 0, 0, -1, -1, -1, -1, 1, 0, 0, 0, -1, 1, 0, -1, 0 }, { 0, 0, -1, 0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, -1, 0 }, { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0 }, { 0, 0, 0, -1, -1, 0, 0, 1, 0, -1, -128, 0, 0, 0, 0, 0, 0, 1 }, { 0, -1, 1, 0, 0, 0, 0, -1, -128, 0, 0, 1, 1, -1, -1, 1, 1, 0 }, { 0, 1, 0, -1, 0, 0, -1, 0, 0, 1, 0, 1, 0, 0, 0, -1, 1, -1 }, { 0, 1, 0, 0, -1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, -1, -1, 0 }, { 0, 0, -1, 0, 0, 0, 0, 0, 1, 0, 0, 0, -128, 0, 1, 0, -1, 0 }, { 0, -1, 0, -1, 0, 0, -1, -1, 0, -1, 1, 0, 0, -1, 0, 1, -1, 1 }, { 0, -1, 0, 0, 1, 0, 1, -128, 0, -1, 0, 0, 0, 1, 0, 1, 1, 0 }, { 0, 0, 0, 1, 0, 0, -1, 1, 0, 1, 1, -1, 0, 0, 0, 0, -1, -1 }, { 0, 0, 0, 0, 0, 0, 0, 0, -128, 0, 0, 0, 0, 0, 0, -1, -1, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, -1, 1, -1, 0, 0, -1, 0, -1, -128, 0 }, { 0, 0, -128, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, -1, 0 }, { 0, 1, 0, 0, 0, -1, 1, 1, 0, 0, -1, 1, 0, 0, 0, 0, -1, 0 }, { 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0, 1, -1, -1 }, { 0, 0, 0, -1, 0, 0, 1, 0, 0, -1, 1, 0, 0, 0, 0, 1, 0, -1 } };
     protected static readonly int[] TIMES25 = new int[8] { 2, 2, 2, 3, 3, 3, 4, 5 };
     protected static readonly double[] LV_ACC = { 0.33, 0.36, 0.43, 0.5, 0.6, 0.75, 1, 1.33, 1.66, 2, 2.5, 2.66, 3 };
     protected static readonly int[] LV_CT = { 16, 8, 4, 3, 2, 0 };
@@ -55,7 +55,7 @@ namespace LightStudio.PokemonBattle.Game
       foreach (DefContext def in targets)
       {
         CalculateEffect(def);
-        if (def.EffectRevise == 0) noeffect.Add(def);
+        if (def.EffectRevise == -128) noeffect.Add(def);
       }
       if (noeffect.Count > 0)
       {
@@ -94,8 +94,8 @@ namespace LightStudio.PokemonBattle.Game
         if (Move.Class != MoveInnerClass.OHKO)
         {
           if (Items.CheckMicleBerry(atk)) goto DONE;
-          atk.Attacker.Ability.CalculatingAccuracy(atk); //计算攻击方命中修正
-          atk.Attacker.Item.CalculatingAccuracy(atk);
+          Abilities.AccuracyModifier(atk);
+          Items.WideLens(atk);
         }
         var miss = new List<DefContext>();
         foreach (DefContext def in targets)
@@ -128,26 +128,22 @@ namespace LightStudio.PokemonBattle.Game
         if (def.Ability.Unaware()) lv = 0;
         else lv = def.AtkContext.Attacker.OnboardPokemon.AccuracyLv;
         //如果攻击方是天然特性，防御方的回避等级按0计算。 
+        //循序渐进无视防御方回避等级。
         //将攻击方的命中等级减去防御方的回避等级。 
-        if (atk.Attacker.Ability.Unaware())
+        if (!(atk.Attacker.Ability.Unaware() || Move.ChipAway()))
           lv -= def.Defender.OnboardPokemon.EvasionLv;
         if (lv < -6) lv = -6;
         else if (lv > 6) lv = 6;
         //用技能基础命中乘以命中等级修正，向下取整。
         acc = (int)(Move.Accuracy * LV_ACC[lv + 6]);
 
-        //特性道具
-        def.Ability.CalculatingAccuracy(def);
-        def.Defender.Item.CalculatingAccuracy(def);
-        acc = (int)(acc * atk.AccuracyRevise);
-        acc = (int)(acc * def.AccuracyRevise);
-        
-        //如果场上存在重力，命中×5/3。
-        if (controller.Board.HasCondition("Gravity"))
-        {
-          acc *= 5;
-          acc /= 3;
-        }
+        Modifier m = def.Ability.AccuracyModifier(def);
+        m *= atk.AccuracyModifier;
+        m *= Items.AccuracyModifier(def);
+        m *= Items.ZoomLens(def);
+        if (controller.Board.HasCondition("Gravity")) m *= 0x1AAA;//如果场上存在重力，命中×5/3。
+
+        acc *= m;
       }
       //产生1～100的随机数，如果小于等于命中，判定为命中，否则判定为失误。
       return controller.RandomHappen(acc);
@@ -158,11 +154,11 @@ namespace LightStudio.PokemonBattle.Game
     {
       atk.Type = Move.Type;
     }
-    private double CalculateEffect(DefContext def, BattleType defType)
+    private sbyte CalculateEffect(DefContext def, BattleType defType)
     {
-      double e = BATTLE_TYPE_EFFECT[(int)def.AtkContext.Type, (int)defType];
-      if (e == 0 && def.Defender.OnboardPokemon.GetCondition<BattleType>("CanAttack") == defType)
-        e = 1;
+      sbyte e = BATTLE_TYPE_EFFECT[(int)def.AtkContext.Type, (int)defType];
+      if (e == -128 && def.Defender.OnboardPokemon.GetCondition<BattleType>("CanAttack") == defType)
+        e = 0;
       return e;
     }
     protected virtual void CalculateEffect(DefContext def)
@@ -170,25 +166,21 @@ namespace LightStudio.PokemonBattle.Game
       switch (Move.Class)
       {
         case MoveInnerClass.AddState:
-          def.EffectRevise = (CalculateEffect(def, def.Defender.OnboardPokemon.Type1) == 0d || CalculateEffect(def, def.Defender.OnboardPokemon.Type2) == 0d) ?
-              0d : 1d;
+          def.EffectRevise = (sbyte)((CalculateEffect(def, def.Defender.OnboardPokemon.Type1) == -128 || CalculateEffect(def, def.Defender.OnboardPokemon.Type2) == -128) ? -128 : 0);
           break;
         case MoveInnerClass.Attack:
         case MoveInnerClass.AttackAndAbsorb:
         case MoveInnerClass.AttackWithSelfLv7DChange:
         case MoveInnerClass.AttackWithState:
         case MoveInnerClass.AttackWithTargetLv7DChange:
-          def.EffectRevise = CalculateEffect(def, def.Defender.OnboardPokemon.Type1) * CalculateEffect(def, def.Defender.OnboardPokemon.Type2);
+          def.EffectRevise = (sbyte)(CalculateEffect(def, def.Defender.OnboardPokemon.Type1) + CalculateEffect(def, def.Defender.OnboardPokemon.Type2));
           break;
         case MoveInnerClass.OHKO:
-          def.EffectRevise =
-            (CalculateEffect(def, def.Defender.OnboardPokemon.Type1) == 0d || CalculateEffect(def, def.Defender.OnboardPokemon.Type2) == 0d ||
+          def.EffectRevise =(sbyte)(
+            (CalculateEffect(def, def.Defender.OnboardPokemon.Type1) == -128 || CalculateEffect(def, def.Defender.OnboardPokemon.Type2) == -128 ||
             def.Defender.Pokemon.Lv > def.AtkContext.Attacker.Pokemon.Lv ||
             def.Defender.RaiseAbility(Abilities.STURDY)) ?
-            0d : 1d;
-          break;
-        default:
-          def.EffectRevise = 1d;
+            -128 : 0);
           break;
       }
     }
@@ -248,7 +240,8 @@ namespace LightStudio.PokemonBattle.Game
           break;
         case MoveRange.Single:
         case MoveRange.SingleEnemy:
-          if (select == null) goto case MoveRange.RandomEnemy; //非鬼系选诅咒后变诅咒随机对方一个精灵
+          if (select == null || (!Move.AdvancedFlags.IsRemote && (select.X < x - 1 || select.X > x + 1)))
+            goto case MoveRange.RandomEnemy; //非鬼系选诅咒后变诅咒随机对方一个精灵
           targets = new Tile[] { select };
           break;
         case MoveRange.User: //done?
