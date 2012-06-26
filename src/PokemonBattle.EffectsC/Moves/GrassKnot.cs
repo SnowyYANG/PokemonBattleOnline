@@ -30,6 +30,7 @@ namespace LightStudio.PokemonBattle.Effects.Moves
                 def.BasePower = 40;
             else
                 def.BasePower = 20;
+            ///签入
         }
     }
 }
