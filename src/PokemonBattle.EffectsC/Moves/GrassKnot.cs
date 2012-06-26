@@ -17,7 +17,7 @@ namespace LightStudio.PokemonBattle.Effects.Moves
 
         protected override void CalculateBasePower(DefContext def)
         {
-            double w = def.Defender.Pokemon.PokemonType.Weight;
+            double w = def.Defender.Weight;
             if (w >= 200)
                 def.BasePower = 120;
             else if (w >= 100)
@@ -30,7 +30,6 @@ namespace LightStudio.PokemonBattle.Effects.Moves
                 def.BasePower = 40;
             else
                 def.BasePower = 20;
-            ///签入
         }
     }
 }
