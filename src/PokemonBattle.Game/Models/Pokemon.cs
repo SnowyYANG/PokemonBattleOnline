@@ -25,6 +25,7 @@ namespace LightStudio.PokemonBattle.Game
     public int Lv { get; private set; }
     public Ability Ability { get; private set; }
     public Move[] Moves { get; private set; }
+    public int Happiness { get; private set; }
     public PokemonNature Nature { get; private set; }
 
     public readonly ReadOnly6D Base;
