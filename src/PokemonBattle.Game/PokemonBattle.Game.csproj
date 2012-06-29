@@ -42,9 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\SimPokemon.cs" />
+    <Compile Include="Host\Controller\InputType.cs" />
     <Compile Include="Host\EModels\Modifier.cs" />
     <Compile Include="Host\EModels\Sp\Conditions\BadlyPoison.cs" />
     <Compile Include="Host\EModels\Sp\Conditions\ConfuseFlinch.cs" />
+    <Compile Include="Host\EModels\Sp\Conditions\LightScreenReflect.cs" />
     <Compile Include="IGameSettings.cs" />
     <Compile Include="Interactive\GameEvents\DeIllusion.cs" />
     <Compile Include="Host\EModels\Sp\Conditions\Disable.cs" />

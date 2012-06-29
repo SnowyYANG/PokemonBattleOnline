@@ -18,21 +18,6 @@ namespace LightStudio.PokemonBattle.Game.Sp
       return move.Type.Id == SLEEP_TALK || move.Type.Id == SNORE;
     }
 
-    public static void PreMove(this MoveProxy move)
-    {
-      if (move.Type.Id == 264)
-      {
-      }
-    }
-
-    public static bool FoulPlay(this MoveType move)
-    {
-      return move.Id == 492;
-    }
-    public static bool ChipAway(this MoveType move)
-    {
-      return move.Id == 498;
-    }
     public static bool CheckTriAttack(DefContext def)
     {
       Controller c = def.Defender.Controller;
@@ -48,13 +33,32 @@ namespace LightStudio.PokemonBattle.Game.Sp
       }
       return false;
     }
+    public static void Pursuit(PokemonProxy target)
+    {
+      //228
+    }
+    public static void FocusPunch(MoveProxy move)
+    {
+      if (move.Type.Id == 264)
+      {
+      }
+    }
+
+    public static bool FoulPlay(this MoveType move)
+    {
+      return move.Id == 492;
+    }
+    public static bool ChipAway(this MoveType move)
+    {
+      return move.Id == 498;
+    }
     public static void CheckSkyDrop(AtkContext atk)
     {
       if (atk.Move.Id == 507)
       {
         var d = atk.Target.Defender;
         d.OnboardPokemon.CoordY = CoordY.Plate;
-        d.Controller.ReportBuilder.Add(new PositionChange("SkyDropFree", d));
+        d.Controller.ReportBuilder.Add(PositionChange.Reset("SkyDropFree", d));
       }
     }
   }

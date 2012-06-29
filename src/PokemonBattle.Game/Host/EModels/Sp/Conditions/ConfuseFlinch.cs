@@ -5,20 +5,20 @@ using System.Text;
 
 namespace LightStudio.PokemonBattle.Game.Sp.Conditions
 {
-  public class Confuse : PmCondition
+  public class Confused : PmCondition
   {
-    public Confuse(PokemonProxy pm, int count)
-      : base("Confuse", pm, count)
+    public Confused(PokemonProxy pm, int count)
+      : base("Confused", pm, count)
     {
     }
     
     public override bool CanExecute()
     {
-      if (--count > 0) AddReportPm("Confuse");
+      if (--count > 0) AddReportPm("Confused");
       else
       {
         Remove();
-        AddReportPm("DeConfuse");
+        AddReportPm("DeConfused");
       } 
       if (pm.Controller.OneNth(2))
       {

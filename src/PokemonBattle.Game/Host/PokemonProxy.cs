@@ -48,7 +48,6 @@ namespace LightStudio.PokemonBattle.Game
     { get { return Pokemon.Id; } }
     public Tile Tile
     { get; internal set; }
-
     public int Hp
     { 
       get { return Pokemon.Hp.Value; }
@@ -99,6 +98,16 @@ namespace LightStudio.PokemonBattle.Game
         if (Controller.Board[Pokemon.TeamId].HasCondition("TailWind")) speed <<= 1;
         if (Controller.Board[Pokemon.TeamId].HasCondition("Swamp")) speed = (speed + 1) >> 2; //小数点是0.5以下就舍去，如果是0.75就四舍五入
         return speed;
+      }
+    }
+    public double Weight
+    {
+      get
+      {
+        double w = Pokemon.PokemonType.Weight;
+        w *= Abilities.WeightModifier(this);
+        w *= Items.FloatStone(this);
+        return w;
       }
     }
     public void BuildAtkContext(MoveType move)
@@ -245,7 +254,7 @@ namespace LightStudio.PokemonBattle.Game
     internal void PreMove()
     {
       if (Action == PokemonAction.MoveAttached)
-        SelectedMove.PreMove();
+        Sp.Moves.FocusPunch(SelectedMove);
     }
     internal void ActMove()
     {
@@ -359,10 +368,29 @@ namespace LightStudio.PokemonBattle.Game
       if (stat == StatType.Accuracy) OnboardPokemon.AccuracyLv += change;
       else if (stat == StatType.Evasion) OnboardPokemon.EvasionLv += change;
       else OnboardPokemon.ChangeLv7D(stat, change);
-      if (change == 1) AddReportPm("Lv7DUp", statName);
-      else if (change == -1) AddReportPm("Lv7DDown", statName);
-      else if (change > 1) AddReportPm("Lv7DUp2", statName);
-      else AddReportPm("Lv7DDown2", statName);
+      {
+        string logKey;
+        switch (change)
+        {
+          case 1:
+            logKey = "7DUp";
+            break;
+          case 2:
+            logKey = "7DUp2";
+            break;
+          case -1:
+            logKey = "7DDown";
+            break;
+          case -2:
+            logKey = "7DDown2";
+            break;
+          default:
+            if (change > 0) logKey = "7DUp3";
+            else logKey = "7DDown3";
+            break;
+        }
+        AddReportPm(logKey, statName);
+      }
       if (by != this && change < 0) Abilities.CheckDefiant(this);
     }
     public void ChangeLv7D(PokemonProxy by, int a, int d = 0, int sa = 0, int sd = 0, int s = 0, int ac = 0, int e = 0)

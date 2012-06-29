@@ -18,6 +18,9 @@ namespace LightStudio.PokemonBattle.Interactive
     {
       return knownGameEvents;
     }
+    /// <summary>
+    /// For effects, use in register
+    /// </summary>
     public static void AddEventType<T>() where T : GameEvent
     {
       knownGameEvents.Add(typeof(T));

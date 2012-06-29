@@ -102,6 +102,12 @@ namespace LightStudio.PokemonBattle.Room
     [DataMember]
     ReportFragment Fragment;
 
+    /// <summary>
+    /// 非回合开始时的所有玩家选招，如飞天、逆鳞，注意：Leap（观战/首回合）的战报段没可能是SP的
+    /// </summary>
+    [DataMember(EmitDefaultValue = false)]
+    private readonly bool Sp;
+
     public ReportUpdateInfo(ReportFragment turn)
     {
       Fragment = turn;
@@ -150,24 +156,29 @@ namespace LightStudio.PokemonBattle.Room
   class InputResultInfo : IUserInformation
   {
     [DataMember(EmitDefaultValue = false)]
-    bool IsFailed;
+    Type T;
 
     [DataMember(EmitDefaultValue = false)]
     string Message;
 
-    [DataMember(EmitDefaultValue = false)]
-    bool AllDone;
-
     public InputResultInfo(InputResult result)
     {
-      IsFailed = !result.IsSucceeded;
+      if (result.AllDone) T = Type.AllDone;
+      else if (result.IsSucceeded) T = Type.Succeed;
+      else T = Type.Fail;
       Message = result.Message;
-      AllDone = result.AllDone;
     }
     
     void IUserInformation.Execute(IUser user)
     {
-      user.InformInputResult(!IsFailed, Message, AllDone);
+      user.InformInputResult(T == Type.AllDone || T == Type.Succeed, Message, T == Type.AllDone);
+    }
+
+    private enum Type
+    {
+      AllDone,
+      Succeed,
+      Fail
     }
   }
 }

@@ -7,13 +7,6 @@ namespace LightStudio.PokemonBattle.Game
 {
   public struct Modifier
   {
-    UInt16 n;
-
-    private Modifier(UInt16 code)
-    {
-      n = code;
-    }
-
     public static Modifier operator*(Modifier x, Modifier y)
     {
       return x * y.n;
@@ -45,6 +38,33 @@ namespace LightStudio.PokemonBattle.Game
     public static implicit operator Modifier(UInt16 code)
     {
       return new Modifier(code);
+    }
+    /// <summary>
+    /// only for python
+    /// </summary>
+    public static explicit operator Modifier(int code)
+    {
+      return new Modifier((UInt16)code);
+    }
+
+    UInt16 n;
+
+    private Modifier(UInt16 code)
+    {
+      n = code;
+    }
+
+    public override bool Equals(object obj)
+    {
+      bool r;
+      if (obj is Modifier) r = this == (Modifier)obj;
+      else if (obj is UInt16) r = n == (UInt16)obj;
+      else r = base.Equals(obj);
+      return r;
+    }
+    public override int GetHashCode()
+    {
+      return n.GetHashCode();
     }
   }
 }

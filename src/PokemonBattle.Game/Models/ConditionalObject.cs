@@ -45,7 +45,6 @@ namespace LightStudio.PokemonBattle.Game
       }
 
       public new void Remove() { }
-      public override void EndTurn() { }
     }
   }
 }

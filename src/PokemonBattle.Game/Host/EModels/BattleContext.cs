@@ -56,7 +56,7 @@ namespace LightStudio.PokemonBattle.Game
 
     internal void Execute()
     {
-      Controller.ReportBuilder.Add(new Interactive.GameEvents.PositionChange("UseMove", Attacker, Move.GetLocalizedName()));
+      Controller.ReportBuilder.Add(Interactive.GameEvents.PositionChange.Reset("UseMove", Attacker, Move.GetLocalizedName()));
       GameService.GetMove(Move.Id).Execute(Attacker);
     }
     public void SetTargets(IEnumerable<DefContext> targets)
@@ -113,7 +113,9 @@ namespace LightStudio.PokemonBattle.Game
     public bool HasInfiltratableCondition(string condition)
     {
       PokemonProxy a = AtkContext.Attacker;
-      return Defender.Controller.Board[Defender.Tile.Team].HasCondition(condition) &&
+      return
+        !IsCt &&
+        Defender.Controller.Board[Defender.Tile.Team].HasCondition(condition) &&
         (Defender.Tile.Team == a.Tile.Team || !AtkContext.Attacker.Ability.Infiltrator());
     }
     public void ModifyDamage(Int16 modifier)

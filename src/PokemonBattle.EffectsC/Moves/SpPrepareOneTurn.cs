@@ -21,7 +21,7 @@ namespace LightStudio.PokemonBattle.Effects.Moves
     {
       if (pm.Action == PokemonAction.MoveAttached)
       {
-        pm.Controller.ReportBuilder.Add(new Interactive.GameEvents.PositionChange("Prepare" + Move.Id.ToString(), pm, Y));
+        pm.Controller.ReportBuilder.Add(Interactive.GameEvents.PositionChange.Leap("Prepare" + Move.Id.ToString(), pm, Y));
         pm.Action = PokemonAction.Moving;
         pm.OnboardPokemon.CoordY = Y;
         return true;
@@ -31,8 +31,8 @@ namespace LightStudio.PokemonBattle.Effects.Moves
   }
   class SolarBeam : AttackMoveE
   {
-    public SolarBeam()
-      : base(76)
+    public SolarBeam(int id)
+      : base(id)
     {
     }
 
@@ -43,8 +43,8 @@ namespace LightStudio.PokemonBattle.Effects.Moves
   }
   class SkullBash : AttackMoveE
   {
-    public SkullBash()
-      : base(130)
+    public SkullBash(int id)
+      : base(id)
     {
     }
     protected override bool PrepareOneTurn(PokemonProxy pm)

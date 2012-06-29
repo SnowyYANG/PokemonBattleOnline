@@ -17,7 +17,7 @@ namespace LightStudio.PokemonBattle.Game.Sp.Conditions
             if (m != null && m.Type == move)
             {
               p.Controller.ReportBuilder.Add(
-                new Interactive.GameEvents.PositionChange("Imprison", p, move.GetLocalizedName()));
+                Interactive.GameEvents.PositionChange.Reset("Imprison", p, move.GetLocalizedName()));
               return false;
             }
       return true;

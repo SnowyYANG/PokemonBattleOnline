@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Game.Sp
 
     private static void RaiseItem(this PokemonProxy pm, string key = "RaiseItem")
     {
-      pm.Controller.ReportBuilder.Add(new Interactive.GameEvents.UseItem(key, pm));
+      pm.Controller.ReportBuilder.Add(new Interactive.GameEvents.UseItem(key, pm, pm.Pokemon.Item));
       if (pm.Pokemon.Item.Type != ItemType.Normal) pm.ConsumeItem();
     }
     public static void RaiseItem(this PokemonProxy pm)
@@ -138,6 +138,11 @@ namespace LightStudio.PokemonBattle.Game.Sp
         return true;
       }
       return false;
+    }
+    public static double FloatStone(PokemonProxy pm)
+    {
+      if (pm.Item.Id == 103) return 0.5d;
+      return 1d;
     }
   }
 }

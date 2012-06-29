@@ -21,7 +21,7 @@ namespace LightStudio.PokemonBattle.Game.Sp.Conditions
       if (count <= 0) pm.State = PokemonState.Normal; //auto Remove
       else
       {
-        AddReport(new Interactive.GameEvents.PositionChange("Sleeping", pm));
+        AddReport(Interactive.GameEvents.PositionChange.Reset("Sleeping", pm));
         if (!pm.SelectedMove.AvailableEvenSleeping())//梦话打鼾
           return false;
       }

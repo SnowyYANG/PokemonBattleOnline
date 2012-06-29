@@ -21,10 +21,5 @@ namespace LightStudio.PokemonBattle.Game.Sp.Conditions
       }
       return true;
     }
-
-    public override void EndTurn()
-    {
-      if (--count <= 0) Remove();
-    }
   }
 }

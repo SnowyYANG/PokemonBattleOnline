@@ -54,6 +54,10 @@ namespace LightStudio.PokemonBattle.Game.Sp
     {
       return ability.Id == 85;
     }
+    public static bool QuickFeet(this IAbilityE ability)
+    {
+      return ability.Id == 101;
+    }
     public static bool RockHead(this IAbilityE ability)
     {
       return ability.Id == 106;
@@ -287,6 +291,16 @@ namespace LightStudio.PokemonBattle.Game.Sp
       else if (ab == HUSTLE && atk.Move.Category == MoveCategory.Physical) atk.AccuracyModifier = 0x1800;
       foreach (PokemonProxy pm in atk.Attacker.TeamOnboardPms())
         if (pm.Ability.Id == VICTORY_STAR) atk.AccuracyModifier *= 0x1199;
+    }
+    public static double WeightModifier(PokemonProxy pm)
+    {
+      int HEAVY_METAL = 47, LIGHT_METAL = 67;
+      double m;
+      int id = pm.Ability.Id;
+      if (id == HEAVY_METAL) m = 2d;
+      else if (id == LIGHT_METAL) m = 0.5d;
+      else m = 1d;
+      return m;
     }
   }
 }

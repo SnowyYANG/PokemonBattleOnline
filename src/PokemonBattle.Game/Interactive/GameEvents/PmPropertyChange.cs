@@ -193,17 +193,21 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class PositionChange : PmEvent
   {
+    public static PositionChange Reset(string gameLogKey, PokemonProxy pm, params string[] args)
+    {
+      return new PositionChange(gameLogKey, pm, args);
+    }
+    public static PositionChange Leap(string gameLogKey, PokemonProxy pm, CoordY y)
+    {
+      return new PositionChange(gameLogKey, pm) { Y = y };
+    }
+    
     [DataMember(EmitDefaultValue = false)]
     CoordY Y;
     
-    public PositionChange(string gameLogKey, PokemonProxy pm, params string[] args)
+    private PositionChange(string gameLogKey, PokemonProxy pm, params string[] args)
       : base(gameLogKey, pm, args)
     {
-    }
-    public PositionChange(string gameLogKey, PokemonProxy pm, CoordY y)
-      :base(gameLogKey, pm)
-    {
-      Y = y;
     }
     
     public override void Update(GameOutward game)
@@ -223,15 +227,11 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     [DataMember(EmitDefaultValue = false)]
     int Item;
 
-    public UseItem(string logKey, PokemonProxy pm)
+    public UseItem(string logKey, PokemonProxy pm, Item i)
     {
       Key = logKey;
       Pm = pm.Id;
-    }
-    public UseItem(string logKey, PokemonProxy pm, Item i)
-      : this(logKey, pm)
-    {
-      Item = i.Id;
+      if (i != null) Item = i.Id;
     }
     private PokemonOutward pm;
     private Item i;

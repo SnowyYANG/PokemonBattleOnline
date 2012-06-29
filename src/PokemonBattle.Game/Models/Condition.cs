@@ -20,8 +20,10 @@ namespace LightStudio.PokemonBattle.Game
     {
       if (obj != null) obj.RemoveCondition(Name);
     }
-    public virtual void EndTurn()
+    public virtual void CountDown()
     {
+      count--;//gamelog
+      System.Diagnostics.Debugger.Break();
     }
   }
   public abstract class PmCondition : Condition

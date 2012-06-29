@@ -189,7 +189,7 @@ namespace LightStudio.PokemonBattle.Game
       if (atk.Attacker.OnboardPokemon.HasType(atk.Type))
         atk.STAB = (ushort)(atk.Attacker.Ability.Adaptability() ? 0x2000 : 0x1800);
     }
-    protected virtual void Calculate(DefContext def) //固定伤害override
+    protected virtual void Calculate(DefContext def)
     {
       AtkContext atk = def.AtkContext;
       PokemonProxy aer = atk.Attacker;
@@ -248,8 +248,8 @@ namespace LightStudio.PokemonBattle.Game
       //5.Apply STAB modifier
       def.Damage *= atk.STAB;
       //6.Alter with type effectiveness
-      if (def.EffectRevise > 0) def.Damage >>= def.EffectRevise;
-      else if (def.EffectRevise < 0) def.Damage <<= -def.EffectRevise;
+      if (def.EffectRevise > 0) def.Damage <<= def.EffectRevise;
+      else if (def.EffectRevise < 0) def.Damage >>= -def.EffectRevise;
       //7.Alter with user's burn
       if (Move.Category == MoveCategory.Physical && aer.State == PokemonState.Burned && !aer.Ability.Guts())
         def.Damage >>= 1;
@@ -257,11 +257,7 @@ namespace LightStudio.PokemonBattle.Game
       if (def.Damage < 1) def.Damage = 1;
       //9.Apply the final modifier
       {
-        Modifier m = 0x1000;
-        //If the target's side is affected by Reflect, the move used was physical, the user's ability isn't Infiltrator and the critical hit flag isn't set. 
-        //The value of the modificator is 0xA8F if there is more than one Pokemon per side of the field and 0x800 otherwise.
-        //Same as above with Light Screen and special moves.
-
+        Modifier m = Sp.Conditions.LightScreenReflect.DamageFinalModifier(def);
         //If the target's ability is Multiscale and the target is at full health.
         m *= Abilities.Multiscale(def);
         //If the user's ability is Tinted Lens and the move wasn't very effective.

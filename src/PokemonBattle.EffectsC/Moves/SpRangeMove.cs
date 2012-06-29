@@ -45,4 +45,20 @@ namespace LightStudio.PokemonBattle.Effects.Moves
       else base.CalculateBasePower(def);
     }
   }
+  class Thunder : SpRangeMove
+  {
+    public Thunder(int id)
+      : base(id, CoordY.Air)
+    {
+    }
+    public override int GetAccuracyBase(AtkContext atk)
+    {
+      int r;
+      Weather w = atk.Controller.GetAvailableWeather();
+      if (w == Weather.HeavyRain) r = 0x65;
+      else if (w == Weather.IntenseSunlight) r = 50;
+      else r = base.GetAccuracyBase(atk);
+      return r;
+    }
+  }
 }

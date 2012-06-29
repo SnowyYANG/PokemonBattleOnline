@@ -11,8 +11,8 @@ namespace LightStudio.PokemonBattle.Effects.Abilities
   /// </summary>
   class Illusion : AbilityE
   {
-    public Illusion()
-      : base(56)
+    public Illusion(int id)
+      : base(id)
     {
     }
     

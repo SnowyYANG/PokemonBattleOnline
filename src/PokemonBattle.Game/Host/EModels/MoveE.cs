@@ -89,7 +89,7 @@ namespace LightStudio.PokemonBattle.Game
       }
       #endregion
       #region Check for misses
-      if (!atk.Attacker.Ability.NoGuard() && Move.Accuracy < 0x65)
+      if (!atk.Attacker.Ability.NoGuard() && GetAccuracyBase(atk) < 0x65)
       {
         if (Move.Class != MoveInnerClass.OHKO)
         {
@@ -121,7 +121,7 @@ namespace LightStudio.PokemonBattle.Game
       Controller controller = atk.Controller;
       int acc;
       if (Move.Class == MoveInnerClass.OHKO) //等级原因的“完全没有效果”已经判断过了
-        acc = Move.Accuracy + atk.Attacker.Pokemon.Lv - def.Defender.Pokemon.Lv;
+        acc = GetAccuracyBase(atk) + atk.Attacker.Pokemon.Lv - def.Defender.Pokemon.Lv;
       else
       {
         int lv;
@@ -135,7 +135,7 @@ namespace LightStudio.PokemonBattle.Game
         if (lv < -6) lv = -6;
         else if (lv > 6) lv = 6;
         //用技能基础命中乘以命中等级修正，向下取整。
-        acc = (int)(Move.Accuracy * LV_ACC[lv + 6]);
+        acc = (int)(GetAccuracyBase(atk) * LV_ACC[lv + 6]);
 
         Modifier m = def.Ability.AccuracyModifier(def);
         m *= atk.AccuracyModifier;
@@ -278,5 +278,8 @@ namespace LightStudio.PokemonBattle.Game
     }
 
     #endregion
+
+    public virtual int GetAccuracyBase(AtkContext def)
+    { return Move.Accuracy; }
   }
 }

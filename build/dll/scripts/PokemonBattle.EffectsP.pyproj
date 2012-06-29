@@ -27,9 +27,11 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="Abilities\ADSModifiers.py" />
     <None Include="Abilities\Weather.py" />
     <None Include="Items\Gem.py" />
-    <None Include="Moves\MustHit.py" />
+    <None Include="Moves\Blizzard.py" />
+    <None Include="Moves\SpDamage.py" />
     <None Include="references.py" />
   </ItemGroup>
   <ItemGroup>

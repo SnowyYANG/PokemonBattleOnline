@@ -244,7 +244,7 @@ namespace LightStudio.PokemonBattle.Room
 
     #region PropertyChanged
     public const string CAN_START_GAME = "CanStartGame";
-    public const string STATE = "State";
+    protected const string STATE = "State";
     private void OnPropertyChanged(string propertyName)
     {
       PropertyChanged(this, new PropertyChangedEventArgs(propertyName));

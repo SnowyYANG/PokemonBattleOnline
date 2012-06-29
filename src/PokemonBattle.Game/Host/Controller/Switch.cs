@@ -8,9 +8,6 @@ namespace LightStudio.PokemonBattle.Game
 {
   class SwitchController : ControllerComponent
   {
-    //如果追击的攻击范围内对方交换怪兽，则追击无视原本所选目标，改为攻击对方最快交换的怪兽。
-    public event Action<PokemonProxy> PokemonWithdrawing;
-
     public SwitchController(Controller controller)
       : base(controller)
     {
@@ -37,7 +34,7 @@ namespace LightStudio.PokemonBattle.Game
     {
       if (CanWithdraw(pm))
       {
-        if (canPursuit && PokemonWithdrawing != null) PokemonWithdrawing(pm);
+        if (canPursuit) Sp.Moves.Pursuit(pm);
         pm.Tile.Pokemon = null;
         pm.Tile = null;
         Controller.OnboardPokemons.Remove(pm);

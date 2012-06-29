@@ -12,11 +12,12 @@ namespace LightStudio.PokemonBattle.Game
     private readonly int id;
     protected readonly Ability Ability;
 
-    public AbilityE(int id, string logKey = null)
+    public AbilityE(int id)
     {
       this.id = id;
       Ability = DataService.GetAbility(id);
     }
+
     int IAbilityE.Id
     { get { return id; } }
 

@@ -104,12 +104,16 @@ namespace LightStudio.PokemonBattle.Game
     }
     private void EndTurnCheckForInput()
     {
-      foreach (Tile t in Tiles)
-        if (t.Pokemon == null && (ReportBuilder.TurnNumber == 0 || Controller.CanSendout(t)))
-        {
-          EndTurnSendout();
-          return;
-        }
+      if (ReportBuilder.TurnNumber == 0) EndTurnSendout();
+      else
+      {
+        foreach (Tile t in Tiles)
+          if (t.Pokemon == null && Controller.CanSendout(t))
+          {
+            Controller.PauseForEndTurnInput(EndTurnSendout);
+            return;
+          }
+      }
       NextTurn();
     }
     private void EndTurnSendout()
@@ -120,7 +124,7 @@ namespace LightStudio.PokemonBattle.Game
       SortTiles();
       foreach (Tile t in Tiles)
         if (t.Pokemon != null) t.Pokemon.Debut();
-      EndTurnCheckForInput();
+      if (ReportBuilder.TurnNumber != 0) EndTurnCheckForInput();
     }
     private void NextTurn()
     {

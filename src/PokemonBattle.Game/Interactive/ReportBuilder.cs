@@ -10,14 +10,14 @@ namespace LightStudio.PokemonBattle.Interactive
 {
   public class ReportBuilder
   {
-    private GameContext game;
+    private readonly Controller Controller;
     private ReportFragment lastLeapFragment;
     private ReportFragment lastFragment;
     private ReportFragment current;
 
-    internal ReportBuilder(GameContext game)
+    internal ReportBuilder(Controller controller)
     {
-      this.game = game;
+      Controller = controller;
       TurnNumber = -1;
     }
 
@@ -32,14 +32,14 @@ namespace LightStudio.PokemonBattle.Interactive
         if (lastFragment == null) lastFragment = lastLeapFragment;
         else lastFragment = new ReportFragment(lastLeapFragment);
       }
-      
-      TeamOutward[] t = new TeamOutward[game.Teams.Length];
-      for (int i = 0; i < t.Length; i++) t[i] = game.Teams[i].GetOutward();
-      List<PokemonOutward> p = new List<PokemonOutward>();
-      for (int i = 0; i < game.Board.TeamCount; i++)
-        for (int j = 0; j < game.Board.XBound; j++)
-          if (game.Board[i, j].Pokemon != null) p.Add(game.Board[i, j].Pokemon.GetOutward());
-      current = new ReportFragment(t, p.ToArray(), game.Board.Weather);
+
+      TeamOutward[] t = new TeamOutward[Controller.Board.TeamCount];
+      for (int i = 0; i < t.Length; i++) t[i] = Controller.Game.Teams[i].GetOutward();
+      List<PokemonOutward> pms = new List<PokemonOutward>();
+      {
+        foreach (PokemonProxy p in Controller.OnboardPokemons) pms.Add(p.GetOutward());
+        current = new ReportFragment(t, pms.ToArray(), Controller.Board.Weather);
+      }
     }
     internal ReportFragment GetFragment()
     {

@@ -32,7 +32,7 @@ namespace LightStudio.PokemonBattle.Effects.Abilities
     }
     public override Modifier ADSModifier(PokemonProxy pm, StatType stat)
     {
-      if (stat == StatType.Atk)
+      if (stat == StatType.Atk || stat == StatType.SpAtk)
       {
         AtkContext atk = pm.AtkContext;
         if (atk != null && atk.Type == BattleType.Fire && pm.OnboardPokemon.HasCondition("FlashFire"))

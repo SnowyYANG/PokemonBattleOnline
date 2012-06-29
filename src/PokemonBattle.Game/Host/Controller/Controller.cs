@@ -9,11 +9,6 @@ namespace LightStudio.PokemonBattle.Game
 {
   public class Controller
   {
-    public event Action<PokemonProxy> PokemonWithdrawing //追击
-    {
-      add { SwitchController.PokemonWithdrawing += value; }
-      remove { SwitchController.PokemonWithdrawing -= value; }
-    }
     internal event Action<ReportFragment, int[]> ReportUpdated;
 
     public readonly ReportBuilder ReportBuilder;
@@ -31,7 +26,7 @@ namespace LightStudio.PokemonBattle.Game
     internal Controller(GameContext game)
     {
       Game = game;
-      ReportBuilder = new ReportBuilder(game);
+      ReportBuilder = new ReportBuilder(this);
       SwitchController = new SwitchController(this);
       InputController = new InputController(this);
       TurnController = new TurnController(this);
@@ -141,8 +136,7 @@ namespace LightStudio.PokemonBattle.Game
         if (ReportUpdated != null) ReportUpdated(ReportBuilder.GetFragment(), InputController.Players.ToArray());
         this.inputFinished = inputFinished;
       }
-      else
-        inputFinished();
+      else inputFinished();
     }
     internal InputResult InputSwitch(PokemonProxy withdraw, int sendoutIndex)
     {
