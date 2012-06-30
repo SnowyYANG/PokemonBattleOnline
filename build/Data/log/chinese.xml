@@ -111,7 +111,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Prepare553</a:Key><a:Value i:type="LogText"><text>{0}被寒光笼罩！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Prepare554</a:Key><a:Value i:type="LogText"><text>{0}被寒气笼罩！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SkyDropFree</a:Key><a:Value i:type="LogText"><text>{0}从自由下落中解除了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Earthquake</a:Key><a:Value i:type="LogText"><text>震级{0}！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Magnitude</a:Key><a:Value i:type="LogText"><text>震级{0}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeIllusion</a:Key><a:Value i:type="LogText"><text>{0}的幻影解除了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>FlashFire</a:Key><a:Value i:type="LogText"><text>{0}的火属性技能攻击提升！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>RaiseItem</a:Key><a:Value i:type="LogText"><text>{0}使用了{1}！

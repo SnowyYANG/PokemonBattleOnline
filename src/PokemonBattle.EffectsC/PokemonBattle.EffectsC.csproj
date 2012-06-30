@@ -47,11 +47,14 @@
     <Compile Include="Moves\SpBasepower\AHappy.cs" />
     <Compile Include="Moves\SpBasepower\Flail.cs" />
     <Compile Include="Moves\SpBasepower\HeavySlam.cs" />
+    <Compile Include="Moves\SpBasepower\HiddenPower.cs" />
+    <Compile Include="Moves\SpBasepower\Magnitude.cs" />
     <Compile Include="Moves\SpBasepower\PState.cs" />
     <Compile Include="Moves\SpBasepower\SLevel.cs" />
     <Compile Include="Moves\SpBasepower\ASpeed.cs" />
     <Compile Include="Moves\SpBasepower\GrassKnot.cs" />
     <Compile Include="Moves\SpBasepower\Spout.cs" />
+    <Compile Include="Moves\SpBasepower\WeatherBall.cs" />
     <Compile Include="Moves\SpPrepareOneTurn.cs" />
     <Compile Include="Moves\SpRangeMove.cs" />
     <Compile Include="Moves\SpBasepower\TrumpCard.cs" />
