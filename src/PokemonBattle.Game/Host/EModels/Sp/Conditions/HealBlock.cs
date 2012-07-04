@@ -16,7 +16,7 @@ namespace LightStudio.PokemonBattle.Game.Sp.Conditions
     {
       if (pm.SelectedMove.Move.Type.AdvancedFlags.IsHeal)
       {
-        AddReportPm("HealBlock");
+        AddResetYReport("HealBlock");
         return false;
       }
       return true;

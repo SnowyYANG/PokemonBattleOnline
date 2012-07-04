@@ -17,6 +17,7 @@ namespace LightStudio.PokemonBattle.Game
     /// </summary>
     Modifier ADSModifier(PokemonProxy pm, StatType stat);
     Modifier DamageFinalModifier(DefContext def);
+    Modifier PowerModifier(AtkContext atk);
     int GetCtLvRevise(PokemonProxy pm);
 
     void Raise(PokemonProxy pm);
@@ -27,7 +28,6 @@ namespace LightStudio.PokemonBattle.Game
     /// 红线、柿果、精神香草、5树果
     /// </summary>
     void StateAdded(PokemonProxy pm, AttachedState state);
-    void CalculatingPowerModifier(AtkContext atk);
     void Attacked(DefContext def);
   }
 
@@ -41,6 +41,7 @@ namespace LightStudio.PokemonBattle.Game
       public int CompareValue(PokemonProxy pm) { return 0; }
       public Modifier ADSModifier(PokemonProxy pm, StatType stat) { return 0x1000; }
       public Modifier DamageFinalModifier(DefContext def) { return 0x1000; }
+      public Modifier PowerModifier(AtkContext atk) { return 0x1000; }
       public int GetCtLvRevise(PokemonProxy pm) { return 0; }
 
       public void Raise(PokemonProxy pm) { }
@@ -48,7 +49,6 @@ namespace LightStudio.PokemonBattle.Game
       public void Attach(PokemonProxy pm) { }
       public void HpChanged(PokemonProxy pm) { }
       public void StateAdded(PokemonProxy pm, AttachedState state) { }
-      public void CalculatingPowerModifier(AtkContext atk) { }
       public void Attacked(DefContext def) { }
     }
   }

@@ -97,6 +97,10 @@ namespace LightStudio.PokemonBattle.Game.Sp
       if (pm.Item.Id == 105)
         pm.AddReportPm("EnBalloon");
     }
+    public static bool AirBalloon(this IItemE item)
+    {
+      return item.Id == 105;
+    }
 
     /// <summary>
     /// 调用前已判断过 damage > pm.Hp
@@ -130,11 +134,12 @@ namespace LightStudio.PokemonBattle.Game.Sp
       int item = def.AtkContext.Attacker.Item.Id;
       return (item == KINGS_ROCK || item == RAZOR_FANG) && def.Defender.Controller.GetRandomInt(0, 9) == 0;
     }
-    public static bool CheckPowerHerb(PokemonProxy pm)
+    public static bool PowerHerb(PokemonProxy pm)
     {
       if (pm.Item.Id == 48)
       {
         RaiseItem(pm, "PowerHerb");
+        pm.OnboardPokemon.CoordY = CoordY.Plate;
         return true;
       }
       return false;
@@ -143,6 +148,14 @@ namespace LightStudio.PokemonBattle.Game.Sp
     {
       if (pm.Item.Id == 103) return 0.5d;
       return 1d;
+    }
+    public static bool IronBall(this IItemE item)
+    {
+      return item.Id == 55;
+    }
+    public static bool RingTarget(this IItemE item)
+    {
+      return item.Id == 107;
     }
   }
 }

@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><GameLogs xmlns:ms="http://www.w3.org/2001/XMLSchema" xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.lightstudio.cc/"><logs><a:KeyValueOfstringanyType><a:Key>__sample</a:Key><a:Value i:type="LogText"><Contents><a:anyType i:type="LogText"><foreground>4294901760</foreground><text>Hello </text></a:anyType><a:anyType i:type="LogText"><text>World!
-</text></a:anyType></Contents></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameStart</a:Key><a:Value i:type="LogText"><text>战斗开始！
+</text></a:anyType></Contents></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>unfinish</a:Key><a:Value i:type="LogText"><text>{0}使用的技能{1}尚未制作
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameStart</a:Key><a:Value i:type="LogText"><text>战斗开始！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameResult</a:Key><a:Value i:type="LogText"><text>{0}  :  {1}
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>BeginTurn</a:Key><a:Value i:type="LogText"><text>开始回合 #{0}
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EndTurn</a:Key><a:Value i:type="LogText"><text>结束回合 #{0}
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>UseMove</a:Key><a:Value i:type="LogText"><text>{0}的{1}!
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SendOut</a:Key><a:Value i:type="LogText"><text>{0}放出了{1}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Withdraw</a:Key><a:Value i:type="LogText"><text>{0}收回了{1}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Faint</a:Key><a:Value i:type="LogText"><text>{0}倒下了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>PreMove</a:Key><a:Value i:type="LogText"><text>{0}正在蓄力
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SuperHurt</a:Key><a:Value i:type="LogText"><text>对{0}效果拔群!
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>WeakHurt</a:Key><a:Value i:type="LogText"><text>对{0}没有什么效果。
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Fail</a:Key><a:Value i:type="LogText"><text>但是对{0}失败了！
@@ -42,7 +43,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeBurned</a:Key><a:Value i:type="LogText"><text>{0}的烧伤治好了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>BeenBurned</a:Key><a:Value i:type="LogText"><text>{0}已经烧伤了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CantBurned</a:Key><a:Value i:type="LogText"><text>{0}不会被烧伤！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Paralyzed</a:Key><a:Value i:type="LogText"><text>{0}麻痹了！不容易出招了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnParalyzed</a:Key><a:Value i:type="LogText"><text>{0}麻痹了！不容易出招了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ParalyzedWork</a:Key><a:Value i:type="LogText"><text>{0}因麻痹而不能行动
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeParalyzed</a:Key><a:Value i:type="LogText"><text>{0}解除了麻痹！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>BeenParalyzed</a:Key><a:Value i:type="LogText"><text>{0}已经麻痹了！
@@ -72,13 +73,18 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CantConfused</a:Key><a:Value i:type="LogText"><text>{0}不会混乱！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnConfused2</a:Key><a:Value i:type="LogText"><text>{0}因为疲劳至极混乱了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Flinch</a:Key><a:Value i:type="LogText"><text>{0}因害怕而不能行动
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>LoseFocus</a:Key><a:Value i:type="LogText"><text>{0}失去了集中力，无法出招！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>UseMove</a:Key><a:Value i:type="LogText"><text>{0}的{1}
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Fail_s</a:Key><a:Value i:type="LogText"><text>但是失败了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeFocusPunch</a:Key><a:Value i:type="LogText"><text>{0}失去了集中力，无法出招！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CanAttack</a:Key><a:Value i:type="LogText"><text>{0}的真实身份被识破了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnBalloon</a:Key><a:Value i:type="LogText"><text>{0}使用轻气球浮在空中！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeBalloon</a:Key><a:Value i:type="LogText"><text>{0}的轻气球破了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnFocusPunch</a:Key><a:Value i:type="LogText"><text>{0}的集中力提升了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Struggle</a:Key><a:Value i:type="LogText"><text>{0}没有能够使用的技能！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnTelekinesis</a:Key><a:Value i:type="LogText"><text>{0}漂浮在空中！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeTelekinesis</a:Key><a:Value i:type="LogText"><text>{0}被从念动力中释放了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ConfusedWork</a:Key><a:Value i:type="LogText"><text>不知为什么攻击了自己！</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Fail_s</a:Key><a:Value i:type="LogText"><text>但是失败了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SuperHurt_s</a:Key><a:Value i:type="LogText"><text>效果拔群!
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>WeakHurt_s</a:Key><a:Value i:type="LogText"><text>没有什么效果...
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT</a:Key><a:Value i:type="LogText"><text>命中了{0}的要害！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ConfusedWork</a:Key><a:Value i:type="LogText"><text>不知为何攻击了自己
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT_s</a:Key><a:Value i:type="LogText"><text>打中了要害！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>OHKO</a:Key><a:Value i:type="LogText"><text>一击必杀！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Hits</a:Key><a:Value i:type="LogText"><text>{0}连击！
@@ -116,6 +122,5 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>FlashFire</a:Key><a:Value i:type="LogText"><text>{0}的火属性技能攻击提升！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>RaiseItem</a:Key><a:Value i:type="LogText"><text>{0}使用了{1}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Gem</a:Key><a:Value i:type="LogText"><text>{0}提高了技能的威力！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnBalloon</a:Key><a:Value i:type="LogText"><text>{0}使用气球浮在空中！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>PowerHerb</a:Key><a:Value i:type="LogText"><text>{0}使用了{1}使全身充满了力量！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Ability</a:Key><a:Value i:type="LogText"><text>{0}的{1}特性——</text></a:Value></a:KeyValueOfstringanyType></logs></GameLogs>

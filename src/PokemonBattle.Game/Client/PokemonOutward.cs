@@ -116,6 +116,7 @@ namespace LightStudio.PokemonBattle.Game
     /// </summary>
     public void Faint()
     {
+      State = PokemonState.Faint;
       var listeners = this.listeners.ToArray();
       foreach (IPokemonOutwardEvents l in listeners)
         l.Faint();

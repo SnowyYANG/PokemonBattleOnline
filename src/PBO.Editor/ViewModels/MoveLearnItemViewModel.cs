@@ -45,7 +45,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
         {
             this.Pokemon = pm;
             this.Model = model;
-            this.MoveType = DataService.GetMoveType(Model.MoveId);
+            this.MoveType = DataService.GetMove(Model.MoveId);
             this._isSelected = Pokemon.MoveIds.Contains(Model.MoveId);
             this.Name = DataService.DataString.GetLocalizedString(MoveType.Name);
         }

@@ -24,7 +24,7 @@ namespace LightStudio.PokemonBattle.PBO
       DataService.String.ReturnKeyOnFallback = true;
       DataService.DataString.ReturnKeyOnFallback = true;
       Effects.EffectsRegister.Register();
-      Tactic.Scripting.ExecuteAll("dll\\scripts");
+      Tactic.Scripting.ExecuteAll("..\\src\\PokemonBattle.EffectsP");
     }
     
     protected override void OnStartup(StartupEventArgs e)

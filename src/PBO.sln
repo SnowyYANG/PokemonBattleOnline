@@ -29,9 +29,51 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonBattle.EffectsC", "PokemonBattle.EffectsC\PokemonBattle.EffectsC.csproj", "{9A556367-584D-4A0E-803D-591486FB28DB}"
 EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PokemonBattle.EffectsP", "..\build\dll\scripts\PokemonBattle.EffectsP.pyproj", "{938534E7-0605-4746-9115-B5BBF236D00B}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PokemonBattle.EffectsP", "PokemonBattle.EffectsP\PokemonBattle.EffectsP.pyproj", "{938534E7-0605-4746-9115-B5BBF236D00B}"
 EndProject
 Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 13
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs30
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = PBO\\PBO.csproj
+		SccProjectName1 = PBO
+		SccLocalPath1 = PBO
+		SccProjectUniqueName2 = PokemonBattle.Data\\PokemonBattle.Data.csproj
+		SccProjectName2 = PokemonBattle.Data
+		SccLocalPath2 = PokemonBattle.Data
+		SccProjectUniqueName3 = PBO.Battle\\PBO.Battle.csproj
+		SccProjectName3 = PBO.Battle
+		SccLocalPath3 = PBO.Battle
+		SccProjectUniqueName4 = PBO.Editor\\PBO.Editor.csproj
+		SccProjectName4 = PBO.Editor
+		SccLocalPath4 = PBO.Editor
+		SccProjectUniqueName5 = PBO.Lobby\\PBO.Lobby.csproj
+		SccProjectName5 = PBO.Lobby
+		SccLocalPath5 = PBO.Lobby
+		SccProjectUniqueName6 = PBO.UIElements\\PBO.UIElements.csproj
+		SccProjectName6 = PBO.UIElements
+		SccLocalPath6 = PBO.UIElements
+		SccProjectUniqueName7 = Tactic\\Tactic.csproj
+		SccProjectName7 = Tactic
+		SccLocalPath7 = Tactic
+		SccProjectUniqueName8 = PokemonBattle.Network\\PokemonBattle.Network.csproj
+		SccProjectName8 = PokemonBattle.Network
+		SccLocalPath8 = PokemonBattle.Network
+		SccProjectUniqueName9 = PokemonBattle.Game\\PokemonBattle.Game.csproj
+		SccProjectName9 = PokemonBattle.Game
+		SccLocalPath9 = PokemonBattle.Game
+		SccProjectUniqueName10 = PokemonBattle.EffectsC\\PokemonBattle.EffectsC.csproj
+		SccProjectName10 = PokemonBattle.EffectsC
+		SccLocalPath10 = PokemonBattle.EffectsC
+		SccProjectUniqueName11 = PokemonBattle.EffectsP\\PokemonBattle.EffectsP.pyproj
+		SccProjectName11 = PokemonBattle.EffectsP
+		SccLocalPath11 = PokemonBattle.EffectsP
+		SccProjectUniqueName12 = PBOServer\\PBOServer.csproj
+		SccProjectName12 = PBOServer
+		SccLocalPath12 = PBOServer
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms

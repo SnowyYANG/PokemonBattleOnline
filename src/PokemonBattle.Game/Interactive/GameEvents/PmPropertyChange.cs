@@ -24,16 +24,16 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
 
     PokemonState oldState;
     PokemonOutward pm;
-    public override void Update(SimGame game)
-    {
-      Pokemon p = game.Team.Pokemons.ValueOrDefault(Id);
-      if (p != null) p.State = State;
-    }
-    public override void Update(Game.GameOutward game)
+    public override void Update(GameOutward game)
     {
       pm = game.GetPokemon(Id);
       oldState = pm.State;
       pm.State = State;
+    }
+    public override void Update(SimGame game)
+    {
+      Pokemon p = game.Team.Pokemons.ValueOrDefault(Id);
+      if (p != null) p.State = State;
     }
     public override IText GetGameLog()
     {
@@ -53,9 +53,7 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
             key = "De" + oldState.ToString();
             break;
         }
-      else
-        if (State == PokemonState.Paralyzed) key = "Paralyzed";
-        else key = "En" + State.ToString();
+      else key = "En" + State.ToString();
       IText t = GetGameLog(key);
       t.SetData(pm);
       return t;
@@ -65,25 +63,36 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class HpChange : GameEvent
   {
-    protected int Id;
+    [DataMember]
+    protected int Pm;
     [DataMember(EmitDefaultValue = false)]
-    protected int Hp;
+    public int Hp;
+    [DataMember]
     protected string Key;
+    [DataMember(EmitDefaultValue = false)]
+    protected bool ResetY;
 
-    public HpChange(PokemonProxy pm, string logKey)
+    public HpChange(PokemonProxy pm, string logKey, bool resetCoordY = false)
     {
-      Id = pm.Id;
+      Pm = pm.Id;
       Hp = pm.Hp;
       Key = logKey;
+      ResetY = resetCoordY;
     }
 
     protected int oldHp;
     protected PokemonOutward pm;
     public override void Update(GameOutward game)
     {
-      pm = game.GetPokemon(Id);
+      pm = game.GetPokemon(Pm);
       oldHp = pm.Hp.Value;
       pm.Hp.Value = Hp;
+      if (ResetY) pm.ChangePosition(pm.Position.X, CoordY.Plate);
+    }
+    public override void Update(SimGame game)
+    {
+      var pm = game.Team.Pokemons.ValueOrDefault(Pm);
+      if (pm != null) pm.SetHp(Hp);
     }
     public override IText GetGameLog()
     {
@@ -157,6 +166,14 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
         if (SH != null && SH.Contains(Pms[i])) sh.Add(p);
         if (WH != null && WH.Contains(Pms[i])) wh.Add(p);
         if (CT != null && CT.Contains(Pms[i])) ct.Add(p);
+      }
+    }
+    public override void Update(SimGame game)
+    {
+      for (int i = 0; i < pms.Length; ++i)
+      {
+        var pm = game.Team.Pokemons.ValueOrDefault(Pms[i]);
+        if (pm != null) pm.SetHp(pm.Hp.Value - Damages[i]);
       }
     }
     public override IText GetGameLog()

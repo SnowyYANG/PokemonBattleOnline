@@ -13,7 +13,8 @@ namespace LightStudio.PokemonBattle.Game
     public readonly MoveType Move; //生成技能在后期
     public BattleType Type;
     public Modifier AccuracyModifier = 0x1000;
-    public bool MultiTargets;
+    public bool MultiTargets
+    { get; internal set; }
     public int CTLv;
     public int AtkRaw;
     public int AtkLv;
@@ -33,12 +34,14 @@ namespace LightStudio.PokemonBattle.Game
         return _sheerForceActive.Value;
       }
     }
-    public Modifier AtkModifier = 0x1000;
-    public Modifier WeatherModifier = 0x1000;
-    public Modifier STAB = 0x1000; //本属性修正/适应力
-    public Modifier PowerModifier_Item = 0x1000;
-    public Modifier PowerModifier_Board = 0x1000;
-    
+    public Modifier AtkModifier;
+    public Modifier WeatherModifier;
+    public Modifier STAB; //本属性修正/适应力
+    public Modifier PowerModifier_Item;
+    public Modifier PowerModifier_Board;
+    public bool MeFirst;
+    public dynamic Attachment;
+
     internal AtkContext(PokemonProxy pm, MoveType move)
     {
       MoveProxy = pm.SelectedMove;
@@ -84,9 +87,9 @@ namespace LightStudio.PokemonBattle.Game
     public bool IsCt;
     public bool HitSubstitute;
     /// <summary>
-    /// bit operation, -2, -1, 0, 1, 2, -0x7f for no effect
+    /// bit operation, -2, -1, 0, 1, 2
     /// </summary>
-    public sbyte EffectRevise;
+    public int EffectRevise;
     
     internal DefContext(AtkContext a, PokemonProxy pm)
     {

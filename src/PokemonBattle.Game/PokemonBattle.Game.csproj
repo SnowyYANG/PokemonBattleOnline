@@ -12,6 +12,10 @@
     <AssemblyName>PokemonBattle.Game</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\Position.cs" />
     <Compile Include="Client\SimPokemon.cs" />
     <Compile Include="Host\Controller\InputType.cs" />
     <Compile Include="Host\EModels\Modifier.cs" />
@@ -103,6 +108,7 @@
     <Compile Include="Interactive\AdditionalInfo.cs" />
     <Compile Include="IPlayerController.cs" />
     <Compile Include="Models\ConditionalObject.cs" />
+    <Compile Include="Models\CoordY.cs" />
     <Compile Include="Models\Field.cs" />
     <Compile Include="Models\Move.cs" />
     <Compile Include="Models\OnboardPokemon.cs" />
@@ -115,7 +121,6 @@
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\Pokemon.cs" />
     <Compile Include="Client\PokemonOutward.cs" />
-    <Compile Include="Models\Position.cs" />
     <Compile Include="Models\Weather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\SixD.cs" />
@@ -131,7 +136,9 @@
       <Name>Tactic</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Host\EModels\Triggers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

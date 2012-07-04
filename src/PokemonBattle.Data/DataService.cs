@@ -108,7 +108,7 @@ namespace LightStudio.PokemonBattle.Data
     {
       return romData.GetPokemonType(id);
     }
-    public static MoveType GetMoveType(int id)
+    public static MoveType GetMove(int id)
     {
       return romData.GetMoveType(id);
     }

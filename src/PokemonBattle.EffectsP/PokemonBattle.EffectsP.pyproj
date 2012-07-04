@@ -17,6 +17,10 @@
     <CommandLineArguments />
     <IsWindowsApplication>False</IsWindowsApplication>
     <DebugStdLib>True</DebugStdLib>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,7 +35,9 @@
     <None Include="Abilities\Weather.py" />
     <None Include="Items\Gem.py" />
     <None Include="Moves\Blizzard.py" />
+    <None Include="Moves\SpPower.py" />
     <None Include="Moves\SpDamage.py" />
+    <None Include="Moves\Synchronoise.py" />
     <None Include="references.py" />
   </ItemGroup>
   <ItemGroup>

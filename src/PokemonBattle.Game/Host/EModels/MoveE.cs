@@ -10,19 +10,13 @@ namespace LightStudio.PokemonBattle.Game
 {
   public abstract class MoveE : IMoveE
   {
-    protected static readonly sbyte[,] BATTLE_TYPE_EFFECT = new sbyte[18, 18] { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 1, 0, 0, -1, -1, -1, -1, 1, 0, 0, 0, -1, 1, 0, -1, 0 }, { 0, 0, -1, 0, 0, -1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, -1, 0 }, { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0 }, { 0, 0, 0, -1, -1, 0, 0, 1, 0, -1, -128, 0, 0, 0, 0, 0, 0, 1 }, { 0, -1, 1, 0, 0, 0, 0, -1, -128, 0, 0, 1, 1, -1, -1, 1, 1, 0 }, { 0, 1, 0, -1, 0, 0, -1, 0, 0, 1, 0, 1, 0, 0, 0, -1, 1, -1 }, { 0, 1, 0, 0, -1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, -1, -1, 0 }, { 0, 0, -1, 0, 0, 0, 0, 0, 1, 0, 0, 0, -128, 0, 1, 0, -1, 0 }, { 0, -1, 0, -1, 0, 0, -1, -1, 0, -1, 1, 0, 0, -1, 0, 1, -1, 1 }, { 0, -1, 0, 0, 1, 0, 1, -128, 0, -1, 0, 0, 0, 1, 0, 1, 1, 0 }, { 0, 0, 0, 1, 0, 0, -1, 1, 0, 1, 1, -1, 0, 0, 0, 0, -1, -1 }, { 0, 0, 0, 0, 0, 0, 0, 0, -128, 0, 0, 0, 0, 0, 0, -1, -1, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, -1, 1, -1, 0, 0, -1, 0, -1, -128, 0 }, { 0, 0, -128, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, -1, 0 }, { 0, 1, 0, 0, 0, -1, 1, 1, 0, 0, -1, 1, 0, 0, 0, 0, -1, 0 }, { 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0, 1, -1, -1 }, { 0, 0, 0, -1, 0, 0, 1, 0, 0, -1, 1, 0, 0, 0, 0, 1, 0, -1 } };
-    protected static readonly int[] TIMES25 = new int[8] { 2, 2, 2, 3, 3, 3, 4, 5 };
-    protected static readonly double[] LV_ACC = { 0.33, 0.36, 0.43, 0.5, 0.6, 0.75, 1, 1.33, 1.66, 2, 2.5, 2.66, 3 };
-    protected static readonly int[] LV_CT = { 16, 8, 4, 3, 2, 0 };
-
     protected MoveE(int moveId)
     {
-      this.Move = DataService.GetMoveType(moveId);
+      this.Move = DataService.GetMove(moveId);
     }
 
     public MoveType Move
     { get; private set; }
-    public virtual void Attach() { } //追击
     public abstract void Execute(PokemonProxy pm); //变化技能和攻击技能分开写吧
 
     protected void BuildDefContexts(AtkContext atk, params Tile[] ts)
@@ -53,10 +47,7 @@ namespace LightStudio.PokemonBattle.Game
       #region Check for Immunity (or Levitate) on the Ally side, position 1, then position 3. Then check Opponent side, position 1, then 2, then 3,
       var noeffect = new List<DefContext>();
       foreach (DefContext def in targets)
-      {
-        CalculateEffect(def);
-        if (def.EffectRevise == -128) noeffect.Add(def);
-      }
+        if (!HasEffect(def)) noeffect.Add(def);
       if (noeffect.Count > 0)
       {
         report.Add(new MultiPmEvent("NoEffect", noeffect));
@@ -115,6 +106,7 @@ namespace LightStudio.PokemonBattle.Game
         atk.SetTargets(targets);
       #endregion
     }
+
     protected bool CanHit(DefContext def)
     {
       AtkContext atk = def.AtkContext;
@@ -135,7 +127,10 @@ namespace LightStudio.PokemonBattle.Game
         if (lv < -6) lv = -6;
         else if (lv > 6) lv = 6;
         //用技能基础命中乘以命中等级修正，向下取整。
-        acc = (int)(GetAccuracyBase(atk) * LV_ACC[lv + 6]);
+        int numerator = 3, denominator = 3;
+        if (lv > 0) numerator += lv;
+        else denominator -= lv;
+        acc = (int)(GetAccuracyBase(atk) * numerator / denominator);
 
         Modifier m = def.Ability.AccuracyModifier(def);
         m *= atk.AccuracyModifier;
@@ -154,34 +149,46 @@ namespace LightStudio.PokemonBattle.Game
     {
       atk.Type = Move.Type;
     }
-    private sbyte CalculateEffect(DefContext def, BattleType defType)
+    private bool HasEffect_Ground(DefContext def)
     {
-      sbyte e = BATTLE_TYPE_EFFECT[(int)def.AtkContext.Type, (int)defType];
-      if (e == -128 && def.Defender.OnboardPokemon.GetCondition<BattleType>("CanAttack") == defType)
-        e = 0;
-      return e;
+      var pm = def.Defender.OnboardPokemon;
+      return
+        (pm.HasCondition("SmackDown") || pm.HasCondition("Ingrain") || def.Defender.Item.IronBall() || def.Defender.Controller.Board.HasCondition("Gravity")) ||
+        !(
+          pm.HasType(BattleType.Flying) ||
+          pm.HasCondition("Suspension") || pm.HasCondition("Telekinesis") ||
+          def.Defender.Item.AirBalloon() ||
+          def.Defender.RaiseAbility(Abilities.LEVITATE));
     }
-    protected virtual void CalculateEffect(DefContext def)
+    private bool HasEffect_NonGround(BattleType atk, BattleType def)
+    {
+      return !(
+        ((atk == BattleType.Normal || atk == BattleType.Fighting) && def == BattleType.Ghost) ||
+        (atk == BattleType.Electric && def == BattleType.Ground) ||
+        (atk == BattleType.Poison && def == BattleType.Steel) ||
+        (atk == BattleType.Psychic && def == BattleType.Dark) ||
+        (atk == BattleType.Ghost && def == BattleType.Normal));
+    }
+    protected bool HasEffect(DefContext def)
     {
       switch (Move.Class)
       {
-        case MoveInnerClass.AddState:
-          def.EffectRevise = (sbyte)((CalculateEffect(def, def.Defender.OnboardPokemon.Type1) == -128 || CalculateEffect(def, def.Defender.OnboardPokemon.Type2) == -128) ? -128 : 0);
-          break;
         case MoveInnerClass.Attack:
         case MoveInnerClass.AttackAndAbsorb:
         case MoveInnerClass.AttackWithSelfLv7DChange:
         case MoveInnerClass.AttackWithState:
         case MoveInnerClass.AttackWithTargetLv7DChange:
-          def.EffectRevise = (sbyte)(CalculateEffect(def, def.Defender.OnboardPokemon.Type1) + CalculateEffect(def, def.Defender.OnboardPokemon.Type2));
-          break;
         case MoveInnerClass.OHKO:
-          def.EffectRevise =(sbyte)(
-            (CalculateEffect(def, def.Defender.OnboardPokemon.Type1) == -128 || CalculateEffect(def, def.Defender.OnboardPokemon.Type2) == -128 ||
-            def.Defender.Pokemon.Lv > def.AtkContext.Attacker.Pokemon.Lv ||
-            def.Defender.RaiseAbility(Abilities.STURDY)) ?
-            -128 : 0);
-          break;
+          BattleType atk = def.AtkContext.Type;
+          BattleType canAtk = def.Defender.OnboardPokemon.GetCondition<BattleType>("CanAttack");
+          BattleType def1 = def.Defender.OnboardPokemon.Type1, def2 = def.Defender.OnboardPokemon.Type2;
+          return
+            ((canAtk == def1 || canAtk == def2) || def.Defender.Item.RingTarget() ||
+            atk == BattleType.Ground ? HasEffect_Ground(def) : HasEffect_NonGround(atk, def1) && HasEffect_NonGround(atk, def2)) &&
+            (Move.Class != MoveInnerClass.OHKO || (def.Defender.Pokemon.Lv <= def.AtkContext.Attacker.Pokemon.Lv && !def.Defender.RaiseAbility(Abilities.STURDY)));
+        default:
+          if (Move.ThunderWave()) goto case MoveInnerClass.OHKO;
+          return true;
       }
     }
     protected virtual IEnumerable<Tile> GetRangeTiles(AtkContext atk)

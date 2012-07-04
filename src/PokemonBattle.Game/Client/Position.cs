@@ -6,14 +6,6 @@ using System.Runtime.Serialization;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  public enum CoordY : byte
-  {
-    Plate,
-    Air,
-    Water,
-    Underground,
-    Another
-  }
   public interface IPosition
   {
     int Team { get; }

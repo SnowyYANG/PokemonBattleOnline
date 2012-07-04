@@ -82,7 +82,7 @@ namespace LightStudio.PokemonBattle.Game
     public IAbilityE Ability
     { get { return Tile == null || OnboardPokemon.HasCondition("GastroAcid") ? GameService.NULL_ABILITY : GameService.GetAbility(OnboardPokemon.Ability); } }
     public IItemE Item
-    { get { return Tile == null || OnboardPokemon.HasCondition("Detain") ? GameService.NULL_ITEM : GameService.GetItem(Pokemon.Item); } }
+    { get { return Tile == null || OnboardPokemon.HasCondition("Detain") || Controller.Board.HasCondition("MagicRoom") || Ability.Klutz() ? GameService.NULL_ITEM : GameService.GetItem(Pokemon.Item); } }
     public MoveProxy[] Moves
     { get; private set; }
     public MoveProxy StruggleMove
@@ -266,10 +266,10 @@ namespace LightStudio.PokemonBattle.Game
           Action = PokemonAction.Done;
           break;
         case PokemonAction.Moving:
+          OnboardPokemon.CoordY = CoordY.Plate;
           bool c = CanExecute();
-          Sp.Moves.CheckSkyDrop(AtkContext);
+          Sp.Moves.SkyDrop(AtkContext);
           if (c) AtkContext.Execute();
-          else OnboardPokemon.CoordY = CoordY.Plate;
           break;
         case PokemonAction.MoveAttached:
           if (!CanExecute()) goto case PokemonAction.Stiff;
@@ -287,20 +287,28 @@ namespace LightStudio.PokemonBattle.Game
     #endregion
 
     #region ChangeHp
-    public void MoveHurt(DefContext def)
+    internal int MoveHurt(int damage)
     {
-      if (def.Damage >= Hp)
+      if (damage >= Hp)
       {
-        def.Damage = Hp;
+        damage = Hp;
         if (Abilities.Remain1Hp(this) || Items.Remain1Hp(this))
         {
-          def.Damage--;
-          ((PairValue)Pokemon.Hp).Value = 1;
+          damage--;
+          Pokemon.SetHp(1);
         }
-        else ((PairValue)Pokemon.Hp).Value = 0;
+        else Pokemon.SetHp(0);
       }
-      else ((PairValue)Pokemon.Hp).Value -= def.Damage;
-      OnboardPokemon.SetCondition("Damage", new { Damage = def.Damage, By = def.AtkContext.Attacker.Id });
+      else Pokemon.SetHp(Hp - damage);
+      return damage;
+    }
+    public void MoveHurt(DefContext def)
+    {
+      def.Damage = MoveHurt(def.Damage);
+      object o = new { Damage = def.Damage, By = def.AtkContext.Attacker.Id };
+      string c = def.AtkContext.Move.Category == MoveCategory.Physical ? "PhysicalDamage" : "SpecialDamage";
+      OnboardPokemon.SetTurnCondition(c, o);
+      OnboardPokemon.SetTurnCondition("Damage", o);
     }
     public void DamagePercentage(DefContext def, sbyte percentage)
     {

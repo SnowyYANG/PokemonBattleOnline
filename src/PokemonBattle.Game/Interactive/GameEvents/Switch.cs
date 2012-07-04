@@ -66,13 +66,14 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
 
     string pokemonName;
     string playerName;
-    bool isFaint;
 
     public Withdraw(PokemonProxy pm)
     {
       Team = pm.Pokemon.TeamId;
       X = pm.OnboardPokemon.X;
     }
+
+    bool isFaint;
     public override IText GetGameLog()
     {
       IText t;
@@ -113,7 +114,6 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
         game.ActivePokemons.Remove(X);
         SimPokemon pm = game.OnboardPokemons[X];
         game.OnboardPokemons[X] = null;
-        if (pm.Hp == 0) pm.State = PokemonState.Faint;
       }
     }
   }

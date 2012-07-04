@@ -34,7 +34,7 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     public override IText GetGameLog()
     {
       IText t = GetGameLog("UseMove");
-      t.SetData(pm, DataService.GetMoveType(Move).GetLocalizedName());
+      t.SetData(pm, DataService.GetMove(Move).GetLocalizedName());
       return t;
     }
     public override void Update(SimGame game)

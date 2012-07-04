@@ -88,23 +88,22 @@ namespace LightStudio.PokemonBattle.Data
 
     #region Built-in Hidden Power IV set
     private static readonly byte[][] IvSet = new byte[][] {
-      new byte[]{31, 31, 31, 30, 31, 30},//bug
-      new byte[]{31, 31, 31, 31, 31, 31},//dark
-      new byte[]{31, 31, 30, 31, 31, 31},//dragon
-      new byte[]{31, 31, 31, 31, 30, 31},//electric
       new byte[]{31, 31, 30, 30, 30, 30},//fighting
-      new byte[]{31, 31, 30, 30, 30, 31},//fire
       new byte[]{31, 31, 30, 30, 30, 30},//flying
-      new byte[]{31, 31, 30, 31, 31, 30},//ghost
-      new byte[]{31, 31, 30, 31, 30, 31},//grass
-      new byte[]{30, 30, 30, 30, 31, 30},//ground
-      new byte[]{31, 31, 31, 30, 31, 31},//ice
-      new byte[]{},//normal - not available
       new byte[]{31, 31, 30, 31, 30, 30},//poison
-      new byte[]{31, 31, 30, 30, 31, 31},//psychic
+      new byte[]{30, 30, 30, 30, 31, 30},//ground
       new byte[]{31, 31, 30, 30, 31, 30},//rock
+      new byte[]{31, 31, 31, 30, 31, 30},//bug
+      new byte[]{31, 31, 30, 31, 31, 30},//ghost
       new byte[]{31, 31, 31, 31, 31, 30},//steel
+      new byte[]{31, 31, 30, 30, 30, 31},//fire
       new byte[]{31, 31, 31, 30, 30, 31},//water
+      new byte[]{31, 31, 30, 31, 30, 31},//grass
+      new byte[]{31, 31, 31, 31, 30, 31},//electric
+      new byte[]{31, 31, 30, 30, 31, 31},//psychic
+      new byte[]{31, 31, 31, 30, 31, 31},//ice
+      new byte[]{31, 31, 30, 31, 31, 31},//dragon
+      new byte[]{31, 31, 31, 31, 31, 31},//dark
     };
     #endregion
 
@@ -150,7 +149,7 @@ namespace LightStudio.PokemonBattle.Data
     {
       Contract.Requires(type != BattleType.Invalid && type != BattleType.Normal);
 
-      return IvSet[(int)type - 1];
+      return IvSet[(int)type - 2];
     }
     #endregion
   }

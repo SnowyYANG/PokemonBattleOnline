@@ -13,7 +13,7 @@ namespace LightStudio.PokemonBattle.Game
     {
     }
 
-    protected virtual void Act() //1、2、3、5、A、B、C、D
+    protected virtual void Act(AtkContext atk) //1、2、3、5、A、B、C、D
     {
       switch (Move.Class)
       {
@@ -30,8 +30,11 @@ namespace LightStudio.PokemonBattle.Game
 
     public override void Execute(PokemonProxy pm)
     {
-      System.Diagnostics.Debugger.Break();
-
+      //来个摇手指啥的，基本可以xsk了？摇手指随机一个id，然后再调用Execute吧
+      if (pm.AtkContext == null) pm.BuildAtkContext(Move);
+      pm.OnboardPokemon.CoordY = CoordY.Plate;
+      //battletype
+      //targets
       pm.Action = PokemonAction.Done;
     }
   }

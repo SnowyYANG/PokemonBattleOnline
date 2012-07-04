@@ -19,6 +19,10 @@
     <Utf8Output>true</Utf8Output>
     <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -198,9 +202,7 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="images\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\PBO.UIElements\PBO.UIElements.csproj">
       <Project>{82A9B9C3-6FAF-48F2-89B7-CBCF7F2DE191}</Project>

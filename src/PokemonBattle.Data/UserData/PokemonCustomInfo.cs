@@ -141,6 +141,21 @@ namespace LightStudio.PokemonBattle.Data
         }
       }
     }
+    
+    private byte _happiness;
+    [DataMember]
+    public byte Happiness
+    { 
+      get { return _happiness; }
+      set
+      {
+        if (_happiness != value)
+        {
+          _happiness = value;
+          OnPropertyChanged("Happiness");
+        }
+      }
+    }
 
     #region Iv
     private byte _hpIv;

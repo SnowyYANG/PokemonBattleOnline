@@ -11,6 +11,10 @@ namespace LightStudio.PokemonBattle.Game
 {
   public class AttackMoveE : MoveE
   {
+    protected static readonly sbyte[,] BATTLE_TYPE_EFFECT = new sbyte[18, 18] { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 1, 0, -1, -1, 0, 1, -1, 0, 1, 0, 0, 0, 0, -1, 1, 0, 1 }, { 0, 0, 1, 0, 0, 0, -1, 1, 0, -1, 0, 0, 1, -1, 0, 0, 0, 0 }, { 0, 0, 0, 0, -1, -1, -1, 0, -1, 0, 0, 0, 1, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 1, 0, 1, -1, 0, 1, 1, 0, -1, 1, 0, 0, 0, 0 }, { 0, 0, -1, 1, 0, -1, 0, 1, 0, -1, 1, 0, 0, 0, 0, 1, 0, 0 }, { 0, 0, -1, -1, -1, 0, 0, 0, -1, -1, -1, 0, 1, 0, 1, 0, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 1, 0, 0, -1 }, { 0, 0, 0, 0, 0, 0, 1, 0, 0, -1, -1, -1, 0, -1, 0, 1, 0, 0 }, { 0, 0, 0, 0, 0, 0, -1, 1, 0, 1, -1, -1, 1, 0, 0, 1, -1, 0 }, { 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, -1, -1, 0, 0, 0, -1, 0 }, { 0, 0, 0, -1, -1, 1, 1, -1, 0, -1, -1, 1, -1, 0, 0, 0, -1, 0 }, { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, -1, -1, 0, 0, -1, 0 }, { 0, 0, 1, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0 }, { 0, 0, 0, 1, 0, 1, 0, 0, 0, -1, -1, -1, 1, 0, 0, -1, 1, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 1, 0 }, { 0, 0, -1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 1, 0, 0, -1 } };
+    protected static readonly int[] TIMES25 = new int[8] { 2, 2, 2, 3, 3, 3, 4, 5 };
+    protected static readonly int[] LV_CT = { 16, 8, 4, 3, 2, 0 };
+
     public AttackMoveE(int moveId)
       : base(moveId)
     {
@@ -20,6 +24,7 @@ namespace LightStudio.PokemonBattle.Game
     {
       if (defs.Count() == 0) return;
       DefContext def = defs.First();
+      if (def.AtkContext.Times > 1) CalculateAtk(def.AtkContext);
       if (Move.Class == MoveInnerClass.OHKO && !Sp.Conditions.Substitute.OHKO(def))
       {
         def.Damage = def.Defender.Hp;
@@ -38,7 +43,7 @@ namespace LightStudio.PokemonBattle.Game
         {
           bool allSub = true;
           foreach (DefContext d in defs)
-            Calculate(d);
+            CalculateDef(d);
           if (!Move.AdvancedFlags.IgnoreSubstitute)
           {
             foreach (DefContext d in defs)
@@ -81,10 +86,9 @@ namespace LightStudio.PokemonBattle.Game
     public override void Execute(PokemonProxy pm)
     {
       if (pm.AtkContext == null) pm.BuildAtkContext(Move);
-      if (Move.AdvancedFlags.PrepareOneTurn && PrepareOneTurn(pm) && !Sp.Items.CheckPowerHerb(pm))
+      if (Move.AdvancedFlags.PrepareOneTurn && PrepareOneTurn(pm) && !Sp.Items.PowerHerb(pm))
         return;
       AtkContext atk = pm.AtkContext;
-      pm.OnboardPokemon.CoordY = CoordY.Plate;
       if (!Abilities.CalculateType(atk)) CalculateType(atk);
       var targets = GetRangeTiles(atk).ToArray();
       if (targets.Length == 0)
@@ -98,8 +102,17 @@ namespace LightStudio.PokemonBattle.Game
         if (atk.Targets == null) goto DONE;
       }
 
-      if (Move.Class != MoveInnerClass.OHKO) Calculate(atk);
+      //生成攻击次数
+      if (!Sp.Abilities.CheckSkillLink(atk) && Move.MinTimes != Move.MaxTimes)
+        atk.Times = TIMES25[atk.Controller.GetRandomInt(0, 7)];
+      else atk.Times = Move.MinTimes;
 
+      if (atk.Times == 0)
+      {
+        atk.Times = 1;
+        if (Move.Class != MoveInnerClass.OHKO) CalculateAtk(atk);
+      }
+      
       int atkTeam = atk.Attacker.Pokemon.TeamId;
       Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
       Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
@@ -126,22 +139,32 @@ namespace LightStudio.PokemonBattle.Game
     {
       def.BasePower = Move.Power;
     }
-    protected virtual Modifier GetPowerModifier(DefContext def)
+    protected virtual Modifier PowerModifier(DefContext def)
+    { return 0x1000; }
+    protected virtual void CalculateEffect(DefContext def)
     {
-      return 0x1000;
+      BattleType a = def.AtkContext.Type;
+      BattleType d1 = def.Defender.OnboardPokemon.Type1;
+      BattleType d2 = def.Defender.OnboardPokemon.Type2;
+      def.EffectRevise =
+        a == BattleType.Ground && def.Defender.Item.IronBall() && (d1 == BattleType.Flying || d2 == BattleType.Flying)?
+        0 : BATTLE_TYPE_EFFECT[(int)a, (int)d1] + BATTLE_TYPE_EFFECT[(int)a, (int)d2];
     }
-    protected virtual void Calculate(AtkContext atk) //固定伤害、大爆炸、佯攻override
+    protected virtual void CalculateAtk(AtkContext atk) //固定伤害、大爆炸、佯攻override
     {
       PokemonProxy pm = atk.Attacker;
 
       {
-        atk.Attacker.Item.CalculatingPowerModifier(atk);
+        atk.PowerModifier_Item = atk.Attacker.Item.PowerModifier(atk);
+        atk.PowerModifier_Board = 0x1000;
         if (atk.Type == BattleType.Fire)
         {
           if (pm.Controller.Board.HasCondition("WaterSport")) atk.PowerModifier_Board = 0x800;
         }
-        else if (atk.Type == BattleType.Electric && pm.Controller.Board.HasCondition("MudSport"))
-          atk.PowerModifier_Board = 0x800;
+        else
+        {
+          if (atk.Type == BattleType.Electric && pm.Controller.Board.HasCondition("MudSport")) atk.PowerModifier_Board = 0x800;
+        }
       }
 
       {
@@ -151,7 +174,7 @@ namespace LightStudio.PokemonBattle.Game
         StatType st = Move.Category == MoveCategory.Physical ? StatType.Atk : StatType.SpAtk;
         atk.AtkRaw = p.Static.GetStat(st);
         atk.AtkLv = p.Lv5D.GetStat(st);
-        atk.AtkModifier *= pm.Ability.ADSModifier(pm, st);
+        atk.AtkModifier = pm.Ability.ADSModifier(pm, st);
         Abilities.FlowerGift(atk);
         atk.AtkModifier *= pm.Item.ADSModifier(pm, st);
       }
@@ -165,13 +188,8 @@ namespace LightStudio.PokemonBattle.Game
         if (atk.CTLv > 4) atk.CTLv = 4;
       }
 
-      //生成攻击次数
-      if (!Sp.Abilities.CheckSkillLink(atk) && Move.MinTimes != Move.MaxTimes)
-        atk.Times = TIMES25[atk.Controller.GetRandomInt(0, 7)];
-      else atk.Times = Move.MinTimes;
-      if (atk.Times == 0) atk.Times = 1;
-
       //天气
+      atk.WeatherModifier = 0x1000;
       Weather w = atk.Controller.GetAvailableWeather();
       BattleType type = atk.Type;
       if (w == Weather.IntenseSunlight)
@@ -188,13 +206,13 @@ namespace LightStudio.PokemonBattle.Game
       //本属性修正
       if (atk.Attacker.OnboardPokemon.HasType(atk.Type))
         atk.STAB = (ushort)(atk.Attacker.Ability.Adaptability() ? 0x2000 : 0x1800);
+      else atk.STAB = 0x1000;
     }
-    protected virtual void Calculate(DefContext def)
+    protected virtual void CalculateDef(DefContext def)
     {
       AtkContext atk = def.AtkContext;
       PokemonProxy aer = atk.Attacker;
       Controller c = aer.Controller;
-      int defRaw = 0;
 
       if (!(c.Board[def.Defender.Pokemon.TeamId].HasCondition("LuckyChant") || def.Ability.CannotBeCted()))
         if (Move.CtLv > 5) def.IsCt = true;
@@ -206,7 +224,11 @@ namespace LightStudio.PokemonBattle.Game
         Modifier m = atk.Attacker.Ability.PowerModifier(def);
         m *= Abilities.PowerModifier(def);
         m *= atk.PowerModifier_Item;
-        m *= GetPowerModifier(def);
+        m *= PowerModifier(def);
+        if (atk.MeFirst) m *= 0x1800;
+        m *= Moves.SolarBeam(def);
+        //charge
+        //helpinghand
         m *= atk.PowerModifier_Board;
         def.Damage *= (def.BasePower * m);
       }
@@ -220,7 +242,7 @@ namespace LightStudio.PokemonBattle.Game
       }
       {
         StatType st = Move.Category == MoveCategory.Physical ? StatType.Def : StatType.SpDef;
-        defRaw = def.Defender.OnboardPokemon.Static.GetStat(st);
+        int defRaw = def.Defender.OnboardPokemon.Static.GetStat(st);
         int defLv = 0;
         if (!(aer.Ability.Unaware() || Move.ChipAway())) defLv = def.Defender.OnboardPokemon.Lv5D.GetStat(st);
         if (def.IsCt && defLv > 0) defLv = 0;
@@ -248,6 +270,7 @@ namespace LightStudio.PokemonBattle.Game
       //5.Apply STAB modifier
       def.Damage *= atk.STAB;
       //6.Alter with type effectiveness
+      CalculateEffect(def);
       if (def.EffectRevise > 0) def.Damage <<= def.EffectRevise;
       else if (def.EffectRevise < 0) def.Damage >>= -def.EffectRevise;
       //7.Alter with user's burn
@@ -272,16 +295,17 @@ namespace LightStudio.PokemonBattle.Game
         m *= Items.DamageFinalModifier(def);
         //If the target is holding a damage lowering berry of the attack's type.
         m *= def.Defender.Item.DamageFinalModifier(def);
-        
-        def.Damage *= m;
+
+        def.Damage *= (m * DamageFinalModifier(def));
       }
     }
+    protected virtual Modifier DamageFinalModifier(DefContext def)
+    { return 0x1000; }
     protected virtual void ImplementEffect(DefContext def)
     {
       AtkContext atk = def.AtkContext;
       PokemonProxy d = def.Defender;
-      bool sheerForce = def.AtkContext.SheerForceActive;
-      if (d.Hp > 0 && !sheerForce)
+      if (d.Hp > 0 && !def.AtkContext.SheerForceActive)
       {
         switch (Move.Class)
         {

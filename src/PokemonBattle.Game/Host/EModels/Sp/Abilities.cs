@@ -10,6 +10,7 @@ namespace LightStudio.PokemonBattle.Game.Sp
   public static class Abilities
   {
     #region ids
+    public const int LEVITATE = 66;
     public const int LIQUID_OOZE = 70;
     public const int STURDY = 138;
     #endregion
@@ -45,6 +46,10 @@ namespace LightStudio.PokemonBattle.Game.Sp
     public static bool Guts(this IAbilityE ability)
     {
       return ability.Id == 41;
+    }
+    public static bool Klutz(this IAbilityE ability)
+    {
+      return ability.Id == 64;
     }
     public static bool Prankster(this IAbilityE ability)
     {

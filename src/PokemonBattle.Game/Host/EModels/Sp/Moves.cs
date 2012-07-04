@@ -18,6 +18,20 @@ namespace LightStudio.PokemonBattle.Game.Sp
       return move.Type.Id == SLEEP_TALK || move.Type.Id == SNORE;
     }
 
+    public static Modifier SolarBeam(DefContext def)
+    {
+      if (def.AtkContext.Move.Id == 76)
+      {
+        Weather w = def.Defender.Controller.GetAvailableWeather();
+        if (w != Weather.IntenseSunlight && w != Weather.Normal)
+          return 0x800;
+      }
+      return 0x1000;
+    }
+    public static bool ThunderWave(this MoveType move)
+    {
+      return move.Id == 86;
+    }
     public static bool CheckTriAttack(DefContext def)
     {
       Controller c = def.Defender.Controller;
@@ -41,6 +55,8 @@ namespace LightStudio.PokemonBattle.Game.Sp
     {
       if (move.Type.Id == 264)
       {
+        move.Owner.OnboardPokemon.SetCondition("FocusPunch");
+        move.Owner.AddReportPm("EnFocusPunch");
       }
     }
 
@@ -52,7 +68,7 @@ namespace LightStudio.PokemonBattle.Game.Sp
     {
       return move.Id == 498;
     }
-    public static void CheckSkyDrop(AtkContext atk)
+    public static void SkyDrop(AtkContext atk)
     {
       if (atk.Move.Id == 507)
       {

@@ -22,7 +22,10 @@ namespace LightStudio.PokemonBattle.Game.Sp.Conditions
       } 
       if (pm.Controller.OneNth(2))
       {
-        //自伤，送回战斗平面
+        var e = new Interactive.GameEvents.HpChange(pm, "ConfusedWork", true);
+        pm.MoveHurt((pm.Pokemon.Lv * 2 / 5 + 2) * 40 * OnboardPokemon.Get5D(pm.OnboardPokemon.Static.Atk, pm.OnboardPokemon.Lv5D.Atk) / OnboardPokemon.Get5D(pm.OnboardPokemon.Static.Def, pm.OnboardPokemon.Lv5D.Def) / 50 + 2);
+        e.Hp = pm.Hp;
+        if (!pm.CheckFaint()) pm.Item.HpChanged(pm);
         return false;
       }
       return true;
@@ -37,7 +40,7 @@ namespace LightStudio.PokemonBattle.Game.Sp.Conditions
     
     public override bool CanExecute()
     {
-      AddReportPm("Flinch");
+      AddResetYReport("Flinch");
       Abilities.CheckSteadfast(pm);
       return false;
     }

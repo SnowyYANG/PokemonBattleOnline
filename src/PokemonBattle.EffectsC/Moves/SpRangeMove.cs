@@ -23,10 +23,10 @@ namespace LightStudio.PokemonBattle.Effects.Moves
     {
       return def.Defender.OnboardPokemon.CoordY == Y || base.IsYInRange(def);
     }
-    protected override void Calculate(DefContext def)
+    protected override Modifier DamageFinalModifier(DefContext def)
     {
-      base.Calculate(def);
-      if (def.Defender.OnboardPokemon.CoordY == Y) def.Damage <<= 1;
+      if (Doubled && def.Defender.OnboardPokemon.CoordY == Y) return 0x2000;
+      return 0x1000;
     }
   }
   class GustTwister : AttackMoveE

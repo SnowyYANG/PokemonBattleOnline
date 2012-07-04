@@ -41,13 +41,13 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
       IText t = null;
       if (OldAbId == 0)
       {
-        t = GetGameLog("AbChange");
-        t.SetData(pm, oldAb, ab); 
+        t = GetGameLog("Ability");
+        t.SetData(pm, ab);
       }
       else
       {
-        t = GetGameLog("Ability");
-        t.SetData(pm, ab);
+        t = GetGameLog("AbChange");
+        t.SetData(pm, oldAb, ab); 
       }
       return t;
     }

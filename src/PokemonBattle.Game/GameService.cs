@@ -12,6 +12,7 @@ namespace LightStudio.PokemonBattle.Game
     public readonly static GameLogs Logs;
     public readonly static IAbilityE NULL_ABILITY;
     public readonly static IItemE NULL_ITEM;
+    private readonly static IMoveE NULL_MOVE;
     private readonly static Rule NULL_RULE;
     private static bool unlocked;
     private static IMoveE[] moves;
@@ -39,7 +40,7 @@ namespace LightStudio.PokemonBattle.Game
       if (id < 0 || id > moves.Length) id = 0;
       if (moves[id] == null) //不用Factory大丈夫？
       {
-        MoveType move = DataService.GetMoveType(id);
+        MoveType move = DataService.GetMove(id);
         if (move == null) id = 0;
         switch (move.Class)
         {
@@ -58,7 +59,7 @@ namespace LightStudio.PokemonBattle.Game
             moves[id] = new AttackMoveE(id);
             break;
           default:
-            //System.Diagnostics.Debugger.Break();
+            moves[id] = NULL_MOVE;
             break;
         }
       }

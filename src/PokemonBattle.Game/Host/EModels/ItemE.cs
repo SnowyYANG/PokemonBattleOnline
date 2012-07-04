@@ -23,6 +23,7 @@ namespace LightStudio.PokemonBattle.Game
     public virtual int CompareValue(PokemonProxy pm) { return 0; }
     public virtual Modifier ADSModifier(PokemonProxy pm, StatType stat) { return 0x1000; }
     public virtual Modifier DamageFinalModifier(DefContext def) { return 0x1000; }
+    public virtual Modifier PowerModifier(AtkContext atk) { return 0x1000; }
     public virtual int GetCtLvRevise(PokemonProxy pm) { return 0; }
 
     protected virtual void RaiseImpl(PokemonProxy pm)
@@ -42,7 +43,6 @@ namespace LightStudio.PokemonBattle.Game
     public virtual void Attach(PokemonProxy pm) { }
     public virtual void HpChanged(PokemonProxy pm) { }
     public virtual void StateAdded(PokemonProxy pm, AttachedState state) { }
-    public virtual void CalculatingPowerModifier(AtkContext atk) { }
     public virtual void Attacked(DefContext def) { }
   }
 }

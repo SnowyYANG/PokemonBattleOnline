@@ -47,6 +47,7 @@
             <TextBlock Text="{Binding Path=Hp.Origin}" Canvas.Left="88" Canvas.Bottom="-2" Foreground="White" FontSize="11" FontWeight="Bold" TextOptions.TextRenderingMode="Aliased"/>
             <TextBlock Text="{Binding Path=Hp.Value}" Canvas.Right="41" Canvas.Bottom="-2" Foreground="White" FontSize="11" FontWeight="Bold" TextOptions.TextRenderingMode="Aliased"/>
             <Image DataContext="{Binding Gender}" Style="{StaticResource BitmapGenderLabel}" Canvas.Left="71" Canvas.Top="1"/>
+            <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}"/>
             <ui:LifeBar DataContext="{Binding Hp}" Canvas.Left="41" Canvas.Top="11"/>
         </Canvas>
     </DataTemplate>
@@ -93,6 +94,7 @@
         	    </TextBlock.Effect>
             </TextBlock>
             <Image DataContext="{Binding Gender}" Style="{StaticResource BitmapGenderLabel}" Canvas.Left="71" Canvas.Top="1"/>
+            <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}"/>
             <ui:LifeBar DataContext="{Binding Hp}" Canvas.Left="41" Canvas.Top="11"/>
         </Canvas>
     </DataTemplate>
@@ -139,6 +141,7 @@
                 </TextBlock.Effect>
             </TextBlock>
             <Image DataContext="{Binding Gender}" Style="{StaticResource BitmapGenderLabel}" Canvas.Left="76" Canvas.Top="1"/>
+            <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}"/>
             <ui:LifeBar DataContext="{Binding Hp}" Canvas.Left="29" Canvas.Top="11"/>
         </Canvas>
     </DataTemplate>

@@ -8,22 +8,22 @@ namespace LightStudio.PokemonBattle.Data
   public enum BattleType : byte
   {
     Invalid,
-    Bug,
-    Dark,
-    Dragon,
-    Electric,
-    Fighting,
-    Fire,
-    Flying,
-    Ghost,
-    Grass,
-    Ground,
-    Ice,
     Normal,
+    Fighting,
+    Flying,
     Poison,
-    Psychic,
+    Ground,
     Rock,
+    Bug,
+    Ghost,
     Steel,
-    Water
+    Fire,
+    Water,
+    Grass,
+    Electric,
+    Psychic,
+    Ice,
+    Dragon,
+    Dark
   }
 }

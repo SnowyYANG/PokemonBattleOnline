@@ -36,7 +36,7 @@ namespace LightStudio.PokemonBattle.Effects
       M(new GrassKnot(67));
       M(new SolarBeam(76));
       M(new Thunder(87));
-      M(new SpRangeMove(89, CoordY.Underground, true));
+      M(new SpRangeMove(89, CoordY.Underground, true));//earthquake
       M(new SpRangeMove(90, CoordY.Underground));
       M(new Leap(91, CoordY.Underground));//dig
       M(new SkullBash(130));
@@ -44,8 +44,7 @@ namespace LightStudio.PokemonBattle.Effects
       M(new Flail(179));
       M(new AHappy(216));
       M(new BHappy(218));
-      M(new Magnitude(222));
-      M(new HiddenPower(237));
+      //M(new HiddenPower(237)); //recheckin
       M(new GustTwister(239));
       M(new Spout(284));
       M(new Leap(291, CoordY.Water));//dives
@@ -59,7 +58,6 @@ namespace LightStudio.PokemonBattle.Effects
       M(new Punishment(386));
       M(new GrassKnot(447));
       M(new Leap(467, CoordY.Another));//shadow
-      //M(new SpRangeMove(479, CoordY.Air));
       M(new HeavySlam(484));
       M(new ElectroBall(486));
       M(new StoredPower(500));

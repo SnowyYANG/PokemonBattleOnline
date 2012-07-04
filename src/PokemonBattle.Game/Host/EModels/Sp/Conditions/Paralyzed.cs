@@ -12,7 +12,6 @@ namespace LightStudio.PokemonBattle.Game.Sp.Conditions
     {
       if (p.State == PokemonState.Paralyzed)
       {
-        p.AddReportPm("Paralyzed");
         if (p.Controller.OneNth(4))
         {
           p.Controller.ReportBuilder.Add(PositionChange.Reset("ParalyzedWork", p));

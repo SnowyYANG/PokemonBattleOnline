@@ -44,6 +44,10 @@ namespace LightStudio.PokemonBattle.Game
     {
       pm.AddReportPm(key);
     }
+    protected void AddResetYReport(string key, params string[] args)
+    {
+      AddReport(Interactive.GameEvents.PositionChange.Reset(key, pm, args));
+    }
     public virtual bool CanExecute()
     {
       return true;
