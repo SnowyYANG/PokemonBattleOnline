@@ -74,7 +74,7 @@ namespace LightStudio.PokemonBattle.Game.Sp
       {
         var d = atk.Target.Defender;
         d.OnboardPokemon.CoordY = CoordY.Plate;
-        d.Controller.ReportBuilder.Add(PositionChange.Reset("SkyDropFree", d));
+        d.Controller.ReportBuilder.Add(PositionChange.Reset("DeSkyDrop", d));
       }
     }
   }

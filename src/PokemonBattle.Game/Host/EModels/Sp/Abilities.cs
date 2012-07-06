@@ -181,15 +181,15 @@ namespace LightStudio.PokemonBattle.Game.Sp
       if (def.AtkContext.SheerForceActive) r *= 0x14cd;
       return r;
     }
-    public static void FlowerGift(AtkContext atk)
+    public static Modifier FlowerGift(AtkContext atk)
     {
+      Modifier m = 0x1000;
       if (atk.Move.Category == MoveCategory.Physical && atk.Controller.GetAvailableWeather() == Weather.IntenseSunlight)
       {
-        Modifier m = 0x1000;
         foreach (PokemonProxy pm in atk.Attacker.TeamOnboardPms())
-          if (pm.Pokemon.PokemonType.Number == 421 && pm.Ability.Id == 35) m *= 0x1800;
-        if (m != 0x1000) atk.AtkModifier *= m;
+          if (pm.Pokemon.PokemonType.Number == 421 && pm.Ability.Id == 35) return m *= 0x1800;
       }
+      return m;
     }
     public static Modifier FlowerGift(DefContext def)
     {
@@ -239,14 +239,9 @@ namespace LightStudio.PokemonBattle.Game.Sp
         pm.ChangeLv7D(pm, 2);
       }
     }
-    public static bool CheckSkillLink(AtkContext atk)
+    public static bool SkillLink(AtkContext atk)
     {
-      if (atk.Move.MinTimes != atk.Move.MaxTimes && atk.Attacker.Ability.Id == 121)
-      {
-        atk.Times = 5;
-        return true;
-      }
-      return false;
+      return atk.Move.MinTimes != atk.Move.MaxTimes && atk.Attacker.Ability.Id == 121;
     }
     public static void CheckMoxie(DefContext def)
     {
@@ -288,14 +283,17 @@ namespace LightStudio.PokemonBattle.Game.Sp
         return 0x800;
       return 0x1000;
     }
-    public static void AccuracyModifier(AtkContext atk)
+    public static Modifier AccuracyModifier(AtkContext atk)
     {
       const int COMPOUNDEYES = 17, HUSTLE = 51, VICTORY_STAR = 157;
       int ab = atk.Attacker.Ability.Id;
-      if (ab == COMPOUNDEYES) atk.AccuracyModifier = 0x14CC;
-      else if (ab == HUSTLE && atk.Move.Category == MoveCategory.Physical) atk.AccuracyModifier = 0x1800;
+      Modifier m;
+      if (ab == COMPOUNDEYES) m = 0x14CC;
+      else if (ab == HUSTLE && atk.Move.Category == MoveCategory.Physical) m = 0x1800;
+      else m = 0x1000;
       foreach (PokemonProxy pm in atk.Attacker.TeamOnboardPms())
-        if (pm.Ability.Id == VICTORY_STAR) atk.AccuracyModifier *= 0x1199;
+        if (pm.Ability.Id == VICTORY_STAR) m *= 0x1199;
+      return m;
     }
     public static double WeightModifier(PokemonProxy pm)
     {

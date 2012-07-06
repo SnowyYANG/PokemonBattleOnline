@@ -13,14 +13,10 @@ namespace LightStudio.PokemonBattle.Game.Sp
     const int EJECT_BUTTON = 111;
     #endregion
 
-    private static void RaiseItem(this PokemonProxy pm, string key = "RaiseItem")
+    private static void RaiseItem(this PokemonProxy pm, string key)
     {
       pm.Controller.ReportBuilder.Add(new Interactive.GameEvents.UseItem(key, pm, pm.Pokemon.Item));
       if (pm.Pokemon.Item.Type != ItemType.Normal) pm.ConsumeItem();
-    }
-    public static void RaiseItem(this PokemonProxy pm)
-    {
-      pm.Item.Raise(pm);
     }
 
     public static bool BigRoot(this IItemE item)
@@ -41,7 +37,7 @@ namespace LightStudio.PokemonBattle.Game.Sp
         if (lvs.Speed < 0) { lvs.Speed = 0; raise = true; }
         if (pm.OnboardPokemon.AccuracyLv < 0) { pm.OnboardPokemon.AccuracyLv = 0; raise = true; }
         if (pm.OnboardPokemon.EvasionLv < 0) { pm.OnboardPokemon.EvasionLv = 0; raise = true; }
-        if (raise) RaiseItem(pm);
+        if (raise) RaiseItem(pm, "WhiteHerb");
       }
     }
     public static bool CheckMicleBerry(AtkContext atk)
@@ -49,15 +45,16 @@ namespace LightStudio.PokemonBattle.Game.Sp
       PokemonProxy pm = atk.Attacker;
       if (pm.Item.Id == 189 && pm.Pokemon.Hp.Percentage < (pm.Ability.Gluttony()? 0.5 : 0.25))
       {
-        RaiseItem(pm);
+        RaiseItem(pm, "MicleBerry");
         return true;
       }
       return false;
     }
-    public static void WideLens(AtkContext atk)
+    public static Modifier WideLens(AtkContext atk)
     {
       if (atk.Attacker.Item.Id == 42)
-        atk.AccuracyModifier *= 0x1199;
+        return 0x1199;
+      return 0x1000;
     }
     public static Modifier ZoomLens(DefContext target)
     {
@@ -110,10 +107,10 @@ namespace LightStudio.PokemonBattle.Game.Sp
     public static bool Remain1Hp(PokemonProxy pm)
     {
       const int FOCUS_BAND = 15, FOCUS_SASH = 52;
-      if ((pm.Item.Id == FOCUS_BAND && !pm.Pokemon.Hp.IsChanged) ||
-        (pm.Item.Id == FOCUS_SASH && pm.Controller.OneNth(10)))
+      if ((pm.Item.Id == FOCUS_BAND && pm.Controller.OneNth(10)) ||
+        (pm.Item.Id == FOCUS_SASH && !pm.Pokemon.Hp.IsChanged))
       {
-        pm.RaiseItem();
+        pm.RaiseItem("FocusItem");
         return true;
       }
       return false;

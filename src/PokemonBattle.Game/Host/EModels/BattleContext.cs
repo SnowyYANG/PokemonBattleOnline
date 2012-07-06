@@ -12,13 +12,10 @@ namespace LightStudio.PokemonBattle.Game
     public readonly MoveProxy MoveProxy; //压力、诅咒身躯，针对一开始选的技能
     public readonly MoveType Move; //生成技能在后期
     public BattleType Type;
-    public Modifier AccuracyModifier = 0x1000;
+    public Modifier AccuracyModifier;
     public bool MultiTargets
     { get; internal set; }
     public int CTLv;
-    public int AtkRaw;
-    public int AtkLv;
-    public int Times;
     private bool? _sheerForceActive;
     public bool SheerForceActive
     { 
@@ -34,12 +31,10 @@ namespace LightStudio.PokemonBattle.Game
         return _sheerForceActive.Value;
       }
     }
-    public Modifier AtkModifier;
-    public Modifier WeatherModifier;
-    public Modifier STAB; //本属性修正/适应力
-    public Modifier PowerModifier_Item;
-    public Modifier PowerModifier_Board;
     public bool MeFirst;
+    public int ActualHits; //当前攻击次数，包含多回合攻击与连续攻击技能，从1开始数
+    public bool RaiseItem;
+    public Tile EjectButton;
     public dynamic Attachment;
 
     internal AtkContext(PokemonProxy pm, MoveType move)
@@ -59,7 +54,7 @@ namespace LightStudio.PokemonBattle.Game
 
     internal void Execute()
     {
-      Controller.ReportBuilder.Add(Interactive.GameEvents.PositionChange.Reset("UseMove", Attacker, Move.GetLocalizedName()));
+      Controller.ReportBuilder.Add(new Interactive.GameEvents.UseMove(Attacker, Move));
       GameService.GetMove(Move.Id).Execute(Attacker);
     }
     public void SetTargets(IEnumerable<DefContext> targets)
@@ -121,7 +116,7 @@ namespace LightStudio.PokemonBattle.Game
         Defender.Controller.Board[Defender.Tile.Team].HasCondition(condition) &&
         (Defender.Tile.Team == a.Tile.Team || !AtkContext.Attacker.Ability.Infiltrator());
     }
-    public void ModifyDamage(Int16 modifier)
+    public void ModifyDamage(UInt16 modifier)
     {
       Damage = (Damage * modifier + 0x800) >> 12;
     }

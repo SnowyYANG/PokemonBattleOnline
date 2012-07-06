@@ -17,15 +17,48 @@ namespace LightStudio.PokemonBattle.Game
 
     public MoveType Move
     { get; private set; }
-    public abstract void Execute(PokemonProxy pm); //变化技能和攻击技能分开写吧
 
-    protected void BuildDefContexts(AtkContext atk, params Tile[] ts)
+    protected abstract void Act(AtkContext atk);
+    public virtual void Execute(PokemonProxy pm)
+    {
+      if (pm.AtkContext == null) pm.BuildAtkContext(Move);
+      if (Move.AdvancedFlags.PrepareOneTurn && PrepareOneTurn(pm) && !Sp.Items.PowerHerb(pm)) return;
+      AtkContext atk = pm.AtkContext;
+      if (!Abilities.CalculateType(atk)) CalculateType(atk);
+      CalculateTargets(atk);
+      if (atk.Targets == null) goto DONE;
+
+      Act(atk);
+
+    DONE:
+      pm.Action = PokemonAction.Done;
+    }
+
+    protected virtual bool PrepareOneTurn(PokemonProxy pm)
+    {
+      if (pm.Action == PokemonAction.MoveAttached)
+      {
+        pm.AddReportPm("Prepare" + Move.Id.ToString());
+        pm.Action = PokemonAction.Moving;
+        return true;
+      }
+      return false;
+    }
+
+    #region CalculateTargets
+    protected void CalculateTargets(AtkContext atk)
     {
       var report = atk.Controller.ReportBuilder;
+      IEnumerable<Tile> ts = GetRangeTiles(atk);
+      if (ts.Count() == 0)
+      {
+        report.Add("Fail_s");
+        return;
+      }
+
       List<DefContext> targets = new List<DefContext>();
       #region Check CoordY
       {
-        if (ts.Length == 0) return;
         var miss = new List<DefContext>();
         int count = 0;
         foreach (Tile t in ts)
@@ -65,7 +98,7 @@ namespace LightStudio.PokemonBattle.Game
           if (d.Defender.OnboardPokemon.HasCondition("Protect")) protect.Add(d);
         foreach (DefContext d in protect)
         {
-          report.Add("ProtectWork", d.Defender);
+          report.Add("Protect", d.Defender);
           targets.Remove(protect);
         }
       }
@@ -85,8 +118,7 @@ namespace LightStudio.PokemonBattle.Game
         if (Move.Class != MoveInnerClass.OHKO)
         {
           if (Items.CheckMicleBerry(atk)) goto DONE;
-          Abilities.AccuracyModifier(atk);
-          Items.WideLens(atk);
+          atk.AccuracyModifier = Abilities.AccuracyModifier(atk) * Items.WideLens(atk);
         }
         var miss = new List<DefContext>();
         foreach (DefContext def in targets)
@@ -106,7 +138,6 @@ namespace LightStudio.PokemonBattle.Game
         atk.SetTargets(targets);
       #endregion
     }
-
     protected bool CanHit(DefContext def)
     {
       AtkContext atk = def.AtkContext;
@@ -143,8 +174,10 @@ namespace LightStudio.PokemonBattle.Game
       //产生1～100的随机数，如果小于等于命中，判定为命中，否则判定为失误。
       return controller.RandomHappen(acc);
     }
-
-    #region
+    public virtual int GetAccuracyBase(AtkContext def)
+    { return Move.Accuracy; }
+    #endregion
+    #region CalculateType
     protected virtual void CalculateType(AtkContext atk) //觉醒力量
     {
       atk.Type = Move.Type;
@@ -183,8 +216,7 @@ namespace LightStudio.PokemonBattle.Game
           BattleType canAtk = def.Defender.OnboardPokemon.GetCondition<BattleType>("CanAttack");
           BattleType def1 = def.Defender.OnboardPokemon.Type1, def2 = def.Defender.OnboardPokemon.Type2;
           return
-            ((canAtk == def1 || canAtk == def2) || def.Defender.Item.RingTarget() ||
-            atk == BattleType.Ground ? HasEffect_Ground(def) : HasEffect_NonGround(atk, def1) && HasEffect_NonGround(atk, def2)) &&
+            ((canAtk != BattleType.Invalid && (canAtk == def1 || canAtk == def2)) || def.Defender.Item.RingTarget() || atk == BattleType.Ground ? HasEffect_Ground(def) : HasEffect_NonGround(atk, def1) && HasEffect_NonGround(atk, def2)) &&
             (Move.Class != MoveInnerClass.OHKO || (def.Defender.Pokemon.Lv <= def.AtkContext.Attacker.Pokemon.Lv && !def.Defender.RaiseAbility(Abilities.STURDY)));
         default:
           if (Move.ThunderWave()) goto case MoveInnerClass.OHKO;
@@ -228,7 +260,7 @@ namespace LightStudio.PokemonBattle.Game
           }
           break;
         case MoveRange.All:
-          targets = atk.Controller.Tiles;
+          targets = atk.Controller.Board.Tiles;
           break;
         case MoveRange.Partner:
           if (select == null) goto case MoveRange.UserOrParner;
@@ -286,7 +318,8 @@ namespace LightStudio.PokemonBattle.Game
 
     #endregion
 
-    public virtual int GetAccuracyBase(AtkContext def)
-    { return Move.Accuracy; }
+    protected virtual void MoveEnding(AtkContext atk)
+    {
+    }
   }
 }

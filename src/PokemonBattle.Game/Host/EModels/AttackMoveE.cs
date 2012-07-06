@@ -20,11 +20,41 @@ namespace LightStudio.PokemonBattle.Game
     {
     }
 
+    protected override void Act(AtkContext atk)
+    {
+      PokemonProxy aer = atk.Attacker;
+      
+      //生成攻击次数
+      int times;
+      if (!Sp.Abilities.SkillLink(atk) && Move.MinTimes != Move.MaxTimes)
+        times = TIMES25[atk.Controller.GetRandomInt(0, 7)];
+      else
+      {
+        times = Move.MinTimes;
+        if (times == 0) times = 1;
+      }
+      
+      int atkTeam = aer.Pokemon.TeamId;
+      do
+      {
+        atk.ActualHits++;
+        if (Move.Class != MoveInnerClass.OHKO)
+          foreach (DefContext d in atk.Targets) CalculateDamage(d);
+        if (atk.RaiseItem) atk.Attacker.Item.Raise(atk.Attacker);
+        Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
+        Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
+      }
+      while (atk.ActualHits < times && atk.Target.Defender.Hp != 0 && aer.Hp != 0 && aer.State != PokemonState.Frozen && aer.State != PokemonState.Sleeping);
+      
+      if (Move.MaxTimes > 1) atk.Controller.ReportBuilder.Add("Hits", atk.ActualHits.ToString());
+      if (!atk.SheerForceActive) PostEffect(atk);
+      MoveEnding(atk);
+    }
+
     private void Implement(IEnumerable<DefContext> defs)
     {
       if (defs.Count() == 0) return;
       DefContext def = defs.First();
-      if (def.AtkContext.Times > 1) CalculateAtk(def.AtkContext);
       if (Move.Class == MoveInnerClass.OHKO && !Sp.Conditions.Substitute.OHKO(def))
       {
         def.Damage = def.Defender.Hp;
@@ -38,12 +68,7 @@ namespace LightStudio.PokemonBattle.Game
       {
         AtkContext atk = def.AtkContext;
         PokemonProxy a = atk.Attacker;
-        int m = 0;
-        do
-        {
           bool allSub = true;
-          foreach (DefContext d in defs)
-            CalculateDef(d);
           if (!Move.AdvancedFlags.IgnoreSubstitute)
           {
             foreach (DefContext d in defs)
@@ -53,24 +78,16 @@ namespace LightStudio.PokemonBattle.Game
           {
             MoveHurts e = new MoveHurts();
             a.Controller.ReportBuilder.Add(e);
+#warning 抗性果
             foreach (DefContext d in defs)
               d.Defender.MoveHurt(d);
             e.SetHurt(defs);
           }
 
-          if (Move.HurtPercentage > 0)
-            a.DamagePercentage(def, Move.HurtPercentage);
-          if (Move.Class == MoveInnerClass.AttackWithSelfLv7DChange)
-            a.ChangeLv7D(atk);
+          if (Move.HurtPercentage > 0) a.DamagePercentage(def, Move.HurtPercentage);
+          if (Move.Class == MoveInnerClass.AttackWithSelfLv7DChange) a.ChangeLv7D(atk);
 
-          foreach (DefContext d in defs)
-            if (!d.HitSubstitute) ImplementEffect(d);
-          m++;
-          if (def.Defender.Hp == 0 || a.Hp == 0 || a.State == PokemonState.Sleeping || a.State == PokemonState.Frozen)
-            break;
-        } while (m < atk.Times);
-        if (Move.MaxTimes > 1)
-          a.Controller.ReportBuilder.Add("Hits", m.ToString());
+          foreach (DefContext d in defs) if (!d.HitSubstitute) ImplementEffect(d);
 
         if (a.Hp > 0)
         {
@@ -83,65 +100,14 @@ namespace LightStudio.PokemonBattle.Game
         }
       }// else OHKO
     }
-    public override void Execute(PokemonProxy pm)
-    {
-      if (pm.AtkContext == null) pm.BuildAtkContext(Move);
-      if (Move.AdvancedFlags.PrepareOneTurn && PrepareOneTurn(pm) && !Sp.Items.PowerHerb(pm))
-        return;
-      AtkContext atk = pm.AtkContext;
-      if (!Abilities.CalculateType(atk)) CalculateType(atk);
-      var targets = GetRangeTiles(atk).ToArray();
-      if (targets.Length == 0)
-      {
-        pm.Controller.ReportBuilder.Add("Fail");
-        goto DONE;
-      }
-      else
-      {
-        BuildDefContexts(atk, targets);
-        if (atk.Targets == null) goto DONE;
-      }
-
-      //生成攻击次数
-      if (!Sp.Abilities.CheckSkillLink(atk) && Move.MinTimes != Move.MaxTimes)
-        atk.Times = TIMES25[atk.Controller.GetRandomInt(0, 7)];
-      else atk.Times = Move.MinTimes;
-
-      if (atk.Times == 0)
-      {
-        atk.Times = 1;
-        if (Move.Class != MoveInnerClass.OHKO) CalculateAtk(atk);
-      }
-      
-      int atkTeam = atk.Attacker.Pokemon.TeamId;
-      Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
-      Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
-
-      if (!atk.SheerForceActive) PostEffect(atk);
-      EndAttack(atk);
-#warning 逆鳞
-    
-    DONE:
-      pm.Action = PokemonAction.Done;
-    }
-
-    protected virtual bool PrepareOneTurn(PokemonProxy pm)
-    {
-      if (pm.Action == PokemonAction.MoveAttached)
-      {
-        pm.AddReportPm("Prepare" + Move.Id.ToString());
-        pm.Action = PokemonAction.Moving;
-        return true;
-      }
-      return false;
-    }
+    protected virtual void PreImplement(DefContext def) { }
     protected virtual void CalculateBasePower(DefContext def)
     {
       def.BasePower = Move.Power;
     }
     protected virtual Modifier PowerModifier(DefContext def)
     { return 0x1000; }
-    protected virtual void CalculateEffect(DefContext def)
+    protected virtual void CalculateEffectRevise(DefContext def)
     {
       BattleType a = def.AtkContext.Type;
       BattleType d1 = def.Defender.OnboardPokemon.Type1;
@@ -150,70 +116,20 @@ namespace LightStudio.PokemonBattle.Game
         a == BattleType.Ground && def.Defender.Item.IronBall() && (d1 == BattleType.Flying || d2 == BattleType.Flying)?
         0 : BATTLE_TYPE_EFFECT[(int)a, (int)d1] + BATTLE_TYPE_EFFECT[(int)a, (int)d2];
     }
-    protected virtual void CalculateAtk(AtkContext atk) //固定伤害、大爆炸、佯攻override
-    {
-      PokemonProxy pm = atk.Attacker;
-
-      {
-        atk.PowerModifier_Item = atk.Attacker.Item.PowerModifier(atk);
-        atk.PowerModifier_Board = 0x1000;
-        if (atk.Type == BattleType.Fire)
-        {
-          if (pm.Controller.Board.HasCondition("WaterSport")) atk.PowerModifier_Board = 0x800;
-        }
-        else
-        {
-          if (atk.Type == BattleType.Electric && pm.Controller.Board.HasCondition("MudSport")) atk.PowerModifier_Board = 0x800;
-        }
-      }
-
-      {
-        OnboardPokemon p;
-        if (Move.FoulPlay()) p = atk.Target.Defender.OnboardPokemon;
-        else p = pm.OnboardPokemon;
-        StatType st = Move.Category == MoveCategory.Physical ? StatType.Atk : StatType.SpAtk;
-        atk.AtkRaw = p.Static.GetStat(st);
-        atk.AtkLv = p.Lv5D.GetStat(st);
-        atk.AtkModifier = pm.Ability.ADSModifier(pm, st);
-        Abilities.FlowerGift(atk);
-        atk.AtkModifier *= pm.Item.ADSModifier(pm, st);
-      }
-
-      atk.CTLv = Move.CtLv;
-      if (atk.CTLv < 5)
-      {
-        if (pm.OnboardPokemon.HasCondition("FocusEnergy")) atk.CTLv += 2;
-        if (pm.Ability.SuperLuck()) atk.CTLv++;
-        atk.CTLv += pm.Item.GetCtLvRevise(pm);
-        if (atk.CTLv > 4) atk.CTLv = 4;
-      }
-
-      //天气
-      atk.WeatherModifier = 0x1000;
-      Weather w = atk.Controller.GetAvailableWeather();
-      BattleType type = atk.Type;
-      if (w == Weather.IntenseSunlight)
-      {
-        if (type == BattleType.Water) atk.WeatherModifier = 0x800;
-        else if (type == BattleType.Fire) atk.WeatherModifier = 0x1800;
-      }
-      else if (w == Weather.HeavyRain)
-      {
-        if (type == BattleType.Water) atk.WeatherModifier = 0x1800;
-        else if (type == BattleType.Fire) atk.WeatherModifier = 0x800;
-      }
-      //宝石、节拍器、生命玉
-      //本属性修正
-      if (atk.Attacker.OnboardPokemon.HasType(atk.Type))
-        atk.STAB = (ushort)(atk.Attacker.Ability.Adaptability() ? 0x2000 : 0x1800);
-      else atk.STAB = 0x1000;
-    }
-    protected virtual void CalculateDef(DefContext def)
+    protected virtual void CalculateDamage(DefContext def)
     {
       AtkContext atk = def.AtkContext;
       PokemonProxy aer = atk.Attacker;
       Controller c = aer.Controller;
 
+      atk.CTLv = Move.CtLv;
+      if (atk.CTLv < 5)
+      {
+        if (aer.OnboardPokemon.HasCondition("FocusEnergy")) atk.CTLv += 2;
+        if (aer.Ability.SuperLuck()) atk.CTLv++;
+        atk.CTLv += aer.Item.GetCtLvRevise(aer);
+        if (atk.CTLv > 4) atk.CTLv = 4;
+      }
       if (!(c.Board[def.Defender.Pokemon.TeamId].HasCondition("LuckyChant") || def.Ability.CannotBeCted()))
         if (Move.CtLv > 5) def.IsCt = true;
         else def.IsCt = c.OneNth(LV_CT[atk.CTLv]);
@@ -223,22 +139,30 @@ namespace LightStudio.PokemonBattle.Game
         CalculateBasePower(def);
         Modifier m = atk.Attacker.Ability.PowerModifier(def);
         m *= Abilities.PowerModifier(def);
-        m *= atk.PowerModifier_Item;
+        m *= atk.Attacker.Item.PowerModifier(atk);
         m *= PowerModifier(def);
         if (atk.MeFirst) m *= 0x1800;
         m *= Moves.SolarBeam(def);
         //charge
         //helpinghand
-        m *= atk.PowerModifier_Board;
-        def.Damage *= (def.BasePower * m);
+        if ((atk.Type == BattleType.Fire && c.Board.HasCondition("WaterSport")) || (atk.Type == BattleType.Electric && c.Board.HasCondition("MudSport"))) m *= 0x800;
+        def.Damage *= def.BasePower * m;
       }
       {
-        int atkLv = 0;
-        if (!(def.Ability.Unaware() || (def.IsCt && atk.AtkLv < 0)))
-          atkLv = atk.AtkLv;
-        int a = OnboardPokemon.Get5D(atk.AtkRaw, atkLv);
+        OnboardPokemon p = Move.FoulPlay() ? atk.Target.Defender.OnboardPokemon : aer.OnboardPokemon;
+        StatType st = Move.Category == MoveCategory.Physical ? StatType.Atk : StatType.SpAtk;
+        int a = p.Static.GetStat(st);
+        if (!def.Ability.Unaware())
+        {
+          int atkLv = p.Lv5D.GetStat(st);
+          if (!(def.IsCt && atkLv < 0)) a = OnboardPokemon.Get5D(a, atkLv);
+        }
+        a *= Abilities.Hustle(atk);
         Modifier m = Abilities.ThickFat(def);
-        def.Damage *= (a * Abilities.Hustle(atk)) * (m * atk.AtkModifier); //计算顺序有异，但介于具体数值，精度无损
+        m *= aer.Ability.ADSModifier(aer, st);
+        m *= Abilities.FlowerGift(atk);
+        m *= aer.Item.ADSModifier(aer, st);
+        def.Damage *= a * m;
       }
       {
         StatType st = Move.Category == MoveCategory.Physical ? StatType.Def : StatType.SpDef;
@@ -254,23 +178,37 @@ namespace LightStudio.PokemonBattle.Game
           m *= Abilities.FlowerGift(def);
         }
         m *= def.Defender.Item.ADSModifier(def.Defender, st);
-        def.Damage /= (d * m);
+        def.Damage /= d * m;
       }
       def.Damage /= 50;
       def.Damage += 2;
       //1.Apply the multi-target modifier
       if (atk.MultiTargets) def.ModifyDamage(0xC00);
       //2.Apply the weather modifier
-      def.Damage *= atk.WeatherModifier;
+      {
+        Weather w = c.GetAvailableWeather();
+        BattleType type = atk.Type;
+        if (w == Weather.IntenseSunlight)
+        {
+          if (type == BattleType.Water) def.ModifyDamage(0x800);
+          else if (type == BattleType.Fire) def.ModifyDamage(0x1800);
+        }
+        else if (w == Weather.HeavyRain)
+        {
+          if (type == BattleType.Water) def.ModifyDamage(0x1800);
+          else if (type == BattleType.Fire) def.ModifyDamage(0x800);
+        }
+      }
       //3.In case of a critical hit, double the value
       if (def.IsCt) def.Damage <<= 1;
       //4.Alter with a random factor
       def.Damage *= aer.Controller.GetRandomInt(85, 100);
       def.Damage /= 100;
       //5.Apply STAB modifier
-      def.Damage *= atk.STAB;
+      if (atk.Attacker.OnboardPokemon.HasType(atk.Type))
+        def.ModifyDamage((ushort)(atk.Attacker.Ability.Adaptability() ? 0x2000 : 0x1800));
       //6.Alter with type effectiveness
-      CalculateEffect(def);
+      CalculateEffectRevise(def);
       if (def.EffectRevise > 0) def.Damage <<= def.EffectRevise;
       else if (def.EffectRevise < 0) def.Damage >>= -def.EffectRevise;
       //7.Alter with user's burn
@@ -335,8 +273,13 @@ namespace LightStudio.PokemonBattle.Game
       //红牌、逃生按钮
       Items.AttackPostEffect(atk);
     }
-    protected virtual void EndAttack(AtkContext atk)
+    protected override void MoveEnding(AtkContext atk)
     {
+      base.MoveEnding(atk);
+      //2.if (攻击方在场) 特效4（攻击方逆鳞混乱）
+      if (atk.Attacker.Tile != null) ;
+      //3.因为逃生按钮下场的精灵选择换人
+      if (atk.EjectButton != null) ;
     }
   }
 }

@@ -139,6 +139,7 @@ namespace LightStudio.PokemonBattle.Game
     }
     internal bool CanExecute()
     {
+      OnboardPokemon.CoordY = CoordY.Plate;
       return
         OnboardPokemon.GetCondition("Sleeping").CanExecute() &&
         Sp.Conditions.Frozen.CanExecute(this) &&
@@ -266,17 +267,17 @@ namespace LightStudio.PokemonBattle.Game
           Action = PokemonAction.Done;
           break;
         case PokemonAction.Moving:
-          OnboardPokemon.CoordY = CoordY.Plate;
           bool c = CanExecute();
           Sp.Moves.SkyDrop(AtkContext);
           if (c) AtkContext.Execute();
           break;
         case PokemonAction.MoveAttached:
-          if (!CanExecute()) goto case PokemonAction.Stiff;
-          if (SelectedMove.Move.Id != Sp.Moves.STRUGGLE)
-            SelectedMove.PP--;
-          atkContext = null;
-          SelectedMove.Execute();
+          if (CanExecute() && SelectedMove.CanExecute())
+          {
+            atkContext = null;
+            SelectedMove.Execute();
+          }
+          else Action = PokemonAction.Done;
           break;
       }
     }

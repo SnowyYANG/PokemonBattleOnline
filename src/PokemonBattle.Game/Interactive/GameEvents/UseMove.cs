@@ -19,10 +19,10 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     [DataMember]
     int Move;
 
-    public UseMove(MoveProxy m)
+    public UseMove(PokemonProxy pm, MoveType move)
     {
-      Pm = m.Owner.Id;
-      Move = m.Type.Id;
+      Pm = pm.Id;
+      Move = move.Id;
     }
 
     PokemonOutward pm;

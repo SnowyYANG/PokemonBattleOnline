@@ -48,8 +48,22 @@ namespace LightStudio.PokemonBattle.Game
 
     public void Execute()
     {
-      Owner.Controller.ReportBuilder.Add(new Interactive.GameEvents.UseMove(this));
+      Owner.Controller.ReportBuilder.Add(new Interactive.GameEvents.UseMove(Owner, Move.Type));
       e.Execute(Owner);
+    }
+
+    internal bool CanExecute()
+    {
+      if (Move.Id != Sp.Moves.STRUGGLE)
+      {
+        if (PP < 1)
+        {
+          Owner.Controller.ReportBuilder.Add("NoPP");
+          return false;
+        }
+        PP--;
+      }
+      return true;
     }
   }
 }
