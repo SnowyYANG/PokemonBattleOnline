@@ -51,6 +51,7 @@
     <Compile Include="Moves\SpBasepower\AHappy.cs" />
     <Compile Include="Moves\SpBasepower\Flail.cs" />
     <Compile Include="Moves\SpBasepower\HeavySlam.cs" />
+    <Compile Include="Moves\SpBasepower\HiddenPower.cs" />
     <Compile Include="Moves\SpBasepower\PState.cs" />
     <Compile Include="Moves\SpBasepower\SLevel.cs" />
     <Compile Include="Moves\SpBasepower\ASpeed.cs" />
