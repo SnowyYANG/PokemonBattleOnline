@@ -44,7 +44,7 @@ namespace LightStudio.PokemonBattle.Effects
       M(new Flail(179));
       M(new AHappy(216));
       M(new BHappy(218));
-      //M(new HiddenPower(237)); //recheckin
+      M(new HiddenPower(237));
       M(new GustTwister(239));
       M(new Spout(284));
       M(new Leap(291, CoordY.Water));//dives
