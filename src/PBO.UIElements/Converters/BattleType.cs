@@ -19,23 +19,23 @@ namespace LightStudio.PokemonBattle.PBO.Converters
     static BattleTypeBg()
     {
       c = new SolidColorBrush[18];
-      c[1] = Helper.NewBrush(0xffa8b820);
-      c[2] = Helper.NewBrush(0xff705848);
-      c[3] = Helper.NewBrush(0xff7860e0);
-      c[4] = Helper.NewBrush(0xfff8c030);
-      c[5] = Helper.NewBrush(0xffa05038);
-      c[6] = Helper.NewBrush(0xfff05030);
-      c[7] = Helper.NewBrush(0xff98a8f0);
+      c[1] = Helper.NewBrush(0xffa8a090);
+      c[2] = Helper.NewBrush(0xffa05038);
+      c[3] = Helper.NewBrush(0xff98a8f0);
+      c[4] = Helper.NewBrush(0xffb058a0);
+      c[5] = Helper.NewBrush(0xffd0b058);
+      c[6] = Helper.NewBrush(0xffb8a058);
+      c[7] = Helper.NewBrush(0xffa8b820);
       c[8] = Helper.NewBrush(0xff6060b0);
-      c[9] = Helper.NewBrush(0xff78c850);
-      c[10] = Helper.NewBrush(0xffd0b058);
-      c[11] = Helper.NewBrush(0xff58c8e0);
-      c[12] = Helper.NewBrush(0xffa8a090);
-      c[13] = Helper.NewBrush(0xffb058a0);
+      c[9] = Helper.NewBrush(0xffa8a8c0);
+      c[10] = Helper.NewBrush(0xfff05030);
+      c[11] = Helper.NewBrush(0xff3898f8);
+      c[12] = Helper.NewBrush(0xff78c850);
+      c[13] = Helper.NewBrush(0xfff8c030);
       c[14] = Helper.NewBrush(0xfff870a0);
-      c[15] = Helper.NewBrush(0xffb8a058);
-      c[16] = Helper.NewBrush(0xffa8a8c0);
-      c[17] = Helper.NewBrush(0xff3898f8);
+      c[15] = Helper.NewBrush(0xff58c8e0);
+      c[16] = Helper.NewBrush(0xff7860e0);
+      c[17] = Helper.NewBrush(0xff705848);
     }
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -56,23 +56,23 @@ namespace LightStudio.PokemonBattle.PBO.Converters
     static BattleTypeBorder()
     {
       c = new SolidColorBrush[18];
-      c[1] = Helper.NewBrush(0xff406838);
+      c[1] = Helper.NewBrush(0xff505050);
       c[2] = Helper.NewBrush(0xff483830);
-      c[3] = Helper.NewBrush(0xff483890);
-      c[4] = Helper.NewBrush(0xff705018);
-      c[5] = Helper.NewBrush(0xff483830);
-      c[6] = Helper.NewBrush(0xff702008);
-      c[7] = Helper.NewBrush(0xff405090);
+      c[3] = Helper.NewBrush(0xff405090);
+      c[4] = Helper.NewBrush(0xff483850);
+      c[5] = Helper.NewBrush(0xff705018);
+      c[6] = Helper.NewBrush(0xff705018);
+      c[7] = Helper.NewBrush(0xff406838);
       c[8] = Helper.NewBrush(0xff483850);
-      c[9] = Helper.NewBrush(0xff406838);
-      c[10] = Helper.NewBrush(0xff705018);
+      c[9] = Helper.NewBrush(0xff505050);
+      c[10] = Helper.NewBrush(0xff702008);
       c[11] = Helper.NewBrush(0xff405090);
-      c[12] = Helper.NewBrush(0xff505050);
-      c[13] = Helper.NewBrush(0xff483850);
+      c[12] = Helper.NewBrush(0xff406838);
+      c[13] = Helper.NewBrush(0xff705018);
       c[14] = Helper.NewBrush(0xff683838);
-      c[15] = Helper.NewBrush(0xff705018);
-      c[16] = Helper.NewBrush(0xff505050);
-      c[17] = Helper.NewBrush(0xff405090);
+      c[15] = Helper.NewBrush(0xff405090);
+      c[16] = Helper.NewBrush(0xff483890);
+      c[17] = Helper.NewBrush(0xff483830);
     }
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -93,23 +93,23 @@ namespace LightStudio.PokemonBattle.PBO.Converters
     static BattleTypeCircle()
     {
       c = new SolidColorBrush[18];
-      c[1] = Helper.NewBrush(0xff98a018);
-      c[2] = Helper.NewBrush(0xff704848);
-      c[3] = Helper.NewBrush(0xff5848f8);
-      c[4] = Helper.NewBrush(0xfff8c028);
-      c[5] = Helper.NewBrush(0xffc05810);
-      c[6] = Helper.NewBrush(0xfff83028);
-      c[7] = Helper.NewBrush(0xff7888f8);
+      c[1] = Helper.NewBrush(0xffD0D0D0);
+      c[2] = Helper.NewBrush(0xffc05810);
+      c[3] = Helper.NewBrush(0xff7888f8);
+      c[4] = Helper.NewBrush(0xff9840c0);
+      c[5] = Helper.NewBrush(0xffb88818);
+      c[6] = Helper.NewBrush(0xff907850);
+      c[7] = Helper.NewBrush(0xff98a018);
       c[8] = Helper.NewBrush(0xff585090);
-      c[9] = Helper.NewBrush(0xff28b020);
-      c[10] = Helper.NewBrush(0xffb88818);
-      c[11] = Helper.NewBrush(0xff48c0f8);
-      c[12] = Helper.NewBrush(0xffD0D0D0);
-      c[13] = Helper.NewBrush(0xff9840c0);
+      c[9] = Helper.NewBrush(0xffd0b8d0);
+      c[10] = Helper.NewBrush(0xfff83028);
+      c[11] = Helper.NewBrush(0xff2078f8);
+      c[12] = Helper.NewBrush(0xff28b020);
+      c[13] = Helper.NewBrush(0xfff8c028);
       c[14] = Helper.NewBrush(0xfff84068);
-      c[15] = Helper.NewBrush(0xff907850);
-      c[16] = Helper.NewBrush(0xffd0b8d0);
-      c[17] = Helper.NewBrush(0xff2078f8);
+      c[15] = Helper.NewBrush(0xff48c0f8);
+      c[16] = Helper.NewBrush(0xff5848f8);
+      c[17] = Helper.NewBrush(0xff704848);
     }
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
