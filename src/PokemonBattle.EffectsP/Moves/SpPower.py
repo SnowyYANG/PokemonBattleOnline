@@ -42,7 +42,7 @@ M(WeatherBall(311))
 
 class Facade(AttackMoveE):
     def PowerModifier(self, d):
-        s = d.Defender.State
+        s = d.AtkContext.Attacker.State
         if s != PokemonState.Normal and s != PokemonState.Frozen:
             return 0x2000
         return 0x1000

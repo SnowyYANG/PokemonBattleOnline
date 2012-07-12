@@ -14,7 +14,7 @@
             <SolidColorBrush x:Key="BGDark" Color="#505060"/>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Name="maincontent" Margin="0,18,0,0" HorizontalAlignment="Center" Width="560">
+    <Grid Margin="0,18,0,0" HorizontalAlignment="Center" Width="560">
         <Grid.Resources>
         	<ItemsPanelTemplate x:Key="VirtualPanel">
         		<VirtualizingStackPanel/>

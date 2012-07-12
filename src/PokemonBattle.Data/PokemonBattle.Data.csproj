@@ -100,7 +100,6 @@
     <Compile Include="UserData\UserDataRules.cs" />
     <Compile Include="UserData\UserPokemonDataInfo.cs" />
     <Compile Include="UserData\Interfaces\IPokemonFolder.cs" />
-    <Compile Include="DataConfiguration.cs" />
     <Compile Include="UserData\PokemonCollection.cs" />
     <Compile Include="UserData\PokemonFolder.cs" />
     <Compile Include="Contracts\IPokemonFolderContract.cs" />

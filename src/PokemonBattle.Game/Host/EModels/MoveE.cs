@@ -202,7 +202,7 @@ namespace LightStudio.PokemonBattle.Game
         (atk == BattleType.Psychic && def == BattleType.Dark) ||
         (atk == BattleType.Ghost && def == BattleType.Normal));
     }
-    protected bool HasEffect(DefContext def)
+    protected virtual bool HasEffect(DefContext def)
     {
       switch (Move.Class)
       {

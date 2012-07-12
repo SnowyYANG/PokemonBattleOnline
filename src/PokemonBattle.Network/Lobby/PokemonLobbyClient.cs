@@ -175,6 +175,10 @@ namespace LightStudio.PokemonBattle.Messaging
     public event Action<User> ChallengeRefused = delegate { };
     private void OnChallengeRefused(int userId)
     {
+      lock (roomLock)
+      {
+        challengingPms = null;
+      }
       ChallengeRefused(GetUser(userId));
     }
     public void RefuseChallenge(int challenger)

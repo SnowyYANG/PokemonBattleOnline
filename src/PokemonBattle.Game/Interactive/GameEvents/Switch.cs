@@ -101,7 +101,7 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
       }
       else
       {
-        pm.Withdrawn();
+        pm.Withdraw();
         //text = xxx把xxx收了回去
         //else ;//xxx回到了xxx身边
       }

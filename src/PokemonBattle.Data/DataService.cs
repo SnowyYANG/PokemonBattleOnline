@@ -16,7 +16,6 @@ namespace LightStudio.PokemonBattle.Data
   public static class DataService
   {
     private static DataCollection dataCollection;
-    private static DataConfiguration configuration;
     private static RomData romData;
 
     public static bool IsLoaded { get; private set; }
@@ -38,16 +37,19 @@ namespace LightStudio.PokemonBattle.Data
     private static void LoadImpl(string baseDir, IStringService stringService)
     {
       dataCollection = DataCollection.Load(Path.Combine(baseDir, CONSTS.INDEX_FILE), baseDir);
-      configuration = dataCollection.ReadFile<DataConfiguration>(CONSTS.CONFIG_FILE, true);
       
       String = stringService.GetDomainService(CONSTS.BATTLE_DOMAIN);
       String.SetProvider(LoadGameStrings);
       DataString = stringService.GetDomainService(CONSTS.BATTLE_DATA_DOMAIN);
       DataString.SetProvider(LoadDataStrings);
 
-      Image = new ImageService(dataCollection, configuration);
-
       romData = RomData.Load();
+      Abilities = romData.Abilities.Values;
+      Items = romData.Items.Values;
+      Pokemons = romData.Pokemons.Values;
+      Moves = romData.Moves.Values;
+
+      Image = new ImageService(dataCollection);
     }
     private static void ClearImpl()
     {
@@ -83,10 +85,6 @@ namespace LightStudio.PokemonBattle.Data
       Contract.Requires(stringService != null);
       LoadImpl(baseDir, stringService);
       CurrentLanguage = stringService.Language;
-      Abilities = romData.Abilities.Values;
-      Items = romData.Items.Values;
-      Pokemons = romData.Pokemons.Values;
-      Moves = romData.Moves.Values;
       IsLoaded = true;
     }
     public static void Clear()

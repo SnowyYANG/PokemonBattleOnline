@@ -26,7 +26,6 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     public PokemoEditorView()
     {
       InitializeComponent();
-      //grid.Background = PBO.UIElements.Controls.GetHorizontalTileBrush(25, PBO.Helper.NewBrush(0x4C808080));
       grid.Fill = PBO.UIElements.Brushes.GetHorizontalTileBrush(25, PBO.Helper.NewBrush(0x80ffffff));
     }
 

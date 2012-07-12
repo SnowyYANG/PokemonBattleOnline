@@ -18,8 +18,9 @@ namespace LightStudio.PokemonBattle.Effects.Abilities
     
     public override void Attacked(DefContext def)
     {
-      def.Defender.OnboardPokemon.RemoveCondition("Illusion");
-      def.Defender.Controller.ReportBuilder.Add(new Interactive.GameEvents.DeIllusion(def.Defender));
+      var pm = def.Defender;
+      pm.OnboardPokemon.RemoveCondition("Illusion");
+      pm.Controller.ReportBuilder.Add(Interactive.GameEvents.OutwardChange.All("DeIllusion", pm));
     }
   }
 }

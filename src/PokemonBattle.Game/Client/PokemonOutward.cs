@@ -53,7 +53,7 @@ namespace LightStudio.PokemonBattle.Game
       }
     }
     [DataMember]
-    public int ImageId { get; internal set; }
+    public int ImageId { get; private set; }
     [DataMember(EmitDefaultValue = false)]
     public PokemonGender Gender { get; internal set; }
     [DataMember(EmitDefaultValue = false)]
@@ -160,7 +160,7 @@ namespace LightStudio.PokemonBattle.Game
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
-    public void HpRecovered(int currentHp)
+    public void RecoverHp(int currentHp)
     {
       Hp.Value = currentHp;
       foreach (IPokemonOutwardEvents l in listeners)
@@ -169,7 +169,7 @@ namespace LightStudio.PokemonBattle.Game
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
-    public void Lv5DUp()
+    public void IncreaseLv5D()
     {
       foreach (IPokemonOutwardEvents l in listeners)
         l.Lv5DUp();
@@ -177,7 +177,7 @@ namespace LightStudio.PokemonBattle.Game
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
-    public void Lv5DDown()
+    public void DecreaseLv5D()
     {
       foreach (IPokemonOutwardEvents l in listeners)
         l.Lv5DDown();
@@ -185,7 +185,7 @@ namespace LightStudio.PokemonBattle.Game
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
-    public void SubstituteAppear()
+    public void ShowSubstitute()
     {
       foreach (IPokemonOutwardEvents l in listeners)
         l.SubstituteAppear();
@@ -193,7 +193,7 @@ namespace LightStudio.PokemonBattle.Game
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
-    public void SubstituteDisappear()
+    public void HideSubstitute()
     {
       foreach (IPokemonOutwardEvents l in listeners)
         l.SubstituteDisappear();
@@ -201,15 +201,16 @@ namespace LightStudio.PokemonBattle.Game
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
-    public void ImageIdChanged()
+    public void ChangeImageId(int newImageId)
     {
+      ImageId = newImageId;
       foreach (IPokemonOutwardEvents l in listeners)
         l.ImageIdChanged();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
-    public void Withdrawn()
+    public void Withdraw()
     {
       var listeners = this.listeners.ToArray();
       foreach (IPokemonOutwardEvents l in listeners)

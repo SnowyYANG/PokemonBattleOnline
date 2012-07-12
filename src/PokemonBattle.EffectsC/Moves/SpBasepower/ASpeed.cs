@@ -35,11 +35,10 @@ namespace LightStudio.PokemonBattle.Effects.Moves
       
       protected override void CalculateBasePower(DefContext def)
       {
-        int pwb = (int)(25*def.Defender.Speed / def.AtkContext.Attacker.Speed);
-        if (pwb > 150)
-          def.BasePower = 150;
-        else
-          def.BasePower = pwb;
+        int pwb = (int)(25 * def.Defender.Speed / def.AtkContext.Attacker.Speed);
+        if (pwb > 150) def.BasePower = 150;
+        else if (pwb < 1) def.BasePower = 1;
+        else def.BasePower = pwb;
       }
     }
 }

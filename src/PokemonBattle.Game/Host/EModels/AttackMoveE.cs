@@ -28,11 +28,7 @@ namespace LightStudio.PokemonBattle.Game
       int times;
       if (!Sp.Abilities.SkillLink(atk) && Move.MinTimes != Move.MaxTimes)
         times = TIMES25[atk.Controller.GetRandomInt(0, 7)];
-      else
-      {
-        times = Move.MinTimes;
-        if (times == 0) times = 1;
-      }
+      else times = Move.MinTimes;
       
       int atkTeam = aer.Pokemon.TeamId;
       do

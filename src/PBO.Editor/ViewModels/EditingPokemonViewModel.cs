@@ -152,6 +152,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
           _pokemonType = value;
           Model.ChangeType(_pokemonType);
           UpdateLearnset();
+          ClearEv();
           OnPropertyChanged("PokemonType");
         }
       }

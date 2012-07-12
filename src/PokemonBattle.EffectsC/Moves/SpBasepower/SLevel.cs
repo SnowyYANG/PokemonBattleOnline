@@ -8,45 +8,32 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Effects.Moves
 {
-  class Punishment:AttackMoveE 
+  class SLevel : AttackMoveE
   {
-    public Punishment(int MoveId)
+    private readonly int Const;
+    
+    public SLevel(int MoveId, int @const)
       : base(MoveId)
-    { }
-
-    protected override void CalculateBasePower(DefContext def)
     {
-      int sst = def.Defender.OnboardPokemon.Lv5D.Atk;
-      sst += def.Defender.OnboardPokemon.Lv5D.Def;
-      sst += def.Defender.OnboardPokemon.Lv5D.SpAtk;
-      sst += def.Defender.OnboardPokemon.Lv5D.SpDef;
-      sst += def.Defender.OnboardPokemon.Lv5D.Speed;
-      sst += def.Defender.OnboardPokemon.AccuracyLv;
-      sst += def.Defender.OnboardPokemon.EvasionLv;
-      sst = sst * 20 + 60;
-      if (sst > 120)
-        def.BasePower = 120;
-      else
-        def.BasePower = sst;
+      Const = @const;
     }
-  }
 
-  class StoredPower : AttackMoveE
-  {
-    public StoredPower(int MoveId)
-      : base(MoveId)
-    { }
+    private int Positive(int x)
+    {
+      return x > 0 ? x : 0;
+    }
 
     protected override void CalculateBasePower(DefContext def)
     {
-      int sst = def.AtkContext.Attacker.OnboardPokemon.Lv5D.Atk;
-      sst += def.AtkContext.Attacker.OnboardPokemon.Lv5D.Def;
-      sst += def.AtkContext.Attacker.OnboardPokemon.Lv5D.SpAtk;
-      sst += def.AtkContext.Attacker.OnboardPokemon.Lv5D.SpDef;
-      sst += def.AtkContext.Attacker.OnboardPokemon.Lv5D.Speed;
-      sst += def.AtkContext.Attacker.OnboardPokemon.AccuracyLv;
-      sst += def.AtkContext.Attacker.OnboardPokemon.EvasionLv;
-      def.BasePower = sst * 20;
+      var l5 = def.Defender.OnboardPokemon.Lv5D;
+      int sst = l5.Atk;
+      sst += Positive(l5.Def);
+      sst += Positive(l5.SpAtk);
+      sst += Positive(l5.SpDef);
+      sst += Positive(l5.Speed);
+      sst += Positive(def.Defender.OnboardPokemon.AccuracyLv);
+      sst += Positive(def.Defender.OnboardPokemon.EvasionLv);
+      def.BasePower = sst * 20 + Const;
     }
   }
 }

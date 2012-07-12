@@ -28,8 +28,8 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     public override void Update(GameOutward game)
     {
       pm = game.GetPokemon(PmId);
-      if (De) pm.SubstituteDisappear();
-      else pm.SubstituteAppear();
+      if (De) pm.HideSubstitute();
+      else pm.ShowSubstitute();
     }
     public override IText GetGameLog()
     {

@@ -61,50 +61,6 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
   }
 
   [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class HpChange : GameEvent
-  {
-    [DataMember]
-    protected int Pm;
-    [DataMember(EmitDefaultValue = false)]
-    public int Hp;
-    [DataMember]
-    protected string Key;
-    [DataMember(EmitDefaultValue = false)]
-    protected bool ResetY;
-
-    public HpChange(PokemonProxy pm, string logKey, bool resetCoordY = false)
-    {
-      Pm = pm.Id;
-      Hp = pm.Hp;
-      Key = logKey;
-      ResetY = resetCoordY;
-    }
-
-    protected int oldHp;
-    protected PokemonOutward pm;
-    public override void Update(GameOutward game)
-    {
-      pm = game.GetPokemon(Pm);
-      oldHp = pm.Hp.Value;
-      pm.Hp.Value = Hp;
-      if (ResetY) pm.ChangePosition(pm.Position.X, CoordY.Plate);
-    }
-    public override void Update(SimGame game)
-    {
-      var pm = game.Team.Pokemons.ValueOrDefault(Pm);
-      if (pm != null) pm.SetHp(Hp);
-    }
-    public override IText GetGameLog()
-    {
-      IText t1 = GetGameLog(Key);
-      t1.SetData(pm); //虽然第二个参数可能用不着，但传过去无妨
-      IText h = GetGameLog("Hp");
-      h.SetData(Hp - oldHp);
-      return new LogText(t1, h);
-    }
-  }
-
-  [DataContract(Namespace = Namespaces.DEFAULT)]
   public class MoveHurts : GameEvent
   {
     [DataMember(EmitDefaultValue = false)]
@@ -208,6 +164,50 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
   }
 
   [DataContract(Namespace = Namespaces.DEFAULT)]
+  public class HpChange : GameEvent
+  {
+    [DataMember]
+    protected int Pm;
+    [DataMember(EmitDefaultValue = false)]
+    public int Hp;
+    [DataMember]
+    protected string Key;
+    [DataMember(EmitDefaultValue = false)]
+    protected bool ResetY;
+
+    public HpChange(PokemonProxy pm, string logKey, bool resetCoordY = false)
+    {
+      Pm = pm.Id;
+      Hp = pm.Hp;
+      Key = logKey;
+      ResetY = resetCoordY;
+    }
+
+    protected int oldHp;
+    protected PokemonOutward pm;
+    public override void Update(GameOutward game)
+    {
+      pm = game.GetPokemon(Pm);
+      oldHp = pm.Hp.Value;
+      pm.Hp.Value = Hp;
+      if (ResetY) pm.ChangePosition(pm.Position.X, CoordY.Plate);
+    }
+    public override void Update(SimGame game)
+    {
+      var pm = game.Team.Pokemons.ValueOrDefault(Pm);
+      if (pm != null) pm.SetHp(Hp);
+    }
+    public override IText GetGameLog()
+    {
+      IText t1 = GetGameLog(Key);
+      t1.SetData(pm); //虽然第二个参数可能用不着，但传过去无妨
+      IText h = GetGameLog("Hp");
+      h.SetData(Hp - oldHp);
+      return new LogText(t1, h);
+    }
+  }
+
+  [DataContract(Namespace = Namespaces.DEFAULT)]
   public class PositionChange : PmEvent
   {
     public static PositionChange Reset(string gameLogKey, PokemonProxy pm, params string[] args)
@@ -269,6 +269,58 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
       var pm = game.Team.Pokemons.ValueOrDefault(Pm);
       if (pm != null && pm.Item.Type != ItemType.Normal)
         pm.Item = null;
+    }
+  }
+
+  [DataContract(Namespace = Namespaces.DEFAULT)]
+  public class OutwardChange : GameEvent
+  {
+    public static OutwardChange FormOnly(string logKey, PokemonProxy pm, string arg = null)
+    {
+      return new OutwardChange(logKey, pm.GetOutward(), false);
+    }
+    public static OutwardChange All(string logKey, PokemonProxy pm, string arg = null)
+    {
+      return new OutwardChange(logKey, pm.GetOutward(), true);
+    }
+
+    [DataMember]
+    string Log;
+    [DataMember]
+    int Pm;
+    [DataMember(EmitDefaultValue = false)]
+    string Name;
+    [DataMember]
+    int Image;
+    [DataMember(EmitDefaultValue = false)]
+    PokemonGender? Gender;
+    [DataMember(EmitDefaultValue = false)]
+    string Arg;
+
+    private OutwardChange(string log, PokemonOutward pm, bool allProperty)
+    {
+      Log = log;
+      Pm = pm.Id;
+      Image = pm.ImageId;
+      if (allProperty)
+      {
+        Name = pm.Name;
+        Gender = pm.Gender;
+      }
+    }
+    PokemonOutward pm;
+    public override void Update(GameOutward game)
+    {
+      pm = game.GetPokemon(Pm);
+      if (Name != null) pm.Name = Name;
+      if (Gender != null) pm.Gender = Gender.Value;
+      pm.ChangeImageId(Image);
+    }
+    public override IText GetGameLog()
+    {
+      IText t = GetGameLog(Log);
+      t.SetData(pm, Arg);
+      return t;
     }
   }
 }
