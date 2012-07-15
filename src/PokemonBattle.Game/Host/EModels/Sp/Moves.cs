@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.Game.Sp
     {
       if (def.AtkContext.Move.Id == 76)
       {
-        Weather w = def.Defender.Controller.GetAvailableWeather();
+        Weather w = def.Defender.Controller.Weather;
         if (w != Weather.IntenseSunlight && w != Weather.Normal)
           return 0x800;
       }

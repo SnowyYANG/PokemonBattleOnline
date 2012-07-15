@@ -10,10 +10,8 @@ namespace LightStudio.PokemonBattle.Game
   /// <summary>
   /// do NOT binding directly
   /// </summary>
-  public class Pokemon// : INotifyPropertyChanged
+  public class Pokemon
   {
-    private static readonly PropertyChangedEventArgs ITEM = new PropertyChangedEventArgs("Item");
-    //public event PropertyChangedEventHandler PropertyChanged;
     public readonly int Id;
     public readonly Player Owner;
     public readonly int TeamId;
@@ -34,25 +32,9 @@ namespace LightStudio.PokemonBattle.Game
     public ReadOnly6D Static { get; private set; }
 
     private PairValue hp;
-    private Item _item;
-    public Item Item
-    {
-      get { return _item; }
-      set
-      {
-        if (_item != value)
-        {
-          _item = value;
-          //if (PropertyChanged != null)
-            //PropertyChanged(this, ITEM);
-        }
-      }
-    }
+    public Item Item { get; set; }
     public PokemonState State { get; set; }
     #endregion
-
-    public readonly int StruggleId;
-    public readonly int SwitchId;
 
     internal Pokemon(Player owner, PokemonCustomInfo custom, IGameSettings settings, Func<int> nextId)
     {
@@ -72,9 +54,7 @@ namespace LightStudio.PokemonBattle.Game
         Moves = new Move[4];
         int i = 0;
         foreach (int moveId in custom.MoveIds)
-          if (i < 4) Moves[i++] = new Move(nextId(), moveId, settings);
-        StruggleId = nextId();
-        SwitchId = nextId();
+          if (i < 4) Moves[i++] = new Move(moveId, settings);
       }
 
       Base = new ReadOnly6D(PokemonType.BaseHp, PokemonType.BaseAtk, PokemonType.BaseDef, PokemonType.BaseSpAtk, PokemonType.BaseSpDef, PokemonType.BaseSpeed);

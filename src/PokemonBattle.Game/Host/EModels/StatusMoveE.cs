@@ -30,15 +30,5 @@ namespace LightStudio.PokemonBattle.Game
           break;
       }
     }
-
-    public override void Execute(PokemonProxy pm)
-    {
-      //来个摇手指啥的，基本可以xsk了？摇手指随机一个id，然后再调用Execute吧
-      if (pm.AtkContext == null) pm.BuildAtkContext(Move);
-      AtkContext atk = pm.AtkContext;
-      if (!Abilities.CalculateType(atk)) CalculateType(atk);
-      //targets
-      pm.Action = PokemonAction.Done;
-    }
   }
 }

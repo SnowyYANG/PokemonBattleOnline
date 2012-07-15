@@ -38,7 +38,7 @@ namespace LightStudio.PokemonBattle.Effects.Moves
 
     protected override bool PrepareOneTurn(PokemonProxy pm)
     {
-      return base.PrepareOneTurn(pm) && pm.Controller.GetAvailableWeather() != Weather.IntenseSunlight;
+      return base.PrepareOneTurn(pm) && pm.Controller.Weather != Weather.IntenseSunlight;
     }
   }
   class SkullBash : AttackMoveE

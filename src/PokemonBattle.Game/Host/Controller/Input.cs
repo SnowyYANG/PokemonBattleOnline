@@ -55,7 +55,7 @@ namespace LightStudio.PokemonBattle.Game
       if (Controller.CanSendout(tile))
           players.Add(Controller.GetPlayer(tile).Id);
     }
-    public InputResult Switch(PokemonProxy withdraw, int sendoutIndex)
+    private InputResult Switch(PokemonProxy withdraw, int sendoutIndex)
     {
       if (withdraw.UndoInput())
       {
@@ -67,10 +67,14 @@ namespace LightStudio.PokemonBattle.Game
     }
     public InputResult Sendout(Tile tile, int sendoutIndex)
     {
-      if (!Controller.CanSendout(tile)) return InputResult.Fail("非空场地或已经没有可以送出的精灵了");
-      if (!Controller.CanSendout(Controller.GetPlayer(tile).GetPokemon(sendoutIndex))) return InputResult.Fail("这只精灵无法被送出");
-      tile.WillSendoutPokemonIndex = sendoutIndex;
-      return CheckInputSucceed(Controller.GetPlayer(tile));
+      if (tile.Pokemon == null)
+      {
+        if (!Controller.CanSendout(tile)) return InputResult.Fail("非空场地或已经没有可以送出的精灵了");
+        if (!Controller.CanSendout(Controller.GetPlayer(tile).GetPokemon(sendoutIndex))) return InputResult.Fail("这只精灵无法被送出");
+        tile.WillSendoutPokemonIndex = sendoutIndex;
+        return CheckInputSucceed(Controller.GetPlayer(tile));
+      }
+      else return Switch(tile.Pokemon, sendoutIndex);
     }
     public InputResult SelectMove(MoveProxy move, Tile target)
     {

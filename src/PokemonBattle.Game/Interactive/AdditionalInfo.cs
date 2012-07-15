@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Interactive
     {
       PokemonAdditionalInfo info = new PokemonAdditionalInfo();
       info.Id = pm.Id;
-      info.AbilityId = pm.Ability.Id;
+      info.Ability = pm.Ability.Id;
       info.receiversId = new int[0];
       return info;
     }
@@ -23,9 +23,9 @@ namespace LightStudio.PokemonBattle.Interactive
     {
       PokemonAdditionalInfo info = new PokemonAdditionalInfo();
       info.Id = pm.Id;
-      info.MoveIds = new int[4];
+      info.Moves = new int[4];
       for (int i = 0; i < 4; i++)
-        if (pm.Moves[i] != null) info.MoveIds[i] = pm.Moves[i].Id;
+        if (pm.Moves[i] != null) info.Moves[i] = pm.Moves[i].Type.Id;
       info.receiversId = new int[] { pm.Pokemon.Owner.Id };
       return info;
     }
@@ -33,9 +33,9 @@ namespace LightStudio.PokemonBattle.Interactive
     [DataMember]
     int Id;
     [DataMember(EmitDefaultValue = false)]
-    int[] MoveIds;
+    int[] Moves;
     [DataMember(EmitDefaultValue = false)]
-    int AbilityId;
+    int Ability;
 
     int[] receiversId;
     public int[] GetReceiversId()

@@ -24,7 +24,7 @@ namespace LightStudio.PokemonBattle.Game
       Moves = new MoveProxy[4];
       for (int i = 0; i < 4; i++)
         if (pokemon.Moves[i] != null) Moves[i] = new MoveProxy(pokemon.Moves[i], this);
-      StruggleMove = new MoveProxy(new Move(pokemon.StruggleId, Sp.Moves.STRUGGLE, Controller.Game.Settings), this);
+      StruggleMove = new MoveProxy(new Move(Sp.Moves.STRUGGLE, Controller.Game.Settings), this);
       Action = PokemonAction.Debuting;
 
       Abilities.CheckIllusion(this);

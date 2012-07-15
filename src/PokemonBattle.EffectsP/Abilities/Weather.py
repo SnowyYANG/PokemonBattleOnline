@@ -1,4 +1,4 @@
-class Weather:
+class WeatherAbility:
     """description of class"""
 
 

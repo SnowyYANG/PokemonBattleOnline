@@ -74,9 +74,17 @@ namespace LightStudio.PokemonBattle.Game
     {
       return Game.Board[team, x];
     }
-    public Weather GetAvailableWeather()
+    public Weather Weather
     {
-      return Abilities.IgnoreWeather(this) ? Weather.Invalid : Board.Weather;
+      get { return Abilities.IgnoreWeather(this) ? Weather.Normal : Board.Weather; }
+      set
+      {
+        if (Board.Weather != value)
+        {
+          Board.Weather = value;
+          ReportBuilder.Add(new Interactive.GameEvents.WeatherChange(value));
+        }
+      }
     }
     /// <summary>
     /// sorted by speed
@@ -138,13 +146,9 @@ namespace LightStudio.PokemonBattle.Game
       }
       else inputFinished();
     }
-    internal InputResult InputSwitch(PokemonProxy withdraw, int sendoutIndex)
+    internal InputResult InputSendout(Tile tile, int sendoutIndex)
     {
-      return InputController.Switch(withdraw, sendoutIndex);
-    }
-    internal InputResult InputSendout(Tile position, int sendoutIndex)
-    {
-      return InputController.Sendout(position, sendoutIndex);
+      return InputController.Sendout(tile, sendoutIndex);
     }
     internal InputResult InputSelectMove(MoveProxy move, Tile position)
     {

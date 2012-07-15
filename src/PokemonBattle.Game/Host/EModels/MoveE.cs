@@ -26,11 +26,7 @@ namespace LightStudio.PokemonBattle.Game
       AtkContext atk = pm.AtkContext;
       if (!Abilities.CalculateType(atk)) CalculateType(atk);
       CalculateTargets(atk);
-      if (atk.Targets == null) goto DONE;
-
-      Act(atk);
-
-    DONE:
+      if (atk.Targets == null || atk.Target != null) Act(atk);
       pm.Action = PokemonAction.Done;
     }
 
@@ -50,13 +46,15 @@ namespace LightStudio.PokemonBattle.Game
     {
       var report = atk.Controller.ReportBuilder;
       IEnumerable<Tile> ts = GetRangeTiles(atk);
-      if (ts.Count() == 0)
-      {
-        report.Add("Fail_s");
-        return;
-      }
+      if (ts == null) return; //no target needed
 
       List<DefContext> targets = new List<DefContext>();
+      if (ts.Count() == 0)
+      {
+        Fail(atk);
+        goto DONE;
+      }
+
       #region Check CoordY
       {
         var miss = new List<DefContext>();
@@ -133,10 +131,9 @@ namespace LightStudio.PokemonBattle.Game
           targets.Remove(miss);
         }
       }
-    DONE:
-      if (targets.Count > 0)
-        atk.SetTargets(targets);
       #endregion
+    DONE:
+      atk.SetTargets(targets);
     }
     protected bool CanHit(DefContext def)
     {
@@ -175,7 +172,7 @@ namespace LightStudio.PokemonBattle.Game
       return controller.RandomHappen(acc);
     }
     public virtual int GetAccuracyBase(AtkContext def)
-    { return Move.Accuracy; }
+    { return Move.Accuracy == 0 ? 0x65 : Move.Accuracy; }
     #endregion
     #region CalculateType
     protected virtual void CalculateType(AtkContext atk) //觉醒力量
@@ -318,6 +315,11 @@ namespace LightStudio.PokemonBattle.Game
 
     #endregion
 
+    protected void Fail(AtkContext atk, PokemonProxy pm = null)
+    {
+      if (pm == null) atk.Controller.ReportBuilder.Add("Fail_s");
+      else atk.Controller.ReportBuilder.Add("Fail", pm);
+    }
     protected virtual void MoveEnding(AtkContext atk)
     {
     }

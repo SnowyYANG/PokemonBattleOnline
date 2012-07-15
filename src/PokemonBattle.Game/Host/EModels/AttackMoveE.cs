@@ -182,7 +182,7 @@ namespace LightStudio.PokemonBattle.Game
       if (atk.MultiTargets) def.ModifyDamage(0xC00);
       //2.Apply the weather modifier
       {
-        Weather w = c.GetAvailableWeather();
+        Weather w = c.Weather;
         BattleType type = atk.Type;
         if (w == Weather.IntenseSunlight)
         {

@@ -29,6 +29,7 @@ namespace LightStudio.PokemonBattle.Game
   public class PokemonOutward : INotifyPropertyChanged
   {
     private static readonly PropertyChangedEventArgs NAME = new PropertyChangedEventArgs("Name");
+    private static readonly PropertyChangedEventArgs GENDER = new PropertyChangedEventArgs("Gender");
     private static readonly PropertyChangedEventArgs STATE = new PropertyChangedEventArgs("State");
     
     [DataMember]
@@ -55,7 +56,19 @@ namespace LightStudio.PokemonBattle.Game
     [DataMember]
     public int ImageId { get; private set; }
     [DataMember(EmitDefaultValue = false)]
-    public PokemonGender Gender { get; internal set; }
+    private PokemonGender _gender;
+    public PokemonGender Gender
+    {
+      get { return _gender; }
+      internal set
+      {
+        if (_gender != value)
+        {
+          _gender = value;
+          OnPropertyChanged(GENDER);
+        }
+      }
+    }
     [DataMember(EmitDefaultValue = false)]
     private PokemonState _state;
     public PokemonState State

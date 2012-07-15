@@ -136,10 +136,10 @@ namespace LightStudio.PokemonBattle.Room
     {
       InformTieRejected();
     }
-    protected abstract void InformInputResult(bool ok, string message, bool allDone);
-    void IGameInformer.InformInputResult(bool ok, string message, bool allDone)
+    protected abstract void InformInputResult(bool ok, string messageKey, bool allDone);
+    void IGameInformer.InformInputResult(bool ok, string messageKey, bool allDone)
     {
-      InformInputResult(ok, message, allDone);
+      InformInputResult(ok, messageKey, allDone);
     }
     #endregion
     #endregion

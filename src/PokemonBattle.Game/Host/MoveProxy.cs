@@ -18,8 +18,6 @@ namespace LightStudio.PokemonBattle.Game
       e = GameService.GetMove(move.Type.Id);
     }
 
-    public int Id
-    { get { return Move.Id; } }
     public int PP
     { 
       get { return Move.PP.Value; }
@@ -48,13 +46,13 @@ namespace LightStudio.PokemonBattle.Game
 
     public void Execute()
     {
-      Owner.Controller.ReportBuilder.Add(new Interactive.GameEvents.UseMove(Owner, Move.Type));
+      Owner.Controller.ReportBuilder.Add(new Interactive.GameEvents.UseMove(Owner, Type));
       e.Execute(Owner);
     }
 
     internal bool CanExecute()
     {
-      if (Move.Id != Sp.Moves.STRUGGLE)
+      if (Type.Id != Sp.Moves.STRUGGLE)
       {
         if (PP < 1)
         {

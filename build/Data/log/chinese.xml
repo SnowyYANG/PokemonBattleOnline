@@ -5,7 +5,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameResult</a:Key><a:Value i:type="LogText"><text>{0}  :  {1}
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>BeginTurn</a:Key><a:Value i:type="LogText"><text>开始回合 #{0}
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EndTurn</a:Key><a:Value i:type="LogText"><text>结束回合 #{0}
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>UseMove</a:Key><a:Value i:type="LogText"><text>{0}的{1}!
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>UseMove</a:Key><a:Value i:type="LogText"><text>{0}使用了{1}!
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SendOut</a:Key><a:Value i:type="LogText"><text>{0}放出了{1}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Withdraw</a:Key><a:Value i:type="LogText"><text>{0}收回了{1}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Hits</a:Key><a:Value i:type="LogText"><text>命中{0}次！
@@ -123,6 +123,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HurtSubstitute</a:Key><a:Value i:type="LogText"><text>{0}的替身承受了攻击！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeSubstitute</a:Key><a:Value i:type="LogText"><text>{0}的替身消失了……
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Struggle</a:Key><a:Value i:type="LogText"><text>{0}没有能够使用的技能！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnTrickRoom</a:Key><a:Value i:type="LogText"><text>{0}扭曲了时空！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnHealBlock</a:Key><a:Value i:type="LogText"><text>{0}的回复动作被封印了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeHealBlock</a:Key><a:Value i:type="LogText"><text>{0}的回复封印解除了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HealBlock</a:Key><a:Value i:type="LogText"><text>{0}因为回复封印无法回复!
@@ -143,10 +144,26 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>WeakHurt_s</a:Key><a:Value i:type="LogText"><text>没有什么效果...
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ConfusedWork</a:Key><a:Value i:type="LogText"><text>不知为什么攻击了自己！</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT_s</a:Key><a:Value i:type="LogText"><text>打中了要害！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>NoPP</a:Key><a:Value i:type="LogText"><text>但是技能已经没有剩余的PP点数了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnIntenseSunlight</a:Key><a:Value i:type="LogText"><text>阳光变强烈了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnHeavyRain</a:Key><a:Value i:type="LogText"><text>开始下雨了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnSandstorm</a:Key><a:Value i:type="LogText"><text>开始刮沙尘暴了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnHailstorm</a:Key><a:Value i:type="LogText"><text>开始下冰雹了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeIntenseSunlight</a:Key><a:Value i:type="LogText"><text>阳光恢复了原样！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeHeavyRain</a:Key><a:Value i:type="LogText"><text>雨停了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeStandstorm</a:Key><a:Value i:type="LogText"><text>沙尘暴停了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeHailstorm</a:Key><a:Value i:type="LogText"><text>冰雹停了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>AirLock</a:Key><a:Value i:type="LogText"><text>天气的影响消失了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Sandstorm</a:Key><a:Value i:type="LogText"><text>沙尘暴刮得很凶！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Hailstorm</a:Key><a:Value i:type="LogText"><text>冰雹下得很凶！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>OHKO</a:Key><a:Value i:type="LogText"><text>一击必杀！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ChoiceItem</a:Key><a:Value i:type="LogText"><text>因为{0}的效果只能使出{1}！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Haze</a:Key><a:Value i:type="LogText"><text>全部的能力值都复原了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Hurt</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>{0}受到了伤害</text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>Hp</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>({0})
 </text><HiddenInBattle>true</HiddenInBattle></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Magnitude</a:Key><a:Value i:type="LogText"><text>震级{0}！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeTrickRoom</a:Key><a:Value i:type="LogText"><text>扭曲的时空恢复了原状！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnToxicSpikes</a:Key><a:Value i:type="LogText"><text>{0}的队伍的脚下撒满了毒菱！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeToxicSpikes</a:Key><a:Value i:type="LogText"><text>{0}的队伍脚下的毒菱消失了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Gem</a:Key><a:Value i:type="LogText"><text>{0}提升了{1}的威力！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Truant</a:Key><a:Value i:type="LogText"><text>{0}正在偷懒！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>AbChange</a:Key><a:Value i:type="LogText"><text>{0}的特性从{1}变成了{2}！

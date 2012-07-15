@@ -54,7 +54,7 @@ namespace LightStudio.PokemonBattle.Effects.Moves
     public override int GetAccuracyBase(AtkContext atk)
     {
       int r;
-      Weather w = atk.Controller.GetAvailableWeather();
+      Weather w = atk.Controller.Weather;
       if (w == Weather.HeavyRain) r = 0x65;
       else if (w == Weather.IntenseSunlight) r = 50;
       else r = base.GetAccuracyBase(atk);

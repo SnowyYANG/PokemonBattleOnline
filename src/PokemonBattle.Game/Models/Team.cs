@@ -28,10 +28,9 @@ namespace LightStudio.PokemonBattle.Game
 
     internal Player AddPlayer(int userId, Data.PokemonCustomInfo[] pokemons)
     {
-      if (players.Count < settings.Mode.PlayersPerTeam())
+      if (players.Count < settings.Mode.PlayersPerTeam() && GetPlayerIndex(userId) == -1)
       {
-        Player player = new Player(userId, this.Id, pokemons, settings, nextId);
-        if (HasPlayer(userId)) return null;
+        Player player = new Player(userId, this, pokemons, settings, nextId);
         players.Add(player);
         if (players.Count == settings.Mode.PlayersPerTeam())
           foreach (Player p in players)
@@ -42,11 +41,15 @@ namespace LightStudio.PokemonBattle.Game
       return null;
     }
 
-    public bool HasPlayer(int id)
+    public int GetPlayerIndex(int id)
     {
+      int i = 0;
       foreach (Player p in players)
-        if (p.Id == id) return true;
-      return false;
+      {
+        if (p.Id == id) return i;
+        ++i;
+      }
+      return -1;
     }
     public Player GetPlayer(int index)
     {

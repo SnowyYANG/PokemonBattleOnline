@@ -16,21 +16,24 @@ namespace LightStudio.PokemonBattle.Game
     public bool MultiTargets
     { get; internal set; }
     public int CTLv;
-    private bool? _sheerForceActive;
-    public bool SheerForceActive
+    private bool? _sheerForceAvailable;
+    private bool SheerForceAvailable
     { 
       get
       {
-        if (_sheerForceActive == null)
-          _sheerForceActive =
-            Attacker.Ability.SheerForce() && (
+        if (_sheerForceAvailable == null)
+          _sheerForceAvailable = 
+            (
             Move.Class == MoveInnerClass.AttackWithTargetLv7DChange ||
             Move.FlinchProbability > 0 ||
             (Move.Attachment != null && Move.Attachment.Probability > 0) ||
-            (Move.Class == MoveInnerClass.AttackWithSelfLv7DChange && Move.Lv7DChanges.First().Change > 0));
-        return _sheerForceActive.Value;
-      }
+            (Move.Class == MoveInnerClass.AttackWithSelfLv7DChange && Move.Lv7DChanges.First().Change > 0)
+            );
+        return _sheerForceAvailable.Value;
+      } 
     }
+    public bool SheerForceActive
+    { get { return SheerForceAvailable && Attacker.Ability.SheerForce(); } }
     public bool MeFirst;
     public int ActualHits; //当前攻击次数，包含多回合攻击与连续攻击技能，从1开始数
     public bool RaiseItem;
@@ -59,11 +62,8 @@ namespace LightStudio.PokemonBattle.Game
     }
     public void SetTargets(IEnumerable<DefContext> targets)
     {
-      if (Targets == null)
-      {
-        Targets = targets;
-        Target = targets.First();
-      }
+      Targets = targets;
+      Target = targets.FirstOrDefault();
     }
     public bool RandomHappen(int percentage, bool isFlinch = false)
     {

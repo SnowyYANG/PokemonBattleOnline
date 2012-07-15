@@ -40,11 +40,11 @@ namespace LightStudio.PokemonBattle.Interactive
       logs = new Dictionary<string, IText>();
     }
 
-    public IText this[string eventType]
+    public IText this[string key]
     { 
       get
       {
-        IText t = logs.ValueOrDefault(eventType);
+        IText t = logs.ValueOrDefault(key);
         if (t == null) System.Diagnostics.Debugger.Break();
         return t;
       }

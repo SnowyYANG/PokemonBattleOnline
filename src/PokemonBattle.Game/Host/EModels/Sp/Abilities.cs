@@ -184,7 +184,7 @@ namespace LightStudio.PokemonBattle.Game.Sp
     public static Modifier FlowerGift(AtkContext atk)
     {
       Modifier m = 0x1000;
-      if (atk.Move.Category == MoveCategory.Physical && atk.Controller.GetAvailableWeather() == Weather.IntenseSunlight)
+      if (atk.Move.Category == MoveCategory.Physical && atk.Controller.Weather == Weather.IntenseSunlight)
       {
         foreach (PokemonProxy pm in atk.Attacker.TeamOnboardPms())
           if (pm.Pokemon.PokemonType.Number == 421 && pm.Ability.Id == 35) return m *= 0x1800;
@@ -194,7 +194,7 @@ namespace LightStudio.PokemonBattle.Game.Sp
     public static Modifier FlowerGift(DefContext def)
     {
       Modifier m = 0x1000;
-      if (def.AtkContext.Move.Category == MoveCategory.Special && def.AtkContext.Controller.GetAvailableWeather() == Weather.IntenseSunlight)
+      if (def.AtkContext.Move.Category == MoveCategory.Special && def.AtkContext.Controller.Weather == Weather.IntenseSunlight)
       {
         foreach (PokemonProxy pm in def.Defender.TeamOnboardPms())
           if (pm.Pokemon.PokemonType.Number == 421 && pm.Ability.Id == 35) m *= 0x1800;

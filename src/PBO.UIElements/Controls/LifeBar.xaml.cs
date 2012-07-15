@@ -21,8 +21,8 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
   /// </summary>
   public partial class LifeBar : Border
   {
-    const int YELLOWBAR_MAXLENGTH = 24;
-    const int REDBAR_MAXLENGTH = 10;
+    const double YELLOWBAR_MAXLENGTH = 24;
+    const double REDBAR_MAXLENGTH = 10;
     static readonly SolidColorBrush GREEN;
     static readonly SolidColorBrush GREENSHADOW;
     static readonly SolidColorBrush YELLOW;
@@ -71,7 +71,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
       if (e.OldValue is PairValue)
         ((PairValue)e.OldValue).PropertyChanged -= LifeChanged;
       PairValue hp = DataContext as PairValue;
-      if (hp!=null)
+      if (hp != null)
       {
         bar.BeginAnimation(Border.WidthProperty, null);
         bar.Width = hp.NormalizedValue;
@@ -89,6 +89,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
 
     void da_Completed(object sender, EventArgs e)
     {
+      LifeBar_SizeChanged(null, null);
       if (flash.Width > bar.Width)
         BeginStoryboard((Storyboard)Resources["Flash"]);
     }

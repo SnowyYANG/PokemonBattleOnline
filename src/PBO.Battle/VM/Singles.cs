@@ -66,17 +66,17 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     {
       if ((ControllingPokemon == null || ControllingPokemon.CanSwitch) && pokemon.Hp.Value > 0 &&
         pokemon.IndexInOwner >= controller.Game.Settings.Mode.OnboardPokemonsPerPlayer())
-        controller.Switch(ControllingPokemon, pokemon);
+        controller.Sendout(0, pokemon);
     }
     public void Move_Click(SimMove move)
     {
       if (ControllingPokemon.CanSelectMove && move.CanBeSelected)
-        controller.UseMove(move);
+        controller.UseMove(0, move);
     }
     public void Struggle_Click()
     {
       if (ControllingPokemon.CanStruggle)
-        controller.Struggle(ControllingPokemon);
+        controller.Struggle(0);
     }
     public void Giveup_Click()
     {
@@ -99,7 +99,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
       else selectedPanel = ControlPanelIndex.MAIN;
       OnPropertyChanged(null);
     }
-    void IPlayerControllerEvents.InputResult(bool suceeded, string message, bool allDone)
+    void IPlayerControllerEvents.InputResult(bool suceeded, string messageKey, bool allDone)
     {
       if (allDone)
       {
@@ -107,8 +107,12 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
         ControllingPokemon = null;
         OnPropertyChanged("ControllingPokemon");
       }
-      else
-        if (InputFailed != null) InputFailed(message);
+      else if (InputFailed != null)
+      {
+        IText message = Game.GameService.Logs[messageKey];
+        if (message == null) InputFailed(messageKey);
+        else InputFailed(message.ToString());
+      }
     }
     void IPlayerControllerEvents.TieRequested()
     {

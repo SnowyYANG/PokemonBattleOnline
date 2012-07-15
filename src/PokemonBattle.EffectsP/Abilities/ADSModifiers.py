@@ -64,7 +64,7 @@ class WeatherSpeedup(a_s):
     def __init__(self, id, weather):
         self.Weather = weather
     def SModifier(self, pm):
-        if pm.Controller.GetAvailableWeather() == self.Weather:
+        if pm.Controller.Weather == self.Weather:
             return 0x2000
         else:
             return 0x1000

@@ -29,11 +29,6 @@ namespace LightStudio.PokemonBattle.Interactive
     public bool CanStruggle { get; internal set; }
     public bool CanSwitch { get; internal set; }
 
-    public int StruggleId
-    { get { return pokemon.StruggleId; } }
-    public int SwitchId
-    { get { return pokemon.SwitchId; } }
-
     internal SimPokemon(Pokemon pokemon, PokemonOutward outward)
     {
       this.pokemon = pokemon;

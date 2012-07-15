@@ -114,5 +114,17 @@ namespace LightStudio.Tactic.DataModels
     {
       Data = null;
     }
+
+    public override string ToString()
+    {
+      if (Contents == null) return Text;
+      else
+      {
+        StringBuilder sb = new StringBuilder();
+        foreach (T content in Contents)
+          sb.Append(content.ToString());
+        return sb.ToString();
+      }
+    }
   }
 }

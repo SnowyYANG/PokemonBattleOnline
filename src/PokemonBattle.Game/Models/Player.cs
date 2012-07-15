@@ -9,17 +9,19 @@ namespace LightStudio.PokemonBattle.Game
   public class Player
   {
     public readonly int Id;
-    public readonly int TeamId;
+    public readonly Team Team;
     private readonly Pokemon[] pokemons;
 
-    internal Player(int userId, int teamId, PokemonCustomInfo[] pokemons, IGameSettings settings, Func<int> nextId)
+    internal Player(int userId, Team team, PokemonCustomInfo[] pokemons, IGameSettings settings, Func<int> nextId)
     {
       Id = userId;
-      TeamId = teamId;
+      Team = team;
       this.pokemons = new Pokemon[pokemons.Length];
       for (int i = 0; i < pokemons.Length; i++)
         this.pokemons[i] = new Pokemon(this, pokemons[i], settings, nextId);
     }
+    public int TeamId
+    { get { return Team.Id; } }
     public IEnumerable<Pokemon> Pokemons
     { get { return pokemons; } }
     public int PmsAlive

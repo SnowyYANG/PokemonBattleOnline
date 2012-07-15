@@ -165,14 +165,7 @@ namespace LightStudio.PokemonBattle.Room
       {
         Game.Player p = game.GetPlayer(userId);
         List<int> ids = new List<int>();
-        foreach (Pokemon pm in p.Pokemons)
-        {
-          ids.Add(pm.Id);
-          foreach (Move m in pm.Moves)
-            if (m != null) ids.Add(m.Id);
-          ids.Add(pm.StruggleId);
-          ids.Add(pm.SwitchId);
-        }
+        foreach (Pokemon pm in p.Pokemons) ids.Add(pm.Id);
         OnSendInformation(new EnterSucceedInfo(gameSettings, players.ToArray(), spectators.ToArray(), ids.ToArray()), userId);
       }
       else OnSendInformation(new EnterSucceedInfo(gameSettings, players.ToArray(), spectators.ToArray()), userId);

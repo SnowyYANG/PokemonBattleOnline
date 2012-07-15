@@ -7,7 +7,6 @@ namespace LightStudio.PokemonBattle.Game
 {
     public enum Weather
     {
-        Invalid,
         Normal,
         IntenseSunlight,
         HeavyRain,

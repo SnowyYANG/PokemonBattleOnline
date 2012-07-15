@@ -13,9 +13,6 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
   {
     [DataMember]
     int Pm;
-    /// <summary>
-    /// MoveType.Id
-    /// </summary>
     [DataMember]
     int Move;
 

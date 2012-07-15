@@ -21,12 +21,12 @@ namespace LightStudio.PokemonBattle.Game
     Player Player { get; }
     SimGame Game { get; }
 
-    bool UseMove(SimMove move, Tile tile = null);
-    bool Switch(SimPokemon withdraw, Pokemon sendout);
-    bool Struggle(SimPokemon pm);
-    //bool TurnLeft();
-    //bool TurnRight();
-    //bool MoveToCenter(OnboardPokemon pm);
+    void UseMove(byte x, SimMove move, Tile tile = null);
+    void Sendout(byte x, Pokemon sendout);
+    void Struggle(byte x);
+    //void TurnLeft();
+    //void TurnRight();
+    //void MoveToCenter(byte x);
 
     void Quit();
     bool RequestTie();

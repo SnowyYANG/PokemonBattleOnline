@@ -178,11 +178,15 @@ namespace LightStudio.PokemonBattle.Game
     /// </summary>
     public void Set5D(SixD values)
     {
-      Atk = values.Atk;
-      Def = values.Def;
-      SpAtk = values.SpAtk;
-      SpDef = values.SpDef;
-      Speed = values.Speed;
+      Set5D(values.Atk, values.Def, values.SpAtk, values.SpDef, values.Speed);
+    }
+    public void Set5D(int a, int d, int sa, int sd, int s)
+    {
+      Atk = a;
+      Def = d;
+      SpAtk = sa;
+      SpDef = sd;
+      Speed = s;
     }
   }
 }

@@ -39,21 +39,18 @@ namespace LightStudio.PokemonBattle.Room
     SimGame IPlayerController.Game
     { get { return game; } }
 
-    bool IPlayerController.UseMove(SimMove move, Tile target)
+    void IPlayerController.UseMove(byte x, SimMove move, Tile target)
     {
       //TODO: verify
-      sendCommand(new InputCommand(ActionInput.UseMove(move, target)));
-      return true;
+      sendCommand(new InputCommand(ActionInput.UseMove(x, move, target)));
     }
-    bool IPlayerController.Switch(SimPokemon withdraw, Pokemon sendout)
+    void IPlayerController.Sendout(byte x, Pokemon sendout)
     {
-      sendCommand(new InputCommand(ActionInput.Switch(withdraw, sendout)));
-      return true;
+      sendCommand(new InputCommand(ActionInput.Switch(x, sendout)));
     }
-    bool IPlayerController.Struggle(SimPokemon pm)
+    void IPlayerController.Struggle(byte x)
     {
-      sendCommand(new InputCommand(ActionInput.Struggle(pm)));
-      return true;
+      sendCommand(new InputCommand(ActionInput.Struggle(x)));
     }
     void IPlayerController.Quit()
     {
@@ -103,10 +100,10 @@ namespace LightStudio.PokemonBattle.Room
     #endregion
 
     #region Input
-    protected override void InformInputResult(bool ok, string message, bool allDone)
+    protected override void InformInputResult(bool ok, string messageKey, bool allDone)
     {
       foreach (IPlayerControllerEvents l in listeners)
-        l.InputResult(ok, message, allDone);
+        l.InputResult(ok, messageKey, allDone);
     }
     #endregion
 

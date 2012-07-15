@@ -19,7 +19,7 @@ namespace LightStudio.PokemonBattle.Room
     
     void InformRequestTie();
     void InformTieRejected();
-    void InformInputResult(bool succeed, string message, bool allDone);
+    void InformInputResult(bool succeed, string messageKey, bool allDone);
   }
 
   [DataContract(Namespace = Namespaces.DEFAULT)]
@@ -166,7 +166,7 @@ namespace LightStudio.PokemonBattle.Room
       if (result.AllDone) T = Type.AllDone;
       else if (result.IsSucceeded) T = Type.Succeed;
       else T = Type.Fail;
-      Message = result.Message;
+      Message = result.MessageKey;
     }
     
     void IUserInformation.Execute(IUser user)

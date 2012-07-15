@@ -34,7 +34,7 @@ M(Magnitude(222))
 
 class WeatherBall(AttackMoveE):
     def CalculateBasePower(self, d):
-        if d.Defender.Controller.GetAvailableWeather() == Weather.Normal:
+        if d.Defender.Controller.Weather == Weather.Normal:
             d.BasePower = 50
         else:
             d.BasePower = 100

@@ -42,7 +42,7 @@ namespace LightStudio.PokemonBattle.Interactive.GameEvents
     }
     public override void Update(SimGame game)
     {
-      if (game.Team.HasPlayer(PlayerId))
+      if (game.Team.GetPlayerIndex(PlayerId) != -1)
         foreach (PokemonOutward p in Pms)
         {
           game.OnboardPokemons[p.Position.X] = new SimPokemon(game.Team.Pokemons[p.Id], p);

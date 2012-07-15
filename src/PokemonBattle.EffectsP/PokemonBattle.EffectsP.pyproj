@@ -34,15 +34,18 @@
     <None Include="Abilities\ADSModifiers.py" />
     <None Include="Abilities\Weather.py" />
     <None Include="Items\Gem.py" />
-    <None Include="Moves\Blizzard.py" />
-    <None Include="Moves\SpPower.py" />
-    <None Include="Moves\SpDamage.py" />
-    <None Include="Moves\Synchronoise.py" />
+    <None Include="Moves\Attack\Blizzard.py" />
+    <None Include="Moves\Attack\SpDamage.py" />
+    <None Include="Moves\Attack\SpPower.py" />
+    <None Include="Moves\Attack\Synchronoise.py" />
+    <None Include="Moves\Status\ClassA.py" />
     <None Include="references.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Items" />
     <Folder Include="Moves" />
     <Folder Include="Abilities" />
+    <Folder Include="Moves\Attack" />
+    <Folder Include="Moves\Status" />
   </ItemGroup>
 </Project>

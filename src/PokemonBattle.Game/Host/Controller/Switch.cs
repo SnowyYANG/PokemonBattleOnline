@@ -51,9 +51,10 @@ namespace LightStudio.PokemonBattle.Game
       int sendout = tile.WillSendoutPokemonIndex;
       if ((ReportBuilder.TurnNumber == 0 && origin == sendout) || (CanSendout(tile) && CanSendout(p.GetPokemon(sendout))))
       {
+        //交换必须在构建实例之后，交换怪兽会导致队伍的排序改变，幻影特性以交换时的队伍顺序决定。
         PokemonProxy pm = new PokemonProxy(Controller, p.GetPokemon(sendout), tile);
         pm.Tile = tile;
-        p.SwitchPokemon(origin, sendout); //为了幻影交换必须在构建实例之后
+        p.SwitchPokemon(origin, sendout);
         tile.Pokemon = pm;
         tile.WillSendoutPokemonIndex = Tile.NOPM_INDEX;
         Controller.OnboardPokemons.Add(pm);
