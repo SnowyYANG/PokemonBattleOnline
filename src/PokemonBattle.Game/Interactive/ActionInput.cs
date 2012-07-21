@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using LightStudio.Tactic.DataModels;
-using LightStudio.PokemonBattle.Game;
+using LightStudio.PokemonBattle.Game.Host;
 
-namespace LightStudio.PokemonBattle.Interactive
+namespace LightStudio.PokemonBattle.Game
 {
   public class InputResult
   {
@@ -34,15 +34,13 @@ namespace LightStudio.PokemonBattle.Interactive
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class ActionInput
   {
-    public static ActionInput UseMove(byte x, SimMove move, Tile target)
+    public static ActionInput UseMove(byte x, SimMove move, int targetTeam, int targetX)
     {
-      ActionInput i = new ActionInput(x) { Move = move.Type.Id };
-      if (target != null)
-      { 
-        i.TargetTeam = (byte)(target.Team + 1);
-        i.TargetX = (byte)(target.X + 1);
-      }
-      return i;
+      return new ActionInput(x) { Move = move.Type.Id, TargetTeam = (byte)(targetTeam + 1), TargetX = (byte)(targetX + 1) };
+    }
+    public static ActionInput UseMove(byte x, SimMove move)
+    {
+      return new ActionInput(x) { Move = move.Type.Id };
     }
     public static ActionInput Switch(byte x, Pokemon sendout)
     {
@@ -90,9 +88,10 @@ namespace LightStudio.PokemonBattle.Interactive
           if (Move > 0)
           {
             foreach (MoveProxy m in pm.Moves)
-              if (m != null && m.Type.Id == Move)
+              if (m.Type.Id == Move)
               {
-                r = controller.InputSelectMove(m, controller.GetTile(TargetTeam, TargetX));
+                Tile target = TargetTeam > 0 ? controller.GetTile(TargetTeam - 1, TargetX - 1) : null;
+                r = controller.InputSelectMove(m, target);
                 break;
               }
           }

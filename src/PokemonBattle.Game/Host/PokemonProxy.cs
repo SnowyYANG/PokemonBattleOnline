@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Interactive.GameEvents;
-using LightStudio.PokemonBattle.Game.Sp;
+using LightStudio.PokemonBattle.Game.GameEvents;
+using LightStudio.PokemonBattle.Game.Host.Sp;
 
-namespace LightStudio.PokemonBattle.Game
+namespace LightStudio.PokemonBattle.Game.Host
 {
   public class PokemonProxy
   {
@@ -21,16 +21,16 @@ namespace LightStudio.PokemonBattle.Game
       Tile = tile;
       OnboardPokemon = new OnboardPokemon(pokemon, tile.X);
 
-      Moves = new MoveProxy[4];
+      moves = new List<MoveProxy>();
       for (int i = 0; i < 4; i++)
-        if (pokemon.Moves[i] != null) Moves[i] = new MoveProxy(pokemon.Moves[i], this);
+        if (pokemon.Moves[i] != null) moves.Add(new MoveProxy(pokemon.Moves[i], this));
       StruggleMove = new MoveProxy(new Move(Sp.Moves.STRUGGLE, Controller.Game.Settings), this);
       Action = PokemonAction.Debuting;
 
       Abilities.CheckIllusion(this);
     }
 
-    private void AddReport(Interactive.GameEvent e)
+    private void AddReport(GameEvent e)
     {
       Controller.ReportBuilder.Add(e);
     }
@@ -64,7 +64,7 @@ namespace LightStudio.PokemonBattle.Game
       {
         Pokemon.State = value;
         if (State != PokemonState.Faint)
-          AddReport(new Interactive.GameEvents.StateChange(this));
+          AddReport(new GameEvents.StateChange(this));
       }
     }
     private AtkContext atkContext;
@@ -80,11 +80,12 @@ namespace LightStudio.PokemonBattle.Game
     public DefContext DefContext
     { get; private set; }
     public IAbilityE Ability
-    { get { return Tile == null || OnboardPokemon.HasCondition("GastroAcid") ? GameService.NULL_ABILITY : GameService.GetAbility(OnboardPokemon.Ability); } }
+    { get { return Tile == null || OnboardPokemon.HasCondition("GastroAcid") ? EffectsService.NULL_ABILITY : EffectsService.GetAbility(OnboardPokemon.Ability); } }
     public IItemE Item
-    { get { return Tile == null || OnboardPokemon.HasCondition("Detain") || Controller.Board.HasCondition("MagicRoom") || Ability.Klutz() ? GameService.NULL_ITEM : GameService.GetItem(Pokemon.Item); } }
-    public MoveProxy[] Moves
-    { get; private set; }
+    { get { return Tile == null || OnboardPokemon.HasCondition("Detain") || Controller.Board.HasCondition("MagicRoom") || Ability.Klutz() ? EffectsService.NULL_ITEM : EffectsService.GetItem(Pokemon.Item); } }
+    private List<MoveProxy> moves;
+    public IEnumerable<MoveProxy> Moves
+    { get { return moves; } }
     public MoveProxy StruggleMove
     { get; private set; }
     public int Speed
@@ -320,19 +321,19 @@ namespace LightStudio.PokemonBattle.Game
         if (Abilities.RaiseAbility(def.Defender, Abilities.LIQUID_OOZE))
         {
           Hp -= v;
-          Controller.ReportBuilder.Add(new Interactive.GameEvents.HpChange(this, "Hurt"));
+          Controller.ReportBuilder.Add(new GameEvents.HpChange(this, "Hurt"));
         }
         else
         {
           Hp += v;
-          Controller.ReportBuilder.Add(new Interactive.GameEvents.HpChange(this, "HpRecover"));
+          Controller.ReportBuilder.Add(new GameEvents.HpChange(this, "HpRecover"));
         }
       }
       else //ReHurt
       {
         if (Ability.RockHead()) return;
         Hp -= v;
-        Controller.ReportBuilder.Add(new Interactive.GameEvents.HpChange(this, "ReHurt"));
+        Controller.ReportBuilder.Add(new GameEvents.HpChange(this, "ReHurt"));
       }
     }
     public void EffectHurt()

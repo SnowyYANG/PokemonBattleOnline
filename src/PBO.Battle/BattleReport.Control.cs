@@ -15,7 +15,6 @@ using System.Threading;
 using LightStudio.Tactic.DataModels;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
-using LightStudio.PokemonBattle.Interactive;
 
 namespace LightStudio.PokemonBattle.PBO.Battle
 {

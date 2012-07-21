@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Interactive;
 
-namespace LightStudio.PokemonBattle.Game
+namespace LightStudio.PokemonBattle.Game.Host
 {
   /// <summary>
   /// 我记得这是单线程的，Host那边用了Dispatcher

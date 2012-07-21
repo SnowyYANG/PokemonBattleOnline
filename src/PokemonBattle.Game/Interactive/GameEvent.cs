@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
+using LightStudio.PokemonBattle.Game.Host;
 
-namespace LightStudio.PokemonBattle.Interactive
+namespace LightStudio.PokemonBattle.Game
 {
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public abstract class GameEvent

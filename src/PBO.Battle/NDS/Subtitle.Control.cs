@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
-using LightStudio.PokemonBattle.Interactive;
 using LightStudio.PokemonBattle.PBO.Battle.VM;
 
 namespace LightStudio.PokemonBattle.PBO.Battle

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Interactive.GameEvents;
+using LightStudio.PokemonBattle.Game.GameEvents;
 
-namespace LightStudio.PokemonBattle.Game.Sp.Conditions
+namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
 {
   static class Paralyzed
   {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using LightStudio.PokemonBattle.Game;
+using LightStudio.PokemonBattle.Game.Host;
 using LightStudio.PokemonBattle.Data;
 
-namespace LightStudio.PokemonBattle.Interactive
+namespace LightStudio.PokemonBattle.Game
 {
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class PokemonAdditionalInfo
@@ -23,9 +23,7 @@ namespace LightStudio.PokemonBattle.Interactive
     {
       PokemonAdditionalInfo info = new PokemonAdditionalInfo();
       info.Id = pm.Id;
-      info.Moves = new int[4];
-      for (int i = 0; i < 4; i++)
-        if (pm.Moves[i] != null) info.Moves[i] = pm.Moves[i].Type.Id;
+      info.Moves = (from m in pm.Moves select m.Type.Id).ToArray();
       info.receiversId = new int[] { pm.Pokemon.Owner.Id };
       return info;
     }

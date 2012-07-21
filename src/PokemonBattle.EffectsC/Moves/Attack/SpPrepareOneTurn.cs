@@ -5,7 +5,7 @@ using System.Text;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
 
-namespace LightStudio.PokemonBattle.Effects.Moves
+namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves
 {
   class Leap : AttackMoveE
   {
@@ -21,7 +21,7 @@ namespace LightStudio.PokemonBattle.Effects.Moves
     {
       if (pm.Action == PokemonAction.MoveAttached)
       {
-        pm.Controller.ReportBuilder.Add(Interactive.GameEvents.PositionChange.Leap("Prepare" + Move.Id.ToString(), pm, Y));
+        pm.Controller.ReportBuilder.Add(GameEvents.PositionChange.Leap("Prepare" + Move.Id.ToString(), pm, Y));
         pm.Action = PokemonAction.Moving;
         pm.OnboardPokemon.CoordY = Y;
         return true;

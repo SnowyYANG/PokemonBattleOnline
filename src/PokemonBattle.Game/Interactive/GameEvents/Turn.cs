@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
 
-namespace LightStudio.PokemonBattle.Interactive.GameEvents
+namespace LightStudio.PokemonBattle.Game.GameEvents
 {
   [DataContract(Namespace = Namespaces.DEFAULT)]
   internal class BeginTurn : GameEvent

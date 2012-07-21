@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
 
-namespace LightStudio.PokemonBattle.Interactive
+namespace LightStudio.PokemonBattle.Game
 {
   public class SimMove
   {

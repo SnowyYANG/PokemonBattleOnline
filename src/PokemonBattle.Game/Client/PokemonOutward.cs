@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using System.ComponentModel;
 using LightStudio.PokemonBattle.Data;
+using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game
 {

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
 
-namespace LightStudio.PokemonBattle.Effects.Abilities
+namespace LightStudio.PokemonBattle.Game.Host.Effects.Abilities
 {
   class FlashFire : AbilityE
   {
@@ -24,7 +23,7 @@ namespace LightStudio.PokemonBattle.Effects.Abilities
       {
         PokemonProxy pm = def.Defender;
         pm.OnboardPokemon.SetCondition("FlashFire");
-        pm.Controller.ReportBuilder.Add(new Interactive.GameEvents.AbilityEvent(pm));
+        pm.Controller.ReportBuilder.Add(new GameEvents.AbilityEvent(pm));
         pm.Controller.ReportBuilder.Add("FlashFire", pm);
         return false;
       }

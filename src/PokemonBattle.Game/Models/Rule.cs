@@ -8,12 +8,7 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  public interface IRule
-  {
-    bool CanChangeState(PokemonProxy pm, PokemonState state);
-  }
-  
-  public class Rule : GameElement, IRule
+  public class Rule : GameElement
   {
     public Rule(int id, string name, string description) : base(id)
     {
@@ -23,9 +18,5 @@ namespace LightStudio.PokemonBattle.Game
     public new string Description
     { get; private set; }
 
-    public virtual bool CanChangeState(PokemonProxy pm, PokemonState state)
-    {
-      return true;
-    }
   }
 }

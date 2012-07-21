@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
-using LightStudio.PokemonBattle.Interactive;
+using LightStudio.PokemonBattle.Game;
 
 namespace LightStudio.PokemonBattle.Room
 {

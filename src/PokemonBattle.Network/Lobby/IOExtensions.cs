@@ -24,8 +24,8 @@ namespace LightStudio.PokemonBattle.Messaging
     {
       writer.Write((byte)settings.Mode);
       writer.Write(settings.PPUp);
-      writer.Write(settings.ChosenRules.Count());
-      foreach (Rule r in settings.ChosenRules)
+      writer.Write(settings.Rules.Count());
+      foreach (Rule r in settings.Rules)
         writer.Write(r.Id);
     }
   }

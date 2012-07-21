@@ -34,7 +34,7 @@ namespace LightStudio.Tactic.Serialization
 #if DEBUG
       settings.Indent = true;
 #else
-            settings.Indent = false;
+      settings.Indent = false;
 #endif
       settings.CloseOutput = false;
       settings.OmitXmlDeclaration = true;

@@ -5,9 +5,9 @@ using System.Text;
 using System.Runtime.Serialization;
 using LightStudio.Tactic.Messaging.Lobby;
 using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
+using LightStudio.PokemonBattle.Game.Host;
 
-namespace LightStudio.PokemonBattle.Interactive.GameEvents
+namespace LightStudio.PokemonBattle.Game.GameEvents
 {
   [DataContract(Namespace = Namespaces.DEFAULT)]
   internal class SendOut : GameEvent

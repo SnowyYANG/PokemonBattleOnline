@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Interactive;
 
-namespace LightStudio.PokemonBattle.Game
+namespace LightStudio.PokemonBattle.Game.Host
 {
   /// <summary>
   /// 这必须是单线程的...

@@ -6,8 +6,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using LightStudio.Tactic;
 using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Interactive;
 using LightStudio.PokemonBattle.Game;
+using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Room
 {

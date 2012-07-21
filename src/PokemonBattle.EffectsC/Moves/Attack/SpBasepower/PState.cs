@@ -5,7 +5,7 @@ using System.Text;
 using LightStudio.PokemonBattle.Game;
 using LightStudio.PokemonBattle.Data;
 
-namespace LightStudio.PokemonBattle.Effects.Moves
+namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves
 {
   class Hex : AttackMoveE
   {

@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Interactive;
 
-namespace LightStudio.PokemonBattle.Game
+namespace LightStudio.PokemonBattle.Game.Host
 {
   internal abstract class ControllerComponent
   {

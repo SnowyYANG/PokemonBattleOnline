@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Interactive;
-using LightStudio.PokemonBattle.Interactive.GameEvents;
-using LightStudio.PokemonBattle.Game.Sp;
+using LightStudio.PokemonBattle.Game.GameEvents;
+using LightStudio.PokemonBattle.Game.Host.Sp;
 
-namespace LightStudio.PokemonBattle.Game
+namespace LightStudio.PokemonBattle.Game.Host
 {
   public class AttackMoveE : MoveE
   {
@@ -25,10 +24,7 @@ namespace LightStudio.PokemonBattle.Game
       PokemonProxy aer = atk.Attacker;
       
       //生成攻击次数
-      int times;
-      if (!Sp.Abilities.SkillLink(atk) && Move.MinTimes != Move.MaxTimes)
-        times = TIMES25[atk.Controller.GetRandomInt(0, 7)];
-      else times = Move.MinTimes;
+      int times = Move.MinTimes == Move.MaxTimes || atk.Attacker.Ability.SkillLink() ? Move.MaxTimes : TIMES25[atk.Controller.GetRandomInt(0, 7)];
       
       int atkTeam = aer.Pokemon.TeamId;
       do
@@ -43,6 +39,10 @@ namespace LightStudio.PokemonBattle.Game
       while (atk.ActualHits < times && atk.Target.Defender.Hp != 0 && aer.Hp != 0 && aer.State != PokemonState.Frozen && aer.State != PokemonState.Sleeping);
       
       if (Move.MaxTimes > 1) atk.Controller.ReportBuilder.Add("Hits", atk.ActualHits.ToString());
+      if (atk.Type == BattleType.Fire)
+        foreach (DefContext d in atk.Targets)
+          if (d.Defender.State == PokemonState.Frozen) d.Defender.State = PokemonState.Normal;
+      
       if (!atk.SheerForceActive) PostEffect(atk);
       MoveEnding(atk);
     }

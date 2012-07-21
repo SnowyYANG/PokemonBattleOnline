@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using LightStudio.PokemonBattle.Game;
 
-namespace LightStudio.PokemonBattle.Interactive.GameEvents
+namespace LightStudio.PokemonBattle.Game.GameEvents
 {
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class WeatherChange : GameEvent

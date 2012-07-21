@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Interactive.GameEvents;
+using LightStudio.PokemonBattle.Game.GameEvents;
 
-namespace LightStudio.PokemonBattle.Game.Sp
+namespace LightStudio.PokemonBattle.Game.Host.Sp
 {
   public static class Abilities
   {
@@ -239,9 +239,9 @@ namespace LightStudio.PokemonBattle.Game.Sp
         pm.ChangeLv7D(pm, 2);
       }
     }
-    public static bool SkillLink(AtkContext atk)
+    public static bool SkillLink(this IAbilityE ability)
     {
-      return atk.Move.MinTimes != atk.Move.MaxTimes && atk.Attacker.Ability.Id == 121;
+      return ability.Id == 121;
     }
     public static void CheckMoxie(DefContext def)
     {

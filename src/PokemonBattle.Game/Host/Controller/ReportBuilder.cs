@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Game;
+using LightStudio.PokemonBattle.Game.GameEvents;
 using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Interactive.GameEvents;
 
-namespace LightStudio.PokemonBattle.Interactive
+namespace LightStudio.PokemonBattle.Game.Host
 {
   public class ReportBuilder
   {

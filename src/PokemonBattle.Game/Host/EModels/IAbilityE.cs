@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
 
-namespace LightStudio.PokemonBattle.Game
+namespace LightStudio.PokemonBattle.Game.Host
 {
   public interface IAbilityE
   {
@@ -26,7 +26,7 @@ namespace LightStudio.PokemonBattle.Game
 
   }
 
-  public static partial class GameService
+  public static partial class EffectsService
   {
     private sealed class AbilityE0 : IAbilityE
     {

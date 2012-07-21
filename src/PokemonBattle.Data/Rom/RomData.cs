@@ -24,6 +24,10 @@ namespace LightStudio.PokemonBattle.Data
     [DataMember]
     public readonly Dictionary<int, Item> Items;
 
+    private RomData()
+    {
+    }
+
     #region GetXXX
     public PokemonType GetPokemonType(int spriteId)
     {

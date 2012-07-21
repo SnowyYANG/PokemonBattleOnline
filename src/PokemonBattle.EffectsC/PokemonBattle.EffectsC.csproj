@@ -8,7 +8,7 @@
     <ProjectGuid>{9A556367-584D-4A0E-803D-591486FB28DB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LightStudio.PokemonBattle.Effects</RootNamespace>
+    <RootNamespace>LightStudio.PokemonBattle.Game.Host.Effects</RootNamespace>
     <AssemblyName>PokemonBattle.Effects</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -45,6 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abilities\FlashFire.cs" />
+    <Compile Include="Abilities\Forewarn.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Abilities\Frisk.cs" />
     <Compile Include="Abilities\Illusion.cs" />
     <Compile Include="Conditions\Taunt.cs" />
     <Compile Include="Moves\Attack\SpBasepower\Acrobatics.cs" />
@@ -77,6 +81,9 @@
       <Project>{EE2C451E-A61E-4634-B382-5298982E060C}</Project>
       <Name>Tactic</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Triggers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

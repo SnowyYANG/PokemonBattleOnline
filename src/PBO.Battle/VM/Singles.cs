@@ -5,7 +5,6 @@ using System.Text;
 using System.ComponentModel;
 using System.Windows;
 using LightStudio.PokemonBattle.Game;
-using LightStudio.PokemonBattle.Interactive;
 
 namespace LightStudio.PokemonBattle.PBO.Battle.VM
 {

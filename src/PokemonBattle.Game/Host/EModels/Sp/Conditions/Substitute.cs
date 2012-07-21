@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LightStudio.PokemonBattle.Game.Sp.Conditions
+namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
 {
   static class Substitute
   {
@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Game.Sp.Conditions
     }
     private static void Disappear(PokemonProxy pm)
     {
-      pm.Controller.ReportBuilder.Add(Interactive.GameEvents.Substitute.DeSubstitute(pm));
+      pm.Controller.ReportBuilder.Add(GameEvents.Substitute.DeSubstitute(pm));
       pm.OnboardPokemon.RemoveCondition("Substitute");
     }
     public static bool Hurt(DefContext def)

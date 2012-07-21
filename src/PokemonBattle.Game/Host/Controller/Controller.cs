@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Interactive;
-using LightStudio.PokemonBattle.Game.Sp;
+using LightStudio.PokemonBattle.Game.Host.Sp;
 
-namespace LightStudio.PokemonBattle.Game
+namespace LightStudio.PokemonBattle.Game.Host
 {
   public class Controller
   {
@@ -60,7 +59,7 @@ namespace LightStudio.PokemonBattle.Game
     }
     public int GetRandomInt(int min, int max)
     {
-      return random.Next(min, max + 1);
+      return min == max ? min : random.Next(min, max + 1);
     }
     public bool RandomHappen(int percentage)
     {
@@ -82,7 +81,7 @@ namespace LightStudio.PokemonBattle.Game
         if (Board.Weather != value)
         {
           Board.Weather = value;
-          ReportBuilder.Add(new Interactive.GameEvents.WeatherChange(value));
+          ReportBuilder.Add(new GameEvents.WeatherChange(value));
         }
       }
     }

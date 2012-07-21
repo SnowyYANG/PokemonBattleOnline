@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
-using LightStudio.PokemonBattle.Interactive.GameEvents;
+using LightStudio.PokemonBattle.Game.GameEvents;
 
-namespace LightStudio.PokemonBattle.Interactive
+namespace LightStudio.PokemonBattle.Game
 {
   [KnownType("KnownEvents")]
   [DataContract(Namespace = Namespaces.DEFAULT)]

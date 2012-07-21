@@ -23,7 +23,7 @@ namespace LightStudio.PokemonBattle.PBO
       DataService.DataString.DefaultLanguage = "Chinese";
       DataService.String.ReturnKeyOnFallback = true;
       DataService.DataString.ReturnKeyOnFallback = true;
-      Effects.EffectsRegister.Register();
+      Game.Host.Effects.EffectsRegister.Register();
       Tactic.Scripting.ExecuteAll("..\\src\\PokemonBattle.EffectsP");
     }
     

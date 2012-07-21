@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Game;
 
-namespace LightStudio.PokemonBattle.Effects.Abilities
+namespace LightStudio.PokemonBattle.Game.Host.Effects.Abilities
 {
   /// <summary>
   /// Also SpCondition
@@ -20,7 +19,7 @@ namespace LightStudio.PokemonBattle.Effects.Abilities
     {
       var pm = def.Defender;
       pm.OnboardPokemon.RemoveCondition("Illusion");
-      pm.Controller.ReportBuilder.Add(Interactive.GameEvents.OutwardChange.All("DeIllusion", pm));
+      pm.Controller.ReportBuilder.Add(GameEvents.OutwardChange.All("DeIllusion", pm));
     }
   }
 }

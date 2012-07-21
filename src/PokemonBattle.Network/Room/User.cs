@@ -7,7 +7,6 @@ using LightStudio.Tactic.Logging;
 using LightStudio.Tactic.Messaging;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
-using LightStudio.PokemonBattle.Interactive;
 
 namespace LightStudio.PokemonBattle.Room
 {

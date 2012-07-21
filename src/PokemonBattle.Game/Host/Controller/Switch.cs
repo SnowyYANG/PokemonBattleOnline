@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Interactive.GameEvents;
+using LightStudio.PokemonBattle.Game.GameEvents;
 
-namespace LightStudio.PokemonBattle.Game
+namespace LightStudio.PokemonBattle.Game.Host
 {
   class SwitchController : ControllerComponent
   {
@@ -38,7 +38,7 @@ namespace LightStudio.PokemonBattle.Game
         pm.Tile.Pokemon = null;
         pm.Tile = null;
         Controller.OnboardPokemons.Remove(pm);
-        ReportBuilder.Add(new Withdraw(pm));
+        ReportBuilder.Add(new GameEvents.Withdraw(pm));
         Sp.Abilities.Withdrawn(pm);
         return true;
       }

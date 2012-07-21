@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using LightStudio.Tactic.DataModels.IO;
 
-namespace LightStudio.PokemonBattle.Interactive
+namespace LightStudio.PokemonBattle.Game
 {
   public interface IText : Tactic.DataModels.IText<IText>
   {

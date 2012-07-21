@@ -5,9 +5,8 @@ using System.Text;
 using System.Runtime.Serialization;
 using System.Reflection;
 using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
 
-namespace LightStudio.PokemonBattle.Interactive
+namespace LightStudio.PokemonBattle.Game
 {
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class LogText : Tactic.DataModels.TextBase<IText>, IText

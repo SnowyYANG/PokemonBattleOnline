@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
 
-namespace LightStudio.PokemonBattle.Game
+namespace LightStudio.PokemonBattle.Game.Host
 {
   public interface IMoveE
   {
     MoveType Move { get; }
     void Execute(PokemonProxy pm);
   }
-  public static partial class GameService
+  public static partial class EffectsService
   {
     private sealed class Move0 : IMoveE
     {

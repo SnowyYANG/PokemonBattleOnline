@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
 
-namespace LightStudio.PokemonBattle.Game
+namespace LightStudio.PokemonBattle.Game.Host
 {
   public interface IItemE
   {
@@ -31,7 +31,7 @@ namespace LightStudio.PokemonBattle.Game
     void Attacked(DefContext def);
   }
 
-  public static partial class GameService
+  public static partial class EffectsService
   {
     private sealed class ItemE0 : IItemE
     {

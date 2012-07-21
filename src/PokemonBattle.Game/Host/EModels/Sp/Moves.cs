@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Interactive.GameEvents;
+using LightStudio.PokemonBattle.Game.GameEvents;
 
-namespace LightStudio.PokemonBattle.Game.Sp
+namespace LightStudio.PokemonBattle.Game.Host.Sp
 {
   public static class Moves
   {

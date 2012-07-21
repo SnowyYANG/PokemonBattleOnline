@@ -5,14 +5,12 @@ clr.AddReferenceToFile('PokemonBattle.Game.dll')
 
 from LightStudio.PokemonBattle.Data import *
 from LightStudio.PokemonBattle.Game import *
-from LightStudio.PokemonBattle.Interactive import *
-from LightStudio.PokemonBattle.Interactive.GameEvents import *
+from LightStudio.PokemonBattle.Game.GameEvents import *
+from LightStudio.PokemonBattle.Game.Host import *
 
 def M(e):
-    GameService.Register.Overloads[IMoveE](e)
+    EffectsService.Register.Overloads[IMoveE](e)
 def A(e):
-    GameService.Register.Overloads[IAbilityE](e)
+    EffectsService.Register.Overloads[IAbilityE](e)
 def I(e):
-    if e == None:
-        print 'e'
-    GameService.Register.Overloads[IItemE](e)
+    EffectsService.Register.Overloads[IItemE](e)

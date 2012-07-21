@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LightStudio.PokemonBattle.Game
+namespace LightStudio.PokemonBattle.Game.Host
 {
   public class MoveProxy
   {
@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Game
     {
       Move = move;
       Owner = owner;
-      e = GameService.GetMove(move.Type.Id);
+      e = EffectsService.GetMove(move.Type.Id);
     }
 
     public int PP
@@ -46,7 +46,7 @@ namespace LightStudio.PokemonBattle.Game
 
     public void Execute()
     {
-      Owner.Controller.ReportBuilder.Add(new Interactive.GameEvents.UseMove(Owner, Type));
+      Owner.Controller.ReportBuilder.Add(new GameEvents.UseMove(Owner, Type));
       e.Execute(Owner);
     }
 

@@ -15,7 +15,6 @@ namespace LightStudio.PokemonBattle.Room
     private readonly IdGenerator idGen;
     private Queue<int> idQue;
     private List<Rule> rules;
-    private IRule combinedRule;
     [DataMember]
     private List<int> ruleIds;
     [DataMember]
@@ -56,7 +55,7 @@ namespace LightStudio.PokemonBattle.Room
       get { return ppUp; }
       set { if (!isLocked) ppUp = value; }
     }
-    public IEnumerable<Rule> ChosenRules
+    public IEnumerable<Rule> Rules
     {
       get
       {
@@ -68,8 +67,6 @@ namespace LightStudio.PokemonBattle.Room
         return rules;
       }
     }
-    IRule IGameSettings.Rule
-    { get { return combinedRule; } }
 
     internal int NextId()
     {
@@ -81,7 +78,6 @@ namespace LightStudio.PokemonBattle.Room
       lock (this)
       {
         isLocked = true;
-        combinedRule = new CombinedRule(ruleIds);
       }
     }
     public void AddRule(Rule rule)
@@ -94,28 +90,6 @@ namespace LightStudio.PokemonBattle.Room
       if (isLocked) return;
       idQue = new Queue<int>(ids);
       Lock();
-    }
-
-    private class CombinedRule : IRule
-    {
-      private List<IRule> rules;
-
-      public CombinedRule(IEnumerable<int> ids)
-      {
-        rules = new List<IRule>(ids.Count());
-        foreach (int i in ids)
-        {
-          Rule r = GameService.GetRule(i);
-          if (r != null) rules.Add(r);
-        }
-      }
-
-      public bool CanChangeState(PokemonProxy pm, PokemonState state)
-      {
-        foreach (IRule r in rules)
-          if (!r.CanChangeState(pm, state)) return false;
-        return true;
-      }
     }
   }
 }

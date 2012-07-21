@@ -5,7 +5,7 @@ using System.Text;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
 
-namespace LightStudio.PokemonBattle.Effects.Moves
+namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves
 {
   class TrumpCard:AttackMoveE 
   {

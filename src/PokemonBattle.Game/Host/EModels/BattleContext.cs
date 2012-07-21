@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game.Sp;
+using LightStudio.PokemonBattle.Game.Host.Sp;
 
-namespace LightStudio.PokemonBattle.Game
+namespace LightStudio.PokemonBattle.Game.Host
 {
   public class AtkContext
   {
@@ -57,8 +57,8 @@ namespace LightStudio.PokemonBattle.Game
 
     internal void Execute()
     {
-      Controller.ReportBuilder.Add(new Interactive.GameEvents.UseMove(Attacker, Move));
-      GameService.GetMove(Move.Id).Execute(Attacker);
+      Controller.ReportBuilder.Add(new GameEvents.UseMove(Attacker, Move));
+      EffectsService.GetMove(Move.Id).Execute(Attacker);
     }
     public void SetTargets(IEnumerable<DefContext> targets)
     {
@@ -104,7 +104,7 @@ namespace LightStudio.PokemonBattle.Game
       get
       {
         return AtkContext.Attacker.Ability.IgnoreDefenderAbility() ?
-          GameService.NULL_ABILITY :
+          EffectsService.NULL_ABILITY :
           Defender.Ability;
       }
     }

@@ -16,7 +16,7 @@ namespace LightStudio.PokemonBattle.Room
     { get { return UserRole.Spectator; } }
 
     #region Errors
-    protected override void InformPmAdditional(Interactive.PokemonAdditionalInfo pminfo)
+    protected override void InformPmAdditional(Game.PokemonAdditionalInfo pminfo)
     {
       error("收到非法的消息，数据包损毁或房间主机程序被修改");
     }

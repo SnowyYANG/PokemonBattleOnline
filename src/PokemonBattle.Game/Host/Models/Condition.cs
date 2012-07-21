@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LightStudio.PokemonBattle.Game
+namespace LightStudio.PokemonBattle.Game.Host
 {
   public abstract class Condition
   {
@@ -36,7 +36,7 @@ namespace LightStudio.PokemonBattle.Game
       this.pm = pm;
     }
 
-    protected void AddReport(Interactive.GameEvent e)
+    protected void AddReport(GameEvent e)
     {
       pm.Controller.ReportBuilder.Add(e);
     }
@@ -46,7 +46,7 @@ namespace LightStudio.PokemonBattle.Game
     }
     protected void AddResetYReport(string key, params string[] args)
     {
-      AddReport(Interactive.GameEvents.PositionChange.Reset(key, pm, args));
+      AddReport(GameEvents.PositionChange.Reset(key, pm, args));
     }
     public virtual bool CanExecute()
     {

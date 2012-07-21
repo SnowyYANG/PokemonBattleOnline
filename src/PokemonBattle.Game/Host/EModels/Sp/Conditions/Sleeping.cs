@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LightStudio.PokemonBattle.Game.Sp.Conditions
+namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
 {
   public class Sleeping : PmCondition
   {

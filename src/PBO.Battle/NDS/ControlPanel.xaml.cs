@@ -13,7 +13,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
-using LightStudio.PokemonBattle.Interactive;
 using LightStudio.PokemonBattle.PBO.Battle.VM;
 
 namespace LightStudio.PokemonBattle.PBO.Battle

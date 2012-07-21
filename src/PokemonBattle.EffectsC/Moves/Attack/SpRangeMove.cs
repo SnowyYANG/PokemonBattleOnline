@@ -6,7 +6,7 @@ using LightStudio.PokemonBattle.Game;
 using LightStudio.PokemonBattle.Data;
 
 
-namespace LightStudio.PokemonBattle.Effects.Moves
+namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves
 {
   class SpRangeMove : AttackMoveE
   {
@@ -19,7 +19,7 @@ namespace LightStudio.PokemonBattle.Effects.Moves
       Y = y;
       Doubled = doubled;
     }
-    protected override bool IsYInRange(LightStudio.PokemonBattle.Game.DefContext def)
+    protected override bool IsYInRange(DefContext def)
     {
       return def.Defender.OnboardPokemon.CoordY == Y || base.IsYInRange(def);
     }

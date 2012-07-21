@@ -14,6 +14,6 @@ namespace LightStudio.PokemonBattle.Game
     GameMode Mode { get; }
     Terrain Terrain { get; }
     double PPUp { get; }
-    IRule Rule { get; }
+    IEnumerable<Rule> Rules { get; }
   }
 }

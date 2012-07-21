@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
-using LightStudio.PokemonBattle.Interactive;
 using LightStudio.Tactic.Messaging.Lobby;
 
 namespace LightStudio.PokemonBattle.Room
@@ -39,10 +38,14 @@ namespace LightStudio.PokemonBattle.Room
     SimGame IPlayerController.Game
     { get { return game; } }
 
-    void IPlayerController.UseMove(byte x, SimMove move, Tile target)
+    void IPlayerController.UseMove(byte x, SimMove move, int targetTeam, int targetX)
+    {
+      sendCommand(new InputCommand(ActionInput.UseMove(x, move, targetTeam, targetX)));
+    }
+    void IPlayerController.UseMove(byte x, SimMove move)
     {
       //TODO: verify
-      sendCommand(new InputCommand(ActionInput.UseMove(x, move, target)));
+      sendCommand(new InputCommand(ActionInput.UseMove(x, move)));
     }
     void IPlayerController.Sendout(byte x, Pokemon sendout)
     {
@@ -84,7 +87,7 @@ namespace LightStudio.PokemonBattle.Room
             foreach (IPlayerControllerEvents listner in listeners) listner.RequireInput();
         });
     }
-    protected override void InformPmAdditional(Interactive.PokemonAdditionalInfo info)
+    protected override void InformPmAdditional(Game.PokemonAdditionalInfo info)
     {
       game.Update(info);
     }

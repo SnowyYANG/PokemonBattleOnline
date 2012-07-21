@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using LightStudio.PokemonBattle.Data;
 
-namespace LightStudio.PokemonBattle.Game
+namespace LightStudio.PokemonBattle.Game.Host
 {
   /// <summary>
   /// 在场pm数据副本，不一定正在对战，比如“转盘”

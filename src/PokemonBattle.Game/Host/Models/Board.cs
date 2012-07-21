@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using LightStudio.PokemonBattle.Data;
 
-namespace LightStudio.PokemonBattle.Game
+namespace LightStudio.PokemonBattle.Game.Host
 {
   public class Board : ConditionalObject
   {
@@ -27,15 +27,15 @@ namespace LightStudio.PokemonBattle.Game
       {
         tileMap = new Tile[TeamCount, XBound];
         _tiles = new Tile[TeamCount * XBound];
+        fields = new Field[TeamCount];
         int t = 0;
         for (int i = 0; i < TeamCount; i++)
+        {
+          var ts = new Tile[XBound];
           for (int j = 0; j < XBound; j++)
-            tileMap[i, j] = _tiles[t++] = new Tile(i, j, settings);
-      }
-      {
-        fields = new Field[TeamCount];
-        for (int i = 0; i < TeamCount; i++)
-          fields[i] = new Field();
+            tileMap[i, j] = _tiles[t++] = ts[j] = new Tile(i, j, settings);
+          fields[i] = new Field(ts);
+        }
       }
     }
 

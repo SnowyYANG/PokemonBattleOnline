@@ -3,31 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GameService = LightStudio.PokemonBattle.Game.GameService;
-using LightStudio.PokemonBattle.Effects.Abilities;
-using LightStudio.PokemonBattle.Effects.Conditions;
-using LightStudio.PokemonBattle.Effects.Moves;
+using LightStudio.PokemonBattle.Game.Host.Effects.Abilities;
+using LightStudio.PokemonBattle.Game.Host.Effects.Conditions;
+using LightStudio.PokemonBattle.Game.Host.Effects.Moves;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
 
-namespace LightStudio.PokemonBattle.Effects
+namespace LightStudio.PokemonBattle.Game.Host.Effects
 {
   public static class EffectsRegister
   {
     private static void A(IAbilityE ability)
     {
-      GameService.Register(ability);
+      EffectsService.Register(ability);
     }
     private static void I(IItemE item)
     {
-      GameService.Register(item);
+      EffectsService.Register(item);
     }
     private static void M(IMoveE move)
     {
-      GameService.Register(move);
+      EffectsService.Register(move);
     }
     
     public static void Register()
     {
+      A(new Forewarn(37));
+      A(new Frisk(39));
       A(new Illusion(56));
 
       M(new GustTwister(16));  

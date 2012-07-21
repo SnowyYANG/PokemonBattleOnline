@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
 
-namespace LightStudio.PokemonBattle.Game.Sp.Conditions
+namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
 {
   public static class LightScreenReflect
   {

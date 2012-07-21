@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="Abilities\ADSModifiers.py" />
+    <None Include="Abilities\AttachRaise.py" />
     <None Include="Abilities\Weather.py" />
     <None Include="Items\Gem.py" />
     <None Include="Moves\Attack\Blizzard.py" />

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
 
-namespace LightStudio.PokemonBattle.Game.Sp
+namespace LightStudio.PokemonBattle.Game.Host.Sp
 {
   internal static class Items
   {
@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Game.Sp
 
     private static void RaiseItem(this PokemonProxy pm, string key)
     {
-      pm.Controller.ReportBuilder.Add(new Interactive.GameEvents.UseItem(key, pm, pm.Pokemon.Item));
+      pm.Controller.ReportBuilder.Add(new GameEvents.UseItem(key, pm, pm.Pokemon.Item));
       if (pm.Pokemon.Item.Type != ItemType.Normal) pm.ConsumeItem();
     }
 
