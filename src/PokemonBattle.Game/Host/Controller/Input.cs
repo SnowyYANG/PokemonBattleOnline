@@ -34,7 +34,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           }
           else
           {
-            if (Controller.CanSendout(t)) return InputResult.Succeed(false);
+            if (t.WillSendoutPokemonIndex < GameSettings.Mode.OnboardPokemonsPerPlayer() && Controller.CanSendout(t)) return InputResult.Succeed(false);
           }
       players.Remove(player.Id);
       return InputResult.Succeed(true);

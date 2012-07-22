@@ -41,14 +41,7 @@ namespace LightStudio.PokemonBattle.Game
     }
 
     public IText this[string key]
-    { 
-      get
-      {
-        IText t = logs.ValueOrDefault(key);
-        if (t == null) System.Diagnostics.Debugger.Break();
-        return t;
-      }
-    }
+    { get { return logs.ValueOrDefault(key); } }
     /// <summary>
     /// 暂不支持多语言
     /// </summary>
