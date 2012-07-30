@@ -40,7 +40,9 @@ namespace LightStudio.Tactic
         }
         catch(Exception e)
         {
+#if DEBUG
           System.Diagnostics.Debugger.Break();
+#endif
         }
     }
 

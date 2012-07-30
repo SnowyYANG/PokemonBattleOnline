@@ -13,7 +13,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using LightStudio.Tactic.Messaging;
-using LightStudio.Tactic.Messaging.Lobby;
+using LightStudio.PokemonBattle.Messaging;
+using IUser = LightStudio.Tactic.Messaging.IUser<LightStudio.PokemonBattle.Messaging.RoomInfo>;
 
 namespace LightStudio.PokemonBattle.PBO.Server
 {
@@ -22,7 +23,7 @@ namespace LightStudio.PokemonBattle.PBO.Server
   /// </summary>
   public partial class MainWindow : Window
   {
-    LobbyServer model;
+    PBOServer server;
     Dictionary<int, UserVM> usersDictionary;
     ObservableCollection<UserVM> users;
 
@@ -33,7 +34,7 @@ namespace LightStudio.PokemonBattle.PBO.Server
       StartServer();
     }
 
-    private void AddUser(User u)
+    private void AddUser(IUser u)
     {
       UserVM uvm;
       uvm = new UserVM(u, true);
@@ -43,12 +44,12 @@ namespace LightStudio.PokemonBattle.PBO.Server
     }
     private void StartServer()
     {
-      model = new LobbyServer(new TcpMessageServer(9898));
-      model.UserChanged += model_UserChanged;
-      model.MessageBroadcast += model_MessageBroadcast;
+      server = PBOServer.NewTcpServer(9898);
+      server.UserChanged += model_UserChanged;
+      server.MessageBroadcast += model_MessageBroadcast;
       try
       {
-        model.Start();
+        server.Start();
       }
       catch (Exception e)
       {
@@ -59,18 +60,18 @@ namespace LightStudio.PokemonBattle.PBO.Server
       mask.Visibility = System.Windows.Visibility.Hidden;
       usersDictionary = new Dictionary<int, UserVM>(50);//容量
       users = new ObservableCollection<UserVM>();
-      var us = model.Users;
-      foreach (User u in us) AddUser(u);
+      var us = server.Users;
+      foreach (IUser u in us) AddUser(u);
       usersView.ItemsSource = users;
     }
     private void StopServer()
     {
       try
       {
-        model.Stop();
-        model.UserChanged -= model_UserChanged;
-        model.MessageBroadcast -= model_MessageBroadcast;
-        model.Dispose();
+        server.Stop();
+        server.UserChanged -= model_UserChanged;
+        server.MessageBroadcast -= model_MessageBroadcast;
+        server.Dispose();
       }
       catch (Exception e)
       {
@@ -81,12 +82,12 @@ namespace LightStudio.PokemonBattle.PBO.Server
       mask.Visibility = System.Windows.Visibility.Visible;
     }
 
-    void model_UserChanged(LobbyServer sender, int userId)
+    void model_UserChanged(int userId)
     {
       //thread
       WpfDispatcher.Invoke(() =>
         {
-          User u = sender.GetUser(userId);
+          IUser u = server.GetUser(userId);
           UserVM uvm = usersDictionary.ValueOrDefault(userId);
           if (u == null)
           {
@@ -99,13 +100,13 @@ namespace LightStudio.PokemonBattle.PBO.Server
           else
           {
             if (uvm == null) AddUser(u);
-            else uvm.RefreshProperties(u);
+            else uvm.RefreshProperties();
           }
         });
     }
-    void model_MessageBroadcast(LobbyServer model, int userId, string content)
+    void model_MessageBroadcast(int userId, string content)
     {
-      User u = model.GetUser(userId);
+      IUser u = server.GetUser(userId);
       WpfDispatcher.Invoke(() =>
         {
           if (u != null) chat.AppendText("\n" + u.Name + ": " + content);
@@ -115,7 +116,7 @@ namespace LightStudio.PokemonBattle.PBO.Server
     
     private void Button_Click(object sender, RoutedEventArgs e)
     {
-      if (model.IsStarted)
+      if (server.IsStarted)
       {
         StopServer();
         ((Button)sender).Content = "Start";
@@ -137,7 +138,7 @@ namespace LightStudio.PokemonBattle.PBO.Server
         catch { }
         finally
         {
-          model.Dispose();
+          server.Dispose();
         }
       }
     }

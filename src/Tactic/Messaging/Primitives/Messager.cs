@@ -6,7 +6,7 @@ using System.IO;
 using System.Diagnostics.Contracts;
 using LightStudio.Tactic.Logging;
 
-namespace LightStudio.Tactic.Messaging
+namespace LightStudio.Tactic.Messaging.Primitive
 {
   public abstract class Messager : DisposableObject, IMessager
   {

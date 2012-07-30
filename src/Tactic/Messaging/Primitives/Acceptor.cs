@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using LightStudio.Tactic.Logging;
 
-namespace LightStudio.Tactic.Messaging
+namespace LightStudio.Tactic.Messaging.Primitive
 {
     internal abstract class Acceptor : DisposableObject, IAcceptor
     {

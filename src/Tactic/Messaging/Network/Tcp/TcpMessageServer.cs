@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LightStudio.Tactic.Messaging
+namespace LightStudio.Tactic.Messaging.Primitive
 {
-    public class TcpMessageServer : MessageServer
+    internal class TcpMessageServer : MessageServer
     {
         public TcpMessageServer(int port)
             : this(port, new TextInterpreter())

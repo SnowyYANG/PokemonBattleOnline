@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 
-namespace LightStudio.Tactic.Messaging
+namespace LightStudio.Tactic.Messaging.Primitive
 {
   internal abstract class NetworkMessager : Messager, INetworkMessager
   {
@@ -16,7 +16,7 @@ namespace LightStudio.Tactic.Messaging
     protected NetworkMessager()
     {
       this.receivingLock = new object();
-      this.sendDispatcher = new Dispatcher(true);
+      this.sendDispatcher = new Dispatcher("Messager", true);
     }
 
     public override void StartReceive()

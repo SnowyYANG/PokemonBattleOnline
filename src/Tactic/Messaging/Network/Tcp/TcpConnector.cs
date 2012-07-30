@@ -7,7 +7,7 @@ using System.Net.Sockets;
 using System.Diagnostics.Contracts;
 using LightStudio.Tactic.Logging;
 
-namespace LightStudio.Tactic.Messaging
+namespace LightStudio.Tactic.Messaging.Primitive
 {
     internal class TcpConnector : Connector, IConnector
     {

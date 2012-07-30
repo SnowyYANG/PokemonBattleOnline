@@ -6,20 +6,7 @@ using System.Collections.Generic;
 
 namespace LightStudio.Tactic.Messaging.Lobby
 {
-  public enum UserState : byte
-  {
-    /// <summary>
-    /// login not complete, avatar isn't uploaded
-    /// </summary>
-    Invalid = 0,
-    Normal,
-    Aggressive,
-    Battling,
-    Watching,
-    Afk
-  }
-  
-  public sealed class User
+  internal sealed class User<T> : IUser<T> where T : new()
   {
     int id;
     string name;
@@ -31,6 +18,7 @@ namespace LightStudio.Tactic.Messaging.Lobby
       this.name = name;
       this.avatar = avatar;
       Sign = string.Empty;
+      Extension = new T();
     }
     public User(int id, string name) : this(id, name, null)
     {
@@ -50,9 +38,10 @@ namespace LightStudio.Tactic.Messaging.Lobby
     public Avatar Avatar
     {
       get { return avatar; }
-      internal set { avatar = value; }
+      set { avatar = value; }
     }
     public UserState State { get; set; }
     public string Sign { get; set; }
+    public T Extension { get; private set; }
   }
 }

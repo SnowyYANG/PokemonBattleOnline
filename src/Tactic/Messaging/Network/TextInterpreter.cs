@@ -6,7 +6,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Diagnostics.Contracts;
 
-namespace LightStudio.Tactic.Messaging
+namespace LightStudio.Tactic.Messaging.Primitive
 {
   internal class TextInterpreter : IInterpreter
   {

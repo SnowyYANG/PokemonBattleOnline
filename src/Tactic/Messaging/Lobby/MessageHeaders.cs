@@ -15,13 +15,13 @@ namespace LightStudio.Tactic.Messaging.Lobby
     public const string SEND_MESSAGE = "S";
     public const string CHANGE_STATE = "E";
     public const string CHANGE_INFO = "I";
-    public const string ON_LOGIN_FAILED = "f";
-    public const string ON_LOGIN_SUCCEEDED = "s";
-    public const string ON_USER_LOGINED = "l";
-    public const string ON_USER_EXITED = "x";
-    public const string ON_MESSAGE_RECEIVED = "r";
-    public const string ON_BROADCAST_RECEIVED = "b";
-    public const string ON_USER_STATE_CHANGED = "e";
-    public const string ON_USER_INFO_CHANGED = "i";
+    public const string ON_LOGIN_FAILED = "F";
+    public const string ON_LOGIN_SUCCEEDED = "W";
+    public const string ON_USER_LOGINED = "N";
+    public const string ON_USER_EXITED = "X";
+    public const string ON_MESSAGE_RECEIVED = "M";
+    public const string ON_BROADCAST_RECEIVED = "R";
+    public const string ON_USER_STATE_CHANGED = "T";
+    public const string ON_USER_INFO_CHANGED = "C";
   }
 }

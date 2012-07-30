@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 
-namespace LightStudio.Tactic.Messaging
+namespace LightStudio.Tactic.Messaging.Primitive
 {
-    [ContractClass(typeof(IMessagerContract))]
     public interface IMessager : IDisposable
     {
         event EventHandler<MessageExceptionEventArgs> UnhandledException;

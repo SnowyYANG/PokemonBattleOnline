@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
-namespace LightStudio.Tactic.Messaging
+namespace LightStudio.Tactic.Messaging.Primitive
 {
-  [ContractClass(typeof(IMessageServerContract))]
   public interface IMessageServer : IMessageCenter
   {
     ICollection<MessageSession> Sessions { get; }

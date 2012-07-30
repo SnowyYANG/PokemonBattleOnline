@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.Tactic.Logging;
+using LightStudio.Tactic.Messaging.Primitive;
 
 namespace LightStudio.Tactic.Messaging.Lobby
 {
@@ -14,7 +15,7 @@ namespace LightStudio.Tactic.Messaging.Lobby
 
     public ServerBase(IMessageServer server)
     {
-      this.Dispatcher = new Dispatcher(true);
+      this.Dispatcher = new Dispatcher("Server", true);
       this.MessageServer = server;
       this.MessageServer.Received += (sender, e) => OnReceiveInternal(e.MessagerId, e.Message);
       this.MessageServer.SessionEnded += (sender, e) => OnClientExited(e.SessionId);

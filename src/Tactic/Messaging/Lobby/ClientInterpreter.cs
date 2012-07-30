@@ -6,11 +6,11 @@ using System.Collections.Generic;
 
 namespace LightStudio.Tactic.Messaging.Lobby
 {
-  internal interface IClientService
+  internal interface IClientInnerService<T> where T : new()
   {
     void OnLoginFailed();
-    void OnLoginSucceeded(int id, User[] userList);
-    void OnUserLogined(User user);
+    void OnLoginSucceeded(int id, User<T>[] userList);
+    void OnUserLogined(User<T> user);
     void OnUserExited(int id);
     void OnMessageReceived(int senderid, string content);
     void OnBroadcastReceived(int senderid, string content);
@@ -19,7 +19,7 @@ namespace LightStudio.Tactic.Messaging.Lobby
   }
   internal sealed class ClientInterpreter
   {
-    public static bool Interpret(IMessage message, IClientService service)
+    public static bool Interpret<T>(IMessage message, IClientInnerService<T> service) where T : new()
     {
       switch (message.Header)
       {
@@ -28,11 +28,11 @@ namespace LightStudio.Tactic.Messaging.Lobby
           break;
         case MessageHeaders.ON_LOGIN_SUCCEEDED:
           MessageHelper.ResolveMessage(message, reader =>
-            service.OnLoginSucceeded(reader.ReadUserId(), reader.ReadArray((Func<User>)reader.ReadUser)));
+            service.OnLoginSucceeded(reader.ReadUserId(), reader.ReadArray((Func<User<T>>)reader.ReadUser<T>)));
           break;
         case MessageHeaders.ON_USER_LOGINED:
           MessageHelper.ResolveMessage(message, reader =>
-            service.OnUserLogined(reader.ReadUser()));
+            service.OnUserLogined(reader.ReadUser<T>()));
           break;
         case MessageHeaders.ON_USER_EXITED:
           MessageHelper.ResolveMessage(message, reader =>
@@ -68,7 +68,7 @@ namespace LightStudio.Tactic.Messaging.Lobby
     {
       return MessageHelper.BuildMessage(MessageHeaders.COMPLETELOGIN, writer => writer.WriteAvatar(avatar));
     }
-    public static IMessage SendMessage(int[] receivers, string content)
+    public static IMessage SendMessage(IEnumerable<int> receivers, string content)
     {
       return MessageHelper.BuildMessage(MessageHeaders.SEND_MESSAGE, writer =>
         {

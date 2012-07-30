@@ -16,7 +16,7 @@ namespace LightStudio.Tactic.Messaging.Lobby
     void ChangeState(int clientId, UserState state);
     void ChangeInfo(int clientId, UserState state, string sign);
   }
-  public static class ServerInterpreter
+  internal static class ServerInterpreter
   {
     public static bool Interpret(int clientId, IMessage message, IServerService service)
     {
@@ -55,7 +55,7 @@ namespace LightStudio.Tactic.Messaging.Lobby
     {
       return MessageHelper.BuildMessage(MessageHeaders.ON_LOGIN_FAILED);
     }
-    public static IMessage OnLoginSucceeded(int id, User[] userList)
+    public static IMessage OnLoginSucceeded<T>(int id, User<T>[] userList) where T : new()
     {
       return MessageHelper.BuildMessage(MessageHeaders.ON_LOGIN_SUCCEEDED, writer =>
         {
@@ -63,7 +63,7 @@ namespace LightStudio.Tactic.Messaging.Lobby
           writer.WriteArray(userList, writer.WriteUser);
         });
     }
-    public static IMessage OnUserLogined(User user)
+    public static IMessage OnUserLogined<T>(User<T> user) where T : new()
     {
       return MessageHelper.BuildMessage(MessageHeaders.ON_USER_LOGINED, writer => writer.WriteUser(user));
     }

@@ -6,7 +6,9 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using LightStudio.Tactic.Messaging.Lobby;
+using LightStudio.Tactic.Messaging;
+using LightStudio.PokemonBattle.Messaging;
+using IUser = LightStudio.Tactic.Messaging.IUser<LightStudio.PokemonBattle.Messaging.RoomInfo>;
 
 namespace LightStudio.PokemonBattle.PBO
 {
@@ -32,10 +34,10 @@ namespace LightStudio.PokemonBattle.PBO
     
     public event PropertyChangedEventHandler PropertyChanged;
     //protected readonly ObservableCollection<MenuCommand> commands;
-    protected readonly User Model;
+    protected readonly IUser Model;
     private readonly AvatarVM avatar;
 
-    public UserVM(User user, bool innerAvatarOnly)
+    public UserVM(IUser user, bool innerAvatarOnly)
     {
       Model = user;
       avatar = new AvatarVM(user.Avatar, innerAvatarOnly);
@@ -63,15 +65,10 @@ namespace LightStudio.PokemonBattle.PBO
             PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         });
     }
-    public void RefreshProperties(User userinfo)
+    public void RefreshProperties()
     {
-      if (userinfo.Id == Id)
-      {
-        Model.State = userinfo.State;
-        Model.Sign = userinfo.Sign;
-        OnPropertyChanged("State");
-        OnPropertyChanged("Sign");
-      }
+      OnPropertyChanged("State");
+      OnPropertyChanged("Sign");
     }
     public override string ToString()
     {

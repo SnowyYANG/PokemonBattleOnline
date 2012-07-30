@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 
-namespace LightStudio.Tactic.Messaging
+namespace LightStudio.Tactic.Messaging.Primitive
 {
-    [ContractClass(typeof(IMessageClientContract))]
     public interface IMessageClient : IMessager
     {
         bool IsConnected { get; }

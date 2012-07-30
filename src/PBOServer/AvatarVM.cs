@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using AvatarModel = LightStudio.Tactic.Messaging.Lobby.Avatar;
+using AvatarModel = LightStudio.Tactic.Messaging.Avatar;
 
 namespace LightStudio.PokemonBattle.PBO
 {

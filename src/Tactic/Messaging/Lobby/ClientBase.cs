@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.Tactic.Logging;
+using LightStudio.Tactic.Messaging.Primitive;
 
 namespace LightStudio.Tactic.Messaging.Lobby
 {
@@ -16,7 +17,7 @@ namespace LightStudio.Tactic.Messaging.Lobby
 
     protected ClientBase(IMessageClient client)
     {
-      this.Dispatcher = new Dispatcher(true);
+      this.Dispatcher = new Dispatcher("LobbyClient", true);
       SetMessageClient(client);
     }
 

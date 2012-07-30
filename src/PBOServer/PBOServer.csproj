@@ -60,6 +60,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AvatarVM.cs" />
+    <Compile Include="Messaging\PBOServer.cs" />
+    <Compile Include="Messaging\RoomInfo.cs" />
     <Compile Include="UserVM.cs" />
     <Compile Include="WpfDispatcher.cs" />
     <Page Include="MainWindow.xaml">

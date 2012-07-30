@@ -10,18 +10,19 @@ namespace LightStudio
 {
   public class Dispatcher : DisposableObject
   {
+    private readonly string name;
     private SyncList<Work> workList;
     private ManualResetEvent addWorkEvent;
     private object addWorkLock;
     private Thread thread;
 
-    public Dispatcher(bool autoStart)
+    public Dispatcher(string name, bool autoStart)
     {
+      this.name = name;
       workList = new SyncList<Work>();
       addWorkEvent = new ManualResetEvent(false);
       addWorkLock = new object();
-      if (autoStart)
-        Start();
+      if (autoStart) Start();
     }
 
     public void Start()
@@ -29,6 +30,7 @@ namespace LightStudio
       if (thread == null)
       {
         thread = new Thread(Process);
+        thread.Name = name;
         thread.Start();
       }
     }
@@ -193,7 +195,9 @@ namespace LightStudio
         }
         catch (Exception e)
         {
+#if DEBUG
           System.Diagnostics.Debugger.Break();
+#endif
         }
         SetComplete();
       }

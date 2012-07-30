@@ -1,0 +1,38 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using LightStudio.Tactic.Messaging;
+using IUser = LightStudio.Tactic.Messaging.IUser<LightStudio.PokemonBattle.Messaging.RoomInfo>;
+
+namespace LightStudio.PokemonBattle.Messaging
+{
+  public class ChatMessageReceivedEventArgs : EventArgs
+  {
+    public IUser UserInfo { get; private set; }
+    public string Content { get; private set; }
+
+    public ChatMessageReceivedEventArgs(IUser userInfo, string content)
+    {
+      UserInfo = userInfo;
+      Content = content;
+    }
+  }
+  public class Lobby : ClientService
+  {
+    internal Lobby(Client client)
+      : base(client, MessageHeaders.CHAT)
+    {
+    }
+
+    public event EventHandler<ChatMessageReceivedEventArgs> ChatMessageReceived = delegate { };
+    public void Chat(string message, params int[] receivers)
+    {
+      SendMessage(MessageHeaders.CHAT, reader => reader.Write(message), receivers);
+    }
+    protected override void ReadMessage(IUser sender, byte header, System.IO.BinaryReader reader)
+    {
+      ChatMessageReceived(this, new ChatMessageReceivedEventArgs(sender, reader.ReadString()));
+    }
+  }
+}

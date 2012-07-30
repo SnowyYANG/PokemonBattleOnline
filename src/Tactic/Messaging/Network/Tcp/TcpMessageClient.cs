@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Net;
 
-namespace LightStudio.Tactic.Messaging
+namespace LightStudio.Tactic.Messaging.Primitive
 {
-    public class TcpMessageClient : MessageClient
+    internal class TcpMessageClient : MessageClient
     {
         public TcpMessageClient(IPAddress hostAddress, int port)
             : this(hostAddress, port, new TextInterpreter())

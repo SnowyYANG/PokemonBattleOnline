@@ -36,17 +36,17 @@ namespace LightStudio.Tactic.Messaging
       writer.Write(avatar.InnerAvatarId);
       writer.Write(avatar.Url);
     }
-    public static User ReadUser(this BinaryReader reader)
+    public static User<T> ReadUser<T>(this BinaryReader reader) where T : new()
     {
       int id = reader.ReadUserId();
       string name = reader.ReadString();
       Avatar avatar = reader.ReadAvatar();
-      User u = new User(id, name, avatar);
+      User<T> u = new User<T>(id, name, avatar);
       u.State = reader.ReadUserState();
       u.Sign = reader.ReadString();
       return u;
     }
-    public static void WriteUser(this BinaryWriter writer, User user)
+    public static void WriteUser<T>(this BinaryWriter writer, IUser<T> user)
     {
       writer.WriteUserId(user.Id);
       writer.Write(user.Name);
@@ -62,9 +62,9 @@ namespace LightStudio.Tactic.Messaging
       for (int i = 0; i < length; i++) array[i] = readElement();
       return array;
     }
-    public static void WriteArray<TElement>(this BinaryWriter writer, TElement[] array, Action<TElement> writeElement)
+    public static void WriteArray<TElement>(this BinaryWriter writer, IEnumerable<TElement> array, Action<TElement> writeElement)
     {
-      writer.Write(array.Length);
+      writer.Write(array.Count());
       foreach (var item in array) writeElement(item);
     }
   }

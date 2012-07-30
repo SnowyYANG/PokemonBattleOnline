@@ -25,8 +25,6 @@ namespace LightStudio.Tactic.DataModels.IO
         return (T)Serializer.Deserialize<T>(s);
     }
 
-    private readonly string key; //for verify
-
     protected SimpleData()
     {
     }

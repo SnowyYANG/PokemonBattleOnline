@@ -7,7 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Diagnostics.Contracts;
 
-namespace LightStudio.Tactic.Messaging
+namespace LightStudio.Tactic.Messaging.Primitive
 {
   internal class TcpMessager : NetworkMessager
   {

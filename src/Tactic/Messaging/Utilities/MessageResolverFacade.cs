@@ -14,7 +14,7 @@ namespace LightStudio.Tactic.Messaging
     }
 
     internal static IMessageResolver Resolver
-    { get; set; }
+    { get; private set; }
 
     public static IMessagable GetMessageObject(this IMessage message)
     {
