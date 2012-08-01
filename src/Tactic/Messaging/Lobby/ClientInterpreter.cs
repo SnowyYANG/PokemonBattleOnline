@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace LightStudio.Tactic.Messaging.Lobby
 {
-  internal interface IClientInnerService<T> where T : new()
+  internal interface IClientInnerService<T> where T : IBytable, new()
   {
     void OnLoginFailed();
     void OnLoginSucceeded(int id, User<T>[] userList);
@@ -19,7 +19,7 @@ namespace LightStudio.Tactic.Messaging.Lobby
   }
   internal sealed class ClientInterpreter
   {
-    public static bool Interpret<T>(IMessage message, IClientInnerService<T> service) where T : new()
+    public static bool Interpret<T>(IMessage message, IClientInnerService<T> service) where T : IBytable, new()
     {
       switch (message.Header)
       {
@@ -27,31 +27,31 @@ namespace LightStudio.Tactic.Messaging.Lobby
           service.OnLoginFailed();
           break;
         case MessageHeaders.ON_LOGIN_SUCCEEDED:
-          MessageHelper.ResolveMessage(message, reader =>
+          message.Resolve(reader =>
             service.OnLoginSucceeded(reader.ReadUserId(), reader.ReadArray((Func<User<T>>)reader.ReadUser<T>)));
           break;
         case MessageHeaders.ON_USER_LOGINED:
-          MessageHelper.ResolveMessage(message, reader =>
+          message.Resolve(reader =>
             service.OnUserLogined(reader.ReadUser<T>()));
           break;
         case MessageHeaders.ON_USER_EXITED:
-          MessageHelper.ResolveMessage(message, reader =>
+          message.Resolve(reader =>
             service.OnUserExited(reader.ReadUserId()));
           break;
         case MessageHeaders.ON_MESSAGE_RECEIVED:
-          MessageHelper.ResolveMessage(message, reader =>
+          message.Resolve(reader =>
             service.OnMessageReceived(reader.ReadUserId(), reader.ReadString()));
           break;
         case MessageHeaders.ON_BROADCAST_RECEIVED:
-          MessageHelper.ResolveMessage(message, reader =>
+          message.Resolve(reader =>
             service.OnBroadcastReceived(reader.ReadUserId(), reader.ReadString()));
           break;
         case MessageHeaders.ON_USER_STATE_CHANGED:
-          MessageHelper.ResolveMessage(message, reader =>
+          message.Resolve(reader =>
             service.OnUserStateChanged(reader.ReadUserId(), reader.ReadUserState()));
           break;
         case MessageHeaders.ON_USER_INFO_CHANGED:
-          MessageHelper.ResolveMessage(message, reader =>
+          message.Resolve(reader =>
             service.OnUserInfoChanged(reader.ReadUserId(), reader.ReadUserState(), reader.ReadString()));
           break;
         default:
@@ -60,17 +60,21 @@ namespace LightStudio.Tactic.Messaging.Lobby
       return true;
     }
 
+    private static IMessage BuildMessage(string header, Action<BinaryWriter> buildContent = null)
+    {
+      return new TextMessage(header, buildContent);
+    }
     public static IMessage Login(string name)
     {
-      return MessageHelper.BuildMessage(MessageHeaders.LOGIN, writer => writer.Write(name));
+      return BuildMessage(MessageHeaders.LOGIN, writer => writer.Write(name));
     }
     public static IMessage CompleteLogin(Avatar avatar)
     {
-      return MessageHelper.BuildMessage(MessageHeaders.COMPLETELOGIN, writer => writer.WriteAvatar(avatar));
+      return BuildMessage(MessageHeaders.COMPLETELOGIN, writer => writer.WriteAvatar(avatar));
     }
     public static IMessage SendMessage(IEnumerable<int> receivers, string content)
     {
-      return MessageHelper.BuildMessage(MessageHeaders.SEND_MESSAGE, writer =>
+      return BuildMessage(MessageHeaders.SEND_MESSAGE, writer =>
         {
           writer.WriteArray(receivers, writer.WriteUserId);
           writer.Write(content);
@@ -78,19 +82,19 @@ namespace LightStudio.Tactic.Messaging.Lobby
     }
     public static IMessage BroadcastMessage(string content)
     {
-      return MessageHelper.BuildMessage(MessageHeaders.BROADCAST, writer => writer.Write(content));
+      return BuildMessage(MessageHeaders.BROADCAST, writer => writer.Write(content));
     }
     public static IMessage Logout()
     {
-      return MessageHelper.BuildMessage(MessageHeaders.LOGOUT);
+      return BuildMessage(MessageHeaders.LOGOUT);
     }
     public static IMessage ChangeState(UserState state)
     {
-      return MessageHelper.BuildMessage(MessageHeaders.CHANGE_STATE, writer => writer.WriteUserState(state));
+      return BuildMessage(MessageHeaders.CHANGE_STATE, writer => writer.WriteUserState(state));
     }
     public static IMessage ChangeInfo(UserState state, string sign)
     {
-      return MessageHelper.BuildMessage(MessageHeaders.CHANGE_INFO, writer =>
+      return BuildMessage(MessageHeaders.CHANGE_INFO, writer =>
         {
           writer.WriteUserState(state);
           writer.Write(sign);

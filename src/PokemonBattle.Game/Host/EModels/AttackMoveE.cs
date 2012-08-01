@@ -38,7 +38,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       while (atk.ActualHits < times && atk.Target.Defender.Hp != 0 && aer.Hp != 0 && aer.State != PokemonState.Frozen && aer.State != PokemonState.Sleeping);
       
-      if (Move.MaxTimes > 1) atk.Controller.ReportBuilder.Add("Hits", atk.ActualHits.ToString());
+      if (Move.MaxTimes > 1) atk.Controller.ReportBuilder.Add("Hits", atk.ActualHits);
       if (atk.Type == BattleType.Fire)
         foreach (DefContext d in atk.Targets)
           if (d.Defender.State == PokemonState.Frozen) d.Defender.State = PokemonState.Normal;

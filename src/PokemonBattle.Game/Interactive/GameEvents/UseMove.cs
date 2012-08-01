@@ -22,20 +22,21 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       Move = move.Id;
     }
 
-    PokemonOutward pm;
     public override void Update(GameOutward game)
     {
-      pm = game.GetPokemon(Pm);
+      base.Update(game);
+      var pm = game.GetPokemon(Pm);
       pm.ChangePosition(pm.Position.X, CoordY.Plate);
     }
     public override IText GetGameLog()
     {
       IText t = GetGameLog("UseMove");
-      t.SetData(pm, DataService.GetMove(Move).GetLocalizedName());
+      t.SetData(Pm, DataService.GetMove(Move).GetLocalizedName());
       return t;
     }
     public override void Update(SimGame game)
     {
+      base.Update(game);
       Pokemon pm = game.Team.Pokemons.ValueOrDefault(Pm);
       if (pm != null)
         foreach (Move m in pm.Moves)

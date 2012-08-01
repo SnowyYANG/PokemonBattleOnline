@@ -12,7 +12,7 @@ namespace LightStudio.PokemonBattle.Game
   public class LogText : Tactic.DataModels.TextBase<IText>, IText
   {
     private static readonly string[] NODATA = new string[] { "{0}", "{1}", "{2}", "{3}", "{4}", "{5}" };
-    
+
     public LogText(string text)
       : base(text)
     {
@@ -21,6 +21,12 @@ namespace LightStudio.PokemonBattle.Game
       : base(contents)
     {
     }
+
+    /// <summary>
+    /// it's ok to be null
+    /// </summary>
+    protected IFormatProvider Formatter
+    { get; private set; }
 
     [DataMember(EmitDefaultValue = false)]
     public bool HiddenInBattle
@@ -34,20 +40,7 @@ namespace LightStudio.PokemonBattle.Game
       get
       {
         if (base.Text == null) return null;
-        string[] textData = null;
-        if (Data != null)
-        {
-          textData = new string[Data.Length];
-          for (int i = 0; i < textData.Length; ++i)
-          {
-            object o = Data[i];
-            if (o == null) continue;
-            if (o is PokemonOutward) textData[i] = ((PokemonOutward)o).Name;
-            else if (o is Tactic.DataModels.GameElement) textData[i] = ((Tactic.DataModels.GameElement)o).GetLocalizedName();
-            else textData[i] = o.ToString();
-          }
-        }
-        return string.Format(base.Text, textData ?? NODATA);
+        return string.Format(Formatter, base.Text, Data ?? NODATA);
       }
       protected set
       {
@@ -55,10 +48,11 @@ namespace LightStudio.PokemonBattle.Game
       }
     }
 
-    public IText Clone()
+    public IText Clone(IFormatProvider formatter)
     {
       return new LogText()
         {
+          Formatter = formatter,
           Alignment = this.Alignment,
           Background = this.Background,
           Contents = this.Contents,

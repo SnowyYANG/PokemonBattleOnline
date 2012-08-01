@@ -9,7 +9,7 @@ using LightStudio.Tactic.Messaging.Primitive;
 
 namespace LightStudio.Tactic.Messaging
 {
-  public class Server<T> : ServerBase, IServerService where T : new()
+  public class Server<T> : ServerBase, IServerService where T : IBytable, new()
   {
     public event Action<int> UserChanged;
     public event Action<int, string> MessageBroadcast;
@@ -20,7 +20,7 @@ namespace LightStudio.Tactic.Messaging
       users = new Dictionary<int, User<T>>();
     }
 
-    public IEnumerable<IUser<T>> Users
+    public IEnumerable<User<T>> Users
     { get { return users.Values; } }
 
     private void OnUserChanged(int userId)
@@ -50,9 +50,10 @@ namespace LightStudio.Tactic.Messaging
         LoggerFacade.LogDebug(string.Format("LobbyServer: user {0} exited", user.Name));
         Broadcast(ServerInterpreter.OnUserExited(userId));
         OnUserChanged(userId);
+        MessageServer.EndSession(userId);
       }
     }
-    public IUser<T> GetUser(int id)
+    public User<T> GetUser(int id)
     {
       return users.ValueOrDefault(id);
     }
@@ -98,7 +99,6 @@ namespace LightStudio.Tactic.Messaging
     void IServerService.Logout(int clientId)
     {
       OnClientExited(clientId);
-      OnUserChanged(clientId);
     }
     void IServerService.ChangeState(int clientId, UserState state)
     {

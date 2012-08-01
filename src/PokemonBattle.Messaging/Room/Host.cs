@@ -21,33 +21,31 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     internal readonly GameInitSettings GameSettings;
     private readonly Dispatcher dispatcher;
     private readonly HashSet<int> users;
-    private readonly HashSet<int> playerIds;
+    private readonly ObservableCollection<Player> players;
     private readonly ObservableCollection<int> spectators;
     private readonly IGame game;
-    private readonly bool autoStart;
+    private readonly bool auto;
     
-    public Host(GameInitSettings settings, bool autoStart)
+    /// <param name="auto">游戏自动开始，游戏结束时自动关闭房间</param>
+    public Host(GameInitSettings settings, bool auto)
     {
       dispatcher = new Dispatcher("Host", true);
       users = new HashSet<int>();
-      playerIds = new HashSet<int>();
       
-      //players = new ObservableCollection<int>();
-      //Players = new ReadOnlyObservableCollection<int>(players);
+      players = new ObservableCollection<Player>();
+      Players = new ReadOnlyObservableCollection<Player>(players);
       spectators = new ObservableCollection<int>();
       Spectators = new ReadOnlyObservableCollection<int>(spectators);
       
       game = GameFactory.CreateGame(settings, settings.NextId);
       game.ReportUpdated += InformReportUpdate;
       GameSettings = settings;
-      this.autoStart = autoStart;
+      this.auto = auto;
     }
 
     public ReadOnlyObservableCollection<int> Spectators
     { get; private set; }
-    public ReadOnlyObservableCollection<int> Players
-    { get; private set; }
-    public ReadOnlyObservableCollection<int> RemainingTime
+    public ReadOnlyObservableCollection<Player> Players
     { get; private set; }
     private RoomState _state;
     public RoomState State
@@ -85,11 +83,11 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       bool canStartGame = CanStartGame;
       if (game.SetPlayer(teamId, userId, pokemons))
       {
-        playerIds.Add(userId);
         users.Add(userId);
+        players.Add(new Player(userId, teamId));
         InformEnterSucceed(userId, true);
-        if (CanStartGame != canStartGame) OnPropertyChanged(CAN_START_GAME);
-        if (CanStartGame && autoStart) StartGame();
+        OnPropertyChanged(null);
+        if (CanStartGame && auto) StartGame();
       }
       else
         InformEnterFailed("debug.failed", userId);
@@ -105,14 +103,16 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       if (users.Remove(userId))
       {
         InformUserQuit(userId);
-        if (playerIds.Remove(userId))
+        if (!spectators.Remove(userId))
         {
+          foreach (Player p in players)
+            if (p.Id == userId)
+            {
+              players.Remove(p);
+              break;
+            }
           if (State == RoomState.GameStarted)
             InformGameStop(userId, GameStopReason.UserQuit);
-        }
-        else
-        {
-          spectators.Remove(userId);
         }
       }
     }
@@ -222,9 +222,10 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     {
       OnSendInformation(new ReportUpdateInfo(fragment));
     }
-    void InformReportAddition(PokemonAdditionalInfo info)
+    void InformReportAddition(IEnumerable<KeyValuePair<int, RequireInput>> info)
     {
-      OnSendInformation(new ReportAdditionInfo(info), info.GetReceiversId());
+      foreach(KeyValuePair<int, RequireInput> pair in info)
+        OnSendInformation(new RequireInputInfo(pair.Value), pair.Key);
     }
     void InformPlayerInputed(int userId)
     {

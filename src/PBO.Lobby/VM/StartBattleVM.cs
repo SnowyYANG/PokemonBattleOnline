@@ -6,13 +6,14 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Windows.Threading;
-using LightStudio.Tactic.Messaging.Lobby;
+using LightStudio.Tactic.Messaging;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
 using LightStudio.PokemonBattle.Messaging;
-using LightStudio.PokemonBattle.Room;
+using LightStudio.PokemonBattle.Messaging.Room;
 using LightStudio.PokemonBattle.PBO.UIElements;
 using SoundPlayer = System.Media.SoundPlayer;
+using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.PBO.Lobby
 {
@@ -37,14 +38,14 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     
     public event PropertyChangedEventHandler PropertyChanged;
     internal event Action Processed;
-    PokemonLobbyClient client;
+    private readonly ChallengeManager challenge;
     IPokemonFolder chosenTeam;
     DispatcherTimer timer;
     bool isWaiting;
 
-    public StartBattleVM(PokemonLobbyClient client, User rival, GameInitSettings settings, bool isPassive)
+    public StartBattleVM(User rival, GameInitSettings settings, bool isPassive)
     {
-      this.client = client;
+      challenge = PBOClient.Challenge; //thread safe?
       Rival = rival;
       this.isPassive = isPassive;
       RivalAvatar = AvatarVM.GetAvatar(rival.Avatar);
@@ -55,17 +56,17 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
       {
         OkCommand = new MenuCommand("接受", Accept);
         CancelCommand = new MenuCommand("拒绝", Refuse);
-        client.ChallengeCanceled += OnProcessed;
+        challenge.ChallengeCanceled += OnProcessed;
         PlaySound();
       }
       else
       {
         OkCommand = new MenuCommand("挑战", Challenge);
         CancelCommand = new MenuCommand("取消", Cancel);
-        client.ChallengeAccepted += OnProcessed;
-        client.ChallengeRefused += OnProcessed;
+        challenge.ChallengeAccepted += OnProcessed;
+        challenge.ChallengeRefused += OnProcessed;
       }
-      client.EnterSucceed += OnProcessed;
+      BattleClient.EnterSucceed += OnProcessed;
       OkCommand.IsEnabled = ChosenTeam != null;
       timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(10) };
       timer.Tick += (sender, e) => CancelCommand.IsEnabled = true;
@@ -92,15 +93,15 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
       }
     }
 
-    void OnProcessed(IUserController u = null)
+    void OnProcessed(IRoom u = null)
     {
-      if (isPassive) client.ChallengeCanceled -= OnProcessed;
+      if (isPassive) challenge.ChallengeCanceled -= OnProcessed;
       else
       {
-        client.ChallengeAccepted -= OnProcessed;
-        client.ChallengeRefused -= OnProcessed;
+        challenge.ChallengeAccepted -= OnProcessed;
+        challenge.ChallengeRefused -= OnProcessed;
       }
-      client.EnterSucceed -= OnProcessed;
+      BattleClient.EnterSucceed -= OnProcessed;
       if (CancelCommand.IsEnabled) CancelCommand.Execute(null); //auto refuse others
       if (Processed != null) UIDispatcher.Invoke(Processed);
     }
@@ -117,21 +118,21 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
       CancelCommand.IsEnabled = false;
       lock (ChosenTeam.Pokemons)
       {
-        if (!client.AcceptChallenge(Rival.Id, ChosenTeam.Pokemons.ToArray()))
+        if (challenge.AcceptChallenge(Rival.Id, ChosenTeam.Pokemons.ToArray()))
           OnProcessed();
       }
     }
     void Refuse()
     {
       OkCommand.IsEnabled = CancelCommand.IsEnabled = false;
-      client.RefuseChallenge(Rival.Id);
+      challenge.RefuseChallenge(Rival.Id);
       OnProcessed();
     }
     void Challenge()
     {
       lock (ChosenTeam.Pokemons)
       {
-        if (!client.Challenge(Rival.Id, ChosenTeam.Pokemons.ToArray(), GameSettings)) return;
+        if (!challenge.Challenge(Rival.Id, ChosenTeam.Pokemons.ToArray(), GameSettings)) return;
         isWaiting = true;
         OkCommand.IsEnabled = CancelCommand.IsEnabled = false;
       }
@@ -140,7 +141,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     void Cancel()
     {
       OkCommand.IsEnabled = CancelCommand.IsEnabled = false;
-      if (isWaiting) client.CancelChallenge(Rival.Id);
+      if (isWaiting) challenge.CancelChallenge(Rival.Id);
       OnProcessed();
     }
   }

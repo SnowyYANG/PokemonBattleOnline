@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Abilities
       if (items.Count == 0) return;
       int i = pm.Controller.GetRandomInt(0, items.Count - 1);
       Raise(pm);
-      pm.Controller.ReportBuilder.Add("Frisk", pm, items[i].GetLocalizedName());
+      pm.Controller.ReportBuilder.Add("Frisk", pm, items[i]);
     }
   }
 }

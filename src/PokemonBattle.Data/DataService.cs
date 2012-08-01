@@ -114,7 +114,7 @@ namespace LightStudio.PokemonBattle.Data
     {
       return DataString[e.Name];
     }
-    public static string GetLocalizedName(this BattleType type)
+    public static string GetLocalizedName(this Enum type)
     {
       return DataService.String[type.ToString()];
     }

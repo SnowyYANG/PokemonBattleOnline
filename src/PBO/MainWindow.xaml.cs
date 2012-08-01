@@ -31,7 +31,7 @@ namespace LightStudio.PokemonBattle.PBO
     {
       InitializeComponent();
       Loaded += switchLobby_Click;
-      lobby.EnterSucceed += (user) =>
+      Messaging.BattleClient.EnterSucceed += (user) =>
         new BattleWindow(user).Show();
       GL0 = new GridLength(0);
       GLMIN = new GridLength(lobby.MinWidth);

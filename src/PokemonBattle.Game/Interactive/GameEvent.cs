@@ -11,14 +11,17 @@ namespace LightStudio.PokemonBattle.Game
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public abstract class GameEvent
   {
-    protected static IText GetGameLog(string type)
-    {
-      return GameService.Logs[type].Clone();
-    }
+    protected GameOutward Game
+    { get; private set; }
 
+    protected IText GetGameLog(string key)
+    {
+      return GameService.Logs[key].Clone(Game);
+    }
     public abstract IText GetGameLog();
     public virtual void Update(GameOutward game)
     {
+      Game = game;
     }
     public virtual void Update(SimGame game)
     {

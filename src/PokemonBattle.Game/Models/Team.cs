@@ -28,7 +28,7 @@ namespace LightStudio.PokemonBattle.Game
 
     internal Player AddPlayer(int userId, Data.PokemonCustomInfo[] pokemons)
     {
-      if (players.Count < settings.Mode.PlayersPerTeam() && GetPlayerIndex(userId) == -1)
+      if (players.Count < settings.Mode.PlayersPerTeam())
       {
         Player player = new Player(userId, this, pokemons, settings, nextId);
         players.Add(player);

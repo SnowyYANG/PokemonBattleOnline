@@ -84,7 +84,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements.Interactivity
               this.sortingHeader = originalSource;
             }
             ICollectionView defaultView = CollectionViewSource.GetDefaultView(base.AssociatedObject.ItemsSource);
-            defaultView.SortDescriptions.Clear();
+            if (!(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))) defaultView.SortDescriptions.Clear();
             defaultView.SortDescriptions.Add(new SortDescription(sortProperty, ascending));
             SetSortDirection(this.sortingHeader, new ListSortDirection?(ascending));
           }

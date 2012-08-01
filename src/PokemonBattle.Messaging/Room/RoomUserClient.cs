@@ -10,7 +10,7 @@ using LightStudio.PokemonBattle.Game;
 
 namespace LightStudio.PokemonBattle.Messaging.Room
 {
-  internal abstract class RoomUserBase : IRoomUser, IRoom, IDisposable
+  internal abstract class RoomUserClient : IRoomUser, IRoom, IDisposable
   {
     public readonly int HostId;
 
@@ -25,19 +25,20 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
 
     protected Action<string> error = delegate { };
-    private ObservableCollection<int> players;
+    private ObservableCollection<Player> players;
     private ObservableCollection<int> spectators;
     private GameOutward game;
     private Dispatcher gameEventsDispatcher;
 
-    protected RoomUserBase(int hostId)
+    protected RoomUserClient(int hostId)
     {
       HostId = hostId;
-      gameEventsDispatcher = new Dispatcher("RoomUserBase", true);
+      gameEventsDispatcher = new Dispatcher("RoomUserClient", true);
     }
 
+    public ReadOnlyObservableCollection<Player> Players { get; private set; }
     public ReadOnlyObservableCollection<int> Spectators { get; private set; }
-    public ReadOnlyObservableCollection<int> Players { get; private set; }
+    public GameInitSettings Settings { get; private set; }
     public GameOutward Game
     { get { return game; } }
     public RoomState RoomState { get; private set; }
@@ -55,21 +56,33 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
     void IRoomInformer.InformUserJoinGame(int userId, int teamId)
     {
-      players.Add(userId);
+      players.Add(new Player(userId, teamId));
+    }
+    private void RemoveUser(int userId)
+    {
+      if (!spectators.Remove(userId))
+      {
+        foreach(Player p in players)
+          if (p.Id == userId)
+          {
+            players.Remove(p);
+            break;
+          }
+      }
     }
     void IRoomInformer.InformUserQuit(int userId)
     {
-      if (!spectators.Remove(userId)) players.Remove(userId);
+      RemoveUser(userId);
     }
     void IRoomInformer.InformUserKicked(int userId)
     {
-      if (!spectators.Remove(userId)) players.Remove(userId);
+      RemoveUser(userId);
     }
     void IRoomInformer.InformEnterFailed(string message)
     {
       EnterFailed(message);
     }
-    void IRoomInformer.InformEnterSucceed(GameInitSettings settings, int[] players, int[] spectators)
+    void IRoomInformer.InformEnterSucceed(GameInitSettings settings, Player[] players, int[] spectators)
     {
       InformEnterSucceed(settings, players, spectators);
       EnterSucceed();
@@ -97,17 +110,23 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       throw new NotImplementedException();
     }
 
-    protected virtual void InformEnterSucceed(GameInitSettings settings, int[] players, int[] spectators)
+    protected virtual void InformEnterSucceed(GameInitSettings settings, Player[] players, int[] spectators)
     {
-      this.players = new ObservableCollection<int>(players);
+      Settings = settings;
+      this.players = new ObservableCollection<Player>(players);
       this.spectators = new ObservableCollection<int>(spectators);
-      Players = new ReadOnlyObservableCollection<int>(this.players);
+      Players = new ReadOnlyObservableCollection<Player>(this.players);
       Spectators = new ReadOnlyObservableCollection<int>(this.spectators);
-      game = new GameOutward(settings);
     }
     protected virtual void InformReportUpdate(ReportFragment fragment)
     {
-      if (RoomState != RoomState.GameStarted) RoomState = RoomState.GameStarted;
+      if (RoomState != RoomState.GameStarted)
+      {
+        RoomState = RoomState.GameStarted;
+        Dictionary<int, string> ps = new Dictionary<int,string>();
+        foreach(Player p in players) ps.Add(p.Id, p.GetName());
+        game = new GameOutward(Settings, ps);
+      }
       game.Update(fragment);
     }
     void IGameInformer.InformReportUpdate(ReportFragment fragment)
@@ -116,10 +135,10 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
 
     #region Player Only
-    protected abstract void InformReportAddition(PokemonAdditionalInfo pminfo);
-    void IGameInformer.InformReportAddition(PokemonAdditionalInfo pminfo)
+    protected abstract void InformRequireInput(RequireInput pminfo);
+    void IGameInformer.InformRequireInput(RequireInput pminfo)
     {
-      InformReportAddition(pminfo);
+      InformRequireInput(pminfo);
     }
     protected abstract void InformRequestTie();
     void IGameInformer.InformRequestTie()
@@ -135,12 +154,9 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     #endregion
 
     #region Command
-    protected Action<IHostCommand> sendCommand = delegate { };
+    protected Action<IHostCommand> sendCommand;
     public event Action<IHostCommand> SendCommand
-    {
-      add { lock(sendCommand) sendCommand += value; }
-      remove { lock(sendCommand) sendCommand -= value; }
-    }
+    { add { sendCommand += value; } remove { } }
     public abstract void EnterRoom();
     public void Quit()
     {

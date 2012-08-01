@@ -12,6 +12,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
     public Disable(PokemonProxy pm, int moveId)
       : base("Disable", pm, 4)
     {
+      MoveId = moveId;
     }
     
     public override bool CanExecute()

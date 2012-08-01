@@ -18,13 +18,4 @@ namespace LightStudio.Tactic.Messaging
     Watching,
     Afk
   }
-  public interface IUser<T>
-  {
-    int Id { get; }
-    string Name { get; }
-    Avatar Avatar { get; }
-    UserState State { get; }
-    string Sign { get; }
-    T Extension { get; }
-  }
 }

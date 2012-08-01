@@ -10,8 +10,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using LightStudio.PokemonBattle.Room;
 using LightStudio.PokemonBattle.Game;
+using LightStudio.PokemonBattle.Messaging.Room;
 using LightStudio.PokemonBattle.PBO.Battle.VM;
 using LightStudio.Tactic.Logging;
 
@@ -22,15 +22,15 @@ namespace LightStudio.PokemonBattle.PBO.Battle
   /// </summary>
   public partial class BattleWindow : Window
   {
-    IUserController userController;
+    IRoom userController;
 
-    public BattleWindow(IUserController controller)
+    public BattleWindow(IRoom controller)
     {
       InitializeComponent();
       Init(controller);
     }
 
-    internal void Init(IUserController controller)
+    internal void Init(IRoom controller)
     {
       if (DataContext != null) return;
       userController = controller;

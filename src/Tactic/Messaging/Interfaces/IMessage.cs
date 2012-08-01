@@ -9,5 +9,6 @@ namespace LightStudio.Tactic.Messaging
   {
     string Header { get; }
     string Content { get; }
+    void Resolve(Action<System.IO.BinaryReader> resolver);
   }
 }

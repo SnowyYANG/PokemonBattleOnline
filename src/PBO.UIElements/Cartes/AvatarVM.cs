@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using AvatarModel = LightStudio.Tactic.Messaging.Lobby.Avatar;
+using AvatarModel = LightStudio.Tactic.Messaging.Avatar;
 
 namespace LightStudio.PokemonBattle.PBO
 {
@@ -74,8 +74,6 @@ namespace LightStudio.PokemonBattle.PBO
         this.url = AvatarModel.FormatUrl(url);
         this.urlAvatar = GetAvatar(this.url);
       }
-      //if (urlAvatar != null)
-      //  urlAvatar.DownloadCompleted += new EventHandler(avatar_DownloadCompleted);
     }
 
     public byte InnerAvatarId
@@ -104,22 +102,10 @@ namespace LightStudio.PokemonBattle.PBO
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
     }
-    //void avatar_DownloadCompleted(object sender, EventArgs e)
-    //{
-    //  ((BitmapImage)sender).DownloadCompleted -= avatar_DownloadCompleted;
-    //  OnPropertyChanged("Avatar");
-    //}
     public void SetUrl(string url)
     {
       this.url = AvatarModel.FormatUrl(url);
       OnPropertyChanged("Url");
-      //urlAvatar = null; //换成“尝试下载中...”图片 试试看xaml里Binding IsDownloading
-      //if (!string.IsNullOrWhiteSpace(url))
-      //{
-      //  urlAvatar = GetAvatar(this.url);
-      //  if (urlAvatar != null)
-      //    urlAvatar.DownloadCompleted += avatar_DownloadCompleted; //thread unsafe maybe memory-leak, but no WeakEvent
-      //}
       urlAvatar = GetAvatar(this.url);
       OnPropertyChanged("Avatar");
     }

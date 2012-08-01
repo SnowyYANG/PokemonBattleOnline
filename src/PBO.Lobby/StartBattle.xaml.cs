@@ -11,9 +11,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LightStudio.Tactic.Messaging.Lobby;
-using LightStudio.PokemonBattle.Messaging;
+using LightStudio.Tactic.Messaging;
+using LightStudio.PokemonBattle.Messaging.Room;
 using LightStudio.PokemonBattle.Game;
+using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.PBO.Lobby
 {
@@ -26,10 +27,10 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     Point lastPosition;
 
     /// <param name="settings">主动的话这个不应该是null么</param>
-    public StartBattle(PokemonLobbyClient client, User rival, Room.GameInitSettings settings, bool isPassitive)
+    public StartBattle(User rival, GameInitSettings settings, bool isPassitive)
     {
       InitializeComponent();
-      DataContext = vm = new StartBattleVM(client, rival, settings, isPassitive);
+      DataContext = vm = new StartBattleVM(rival, settings, isPassitive);
       vm.Processed += () => Close();
     }
 

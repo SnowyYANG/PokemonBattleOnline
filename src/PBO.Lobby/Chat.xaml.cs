@@ -11,10 +11,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LightStudio.Tactic.Messaging;
 using LightStudio.PokemonBattle.Messaging;
 using LightStudio.PokemonBattle.PBO.UIElements;
 using SoundPlayer = System.Media.SoundPlayer;
-using User = LightStudio.Tactic.Messaging.Lobby.User;
+using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.PBO.Lobby
 {
@@ -39,7 +40,6 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
       if (sound.IsLoadCompleted) sound.Play();
     }
 
-    PokemonLobbyClient controller;
     ScrollViewer scroll;
     Dictionary<int, TabItem> chatTabs;
     string userName;
@@ -77,11 +77,11 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
           foreach (KeyValuePair<int, TabItem> p in chatTabs)
             if (whom.SelectedItem == p.Value)
             {
-              controller.Chat(speaking.Text, p.Key);
+              PBOClient.Lobby.Chat(speaking.Text, p.Key);
               ((TextBox)p.Value.Content).AppendText(userName + ": " + speaking.Text + "\n");
             }
         }
-        else controller.BroadcastMessage(speaking.Text);
+        else PBOClient.Client.BroadcastMessage(speaking.Text);
         speaking.Clear();
       }
     }
@@ -103,20 +103,15 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
       else ti = chatTabs[user.Id];
       return ti;
     }
-    internal void Init(PokemonLobbyClient client)
+    internal void Init()
     {
-      if (controller != null)
-      {
-        controller.ChatMessageReceived -= controller_ChatMessageReceived;
-      }
-      if (client != null)
+      if (PBOClient.Client != null)
       {
         speaking.Clear();
         chat.Inlines.Clear();
-        userName = client.User.Name;
-        controller = client;
-        controller.BroadcastReceived += controller_BroadcastReceived;
-        controller.ChatMessageReceived += controller_ChatMessageReceived;
+        userName = PBOClient.Client.User.Name;
+        PBOClient.Client.BroadcastReceived += controller_BroadcastReceived;
+        PBOClient.Lobby.ChatMessageReceived += controller_ChatMessageReceived;
       }
       else
       {

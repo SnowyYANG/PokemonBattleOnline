@@ -38,7 +38,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       Controller.ReportBuilder.Add(key);
     }
-    internal void AddReportPm(string key, params string[] data)
+    internal void AddReportPm(string key, params object[] data)
     {
       Controller.ReportBuilder.Add(key, this, data);
     }
@@ -67,6 +67,12 @@ namespace LightStudio.PokemonBattle.Game.Host
           AddReport(new GameEvents.StateChange(this));
       }
     }
+    public PokemonAction Action
+    { get; set; }
+    public MoveProxy SelectedMove //先取
+    { get; private set; }
+    public Tile SelectedTarget
+    { get; private set; }
     private AtkContext atkContext;
     public AtkContext AtkContext
     { 
@@ -174,12 +180,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     #endregion
 
     #region Input
-    public PokemonAction Action
-    { get; set; }
-    public MoveProxy SelectedMove //先取
-    { get; private set; }
-    public Tile SelectedTarget
-    { get; private set; }
+    internal bool CanInput
+    { get { return Action == PokemonAction.WaitingForInput; } }
     internal bool CheckNeedInput()
     {
       if (Action == PokemonAction.Done)
@@ -189,14 +191,12 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       return false;
     }
-    internal string InputSwitch(int sendoutIndex)
+    internal bool InputSwitch(int sendoutIndex)
     {
-      if (!CanWithdraw) return "不能把精灵收回来";
-#warning 踩影子 我受不了啦用事件吧
-      if (!Controller.CanSendout(Pokemon.Owner.GetPokemon(sendoutIndex))) return "无法送出";
+      if (!CanWithdraw || !Controller.CanSendout(Pokemon.Owner.GetPokemon(sendoutIndex))) return false;
       Action = PokemonAction.WillSwitch;
       Tile.WillSendoutPokemonIndex = sendoutIndex;
-      return null;
+      return true;
     }
     internal string SelectMove(MoveProxy move, Tile target)
     {
@@ -206,16 +206,6 @@ namespace LightStudio.PokemonBattle.Game.Host
       SelectedMove = move;
       SelectedTarget = target;
       return null;
-    }
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns>是否可输入</returns>
-    internal bool UndoInput()
-    {
-      if (Action == PokemonAction.WillMove || Action == PokemonAction.WillSwitch)
-        Action = PokemonAction.WaitingForInput;
-      return Action == PokemonAction.WaitingForInput;
     }
     #endregion
 
@@ -363,16 +353,15 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (by != this) Ability.Lv7DChanging(ref stat, ref change);
       if (change == 0) return;
 
-      string statName = DataService.String[stat.ToString()];
       int oldValue = stat == StatType.Accuracy ? OnboardPokemon.AccuracyLv : stat == StatType.Evasion ? OnboardPokemon.EvasionLv : OnboardPokemon.Lv5D.GetStat(stat);
       if (oldValue > 6 && change > 0)
       {
-        AddReportPm("Lv7DMax", statName);
+        AddReportPm("Lv7DMax", stat);
         return;
       }
       else if (oldValue < -6 && change < 0)
       {
-        AddReportPm("Lv7DMin", statName);
+        AddReportPm("Lv7DMin", stat);
         return;
       }
       if (stat == StatType.Accuracy) OnboardPokemon.AccuracyLv += change;
@@ -399,7 +388,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             else logKey = "7DDown3";
             break;
         }
-        AddReportPm(logKey, statName);
+        AddReportPm(logKey, stat);
       }
       if (by != this && change < 0) Abilities.CheckDefiant(this);
     }

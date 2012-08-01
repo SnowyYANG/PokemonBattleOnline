@@ -11,7 +11,7 @@ using LightStudio.Tactic.Messaging.Lobby;
 
 namespace LightStudio.Tactic.Messaging
 {
-  public class Client<T> : ClientBase, IClientInnerService<T> where T : new()
+  public class Client<T> : ClientBase, IClientInnerService<T> where T : IBytable, new()
   {
     private static void LogUserNotFound(int id)
     {
@@ -21,7 +21,7 @@ namespace LightStudio.Tactic.Messaging
     public event Action LoginCompleted = delegate { };
     public event Action LoginFailed = delegate { };
     public event Action<int> UserChanged;
-    public event Action<IUser<T>, string> BroadcastReceived = delegate { };
+    public event Action<User<T>, string> BroadcastReceived = delegate { };
     
     private readonly List<ClientService<T>> services;
     private readonly Dictionary<byte, ClientService<T>> servicesIndex;
@@ -35,12 +35,14 @@ namespace LightStudio.Tactic.Messaging
     {
       userId = -1;
       users = new ConcurrentDictionary<int, User<T>>();
+      services = new List<ClientService<T>>();
+      servicesIndex = new Dictionary<byte, ClientService<T>>();
     }
 
     public bool IsLogined { get; private set; }
-    public IUser<T> User
+    public User<T> User
     { get { return user; } }
-    public IEnumerable<IUser<T>> Users
+    public IEnumerable<User<T>> Users
     { get { return users.Values; } }
 
     protected override void OnReceive(IMessage message)
@@ -106,9 +108,8 @@ namespace LightStudio.Tactic.Messaging
       //thread safe? I think in this issue the server should close the connect
       //also, the connect might be closed before logout sendout
       //so it should be the server close the connect, client can close the connect after a time-out waiting
-      //Disconnect(); 
     }
-    public IUser<T> GetUser(int userId)
+    public User<T> GetUser(int userId)
     {
       return users.ValueOrDefault(userId);
     }
@@ -124,7 +125,7 @@ namespace LightStudio.Tactic.Messaging
       foreach (byte h in receiveMessageHeaders) servicesIndex.Add(h, service);
     }
     #region ILobbyInnerService
-    protected virtual void OnMessageReceived(IUser<T> sender, string content)
+    protected virtual void OnMessageReceived(User<T> sender, string content)
     {
       if (!string.IsNullOrEmpty(content))
         ReadMessage(content, (header, reader) =>
@@ -236,6 +237,8 @@ namespace LightStudio.Tactic.Messaging
       UserChanged = delegate { };
 
       foreach (ClientService<T> s in services) s.Dispose();
+      
+      Disconnect(); 
     }
   }
 }

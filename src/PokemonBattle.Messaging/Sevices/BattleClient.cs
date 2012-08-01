@@ -5,27 +5,26 @@ using System.Text;
 using LightStudio.Tactic.Messaging;
 using LightStudio.PokemonBattle.Messaging.Room;
 using LightStudio.PokemonBattle.Data;
-using IUser = LightStudio.Tactic.Messaging.IUser<LightStudio.PokemonBattle.Messaging.RoomInfo>;
+using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.Messaging
 {
-  internal class BattleClient : ClientService
+  public class BattleClient : ClientService
   {
-    public event Action<IRoom> EnterSucceed = delegate { };
-    public event Action<string> EnterFailed = delegate { };
+    public static event Action<IRoom> EnterSucceed;
+    public static event Action<string> EnterFailed;
 
-    private RoomUserBase user;
+    private RoomUserClient user;
     
-    public BattleClient(Client client)
+    internal BattleClient(Client client)
       : base(client, MessageHeaders.GAME_H2C)
     {
-      Client.ChangeUserState(user.State);
     }
 
     public bool CanEnterRoom
     { get { lock (this) return user == null; } }
 
-    protected override void ReadMessage(IUser sender, byte header, System.IO.BinaryReader reader)
+    protected override void ReadMessage(User sender, byte header, System.IO.BinaryReader reader)
     {
       if (this.user != null && sender.Id == user.HostId)
       {
@@ -37,12 +36,7 @@ namespace LightStudio.PokemonBattle.Messaging
     }
     private void SendCommand(IHostCommand command)
     {
-      var message = command.ToMessage();
-      SendMessage(MessageHeaders.GAME_C2H, writer =>
-      {
-        writer.Write(message.Header);
-        writer.Write(message.Content);
-      }, user.HostId);
+      SendMessage(MessageHeaders.GAME_C2H, command, user.HostId);
     }
 
     public void QuitRoom()
@@ -76,12 +70,13 @@ namespace LightStudio.PokemonBattle.Messaging
       }
       return false;
     }
-    private void EnterRoom(RoomUserBase user) //already locked
+    private void EnterRoom(RoomUserClient user) //already locked
     {
       this.user = user;
       user.EnterSucceed += user_EnterSucceed;
       user.EnterFailed += user_EnterFailed;
       user.Quited += user_Quited;
+      user.SendCommand += SendCommand;
       user.EnterRoom();
     }
 
@@ -98,11 +93,20 @@ namespace LightStudio.PokemonBattle.Messaging
     }
     private void user_EnterSucceed()
     {
+      Client.ChangeUserState(user.State);
       EnterSucceed(user);
     }
     private void user_EnterFailed(string message)
     {
       EnterFailed(message);
+    }
+    
+    public override void Dispose()
+    {
+      lock (this)
+      {
+        if (user != null) user.Dispose();
+      }
     }
   }
 }

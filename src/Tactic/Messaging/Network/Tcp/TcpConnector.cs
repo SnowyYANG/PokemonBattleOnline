@@ -124,10 +124,10 @@ namespace LightStudio.Tactic.Messaging.Primitive
                 return;
 
             TcpClient.Close();
-            if (IsConnected)
-            {
+            //if (IsConnected) //it should be HasConnected?
+            //{
                 OnSafeDisconnected();
-            }
+            //}
         }
 
         protected void ResetMessager()

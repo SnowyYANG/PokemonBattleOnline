@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void InformUserQuit(int userId);
     void InformUserKicked(int userId);
     void InformEnterFailed(string message);//Join or Observe Game
-    void InformEnterSucceed(GameInitSettings settings, int[] players, int[] spectators);
+    void InformEnterSucceed(GameInitSettings settings, Player[] players, int[] spectators);
   }
 
   [DataContract(Namespace = Namespaces.DEFAULT)]
@@ -130,7 +130,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     { get; private set; }
 
     [DataMember]
-    int[] Players;
+    Player[] Players;
 
     [DataMember]
     int[] Spectators;
@@ -141,7 +141,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     [DataMember(EmitDefaultValue = false)]
     Game.ReportFragment Leap; //spectator only
 
-    private EnterSucceedInfo(GameInitSettings settings, IEnumerable<int> players, IEnumerable<int> spectators)
+    private EnterSucceedInfo(GameInitSettings settings, IEnumerable<Player> players, IEnumerable<int> spectators)
     {
       this.Settings = settings;
       Players = players.ToArray();

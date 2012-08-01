@@ -8,7 +8,7 @@ namespace LightStudio.PokemonBattle.Game.Host
 {
   public class Controller
   {
-    internal event Action<ReportFragment, int[]> ReportUpdated;
+    internal event Action<ReportFragment> ReportUpdated;
 
     public readonly ReportBuilder ReportBuilder;
     internal readonly GameContext Game;
@@ -140,20 +140,20 @@ namespace LightStudio.PokemonBattle.Game.Host
         random = new Random();
 #endif
         ReportBuilder.NewFragment();
-        if (ReportUpdated != null) ReportUpdated(ReportBuilder.GetFragment(), InputController.Players.ToArray());
+        if (ReportUpdated != null) ReportUpdated(ReportBuilder.GetFragment());
         this.inputFinished = inputFinished;
       }
       else inputFinished();
     }
-    internal InputResult InputSendout(Tile tile, int sendoutIndex)
+    internal bool InputSendout(Tile tile, int sendoutIndex)
     {
       return InputController.Sendout(tile, sendoutIndex);
     }
-    internal InputResult InputSelectMove(MoveProxy move, Tile position)
+    internal bool InputSelectMove(MoveProxy move, Tile position)
     {
       return InputController.SelectMove(move, position);
     }
-    internal InputResult InputStruggle(PokemonProxy pm)
+    internal bool InputStruggle(PokemonProxy pm)
     {
       return InputController.Struggle(pm);
     }

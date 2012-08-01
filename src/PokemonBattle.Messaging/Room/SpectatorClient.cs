@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LightStudio.PokemonBattle.Messaging.Room
 {
-  internal class SpectatorClient : RoomUserBase
+  internal class SpectatorClient : RoomUserClient
   {
     public SpectatorClient(int hostId)
       : base(hostId)
@@ -18,9 +18,9 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     { get { return null; } }
 
     #region Errors
-    protected override void InformReportAddition(Game.PokemonAdditionalInfo pminfo)
+    protected override void InformRequireInput(Game.RequireInput info)
     {
-      error("收到非法的消息，数据包损毁或房间主机程序被修改");
+      if (info != null) error("收到非法的消息，数据包损毁或房间主机程序被修改");
     }
     protected override void InformRequestTie()
     {

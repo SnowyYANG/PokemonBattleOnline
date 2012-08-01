@@ -53,6 +53,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
     public override void Update(GameOutward game)
     {
+      base.Update(game);
       pm = game.GetPokemon(PmId);
       ab = DataService.GetAbility(AbId);
       if (OldAbId == 0) game.Board.ShowAbility(pm, ab);

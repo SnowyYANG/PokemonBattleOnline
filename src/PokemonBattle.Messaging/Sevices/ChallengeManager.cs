@@ -5,24 +5,26 @@ using System.Text;
 using LightStudio.Tactic.Messaging;
 using LightStudio.PokemonBattle.Data;
 using GameInitSettings = LightStudio.PokemonBattle.Messaging.Room.GameInitSettings;
-using IUser = LightStudio.Tactic.Messaging.IUser<LightStudio.PokemonBattle.Messaging.RoomInfo>;
+using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.Messaging
 {
   public class ChallengeManager : ClientService
   {
     private readonly object locker = new object();
+    private readonly Hosts Hosts;
     private readonly BattleClient Battle;
     private PokemonCustomInfo[] challengingPms;
     private GameInitSettings currentSettings; //被挑战的临时游戏设置与此变量无关
     
-    internal ChallengeManager(BattleClient battle)
-      : base(battle.Client, MessageHeaders.CHALLENGE, MessageHeaders.ACCEPT_CHALLENGE, MessageHeaders.REFUSE_CHALLENGE, MessageHeaders.CANCEL_CHALLENGE)
+    internal ChallengeManager(Hosts hosts, BattleClient battle)
+      : base(hosts.Client, MessageHeaders.CHALLENGE, MessageHeaders.ACCEPT_CHALLENGE, MessageHeaders.REFUSE_CHALLENGE, MessageHeaders.CANCEL_CHALLENGE)
     {
+      Hosts = hosts;
       Battle = battle;
     }
 
-    protected override void ReadMessage(IUser sender, byte header, System.IO.BinaryReader reader)
+    protected override void ReadMessage(User sender, byte header, System.IO.BinaryReader reader)
     {
       switch (header)
       {
@@ -42,15 +44,15 @@ namespace LightStudio.PokemonBattle.Messaging
     }
 
     #region Challenge
-    public event Action<IUser, GameInitSettings> Challenged = delegate { };
-    private void OnChallenged(IUser user, GameInitSettings settings)
+    public event Action<User, GameInitSettings> Challenged = delegate { };
+    private void OnChallenged(User user, GameInitSettings settings)
     {
       settings.Lock();
       Challenged(user, settings);
     }
     public bool Challenge(int target, PokemonCustomInfo[] pokemons, GameInitSettings settings)
     {
-      IUser u = Client.GetUser(target);
+      User u = Client.GetUser(target);
       if (u != null && u.State != UserState.Battling && pokemons != null && pokemons.Length > 0) //it's impossible for a client to get UserState.Invalid
         lock (locker)
         {
@@ -71,8 +73,8 @@ namespace LightStudio.PokemonBattle.Messaging
     /// <summary>
     /// remember to determine user!=null
     /// </summary>
-    public event Action<IUser> ChallengeCanceled = delegate { };
-    private void OnChallengeCanceled(IUser user)
+    public event Action<User> ChallengeCanceled = delegate { };
+    private void OnChallengeCanceled(User user)
     {
       ChallengeCanceled(user);
     }
@@ -90,8 +92,8 @@ namespace LightStudio.PokemonBattle.Messaging
     #endregion
 
     #region RefuseChallenge
-    public event Action<IUser> ChallengeRefused = delegate { };
-    private void OnChallengeRefused(IUser user)
+    public event Action<User> ChallengeRefused = delegate { };
+    private void OnChallengeRefused(User user)
     {
       lock (locker)
       {
@@ -106,13 +108,13 @@ namespace LightStudio.PokemonBattle.Messaging
     #endregion
 
     #region AcceptChallenge & StartGame
-    public event Action<IUser> ChallengeAccepted = delegate { };
-    private void OnChallengeAccepted(IUser user)
+    public event Action<User> ChallengeAccepted = delegate { };
+    private void OnChallengeAccepted(User user)
     {
       lock (locker)
       {
         ChallengeAccepted(user);
-        throw new NotImplementedException();
+        Hosts.AddHost(currentSettings, true);
         Battle.JoinGame(Client.User.Id, 0, challengingPms);
         challengingPms = null;
       }

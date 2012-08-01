@@ -47,7 +47,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Abilities
       {
         KeyValuePair<PokemonProxy, MoveType> pair = moves[pm.Controller.GetRandomInt(0, moves.Count - 1)];
         Raise(pm);
-        pm.Controller.ReportBuilder.Add("ReadMove", pair.Key, pair.Value.GetLocalizedName());
+        pm.Controller.ReportBuilder.Add("ReadMove", pair.Key, pair.Value);
       }
     }
   }

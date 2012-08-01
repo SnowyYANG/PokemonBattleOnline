@@ -24,8 +24,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
   {
     const int PORT = 9898;
 
-    public event Action<PokemonLobbyClient> LoginComplete = delegate { };
-    private PokemonLobbyClient currentClient;
+    public event Action LoginComplete = delegate { };
     private DispatcherTimer timer;
     private AvatarVM avatarVM;
 
@@ -48,9 +47,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
       {
         UIDispatcher.Invoke(() =>
           {
-            currentClient.LoginCompleted -= client_LoginComplete;
-            LoginComplete(currentClient);
-            currentClient = null;
+            LoginComplete();
             button.IsEnabled = true;
           });
       }
@@ -62,7 +59,6 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
         UIDispatcher.Invoke(() =>
           {
             MessageBox.Show("Login Failed");
-            currentClient = null;
             IsEnabled = true;
           });
       }
@@ -71,7 +67,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     {
       //Is it neccessary to make UserData multi-instances?
       string addr = servers.Text.Trim();
-      if (currentClient != null || string.IsNullOrWhiteSpace(addr) || string.IsNullOrWhiteSpace(name.Text)) return;
+      if (string.IsNullOrWhiteSpace(addr) || string.IsNullOrWhiteSpace(name.Text)) return;
       System.Net.IPAddress ip;
       if (!System.Net.IPAddress.TryParse(addr, out ip))
         try
@@ -89,10 +85,10 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
       {
         lock (this)
         {
-          currentClient = new PokemonLobbyClient(ip, PORT);
-          currentClient.LoginFailed += client_LoginFailed;
-          currentClient.LoginCompleted += client_LoginComplete;
-          currentClient.Login(name.Text.Trim(), avatarVM.InnerAvatarId, avatarUrl.Text);//"http://tb.himg.baidu.com/sys/portrait/item/f543c7aec9f1b2bbcac76c6f6c69bfd85603"
+          PBOClient.Prepare4Login(ip, PORT);
+          PBOClient.Client.LoginFailed += client_LoginFailed;
+          PBOClient.Client.LoginCompleted += client_LoginComplete;
+          PBOClient.Client.Login(name.Text.Trim(), avatarVM.InnerAvatarId, avatarUrl.Text);//"http://tb.himg.baidu.com/sys/portrait/item/f543c7aec9f1b2bbcac76c6f6c69bfd85603"
         }
         IsEnabled = false;
       }
@@ -101,30 +97,6 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     {
       if (timer.IsEnabled) timer.Stop();
       timer.Start();
-    }
-
-
-
-    private void textAvatarUrlHidden(object sender, RoutedEventArgs e)
-    {
-        this.textAvatarUrl.Visibility = Visibility.Hidden;
-    }
-
-    private void textAvatarUrlVisible(object sender, RoutedEventArgs e)
-    {
-        if(this.avatarUrl.Text.Length == 0)
-            this.textAvatarUrl.Visibility = Visibility.Visible;
-    }
-
-    private void textNameVisible(object sender, RoutedEventArgs e)
-    {
-        if (this.name.Text.Length == 0)
-            this.textName.Visibility = Visibility.Visible;
-    }
-
-    private void textNameHidden(object sender, RoutedEventArgs e)
-    {
-        this.textName.Visibility = Visibility.Hidden;
     }
 
     private void servers_KeyDown(object sender, KeyEventArgs e)

@@ -267,7 +267,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         def.Defender.OnboardPokemon.Type1 = def.AtkContext.Type;
         def.Defender.OnboardPokemon.Type2 = BattleType.Invalid;
         def.Defender.Controller.ReportBuilder.Add(new AbilityEvent(def.Defender));
-        def.Defender.AddReportPm("TypeChange", def.AtkContext.Type.GetLocalizedName());
+        def.Defender.AddReportPm("TypeChange", def.AtkContext.Type);
       }
     }
 

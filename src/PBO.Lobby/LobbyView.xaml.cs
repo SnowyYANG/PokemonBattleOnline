@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LightStudio.PokemonBattle.Room;
+using LightStudio.PokemonBattle.Messaging;
 using LightStudio.PokemonBattle.PBO.UIElements;
 
 namespace LightStudio.PokemonBattle.PBO.Lobby
@@ -34,19 +34,17 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
       {
         vm = lobby;
         DataContext = vm;
-        vm.Model.Challenged += (user, settings) =>
+        PBOClient.Challenge.Challenged += (user, settings) =>
           {
             UIDispatcher.Invoke(()=>
-              new StartBattle(vm.Model, user, settings, true).Show());
+              new StartBattle(user, settings, true).Show());
           };
-        chat.Init(vm.Model);
-        editor.Init(vm);
+        chat.Init();
       }
       else //uninit
       {
         vm = null;
         DataContext = null;
-        chat.Init(null);
       }
     }
 
@@ -89,7 +87,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     }
     internal void Window_Closed()
     {
-      if (vm != null) vm.Exit();
+      if (vm != null) vm.Dispose();
     }
   }
 }

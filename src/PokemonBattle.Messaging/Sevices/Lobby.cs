@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.Tactic.Messaging;
-using IUser = LightStudio.Tactic.Messaging.IUser<LightStudio.PokemonBattle.Messaging.RoomInfo>;
+using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.Messaging
 {
   public class ChatMessageReceivedEventArgs : EventArgs
   {
-    public IUser UserInfo { get; private set; }
+    public User UserInfo { get; private set; }
     public string Content { get; private set; }
 
-    public ChatMessageReceivedEventArgs(IUser userInfo, string content)
+    public ChatMessageReceivedEventArgs(User userInfo, string content)
     {
       UserInfo = userInfo;
       Content = content;
@@ -30,7 +30,7 @@ namespace LightStudio.PokemonBattle.Messaging
     {
       SendMessage(MessageHeaders.CHAT, reader => reader.Write(message), receivers);
     }
-    protected override void ReadMessage(IUser sender, byte header, System.IO.BinaryReader reader)
+    protected override void ReadMessage(User sender, byte header, System.IO.BinaryReader reader)
     {
       ChatMessageReceived(this, new ChatMessageReceivedEventArgs(sender, reader.ReadString()));
     }

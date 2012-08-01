@@ -7,7 +7,8 @@ using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using LightStudio.PokemonBattle.PBO.UIElements;
-using LightStudio.Tactic.Messaging.Lobby;
+using LightStudio.Tactic.Messaging;
+using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.PBO
 {
@@ -67,15 +68,10 @@ namespace LightStudio.PokemonBattle.PBO
             PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         });
     }
-    public void RefreshProperties(User userinfo)
+    public void RefreshProperties()
     {
-      if (userinfo.Id == Id)
-      {
-        Model.State = userinfo.State;
-        Model.Sign = userinfo.Sign;
-        OnPropertyChanged("State");
-        OnPropertyChanged("Sign");
-      }
+      OnPropertyChanged("State");
+      OnPropertyChanged("Sign");
     }
     public override string ToString()
     {

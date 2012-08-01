@@ -12,7 +12,7 @@ namespace LightStudio.PokemonBattle.Game.Host
   public interface IGame
   {
     event Action<int, int> GameEnd;
-    event Action<ReportFragment, int[]> ReportUpdated;
+    event Action<ReportFragment> ReportUpdated;
 
     bool Prepared { get; }
     IGameSettings Settings { get; }
@@ -21,7 +21,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     void TryContinue();
     bool SetPlayer(int teamId, int userId, PokemonCustomInfo[] pokemons);
     Player GetPlayer(int id);
-    InputResult InputAction(int player, ActionInput action);
+    bool InputAction(int player, ActionInput action);
     ReportFragment GetLastLeapFragment();
   }
   public static class GameFactory

@@ -27,13 +27,12 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     public override IText GetGameLog()
     {
       IText t = GetGameLog("SendOut");
-      //
-      t.SetData(LobbyService.GetUserName(PlayerId),  GameService.Logs.ConvertMultiObjects(
-        (p) => string.Format("{0}(Lv.{1} {2})", p.Name, p.Lv, DataService.GetPokemonType(p.ImageId).GetLocalizedName()), Pms));
+      t.SetData(PlayerId, Pms);
       return t;
     }
     public override void Update(GameOutward game)
     {
+      base.Update(game);
       foreach (PokemonOutward p in Pms)
       {
         game.Board[p.Position.Team, p.Position.X] = p;
@@ -64,9 +63,6 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember]
     int X { get; set; }
 
-    string pokemonName;
-    string playerName;
-
     public Withdraw(PokemonProxy pm)
     {
       Team = pm.Pokemon.TeamId;
@@ -74,26 +70,11 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
 
     bool isFaint;
-    public override IText GetGameLog()
-    {
-      IText t;
-      if (isFaint)
-      {
-        t = GetGameLog("Faint");
-        if (t != null) t.SetData(pokemonName);
-      }
-      else
-      {
-        t = GetGameLog("Withdraw");
-        if (t != null) t.SetData(playerName, pokemonName);
-      }
-      return t;
-    }
+    PokemonOutward pm;
     public override void Update(GameOutward game)
     {
-      PokemonOutward pm = game.Board[Team, X];
-      pokemonName = pm.Name;
-      playerName = LobbyService.GetUserName(pm.OwnerId);
+      base.Update(game);
+      pm = game.Board[Team, X];
       if (pm.Hp.Value == 0)
       {
         pm.Faint();
@@ -106,6 +87,21 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
         //else ;//xxx回到了xxx身边
       }
       game.Board[Team, X] = null;
+    }
+    public override IText GetGameLog()
+    {
+      IText t;
+      if (isFaint)
+      {
+        t = GetGameLog("Faint");
+        if (t != null) t.SetData(pm.Id);
+      }
+      else
+      {
+        t = GetGameLog("Withdraw");
+        if (t != null) t.SetData(pm.OwnerId, pm.Id);
+      }
+      return t;
     }
     public override void Update(SimGame game)
     {

@@ -11,7 +11,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
   {
     event Action Quited;
     ReadOnlyObservableCollection<int> Spectators { get; }
-    ReadOnlyObservableCollection<int> Players { get; }
+    ReadOnlyObservableCollection<Player> Players { get; }
     IPlayerController PlayerController { get; }
     GameOutward Game { get; }
     RoomState RoomState { get; }

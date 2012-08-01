@@ -306,6 +306,14 @@
       <Project>{2BD81D18-43CB-420A-B293-469E110473CC}</Project>
       <Name>PokemonBattle.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PokemonBattle.Game\PokemonBattle.Game.csproj">
+      <Project>{5F1D7698-AD1E-462A-AEED-063BCB80DF89}</Project>
+      <Name>PokemonBattle.Game</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PokemonBattle.Messaging\PokemonBattle.Messaging.csproj">
+      <Project>{61056B34-A2A8-485B-8A36-DF633E47C7F2}</Project>
+      <Name>PokemonBattle.Messaging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tactic\Tactic.csproj">
       <Project>{EE2C451E-A61E-4634-B382-5298982E060C}</Project>
       <Name>Tactic</Name>

@@ -12,27 +12,27 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   internal class StateChange : GameEvent
   {
     [DataMember]
-    int Id;
+    int Pm;
     [DataMember(EmitDefaultValue = false)]
     PokemonState State;
     
     public StateChange(PokemonProxy pm)
     {
-      Id = pm.Id;
+      Pm = pm.Id;
       State = pm.Pokemon.State;
     }
 
     PokemonState oldState;
-    PokemonOutward pm;
     public override void Update(GameOutward game)
     {
-      pm = game.GetPokemon(Id);
+      base.Update(game);
+      var pm = game.GetPokemon(Pm);
       oldState = pm.State;
       pm.State = State;
     }
     public override void Update(SimGame game)
     {
-      Pokemon p = game.Team.Pokemons.ValueOrDefault(Id);
+      Pokemon p = game.Team.Pokemons.ValueOrDefault(Pm);
       if (p != null) p.State = State;
     }
     public override IText GetGameLog()
@@ -55,7 +55,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
         }
       else key = "En" + State.ToString();
       IText t = GetGameLog(key);
-      t.SetData(pm);
+      t.SetData(Pm);
       return t;
     }
   }
@@ -100,33 +100,18 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       return true;
     }
 
-    PokemonOutward[] pms;
-    List<PokemonOutward> sh;
-    List<PokemonOutward> wh;
-    List<PokemonOutward> ct;
-    private static string Convert(IList<PokemonOutward> pms)
-    {
-      return GameService.Logs.ConvertMultiObjects((p) => p.Name, pms);
-    }
     public override void Update(GameOutward game)
     {
-      pms = new PokemonOutward[Pms.Length];
-      sh = new List<PokemonOutward>();
-      wh = new List<PokemonOutward>();
-      ct = new List<PokemonOutward>();
+      base.Update(game);
       for (int i = 0; i < Pms.Length; ++i)
       {
         PokemonOutward p = game.GetPokemon(Pms[i]);
-        pms[i] = p;
         p.Hurt(Damages[i]);
-        if (SH != null && SH.Contains(Pms[i])) sh.Add(p);
-        if (WH != null && WH.Contains(Pms[i])) wh.Add(p);
-        if (CT != null && CT.Contains(Pms[i])) ct.Add(p);
       }
     }
     public override void Update(SimGame game)
     {
-      for (int i = 0; i < pms.Length; ++i)
+      for (int i = 0; i < Pms.Length; ++i)
       {
         var pm = game.Team.Pokemons.ValueOrDefault(Pms[i]);
         if (pm != null) pm.SetHp(pm.Hp.Value - Damages[i]);
@@ -135,10 +120,10 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     public override IText GetGameLog()
     {
       List<IText> ts = new List<IText>();
-      for(int i = 0; i < pms.Length; ++i)
+      for(int i = 0; i < Pms.Length; ++i)
       {
         IText t = GetGameLog("Hurt") as IText;
-        t.SetData(pms[i]);
+        t.SetData(Pms[i]);
         ts.Add(t);
         t = GetGameLog("Hp") as IText;
         t.SetData(-Damages[i]);
@@ -146,17 +131,17 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       }
       if (SH != null)
       {
-        IText t = GetGameLog("SuperHurt"); t.SetData(Convert(sh));
+        IText t = GetGameLog("SuperHurt" + SH.Length); t.SetData(SH);
         ts.Add(t);
       }
       if (WH != null)
       {
-        IText t = GetGameLog("WeakHurt"); t.SetData(Convert(wh));
+        IText t = GetGameLog("WeakHurt" + WH.Length); t.SetData(WH);
         ts.Add(t);
       }
       if (CT != null)
       {
-        IText t = GetGameLog("CT"); t.SetData(Convert(ct));
+        IText t = GetGameLog("CT" + CT.Length); t.SetData(CT);
         ts.Add(t);
       }
       return new LogText(ts.ToArray());
@@ -184,10 +169,10 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
 
     protected int oldHp;
-    protected PokemonOutward pm;
     public override void Update(GameOutward game)
     {
-      pm = game.GetPokemon(Pm);
+      base.Update(game);
+      var pm = game.GetPokemon(Pm);
       oldHp = pm.Hp.Value;
       pm.Hp.Value = Hp;
       if (ResetY) pm.ChangePosition(pm.Position.X, CoordY.Plate);
@@ -200,7 +185,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     public override IText GetGameLog()
     {
       IText t1 = GetGameLog(Key);
-      t1.SetData(pm); //虽然第二个参数可能用不着，但传过去无妨
+      t1.SetData(Pm); //虽然第二个参数可能用不着，但传过去无妨
       IText h = GetGameLog("Hp");
       h.SetData(Hp - oldHp);
       return new LogText(t1, h);
@@ -208,7 +193,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   }
 
   [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class PositionChange : PmEvent
+  public class PositionChange : GameEvent
   {
     public static PositionChange Reset(string gameLogKey, PokemonProxy pm, params string[] args)
     {
@@ -218,19 +203,46 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     {
       return new PositionChange(gameLogKey, pm) { Y = y };
     }
-    
+
+    [DataMember]
+    string Key;
+
     [DataMember(EmitDefaultValue = false)]
     CoordY Y;
-    
+
+    [DataMember(EmitDefaultValue = false)]
+    int Pm;
+
+    [DataMember(EmitDefaultValue = false)]
+    object Arg;
+
+    [DataMember(EmitDefaultValue = false)]
+    object[] Args;
+
     private PositionChange(string gameLogKey, PokemonProxy pm, params string[] args)
-      : base(gameLogKey, pm, args)
     {
+      Key = gameLogKey;
+      Pm = pm.Id;
+      if (args.Length == 1) Arg = args[0];
+      else if (args.Length > 1) Args = args;
     }
-    
+
     public override void Update(GameOutward game)
     {
       base.Update(game);
+      var pm = game.GetPokemon(Pm);
       pm.ChangePosition(pm.Position.X, Y);
+    }
+    public override IText GetGameLog()
+    {
+      IText t = GetGameLog(Key);
+      if (t != null)
+      {
+        if (Arg != null) t.SetData(Pm, Arg);
+        else if (Args != null) t.SetData(Pm, Args);
+        else t.SetData(Pm);
+      }
+      return t;
     }
   }
 
@@ -250,18 +262,17 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       Pm = pm.Id;
       if (i != null) Item = i.Id;
     }
-    private PokemonOutward pm;
-    private Item i;
+
     public override void Update(GameOutward game)
     {
-      pm = game.GetPokemon(Pm);
+      base.Update(game);
+      var pm = game.GetPokemon(Pm);
       if (Key == "PowerHerb") pm.ChangePosition(pm.Position.X, CoordY.Plate);
-      if (Item > 0) i = DataService.GetItem(Item);
     }
     public override IText GetGameLog()
     {
       IText t = GetGameLog(Key);
-      t.SetData(pm, i);
+      t.SetData(Pm, Item);
       return t;
     }
     public override void Update(SimGame game)
@@ -277,11 +288,11 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   {
     public static OutwardChange FormOnly(string logKey, PokemonProxy pm, string arg = null)
     {
-      return new OutwardChange(logKey, pm.GetOutward(), false);
+      return new OutwardChange(logKey, pm.GetOutward(), false) { Arg = arg };
     }
     public static OutwardChange All(string logKey, PokemonProxy pm, string arg = null)
     {
-      return new OutwardChange(logKey, pm.GetOutward(), true);
+      return new OutwardChange(logKey, pm.GetOutward(), true) { Arg = arg };
     }
 
     [DataMember]
@@ -311,6 +322,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     PokemonOutward pm;
     public override void Update(GameOutward game)
     {
+      base.Update(game);
       pm = game.GetPokemon(Pm);
       if (Name != null) pm.Name = Name;
       if (Gender != null) pm.Gender = Gender.Value;

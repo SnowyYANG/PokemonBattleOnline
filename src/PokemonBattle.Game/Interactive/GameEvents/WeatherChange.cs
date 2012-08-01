@@ -20,6 +20,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     Weather oldWeather;
     public override void Update(Game.GameOutward game)
     {
+      base.Update(game);
       oldWeather = game.Board.Weather;
       game.Board.Weather = Weather;
     }

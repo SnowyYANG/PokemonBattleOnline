@@ -10,7 +10,6 @@ namespace LightStudio.PokemonBattle.Game.Host
   {
     public readonly static IAbilityE NULL_ABILITY;
     public readonly static IItemE NULL_ITEM;
-    private readonly static IMoveE NULL_MOVE;
     private readonly static IRuleE NULL_RULE;
     private static bool unlocked;
     private static IMoveE[] moves;
@@ -20,9 +19,9 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     static EffectsService()
     {
-      NULL_RULE = new RuleE(0);
       NULL_ABILITY = new AbilityE0();
       NULL_ITEM = new ItemE0();
+      NULL_RULE = new RuleE(0);
       unlocked = true;
       moves = new IMoveE[DataService.Moves.Count() + 1];
       abilities = new IAbilityE[DataService.Abilities.Count() + 1];
@@ -56,7 +55,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             moves[id] = new AttackMoveE(id);
             break;
           default:
-            moves[id] = NULL_MOVE;
+            moves[id] = new Move0(id);
             break;
         }
       }

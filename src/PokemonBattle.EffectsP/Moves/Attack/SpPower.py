@@ -22,7 +22,7 @@ class Magnitude(AttackMoveE):
                             else:
                                 a = 6
         pm.AtkContext.Attachment = a
-        pm.Controller.ReportBuilder.Add("Magnitude", str(4 + a))
+        pm.Controller.ReportBuilder.Add("Magnitude", 4 + a)
         MoveE.Execute(self, pm)
     def CalculateBasePower(self, d):
         d.BasePower = 10 + 20 * d.AtkContext.Attachment

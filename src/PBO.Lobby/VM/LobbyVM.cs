@@ -5,31 +5,33 @@ using System.Text;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
-using LightStudio.Tactic.Messaging.Lobby;
+using LightStudio.Tactic.Messaging;
 using LightStudio.PokemonBattle.Messaging;
+using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.PBO.Lobby
 {
   class LobbyVM
   {
-    public readonly PokemonLobbyClient Model;
     Dictionary<int, UserVM> usersDictionary;
     ObservableCollection<UserVM> users;
-    ReadOnlyObservableCollection<UserVM> readonlyUsers;
 
-    public LobbyVM(PokemonLobbyClient model)
+    public LobbyVM()
     {
-      this.Model = model;
-      model.UserChanged += model_UserChanged;
+      PBOClient.Client.Disconnected += (sender, e) =>
+        {
+          System.Windows.MessageBox.Show("连接与服务器中断");
+        };
+      PBOClient.Client.UserChanged += model_UserChanged;
       //if it's possible to relogin, better Disconnected+=()=>Model.Dispose();
 
-      var _us = model.Users;
+      var _us = PBOClient.Client.Users;
       usersDictionary = new Dictionary<int, UserVM>(_us.Count());
       users = new ObservableCollection<UserVM>();
       foreach (User u in _us) AddUser(u);
-      User = new UserVM(model, Model.User);
+      User = new UserVM(PBOClient.Client.User);
       usersDictionary.Add(User.Id, User); users.Add(User);
-      readonlyUsers = new ReadOnlyObservableCollection<UserVM>(users);
+      Users = new ReadOnlyObservableCollection<UserVM>(users);
 
       UsersView = CollectionViewSource.GetDefaultView(Users);
       UsersView.SortDescriptions.Add(new SortDescription("State", ListSortDirection.Descending));
@@ -37,24 +39,23 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
 
     public UserVM User { get; private set; }
     public ICollectionView UsersView { get; private set; }
-    public ReadOnlyObservableCollection<UserVM> Users
-    { get { return readonlyUsers; } }
+    public ReadOnlyObservableCollection<UserVM> Users { get; private set; }
 
     void AddUser(User user)
     {
-      UserVM u = new UserVM(Model, user);
+      UserVM u = new UserVM(user);
       usersDictionary.Add(u.Id, u);
       users.Add(u);
     }
     void model_UserChanged(int userId)
     {
-      //thread safe
+      //thread safe?
       UIDispatcher.Invoke(delegate
         {
-          var uinfo = Model.GetUser(userId);
+          var uinfo = PBOClient.Client.GetUser(userId);
           if (uinfo != null)
           {
-            if (usersDictionary.ContainsKey(userId)) usersDictionary[userId].RefreshProperties(uinfo);
+            if (usersDictionary.ContainsKey(userId)) usersDictionary[userId].RefreshProperties();
             else AddUser(uinfo);
           }
           else
@@ -68,8 +69,12 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     }
     public void Exit()
     {
-      Model.Logout();
-      Model.Dispose();
+      PBOClient.Client.Logout();
+    }
+
+    public void Dispose()
+    {
+      PBOClient.Client.Dispose(); //thread safe?
     }
   }
 }

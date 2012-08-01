@@ -10,10 +10,32 @@
              Height="100" MinWidth="150" MaxWidth="300" Background="WhiteSmoke" BorderThickness="2" BorderBrush="#FFAAAAAA">
     <Grid>
         <ContentPresenter x:Name="avatar" ContentTemplate="{x:Static ui:Cartes.DetailedAvatar}" Height="60" Width="60" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,2,0,0"/>
-        <TextBlock Name="textAvatarUrl" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,40,2,0" Text="{Binding [Avatar URL], Source={x:Static pm:DataService.String}}" Foreground="Gray"/>
-        <TextBox Name="avatarUrl" Foreground="Gray"  GotFocus="textAvatarUrlHidden" VerticalAlignment="Top"  LostFocus="textAvatarUrlVisible" Margin="70,37,0,0" BorderThickness="0,0,0,1" TextAlignment="Right" TextChanged="avatarUrl_TextChanged" Background="{x:Null}" />
-        <TextBlock Name="textName" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="70,10,0,0" Text="{Binding [Username], Source={x:Static pm:DataService.String}}" Foreground="Gray"/>
-        <TextBox Name="name" GotFocus="textNameHidden" LostFocus="textNameVisible" VerticalAlignment="Top" Margin="70,6,3,0" BorderThickness="0,0,0,1" FontSize="14" Background="{x:Null}" />
+        <TextBox Name="avatarUrl" Foreground="Gray" VerticalAlignment="Top" Margin="70,37,0,0" BorderThickness="0,0,0,1" TextAlignment="Right" TextChanged="avatarUrl_TextChanged" Background="{x:Null}" />
+        <TextBox Name="name" VerticalAlignment="Top" Margin="70,6,3,0" BorderThickness="0,0,0,1" FontSize="14" Background="{x:Null}" />
+        <TextBlock Text="{Binding [Username], Source={x:Static pm:DataService.String}}" IsHitTestVisible="False" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="75,11,0,0" Foreground="Gray">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">                 
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text,ElementName=name}" Value="">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <TextBlock Text="{Binding [Avatar URL], Source={x:Static pm:DataService.String}}" IsHitTestVisible="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,40,5,0" Foreground="Gray">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text,ElementName=avatarUrl}" Value="">
+                            <Setter Property="Visibility" Value="Visible"/>                    
+                        </DataTrigger>                    
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
         <Button Name="button" Content="{Binding [Login], Source={x:Static pm:DataService.String}}" Click="button_Click" HorizontalContentAlignment="Left" Padding="30,0" FontWeight="Bold" VerticalAlignment="Bottom" Height="30" Background="#FFC4C4C4" BorderBrush="White" />
         <ComboBox Name="servers" IsEditable="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" VerticalContentAlignment="Center" Height="30" BorderThickness="0" Background="{x:Null}" KeyDown="servers_KeyDown">
             <ComboBoxItem Content="127.0.0.1" IsSelected="True"/>

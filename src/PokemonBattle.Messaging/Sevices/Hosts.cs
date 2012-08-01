@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using LightStudio.Tactic.Messaging;
 using LightStudio.PokemonBattle.Messaging.Room;
-using IUser = LightStudio.Tactic.Messaging.IUser<LightStudio.PokemonBattle.Messaging.RoomInfo>;
+using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.Messaging
 {
@@ -17,12 +17,16 @@ namespace LightStudio.PokemonBattle.Messaging
     {
     }
 
-    protected override void ReadMessage(IUser user, byte header, System.IO.BinaryReader reader)
+    protected override void ReadMessage(User user, byte header, System.IO.BinaryReader reader)
     {
-      string h = reader.ReadString();
-      var message = new TextMessage(h, reader.ReadString());
-      IHostCommand cmd = message.GetMessageObjectOrNull() as IHostCommand;
-      if (cmd != null) ((IHost)host).ExecuteCommand(cmd, user.Id);
+      lock(this)
+        if (host != null)
+        {
+          string h = reader.ReadString();
+          var message = new TextMessage(h, reader.ReadString());
+          IHostCommand cmd = message.GetMessageObjectOrNull() as IHostCommand;
+          if (cmd != null) ((IHost)host).ExecuteCommand(cmd, user.Id);
+        }
     }
 
     public bool AddHost(GameInitSettings settings, bool auto)
@@ -31,10 +35,15 @@ namespace LightStudio.PokemonBattle.Messaging
         if (host == null)
         {
           host = new Host(settings, auto);
+          host.SendInformation += host_SendInformation;
           Client.RegisterRoom();
           return true;
         }
       return false;
+    }
+    private void host_SendInformation(IUserInformation info, int[] receivers)
+    {
+      SendMessage(MessageHeaders.GAME_H2C, info, receivers);
     }
   }
 }

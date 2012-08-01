@@ -28,7 +28,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       InitializeComponent();
     }
 
-    internal void Init(Room.IUserController userController)
+    internal void Init(Messaging.Room.IRoom userController)
     {
       var game = userController.Game;
       int observerTeamId;

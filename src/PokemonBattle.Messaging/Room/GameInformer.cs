@@ -25,7 +25,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void InformTimeUp(int[] remainingTime);
 
     void InformReportUpdate(ReportFragment fragment);
-    void InformReportAddition(PokemonAdditionalInfo pms);
+    void InformRequireInput(RequireInput pms);
     void InformPlayerInputed(int player);
     
     void InformRequestTie();
@@ -75,6 +75,9 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     [DataMember]
     ReportFragment Fragment;
 
+    [DataMember(EmitDefaultValue = false)]
+    Player[] Leap;
+
     /// <summary>
     /// 非回合开始时的所有玩家选招，如飞天、逆鳞，注意：Leap（观战/首回合）的战报段没可能是SP的
     /// </summary>
@@ -85,7 +88,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     /// 如果要wifi模式计时器的话就null吧，以及计时器放在Host这吧
     /// </summary>
     [DataMember(EmitDefaultValue = false)]
-    int[] Seconds;
+    int?[] Seconds;
 
     public ReportUpdateInfo(ReportFragment turn)
     {
@@ -93,23 +96,32 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
     void IUserInformation.Execute(IRoomUser user)
     {
-      user.InformReportUpdate(Fragment);
+      if (Fragment.Teams == null)
+      {
+        user.InformReportUpdate(Fragment);
+        //seconds
+        if (!HasAddition) user.InformRequireInput(null);
+      }
+      else
+      {
+        //leap
+      }
     }
   }
 
   [DataContract(Namespace = Namespaces.DEFAULT)]
-  class ReportAdditionInfo : IUserInformation
+  class RequireInputInfo : IUserInformation
   {
     [DataMember]
-    PokemonAdditionalInfo PmInfo;
+    RequireInput PmInfo;
 
-    public ReportAdditionInfo(PokemonAdditionalInfo pmInfo)
+    public RequireInputInfo(RequireInput pmInfo)
     {
       PmInfo = pmInfo;
     }
     void IUserInformation.Execute(IRoomUser user)
     {
-      user.InformReportAddition(PmInfo);
+      user.InformRequireInput(PmInfo);
     }
   }
 

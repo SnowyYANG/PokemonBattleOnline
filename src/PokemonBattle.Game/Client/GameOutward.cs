@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game
 {
@@ -12,7 +13,7 @@ namespace LightStudio.PokemonBattle.Game
   {
     void EventOccurred(GameEvent e);
   }
-  public class GameOutward
+  public class GameOutward : IFormatProvider, ICustomFormatter
   {
     /// <summary>
     /// game start, or an observer
@@ -21,15 +22,18 @@ namespace LightStudio.PokemonBattle.Game
     public readonly IGameSettings Settings;
     public readonly BoardOutward Board;
     public readonly TeamOutward[] Teams;
+    private readonly IDictionary<int, string> players;
     private readonly List<IGameOutwardEvents> listeners;
+    private RequireInput requireInput;
 
-    public GameOutward(IGameSettings settings)
+    public GameOutward(IGameSettings settings, IDictionary<int, string> players)
     {
       Settings = settings;
       Board = new BoardOutward(Settings);
       Teams = new TeamOutward[Settings.Mode.TeamCount()];
       for (int t = 0; t < Settings.Mode.TeamCount(); t++)
         Teams[t] = new TeamOutward(6, 0, 0);
+      this.players = players;
       listeners = new List<IGameOutwardEvents>();
     }
 
@@ -65,10 +69,55 @@ namespace LightStudio.PokemonBattle.Game
           });
       }
     }
-
     public void AddListner(IGameOutwardEvents listener)
     {
       if (listener != null) listeners.Add(listener);
+    }
+
+    object IFormatProvider.GetFormat(Type formatType)
+    {
+      if (formatType == typeof(ICustomFormatter)) return this;
+      else return null;
+    }
+    string ICustomFormatter.Format(string format, object arg, IFormatProvider formatProvider)
+    {
+      string r = null;
+      if (arg != null)
+      {
+        if (arg is int)
+        {
+          int id = (int)arg;
+          switch (format)
+          {
+            case "P":
+              r = players.ValueOrDefault(id);
+              break;
+            case "pm":
+              {
+                var pm = GetPokemon(id);
+                if (pm != null) r = GetPokemon(id).Name;
+              }
+              break;
+            case "p":
+              {
+                var pm = GetPokemon(id);
+                if (pm != null) r = string.Format(this, DataService.String["{0}'s {1}"], players.ValueOrDefault(pm.OwnerId), pm.Name);
+              }
+              break;
+            case "m":
+              r = DataService.GetMove(id).GetLocalizedName();
+              break;
+            case "a":
+              r = DataService.GetAbility(id).GetLocalizedName();
+              break;
+            case "i":
+              r = DataService.GetItem(id).GetLocalizedName();
+              break;
+          }//switch
+        }
+        if (r == null) r = arg.ToString();
+      }// if (arg != null
+      return r;
     }
   }
 }

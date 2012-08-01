@@ -5,21 +5,19 @@ using System.Text;
 using System.ComponentModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using LightStudio.Tactic.Messaging.Lobby;
+using LightStudio.Tactic.Messaging;
 using LightStudio.PokemonBattle.Messaging;
-using LightStudio.PokemonBattle.Room;
+using LightStudio.PokemonBattle.Messaging.Room;
 using LightStudio.PokemonBattle.PBO.UIElements;
+using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.PBO.Lobby
 {
   public class UserVM : PBO.UserVM
   {
-    PokemonLobbyClient client;
-
-    public UserVM(PokemonLobbyClient client, User user) : base(user, false)
+    public UserVM(User user) : base(user, false)
     {
-      this.client = client;
-      if (client.User.Id != user.Id)
+      if (PBOClient.Client.User.Id != user.Id)
       {
         commands.Add(new MenuCommand("私聊", Chat));
         commands.Add(new MenuCommand("挑战", Challenge));
@@ -32,7 +30,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     }
     void Challenge()
     {
-      new StartBattle(client, Model, new GameInitSettings(Game.GameMode.Single), false).Show();
+      new StartBattle(Model, new GameInitSettings(Game.GameMode.Single), false).Show();
     }
   }
 }

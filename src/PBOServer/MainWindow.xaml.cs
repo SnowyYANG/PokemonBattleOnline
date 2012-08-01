@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using LightStudio.Tactic.Messaging;
 using LightStudio.PokemonBattle.Messaging;
-using IUser = LightStudio.Tactic.Messaging.IUser<LightStudio.PokemonBattle.Messaging.RoomInfo>;
+using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.RoomInfo>;
 
 namespace LightStudio.PokemonBattle.PBO.Server
 {
@@ -34,10 +34,9 @@ namespace LightStudio.PokemonBattle.PBO.Server
       StartServer();
     }
 
-    private void AddUser(IUser u)
+    private void AddUser(User u)
     {
-      UserVM uvm;
-      uvm = new UserVM(u, true);
+      UserVM uvm= new UserVM(u, true);
       usersDictionary.Add(u.Id, uvm);
       users.Add(uvm);
       chat.AppendText("\n<SYSTEM> " + u.Name + " logs in, ID. " + u.Id);
@@ -61,7 +60,7 @@ namespace LightStudio.PokemonBattle.PBO.Server
       usersDictionary = new Dictionary<int, UserVM>(50);//容量
       users = new ObservableCollection<UserVM>();
       var us = server.Users;
-      foreach (IUser u in us) AddUser(u);
+      foreach (User u in us) AddUser(u);
       usersView.ItemsSource = users;
     }
     private void StopServer()
@@ -87,7 +86,7 @@ namespace LightStudio.PokemonBattle.PBO.Server
       //thread
       WpfDispatcher.Invoke(() =>
         {
-          IUser u = server.GetUser(userId);
+          User u = server.GetUser(userId);
           UserVM uvm = usersDictionary.ValueOrDefault(userId);
           if (u == null)
           {
@@ -106,7 +105,7 @@ namespace LightStudio.PokemonBattle.PBO.Server
     }
     void model_MessageBroadcast(int userId, string content)
     {
-      IUser u = server.GetUser(userId);
+      User u = server.GetUser(userId);
       WpfDispatcher.Invoke(() =>
         {
           if (u != null) chat.AppendText("\n" + u.Name + ": " + content);

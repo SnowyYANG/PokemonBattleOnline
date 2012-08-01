@@ -6,8 +6,10 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>BeginTurn</a:Key><a:Value i:type="LogText"><text>开始回合 #{0}
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EndTurn</a:Key><a:Value i:type="LogText"><text>结束回合 #{0}
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>UseMove</a:Key><a:Value i:type="LogText"><text>{0:p}使用了{1:m}！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SendOut</a:Key><a:Value i:type="LogText"><text>{0}放出了{1:p}！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Withdraw</a:Key><a:Value i:type="LogText"><text>{0}收回了{1:p}！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SendOut1</a:Key><a:Value i:type="LogText"><text>{0:P}放出了{1}！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SendOut2</a:Key><a:Value i:type="LogText"><text>{0:P}放出了{1}和{2}！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SendOut3</a:Key><a:Value i:type="LogText"><text>{0:P}放出了{1}、{2}和{3}！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Withdraw</a:Key><a:Value i:type="LogText"><text>{0:P}收回了{1:pm}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Hits</a:Key><a:Value i:type="LogText"><text>命中{0}次！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Faint</a:Key><a:Value i:type="LogText"><text>{0:p}倒下了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SuperHurt</a:Key><a:Value i:type="LogText"><text>对{0:p}效果拔群！
@@ -81,7 +83,9 @@
 <a:KeyValueOfstringanyType><a:Key>MoveFree</a:Key><a:Value i:type="LogText"><text>{0:p}被从{1:m}中解放了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ReHurt</a:Key><a:Value i:type="LogText"><text>{0:p}因为反作用受到了伤害</text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>RolePlay</a:Key><a:Value i:type="LogText"><text>特性变成了{0:p}的{1:a}！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT</a:Key><a:Value i:type="LogText"><text>命中了{0:p}的要害！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT1</a:Key><a:Value i:type="LogText"><text>命中了{0:p}的要害！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT2</a:Key><a:Value i:type="LogText"><text>命中了{0:p}和{1:p}的要害！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT3</a:Key><a:Value i:type="LogText"><text>命中了{0:p}、{1:p}和{2:p}的要害！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HpRecover</a:Key><a:Value i:type="LogText"><text>{0:p}回复了Hp</text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>PPRecover</a:Key><a:Value i:type="LogText"><text>{0:p}回复了{1:m}的PP
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>AllPPRecover</a:Key><a:Value i:type="LogText"><text>{0:p}的全部技能的PP都被回复了！
@@ -145,10 +149,10 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeSkyDrop</a:Key><a:Value i:type="LogText"><text>{0:p}从自由降落中解脱了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnTelekinesis</a:Key><a:Value i:type="LogText"><text>{0:p}漂浮在空中！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeTelekinesis</a:Key><a:Value i:type="LogText"><text>{0:p}被从念动力中释放了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Fail_s</a:Key><a:Value i:type="LogText"><text>但是失败了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SuperHurt_s</a:Key><a:Value i:type="LogText"><text>效果拔群!
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>WeakHurt_s</a:Key><a:Value i:type="LogText"><text>没有什么效果...
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ConfusedWork</a:Key><a:Value i:type="LogText"><text>不知为什么攻击了自己！</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT_s</a:Key><a:Value i:type="LogText"><text>打中了要害！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Fail0</a:Key><a:Value i:type="LogText"><text>但是失败了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SuperHurt0</a:Key><a:Value i:type="LogText"><text>效果拔群!
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>WeakHurt0</a:Key><a:Value i:type="LogText"><text>没有什么效果...
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ConfusedWork</a:Key><a:Value i:type="LogText"><text>不知为什么攻击了自己！</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT0</a:Key><a:Value i:type="LogText"><text>打中了要害！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>NoPP</a:Key><a:Value i:type="LogText"><text>但是技能已经没有剩余的PP点数了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HealingWish</a:Key><a:Value i:type="LogText"><text>托来帮忙的{0:p}的福，{1:p}的体力回复了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnIntenseSunlight</a:Key><a:Value i:type="LogText"><text>阳光变强烈了！

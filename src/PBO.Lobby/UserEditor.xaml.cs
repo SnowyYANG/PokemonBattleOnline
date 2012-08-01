@@ -11,7 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LightStudio.Tactic.Messaging.Lobby;
+using LightStudio.Tactic.Messaging;
+using LightStudio.PokemonBattle.Messaging;
 using LightStudio.PokemonBattle.PBO.UIElements;
 
 namespace LightStudio.PokemonBattle.PBO.Lobby
@@ -45,7 +46,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
 
     void RefreshState(UserState state)
     {
-      if (vm != null) vm.Model.ChangeState(state, sign.Text);
+      if (vm != null) PBOClient.Client.ChangeUserState(state, sign.Text);
     }
     void RefreshState()
     {

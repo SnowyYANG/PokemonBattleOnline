@@ -7,7 +7,7 @@ using LightStudio.Tactic.Messaging;
 
 namespace LightStudio.PokemonBattle.Messaging
 {
-  public sealed class Client : Client<RoomInfo>
+  public sealed class Client : Client<UserExtension>
   {
     public static Client NewTcpClient(IPAddress serverAddress, int serverPort)
     {
@@ -17,6 +17,17 @@ namespace LightStudio.PokemonBattle.Messaging
     private Client(Tactic.Messaging.Primitive.IMessageClient client)
       : base(client)
     {
+    }
+
+    protected override void OnReceive(IMessage message)
+    {
+      if (message.Header == "u") message.Resolve((reader) =>
+        {
+          int userId = reader.ReadInt16();
+          var user = GetUser(userId);
+          if (user != null) user.Extension.LastRoomId = reader.ReadInt16();
+        });
+      else base.OnReceive(message);
     }
 
     /// <summary>

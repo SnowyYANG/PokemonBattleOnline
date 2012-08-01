@@ -12,29 +12,29 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   {
     public static Substitute EnSubstitute(PokemonProxy pm)
     {
-      return new Substitute() { PmId = pm.Id };
+      return new Substitute() { Pm = pm.Id };
     }
     internal static Substitute DeSubstitute(PokemonProxy pm)
     {
-      return new Substitute() { PmId = pm.Id, De = true };
+      return new Substitute() { Pm = pm.Id, De = true };
     }
 
     [DataMember(EmitDefaultValue = false)]
     bool De;
     [DataMember]
-    int PmId;
+    int Pm;
 
-    private PokemonOutward pm;
     public override void Update(GameOutward game)
     {
-      pm = game.GetPokemon(PmId);
+      base.Update(game);
+      var pm = game.GetPokemon(Pm);
       if (De) pm.HideSubstitute();
       else pm.ShowSubstitute();
     }
     public override IText GetGameLog()
     {
       IText t = De? GetGameLog("DeSubstitute") : GetGameLog("EnSubstitute");
-      t.SetData(pm);
+      t.SetData(Pm);
       return t;
     }
   }

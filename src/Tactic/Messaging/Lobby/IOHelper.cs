@@ -36,7 +36,7 @@ namespace LightStudio.Tactic.Messaging
       writer.Write(avatar.InnerAvatarId);
       writer.Write(avatar.Url);
     }
-    public static User<T> ReadUser<T>(this BinaryReader reader) where T : new()
+    public static User<T> ReadUser<T>(this BinaryReader reader) where T : IBytable, new()
     {
       int id = reader.ReadUserId();
       string name = reader.ReadString();
@@ -44,15 +44,17 @@ namespace LightStudio.Tactic.Messaging
       User<T> u = new User<T>(id, name, avatar);
       u.State = reader.ReadUserState();
       u.Sign = reader.ReadString();
+      u.Extension.SetValue(reader);
       return u;
     }
-    public static void WriteUser<T>(this BinaryWriter writer, IUser<T> user)
+    public static void WriteUser<T>(this BinaryWriter writer, User<T> user) where T : IBytable, new()
     {
       writer.WriteUserId(user.Id);
       writer.Write(user.Name);
       writer.WriteAvatar(user.Avatar);
       writer.WriteUserState(user.State);
       writer.Write(user.Sign);
+      user.Extension.WriteToByte(writer);
     }
 
     public static TElement[] ReadArray<TElement>(this BinaryReader reader, Func<TElement> readElement)
@@ -66,36 +68,6 @@ namespace LightStudio.Tactic.Messaging
     {
       writer.Write(array.Count());
       foreach (var item in array) writeElement(item);
-    }
-  }
-
-  /// <summary>
-  /// i hate delegates' performance
-  /// Also I think these should be IMessage.Read(... method
-  /// static TextMessage.Create(... & TextMessage should have no public constructor
-  /// </summary>
-  internal static class MessageHelper
-  {
-    public static IMessage BuildMessage(string header, Action<BinaryWriter> buildcontent = null)
-    {
-      TextMessage m = new TextMessage();
-      m.Header = header;
-      if (buildcontent != null)
-        using (var stream = new MemoryStream())
-        {
-          var writer = new BinaryWriter(stream);
-          buildcontent(writer);
-          m.Content = Convert.ToBase64String(stream.ToArray());
-        }
-      return m;
-    }
-    public static void ResolveMessage(IMessage message, Action<BinaryReader> resolvecontent)
-    {
-      using (var stream = new MemoryStream(Convert.FromBase64String(message.Content)))
-      {
-        var reader = new BinaryReader(stream);
-        resolvecontent(reader);
-      }
     }
   }
 }

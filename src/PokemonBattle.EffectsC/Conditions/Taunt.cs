@@ -21,7 +21,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Conditions
         count--;
         if (pm.SelectedMove.Type.Category == Data.MoveCategory.Status)
         {
-          pm.Controller.ReportBuilder.Add("Taunt", pm, pm.SelectedMove.Move.Type.GetLocalizedName());
+          pm.Controller.ReportBuilder.Add("Taunt", pm, pm.SelectedMove.Move.Type);
           return false;
         }
       }

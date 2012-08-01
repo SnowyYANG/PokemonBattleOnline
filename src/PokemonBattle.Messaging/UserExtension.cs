@@ -7,7 +7,7 @@ using LightStudio.Tactic.Messaging;
 
 namespace LightStudio.PokemonBattle.Messaging
 {
-  public class RoomInfo : IBytable
+  public class UserExtension : IBytable
   {
     public short LastRoomId
     { get; internal set; }

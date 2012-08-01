@@ -8,7 +8,7 @@ using LightStudio.Tactic.Serialization;
 
 namespace LightStudio.Tactic.Messaging
 {
-  public abstract class ClientService<T> : IDisposable where T : new()
+  public abstract class ClientService<T> : IDisposable where T : IBytable, new()
   {
     protected readonly Client<T> Client;
     
@@ -18,7 +18,7 @@ namespace LightStudio.Tactic.Messaging
       client.RegisterService(this, receiveMessageHeaders);
     }
 
-    protected internal abstract void ReadMessage(IUser<T> user, byte header, BinaryReader reader);
+    protected internal abstract void ReadMessage(User<T> user, byte header, BinaryReader reader);
     protected void SendMessage(byte header, params int[] receivers)
     {
       SendMessage(header, null, receivers);

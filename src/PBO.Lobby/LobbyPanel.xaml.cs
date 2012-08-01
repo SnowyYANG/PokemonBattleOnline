@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using LightStudio.PokemonBattle.Messaging;
 using LightStudio.PokemonBattle.PBO.UIElements;
 
 namespace LightStudio.PokemonBattle.PBO.Lobby
@@ -19,21 +20,18 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
   /// </summary>
   public partial class LobbyPanel : UserControl
   {
-    public event Action<Room.IUserController> EnterSucceed;
-    
     public LobbyPanel()
     {
       InitializeComponent();
-      login.LoginComplete += (plc) =>
+      login.LoginComplete += () =>
         {
-          plc.EnterSucceed += EnterSucceed;
-          plc.Disconnected += (sender, e) => UIDispatcher.Invoke(() =>
+          PBOClient.Client.Disconnected += (sender, e) => UIDispatcher.Invoke(() =>
             {
               lobby.Init(null);
               login.Visibility = Visibility.Visible;
             });
           login.Visibility = Visibility.Hidden;
-          lobby.Init(new LobbyVM(plc));
+          lobby.Init(new LobbyVM());
         };
     }
 

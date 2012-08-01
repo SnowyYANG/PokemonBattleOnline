@@ -8,7 +8,7 @@ using LightStudio.Tactic.Messaging.Lobby;
 
 namespace LightStudio.PokemonBattle.Messaging.Room
 {
-  internal class PlayerClient : RoomUserBase, IPlayerController
+  internal class PlayerClient : RoomUserClient, IPlayerController
   {
     private readonly List<IPlayerControllerEvents> listeners;
     private readonly int teamId;
@@ -28,7 +28,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     public override IPlayerController PlayerController
     { get { return this; } }
 
-    protected override void InformEnterSucceed(GameInitSettings settings, int[] players, int[] spectators)
+    protected override void InformEnterSucceed(GameInitSettings settings, Player[] players, int[] spectators)
     {
       base.InformEnterSucceed(settings, players, spectators);
       game = new SimGame(PBOClient.Client.User.Id, teamId, pokemons, Game.Settings, settings.NextId);
@@ -89,7 +89,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
             foreach (IPlayerControllerEvents listner in listeners) listner.RequireInput();
         });
     }
-    protected override void InformReportAddition(Game.PokemonAdditionalInfo info)
+    protected override void InformRequireInput(Game.RequireInput info)
     {
       game.Update(info);
     }

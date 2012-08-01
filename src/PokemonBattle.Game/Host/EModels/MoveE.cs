@@ -22,17 +22,17 @@ namespace LightStudio.PokemonBattle.Game.Host
     public virtual void Execute(PokemonProxy pm)
     {
       if (pm.AtkContext == null) pm.BuildAtkContext(Move);
-      if (Move.AdvancedFlags.PrepareOneTurn && PrepareOneTurn(pm) && !Sp.Items.PowerHerb(pm)) return;
+      if (PrepareOneTurn(pm) && !Sp.Items.PowerHerb(pm)) return;
       AtkContext atk = pm.AtkContext;
       if (!Abilities.CalculateType(atk)) CalculateType(atk);
       CalculateTargets(atk);
       if (atk.Targets == null || atk.Target != null) Act(atk);
-      pm.Action = PokemonAction.Done;
+      pm.Action = Move.AdvancedFlags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done;
     }
 
     protected virtual bool PrepareOneTurn(PokemonProxy pm)
     {
-      if (pm.Action == PokemonAction.MoveAttached)
+      if (Move.AdvancedFlags.PrepareOneTurn && pm.Action == PokemonAction.MoveAttached)
       {
         pm.AddReportPm("Prepare" + Move.Id.ToString());
         pm.Action = PokemonAction.Moving;
@@ -68,22 +68,20 @@ namespace LightStudio.PokemonBattle.Game.Host
             ++count;
             Abilities.CheckPressure(def);
             if (IsYInRange(def) || def.NoGuard) targets.Add(def);
-            else miss.Add(def);
+            else report.Add("Miss", pm);
           }
-        if (miss.Count > 0)
-          report.Add(new MultiPmEvent("Miss", miss));
         if (count > 1) atk.MultiTargets = true;
       }
       #endregion
       #region Check for Immunity (or Levitate) on the Ally side, position 1, then position 3. Then check Opponent side, position 1, then 2, then 3,
       var noeffect = new List<DefContext>();
       foreach (DefContext def in targets)
-        if (!HasEffect(def)) noeffect.Add(def);
-      if (noeffect.Count > 0)
-      {
-        report.Add(new MultiPmEvent("NoEffect", noeffect));
-        targets.Remove(noeffect);
-      }
+        if (!HasEffect(def))
+        {
+          noeffect.Add(def);
+          report.Add("NoEffect", def.Defender);
+        }
+      if (noeffect.Count > 0) targets.Remove(noeffect);
       #endregion
       #region [unfinished] Check for Wide Guard in same way
       #warning
@@ -124,12 +122,9 @@ namespace LightStudio.PokemonBattle.Game.Host
           //心眼锁定、无防御
           if (def.NoGuard) continue;
           if (!CanHit(def)) miss.Add(def);
+          report.Add("Miss", def.Defender);
         }
-        if (miss.Count > 0)
-        {
-          report.Add(new MultiPmEvent("Miss", miss));
-          targets.Remove(miss);
-        }
+        if (miss.Count > 0) targets.Remove(miss);
       }
       #endregion
     DONE:

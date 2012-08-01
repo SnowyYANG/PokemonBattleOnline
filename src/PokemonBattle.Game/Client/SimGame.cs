@@ -41,7 +41,7 @@ namespace LightStudio.PokemonBattle.Game
     /// 注意和Update(Turn)的顺序
     /// </summary>
     /// <param name="info"></param>
-    public void Update(PokemonAdditionalInfo info)
+    public void Update(RequireInput info)
     {
     }
   }

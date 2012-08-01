@@ -246,5 +246,10 @@ namespace LightStudio.PokemonBattle.Game
       listeners.Remove(listener);
     }
     #endregion
+
+    public override string ToString()
+    {
+      return string.Format("{0}(Lv.{1} {2})", Name, Lv, DataService.GetPokemonType(ImageId).GetLocalizedName());
+    }
   }
 }

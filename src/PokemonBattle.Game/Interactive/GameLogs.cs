@@ -11,7 +11,7 @@ namespace LightStudio.PokemonBattle.Game
   {
     bool HiddenInBattle { get; }
     bool HiddenAfterBattle { get; }
-    IText Clone();
+    IText Clone(IFormatProvider formatter);
   }
   
   [KnownType(typeof(LogText))]
@@ -42,27 +42,5 @@ namespace LightStudio.PokemonBattle.Game
 
     public IText this[string key]
     { get { return logs.ValueOrDefault(key); } }
-    /// <summary>
-    /// 暂不支持多语言
-    /// </summary>
-    public string ConvertMultiObjects<T>(Func<T, string> convert, IList<T> args)
-    {
-      //1: XXX
-      //2: XXX和XXX
-      //3: XXX, XXX和XXX
-      StringBuilder sb = new StringBuilder();
-      sb.Append(convert(args[0]));
-      if (args.Count > 1)
-      {
-        for (int i = 1; i < args.Count - 1; ++i)
-        {
-          sb.Append(", ");
-          sb.Append(convert(args[i]));
-        }
-        sb.Append("和");
-        sb.Append(convert(args[args.Count - 1]));
-      }
-      return sb.ToString();
-    }
   }
 }

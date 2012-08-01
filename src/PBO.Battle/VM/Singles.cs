@@ -17,7 +17,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     BoardOutward board;
     TeamOutward teamPms, rivalPms;
 
-    internal Singles(Room.IUserController c)
+    internal Singles(Messaging.Room.IRoom c)
     {
       controller = c.PlayerController;
       controller.AddEventsListener(this);

@@ -8,29 +8,6 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  public class InputResult
-  {
-    public static InputResult Succeed(bool allDone)
-    {
-      return new InputResult(true, null, allDone);
-    }
-    public static InputResult Fail(string messageKey = null)
-    {
-      return new InputResult(false, messageKey, false);
-    }
-
-    public readonly bool IsSucceeded;
-    public readonly bool AllDone;
-    public readonly string MessageKey;
-
-    private InputResult(bool succeed, string messageKey, bool allDone)
-    {
-      IsSucceeded = succeed;
-      AllDone = allDone;
-      MessageKey = messageKey;
-    }
-  }
-  
   [DataContract(Namespace = Namespaces.DEFAULT)]
   public class ActionInput
   {
@@ -75,30 +52,31 @@ namespace LightStudio.PokemonBattle.Game
       X = x;
     }
 
-    internal InputResult Input(Controller controller, Player player)
+    internal bool Input(Controller controller, Player player)
     {
-      InputResult r = InputResult.Fail();
-      if (controller.Game.Settings.Mode.GetPlayerIndex(X) == player.Team.GetPlayerIndex(player.Id))
-      {
-        Tile tile = controller.GetTile(player.TeamId, X);
-        if (SendoutIndex > 0) r = controller.InputSendout(tile, SendoutIndex);
-        else
-        {
-          var pm = tile.Pokemon;
-          if (Move > 0)
-          {
-            foreach (MoveProxy m in pm.Moves)
-              if (m.Type.Id == Move)
-              {
-                Tile target = TargetTeam > 0 ? controller.GetTile(TargetTeam - 1, TargetX - 1) : null;
-                r = controller.InputSelectMove(m, target);
-                break;
-              }
-          }
-          else r = controller.InputStruggle(pm);
-        }
-      }
-      return r;
+      throw new NotImplementedException();
+      //InputResult r = InputResult.Fail();
+      //if (controller.Game.Settings.Mode.GetPlayerIndex(X) == player.Team.GetPlayerIndex(player.Id))
+      //{
+      //  Tile tile = controller.GetTile(player.TeamId, X);
+      //  if (SendoutIndex > 0) r = controller.InputSendout(tile, SendoutIndex);
+      //  else
+      //  {
+      //    var pm = tile.Pokemon;
+      //    if (Move > 0)
+      //    {
+      //      foreach (MoveProxy m in pm.Moves)
+      //        if (m.Type.Id == Move)
+      //        {
+      //          Tile target = TargetTeam > 0 ? controller.GetTile(TargetTeam - 1, TargetX - 1) : null;
+      //          r = controller.InputSelectMove(m, target);
+      //          break;
+      //        }
+      //    }
+      //    else r = controller.InputStruggle(pm);
+      //  }
+      //}
+      //return r;
     }
   }
 }

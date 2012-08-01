@@ -56,7 +56,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       add { gameEnd += value; }
       remove { gameEnd -= value; }
     }
-    event Action<ReportFragment, int[]> IGame.ReportUpdated
+    event Action<ReportFragment> IGame.ReportUpdated
     {
       add { Controller.ReportUpdated += value; }
       remove { Controller.ReportUpdated -= value; }
@@ -73,8 +73,9 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     bool IGame.SetPlayer(int teamId, int userId, PokemonCustomInfo[] pokemons)
     {
-      //TODO: Verify
-      return Teams[teamId].AddPlayer(userId, pokemons) != null;
+      //TODO: Verify both userId and pm
+      if (teamId >= 0 && teamId < Teams.Length && GetPlayer(userId) == null) return Teams[teamId].AddPlayer(userId, pokemons) != null;
+      return false;
     }
     bool IGame.Start()
     {
@@ -89,7 +90,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       Controller.TryContinueGameLoop();
     }
-    InputResult IGame.InputAction(int playerId, ActionInput action)
+    bool IGame.InputAction(int playerId, ActionInput action)
     {
       return action.Input(Controller, GetPlayer(playerId));
     }

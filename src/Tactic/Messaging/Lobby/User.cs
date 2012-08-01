@@ -4,9 +4,15 @@ using System.Xml;
 using System.IO;
 using System.Collections.Generic;
 
-namespace LightStudio.Tactic.Messaging.Lobby
+namespace LightStudio.Tactic.Messaging
 {
-  internal sealed class User<T> : IUser<T> where T : new()
+  public interface IBytable
+  {
+    void WriteToByte(BinaryWriter writer);
+    void SetValue(BinaryReader reader);
+  }
+  
+  public sealed class User<T> where T : IBytable, new()
   {
     int id;
     string name;
@@ -38,10 +44,10 @@ namespace LightStudio.Tactic.Messaging.Lobby
     public Avatar Avatar
     {
       get { return avatar; }
-      set { avatar = value; }
+      internal set { avatar = value; }
     }
-    public UserState State { get; set; }
-    public string Sign { get; set; }
+    public UserState State { get; internal set; }
+    public string Sign { get; internal set; }
     public T Extension { get; private set; }
   }
 }
