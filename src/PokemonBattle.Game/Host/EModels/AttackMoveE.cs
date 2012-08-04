@@ -32,7 +32,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         atk.ActualHits++;
         if (Move.Class != MoveInnerClass.OHKO)
           foreach (DefContext d in atk.Targets) CalculateDamage(d);
-        if (atk.RaiseItem) atk.Attacker.Item.Raise(atk.Attacker);
+        if (atk.RaiseItem) atk.Attacker.RaiseItem();
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
       }
@@ -72,11 +72,11 @@ namespace LightStudio.PokemonBattle.Game.Host
           }
           if (!allSub)
           {
+            foreach (DefContext d in defs)
+              if (d.RaiseItem) d.Defender.RaiseItem();
             MoveHurts e = new MoveHurts();
             a.Controller.ReportBuilder.Add(e);
-#warning 抗性果
-            foreach (DefContext d in defs)
-              d.Defender.MoveHurt(d);
+            foreach (DefContext d in defs) d.Defender.MoveHurt(d);
             e.SetHurt(defs);
           }
 

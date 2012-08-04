@@ -10,7 +10,7 @@ using LightStudio.Tactic.Serialization;
 
 namespace LightStudio.Tactic.DataModels.IO
 {
-  [DataContract(Namespace=Namespaces.DEFAULT)]
+  [DataContract(Namespace=Namespaces.LIGHT)]
   public abstract class SimpleData
   {
     protected static T LoadFromXml<T>(string fileName) where T : SimpleData

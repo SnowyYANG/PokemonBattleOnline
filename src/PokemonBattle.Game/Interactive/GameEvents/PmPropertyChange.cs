@@ -8,7 +8,7 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   internal class StateChange : GameEvent
   {
     [DataMember]
@@ -22,24 +22,12 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       State = pm.Pokemon.State;
     }
 
-    PokemonState oldState;
-    public override void Update(GameOutward game)
+    protected override void Update()
     {
-      base.Update(game);
-      var pm = game.GetPokemon(Pm);
-      oldState = pm.State;
-      pm.State = State;
-    }
-    public override void Update(SimGame game)
-    {
-      Pokemon p = game.Team.Pokemons.ValueOrDefault(Pm);
-      if (p != null) p.State = State;
-    }
-    public override IText GetGameLog()
-    {
+      var pm = GetPokemon(Pm);
       string key = null;
       if (State == PokemonState.Normal)
-        switch (oldState)
+        switch (pm.State)
         {
           case PokemonState.BadlyPoisoned:
           case PokemonState.Poisoned:
@@ -50,17 +38,21 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
           case PokemonState.Frozen:
           case PokemonState.Paralyzed:
           case PokemonState.Sleeping:
-            key = "De" + oldState.ToString();
+            key = "De" + pm.State.ToString();
             break;
         }
       else key = "En" + State.ToString();
-      IText t = GetGameLog(key);
-      t.SetData(Pm);
-      return t;
+      pm.State = State;
+      AppendGameLog(key, Pm);
+    }
+    public override void Update(SimGame game)
+    {
+      Pokemon p = GetPokemon(game, Pm);
+      if (p != null) p.State = State;
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   public class MoveHurts : GameEvent
   {
     [DataMember(EmitDefaultValue = false)]
@@ -74,7 +66,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember(EmitDefaultValue = false)]
     protected int[] CT;
 
-    public bool SetHurt(IEnumerable<DefContext> defs)
+    internal bool SetHurt(IEnumerable<DefContext> defs) //auto delay
     {
       List<int> pms = new List<int>();
       List<int> damages = new List<int>();
@@ -100,55 +92,29 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       return true;
     }
 
-    public override void Update(GameOutward game)
+    protected override void Update()
     {
-      base.Update(game);
       for (int i = 0; i < Pms.Length; ++i)
       {
-        PokemonOutward p = game.GetPokemon(Pms[i]);
+        PokemonOutward p = GetPokemon(Pms[i]);
         p.Hurt(Damages[i]);
+        AppendGameLog("Hurt", Pms[i]); AppendGameLog("Hp", -Damages[i]);
       }
+      if (SH != null) AppendGameLog("SuperHurt" + SH.Length, SH);
+      if (WH != null) AppendGameLog("WeakHurt" + WH.Length, WH);
+      if (CT != null) AppendGameLog("CT" + CT.Length, CT);
     }
     public override void Update(SimGame game)
     {
       for (int i = 0; i < Pms.Length; ++i)
       {
-        var pm = game.Team.Pokemons.ValueOrDefault(Pms[i]);
+        var pm = GetPokemon(game, Pms[i]);
         if (pm != null) pm.SetHp(pm.Hp.Value - Damages[i]);
       }
     }
-    public override IText GetGameLog()
-    {
-      List<IText> ts = new List<IText>();
-      for(int i = 0; i < Pms.Length; ++i)
-      {
-        IText t = GetGameLog("Hurt") as IText;
-        t.SetData(Pms[i]);
-        ts.Add(t);
-        t = GetGameLog("Hp") as IText;
-        t.SetData(-Damages[i]);
-        ts.Add(t);
-      }
-      if (SH != null)
-      {
-        IText t = GetGameLog("SuperHurt" + SH.Length); t.SetData(SH);
-        ts.Add(t);
-      }
-      if (WH != null)
-      {
-        IText t = GetGameLog("WeakHurt" + WH.Length); t.SetData(WH);
-        ts.Add(t);
-      }
-      if (CT != null)
-      {
-        IText t = GetGameLog("CT" + CT.Length); t.SetData(CT);
-        ts.Add(t);
-      }
-      return new LogText(ts.ToArray());
-    }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   public class HpChange : GameEvent
   {
     [DataMember]
@@ -168,85 +134,54 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       ResetY = resetCoordY;
     }
 
-    protected int oldHp;
-    public override void Update(GameOutward game)
+    protected override void Update()
     {
-      base.Update(game);
-      var pm = game.GetPokemon(Pm);
-      oldHp = pm.Hp.Value;
+      var pm = GetPokemon(Pm);
+      var oldHp = pm.Hp.Value;
       pm.Hp.Value = Hp;
       if (ResetY) pm.ChangePosition(pm.Position.X, CoordY.Plate);
+      AppendGameLog(Key, Pm);
+      AppendGameLog("Hp", Hp - oldHp);
     }
     public override void Update(SimGame game)
     {
-      var pm = game.Team.Pokemons.ValueOrDefault(Pm);
+      var pm = GetPokemon(game, Pm);
       if (pm != null) pm.SetHp(Hp);
-    }
-    public override IText GetGameLog()
-    {
-      IText t1 = GetGameLog(Key);
-      t1.SetData(Pm); //虽然第二个参数可能用不着，但传过去无妨
-      IText h = GetGameLog("Hp");
-      h.SetData(Hp - oldHp);
-      return new LogText(t1, h);
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class PositionChange : GameEvent
+  [DataContract(Namespace = Namespaces.LIGHT)]
+  public class PositionChange : SimpleEvent
   {
-    public static PositionChange Reset(string gameLogKey, PokemonProxy pm, params string[] args)
+    public static PositionChange Reset(string gameLogKey, PokemonProxy pm, object arg1 = null, object arg2 = null)
     {
-      return new PositionChange(gameLogKey, pm, args);
+      return new PositionChange(gameLogKey, pm, arg1, arg2);
     }
     public static PositionChange Leap(string gameLogKey, PokemonProxy pm, CoordY y)
     {
-      return new PositionChange(gameLogKey, pm) { Y = y };
+      return new PositionChange(gameLogKey, pm, null, null) { Y = y };
     }
-
-    [DataMember]
-    string Key;
 
     [DataMember(EmitDefaultValue = false)]
     CoordY Y;
 
-    [DataMember(EmitDefaultValue = false)]
-    int Pm;
-
-    [DataMember(EmitDefaultValue = false)]
-    object Arg;
-
-    [DataMember(EmitDefaultValue = false)]
-    object[] Args;
-
-    private PositionChange(string gameLogKey, PokemonProxy pm, params string[] args)
+    private PositionChange(string gameLogKey, PokemonProxy pm, object arg1 = null, object arg2 = null)
+      : base(gameLogKey, pm, arg1, arg2)
     {
-      Key = gameLogKey;
-      Pm = pm.Id;
-      if (args.Length == 1) Arg = args[0];
-      else if (args.Length > 1) Args = args;
     }
 
-    public override void Update(GameOutward game)
+    private int Pm
+    { get { return I0; } }
+
+    protected override void Update()
     {
-      base.Update(game);
-      var pm = game.GetPokemon(Pm);
+      var pm = GetPokemon(Pm);
       pm.ChangePosition(pm.Position.X, Y);
-    }
-    public override IText GetGameLog()
-    {
-      IText t = GetGameLog(Key);
-      if (t != null)
-      {
-        if (Arg != null) t.SetData(Pm, Arg);
-        else if (Args != null) t.SetData(Pm, Args);
-        else t.SetData(Pm);
-      }
-      return t;
+      base.Update();
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   public class UseItem : GameEvent
   {
     [DataMember]
@@ -263,27 +198,21 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       if (i != null) Item = i.Id;
     }
 
-    public override void Update(GameOutward game)
+    protected override void Update()
     {
-      base.Update(game);
-      var pm = game.GetPokemon(Pm);
+      var pm = GetPokemon(Pm);
       if (Key == "PowerHerb") pm.ChangePosition(pm.Position.X, CoordY.Plate);
-    }
-    public override IText GetGameLog()
-    {
-      IText t = GetGameLog(Key);
-      t.SetData(Pm, Item);
-      return t;
+      AppendGameLog(Key, Pm, Item);
     }
     public override void Update(SimGame game)
     {
-      var pm = game.Team.Pokemons.ValueOrDefault(Pm);
+      var pm = GetPokemon(game, Pm);
       if (pm != null && pm.Item.Type != ItemType.Normal)
         pm.Item = null;
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   public class OutwardChange : GameEvent
   {
     public static OutwardChange FormOnly(string logKey, PokemonProxy pm, string arg = null)
@@ -319,20 +248,15 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
         Gender = pm.Gender;
       }
     }
-    PokemonOutward pm;
-    public override void Update(GameOutward game)
+    protected override void Update()
     {
-      base.Update(game);
-      pm = game.GetPokemon(Pm);
-      if (Name != null) pm.Name = Name;
-      if (Gender != null) pm.Gender = Gender.Value;
-      pm.ChangeImageId(Image);
-    }
-    public override IText GetGameLog()
-    {
-      IText t = GetGameLog(Log);
-      t.SetData(pm, Arg);
-      return t;
+      {
+        var pm = GetPokemon(Pm);
+        if (Name != null) pm.Name = Name;
+        if (Gender != null) pm.Gender = Gender.Value;
+        pm.ChangeImageId(Image);
+      }
+      AppendGameLog(Log, Pm, Arg);
     }
   }
 }

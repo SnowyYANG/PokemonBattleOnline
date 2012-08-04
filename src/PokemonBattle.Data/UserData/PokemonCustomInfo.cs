@@ -10,7 +10,7 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Data
 {
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   public class PokemonCustomInfo : ICloneable, INotifyPropertyChanged
   {
     private string DefaultName

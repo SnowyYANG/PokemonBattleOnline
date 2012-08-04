@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void Quit(int userId);
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class JoinGameCommand : IHostCommand
   {
     [DataMember]
@@ -36,7 +36,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class SpectateGameCommand : IHostCommand
   {
     void IHostCommand.Execute(IHost host, int userId)
@@ -45,7 +45,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class QuitCommand : IHostCommand
   {
     void IHostCommand.Execute(IHost host, int userId)

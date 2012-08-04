@@ -13,10 +13,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     const int EJECT_BUTTON = 111;
     #endregion
 
-    private static void RaiseItem(this PokemonProxy pm, string key)
+    public static void RaiseItem(this PokemonProxy pm, string key = null)
     {
-      pm.Controller.ReportBuilder.Add(new GameEvents.UseItem(key, pm, pm.Pokemon.Item));
-      if (pm.Pokemon.Item.Type != ItemType.Normal) pm.ConsumeItem();
+      pm.Item.Raise(pm, key);
     }
 
     public static bool BigRoot(this IItemE item)
@@ -24,7 +23,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       return item.Id == 73;
     }
 
-    public static void CheckWhiteHerb(PokemonProxy pm)
+    public static void WhiteHerb(PokemonProxy pm)
     {
       if (pm.Item.Id == 5)
       {
@@ -39,16 +38,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         if (pm.OnboardPokemon.EvasionLv < 0) { pm.OnboardPokemon.EvasionLv = 0; raise = true; }
         if (raise) RaiseItem(pm, "WhiteHerb");
       }
-    }
-    public static bool CheckMicleBerry(AtkContext atk)
-    {
-      PokemonProxy pm = atk.Attacker;
-      if (pm.Item.Id == 189 && pm.Pokemon.Hp.Percentage < (pm.Ability.Gluttony()? 0.5 : 0.25))
-      {
-        RaiseItem(pm, "MicleBerry");
-        return true;
-      }
-      return false;
     }
     public static Modifier WideLens(AtkContext atk)
     {
@@ -154,5 +143,18 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       return item.Id == 107;
     }
+
+    #region berry
+    public static bool MicleBerry(AtkContext atk)
+    {
+      PokemonProxy pm = atk.Attacker;
+      if (pm.Item.Id == 189 && pm.Pokemon.Hp.Percentage < (pm.Ability.Gluttony()? 0.5 : 0.25))
+      {
+        RaiseItem(pm, "MicleBerry");
+        return true;
+      }
+      return false;
+    }
+    #endregion
   }
 }

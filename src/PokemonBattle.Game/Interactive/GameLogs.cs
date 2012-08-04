@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Game
   }
   
   [KnownType(typeof(LogText))]
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   public class GameLogs : SimpleData
   {
     public static GameLogs Load(string language)

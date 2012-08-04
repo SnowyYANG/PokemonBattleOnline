@@ -7,42 +7,62 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   public class SimpleEvent : GameEvent
   {
-    private static object Filter(object o)
+    protected static void Filter(object o, ref int i, ref string s)
     {
-      if (o is PokemonProxy) o = ((PokemonProxy)o).Id;
-      else if (o is Tactic.DataModels.GameElement) o = ((Tactic.DataModels.GameElement)o).Id;
-      else if (o is int || o is Enum) o = o.ToString();
+      Type t = o.GetType();
+      if (o is PokemonProxy) i = ((PokemonProxy)o).Id;
+      else if (o is Tactic.DataModels.GameElement) i = ((Tactic.DataModels.GameElement)o).Id;
+      else if (o is int) i = (int)o;
 #if DEBUG
-      else if (!(o is string)) throw new Exception("bad event arg");
+      else if (o is Enum) s = o.ToString();
+      else if (o is string) s = (string)o;
+      else throw new Exception("bad event arg");
+#else
+      else s = o.ToString();
 #endif
-      return o;
+    }
+    protected static object Filter(int i, string s)
+    {
+      if (s == null) return i;
+      return s;
     }
     
     [DataMember]
-    string Key;
+    protected string Key;
 
     [DataMember(EmitDefaultValue = false)]
-    object Arg;
+    protected int I0;
 
     [DataMember(EmitDefaultValue = false)]
-    object[] Args;
+    protected int I1;
+
+    [DataMember(EmitDefaultValue = false)]
+    protected int I2;
+
+    [DataMember(EmitDefaultValue = false)]
+    protected string S0;
+
+    [DataMember(EmitDefaultValue = false)]
+    protected string S1;
+
+    [DataMember(EmitDefaultValue = false)]
+    protected string S2;
 
     /// <param name="args">string and int is fine</param>
-    public SimpleEvent(string gameLogKey, params object[] args)
+    public SimpleEvent(string gameLogKey, object arg0 = null, object arg1 = null, object arg2 = null)
     {
       Key = gameLogKey;
-      if (args.Length == 1) Arg = Filter(args[0]);
-      else if (args.Length > 1) Args = args.Select(Filter).ToArray();
+      List<object> _args = new List<object>();
+      Filter(arg0, ref I0, ref S0);
+      Filter(arg1, ref I1, ref S1);
+      Filter(arg2, ref I2, ref S2);
     }
-    public override IText GetGameLog()
+    protected override void Update()
     {
-      var t = GetGameLog(Key);
-      if (Arg != null) t.SetData(Arg);
-      else if (Args != null) t.SetData(Args);
-      return t;
+      AppendGameLog(Key, Filter(I0, S0), Filter(I1, S1), Filter(I2, S2));
     }
   }
 }

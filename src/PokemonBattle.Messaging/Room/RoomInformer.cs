@@ -17,7 +17,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void InformEnterSucceed(GameInitSettings settings, Player[] players, int[] spectators);
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class UserSpectateGameInfo : IUserInformation
   {
 
@@ -35,7 +35,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class UserJoinGameInfo : IUserInformation
   {
 
@@ -58,7 +58,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class UserQuitInfo : IUserInformation
   {
 
@@ -78,7 +78,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class UserKickedInfo : IUserInformation
   {
     [DataMember(EmitDefaultValue = false)]
@@ -95,7 +95,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class EnterFailedInfo : IUserInformation
   {
     [DataMember(EmitDefaultValue = false)]
@@ -112,7 +112,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class EnterSucceedInfo : IUserInformation
   {
     public static EnterSucceedInfo Player(Host host, int[] ids)

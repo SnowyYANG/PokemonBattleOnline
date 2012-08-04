@@ -8,13 +8,14 @@ namespace LightStudio.PokemonBattle.Game.Host
 {
   public class Controller
   {
-    internal event Action<ReportFragment> ReportUpdated;
+    internal event Action<ReportFragment, IEnumerable<KeyValuePair<int, RequireInput>>> ReportUpdated;
 
     public readonly ReportBuilder ReportBuilder;
     internal readonly GameContext Game;
     private readonly SwitchController SwitchController;
     private readonly InputController InputController;
     private readonly TurnController TurnController;
+    private readonly Dictionary<int, PokemonProxy> pokemons;
     
     private Random random;
     private Action inputFinished;
@@ -25,6 +26,10 @@ namespace LightStudio.PokemonBattle.Game.Host
     internal Controller(GameContext game)
     {
       Game = game;
+      pokemons = new Dictionary<int, PokemonProxy>();
+      foreach (Team t in game.Teams)
+        foreach (Pokemon p in t.Pokemons.Values) pokemons.Add(p.Id, new PokemonProxy(this, p));
+
       ReportBuilder = new ReportBuilder(this);
       SwitchController = new SwitchController(this);
       InputController = new InputController(this);
@@ -56,6 +61,10 @@ namespace LightStudio.PokemonBattle.Game.Host
     internal Player GetPlayer(Tile tile)
     {
       return Game.Teams[tile.Team].GetPlayer(Game.Settings.Mode.GetPlayerIndex(tile.X));
+    }
+    internal PokemonProxy GetPokemon(Pokemon pokemon)
+    {
+      return pokemons[pokemon.Id];
     }
     public int GetRandomInt(int min, int max)
     {
@@ -140,7 +149,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         random = new Random();
 #endif
         ReportBuilder.NewFragment();
-        if (ReportUpdated != null) ReportUpdated(ReportBuilder.GetFragment());
+        ReportUpdated(ReportBuilder.GetFragment(), InputController.InputRequirements);
         this.inputFinished = inputFinished;
       }
       else inputFinished();

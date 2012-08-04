@@ -5,54 +5,54 @@ using System.Text;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
-  /// <summary>
-  /// 我记得这是单线程的，Host那边用了Dispatcher
-  /// </summary>
   internal class InputController : ControllerComponent
   {
-    public event Action<ReportFragment, int[]> ReportUpdated;
-    private HashSet<int> players;
+    private Dictionary<int, RequireInput> inputRequirements;
 
     public InputController(Controller controller)
       : base(controller)
     {
-      players = new HashSet<int>();
+      inputRequirements = new Dictionary<int, RequireInput>();
     }
 
     public bool NeedInput
-    { get { return players.Count > 0; } }
-    public IEnumerable<int> Players
-    { get { return players; } }
+    { get { return inputRequirements.Count > 0; } }
+    public IEnumerable<KeyValuePair<int, RequireInput>> InputRequirements
+    { get { return inputRequirements; } }
 
-    private bool CheckInputSucceed(Player player)
-    {
-      foreach (Tile t in Controller.Tiles)
-        if (Controller.GetPlayer(t) == player)
-          if (t.Pokemon != null)
-          {
-            if (t.Pokemon.Action == PokemonAction.WaitingForInput) return false;
-          }
-          else
-          {
-            if (t.WillSendoutPokemonIndex < GameSettings.Mode.OnboardPokemonsPerPlayer() && Controller.CanSendout(t)) return false;
-          }
-      players.Remove(player.Id);
-      return true;
-    }
+    //private bool CheckInputSucceed(Player player)
+    //{
+    //  foreach (Tile t in Controller.Tiles)
+    //    if (Controller.GetPlayer(t) == player)
+    //      if (t.Pokemon != null)
+    //      {
+    //        if (t.Pokemon.Action == PokemonAction.WaitingForInput) return false;
+    //      }
+    //      else
+    //      {
+    //        if (t.WillSendoutPokemonIndex < GameSettings.Mode.OnboardPokemonsPerPlayer() && Controller.CanSendout(t)) return false;
+    //      }
+    //  players.Remove(player.Id);
+    //  return true;
+    //}
     public void PauseForTurnInput()
     {
-      foreach (PokemonProxy p in Controller.OnboardPokemons)
-        if (p.Action == PokemonAction.WaitingForInput) players.Add(p.Pokemon.Owner.Id);
+      inputRequirements.Clear();
+      var groups = from p in Controller.OnboardPokemons
+                   where p.Action == PokemonAction.WaitingForInput
+                   group p by p.Pokemon.Owner.Id into playerPms
+                   select playerPms;
+      foreach (var g in groups) inputRequirements.Add(g.Key, new RequireInput(g));
     }
     public void PauseForEndTurnInput()
     {
-      foreach (Tile t in Controller.Tiles)
-        if (Controller.CanSendout(t)) players.Add(Controller.GetPlayer(t).Id);
+      inputRequirements.Clear();
+      foreach (Tile t in Controller.Tiles) inputRequirements[Controller.GetPlayer(t).Id] = null;
     }
     public void PauseForSendoutInput(Tile tile)
     {
-      if (Controller.CanSendout(tile))
-          players.Add(Controller.GetPlayer(tile).Id);
+      inputRequirements.Clear();
+      if (Controller.CanSendout(tile)) inputRequirements.Add(Controller.GetPlayer(tile).Id, null);
     }
     private bool Switch(PokemonProxy withdraw, int sendoutIndex)
     {

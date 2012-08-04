@@ -30,5 +30,12 @@ namespace LightStudio
       if (index >= 0 && index < list.Count) return list[index];
       return default(T);
     }
+    public static bool ArrayEquals(this Array x, Array y)
+    {
+      if (y == null || x.Length != y.Length) return false;
+      for (int i = 0; i < x.Length; ++i)
+        if (!x.GetValue(i).Equals(y.GetValue(i))) return false;
+      return true;
+    }
   }
 }

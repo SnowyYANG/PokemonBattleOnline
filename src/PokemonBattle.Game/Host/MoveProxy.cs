@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LightStudio.PokemonBattle.Game.GameEvents;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
@@ -27,26 +28,27 @@ namespace LightStudio.PokemonBattle.Game.Host
         Move.PP.Value = value;
       }
     }
+    
     public Data.MoveType Type
     { get { return Move.Type; } }
     public int Priority
     { get { return Move.Type.Priority; } }
 
+    
     /// <summary>
     /// CanSelect不代表技能一定能用，http://www.smogon.com/dp/articles/move_restrictions#disable
     /// </summary>
-    public bool CanBeSelected
+    /// <returns>key, null if no problem</returns>
+    internal SelectMoveFail IfSelected()
     { 
-      get
-      {
-        //事件事件事件...
-        return PP > 0;
-      }
-    } //PP>0
+      //事件事件事件...
+      //return PP > 0; //这是不真实的，PP>0才不告诉客户端呢你自己猜去吧！
+      return null;
+    }
 
     public void Execute()
     {
-      Owner.Controller.ReportBuilder.Add(new GameEvents.UseMove(Owner, Type));
+      Owner.Controller.ReportBuilder.Add(new UseMove(Owner, Type));
       e.Execute(Owner);
     }
 

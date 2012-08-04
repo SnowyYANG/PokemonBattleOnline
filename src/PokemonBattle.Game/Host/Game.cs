@@ -14,8 +14,9 @@ namespace LightStudio.PokemonBattle.Game.Host
     public readonly Board Board;
     public readonly Team[] Teams;
     private readonly IGameSettings gameSettings;
-    private readonly Controller Controller;
+    private Controller controller;
     private Action<int, int> gameEnd;
+    private Dictionary<int, RequireInput> inputRequirements;
 
     internal GameContext(IGameSettings settings, Func<int> nextId)
     {
@@ -24,7 +25,6 @@ namespace LightStudio.PokemonBattle.Game.Host
       for (int i = 0; i < Teams.Length; i++)
         Teams[i] = new Team(i, settings, nextId);
       Board = new Board(this);
-      Controller = new Controller(this);
     }
 
     public IGameSettings Settings
@@ -56,10 +56,11 @@ namespace LightStudio.PokemonBattle.Game.Host
       add { gameEnd += value; }
       remove { gameEnd -= value; }
     }
-    event Action<ReportFragment> IGame.ReportUpdated
+    private Action<ReportFragment, IEnumerable<KeyValuePair<int, RequireInput>>> _reportUpdated;
+    event Action<ReportFragment, IEnumerable<KeyValuePair<int, RequireInput>>> IGame.ReportUpdated
     {
-      add { Controller.ReportUpdated += value; }
-      remove { Controller.ReportUpdated -= value; }
+      add { _reportUpdated += value; }
+      remove { _reportUpdated -= value; }
     }
 
     bool IGame.Prepared
@@ -81,22 +82,24 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (((IGame)this).Prepared)
       {
-        Controller.StartGameLoop(); //想用异步...
+        controller = new Controller(this);
+        controller.ReportUpdated += _reportUpdated;
+        controller.StartGameLoop(); //想用异步...
         return true;
       }
       return false;
     }
     void IGame.TryContinue()
     {
-      Controller.TryContinueGameLoop();
+      controller.TryContinueGameLoop();
     }
     bool IGame.InputAction(int playerId, ActionInput action)
     {
-      return action.Input(Controller, GetPlayer(playerId));
+      return inputRequirements[playerId].Input(controller, action);
     }
     ReportFragment IGame.GetLastLeapFragment() // for spectator
     {
-      return Controller.ReportBuilder.GetLeapFragment(); //is null possible?
+      return controller.ReportBuilder.GetLeapFragment(); //is null possible?
     }
     #endregion
   }

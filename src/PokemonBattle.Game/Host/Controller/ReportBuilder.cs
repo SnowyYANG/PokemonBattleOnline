@@ -57,9 +57,9 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       current.AddEvent(e);
     }
-    public void Add(string key, params object[] data)
+    public void Add(string key, object arg0 = null, object arg1 = null, object arg2 = null)
     {
-      Add(new SimpleEvent(key, data));
+      Add(new SimpleEvent(key, arg0, arg1, arg2));
     }
   }
 }

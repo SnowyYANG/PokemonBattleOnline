@@ -37,15 +37,15 @@ namespace LightStudio.PokemonBattle.PBO.Battle
             default:
               try
               {
-                if (cp.ControllingPokemon.Hp > 0)
-                  nest.SetText(cp.ControllingPokemon.Name + "要做什么？");
+                if (cp.ControllingPokemon.Pokemon.Hp.Value > 0)
+                  nest.SetText(cp.ControllingPokemon.Pokemon.Name + "要做什么？");
               }
               catch { }
               break;
           }
         else if (e.PropertyName == "ControllingPokemon" && (cp.SelectedPanel == ControlPanelIndex.MAIN || cp.SelectedPanel == ControlPanelIndex.FIGHT))
-          if (cp.ControllingPokemon != null && cp.ControllingPokemon.Hp > 0)
-            nest.SetTextForcibly(cp.ControllingPokemon.Name + "要做什么？");
+          if (cp.ControllingPokemon != null && cp.ControllingPokemon.Pokemon.Hp.Value > 0)
+            nest.SetTextForcibly(cp.ControllingPokemon.Pokemon.Name + "要做什么？");
       }
       public void ControlPanel_InputFailed(string message)
       {

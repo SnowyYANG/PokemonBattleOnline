@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Data
     Berry
   }
   
-  [DataContract(Namespace=Namespaces.DEFAULT)]
+  [DataContract(Namespace=Namespaces.LIGHT)]
   public class Item : GameElement
   {
     [DataMember(EmitDefaultValue = false)]

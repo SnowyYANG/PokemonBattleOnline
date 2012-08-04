@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace LightStudio.PokemonBattle.Messaging.Room
 {
-  [DataContract(Namespace = Namespaces.DEFAULT)]
-  public class Player
+  [DataContract(Namespace = Namespaces.LIGHT)]
+  public class Player : INotifyPropertyChanged
   {
+    public event PropertyChangedEventHandler PropertyChanged;
     [DataMember]
     public readonly int Id;
     [DataMember(EmitDefaultValue = false)]
@@ -21,12 +23,39 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       Seconds = 1800;
     }
 
+    private bool _isInputing;
     [DataMember(EmitDefaultValue = false)]
     public bool IsInputing
-    { get; private set; }
+    {
+      get { return _isInputing; }
+      internal set
+      {
+        if (_isInputing != value)
+        {
+          _isInputing = value;
+          SendPropertyChanged("IsInputing");
+        }
+      }
+    }
+    private int _seconds;
     [DataMember(EmitDefaultValue = false)]
     public int Seconds
-    { get; private set; }
+    {
+      get { return _seconds; }
+      private set
+      {
+        if (_seconds != value)
+        {
+          _seconds = value;
+          SendPropertyChanged("Seconds");
+        }
+      }
+    }
+
+    private void SendPropertyChanged(string propertyName)
+    {
+      if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+    }
 
     internal void NewTurn()
     {

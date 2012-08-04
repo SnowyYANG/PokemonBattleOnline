@@ -16,6 +16,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
 
     public event Action<string> EnterFailed = delegate { };
     public event Action EnterSucceed;
+    public event Action GameStart;
     public event Action GameEnd = delegate { };
     public event Action Quited = delegate { };
     public event Action<string> Error
@@ -33,6 +34,10 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     protected RoomUserClient(int hostId)
     {
       HostId = hostId;
+      players = new ObservableCollection<Player>();
+      Players = new ReadOnlyObservableCollection<Player>(players);
+      spectators = new ObservableCollection<int>();
+      Spectators = new ReadOnlyObservableCollection<int>(spectators);
       gameEventsDispatcher = new Dispatcher("RoomUserClient", true);
     }
 
@@ -89,7 +94,8 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
     void IGameInformer.InformPlayerInputed(int player)
     {
-      throw new NotImplementedException();
+      var p = players.ValueOrDefault(player);
+      p.IsInputing = false;
     }
     void IGameInformer.InformGameResult(int team0, int team1)
     {
@@ -118,7 +124,10 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       Players = new ReadOnlyObservableCollection<Player>(this.players);
       Spectators = new ReadOnlyObservableCollection<int>(this.spectators);
     }
-    protected virtual void InformReportUpdate(ReportFragment fragment)
+    protected virtual void OnGameStarted()
+    {
+    }
+    protected void InformReportUpdate(ReportFragment fragment)
     {
       if (RoomState != RoomState.GameStarted)
       {
@@ -126,7 +135,9 @@ namespace LightStudio.PokemonBattle.Messaging.Room
         Dictionary<int, string> ps = new Dictionary<int,string>();
         foreach(Player p in players) ps.Add(p.Id, p.GetName());
         game = new GameOutward(Settings, ps);
+        OnGameStarted();
       }
+      GameStart();
       game.Update(fragment);
     }
     void IGameInformer.InformReportUpdate(ReportFragment fragment)

@@ -11,7 +11,8 @@ namespace LightStudio.PokemonBattle.Game
   /// </summary>
   public interface IGameOutwardEvents
   {
-    void EventOccurred(GameEvent e);
+    void TurnEnd();
+    void GameLogAppend(IText t);
   }
   public class GameOutward : IFormatProvider, ICustomFormatter
   {
@@ -61,13 +62,16 @@ namespace LightStudio.PokemonBattle.Game
       foreach (GameEvent e in turn.Events)
       {
         System.Threading.Thread.Sleep(500);
-        UIDispatcher.Invoke(() =>
-          {
-            e.Update(this);
-            foreach (IGameOutwardEvents l in listeners)
-              l.EventOccurred(e);
-          });
+        UIDispatcher.Invoke((Action<GameOutward>)e.Update, this);
       }
+    }
+    public void AppendGameLog(IText text)
+    {
+      foreach (var l in listeners) l.GameLogAppend(text);
+    }
+    public void EndTurn()
+    {
+      foreach (var l in listeners) l.TurnEnd();
     }
     public void AddListner(IGameOutwardEvents listener)
     {
@@ -87,33 +91,33 @@ namespace LightStudio.PokemonBattle.Game
         if (arg is int)
         {
           int id = (int)arg;
-          switch (format)
+          if (format.StartsWith("pm."))
           {
-            case "P":
-              r = players.ValueOrDefault(id);
-              break;
-            case "pm":
-              {
-                var pm = GetPokemon(id);
-                if (pm != null) r = GetPokemon(id).Name;
-              }
-              break;
-            case "p":
-              {
-                var pm = GetPokemon(id);
-                if (pm != null) r = string.Format(this, DataService.String["{0}'s {1}"], players.ValueOrDefault(pm.OwnerId), pm.Name);
-              }
-              break;
-            case "m":
-              r = DataService.GetMove(id).GetLocalizedName();
-              break;
-            case "a":
-              r = DataService.GetAbility(id).GetLocalizedName();
-              break;
-            case "i":
-              r = DataService.GetItem(id).GetLocalizedName();
-              break;
-          }//switch
+            var pm = GetPokemon(id);
+            r = pm.GetProperty(format.Substring(3));
+          }
+          else
+            switch (format)
+            {
+              case "P":
+                r = players.ValueOrDefault(id);
+                break;
+              case "p":
+                {
+                  var pm = GetPokemon(id);
+                  if (pm != null) r = string.Format(this, DataService.String["{0}'s {1}"], players.ValueOrDefault(pm.OwnerId), pm.Name);
+                }
+                break;
+              case "m":
+                r = DataService.GetMove(id).GetLocalizedName();
+                break;
+              case "a":
+                r = DataService.GetAbility(id).GetLocalizedName();
+                break;
+              case "i":
+                r = DataService.GetItem(id).GetLocalizedName();
+                break;
+            }//switch
         }
         if (r == null) r = arg.ToString();
       }// if (arg != null

@@ -22,21 +22,24 @@ namespace LightStudio.PokemonBattle.PBO.Battle
   /// </summary>
   public partial class BattleWindow : Window
   {
-    IRoom userController;
+    IRoom room;
 
     public BattleWindow(IRoom controller)
     {
       InitializeComponent();
-      Init(controller);
+      controller.GameStart += () =>
+        {
+          room = controller;
+          UIDispatcher.Invoke(Init);
+        };
     }
 
-    internal void Init(IRoom controller)
+    internal void Init()
     {
       if (DataContext != null) return;
-      userController = controller;
-      nds.Init(controller);
-      br.Init(controller.Game);
-      controller.Game.LeapTurn += () =>
+      nds.Init(room);
+      br.Init(room.Game);
+      room.Game.LeapTurn += () =>
         {
           mask.Visibility = System.Windows.Visibility.Collapsed;
         };
@@ -45,7 +48,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
     {
       base.OnClosing(e);
-      if (userController != null && userController.RoomState != RoomState.GameEnd)
+      if (room != null && room.RoomState != RoomState.GameEnd)
       {
         var result = UIElements.ShowMessageBox.ClosingInBattle(this);
         e.Cancel = result != MessageBoxResult.Yes;
@@ -55,7 +58,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     protected override void OnClosed(EventArgs e)
     {
       base.OnClosed(e);
-      userController.Quit();
+      room.Quit();
     }
   }
 }

@@ -180,10 +180,12 @@ namespace LightStudio.PokemonBattle.Messaging.Room
           int i = -1;
           foreach (Pokemon pm in p.Pokemons) ids[++i] = pm.Id;
         }
+        OnSendInformation(new UserJoinGameInfo(userId, p.Team.Id));
         OnSendInformation(EnterSucceedInfo.Player(this, ids), userId);
       }
       else
       {
+        OnSendInformation(new UserSpectateGameInfo(userId));
         OnSendInformation(EnterSucceedInfo.Spectator(this, game.GetLastLeapFragment()), userId);
       }
     }
@@ -218,14 +220,30 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       //OnSendInformation(GameEndInfo.TimeUp(remainingTime));
     }
 
-    void InformReportUpdate(ReportFragment fragment)
+#if !DEBUG
+    private Dictionary<int, RequireInput> lastRequirements;
+#endif
+    void InformReportUpdate(ReportFragment fragment, IEnumerable<KeyValuePair<int, RequireInput>> requirements)
     {
-      OnSendInformation(new ReportUpdateInfo(fragment));
-    }
-    void InformReportAddition(IEnumerable<KeyValuePair<int, RequireInput>> info)
-    {
-      foreach(KeyValuePair<int, RequireInput> pair in info)
-        OnSendInformation(new RequireInputInfo(pair.Value), pair.Key);
+      bool hasAddition;
+#if DEBUG
+      hasAddition = true;
+#else
+      if (lastRequirements.Values.First() != null)
+      {
+        hasAddition = false;
+        foreach (KeyValuePair<int, RequireInput> pair in requirements)
+          if (!pair.Value.Equals(lastRequirements.ValueOrDefault(pair.Key)))
+          {
+            hasAddition = true;
+            break;
+          }
+      }
+#endif
+      OnSendInformation(new ReportUpdateInfo(fragment, hasAddition));
+      if (hasAddition)
+        foreach(KeyValuePair<int, RequireInput> pair in requirements)
+          OnSendInformation(new RequireInputInfo(pair.Value), pair.Key);
     }
     void InformPlayerInputed(int userId)
     {

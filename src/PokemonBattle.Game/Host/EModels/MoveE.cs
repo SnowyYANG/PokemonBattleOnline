@@ -113,7 +113,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         if (Move.Class != MoveInnerClass.OHKO)
         {
-          if (Items.CheckMicleBerry(atk)) goto DONE;
+          if (Items.MicleBerry(atk)) goto DONE;
           atk.AccuracyModifier = Abilities.AccuracyModifier(atk) * Items.WideLens(atk);
         }
         var miss = new List<DefContext>();

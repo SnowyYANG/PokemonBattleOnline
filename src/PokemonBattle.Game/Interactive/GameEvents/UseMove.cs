@@ -8,7 +8,7 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class UseMove : GameEvent
   {
     [DataMember]
@@ -22,17 +22,11 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       Move = move.Id;
     }
 
-    public override void Update(GameOutward game)
+    protected override void Update()
     {
-      base.Update(game);
-      var pm = game.GetPokemon(Pm);
+      var pm = Game.GetPokemon(Pm);
       pm.ChangePosition(pm.Position.X, CoordY.Plate);
-    }
-    public override IText GetGameLog()
-    {
-      IText t = GetGameLog("UseMove");
-      t.SetData(Pm, DataService.GetMove(Move).GetLocalizedName());
-      return t;
+      AppendGameLog("UseMove", Pm, Move);
     }
     public override void Update(SimGame game)
     {

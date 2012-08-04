@@ -9,107 +9,93 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   internal class SendOut : GameEvent
   {
     [DataMember]
-    public int PlayerId { get; private set; }
+    int Player;
     [DataMember]
-    public PokemonOutward[] Pms { get; private set; }
+    PokemonOutward[] Pms;
 
     internal SendOut(params PokemonProxy[] pms)
     {
-      PlayerId = pms[0].Pokemon.Owner.Id;
+      Player = pms[0].Pokemon.Owner.Id;
       Pms = new PokemonOutward[pms.Length];
       for (int i = 0; i < pms.Length; ++i) Pms[i] = pms[i].GetOutward();
     }
 
-    public override IText GetGameLog()
+    protected override void Update()
     {
-      IText t = GetGameLog("SendOut");
-      t.SetData(PlayerId, Pms);
-      return t;
-    }
-    public override void Update(GameOutward game)
-    {
-      base.Update(game);
       foreach (PokemonOutward p in Pms)
       {
-        game.Board[p.Position.Team, p.Position.X] = p;
-        game.Board.PokemonSentout(p.Position.Team, p.Position.X);
+        Game.Board[p.Position.Team, p.Position.X] = p;
+        Game.Board.PokemonSentout(p.Position.Team, p.Position.X);
       }
+      var args = new List<int>();
+      args.Add(Player);
+      args.AddRange(Pms.Select((p) => p.Id));
+      AppendGameLog("SendOut" + Pms.Length, args.ToArray());
     }
     public override void Update(SimGame game)
     {
-      if (game.Team.GetPlayerIndex(PlayerId) != -1)
+      if (game.Team.GetPlayerIndex(Player) != -1)
         foreach (PokemonOutward p in Pms)
         {
           game.OnboardPokemons[p.Position.X] = new SimPokemon(game.Team.Pokemons[p.Id], p);
           game.ActivePokemons.Add(p.Position.X, game.OnboardPokemons[p.Position.X]);
-          if (PlayerId == game.Player.Id)
-          {
-            game.Player.SwitchPokemon(game.Settings.Mode.GetPokemonIndex(p.Position.X), game.Player.GetPokemonIndex(p.Id));
-          }
+          if (Player == game.Player.Id) game.Player.SwitchPokemon(game.Settings.Mode.GetPokemonIndex(p.Position.X), game.Player.GetPokemonIndex(p.Id));
         }
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   internal class Withdraw : GameEvent
   {
-    [DataMember]
-    int Team { get; set; }
+    [DataMember(EmitDefaultValue = false)]
+    string Key;
+    
+    [DataMember(EmitDefaultValue = false)]
+    int Pm;
 
-    [DataMember]
-    int X { get; set; }
+    [DataMember(EmitDefaultValue = false)]
+    int Ab;
 
-    public Withdraw(PokemonProxy pm)
+    public Withdraw(PokemonProxy pm, string key = null)
     {
-      Team = pm.Pokemon.TeamId;
-      X = pm.OnboardPokemon.X;
+      Key = key;
+      Pm = pm.Id;
+      Ab = pm.Ability.Id;
+      if (Ab != Host.Sp.Abilities.REGENERATOR && Ab != Host.Sp.Abilities.NATURAL_CURE) Ab = 0;
     }
 
-    bool isFaint;
-    PokemonOutward pm;
-    public override void Update(GameOutward game)
+    int team, x;
+    protected override void Update()
     {
-      base.Update(game);
-      pm = game.Board[Team, X];
+      var pm = GetPokemon(Pm);
+      team = pm.Position.Team;
+      x = pm.Position.X;
       if (pm.Hp.Value == 0)
       {
         pm.Faint();
-        isFaint = true;
+        AppendGameLog("Faint", pm.Id);
       }
       else
       {
+        if (Key == null) Key = "Withdraw";
         pm.Withdraw();
-        //text = xxx把xxx收了回去
-        //else ;//xxx回到了xxx身边
+        AppendGameLog(Key, pm.OwnerId, pm.Id);
       }
-      game.Board[Team, X] = null;
-    }
-    public override IText GetGameLog()
-    {
-      IText t;
-      if (isFaint)
-      {
-        t = GetGameLog("Faint");
-        if (t != null) t.SetData(pm.Id);
-      }
-      else
-      {
-        t = GetGameLog("Withdraw");
-        if (t != null) t.SetData(pm.OwnerId, pm.Id);
-      }
-      return t;
+      Game.Board[team, x] = null;
     }
     public override void Update(SimGame game)
     {
-      if (Team == game.Player.TeamId)
+      if (team == game.Player.TeamId)
       {
-        game.ActivePokemons.Remove(X);
-        SimPokemon pm = game.OnboardPokemons[X];
-        game.OnboardPokemons[X] = null;
+        game.ActivePokemons.Remove(x);
+        game.OnboardPokemons[x] = null;
+        var pm = GetPokemon(game, Pm);
+        if (Ab == Host.Sp.Abilities.REGENERATOR) pm.SetHp(pm.Hp.Value + pm.Hp.Origin / 3);
+        else if (Ab == Host.Sp.Abilities.NATURAL_CURE) pm.State = PokemonState.Normal;
       }
     }
   }

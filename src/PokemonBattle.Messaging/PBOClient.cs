@@ -65,12 +65,16 @@ namespace LightStudio.PokemonBattle.Messaging
     {
       //thread safe?
       lock(locker)
-        if (Client == null)
+        if (Client != null)
         {
           var u = Client.GetUser(player.Id);
           if (u != null) return u.Name;
         }
         return "#" + player.Id.ToString();
+    }
+    public static void Dispose()
+    {
+      Client = null;
     }
   }
 }

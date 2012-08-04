@@ -35,11 +35,8 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (CanWithdraw(pm))
       {
         if (canPursuit) Sp.Moves.Pursuit(pm);
-        pm.Tile.Pokemon = null;
-        pm.Tile = null;
-        Controller.OnboardPokemons.Remove(pm);
         ReportBuilder.Add(new GameEvents.Withdraw(pm));
-        Sp.Abilities.Withdrawn(pm);
+        pm.Withdraw();
         return true;
       }
       return false;
@@ -52,12 +49,9 @@ namespace LightStudio.PokemonBattle.Game.Host
       if ((ReportBuilder.TurnNumber == 0 && origin == sendout) || (CanSendout(tile) && CanSendout(p.GetPokemon(sendout))))
       {
         //交换必须在构建实例之后，交换怪兽会导致队伍的排序改变，幻影特性以交换时的队伍顺序决定。
-        PokemonProxy pm = new PokemonProxy(Controller, p.GetPokemon(sendout), tile);
-        pm.Tile = tile;
+        var pm = Controller.GetPokemon(p.GetPokemon(sendout));
+        pm.Sendout(tile);
         p.SwitchPokemon(origin, sendout);
-        tile.Pokemon = pm;
-        tile.WillSendoutPokemonIndex = Tile.NOPM_INDEX;
-        Controller.OnboardPokemons.Add(pm);
         ReportBuilder.Add(new SendOut(pm));
         if (debut) pm.Debut();
         return true;

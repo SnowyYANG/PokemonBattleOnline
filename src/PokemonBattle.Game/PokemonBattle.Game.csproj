@@ -50,6 +50,7 @@
     <Compile Include="GameService.cs" />
     <Compile Include="Host\Controller\Input.cs" />
     <Compile Include="Host\EModels\IRuleE.cs" />
+    <Compile Include="Interactive\GameEvents\Sp.cs" />
     <Compile Include="Interactive\InputType.cs" />
     <Compile Include="Host\EModels\Modifier.cs" />
     <Compile Include="Host\EModels\Sp\Conditions\BadlyPoison.cs" />
@@ -97,7 +98,6 @@
     <Compile Include="Interactive\GameEvents\PmPropertyChange.cs" />
     <Compile Include="Interactive\GameEvents\Simple.cs" />
     <Compile Include="Interactive\GameEvents\Switch.cs" />
-    <Compile Include="Interactive\GameEvents\Turn.cs" />
     <Compile Include="Interactive\GameLogs.cs" />
     <Compile Include="Interactive\GameLogText.cs" />
     <Compile Include="Host\Controller\ReportBuilder.cs" />

@@ -12,6 +12,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     #region ids
     public const int LEVITATE = 66;
     public const int LIQUID_OOZE = 70;
+    public const int NATURAL_CURE = 84;
+    public const int REGENERATOR = 104;
     public const int STURDY = 138;
     #endregion
 
@@ -151,10 +153,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static void Withdrawn(PokemonProxy pm)
     {
 #warning SimGame更新
-      const int NATURAL_CURE = 84;
-      const int REGENERATOR = 104;
-      if (pm.Ability.Id == NATURAL_CURE) pm.Hp += pm.Pokemon.Hp.Origin / 3;
-      else if (pm.Ability.Id == REGENERATOR) pm.Pokemon.State = PokemonState.Normal;
+      if (pm.Ability.Id == REGENERATOR) pm.Hp += pm.Pokemon.Hp.Origin / 3;
+      else if (pm.Ability.Id == NATURAL_CURE) pm.Pokemon.State = PokemonState.Normal;
     }
     public static Modifier ThickFat(DefContext def)
     {

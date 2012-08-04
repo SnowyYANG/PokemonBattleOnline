@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   public class WeatherChange : GameEvent
   {
     [DataMember]
@@ -17,16 +17,10 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       Weather = weather;
     }
 
-    Weather oldWeather;
-    public override void Update(Game.GameOutward game)
+    protected override void Update()
     {
-      base.Update(game);
-      oldWeather = game.Board.Weather;
-      game.Board.Weather = Weather;
-    }
-    public override IText GetGameLog()
-    {
-      return GetGameLog(Weather == Weather.Normal ? "De" + oldWeather : "En" + Weather);
+      AppendGameLog(Weather == Weather.Normal ? "De" + Game.Board.Weather : "En" + Weather);
+      Game.Board.Weather = Weather;
     }
   }
 }

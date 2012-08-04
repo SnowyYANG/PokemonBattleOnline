@@ -7,7 +7,7 @@ using LightStudio.Tactic.DataModels.IO;
 
 namespace LightStudio.PokemonBattle.Data
 {
-  [DataContract(Namespace=Namespaces.DEFAULT)]
+  [DataContract(Namespace=Namespaces.LIGHT)]
   public sealed class RomData : SimpleData
   {
     public static RomData Load()

@@ -23,7 +23,6 @@ namespace LightStudio.Tactic.DataModels
     Alignment Alignment { get; }
 
     void SetData(params object[] data);
-    void ClearData();
     /// <summary>
     /// Text works only when Contents is null
     /// </summary>
@@ -34,7 +33,7 @@ namespace LightStudio.Tactic.DataModels
     T[] Contents { get; }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   public abstract class TextBase<T> : IText<T> where T : IText<T>
   {
     public const UInt32 DEFAULT_FOREGROUND = 0xff000000;
@@ -109,10 +108,6 @@ namespace LightStudio.Tactic.DataModels
       if (Contents != null)
         foreach (T t in Contents)
           t.SetData(data);
-    }
-    public void ClearData()
-    {
-      Data = null;
     }
 
     public override string ToString()

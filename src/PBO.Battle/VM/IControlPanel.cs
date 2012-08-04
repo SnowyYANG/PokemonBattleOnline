@@ -36,8 +36,8 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     TeamOutward RivalTeamPokemonsCount { get; }
 
     void Pokemon_Click(Pokemon pokemon);
+    void Fight_Click();
     void Move_Click(SimMove move);
-    void Struggle_Click();
     void Giveup_Click();
     void Undo_Click();
   }

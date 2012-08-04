@@ -18,7 +18,7 @@ namespace LightStudio
     bool IsChanged { get; }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   public class PairValue : IPairValue
   {
     public event PropertyChangedEventHandler PropertyChanged;

@@ -57,7 +57,7 @@ namespace LightStudio.PokemonBattle.Data
     Trapped //强韧之爪
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   public class MoveAttachment
   {
     [DataMember]

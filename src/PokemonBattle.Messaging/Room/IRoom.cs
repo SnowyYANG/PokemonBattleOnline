@@ -9,6 +9,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
 {
   public interface IRoom : IDisposable
   {
+    event Action GameStart;
     event Action Quited;
     ReadOnlyObservableCollection<int> Spectators { get; }
     ReadOnlyObservableCollection<Player> Players { get; }

@@ -26,7 +26,7 @@ namespace LightStudio.PokemonBattle.Game
   }
 
   [KnownType(typeof(PairValue))]
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   public class PokemonOutward : INotifyPropertyChanged
   {
     private static readonly PropertyChangedEventArgs NAME = new PropertyChangedEventArgs("Name");
@@ -236,6 +236,26 @@ namespace LightStudio.PokemonBattle.Game
     {
       if (PropertyChanged != null)
         PropertyChanged(this, e);//据说性别虽然改变但不会显示出来
+    }
+    public string GetProperty(string propertyName)
+    {
+      string r = null;
+      switch (propertyName)
+      {
+        case "Name":
+          r = Name;
+          break;
+        case "Lv":
+          r = Lv.ToString();
+          break;
+        case "Type":
+          r = DataService.GetPokemonType(ImageId).GetLocalizedName();
+          break;
+        case "State":
+          r = State.GetLocalizedName();
+          break;
+      }
+      return r;
     }
     public void AddListener(IPokemonOutwardEvents listener)
     {

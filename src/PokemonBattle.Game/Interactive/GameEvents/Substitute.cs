@@ -7,7 +7,7 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   public class Substitute : GameEvent
   {
     public static Substitute EnSubstitute(PokemonProxy pm)
@@ -24,18 +24,12 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember]
     int Pm;
 
-    public override void Update(GameOutward game)
+    protected override void Update()
     {
-      base.Update(game);
-      var pm = game.GetPokemon(Pm);
+      var pm = Game.GetPokemon(Pm);
       if (De) pm.HideSubstitute();
       else pm.ShowSubstitute();
-    }
-    public override IText GetGameLog()
-    {
-      IText t = De? GetGameLog("DeSubstitute") : GetGameLog("EnSubstitute");
-      t.SetData(Pm);
-      return t;
+      AppendGameLog(De ? "DeSubstitute" : "EnSubstitute", Pm);
     }
   }
 }

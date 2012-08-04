@@ -8,7 +8,7 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   public class LogText : Tactic.DataModels.TextBase<IText>, IText
   {
     private static readonly string[] NODATA = new string[] { "{0}", "{1}", "{2}", "{3}", "{4}", "{5}" };
@@ -30,10 +30,10 @@ namespace LightStudio.PokemonBattle.Game
 
     [DataMember(EmitDefaultValue = false)]
     public bool HiddenInBattle
-    { get; protected set; }
+    { get; internal set; }
     [DataMember(EmitDefaultValue = false)]
     public bool HiddenAfterBattle
-    { get; protected set; }
+    { get; internal set; }
 
     public override string Text
     {
@@ -47,7 +47,6 @@ namespace LightStudio.PokemonBattle.Game
         base.Text = value;
       }
     }
-
     public IText Clone(IFormatProvider formatter)
     {
       return new LogText()

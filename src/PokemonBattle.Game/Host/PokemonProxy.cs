@@ -11,23 +11,41 @@ namespace LightStudio.PokemonBattle.Game.Host
   public class PokemonProxy
   {
     public readonly Pokemon Pokemon;
-    public readonly OnboardPokemon OnboardPokemon;
     public readonly Controller Controller;
 
-    internal PokemonProxy(Controller controller, Pokemon pokemon, Tile tile)
+    internal PokemonProxy(Controller controller, Pokemon pokemon)
     {
       Controller = controller;
       Pokemon = pokemon;
-      Tile = tile;
-      OnboardPokemon = new OnboardPokemon(pokemon, tile.X);
+      nullOnboard = new OnboardPokemon(pokemon, -1);
 
       moves = new List<MoveProxy>();
       for (int i = 0; i < 4; i++)
         if (pokemon.Moves[i] != null) moves.Add(new MoveProxy(pokemon.Moves[i], this));
       StruggleMove = new MoveProxy(new Move(Sp.Moves.STRUGGLE, Controller.Game.Settings), this);
-      Action = PokemonAction.Debuting;
+    }
 
+    private readonly OnboardPokemon nullOnboard;
+    public OnboardPokemon OnboardPokemon
+    { get; private set; }
+    internal void Sendout(Tile tile)
+    {
+      Action = PokemonAction.Debuting;
+      Tile = tile;
+      tile.Pokemon = this;
+      tile.WillSendoutPokemonIndex = Tile.NOPM_INDEX;
+      OnboardPokemon = new OnboardPokemon(Pokemon, tile.X);
+      Controller.OnboardPokemons.Add(this);
       Abilities.CheckIllusion(this);
+    }
+    internal void Withdraw()
+    {
+      Action = PokemonAction.InBall;
+      OnboardPokemon = nullOnboard;
+      Tile = null;
+      Tile.Pokemon = null;
+      Controller.OnboardPokemons.Remove(this);
+      Abilities.Withdrawn(this);
     }
 
     private void AddReport(GameEvent e)
@@ -38,9 +56,9 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       Controller.ReportBuilder.Add(key);
     }
-    internal void AddReportPm(string key, params object[] data)
+    internal void AddReportPm(string key, object arg0 = null, object arg1 = null)
     {
-      Controller.ReportBuilder.Add(key, this, data);
+      Controller.ReportBuilder.Add(key, this, arg0, arg1);
     }
 
     #region Data
@@ -128,6 +146,10 @@ namespace LightStudio.PokemonBattle.Game.Host
     #endregion
 
     #region Predict
+    internal WithdrawFail IfSelectWithdraw()
+    {
+      return null;
+    }
     public bool CanWithdraw
     { get { return Controller.CanWithdraw(this); } }
     /// <summary>
@@ -191,21 +213,21 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       return false;
     }
-    internal bool InputSwitch(int sendoutIndex)
+    internal void InputSwitch(int sendoutIndex)
     {
-      if (!CanWithdraw || !Controller.CanSendout(Pokemon.Owner.GetPokemon(sendoutIndex))) return false;
-      Action = PokemonAction.WillSwitch;
-      Tile.WillSendoutPokemonIndex = sendoutIndex;
-      return true;
+      //if (!CanWithdraw || !Controller.CanSendout(Pokemon.Owner.GetPokemon(sendoutIndex))) return false;
+      //Action = PokemonAction.WillSwitch;
+      //Tile.WillSendoutPokemonIndex = sendoutIndex;
+      //return true;
     }
-    internal string SelectMove(MoveProxy move, Tile target)
+    internal void SelectMove(MoveProxy move, Tile target)
     {
-      if (!CanSelectMove) return "";
-      if (!move.CanBeSelected) return "";
-      Action = PokemonAction.WillMove;
-      SelectedMove = move;
-      SelectedTarget = target;
-      return null;
+      //if (!CanSelectMove) return "";
+      //if (!move.CanBeSelected) return "";
+      //Action = PokemonAction.WillMove;
+      //SelectedMove = move;
+      //SelectedTarget = target;
+      //return null;
     }
     #endregion
 
@@ -328,6 +350,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public void EffectHurt()
     {
+      System.Diagnostics.Debugger.Break();
     }
     #endregion
 
@@ -401,7 +424,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       ChangeLv7D(by, StatType.Speed, s);
       ChangeLv7D(by, StatType.Accuracy, ac);
       ChangeLv7D(by, StatType.Evasion, e);
-      Items.CheckWhiteHerb(this);
+      Items.WhiteHerb(this);
     }
     public void ChangeLv7D(AtkContext atk)
     {
@@ -410,7 +433,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         if (c.Probability == 0 || atk.RandomHappen(c.Probability))
           ChangeLv7D(atk.Attacker, c.Type, c.Change);
       }
-      Items.CheckWhiteHerb(this);
+      Items.WhiteHerb(this);
     }
     private void AddStateImplement(PokemonProxy by, AttachedState state, int turn)
     {

@@ -8,59 +8,43 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   public class AbilityEvent : GameEvent
   {
     [DataMember]
-    int PmId;
+    int Pm;
 
     [DataMember(EmitDefaultValue = false)]
-    int OldAbId;
+    int OldAb;
 
     [DataMember]
-    int AbId;
-
-    PokemonOutward pm;
-    Ability ab;
-    Ability oldAb;
+    int Ab;
 
     public AbilityEvent(PokemonProxy pm)
     {
-      PmId = pm.Id;
-      AbId = pm.Ability.Id;
+      Pm = pm.Id;
+      Ab = pm.Ability.Id;
     }
     public AbilityEvent(PokemonProxy pm, int fromId, int toId)
     {
-      PmId = pm.Id;
-      OldAbId = fromId;
-      AbId = toId;
+      Pm = pm.Id;
+      OldAb = fromId;
+      Ab = toId;
     }
 
-    public override IText GetGameLog()
+    protected override void Update()
     {
-      IText t = null;
-      if (OldAbId == 0)
+      var pm = GetPokemon(Pm);
+      var ab = DataService.GetAbility(Ab);
+      if (OldAb == 0)
       {
-        t = GetGameLog("Ability");
-        t.SetData(pm, ab);
+        Game.Board.ShowAbility(pm, ab);
+        AppendGameLog("Ability", Pm, Ab);
       }
       else
       {
-        t = GetGameLog("AbChange");
-        t.SetData(pm, oldAb, ab); 
-      }
-      return t;
-    }
-    public override void Update(GameOutward game)
-    {
-      base.Update(game);
-      pm = game.GetPokemon(PmId);
-      ab = DataService.GetAbility(AbId);
-      if (OldAbId == 0) game.Board.ShowAbility(pm, ab);
-      else
-      {
-        oldAb = DataService.GetAbility(OldAbId);
-        game.Board.AbilityChanged(pm, oldAb, ab);
+        Game.Board.AbilityChanged(pm, DataService.GetAbility(OldAb), ab);
+        AppendGameLog("AbChange", Pm, OldAb, Ab);
       }
     }
   }

@@ -32,7 +32,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void InformTieRejected();
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class GameEndInfo : IUserInformation
   {
     public static GameEndInfo GameResult(int team0, int team1)
@@ -69,7 +69,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class ReportUpdateInfo : IUserInformation
   {
     [DataMember]
@@ -79,7 +79,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     Player[] Leap;
 
     /// <summary>
-    /// 非回合开始时的所有玩家选招，如飞天、逆鳞，注意：Leap（观战/首回合）的战报段没可能是SP的
+    /// 非回合开始时的所有玩家选招，如飞天、逆鳞，注意：Leap（观战/首回合）的战报段亦可能SP（替代物）
     /// </summary>
     [DataMember(EmitDefaultValue = false)]
     bool HasAddition;
@@ -90,26 +90,19 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     [DataMember(EmitDefaultValue = false)]
     int?[] Seconds;
 
-    public ReportUpdateInfo(ReportFragment turn)
+    public ReportUpdateInfo(ReportFragment turn, bool hasAddition)
     {
       Fragment = turn;
+      HasAddition = hasAddition;
     }
     void IUserInformation.Execute(IRoomUser user)
     {
-      if (Fragment.Teams == null)
-      {
-        user.InformReportUpdate(Fragment);
-        //seconds
-        if (!HasAddition) user.InformRequireInput(null);
-      }
-      else
-      {
-        //leap
-      }
+      user.InformReportUpdate(Fragment);
+      if (!HasAddition) user.InformRequireInput(null);
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class RequireInputInfo : IUserInformation
   {
     [DataMember]
@@ -125,7 +118,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class PlayerInputedInfo : IUserInformation
   {
     [DataMember]
@@ -141,7 +134,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
   
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class RequestTieInfo : IUserInformation
   {
     void IUserInformation.Execute(IRoomUser user)
@@ -150,7 +143,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class RejectTieInfo : IUserInformation
   {
     void IUserInformation.Execute(IRoomUser user)

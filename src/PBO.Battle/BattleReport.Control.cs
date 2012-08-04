@@ -66,24 +66,22 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       public Control(BattleReport battlereport)
       {
         nest = battlereport;
+        beginTurn = true;
       }
 
-      void IGameOutwardEvents.EventOccurred(GameEvent e)
+      bool beginTurn;
+      void IGameOutwardEvents.TurnEnd()
       {
-        IText text = e.GetGameLog();
-        if (text != null)
+        beginTurn = true;
+      }
+      void IGameOutwardEvents.GameLogAppend(IText text)
+      {
+        AddText(text);
+        if (beginTurn)
         {
-          AddText(text);
-          text.ClearData();
-          if (e.GetType().Name == "BeginTurn")
-          {
-            nest.nowTurn = new LinkedListNode<TextElement>(current.Inlines.Last());
-            nest.turnsBookmark.AddLast(nest.nowTurn);
-          }
-        }
-        else
-        {
-          nest.AddBlock(new Paragraph(new Run(e.GetType().Name) { Foreground = Brushes.Red }));
+          nest.nowTurn = new LinkedListNode<TextElement>(current.Inlines.Last());
+          nest.turnsBookmark.AddLast(nest.nowTurn);
+          beginTurn = false;
         }
       }
       private void AddInline(Paragraph paragraph, IText text)

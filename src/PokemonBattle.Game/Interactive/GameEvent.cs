@@ -8,7 +8,7 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   public abstract class GameEvent
   {
     protected GameOutward Game
@@ -18,10 +18,33 @@ namespace LightStudio.PokemonBattle.Game
     {
       return GameService.Logs[key].Clone(Game);
     }
-    public abstract IText GetGameLog();
-    public virtual void Update(GameOutward game)
+    protected void AppendGameLog(string key, object arg1 = null, object arg2 = null, object arg3 = null)
+    {
+      IText text = GetGameLog(key);
+      text.SetData(arg1, arg2, arg3);
+      Game.AppendGameLog(text);
+    }
+    protected void AppendGameLog(string key, params int[] data)
+    {
+      IText text = GetGameLog(key);
+      text.SetData(data.ValueOrDefault(0), data.ValueOrDefault(1), data.ValueOrDefault(2));
+      Game.AppendGameLog(text);
+    }
+    protected PokemonOutward GetPokemon(int id)
+    {
+      return Game.GetPokemon(id);
+    }
+    protected Pokemon GetPokemon(SimGame game, int id)
+    {
+      return game.Team.Pokemons.ValueOrDefault(id);
+    }
+    protected virtual void Update()
+    {
+    }
+    public void Update(GameOutward game)
     {
       Game = game;
+      Update();
     }
     public virtual void Update(SimGame game)
     {

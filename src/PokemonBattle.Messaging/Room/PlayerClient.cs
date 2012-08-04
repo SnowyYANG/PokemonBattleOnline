@@ -10,7 +10,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
 {
   internal class PlayerClient : RoomUserClient, IPlayerController
   {
-    private readonly List<IPlayerControllerEvents> listeners;
     private readonly int teamId;
     private readonly PokemonCustomInfo[] pokemons;
     private SimGame game;
@@ -18,7 +17,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     public PlayerClient(int hostId, int teamId, PokemonCustomInfo[] pokemons)
       : base(hostId)
     {
-      listeners = new List<IPlayerControllerEvents>();
       this.teamId = teamId;
       this.pokemons = pokemons;
     }
@@ -31,35 +29,27 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     protected override void InformEnterSucceed(GameInitSettings settings, Player[] players, int[] spectators)
     {
       base.InformEnterSucceed(settings, players, spectators);
-      game = new SimGame(PBOClient.Client.User.Id, teamId, pokemons, Game.Settings, settings.NextId);
+    }
+    protected override void OnGameStarted()
+    {
+      game = new SimGame(PBOClient.Client.User.Id, teamId, pokemons, Settings, Settings.NextId);
     }
 
     #region IPlayerController
+    private Action<RequireInput> _requireInput;
+    event Action<RequireInput> IPlayerController.RequireInput
+    {
+      add { _requireInput += value; }
+      remove { _requireInput -= value; }
+    }
     Game.Player IPlayerController.Player
     { get { return game.Player; } }
     SimGame IPlayerController.Game
     { get { return game; } }
 
-    void IPlayerController.UseMove(byte x, SimMove move, int targetTeam, int targetX)
+    void IPlayerController.Input(ActionInput input)
     {
-      sendCommand(new InputCommand(ActionInput.UseMove(x, move, targetTeam, targetX)));
-    }
-    void IPlayerController.UseMove(byte x, SimMove move)
-    {
-      //TODO: verify
-      sendCommand(new InputCommand(ActionInput.UseMove(x, move)));
-    }
-    void IPlayerController.Sendout(byte x, Pokemon sendout)
-    {
-      sendCommand(new InputCommand(ActionInput.Switch(x, sendout)));
-    }
-    void IPlayerController.Struggle(byte x)
-    {
-      sendCommand(new InputCommand(ActionInput.Struggle(x)));
-    }
-    void IPlayerController.Quit()
-    {
-      sendCommand(new QuitCommand());
+      sendCommand(new InputCommand(input));
     }
     bool IPlayerController.RequestTie()
     {
@@ -73,25 +63,12 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     {
       return false;
     }
-    void IPlayerController.AddEventsListener(IPlayerControllerEvents listner)
-    {
-      listeners.Add(listner);
-    }
     #endregion
 
     #region Update
-    protected override void InformReportUpdate(ReportFragment fragment)
-    {
-      base.InformReportUpdate(fragment);
-      UIDispatcher.Invoke(() =>
-        {
-          if (game.Update(fragment))
-            foreach (IPlayerControllerEvents listner in listeners) listner.RequireInput();
-        });
-    }
     protected override void InformRequireInput(Game.RequireInput info)
     {
-      game.Update(info);
+      //game.Update(info); //not thread safe, solution: requireInput come before reportUpdate
     }
     #endregion
 

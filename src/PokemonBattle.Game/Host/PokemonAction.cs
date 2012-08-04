@@ -7,6 +7,7 @@ namespace LightStudio.PokemonBattle.Game.Host
 {
   public enum PokemonAction
   {
+    InBall,
     Debuting,
     WaitingForInput,
     WillSwitch,

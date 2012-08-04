@@ -17,7 +17,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void Input(int userId, ActionInput action);
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class RequestTieCommand : IHostCommand
   {
     void IHostCommand.Execute(IHost host, int userId)
@@ -26,7 +26,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class RejectTieCommand : IHostCommand
   {
     void IHostCommand.Execute(IHost host, int userId)
@@ -35,7 +35,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class AcceptTieCommand : IHostCommand
   {
     void IHostCommand.Execute(IHost host, int userId)
@@ -44,7 +44,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.DEFAULT)]
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class InputCommand : IHostCommand
   {
     [DataMember(EmitDefaultValue = false)]

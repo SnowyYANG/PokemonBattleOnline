@@ -85,6 +85,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     /// bit operation, -2, -1, 0, 1, 2
     /// </summary>
     public int EffectRevise;
+    public bool RaiseItem;
     
     internal DefContext(AtkContext a, PokemonProxy pm)
     {

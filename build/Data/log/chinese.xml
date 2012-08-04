@@ -6,10 +6,10 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>BeginTurn</a:Key><a:Value i:type="LogText"><text>开始回合 #{0}
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EndTurn</a:Key><a:Value i:type="LogText"><text>结束回合 #{0}
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>UseMove</a:Key><a:Value i:type="LogText"><text>{0:p}使用了{1:m}！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SendOut1</a:Key><a:Value i:type="LogText"><text>{0:P}放出了{1}！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SendOut2</a:Key><a:Value i:type="LogText"><text>{0:P}放出了{1}和{2}！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SendOut3</a:Key><a:Value i:type="LogText"><text>{0:P}放出了{1}、{2}和{3}！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Withdraw</a:Key><a:Value i:type="LogText"><text>{0:P}收回了{1:pm}！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SendOut1</a:Key><a:Value i:type="LogText"><text>{0:P}放出了{1:pm.Name}（Lv.{1:pm.Lv} {1:pm.Type}）！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SendOut2</a:Key><a:Value i:type="LogText"><text>{0:P}放出了{1:pm.Name}（Lv.{1:pm.Lv} {1:pm.Type}）和{2:pm.Name}（Lv.{2:pm.Lv} {2:pm.Type}）！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SendOut3</a:Key><a:Value i:type="LogText"><text>{0:P}放出了{1:pm.Name}（Lv.{1:pm.Lv} {1:pm.Type}）、{2:pm.Name}（Lv.{2:pm.Lv} {2:pm.Type}）和{3:pm.Name}（Lv.{3:pm.Lv} {3:pm.Type}）！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Withdraw</a:Key><a:Value i:type="LogText"><text>{0:P}收回了{1:pm.Name}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Hits</a:Key><a:Value i:type="LogText"><text>命中{0}次！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Faint</a:Key><a:Value i:type="LogText"><text>{0:p}倒下了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SuperHurt</a:Key><a:Value i:type="LogText"><text>对{0:p}效果拔群！
