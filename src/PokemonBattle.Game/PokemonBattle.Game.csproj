@@ -107,7 +107,7 @@
     <Compile Include="Client\SimMove.cs" />
     <Compile Include="Host\Models\Board.cs" />
     <Compile Include="Host\Game.cs" />
-    <Compile Include="Interactive\RequireInput.cs" />
+    <Compile Include="Interactive\InputRequest.cs" />
     <Compile Include="Client\IPlayerController.cs" />
     <Compile Include="Host\Models\ConditionalObject.cs" />
     <Compile Include="Models\CoordY.cs" />

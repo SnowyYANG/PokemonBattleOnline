@@ -58,5 +58,9 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       else
         report.Blocks.Add(block);
     }
+    public void AddText(string text)
+    {
+      AddBlock(new Paragraph(new Run(text)) { Foreground = Brushes.OrangeRed });
+    }
   }
 }

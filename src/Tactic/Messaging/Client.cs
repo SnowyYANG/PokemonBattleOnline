@@ -70,8 +70,10 @@ namespace LightStudio.Tactic.Messaging
         List<int> remote = new List<int>();
         bool hasRemote = false;
         foreach (int i in receivers)
+#if DeadLock
           if (i == User.Id) OnMessageReceived(User, content);
           else
+#endif
           {
             remote.Add(i);
             hasRemote = true;

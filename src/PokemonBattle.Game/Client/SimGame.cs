@@ -8,41 +8,30 @@ namespace LightStudio.PokemonBattle.Game
 {
   public class SimGame
   {
+    public readonly GameOutward Outward;
     public readonly Player Player;
     public readonly Team Team;
     public readonly SimPokemon[] OnboardPokemons;
-    public readonly IGameSettings Settings;
 
-    public SimGame(int userId, int teamId, PokemonCustomInfo[] pms, IGameSettings settings, Func<int> nextId)
+    public SimGame(GameOutward game, int userId, int teamId, PokemonCustomInfo[] pms, Func<int> nextId)
     {
-      Team = new Team(teamId, settings, nextId);
+      Outward = game;
+      Team = new Team(teamId, Outward.Settings, nextId);
       Player = Team.AddPlayer(userId, pms);
-      OnboardPokemons = new SimPokemon[settings.Mode.XBound()];
-      Settings = settings;
-      ActivePokemons = new SortedList<int, SimPokemon>(settings.Mode.XBound());
+      OnboardPokemons = new SimPokemon[Outward.Settings.Mode.XBound()];
     }
 
-    //逆鳞/暴走/花瓣舞为2～3回合，回合结束混乱 <-- 需要AdditionalInfo么..
-    public SortedList<int, SimPokemon> ActivePokemons
-    { get; private set; }
+    public IGameSettings Settings
+    { get { return Outward.Settings; } }
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="report"></param>
     /// <returns>RequireInput</returns>
-    public bool Update(ReportFragment report)
+    public void Update(ReportFragment report)
     {
-      foreach(GameEvent e in report.Events)
-        e.Update(this);
-      return ActivePokemons.Count > 0 || (OnboardPokemons.Contains(null) && Player.PmsAlive > OnboardPokemons.Count((p) => p != null));
-    }
-    /// <summary>
-    /// 注意和Update(Turn)的顺序
-    /// </summary>
-    /// <param name="info"></param>
-    public void Update(RequireInput info)
-    {
+      foreach(GameEvent e in report.Events) e.Update(this);
     }
   }
 }

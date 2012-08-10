@@ -131,15 +131,8 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void IGameManager.Input(int userId, ActionInput action)
     {
       if (State == RoomState.GameStarted)
-        if (game.InputAction(userId, action))
-        {
-          InformPlayerInputed(userId);
-          game.TryContinue();
-        }
-        else
-        {
-          InformGameStop(userId, GameStopReason.InvalidInput);
-        }
+        if (game.InputAction(userId, action)) game.TryContinue();
+        else InformGameStop(userId, GameStopReason.InvalidInput);
     }
     #endregion
 
@@ -213,17 +206,16 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       State = RoomState.GameEnd;
       OnSendInformation(GameEndInfo.GameStop(userId, reason));
     }
-    void InformTimeUp()
+    void InformTimeUp(int[] remainingTime)
     {
-      throw new NotImplementedException();
-      //State = RoomState.GameEnd;
-      //OnSendInformation(GameEndInfo.TimeUp(remainingTime));
+      State = RoomState.GameEnd;
+      OnSendInformation(GameEndInfo.TimeUp(remainingTime));
     }
 
 #if !DEBUG
     private Dictionary<int, RequireInput> lastRequirements;
 #endif
-    void InformReportUpdate(ReportFragment fragment, IEnumerable<KeyValuePair<int, RequireInput>> requirements)
+    void InformReportUpdate(ReportFragment fragment, IEnumerable<KeyValuePair<int, InputRequest>> requirements)
     {
       bool hasAddition;
 #if DEBUG
@@ -240,14 +232,9 @@ namespace LightStudio.PokemonBattle.Messaging.Room
           }
       }
 #endif
-      OnSendInformation(new ReportUpdateInfo(fragment, hasAddition));
       if (hasAddition)
-        foreach(KeyValuePair<int, RequireInput> pair in requirements)
-          OnSendInformation(new RequireInputInfo(pair.Value), pair.Key);
-    }
-    void InformPlayerInputed(int userId)
-    {
-      OnSendInformation(new PlayerInputedInfo(userId));
+        foreach(KeyValuePair<int, InputRequest> pair in requirements) OnSendInformation(new RequireInputInfo(pair.Value), pair.Key);
+      OnSendInformation(new ReportUpdateInfo(fragment, hasAddition));
     }
 
     void InformRequestTie()

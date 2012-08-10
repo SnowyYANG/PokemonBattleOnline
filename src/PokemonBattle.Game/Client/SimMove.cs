@@ -8,27 +8,20 @@ namespace LightStudio.PokemonBattle.Game
 {
   public class SimMove
   {
-    internal readonly Move Move;
     public MoveType Type
-    { get { return Move.Type; } }
+    { get; private set; }
     public PairValue PP
-    { get { return Move.PP; } }
-    /// <summary>
-    /// CanSelect不代表技能一定能用，但我希望点过再出提示，http://www.smogon.com/dp/articles/move_restrictions#disable
-    /// </summary>
-    public bool CanBeSelected
-    { get; internal set; }
+    { get; private set; }
 
     internal SimMove(Move move)
     {
-      this.Move = move;
-      CanBeSelected = PP.Value > 0;
+      Type = move.Type;
+      PP = move.PP;
     }
-
-    public string Select()
+    internal SimMove(MoveType type)
     {
-      if (PP.Value < 1) return string.Empty;
-      return null;
+      Type = type;
+      PP = new PairValue(5);
     }
   }
 }

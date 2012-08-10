@@ -49,13 +49,7 @@ namespace LightStudio.PokemonBattle.Game
       Lv = custom.Lv;
       Ability = DataService.GetAbility(custom.AbilityId);
       Nature = custom.Nature;
-
-      {
-        Moves = new Move[4];
-        int i = 0;
-        foreach (int moveId in custom.MoveIds)
-          if (i < 4) Moves[i++] = new Move(moveId, settings);
-      }
+      Moves = custom.MoveIds.Select((m) => new Move(m, settings)).ToArray();
 
       Base = new ReadOnly6D(PokemonType.BaseHp, PokemonType.BaseAtk, PokemonType.BaseDef, PokemonType.BaseSpAtk, PokemonType.BaseSpDef, PokemonType.BaseSpeed);
       Iv = new ReadOnly6D(custom.HpIv, custom.AtkIv, custom.DefIv, custom.SpAtkIv, custom.SpDefIv, custom.SpeedIv);

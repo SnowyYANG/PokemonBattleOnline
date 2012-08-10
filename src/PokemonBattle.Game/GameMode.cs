@@ -7,7 +7,6 @@ namespace LightStudio.PokemonBattle.Game
 {
   public enum GameMode : byte
   {
-    Invalid,
     Single,
     Double,
     Triple,
@@ -68,6 +67,10 @@ namespace LightStudio.PokemonBattle.Game
           return 0;
       }
       return -1;
+    }
+    public static bool NeedTarget(this GameMode mode)
+    {
+      return mode != GameMode.Single;
     }
   }
 }

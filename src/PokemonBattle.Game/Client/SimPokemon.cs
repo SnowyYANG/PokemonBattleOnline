@@ -9,6 +9,7 @@ namespace LightStudio.PokemonBattle.Game
   public class SimPokemon
   {
     public readonly Pokemon Pokemon;
+    public readonly PokemonOutward Outward;
     public int X;
 
     public int Id
@@ -22,9 +23,10 @@ namespace LightStudio.PokemonBattle.Game
     internal SimPokemon(Pokemon pokemon, PokemonOutward outward)
     {
       Pokemon = pokemon;
+      Outward = outward;
       X = outward.Position.X;
-      Moves = new SimMove[pokemon.Moves.Length];
-      for (int i = 0; i < Moves.Length; i++) Moves[i] = new SimMove(pokemon.Moves[i]);
+      Moves = new SimMove[4];
+      for (int i = 0; i < pokemon.Moves.Length; i++) Moves[i] = new SimMove(pokemon.Moves[i]);
     }
   }
 }

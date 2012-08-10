@@ -33,7 +33,7 @@ namespace LightStudio.PokemonBattle.Game
     }
     
     [DataMember]
-    public Dictionary<string, IText> logs;
+    private Dictionary<string, IText> logs;
 
     public GameLogs()
     {

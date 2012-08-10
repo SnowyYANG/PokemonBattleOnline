@@ -8,23 +8,23 @@ using LightStudio.PokemonBattle.Game;
 
 namespace LightStudio.PokemonBattle.PBO.Battle.VM
 {
-#warning
   class Singles : IControlPanel
   {
     public event PropertyChangedEventHandler PropertyChanged;
     public event Action<string> InputFailed;
     IPlayerController controller;
     int selectedPanel;
-    BoardOutward board;
+    private readonly GameOutward game;
     TeamOutward teamPms, rivalPms;
 
     internal Singles(Messaging.Room.IRoom c)
     {
       controller = c.PlayerController;
-      board = c.Game.Board;
+      game = c.Game;
       teamPms = c.Game.Teams[controller.Player.TeamId];
       rivalPms = c.Game.Teams[1 - controller.Player.TeamId];
       selectedPanel = ControlPanelIndex.INACTIVE;
+      controller.RequireInput += RequireInput;
     }
 
     public int Time
@@ -42,9 +42,9 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
       }
     }
     public Weather Weather
-    { get { return board.Weather; } }
+    { get { return game.Board.Weather; } }
     public SimPokemon ControllingPokemon
-    { get; private set; }
+    { get { return controller.Game.OnboardPokemons.FirstOrDefault(); } }
     public Visibility UndoVisibility
     { get { return Visibility.Collapsed; } }
     public bool IsFightEnabled
@@ -61,21 +61,24 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
     }
+    private InputRequest request;
     public void Pokemon_Click(Pokemon pokemon)
     {
-      //if ((ControllingPokemon == null || ControllingPokemon.CanSwitch) && pokemon.Hp.Value > 0 &&
-      //  pokemon.IndexInOwner >= controller.Game.Settings.Mode.OnboardPokemonsPerPlayer())
-      //  controller.Sendout(0, pokemon);
+      if (pokemon.Hp.Value == 0 || pokemon == Pokemons.First()) return;
+      if (!request.Pokemon(pokemon))
+      {
+        request.TryRaiseAbility();
+        InputFailed(request.GetErrorMessage());
+      }
     }
     public void Fight_Click()
     {
-      //if (ControllingPokemon.CanStruggle)
-      //  controller.Struggle(0);
+      if (!request.Fight()) SelectedPanel = ControlPanelIndex.FIGHT;
     }
     public void Move_Click(SimMove move)
     {
-      //if (ControllingPokemon.CanSelectMove && move.CanBeSelected)
-      //  controller.UseMove(0, move);
+      if (move.PP.Value == 0) return;
+      if (!request.Move(move)) InputFailed(request.GetErrorMessage());
     }
     public void Giveup_Click()
     {
@@ -91,41 +94,17 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     void IControlPanel.Undo_Click()
     { }
 
-    //void IPlayerControllerEvents.RequireInput()
-    //{
-    //  ControllingPokemon = controller.Game.ActivePokemons.ValueOrDefault(0);
-    //  if (ControllingPokemon == null) selectedPanel = ControlPanelIndex.POKEMONS; //死亡交换时精灵已经被收回了
-    //  else selectedPanel = ControlPanelIndex.MAIN;
-    //  OnPropertyChanged(null);
-    //}
-    //void IPlayerControllerEvents.InputResult(bool suceeded, string messageKey, bool allDone)
-    //{
-    //  if (allDone)
-    //  {
-    //    SelectedPanel = (int)ControlPanelIndex.INACTIVE;
-    //    ControllingPokemon = null;
-    //    OnPropertyChanged("ControllingPokemon");
-    //  }
-    //  else if (InputFailed != null)
-    //  {
-    //    IText message = Game.GameService.Logs[messageKey];
-    //    if (message == null) InputFailed(messageKey);
-    //    else InputFailed(message.ToString());
-    //  }
-    //}
-    //void IPlayerControllerEvents.TieRequested()
-    //{
-    //}
-    //void IPlayerControllerEvents.TieRejected()
-    //{
-    //}
-    //void IPlayerControllerEvents.TimeElapsed(int remainingSeconds)
-    //{
-    //  Time = remainingSeconds;
-    //  OnPropertyChanged("Time");
-    //}
-    //void IPlayerControllerEvents.TimeUp() //这个应该是只告诉玩家本人的\
-    //{
-    //}
+    private void RequireInput(InputRequest request)
+    {
+      this.request = request;
+      request.Init(controller.Game);
+      request.InputFinished += (i) =>
+        {
+          SelectedPanel = ControlPanelIndex.INACTIVE;
+          controller.Input(i);
+        };
+      selectedPanel = request.IsSendout ? ControlPanelIndex.POKEMONS : ControlPanelIndex.MAIN;
+      OnPropertyChanged(null);
+    }
   }
 }

@@ -80,6 +80,7 @@ namespace LightStudio.PokemonBattle.Messaging
       user.EnterRoom();
     }
 
+    private UserState lastState;
     private void user_Quited()
     {
       lock (this)
@@ -88,11 +89,13 @@ namespace LightStudio.PokemonBattle.Messaging
         {
           user.Dispose();
           user = null;
+          Client.ChangeUserState(lastState);
         }
       }
     }
     private void user_EnterSucceed()
     {
+      lastState = Client.User.State;
       Client.ChangeUserState(user.State);
       EnterSucceed(user);
     }

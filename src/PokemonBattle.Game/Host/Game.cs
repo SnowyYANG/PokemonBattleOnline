@@ -16,7 +16,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     private readonly IGameSettings gameSettings;
     private Controller controller;
     private Action<int, int> gameEnd;
-    private Dictionary<int, RequireInput> inputRequirements;
+    private Dictionary<int, InputRequest> inputRequirements;
 
     internal GameContext(IGameSettings settings, Func<int> nextId)
     {
@@ -56,8 +56,8 @@ namespace LightStudio.PokemonBattle.Game.Host
       add { gameEnd += value; }
       remove { gameEnd -= value; }
     }
-    private Action<ReportFragment, IEnumerable<KeyValuePair<int, RequireInput>>> _reportUpdated;
-    event Action<ReportFragment, IEnumerable<KeyValuePair<int, RequireInput>>> IGame.ReportUpdated
+    private Action<ReportFragment, IEnumerable<KeyValuePair<int, InputRequest>>> _reportUpdated;
+    event Action<ReportFragment, IEnumerable<KeyValuePair<int, InputRequest>>> IGame.ReportUpdated
     {
       add { _reportUpdated += value; }
       remove { _reportUpdated -= value; }
@@ -95,7 +95,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     bool IGame.InputAction(int playerId, ActionInput action)
     {
-      return inputRequirements[playerId].Input(controller, action);
+      return action.Input(controller, GetPlayer(playerId));
     }
     ReportFragment IGame.GetLastLeapFragment() // for spectator
     {

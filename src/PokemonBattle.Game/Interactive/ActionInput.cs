@@ -9,31 +9,24 @@ using LightStudio.PokemonBattle.Game.Host;
 namespace LightStudio.PokemonBattle.Game
 {
   [DataContract(Namespace = Namespaces.LIGHT)]
-  public class ActionInput
+  internal class XActionInput
   {
-    public static ActionInput UseMove(byte x, SimMove move, int targetTeam, int targetX)
+    public static XActionInput UseMove(SimMove move, int targetTeam, int targetX)
     {
-      return new ActionInput(x) { Move = move.Type.Id, TargetTeam = (byte)(targetTeam + 1), TargetX = (byte)(targetX + 1) };
+      return new XActionInput() { Move = move.Type.Id, TargetTeam = (byte)(targetTeam + 1), TargetX = (byte)(targetX + 1) };
     }
-    public static ActionInput UseMove(byte x, SimMove move)
+    public static XActionInput UseMove(SimMove move)
     {
-      return new ActionInput(x) { Move = move.Type.Id };
+      return new XActionInput() { Move = move.Type.Id };
     }
-    public static ActionInput Switch(byte x, Pokemon sendout)
+    public static XActionInput Sendout(Pokemon sendout)
     {
-      return new ActionInput(x) { SendoutIndex = (byte)sendout.IndexInOwner };
+      return new XActionInput() { SendoutIndex = (byte)sendout.IndexInOwner };
     }
-    public static ActionInput Sendout(byte x, Pokemon sendout, Tile target)
+    public static XActionInput Struggle()
     {
-      return new ActionInput(x) { SendoutIndex = (byte)sendout.IndexInOwner, TargetTeam = (byte)target.Team, TargetX = (byte)target.X };
+      return new XActionInput();
     }
-    public static ActionInput Struggle(byte x)
-    {
-      return new ActionInput(x);
-    }
-
-    [DataMember(EmitDefaultValue = false)]
-    byte X;
 
     [DataMember(EmitDefaultValue = false)]
     int Move;
@@ -47,36 +40,73 @@ namespace LightStudio.PokemonBattle.Game
     [DataMember(EmitDefaultValue = false)]
     byte SendoutIndex;
 
-    private ActionInput(byte x)
+    private XActionInput()
     {
-      X = x;
+    }
+
+    public bool Input(Controller controller, Tile tile)
+    {
+      bool r = false;
+      if (SendoutIndex > 0) r = controller.InputSendout(tile, SendoutIndex);
+      else
+      {
+        var pm = tile.Pokemon;
+        if (Move > 0)
+        {
+          foreach (MoveProxy m in pm.Moves)
+            if (m.Type.Id == Move)
+            {
+              Tile target = TargetTeam > 0 ? controller.GetTile(TargetTeam - 1, TargetX - 1) : null;
+              r = controller.InputSelectMove(m, target);
+              break;
+            }
+        }
+        else r = controller.InputStruggle(pm);
+      }
+      return r;
+    }
+  }
+  [DataContract(Namespace = Namespaces.LIGHT)]
+  public class ActionInput
+  {
+    [DataMember]
+    XActionInput[] inputs;
+
+    public ActionInput(int maxX)
+    {
+      inputs = new XActionInput[maxX];
+    }
+
+    public void UseMove(int x, SimMove move, int targetTeam, int targetX)
+    {
+      inputs[x] = XActionInput.UseMove(move, targetTeam, targetX);
+    }
+    public void UseMove(int x, SimMove move)
+    {
+      inputs[x] = XActionInput.UseMove(move);
+    }
+    public void Switch(int x, Pokemon sendout)
+    {
+      inputs[x] = XActionInput.Sendout(sendout);
+    }
+    public void Sendout(int x, Pokemon sendout)
+    {
+      inputs[x] = XActionInput.Sendout(sendout);
+    }
+    public void Struggle(int x)
+    {
+      inputs[x] = XActionInput.Struggle();
     }
 
     internal bool Input(Controller controller, Player player)
     {
-      throw new NotImplementedException();
-      //InputResult r = InputResult.Fail();
-      //if (controller.Game.Settings.Mode.GetPlayerIndex(X) == player.Team.GetPlayerIndex(player.Id))
-      //{
-      //  Tile tile = controller.GetTile(player.TeamId, X);
-      //  if (SendoutIndex > 0) r = controller.InputSendout(tile, SendoutIndex);
-      //  else
-      //  {
-      //    var pm = tile.Pokemon;
-      //    if (Move > 0)
-      //    {
-      //      foreach (MoveProxy m in pm.Moves)
-      //        if (m.Type.Id == Move)
-      //        {
-      //          Tile target = TargetTeam > 0 ? controller.GetTile(TargetTeam - 1, TargetX - 1) : null;
-      //          r = controller.InputSelectMove(m, target);
-      //          break;
-      //        }
-      //    }
-      //    else r = controller.InputStruggle(pm);
-      //  }
-      //}
-      //return r;
+      for (int x = 0; x < inputs.Length; ++x)
+        if (inputs[x] != null)
+        { 
+          if (controller.Game.Settings.Mode.GetPlayerIndex(x) != player.Team.GetPlayerIndex(player.Id)) return false;
+          if (!inputs[x].Input(controller, controller.GetTile(player.TeamId, x))) return false;
+        }
+      return controller.CheckInputSucceed(player);
     }
   }
 }

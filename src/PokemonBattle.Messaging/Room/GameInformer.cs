@@ -25,8 +25,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void InformTimeUp(int[] remainingTime);
 
     void InformReportUpdate(ReportFragment fragment);
-    void InformRequireInput(RequireInput pms);
-    void InformPlayerInputed(int player);
+    void InformRequireInput(InputRequest pms);
     
     void InformRequestTie();
     void InformTieRejected();
@@ -37,35 +36,49 @@ namespace LightStudio.PokemonBattle.Messaging.Room
   {
     public static GameEndInfo GameResult(int team0, int team1)
     {
-      GameEndInfo info = new GameEndInfo();
+      GameEndInfo info = new GameEndInfo() { RemaningPokemons = new int[2] };
       info.RemaningPokemons[0] = team0;
       info.RemaningPokemons[1] = team1;
       return info;
     }
     public static GameEndInfo GameTie()
     {
-      throw new NotImplementedException();
+      return new GameEndInfo() { IsTile = true };
     }
     public static GameEndInfo GameStop(int player, GameStopReason reason)
     {
-      throw new NotImplementedException();
+      return new GameEndInfo() { Player = player, Reason = reason };
     }
     public static GameEndInfo TimeUp(int[] remainingTime)
     {
-      throw new NotImplementedException();
+      return new GameEndInfo() { RemainingTime = remainingTime };
     }
     /// <summary>
     /// null if user tie
     /// </summary>
     [DataMember(EmitDefaultValue = false)]
-    readonly int[] RemaningPokemons;
+    int[] RemaningPokemons;
+
+    [DataMember(EmitDefaultValue = false)]
+    bool IsTile;
+
+    [DataMember(EmitDefaultValue = false)]
+    int Player;
+    [DataMember(EmitDefaultValue = false)]
+    GameStopReason Reason;
+
+    [DataMember(EmitDefaultValue = false)]
+    int[] RemainingTime;
 
     private GameEndInfo()
     {
     }
     void IUserInformation.Execute(IRoomUser user)
     {
-      throw new NotImplementedException();
+      if (RemaningPokemons != null) user.InformGameResult(RemaningPokemons[0], RemaningPokemons[1]);
+      else if (IsTile) user.InformGameTie();
+      else if (RemainingTime != null) user.InformTimeUp(RemainingTime);
+      else user.InformGameStop(Reason, Player);
     }
   }
 
@@ -106,31 +119,15 @@ namespace LightStudio.PokemonBattle.Messaging.Room
   class RequireInputInfo : IUserInformation
   {
     [DataMember]
-    RequireInput PmInfo;
+    InputRequest PmInfo;
 
-    public RequireInputInfo(RequireInput pmInfo)
+    public RequireInputInfo(InputRequest pmInfo)
     {
       PmInfo = pmInfo;
     }
     void IUserInformation.Execute(IRoomUser user)
     {
       user.InformRequireInput(PmInfo);
-    }
-  }
-
-  [DataContract(Namespace = Namespaces.LIGHT)]
-  class PlayerInputedInfo : IUserInformation
-  {
-    [DataMember]
-    int Player;
-
-    public PlayerInputedInfo(int userId)
-    {
-      Player = userId;
-    }
-    void IUserInformation.Execute(IRoomUser user)
-    {
-      user.InformPlayerInputed(Player);
     }
   }
   

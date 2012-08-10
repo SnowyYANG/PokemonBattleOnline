@@ -18,10 +18,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       Controller = controller;
       Pokemon = pokemon;
       nullOnboard = new OnboardPokemon(pokemon, -1);
-
-      moves = new List<MoveProxy>();
-      for (int i = 0; i < 4; i++)
-        if (pokemon.Moves[i] != null) moves.Add(new MoveProxy(pokemon.Moves[i], this));
+      moves = pokemon.Moves.Select((m) => new MoveProxy(m, this)).ToArray();
       StruggleMove = new MoveProxy(new Move(Sp.Moves.STRUGGLE, Controller.Game.Settings), this);
     }
 
@@ -42,8 +39,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       Action = PokemonAction.InBall;
       OnboardPokemon = nullOnboard;
-      Tile = null;
       Tile.Pokemon = null;
+      Tile = null;
       Controller.OnboardPokemons.Remove(this);
       Abilities.Withdrawn(this);
     }
@@ -107,7 +104,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     { get { return Tile == null || OnboardPokemon.HasCondition("GastroAcid") ? EffectsService.NULL_ABILITY : EffectsService.GetAbility(OnboardPokemon.Ability); } }
     public IItemE Item
     { get { return Tile == null || OnboardPokemon.HasCondition("Detain") || Controller.Board.HasCondition("MagicRoom") || Ability.Klutz() ? EffectsService.NULL_ITEM : EffectsService.GetItem(Pokemon.Item); } }
-    private List<MoveProxy> moves;
+    private MoveProxy[] moves;
     public IEnumerable<MoveProxy> Moves
     { get { return moves; } }
     public MoveProxy StruggleMove
@@ -213,21 +210,26 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       return false;
     }
-    internal void InputSwitch(int sendoutIndex)
+    internal bool InputSwitch(int sendoutIndex)
     {
-      //if (!CanWithdraw || !Controller.CanSendout(Pokemon.Owner.GetPokemon(sendoutIndex))) return false;
-      //Action = PokemonAction.WillSwitch;
-      //Tile.WillSendoutPokemonIndex = sendoutIndex;
-      //return true;
+      if (CanWithdraw && Controller.CanSendout(Pokemon.Owner.GetPokemon(sendoutIndex)))
+      {
+        Action = PokemonAction.WillSwitch;
+        Tile.WillSendoutPokemonIndex = sendoutIndex;
+        return true;
+      }
+      return false;
     }
-    internal void SelectMove(MoveProxy move, Tile target)
+    internal bool SelectMove(MoveProxy move, Tile target)
     {
-      //if (!CanSelectMove) return "";
-      //if (!move.CanBeSelected) return "";
-      //Action = PokemonAction.WillMove;
-      //SelectedMove = move;
-      //SelectedTarget = target;
-      //return null;
+      if (CanSelectMove && move.CanBeSelected)
+      {
+        Action = PokemonAction.WillMove;
+        SelectedMove = move;
+        SelectedTarget = target;
+        return true;
+      }
+      return false;
     }
     #endregion
 

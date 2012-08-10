@@ -42,7 +42,6 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
         foreach (PokemonOutward p in Pms)
         {
           game.OnboardPokemons[p.Position.X] = new SimPokemon(game.Team.Pokemons[p.Id], p);
-          game.ActivePokemons.Add(p.Position.X, game.OnboardPokemons[p.Position.X]);
           if (Player == game.Player.Id) game.Player.SwitchPokemon(game.Settings.Mode.GetPokemonIndex(p.Position.X), game.Player.GetPokemonIndex(p.Id));
         }
     }
@@ -91,7 +90,6 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     {
       if (team == game.Player.TeamId)
       {
-        game.ActivePokemons.Remove(x);
         game.OnboardPokemons[x] = null;
         var pm = GetPokemon(game, Pm);
         if (Ab == Host.Sp.Abilities.REGENERATOR) pm.SetHp(pm.Hp.Value + pm.Hp.Origin / 3);

@@ -25,7 +25,7 @@ namespace LightStudio.PokemonBattle.Game
     public readonly TeamOutward[] Teams;
     private readonly IDictionary<int, string> players;
     private readonly List<IGameOutwardEvents> listeners;
-    private RequireInput requireInput;
+    private InputRequest requireInput;
 
     public GameOutward(IGameSettings settings, IDictionary<int, string> players)
     {
@@ -91,33 +91,34 @@ namespace LightStudio.PokemonBattle.Game
         if (arg is int)
         {
           int id = (int)arg;
-          if (format.StartsWith("pm."))
+          switch (format)
           {
-            var pm = GetPokemon(id);
-            r = pm.GetProperty(format.Substring(3));
-          }
-          else
-            switch (format)
-            {
-              case "P":
-                r = players.ValueOrDefault(id);
-                break;
-              case "p":
-                {
-                  var pm = GetPokemon(id);
-                  if (pm != null) r = string.Format(this, DataService.String["{0}'s {1}"], players.ValueOrDefault(pm.OwnerId), pm.Name);
-                }
-                break;
-              case "m":
-                r = DataService.GetMove(id).GetLocalizedName();
-                break;
-              case "a":
-                r = DataService.GetAbility(id).GetLocalizedName();
-                break;
-              case "i":
-                r = DataService.GetItem(id).GetLocalizedName();
-                break;
-            }//switch
+            case "P":
+              r = players.ValueOrDefault(id);
+              break;
+            case "p":
+              {
+                var pm = GetPokemon(id);
+                if (pm != null) r = string.Format(this, DataService.String["{0}'s {1}"], players.ValueOrDefault(pm.OwnerId), pm.Name);
+              }
+              break;
+            case "m":
+              r = DataService.GetMove(id).GetLocalizedName();
+              break;
+            case "a":
+              r = DataService.GetAbility(id).GetLocalizedName();
+              break;
+            case "i":
+              r = DataService.GetItem(id).GetLocalizedName();
+              break;
+            default:
+              if (format != null && format.StartsWith("pm."))
+              {
+                var pm = GetPokemon(id);
+                r = pm.GetProperty(format.Substring(3));
+              }
+              break;
+          }//switch
         }
         if (r == null) r = arg.ToString();
       }// if (arg != null

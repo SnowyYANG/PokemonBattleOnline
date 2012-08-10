@@ -33,7 +33,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     { get { return Move.Type; } }
     public int Priority
     { get { return Move.Type.Priority; } }
-
+    public bool CanBeSelected
+    { get { return PP > 0 && IfSelected() == null; } }
     
     /// <summary>
     /// CanSelect不代表技能一定能用，http://www.smogon.com/dp/articles/move_restrictions#disable

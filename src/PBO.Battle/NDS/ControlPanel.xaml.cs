@@ -58,7 +58,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     }
     private void fight_Click(object sender, RoutedEventArgs e)
     {
-      controlPanel.SelectedIndex = ControlPanelIndex.FIGHT;
+      vm.Fight_Click();
     }
     private void pokemons_Click(object sender, RoutedEventArgs e)
     {

@@ -8,7 +8,7 @@ namespace LightStudio.PokemonBattle.Game.Host
 {
   public class Controller
   {
-    internal event Action<ReportFragment, IEnumerable<KeyValuePair<int, RequireInput>>> ReportUpdated;
+    internal event Action<ReportFragment, IEnumerable<KeyValuePair<int, InputRequest>>> ReportUpdated;
 
     public readonly ReportBuilder ReportBuilder;
     internal readonly GameContext Game;
@@ -124,6 +124,10 @@ namespace LightStudio.PokemonBattle.Game.Host
     #endregion
 
     #region Input
+    internal bool CheckInputSucceed(Player player)
+    {
+      return InputController.CheckInputSucceed(player);
+    }
     internal void PauseForSendoutInput(Action inputFinished, Tile tile) //逃生按钮、追击死亡
     {
       InputController.PauseForSendoutInput(tile);

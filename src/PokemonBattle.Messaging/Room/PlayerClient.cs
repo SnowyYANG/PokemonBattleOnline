@@ -32,12 +32,12 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
     protected override void OnGameStarted()
     {
-      game = new SimGame(PBOClient.Client.User.Id, teamId, pokemons, Settings, Settings.NextId);
+      game = new SimGame(Game, PBOClient.Client.User.Id, teamId, pokemons, Settings.NextId);
     }
 
     #region IPlayerController
-    private Action<RequireInput> _requireInput;
-    event Action<RequireInput> IPlayerController.RequireInput
+    private Action<InputRequest> _requireInput;
+    event Action<InputRequest> IPlayerController.RequireInput
     {
       add { _requireInput += value; }
       remove { _requireInput -= value; }
@@ -66,9 +66,23 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     #endregion
 
     #region Update
-    protected override void InformRequireInput(Game.RequireInput info)
+    private InputRequest inputRequest;
+    protected override void InformReportUpdate(ReportFragment fragment)
     {
-      //game.Update(info); //not thread safe, solution: requireInput come before reportUpdate
+      base.InformReportUpdate(fragment);
+      UIDispatcher.Invoke(() =>
+        {
+          game.Update(fragment);
+          if (inputRequest != null)
+          {
+            _requireInput(inputRequest);
+            inputRequest = null;
+          }
+        });
+    }
+    protected override void InformRequireInput(InputRequest request)
+    {
+      inputRequest = request;
     }
     #endregion
 

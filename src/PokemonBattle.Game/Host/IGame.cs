@@ -12,7 +12,7 @@ namespace LightStudio.PokemonBattle.Game.Host
   public interface IGame
   {
     event Action<int, int> GameEnd;
-    event Action<ReportFragment, IEnumerable<KeyValuePair<int, RequireInput>>> ReportUpdated;
+    event Action<ReportFragment, IEnumerable<KeyValuePair<int, InputRequest>>> ReportUpdated;
 
     bool Prepared { get; }
     IGameSettings Settings { get; }

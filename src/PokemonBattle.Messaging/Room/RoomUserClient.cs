@@ -16,20 +16,13 @@ namespace LightStudio.PokemonBattle.Messaging.Room
 
     public event Action<string> EnterFailed = delegate { };
     public event Action EnterSucceed;
-    public event Action GameStart;
-    public event Action GameEnd = delegate { };
-    public event Action Quited = delegate { };
-    public event Action<string> Error
-    {
-      add { error += value; }
-      remove { error -= value; }
-    }
-
-    protected Action<string> error = delegate { };
+    public event Action Quited;
     private ObservableCollection<Player> players;
     private ObservableCollection<int> spectators;
     private GameOutward game;
     private Dispatcher gameEventsDispatcher;
+    protected IRoomEventsListener Listener
+    { get; private set; }
 
     protected RoomUserClient(int hostId)
     {
@@ -49,7 +42,13 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     public RoomState RoomState { get; private set; }
     public abstract Tactic.Messaging.UserState State { get; }
     public abstract IPlayerController PlayerController { get; }
-    
+
+    void IRoom.AddListener(IRoomEventsListener listener)
+    {
+      if (this.Listener == null) this.Listener = listener;
+      else throw new Exception("IRoom.AddListener");
+    }
+
     #region Information
     void IRoomUser.ExecuteInformation(IUserInformation info)
     {
@@ -92,28 +91,25 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       InformEnterSucceed(settings, players, spectators);
       EnterSucceed();
     }
-    void IGameInformer.InformPlayerInputed(int player)
-    {
-      var p = players.ValueOrDefault(player);
-      p.IsInputing = false;
-    }
     void IGameInformer.InformGameResult(int team0, int team1)
     {
       RoomState = RoomState.GameEnd;
-#warning unfinished
-      GameEnd();
+      Listener.GameResult(team0, team1);
     }
     void IGameInformer.InformGameStop(GameStopReason reason, int player)
     {
-      throw new NotImplementedException();
+      RoomState = RoomState.GameEnd;
+      Listener.GameStop(reason, player);
     }
     void IGameInformer.InformGameTie()
     {
-      throw new NotImplementedException();
+      RoomState = RoomState.GameEnd;
+      Listener.GameTie();
     }
     void IGameInformer.InformTimeUp(int[] remainingTime)
     {
-      throw new NotImplementedException();
+      RoomState = RoomState.GameEnd;
+      Listener.TimeUp(remainingTime);
     }
 
     protected virtual void InformEnterSucceed(GameInitSettings settings, Player[] players, int[] spectators)
@@ -127,7 +123,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     protected virtual void OnGameStarted()
     {
     }
-    protected void InformReportUpdate(ReportFragment fragment)
+    protected virtual void InformReportUpdate(ReportFragment fragment)
     {
       if (RoomState != RoomState.GameStarted)
       {
@@ -136,8 +132,8 @@ namespace LightStudio.PokemonBattle.Messaging.Room
         foreach(Player p in players) ps.Add(p.Id, p.GetName());
         game = new GameOutward(Settings, ps);
         OnGameStarted();
+        Listener.GameStart();
       }
-      GameStart();
       game.Update(fragment);
     }
     void IGameInformer.InformReportUpdate(ReportFragment fragment)
@@ -146,8 +142,8 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
 
     #region Player Only
-    protected abstract void InformRequireInput(RequireInput pminfo);
-    void IGameInformer.InformRequireInput(RequireInput pminfo)
+    protected abstract void InformRequireInput(InputRequest pminfo);
+    void IGameInformer.InformRequireInput(InputRequest pminfo)
     {
       InformRequireInput(pminfo);
     }
@@ -169,10 +165,16 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     public event Action<IHostCommand> SendCommand
     { add { sendCommand += value; } remove { } }
     public abstract void EnterRoom();
+    private bool isQuited = false;
     public void Quit()
     {
-      sendCommand(new QuitCommand());
-      Quited();
+      lock(this)
+        if (!isQuited)
+        {
+          isQuited = true;
+          sendCommand(new QuitCommand());
+          Quited();
+        }
     }
     #endregion
 
@@ -181,9 +183,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       Quit();
       EnterFailed = delegate { };
       EnterSucceed = delegate { };
-      GameEnd = delegate { };
-      Quited = delegate { };
-      error = delegate { };
       gameEventsDispatcher.Dispose();
     }
   }

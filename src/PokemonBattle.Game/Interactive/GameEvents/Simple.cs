@@ -12,17 +12,19 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   {
     protected static void Filter(object o, ref int i, ref string s)
     {
-      Type t = o.GetType();
-      if (o is PokemonProxy) i = ((PokemonProxy)o).Id;
-      else if (o is Tactic.DataModels.GameElement) i = ((Tactic.DataModels.GameElement)o).Id;
-      else if (o is int) i = (int)o;
+      if (o != null)
+      {
+        if (o is PokemonProxy) i = ((PokemonProxy)o).Id;
+        else if (o is Tactic.DataModels.GameElement) i = ((Tactic.DataModels.GameElement)o).Id;
+        else if (o is int) i = (int)o;
 #if DEBUG
-      else if (o is Enum) s = o.ToString();
-      else if (o is string) s = (string)o;
-      else throw new Exception("bad event arg");
+        else if (o is Enum) s = o.ToString();
+        else if (o is string) s = (string)o;
+        else throw new Exception("bad event arg");
 #else
       else s = o.ToString();
 #endif
+      }
     }
     protected static object Filter(int i, string s)
     {
