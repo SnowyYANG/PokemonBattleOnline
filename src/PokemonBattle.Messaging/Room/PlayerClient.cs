@@ -82,6 +82,9 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
     protected override void InformRequireInput(InputRequest request)
     {
+#if DEBUG
+      System.Diagnostics.Debug.WriteLine("require input");
+#endif
       inputRequest = request;
     }
     #endregion

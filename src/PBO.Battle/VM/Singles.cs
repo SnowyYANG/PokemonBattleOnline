@@ -64,11 +64,18 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     private InputRequest request;
     public void Pokemon_Click(Pokemon pokemon)
     {
-      if (pokemon.Hp.Value == 0 || pokemon == Pokemons.First()) return;
-      if (!request.Pokemon(pokemon))
+      if (request.IsSendout)
       {
-        request.TryRaiseAbility();
-        InputFailed(request.GetErrorMessage());
+        request.Pokemon(pokemon, 0);
+      }
+      else
+      {
+        if (pokemon.Hp.Value == 0 || pokemon == Pokemons.First()) return;
+        if (!request.Pokemon(pokemon))
+        {
+          request.TryRaiseAbility();
+          InputFailed(request.GetErrorMessage());
+        }
       }
     }
     public void Fight_Click()

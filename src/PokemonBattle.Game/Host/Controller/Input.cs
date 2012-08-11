@@ -47,12 +47,16 @@ namespace LightStudio.PokemonBattle.Game.Host
     public void PauseForEndTurnInput()
     {
       requirements.Clear();
-      foreach (Tile t in Controller.Tiles) requirements[Controller.GetPlayer(t).Id] = null;
+      var groups = from t in Controller.Game.Board.Tiles
+                   where Controller.CanSendout(t)
+                   group t by Controller.GetPlayer(t).Id into playerTiles
+                   select playerTiles;
+      foreach (var g in groups) requirements[g.Key] = new InputRequest();
     }
     public void PauseForSendoutInput(Tile tile)
     {
       requirements.Clear();
-      if (Controller.CanSendout(tile)) requirements.Add(Controller.GetPlayer(tile).Id, null);
+      if (Controller.CanSendout(tile)) requirements.Add(Controller.GetPlayer(tile).Id, new InputRequest(tile));
     }
     private bool Switch(PokemonProxy withdraw, int sendoutIndex)
     {

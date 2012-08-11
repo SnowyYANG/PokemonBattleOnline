@@ -147,16 +147,6 @@ namespace LightStudio.PokemonBattle.Game
     /// <returns></returns>
     public bool Pokemon(Pokemon pokemon)
     {
-      if (pokemon.Hp.Value == 0)
-      {
-        error = string.Format(DataService.String["{0} has no strength to fight!"], pokemon.Name);
-        return false;
-      }
-      if (pokemon.IndexInOwner < Game.Settings.Mode.OnboardPokemonsPerPlayer())
-      {
-        error = string.Format(DataService.String["{0} is already fighting."], pokemon.Name);
-        return false;
-      }
       if (CantWithdraw)
       {
         error = string.Format(DataService.String["Can't withdraw {0}"], Pm.Pokemon.Name);
@@ -179,10 +169,17 @@ namespace LightStudio.PokemonBattle.Game
     [DataMember(EmitDefaultValue = false)]
     PmInputRequest[] Pms;
 
+    [DataMember(EmitDefaultValue = false)]
+    Tile[] Tiles;
+
     internal InputRequest(IEnumerable<PokemonProxy> pokemons = null)
     {
       if (pokemons != null)
         Pms = pokemons.Select((p) => new PmInputRequest(p)).ToArray();
+    }
+    internal InputRequest(params Tile[] tiles)
+    {
+      Tiles = tiles;
     }
 
     public override bool Equals(object obj)
@@ -195,6 +192,7 @@ namespace LightStudio.PokemonBattle.Game
     public event Action<ActionInput> InputFinished;
     private ActionInput input;
     private SimGame game;
+    private string error;
 
     public bool IsSendout
     { get { return Pms == null; } }
@@ -207,21 +205,34 @@ namespace LightStudio.PokemonBattle.Game
         if (Pms[CurrentX++] != null) break;
       if (CurrentX == Pms.Length) InputFinished(input);
     }
+    private void CheckSendoutFinished()
+    {
+#if MULTI
+      if (Tiles.Length == 0)
+      {
+      }
+      else
+#endif
+      {
+        InputFinished(input);
+      }
+    }
     public void Init(SimGame game)
     {
       this.game = game;
       CurrentX = -1;
-      for (int i = 0; i < Pms.Length; ++i)
-        if (Pms[i] != null)
-        {
-          Pms[i].Init(game, game.OnboardPokemons[i]);
-          if (CurrentX == -1) CurrentX = i;
-        }
+      if (Pms != null)
+        for (int i = 0; i < Pms.Length; ++i)
+          if (Pms[i] != null)
+          {
+            Pms[i].Init(game, game.OnboardPokemons[i]);
+            if (CurrentX == -1) CurrentX = i;
+          }
       input = new ActionInput(game.Settings.Mode.XBound());
     }
     public string GetErrorMessage()
     {
-      return Pms[CurrentX].GetErrorMessage();
+      return error;
     }
     public void TryRaiseAbility()
     {
@@ -234,6 +245,7 @@ namespace LightStudio.PokemonBattle.Game
         NextPm();
         return true;
       }
+      error = Pms[CurrentX].GetErrorMessage();
       return false;
     }
     public bool Move(SimMove move)
@@ -247,6 +259,7 @@ namespace LightStudio.PokemonBattle.Game
         }
         return true;
       }
+      error = Pms[CurrentX].GetErrorMessage();
       return false;
     }
     public void Target(PokemonOutward target = null)
@@ -255,7 +268,18 @@ namespace LightStudio.PokemonBattle.Game
     }
     public bool Pokemon(Pokemon pokemon, int x)
     {
+      if (pokemon.Hp.Value == 0)
+      {
+        error = string.Format(DataService.String["{0} has no strength to fight!"], pokemon.Name);
+        return false;
+      }
+      if (pokemon.IndexInOwner < game.Settings.Mode.OnboardPokemonsPerPlayer())
+      {
+        error = string.Format(DataService.String["{0} is already fighting."], pokemon.Name);
+        return false;
+      }
       input.Sendout(x, pokemon);
+      CheckSendoutFinished();
       return true;
     }
     public bool Pokemon(Pokemon pokemon)
@@ -266,6 +290,7 @@ namespace LightStudio.PokemonBattle.Game
         NextPm();
         return true;
       }
+      error = Pms[CurrentX].GetErrorMessage();
       return false;
     }
     public void Undo()

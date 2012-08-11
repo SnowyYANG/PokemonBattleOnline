@@ -118,12 +118,11 @@ namespace LightStudio.PokemonBattle.Game.Host
         }
         var miss = new List<DefContext>();
         foreach (DefContext def in targets)
-        {
-          //心眼锁定、无防御
-          if (def.NoGuard) continue;
-          if (!CanHit(def)) miss.Add(def);
-          report.Add("Miss", def.Defender);
-        }
+          if (!(def.NoGuard || CanHit(def)))//心眼锁定、无防御
+          {
+            miss.Add(def);
+            report.Add("Miss", def.Defender);
+          }
         if (miss.Count > 0) targets.Remove(miss);
       }
       #endregion

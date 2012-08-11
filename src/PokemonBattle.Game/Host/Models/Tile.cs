@@ -24,8 +24,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     public PokemonProxy Pokemon
     { get; internal set; }
 
-    public bool NeedInput
-    { get; internal set; }
     public int WillSendoutPokemonIndex
     { get; internal set; }
     public int Speed

@@ -64,26 +64,26 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         AtkContext atk = def.AtkContext;
         PokemonProxy a = atk.Attacker;
-          bool allSub = true;
-          if (!Move.AdvancedFlags.IgnoreSubstitute)
-          {
-            foreach (DefContext d in defs)
-              if (!Sp.Conditions.Substitute.Hurt(d)) allSub = false;
-          }
-          if (!allSub)
-          {
-            foreach (DefContext d in defs)
-              if (d.RaiseItem) d.Defender.RaiseItem();
-            MoveHurts e = new MoveHurts();
-            a.Controller.ReportBuilder.Add(e);
-            foreach (DefContext d in defs) d.Defender.MoveHurt(d);
-            e.SetHurt(defs);
-          }
+        bool allSub = true;
+        if (!Move.AdvancedFlags.IgnoreSubstitute)
+        {
+          foreach (DefContext d in defs)
+            if (!Sp.Conditions.Substitute.Hurt(d)) allSub = false;
+        }
+        if (!allSub)
+        {
+          foreach (DefContext d in defs)
+            if (d.RaiseItem) d.Defender.RaiseItem();
+          MoveHurts e = new MoveHurts();
+          a.Controller.ReportBuilder.Add(e);
+          foreach (DefContext d in defs) d.Defender.MoveHurt(d);
+          e.SetHurt(defs);
+        }
 
-          if (Move.HurtPercentage > 0) a.DamagePercentage(def, Move.HurtPercentage);
-          if (Move.Class == MoveInnerClass.AttackWithSelfLv7DChange) a.ChangeLv7D(atk);
+        if (Move.HurtPercentage > 0) a.DamagePercentage(def, Move.HurtPercentage);
+        if (Move.Class == MoveInnerClass.AttackWithSelfLv7DChange) a.ChangeLv7D(atk);
 
-          foreach (DefContext d in defs) if (!d.HitSubstitute) ImplementEffect(d);
+        foreach (DefContext d in defs) if (!d.HitSubstitute) ImplementEffect(d);
 
         if (a.Hp > 0)
         {
