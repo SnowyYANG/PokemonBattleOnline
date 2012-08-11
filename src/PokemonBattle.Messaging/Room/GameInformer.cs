@@ -49,9 +49,9 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     {
       return new GameEndInfo() { Player = player, Reason = reason };
     }
-    public static GameEndInfo TimeUp(int[] remainingTime)
+    public static GameEndInfo TimeUp(IEnumerable<int> time)
     {
-      return new GameEndInfo() { RemainingTime = remainingTime };
+      return new GameEndInfo() { Time = time.ToArray() };
     }
     /// <summary>
     /// null if user tie
@@ -68,7 +68,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     GameStopReason Reason;
 
     [DataMember(EmitDefaultValue = false)]
-    int[] RemainingTime;
+    int[] Time;
 
     private GameEndInfo()
     {
@@ -77,7 +77,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     {
       if (RemaningPokemons != null) user.InformGameResult(RemaningPokemons[0], RemaningPokemons[1]);
       else if (IsTile) user.InformGameTie();
-      else if (RemainingTime != null) user.InformTimeUp(RemainingTime);
+      else if (Time != null) user.InformTimeUp(Time);
       else user.InformGameStop(Reason, Player);
     }
   }

@@ -36,6 +36,12 @@ namespace LightStudio.PokemonBattle.Messaging
         {
           host = new Host(settings, auto);
           host.SendInformation += host_SendInformation;
+          host.Closed += () =>
+            {
+              host.Dispose();
+              host = null;
+              Client.DeregisterRoom();
+            };
           Client.RegisterRoom();
           return true;
         }

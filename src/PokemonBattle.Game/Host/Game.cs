@@ -29,6 +29,8 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     public IGameSettings Settings
     { get { return gameSettings; } }
+    public int Turn
+    { get { return controller.TurnNumber; } }
 
     private void OnGameEnd()
     {
@@ -75,8 +77,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     bool IGame.SetPlayer(int teamId, int userId, PokemonCustomInfo[] pokemons)
     {
       //TODO: Verify both userId and pm
-      if (teamId >= 0 && teamId < Teams.Length && GetPlayer(userId) == null) return Teams[teamId].AddPlayer(userId, pokemons) != null;
-      return false;
+      return teamId >= 0 && teamId < Teams.Length && GetPlayer(userId) == null && Teams[teamId].AddPlayer(userId, pokemons) != null;
     }
     bool IGame.Start()
     {

@@ -23,6 +23,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     Player GetPlayer(int id);
     bool InputAction(int player, ActionInput action);
     ReportFragment GetLastLeapFragment();
+
+    int Turn { get; }
   }
   public static class GameFactory
   {

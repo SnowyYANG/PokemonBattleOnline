@@ -57,10 +57,13 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       if (PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
     }
 
+    internal bool Alive
+    { get { return Seconds < 180; } }
     internal void NewTurn()
     {
       Seconds -= 20;
     }
+    /// <returns>still alive</returns>
     internal void Tick()
     {
       if (IsInputing) Seconds++;

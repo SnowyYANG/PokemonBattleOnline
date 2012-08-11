@@ -111,6 +111,9 @@ namespace LightStudio.PokemonBattle.Game
             case "i":
               r = DataService.GetItem(id).GetLocalizedName();
               break;
+            case "e":
+              r = DataService.String[arg.ToString()];
+              break;
             default:
               if (format != null && format.StartsWith("pm."))
               {

@@ -36,6 +36,9 @@ namespace LightStudio.PokemonBattle.Messaging
     internal void RegisterRoom()
     {
     }
+    internal void DeregisterRoom()
+    {
+    }
 
     internal void RegisterRoomUser(int userId)
     {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading;
 using LightStudio.Tactic;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
@@ -17,9 +18,10 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     public static readonly PropertyChangedEventArgs CAN_START_GAME = new PropertyChangedEventArgs("CanStartGame");
     
     public event PropertyChangedEventHandler PropertyChanged = delegate { };
-    public event Action Closed = delegate { };
+    public event Action Closed;
     internal readonly GameInitSettings GameSettings;
     private readonly Dispatcher dispatcher;
+    private readonly Timer timer;
     private readonly HashSet<int> users;
     private readonly ObservableCollection<Player> players;
     private readonly ObservableCollection<int> spectators;
@@ -30,6 +32,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     public Host(GameInitSettings settings, bool auto)
     {
       dispatcher = new Dispatcher("Host", true);
+      timer = new Timer(TimeTick, null, Timeout.Infinite, 1000);
       users = new HashSet<int>();
       
       players = new ObservableCollection<Player>();
@@ -62,6 +65,35 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
     public bool CanStartGame
     { get { return game.Prepared; } }
+    private void OnPropertyChanged(PropertyChangedEventArgs e)
+    {
+      PropertyChanged(this, e);
+    }
+    private void TimeTick(object state)
+    {
+      foreach (Player p in players)
+        if (p.IsInputing) p.Tick();
+      var timeouter = (from p in players where !p.Alive select p).ToArray();
+      if (timeouter.Count() != 0) InformTimeUp();
+    }
+
+    #region Control
+    public void Kick(int targetId)
+    {
+    }
+    public void StartGame()
+    {
+      if (game.Start())
+      {
+        State = RoomState.GameStarted;
+        timer.Change(0, 1000);
+      }
+    }
+    public void CloseRoom()
+    {
+      Closed();
+    }
+    #endregion
 
     #region Commands
     void IHost.ExecuteCommand(IHostCommand command, int senderId)
@@ -111,9 +143,9 @@ namespace LightStudio.PokemonBattle.Messaging.Room
               players.Remove(p);
               break;
             }
-          if (State == RoomState.GameStarted)
-            InformGameStop(userId, GameStopReason.UserQuit);
+          if (State == RoomState.GameStarted) InformGameStop(userId, GameStopReason.UserQuit);
         }
+        if (auto && users.Count == 0) CloseRoom();
       }
     }
     void IGameManager.RequestTie(int userId)
@@ -206,15 +238,16 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       State = RoomState.GameEnd;
       OnSendInformation(GameEndInfo.GameStop(userId, reason));
     }
-    void InformTimeUp(int[] remainingTime)
+    void InformTimeUp()
     {
       State = RoomState.GameEnd;
-      OnSendInformation(GameEndInfo.TimeUp(remainingTime));
+      OnSendInformation(GameEndInfo.TimeUp(from p in players select p.Seconds));
     }
 
 #if !DEBUG
     private Dictionary<int, RequireInput> lastRequirements;
 #endif
+    private int lastTurn;
     void InformReportUpdate(ReportFragment fragment, IEnumerable<KeyValuePair<int, InputRequest>> requirements)
     {
       bool hasAddition;
@@ -232,6 +265,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
           }
       }
 #endif
+      lastTurn = game.Turn;
       if (hasAddition)
         foreach(KeyValuePair<int, InputRequest> pair in requirements) OnSendInformation(new RequireInputInfo(pair.Value), pair.Key);
       OnSendInformation(new ReportUpdateInfo(fragment, hasAddition));
@@ -246,29 +280,11 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     #endregion
     #endregion
 
-    public void Kick(int targetId)
-    {
-    }
-    public void StartGame()
-    {
-      if (game.Start()) State = RoomState.GameStarted;
-    }
-    public void CloseRoom()
-    {
-      Closed();
-    }
-
-    #region PropertyChanged
-    private void OnPropertyChanged(PropertyChangedEventArgs e)
-    {
-      PropertyChanged(this, e);
-    }
-    #endregion
-
     public void Dispose()
     {
       PropertyChanged = delegate { };
       SendInformation = delegate { };
+      timer.Dispose();
       dispatcher.Dispose();
     }
   }
