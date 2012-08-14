@@ -20,7 +20,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     {
       Id = id;
       Team = team;
-      Seconds = 1800;
     }
 
     private bool _isInputing;
@@ -59,9 +58,9 @@ namespace LightStudio.PokemonBattle.Messaging.Room
 
     internal bool Alive
     { get { return Seconds < 180; } }
-    internal void NewTurn()
+    internal void NewTurns(int turn)
     {
-      Seconds -= 20;
+      if (turn > 0) Seconds -= 20 * turn;
     }
     /// <returns>still alive</returns>
     internal void Tick()

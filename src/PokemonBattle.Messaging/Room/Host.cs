@@ -74,7 +74,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       foreach (Player p in players)
         if (p.IsInputing) p.Tick();
       var timeouter = (from p in players where !p.Alive select p).ToArray();
-      if (timeouter.Count() != 0) InformTimeUp();
+      if (timeouter.Length != 0) InformTimeUp();
     }
 
     #region Control
@@ -241,6 +241,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void InformTimeUp()
     {
       State = RoomState.GameEnd;
+      timer.Change(Timeout.Infinite, 0);
       OnSendInformation(GameEndInfo.TimeUp(from p in players select p.Seconds));
     }
 
@@ -265,6 +266,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
           }
       }
 #endif
+      foreach (Player p in players) p.NewTurns(game.Turn - lastTurn);
       lastTurn = game.Turn;
       if (hasAddition)
         foreach(KeyValuePair<int, InputRequest> pair in requirements) OnSendInformation(new RequireInputInfo(pair.Value), pair.Key);
