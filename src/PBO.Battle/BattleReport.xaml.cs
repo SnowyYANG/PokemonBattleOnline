@@ -21,7 +21,6 @@ namespace LightStudio.PokemonBattle.PBO.Battle
   public partial class BattleReport : UserControl
   {
     ScrollViewer scroll;
-    //if (scroll != null) scroll.ScrollToEnd();
     LinkedList<TextElement> turnsBookmark;
     LinkedListNode<TextElement> nowTurn;
     Control controller;
@@ -58,9 +57,9 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       else
         report.Blocks.Add(block);
     }
-    public void AddText(string text)
+    public void AddLogText(string text)
     {
-      AddBlock(new Paragraph(new Run(text)) { Foreground = Brushes.OrangeRed });
+      controller.AddText(text, Brushes.OrangeRed);
     }
   }
 }

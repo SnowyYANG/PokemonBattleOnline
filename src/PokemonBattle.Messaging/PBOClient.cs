@@ -61,16 +61,20 @@ namespace LightStudio.PokemonBattle.Messaging
     public static ChallengeManager Challenge { get; private set; }
     public static SpectateManager Spectate { get; private set; }
 
-    public static string GetName(this Player player)
+    public static string GetName(int player)
     {
       //thread safe?
       lock(locker)
         if (Client != null)
         {
-          var u = Client.GetUser(player.Id);
+          var u = Client.GetUser(player);
           if (u != null) return u.Name;
         }
-        return "#" + player.Id.ToString();
+        return "#" + player.ToString();
+    }
+    public static string GetName(this Player player)
+    {
+      return GetName(player.Id);
     }
     public static void Dispose()
     {

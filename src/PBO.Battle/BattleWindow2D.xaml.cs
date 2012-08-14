@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using LightStudio.PokemonBattle.Game;
+using LightStudio.PokemonBattle.Messaging;
 using LightStudio.PokemonBattle.Messaging.Room;
 using LightStudio.PokemonBattle.PBO.Battle.VM;
 using LightStudio.Tactic.Logging;
@@ -62,31 +63,70 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     void IRoomEventsListener.GameResult(int team0, int team1)
     {
       UIDispatcher.Invoke(() =>
-        br.AddText(string.Format(DataService.String["Game end {0} : {1}"], team0, team1)));
+        br.AddLogText(string.Format(DataService.String["Game end {0} : {1}"], team0, team1)));
     }
     void IRoomEventsListener.GameTie()
     {
-      UIDispatcher.Invoke(() => br.AddText(DataService.String["Game tied"]));
+      UIDispatcher.Invoke(() => br.AddLogText(DataService.String["Game tied"]));
     }
     void IRoomEventsListener.GameStop(GameStopReason reason, int player)
     {
       UIDispatcher.Invoke(() =>
-        br.AddText(string.Format(DataService.String["Game stop due to {0}'s {1}"], player, reason)));
+        {
+          string formatKey;
+          switch (reason)
+          {
+            case GameStopReason.InvalidInput:
+              formatKey = "{0} commands something wrong to pokemon(s). Game stopped.\n";
+              break;
+            case GameStopReason.RoomClosed:
+              formatKey = "The room is closed by room administrator. Game stopped.\n";
+              break;
+            case GameStopReason.ServerClosed: //这个不是直接连接与服务器中断么
+              formatKey = "Disconnected from server.\n";
+              break;
+            case GameStopReason.PlayerDisconnect:
+              formatKey = "Player {0} disconnected. Game stopped.\n";
+              break;
+            case GameStopReason.PlayerQuit:
+              formatKey = "Player {0} quitted. Game stopped.\n";
+              break;
+            default:
+              formatKey = "Disconnected from room.\n";
+              break;
+          }
+          string playerName = player == 0 ? null : PBOClient.GetName(player);
+          br.AddLogText(string.Format(DataService.String[formatKey], playerName));
+        });
     }
     void IRoomEventsListener.TimeReminder(int[] waitForWhom)
     {
       UIDispatcher.Invoke(() =>
-        br.AddText(string.Format(DataService.String["Waiting for {0}'s commands to pokemons"], waitForWhom)));
+        {
+          var names = (from p in waitForWhom select PBOClient.GetName(p)).ToArray();
+          switch (waitForWhom.Length)
+          {
+            case 1: //双打三打pm复数
+              br.AddLogText(string.Format(DataService.String["Waiting for {0}'s command to pokemon.\n"], names[0]));
+              break;
+            case 2:
+              br.AddLogText(string.Format(DataService.String["Waiting for {0} and {1}'s commands to pokemons.\n"], names[0], names[1]));
+              break;
+            case 3:
+              br.AddLogText(string.Format(DataService.String["Waiting for {0}, {1} and {2}'s commands to pokemons.\n"], names[0], names[1], names[2]));
+              break;
+          }
+        });
     }
-    void IRoomEventsListener.TimeUp(int[] remainingTime)
+    void IRoomEventsListener.TimeUp(IEnumerable<KeyValuePair<int, int>> spentTime)
     {
       UIDispatcher.Invoke(() =>
-        br.AddText(DataService.String["TimeUp"]));
+        br.AddLogText(DataService.String["TimeUp"]));
     }
     void IRoomEventsListener.Error(string message)
     {
       UIDispatcher.Invoke(() =>
-        br.AddText("<error>" + message));
+        br.AddLogText("<error>" + message));
     }
     #endregion
   }

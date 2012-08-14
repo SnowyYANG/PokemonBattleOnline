@@ -69,6 +69,15 @@ namespace LightStudio.PokemonBattle.PBO.Battle
         beginTurn = true;
       }
 
+      public void AddText(string text, Brush foreground)
+      {
+        if (current == null || current.TextAlignment != TextAlignment.Left)
+        {
+          current = new Paragraph() { TextAlignment = TextAlignment.Left };
+          nest.AddBlock(current);
+        }
+        current.Inlines.Add(new Run(text) { Foreground = foreground });
+      }
       bool beginTurn;
       void IGameOutwardEvents.TurnEnd()
       {

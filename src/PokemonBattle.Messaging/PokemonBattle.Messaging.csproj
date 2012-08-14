@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Room\GoTimer.cs" />
     <Compile Include="Room\Player.cs" />
     <Compile Include="Sevices\ChallengeManager.cs" />
     <Compile Include="Client.cs" />

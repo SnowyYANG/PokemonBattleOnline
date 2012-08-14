@@ -10,8 +10,8 @@ namespace LightStudio.PokemonBattle.Messaging.Room
 {
   public enum GameStopReason
   {
-    UserQuit,
-    UserDisconnect,
+    PlayerQuit,
+    PlayerDisconnect,
     InvalidInput,
     RoomClosed,
     RoomDisconnect,
@@ -22,10 +22,11 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void InformGameResult(int team0, int team1);
     void InformGameTie();
     void InformGameStop(GameStopReason reason, int player);
-    void InformTimeUp(int[] remainingTime);
+    void InformTimeUp(IEnumerable<KeyValuePair<int, int>> remainingTime);
+    void InformWaitingForInput(int[] players);
 
     void InformReportUpdate(ReportFragment fragment);
-    void InformRequireInput(InputRequest pms);
+    void InformRequireInput(InputRequest pms, int time);
     
     void InformRequestTie();
     void InformTieRejected();
@@ -49,7 +50,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     {
       return new GameEndInfo() { Player = player, Reason = reason };
     }
-    public static GameEndInfo TimeUp(IEnumerable<int> time)
+    public static GameEndInfo TimeUp(IEnumerable<KeyValuePair<int, int>> time)
     {
       return new GameEndInfo() { Time = time.ToArray() };
     }
@@ -68,7 +69,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     GameStopReason Reason;
 
     [DataMember(EmitDefaultValue = false)]
-    int[] Time;
+    KeyValuePair<int, int>[] Time;
 
     private GameEndInfo()
     {
@@ -83,35 +84,35 @@ namespace LightStudio.PokemonBattle.Messaging.Room
   }
 
   [DataContract(Namespace = Namespaces.LIGHT)]
+  class WaitingForInputInfo : IUserInformation
+  {
+    [DataMember]
+    int[] Players;
+
+    public WaitingForInputInfo(IEnumerable<int> players)
+    {
+      Players = players.ToArray();
+    }
+
+    void IUserInformation.Execute(IRoomUser user)
+    {
+      user.InformWaitingForInput(Players);
+    }
+  }
+
+  [DataContract(Namespace = Namespaces.LIGHT)]
   class ReportUpdateInfo : IUserInformation
   {
     [DataMember]
     ReportFragment Fragment;
 
-    [DataMember(EmitDefaultValue = false)]
-    Player[] Leap;
-
-    /// <summary>
-    /// 非回合开始时的所有玩家选招，如飞天、逆鳞，注意：Leap（观战/首回合）的战报段亦可能SP（替代物）
-    /// </summary>
-    [DataMember(EmitDefaultValue = false)]
-    bool HasAddition;
-
-    /// <summary>
-    /// 如果要wifi模式计时器的话就null吧，以及计时器放在Host这吧
-    /// </summary>
-    [DataMember(EmitDefaultValue = false)]
-    int?[] Seconds;
-
-    public ReportUpdateInfo(ReportFragment turn, bool hasAddition)
+    public ReportUpdateInfo(ReportFragment turn)
     {
       Fragment = turn;
-      HasAddition = hasAddition;
     }
     void IUserInformation.Execute(IRoomUser user)
     {
       user.InformReportUpdate(Fragment);
-      if (!HasAddition) user.InformRequireInput(null);
     }
   }
 
@@ -121,13 +122,17 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     [DataMember]
     InputRequest PmInfo;
 
-    public RequireInputInfo(InputRequest pmInfo)
+    [DataMember(EmitDefaultValue = false)]
+    int SpentTime;
+
+    public RequireInputInfo(InputRequest pmInfo, int spentTime)
     {
       PmInfo = pmInfo;
+      SpentTime = spentTime;
     }
     void IUserInformation.Execute(IRoomUser user)
     {
-      user.InformRequireInput(PmInfo);
+      user.InformRequireInput(PmInfo, SpentTime);
     }
   }
   

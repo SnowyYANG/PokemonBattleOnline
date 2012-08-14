@@ -155,4 +155,5 @@
         </TabItem>
         <TabItem></TabItem>
     </TabControl>
+    <TextBlock Text="{Binding Time}" Canvas.Bottom="-20" Background="Black" Foreground="White"/>
 </Canvas>

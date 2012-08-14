@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void GameTie();
     void GameStop(GameStopReason reason, int player);
     void TimeReminder(int[] waitForWhom);
-    void TimeUp(int[] remainingTime);
+    void TimeUp(IEnumerable<KeyValuePair<int, int>> remainingTime);
     void Error(string message);
   }
   public interface IRoom : IDisposable

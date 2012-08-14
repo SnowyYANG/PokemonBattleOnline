@@ -18,7 +18,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     { get { return null; } }
 
     #region Errors
-    protected override void InformRequireInput(Game.InputRequest info)
+    protected override void InformRequireInput(Game.InputRequest info, int time)
     {
       if (info != null) Listener.Error("收到非法的消息，数据包损毁或房间主机程序被修改");
     }

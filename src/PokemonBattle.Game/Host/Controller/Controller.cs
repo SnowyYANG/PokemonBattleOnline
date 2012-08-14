@@ -8,7 +8,7 @@ namespace LightStudio.PokemonBattle.Game.Host
 {
   public class Controller
   {
-    internal event Action<ReportFragment, IEnumerable<KeyValuePair<int, InputRequest>>> ReportUpdated;
+    internal event Action<ReportFragment, IDictionary<int, InputRequest>> ReportUpdated;
 
     public readonly ReportBuilder ReportBuilder;
     internal readonly GameContext Game;

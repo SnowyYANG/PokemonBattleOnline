@@ -36,8 +36,8 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
 
     #region IPlayerController
-    private Action<InputRequest> _requireInput;
-    event Action<InputRequest> IPlayerController.RequireInput
+    private Action<InputRequest, int> _requireInput;
+    event Action<InputRequest, int> IPlayerController.RequireInput
     {
       add { _requireInput += value; }
       remove { _requireInput -= value; }
@@ -67,6 +67,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
 
     #region Update
     private InputRequest inputRequest;
+    private int spentTime;
     protected override void InformReportUpdate(ReportFragment fragment)
     {
       base.InformReportUpdate(fragment);
@@ -75,17 +76,15 @@ namespace LightStudio.PokemonBattle.Messaging.Room
           game.Update(fragment);
           if (inputRequest != null)
           {
-            _requireInput(inputRequest);
+            _requireInput(inputRequest, spentTime);
             inputRequest = null;
           }
         });
     }
-    protected override void InformRequireInput(InputRequest request)
+    protected override void InformRequireInput(InputRequest request, int spentTime)
     {
-#if DEBUG
-      System.Diagnostics.Debug.WriteLine("require input");
-#endif
       inputRequest = request;
+      this.spentTime = spentTime;
     }
     #endregion
 

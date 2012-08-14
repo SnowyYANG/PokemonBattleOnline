@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Threading;
 using LightStudio.Tactic;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
@@ -21,18 +20,17 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     public event Action Closed;
     internal readonly GameInitSettings GameSettings;
     private readonly Dispatcher dispatcher;
-    private readonly Timer timer;
     private readonly HashSet<int> users;
     private readonly ObservableCollection<Player> players;
     private readonly ObservableCollection<int> spectators;
     private readonly IGame game;
     private readonly bool auto;
+    private GoTimer timer;
     
     /// <param name="auto">游戏自动开始，游戏结束时自动关闭房间</param>
     public Host(GameInitSettings settings, bool auto)
     {
       dispatcher = new Dispatcher("Host", true);
-      timer = new Timer(TimeTick, null, Timeout.Infinite, 1000);
       users = new HashSet<int>();
       
       players = new ObservableCollection<Player>();
@@ -69,13 +67,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     {
       PropertyChanged(this, e);
     }
-    private void TimeTick(object state)
-    {
-      foreach (Player p in players)
-        if (p.IsInputing) p.Tick();
-      var timeouter = (from p in players where !p.Alive select p).ToArray();
-      if (timeouter.Length != 0) InformTimeUp();
-    }
 
     #region Control
     public void Kick(int targetId)
@@ -83,10 +74,14 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
     public void StartGame()
     {
-      if (game.Start())
+      if (game.Prepared)
       {
         State = RoomState.GameStarted;
-        timer.Change(0, 1000);
+        timer = new GoTimer(from p in players select p.Id);
+        timer.TimeUp += InformTimeUp;
+        timer.WaitingNotify += InformWaitingForInput;
+        timer.Start();
+        game.Start();
       }
     }
     public void CloseRoom()
@@ -143,7 +138,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
               players.Remove(p);
               break;
             }
-          if (State == RoomState.GameStarted) InformGameStop(userId, GameStopReason.UserQuit);
+          if (State == RoomState.GameStarted) InformGameStop(userId, GameStopReason.PlayerQuit);
         }
         if (auto && users.Count == 0) CloseRoom();
       }
@@ -163,7 +158,11 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void IGameManager.Input(int userId, ActionInput action)
     {
       if (State == RoomState.GameStarted)
-        if (game.InputAction(userId, action)) game.TryContinue();
+        if (game.GetPlayer(userId) != null && game.InputAction(userId, action))
+        {
+          timer.Pause(userId);
+          game.TryContinue();
+        }
         else InformGameStop(userId, GameStopReason.InvalidInput);
     }
     #endregion
@@ -241,36 +240,22 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void InformTimeUp()
     {
       State = RoomState.GameEnd;
-      timer.Change(Timeout.Infinite, 0);
-      OnSendInformation(GameEndInfo.TimeUp(from p in players select p.Seconds));
+      OnSendInformation(GameEndInfo.TimeUp(timer.State));
+    }
+    void InformWaitingForInput(IEnumerable<int> players)
+    {
+      OnSendInformation(new WaitingForInputInfo(players));
     }
 
-#if !DEBUG
-    private Dictionary<int, RequireInput> lastRequirements;
-#endif
     private int lastTurn;
-    void InformReportUpdate(ReportFragment fragment, IEnumerable<KeyValuePair<int, InputRequest>> requirements)
+    void InformReportUpdate(ReportFragment fragment, IDictionary<int, InputRequest> requirements)
     {
-      bool hasAddition;
-#if DEBUG
-      hasAddition = true;
-#else
-      if (lastRequirements.Values.First() != null)
-      {
-        hasAddition = false;
-        foreach (KeyValuePair<int, RequireInput> pair in requirements)
-          if (!pair.Value.Equals(lastRequirements.ValueOrDefault(pair.Key)))
-          {
-            hasAddition = true;
-            break;
-          }
-      }
-#endif
-      foreach (Player p in players) p.NewTurns(game.Turn - lastTurn);
+      timer.NewTurns(game.Turn - lastTurn);
       lastTurn = game.Turn;
-      if (hasAddition)
-        foreach(KeyValuePair<int, InputRequest> pair in requirements) OnSendInformation(new RequireInputInfo(pair.Value), pair.Key);
-      OnSendInformation(new ReportUpdateInfo(fragment, hasAddition));
+      foreach (var pair in requirements)
+        OnSendInformation(new RequireInputInfo(pair.Value, timer.GetState(pair.Key)), pair.Key);
+      timer.Resume(requirements.Keys);
+      OnSendInformation(new ReportUpdateInfo(fragment));
     }
 
     void InformRequestTie()

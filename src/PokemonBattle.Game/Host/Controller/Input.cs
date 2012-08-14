@@ -17,7 +17,7 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     public bool NeedInput
     { get { return requirements.Count > 0; } }
-    public IEnumerable<KeyValuePair<int, InputRequest>> InputRequirements
+    public IDictionary<int, InputRequest> InputRequirements
     { get { return requirements; } }
 
     public bool CheckInputSucceed(Player player)

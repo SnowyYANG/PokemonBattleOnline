@@ -16,7 +16,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     private readonly IGameSettings gameSettings;
     private Controller controller;
     private Action<int, int> gameEnd;
-    private Dictionary<int, InputRequest> inputRequirements;
 
     internal GameContext(IGameSettings settings, Func<int> nextId)
     {
@@ -58,8 +57,8 @@ namespace LightStudio.PokemonBattle.Game.Host
       add { gameEnd += value; }
       remove { gameEnd -= value; }
     }
-    private Action<ReportFragment, IEnumerable<KeyValuePair<int, InputRequest>>> _reportUpdated;
-    event Action<ReportFragment, IEnumerable<KeyValuePair<int, InputRequest>>> IGame.ReportUpdated
+    private Action<ReportFragment, IDictionary<int, InputRequest>> _reportUpdated;
+    event Action<ReportFragment, IDictionary<int, InputRequest>> IGame.ReportUpdated
     {
       add { _reportUpdated += value; }
       remove { _reportUpdated -= value; }

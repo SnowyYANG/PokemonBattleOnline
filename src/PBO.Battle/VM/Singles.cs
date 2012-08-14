@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Threading;
 using LightStudio.PokemonBattle.Game;
 
 namespace LightStudio.PokemonBattle.PBO.Battle.VM
@@ -12,31 +13,46 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
   {
     public event PropertyChangedEventHandler PropertyChanged;
     public event Action<string> InputFailed;
-    IPlayerController controller;
-    int selectedPanel;
+    private readonly IPlayerController controller;
     private readonly GameOutward game;
-    TeamOutward teamPms, rivalPms;
+    private readonly DispatcherTimer timer;
 
     internal Singles(Messaging.Room.IRoom c)
     {
       controller = c.PlayerController;
       game = c.Game;
-      teamPms = c.Game.Teams[controller.Player.TeamId];
-      rivalPms = c.Game.Teams[1 - controller.Player.TeamId];
-      selectedPanel = ControlPanelIndex.INACTIVE;
+      timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(1) };
+      _time = 180;
+      _teamPms = c.Game.Teams[controller.Player.TeamId];
+      _rivalPms = c.Game.Teams[1 - controller.Player.TeamId];
+      _selectedPanel = ControlPanelIndex.INACTIVE;
+
       controller.RequireInput += RequireInput;
+      timer.Tick += (sender, e) => Time--;
     }
 
+    private int _time;
     public int Time
-    { get; private set; }
+    { 
+      get { return _time; }
+      private set
+      {
+        if (_time != value)
+        {
+          _time = value;
+          OnPropertyChanged("Time");
+        }
+      }
+    }
+    private int _selectedPanel;
     public int SelectedPanel
     {
-      get { return selectedPanel; }
+      get { return _selectedPanel; }
       set
       {
-        if (selectedPanel != value)
+        if (_selectedPanel != value)
         {
-          selectedPanel = value;
+          _selectedPanel = value;
           OnPropertyChanged("SelectedPanel");
         }
       }
@@ -49,10 +65,12 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     { get { return Visibility.Collapsed; } }
     public bool IsFightEnabled
     { get { return ControllingPokemon != null; } }
+    private TeamOutward _teamPms;
     public TeamOutward TeamPokemonsCount
-    { get { return teamPms; } }
+    { get { return _teamPms; } }
+    private TeamOutward _rivalPms;
     public TeamOutward RivalTeamPokemonsCount
-    { get { return rivalPms; } }
+    { get { return _rivalPms; } }
     public IEnumerable<Pokemon> Pokemons
     { get { return controller.Player.Pokemons; } }
 
@@ -101,16 +119,19 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     void IControlPanel.Undo_Click()
     { }
 
-    private void RequireInput(InputRequest request)
+    private void RequireInput(InputRequest request, int spentTime)
     {
+      timer.Start();
       this.request = request;
       request.Init(controller.Game);
       request.InputFinished += (i) =>
         {
           SelectedPanel = ControlPanelIndex.INACTIVE;
           controller.Input(i);
+          timer.Stop();
         };
-      selectedPanel = request.IsSendout ? ControlPanelIndex.POKEMONS : ControlPanelIndex.MAIN;
+      _selectedPanel = request.IsSendout ? ControlPanelIndex.POKEMONS : ControlPanelIndex.MAIN;
+      _time = 180 - spentTime;
       OnPropertyChanged(null);
     }
   }

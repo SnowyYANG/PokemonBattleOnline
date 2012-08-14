@@ -106,10 +106,14 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       RoomState = RoomState.GameEnd;
       Listener.GameTie();
     }
-    void IGameInformer.InformTimeUp(int[] remainingTime)
+    void IGameInformer.InformTimeUp(IEnumerable<KeyValuePair<int, int>> remainingTime)
     {
       RoomState = RoomState.GameEnd;
       Listener.TimeUp(remainingTime);
+    }
+    void IGameInformer.InformWaitingForInput(int[] players)
+    {
+      Listener.TimeReminder(players);
     }
 
     protected virtual void InformEnterSucceed(GameInitSettings settings, Player[] players, int[] spectators)
@@ -142,10 +146,10 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
 
     #region Player Only
-    protected abstract void InformRequireInput(InputRequest pminfo);
-    void IGameInformer.InformRequireInput(InputRequest pminfo)
+    protected abstract void InformRequireInput(InputRequest pminfo, int spentTime);
+    void IGameInformer.InformRequireInput(InputRequest pminfo, int spentTime)
     {
-      InformRequireInput(pminfo);
+      InformRequireInput(pminfo, spentTime);
     }
     protected abstract void InformRequestTie();
     void IGameInformer.InformRequestTie()

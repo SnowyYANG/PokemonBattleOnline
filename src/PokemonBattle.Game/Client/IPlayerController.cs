@@ -8,7 +8,7 @@ namespace LightStudio.PokemonBattle.Game
 {
   public interface IPlayerController : IDisposable
   {
-    event Action<InputRequest> RequireInput;
+    event Action<InputRequest, int> RequireInput;
     
     Player Player { get; }
     SimGame Game { get; }
