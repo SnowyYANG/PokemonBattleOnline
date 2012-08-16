@@ -57,8 +57,10 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     internal void Execute()
     {
-      Controller.ReportBuilder.Add(new GameEvents.UseMove(Attacker, Move));
-      EffectsService.GetMove(Move.Id).Execute(Attacker);
+      //压力逆鳞压力摇手指逆鳞？
+      var um = new GameEvents.UseMove(Attacker, Move);
+      Controller.ReportBuilder.Add(um);
+      EffectsService.GetMove(Move.Id).Execute(Attacker, um);
     }
     public void SetTargets(IEnumerable<DefContext> targets)
     {

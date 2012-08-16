@@ -110,7 +110,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public MoveProxy StruggleMove
     { get; private set; }
     public int Speed
-    { 
+    {
       get
       {
         int speed = OnboardPokemon.Get5D(OnboardPokemon.Static.Speed, OnboardPokemon.Lv5D.Speed);
@@ -331,6 +331,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       int v = def.Damage * percentage / 100;
       if (percentage > 0)
       {
+        if (Hp == Pokemon.Hp.Origin) return;
         if (Item.BigRoot()) v = (int)(v * 1.3);
         if (Abilities.RaiseAbility(def.Defender, Abilities.LIQUID_OOZE))
         {
@@ -346,7 +347,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       else //ReHurt
       {
         if (Ability.RockHead()) return;
-        Hp -= v;
+        Hp += v;
         Controller.ReportBuilder.Add(new GameEvents.HpChange(this, "ReHurt"));
       }
     }

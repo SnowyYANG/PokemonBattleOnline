@@ -14,15 +14,15 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
     
     public override bool CanExecute()
     {
-      int count = pm.OnboardPokemon.GetCondition<int>("Sleeping");
+      int count = Pm.OnboardPokemon.GetCondition<int>("Sleeping");
       count--;
-      if (pm.Ability.EarlyBird()) count--;
-      pm.OnboardPokemon.SetCondition("Sleeping", count);
-      if (count <= 0) pm.State = PokemonState.Normal; //auto Remove
+      if (Pm.Ability.EarlyBird()) count--;
+      Pm.OnboardPokemon.SetCondition("Sleeping", count);
+      if (count <= 0) Pm.State = PokemonState.Normal; //auto Remove
       else
       {
         AddResetYReport("Sleeping");
-        if (!pm.SelectedMove.AvailableEvenSleeping())//梦话打鼾
+        if (!Pm.SelectedMove.AvailableEvenSleeping())//梦话打鼾
           return false;
       }
       return true;

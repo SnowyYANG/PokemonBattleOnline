@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
       //If the last action taken by the target was not an executed move, Disable fails.
       //If the targeted move has no PP left, Disable fails.
       //Only one move can be Disabled per Pokémon at any given time.
-      if (MoveId == pm.SelectedMove.Type.Id)
+      if (MoveId == Pm.SelectedMove.Type.Id)
       {
         AddResetYReport("Disable");
         return false;

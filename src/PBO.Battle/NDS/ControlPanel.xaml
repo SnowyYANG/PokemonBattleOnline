@@ -111,18 +111,6 @@
                 <Button Content="{Binding ControllingPokemon.Moves[1]}" Canvas.Top="32" Canvas.Right="1"/>
                 <Button Content="{Binding ControllingPokemon.Moves[2]}" Canvas.Top="80" Canvas.Left="1"/>
                 <Button Content="{Binding ControllingPokemon.Moves[3]}" Canvas.Top="80" Canvas.Right="1"/>
-                <Button Content="Struggle" Canvas.Left="65" Canvas.Top="57">
-                    <Button.Style>
-                        <Style BasedOn="{x:Static ui:Buttons.Struggle}" TargetType="Button">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ControllingPokemon.CanStruggle}" Value="True">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
             </Canvas>
         </TabItem>
         <TabItem>

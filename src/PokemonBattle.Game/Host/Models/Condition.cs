@@ -22,31 +22,30 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public virtual void CountDown()
     {
-      count--;//gamelog
-      System.Diagnostics.Debugger.Break();
+      count--;
     }
   }
   public abstract class PmCondition : Condition
   {
-    protected readonly PokemonProxy pm;
+    protected readonly PokemonProxy Pm;
 
     protected PmCondition(string name, PokemonProxy pm, int count = 0)
       : base(name, pm == null ? null : pm.OnboardPokemon, count)
     {
-      this.pm = pm;
+      this.Pm = pm;
     }
 
     protected void AddReport(GameEvent e)
     {
-      pm.Controller.ReportBuilder.Add(e);
+      Pm.Controller.ReportBuilder.Add(e);
     }
     protected void AddReportPm(string key)
     {
-      pm.AddReportPm(key);
+      Pm.AddReportPm(key);
     }
-    protected void AddResetYReport(string key, params string[] args)
+    protected void AddResetYReport(string key, object arg1 = null, object arg2 = null)
     {
-      AddReport(GameEvents.PositionChange.Reset(key, pm, args));
+      AddReport(GameEvents.PositionChange.Reset(key, Pm, arg1, arg2));
     }
     public virtual bool CanExecute()
     {

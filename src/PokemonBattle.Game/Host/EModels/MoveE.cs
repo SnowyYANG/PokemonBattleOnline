@@ -19,13 +19,17 @@ namespace LightStudio.PokemonBattle.Game.Host
     { get; private set; }
 
     protected abstract void Act(AtkContext atk);
-    public virtual void Execute(PokemonProxy pm)
+    public virtual void Execute(PokemonProxy pm, UseMove eventForPP)
     {
       if (pm.AtkContext == null) pm.BuildAtkContext(Move);
       if (PrepareOneTurn(pm) && !Sp.Items.PowerHerb(pm)) return;
       AtkContext atk = pm.AtkContext;
-      if (!Abilities.CalculateType(atk)) CalculateType(atk);
-      CalculateTargets(atk);
+      if (!Abilities.Normalize(atk)) CalculateType(atk);
+      {
+        int oldPP = atk.MoveProxy.PP;
+        CalculateTargets(atk);
+        eventForPP.PP = oldPP - atk.MoveProxy.PP;
+      }
       if (atk.Targets == null || atk.Target != null) Act(atk);
       pm.Action = Move.AdvancedFlags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done;
     }
@@ -66,7 +70,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             var pm = t.Pokemon;
             DefContext def = new DefContext(atk, pm);
             ++count;
-            Abilities.CheckPressure(def);
+            Abilities.Pressure(def);
             if (IsYInRange(def) || def.NoGuard) targets.Add(def);
             else report.Add("Miss", pm);
           }

@@ -9,12 +9,14 @@ using LightStudio.PokemonBattle.Game.Host;
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
   [DataContract(Namespace = Namespaces.LIGHT)]
-  class UseMove : GameEvent
+  public class UseMove : GameEvent
   {
     [DataMember]
     int Pm;
     [DataMember]
     int Move;
+    [DataMember(EmitDefaultValue = false)]
+    public int PP;
 
     public UseMove(PokemonProxy pm, MoveType move)
     {
@@ -30,11 +32,10 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
     public override void Update(SimGame game)
     {
-      base.Update(game);
       Pokemon pm = game.Team.Pokemons.ValueOrDefault(Pm);
       if (pm != null)
         foreach (Move m in pm.Moves)
-          if (m != null && m.Type.Id == Move) m.PP.Value--;
+          if (m != null && m.Type.Id == Move) m.PP.Value -= 1 + PP;
     }
   }
 }

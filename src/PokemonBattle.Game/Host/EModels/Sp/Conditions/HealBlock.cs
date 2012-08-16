@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
 
     public override bool CanExecute()
     {
-      if (pm.SelectedMove.Move.Type.AdvancedFlags.IsHeal)
+      if (Pm.SelectedMove.Move.Type.AdvancedFlags.IsHeal)
       {
         AddResetYReport("HealBlock");
         return false;

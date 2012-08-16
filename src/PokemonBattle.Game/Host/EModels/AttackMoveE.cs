@@ -51,14 +51,17 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (defs.Count() == 0) return;
       DefContext def = defs.First();
-      if (Move.Class == MoveInnerClass.OHKO && !Sp.Conditions.Substitute.OHKO(def))
+      if (Move.Class == MoveInnerClass.OHKO)
       {
-        def.Damage = def.Defender.Hp;
-        MoveHurts e = new MoveHurts();
-        def.Defender.MoveHurt(def);
-        e.SetHurt(defs);
-        def.Defender.Controller.ReportBuilder.Add("OHKO");
-        ImplementEffect(def);
+        if (!Sp.Conditions.Substitute.OHKO(def))
+        {
+          def.Damage = def.Defender.Hp;
+          MoveHurts e = new MoveHurts();
+          def.Defender.MoveHurt(def);
+          e.SetHurt(defs);
+          def.Defender.Controller.ReportBuilder.Add("OHKO");
+          ImplementEffect(def);
+        }
       }
       else
       {
@@ -87,10 +90,10 @@ namespace LightStudio.PokemonBattle.Game.Host
 
         if (a.Hp > 0)
         {
-          if (Move.HurtPercentage < 0) a.DamagePercentage(atk.Target, Move.HurtPercentage);
-          else if (Move.MaxHpPercentage != 0) //拼命专用
+          if (Move.HurtPercentage < 0) a.DamagePercentage(def, Move.HurtPercentage);
+          else if (Move.MaxHpPercentage < 0) //拼命专用
           {
-            a.Hp -= a.Pokemon.Hp.Origin * Move.MaxHpPercentage;
+            a.Hp += a.Pokemon.Hp.Origin * Move.MaxHpPercentage;
             a.Controller.ReportBuilder.Add(new HpChange(a, "ReHurt"));
           }
         }
@@ -252,7 +255,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             break;
         }
         if (def.AtkContext.RandomHappen(Move.FlinchProbability, true) || Items.CanAttackFlinch(def))
-          d.OnboardPokemon.SetTurnCondition("Flinch");
+          d.OnboardPokemon.SetTurnCondition("Flinch", new Sp.Conditions.Flinch(d));
         //恶臭/毒手
       }
       d.Ability.Attacked(def);//此时破格不能无视

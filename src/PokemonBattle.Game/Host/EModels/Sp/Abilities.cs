@@ -109,10 +109,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         if (p.Ability.Id == AIR_LOCK || p.Ability.Id == CLOUD_NINE) return true;
       return false;
     }
-    public static void CheckPressure(DefContext def)
+    public static void Pressure(DefContext def)
     {
-      if (def.Defender.Ability.Id == 99)
-        --def.AtkContext.MoveProxy.PP;
+      if (def.Defender.Pokemon.TeamId != def.AtkContext.Attacker.Pokemon.TeamId && def.Defender.Ability.Id == 99 && def.AtkContext.MoveProxy.PP > 0) --def.AtkContext.MoveProxy.PP;
     }
     /// <summary>
     /// 已判断过Flinch
@@ -124,9 +123,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     public static Modifier TintedLens(DefContext def)
     {
-      if (def.EffectRevise < 0 && def.AtkContext.Attacker.Ability.Id == 150)
-        return 0x2000;
-      return 0x1000;
+      return (Modifier)(def.EffectRevise < 0 && def.AtkContext.Attacker.Ability.Id == 150 ? 0x2000 : 0x1000);
     }
     public static Modifier FriendGuard(DefContext def)
     {
@@ -137,9 +134,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     public static Modifier Sniper(DefContext def)
     {
-      if (def.IsCt && def.AtkContext.Attacker.Ability.Id == 124)
-        return 0x1800;
-      return 0x1000;
+      return (Modifier)(def.IsCt && def.AtkContext.Attacker.Ability.Id == 124 ? 0x1800 : 0x1000);
     }
     public static Modifier FilterSolidRock(DefContext def)
     {
@@ -159,9 +154,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static Modifier ThickFat(DefContext def)
     {
       BattleType type = def.AtkContext.Move.Type;
-      if ((type == BattleType.Ice || type == BattleType.Fire) && def.Ability.Id == 149)
-        return 0x800;
-      return 0x1000;
+      return (Modifier)((type == BattleType.Ice || type == BattleType.Fire) && def.Ability.Id == 149 ? 0x800 : 0x1000);
     }
     public static Modifier PowerModifier(DefContext def)
     {
@@ -201,10 +194,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       }
       return m;
     }
-    public static bool CalculateType(AtkContext atk)
+    public static bool Normalize(AtkContext atk)
     {
-      const int NORMALIZE = 86;
-      if (atk.Attacker.Ability.Id == NORMALIZE)
+      if (atk.Attacker.Ability.Id == 86)
       {
         atk.Type = BattleType.Normal;
         return true;
@@ -273,15 +265,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
 
     public static Modifier Multiscale(DefContext def)
     {
-      if (def.Ability.Id == 81 && def.Defender.Hp == def.Defender.Pokemon.Hp.Origin)
-        return 0x800;
-      return 0x1000;
+      return (Modifier)(def.Ability.Id == 81 && def.Defender.Hp == def.Defender.Pokemon.Hp.Origin ? 0x800 : 0x1000);
     }
     public static Modifier Hustle(AtkContext atk)
     {
-      if (atk.Attacker.Ability.Id == 51 && atk.Move.Category == MoveCategory.Physical)
-        return 0x800;
-      return 0x1000;
+      return (Modifier)(atk.Attacker.Ability.Id == 51 && atk.Move.Category == MoveCategory.Physical ? 0x1800 : 0x1000);
     }
     public static Modifier AccuracyModifier(AtkContext atk)
     {

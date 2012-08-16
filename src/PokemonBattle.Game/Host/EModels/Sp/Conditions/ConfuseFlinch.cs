@@ -20,12 +20,12 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
         Remove();
         AddReportPm("DeConfused");
       } 
-      if (pm.Controller.OneNth(2))
+      if (Pm.Controller.OneNth(2))
       {
-        var e = new GameEvents.HpChange(pm, "ConfusedWork", true);
-        pm.MoveHurt((pm.Pokemon.Lv * 2 / 5 + 2) * 40 * OnboardPokemon.Get5D(pm.OnboardPokemon.Static.Atk, pm.OnboardPokemon.Lv5D.Atk) / OnboardPokemon.Get5D(pm.OnboardPokemon.Static.Def, pm.OnboardPokemon.Lv5D.Def) / 50 + 2);
-        e.Hp = pm.Hp;
-        if (!pm.CheckFaint()) pm.Item.HpChanged(pm);
+        var e = new GameEvents.HpChange(Pm, "ConfusedWork", true);
+        Pm.MoveHurt((Pm.Pokemon.Lv * 2 / 5 + 2) * 40 * OnboardPokemon.Get5D(Pm.OnboardPokemon.Static.Atk, Pm.OnboardPokemon.Lv5D.Atk) / OnboardPokemon.Get5D(Pm.OnboardPokemon.Static.Def, Pm.OnboardPokemon.Lv5D.Def) / 50 + 2);
+        e.Hp = Pm.Hp;
+        if (!Pm.CheckFaint()) Pm.Item.HpChanged(Pm);
         return false;
       }
       return true;
@@ -41,7 +41,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
     public override bool CanExecute()
     {
       AddResetYReport("Flinch");
-      Abilities.CheckSteadfast(pm);
+      Abilities.CheckSteadfast(Pm);
       return false;
     }
   }

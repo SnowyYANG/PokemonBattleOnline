@@ -9,7 +9,7 @@ namespace LightStudio.PokemonBattle.Game.Host
   public interface IMoveE
   {
     MoveType Move { get; }
-    void Execute(PokemonProxy pm);
+    void Execute(PokemonProxy pm, GameEvents.UseMove eventForPP);
   }
   public static partial class EffectsService
   {
@@ -28,7 +28,7 @@ namespace LightStudio.PokemonBattle.Game.Host
 
 
 
-      public void Execute(PokemonProxy pm)
+      public void Execute(PokemonProxy pm, GameEvents.UseMove eventForPP)
       {
         pm.Controller.ReportBuilder.Add("unfinish", pm, Move == null ? Id.ToString() : Move.GetLocalizedName());
         pm.Action = PokemonAction.Done;

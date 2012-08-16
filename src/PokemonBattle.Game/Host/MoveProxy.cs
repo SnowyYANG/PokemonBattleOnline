@@ -49,8 +49,9 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     public void Execute()
     {
-      Owner.Controller.ReportBuilder.Add(new UseMove(Owner, Type));
-      e.Execute(Owner);
+      var um = new UseMove(Owner, Type);
+      Owner.Controller.ReportBuilder.Add(um);
+      e.Execute(Owner, um);
     }
 
     internal bool CanExecute()

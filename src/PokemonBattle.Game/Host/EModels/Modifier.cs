@@ -39,9 +39,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       return new Modifier(code);
     }
-    /// <summary>
-    /// only for python
-    /// </summary>
     public static explicit operator Modifier(int code)
     {
       return new Modifier((UInt16)code);
