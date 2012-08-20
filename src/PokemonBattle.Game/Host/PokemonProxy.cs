@@ -37,12 +37,13 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     internal void Withdraw()
     {
+      var ability = Ability.Id;
       Action = PokemonAction.InBall;
       OnboardPokemon = nullOnboard;
       Tile.Pokemon = null;
       Tile = null;
       Controller.OnboardPokemons.Remove(this);
-      Abilities.Withdrawn(this);
+      Abilities.Withdrawn(this, ability);
     }
 
     private void AddReport(GameEvent e)
@@ -153,27 +154,30 @@ namespace LightStudio.PokemonBattle.Game.Host
     #endregion
 
     #region Predict
-    internal WithdrawFail IfSelectWithdraw()
+    internal bool CanSelectWithdraw
     {
-      if (!Item.ShedShell())
+      get
       {
-        if (OnboardPokemon.HasCondition("Ingrain")) return new WithdrawFail("CantWithdraw", this);
-        bool arenaTrap, magnetPull, shadowTag;
+        if (!Item.ShedShell())
         {
-          int ab = Ability.Id;
-          arenaTrap = !OnboardPokemon.HasType(BattleType.Flying) && ab != Abilities.LEVITATE;
-          magnetPull = OnboardPokemon.HasType(BattleType.Steel);
-          shadowTag = ab != Abilities.SHADOW_TAG;
-        }
-        if (arenaTrap || magnetPull || shadowTag)
-          foreach (var pm in Controller.GetOnboardPokemons(1 - Pokemon.TeamId))
+          if (OnboardPokemon.HasCondition("Ingrain") || OnboardPokemon.HasCondition("CantWithdraw")) return false;
+          bool arenaTrap, magnetPull, shadowTag;
           {
-            int ab = pm.Ability.Id;
-            if ((ab == Abilities.SHADOW_TAG && shadowTag) || (ab == Abilities.ARENA_TRAP && arenaTrap) || (ab == Abilities.MAGNET_PULL && magnetPull))
-              return new WithdrawFail("CantWithdraw", this, pm);
+            int ab = Ability.Id;
+            arenaTrap = !OnboardPokemon.HasType(BattleType.Flying) && ab != Abilities.LEVITATE;
+            magnetPull = OnboardPokemon.HasType(BattleType.Steel);
+            shadowTag = ab != Abilities.SHADOW_TAG;
           }
+          if (arenaTrap || magnetPull || shadowTag)
+            foreach (var pm in Controller.GetOnboardPokemons(1 - Pokemon.TeamId))
+            {
+              int ab = pm.Ability.Id;
+              if ((ab == Abilities.SHADOW_TAG && shadowTag) || (ab == Abilities.ARENA_TRAP && arenaTrap) || (ab == Abilities.MAGNET_PULL && magnetPull))
+                return false;
+            }
+        }
+        return true;
       }
-      return null;
     }
     /// <summary>
     /// 和Struggle一起的

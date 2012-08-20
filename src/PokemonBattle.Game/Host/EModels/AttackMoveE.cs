@@ -242,7 +242,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       AtkContext atk = def.AtkContext;
       PokemonProxy d = def.Defender;
-      if (d.Hp > 0 && !(def.AtkContext.Move.HasProbabilitiedAdditonalEffects() && (d.Ability.ShieldDust() || d.AtkContext.Attacker.Ability.SheerForce())))
+      if (d.Hp > 0 && !(atk.Move.HasProbabilitiedAdditonalEffects() && (d.Ability.ShieldDust() || atk.Attacker.Ability.SheerForce())))
       {
         switch (Move.Class)
         {
@@ -253,7 +253,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             if (!Moves.CheckTriAttack(def) && atk.RandomHappen(Move.Attachment.Probability)) d.AddState(atk);
             break;
         }
-        if (!def.Ability.InnerFocus() && (def.AtkContext.RandomHappen(Move.FlinchProbability, true) || Abilities.Stench(def) || Items.CanAttackFlinch(def)))
+        if (!def.Ability.InnerFocus() && (atk.RandomHappen(Move.FlinchProbability, true) || Abilities.Stench(def) || Items.CanAttackFlinch(def)))
             d.OnboardPokemon.SetTurnCondition("Flinch", new Sp.Conditions.Flinch(d));
         Abilities.PoisonTouch(def);
       }

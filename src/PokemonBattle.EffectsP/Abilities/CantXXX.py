@@ -55,7 +55,7 @@ class CantAddState(AbilityE):
             return False
         return True
 A(CantAddState(60, PokemonState.Sleeping, AttachedState.Sleep)) #insomnia
-A(CantAddSTate(158, PokemonState.Sleeping, AttachedState.Sleep)) #vital spirit
+A(CantAddState(158, PokemonState.Sleeping, AttachedState.Sleep)) #vital spirit
 A(CantAddState(69, PokemonState.Paralyzed, AttachedState.Paralysis)) #limber
 A(CantAddState(73, PokemonState.Frozen, AttachedState.Freeze)) #magma armour
 A(CantAddState(161, PokemonState.Burned, AttachedState.Burn)) #water veil

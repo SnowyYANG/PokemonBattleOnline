@@ -68,7 +68,7 @@ class Mummy(t_a):
 A(Mummy(83))
 
 class AttackedAddState(t_a):
-    def __new__(cls, id):
+    def __new__(cls, id, state):
         return AbilityE.__new__(cls, id)
     def __init__(self, id, state):
         AbilityE.__init__(self, id)
@@ -78,7 +78,7 @@ class AttackedAddState(t_a):
             self.Raise(d.Defender)
             d.AtkContext.Attacker.AddState(d.Defender, self.State, False, 0)
 A(AttackedAddState(19, AttachedState.Infatuation)) #cute charm
-A(AttackedAddState(33, AttachedState.Burned)) #flame body
+A(AttackedAddState(33, AttachedState.Burn)) #flame body
 A(AttackedAddState(97, AttachedState.Poison)) #poison point
 A(AttackedAddState(132, AttachedState.Paralysis)) #static
 

@@ -183,8 +183,4 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Truant</a:Key><a:Value i:type="LogText"><text>{0:p}正在偷懒！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>AbChange</a:Key><a:Value i:type="LogText"><text>{0:p}的特性从{1:a}变成了{2:a}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Ability</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:a}——</text></a:Value></a:KeyValueOfstringanyType>
-<a:KeyValueOfstringanyType><a:Key>CantWithdraw</a:Key><a:Value i:type="LogText"><text>无法将{0}收回来！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>IsFighting</a:Key><a:Value i:type="LogText"><text>{0}已经在战斗了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>NoStrength</a:Key><a:Value i:type="LogText"><text>{0}已经没有力气再战斗了！
-</text></a:Value></a:KeyValueOfstringanyType>
 </logs></GameLogs>

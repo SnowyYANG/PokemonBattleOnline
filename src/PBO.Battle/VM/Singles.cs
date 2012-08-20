@@ -84,11 +84,10 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     {
       if (request.IsSendout)
       {
-        request.Pokemon(pokemon, 0);
+        if (!request.Pokemon(pokemon, 0)) InputFailed(request.GetErrorMessage());
       }
       else
       {
-        if (pokemon.Hp.Value == 0 || pokemon == Pokemons.First()) return;
         if (!request.Pokemon(pokemon))
         {
           request.TryRaiseAbility();

@@ -90,10 +90,14 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     {
       if (team == game.Player.TeamId)
       {
+        var pm = game.OnboardPokemons[x].Pokemon;
         game.OnboardPokemons[x] = null;
-        var pm = GetPokemon(game, Pm);
-        if (Ab == Host.Sp.Abilities.REGENERATOR) pm.SetHp(pm.Hp.Value + pm.Hp.Origin / 3);
-        else if (Ab == Host.Sp.Abilities.NATURAL_CURE) pm.State = PokemonState.Normal;
+        if (pm.Hp.Value == 0) pm.State = PokemonState.Faint;
+        else
+        {
+          if (Ab == Host.Sp.Abilities.REGENERATOR) pm.SetHp(pm.Hp.Value + pm.Hp.Origin / 3);
+          else if (Ab == Host.Sp.Abilities.NATURAL_CURE) pm.State = PokemonState.Normal;
+        }
       }
     }
   }

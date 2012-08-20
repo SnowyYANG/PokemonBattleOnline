@@ -57,48 +57,4 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       Game.AppendGameLog(log);
     }
   }
-  [DataContract(Namespace = Namespaces.LIGHT)]
-  internal class WithdrawFail : GameEvent
-  {
-    [DataMember]
-    public readonly string Key;
-
-    [DataMember]
-    public readonly int Pm;
-
-    [DataMember(EmitDefaultValue = false)]
-    public readonly int AbPm;
-
-    [DataMember(EmitDefaultValue = false)]
-    public readonly int Ab;
-
-    public WithdrawFail(string key, PokemonProxy pm, PokemonProxy abilityPm = null)
-    {
-      Key = key == "CantWithdraw"? null : key;
-      Pm = pm.Id;
-      //if (abilityPm != null)
-      //{
-      //  AbPm = abilityPm.Id;
-      //  Ab = abilityPm.OnboardPokemon.Ability;
-      //}
-    }
-
-    protected override void Update()
-    {
-      //if (Ab != 0)
-      //{
-      //  var log = GetGameLog("Ability");
-      //  ((LogText)log).HiddenAfterBattle = true;
-      //  log.SetData(AbPm, Ab);
-      //  Game.Board.ShowAbility(GetPokemon(AbPm), DataService.GetAbility(Ab));
-      //  Game.AppendGameLog(log);
-      //}
-      {
-        var log = GetGameLog(Key ?? "CantWithdraw");
-        ((LogText)log).HiddenAfterBattle = true;
-        log.SetData(Pm);
-        Game.AppendGameLog(log);
-      }
-    }
-  }
 }

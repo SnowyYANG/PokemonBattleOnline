@@ -65,13 +65,7 @@ namespace LightStudio.PokemonBattle.Game
         }
       }
       {
-        var e = pm.IfSelectWithdraw();
-        if (e != null)
-        {
-          CantWithdraw = true;
-          //CW_pm = e.AbPm;
-          //CW_a = e.Ab;
-        }
+        CantWithdraw = !pm.CanSelectWithdraw;
       }
     }
     public override bool Equals(object obj)
@@ -154,6 +148,16 @@ namespace LightStudio.PokemonBattle.Game
     /// <returns></returns>
     public bool Pokemon(Pokemon pokemon)
     {
+      if (pokemon.Hp.Value == 0)
+      {
+        error = string.Format(DataService.String["{0} has no strength to fight!"], pokemon.Name);
+        return false;
+      }
+      if (pokemon.IndexInOwner < Game.Settings.Mode.OnboardPokemonsPerPlayer())
+      {
+        error = string.Format(DataService.String["{0} is already fighting."], pokemon.Name);
+        return false;
+      }
       if (CantWithdraw)
       {
         error = string.Format(DataService.String["Can't withdraw {0}!"], Pm.Pokemon.Name);
