@@ -14,12 +14,20 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Abilities
       : base(id)
     {
     }
-    
-    public override void Attacked(DefContext def)
+
+    private void DeIllusion(PokemonProxy pm)
     {
-      var pm = def.Defender;
       pm.OnboardPokemon.RemoveCondition("Illusion");
       pm.Controller.ReportBuilder.Add(GameEvents.OutwardChange.All("DeIllusion", pm));
+    }
+
+    public override void UnAttach(PokemonProxy pm)
+    {
+      DeIllusion(pm);
+    }
+    public override void Attacked(DefContext def)
+    {
+      DeIllusion(def.Defender);
     }
   }
 }

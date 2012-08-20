@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GameService = LightStudio.PokemonBattle.Game.GameService;
+using LightStudio.PokemonBattle.Data;
+using LightStudio.PokemonBattle.Game;
 using LightStudio.PokemonBattle.Game.Host.Effects.Abilities;
 using LightStudio.PokemonBattle.Game.Host.Effects.Conditions;
 using LightStudio.PokemonBattle.Game.Host.Effects.Moves;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
+using LightStudio.PokemonBattle.Game.Host.Effects.Triggers;
+using GameService = LightStudio.PokemonBattle.Game.GameService;
 
 namespace LightStudio.PokemonBattle.Game.Host.Effects
 {
@@ -67,6 +68,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Acrobatics(512));
       M(new HeavySlam(535));
       M(new Thunder(542));//Hurricane
+
+      EffectsService.Register(new EndTurn());
     }
   }
 }

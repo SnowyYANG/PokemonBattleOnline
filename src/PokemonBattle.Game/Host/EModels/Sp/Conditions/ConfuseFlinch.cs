@@ -8,7 +8,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
   public class Confused : PmCondition
   {
     public Confused(PokemonProxy pm, int count)
-      : base("Confused", pm, count)
+      : base("Confuse", pm, count)
     {
     }
     
@@ -22,7 +22,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
       } 
       if (Pm.Controller.OneNth(2))
       {
-        var e = new GameEvents.HpChange(Pm, "ConfusedWork", true);
+        var e = new GameEvents.HpChange(Pm, "ConfusedWork") { ResetY = true };
+        Pm.Controller.ReportBuilder.Add(e);
         Pm.MoveHurt((Pm.Pokemon.Lv * 2 / 5 + 2) * 40 * OnboardPokemon.Get5D(Pm.OnboardPokemon.Static.Atk, Pm.OnboardPokemon.Lv5D.Atk) / OnboardPokemon.Get5D(Pm.OnboardPokemon.Static.Def, Pm.OnboardPokemon.Lv5D.Def) / 50 + 2);
         e.Hp = Pm.Hp;
         if (!Pm.CheckFaint()) Pm.Item.HpChanged(Pm);
@@ -41,7 +42,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
     public override bool CanExecute()
     {
       AddResetYReport("Flinch");
-      Abilities.CheckSteadfast(Pm);
+      Abilities.Steadfast(Pm);
       return false;
     }
   }

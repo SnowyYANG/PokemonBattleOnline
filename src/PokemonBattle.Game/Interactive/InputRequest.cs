@@ -29,7 +29,7 @@ namespace LightStudio.PokemonBattle.Game
     bool CantWithdraw;
 
     [DataMember(EmitDefaultValue = false)]
-    int CW_pm; //如果因为对方特性
+    int CW_pm; //如果因为对方特性，但目前没试出显示特性的实例，逃跑似乎会显示特性交换不显示
 
     [DataMember(EmitDefaultValue = false)]
     int CW_a;
@@ -65,9 +65,13 @@ namespace LightStudio.PokemonBattle.Game
         }
       }
       {
-        //CantWithdraw
-        //CW_pm;
-        //CW_a;
+        var e = pm.IfSelectWithdraw();
+        if (e != null)
+        {
+          CantWithdraw = true;
+          //CW_pm = e.AbPm;
+          //CW_a = e.Ab;
+        }
       }
     }
     public override bool Equals(object obj)
@@ -101,9 +105,12 @@ namespace LightStudio.PokemonBattle.Game
     private void SetErrorMessage(string key, int arg1)
     {
       var text = GameService.Logs[key].Clone(Game.Outward);
-      text.SetData(Pm.Id, arg1);
+      text.SetData(Pm.Pokemon.Name, arg1);
       error = text.Text;
     }
+    /// <summary>
+    /// 只在Rom数据里见过，游戏里没找到需要发动特性的地方
+    /// </summary>
     public void TryRaiseAbility()
     {
       if (showAbility)
@@ -149,7 +156,7 @@ namespace LightStudio.PokemonBattle.Game
     {
       if (CantWithdraw)
       {
-        error = string.Format(DataService.String["Can't withdraw {0}"], Pm.Pokemon.Name);
+        error = string.Format(DataService.String["Can't withdraw {0}!"], Pm.Pokemon.Name);
         if (CW_a != 0) showAbility = true;
         return false;
       }

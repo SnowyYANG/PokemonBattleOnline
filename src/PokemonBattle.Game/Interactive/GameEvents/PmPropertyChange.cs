@@ -124,14 +124,19 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember]
     protected string Key;
     [DataMember(EmitDefaultValue = false)]
-    protected bool ResetY;
+    protected int Arg1;
+    [DataMember(EmitDefaultValue = false)]
+    protected int Arg2;
+    [DataMember(EmitDefaultValue = false)]
+    public bool ResetY;
 
-    public HpChange(PokemonProxy pm, string logKey, bool resetCoordY = false)
+    public HpChange(PokemonProxy pm, string logKey, int arg1 = 0, int arg2 = 0)
     {
       Pm = pm.Id;
       Hp = pm.Hp;
       Key = logKey;
-      ResetY = resetCoordY;
+      Arg1 = arg1;
+      Arg2 = arg2;
     }
 
     protected override void Update()
@@ -207,8 +212,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     public override void Update(SimGame game)
     {
       var pm = GetPokemon(game, Pm);
-      if (pm != null && pm.Item.Type != ItemType.Normal)
-        pm.Item = null;
+      if (pm != null && pm.Item.Type != ItemType.Normal) pm.Item = null;
     }
   }
 

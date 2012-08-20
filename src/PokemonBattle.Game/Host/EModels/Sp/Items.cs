@@ -22,6 +22,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       return item.Id == 73;
     }
+    public static bool ShedShell(this IItemE item)
+    {
+      return item.Id == 72;
+    }
 
     public static void WhiteHerb(PokemonProxy pm)
     {
@@ -41,14 +45,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     public static Modifier WideLens(AtkContext atk)
     {
-      if (atk.Attacker.Item.Id == 42)
-        return 0x1199;
-      return 0x1000;
+      return (Modifier)(atk.Attacker.Item.Id == 42 ? 0x1199 : 0x1000);
     }
     public static Modifier ZoomLens(DefContext target)
     {
-      if (target.AtkContext.Attacker.Item.Id == 53) ;
-      return 0x1000;
+      return (Modifier)(target.AtkContext.Attacker.Item.Id == 53 && target.AtkContext.Attacker.LastActTurn == target.Defender.LastActTurn ? 0x1333 : 0x1000);
     }
     public static Modifier AccuracyModifier(DefContext def)
     {
@@ -80,8 +81,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     /// </summary>
     public static void AirBalloon(PokemonProxy pm)
     {
-      if (pm.Item.Id == 105)
-        pm.AddReportPm("EnBalloon");
+      if (pm.Item.Id == 105) pm.AddReportPm("EnBalloon");
     }
     public static bool AirBalloon(this IItemE item)
     {
@@ -96,8 +96,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static bool Remain1Hp(PokemonProxy pm)
     {
       const int FOCUS_BAND = 15, FOCUS_SASH = 52;
-      if ((pm.Item.Id == FOCUS_BAND && pm.Controller.OneNth(10)) ||
-        (pm.Item.Id == FOCUS_SASH && !pm.Pokemon.Hp.IsChanged))
+      if ((pm.Item.Id == FOCUS_BAND && pm.Controller.OneNth(10)) || (pm.Item.Id == FOCUS_SASH && pm.FullHp))
       {
         pm.RaiseItem("FocusItem");
         return true;
@@ -118,7 +117,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       const int KINGS_ROCK = 10, RAZOR_FANG = 97;
       int item = def.AtkContext.Attacker.Item.Id;
-      return (item == KINGS_ROCK || item == RAZOR_FANG) && def.Defender.Controller.GetRandomInt(0, 9) == 0;
+      return (item == KINGS_ROCK || item == RAZOR_FANG) && def.Defender.Controller.RandomHappen(10);
     }
     public static bool PowerHerb(PokemonProxy pm)
     {

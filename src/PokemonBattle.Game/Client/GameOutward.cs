@@ -88,7 +88,8 @@ namespace LightStudio.PokemonBattle.Game
       string r = null;
       if (arg != null)
       {
-        if (arg is int)
+        if (format == "e") r = DataService.String[arg.ToString()];
+        else if (arg is int)
         {
           int id = (int)arg;
           switch (format)
@@ -110,9 +111,6 @@ namespace LightStudio.PokemonBattle.Game
               break;
             case "i":
               r = DataService.GetItem(id).GetLocalizedName();
-              break;
-            case "e":
-              r = DataService.String[arg.ToString()];
               break;
             default:
               if (format != null && format.StartsWith("pm."))

@@ -23,7 +23,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     public AbilityEvent(PokemonProxy pm)
     {
       Pm = pm.Id;
-      Ab = pm.Ability.Id;
+      Ab = pm.OnboardPokemon.Ability;
     }
     public AbilityEvent(PokemonProxy pm, int fromId, int toId)
     {

@@ -51,7 +51,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves
     {
       if (base.PrepareOneTurn(pm))
       {
-        pm.ChangeLv7D(pm, 0, 1);
+        pm.ChangeLv7D(pm, false, 0, 1);
         return true;
       }
       return false;

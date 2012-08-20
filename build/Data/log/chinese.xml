@@ -44,29 +44,29 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Poisoned</a:Key><a:Value i:type="LogText"><text>{0:p}受到了毒的伤害！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DePoisoned</a:Key><a:Value i:type="LogText"><text>{0:p}的毒状态彻底消失了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>BeenPoisoned</a:Key><a:Value i:type="LogText"><text>{0:p}已经中毒了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CantPoisoned</a:Key><a:Value i:type="LogText"><text>{0:p}不会中毒！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CantPoison</a:Key><a:Value i:type="LogText"><text>{0:p}不会中毒！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnBurned</a:Key><a:Value i:type="LogText"><text>{0:p}烧伤了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnBurned2</a:Key><a:Value i:type="LogText"><text>{0:p}因为{1:i}烧伤了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Burned</a:Key><a:Value i:type="LogText"><text>{0:p}受到了烧伤的伤害！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeBurned</a:Key><a:Value i:type="LogText"><text>{0:p}的烧伤治好了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>BeenBurned</a:Key><a:Value i:type="LogText"><text>{0:p}已经烧伤了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CantBurned</a:Key><a:Value i:type="LogText"><text>{0:p}不会被烧伤！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CantBurn</a:Key><a:Value i:type="LogText"><text>{0:p}不会被烧伤！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnParalyzed</a:Key><a:Value i:type="LogText"><text>{0:p}麻痹了！不容易出招了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ParalyzedWork</a:Key><a:Value i:type="LogText"><text>{0:p}因麻痹而不能行动
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeParalyzed</a:Key><a:Value i:type="LogText"><text>{0:p}解除了麻痹！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>BeenParalyzed</a:Key><a:Value i:type="LogText"><text>{0:p}已经麻痹了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CantParalyzed</a:Key><a:Value i:type="LogText"><text>{0:p}不会被麻痹！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CantParalysis</a:Key><a:Value i:type="LogText"><text>{0:p}不会被麻痹！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnFrozen</a:Key><a:Value i:type="LogText"><text>{0:p}被冻住了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Frozen</a:Key><a:Value i:type="LogText"><text>{0:p}被冻住了，无法行动！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeFrozen</a:Key><a:Value i:type="LogText"><text>{0:p}身上的冰溶化了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>BeenFrozen</a:Key><a:Value i:type="LogText"><text>{0:p}已经被冻住了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CantFrozen</a:Key><a:Value i:type="LogText"><text>{0:p}不会被冰冻！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CantFreeze</a:Key><a:Value i:type="LogText"><text>{0:p}不会被冰冻！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeFrozen2</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:m}溶化了冰！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnSleeping</a:Key><a:Value i:type="LogText"><text>{0:p}睡着了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Sleeping</a:Key><a:Value i:type="LogText"><text>{0:p}睡得很香...
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeSleeping</a:Key><a:Value i:type="LogText"><text>{0:p}醒了过来！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>BeenSleeping</a:Key><a:Value i:type="LogText"><text>{0:p}已经睡着了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CantSleeping</a:Key><a:Value i:type="LogText"><text>{0:p}不会睡着！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CantSleep</a:Key><a:Value i:type="LogText"><text>{0:p}不会睡着！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnNightmare</a:Key><a:Value i:type="LogText"><text>{0:p}开始做恶梦了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Nightmare</a:Key><a:Value i:type="LogText"><text>{0:p}正在做恶梦！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnInfatuation</a:Key><a:Value i:type="LogText"><text>{0:p}着迷了！
@@ -83,8 +83,8 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Flinch</a:Key><a:Value i:type="LogText"><text>{0:p}因害怕而不能行动
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeFocusPunch</a:Key><a:Value i:type="LogText"><text>{0:p}失去了集中力，无法出招！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CanAttack</a:Key><a:Value i:type="LogText"><text>{0:p}的真实身份被识破了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>MoveHurt</a:Key><a:Value i:type="LogText"><text>{0:p}受到了{1:m}的伤害！</text></a:Value></a:KeyValueOfstringanyType>
-<a:KeyValueOfstringanyType><a:Key>MoveFree</a:Key><a:Value i:type="LogText"><text>{0:p}被从{1:m}中解放了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>TrapHurt</a:Key><a:Value i:type="LogText"><text>{0:p}受到了{1:m}的伤害！</text></a:Value></a:KeyValueOfstringanyType>
+<a:KeyValueOfstringanyType><a:Key>TrapFree</a:Key><a:Value i:type="LogText"><text>{0:p}被从{1:m}中解放了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ReHurt</a:Key><a:Value i:type="LogText"><text>{0:p}因为反作用受到了伤害</text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>RolePlay</a:Key><a:Value i:type="LogText"><text>特性变成了{0:p}的{1:a}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT1</a:Key><a:Value i:type="LogText"><text>命中了{0:p}的要害！
@@ -104,7 +104,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>MoldBreaker</a:Key><a:Value i:type="LogText"><text>{0:p}的破格！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ReTarget</a:Key><a:Value i:type="LogText"><text>{0:p}将攻击吸引了过来！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeIllusion</a:Key><a:Value i:type="LogText"><text>{0:p}的幻影解除了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>BellyDrum</a:Key><a:Value i:type="LogText"><text>{0:p}的攻击提升到极限了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>AtkMax</a:Key><a:Value i:type="LogText"><text>{0:p}的攻击提升到极限了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnSlowStart</a:Key><a:Value i:type="LogText"><text>{0:p}的状态不能提升！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeSlowStart</a:Key><a:Value i:type="LogText"><text>{0:p}的状态恢复正常了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Teravolt</a:Key><a:Value i:type="LogText"><text>{0:p}释放出了反弹的光辉！
@@ -182,4 +182,9 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Gem</a:Key><a:Value i:type="LogText"><text>{0:i}提升了{1:m}的威力！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Truant</a:Key><a:Value i:type="LogText"><text>{0:p}正在偷懒！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>AbChange</a:Key><a:Value i:type="LogText"><text>{0:p}的特性从{1:a}变成了{2:a}！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Ability</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:a}——</text></a:Value></a:KeyValueOfstringanyType></logs></GameLogs>
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Ability</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:a}——</text></a:Value></a:KeyValueOfstringanyType>
+<a:KeyValueOfstringanyType><a:Key>CantWithdraw</a:Key><a:Value i:type="LogText"><text>无法将{0}收回来！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>IsFighting</a:Key><a:Value i:type="LogText"><text>{0}已经在战斗了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>NoStrength</a:Key><a:Value i:type="LogText"><text>{0}已经没有力气再战斗了！
+</text></a:Value></a:KeyValueOfstringanyType>
+</logs></GameLogs>

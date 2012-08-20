@@ -11,8 +11,9 @@ namespace LightStudio.PokemonBattle.Game.Host
     int Id { get; }
 
     bool CanWithdraw(PokemonProxy pm);
-    bool CanAddState(PokemonProxy by, AttachedState state);
+    bool CanAddState(PokemonProxy pm, PokemonProxy by, AttachedState state, bool showFail);
     bool CanImplement(DefContext def); //auto raise
+    int Lv7DChanging(PokemonProxy pm, PokemonProxy by, StatType stat, int change, bool showFail);//性情乖僻单纯白烟净体
     /// <summary>
     /// Atk/Def/SpAtk/SpDef/Speed
     /// </summary>
@@ -21,9 +22,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     Modifier AccuracyModifier(DefContext def);
 
     void Attach(PokemonProxy pm);
+    void UnAttach(PokemonProxy pm);
     void Attacked(DefContext def);
-    void Lv7DChanging(ref StatType stat, ref int value);//性情乖僻
-
   }
 
   public static partial class EffectsService
@@ -33,14 +33,15 @@ namespace LightStudio.PokemonBattle.Game.Host
       int IAbilityE.Id { get { return 0; } }
 
       bool IAbilityE.CanWithdraw(PokemonProxy pm) { return true; }
-      bool IAbilityE.CanAddState(PokemonProxy by, AttachedState state) { return true; }
-      bool IAbilityE.CanImplement(DefContext def) { return true; } //auto raise
+      bool IAbilityE.CanAddState(PokemonProxy pm, PokemonProxy by, AttachedState state, bool showFail) { return true; }
+      bool IAbilityE.CanImplement(DefContext def) { return true; }
+      int IAbilityE.Lv7DChanging(PokemonProxy pm, PokemonProxy by, StatType stat, int change, bool showFail) { return change; }
       Modifier IAbilityE.ADSModifier(PokemonProxy pm, StatType stat) { return 0x1000; }
       Modifier IAbilityE.PowerModifier(DefContext target) { return 0x1000; }
       Modifier IAbilityE.AccuracyModifier(DefContext def) { return 0x1000; }
       void IAbilityE.Attach(PokemonProxy pm) { }
+      void IAbilityE.UnAttach(PokemonProxy pm) { }
       void IAbilityE.Attacked(DefContext def) { }
-      void IAbilityE.Lv7DChanging(ref StatType stat, ref int value) { }//性情乖僻
     }
   }
 }

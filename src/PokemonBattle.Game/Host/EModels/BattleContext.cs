@@ -16,24 +16,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     public bool MultiTargets
     { get; internal set; }
     public int CTLv;
-    private bool? _sheerForceAvailable;
-    private bool SheerForceAvailable
-    { 
-      get
-      {
-        if (_sheerForceAvailable == null)
-          _sheerForceAvailable = 
-            (
-            Move.Class == MoveInnerClass.AttackWithTargetLv7DChange ||
-            Move.FlinchProbability > 0 ||
-            (Move.Attachment != null && Move.Attachment.Probability > 0) ||
-            (Move.Class == MoveInnerClass.AttackWithSelfLv7DChange && Move.Lv7DChanges.First().Change > 0)
-            );
-        return _sheerForceAvailable.Value;
-      } 
-    }
-    public bool SheerForceActive
-    { get { return SheerForceAvailable && Attacker.Ability.SheerForce(); } }
     public bool MeFirst;
     public int ActualHits; //当前攻击次数，包含多回合攻击与连续攻击技能，从1开始数
     public bool RaiseItem;
@@ -57,10 +39,8 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     internal void Execute()
     {
-      //压力逆鳞压力摇手指逆鳞？
-      var um = new GameEvents.UseMove(Attacker, Move);
-      Controller.ReportBuilder.Add(um);
-      EffectsService.GetMove(Move.Id).Execute(Attacker, um);
+      Controller.ReportBuilder.Add(new GameEvents.UseMove(Attacker, Move));
+      EffectsService.GetMove(Move.Id).Execute(Attacker, null);
     }
     public void SetTargets(IEnumerable<DefContext> targets)
     {
@@ -70,8 +50,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public bool RandomHappen(int percentage, bool isFlinch = false)
     {
       if (!isFlinch && percentage == 0) return true;
-      if (SheerForceActive) return false;
-      if (Attacker.Ability.SereneGrace()) percentage *= 3;
+      if (Move.HasProbabilitiedAdditonalEffects() && Attacker.Ability.SereneGrace()) percentage *= 3;
       return Controller.RandomHappen(percentage);
     }
   }

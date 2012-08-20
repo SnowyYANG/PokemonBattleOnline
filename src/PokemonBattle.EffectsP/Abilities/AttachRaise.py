@@ -44,7 +44,7 @@ class Download(AbilityE):
             p = pms[pm.Controller.GetRandomInt(0, pms.Count() - 1)]
             self.Raise()
             if p.OnboardPokemon.Static.Def > p.OnboardPokemon.Static.SpDef:
-                pm.ChangeLv7D(0,1,0,0,0,0,0)
+                pm.ChangeLv7D(0,0,1,0,0,0,0)
             else:
                 pm.ChangeLv7D(1,0,0,0,0,0,0)
 A(Download(22))

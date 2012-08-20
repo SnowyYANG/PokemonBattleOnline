@@ -63,25 +63,42 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember]
     public readonly string Key;
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember]
     public readonly int Pm;
 
     [DataMember(EmitDefaultValue = false)]
-    public readonly int Ability;
+    public readonly int AbPm;
 
-    public WithdrawFail(string key, int pm, int ability)
+    [DataMember(EmitDefaultValue = false)]
+    public readonly int Ab;
+
+    public WithdrawFail(string key, PokemonProxy pm, PokemonProxy abilityPm = null)
     {
-      Key = key;
-      Pm = pm;
-      Ability = ability;
+      Key = key == "CantWithdraw"? null : key;
+      Pm = pm.Id;
+      //if (abilityPm != null)
+      //{
+      //  AbPm = abilityPm.Id;
+      //  Ab = abilityPm.OnboardPokemon.Ability;
+      //}
     }
 
     protected override void Update()
     {
-      var log = GetGameLog(Key);
-      ((LogText)log).HiddenAfterBattle = true;
-      log.SetData(Pm, Ability);
-      Game.AppendGameLog(log);
+      //if (Ab != 0)
+      //{
+      //  var log = GetGameLog("Ability");
+      //  ((LogText)log).HiddenAfterBattle = true;
+      //  log.SetData(AbPm, Ab);
+      //  Game.Board.ShowAbility(GetPokemon(AbPm), DataService.GetAbility(Ab));
+      //  Game.AppendGameLog(log);
+      //}
+      {
+        var log = GetGameLog(Key ?? "CantWithdraw");
+        ((LogText)log).HiddenAfterBattle = true;
+        log.SetData(Pm);
+        Game.AppendGameLog(log);
+      }
     }
   }
 }

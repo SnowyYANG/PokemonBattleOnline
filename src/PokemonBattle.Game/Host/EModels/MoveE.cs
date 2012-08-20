@@ -28,7 +28,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         int oldPP = atk.MoveProxy.PP;
         CalculateTargets(atk);
-        eventForPP.PP = oldPP - atk.MoveProxy.PP;
+        if (eventForPP != null) eventForPP.PP = oldPP - atk.MoveProxy.PP;
       }
       if (atk.Targets == null || atk.Target != null) Act(atk);
       pm.Action = Move.AdvancedFlags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done;

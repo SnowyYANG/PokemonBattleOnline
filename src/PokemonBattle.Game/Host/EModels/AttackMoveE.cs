@@ -43,7 +43,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         foreach (DefContext d in atk.Targets)
           if (d.Defender.State == PokemonState.Frozen) d.Defender.State = PokemonState.Normal;
       
-      if (!atk.SheerForceActive) PostEffect(atk);
+      if (!(atk.Move.HasProbabilitiedAdditonalEffects() && atk.Attacker.Ability.SheerForce())) PostEffect(atk);
       MoveEnding(atk);
     }
 
@@ -84,7 +84,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         }
 
         if (Move.HurtPercentage > 0) a.DamagePercentage(def, Move.HurtPercentage);
-        if (Move.Class == MoveInnerClass.AttackWithSelfLv7DChange) a.ChangeLv7D(atk);
+        if (Move.Class == MoveInnerClass.AttackWithSelfLv7DChange && !(Move.HasProbabilitiedAdditonalEffects() && a.Ability.SheerForce())) a.ChangeLv7D(atk);
 
         foreach (DefContext d in defs) if (!d.HitSubstitute) ImplementEffect(d);
 
@@ -242,7 +242,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       AtkContext atk = def.AtkContext;
       PokemonProxy d = def.Defender;
-      if (d.Hp > 0 && !def.AtkContext.SheerForceActive)
+      if (d.Hp > 0 && !(def.AtkContext.Move.HasProbabilitiedAdditonalEffects() && (d.Ability.ShieldDust() || d.AtkContext.Attacker.Ability.SheerForce())))
       {
         switch (Move.Class)
         {
@@ -250,25 +250,24 @@ namespace LightStudio.PokemonBattle.Game.Host
             d.ChangeLv7D(atk);
             break;
           case MoveInnerClass.AttackWithState:
-            if (!Moves.CheckTriAttack(def) && atk.RandomHappen(Move.Attachment.Probability))
-              d.AddState(atk);
+            if (!Moves.CheckTriAttack(def) && atk.RandomHappen(Move.Attachment.Probability)) d.AddState(atk);
             break;
         }
-        if (def.AtkContext.RandomHappen(Move.FlinchProbability, true) || Items.CanAttackFlinch(def))
-          d.OnboardPokemon.SetTurnCondition("Flinch", new Sp.Conditions.Flinch(d));
-        //恶臭/毒手
+        if (!def.Ability.InnerFocus() && (def.AtkContext.RandomHappen(Move.FlinchProbability, true) || Abilities.Stench(def) || Items.CanAttackFlinch(def)))
+            d.OnboardPokemon.SetTurnCondition("Flinch", new Sp.Conditions.Flinch(d));
+        Abilities.PoisonTouch(def);
       }
       d.Ability.Attacked(def);//此时破格不能无视
       d.Item.Attacked(def);
       atk.Attacker.CheckFaint();
       d.CheckFaint();
-      Abilities.CheckMoxie(def);
+      Abilities.Moxie(def);
       if (Move.MaxTimes > 1) d.Item.HpChanged(d);
     }
     protected virtual void PostEffect(AtkContext atk)
     {
       foreach (DefContext d in atk.Targets)
-        Abilities.CheckColorChange(d);
+        Abilities.ColorChange(d);
       //红牌、逃生按钮
       Items.AttackPostEffect(atk);
     }

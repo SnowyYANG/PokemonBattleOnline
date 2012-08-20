@@ -7,6 +7,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
 {
   public interface IEndTurn
   {
-    void Run(Controller controller);
+    void Execute(Controller controller);
   }
 }

@@ -89,6 +89,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         if (Board.Weather != value)
         {
+          Board.RemoveCondition("Weather");
           Board.Weather = value;
           ReportBuilder.Add(new GameEvents.WeatherChange(value));
         }

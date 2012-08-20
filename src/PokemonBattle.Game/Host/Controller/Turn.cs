@@ -97,9 +97,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     private void EndTurnEffects()
     {
       SortTiles();
-      //TODO:
-      //
-
+      EffectsService.EndTurn(Controller);
       EndTurnCheckForInput();
     }
     private void EndTurnCheckForInput()

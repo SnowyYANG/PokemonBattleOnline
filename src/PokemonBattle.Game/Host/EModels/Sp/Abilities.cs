@@ -10,16 +10,36 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
   public static class Abilities
   {
     #region ids
+    public const int ARENA_TRAP = 7;
+    public const int DRY_SKIN = 25;
+    public const int OVERCOAT = 27;
+    public const int HEALER = 43;
+    public const int HYDRATION = 52;
+    public const int ICE_BODY = 54;
     public const int LEVITATE = 66;
     public const int LIQUID_OOZE = 70;
+    public const int MAGNET_PULL = 74;
     public const int NATURAL_CURE = 84;
+    public const int RAIN_DISH = 102;
     public const int REGENERATOR = 104;
+    public const int SAND_FORCE = 110;
+    public const int SAND_RUSH = 111;
+    public const int SAND_VEIL = 112;
+    public const int SHADOW_TAG = 116;
+    public const int SHED_SKIN = 117;
+    public const int SNOW_CLOAK = 125;
+    public const int SOLAR_POWER = 127;
     public const int STURDY = 138;
     #endregion
 
+    #region extension
     public static IEnumerable<PokemonProxy> TeamOnboardPms(this PokemonProxy pm)
     {
       return pm.Controller.GetOnboardPokemons(pm.Pokemon.TeamId);
+    }
+    public static void RaiseAbility(this PokemonProxy pm)
+    {
+      if (pm.Ability.Id != 0) pm.Controller.ReportBuilder.Add(new AbilityEvent(pm));
     }
     public static bool RaiseAbility(this PokemonProxy pm, int abilityId)
     {
@@ -27,6 +47,17 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       pm.Controller.ReportBuilder.Add(new AbilityEvent(pm));
       return true;
     }
+    public static bool HasProbabilitiedAdditonalEffects(this MoveType move)
+    {
+      return
+        (
+        move.Class == MoveInnerClass.AttackWithTargetLv7DChange ||
+        move.FlinchProbability > 0 ||
+        (move.Attachment != null && move.Attachment.Probability > 0) ||
+        (move.Class == MoveInnerClass.AttackWithSelfLv7DChange && move.Lv7DChanges.First().Change > 0)
+        );
+    }
+    #endregion
 
     #region IsXXX
     public static bool Adaptability(this IAbilityE ability)
@@ -49,9 +80,17 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       return ability.Id == 41;
     }
+    public static bool InnerFocus(this IAbilityE ability)
+    {
+      return ability.Id == 59;
+    }
     public static bool Klutz(this IAbilityE ability)
     {
       return ability.Id == 64;
+    }
+    public static bool MagicGuard(this IAbilityE ability)
+    {
+      return ability.Id == 71;
     }
     public static bool Prankster(this IAbilityE ability)
     {
@@ -73,6 +112,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       return ability.Id == 115;
     }
+    public static bool ShieldDust(this IAbilityE ability)
+    {
+      return ability.Id == 119;
+    }
     public static bool Infiltrator(this IAbilityE ability)
     {
       return ability.Id == 122;
@@ -80,6 +123,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static bool Stall(this IAbilityE ability)
     {
       return ability.Id == 131;
+    }
+    public static bool StickyHold(this IAbilityE ability)
+    {
+      return ability.Id == 136;
     }
     public static bool SuperLuck(this IAbilityE ability)
     {
@@ -116,10 +163,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     /// <summary>
     /// 已判断过Flinch
     /// </summary>
-    public static void CheckSteadfast(PokemonProxy pm)
+    public static void Steadfast(PokemonProxy pm)
     {
       if (pm.RaiseAbility(133))
-        pm.ChangeLv7D(pm, 0, 0, 0, 0, 1);
+        pm.ChangeLv7D(pm, false, 0, 0, 0, 0, 1);
     }
     public static Modifier TintedLens(DefContext def)
     {
@@ -147,7 +194,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     public static void Withdrawn(PokemonProxy pm)
     {
-#warning SimGame更新
       if (pm.Ability.Id == REGENERATOR) pm.Hp += pm.Pokemon.Hp.Origin / 3;
       else if (pm.Ability.Id == NATURAL_CURE) pm.Pokemon.State = PokemonState.Normal;
     }
@@ -159,19 +205,20 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static Modifier PowerModifier(DefContext def)
     {
       //如果防御方是耐热特性，攻击方火属性技能威力×0.5。
-      const int HEATPROOF = 46;
       //如果防御方是干燥肌肤特性，攻击方火属性技能威力×1.25。 
-      const int DRY_SKIN = 25;
+      const int HEATPROOF = 46;
+
+      AtkContext atk = def.AtkContext;
 
       int id = def.Ability.Id;
       ushort d = 0x1000;
-      if (def.AtkContext.Type == BattleType.Fire)
+      if (atk.Type == BattleType.Fire)
       {
         if (id == HEATPROOF) d = 0x800;
         else if (id == DRY_SKIN) d = 0x1800;
       }
       Modifier r = d;
-      if (def.AtkContext.SheerForceActive) r *= 0x14cd;
+      if (atk.Move.HasProbabilitiedAdditonalEffects() && atk.Attacker.Ability.SheerForce()) r *= 0x14cd;
       return r;
     }
     public static Modifier FlowerGift(AtkContext atk)
@@ -203,7 +250,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       }
       return false;
     }
-
     /// <summary>
     /// 调用前已判断过 damage > pm.Hp
     /// </summary>
@@ -211,58 +257,46 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     /// <returns></returns>
     public static bool Remain1Hp(PokemonProxy pm)
     {
-      if (pm.Ability.Id == STURDY && !pm.Pokemon.Hp.IsChanged)
-      {
-        pm.Controller.ReportBuilder.Add(new AbilityEvent(pm));
-        return true;
-      }
-      return false;
+      return pm.FullHp && pm.RaiseAbility(STURDY);
     }
-    public static void CheckSynchronize(PokemonProxy pm, PokemonProxy by, AttachedState state, int turn)
+    public static void Synchronize(PokemonProxy pm, PokemonProxy by, AttachedState state, int turn)
     {
-      if (pm.Ability.Id == 143)
-        by.AddState(pm, state, turn);
+      if (by.CanAddState(pm, state, false) && pm.RaiseAbility(143)) by.AddState(pm, state, false, turn);
     }
-    public static void CheckDefiant(PokemonProxy pm)
+    public static void Defiant(PokemonProxy pm)
     {
-      if (pm.Ability.Id == 16)
-      {
-        pm.Controller.ReportBuilder.Add(new AbilityEvent(pm));
-        pm.ChangeLv7D(pm, 2);
-      }
+      if (pm.CanChangeLv7D(pm, StatType.Atk, 2, false) != 0 && pm.RaiseAbility(16)) pm.ChangeLv7D(pm, false, 2);
     }
     public static bool SkillLink(this IAbilityE ability)
     {
       return ability.Id == 121;
     }
-    public static void CheckMoxie(DefContext def)
+    public static void Moxie(DefContext def)
     {
       PokemonProxy pm = def.AtkContext.Attacker;
-      if (def.Defender.Hp == 0 && pm.Ability.Id == 88)
-        pm.ChangeLv7D(pm, 1);
+      if (def.Defender.Hp == 0 && pm.CanChangeLv7D(pm, StatType.Atk, 1, false) != 0 && pm.RaiseAbility(88)) pm.ChangeLv7D(pm, false, 1);
     }
-    public static void CheckIllusion(PokemonProxy pm)
+    public static void Illusion(PokemonProxy pm)
     {
       if (pm.Ability.Id == 56)
       {
         Pokemon o = pm.Pokemon;
         foreach (Pokemon p in pm.Pokemon.Owner.Pokemons)
           if (p.Hp.Value > 0) o = p;
-        if (o != pm.Pokemon)
-          pm.OnboardPokemon.SetCondition("Illusion", o);
+        if (o != pm.Pokemon) pm.OnboardPokemon.SetCondition("Illusion", o);
       }
     }
-    public static void CheckColorChange(DefContext def)
+    public static void ColorChange(DefContext def)
     {
-      if (!def.HitSubstitute && def.Defender.Ability.Id == 18)
+      if (!def.HitSubstitute &&
+        (def.Defender.OnboardPokemon.Type1 != def.AtkContext.Type || def.Defender.OnboardPokemon.Type2 != BattleType.Invalid) &&
+        def.Defender.RaiseAbility(18))
       {
         def.Defender.OnboardPokemon.Type1 = def.AtkContext.Type;
         def.Defender.OnboardPokemon.Type2 = BattleType.Invalid;
-        def.Defender.Controller.ReportBuilder.Add(new AbilityEvent(def.Defender));
         def.Defender.AddReportPm("TypeChange", def.AtkContext.Type);
       }
     }
-
     public static Modifier Multiscale(DefContext def)
     {
       return (Modifier)(def.Ability.Id == 81 && def.Defender.Hp == def.Defender.Pokemon.Hp.Origin ? 0x800 : 0x1000);
@@ -292,6 +326,19 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       else if (id == LIGHT_METAL) m = 0.5d;
       else m = 1d;
       return m;
+    }
+    public static bool Stench(DefContext def)
+    {
+      return def.AtkContext.Attacker.Ability.Id == 135 && def.Defender.Controller.RandomHappen(10);
+    }
+    public static void PoisonTouch(DefContext def)
+    {
+      PokemonProxy a = def.AtkContext.Attacker, d = def.Defender;
+      if (a.Ability.Id == 95 && def.AtkContext.Move.AdvancedFlags.NeedTouch && d.Controller.RandomHappen(30) && d.CanAddState(a, AttachedState.Poison, false))
+      {
+        a.RaiseAbility();
+        d.AddState(a, AttachedState.Poison, false);
+      }
     }
   }
 }

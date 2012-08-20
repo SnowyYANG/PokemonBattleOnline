@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
+using LightStudio.PokemonBattle.Game.Host.Triggers;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
@@ -19,10 +20,10 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     static EffectsService()
     {
+      unlocked = true;
       NULL_ABILITY = new AbilityE0();
       NULL_ITEM = new ItemE0();
       NULL_RULE = new RuleE(0);
-      unlocked = true;
       moves = new IMoveE[DataService.Moves.Count() + 1];
       abilities = new IAbilityE[DataService.Abilities.Count() + 1];
       items = new IItemE[DataService.Items.Count() + 1];
@@ -31,6 +32,12 @@ namespace LightStudio.PokemonBattle.Game.Host
       abilities[0] = NULL_ABILITY;
     }
 
+    public static void Lock()
+    {
+      unlocked = false;
+    }
+
+    #region emodels
     public static IMoveE GetMove(int id)
     {
       if (id < 0 || id > moves.Length) id = 0;
@@ -77,11 +84,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       return rules.ValueOrDefault(id, NULL_RULE);
     }
-
-    public static void Lock()
-    {
-      unlocked = false;
-    }
     public static void Register(IMoveE move)
     {
       if (unlocked)
@@ -113,5 +115,18 @@ namespace LightStudio.PokemonBattle.Game.Host
         rules.Add(rule.Id, rule);
       }
     }
+    #endregion
+
+    #region triggers
+    private static IEndTurn endTurn;
+    public static void EndTurn(Controller controller)
+    {
+      endTurn.Execute(controller);
+    }
+    public static void Register(IEndTurn trigger)
+    {
+      if (unlocked && trigger != null) endTurn = trigger;
+    }
+    #endregion
   }
 }

@@ -13,9 +13,11 @@ namespace LightStudio
     int Value { get; }
     double Percentage { get; }
     double NormalizedValue { get; }
+    #region for binding
     bool IsIncreased { get; }
     bool IsDecreased { get; }
     bool IsChanged { get; }
+    #endregion
   }
 
   [DataContract(Namespace = Namespaces.LIGHT)]

@@ -13,7 +13,7 @@ class WeatherMove(StatusMoveE):
             turn += 8
         else:
             turn += 5
-        atk.Controller.Board.SetCondition('WeatherTurn', turn)
+        atk.Controller.Board.SetCondition('Weather', turn)
 M(WeatherMove(201, Weather.Sandstorm, 60))
 M(WeatherMove(240, Weather.HeavyRain, 62))
 M(WeatherMove(241, Weather.IntenseSunlight, 61))
