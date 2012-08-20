@@ -15,17 +15,17 @@ A(Aftermath(2))
 
 class AngerPoint(t_a):
     def TA(self, d):
-        if d.IsCt and d.Defender.OnboardPokemon.Lv5D.Atk < 6:
+        if d.IsCt and d.Defender.CanChangeLv7D(d.Defender, False, StatType.Atk, 12):
             self.Raise(d.Defender)
             d.Defender.ChangeLv7D(d.Defender, False, 12, 0, 0, 0, 0, 0, 0)
 A(AngerPoint(5))
 
 class WeakArmor(AbilityE):
     def Attacked(self, d):
-        lv5d = d.Defender.OnboardPokemon.Lv5D
-        if d.AtkContext.Move.Category == MoveCategory.Physical and (lv5d.Atk < 6 or lv5d.Def > -6):
-            self.Raise(d.Defender)
-            d.Defender.ChangeLv7D(d.Defender, False, 1, -1, 0, 0, 0, 0, 0)
+        der = d.Defender
+        if d.AtkContext.Move.Category == MoveCategory.Physical and (der.CanChangeLv7D(der, False, StatType.Atk, 1) or der.CanChangeLv7D(der, False, StatType.Def, -1)):
+            self.Raise(der)
+            der.ChangeLv7D(der, False, 1, -1, 0, 0, 0, 0, 0)
 A(WeakArmor(11))
 
 class CursedBody(AbilityE):
@@ -54,9 +54,10 @@ A(EffectSpore(29))
 
 class Justified(AbilityE):
     def Attacked(self, d):
-        if d.AtkContext.Move.Type == BattleType.Dark and d.Defender.Lv5D.Atk < 6:
-            self.Raise(d.Defender)
-            d.Defender.ChangeLv7D(d.Defender, False, 0, 1, 0, 0, 0, 0, 0)
+        der = d.Defender
+        if d.AtkContext.Move.Type == BattleType.Dark and der.CanChangeLv7D(der, False, StatType.Def, 1):
+            self.Raise(der)
+            der.ChangeLv7D(der, False, 0, 1, 0, 0, 0, 0, 0)
 A(Justified(44))
 
 class Mummy(t_a):
@@ -85,8 +86,10 @@ A(AttackedAddState(132, AttachedState.Paralysis)) #static
 class Rattled(AbilityE):
     def Attacked(self, d):
         type = d.AtkContext.Move.Type
-        if d.Defender.OnboardPokemon.Lv5D.Speed < 6 and (type == BattleType.Dark or type == BattleType.Ghost or type == BattleType.Bug):
-            d.Defender.ChangeLv7D(d.Defender, False, 0, 0, 0, 0, 1, 0, 0)
+        der = d.Defender
+        if (type == BattleType.Dark or type == BattleType.Ghost or type == BattleType.Bug) and der.CanChangeLv7D(der, False, StatType.Speed, 1):
+            self.Raise(der)
+            der.ChangeLv7D(der, False, 0, 0, 0, 0, 1, 0, 0)
 A(Rattled(114))
 
 class RoughSkin(t_a):

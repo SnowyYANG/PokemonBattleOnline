@@ -27,9 +27,14 @@ A(WeatherAbility(109, Weather.Sandstorm)) #sand stream
 
 class Intimidate(AbilityE):
     def Attach(self, pm):
-        self.Raise(pm)
+        pms = []
         for p in pm.Controller.Board[1-pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
-            p.ChangeLv7D(pm, False, -1,0,0,0,0,0,0)
+            if p.CanChangeLv7D(pm, False, StatType.Atk, -1):
+                pms.append(p)
+        if len(pms) > 0:
+            self.Raise(pm)
+            for p in pms:
+                p.ChangeLv7D(pm, False, -1,0,0,0,0,0,0)
 A(Intimidate(61))
 
 class Unnerve(AbilityE):
@@ -42,7 +47,7 @@ class Download(AbilityE):
         pms = pm.Controller.Board[1-pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1)
         if pms.Count() != 0:
             p = pms[pm.Controller.GetRandomInt(0, pms.Count() - 1)]
-            self.Raise()
+            self.Raise() #unneccesary to check CanChangeLv7D
             if p.OnboardPokemon.Static.Def > p.OnboardPokemon.Static.SpDef:
                 pm.ChangeLv7D(pm, False, 0,0,1,0,0,0,0)
             else:
