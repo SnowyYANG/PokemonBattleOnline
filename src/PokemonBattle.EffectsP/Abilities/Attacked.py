@@ -23,9 +23,9 @@ A(AngerPoint(5))
 class WeakArmor(AbilityE):
     def Attacked(self, d):
         der = d.Defender
-        if d.AtkContext.Move.Category == MoveCategory.Physical and (der.CanChangeLv7D(der, False, StatType.Atk, 1) or der.CanChangeLv7D(der, False, StatType.Def, -1)):
+        if d.AtkContext.Move.Category == MoveCategory.Physical and (der.CanChangeLv7D(der, False, StatType.Speed, 1) or der.CanChangeLv7D(der, False, StatType.Def, -1)):
             self.Raise(der)
-            der.ChangeLv7D(der, False, 1, -1, 0, 0, 0, 0, 0)
+            der.ChangeLv7D(der, False, 0, -1, 0, 0, 1, 0, 0)
 A(WeakArmor(11))
 
 class CursedBody(AbilityE):
@@ -55,9 +55,9 @@ A(EffectSpore(29))
 class Justified(AbilityE):
     def Attacked(self, d):
         der = d.Defender
-        if d.AtkContext.Move.Type == BattleType.Dark and der.CanChangeLv7D(der, False, StatType.Def, 1):
+        if d.AtkContext.Move.Type == BattleType.Dark and der.CanChangeLv7D(der, False, StatType.Atk, 1):
             self.Raise(der)
-            der.ChangeLv7D(der, False, 0, 1, 0, 0, 0, 0, 0)
+            der.ChangeLv7D(der, False, 1, 0, 0, 0, 0, 0, 0)
 A(Justified(44))
 
 class Mummy(t_a):
