@@ -44,6 +44,7 @@
     <None Include="Moves\Attack\SpPower.py" />
     <None Include="Moves\Attack\Synchronoise.py" />
     <None Include="Moves\Status\ClassA.py" />
+    <None Include="Moves\Status\ClassD.py" />
     <None Include="references.py" />
   </ItemGroup>
   <ItemGroup>

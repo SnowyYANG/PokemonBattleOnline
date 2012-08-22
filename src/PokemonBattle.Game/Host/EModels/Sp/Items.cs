@@ -6,11 +6,13 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game.Host.Sp
 {
-  internal static class Items
+  public static class Items
   {
     #region ids
-    const int RED_CARD = 106;
-    const int EJECT_BUTTON = 111;
+    public const int LEFTOVERS = 18;
+    public const int BLACK_SLUDGE = 58;
+    private const int RED_CARD = 106;
+    private const int EJECT_BUTTON = 111;
     #endregion
 
     public static void RaiseItem(this PokemonProxy pm, string key = null)

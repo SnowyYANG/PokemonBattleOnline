@@ -399,19 +399,19 @@ namespace LightStudio.PokemonBattle.Game.Host
       OnboardPokemon.SetTurnCondition(c, o);
       OnboardPokemon.SetTurnCondition("Damage", o);
     }
-    public void HpRecover(int changeHp)
+    public void HpRecover(int changeHp, string logKey = "HpRecover", int arg1 = 0, bool removeItem = false)
     {
       if (!FullHp)
       {
         Hp += changeHp;
-        Controller.ReportBuilder.Add(new GameEvents.HpChange(this, "HpRecover"));
+        Controller.ReportBuilder.Add(new GameEvents.HpChange(this, logKey) { RemoveItem = removeItem });
       }
     }
-    public void HpRecoverByOneNth(int n)
+    public void HpRecoverByOneNth(int n, string logKey = "HpRecover", int arg1 = 0, bool removeItem = false)
     {
       int hp = Pokemon.Hp.Origin / n;
       if (hp == 0) hp = 1;
-      HpRecover(hp);
+      HpRecover(hp, logKey, arg1, removeItem);
     }
     public void EffectHurt(int changeHp, string logKey = "Hurt", int arg1 = 0, int arg2 = 0)
     {

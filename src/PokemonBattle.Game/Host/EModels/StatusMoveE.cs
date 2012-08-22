@@ -19,13 +19,15 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       switch (Move.Class)
       {
+        case MoveInnerClass.AddState:
+          break;
+        case MoveInnerClass.Lv7DChange:
+          break;
+        case MoveInnerClass.HpRecover: //替身？
+          break;
         case MoveInnerClass.ConfusionWithLv7DChange:
           break;
         case MoveInnerClass.ForceToShift:
-          break;
-        case MoveInnerClass.HpRecover:
-          break;
-        case MoveInnerClass.Lv7DChange:
           break;
       }
     }

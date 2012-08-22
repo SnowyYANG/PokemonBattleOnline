@@ -129,6 +129,8 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     protected int Arg2;
     [DataMember(EmitDefaultValue = false)]
     public bool ResetY;
+    [DataMember(EmitDefaultValue = false)]
+    public bool RemoveItem;
 
     public HpChange(PokemonProxy pm, string logKey, int arg1 = 0, int arg2 = 0)
     {
@@ -151,7 +153,11 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     public override void Update(SimGame game)
     {
       var pm = GetPokemon(game, Pm);
-      if (pm != null) pm.SetHp(Hp);
+      if (pm != null)
+      {
+        pm.SetHp(Hp);
+        if (RemoveItem) pm.Item = null;
+      }
     }
   }
 

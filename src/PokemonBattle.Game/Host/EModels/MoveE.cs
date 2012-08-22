@@ -54,7 +54,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       List<DefContext> targets = new List<DefContext>();
       if (ts.Count() == 0)
       {
-        Fail(atk);
+        atk.Controller.ReportBuilder.Add("Fail0");
         goto DONE;
       }
 
@@ -137,10 +137,11 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         var fails = new List<DefContext>();
         foreach (DefContext d in targets)
-        {
-          d.Defender.AddReportPm("Fail");
-          fails.Add(d);
-        }
+          if (d.Defender != atk.Attacker && d.Defender.OnboardPokemon.HasCondition("Substitute"))
+          {
+            d.Defender.AddReportPm("Fail");
+            fails.Add(d);
+          }
         targets.Remove(fails);
       }
       #endregion
@@ -317,11 +318,6 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     #endregion
 
-    protected void Fail(AtkContext atk, PokemonProxy pm = null)
-    {
-      if (pm == null) atk.Controller.ReportBuilder.Add("Fail_s");
-      else atk.Controller.ReportBuilder.Add("Fail", pm);
-    }
     protected virtual void MoveEnding(AtkContext atk)
     {
     }

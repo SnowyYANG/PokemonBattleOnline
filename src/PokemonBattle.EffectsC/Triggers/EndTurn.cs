@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game.Host.Sp;
-using Abs = LightStudio.PokemonBattle.Game.Host.Sp.Abilities;
+using As = LightStudio.PokemonBattle.Game.Host.Sp.Abilities;
+using Is = LightStudio.PokemonBattle.Game.Host.Sp.Items;
 
 namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
 {
@@ -53,7 +54,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             {
               int ab = pm.Ability.Id;
               if (pm.OnboardPokemon.HasType(BattleType.Rock) || pm.OnboardPokemon.HasType(BattleType.Steel) || pm.OnboardPokemon.HasType(BattleType.Ground) ||
-                ab == Abs.OVERCOAT || ab == Abs.SAND_VEIL || ab == Abs.SAND_RUSH || ab == Abs.SAND_FORCE) continue;
+                ab == As.OVERCOAT || ab == As.SAND_VEIL || ab == As.SAND_RUSH || ab == As.SAND_FORCE) continue;
               pm.EffectHurtByOneNth(16, "SandstormHurt");
             }
             break;
@@ -61,7 +62,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             foreach (var pm in c.OnboardPokemons)
             {
               int ab = pm.Ability.Id;
-              if (ab == Abs.ICE_BODY)
+              if (ab == As.ICE_BODY)
               {
                 if (!pm.FullHp)
                 {
@@ -71,7 +72,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
               }
               else
               {
-                if (pm.OnboardPokemon.HasType(BattleType.Ice) || ab == Abs.OVERCOAT || ab == Abs.SNOW_CLOAK) continue;
+                if (pm.OnboardPokemon.HasType(BattleType.Ice) || ab == As.OVERCOAT || ab == As.SNOW_CLOAK) continue;
                 pm.EffectHurtByOneNth(16, "HailstormHurt");
               }
             }
@@ -79,25 +80,25 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
           case Game.Weather.HeavyRain:
             foreach (var pm in c.OnboardPokemons)
               if (!pm.FullHp)
-                if (pm.RaiseAbility(Abs.RAIN_DISH)) pm.HpRecoverByOneNth(16);
-                else if (pm.RaiseAbility(Abs.DRY_SKIN)) pm.HpRecoverByOneNth(8);
+                if (pm.RaiseAbility(As.RAIN_DISH)) pm.HpRecoverByOneNth(16);
+                else if (pm.RaiseAbility(As.DRY_SKIN)) pm.HpRecoverByOneNth(8);
             break;
           case Game.Weather.IntenseSunlight:
             foreach (var pm in c.OnboardPokemons)
-              if (pm.RaiseAbility(Abs.SOLAR_POWER) || pm.RaiseAbility(Abs.DRY_SKIN)) pm.EffectHurtByOneNth(8);
+              if (pm.RaiseAbility(As.SOLAR_POWER) || pm.RaiseAbility(As.DRY_SKIN)) pm.EffectHurtByOneNth(8);
             break;
         }
       }
     }
-    //3.0 Future Sight, Doom Desire
+    //3.0 [unfinished] Future Sight, Doom Desire
     private void FSDD(Controller c)
     {
     }
-    //4.0 Wish
+    //4.0 [unfinished] Wish
     private void Wish(Controller c)
     {
     }
-    //5.0 Fire Pledge + Grass Pledge damage
+    //5.0 [pass] Fire Pledge + Grass Pledge damage
     //5.1 Shed Skin, Hydration, Healer
     //5.2 Leftovers, Black Sludge
     private void PropertyChange(Controller c)
@@ -106,21 +107,21 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       {
         switch (pm.Ability.Id)
         {
-          case Abs.SHED_SKIN:
+          case As.SHED_SKIN:
             if (pm.State != Game.PokemonState.Normal && c.RandomHappen(30))
             {
               pm.RaiseAbility();
               pm.State = Game.PokemonState.Normal;
             }
             break;
-          case Abs.HYDRATION:
+          case As.HYDRATION:
             if (pm.State != Game.PokemonState.Normal)
             {
               pm.RaiseAbility();
               pm.State = Game.PokemonState.Normal;
             }
             break;
-          case Abs.HEALER:
+          case As.HEALER:
             var ps = new List<PokemonProxy>();
             foreach (var p in c.Board[pm.Pokemon.TeamId].Pokemons)
               if (p != pm && p.State != Game.PokemonState.Normal) ps.Add(p);
@@ -131,11 +132,23 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             }
             break;
         }
+        switch (pm.Item.Id)
+        {
+          case Is.LEFTOVERS:
+            pm.HpRecoverByOneNth(16, "Leftovers", Is.LEFTOVERS);
+            break;
+          case Is.BLACK_SLUDGE:
+            if (pm.OnboardPokemon.HasType(BattleType.Poison)) pm.HpRecoverByOneNth(16, "Leftovers", Is.BLACK_SLUDGE);
+            else pm.EffectHurtByOneNth(8, "ItemHurt", Is.BLACK_SLUDGE);
+            break;
+        }
       }
     }
     //6.0 Aqua Ring
     private void AquaRing(Controller c)
     {
+      foreach (var pm in c.OnboardPokemons)
+        if (pm.OnboardPokemon.HasCondition("AquaRing")) pm.HpRecoverByOneNth(16, "AquaRing");
     }
     //7.0 Ingrain
     private void Ingrain(Controller c)

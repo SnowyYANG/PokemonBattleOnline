@@ -18,7 +18,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>WeakHurt1</a:Key><a:Value i:type="LogText"><text>对{0:p}没有什么效果。
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>WeakHurt2</a:Key><a:Value i:type="LogText"><text>对{0:p}和{1:p}没有什么效果。
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>WeakHurt3</a:Key><a:Value i:type="LogText"><text>对{0:p}、{1:p}和{2:p}没有什么效果。
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Fail</a:Key><a:Value i:type="LogText"><text>但是对{0:p}失败了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Fail</a:Key><a:Value i:type="LogText"><text>但是对{0:p}没能成功！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DUp</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:e}提升了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DUp2</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:e}大幅提升！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DUp3</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:e}疯狂提升！
@@ -134,6 +134,8 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnDisable</a:Key><a:Value i:type="LogText"><text>将{0:p}的{1:m}封印了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Disable</a:Key><a:Value i:type="LogText"><text>{0:p}因为被束缚，所以无法使出{1:m}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeDisable</a:Key><a:Value i:type="LogText"><text>{0:p}的束缚解除了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnAquaRing</a:Key><a:Value i:type="LogText"><text>水之环笼罩了{0:p}！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>AquaRing</a:Key><a:Value i:type="LogText"><text>水之环回复了{0:p}的体力！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnFocusPunch</a:Key><a:Value i:type="LogText"><text>{0:p}的集中力提升了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnSubstitute</a:Key><a:Value i:type="LogText"><text>{0:p}的替身出现了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HasSubstitute</a:Key><a:Value i:type="LogText"><text>但是{0:p}的替身已经出现了……
@@ -147,16 +149,18 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HealBlock2</a:Key><a:Value i:type="LogText"><text>{0:p}因为回复封印无法使用{1:m}!
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>FullHp</a:Key><a:Value i:type="LogText"><text>但是{0:p}体力充沛!
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>TypeChange</a:Key><a:Value i:type="LogText"><text>{0:p}变成了{1}属性！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Leftovers</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}回复了一点！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>FocusItem</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}撑了下来！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>WhiteHerb</a:Key><a:Value i:type="LogText"><text>{0:p}使用了{1:i}复原了所有能力值！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>PowerHerb</a:Key><a:Value i:type="LogText"><text>{0:p}使用了{1:i}使全身充满了力量！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>QuickItem</a:Key><a:Value i:type="LogText"><text>{0:p}使用了{1:i}使行动变快了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>MicleBerry</a:Key><a:Value i:type="LogText"><text>{0:p}使用了{1:i}使得下个使用的技能更容易命中了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ItemHurt</a:Key><a:Value i:type="LogText"><text>{0:p}因为{1:i}受到了伤害！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnSkyDrop</a:Key><a:Value i:type="LogText"><text>{0:p}把{1:p}带到空中去了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeSkyDrop</a:Key><a:Value i:type="LogText"><text>{0:p}从自由降落中解脱了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnTelekinesis</a:Key><a:Value i:type="LogText"><text>{0:p}漂浮在空中！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeTelekinesis</a:Key><a:Value i:type="LogText"><text>{0:p}被从念动力中释放了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Fail0</a:Key><a:Value i:type="LogText"><text>但是失败了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Fail0</a:Key><a:Value i:type="LogText"><text>但是没能成功了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SuperHurt0</a:Key><a:Value i:type="LogText"><text>效果拔群!
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>WeakHurt0</a:Key><a:Value i:type="LogText"><text>没有什么效果...
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ConfusedWork</a:Key><a:Value i:type="LogText"><text>不知为什么攻击了自己！</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT0</a:Key><a:Value i:type="LogText"><text>打中了要害！
