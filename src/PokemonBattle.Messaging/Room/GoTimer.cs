@@ -57,7 +57,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     public void NewTurns(int turn)
     {
       if (turn > 0)
-        foreach (Player p in players.Values) p.SpentTime -= 20 * turn;
+        foreach (Player p in players.Values) p.SpentTime -= 30 * turn;
     }
     private void TimeTick(object state)
     {
@@ -66,7 +66,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
         if (p.Timing)
         {
           p.SpentTime++;
-          timeup |= p.SpentTime > 180;
+          timeup |= p.SpentTime > 18000;
         }
       if (timeup)
       {
