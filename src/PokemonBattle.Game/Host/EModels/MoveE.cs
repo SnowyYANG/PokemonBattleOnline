@@ -48,7 +48,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     #region CalculateTargets
     protected void CalculateTargets(AtkContext atk)
     {
-      var report = atk.Controller.ReportBuilder;
       IEnumerable<Tile> ts = GetRangeTiles(atk);
       if (ts == null) return; //no target needed
 
@@ -72,20 +71,23 @@ namespace LightStudio.PokemonBattle.Game.Host
             ++count;
             Abilities.Pressure(def);
             if (IsYInRange(def) || def.NoGuard) targets.Add(def);
-            else report.Add("Miss", pm);
+            else pm.AddReportPm("Miss");
           }
         if (count > 1) atk.MultiTargets = true;
       }
       #endregion
-      #region Check for Immunity (or Levitate) on the Ally side, position 1, then position 3. Then check Opponent side, position 1, then 2, then 3,
-      var noeffect = new List<DefContext>();
-      foreach (DefContext def in targets)
-        if (!HasEffect(def))
-        {
-          noeffect.Add(def);
-          report.Add("NoEffect", def.Defender);
-        }
-      if (noeffect.Count > 0) targets.Remove(noeffect);
+      #region Attack Move and Thunder Wave: Check for Immunity (or Levitate) on the Ally side, position 1, then position 3. Then check Opponent side, position 1, then 2, then 3,
+      if (Move.Category != MoveCategory.Status || Move.ThunderWave())
+      {
+        var noeffect = new List<DefContext>();
+        foreach (DefContext def in targets)
+          if (!HasEffect(def))
+          {
+            noeffect.Add(def);
+            def.Defender.AddReportPm("NoEffect");
+          }
+        if (noeffect.Count > 0) targets.Remove(noeffect);
+      }
       #endregion
       #region [unfinished] Check for Wide Guard in same way
       #warning
@@ -95,12 +97,12 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         var protect = new List<DefContext>();
         foreach (DefContext d in targets)
-          if (d.Defender.OnboardPokemon.HasCondition("Protect")) protect.Add(d);
-        foreach (DefContext d in protect)
-        {
-          report.Add("Protect", d.Defender);
-          targets.Remove(protect);
-        }
+          if (d.Defender.OnboardPokemon.HasCondition("Protect"))
+          {
+            d.Defender.AddReportPm("Protect");
+            protect.Add(d);
+          }
+        targets.Remove(protect);
       }
       #endregion
       #region Check for Telepathy (and possibly other abilities)
@@ -125,9 +127,21 @@ namespace LightStudio.PokemonBattle.Game.Host
           if (!(def.NoGuard || CanHit(def)))//心眼锁定、无防御
           {
             miss.Add(def);
-            report.Add("Miss", def.Defender);
+            def.Defender.AddReportPm("Miss");
           }
         if (miss.Count > 0) targets.Remove(miss);
+      }
+      #endregion
+      #region Status Move: Check for substitute
+      if (Move.Category == MoveCategory.Status && !Move.AdvancedFlags.IgnoreSubstitute)
+      {
+        var fails = new List<DefContext>();
+        foreach (DefContext d in targets)
+        {
+          d.Defender.AddReportPm("Fail");
+          fails.Add(d);
+        }
+        targets.Remove(fails);
       }
       #endregion
     DONE:
@@ -188,35 +202,23 @@ namespace LightStudio.PokemonBattle.Game.Host
           def.Defender.Item.AirBalloon() ||
           def.Defender.RaiseAbility(Abilities.LEVITATE));
     }
-    private bool HasEffect_NonGround(BattleType atk, BattleType def)
+    private bool HasEffect_NonGround(DefContext def)
     {
+      var a = def.AtkContext.Type;
+      var der = def.Defender.OnboardPokemon;
       return !(
-        ((atk == BattleType.Normal || atk == BattleType.Fighting) && def == BattleType.Ghost) ||
-        (atk == BattleType.Electric && def == BattleType.Ground) ||
-        (atk == BattleType.Poison && def == BattleType.Steel) ||
-        (atk == BattleType.Psychic && def == BattleType.Dark) ||
-        (atk == BattleType.Ghost && def == BattleType.Normal));
+        ((a == BattleType.Normal || a == BattleType.Fighting) && der.HasType(BattleType.Ghost) && !def.AtkContext.Attacker.Ability.Scrappy()) ||
+        (a == BattleType.Electric && der.HasType(BattleType.Ground)) ||
+        (a == BattleType.Poison && der.HasType(BattleType.Steel)) ||
+        (a == BattleType.Psychic && der.HasType(BattleType.Dark)) ||
+        (a == BattleType.Ghost && der.HasType(BattleType.Normal)));
     }
     protected virtual bool HasEffect(DefContext def)
     {
-      switch (Move.Class)
-      {
-        case MoveInnerClass.Attack:
-        case MoveInnerClass.AttackAndAbsorb:
-        case MoveInnerClass.AttackWithSelfLv7DChange:
-        case MoveInnerClass.AttackWithState:
-        case MoveInnerClass.AttackWithTargetLv7DChange:
-        case MoveInnerClass.OHKO:
-          BattleType atk = def.AtkContext.Type;
-          BattleType canAtk = def.Defender.OnboardPokemon.GetCondition<BattleType>("CanAttack");
-          BattleType def1 = def.Defender.OnboardPokemon.Type1, def2 = def.Defender.OnboardPokemon.Type2;
-          return
-            ((canAtk != BattleType.Invalid && (canAtk == def1 || canAtk == def2)) || def.Defender.Item.RingTarget() || atk == BattleType.Ground ? HasEffect_Ground(def) : HasEffect_NonGround(atk, def1) && HasEffect_NonGround(atk, def2)) &&
-            (Move.Class != MoveInnerClass.OHKO || (def.Defender.Pokemon.Lv <= def.AtkContext.Attacker.Pokemon.Lv && !def.Defender.RaiseAbility(Abilities.STURDY)));
-        default:
-          if (Move.ThunderWave()) goto case MoveInnerClass.OHKO;
-          return true;
-      }
+      BattleType canAtk = def.Defender.OnboardPokemon.GetCondition<BattleType>("CanAttack");
+      return
+        (canAtk != BattleType.Invalid && def.Defender.OnboardPokemon.HasType(canAtk) || def.Defender.Item.RingTarget() || def.AtkContext.Type == BattleType.Ground ? HasEffect_Ground(def) : HasEffect_NonGround(def)) &&
+        (Move.Class != MoveInnerClass.OHKO || (def.Defender.Pokemon.Lv <= def.AtkContext.Attacker.Pokemon.Lv && !def.Defender.RaiseAbility(Abilities.STURDY)));
     }
     protected virtual IEnumerable<Tile> GetRangeTiles(AtkContext atk)
     {
@@ -273,6 +275,8 @@ namespace LightStudio.PokemonBattle.Game.Host
           }
           break;
         case MoveRange.Single:
+          Abilities.ReTarget(atk, ref select);
+          goto case MoveRange.SingleEnemy;
         case MoveRange.SingleEnemy:
           if (select == null || (!Move.AdvancedFlags.IsRemote && (select.X < x - 1 || select.X > x + 1)))
             goto case MoveRange.RandomEnemy; //非鬼系选诅咒后变诅咒随机对方一个精灵

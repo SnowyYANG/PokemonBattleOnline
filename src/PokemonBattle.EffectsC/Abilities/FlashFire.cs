@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
+using LightStudio.PokemonBattle.Game.Host.Sp;
 
 namespace LightStudio.PokemonBattle.Game.Host.Effects.Abilities
 {
   class FlashFire : AbilityE
   {
-    public FlashFire()
-      : base(34)
+    public FlashFire(int id)
+      : base(id)
     {
     }
     
@@ -19,12 +20,12 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Abilities
     }
     public override bool CanImplement(DefContext def)
     {
-      if (def.AtkContext.Type == Data.BattleType.Fire)
+      if (def.AtkContext.Type == BattleType.Fire)
       {
         PokemonProxy pm = def.Defender;
         pm.OnboardPokemon.SetCondition("FlashFire");
-        pm.Controller.ReportBuilder.Add(new GameEvents.AbilityEvent(pm));
-        pm.Controller.ReportBuilder.Add("FlashFire", pm);
+        pm.RaiseAbility();
+        pm.AddReportPm("FlashFire");
         return false;
       }
       return true;

@@ -10,9 +10,8 @@ namespace LightStudio.PokemonBattle.Game.Host
   {
     int Id { get; }
 
-    bool CanWithdraw(PokemonProxy pm);
     bool CanAddState(PokemonProxy pm, PokemonProxy by, AttachedState state, bool showFail);
-    bool CanImplement(DefContext def); //auto raise
+    bool CanImplement(DefContext def);
     int Lv7DChanging(PokemonProxy pm, PokemonProxy by, StatType stat, int change, bool showFail);//性情乖僻单纯白烟净体
     /// <summary>
     /// Atk/Def/SpAtk/SpDef/Speed
@@ -32,7 +31,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       int IAbilityE.Id { get { return 0; } }
 
-      bool IAbilityE.CanWithdraw(PokemonProxy pm) { return true; }
       bool IAbilityE.CanAddState(PokemonProxy pm, PokemonProxy by, AttachedState state, bool showFail) { return true; }
       bool IAbilityE.CanImplement(DefContext def) { return true; }
       int IAbilityE.Lv7DChanging(PokemonProxy pm, PokemonProxy by, StatType stat, int change, bool showFail) { return change; }

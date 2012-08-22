@@ -133,8 +133,14 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       {
         RoomState = RoomState.GameStarted;
         Dictionary<int, string> ps = new Dictionary<int,string>();
-        foreach(Player p in players) ps.Add(p.Id, p.GetName());
-        game = new GameOutward(Settings, ps);
+        string[] teams = new string[2];
+        foreach(Player p in players)
+        {
+          string name = p.GetName();
+          ps.Add(p.Id, name);
+          if (teams[p.Team] == null) teams[p.Team] = name;
+        }
+        game = new GameOutward(Settings, ps, teams);
         OnGameStarted();
         Listener.GameStart();
       }

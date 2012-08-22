@@ -23,9 +23,7 @@ namespace LightStudio.PokemonBattle.Data
     [DataMember]
     public int FlingPower { get; private set; }
 
-    //public IExecutableElement<IController> FlingEffect { get; internal set; }
-    
-    public Item(int id)
+    private Item(int id)
       : base(id)
     {
     }

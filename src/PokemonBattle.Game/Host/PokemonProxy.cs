@@ -217,7 +217,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         OnboardPokemon.GetCondition("Imprison").CanExecute() &&
         OnboardPokemon.GetCondition("HealBlock").CanExecute() &&
         //混乱
-        OnboardPokemon.GetCondition("Confuse").CanExecute() &&
+        OnboardPokemon.GetCondition("Confused").CanExecute() &&
         //害怕，不屈之心
         OnboardPokemon.GetCondition("Flinch").CanExecute() &&
         //挑拨 
@@ -461,7 +461,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       return false;
     }
-    private void ChangeLv7D(PokemonProxy by, StatType stat, int change, bool showFail)
+    private bool ChangeLv7D(PokemonProxy by, StatType stat, int change, bool showFail)
     {
       change = CanChangeLv7D(by, stat, change, showFail);
       if (change != 0)
@@ -489,7 +489,7 @@ namespace LightStudio.PokemonBattle.Game.Host
               if (change == 12 && stat == StatType.Atk)
               {
                 AddReportPm("AtkMax");
-                return;
+                return false;
               }
               if (change > 0) logKey = "7DUp3";
               else logKey = "7DDown3";
@@ -498,27 +498,42 @@ namespace LightStudio.PokemonBattle.Game.Host
           AddReportPm(logKey, stat);
         }
         if (by.Pokemon.TeamId != Pokemon.TeamId && change < 0) Abilities.Defiant(this);
+        return true;
       }
+      return false;
     }
-    public void ChangeLv7D(PokemonProxy by, bool showFail, int a, int d = 0, int sa = 0, int sd = 0, int s = 0, int ac = 0, int e = 0)
+    public bool ChangeLv7D(PokemonProxy by, StatType stat, int change)
     {
-      ChangeLv7D(by, StatType.Atk, a, showFail);
-      ChangeLv7D(by, StatType.Def, d, showFail);
-      ChangeLv7D(by, StatType.SpAtk, sa, showFail);
-      ChangeLv7D(by, StatType.SpDef, sd, showFail);
-      ChangeLv7D(by, StatType.Speed, s, showFail);
-      ChangeLv7D(by, StatType.Accuracy, ac, showFail);
-      ChangeLv7D(by, StatType.Evasion, e, showFail);
-      Items.WhiteHerb(this);
+      if (ChangeLv7D(by, stat, change, false))
+      {
+        Items.WhiteHerb(this);
+        return true;
+      }
+      return false;
     }
-    public void ChangeLv7D(AtkContext atk)
+    public bool ChangeLv7D(PokemonProxy by, bool showFail, int a, int d = 0, int sa = 0, int sd = 0, int s = 0, int ac = 0, int e = 0)
     {
+      bool r = false;
+      r |= ChangeLv7D(by, StatType.Atk, a, showFail);
+      r |= ChangeLv7D(by, StatType.Def, d, showFail);
+      r |= ChangeLv7D(by, StatType.SpAtk, sa, showFail);
+      r |= ChangeLv7D(by, StatType.SpDef, sd, showFail);
+      r |= ChangeLv7D(by, StatType.Speed, s, showFail);
+      r |= ChangeLv7D(by, StatType.Accuracy, ac, showFail);
+      r |= ChangeLv7D(by, StatType.Evasion, e, showFail);
+      if (r) Items.WhiteHerb(this);
+      return r;
+    }
+    public bool ChangeLv7D(AtkContext atk)
+    {
+      bool r = false;
       foreach (MoveLv7DChange c in atk.Move.Lv7DChanges)
       {
         if (c.Probability == 0 || atk.RandomHappen(c.Probability))
-          ChangeLv7D(atk.Attacker, c.Type, c.Change, atk.Move.Category == MoveCategory.Status);
+          r |= ChangeLv7D(atk.Attacker, c.Type, c.Change, atk.Move.Category == MoveCategory.Status);
       }
       Items.WhiteHerb(this);
+      return r;
     }
     private void AddStateImplement(PokemonProxy by, AttachedState state, int turn)
     {

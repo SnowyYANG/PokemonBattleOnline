@@ -11,14 +11,18 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
   {
     #region ids
     public const int ARENA_TRAP = 7;
+    public const int ZEN_MODE = 21;
     public const int DRY_SKIN = 25;
     public const int OVERCOAT = 27;
+    public const int FORECAST = 36;
     public const int HEALER = 43;
     public const int HYDRATION = 52;
     public const int ICE_BODY = 54;
+    public const int ILLUSION = 56;
     public const int LEVITATE = 66;
     public const int LIQUID_OOZE = 70;
     public const int MAGNET_PULL = 74;
+    public const int MULTITYPE = 82;
     public const int NATURAL_CURE = 84;
     public const int RAIN_DISH = 102;
     public const int REGENERATOR = 104;
@@ -30,6 +34,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public const int SNOW_CLOAK = 125;
     public const int SOLAR_POWER = 127;
     public const int STURDY = 138;
+    public const int TRACE = 152;
     #endregion
 
     #region extension
@@ -107,6 +112,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static bool RockHead(this IAbilityE ability)
     {
       return ability.Id == 106;
+    }
+    public static bool Scrappy(this IAbilityE ability)
+    {
+      return ability.Id == 113;
     }
     public static bool SereneGrace(this IAbilityE ability)
     {
@@ -278,7 +287,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     public static void Illusion(PokemonProxy pm)
     {
-      if (pm.Ability.Id == 56)
+      if (pm.Ability.Id == ILLUSION)
       {
         Pokemon o = pm.Pokemon;
         foreach (Pokemon p in pm.Pokemon.Owner.Pokemons)
@@ -339,6 +348,32 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         a.RaiseAbility();
         d.AddState(a, AttachedState.Poison, false);
       }
+    }
+    internal static void ReTarget(AtkContext atk, ref Tile select)
+    {
+      int ab = 0;
+      if (atk.Type == BattleType.Electric) ab = 68;
+      else if (atk.Type == BattleType.Fire) ab = 34;
+      else if (atk.Type == BattleType.Water) ab = 137;
+      if (ab != 0 && (select == null || select.Pokemon == null || select.Pokemon.Ability.Id != ab))
+        foreach(var pm in atk.Controller.OnboardPokemons)
+          if (pm != atk.Attacker && pm.RaiseAbility(ab))
+          {
+            select = pm.Tile;
+            pm.AddReportPm("ReTarget");
+            return;
+          }
+    }
+    public static bool Trace(int abilityId)
+    {
+      return abilityId != FORECAST && abilityId != ILLUSION && abilityId != ZEN_MODE && abilityId != MULTITYPE && abilityId != TRACE;
+    }
+    public static void Trace(PokemonProxy sendout)
+    {
+      int ab = sendout.OnboardPokemon.Ability;
+      if (Trace(ab))
+        foreach (var pm in sendout.Controller.Board[1 - sendout.Pokemon.TeamId].GetPokemons(sendout.OnboardPokemon.X - 1, sendout.OnboardPokemon.X + 1))
+          if (pm.Ability.Id == TRACE) pm.ChangeAbility(sendout.OnboardPokemon.Ability);
     }
   }
 }

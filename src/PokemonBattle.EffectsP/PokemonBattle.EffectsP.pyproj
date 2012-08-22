@@ -35,6 +35,7 @@
     <None Include="Abilities\ADSModifiers.py" />
     <None Include="Abilities\AttachRaise.py" />
     <None Include="Abilities\Attacked.py" />
+    <None Include="Abilities\CanImplement.py" />
     <None Include="Abilities\CantXXX.py" />
     <None Include="Abilities\PowerModifier.py" />
     <None Include="Items\Gem.py" />

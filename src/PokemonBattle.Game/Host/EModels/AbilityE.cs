@@ -26,7 +26,6 @@ namespace LightStudio.PokemonBattle.Game.Host
       pm.Controller.ReportBuilder.Add(new AbilityEvent(pm));
     }
 
-    public virtual bool CanWithdraw(PokemonProxy pm) { return true; }
     public virtual bool CanAddState(PokemonProxy pm, PokemonProxy by, AttachedState state, bool showFail) { return true; }
     public virtual bool CanImplement(DefContext def) { return true; } //auto raise
     public virtual int Lv7DChanging(PokemonProxy pm, PokemonProxy by, StatType stat, int change, bool showFail) { return change; }

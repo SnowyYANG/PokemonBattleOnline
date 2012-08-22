@@ -86,14 +86,30 @@ A(LeafGuard(65))
 
 class OwnTempo(AbilityE):
     def Attach(self, pm):
-        if pm.OnboardPokemon.HasCondition('Confuse'):
+        if pm.OnboardPokemon.HasCondition('Confused'):
             self.Raise(pm)
-            pm.OnboardPokemon.RemoveCondition('Confuse')
+            pm.OnboardPokemon.RemoveCondition('Confused')
+            pm.AddReportPm('DeConfused')
     def CanAddState(self, pm, by, state, showFail):
         if state == AttachedState.Confusion:
             if showFail:
                 self.Raise(pm)
-                pm.AddReportPm('CantConfusion', None, None)
+                pm.AddReportPm('CantConfused', None, None)
             return False
         return True
 A(OwnTempo(90))
+
+class Oblivious(AbilityE):
+    def Attach(self, pm):
+        if pm.OnboardPokemon.HasCondition('Infatuation'):
+            self.Raise(pm)
+            pm.OnboardPokemon.RemoveCondition('Infatuation')
+            pm.AddReportPm('DeInfatuation', None, None)
+    def CanAddState(self, pm, by, state, showFail):
+        if state == AttachedState.Infatuation:
+            if showFail:
+                self.Raise(pm)
+                pm.AddReportPm('CantInfatuation', None, None)
+            return False
+        return True
+A(Oblivious(87))

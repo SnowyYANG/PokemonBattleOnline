@@ -2,8 +2,7 @@ class a_a(AbilityE):
     def ADSModifier(self, pm, stat):
         if stat == StatType.Atk or stat == StatType.SpAtk:
             return self.AModifier(pm.AtkContext, pm.AtkContext.Move.Category == MoveCategory.Special)
-        else:
-            return 0x1000
+        return 0x1000
 
 class One3rdHp(a_a):
     def __new__(cls, id, type):
@@ -35,9 +34,9 @@ class Defeatist(a_a):
         return 0x1000
 A(Defeatist(31))
 
-class PurePower(a_a):
-    def AModifier(self, atk, sp):
-        if not sp:
+class PurePower(AbilityE):
+    def ADSModifier(self, pm, stat):
+        if stat == StatType.Atk:
             return 0x2000
         return 0x1000
 A(PurePower(100))
@@ -47,9 +46,20 @@ class MarvelScale(AbilityE):
     def ADSModifier(self, pm, stat):
         if stat == StatType.Def and pm.State != PokemonState.Normal:
             return 0x1800
-        else:
-            return 0x1000
+        return 0x1000
 A(MarvelScale(75))
+
+class PlusMinus(AbilityE):
+    def ADSModifier(self, pm, stat):
+        if stat == StatType.SpAtk:
+            for p in pm.Controller.Board[pm.Pokemon.TeamId].Pokemons:
+                if p != pm:
+                    a = p.Ability.Id
+                    if a == 76 or a == 94:
+                        return 0x1800
+        return 0x1000
+A(PlusMinus(76)) #minus
+A(PlusMinus(94)) #plus
 
 class a_s(AbilityE):
     def __new__(cls, id):
@@ -66,8 +76,7 @@ class WeatherSpeedup(a_s):
     def SModifier(self, pm):
         if pm.Controller.Weather == self.Weather:
             return 0x2000
-        else:
-            return 0x1000
+        return 0x1000
 A(WeatherSpeedup(12, Weather.IntenseSunlight)) #chlorophyll
 A(WeatherSpeedup(111, Weather.Sandstorm)) #sand rush
 A(WeatherSpeedup(142, Weather.HeavyRain)) #swift swim
@@ -76,6 +85,12 @@ class QuickFeet(a_s):
     def SModifier(self, pm):
         if pm.State != PokemonState.Normal:
             return 0x1800
-        else:
-            return 0x1000
+        return 0x1000
 A(QuickFeet(101))
+
+class Unburden(a_s):
+    def SModifier(self, pm):
+        if  XXX:
+            return 0x2000
+        return 0x1000
+A(Unburden(156))

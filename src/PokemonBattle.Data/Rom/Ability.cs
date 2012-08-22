@@ -10,7 +10,7 @@ namespace LightStudio.PokemonBattle.Data
   [DataContract(Namespace=Namespaces.LIGHT)]
   public class Ability : GameElement
   {
-    public Ability(int id)
+    private Ability(int id)
       : base(id)
     {
     }

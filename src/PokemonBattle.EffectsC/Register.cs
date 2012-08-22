@@ -29,6 +29,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
     
     public static void Register()
     {
+      A(new FlashFire(34));
       A(new Forewarn(37));
       A(new Frisk(39));
       A(new Illusion(56));

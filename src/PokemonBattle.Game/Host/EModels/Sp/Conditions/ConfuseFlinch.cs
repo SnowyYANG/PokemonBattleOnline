@@ -8,7 +8,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
   public class Confused : PmCondition
   {
     public Confused(PokemonProxy pm, int count)
-      : base("Confuse", pm, count)
+      : base("Confused", pm, count)
     {
     }
     

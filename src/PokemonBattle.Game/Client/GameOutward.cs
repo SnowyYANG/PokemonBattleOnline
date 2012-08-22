@@ -24,10 +24,11 @@ namespace LightStudio.PokemonBattle.Game
     public readonly BoardOutward Board;
     public readonly TeamOutward[] Teams;
     private readonly IDictionary<int, string> players;
+    private readonly string[] teams;
     private readonly List<IGameOutwardEvents> listeners;
     private InputRequest requireInput;
 
-    public GameOutward(IGameSettings settings, IDictionary<int, string> players)
+    public GameOutward(IGameSettings settings, IDictionary<int, string> players, string[] teams)
     {
       Settings = settings;
       Board = new BoardOutward(Settings);
@@ -111,6 +112,9 @@ namespace LightStudio.PokemonBattle.Game
               break;
             case "i":
               r = DataService.GetItem(id).GetLocalizedName();
+              break;
+            case "t":
+              r = teams[id];
               break;
             default:
               if (format != null && format.StartsWith("pm."))

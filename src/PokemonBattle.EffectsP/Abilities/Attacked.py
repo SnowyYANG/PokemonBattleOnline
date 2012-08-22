@@ -62,9 +62,10 @@ A(Justified(44))
 
 class Mummy(t_a):
     def TA(self, d):
-        ab = d.AtkContext.Attacker.Ability.Id
+        ab = d.AtkContext.Attacker.OnboardPokemon.Ability
         if ab != 82 and ab != 83:
             self.Raise(d.Defender)
+            d.AtkContext.Attacker.AddReportPm('Mummy', None, None)
             d.AtkContext.Attacker.ChangeAbility(83)
 A(Mummy(83))
 
@@ -99,3 +100,14 @@ class RoughSkin(t_a):
             d.AtkContext.Attacker.EffectHurtByOneNth(8, 'Hurt', 0, 0)
 A(RoughSkin(107))
 A(RoughSkin(134)) #iron barbs
+
+class WickedThief(t_a):
+    def TA(self, d):
+        der = d.Defender
+        aer = d.AtkContext.Attacker
+        if der.Pokemon.Item == None and aer.CanLostItem:
+            der.Pokemon.Item = aer.Pokemon.Item
+            aer.Pokemon.Item = None
+            self.Raise(der)
+            der.Controller.ReportBuilder.Add('WickedThief', aer.Id, der.Pokemon.Item.Id)
+A(WickedThief(163))
