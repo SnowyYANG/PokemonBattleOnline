@@ -11,6 +11,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
   {
     #region ids
     public const int ARENA_TRAP = 7;
+    public const int BAD_DREAMS = 8;
     public const int ZEN_MODE = 21;
     public const int DRY_SKIN = 25;
     public const int OVERCOAT = 27;
@@ -24,6 +25,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public const int MAGNET_PULL = 74;
     public const int MULTITYPE = 82;
     public const int NATURAL_CURE = 84;
+    public const int POISON_HEAL = 96;
     public const int RAIN_DISH = 102;
     public const int REGENERATOR = 104;
     public const int SAND_FORCE = 110;
@@ -33,6 +35,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public const int SHED_SKIN = 117;
     public const int SNOW_CLOAK = 125;
     public const int SOLAR_POWER = 127;
+    public const int STEADFAST = 133;
     public const int STURDY = 138;
     public const int TRACE = 152;
     #endregion
@@ -168,14 +171,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static void Pressure(DefContext def)
     {
       if (def.Defender.Pokemon.TeamId != def.AtkContext.Attacker.Pokemon.TeamId && def.Defender.Ability.Id == 99 && def.AtkContext.MoveProxy.PP > 0) --def.AtkContext.MoveProxy.PP;
-    }
-    /// <summary>
-    /// 已判断过Flinch
-    /// </summary>
-    public static void Steadfast(PokemonProxy pm)
-    {
-      if (pm.RaiseAbility(133))
-        pm.ChangeLv7D(pm, false, 0, 0, 0, 0, 1);
     }
     public static Modifier TintedLens(DefContext def)
     {
@@ -373,7 +368,24 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       int ab = sendout.OnboardPokemon.Ability;
       if (Trace(ab))
         foreach (var pm in sendout.Controller.Board[1 - sendout.Pokemon.TeamId].GetPokemons(sendout.OnboardPokemon.X - 1, sendout.OnboardPokemon.X + 1))
-          if (pm.Ability.Id == TRACE) pm.ChangeAbility(sendout.OnboardPokemon.Ability);
+          if (pm.RaiseAbility(TRACE))
+          {
+            pm.Controller.ReportBuilder.Add("Trace", sendout, ab);
+            pm.ChangeAbility(sendout.OnboardPokemon.Ability);
+          }
+    }
+    internal static void SlowStart(Controller Controller)
+    {
+      foreach (var pm in Controller.OnboardPokemons)
+        if (pm.Ability.Id == 123)
+        {
+          int turn = pm.OnboardPokemon.GetCondition<int>("SlowStart");
+          if (turn == Controller.TurnNumber)
+          {
+            pm.OnboardPokemon.RemoveCondition("SlowStart");
+            pm.AddReportPm("DeSlowStart");
+          }
+        }
     }
   }
 }

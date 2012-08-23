@@ -1,13 +1,15 @@
 class Gem(ItemE):
     def __new__(cls, id, type):
         return ItemE.__new__(cls, id, 'Gem')
-    
     def __init__(self, id, type):
         self.Type = type
-    
-    def CalculatingPowerModifier(self, atk):
+    def PowerModifier(self, atk):
         if atk.Type == self.Type:
-            Raise(self, atk.Attacker)
+            atk.RaiseItem = True
+            return 0x1800
+        return 0x1000
+    def RaiseImplement(self, pm, key):
+        pm.Controller.ReportBuilder.Add(UseItem('Gem', pm, self.Item.Id, pm.AtkContext.Move.Id))
 
 I(Gem(112, BattleType.Fire))
 I(Gem(113, BattleType.Water))

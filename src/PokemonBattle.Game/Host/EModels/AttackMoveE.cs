@@ -254,8 +254,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             if (!Moves.CheckTriAttack(def) && atk.RandomHappen(Move.Attachment.Probability)) d.AddState(atk);
             break;
         }
-        if (!def.Ability.InnerFocus() && (atk.RandomHappen(Move.FlinchProbability, true) || Abilities.Stench(def) || Items.CanAttackFlinch(def)))
-            d.OnboardPokemon.SetTurnCondition("Flinch", new Sp.Conditions.Flinch(d));
+        if (!def.Ability.InnerFocus() && (atk.RandomHappen(Move.FlinchProbability, true) || Abilities.Stench(def) || Items.CanAttackFlinch(def))) d.OnboardPokemon.SetTurnCondition("Flinch");
         Abilities.PoisonTouch(def);
       }
       d.Ability.Attacked(def);//此时破格不能无视

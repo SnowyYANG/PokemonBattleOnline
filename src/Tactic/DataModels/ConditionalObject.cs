@@ -32,9 +32,13 @@ namespace LightStudio.Tactic.DataModels
     }
     public T GetCondition<T>(string name)
     {
+      return GetCondition(name, default(T));
+    }
+    public T GetCondition<T>(string name, T defaultValue)
+    {
       object o;
       if (valueConditions.TryGetValue(name, out o) && o is T) return (T)o;
-      return default(T);
+      return defaultValue;
     }
     public void RemoveCondition(string name)
     {

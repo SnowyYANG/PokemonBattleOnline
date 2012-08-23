@@ -104,6 +104,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Frisk</a:Key><a:Value i:type="LogText"><text>{0:p}看破了{1:i}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>MoldBreaker</a:Key><a:Value i:type="LogText"><text>{0:p}的破格！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ReTarget</a:Key><a:Value i:type="LogText"><text>{0:p}将攻击吸引了过来！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>PoisonHeal</a:Key><a:Value i:type="LogText"><text>{0:p}吸收了毒液！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>WickedThief</a:Key><a:Value i:type="LogText"><text>夺走了{0:p}的{1:i}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Mummy</a:Key><a:Value i:type="LogText"><text>{0:p}的特性变成木乃伊了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeIllusion</a:Key><a:Value i:type="LogText"><text>{0:p}的幻影解除了！
@@ -126,6 +127,9 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Prepare467</a:Key><a:Value i:type="LogText"><text>{0:p}突然消失了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Prepare553</a:Key><a:Value i:type="LogText"><text>{0:p}被寒光笼罩！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Prepare554</a:Key><a:Value i:type="LogText"><text>{0:p}被寒气笼罩！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnEncore</a:Key><a:Value i:type="LogText"><text>{0:p}被鼓掌了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeEncore</a:Key><a:Value i:type="LogText"><text>{0:p}的鼓掌状态解除了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnGastroAcid</a:Key><a:Value i:type="LogText"><text>{0:p}的特性不起作用了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnTaunt</a:Key><a:Value i:type="LogText"><text>{0:p}被挑拨了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Taunt</a:Key><a:Value i:type="LogText"><text>{0:p}被挑拨不能使用{1:m}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeTaunt</a:Key><a:Value i:type="LogText"><text>{0:p}的挑拨解除了！
@@ -137,6 +141,10 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnAquaRing</a:Key><a:Value i:type="LogText"><text>水之环笼罩了{0:p}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>AquaRing</a:Key><a:Value i:type="LogText"><text>水之环回复了{0:p}的体力！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnFocusPunch</a:Key><a:Value i:type="LogText"><text>{0:p}的集中力提升了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnMagnetRise</a:Key><a:Value i:type="LogText"><text>{0:p}利用电磁力浮起来了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeMagnetRise</a:Key><a:Value i:type="LogText"><text>{0:p}的电磁力消失了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnIngrain</a:Key><a:Value i:type="LogText"><text>{0:p}扎下了根！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Ingrain</a:Key><a:Value i:type="LogText"><text>{0:p}从根吸取了养分！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnSubstitute</a:Key><a:Value i:type="LogText"><text>{0:p}的替身出现了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HasSubstitute</a:Key><a:Value i:type="LogText"><text>但是{0:p}的替身已经出现了……
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HurtSubstitute</a:Key><a:Value i:type="LogText"><text>{0:p}的替身承受了攻击！
@@ -156,6 +164,8 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>QuickItem</a:Key><a:Value i:type="LogText"><text>{0:p}使用了{1:i}使行动变快了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>MicleBerry</a:Key><a:Value i:type="LogText"><text>{0:p}使用了{1:i}使得下个使用的技能更容易命中了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ItemHurt</a:Key><a:Value i:type="LogText"><text>{0:p}因为{1:i}受到了伤害！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnCurse</a:Key><a:Value i:type="LogText"><text>{0:p}消减了自己的体力，向{1:i}下了诅咒！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Curse</a:Key><a:Value i:type="LogText"><text>{0:p}被诅咒了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnSkyDrop</a:Key><a:Value i:type="LogText"><text>{0:p}把{1:p}带到空中去了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeSkyDrop</a:Key><a:Value i:type="LogText"><text>{0:p}从自由降落中解脱了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnTelekinesis</a:Key><a:Value i:type="LogText"><text>{0:p}漂浮在空中！
@@ -186,7 +196,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeTrickRoom</a:Key><a:Value i:type="LogText"><text>扭曲的时空恢复了原状！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnToxicSpikes</a:Key><a:Value i:type="LogText"><text>{0}的队伍的脚下撒满了毒菱！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeToxicSpikes</a:Key><a:Value i:type="LogText"><text>{0}的队伍脚下的毒菱消失了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Gem</a:Key><a:Value i:type="LogText"><text>{0:i}提升了{1:m}的威力！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Gem</a:Key><a:Value i:type="LogText"><text>{1:i}提升了{2:m}的威力！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Unnerve</a:Key><a:Value i:type="LogText"><text>{0:t}的队伍因为紧张而吃不下树果了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Truant</a:Key><a:Value i:type="LogText"><text>{0:p}正在偷懒！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>AbChange</a:Key><a:Value i:type="LogText"><text>（{0:p}的特性从{1:a}变成了{2:a}）

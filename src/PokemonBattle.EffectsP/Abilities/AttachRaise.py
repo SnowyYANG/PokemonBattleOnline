@@ -30,7 +30,7 @@ class Intimidate(AbilityE):
     def Attach(self, pm):
         pms = []
         for p in pm.Controller.Board[1-pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
-            if p.CanChangeLv7D(pm, False, StatType.Atk, -1):
+            if p.CanChangeLv7D(pm, StatType.Atk, -1, False):
                 pms.append(p)
         if len(pms) > 0:
             self.Raise(pm)

@@ -17,22 +17,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       FSDD(c);
       Wish(c);
       PropertyChange(c);
-      AquaRing(c);
-      Ingrain(c);
-      LeechSeed(c);
-      PokemonState(c);
-      Nightmare(c);
+      HpRecover(c);
+      PmState(c);
       Curse(c);
       Trap(c);
-      Taunt(c);
-      Encore(c);
-      Disable(c);
-      MagnetRise(c);
-      Telekinesis(c);
-      HealBlock(c);
-      Embargo(c);
-      Yawn(c);
-      PerishSong(c);
+      PokemonCondition(c);
       FieldCondition(c);
       BoardCondition(c);
       Pokemon(c);
@@ -145,70 +134,120 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
     }
     //6.0 Aqua Ring
-    private void AquaRing(Controller c)
+    //7.0 Ingrain
+    //8.0 [unfinished]Leech Seed
+    private void HpRecover(Controller c)
     {
       foreach (var pm in c.OnboardPokemons)
-        if (pm.OnboardPokemon.HasCondition("AquaRing")) pm.HpRecoverByOneNth(16, "AquaRing");
-    }
-    //7.0 Ingrain
-    private void Ingrain(Controller c)
-    {
-    }
-    //8.0 Leech Seed
-    private void LeechSeed(Controller c)
-    {
+        if (!pm.OnboardPokemon.HasCondition("HealBlock") && pm.OnboardPokemon.HasCondition("AquaRing"))
+        {
+          int hp = pm.Pokemon.Hp.Origin / 16;
+          if (pm.Item.BigRoot()) hp = (int)(hp * 1.3);
+          pm.HpRecover(hp, "AquaRing");
+        }
+      foreach (var pm in c.OnboardPokemons)
+        if (!pm.OnboardPokemon.HasCondition("HealBlock") && pm.OnboardPokemon.HasCondition("Ingrain"))
+        {
+          int hp = pm.Pokemon.Hp.Origin / 16;
+          if (pm.Item.BigRoot()) hp = (int)(hp * 1.3);
+          pm.HpRecover(hp, "Ingrain");
+        }
     }
     //9.0 (bad) poison damage, burn damage, Poison Heal
-    private void PokemonState(Controller c)
-    {
-    }
     //9.1 Nightmare
-    private void Nightmare(Controller c)
+    private void PmState(Controller c)
     {
+      foreach(var pm in c.OnboardPokemons)
+        switch (pm.State)
+        {
+          case PokemonState.BadlyPoisoned:
+            if (!pm.FullHp && pm.RaiseAbility(As.POISON_HEAL)) pm.HpRecoverByOneNth(8, "PoisonHeal");
+            else pm.EffectHurtByOneNth(8, "Poisoned");
+            break;
+          case PokemonState.Poisoned:
+            if (!pm.FullHp && pm.RaiseAbility(As.POISON_HEAL)) pm.HpRecoverByOneNth(8, "PoisonHeal");
+            else
+            {
+              int turn = 1 + c.TurnNumber - pm.OnboardPokemon.GetCondition<int>("Poison");
+              int hp = pm.Pokemon.Hp.Origin / 16;
+              if (hp == 0) hp = 1;
+              hp *= (turn > 15 ? 15 : turn);
+              pm.EffectHurtByOneNth(8, "Poisoned");
+            }
+            break;
+          case PokemonState.Burned:
+            pm.EffectHurtByOneNth(8, "Burned");
+            break;
+          case PokemonState.Sleeping:
+            if (pm.OnboardPokemon.HasCondition("Nightmare")) pm.EffectHurtByOneNth(4, "Nightmare");
+            break;
+        }
     }
     //10.0 Curse (from a Ghost-type)
     private void Curse(Controller c)
     {
+      foreach (var pm in c.OnboardPokemons)
+        if (pm.OnboardPokemon.HasCondition("Curse")) pm.EffectHurtByOneNth(4, "Curse");
     }
     //11.0 Bind, Wrap, Fire Spin, Clamp, Whirlpool, Sand Tomb, Magma Storm
     private void Trap(Controller c)
     {
+      foreach (var pm in c.OnboardPokemons)
+      {
+        dynamic trap = pm.OnboardPokemon.GetCondition<dynamic>("Trap");
+        if (trap != null)
+          if (trap.Turn == c.TurnNumber)
+          {
+            pm.OnboardPokemon.RemoveCondition("Trap");
+            pm.AddReportPm("TrapFree", trap.Move);
+          }
+          else pm.EffectHurtByOneNth(trap.BindingBand ? 4 : 8, "TrapHurt", trap.Move);
+      }
     }
     //12.0 Taunt ends
-    private void Taunt(Controller c)
-    {
-    }
     //13.0 Encore ends
-    private void Encore(Controller c)
-    {
-    }
-    //14.0 Disable ends, Cursed Body ends
-    private void Disable(Controller c)
-    {
-    }
+    //14.0 [unfinished]Disable ends, Cursed Body ends
     //15.0 Magnet Rise ends
-    private void MagnetRise(Controller c)
-    {
-    }
     //16.0 Telekinesis ends
-    private void Telekinesis(Controller c)
-    {
-    }
     //17.0 Heal Block ends
-    private void HealBlock(Controller c)
-    {
-    }
     //18.0 Embargo ends
-    private void Embargo(Controller c)
-    {
-    }
     //19.0 Yawn
-    private void Yawn(Controller c)
-    {
-    }
     //20.0 Perish Song
-    private void PerishSong(Controller c)
+    private void PokemonCondition(Controller c)
     {
+      foreach (var pm in c.OnboardPokemons)
+      {
+        int turn = pm.OnboardPokemon.GetCondition("Taunt", -1);
+        if (turn == 0)
+        {
+          pm.OnboardPokemon.RemoveCondition("Taunt");
+          pm.AddReportPm("Encore");
+        }
+      } 
+      foreach (var pm in c.OnboardPokemons)
+      {
+        dynamic obj = pm.OnboardPokemon.GetCondition<dynamic>("Encore");
+        if (obj != null && obj.Turn == 0)
+        {
+          pm.OnboardPokemon.RemoveCondition("Encore");
+          pm.AddReportPm("DeEncore");
+        }
+      }
+      //14.0 [unfinished]Disable ends, Cursed Body ends
+      foreach (var pm in c.OnboardPokemons)
+      {
+        int turn = pm.OnboardPokemon.GetCondition<int>("MagnetRise");
+        if (turn == c.TurnNumber)
+        {
+          pm.OnboardPokemon.RemoveCondition("MagnetRise");
+          pm.AddReportPm("DeMagnetRise");
+        }
+      }
+      //16.0 Telekinesis ends
+      //17.0 Heal Block ends
+      //18.0 Embargo ends
+      //19.0 Yawn
+      //20.0 Perish Song
     }
     //21.0 Reflect ends
     //21.1 Light Screen ends

@@ -50,6 +50,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new BHappy(218));
       M(new HiddenPower(237));
       M(new GustTwister(239));
+      M(new SpRangeMove(250, CoordY.Water, true));//whirlpool
       M(new Spout(284));
       M(new Leap(291, CoordY.Water));//dives
       M(new Spout(323));
@@ -71,6 +72,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Thunder(542));//Hurricane
 
       EffectsService.Register(new EndTurn());
+      EffectsService.Register(new CanExecute());
     }
   }
 }

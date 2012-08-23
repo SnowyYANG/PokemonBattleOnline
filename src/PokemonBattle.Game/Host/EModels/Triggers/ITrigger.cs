@@ -5,8 +5,7 @@ using System.Text;
 
 namespace LightStudio.PokemonBattle.Game.Host.Triggers
 {
-  public interface IEndTurn : ITrigger
+  public interface ITrigger
   {
-    void Execute(Controller controller);
   }
 }

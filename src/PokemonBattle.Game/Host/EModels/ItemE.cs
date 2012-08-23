@@ -13,6 +13,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public ItemE(int id, string logKey = null)
     {
       Item = DataService.GetItem(id);
+      LogKey = logKey;
     }
     
     int IItemE.Id
@@ -27,16 +28,15 @@ namespace LightStudio.PokemonBattle.Game.Host
     public virtual Modifier PowerModifier(AtkContext atk) { return 0x1000; }
     public virtual int GetCtLvRevise(PokemonProxy pm) { return 0; }
 
-    protected virtual void RaiseImpl(PokemonProxy pm, string key)
+    protected virtual void RaiseImplement(PokemonProxy pm, string key)
     {
-      if (LogKey != null)
-        pm.Controller.ReportBuilder.Add(new GameEvents.UseItem(LogKey, pm, Item));
+      if (LogKey != null) pm.Controller.ReportBuilder.Add(new GameEvents.UseItem(LogKey, pm, Item.Id));
     }
     public void Raise(PokemonProxy pm, string key) //不必包含虫食、啄食、投掷
     {
       if (pm.Pokemon.Item == Item) //奇妙的单实例道具
       {
-        RaiseImpl(pm, key ?? LogKey);
+        RaiseImplement(pm, key ?? LogKey);
         if (Item.Type != ItemType.Normal) pm.ConsumeItem();
       }
     }

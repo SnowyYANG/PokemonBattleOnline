@@ -32,6 +32,8 @@ namespace LightStudio.PokemonBattle.Game.Host
       tile.Pokemon = this;
       tile.WillSendoutPokemonIndex = Tile.NOPM_INDEX;
       OnboardPokemon = new OnboardPokemon(Pokemon, tile.X);
+      if (State == PokemonState.Sleeping) OnboardPokemon.SetCondition("Sleeping", Controller.GetRandomInt(2, 4));
+      else if (State == PokemonState.BadlyPoisoned) OnboardPokemon.SetCondition("Poison", Controller.TurnNumber);
       Controller.OnboardPokemons.Add(this);
       Abilities.Illusion(this);
     }
@@ -81,8 +83,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       set
       {
         Pokemon.State = value;
-        if (State != PokemonState.Faint)
-          AddReport(new GameEvents.StateChange(this));
+        if (State != PokemonState.Faint) AddReport(new GameEvents.StateChange(this));
       }
     }
     public PokemonAction Action
@@ -142,6 +143,11 @@ namespace LightStudio.PokemonBattle.Game.Host
       OnboardPokemon.Ability = ab;
       AddReport(new AbilityEvent(this, oldAb, ab));
       Ability.Attach(this);
+    }
+    public void ChangeItem(Item item)
+    {
+      Pokemon.Item = item;
+      Item.Attach(this);
     }
     public void BuildAtkContext(MoveType move)
     {
@@ -209,21 +215,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     internal bool CanExecute()
     {
       OnboardPokemon.CoordY = CoordY.Plate;
-      return
-        OnboardPokemon.GetCondition("Sleeping").CanExecute() &&
-        Sp.Conditions.Frozen.CanExecute(this) &&
-        //懒惰
-        OnboardPokemon.GetCondition("Disable").CanExecute() &&
-        OnboardPokemon.GetCondition("Imprison").CanExecute() &&
-        OnboardPokemon.GetCondition("HealBlock").CanExecute() &&
-        //混乱
-        OnboardPokemon.GetCondition("Confused").CanExecute() &&
-        //害怕，不屈之心
-        OnboardPokemon.GetCondition("Flinch").CanExecute() &&
-        //挑拨 
-        //重力 
-        //着迷 
-        Sp.Conditions.Paralyzed.CanExecute(this);
+      return EffectsService.CanExecute.Execute(this);
     }
     public bool CanAddState(PokemonProxy by, AttachedState state, bool showFail)
     {
@@ -246,7 +238,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           return State == PokemonState.Normal && Ability.CanAddState(this, by, state, showFail);
         default:
           bool ok = OnboardPokemon.HasCondition(state.ToString());
-          if (ok && showFail) AddReport(fail);
+          if (!ok && showFail) AddReport(fail);
           return ok;
       }
     }
@@ -313,7 +305,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (Action == PokemonAction.Debuting)
       {
         Ability.Attach(this);//特性
-        Items.AirBalloon(this);//道具
+        Items.AirBalloon(this); Item.Attach(this);//道具
         Action = PokemonAction.Done;
       }
     }
@@ -376,7 +368,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     #endregion
 
     #region ChangeHp
-    internal int MoveHurt(int damage)
+    public int MoveHurt(int damage)
     {
       if (damage >= Hp)
       {
@@ -456,7 +448,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         Controller.Withdraw(this, false);
         State = PokemonState.Faint;
-        Controller.Board[Pokemon.TeamId].SetCondition("LastFaintTurn", Controller.TurnNumber);
+        Controller.Board[Pokemon.TeamId].SetCondition("FaintTurn", Controller.TurnNumber);
         return true;
       }
       return false;
@@ -553,19 +545,21 @@ namespace LightStudio.PokemonBattle.Game.Host
           else
           {
             State = PokemonState.BadlyPoisoned;
-            OnboardPokemon.SetCondition("BadlyPoison", new Sp.Conditions.BadlyPoison(this));
+            OnboardPokemon.SetCondition("BadlyPoison", Controller.ReportBuilder.TurnNumber);
           }
           goto POKEMON_STATE;
         case AttachedState.Sleep:
-          OnboardPokemon.SetCondition("Sleeping", new Sp.Conditions.Sleeping(this, turn));
+          OnboardPokemon.SetCondition("Sleeping", turn == 0 ? Controller.GetRandomInt(2, 4) : turn);
           goto POKEMON_STATE;
         case AttachedState.Confusion:
           goto DONE;
         case AttachedState.Infatuation:
           goto DONE;
         case AttachedState.Trapped:
+          OnboardPokemon.SetCondition("Trap", new { Pm = by, Turn = Controller.TurnNumber + turn - 1, Move = by.AtkContext.Move, Band = by.Item.BindingBand() });
           goto DONE;
         case AttachedState.Nightmare:
+          OnboardPokemon.SetCondition("Nightmare");
           goto DONE;
         case AttachedState.Torment:
           goto DONE;
@@ -584,6 +578,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         case AttachedState.PerishSong:
           goto DONE;
         case AttachedState.Ingrain:
+          OnboardPokemon.SetCondition("Ingrain");
           goto DONE;
         default:
           System.Diagnostics.Debugger.Break();
@@ -594,21 +589,29 @@ namespace LightStudio.PokemonBattle.Game.Host
     DONE:  
       Item.StateAdded(this, state);
     }
-    public void AddState(PokemonProxy by, AttachedState state, bool showFail, int turn = 0)
+    public bool AddState(PokemonProxy by, AttachedState state, bool showFail, int turn = 0)
     {
-      if (CanAddState(by, state, showFail)) AddStateImplement(by, state, turn);
+      if (CanAddState(by, state, showFail))
+      {
+        AddStateImplement(by, state, turn);
+        return true;
+      }
+      return false;
     }
-    public void AddState(AtkContext atk)
+    public bool AddState(AtkContext atk)
     {
       MoveAttachment attachment = atk.Move.Attachment;
-      if (atk.RandomHappen(attachment.Probability) && CanAddState(atk.Attacker, attachment.State, atk.Move.Category == MoveCategory.Status))
+      if ((attachment.Probability == 0 || atk.RandomHappen(attachment.Probability)) && CanAddState(atk.Attacker, attachment.State, atk.Move.Category == MoveCategory.Status))
       {
         int turn;
         #warning 特性道具对回合影响
-        if (attachment.MinTurn != attachment.MaxTurn) turn = Controller.GetRandomInt(attachment.MinTurn, attachment.MaxTurn);
+        if (attachment.State == AttachedState.Trapped && atk.Attacker.Item.GripClaw()) turn = 8;
+        else if (attachment.MinTurn != attachment.MaxTurn) turn = Controller.GetRandomInt(attachment.MinTurn, attachment.MaxTurn);
         else turn = attachment.MinTurn;
         AddStateImplement(atk.Attacker, attachment.State, turn);
+        return true;
       }
+      return false;
     }
   }
 }

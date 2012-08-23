@@ -139,7 +139,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         foreach (DefContext d in targets)
           if (d.Defender != atk.Attacker && d.Defender.OnboardPokemon.HasCondition("Substitute"))
           {
-            d.Defender.AddReportPm("Fail");
+            Fail(d.Defender);
             fails.Add(d);
           }
         targets.Remove(fails);
@@ -221,6 +221,10 @@ namespace LightStudio.PokemonBattle.Game.Host
         (canAtk != BattleType.Invalid && def.Defender.OnboardPokemon.HasType(canAtk) || def.Defender.Item.RingTarget() || def.AtkContext.Type == BattleType.Ground ? HasEffect_Ground(def) : HasEffect_NonGround(def)) &&
         (Move.Class != MoveInnerClass.OHKO || (def.Defender.Pokemon.Lv <= def.AtkContext.Attacker.Pokemon.Lv && !def.Defender.RaiseAbility(Abilities.STURDY)));
     }
+    protected virtual MoveRange GetRange(AtkContext atk)
+    {
+      return Move.Range;
+    }
     protected virtual IEnumerable<Tile> GetRangeTiles(AtkContext atk)
     {
       Tile select = atk.Attacker.SelectedTarget;
@@ -229,7 +233,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       int team = atk.Attacker.Pokemon.TeamId;
       int rTeam = 1 - team;
       int x = atk.Attacker.OnboardPokemon.X;
-      switch (Move.Range)
+      switch (GetRange(atk))
       {
         case MoveRange.UserField: //do nothing
         case MoveRange.EnemyField: //do nothing
@@ -318,6 +322,11 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     #endregion
 
+    protected void Fail(PokemonProxy defender)
+    {
+      if (defender.Controller.Game.Settings.Mode.NeedTarget()) defender.AddReportPm("Fail");
+      else defender.Controller.ReportBuilder.Add("Fail0");
+    }
     protected virtual void MoveEnding(AtkContext atk)
     {
     }

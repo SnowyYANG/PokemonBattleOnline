@@ -17,6 +17,10 @@ namespace LightStudio.PokemonBattle.Game.Host
       turnConditions = new HashSet<string>();
     }
 
+    public bool SetCondition(Condition condition)
+    {
+      return base.SetCondition(condition.Name, condition);
+    }
     public bool SetTurnCondition(string name, object value = null)
     {
       if (base.SetCondition(name, value))
@@ -25,6 +29,10 @@ namespace LightStudio.PokemonBattle.Game.Host
         return true;
       }
       return false;
+    }
+    public bool SetTurnCondition(Condition condition)
+    {
+      return SetTurnCondition(condition.Name, condition);
     }
     public Condition GetCondition(string name)
     {

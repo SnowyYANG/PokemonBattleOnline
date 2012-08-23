@@ -118,14 +118,17 @@ namespace LightStudio.PokemonBattle.Game.Host
     #endregion
 
     #region triggers
-    private static IEndTurn endTurn;
-    public static void EndTurn(Controller controller)
+    public static IEndTurn EndTurn
+    { get; private set; }
+    public static ICanExecute CanExecute
+    { get; private set; }
+    public static void Register(ITrigger trigger)
     {
-      endTurn.Execute(controller);
-    }
-    public static void Register(IEndTurn trigger)
-    {
-      if (unlocked && trigger != null) endTurn = trigger;
+      if (unlocked && trigger != null)
+      {
+        if (trigger is IEndTurn) EndTurn = (IEndTurn)trigger;
+        else if (trigger is ICanExecute) CanExecute = (ICanExecute)trigger;
+      }
     }
     #endregion
   }

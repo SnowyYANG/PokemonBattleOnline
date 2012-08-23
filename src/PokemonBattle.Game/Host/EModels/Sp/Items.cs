@@ -20,13 +20,21 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       pm.Item.Raise(pm, key);
     }
 
-    public static bool BigRoot(this IItemE item)
+    public static bool GripClaw(this IItemE item)
     {
-      return item.Id == 73;
+      return item.Id == 63;
     }
     public static bool ShedShell(this IItemE item)
     {
       return item.Id == 72;
+    }
+    public static bool BigRoot(this IItemE item)
+    {
+      return item.Id == 73;
+    }
+    public static bool BindingBand(this IItemE item)
+    {
+      return item.Id == 108;
     }
 
     public static void WhiteHerb(PokemonProxy pm)

@@ -200,20 +200,23 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember]
     int Pm;
     [DataMember(EmitDefaultValue = false)]
-    int Item;
+    int Arg1;
+    [DataMember(EmitDefaultValue = false)]
+    int Arg2;
 
-    public UseItem(string logKey, PokemonProxy pm, Item i)
+    public UseItem(string logKey, PokemonProxy pm, int arg1 = 0, int arg2 = 0)
     {
       Key = logKey;
       Pm = pm.Id;
-      if (i != null) Item = i.Id;
+      Arg1 = arg1;
+      Arg2 = arg2;
     }
 
     protected override void Update()
     {
       var pm = GetPokemon(Pm);
       if (Key == "PowerHerb") pm.ChangePosition(pm.Position.X, CoordY.Plate);
-      AppendGameLog(Key, Pm, Item);
+      AppendGameLog(Key, Pm, Arg1, Arg2);
     }
     public override void Update(SimGame game)
     {

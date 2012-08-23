@@ -50,6 +50,8 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     internal void BeginTurn()
     {
+      Sp.Abilities.SlowStart(Controller);
+      Board.ClearAllElementsTurnConditions();
       bool needInput = false;
       foreach (PokemonProxy p in OnboardPokemons)
         needInput |= p.CheckNeedInput();
@@ -97,7 +99,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     private void EndTurnEffects()
     {
       SortTiles();
-      EffectsService.EndTurn(Controller);
+      EffectsService.EndTurn.Execute(Controller);
       EndTurnCheckForInput();
     }
     private void EndTurnCheckForInput()

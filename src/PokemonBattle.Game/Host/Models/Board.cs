@@ -43,7 +43,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public IEnumerable<Tile> Tiles
     { get { return _tiles; } }
     public Field this[int team]
-    { 
+    {
       get
       {
         if (team >= 0 && team < fields.Length)
@@ -52,7 +52,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
     }
     public Tile this[int team, int x]
-    { 
+    {
       get
       {
         if (team >= 0 && team < TeamCount && x >= 0 && x < XBound)
@@ -62,5 +62,16 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public Weather Weather
     { get; set; }
+
+    internal void ClearAllElementsTurnConditions()
+    {
+      ClearTurnCondition();
+      foreach (var f in fields) f.ClearTurnCondition();
+      foreach (var t in Tiles)
+      {
+        if (t.Pokemon != null) t.Pokemon.OnboardPokemon.ClearTurnCondition();
+        t.ClearTurnCondition();
+      }
+    }
   }
 }
