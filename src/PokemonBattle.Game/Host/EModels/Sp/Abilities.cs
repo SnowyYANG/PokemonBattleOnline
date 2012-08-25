@@ -84,10 +84,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       return ability.Id == 30;
     }
-    public static bool Gluttony(this IAbilityE ability)
-    {
-      return ability.Id == 40;
-    }
     public static bool Guts(this IAbilityE ability)
     {
       return ability.Id == 41;
@@ -265,7 +261,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     /// <returns></returns>
     public static bool Sturdy(PokemonProxy pm)
     {
-      if (pm.FullHp && pm.RaiseAbility(STURDY))
+      if (pm.Hp == pm.Pokemon.Hp.Origin && pm.RaiseAbility(STURDY))
       {
         pm.AddReportPm("Sturdy");
         return true;
@@ -395,6 +391,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
             pm.AddReportPm("DeSlowStart");
           }
         }
+    }
+    public static bool Gluttony(PokemonProxy pm)
+    {
+      return pm.Hp << 2 < pm.Pokemon.Hp.Origin || (pm.Ability.Id == 40 && pm.Hp << 1 < pm.Pokemon.Hp.Origin);
     }
   }
 }

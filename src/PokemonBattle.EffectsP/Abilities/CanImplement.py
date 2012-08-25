@@ -28,12 +28,13 @@ class NoEffectWithAbsorb(AbilityE):
         if d.AtkContext.Type == self.Type:
             der = d.Defender
             self.Raise(der)
-            if der.FullHp:
+            if der.CanHpRecover:
                 der.AddReportPm('NoEffect', None, None)
             else:
                 der.HpRecoverByOneNth(4)
             return False
         return True
+A(NoEffectWithAbsorb(25, BattleType.Water))#dry skin
 A(NoEffectWithAbsorb(159, BattleType.Electric)) #volt absorb
 A(NoEffectWithAbsorb(160, BattleType.Water)) #water absorb
 

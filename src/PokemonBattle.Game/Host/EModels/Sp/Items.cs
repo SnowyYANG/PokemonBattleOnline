@@ -21,7 +21,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
 
     public static void RaiseItem(this PokemonProxy pm, string key = null)
     {
-      pm.Item.Raise(pm, key);
+      pm.UsingItem = false;
+      EffectsService.GetItem(pm.Pokemon.Item).Raise(pm, key);
     }
 
     public static bool GripClaw(this IItemE item)
@@ -39,6 +40,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static bool BindingBand(this IItemE item)
     {
       return item.Id == 108;
+    }
+    public static bool Mail(this Item item)
+    {
+      return item.Id == 194;
     }
 
     public static void WhiteHerb(PokemonProxy pm)
@@ -116,7 +121,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static bool Remain1Hp(PokemonProxy pm)
     {
       const int FOCUS_BAND = 15, FOCUS_SASH = 52;
-      if ((pm.Item.Id == FOCUS_BAND && pm.Controller.OneNth(10)) || (pm.Item.Id == FOCUS_SASH && pm.FullHp))
+      if ((pm.Item.Id == FOCUS_BAND && pm.Controller.OneNth(10)) || (pm.Item.Id == FOCUS_SASH && pm.Hp == pm.Pokemon.Hp.Origin))
       {
         pm.RaiseItem("FocusItem");
         return true;
@@ -167,7 +172,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static bool MicleBerry(AtkContext atk)
     {
       PokemonProxy pm = atk.Attacker;
-      if (pm.Item.Id == 189 && pm.Pokemon.Hp.Percentage < (pm.Ability.Gluttony()? 0.5 : 0.25))
+      if (pm.Item.Id == 189 && Abilities.Gluttony(pm))
       {
         RaiseItem(pm, "MicleBerry");
         return true;

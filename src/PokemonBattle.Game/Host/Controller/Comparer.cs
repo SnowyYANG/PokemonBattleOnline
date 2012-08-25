@@ -32,11 +32,10 @@ namespace LightStudio.PokemonBattle.Game.Host
           return bP - aP;
       }
 
-      {
+      {//1=先制爪/先制果发动 0=无道具 -1=后攻尾/满腹香炉发动<--同时带这个慢的先出 只计算不发动
         int aItem = a.Item.CompareValue(a);
         int bItem = b.Item.CompareValue(b);
-        if (aItem != bItem)//1=先制爪/先制果发动 0=无道具 -1=后攻尾/满腹香炉发动<--同时带这个慢的先出
-          return (bItem - aItem);
+        if (aItem != bItem) return (bItem - aItem);
         if (aItem == -1) aS = bS = -1;
       }
 

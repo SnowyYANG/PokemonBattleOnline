@@ -51,6 +51,7 @@
     </Compile>
     <Compile Include="Abilities\Frisk.cs" />
     <Compile Include="Abilities\Illusion.cs" />
+    <Compile Include="Items\ReHurtBerry.cs" />
     <Compile Include="Items\StickyBarb.cs" />
     <Compile Include="Moves\Attack\SpBasepower\Acrobatics.cs" />
     <Compile Include="Moves\Attack\SpBasepower\AHappy.cs" />

@@ -18,7 +18,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     public int CTLv;
     public bool MeFirst;
     public int ActualHits; //当前攻击次数，包含多回合攻击与连续攻击技能，从1开始数
-    public bool RaiseItem;
     public Tile EjectButton;
     public dynamic Attachment;
 
@@ -66,7 +65,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     /// bit operation, -2, -1, 0, 1, 2
     /// </summary>
     public int EffectRevise;
-    public bool RaiseItem;
     
     internal DefContext(AtkContext a, PokemonProxy pm)
     {

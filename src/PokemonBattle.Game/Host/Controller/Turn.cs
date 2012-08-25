@@ -34,6 +34,8 @@ namespace LightStudio.PokemonBattle.Game.Host
         OnboardPokemons[j] = temp;
       }
       OnboardPokemons = new List<PokemonProxy>(OnboardPokemons.OrderBy((pm) => pm, comparer));
+      foreach (var pm in OnboardPokemons)
+        if (pm.UsingItem) Sp.Items.RaiseItem(pm);
     }
     private void SortTiles()
     {

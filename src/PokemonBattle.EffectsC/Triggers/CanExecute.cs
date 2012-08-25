@@ -21,12 +21,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         pm.OnboardPokemon.GetCondition("Disable").CanExecute() &&
         Imprison(pm) &&
         pm.OnboardPokemon.GetCondition("HealBlock").CanExecute() &&
-          //混乱
         Confuse(pm) &&
         Flinch(pm) &&
           //挑拨 
-          //重力 
-          //着迷 
+          //重力  
+        Infatuation(pm) &&
         Paralyzed(pm);
     }
     private void AddResetYReport(PokemonProxy p, string key)
@@ -111,6 +110,20 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         AddResetYReport(pm, "Flinch");
         if (pm.RaiseAbility(As.STEADFAST)) pm.ChangeLv7D(pm, false, 0, 0, 0, 0, 1);
         return false;
+      }
+      return true;
+    }
+    private bool Infatuation(PokemonProxy p)
+    {
+      var pm = p.OnboardPokemon.GetCondition<PokemonProxy>("Infatuation");
+      if (pm != null)
+      {
+        p.AddReportPm("Infatuation", pm);
+        if (p.Controller.RandomHappen(50))
+        {
+          p.AddReportPm("InfatuationWork");
+          return false;
+        }
       }
       return true;
     }

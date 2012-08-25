@@ -14,22 +14,22 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Items
   {
     public StickyBarbEvent(PokemonProxy defender, PokemonProxy attacker)
     {
-      A = defender.Id;
-      B = attacker.Id;
+      D = defender.Id;
+      A = attacker.Id;
     }
     
     [DataMember]
-    int A; //lost stickybarb
+    int A; //get stickybarb
     [DataMember]
-    int B; //get stickybarb
+    int D; //lost stickybarb
     
     public override void Update(SimGame game)
     {
-      var a = GetPokemon(game, A);
+      var a = GetPokemon(game, D);
       if (a != null) a.Item = null;
       else
       {
-        var b = GetPokemon(game, B);
+        var b = GetPokemon(game, A);
         b.Item = Data.DataService.GetItem(65);
       }
     }

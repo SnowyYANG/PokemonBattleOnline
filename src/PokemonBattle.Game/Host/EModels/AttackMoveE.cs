@@ -36,7 +36,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         atk.ActualHits++;
         if (Move.Class != MoveInnerClass.OHKO)
           foreach (DefContext d in atk.Targets) CalculateDamage(d);
-        if (atk.RaiseItem) atk.Attacker.RaiseItem();
+        if (aer.UsingItem) atk.Attacker.RaiseItem();
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
       }
@@ -80,7 +80,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         if (!allSub)
         {
           foreach (DefContext d in defs)
-            if (d.RaiseItem) d.Defender.RaiseItem();
+            if (d.Defender.UsingItem) d.Defender.RaiseItem();
           MoveHurts e = new MoveHurts();
           a.Controller.ReportBuilder.Add(e);
           foreach (DefContext d in defs) d.Defender.MoveHurt(d);
@@ -128,7 +128,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         if (aer.OnboardPokemon.HasCondition("FocusEnergy")) atk.CTLv += 2;
         if (aer.Ability.SuperLuck()) atk.CTLv++;
-        atk.CTLv += aer.Item.GetCtLvRevise(aer);
+        atk.CTLv += aer.Item.CtLvRevise(aer);
         if (atk.CTLv > 4) atk.CTLv = 4;
       }
       if (!(c.Board[def.Defender.Pokemon.TeamId].HasCondition("LuckyChant") || def.Ability.CannotBeCted()))

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game.Host.Sp;
+using LightStudio.PokemonBattle.Game.GameEvents;
 using As = LightStudio.PokemonBattle.Game.Host.Sp.Abilities;
 using Is = LightStudio.PokemonBattle.Game.Host.Sp.Items;
 
@@ -57,7 +58,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
               int ab = pm.Ability.Id;
               if (ab == As.ICE_BODY)
               {
-                if (!pm.FullHp)
+                if (pm.CanHpRecover)
                 {
                   pm.RaiseAbility();
                   pm.HpRecoverByOneNth(16);
@@ -73,7 +74,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             break;
           case Game.Weather.HeavyRain:
             foreach (var pm in c.OnboardPokemons)
-              if (!pm.FullHp)
+              if (pm.CanHpRecover)
                 if (pm.RaiseAbility(As.RAIN_DISH)) pm.HpRecoverByOneNth(16);
                 else if (pm.RaiseAbility(As.DRY_SKIN)) pm.HpRecoverByOneNth(8);
             break;
@@ -172,11 +173,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         switch (pm.State)
         {
           case PokemonState.BadlyPoisoned:
-            if (!pm.FullHp && pm.RaiseAbility(As.POISON_HEAL)) pm.HpRecoverByOneNth(8, "PoisonHeal");
+            if (pm.CanHpRecover && pm.RaiseAbility(As.POISON_HEAL)) pm.HpRecoverByOneNth(8, "PoisonHeal");
             else pm.EffectHurtByOneNth(8, "Poisoned");
             break;
           case PokemonState.Poisoned:
-            if (!pm.FullHp && pm.RaiseAbility(As.POISON_HEAL)) pm.HpRecoverByOneNth(8, "PoisonHeal");
+            if (pm.CanHpRecover && pm.RaiseAbility(As.POISON_HEAL)) pm.HpRecoverByOneNth(8, "PoisonHeal");
             else
             {
               int turn = 1 + c.TurnNumber - pm.OnboardPokemon.GetCondition<int>("Poison");
@@ -277,8 +278,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     //21.4 Tailwind ends
     //21.5 Lucky Chant ends
     //21.6 [pass] Water Pledge + Fire Pledge ends, Fire Pledge + Grass Pledge ends, Grass Pledge + Water Pledge ends
+    private void FieldCondition(Field f)
+    {
+    }
     private void FieldCondition(Controller c)
     {
+      FieldCondition(c.Board[0]);
+      FieldCondition(c.Board[1]);
     }
     //22.0 [unfinished] Gravity ends
     //23.0 Trick Room ends
@@ -356,14 +362,16 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             {
               pm.Pokemon.State = PokemonState.BadlyPoisoned;
               pm.OnboardPokemon.SetCondition("BadlyPoison", c.TurnNumber);
-              pm.AddReportPm("EnBadlyPoisoned2", Is.TOXIC_ORB);
+              var e = new StateChange(pm) { Item = Is.TOXIC_ORB };
+              c.ReportBuilder.Add(e);
             }
             break;
           case Is.FLAME_ORB:
             if (pm.CanAddState(pm, AttachedState.Burn, false))
             {
               pm.Pokemon.State = PokemonState.Burned;
-              pm.AddReportPm("EnBurned2", Is.FLAME_ORB);
+              var e = new StateChange(pm) { Item = Is.FLAME_ORB };
+              c.ReportBuilder.Add(e);
             }
             break;
           case Is.STICKY_BARB:

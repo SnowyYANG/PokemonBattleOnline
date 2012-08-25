@@ -26,6 +26,11 @@ namespace LightStudio.PokemonBattle.Game.Host
           foreach (var d in atk.Targets) d.Defender.ChangeLv7D(atk);
           break;
         case MoveInnerClass.HpRecover:
+          foreach (var d in atk.Targets)
+          {
+            if (d.Defender.Hp == d.Defender.Pokemon.Hp.Origin) d.Defender.AddReportPm("FullHp"); //不在场和濒死都是不可能的
+            else d.Defender.HpRecover(d.Defender.Pokemon.Hp.Origin * atk.Move.MaxHpPercentage / 100);
+          }
           break;
         case MoveInnerClass.ConfusionWithLv7DChange:
           break;

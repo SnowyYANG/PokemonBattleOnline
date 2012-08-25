@@ -77,6 +77,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       A(new Illusion(56));
 
       I(new StickyBarb(65));
+      I(new ReHurtBerry(191, MoveCategory.Physical));
+      I(new ReHurtBerry(192, MoveCategory.Special));
 
       EffectsService.Register(new EndTurn());
       EffectsService.Register(new CanExecute());

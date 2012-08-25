@@ -32,14 +32,21 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="Abilities\Accuracy.py" />
-    <None Include="Abilities\ADSModifiers.py" />
+    <None Include="Abilities\ADSModifier.py" />
     <None Include="Abilities\AttachRaise.py" />
     <None Include="Abilities\Attacked.py" />
     <None Include="Abilities\CanImplement.py" />
     <None Include="Abilities\CantXXX.py" />
     <None Include="Abilities\PowerModifier.py" />
+    <None Include="Items\ADSModifier.py" />
     <None Include="Items\Attacked.py" />
-    <None Include="Items\Gem.py" />
+    <None Include="Items\CompareValue.py" />
+    <None Include="Items\CtLvRevise.py" />
+    <None Include="Items\GemAntiberry.py" />
+    <None Include="Items\HpRecover.py" />
+    <None Include="Items\Lv5DUp.py" />
+    <None Include="Items\PowerModifier.py" />
+    <None Include="Items\StateAdded.py" />
     <None Include="Moves\Attack\Blizzard.py" />
     <None Include="Moves\Attack\SpDamage.py" />
     <None Include="Moves\Attack\SpPower.py" />

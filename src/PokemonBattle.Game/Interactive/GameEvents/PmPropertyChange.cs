@@ -9,12 +9,14 @@ using LightStudio.PokemonBattle.Game.Host;
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
   [DataContract(Namespace = Namespaces.LIGHT)]
-  internal class StateChange : GameEvent
+  public class StateChange : GameEvent
   {
     [DataMember]
     int Pm;
     [DataMember(EmitDefaultValue = false)]
     PokemonState State;
+    [DataMember(EmitDefaultValue = false)]
+    public int Item;
     
     public StateChange(PokemonProxy pm)
     {
@@ -25,20 +27,20 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     protected override void Update()
     {
       var pm = GetPokemon(Pm);
-      string key = null;
+      string key = Item == 0 ? string.Empty : "Item";
       if (State == PokemonState.Normal)
         switch (pm.State)
         {
           case PokemonState.BadlyPoisoned:
           case PokemonState.Poisoned:
-            key = "DePosioned";
+            key += "DePosioned";
             //免疫
             break;
           case PokemonState.Burned:
           case PokemonState.Frozen:
           case PokemonState.Paralyzed:
           case PokemonState.Sleeping:
-            key = "De" + pm.State.ToString();
+            key += "De" + pm.State.ToString();
             break;
         }
       else key = "En" + State.ToString();
@@ -48,7 +50,11 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     public override void Update(SimGame game)
     {
       Pokemon p = GetPokemon(game, Pm);
-      if (p != null) p.State = State;
+      if (p != null)
+      {
+        p.State = State;
+        if (Item != 0 && p.Item.Type != ItemType.Normal) p.Item = null;
+      }
     }
   }
 
