@@ -16,6 +16,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     private readonly IGameSettings gameSettings;
     private Controller controller;
     private Action<int, int> gameEnd;
+    private bool gaming;
 
     internal GameContext(IGameSettings settings, Func<int> nextId)
     {
@@ -31,10 +32,16 @@ namespace LightStudio.PokemonBattle.Game.Host
     public int Turn
     { get { return controller.TurnNumber; } }
 
-    private void OnGameEnd()
+    public bool CheckGameEnd()
     {
-      if (gameEnd != null)
-        gameEnd(Teams[0].Pokemons.Values.Count((pm) => pm.Hp.Value > 0), Teams[1].Pokemons.Values.Count((pm) => pm.Hp.Value > 0));
+      int t0 = Teams[0].Pokemons.Values.Count((pm) => pm.Hp.Value > 0);
+      int t1 = Teams[1].Pokemons.Values.Count((pm) => pm.Hp.Value > 0);
+      if (t0 == 0 || t1 == 0)
+      {
+        gaming = false;
+        return true;
+      }
+      return false;
     }
     public Pokemon GetPokemon(int id)
     {
@@ -52,11 +59,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
 
     #region IGame Only
-    event Action<int, int> IGame.GameEnd
-    {
-      add { gameEnd += value; }
-      remove { gameEnd -= value; }
-    }
     private Action<ReportFragment, IDictionary<int, InputRequest>> _reportUpdated;
     event Action<ReportFragment, IDictionary<int, InputRequest>> IGame.ReportUpdated
     {
@@ -82,6 +84,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (((IGame)this).Prepared)
       {
+        gaming = true;
         controller = new Controller(this);
         controller.ReportUpdated += _reportUpdated;
         controller.StartGameLoop(); //想用异步...
@@ -95,7 +98,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     bool IGame.InputAction(int playerId, ActionInput action)
     {
-      return action.Input(controller, GetPlayer(playerId));
+      return gaming && action.Input(controller, GetPlayer(playerId));
     }
     ReportFragment IGame.GetLastLeapFragment() // for spectator
     {

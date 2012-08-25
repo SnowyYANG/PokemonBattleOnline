@@ -28,6 +28,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
       _selectedPanel = ControlPanelIndex.INACTIVE;
 
       controller.RequireInput += RequireInput;
+      c.GameEnd += () => timer.Stop();
       timer.Tick += (sender, e) => Time--;
     }
 

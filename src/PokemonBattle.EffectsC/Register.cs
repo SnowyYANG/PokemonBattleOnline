@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
-using LightStudio.PokemonBattle.Game.Host.Effects.Abilities;
-using LightStudio.PokemonBattle.Game.Host.Effects.Conditions;
 using LightStudio.PokemonBattle.Game.Host.Effects.Moves;
+using LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status;
+using LightStudio.PokemonBattle.Game.Host.Effects.Abilities;
+using LightStudio.PokemonBattle.Game.Host.Effects.Items;
 using LightStudio.PokemonBattle.Game.Host.Effects.Triggers;
 using GameService = LightStudio.PokemonBattle.Game.GameService;
 
@@ -29,11 +30,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
     
     public static void Register()
     {
-      A(new FlashFire(34));
-      A(new Forewarn(37));
-      A(new Frisk(39));
-      A(new Illusion(56));
-
       M(new GustTwister(16));  
       M(new Leap(19, CoordY.Air));//fly
       M(new SpRangeMove(57, CoordY.Water, true));
@@ -70,6 +66,17 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Acrobatics(512));
       M(new HeavySlam(535));
       M(new Thunder(542));//Hurricane
+
+      M(new Curse(174));
+      M(new HealBell(215, "HealBell"));
+      M(new HealBell(312, "Aromatherapy"));
+
+      A(new FlashFire(34));
+      A(new Forewarn(37));
+      A(new Frisk(39));
+      A(new Illusion(56));
+
+      I(new StickyBarb(65));
 
       EffectsService.Register(new EndTurn());
       EffectsService.Register(new CanExecute());

@@ -147,7 +147,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       var oldHp = pm.Hp.Value;
       pm.Hp.Value = Hp;
       if (ResetY) pm.ChangePosition(pm.Position.X, CoordY.Plate);
-      AppendGameLog(Key, Pm);
+      AppendGameLog(Key, Pm, Arg1, Arg2);
       AppendGameLog("Hp", Hp - oldHp);
     }
     public override void Update(SimGame game)

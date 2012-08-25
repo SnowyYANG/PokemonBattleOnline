@@ -16,6 +16,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
 
     public event Action<string> EnterFailed = delegate { };
     public event Action EnterSucceed;
+    public event Action GameEnd;
     public event Action Quited;
     private ObservableCollection<Player> players;
     private ObservableCollection<int> spectators;
@@ -42,6 +43,12 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     public RoomState RoomState { get; private set; }
     public abstract Tactic.Messaging.UserState State { get; }
     public abstract IPlayerController PlayerController { get; }
+
+    private void EndGame()
+    {
+      RoomState = Room.RoomState.GameEnd;
+      GameEnd();
+    }
 
     void IRoom.AddListener(IRoomEventsListener listener)
     {
@@ -91,24 +98,19 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       InformEnterSucceed(settings, players, spectators);
       EnterSucceed();
     }
-    void IGameInformer.InformGameResult(int team0, int team1)
-    {
-      RoomState = RoomState.GameEnd;
-      Listener.GameResult(team0, team1);
-    }
     void IGameInformer.InformGameStop(GameStopReason reason, int player)
     {
-      RoomState = RoomState.GameEnd;
+      EndGame();
       Listener.GameStop(reason, player);
     }
     void IGameInformer.InformGameTie()
     {
-      RoomState = RoomState.GameEnd;
+      EndGame();
       Listener.GameTie();
     }
     void IGameInformer.InformTimeUp(IEnumerable<KeyValuePair<int, int>> remainingTime)
     {
-      RoomState = RoomState.GameEnd;
+      EndGame();
       Listener.TimeUp(remainingTime);
     }
     void IGameInformer.InformWaitingForInput(int[] players)

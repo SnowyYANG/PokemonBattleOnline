@@ -16,15 +16,18 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public const int DRY_SKIN = 25;
     public const int OVERCOAT = 27;
     public const int FORECAST = 36;
+    public const int HARVEST = 42;
     public const int HEALER = 43;
     public const int HYDRATION = 52;
     public const int ICE_BODY = 54;
     public const int ILLUSION = 56;
+    public const int MOODY = 58;
     public const int LEVITATE = 66;
     public const int LIQUID_OOZE = 70;
     public const int MAGNET_PULL = 74;
     public const int MULTITYPE = 82;
     public const int NATURAL_CURE = 84;
+    public const int PICKUP = 92;
     public const int POISON_HEAL = 96;
     public const int RAIN_DISH = 102;
     public const int REGENERATOR = 104;
@@ -35,6 +38,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public const int SHED_SKIN = 117;
     public const int SNOW_CLOAK = 125;
     public const int SOLAR_POWER = 127;
+    public const int SPEED_BOOST = 130;
     public const int STEADFAST = 133;
     public const int STURDY = 138;
     public const int TRACE = 152;
@@ -47,7 +51,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     public static void RaiseAbility(this PokemonProxy pm)
     {
-      if (pm.Ability.Id != 0) pm.Controller.ReportBuilder.Add(new AbilityEvent(pm));
+      pm.Controller.ReportBuilder.Add(new AbilityEvent(pm));
     }
     public static bool RaiseAbility(this PokemonProxy pm, int abilityId)
     {
@@ -259,9 +263,14 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     /// </summary>
     /// <param name="pm"></param>
     /// <returns></returns>
-    public static bool Remain1Hp(PokemonProxy pm)
+    public static bool Sturdy(PokemonProxy pm)
     {
-      return pm.FullHp && pm.RaiseAbility(STURDY);
+      if (pm.FullHp && pm.RaiseAbility(STURDY))
+      {
+        pm.AddReportPm("Sturdy");
+        return true;
+      }
+      return false;
     }
     public static void Synchronize(PokemonProxy pm, PokemonProxy by, AttachedState state, int turn)
     {

@@ -23,8 +23,9 @@ namespace LightStudio.PokemonBattle.Game.Host
           foreach (var d in atk.Targets) d.Defender.AddState(atk);
           break;
         case MoveInnerClass.Lv7DChange:
+          foreach (var d in atk.Targets) d.Defender.ChangeLv7D(atk);
           break;
-        case MoveInnerClass.HpRecover: //替身？
+        case MoveInnerClass.HpRecover:
           break;
         case MoveInnerClass.ConfusionWithLv7DChange:
           break;

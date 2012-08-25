@@ -15,9 +15,11 @@ A(Aftermath(2))
 
 class AngerPoint(t_a):
     def TA(self, d):
-        if d.IsCt and d.Defender.CanChangeLv7D(d.Defender, StatType.Atk, 12, False):
-            self.Raise(d.Defender)
-            d.Defender.ChangeLv7D(d.Defender, False, 12, 0, 0, 0, 0, 0, 0)
+        der = d.Defender
+        if d.IsCt and der.OnboardPokemon.Lv5D.Atk != 6:
+            self.Raise(der)
+            der.OnboardPokemon.ChangeLv7D(StatType.Atk, 12)
+            der.AddReportPm('AngerPoint')
 A(AngerPoint(5))
 
 class WeakArmor(AbilityE):
@@ -106,9 +108,9 @@ class WickedThief(t_a):
         der = d.Defender
         aer = d.AtkContext.Attacker
         if der.Pokemon.Item == None and aer.CanLostItem:
-            i = aer.Pokemon.Item
+            i = aer.Pokemon.Item.Id
             aer.Pokemon.Item = None
             der.ChangeItem(i)
             self.Raise(der)
-            der.Controller.ReportBuilder.Add('WickedThief', aer.Id, i.Id)
+            der.Controller.ReportBuilder.Add('WickedThief', aer.Id, i)
 A(WickedThief(163))

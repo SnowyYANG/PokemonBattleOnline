@@ -50,8 +50,6 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     internal void BeginTurn()
     {
-      Sp.Abilities.SlowStart(Controller);
-      Board.ClearAllElementsTurnConditions();
       bool needInput = false;
       foreach (PokemonProxy p in OnboardPokemons)
         needInput |= p.CheckNeedInput();
@@ -62,8 +60,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       ReportBuilder.NewTurn();
       SortOnboardPokemons();
-      foreach (PokemonProxy p in OnboardPokemons)
-        p.AttachBehaviors();
+      foreach (PokemonProxy p in OnboardPokemons) p.AttachBehaviors();
       Switch();
       Pre_UseMove();
       ActMove();
@@ -93,27 +90,31 @@ namespace LightStudio.PokemonBattle.Game.Host
       else
       {
         p.ActMove();
-        goto LOOP;
+        if (Controller.CanContinue) goto LOOP;
       }
     }
     private void EndTurnEffects()
     {
       SortTiles();
-      EffectsService.EndTurn.Execute(Controller);
-      EndTurnCheckForInput();
+      if (Controller.TurnNumber == 0)
+      {
+        EndTurnSendout();
+        NextTurn();
+      }
+      else
+      {
+        EffectsService.EndTurn.Execute(Controller);
+        if (Controller.CanContinue) EndTurnCheckForInput();
+      }
     }
     private void EndTurnCheckForInput()
     {
-      if (ReportBuilder.TurnNumber == 0) EndTurnSendout();
-      else
-      {
-        foreach (Tile t in Tiles)
-          if (t.Pokemon == null && Controller.CanSendout(t))
-          {
-            Controller.PauseForEndTurnInput(EndTurnSendout);
-            return;
-          }
-      }
+      foreach (Tile t in Tiles)
+        if (t.Pokemon == null && Controller.CanSendout(t))
+        {
+          Controller.PauseForEndTurnInput(EndTurnSendout);
+          return;
+        }
       NextTurn();
     }
     private void EndTurnSendout()
@@ -128,7 +129,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     private void NextTurn()
     {
-      //缓慢启动与其他状态
+      Sp.Abilities.SlowStart(Controller);
+      Board.ClearAllElementsTurnConditions();
       BeginTurn();
     }
   }

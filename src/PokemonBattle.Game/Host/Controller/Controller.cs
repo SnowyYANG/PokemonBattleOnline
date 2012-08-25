@@ -56,6 +56,19 @@ namespace LightStudio.PokemonBattle.Game.Host
     { get { return TurnController.Tiles; } }
     public int TurnNumber
     { get { return ReportBuilder.TurnNumber; } }
+    public bool CanContinue
+    { 
+      get
+      { 
+        if (Game.CheckGameEnd())
+        {
+          ReportBuilder.NewFragment();
+          ReportUpdated(ReportBuilder.GetFragment(), null);
+          return false;
+        }
+        return true;
+      }
+    }
 
     #region Access
     internal Player GetPlayer(Tile tile)

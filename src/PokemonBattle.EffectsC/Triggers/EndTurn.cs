@@ -11,21 +11,24 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
 {
   class EndTurn : Game.Host.Triggers.IEndTurn
   {
+    private static readonly StatType[] SevenD = { StatType.Atk, StatType.Def, StatType.SpAtk, StatType.SpDef, StatType.Speed, StatType.Accuracy, StatType.Evasion };
+
     public void Execute(Controller c)
     {
-      Weather(c);
-      FSDD(c);
-      Wish(c);
-      PropertyChange(c);
-      HpRecover(c);
-      PmState(c);
-      Curse(c);
-      Trap(c);
-      PokemonCondition(c);
-      FieldCondition(c);
-      BoardCondition(c);
-      Pokemon(c);
+      Weather(c); if (!c.CanContinue) goto GAMEEND;
+      FSDD(c); if (!c.CanContinue) goto GAMEEND;
+      Wish(c); if (!c.CanContinue) goto GAMEEND;
+      PropertyChange(c); if (!c.CanContinue) goto GAMEEND;
+      HpRecover(c); if (!c.CanContinue) goto GAMEEND;
+      PmState(c); if (!c.CanContinue) goto GAMEEND;
+      Curse(c); if (!c.CanContinue) goto GAMEEND;
+      Trap(c); if (!c.CanContinue) goto GAMEEND;
+      PokemonCondition(c); if (!c.CanContinue) goto GAMEEND;
+      FieldCondition(c); if (!c.CanContinue) goto GAMEEND;
+      BoardCondition(c); if (!c.CanContinue) goto GAMEEND;
+      Pokemon(c); if (!c.CanContinue) goto GAMEEND;
       ZenMode(c);
+    GAMEEND: ;
     }
     //1.0 weather ends, Sandstorm/Hail damage, Rain Dish/Dry Skin/Ice Body/SolarPower
     private void Weather(Controller c)
@@ -45,6 +48,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
               if (pm.OnboardPokemon.HasType(BattleType.Rock) || pm.OnboardPokemon.HasType(BattleType.Steel) || pm.OnboardPokemon.HasType(BattleType.Ground) ||
                 ab == As.OVERCOAT || ab == As.SAND_VEIL || ab == As.SAND_RUSH || ab == As.SAND_FORCE) continue;
               pm.EffectHurtByOneNth(16, "SandstormHurt");
+              pm.CheckFaint();
             }
             break;
           case Game.Weather.Hailstorm:
@@ -63,6 +67,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
               {
                 if (pm.OnboardPokemon.HasType(BattleType.Ice) || ab == As.OVERCOAT || ab == As.SNOW_CLOAK) continue;
                 pm.EffectHurtByOneNth(16, "HailstormHurt");
+                pm.CheckFaint();
               }
             }
             break;
@@ -74,7 +79,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             break;
           case Game.Weather.IntenseSunlight:
             foreach (var pm in c.OnboardPokemons)
-              if (pm.RaiseAbility(As.SOLAR_POWER) || pm.RaiseAbility(As.DRY_SKIN)) pm.EffectHurtByOneNth(8);
+              if (pm.RaiseAbility(As.SOLAR_POWER) || pm.RaiseAbility(As.DRY_SKIN))
+              {
+                pm.EffectHurtByOneNth(8);
+                pm.CheckFaint();
+              }
             break;
         }
       }
@@ -131,6 +140,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             else pm.EffectHurtByOneNth(8, "ItemHurt", Is.BLACK_SLUDGE);
             break;
         }
+        pm.CheckFaint();
       }
     }
     //6.0 Aqua Ring
@@ -157,7 +167,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     //9.1 Nightmare
     private void PmState(Controller c)
     {
-      foreach(var pm in c.OnboardPokemons)
+      foreach (var pm in c.OnboardPokemons)
+      {
         switch (pm.State)
         {
           case PokemonState.BadlyPoisoned:
@@ -182,12 +193,18 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             if (pm.OnboardPokemon.HasCondition("Nightmare")) pm.EffectHurtByOneNth(4, "Nightmare");
             break;
         }
+        pm.CheckFaint();
+      }
     }
     //10.0 Curse (from a Ghost-type)
     private void Curse(Controller c)
     {
       foreach (var pm in c.OnboardPokemons)
-        if (pm.OnboardPokemon.HasCondition("Curse")) pm.EffectHurtByOneNth(4, "Curse");
+        if (pm.OnboardPokemon.HasCondition("Curse"))
+        {
+          pm.EffectHurtByOneNth(4, "Curse");
+          pm.CheckFaint();
+        }
     }
     //11.0 Bind, Wrap, Fire Spin, Clamp, Whirlpool, Sand Tomb, Magma Storm
     private void Trap(Controller c)
@@ -201,7 +218,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             pm.OnboardPokemon.RemoveCondition("Trap");
             pm.AddReportPm("TrapFree", trap.Move);
           }
-          else pm.EffectHurtByOneNth(trap.BindingBand ? 4 : 8, "TrapHurt", trap.Move);
+          else
+          {
+            pm.EffectHurtByOneNth(trap.BindingBand ? 4 : 8, "TrapHurt", trap.Move);
+            pm.CheckFaint();
+          }
       }
     }
     //12.0 Taunt ends
@@ -221,9 +242,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         if (turn == 0)
         {
           pm.OnboardPokemon.RemoveCondition("Taunt");
-          pm.AddReportPm("Encore");
+          pm.AddReportPm("DeTaunt");
         }
-      } 
+      }
       foreach (var pm in c.OnboardPokemons)
       {
         dynamic obj = pm.OnboardPokemon.GetCondition<dynamic>("Encore");
@@ -255,23 +276,124 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     //21.3 Mist ends
     //21.4 Tailwind ends
     //21.5 Lucky Chant ends
-    //21.6 Water Pledge + Fire Pledge ends, Fire Pledge + Grass Pledge ends, Grass Pledge + Water Pledge ends
+    //21.6 [pass] Water Pledge + Fire Pledge ends, Fire Pledge + Grass Pledge ends, Grass Pledge + Water Pledge ends
     private void FieldCondition(Controller c)
     {
     }
-    //22.0 Gravity ends
+    //22.0 [unfinished] Gravity ends
     //23.0 Trick Room ends
-    //24.0 Wonder Room ends
-    //25.0 Magic Room ends
+    //24.0 [unfinished] Wonder Room ends
+    //25.0 [unfinished] Magic Room ends
     private void BoardCondition(Controller c)
     {
+      var board = c.Board;
+      int turn = c.TurnNumber;
+      if (board.GetCondition<int>("TrickRoom") == turn)
+      {
+        board.RemoveCondition("TrickRoom");
+        c.ReportBuilder.Add("DeTrickRoom");
+      }
     }
-    //26.0 Uproar message
+    //26.0 [unfinished] Uproar message
     //26.1 Speed Boost, Bad Dreams, Harvest, Moody
     //26.2 Toxic Orb activation, Flame Orb activation, Sticky Barb
     //26.3 pickup
     private void Pokemon(Controller c)
     {
+      foreach (var pm in c.OnboardPokemons)
+      {
+        int ab = pm.Ability.Id;
+        switch (ab)
+        {
+          case As.SPEED_BOOST:
+            if (pm.CanChangeLv7D(pm, StatType.Speed, 1, false) != 0)
+            {
+              pm.RaiseAbility();
+              pm.ChangeLv7D(pm, StatType.Speed, 1);
+            }
+            break;
+          case As.BAD_DREAMS:
+            {
+              bool first = true;
+              foreach (var target in c.Board[1 - pm.Pokemon.TeamId].Pokemons)
+                if (target.State == PokemonState.Sleeping)
+                {
+                  if (first)
+                  {
+                    pm.RaiseAbility();
+                    first = false;
+                  }
+                  target.EffectHurtByOneNth(8, "BadDreams");
+                }
+            }
+            break;
+          case As.HARVEST:
+            if (pm.Pokemon.Item == null)
+            {
+              var i = c.Board[pm.Pokemon.TeamId].GetCondition<Item>("UsedBerry" + pm.Id);
+              if (i != null && c.Weather == Game.Weather.IntenseSunlight || c.RandomHappen(50))
+              {
+                pm.RaiseAbility();
+                pm.AddReportPm("Harvest", i);
+                pm.ChangeItem(i.Id);
+              }
+            }
+            break;
+          case As.MOODY:
+            {
+              StatType[] up = SevenD.Where((s) => pm.CanChangeLv7D(pm, s, 2, false) != 0).ToArray();
+              StatType[] down = SevenD.Where((s) => pm.CanChangeLv7D(pm, s, -1, false) != 0).ToArray();
+              pm.RaiseAbility();
+              if (up.Length != 0) pm.ChangeLv7D(pm, up[c.GetRandomInt(0, up.Length)], 2);
+              if (down.Length != 0) pm.ChangeLv7D(pm, down[c.GetRandomInt(0, down.Length)], -1);
+            }
+            break;
+        }
+        switch (pm.Item.Id)
+        {
+          case Is.TOXIC_ORB:
+            if (pm.CanAddState(pm, AttachedState.Poison, false))
+            {
+              pm.Pokemon.State = PokemonState.BadlyPoisoned;
+              pm.OnboardPokemon.SetCondition("BadlyPoison", c.TurnNumber);
+              pm.AddReportPm("EnBadlyPoisoned2", Is.TOXIC_ORB);
+            }
+            break;
+          case Is.FLAME_ORB:
+            if (pm.CanAddState(pm, AttachedState.Burn, false))
+            {
+              pm.Pokemon.State = PokemonState.Burned;
+              pm.AddReportPm("EnBurned2", Is.FLAME_ORB);
+            }
+            break;
+          case Is.STICKY_BARB:
+            pm.EffectHurtByOneNth(8, "ItemHurt", Is.STICKY_BARB);
+            break;
+        }
+        if (ab == As.PICKUP && pm.Pokemon.Item == null)
+        {
+          var items = new List<Item>();
+          foreach (var p in c.Board[1 - pm.Pokemon.TeamId].Pokemons)
+          {
+            var i = p.OnboardPokemon.GetCondition<Item>("UsedItem");
+            if (i != null) items.Add(i);
+          }
+          if (items.Count == 0)
+          {
+            foreach (var p in c.Board[pm.Pokemon.TeamId].Pokemons)
+              if (p != pm)
+              {
+                var i = p.OnboardPokemon.GetCondition<Item>("UsedItem");
+                if (i != null) items.Add(i);
+              }
+          }
+          var item = items[c.GetRandomInt(0, items.Count - 1)].Id;
+          pm.RaiseAbility();
+          pm.AddReportPm("Pickup", item);
+          pm.ChangeItem(item);
+        }
+        pm.CheckFaint();
+      }
     }
     //27.0 Zen Mode
     private void ZenMode(Controller c)

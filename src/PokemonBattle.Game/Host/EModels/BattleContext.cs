@@ -72,24 +72,23 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       AtkContext = a;
       Defender = pm;
-      NoGuard = a.Attacker.Ability.NoGuard() || pm.Ability.NoGuard() || pm.OnboardPokemon.HasCondition("NoGuard");
     }
 
     /// <summary>
     /// 无防御、心眼、锁定
     /// </summary>
     public bool NoGuard
-    { get; private set; }
-
-    public IAbilityE Ability
-    {
+    { 
       get
-      {
-        return AtkContext.Attacker.Ability.IgnoreDefenderAbility() ?
-          EffectsService.NULL_ABILITY :
-          Defender.Ability;
+      { 
+        if (AtkContext.Attacker.Ability.NoGuard() || Defender.Ability.NoGuard()) return true;
+        dynamic c = Defender.OnboardPokemon.GetCondition<dynamic>("NoGuard");
+        return c != null && c.Pm == AtkContext.Attacker && c.Turn == Defender.Controller.TurnNumber; 
       }
     }
+
+    public IAbilityE Ability
+    { get { return AtkContext.Attacker.Ability.IgnoreDefenderAbility() ? EffectsService.NULL_ABILITY : Defender.Ability; } }
     public bool HasInfiltratableCondition(string condition)
     {
       PokemonProxy a = AtkContext.Attacker;

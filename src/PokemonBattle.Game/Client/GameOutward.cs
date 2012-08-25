@@ -26,7 +26,6 @@ namespace LightStudio.PokemonBattle.Game
     private readonly IDictionary<int, string> players;
     private readonly string[] teams;
     private readonly List<IGameOutwardEvents> listeners;
-    private InputRequest requireInput;
 
     public GameOutward(IGameSettings settings, IDictionary<int, string> players, string[] teams)
     {
@@ -36,6 +35,7 @@ namespace LightStudio.PokemonBattle.Game
       for (int t = 0; t < Settings.Mode.TeamCount(); t++)
         Teams[t] = new TeamOutward(6, 0, 0);
       this.players = players;
+      this.teams = teams;
       listeners = new List<IGameOutwardEvents>();
     }
 
@@ -62,8 +62,26 @@ namespace LightStudio.PokemonBattle.Game
           });
       foreach (GameEvent e in turn.Events)
       {
-        System.Threading.Thread.Sleep(500);
+        System.Threading.Thread.Sleep(100);
         UIDispatcher.Invoke((Action<GameOutward>)e.Update, this);
+      }
+      int team0 = Teams[0].Abnormal + Teams[0].Normal;
+      int team1 = Teams[1].Abnormal + Teams[1].Normal;
+      if (team0 == 0 || team1 == 0)
+      {
+        IText text;
+        if (team1 == 0 && team1 == 0)
+        {
+          text = GameService.Logs["GameResultTie"].Clone(this);
+          text.SetData(0, 1);
+        }
+        else
+        {
+          text = GameService.Logs["GameResult"].Clone(this);
+          int winer = team0 == 0 ? 1 : 0;
+          text.SetData(winer, team0, team1);
+        }
+        UIDispatcher.Invoke((Action<IText>)AppendGameLog, text);
       }
     }
     public void AppendGameLog(IText text)

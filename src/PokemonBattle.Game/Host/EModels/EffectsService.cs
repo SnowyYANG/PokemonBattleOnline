@@ -37,6 +37,11 @@ namespace LightStudio.PokemonBattle.Game.Host
       unlocked = false;
     }
 
+    public static void Register<T>() where T : GameEvent
+    {
+      if (unlocked) ReportFragment.AddEventType(typeof(T));
+    }
+
     #region emodels
     public static IMoveE GetMove(int id)
     {

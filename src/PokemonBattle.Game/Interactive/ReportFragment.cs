@@ -20,9 +20,9 @@ namespace LightStudio.PokemonBattle.Game
     /// <summary>
     /// For effects, use in register
     /// </summary>
-    public static void AddEventType<T>() where T : GameEvent
+    internal static void AddEventType(Type type)
     {
-      knownGameEvents.Add(typeof(T));
+      knownGameEvents.Add(type);
     }
     
     [DataMember(EmitDefaultValue = false)]

@@ -112,6 +112,9 @@ namespace LightStudio.PokemonBattle.Data
     }
     public static string GetLocalizedName(this GameElement e)
     {
+#if DEBUG
+      if (e == null) System.Diagnostics.Debugger.Break();
+#endif
       return DataString[e.Name];
     }
     public static string GetLocalizedName(this Enum type)

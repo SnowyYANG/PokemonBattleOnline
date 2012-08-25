@@ -30,7 +30,7 @@ M(Haze(114))
 
 class TrickRoom(StatusMoveE):
     def Act(self, atk):
-        if atk.Controller.Borad.SetCondition('TrickRoom', 5):
+        if atk.Controller.Board.SetCondition('TrickRoom', 5):
             atk.Controller.ReportBuilder.Add("EnTrickRoom", atk.Attacker)
         else:
             atk.Controller.Board.RemoveCondition('TrickRoom')

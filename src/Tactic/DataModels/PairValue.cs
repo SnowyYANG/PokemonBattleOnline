@@ -11,8 +11,8 @@ namespace LightStudio
   {
     int Origin { get; }
     int Value { get; }
+    int NormalizedValue { get; }
     double Percentage { get; }
-    double NormalizedValue { get; }
     #region for binding
     bool IsIncreased { get; }
     bool IsDecreased { get; }
@@ -23,37 +23,38 @@ namespace LightStudio
   [DataContract(Namespace = Namespaces.LIGHT)]
   public class PairValue : IPairValue
   {
+    private static readonly PropertyChangedEventArgs ALL = new PropertyChangedEventArgs(null);
+    
     public event PropertyChangedEventHandler PropertyChanged;
-    [DataMember]
-    int origin;
     [DataMember(EmitDefaultValue = false)]
-    int value;
-    [DataMember(EmitDefaultValue = false)]
-    double normalizedOrigin;
+    int normalizedOrigin;
 
-    public PairValue(int origin, int value, double normalizedorigin = 0)
+    public PairValue(int origin, int value, int normalizedOrigin = 0)
     {
-      this.origin = origin;
-      normalizedOrigin = normalizedorigin;
-      this.value = value;
+      this._origin = origin;
+      this.normalizedOrigin = normalizedOrigin;
+      this._value = value;
     }
     public PairValue(int origin)
       : this(origin, origin)
     {
     }
 
+    [DataMember]
+    int _origin;
     public int Origin
-    { get { return origin; } }
+    { get { return _origin; } }
+    [DataMember(EmitDefaultValue = false)]
+    int _value;
     public int Value
     { 
-      get { return value; }
+      get { return _value; }
       set
       {
-        if (this.value != value)
+        if (_value != value)
         {
-          this.value = value;
-          if (PropertyChanged != null)
-            PropertyChanged(this, new PropertyChangedEventArgs(null));
+          _value = value;
+          SendPropertyChanged();
         }
       }
     }
@@ -61,28 +62,32 @@ namespace LightStudio
     { 
       get
       {
-        if (origin == 0) return 0;
-        return (double)value / (double)origin; 
+        return _origin == 0 ? 0 : (double)_value / (double)_origin;
       }
     }
-    public double NormalizedValue
+    public int NormalizedValue
     { 
       get
       {
-        if (origin == 0) return 0;
-        return (normalizedOrigin * value) / origin;
+        return _origin == 0 ? 0 : (normalizedOrigin * _value + _origin - 1) / _origin;
       }
     }
     public bool IsIncreased
-    { get { return value > origin; } }
+    { get { return _value > _origin; } }
     public bool IsDecreased
-    { get { return value < origin; } }
+    { get { return _value < _origin; } }
     public bool IsChanged
-    { get { return value != origin; } }
+    { get { return _value != _origin; } }
+
+    private void SendPropertyChanged()
+    {
+      if (PropertyChanged != null)
+        PropertyChanged(this, new PropertyChangedEventArgs(null));
+    }
 
     public override string ToString()
     {
-      return value.ToString();
+      return _value.ToString();
     }
   }
 }

@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace LightStudio.PokemonBattle.PBO.Converters
 {
-  public class PPColor : Converter<PairValue>
+  public class PPColor : Converter<int>
   {
     public static readonly PPColor C;
     static readonly SolidColorBrush White;
@@ -25,17 +25,17 @@ namespace LightStudio.PokemonBattle.PBO.Converters
       C = new PPColor();
     }
 
-    protected override object Convert(PairValue value)
+    protected override object Convert(int value)
     {
       Brush b;
-      if (value.Value > (value.Origin >> 1)) b = White;
-      else if (value.Value > (value.Origin >> 2)) b = Yellow;
-      else if (value.Value > 0) b = Orange;
+      if (value > 2) b = White;
+      else if (value == 2) b = Yellow;
+      else if (value == 1) b = Orange;
       else b = Red;
       return b;
     }
   }
-  public class PPShadow : Converter<PairValue>
+  public class PPShadow : Converter<int>
   {
     public static readonly PPShadow C;
     static readonly SolidColorBrush White;
@@ -51,12 +51,12 @@ namespace LightStudio.PokemonBattle.PBO.Converters
       C = new PPShadow();
     }
 
-    protected override object Convert(PairValue value)
+    protected override object Convert(int value)
     {
       Brush b;
-      if (value.Value > (value.Origin >> 1)) b = White;
-      else if (value.Value > (value.Origin >> 2)) b = Yellow;
-      else if (value.Value > 0) b = Orange;
+      if (value > 2) b = White;
+      else if (value == 2) b = Yellow;
+      else if (value == 1) b = Orange;
       else b = Red;
       return b;
     }

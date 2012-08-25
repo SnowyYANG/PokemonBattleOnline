@@ -29,7 +29,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
               nest.SetText("要让哪只精灵出场？");
               break;
             case ControlPanelIndex.INACTIVE:
-              nest.SetText("等待其他玩家出招...");
+              nest.SetText("通信待机中...");
               break;
             case ControlPanelIndex.STOP:
               nest.SetText("真的要中止战斗么？");

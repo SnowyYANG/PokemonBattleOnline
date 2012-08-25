@@ -26,6 +26,26 @@ namespace LightStudio.PokemonBattle.Game
       Dying = dying;
     }
 
+    private void SendPropertyChanged()
+    {
+      if (PropertyChanged != null)
+        PropertyChanged(this, new PropertyChangedEventArgs(null));
+    }
+    internal void StateChanged(PokemonOutward pm, PokemonState formerState)
+    {
+      if (formerState == PokemonState.Normal) Normal--;
+      else Abnormal--;
+      if (pm.State == PokemonState.Normal) Normal++;
+      else if (pm.State == PokemonState.Faint) Dying++;
+      else Abnormal++;
+      SendPropertyChanged();
+    }
+    public void HealBell()
+    {
+      Normal += Abnormal;
+      Abnormal = 0;
+      SendPropertyChanged();
+    }
     internal void Update(TeamOutward team)
     {
       if (Normal != team.Normal || Abnormal != team.Abnormal || Dying != team.Dying)
@@ -34,8 +54,7 @@ namespace LightStudio.PokemonBattle.Game
         Abnormal = team.Abnormal;
         Dying = team.Dying;
         //很少有只变一个数字的，干脆null
-        if (PropertyChanged != null)
-          PropertyChanged(this, new PropertyChangedEventArgs(null));
+        SendPropertyChanged();
       }
     }
   }

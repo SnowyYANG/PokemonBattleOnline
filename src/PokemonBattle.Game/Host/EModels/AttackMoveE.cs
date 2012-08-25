@@ -97,9 +97,10 @@ namespace LightStudio.PokemonBattle.Game.Host
           if (Move.HurtPercentage < 0) a.DamagePercentage(def, Move.HurtPercentage);
           else if (Move.MaxHpPercentage < 0) //拼命专用
           {
-            a.Hp += a.Pokemon.Hp.Origin * Move.MaxHpPercentage;
+            a.Hp += a.Pokemon.Hp.Origin * Move.MaxHpPercentage / 100;
             a.Controller.ReportBuilder.Add(new HpChange(a, "ReHurt"));
           }
+          a.CheckFaint();
         }
       }// else OHKO
     }
@@ -266,10 +267,9 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     protected virtual void PostEffect(AtkContext atk)
     {
-      foreach (DefContext d in atk.Targets)
-        Abilities.ColorChange(d);
+      foreach (DefContext d in atk.Targets) Abilities.ColorChange(d);
       //红牌、逃生按钮
-      Items.AttackPostEffect(atk);
+      Items.AttackPostEffect(atk.Attacker);
     }
     protected override void MoveEnding(AtkContext atk)
     {

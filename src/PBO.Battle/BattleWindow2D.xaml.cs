@@ -60,11 +60,6 @@ namespace LightStudio.PokemonBattle.PBO.Battle
           room.Game.LeapTurn += () => mask.Visibility = System.Windows.Visibility.Collapsed;
         });
     }
-    void IRoomEventsListener.GameResult(int team0, int team1)
-    {
-      UIDispatcher.Invoke(() =>
-        br.AddLogText(string.Format(DataService.String["Game end {0} : {1}"], team0, team1)));
-    }
     void IRoomEventsListener.GameTie()
     {
       UIDispatcher.Invoke(() => br.AddLogText(DataService.String["Game tied"]));

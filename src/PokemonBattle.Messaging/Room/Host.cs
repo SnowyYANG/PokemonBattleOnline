@@ -69,6 +69,11 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
 
     #region Control
+    private void EndGame()
+    {
+      State = RoomState.GameEnd;
+      if (timer != null) timer.Dispose();
+    }
     public void Kick(int targetId)
     {
     }
@@ -86,6 +91,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
     public void CloseRoom()
     {
+      EndGame();
       Closed();
     }
     #endregion
@@ -217,29 +223,21 @@ namespace LightStudio.PokemonBattle.Messaging.Room
 
     #region Game Informer
     /// <summary>
-    /// 正常结束 至少有一方精灵全部倒下
-    /// </summary>
-    void InformGameResult(int team0, int team1)
-    {
-      State = RoomState.GameEnd;
-      OnSendInformation(GameEndInfo.GameResult(team0, team1));
-    }
-    /// <summary>
     /// 议和，不经过Game
     /// </summary>
     void InformGameTie()
     {
-      State = RoomState.GameEnd;
+      EndGame();
       OnSendInformation(GameEndInfo.GameTie());
     }
     void InformGameStop(int userId, GameStopReason reason)
     {
-      State = RoomState.GameEnd;
+      EndGame();
       OnSendInformation(GameEndInfo.GameStop(userId, reason));
     }
     void InformTimeUp()
     {
-      State = RoomState.GameEnd;
+      EndGame();
       OnSendInformation(GameEndInfo.TimeUp(timer.State));
     }
     void InformWaitingForInput(IEnumerable<int> players)
@@ -250,11 +248,14 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     private int lastTurn;
     void InformReportUpdate(ReportFragment fragment, IDictionary<int, InputRequest> requirements)
     {
-      timer.NewTurns(game.Turn - lastTurn);
-      lastTurn = game.Turn;
-      foreach (var pair in requirements)
-        OnSendInformation(new RequireInputInfo(pair.Value, timer.GetState(pair.Key)), pair.Key);
-      timer.Resume(requirements.Keys);
+      if (requirements != null)
+      {
+        timer.NewTurns(game.Turn - lastTurn);
+        lastTurn = game.Turn;
+        foreach (var pair in requirements)
+          OnSendInformation(new RequireInputInfo(pair.Value, timer.GetState(pair.Key)), pair.Key);
+        timer.Resume(requirements.Keys);
+      }
       OnSendInformation(new ReportUpdateInfo(fragment));
     }
 

@@ -28,8 +28,9 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     {
       foreach (PokemonOutward p in Pms)
       {
+        p.Init(Game);
         Game.Board[p.Position.Team, p.Position.X] = p;
-        Game.Board.PokemonSentout(p.Position.Team, p.Position.X);
+        Game.Board.PokemonSentout(Game, p.Position.Team, p.Position.X);
       }
       var args = new List<int>();
       args.Add(Player);
@@ -82,6 +83,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       {
         if (Key == null) Key = "Withdraw";
         pm.Withdraw();
+        if (Ab == Host.Sp.Abilities.NATURAL_CURE) pm.State = PokemonState.Normal;//for TeamOutward
         AppendGameLog(Key, pm.OwnerId, pm.Id);
       }
       Game.Board[team, x] = null;

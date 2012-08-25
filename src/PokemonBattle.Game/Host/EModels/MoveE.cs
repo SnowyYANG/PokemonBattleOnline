@@ -46,7 +46,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
 
     #region CalculateTargets
-    protected void CalculateTargets(AtkContext atk)
+    protected virtual void CalculateTargets(AtkContext atk)
     {
       IEnumerable<Tile> ts = GetRangeTiles(atk);
       if (ts == null) return; //no target needed
@@ -119,7 +119,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         if (Move.Class != MoveInnerClass.OHKO)
         {
-          if (Items.MicleBerry(atk)) goto DONE;
+          if (Items.MicleBerry(atk)) goto NOMISS;
           atk.AccuracyModifier = Abilities.AccuracyModifier(atk) * Items.WideLens(atk);
         }
         var miss = new List<DefContext>();
@@ -131,6 +131,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           }
         if (miss.Count > 0) targets.Remove(miss);
       }
+      NOMISS:
       #endregion
       #region Status Move: Check for substitute
       if (Move.Category == MoveCategory.Status && !Move.AdvancedFlags.IgnoreSubstitute)
@@ -197,11 +198,13 @@ namespace LightStudio.PokemonBattle.Game.Host
       var pm = def.Defender.OnboardPokemon;
       return
         (pm.HasCondition("SmackDown") || pm.HasCondition("Ingrain") || def.Defender.Item.IronBall() || def.Defender.Controller.Board.HasCondition("Gravity")) ||
-        !(
+        !
+        (
           pm.HasType(BattleType.Flying) ||
           pm.HasCondition("Suspension") || pm.HasCondition("Telekinesis") ||
           def.Defender.Item.AirBalloon() ||
-          def.Defender.RaiseAbility(Abilities.LEVITATE));
+          (!def.AtkContext.Attacker.Ability.IgnoreDefenderAbility() && def.Defender.RaiseAbility(Abilities.LEVITATE))
+        );
     }
     private bool HasEffect_NonGround(DefContext def)
     {
@@ -238,6 +241,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         case MoveRange.UserField: //do nothing
         case MoveRange.EnemyField: //do nothing
         case MoveRange.Field: //do nothing
+        case MoveRange.UserParty: //防音防不住治愈铃铛，所以这只是个摆设
           break;
         case MoveRange.Adjacent:
           {
@@ -300,17 +304,6 @@ namespace LightStudio.PokemonBattle.Game.Host
             }
             targets = new Tile[] { controller.GetTile(team, controller.GetRandomInt(min, max)) };
           }
-          break;
-        case MoveRange.UserParty: //场下队友请另写特效
-          {
-            var ts = new Tile[controller.Game.Board.XBound];
-            for (int i = 0; i < ts.Length; ++i)
-              ts[i] = controller.GetTile(team, i);
-            targets = ts;
-          }
-          break;
-        default:
-          System.Diagnostics.Debugger.Break();
           break;
       }
       return targets;

@@ -11,7 +11,6 @@ namespace LightStudio.PokemonBattle.Game.Host
   /// </summary>
   public interface IGame
   {
-    event Action<int, int> GameEnd;
     event Action<ReportFragment, IDictionary<int, InputRequest>> ReportUpdated;
 
     bool Prepared { get; }

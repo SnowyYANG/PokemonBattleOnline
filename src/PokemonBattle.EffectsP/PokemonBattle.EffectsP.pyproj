@@ -38,11 +38,13 @@
     <None Include="Abilities\CanImplement.py" />
     <None Include="Abilities\CantXXX.py" />
     <None Include="Abilities\PowerModifier.py" />
+    <None Include="Items\Attacked.py" />
     <None Include="Items\Gem.py" />
     <None Include="Moves\Attack\Blizzard.py" />
     <None Include="Moves\Attack\SpDamage.py" />
     <None Include="Moves\Attack\SpPower.py" />
     <None Include="Moves\Attack\Synchronoise.py" />
+    <None Include="Moves\Status\Captivate.py" />
     <None Include="Moves\Status\ClassA.py" />
     <None Include="Moves\Status\ClassD.py" />
     <None Include="references.py" />

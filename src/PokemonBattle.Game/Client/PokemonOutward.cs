@@ -36,9 +36,6 @@ namespace LightStudio.PokemonBattle.Game
     [DataMember]
     internal readonly int Id;
     [DataMember]
-    private readonly Position _position;
-
-    [DataMember]
     public int OwnerId { get; private set; }
     [DataMember]
     private string _name;
@@ -75,11 +72,13 @@ namespace LightStudio.PokemonBattle.Game
     public PokemonState State
     { 
       get { return _state; }
-      internal set
+      set
       {
         if (_state != value)
         {
+          var former = _state;
           _state = value;
+          if (team != null) team.StateChanged(this, former);
           OnPropertyChanged(STATE);
         }
       }
@@ -90,6 +89,8 @@ namespace LightStudio.PokemonBattle.Game
     public PairValue Hp { get; private set; }
     [DataMember]
     public int Lv { get; private set; }
+    [DataMember]
+    private readonly Position _position;
     public IPosition Position
     { get { return _position; } }
 
@@ -123,6 +124,7 @@ namespace LightStudio.PokemonBattle.Game
         return _listeners;
       }
     }
+    private TeamOutward team;
 
     #region Events
     /// <summary>
@@ -256,6 +258,10 @@ namespace LightStudio.PokemonBattle.Game
           break;
       }
       return r;
+    }
+    public void Init(GameOutward game)
+    {
+      team = game.Teams[Position.Team];
     }
     public void AddListener(IPokemonOutwardEvents listener)
     {

@@ -83,7 +83,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
     private void LifeChanged(object sender, PropertyChangedEventArgs e)
     {
       flash.Width = bar.Width;
-      da.To = Math.Ceiling(((PairValue)sender).NormalizedValue);
+      da.To = ((PairValue)sender).NormalizedValue;
       bar.BeginAnimation(Border.WidthProperty, da);
     }
 

@@ -10,9 +10,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
   {
     #region ids
     public const int LEFTOVERS = 18;
+    public const int TOXIC_ORB = 49;
+    public const int FLAME_ORB = 50;
     public const int BLACK_SLUDGE = 58;
-    private const int RED_CARD = 106;
-    private const int EJECT_BUTTON = 111;
+    public const int STICKY_BARB = 65;
+    public const int RED_CARD = 106;
+    public const int EJECT_BUTTON = 111;
+    private const int LIFE_ORB = 47;
     #endregion
 
     public static void RaiseItem(this PokemonProxy pm, string key = null)
@@ -77,13 +81,19 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       //If the user is holding an expert belt and the move was super effective.
       const int EXPERT_BELT = 45;
       //If the user is holding a Life Orb.
-      const int LIFE_ORB = 47;
 
       PokemonProxy aer = target.AtkContext.Attacker;
       int item = aer.Item.Id;
       ushort r = 0x1000;
-      if (target.EffectRevise > 0 && aer.Item.Id == EXPERT_BELT)
-        r = 0x1333;
+      switch (item)
+      {
+        case EXPERT_BELT:
+          if (target.EffectRevise > 0) r = 0x1333;
+          break;
+        case LIFE_ORB:
+          r = 0x14cc;
+          break;
+      }
       return r;
     }
     /// <summary>
@@ -113,14 +123,14 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       }
       return false;
     }
-    public static void AttackPostEffect(AtkContext atk)
+    public static void AttackPostEffect(PokemonProxy pm)
     {
-      const int SHELL_BELL = 35, LIFE_ORB = 47;
-      if (atk.Attacker.Item.Id == SHELL_BELL)
+      const int SHELL_BELL = 35;
+      if (pm.Item.Id == SHELL_BELL) pm.HpRecoverByOneNth(8, "ItemRecover", SHELL_BELL);
+      else if (pm.Item.Id == LIFE_ORB)
       {
-      }
-      else if (atk.Attacker.Item.Id == LIFE_ORB)
-      {
+        pm.EffectHurtByOneNth(10, "LifeOrb");
+        pm.CheckFaint();
       }
     }
     public static bool CanAttackFlinch(DefContext def)

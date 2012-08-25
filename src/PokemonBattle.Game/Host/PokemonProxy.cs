@@ -144,9 +144,9 @@ namespace LightStudio.PokemonBattle.Game.Host
       AddReport(new AbilityEvent(this, oldAb, ab));
       Ability.Attach(this);
     }
-    public void ChangeItem(Item item)
+    public void ChangeItem(int item)
     {
-      Pokemon.Item = item;
+      Pokemon.Item = DataService.GetItem(item);
       Item.Attach(this);
     }
     public void BuildAtkContext(MoveType move)
@@ -373,7 +373,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (damage >= Hp)
       {
         damage = Hp;
-        if (Abilities.Remain1Hp(this) || Items.Remain1Hp(this))
+        if (Abilities.Sturdy(this) || Items.Remain1Hp(this))
         {
           damage--;
           Pokemon.SetHp(1);
@@ -396,7 +396,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (!FullHp)
       {
         Hp += changeHp;
-        Controller.ReportBuilder.Add(new GameEvents.HpChange(this, logKey) { RemoveItem = removeItem });
+        Controller.ReportBuilder.Add(new GameEvents.HpChange(this, logKey, arg1) { RemoveItem = removeItem });
       }
     }
     public void HpRecoverByOneNth(int n, string logKey = "HpRecover", int arg1 = 0, bool removeItem = false)
@@ -410,7 +410,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (CanEffectHurt)
       {
         Hp -= changeHp;
-        Controller.ReportBuilder.Add(new GameEvents.HpChange(this, logKey));
+        Controller.ReportBuilder.Add(new GameEvents.HpChange(this, logKey, arg1, arg2));
       }
     }
     public void EffectHurtByOneNth(int n, string logKey = "Hurt", int arg1 = 0, int arg2 = 0)
@@ -439,7 +439,8 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     public void ConsumeItem()
     {
-      OnboardPokemon.SetCondition("UsedItem", Pokemon.Item);
+      OnboardPokemon.SetTurnCondition("UsedItem", Pokemon.Item);
+      if (Pokemon.Item.Type == ItemType.Berry) Controller.Board[Pokemon.TeamId].SetCondition("UsedBerry" + Id, Pokemon.Item);
       Pokemon.Item = null;
     }
     public bool CheckFaint()
@@ -545,7 +546,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           else
           {
             State = PokemonState.BadlyPoisoned;
-            OnboardPokemon.SetCondition("BadlyPoison", Controller.ReportBuilder.TurnNumber);
+            OnboardPokemon.SetCondition("BadlyPoison", Controller.TurnNumber);
           }
           goto POKEMON_STATE;
         case AttachedState.Sleep:

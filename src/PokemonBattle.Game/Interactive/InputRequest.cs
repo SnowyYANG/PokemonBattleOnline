@@ -253,6 +253,7 @@ namespace LightStudio.PokemonBattle.Game
     {
       if (Pms[CurrentX].Fight())
       {
+        input.Struggle(CurrentX);
         NextPm();
         return true;
       }

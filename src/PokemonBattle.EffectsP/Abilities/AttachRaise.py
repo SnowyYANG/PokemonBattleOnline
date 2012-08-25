@@ -28,13 +28,12 @@ A(WeatherAbility(109, Weather.Sandstorm)) #sand stream
 
 class Intimidate(AbilityE):
     def Attach(self, pm):
-        pms = []
+        first = True
         for p in pm.Controller.Board[1-pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
             if p.CanChangeLv7D(pm, StatType.Atk, -1, False):
-                pms.append(p)
-        if len(pms) > 0:
-            self.Raise(pm)
-            for p in pms:
+                if first:
+                    self.Raise(pm)
+                    first = False
                 p.ChangeLv7D(pm, StatType.Atk, -1)
 A(Intimidate(61))
 

@@ -71,7 +71,7 @@ namespace LightStudio.PokemonBattle.Game
     {
       listeners.Add(listener);
     }
-    public void PokemonSentout(int team, int x)
+    public void PokemonSentout(GameOutward game, int team, int x)
     {
       foreach (IBoardOutwardEvents l in listeners)
         l.PokemonSentout(team, x);
