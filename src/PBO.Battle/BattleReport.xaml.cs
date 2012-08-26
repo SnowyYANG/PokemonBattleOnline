@@ -47,19 +47,18 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     }
     private void AddBlock(Block block)
     {
+      report.Blocks.Add(block);
+    }
+    private void AutoScroll()
+    {
       if (scroll == null)
         scroll = reportViewer.Template.FindName("PART_ContentHost", reportViewer) as ScrollViewer;
-      if (scroll.ScrollableHeight - scroll.ExtentHeight < 5)
-      {
-        report.Blocks.Add(block);
-        scroll.ScrollToEnd();
-      }
-      else
-        report.Blocks.Add(block);
+      if (scroll.ScrollableHeight - scroll.VerticalOffset < 5) scroll.ScrollToBottom();
     }
     public void AddLogText(string text)
     {
       controller.AddText(text, Brushes.OrangeRed);
+      AutoScroll();
     }
   }
 }

@@ -86,6 +86,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       void IGameOutwardEvents.GameLogAppend(IText text)
       {
         AddText(text);
+        nest.AutoScroll();
         if (beginTurn)
         {
           nest.nowTurn = new LinkedListNode<TextElement>(current.Inlines.Last());
