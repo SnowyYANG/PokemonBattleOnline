@@ -20,7 +20,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       switch (Move.Class)
       {
         case MoveInnerClass.AddState:
-          foreach (var d in atk.Targets) d.Defender.AddState(atk);
+          foreach (var d in atk.Targets) d.Defender.AddState(d);
           break;
         case MoveInnerClass.Lv7DChange:
           foreach (var d in atk.Targets) d.Defender.ChangeLv7D(atk);

@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       : base(controller)
     {
       comparer = new Comparer(Game.Board);
-      tiles = Board.Tiles.ToArray(); //this is a copy
+      Tiles = tiles = Board.Tiles.ToArray(); //this is a copy
       OnboardPokemons = new List<PokemonProxy>();
     }
 
@@ -97,7 +97,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     private void EndTurnEffects()
     {
-      SortTiles();
       if (Controller.TurnNumber == 0)
       {
         EndTurnSendout();
@@ -105,6 +104,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       else
       {
+        SortTiles();
         EffectsService.EndTurn.Execute(Controller);
         if (Controller.CanContinue) EndTurnCheckForInput();
       }

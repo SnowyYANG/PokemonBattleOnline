@@ -45,10 +45,9 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (Move.MaxTimes > 1) atk.Controller.ReportBuilder.Add("Hits", atk.ActualHits);
       if (atk.Type == BattleType.Fire)
         foreach (DefContext d in atk.Targets)
-          if (d.Defender.State == PokemonState.Frozen) d.Defender.State = PokemonState.Normal;
+          if (d.Defender.State == PokemonState.Frozen) d.Defender.DeAbnormalState();
       
       if (!(atk.Move.HasProbabilitiedAdditonalEffects() && atk.Attacker.Ability.SheerForce())) PostEffect(atk);
-      MoveEnding(atk);
     }
 
     private void Implement(IEnumerable<DefContext> defs)
@@ -252,7 +251,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             d.ChangeLv7D(atk);
             break;
           case MoveInnerClass.AttackWithState:
-            if (!Moves.CheckTriAttack(def) && atk.RandomHappen(Move.Attachment.Probability)) d.AddState(atk);
+            if (!Moves.CheckTriAttack(def) && atk.RandomHappen(Move.Attachment.Probability)) d.AddState(def);
             break;
         }
         if (!def.Ability.InnerFocus() && (atk.RandomHappen(Move.FlinchProbability, true) || Abilities.Stench(def) || Items.CanAttackFlinch(def))) d.OnboardPokemon.SetTurnCondition("Flinch");

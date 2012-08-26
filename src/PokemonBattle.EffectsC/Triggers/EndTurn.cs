@@ -110,14 +110,14 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             if (pm.State != Game.PokemonState.Normal && c.RandomHappen(30))
             {
               pm.RaiseAbility();
-              pm.State = Game.PokemonState.Normal;
+              pm.DeAbnormalState();
             }
             break;
           case As.HYDRATION:
             if (pm.State != Game.PokemonState.Normal)
             {
               pm.RaiseAbility();
-              pm.State = Game.PokemonState.Normal;
+              pm.DeAbnormalState();
             }
             break;
           case As.HEALER:
@@ -127,7 +127,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             if (ps.Count != 0 && c.RandomHappen(30))
             {
               pm.RaiseAbility();
-              ps[c.GetRandomInt(0, ps.Count - 1)].State = Game.PokemonState.Normal;
+              ps[c.GetRandomInt(0, ps.Count - 1)].DeAbnormalState();
             }
             break;
         }
@@ -212,16 +212,16 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     {
       foreach (var pm in c.OnboardPokemons)
       {
-        dynamic trap = pm.OnboardPokemon.GetCondition<dynamic>("Trap");
+        var trap = pm.OnboardPokemon.GetCondition<Dictionary<string, object>>("Trap");
         if (trap != null)
-          if (trap.Turn == c.TurnNumber)
+          if ((int)trap["Turn"] == c.TurnNumber)
           {
             pm.OnboardPokemon.RemoveCondition("Trap");
-            pm.AddReportPm("TrapFree", trap.Move);
+            pm.AddReportPm("TrapFree", trap["Move"]);
           }
           else
           {
-            pm.EffectHurtByOneNth(trap.BindingBand ? 4 : 8, "TrapHurt", trap.Move);
+            pm.EffectHurtByOneNth((bool)trap["Band"] ? 4 : 8, "TrapHurt", (int)trap["Move"]);
             pm.CheckFaint();
           }
       }
@@ -248,14 +248,22 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
       foreach (var pm in c.OnboardPokemons)
       {
-        dynamic obj = pm.OnboardPokemon.GetCondition<dynamic>("Encore");
-        if (obj != null && obj.Turn == 0)
+        var obj = pm.OnboardPokemon.GetCondition<Dictionary<string, object>>("Encore");
+        if (obj != null && (int)obj["Turn"] == 0)
         {
           pm.OnboardPokemon.RemoveCondition("Encore");
           pm.AddReportPm("DeEncore");
         }
       }
-      //14.0 [unfinished]Disable ends, Cursed Body ends
+      foreach (var pm in c.OnboardPokemons)
+      {
+        var d = pm.OnboardPokemon.GetCondition<Dictionary<string, object>>("Disable");
+        if (d != null && (int)d["Turn"] == c.TurnNumber)
+        {
+          pm.OnboardPokemon.RemoveCondition("Disable");
+          pm.AddReportPm("DeDisable");
+        }
+      }
       foreach (var pm in c.OnboardPokemons)
       {
         int turn = pm.OnboardPokemon.GetCondition<int>("MagnetRise");
@@ -315,7 +323,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             if (pm.CanChangeLv7D(pm, StatType.Speed, 1, false) != 0)
             {
               pm.RaiseAbility();
-              pm.ChangeLv7D(pm, StatType.Speed, 1);
+              pm.ChangeLv7D(pm, StatType.Speed, 1, false);
             }
             break;
           case As.BAD_DREAMS:
@@ -350,8 +358,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
               StatType[] up = SevenD.Where((s) => pm.CanChangeLv7D(pm, s, 2, false) != 0).ToArray();
               StatType[] down = SevenD.Where((s) => pm.CanChangeLv7D(pm, s, -1, false) != 0).ToArray();
               pm.RaiseAbility();
-              if (up.Length != 0) pm.ChangeLv7D(pm, up[c.GetRandomInt(0, up.Length)], 2);
-              if (down.Length != 0) pm.ChangeLv7D(pm, down[c.GetRandomInt(0, down.Length)], -1);
+              if (up.Length != 0) pm.ChangeLv7D(pm, up[c.GetRandomInt(0, up.Length)], 2, false);
+              if (down.Length != 0) pm.ChangeLv7D(pm, down[c.GetRandomInt(0, down.Length)], -1, false);
             }
             break;
         }
@@ -362,7 +370,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             {
               pm.Pokemon.State = PokemonState.BadlyPoisoned;
               pm.OnboardPokemon.SetCondition("BadlyPoison", c.TurnNumber);
-              var e = new StateChange(pm) { Item = Is.TOXIC_ORB };
+              var e = new StateChange(pm) { Arg1 = Is.TOXIC_ORB };
               c.ReportBuilder.Add(e);
             }
             break;
@@ -370,7 +378,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             if (pm.CanAddState(pm, AttachedState.Burn, false))
             {
               pm.Pokemon.State = PokemonState.Burned;
-              var e = new StateChange(pm) { Item = Is.FLAME_ORB };
+              var e = new StateChange(pm) { Arg1 = Is.FLAME_ORB };
               c.ReportBuilder.Add(e);
             }
             break;

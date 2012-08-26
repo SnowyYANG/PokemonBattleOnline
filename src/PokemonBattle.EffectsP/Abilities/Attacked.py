@@ -34,8 +34,8 @@ class CursedBody(AbilityE):
     def Attacked(self, d):
         if d.AtkContext.Controller.RandomHappen(30) and d.AtkContext.Attacker.CanAddState(d.Defender, AttachedState.Disable, False):
             self.Raise(d.Defender)
-            d.AtkContext.Attacker.AddState(d.Defender, AttachedState.Disable, False)
-A(CursedBody(15))
+            d.AtkContext.Attacker.AddState(d.Defender, AttachedState.Disable, False, 4)
+A(CursedBody(18))
 
 class EffectSpore(t_a):
     def TA(self, d):

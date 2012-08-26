@@ -30,7 +30,11 @@ namespace LightStudio.PokemonBattle.Game.Host
         CalculateTargets(atk);
         if (eventForPP != null) eventForPP.PP = oldPP - atk.MoveProxy.PP;
       }
-      if (atk.Targets == null || atk.Target != null) Act(atk);
+      if (atk.Targets == null || atk.Target != null)
+      {
+        Act(atk);
+        MoveEnding(atk);
+      }
       pm.Action = Move.AdvancedFlags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done;
     }
 
@@ -322,6 +326,11 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     protected virtual void MoveEnding(AtkContext atk)
     {
+      foreach (var d in atk.Targets)
+      {
+        d.Defender.Item.HpChanged(d.Defender);
+        Abilities.RecoverAfterMoldBreaker(d.Defender);
+      }
     }
   }
 }

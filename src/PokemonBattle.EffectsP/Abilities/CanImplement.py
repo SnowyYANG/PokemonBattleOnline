@@ -29,9 +29,9 @@ class NoEffectWithAbsorb(AbilityE):
             der = d.Defender
             self.Raise(der)
             if der.CanHpRecover:
-                der.AddReportPm('NoEffect', None, None)
-            else:
                 der.HpRecoverByOneNth(4)
+            else:
+                der.AddReportPm('NoEffect', None, None)
             return False
         return True
 A(NoEffectWithAbsorb(25, BattleType.Water))#dry skin

@@ -148,6 +148,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       return ability.Id == 155;
     }
+    public static bool Unburden(this IAbilityE ability)
+    {
+      return ability.Id == 156;
+    }
     public static bool IgnoreDefenderAbility(this IAbilityE ability)
     {
       const int MOLD_BREAKER = 79, TURBOBLAZE = 154, TERAVOLT = 148;
@@ -254,12 +258,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       }
       return false;
     }
-    /// <summary>
-    /// 调用前已判断过 damage > pm.Hp
-    /// </summary>
-    /// <param name="pm"></param>
-    /// <returns></returns>
-    public static bool Sturdy(PokemonProxy pm)
+    public static bool Sturdy(PokemonProxy pm) //调用前已判断过 damage > pm.Hp
     {
       if (pm.Hp == pm.Pokemon.Hp.Origin && pm.RaiseAbility(STURDY))
       {
@@ -297,9 +296,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     public static void ColorChange(DefContext def)
     {
-      if (!def.HitSubstitute &&
-        (def.Defender.OnboardPokemon.Type1 != def.AtkContext.Type || def.Defender.OnboardPokemon.Type2 != BattleType.Invalid) &&
-        def.Defender.RaiseAbility(18))
+      if (
+        !def.HitSubstitute &&
+        !(def.Defender.OnboardPokemon.Type1 == def.AtkContext.Type && def.Defender.OnboardPokemon.Type2 == BattleType.Invalid) &&
+        def.Defender.RaiseAbility(15)
+        )
       {
         def.Defender.OnboardPokemon.Type1 = def.AtkContext.Type;
         def.Defender.OnboardPokemon.Type2 = BattleType.Invalid;
@@ -395,6 +396,15 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static bool Gluttony(PokemonProxy pm)
     {
       return pm.Hp << 2 < pm.Pokemon.Hp.Origin || (pm.Ability.Id == 40 && pm.Hp << 1 < pm.Pokemon.Hp.Origin);
+    }
+
+    internal static void RecoverAfterMoldBreaker(PokemonProxy pm)
+    {
+      var ability = pm.Ability;
+      int id = ability.Id;
+      //柔软、钝感、不眠、自我中心、熔岩铠甲、水之掩护、干劲、免疫
+      if (id == 69 || id == 87 || id == 60 || id == 90 || id == 73 || id == 161 || id == 158 || id == 57)
+        ability.Attach(pm);
     }
   }
 }

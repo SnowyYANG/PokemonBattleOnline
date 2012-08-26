@@ -66,7 +66,8 @@ class a_s(AbilityE):
         return AbilityE.__new__(cls, id)
     def ADSModifier(self, pm, stat):
         if stat == StatType.Speed:
-            self.SModifier(pm)
+            return self.SModifier(pm)
+        return 0x1000
 
 class WeatherSpeedup(a_s):
     def __new__(cls, id, weather):
@@ -90,7 +91,7 @@ A(QuickFeet(101))
 
 class Unburden(a_s):
     def SModifier(self, pm):
-        if  XXX:
+        if pm.Pokemon.Item == None and pm.OnboardPokemon.HasCondition('Unburden'):
             return 0x2000
         return 0x1000
 A(Unburden(156))

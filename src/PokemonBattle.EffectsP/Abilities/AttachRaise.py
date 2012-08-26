@@ -7,6 +7,8 @@ class SimpleAttachRaise(AbilityE):
     def Attach(self, pm):
         self.Raise(pm)
         pm.AddReportPm(self.log, None, None)
+A(SimpleAttachRaise(3, 'AirLock'))
+A(SimpleAttachRaise(14, 'AirLock'))
 A(SimpleAttachRaise(79, 'MoldBreaker'))
 A(SimpleAttachRaise(99, 'Pressure'))
 A(SimpleAttachRaise(148, 'Teravolt'))
@@ -17,10 +19,11 @@ class WeatherAbility(AbilityE):
         return AbilityE.__new__(cls, id)
     def __init__(self, id, weather):
         AbilityE.__init__(self, id)
-        self.weather = weather
+        self.Weather = weather
     def Attach(self, pm):
-        self.Raise(pm)
-        pm.Controller.Weather = weather
+        if pm.Controller.Weather != self.Weather:
+            self.Raise(pm)
+            pm.Controller.Weather = self.Weather
 A(WeatherAbility(23, Weather.HeavyRain)) #drizzle
 A(WeatherAbility(24, Weather.IntenseSunlight)) #drought
 A(WeatherAbility(126, Weather.Hailstorm)) #snow warning
@@ -28,13 +31,9 @@ A(WeatherAbility(109, Weather.Sandstorm)) #sand stream
 
 class Intimidate(AbilityE):
     def Attach(self, pm):
-        first = True
-        for p in pm.Controller.Board[1-pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
-            if p.CanChangeLv7D(pm, StatType.Atk, -1, False):
-                if first:
-                    self.Raise(pm)
-                    first = False
-                p.ChangeLv7D(pm, StatType.Atk, -1)
+        self.Raise(pm)
+        for p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
+            p.ChangeLv7D(pm, StatType.Atk, -1, True)
 A(Intimidate(61))
 
 class Unnerve(AbilityE):
@@ -44,15 +43,21 @@ class Unnerve(AbilityE):
 A(Unnerve(147))
 
 class Download(AbilityE):
-    def Attach(self, pm):
-        pms = pm.Controller.Board[1-pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1)
-        if pms.Count() != 0:
-            p = pms[pm.Controller.GetRandomInt(0, pms.Count() - 1)]
-            self.Raise() #unneccesary to check CanChangeLv7D
+    def Attach(self, pm): #a ability can be copy, so check CanChangeLv7D
+        sa = pm.CanChangeLv7D(pm, StatType.SpAtk, 1, False) != 0
+        a = pm.CanChangeLv7D(pm, StatType.Atk, 1, False) != 0
+        stats = []
+        for p in pm.Controller.Board[1-pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
             if p.OnboardPokemon.Static.Def > p.OnboardPokemon.Static.SpDef:
-                pm.ChangeLv7D(pm, StatType.SpAtk, 1)
+                if sa:
+                    stats.append(StatType.SpAtk)
             else:
-                pm.ChangeLv7D(pm, StatType.Atk, 1)
+                if a:
+                    stats.append(StatType.Atk)  
+        n = len(stats)
+        if n != 0:
+            self.Raise(pm)
+            pm.ChangeLv7D(pm, stats[pm.Controller.GetRandomInt(0, n - 1)], 1, False)
 A(Download(22))
 
 class SlowStart(AbilityE):

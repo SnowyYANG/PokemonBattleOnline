@@ -17,8 +17,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       return
         Sleeping(pm) &&
         Frozen(pm) &&
+        Disable(pm) &&
           //懒惰
-        pm.OnboardPokemon.GetCondition("Disable").CanExecute() &&
         Imprison(pm) &&
         pm.OnboardPokemon.GetCondition("HealBlock").CanExecute() &&
         Confuse(pm) &&
@@ -28,9 +28,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         Infatuation(pm) &&
         Paralyzed(pm);
     }
-    private void AddResetYReport(PokemonProxy p, string key)
+    private void AddResetYReport(PokemonProxy p, string key, int arg1 = 0)
     {
-      p.Controller.ReportBuilder.Add(PositionChange.Reset(key, p));
+      p.Controller.ReportBuilder.Add(PositionChange.Reset(key, p, arg1));
     }
     private bool Sleeping(PokemonProxy pm)
     {
@@ -39,10 +39,14 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         int count = pm.OnboardPokemon.GetCondition<int>("Sleeping");
         count--;
         if (pm.Ability.EarlyBird()) count--;
-        pm.OnboardPokemon.SetCondition("Sleeping", count);
-        if (count <= 0) pm.State = PokemonState.Normal; //auto Remove
+        if (count <= 0)
+        {
+          pm.OnboardPokemon.RemoveCondition("Sleeping");
+          pm.DeAbnormalState();
+        }
         else
         {
+          pm.OnboardPokemon.SetCondition("Sleeping", count);
           AddResetYReport(pm, "Sleeping");
           if (!pm.SelectedMove.AvailableEvenSleeping()) return false;
         }
@@ -53,12 +57,26 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     {
       if (p.State == PokemonState.Frozen)
       {
-        if (p.SelectedMove.Type.AdvancedFlags.AvailableEvenFrozen || p.Controller.GetRandomInt(0, 3) == 0) p.State = PokemonState.Normal;
+        if (p.SelectedMove.Type.AdvancedFlags.AvailableEvenFrozen || p.Controller.GetRandomInt(0, 3) == 0)
+        {
+          p.Pokemon.State = PokemonState.Normal;
+          p.Controller.ReportBuilder.Add(new StateChange(p) { Key = "DeFrozen2" });
+        }
         else
         {
           AddResetYReport(p, "Frozen");
           return false;
         }
+      }
+      return true;
+    }
+    private bool Disable(PokemonProxy p)
+    {
+      var c = p.OnboardPokemon.GetCondition<Dictionary<string, object>>("Disable");
+      if (c != null && p.SelectedMove.Type.Id == (int)c["Move"]) 
+      {
+        AddResetYReport(p, "Disable", p.SelectedMove.Type.Id);
+        return false;
       }
       return true;
     }
@@ -70,8 +88,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
           foreach (MoveProxy m in pm.Moves)
             if (m.Type == move)
             {
-              p.Controller.ReportBuilder.Add(
-                GameEvents.PositionChange.Reset("Imprison", p, move));
+              AddResetYReport(p, "Imprison", move.Id);
               return false;
             }
       return true;

@@ -46,7 +46,7 @@ class CantAddState(AbilityE):
     def Attach(self, pm):
         if pm.State == self.PmState:
             self.Raise(pm)
-            pm.State = PokemonState.Normal
+            pm.DeAbnormalState(False)
     def CanAddState(self, pm, by, state, showFail):
         if state == self.AtState:
             if showFail:
@@ -64,7 +64,7 @@ class Immunity(AbilityE):
     def Attach(self, pm):
         if pm.State == PokemonState.Poisoned or pm.STate == PokemonState.BadlyPoisoned:
             self.Raise(pm)
-            pm.State = PokemonState.Normal
+            pm.DeAbnormalState(False)
     def CanAddState(self, pm, by, state, showFail):
         if state == AttachedState.Poison:
             if showFail:

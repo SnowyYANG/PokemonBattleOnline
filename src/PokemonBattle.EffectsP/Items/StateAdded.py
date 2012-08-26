@@ -6,14 +6,11 @@ class DeStateBerry(ItemE):
     def e(self, pm):
         if pm.State == self.State:
             pm.ConsumeItem()
-            pm.Pokemon.State = PokemonState.Normal
-            ge = StateChange(pm)
-            ge.Item = self.Item.Id
-            pm.Controller.ReportBuilder.Add(ge)
+            pm.Pokemon.DeAbnormalState(True)
     def Attach(self, pm):
-        e(self, pm)
+        DeStateBerry.e(self, pm)
     def StateAdded(self, pm, by, state):
-        e(self, pm)
+        DeStateBerry.e(self, pm)
 I(DeStateBerry(129, PokemonState.Paralyzed)) #cheri berry
 I(DeStateBerry(130, PokemonState.Sleeping)) #chesto berry
 I(DeStateBerry(132, PokemonState.Burned)) #rawst berry
@@ -23,15 +20,12 @@ class PechaBerry(ItemE):
     def e(self, pm):
         if pm.State == PokemonState.Poisoned or pm.State == PokemonState.BadlyPoisoned:
             pm.ConsumeItem()
-            pm.Pokemon.State = PokemonState.Normal
-            ge = StateChange(pm)
-            ge.Item = 131
-            pm.Controller.ReportBuilder.Add(ge)
+            pm.Pokemon.DeAbnormalState(True)
     def Attach(self, pm):
-        e(self, pm)
+        PechaBerry.e(self, pm)
     def StateAdded(self, pm, by, state):
         if state == AttachedState.Poison:
-            e(self, pm)
+            PechaBerry.e(self, pm)
 I(PechaBerry(131))
 
 class PersimBerry(ItemE):
@@ -41,24 +35,21 @@ class PersimBerry(ItemE):
             pm.OnboardPokemon.RemoveCondition('Confused')
             pm.Controller.ReportBuilder.Add(UseItem('ItemDeConfused', pm, 136, 0))
     def Attach(self, pm):
-        e(self, pm)
+        PerisimBerry.e(self, pm)
     def StateAdded(self, pm, by, state):
         if state == AttachedState.Confusion:
-            e(self, pm)
+            PerisimBerry.e(self, pm)
 I(PersimBerry(136))
 
 class LumBerry(ItemE):
     def e(self, pm):
         if pm.State != PokemonState.Normal:
             pm.ConsumeItem()
-            pm.Pokemon.State = PokemonState.Normal
-            ge = StateChange(pm)
-            ge.Item = 137
-            pm.Controller.ReportBuilder.Add(ge)
+            pm.Pokemon.DeAbnormalState(True)
     def Attach(self, pm):
-        e(self, pm)
+        LumBerry.e(self, pm)
     def StateAdded(self, pm, by, state):
-        e(self, pm)
+        LumBerry.e(self, pm)
 I(LumBerry(137))
 
 class DestinyKnot(ItemE):

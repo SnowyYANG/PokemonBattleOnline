@@ -33,9 +33,9 @@ class Up1Berry(ItemE):
         item_changelv5d(pm, self.Stat, 1)
         pm.ConsumeItem()
     def Attach(self, pm):
-        e(self, pm)
+        Up1Berry.e(self, pm)
     def HpChanged(self, pm):
-        e(self, pm)
+        Up1Berry.e(self, pm)
 I(Up1Berry(181, StatType.Atk)) #liechi berry
 I(Up1Berry(182, StatType.Def)) #ganlon berry
 I(Up1Berry(183, StatType.Speed)) #salac berry
@@ -59,9 +59,9 @@ class StarfBerry(ItemE):
         if i != 0:
             item_changelv5d(pm, ss[pm.Controller.GetRandomInt(0, n - 1)], 2)
     def Attach(self, pm):
-        e(pm)
+        StarfBerry.e(pm)
     def HpChanged(self, pm):
-        e(pm)
+        StarfBerry.e(pm)
 I(StarfBerry(187))
 
 class AttackedUpItem(ItemE):

@@ -16,7 +16,9 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember(EmitDefaultValue = false)]
     PokemonState State;
     [DataMember(EmitDefaultValue = false)]
-    public int Item;
+    public string Key;
+    [DataMember(EmitDefaultValue = false)]
+    public int Arg1;
     
     public StateChange(PokemonProxy pm)
     {
@@ -27,23 +29,28 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     protected override void Update()
     {
       var pm = GetPokemon(Pm);
-      string key = Item == 0 ? string.Empty : "Item";
-      if (State == PokemonState.Normal)
-        switch (pm.State)
-        {
-          case PokemonState.BadlyPoisoned:
-          case PokemonState.Poisoned:
-            key += "DePosioned";
-            //免疫
-            break;
-          case PokemonState.Burned:
-          case PokemonState.Frozen:
-          case PokemonState.Paralyzed:
-          case PokemonState.Sleeping:
-            key += "De" + pm.State.ToString();
-            break;
-        }
-      else key = "En" + State.ToString();
+      string key;
+      if (Key == null)
+      {
+        key = Arg1 == 0 ? string.Empty : "Item";
+        if (State == PokemonState.Normal)
+          switch (pm.State)
+          {
+            case PokemonState.BadlyPoisoned:
+            case PokemonState.Poisoned:
+              key += "DePosioned";
+              //免疫
+              break;
+            case PokemonState.Burned:
+            case PokemonState.Frozen:
+            case PokemonState.Paralyzed:
+            case PokemonState.Sleeping:
+              key += "De" + pm.State.ToString();
+              break;
+          }
+        else key = "En" + State.ToString();
+      }
+      else key = Key;
       pm.State = State;
       AppendGameLog(key, Pm);
     }
@@ -53,7 +60,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       if (p != null)
       {
         p.State = State;
-        if (Item != 0 && p.Item.Type != ItemType.Normal) p.Item = null;
+        if (Key == null && Arg1 != 0 && p.Item.Type != ItemType.Normal) p.Item = null;
       }
     }
   }

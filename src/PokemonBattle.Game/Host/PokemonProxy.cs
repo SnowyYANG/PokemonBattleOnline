@@ -78,14 +78,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
     }
     public PokemonState State
-    { 
-      get { return Pokemon.State; }
-      set
-      {
-        Pokemon.State = value;
-        if (State != PokemonState.Faint) AddReport(new GameEvents.StateChange(this));
-      }
-    }
+    { get { return Pokemon.State; } }
     public MoveProxy SelectedMove //先取
     { get; private set; }
     public Tile SelectedTarget
@@ -147,6 +140,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       UsingItem = false;
       Pokemon.Item = DataService.GetItem(item);
       Item.Attach(this);
+      OnboardPokemon.RemoveCondition("Unburden");
     }
     public void BuildAtkContext(MoveType move)
     {
@@ -224,7 +218,16 @@ namespace LightStudio.PokemonBattle.Game.Host
       OnboardPokemon.CoordY = CoordY.Plate;
       return EffectsService.CanExecute.Execute(this);
     }
-    public bool CanAddState(PokemonProxy by, AttachedState state, bool showFail)
+    public void DeAbnormalState(bool item = false)
+    {
+      if (State != PokemonState.Normal && Hp > 0)
+      {
+        Pokemon.State = PokemonState.Normal;
+        int i = item ? Pokemon.Item.Id : 0;
+        AddReport(new GameEvents.StateChange(this) { Arg1 = i });
+      }
+    }
+    private bool CanAddState(PokemonProxy by, IAbilityE ability, AttachedState state, bool showFail)
     {
       if (Tile == null || Hp == 0) return false;
       string fail = Controller.Game.Settings.Mode.NeedTarget() ? "Fail" : "Fail0";
@@ -242,13 +245,26 @@ namespace LightStudio.PokemonBattle.Game.Host
             else key = "Been" + State.ToString();
             AddReportPm(key);
           }
-          return State == PokemonState.Normal && Ability.CanAddState(this, by, state, showFail);
+          return State == PokemonState.Normal && ability.CanAddState(this, by, state, showFail);
         default:
-          bool ok = OnboardPokemon.HasCondition(state.ToString()) && Ability.CanAddState(this, by, state, showFail);
-          if (ok && state == AttachedState.Infatuation) ok &= !(OnboardPokemon.Gender == null || by.OnboardPokemon.Gender == null || OnboardPokemon.Gender == by.OnboardPokemon.Gender);
-          if (!ok && showFail) AddReport(fail);
-          return ok;
+          if
+            (
+            OnboardPokemon.HasCondition(state.ToString()) ||
+            (state == AttachedState.Infatuation && (OnboardPokemon.Gender == null || by.OnboardPokemon.Gender == null || OnboardPokemon.Gender == by.OnboardPokemon.Gender))
+            )
+          {
+            if (showFail) AddReport(fail);
+            return false;
+          }
+          else
+          {
+            return ability.CanAddState(this, by, state, showFail);
+          }
       }
+    }
+    public bool CanAddState(PokemonProxy by, AttachedState state, bool showFail)
+    {
+      return CanAddState(by, Ability, state, showFail);
     }
     public int CanChangeLv7D(PokemonProxy by, StatType stat, int change, bool showFail)
     {
@@ -398,14 +414,16 @@ namespace LightStudio.PokemonBattle.Game.Host
     public void MoveHurt(DefContext def)
     {
       def.Damage = MoveHurt(def.Damage);
-      object o = new { Damage = def.Damage, By = def.AtkContext.Attacker.Id };
+      var o = new Dictionary<string, object>();
+      o["Damage"] = def.Damage;
+      o["By"] = def.AtkContext.Attacker;
       string c = def.AtkContext.Move.Category == MoveCategory.Physical ? "PhysicalDamage" : "SpecialDamage";
       OnboardPokemon.SetTurnCondition(c, o);
       OnboardPokemon.SetTurnCondition("Damage", o);
     }
     public void HpRecover(int changeHp, string logKey = "HpRecover", int arg1 = 0, bool removeItem = false)
     {
-      if (!(Tile == null || Hp == 0 || CanHpRecover))
+      if (CanHpRecover)
       {
         Hp += changeHp;
         if (removeItem) ConsumeItem();
@@ -452,7 +470,11 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     public void ConsumeItem()
     {
+#if DEBUG
+      if (Pokemon.Item == null) System.Diagnostics.Debugger.Break();
+#endif
       OnboardPokemon.SetTurnCondition("UsedItem", Pokemon.Item);
+      if (Ability.Unburden()) OnboardPokemon.SetCondition("Unburden");
       if (Pokemon.Item.Type == ItemType.Berry) Controller.Board[Pokemon.TeamId].SetCondition("UsedBerry" + Id, Pokemon.Item);
       Pokemon.Item = null;
     }
@@ -461,13 +483,13 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (Hp == 0)
       {
         Controller.Withdraw(this, false);
-        State = PokemonState.Faint;
+        Pokemon.State = PokemonState.Faint;
         Controller.Board[Pokemon.TeamId].SetCondition("FaintTurn", Controller.TurnNumber);
         return true;
       }
       return false;
     }
-    private bool ChangeLv7D(PokemonProxy by, StatType stat, int change, bool showFail)
+    private bool ChangeLv7DImplement(PokemonProxy by, StatType stat, int change, bool showFail)
     {
       change = CanChangeLv7D(by, stat, change, showFail);
       if (change != 0)
@@ -501,9 +523,9 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       return false;
     }
-    public bool ChangeLv7D(PokemonProxy by, StatType stat, int change)
+    public bool ChangeLv7D(PokemonProxy by, StatType stat, int change, bool showFail)
     {
-      if (ChangeLv7D(by, stat, change, false))
+      if (ChangeLv7DImplement(by, stat, change, showFail))
       {
         Items.WhiteHerb(this);
         return true;
@@ -513,13 +535,13 @@ namespace LightStudio.PokemonBattle.Game.Host
     public bool ChangeLv7D(PokemonProxy by, bool showFail, int a, int d = 0, int sa = 0, int sd = 0, int s = 0, int ac = 0, int e = 0)
     {
       bool r = false;
-      r |= ChangeLv7D(by, StatType.Atk, a, showFail);
-      r |= ChangeLv7D(by, StatType.Def, d, showFail);
-      r |= ChangeLv7D(by, StatType.SpAtk, sa, showFail);
-      r |= ChangeLv7D(by, StatType.SpDef, sd, showFail);
-      r |= ChangeLv7D(by, StatType.Speed, s, showFail);
-      r |= ChangeLv7D(by, StatType.Accuracy, ac, showFail);
-      r |= ChangeLv7D(by, StatType.Evasion, e, showFail);
+      r |= ChangeLv7DImplement(by, StatType.Atk, a, showFail);
+      r |= ChangeLv7DImplement(by, StatType.Def, d, showFail);
+      r |= ChangeLv7DImplement(by, StatType.SpAtk, sa, showFail);
+      r |= ChangeLv7DImplement(by, StatType.SpDef, sd, showFail);
+      r |= ChangeLv7DImplement(by, StatType.Speed, s, showFail);
+      r |= ChangeLv7DImplement(by, StatType.Accuracy, ac, showFail);
+      r |= ChangeLv7DImplement(by, StatType.Evasion, e, showFail);
       if (r) Items.WhiteHerb(this);
       return r;
     }
@@ -529,7 +551,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       foreach (MoveLv7DChange c in atk.Move.Lv7DChanges)
       {
         if (c.Probability == 0 || atk.RandomHappen(c.Probability))
-          r |= ChangeLv7D(atk.Attacker, c.Type, c.Change, atk.Move.Category == MoveCategory.Status);
+          r |= ChangeLv7DImplement(atk.Attacker, c.Type, c.Change, atk.Move.Category == MoveCategory.Status);
       }
       Items.WhiteHerb(this);
       return r;
@@ -539,24 +561,24 @@ namespace LightStudio.PokemonBattle.Game.Host
       switch (state)
       {
         case AttachedState.Burn:
-          State = PokemonState.Burned;
+          Pokemon.State = PokemonState.Burned;
           goto POKEMON_STATE;
         case AttachedState.Freeze:
-          State = PokemonState.Frozen;
+          Pokemon.State = PokemonState.Frozen;
           goto POKEMON_STATE;
         case AttachedState.Paralysis:
-          State = PokemonState.Paralyzed;
+          Pokemon.State = PokemonState.Paralyzed;
           goto POKEMON_STATE;
         case AttachedState.Poison:
-          if (turn == 0) State = PokemonState.Poisoned;
+          if (turn == 0) Pokemon.State = PokemonState.Poisoned;
           else
           {
-            State = PokemonState.BadlyPoisoned;
+            Pokemon.State = PokemonState.BadlyPoisoned;
             OnboardPokemon.SetCondition("BadlyPoison", Controller.TurnNumber);
           }
           goto POKEMON_STATE;
         case AttachedState.Sleep:
-          State = PokemonState.Sleeping;
+          Pokemon.State = PokemonState.Sleeping;
           OnboardPokemon.SetCondition("Sleeping", turn == 0 ? Controller.GetRandomInt(2, 4) : turn);
           goto POKEMON_STATE;
         case AttachedState.Confusion:
@@ -568,9 +590,16 @@ namespace LightStudio.PokemonBattle.Game.Host
           AddReportPm("EnInfatuation");
           goto DONE;
         case AttachedState.Trapped:
-          MoveType move = by.AtkContext.Move;
-          OnboardPokemon.SetCondition("Trap", new { Pm = by, Turn = Controller.TurnNumber + turn - 1, Move = move, Band = by.Item.BindingBand() });
-          AddReportPm("EnTrap" + move.Id, by);
+          {
+            int move = by.AtkContext.Move.Id;
+            var c = new Dictionary<string, object>();
+            c["Pm"] = by;
+            c["Turn"] = Controller.TurnNumber + turn - 1;
+            c["Move"] = move;
+            c["Band"] = by.Item.BindingBand();
+            OnboardPokemon.SetCondition("Trap", c);
+            AddReportPm("EnTrap" + move, by);
+          }
           goto DONE;
         case AttachedState.Nightmare:
           OnboardPokemon.SetCondition("Nightmare");
@@ -579,6 +608,14 @@ namespace LightStudio.PokemonBattle.Game.Host
         case AttachedState.Torment:
           goto DONE;
         case AttachedState.Disable:
+          {
+            var c = new Dictionary<string, object>();
+            int move = AtkContext.MoveProxy.Type.Id;
+            c["Move"] = move;
+            c["Turn"] = Controller.TurnNumber + turn - 1;
+            OnboardPokemon.SetCondition("Disable", c);
+            AddReportPm("EnDisable", move);
+          }
           goto DONE;
         case AttachedState.Yawn:
           goto DONE;
@@ -595,11 +632,14 @@ namespace LightStudio.PokemonBattle.Game.Host
         case AttachedState.Ingrain:
           OnboardPokemon.SetCondition("Ingrain");
           goto DONE;
+#if DEBUG
         default:
           System.Diagnostics.Debugger.Break();
           return;
+#endif
       }
     POKEMON_STATE:
+      Controller.ReportBuilder.Add(new StateChange(this));
       Abilities.Synchronize(this, by, state, turn);
     DONE:  
       Item.StateAdded(this, by, state);
@@ -613,10 +653,11 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       return false;
     }
-    public bool AddState(AtkContext atk)
+    public bool AddState(DefContext def)
     {
+      var atk = def.AtkContext;
       MoveAttachment attachment = atk.Move.Attachment;
-      if ((attachment.Probability == 0 || atk.RandomHappen(attachment.Probability)) && CanAddState(atk.Attacker, attachment.State, atk.Move.Category == MoveCategory.Status))
+      if ((attachment.Probability == 0 || atk.RandomHappen(attachment.Probability)) && CanAddState(atk.Attacker, def.Ability, attachment.State, atk.Move.Category == MoveCategory.Status))
       {
         int turn;
         #warning 特性道具对回合影响
