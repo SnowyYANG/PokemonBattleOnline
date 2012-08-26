@@ -425,8 +425,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (CanHpRecover)
       {
-        Hp += changeHp;
         if (removeItem) ConsumeItem();
+        Hp += changeHp;
         Controller.ReportBuilder.Add(new GameEvents.HpChange(this, logKey, arg1) { RemoveItem = removeItem });
       }
     }
