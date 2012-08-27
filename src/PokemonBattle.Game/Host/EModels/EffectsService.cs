@@ -127,12 +127,15 @@ namespace LightStudio.PokemonBattle.Game.Host
     { get; private set; }
     public static ICanExecute CanExecute
     { get; private set; }
+    public static IIsGroundAffectable IsGroundAffectable
+    { get; private set; }
     public static void Register(ITrigger trigger)
     {
       if (unlocked && trigger != null)
       {
         if (trigger is IEndTurn) EndTurn = (IEndTurn)trigger;
         else if (trigger is ICanExecute) CanExecute = (ICanExecute)trigger;
+        else if (trigger is IIsGroundAffectable) IsGroundAffectable = (IIsGroundAffectable)trigger;
       }
     }
     #endregion

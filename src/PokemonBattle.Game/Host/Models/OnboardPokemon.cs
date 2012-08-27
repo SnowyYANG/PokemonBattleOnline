@@ -12,7 +12,6 @@ namespace LightStudio.PokemonBattle.Game.Host
   /// </summary>
   public class OnboardPokemon : ConditionalObject
   {
-    private static readonly PmCondition NULL = new NullPmCondition();
     public static int Get5D(int val, int lv)
     {
       int denominator = 2, numerator = 2;
@@ -24,8 +23,26 @@ namespace LightStudio.PokemonBattle.Game.Host
     #region Data
     public int X;
     public CoordY CoordY;
-    public BattleType Type1;
-    public BattleType Type2;
+    private BattleType _type1;
+    public BattleType Type1
+    {
+      get { return _type1 == BattleType.Flying && HasCondition("Roost") ? BattleType.Normal : _type1; }
+      set
+      {
+        _type1 = value;
+        RemoveCondition("Roost");
+      }
+    }
+    private BattleType _type2;
+    public BattleType Type2
+    {
+      get { return _type2 == BattleType.Flying && HasCondition("Roost") ? BattleType.Invalid : _type2; }
+      set
+      {
+        _type2 = value;
+        RemoveCondition("Roost");
+      }
+    }
     public PokemonGender Gender;
     public int Ability; //特性交换用，不可为0，未必是有效的特性
     public readonly SixD Base; //百变怪变成会围攻
@@ -39,8 +56,8 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     internal OnboardPokemon(Pokemon pokemon, int x)
     {
-      Type1 = pokemon.PokemonType.Type1;
-      Type2 = pokemon.PokemonType.Type2;
+      _type1 = pokemon.PokemonType.Type1;
+      _type2 = pokemon.PokemonType.Type2;
       Gender = pokemon.Gender;
       Ability = pokemon.Ability.Id;
       Base = new SixD(pokemon.Base);
@@ -73,11 +90,6 @@ namespace LightStudio.PokemonBattle.Game.Host
         if (value > 6) value = 6;
         evasionLv = value;
       }
-    }
-
-    public new PmCondition GetCondition(string name)
-    {
-      return GetCondition<PmCondition>(name) ?? NULL;
     }
 
     private void ChangeLv7D(ref int lv, int change)
@@ -123,14 +135,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     public bool HasType(BattleType type)
     {
       return Type1 == type || Type2 == type;
-    }
-
-    private sealed class NullPmCondition : PmCondition
-    {
-      public NullPmCondition()
-        : base(null, null)
-      {
-      }
     }
   }
 }

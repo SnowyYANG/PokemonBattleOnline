@@ -202,7 +202,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     public static void Withdrawn(PokemonProxy pm, int ability)
     {
-      if (ability == REGENERATOR) pm.Hp += pm.Pokemon.Hp.Origin / 3;
+      if (ability == REGENERATOR) pm.Pokemon.SetHp(pm.Hp + pm.Pokemon.Hp.Origin / 3);
       else if (ability == NATURAL_CURE) pm.Pokemon.State = PokemonState.Normal;
     }
     public static Modifier ThickFat(DefContext def)

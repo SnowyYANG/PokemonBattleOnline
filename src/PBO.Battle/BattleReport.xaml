@@ -15,6 +15,6 @@
                 </FlowDocument.Resources>
             </FlowDocument>
         </FlowDocumentScrollViewer>
-        <Button Content="B" HorizontalAlignment="Right" VerticalAlignment="Center" Click="previousTurn_Click"/>
+        <Button Content="B" Visibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Center" Click="previousTurn_Click"/>
     </Grid>
 </UserControl>

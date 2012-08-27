@@ -97,6 +97,8 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       private void AddInline(Paragraph paragraph, IText text)
       {
         if (text.Contents == null)
+        {
+          var str = text.Text;
           paragraph.Inlines.Add(new Run(text.Text)
             {
               Background = GetBackground(text),
@@ -106,6 +108,8 @@ namespace LightStudio.PokemonBattle.PBO.Battle
               FontStyle = GetFontStyle(text),
               TextDecorations = GetTextDecorations(text)
             });
+          using (System.IO.StreamWriter sw = new System.IO.StreamWriter("test.txt", true)) sw.WriteLine(text.Text);
+        }
         else foreach (IText t in text.Contents) AddText(t);
       }
       private void AddText(IText text)

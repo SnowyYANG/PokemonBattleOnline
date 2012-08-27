@@ -65,9 +65,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Items
       var aer = def.AtkContext.Attacker;
       if (def.AtkContext.Move.Category == Category && aer.CanEffectHurt)
       {
-        int hp = aer.Pokemon.Hp.Origin >> 4;
+        int hp = aer.Pokemon.Hp.Origin >> 3;
         if (hp == 0) hp = 1;
-        aer.Hp -= hp;
+        aer.Pokemon.SetHp(aer.Hp - hp);
         aer.Controller.ReportBuilder.Add(new ReHurtBerryEvent(aer, def.Defender));
       }
     }

@@ -16,4 +16,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
   {
     void Execute(Controller controller);
   }
+  public interface IIsGroundAffectable : ITrigger
+  {
+    bool Execute(PokemonProxy pm, bool ignoreDefenderAbility, bool raiseAbility);
+  }
 }

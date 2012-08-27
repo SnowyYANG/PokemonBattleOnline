@@ -70,7 +70,7 @@ namespace LightStudio.PokemonBattle.Game
       if (type == StatType.Hp) return PokemonStatHelper.GetHp(Base.Hp, (byte)Iv.Hp, (byte)Ev.Hp, (byte)Lv);
       else return PokemonStatHelper.GetStat(type, Nature, Base.GetStat(type), (byte)Iv.GetStat(type), (byte)Ev.GetStat(type), (byte)Lv);
     }
-    internal void SetHp(int value)
+    public void SetHp(int value)
     {
       if (value < 0) value = 0;
       else if (value > Hp.Origin) value = Hp.Origin;

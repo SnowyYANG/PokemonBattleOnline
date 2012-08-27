@@ -14,13 +14,14 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
   {
     public bool Execute(PokemonProxy pm)
     {
+      //鼓掌计数器递减？
       return
         Sleeping(pm) &&
         Frozen(pm) &&
         Disable(pm) &&
           //懒惰
         Imprison(pm) &&
-        pm.OnboardPokemon.GetCondition("HealBlock").CanExecute() &&
+        HealBlock(pm) &&
         Confuse(pm) &&
         Flinch(pm) &&
           //挑拨 
@@ -72,8 +73,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     }
     private bool Disable(PokemonProxy p)
     {
-      var c = p.OnboardPokemon.GetCondition<Dictionary<string, object>>("Disable");
-      if (c != null && p.SelectedMove.Type.Id == (int)c["Move"]) 
+      var c = p.OnboardPokemon.GetCondition("Disable");
+      if (c != null && p.SelectedMove.Type == c.Move) 
       {
         AddResetYReport(p, "Disable", p.SelectedMove.Type.Id);
         return false;
@@ -91,6 +92,15 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
               AddResetYReport(p, "Imprison", move.Id);
               return false;
             }
+      return true;
+    }
+    private bool HealBlock(PokemonProxy pm)
+    {
+      if (pm.SelectedMove.Move.Type.AdvancedFlags.IsHeal && pm.OnboardPokemon.HasCondition("HealBlock"))
+      {
+        AddResetYReport(pm, "HealBlock2", pm.SelectedMove.Move.Type.Id);
+        return false;
+      }
       return true;
     }
     private bool Confuse(PokemonProxy pm)

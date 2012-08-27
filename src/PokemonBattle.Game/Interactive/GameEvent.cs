@@ -16,8 +16,14 @@ namespace LightStudio.PokemonBattle.Game
 
     protected IText GetGameLog(string key)
     {
+#if DEBUG
       if (key == null) System.Diagnostics.Debugger.Break();
+      var t = GameService.Logs[key];
+      if (t == null) System.Diagnostics.Debugger.Break();
+      return t.Clone(Game);
+#else
       return GameService.Logs[key].Clone(Game);
+#endif
     }
     protected void AppendGameLog(string key, object arg1 = null, object arg2 = null, object arg3 = null)
     {

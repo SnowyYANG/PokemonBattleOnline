@@ -28,7 +28,9 @@ namespace LightStudio.PokemonBattle.Game.Host
         Move.PP.Value = value;
       }
     }
-    
+    public bool HasUsed
+    { get; internal set; }
+
     public Data.MoveType Type
     { get { return Move.Type; } }
     public int Priority
@@ -52,6 +54,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       var um = new UseMove(Owner, Type);
       Owner.Controller.ReportBuilder.Add(um);
       e.Execute(Owner, um);
+      HasUsed = true;
     }
 
     internal bool CanExecute()

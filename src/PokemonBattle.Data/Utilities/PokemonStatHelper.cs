@@ -44,7 +44,7 @@ namespace LightStudio.PokemonBattle.Data
     }
     public static int GetHp(int typeBase, byte iv, byte ev, byte lv)
     {
-      return (int)(((typeBase << 1) + iv + (ev >> 2)) * lv * 0.01 + 10 + lv);
+      return typeBase == 1 ? 1 : (int)(((typeBase << 1) + iv + (ev >> 2)) * lv * 0.01 + 10 + lv);
     }
     public static int GetStat(StatType statType, PokemonNature nature, int typeBase, byte iv, byte ev, byte lv)
     {

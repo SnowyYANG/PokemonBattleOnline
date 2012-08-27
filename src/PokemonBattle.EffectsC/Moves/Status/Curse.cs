@@ -17,10 +17,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     {
       if (atk.Attacker.OnboardPokemon.HasType(BattleType.Ghost))
       {
-        if (atk.Target.Defender.OnboardPokemon.SetCondition("Curse"))
+        if (atk.Target.Defender.OnboardPokemon.AddCondition("Curse"))
         {
-          atk.Attacker.Hp -= atk.Attacker.Pokemon.Hp.Origin >> 1;
-          atk.Controller.ReportBuilder.Add(new GameEvents.HpChange(atk.Attacker, "EnCurse", atk.Target.Defender.Id));
+          atk.Attacker.ChangeHp(-(atk.Attacker.Pokemon.Hp.Origin >> 1), "EnCurse", atk.Target.Defender.Id);
         }
         else atk.Attacker.AddReportPm("Fail0");
       }

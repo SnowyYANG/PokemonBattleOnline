@@ -28,7 +28,8 @@ namespace LightStudio.PokemonBattle.Game.Host
         case MoveInnerClass.HpRecover:
           foreach (var d in atk.Targets)
           {
-            if (d.Defender.Hp == d.Defender.Pokemon.Hp.Origin) d.Defender.AddReportPm("FullHp"); //不在场和濒死都是不可能的
+            if (d.Defender.OnboardPokemon.HasCondition("HealBlock")) d.Defender.AddReportPm("HealBlock");
+            else if (d.Defender.Hp == d.Defender.Pokemon.Hp.Origin) d.Defender.AddReportPm("FullHp"); //不在场和濒死都是不可能的
             else d.Defender.HpRecover(d.Defender.Pokemon.Hp.Origin * atk.Move.MaxHpPercentage / 100);
           }
           break;
@@ -37,6 +38,12 @@ namespace LightStudio.PokemonBattle.Game.Host
         case MoveInnerClass.ForceToShift:
           break;
       }
+    }
+
+    protected bool CheckContinuousUseNotFail(AtkContext atk)
+    {
+      var c = atk.Attacker.OnboardPokemon.GetCondition("LastMove");
+      return c == null || c.Move != atk.Move || atk.Controller.GetRandomInt(0, 0xffff - 1) < 0xffff >> c.Int;
     }
   }
 }

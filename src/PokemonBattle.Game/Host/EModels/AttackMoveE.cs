@@ -96,7 +96,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           if (Move.HurtPercentage < 0) a.DamagePercentage(def, Move.HurtPercentage);
           else if (Move.MaxHpPercentage < 0) //拼命专用
           {
-            a.Hp += a.Pokemon.Hp.Origin * Move.MaxHpPercentage / 100;
+            a.Pokemon.SetHp(a.Hp + a.Pokemon.Hp.Origin * Move.MaxHpPercentage / 100);
             a.Controller.ReportBuilder.Add(new HpChange(a, "ReHurt"));
           }
           a.CheckFaint();

@@ -38,7 +38,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
           {
             case PokemonState.BadlyPoisoned:
             case PokemonState.Poisoned:
-              key += "DePosioned";
+              key += "DePoisoned";
               //免疫
               break;
             case PokemonState.Burned:
@@ -52,7 +52,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       }
       else key = Key;
       pm.State = State;
-      AppendGameLog(key, Pm);
+      AppendGameLog(key, Pm, Arg1);
     }
     public override void Update(SimGame game)
     {

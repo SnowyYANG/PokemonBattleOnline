@@ -66,7 +66,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     /// </summary>
     public int EffectRevise;
     
-    internal DefContext(AtkContext a, PokemonProxy pm)
+    public DefContext(AtkContext a, PokemonProxy pm)
     {
       AtkContext = a;
       Defender = pm;
@@ -80,8 +80,8 @@ namespace LightStudio.PokemonBattle.Game.Host
       get
       { 
         if (AtkContext.Attacker.Ability.NoGuard() || Defender.Ability.NoGuard()) return true;
-        dynamic c = Defender.OnboardPokemon.GetCondition<dynamic>("NoGuard");
-        return c != null && c.Pm == AtkContext.Attacker && c.Turn == Defender.Controller.TurnNumber; 
+        Condition c = Defender.OnboardPokemon.GetCondition("NoGuard");
+        return c != null && c.By == AtkContext.Attacker && c.Turn == Defender.Controller.TurnNumber; 
       }
     }
 

@@ -4,9 +4,9 @@ class WeatherMove(StatusMoveE):
     def __init__(self, id, weather, item):
         self.Weather = weather
         self.Item = item
+    def NotFail(self, atk):
+        return atk.Controller.Board.Weather != self.Weather
     def Act(self, atk):
-        if atk.Controller.Board.Weather == self.Weather:
-            self.Fail(atk, None)
         atk.Controller.Weather = self.Weather
         turn = atk.Controller.TurnNumber
         if (atk.Attacker.Item.Id == self.Item):
@@ -31,7 +31,7 @@ M(Haze(114))
 class TrickRoom(StatusMoveE):
     def Act(self, atk):
         c = atk.Controller
-        if c.Board.SetCondition('TrickRoom', c.TurnNumber + 5):
+        if c.Board.AddCondition('TrickRoom', c.TurnNumber + 5):
             c.ReportBuilder.Add("EnTrickRoom", atk.Attacker)
         else:
             c.Board.RemoveCondition('TrickRoom')

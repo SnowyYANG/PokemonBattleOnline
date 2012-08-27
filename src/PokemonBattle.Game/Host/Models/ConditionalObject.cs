@@ -7,8 +7,6 @@ namespace LightStudio.PokemonBattle.Game.Host
 {
   public abstract class ConditionalObject : Tactic.DataModels.ConditionalObject
   {
-    private readonly static Condition NULL = new NullCondition();
-
     private readonly HashSet<string> turnConditions;
 
     protected ConditionalObject()
@@ -17,42 +15,29 @@ namespace LightStudio.PokemonBattle.Game.Host
       turnConditions = new HashSet<string>();
     }
 
-    public bool SetCondition(Condition condition)
+    public bool AddTurnCondition(string name, object value = null)
     {
-      return base.SetCondition(condition.Name, condition);
-    }
-    public bool SetTurnCondition(string name, object value = null)
-    {
-      if (base.SetCondition(name, value))
+      if (base.AddCondition(name, value))
       {
         turnConditions.Add(name);
         return true;
       }
       return false;
     }
-    public bool SetTurnCondition(Condition condition)
+    public void SetTurnCondition(string name, object value = null)
     {
-      return SetTurnCondition(condition.Name, condition);
+      base.SetCondition(name, value);
+      turnConditions.Add(name);
     }
     public Condition GetCondition(string name)
     {
-      return GetCondition<Condition>(name) ?? NULL;
+      return GetCondition<Condition>(name);
     }
     internal void ClearTurnCondition()
     {
       foreach (string c in turnConditions)
         RemoveCondition(c);
       turnConditions.Clear();
-    }
-
-    private sealed class NullCondition : Condition
-    {
-      public NullCondition()
-        : base(null, null)
-      {
-      }
-
-      public new void Remove() { }
     }
   }
 }

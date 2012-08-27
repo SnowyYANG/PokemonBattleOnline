@@ -50,7 +50,7 @@ A(Soundproof(129))
 class WonderGuard(AbilityE):
     def CanImplement(self, d):
         type = d.AtkContext.Type
-        if type == BattleType.Flying or type == BattleType.Stone or type == BattleType.Ghost or type == BattleType.Fire or type == BattleType.Dark:
+        if (d.AtkContext.Move.MoveCategory == MoveCategory.Status and Moves.ThunderWave(d.AtkContext.Move)) or type == BattleType.Flying or type == BattleType.Rock or type == BattleType.Ghost or type == BattleType.Fire or type == BattleType.Dark:
             return True
         self.Raise(d.Defender)
         d.Defender.AddReportPm('NoEffect', None, None)
@@ -59,7 +59,7 @@ A(WonderGuard(164))
 
 class Telepathy(AbilityE):
     def CanImplement(self, d):
-        if d.AtkContext.Move.Category != MoveCategory.Status and d.AtkContext.Attacker.Pokemon.TeamId == d.Defender.Pokemon.TeamId:
+        if (d.AtkContext.Move.MoveCategory != MoveCategory.Status or Moves.ThunderWave(d.AtkContext.Move)) and d.AtkContext.Attacker.Pokemon.TeamId == d.Defender.Pokemon.TeamId:
             self.Raise(d.Defender)
             d.Defender.AddReportPm('NoEffect', None, None)
             return False

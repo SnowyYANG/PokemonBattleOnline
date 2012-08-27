@@ -85,9 +85,11 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     }
     void IPokemonOutwardEvents.SubstituteAppear()
     {
+      RefreshImage();
     }
     void IPokemonOutwardEvents.SubstituteDisappear()
     {
+      RefreshImage();
     }
     void IPokemonOutwardEvents.ImageIdChanged()
     {

@@ -68,17 +68,16 @@ class DittoItem(ItemE):
     def __init__(self, id, stat):
         self.Stat = stat
     def ADSModifier(self, pm, stat):
-        if stat == self.Stat:
+        if stat == self.Stat and pm.Pokemon.PokemonType.Number == 132 and not pm.OnboardPokemon.HasCondition('Transform'):
             return 0x2000
         return 0x1000
-print 'WARNING: Items\\ADSModifier.py SP Pm'
 I(DittoItem(39, StatType.Atk)) #metal powder
 I(DittoItem(51, StatType.Speed)) #quick powder
 
 class Eviolite(ItemE):
     def ADSModifier(self, pm, stat):
-        if stat == StatType.Def or stat == StatType.SpDef:
-            return 0x1800
+        #if stat == StatType.Def or stat == StatType.SpDef:
+        #    return 0x1800
         return 0x1000
 print 'WARNING: Items\\ADSModifier.py SP Pm'
 I(Eviolite(102))

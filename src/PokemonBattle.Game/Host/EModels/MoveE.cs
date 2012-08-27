@@ -27,7 +27,12 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (!Abilities.Normalize(atk)) CalculateType(atk);
       {
         int oldPP = atk.MoveProxy.PP;
-        CalculateTargets(atk);
+        if (NotFail(atk)) CalculateTargets(atk);
+        else
+        {
+          FailAll(atk);
+          goto DONE;
+        }
         if (eventForPP != null) eventForPP.PP = oldPP - atk.MoveProxy.PP;
       }
       if (atk.Targets == null || atk.Target != null)
@@ -35,6 +40,19 @@ namespace LightStudio.PokemonBattle.Game.Host
         Act(atk);
         MoveEnding(atk);
       }
+      var lastMove = pm.OnboardPokemon.GetCondition("LastMove");
+      if (lastMove == null)
+      {
+        lastMove = new Condition();
+        pm.OnboardPokemon.SetCondition("LastMove", lastMove);
+      }
+      if (lastMove.Move == Move) lastMove.Int++;
+      else
+      {
+        lastMove.Move = Move;
+        lastMove.Int = 1;
+      }
+    DONE:
       pm.Action = Move.AdvancedFlags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done;
     }
 
@@ -50,107 +68,107 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
 
     #region CalculateTargets
+    protected virtual bool NotFail(AtkContext atk)
+    {
+      return true;
+    }
     protected virtual void CalculateTargets(AtkContext atk)
     {
       IEnumerable<Tile> ts = GetRangeTiles(atk);
       if (ts == null) return; //no target needed
-
       List<DefContext> targets = new List<DefContext>();
-      if (ts.Count() == 0)
+      if (ts.Count() != 0)
       {
-        atk.Controller.ReportBuilder.Add("Fail0");
-        goto DONE;
-      }
-
-      #region Check CoordY
-      {
-        var miss = new List<DefContext>();
-        int count = 0;
-        foreach (Tile t in ts)
-          if (t.Pokemon != null)
-          {
-            //从压力无视破格来看，严格来说miss的DefContext不应建立，不过为了NoGuard省心
-            var pm = t.Pokemon;
-            DefContext def = new DefContext(atk, pm);
-            ++count;
-            Abilities.Pressure(def);
-            if (IsYInRange(def) || def.NoGuard) targets.Add(def);
-            else pm.AddReportPm("Miss");
-          }
-        if (count > 1) atk.MultiTargets = true;
-      }
-      #endregion
-      #region Attack Move and Thunder Wave: Check for Immunity (or Levitate) on the Ally side, position 1, then position 3. Then check Opponent side, position 1, then 2, then 3,
-      if (Move.Category != MoveCategory.Status || Move.ThunderWave())
-      {
-        var noeffect = new List<DefContext>();
-        foreach (DefContext def in targets)
-          if (!HasEffect(def))
-          {
-            noeffect.Add(def);
-            def.Defender.AddReportPm("NoEffect");
-          }
-        if (noeffect.Count > 0) targets.Remove(noeffect);
-      }
-      #endregion
-      #region [unfinished] Check for Wide Guard in same way
-      #warning
-      #endregion
-      #region Check for Protect
-      if (Move.AdvancedFlags.Protectable)
-      {
-        var protect = new List<DefContext>();
-        foreach (DefContext d in targets)
-          if (d.Defender.OnboardPokemon.HasCondition("Protect"))
-          {
-            d.Defender.AddReportPm("Protect");
-            protect.Add(d);
-          }
-        targets.Remove(protect);
-      }
-      #endregion
-      #region Check for Telepathy (and possibly other abilities)
-      if (!atk.Attacker.Ability.IgnoreDefenderAbility()) //为了性能
-      {
-        var abnoeffect = new List<DefContext>();
-        foreach (DefContext def in targets)
-          if (!def.Defender.Ability.CanImplement(def)) abnoeffect.Add(def);
-        targets.Remove(abnoeffect);
-      }
-      #endregion
-      #region Check for misses
-      if (!atk.Attacker.Ability.NoGuard() && GetAccuracyBase(atk) < 0x65)
-      {
-        if (Move.Class != MoveInnerClass.OHKO)
+        #region Check CoordY
         {
-          if (Items.MicleBerry(atk)) goto NOMISS;
-          atk.AccuracyModifier = Abilities.AccuracyModifier(atk) * Items.WideLens(atk);
+          var miss = new List<DefContext>();
+          int count = 0;
+          foreach (Tile t in ts)
+            if (t.Pokemon != null)
+            {
+              //从压力无视破格来看，严格来说miss的DefContext不应建立，不过为了NoGuard省心
+              var pm = t.Pokemon;
+              DefContext def = new DefContext(atk, pm);
+              ++count;
+              Abilities.Pressure(def);
+              if (IsYInRange(def) || def.NoGuard) targets.Add(def);
+              else pm.AddReportPm("Miss");
+            }
+          if (count > 1) atk.MultiTargets = true;
         }
-        var miss = new List<DefContext>();
-        foreach (DefContext def in targets)
-          if (!(def.NoGuard || CanHit(def)))//心眼锁定、无防御
+        #endregion
+        #region Attack Move and Thunder Wave: Check for Immunity (or Levitate) on the Ally side, position 1, then position 3. Then check Opponent side, position 1, then 2, then 3,
+        if (Move.Category != MoveCategory.Status || Move.ThunderWave())
+        {
+          var noeffect = new List<DefContext>();
+          foreach (DefContext def in targets)
+            if (!HasEffect(def))
+            {
+              noeffect.Add(def);
+              def.Defender.AddReportPm("NoEffect");
+            }
+          if (noeffect.Count > 0) targets.Remove(noeffect);
+        }
+        #endregion
+        #region [unfinished] Check for Wide Guard in same way
+        #warning
+        #endregion
+        #region Check for Protect
+        if (Move.AdvancedFlags.Protectable)
+        {
+          var protect = new List<DefContext>();
+          foreach (DefContext d in targets)
+            if (d.Defender.OnboardPokemon.HasCondition("Protect"))
+            {
+              d.Defender.AddReportPm("Protect");
+              protect.Add(d);
+            }
+          targets.Remove(protect);
+        }
+        #endregion
+        #region Check for Telepathy (and possibly other abilities)
+        if (!atk.Attacker.Ability.IgnoreDefenderAbility()) //为了性能
+        {
+          var abnoeffect = new List<DefContext>();
+          foreach (DefContext def in targets)
+            if (!def.Defender.Ability.CanImplement(def)) abnoeffect.Add(def);
+          targets.Remove(abnoeffect);
+        }
+        #endregion
+        #region Check for misses
+        if (!atk.Attacker.Ability.NoGuard() && GetAccuracyBase(atk) < 0x65)
+        {
+          if (Move.Class != MoveInnerClass.OHKO)
           {
-            miss.Add(def);
-            def.Defender.AddReportPm("Miss");
+            if (Items.MicleBerry(atk)) goto NOMISS;
+            atk.AccuracyModifier = Abilities.AccuracyModifier(atk) * Items.WideLens(atk);
           }
-        if (miss.Count > 0) targets.Remove(miss);
+          var miss = new List<DefContext>();
+          foreach (DefContext def in targets)
+            if (!(def.NoGuard || CanHit(def)))//心眼锁定、无防御
+            {
+              miss.Add(def);
+              def.Defender.AddReportPm("Miss");
+            }
+          if (miss.Count > 0) targets.Remove(miss);
+        }
+        NOMISS:
+        #endregion
+        #region Status Move: Check for substitute
+        if (Move.Category == MoveCategory.Status && !Move.AdvancedFlags.IgnoreSubstitute)
+        {
+          var fails = new List<DefContext>();
+          foreach (DefContext d in targets)
+            if (d.Defender != atk.Attacker && d.Defender.OnboardPokemon.HasCondition("Substitute"))
+            {
+              Fail(d);
+              fails.Add(d);
+            }
+          targets.Remove(fails);
+        }
+        #endregion
       }
-      NOMISS:
-      #endregion
-      #region Status Move: Check for substitute
-      if (Move.Category == MoveCategory.Status && !Move.AdvancedFlags.IgnoreSubstitute)
-      {
-        var fails = new List<DefContext>();
-        foreach (DefContext d in targets)
-          if (d.Defender != atk.Attacker && d.Defender.OnboardPokemon.HasCondition("Substitute"))
-          {
-            Fail(d.Defender);
-            fails.Add(d);
-          }
-        targets.Remove(fails);
-      }
-      #endregion
-    DONE:
+      else FailAll(atk);
       atk.SetTargets(targets);
     }
     protected bool CanHit(DefContext def)
@@ -199,16 +217,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     private bool HasEffect_Ground(DefContext def)
     {
-      var pm = def.Defender.OnboardPokemon;
-      return
-        (pm.HasCondition("SmackDown") || pm.HasCondition("Ingrain") || def.Defender.Item.IronBall() || def.Defender.Controller.Board.HasCondition("Gravity")) ||
-        !
-        (
-          pm.HasType(BattleType.Flying) ||
-          pm.HasCondition("Suspension") || pm.HasCondition("Telekinesis") ||
-          def.Defender.Item.AirBalloon() ||
-          (!def.AtkContext.Attacker.Ability.IgnoreDefenderAbility() && def.Defender.RaiseAbility(Abilities.LEVITATE))
-        );
+      return EffectsService.IsGroundAffectable.Execute(def.Defender, def.AtkContext.Attacker.Ability.IgnoreDefenderAbility(), true);
     }
     private bool HasEffect_NonGround(DefContext def)
     {
@@ -316,21 +325,30 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       return def.Defender.OnboardPokemon.CoordY == CoordY.Plate;
     }
-
     #endregion
 
-    protected void Fail(PokemonProxy defender)
+    protected void FailAll(AtkContext atk)
     {
-      if (defender.Controller.Game.Settings.Mode.NeedTarget()) defender.AddReportPm("Fail");
-      else defender.Controller.ReportBuilder.Add("Fail0");
+      atk.Controller.ReportBuilder.Add("Fail0");
+    }
+    protected void Fail(DefContext def)
+    {
+      Fail(def.Defender);
+    }
+    protected void Fail(PokemonProxy der)
+    {
+      if (der.Controller.Game.Settings.Mode.NeedTarget()) der.AddReportPm("Fail");
+      else der.Controller.ReportBuilder.Add("Fail0");
     }
     protected virtual void MoveEnding(AtkContext atk)
     {
-      foreach (var d in atk.Targets)
-      {
-        d.Defender.Item.HpChanged(d.Defender);
-        Abilities.RecoverAfterMoldBreaker(d.Defender);
-      }
+      atk.Attacker.Item.HpChanged(atk.Attacker);
+      if (atk.Targets != null)
+        foreach (var d in atk.Targets)
+        {
+          d.Defender.Item.HpChanged(d.Defender);
+          Abilities.RecoverAfterMoldBreaker(d.Defender);
+        }
     }
   }
 }

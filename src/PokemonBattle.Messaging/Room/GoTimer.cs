@@ -66,7 +66,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
         if (p.Timing)
         {
           p.SpentTime++;
-          timeup |= p.SpentTime > 18000;
+          timeup |= p.SpentTime > 180;
         }
       if (timeup)
       {

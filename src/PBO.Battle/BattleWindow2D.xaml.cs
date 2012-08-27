@@ -116,7 +116,11 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     void IRoomEventsListener.TimeUp(IEnumerable<KeyValuePair<int, int>> spentTime)
     {
       UIDispatcher.Invoke(() =>
-        br.AddLogText(DataService.String["TimeUp"]));
+        {
+          br.AddLogText(DataService.String["TimeUp\n"]);
+          foreach(var pair in spentTime)
+            br.AddLogText(string.Format(room.Game, "{0:P}使用了{1}秒\n", pair.Key, pair.Value));
+        });
     }
     void IRoomEventsListener.Error(string message)
     {

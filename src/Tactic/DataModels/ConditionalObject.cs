@@ -20,7 +20,7 @@ namespace LightStudio.Tactic.DataModels
     {
       return markConditions.Contains(name) || valueConditions.ContainsKey(name);
     }
-    public bool SetCondition(string name, object value = null)
+    public bool AddCondition(string name, object value = null)
     {
       if (value == null) return markConditions.Add(name);
       else
@@ -29,6 +29,11 @@ namespace LightStudio.Tactic.DataModels
         valueConditions[name] = value;
         return true;
       }
+    }
+    public void SetCondition(string name, object value = null)
+    {
+      if (value == null) markConditions.Add(name);
+      else valueConditions[name] = value;
     }
     public T GetCondition<T>(string name)
     {

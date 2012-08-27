@@ -76,7 +76,7 @@ A(Immunity(57))
 
 class LeafGuard(AbilityE):
     def CanAddState(self, pm, by, state, showFail):
-        if pm.Controller.Weather == Weather.IntenseSunlight and (state == AttachedState.Paralysis or state == AttachedState.Sleep or state == AttachedState.Freeze or state == Burn or state == AttachedState.Confusion):
+        if pm.Controller.Weather == Weather.IntenseSunlight and (state == AttachedState.Paralysis or state == AttachedState.Sleep or state == AttachedState.Freeze or state == AttachedState.Burn or state == AttachedState.Poison):
             if showFail:
                 self.Raise(pm)
                 pm.AddReportPm('Cant' + state.ToString(), None, None)

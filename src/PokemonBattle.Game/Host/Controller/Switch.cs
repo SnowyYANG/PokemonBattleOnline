@@ -54,7 +54,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         p.SwitchPokemon(origin, sendout);
         ReportBuilder.Add(new SendOut(pm));
         Sp.Abilities.Trace(pm);
-        if (debut) pm.Debut();
+        if (debut && Controller.Board[tile.Team].Debut(pm)) pm.Debut();
         return true;
       }
       return false;

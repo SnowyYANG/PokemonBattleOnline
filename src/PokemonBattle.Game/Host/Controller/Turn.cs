@@ -121,10 +121,16 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     private void EndTurnSendout()
     {
+      var sendouts = new bool[2, 3]; //max size
       foreach(Tile t in Tiles)
         if (t.WillSendoutPokemonIndex != Tile.NOPM_INDEX)
+        {
+          sendouts[t.Team, t.X] = true;
           Controller.Sendout(t, false);
+        }
       SortTiles();
+      foreach (Tile t in Tiles)
+        if (sendouts[t.Team, t.X]) sendouts[t.Team, t.X] = Controller.Board[t.Team].Debut(t.Pokemon);
       foreach (Tile t in Tiles)
         if (t.Pokemon != null) t.Pokemon.Debut();
       if (ReportBuilder.TurnNumber != 0) EndTurnCheckForInput();

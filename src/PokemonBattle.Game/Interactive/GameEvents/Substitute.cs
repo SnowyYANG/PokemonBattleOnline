@@ -27,8 +27,13 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     protected override void Update()
     {
       var pm = Game.GetPokemon(Pm);
+      pm.IsSubstitute = !De;
       if (De) pm.HideSubstitute();
-      else pm.ShowSubstitute();
+      else
+      {
+        pm.Hp.Value -= pm.Hp.Origin >> 2;
+        pm.ShowSubstitute();
+      }
       AppendGameLog(De ? "DeSubstitute" : "EnSubstitute", Pm);
     }
   }

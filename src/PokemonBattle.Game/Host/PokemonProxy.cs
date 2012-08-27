@@ -34,6 +34,8 @@ namespace LightStudio.PokemonBattle.Game.Host
       OnboardPokemon = new OnboardPokemon(Pokemon, tile.X);
       if (State == PokemonState.Sleeping) OnboardPokemon.SetCondition("Sleeping", Controller.GetRandomInt(2, 4));
       else if (State == PokemonState.BadlyPoisoned) OnboardPokemon.SetCondition("Poison", Controller.TurnNumber);
+      foreach (var m in Moves) m.HasUsed = false;
+
       Controller.OnboardPokemons.Add(this);
       Abilities.Illusion(this);
     }
@@ -71,7 +73,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public int Hp
     { 
       get { return Pokemon.Hp.Value; }
-      set
+      private set
       {
         Pokemon.SetHp(value);
         Item.HpChanged(this);
@@ -135,10 +137,11 @@ namespace LightStudio.PokemonBattle.Game.Host
       AddReport(new AbilityEvent(this, oldAb, ab));
       Ability.Attach(this);
     }
-    public void ChangeItem(int item)
+    public void ChangeItem(int item, string log, PokemonProxy itemLoser = null) //lost and found
     {
       UsingItem = false;
       Pokemon.Item = DataService.GetItem(item);
+      Controller.ReportBuilder.Add(new GetItem(this, log, itemLoser));
       Item.Attach(this);
       OnboardPokemon.RemoveCondition("Unburden");
     }
@@ -223,7 +226,13 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (State != PokemonState.Normal && Hp > 0)
       {
         Pokemon.State = PokemonState.Normal;
-        int i = item ? Pokemon.Item.Id : 0;
+        int i;
+        if (item)
+        {
+          i = Pokemon.Item.Id;
+          if (Pokemon.Item.Type != ItemType.Normal) ConsumeItem();
+        }
+        else i = 0;
         AddReport(new GameEvents.StateChange(this) { Arg1 = i });
       }
     }
@@ -234,33 +243,52 @@ namespace LightStudio.PokemonBattle.Game.Host
       switch (state)
       {
         case AttachedState.Burn:
+          if (State == PokemonState.Burned) goto BEENSTATE;
+          if (OnboardPokemon.HasType(BattleType.Fire)) goto NOEFFECT;
+          goto STATE;
         case AttachedState.Freeze:
+          if (State == PokemonState.Frozen) goto BEENSTATE;
+          if (OnboardPokemon.HasType(BattleType.Ice)) goto NOEFFECT;
+          goto STATE;
         case AttachedState.Paralysis:
+          if (State == PokemonState.Paralyzed) goto BEENSTATE;
+          goto STATE;
         case AttachedState.Poison:
-        case AttachedState.Sleep:
-          if (showFail && State != PokemonState.Normal)
+          if (State == PokemonState.Poisoned || State == PokemonState.BadlyPoisoned)
           {
-            string key;
-            if (State == PokemonState.BadlyPoisoned) key = "BeenPoisoned";
-            else key = "Been" + State.ToString();
-            AddReportPm(key);
-          }
-          return State == PokemonState.Normal && ability.CanAddState(this, by, state, showFail);
-        default:
-          if
-            (
-            OnboardPokemon.HasCondition(state.ToString()) ||
-            (state == AttachedState.Infatuation && (OnboardPokemon.Gender == null || by.OnboardPokemon.Gender == null || OnboardPokemon.Gender == by.OnboardPokemon.Gender))
-            )
-          {
-            if (showFail) AddReport(fail);
+            if (showFail) AddReportPm("BeenPoisoned");
             return false;
           }
-          else
-          {
-            return ability.CanAddState(this, by, state, showFail);
-          }
+          if (OnboardPokemon.HasType(BattleType.Poison) || OnboardPokemon.HasType(BattleType.Steel)) goto FAIL;
+          goto STATE;
+        case AttachedState.Sleep:
+          if (State == PokemonState.Sleeping) goto BEENSTATE;
+          goto STATE;
+        case AttachedState.Infatuation:
+          if (OnboardPokemon.Gender == PokemonGender.None || by.OnboardPokemon.Gender == PokemonGender.None || OnboardPokemon.Gender == by.OnboardPokemon.Gender) goto FAIL;
+          goto CONDITION;
+        case AttachedState.LeechSeed:
+          if (OnboardPokemon.HasType(BattleType.Grass)) goto NOEFFECT;
+          goto CONDITION;
+        default:
+          goto CONDITION;
       }
+    FAIL:
+      if (showFail) AddReport(fail);
+      return false;
+    NOEFFECT:
+      if (showFail) AddReportPm("NoEffect");
+      return false;
+    BEENSTATE:
+      if (showFail) AddReportPm("Been" + State.ToString());
+      return false;
+    STATE:
+      if (State != PokemonState.Normal) goto FAIL;
+      goto GENERIC;
+    CONDITION:
+      if (OnboardPokemon.HasCondition(state.ToString())) goto FAIL;
+    GENERIC:
+      return ability.CanAddState(this, by, state, showFail);
     }
     public bool CanAddState(PokemonProxy by, AttachedState state, bool showFail)
     {
@@ -331,8 +359,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (Action == PokemonAction.Debuting)
       {
-        Ability.Attach(this);//特性
-        Items.AirBalloon(this); Item.Attach(this);//道具
+        Ability.Attach(this);
+        Items.AirBalloon(this); Item.Attach(this);
         Action = PokemonAction.Done;
       }
     }
@@ -396,6 +424,12 @@ namespace LightStudio.PokemonBattle.Game.Host
     #endregion
 
     #region ChangeHp
+    public void ChangeHp(int change, string log, int arg1 = 0, int arg2 = 0)
+    {
+      Pokemon.SetHp(Hp + change);
+      Controller.ReportBuilder.Add(new HpChange(this, log, arg1, arg2));
+      if (!CheckFaint()) Item.HpChanged(this);
+    }
     public int MoveHurt(int damage)
     {
       if (damage >= Hp)
@@ -461,7 +495,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       else //ReHurt
       {
-        if (Ability.RockHead()) return;
+        if (Ability.RockHead() || Ability.MagicGuard()) return;
         Hp += v;
         Controller.ReportBuilder.Add(new GameEvents.HpChange(this, "ReHurt"));
       }
@@ -574,7 +608,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           else
           {
             Pokemon.State = PokemonState.BadlyPoisoned;
-            OnboardPokemon.SetCondition("BadlyPoison", Controller.TurnNumber);
+            OnboardPokemon.SetCondition("Poison", Controller.TurnNumber);
           }
           goto POKEMON_STATE;
         case AttachedState.Sleep:
@@ -620,10 +654,14 @@ namespace LightStudio.PokemonBattle.Game.Host
         case AttachedState.Yawn:
           goto DONE;
         case AttachedState.HealBlock:
+          OnboardPokemon.SetCondition("HealBlock", Controller.TurnNumber + turn - 1);
+          AddReportPm("EnHealBlock");
           goto DONE;
         case AttachedState.CanAttack:
           goto DONE;
         case AttachedState.LeechSeed:
+          OnboardPokemon.SetCondition("LeechSeed", by.Tile);
+          AddReportPm("EnLeechSeed");
           goto DONE;
         case AttachedState.Embargo:
           goto DONE;
@@ -631,6 +669,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           goto DONE;
         case AttachedState.Ingrain:
           OnboardPokemon.SetCondition("Ingrain");
+          AddReportPm("EnIngrain");
           goto DONE;
 #if DEBUG
         default:

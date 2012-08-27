@@ -5,8 +5,7 @@ class DeStateBerry(ItemE):
         self.State = state
     def e(self, pm):
         if pm.State == self.State:
-            pm.ConsumeItem()
-            pm.Pokemon.DeAbnormalState(True)
+            pm.DeAbnormalState(True)
     def Attach(self, pm):
         DeStateBerry.e(self, pm)
     def StateAdded(self, pm, by, state):
@@ -19,8 +18,7 @@ I(DeStateBerry(133, PokemonState.Frozen)) #aspear berry
 class PechaBerry(ItemE):
     def e(self, pm):
         if pm.State == PokemonState.Poisoned or pm.State == PokemonState.BadlyPoisoned:
-            pm.ConsumeItem()
-            pm.Pokemon.DeAbnormalState(True)
+            pm.DeAbnormalState(True)
     def Attach(self, pm):
         PechaBerry.e(self, pm)
     def StateAdded(self, pm, by, state):
@@ -44,8 +42,7 @@ I(PersimBerry(136))
 class LumBerry(ItemE):
     def e(self, pm):
         if pm.State != PokemonState.Normal:
-            pm.ConsumeItem()
-            pm.Pokemon.DeAbnormalState(True)
+            pm.DeAbnormalState(True)
     def Attach(self, pm):
         LumBerry.e(self, pm)
     def StateAdded(self, pm, by, state):

@@ -10,6 +10,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
   public static class Moves
   {
     public const int STRUGGLE = 165;
+    internal const int SPIKES = 191;
+    internal const int TOXIC_SPIKES = 390;
+    internal const int STEALTH_ROCK = 446;
 
     public static bool AvailableEvenSleeping(this MoveProxy move)
     {
