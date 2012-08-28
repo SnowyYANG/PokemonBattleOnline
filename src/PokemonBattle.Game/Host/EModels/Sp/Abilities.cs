@@ -108,6 +108,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       return ability.Id == 85;
     }
+    public static bool Normalize(this IAbilityE ability)
+    {
+      return ability.Id == 86;
+    }
     public static bool QuickFeet(this IAbilityE ability)
     {
       return ability.Id == 101;
@@ -164,6 +168,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     #endregion
 
+    #region public sp triggers
     public static bool IgnoreWeather(Controller c)
     {
       const int AIR_LOCK = 3;
@@ -249,20 +254,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       }
       return m;
     }
-    public static bool Normalize(AtkContext atk)
-    {
-      if (atk.Attacker.Ability.Id == 86)
-      {
-        atk.Type = BattleType.Normal;
-        return true;
-      }
-      return false;
-    }
     public static bool Sturdy(PokemonProxy pm) //调用前已判断过 damage > pm.Hp
     {
       if (pm.Hp == pm.Pokemon.Hp.Origin && pm.RaiseAbility(STURDY))
       {
-        pm.AddReportPm("Sturdy");
+        pm.AddReportPm("Endure");
         return true;
       }
       return false;
@@ -350,21 +346,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         d.AddState(a, AttachedState.Poison, false);
       }
     }
-    internal static void ReTarget(AtkContext atk, ref Tile select)
-    {
-      int ab = 0;
-      if (atk.Type == BattleType.Electric) ab = 68;
-      else if (atk.Type == BattleType.Fire) ab = 34;
-      else if (atk.Type == BattleType.Water) ab = 137;
-      if (ab != 0 && (select == null || select.Pokemon == null || select.Pokemon.Ability.Id != ab))
-        foreach(var pm in atk.Controller.OnboardPokemons)
-          if (pm != atk.Attacker && pm.RaiseAbility(ab))
-          {
-            select = pm.Tile;
-            pm.AddReportPm("ReTarget");
-            return;
-          }
-    }
     public static bool Trace(int abilityId)
     {
       return abilityId != FORECAST && abilityId != ILLUSION && abilityId != ZEN_MODE && abilityId != MULTITYPE && abilityId != TRACE;
@@ -380,6 +361,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
             pm.ChangeAbility(sendout.OnboardPokemon.Ability);
           }
     }
+    public static bool Gluttony(PokemonProxy pm)
+    {
+      return pm.Hp << 2 < pm.Pokemon.Hp.Origin || (pm.Ability.Id == 40 && pm.Hp << 1 < pm.Pokemon.Hp.Origin);
+    }
+    #endregion
+
+    #region internal sp triggers
     internal static void SlowStart(Controller Controller)
     {
       foreach (var pm in Controller.OnboardPokemons)
@@ -393,11 +381,21 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
           }
         }
     }
-    public static bool Gluttony(PokemonProxy pm)
+    internal static void ReTarget(AtkContext atk, ref Tile select)
     {
-      return pm.Hp << 2 < pm.Pokemon.Hp.Origin || (pm.Ability.Id == 40 && pm.Hp << 1 < pm.Pokemon.Hp.Origin);
+      int ab = 0;
+      if (atk.Type == BattleType.Electric) ab = 68;
+      else if (atk.Type == BattleType.Fire) ab = 34;
+      else if (atk.Type == BattleType.Water) ab = 137;
+      if (ab != 0 && (select == null || select.Pokemon == null || select.Pokemon.Ability.Id != ab))
+        foreach(var pm in atk.Controller.OnboardPokemons)
+          if (pm != atk.Attacker && pm.RaiseAbility(ab))
+          {
+            select = pm.Tile;
+            pm.AddReportPm("ReTarget");
+            return;
+          }
     }
-
     internal static void RecoverAfterMoldBreaker(PokemonProxy pm)
     {
       var ability = pm.Ability;
@@ -406,5 +404,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       if (id == 69 || id == 87 || id == 60 || id == 90 || id == 73 || id == 161 || id == 158 || id == 57)
         ability.Attach(pm);
     }
+    #endregion
   }
 }

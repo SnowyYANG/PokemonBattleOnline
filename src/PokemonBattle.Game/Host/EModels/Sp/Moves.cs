@@ -63,13 +63,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       }
     }
 
-    public static bool FoulPlay(this MoveType move)
+    public static bool IgnoreDefenderLv7D(this MoveType move)
     {
-      return move.Id == 492;
-    }
-    public static bool ChipAway(this MoveType move)
-    {
-      return move.Id == 498;
+      return move.Id == 498 || move.Id == 533;
     }
     public static void SkyDrop(AtkContext atk)
     {
@@ -79,6 +75,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         d.OnboardPokemon.CoordY = CoordY.Plate;
         d.Controller.ReportBuilder.Add(PositionChange.Reset("DeSkyDrop", d));
       }
+    }
+    public static bool UseDefenderAtk(this MoveType move)
+    {
+      const int PSYSHOCK = 473, FOUL_PLAY = 492, PSYSTRIKE = 540, SECRET_SWORD = 548;
+      return move.Id == PSYSHOCK || move.Id == FOUL_PLAY || move.Id == PSYSTRIKE || move.Id == SECRET_SWORD;
     }
   }
 }

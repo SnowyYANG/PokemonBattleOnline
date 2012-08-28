@@ -14,11 +14,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
       //The value of the modificator is 0xA8F if there is more than one Pokemon per side of the field and 0x800 otherwise.
       //Same as above with Light Screen and special moves.
       ushort m = 0x1000;
-      if (
-        (def.AtkContext.Move.Category == MoveCategory.Physical && def.HasInfiltratableCondition("Reflect")) ||
+      if ((def.AtkContext.Move.Category == MoveCategory.Physical && def.HasInfiltratableCondition("Reflect")) ||
         (def.AtkContext.Move.Category == MoveCategory.Special && def.HasInfiltratableCondition("LightScreen")))
       {
-        if (def.Defender.Controller.Game.Settings.Mode.XBound() > 1) m = 0xA8F; //seriously? am I sure?!
+        if (def.AtkContext.MultiTargets) m = 0xA8F;
         else m = 0x800;
       }
       return m;

@@ -26,11 +26,10 @@ namespace LightStudio.PokemonBattle.Game.Host
       public MoveType Move
       { get; private set; }
 
-
-
       public void Execute(PokemonProxy pm, GameEvents.UseMove eventForPP)
       {
         pm.Controller.ReportBuilder.Add("unfinish", pm, Move == null ? Id.ToString() : Move.GetLocalizedName());
+        pm.BuildAtkContext(Move);
         pm.Action = PokemonAction.Done;
       }
     }

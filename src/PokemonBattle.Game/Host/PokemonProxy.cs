@@ -114,7 +114,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         if (State == PokemonState.Paralyzed) speed >>= 1;
         speed *= Ability.ADSModifier(this, StatType.Speed);
         speed *= Item.ADSModifier(this, StatType.Speed);
-        if (Controller.Board[Pokemon.TeamId].HasCondition("TailWind")) speed <<= 1;
+        if (Controller.Board[Pokemon.TeamId].HasCondition("Tailwind")) speed <<= 1;
         if (Controller.Board[Pokemon.TeamId].HasCondition("Swamp")) speed = (speed + 1) >> 2; //小数点是0.5以下就舍去，如果是0.75就四舍五入
         return speed;
       }
@@ -123,7 +123,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       get
       {
-        double w = Pokemon.PokemonType.Weight;
+        double w = OnboardPokemon.Weight;
         w *= Abilities.WeightModifier(this);
         w *= Items.FloatStone(this);
         return w;
@@ -211,6 +211,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           (
           i == null ||
           i.Mail() ||
+          Items.PlatedArceus(Pokemon) ||
           Ability.StickyHold()
           );
 #warning TODO: more
@@ -265,11 +266,13 @@ namespace LightStudio.PokemonBattle.Game.Host
           if (State == PokemonState.Sleeping) goto BEENSTATE;
           goto STATE;
         case AttachedState.Infatuation:
-          if (OnboardPokemon.Gender == PokemonGender.None || by.OnboardPokemon.Gender == PokemonGender.None || OnboardPokemon.Gender == by.OnboardPokemon.Gender) goto FAIL;
+          if (OnboardPokemon.Gender == PokemonGender.None || by.OnboardPokemon.Gender == PokemonGender.None || OnboardPokemon.Gender == by.OnboardPokemon.Gender) goto NOEFFECT;
           goto CONDITION;
         case AttachedState.LeechSeed:
           if (OnboardPokemon.HasType(BattleType.Grass)) goto NOEFFECT;
           goto CONDITION;
+        case AttachedState.PerishSong:
+          return !OnboardPokemon.HasCondition("PerishSong"); //无需判断防音 never show fail
         default:
           goto CONDITION;
       }
@@ -297,6 +300,11 @@ namespace LightStudio.PokemonBattle.Game.Host
     public int CanChangeLv7D(PokemonProxy by, StatType stat, int change, bool showFail)
     {
       if (Tile == null || Hp == 0 || change == 0) return 0;
+      if (change < 0 && by != this)
+      {
+        if (showFail) AddReportPm("Mist");
+        return 0;
+      }
       change = Ability.Lv7DChanging(this, by, stat, change, showFail);
       if (change != 0)
       {
@@ -412,8 +420,13 @@ namespace LightStudio.PokemonBattle.Game.Host
           {
             _atkContext = null;
             SelectedMove.Execute();
+            OnboardPokemon.SetCondition("LastMove", AtkContext.Move);
           }
-          else Action = PokemonAction.Done;
+          else
+          {
+            OnboardPokemon.RemoveCondition("LastMove");
+            Action = PokemonAction.Done;
+          }
           break;
       }
     }
@@ -625,14 +638,14 @@ namespace LightStudio.PokemonBattle.Game.Host
           goto DONE;
         case AttachedState.Trapped:
           {
-            int move = by.AtkContext.Move.Id;
-            var c = new Dictionary<string, object>();
-            c["Pm"] = by;
-            c["Turn"] = Controller.TurnNumber + turn - 1;
-            c["Move"] = move;
-            c["Band"] = by.Item.BindingBand();
+            var move = by.AtkContext.Move;
+            var c = new Condition();
+            c.By = by;
+            c.Turn = Controller.TurnNumber + turn - 1;
+            c.Move = move;
+            c.Bool = by.Item.BindingBand();
             OnboardPokemon.SetCondition("Trap", c);
-            AddReportPm("EnTrap" + move, by);
+            AddReportPm("EnTrap" + move.Id.ToString(), by);
           }
           goto DONE;
         case AttachedState.Nightmare:
@@ -640,6 +653,8 @@ namespace LightStudio.PokemonBattle.Game.Host
           AddReportPm("EnNightmare");
           goto DONE;
         case AttachedState.Torment:
+          OnboardPokemon.SetCondition("Torment");
+          AddReportPm("EnTorment");
           goto DONE;
         case AttachedState.Disable:
           {
@@ -664,8 +679,11 @@ namespace LightStudio.PokemonBattle.Game.Host
           AddReportPm("EnLeechSeed");
           goto DONE;
         case AttachedState.Embargo:
+          OnboardPokemon.SetCondition("Embargo");
+          AddReportPm("EnEmbargo");
           goto DONE;
         case AttachedState.PerishSong:
+          OnboardPokemon.SetCondition("PerishSong", 3);
           goto DONE;
         case AttachedState.Ingrain:
           OnboardPokemon.SetCondition("Ingrain");
@@ -699,7 +717,6 @@ namespace LightStudio.PokemonBattle.Game.Host
       if ((attachment.Probability == 0 || atk.RandomHappen(attachment.Probability)) && CanAddState(atk.Attacker, def.Ability, attachment.State, atk.Move.Category == MoveCategory.Status))
       {
         int turn;
-        #warning 特性道具对回合影响
         if (attachment.State == AttachedState.Trapped && atk.Attacker.Item.GripClaw()) turn = 8;
         else if (attachment.MinTurn != attachment.MaxTurn) turn = Controller.GetRandomInt(attachment.MinTurn, attachment.MaxTurn);
         else turn = attachment.MinTurn;

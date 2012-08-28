@@ -15,12 +15,31 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
     }
 
+    protected override void CalculateTargets(AtkContext atk)
+    {
+      base.CalculateTargets(atk);
+      if (atk.Targets != null)
+      {
+        var targets = atk.Targets.ToList();
+        if (!Move.AdvancedFlags.IgnoreSubstitute)
+          foreach (DefContext d in targets.ToArray())
+            if (d.Defender != atk.Attacker && d.Defender.OnboardPokemon.HasCondition("Substitute"))
+            {
+              Fail(d);
+              targets.Remove(d);
+            }
+        atk.SetTargets(targets);
+      }
+    }
     protected override void Act(AtkContext atk) //1、2、3、5、A、B、C、D
     {
       switch (Move.Class)
       {
         case MoveInnerClass.AddState:
-          foreach (var d in atk.Targets) d.Defender.AddState(d);
+          bool notAllFail = false;
+          foreach (var d in atk.Targets) notAllFail |= d.Defender.AddState(d);
+          if (notAllFail && atk.Move.Attachment.State == AttachedState.PerishSong) atk.Controller.ReportBuilder.Add("EnPerishSong");
+          else FailAll(atk);
           break;
         case MoveInnerClass.Lv7DChange:
           foreach (var d in atk.Targets) d.Defender.ChangeLv7D(atk);
@@ -38,12 +57,6 @@ namespace LightStudio.PokemonBattle.Game.Host
         case MoveInnerClass.ForceToShift:
           break;
       }
-    }
-
-    protected bool CheckContinuousUseNotFail(AtkContext atk)
-    {
-      var c = atk.Attacker.OnboardPokemon.GetCondition("LastMove");
-      return c == null || c.Move != atk.Move || atk.Controller.GetRandomInt(0, 0xffff - 1) < 0xffff >> c.Int;
     }
   }
 }

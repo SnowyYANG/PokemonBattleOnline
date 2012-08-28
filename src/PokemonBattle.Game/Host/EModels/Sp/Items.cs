@@ -37,15 +37,83 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       return item.Id == 73;
     }
+    public static bool AirBalloon(this IItemE item)
+    {
+      return item.Id == 105;
+    }
+    public static bool RingTarget(this IItemE item)
+    {
+      return item.Id == 107;
+    }
     public static bool BindingBand(this IItemE item)
     {
       return item.Id == 108;
     }
+    public static bool IronBall(this IItemE item)
+    {
+      return item.Id == 55;
+    }
+
     public static bool Mail(this Item item)
     {
       return item.Id == 194;
     }
-
+    
+    private static readonly BattleType[] ARCEUS_TYPE = new BattleType[] { BattleType.Fire, BattleType.Water, BattleType.Electric, BattleType.Grass, BattleType.Ice, BattleType.Fighting, BattleType.Poison, BattleType.Ground, BattleType.Flying, BattleType.Psychic, BattleType.Bug, BattleType.Rock, BattleType.Ghost, BattleType.Dragon, BattleType.Dark, BattleType.Steel };
+    public static bool PlatedArceus(Pokemon pm)
+    {
+      return pm.PokemonType.Number == 493 && pm.Item.Id > 74 && pm.Item.Id < 91;
+    }
+    public static BattleType PlatedArceusType(Pokemon pm)
+    {
+#if DEBUG
+      if (PlatedArceus(pm))
+#endif
+        return ARCEUS_TYPE[pm.Item.Id - 75];
+#if DEBUG
+      return BattleType.Invalid;
+#endif
+    }
+    public static void MentalHerb(PokemonProxy pm)
+    {
+      var o = pm.OnboardPokemon;
+      bool consume = false;
+      if (o.HasCondition("Infatuation"))
+      {
+        o.RemoveCondition("Infatuation");
+        pm.AddReportPm("ItemDeInfatuation", 8);
+        consume = true;
+      }
+      if (o.HasCondition("Encore"))
+      {
+        o.RemoveCondition("Encore");
+        pm.AddReportPm("DeEncore");
+        consume = true;
+      }
+      if (o.HasCondition("Taunt"))
+      {
+        o.RemoveCondition("Taunt");
+        pm.AddReportPm("DeTaunt");
+        consume = true;
+      }
+      if (o.HasCondition("Torment"))
+      {
+        o.RemoveCondition("Torment");
+        pm.AddReportPm("DeTorment");
+        consume = true;
+      }
+      if (o.HasCondition("Disable"))
+      {
+        o.RemoveCondition("Disable");
+        pm.AddReportPm("DeDisable");
+        consume = true;
+      }
+      if (consume)
+      {
+        pm.Controller.ReportBuilder.Add(new GameEvents.UseItem(null, pm));
+        pm.ConsumeItem();
+      }
+    }
     public static void WhiteHerb(PokemonProxy pm)
     {
       if (pm.Item.Id == 5)
@@ -98,27 +166,22 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         case LIFE_ORB:
           r = 0x14cc;
           break;
+        case METRONOME:
+          var c = aer.OnboardPokemon.GetCondition("LastMove");
+          if (target.AtkContext.Move == c.Move)
+          {
+            if (c.Int < 5) r += (ushort)(0x333 * c.Int);
+            else r = 0x2000;
+          }
+          break;
       }
       return r;
     }
-    /// <summary>
-    /// 气球的提示信息不是Attach而是Debut，是唯一会Debut的道具
-    /// </summary>
-    public static void AirBalloon(PokemonProxy pm)
+    public static void AirBalloon(PokemonProxy pm) //气球的提示信息不是Attach而是Debut，是唯一会Debut的道具
     {
       if (pm.Item.Id == 105) pm.AddReportPm("EnBalloon");
     }
-    public static bool AirBalloon(this IItemE item)
-    {
-      return item.Id == 105;
-    }
-
-    /// <summary>
-    /// 调用前已判断过 damage > pm.Hp
-    /// </summary>
-    /// <param name="pm"></param>
-    /// <returns></returns>
-    public static bool Remain1Hp(PokemonProxy pm)
+    public static bool Remain1Hp(PokemonProxy pm) //调用前已判断过 damage > pm.Hp
     {
       const int FOCUS_BAND = 15, FOCUS_SASH = 52;
       if ((pm.Item.Id == FOCUS_BAND && pm.Controller.OneNth(10)) || (pm.Item.Id == FOCUS_SASH && pm.Hp == pm.Pokemon.Hp.Origin))
@@ -159,16 +222,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       if (pm.Item.Id == 103) return 0.5d;
       return 1d;
     }
-    public static bool IronBall(this IItemE item)
-    {
-      return item.Id == 55;
-    }
-    public static bool RingTarget(this IItemE item)
-    {
-      return item.Id == 107;
-    }
-
-    #region berry
     public static bool MicleBerry(AtkContext atk)
     {
       PokemonProxy pm = atk.Attacker;
@@ -179,6 +232,5 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       }
       return false;
     }
-    #endregion
   }
 }

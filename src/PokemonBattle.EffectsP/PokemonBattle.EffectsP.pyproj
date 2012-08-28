@@ -45,6 +45,7 @@
     <None Include="Items\GemAntiberry.py" />
     <None Include="Items\HpRecover.py" />
     <None Include="Items\Lv5DUp.py" />
+    <None Include="Items\Other.py" />
     <None Include="Items\PowerModifier.py" />
     <None Include="Items\StateAdded.py" />
     <None Include="Moves\Attack\Blizzard.py" />
@@ -56,7 +57,9 @@
     <None Include="Moves\Status\ClassA.py" />
     <None Include="Moves\Status\ClassB.py" />
     <None Include="Moves\Status\ClassD.py" />
+    <None Include="Moves\Status\ContinuousUseFailEasier.py" />
     <None Include="Moves\Status\HpRecover.py" />
+    <None Include="Moves\Status\SpGameLog.py" />
     <None Include="references.py" />
   </ItemGroup>
   <ItemGroup>

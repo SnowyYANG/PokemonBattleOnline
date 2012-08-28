@@ -1,28 +1,27 @@
 def item_changelv5d(pm, stat, change):
-    if Abilities.Gluttony(pm):
-        change = pm.CanChangeLv7D(pm, stat, change, False)
-        if change == 0:
-            return
-        i = pm.Pokemon.Item.Id
-        if change == 1:
-            e = UseItem('Item7DUp1', pm, i)
+    change = pm.CanChangeLv7D(pm, stat, change, False)
+    if change == 0:
+        return
+    i = pm.Pokemon.Item.Id
+    if change == 1:
+        e = UseItem('Item7DUp1', pm, i)
+    else:
+        if change == 2:
+            e = UseItem('Item7DUp2', pm, i)
         else:
-            if change == 2:
-                e = UseItem('Item7DUp2', pm, i)
+            if change > 0:
+                e = UseItem('Item7DUp3', pm, i)
             else:
-                if change > 0:
-                    e = UseItem('Item7DUp3', pm, i)
+                if change == -1:
+                    e = UseItem('7DDown1', pm)
                 else:
-                    if change == -1:
-                        e = UseItem('7DDown1', pm)
+                    if change == -2:
+                        e = UseItem('7DDown2', pm)
                     else:
-                        if change == -2:
-                            e = UseItem('7DDown2', pm)
-                        else:
-                            e = UseItem('7DDown3', pm)
-        pm.OnboardPokemon.ChangeLv7D(stat, change)
-        pm.ConsumeItem()
-        pm.Controller.ReportBuilder.Add(e)
+                        e = UseItem('7DDown3', pm)
+    pm.OnboardPokemon.ChangeLv7D(stat, change)
+    pm.ConsumeItem()
+    pm.Controller.ReportBuilder.Add(e)
 
 class Up1Berry(ItemE):
     def __new__(cls, id, stat):
@@ -30,8 +29,8 @@ class Up1Berry(ItemE):
     def __init__(self, id, stat):
         self.Stat = stat
     def e(self, pm):
-        item_changelv5d(pm, self.Stat, 1)
-        pm.ConsumeItem()
+        if Abilities.Gluttony(pm):
+            item_changelv5d(pm, self.Stat, 1)
     def Attach(self, pm):
         Up1Berry.e(self, pm)
     def HpChanged(self, pm):
@@ -44,6 +43,8 @@ I(Up1Berry(185, StatType.SpDef)) #apicot berry
 
 class StarfBerry(ItemE):
     def e(pm):
+        if not Abilities.Gluttony(pm):
+            return
         ss = []
         if pm.CanChangeLv7D(pm, StatType.Atk, 2, False) != 0:
             ss.append(StatType.Atk)
@@ -56,7 +57,7 @@ class StarfBerry(ItemE):
         if pm.CanChangeLv7D(pm, StatType.Speed, 2, False) != 0:
             ss.append(StatType.Speed)
         n = len(ss)
-        if i != 0:
+        if n != 0:
             item_changelv5d(pm, ss[pm.Controller.GetRandomInt(0, n - 1)], 2)
     def Attach(self, pm):
         StarfBerry.e(pm)

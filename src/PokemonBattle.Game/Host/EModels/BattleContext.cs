@@ -19,6 +19,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public bool MeFirst;
     public int ActualHits; //当前攻击次数，包含多回合攻击与连续攻击技能，从1开始数
     public Tile EjectButton;
+    public bool FailAll;
     public dynamic Attachment;
 
     internal AtkContext(PokemonProxy pm, MoveType move)

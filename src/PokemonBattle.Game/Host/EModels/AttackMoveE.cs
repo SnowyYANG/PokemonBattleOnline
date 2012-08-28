@@ -149,13 +149,27 @@ namespace LightStudio.PokemonBattle.Game.Host
         def.Damage *= def.BasePower * m;
       }
       {
-        OnboardPokemon p = Move.FoulPlay() ? atk.Target.Defender.OnboardPokemon : aer.OnboardPokemon;
         StatType st = Move.Category == MoveCategory.Physical ? StatType.Atk : StatType.SpAtk;
-        int a = p.Static.GetStat(st);
-        if (!def.Ability.Unaware())
+        int a;
         {
-          int atkLv = p.Lv5D.GetStat(st);
-          if (!(def.IsCt && atkLv < 0)) a = OnboardPokemon.Get5D(a, atkLv);
+          OnboardPokemon p;
+          StatType s;
+          if (Move.UseDefenderAtk())
+          {
+            p = def.Defender.OnboardPokemon;
+            s = StatType.Atk;
+          }
+          else
+          {
+            p = atk.Attacker.OnboardPokemon;
+            s = st;
+          }
+          a = p.Static.GetStat(st);
+          if (!def.Ability.Unaware())
+          {
+            int atkLv = p.Lv5D.GetStat(st);
+            if (!(def.IsCt && atkLv < 0)) a = OnboardPokemon.Get5D(a, atkLv);
+          }
         }
         a *= Abilities.Hustle(atk);
         Modifier m = Abilities.ThickFat(def);
@@ -168,7 +182,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         StatType st = Move.Category == MoveCategory.Physical ? StatType.Def : StatType.SpDef;
         int defRaw = def.Defender.OnboardPokemon.Static.GetStat(st);
         int defLv = 0;
-        if (!(aer.Ability.Unaware() || Move.ChipAway())) defLv = def.Defender.OnboardPokemon.Lv5D.GetStat(st);
+        if (!(aer.Ability.Unaware() || Move.IgnoreDefenderLv7D())) defLv = def.Defender.OnboardPokemon.Lv5D.GetStat(st);
         if (def.IsCt && defLv > 0) defLv = 0;
         int d = OnboardPokemon.Get5D(defRaw, defLv);
         Modifier m = 0x1000;

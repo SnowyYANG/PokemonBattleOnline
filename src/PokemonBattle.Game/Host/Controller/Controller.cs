@@ -42,6 +42,8 @@ namespace LightStudio.PokemonBattle.Game.Host
 #endif
     }
 
+    public IGameSettings GameSettings
+    { get { return Game.Settings; } }
     public Board Board
     { get { return Game.Board; } }
     /// <summary>

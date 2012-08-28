@@ -309,7 +309,22 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
       //18.0 Embargo ends
       //19.0 Yawn
-      //20.0 Perish Song
+      foreach (var pm in c.OnboardPokemons.ToArray())
+      {
+        int turn = pm.OnboardPokemon.GetCondition<int>("PerishSong", -1);
+        if (turn == 0)
+        {
+          pm.OnboardPokemon.RemoveCondition("PerishSong");
+          pm.Pokemon.SetHp(0);
+          c.ReportBuilder.Add(new HpChange(pm, "DePerishSong"));
+          pm.CheckFaint();
+        }
+        else if (turn != -1)
+        {
+          pm.AddReportPm("PerishSong", turn);
+          pm.OnboardPokemon.SetCondition("PerishSong", turn - 1);
+        }
+      }
     }
     //21.0 Reflect ends
     //21.1 Light Screen ends
@@ -318,13 +333,27 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     //21.4 Tailwind ends
     //21.5 Lucky Chant ends
     //21.6 [pass] Water Pledge + Fire Pledge ends, Fire Pledge + Grass Pledge ends, Grass Pledge + Water Pledge ends
-    private void FieldCondition(Field f)
-    {
-    }
     private void FieldCondition(Controller c)
     {
-      FieldCondition(c.Board[0]);
-      FieldCondition(c.Board[1]);
+      for (int t = 0; t < c.GameSettings.Mode.TeamCount(); ++t)
+      {
+        var f = c.Board[t];
+        FieldCondition("Reflect", t, c);
+        FieldCondition("LightScreen", t, c);
+        FieldCondition("Safeguard", t, c);
+        FieldCondition("Mist", t, c);
+        FieldCondition("Tailwind", t, c);
+        FieldCondition("LuckyChant", t, c);
+      }
+    }
+    private void FieldCondition(string condition, int team, Controller c)
+    {
+      var f = c.Board[team];
+      if (f.GetCondition<int>(condition) == c.TurnNumber)
+      {
+        f.RemoveCondition(condition);
+        c.ReportBuilder.Add("De" + condition, team);
+      }
     }
     //22.0 [unfinished] Gravity ends
     //23.0 Trick Room ends

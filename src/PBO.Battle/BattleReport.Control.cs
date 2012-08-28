@@ -108,7 +108,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
               FontStyle = GetFontStyle(text),
               TextDecorations = GetTextDecorations(text)
             });
-          using (System.IO.StreamWriter sw = new System.IO.StreamWriter("test.txt", true)) sw.WriteLine(text.Text);
+          using (System.IO.StreamWriter sw = new System.IO.StreamWriter(Messaging.PBOClient.Client.User.Name, true)) sw.Write(text.Text);
         }
         else foreach (IText t in text.Contents) AddText(t);
       }

@@ -49,9 +49,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     public readonly SixD Iv; //模仿觉醒力
     public readonly SixD Ev;
     public readonly SixD Static; //力量交换，包含性格修正，不包含等级修正
-    private readonly SixD lv5D;
-    private int accuracyLv;
-    private int evasionLv;
     #endregion
 
     internal OnboardPokemon(Pokemon pokemon, int x)
@@ -64,31 +61,45 @@ namespace LightStudio.PokemonBattle.Game.Host
       Iv = new SixD(pokemon.Iv);
       Ev = new SixD(pokemon.Ev);
       Static = new SixD(pokemon.Static);
+      _weight = pokemon.PokemonType.Weight;
       lv5D = new SixD();
 
       X = x; //CoordY 默认值
     }
 
-    public I6D Lv5D
-    { get { return lv5D; } }
-    public int AccuracyLv
-    { 
-      get { return accuracyLv; }
+    private double _weight;
+    public double Weight
+    {
+      get { return _weight; }
       set
       {
-        if (value < -6) value = -6;
-        if (value > 6) value = 6;
-        accuracyLv = value;
+        if (value < 0.1) _weight = 0.1;
+        else _weight = value;
       }
     }
-    public int EvasionLv
+    private readonly SixD lv5D;
+    public I6D Lv5D
+    { get { return lv5D; } }
+    private int _accuracyLv;
+    public int AccuracyLv
     { 
-      get { return evasionLv; }
+      get { return _accuracyLv; }
       set
       {
         if (value < -6) value = -6;
         if (value > 6) value = 6;
-        evasionLv = value;
+        _accuracyLv = value;
+      }
+    }
+    private int _evasionLv;
+    public int EvasionLv
+    { 
+      get { return _evasionLv; }
+      set
+      {
+        if (value < -6) value = -6;
+        if (value > 6) value = 6;
+        _evasionLv = value;
       }
     }
 
@@ -103,10 +114,10 @@ namespace LightStudio.PokemonBattle.Game.Host
       switch (stat)
       {
         case StatType.Accuracy:
-          ChangeLv7D(ref accuracyLv, change);
+          ChangeLv7D(ref _accuracyLv, change);
           break;
         case StatType.Evasion:
-          ChangeLv7D(ref evasionLv, change);
+          ChangeLv7D(ref _evasionLv, change);
           break;
         case StatType.Atk:
           ChangeLv7D(ref lv5D.Atk, change);

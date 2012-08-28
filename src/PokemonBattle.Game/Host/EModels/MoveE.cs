@@ -24,36 +24,23 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (pm.AtkContext == null) pm.BuildAtkContext(Move);
       if (PrepareOneTurn(pm) && !Sp.Items.PowerHerb(pm)) return;
       AtkContext atk = pm.AtkContext;
-      if (!Abilities.Normalize(atk)) CalculateType(atk);
+      int oldPP = atk.MoveProxy.PP;
       {
-        int oldPP = atk.MoveProxy.PP;
-        if (NotFail(atk)) CalculateTargets(atk);
-        else
+        if (atk.Attacker.Ability.Normalize()) atk.Type = BattleType.Normal;
+        else CalculateType(atk);
+        if (NotFail(atk))
         {
-          FailAll(atk);
-          goto DONE;
+          CalculateTargets(atk);
+          if (atk.Targets == null || atk.Target != null)
+          {
+            Act(atk);
+            MoveEnding(atk);
+          }
         }
-        if (eventForPP != null) eventForPP.PP = oldPP - atk.MoveProxy.PP;
+        else FailAll(atk);
+        pm.Action = Move.AdvancedFlags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done;
       }
-      if (atk.Targets == null || atk.Target != null)
-      {
-        Act(atk);
-        MoveEnding(atk);
-      }
-      var lastMove = pm.OnboardPokemon.GetCondition("LastMove");
-      if (lastMove == null)
-      {
-        lastMove = new Condition();
-        pm.OnboardPokemon.SetCondition("LastMove", lastMove);
-      }
-      if (lastMove.Move == Move) lastMove.Int++;
-      else
-      {
-        lastMove.Move = Move;
-        lastMove.Int = 1;
-      }
-    DONE:
-      pm.Action = Move.AdvancedFlags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done;
+      if (eventForPP != null) eventForPP.PP = oldPP - atk.MoveProxy.PP;
     }
 
     protected virtual bool PrepareOneTurn(PokemonProxy pm)
@@ -99,76 +86,67 @@ namespace LightStudio.PokemonBattle.Game.Host
         #endregion
         #region Attack Move and Thunder Wave: Check for Immunity (or Levitate) on the Ally side, position 1, then position 3. Then check Opponent side, position 1, then 2, then 3,
         if (Move.Category != MoveCategory.Status || Move.ThunderWave())
-        {
-          var noeffect = new List<DefContext>();
-          foreach (DefContext def in targets)
+          foreach (DefContext def in targets.ToArray())
             if (!HasEffect(def))
             {
-              noeffect.Add(def);
+              targets.Remove(def);
               def.Defender.AddReportPm("NoEffect");
             }
-          if (noeffect.Count > 0) targets.Remove(noeffect);
-        }
         #endregion
-        #region [unfinished] Check for Wide Guard in same way
-        #warning
+        #region Check for Wide Guard in same way
+        {
+          var board = atk.Controller.Board;
+          if (Move.Range != MoveRange.Single)
+            foreach (var def in targets.ToArray())
+              if (board[def.Defender.Pokemon.TeamId].HasCondition("WideGuard"))
+              {
+                def.Defender.AddReportPm("WideGuard");
+                targets.Remove(def);
+              }
+          if (Move.Priority > 0)
+            foreach (var def in targets.ToArray())
+              if (board[def.Defender.Pokemon.TeamId].HasCondition("QuickGuard"))
+              {
+                def.Defender.AddReportPm("QuickGuard");
+                targets.Remove(def);
+              }
+        }
         #endregion
         #region Check for Protect
         if (Move.AdvancedFlags.Protectable)
         {
-          var protect = new List<DefContext>();
-          foreach (DefContext d in targets)
+          foreach (DefContext d in targets.ToArray())
             if (d.Defender.OnboardPokemon.HasCondition("Protect"))
             {
               d.Defender.AddReportPm("Protect");
-              protect.Add(d);
+              targets.Remove(d);
             }
-          targets.Remove(protect);
         }
         #endregion
         #region Check for Telepathy (and possibly other abilities)
         if (!atk.Attacker.Ability.IgnoreDefenderAbility()) //为了性能
-        {
-          var abnoeffect = new List<DefContext>();
-          foreach (DefContext def in targets)
-            if (!def.Defender.Ability.CanImplement(def)) abnoeffect.Add(def);
-          targets.Remove(abnoeffect);
-        }
+          foreach (DefContext def in targets.ToArray())
+            if (!def.Defender.Ability.CanImplement(def)) targets.Add(def);
         #endregion
         #region Check for misses
         if (!atk.Attacker.Ability.NoGuard() && GetAccuracyBase(atk) < 0x65)
         {
           if (Move.Class != MoveInnerClass.OHKO)
           {
-            if (Items.MicleBerry(atk)) goto NOMISS;
+            if (Items.MicleBerry(atk)) goto DONE;
             atk.AccuracyModifier = Abilities.AccuracyModifier(atk) * Items.WideLens(atk);
           }
-          var miss = new List<DefContext>();
-          foreach (DefContext def in targets)
+          foreach (DefContext def in targets.ToArray())
             if (!(def.NoGuard || CanHit(def)))//心眼锁定、无防御
             {
-              miss.Add(def);
+              targets.Remove(def);
               def.Defender.AddReportPm("Miss");
             }
-          if (miss.Count > 0) targets.Remove(miss);
-        }
-        NOMISS:
-        #endregion
-        #region Status Move: Check for substitute
-        if (Move.Category == MoveCategory.Status && !Move.AdvancedFlags.IgnoreSubstitute)
-        {
-          var fails = new List<DefContext>();
-          foreach (DefContext d in targets)
-            if (d.Defender != atk.Attacker && d.Defender.OnboardPokemon.HasCondition("Substitute"))
-            {
-              Fail(d);
-              fails.Add(d);
-            }
-          targets.Remove(fails);
         }
         #endregion
       }
       else FailAll(atk);
+    DONE:
       atk.SetTargets(targets);
     }
     protected bool CanHit(DefContext def)
@@ -186,7 +164,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         //如果攻击方是天然特性，防御方的回避等级按0计算。 
         //循序渐进无视防御方回避等级。
         //将攻击方的命中等级减去防御方的回避等级。 
-        if (!(atk.Attacker.Ability.Unaware() || Move.ChipAway()))
+        if (!(atk.Attacker.Ability.Unaware() || Move.IgnoreDefenderLv7D()))
           lv -= def.Defender.OnboardPokemon.EvasionLv;
         if (lv < -6) lv = -6;
         else if (lv > 6) lv = 6;
@@ -329,6 +307,7 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     protected void FailAll(AtkContext atk)
     {
+      atk.FailAll = true;
       atk.Controller.ReportBuilder.Add("Fail0");
     }
     protected void Fail(DefContext def)
