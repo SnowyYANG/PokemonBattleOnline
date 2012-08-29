@@ -234,7 +234,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           if (Pokemon.Item.Type != ItemType.Normal) ConsumeItem();
         }
         else i = 0;
-        AddReport(new GameEvents.StateChange(this) { Arg1 = i });
+        AddReport(new GameEvents.StateChange(this, null, i));
       }
     }
     private bool CanAddState(PokemonProxy by, IAbilityE ability, AttachedState state, bool showFail)
@@ -414,6 +414,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           bool c = CanExecute();
           Sp.Moves.SkyDrop(AtkContext);
           if (c) AtkContext.Execute();
+          else Action = PokemonAction.Done;
           break;
         case PokemonAction.MoveAttached:
           if (CanExecute() && SelectedMove.CanExecute())
@@ -603,7 +604,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       Items.WhiteHerb(this);
       return r;
     }
-    private void AddStateImplement(PokemonProxy by, AttachedState state, int turn)
+    private void AddStateImplement(PokemonProxy by, AttachedState state, int turn, string log, int arg1)
     {
       switch (state)
       {
@@ -629,12 +630,12 @@ namespace LightStudio.PokemonBattle.Game.Host
           OnboardPokemon.SetCondition("Sleeping", turn == 0 ? Controller.GetRandomInt(2, 4) : turn);
           goto POKEMON_STATE;
         case AttachedState.Confusion:
-          OnboardPokemon.SetCondition("Confused", turn);
-          AddReportPm("EnConfused");
+          OnboardPokemon.SetCondition("Confused", turn == 0 ? Controller.GetRandomInt(2, 5) : turn);
+          AddReportPm(log ?? "EnConfused");
           goto DONE;
         case AttachedState.Infatuation:
           OnboardPokemon.SetCondition("Infatuation", by);
-          AddReportPm("EnInfatuation");
+          AddReportPm(log ?? "EnInfatuation");
           goto DONE;
         case AttachedState.Trapped:
           {
@@ -667,12 +668,14 @@ namespace LightStudio.PokemonBattle.Game.Host
           }
           goto DONE;
         case AttachedState.Yawn:
+          ////////////////////////////
           goto DONE;
         case AttachedState.HealBlock:
           OnboardPokemon.SetCondition("HealBlock", Controller.TurnNumber + turn - 1);
           AddReportPm("EnHealBlock");
           goto DONE;
         case AttachedState.CanAttack:
+          ////////////////////////////
           goto DONE;
         case AttachedState.LeechSeed:
           OnboardPokemon.SetCondition("LeechSeed", by.Tile);
@@ -696,16 +699,16 @@ namespace LightStudio.PokemonBattle.Game.Host
 #endif
       }
     POKEMON_STATE:
-      Controller.ReportBuilder.Add(new StateChange(this));
+      Controller.ReportBuilder.Add(new StateChange(this, log, arg1));
       Abilities.Synchronize(this, by, state, turn);
     DONE:  
       Item.StateAdded(this, by, state);
     }
-    public bool AddState(PokemonProxy by, AttachedState state, bool showFail, int turn = 0)
+    public bool AddState(PokemonProxy by, AttachedState state, bool showFail, int turn = 0, string logKey = null, int arg1 = 0)
     {
       if (CanAddState(by, state, showFail))
       {
-        AddStateImplement(by, state, turn);
+        AddStateImplement(by, state, turn, logKey, arg1);
         return true;
       }
       return false;
@@ -720,7 +723,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         if (attachment.State == AttachedState.Trapped && atk.Attacker.Item.GripClaw()) turn = 8;
         else if (attachment.MinTurn != attachment.MaxTurn) turn = Controller.GetRandomInt(attachment.MinTurn, attachment.MaxTurn);
         else turn = attachment.MinTurn;
-        AddStateImplement(atk.Attacker, attachment.State, turn);
+        AddStateImplement(atk.Attacker, attachment.State, turn, null, 0);
         return true;
       }
       return false;

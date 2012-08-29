@@ -16,11 +16,11 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember(EmitDefaultValue = false)]
     PokemonState State;
     [DataMember(EmitDefaultValue = false)]
-    public string Key;
+    string Log;
     [DataMember(EmitDefaultValue = false)]
-    public int Arg1;
+    int Arg1;
     
-    public StateChange(PokemonProxy pm)
+    public StateChange(PokemonProxy pm, string log = null, int arg1 = 0)
     {
       Pm = pm.Id;
       State = pm.Pokemon.State;
@@ -30,27 +30,22 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     {
       var pm = GetPokemon(Pm);
       string key;
-      if (Key == null)
+      if (Log == null)
       {
-        key = Arg1 == 0 ? string.Empty : "Item";
         if (State == PokemonState.Normal)
           switch (pm.State)
           {
             case PokemonState.BadlyPoisoned:
             case PokemonState.Poisoned:
-              key += "DePoisoned";
-              //免疫
+              key = "DePoisoned";
               break;
-            case PokemonState.Burned:
-            case PokemonState.Frozen:
-            case PokemonState.Paralyzed:
-            case PokemonState.Sleeping:
-              key += "De" + pm.State.ToString();
+            default:
+              key = "De" + pm.State.ToString();
               break;
           }
         else key = "En" + State.ToString();
       }
-      else key = Key;
+      else key = Log;
       pm.State = State;
       AppendGameLog(key, Pm, Arg1);
     }
@@ -60,7 +55,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       if (p != null)
       {
         p.State = State;
-        if (Key == null && Arg1 != 0 && p.Item.Type != ItemType.Normal) p.Item = null;
+        if (Log == null && Arg1 != 0 && p.Item.Type != ItemType.Normal) p.Item = null;
       }
     }
   }

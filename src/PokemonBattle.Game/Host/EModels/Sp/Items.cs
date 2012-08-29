@@ -25,6 +25,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       EffectsService.GetItem(pm.Pokemon.Item).Raise(pm, key);
     }
 
+    public static bool LightClay(this IItemE item)
+    {
+      return item.Id == 46;
+    }
     public static bool GripClaw(this IItemE item)
     {
       return item.Id == 63;

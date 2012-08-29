@@ -16,11 +16,32 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
 
     public static bool AvailableEvenSleeping(this MoveProxy move)
     {
-      const int SNORE = 173;
-      const int SLEEP_TALK = 214;
+      const int SNORE = 173, SLEEP_TALK = 214;
       return move.Type.Id == SLEEP_TALK || move.Type.Id == SNORE;
     }
+    public static bool MultiTurnAttack(this MoveType move)
+    {
+      const int THRASH = 37, PETAL_DANCE = 80, OUTRAGE = 200, ROLLOUT = 205, ICE_BALL = 301;
+      int id = move.Id;
+      return id == THRASH || id == PETAL_DANCE || id == OUTRAGE || id == ROLLOUT || id ==ICE_BALL;
+    }
 
+    public static void MultiTurnAttack(AtkContext atk)
+    {
+      const int THRASH = 37, PETAL_DANCE = 80, OUTRAGE = 200, ROLLOUT = 205, ICE_BALL = 301;
+      switch (atk.Move.Id)
+      {
+        case THRASH:
+        case PETAL_DANCE:
+        case OUTRAGE:
+          atk.Attachment = atk.Controller.GetRandomInt(2, 3);
+          break;
+        case ROLLOUT:
+        case ICE_BALL:
+          atk.Attachment = 5;
+          break;
+      }
+    }
     public static Modifier SolarBeam(DefContext def)
     {
       if (def.AtkContext.Move.Id == 76)

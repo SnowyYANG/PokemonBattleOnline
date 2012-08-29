@@ -426,21 +426,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         switch (pm.Item.Id)
         {
           case Is.TOXIC_ORB:
-            if (pm.CanAddState(pm, AttachedState.Poison, false))
-            {
-              pm.Pokemon.State = PokemonState.BadlyPoisoned;
-              pm.OnboardPokemon.SetCondition("BadlyPoison", c.TurnNumber);
-              var e = new StateChange(pm) { Arg1 = Is.TOXIC_ORB };
-              c.ReportBuilder.Add(e);
-            }
+            pm.AddState(pm, AttachedState.Poison, false, 15, "ItemEnBadlyPoisoned", Is.TOXIC_ORB);
             break;
           case Is.FLAME_ORB:
-            if (pm.CanAddState(pm, AttachedState.Burn, false))
-            {
-              pm.Pokemon.State = PokemonState.Burned;
-              var e = new StateChange(pm) { Arg1 = Is.FLAME_ORB };
-              c.ReportBuilder.Add(e);
-            }
+            pm.AddState(pm, AttachedState.Burn, false, 0, "ItemEnBurned", Is.FLAME_ORB);
             break;
           case Is.STICKY_BARB:
             pm.EffectHurtByOneNth(8, "ItemHurt", Is.STICKY_BARB);

@@ -10,8 +10,6 @@ class Add5TurnCondition(StatusMoveE):
         else:
             self.FailAll(a)
 M(Add5TurnCondition(54, 'Mist')) #mist
-M(Add5TurnCondition(113, 'LightScreen')) #light screen
-M(Add5TurnCondition(115, 'Reflect')) #reflect
 M(Add5TurnCondition(219, 'Safegurad')) #safeguard
 M(Add5TurnCondition(381, 'LuckyChant')) #luck chant
 
@@ -36,3 +34,21 @@ class Tailwind(StatusMoveE):
         else:
             self.FailAll(a)
 M(Tailwind(366))
+
+class Add5or8TurnCondition(StatusMoveE):
+    def __new__(cls, id, condition):
+        return StatusMoveE.__new__(cls, id)
+    def __init__(self, id, condition):
+        self.Condition = condition
+    def Act(self, a):
+        team = a.Attacker.Pokemon.TeamId
+        if Items.LightClay(a.Attacker.Item):
+            turn = 7
+        else:
+            turn = 4
+        if a.Controller.Board[team].AddCondition(self.Condition, a.Controller.TurnNumber + turn):
+            a.Controller.ReportBuilder.Add('En' + self.Condition, team)
+        else:
+            self.FailAll(a)
+M(Add5TurnCondition(113, 'LightScreen')) #light screen
+M(Add5TurnCondition(115, 'Reflect')) #reflect

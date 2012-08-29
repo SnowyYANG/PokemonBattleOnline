@@ -22,7 +22,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     public virtual void Execute(PokemonProxy pm, UseMove eventForPP)
     {
       if (pm.AtkContext == null) pm.BuildAtkContext(Move);
-      if (PrepareOneTurn(pm) && !Sp.Items.PowerHerb(pm)) return;
       AtkContext atk = pm.AtkContext;
       int oldPP = atk.MoveProxy.PP;
       {
@@ -38,7 +37,6 @@ namespace LightStudio.PokemonBattle.Game.Host
           }
         }
         else FailAll(atk);
-        pm.Action = Move.AdvancedFlags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done;
       }
       if (eventForPP != null) eventForPP.PP = oldPP - atk.MoveProxy.PP;
     }
@@ -308,6 +306,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     protected void FailAll(AtkContext atk)
     {
       atk.FailAll = true;
+      atk.Attacker.Action = PokemonAction.Done;
       atk.Controller.ReportBuilder.Add("Fail0");
     }
     protected void Fail(DefContext def)
@@ -321,6 +320,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     protected virtual void MoveEnding(AtkContext atk)
     {
+      atk.Attacker.Action = Move.AdvancedFlags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done;
       atk.Attacker.Item.HpChanged(atk.Attacker);
       if (atk.Targets != null)
         foreach (var d in atk.Targets)

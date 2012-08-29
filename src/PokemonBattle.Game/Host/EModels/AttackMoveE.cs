@@ -23,6 +23,16 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
     }
 
+    public override void Execute(PokemonProxy pm, UseMove eventForPP)
+    {
+      if (pm.AtkContext == null)
+      {
+        pm.BuildAtkContext(Move);
+        Moves.MultiTurnAttack(pm.AtkContext);
+      }
+      if (PrepareOneTurn(pm) && !Sp.Items.PowerHerb(pm)) return;
+      base.Execute(pm, eventForPP);
+    }
     protected override void Act(AtkContext atk)
     {
       PokemonProxy aer = atk.Attacker;
@@ -288,7 +298,9 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       base.MoveEnding(atk);
       //2.if (攻击方在场) 特效4（攻击方逆鳞混乱）
-      if (atk.Attacker.Tile != null) ;
+      if (atk.Move.MultiTurnAttack())
+        if (atk.Attachment == 0) atk.Attacker.AddState(atk.Attacker, AttachedState.Confusion, false, 0, "EnConfused2");
+        else atk.Attacker.Action = PokemonAction.Moving;
       //3.因为逃生按钮下场的精灵选择换人
       if (atk.EjectButton != null) ;
     }

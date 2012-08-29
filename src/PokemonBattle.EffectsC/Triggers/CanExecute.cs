@@ -61,7 +61,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         if (p.SelectedMove.Type.AdvancedFlags.AvailableEvenFrozen || p.Controller.GetRandomInt(0, 3) == 0)
         {
           p.Pokemon.State = PokemonState.Normal;
-          p.Controller.ReportBuilder.Add(new StateChange(p) { Key = "DeFrozen2" });
+          p.Controller.ReportBuilder.Add(new StateChange(p, "DeFrozen2"));
         }
         else
         {

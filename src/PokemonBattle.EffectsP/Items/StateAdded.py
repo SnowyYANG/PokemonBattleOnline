@@ -51,7 +51,6 @@ I(LumBerry(137))
 
 class DestinyKnot(ItemE):
     def StateAdded(self, pm, by, state):
-        if state == AttachedState.Infatuation and by.CanAddState(pm, AttachedState.Infatuation, False):
-            by.OnboardPokemon.SetCondition[PokemonProxy]('Infatuation', pm)
-            by.AddReportPm('ItemEnInfatuation', 57, None)
+        if state == AttachedState.Infatuation:
+            by.AddState(pm, AttachedState.Infatuation, False, 0, 'ItemEnInfatuation', 57)
 I(DestinyKnot(57))
