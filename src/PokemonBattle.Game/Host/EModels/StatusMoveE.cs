@@ -38,8 +38,9 @@ namespace LightStudio.PokemonBattle.Game.Host
         case MoveInnerClass.AddState:
           bool notAllFail = false;
           foreach (var d in atk.Targets) notAllFail |= d.Defender.AddState(d);
-          if (notAllFail && atk.Move.Attachment.State == AttachedState.PerishSong) atk.Controller.ReportBuilder.Add("EnPerishSong");
-          else FailAll(atk);
+          if (atk.Move.Attachment.State == AttachedState.PerishSong)
+            if (notAllFail) atk.Controller.ReportBuilder.Add("EnPerishSong");
+            else FailAll(atk);
           break;
         case MoveInnerClass.Lv7DChange:
           foreach (var d in atk.Targets) d.Defender.ChangeLv7D(atk);
