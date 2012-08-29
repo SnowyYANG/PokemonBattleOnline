@@ -300,7 +300,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public int CanChangeLv7D(PokemonProxy by, StatType stat, int change, bool showFail)
     {
       if (Tile == null || Hp == 0 || change == 0) return 0;
-      if (change < 0 && by != this)
+      if (change < 0 && by != this && Controller.Board[Pokemon.TeamId].HasCondition("Mist"))
       {
         if (showFail) AddReportPm("Mist");
         return 0;

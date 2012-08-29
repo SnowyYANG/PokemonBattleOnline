@@ -35,6 +35,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             Act(atk);
             MoveEnding(atk);
           }
+          else atk.Attacker.Action = PokemonAction.Done;
         }
         else FailAll(atk);
       }
