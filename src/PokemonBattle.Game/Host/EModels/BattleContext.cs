@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public bool FailAll;
     public dynamic Attachment;
 
-    internal AtkContext(PokemonProxy pm, MoveType move)
+    public AtkContext(PokemonProxy pm, MoveType move)
     {
       MoveProxy = pm.SelectedMove;
       Move = move;

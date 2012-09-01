@@ -18,8 +18,7 @@ class AngerPoint(t_a):
         der = d.Defender
         if d.IsCt and der.OnboardPokemon.Lv5D.Atk != 6:
             self.Raise(der)
-            der.OnboardPokemon.ChangeLv7D(StatType.Atk, 12)
-            der.AddReportPm('AngerPoint')
+            der.ChangeLv7D(der, StatType.Atk, 12, False, 'AngerPoint')
 A(AngerPoint(5))
 
 class WeakArmor(AbilityE):

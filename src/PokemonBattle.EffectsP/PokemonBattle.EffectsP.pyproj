@@ -50,6 +50,7 @@
     <None Include="Items\StateAdded.py" />
     <None Include="Moves\Attack\Blizzard.py" />
     <None Include="Moves\Attack\MoveProxyUsed.py" />
+    <None Include="Moves\Attack\Rage.py" />
     <None Include="Moves\Attack\SpDamage.py" />
     <None Include="Moves\Attack\SpPower.py" />
     <None Include="Moves\Attack\Synchronoise.py" />

@@ -47,15 +47,16 @@ namespace LightStudio.PokemonBattle.Game.Host
           break;
         case MoveInnerClass.HpRecover:
           foreach (var d in atk.Targets)
-          {
-            if (d.Defender.OnboardPokemon.HasCondition("HealBlock")) d.Defender.AddReportPm("HealBlock");
+            if (atk.Move.AdvancedFlags.IsHeal && d.Defender.OnboardPokemon.HasCondition("HealBlock")) d.Defender.AddReportPm("HealBlock");
             else if (d.Defender.Hp == d.Defender.Pokemon.Hp.Origin) d.Defender.AddReportPm("FullHp"); //不在场和濒死都是不可能的
             else d.Defender.HpRecover(d.Defender.Pokemon.Hp.Origin * atk.Move.MaxHpPercentage / 100);
-          }
           break;
         case MoveInnerClass.ConfusionWithLv7DChange:
           break;
         case MoveInnerClass.ForceToShift:
+          int aLv = atk.Attacker.Pokemon.Lv, dLv = atk.Target.Defender.Pokemon.Lv;
+          if ((aLv < dLv && (aLv + dLv) * atk.Controller.GetRandomInt(0, 255) < dLv >> 2) || !ForceSwitch(atk.Target))
+            FailAll(atk);
           break;
       }
     }

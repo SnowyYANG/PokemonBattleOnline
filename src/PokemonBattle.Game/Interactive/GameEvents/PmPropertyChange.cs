@@ -55,7 +55,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       if (p != null)
       {
         p.State = State;
-        if (Log == null && Arg1 != 0 && p.Item.Type != ItemType.Normal) p.Item = null;
+        if (Log.StartsWith("Item") && Arg1 != 0 && p.Item.Type != ItemType.Normal) p.Item = null;
       }
     }
   }

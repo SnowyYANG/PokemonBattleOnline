@@ -36,7 +36,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       else if (State == PokemonState.BadlyPoisoned) OnboardPokemon.SetCondition("Poison", Controller.TurnNumber);
       foreach (var m in Moves) m.HasUsed = false;
 
-      Controller.OnboardPokemons.Add(this);
+      Controller.OnboardPokemons.Insert(0, this);
       Abilities.Illusion(this);
     }
     internal void Withdraw()
@@ -89,9 +89,11 @@ namespace LightStudio.PokemonBattle.Game.Host
     public AtkContext AtkContext
     { 
       get { return _atkContext; }
-      set
+      private set
       {
-        if (_atkContext == null)
+#if DEBUG
+        if (_atkContext != null) throw new Exception("AtkContext != null");
+#endif
           _atkContext = value;
       }
     }
@@ -131,7 +133,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public void ChangeAbility(int ab)
     {
-      Ability.UnAttach(this);
+      Ability.Detach(this);
       int oldAb = OnboardPokemon.Ability;
       OnboardPokemon.Ability = ab;
       AddReport(new AbilityEvent(this, oldAb, ab));
@@ -419,7 +421,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         case PokemonAction.MoveAttached:
           if (CanExecute() && SelectedMove.CanExecute())
           {
-            _atkContext = null;
+            _atkContext = null; //考虑下要不要拿到花括号外面或者删掉
             SelectedMove.Execute();
             OnboardPokemon.SetCondition("LastMove", AtkContext.Move);
           }
@@ -537,7 +539,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       return false;
     }
-    private bool ChangeLv7DImplement(PokemonProxy by, StatType stat, int change, bool showFail)
+    private bool ChangeLv7DImplement(PokemonProxy by, StatType stat, int change, bool showFail, string log)
     {
       change = CanChangeLv7D(by, stat, change, showFail);
       if (change != 0)
@@ -545,35 +547,35 @@ namespace LightStudio.PokemonBattle.Game.Host
         if (stat == StatType.Accuracy) OnboardPokemon.AccuracyLv += change;
         else if (stat == StatType.Evasion) OnboardPokemon.EvasionLv += change;
         else OnboardPokemon.ChangeLv7D(stat, change);
-        string logKey;
-        switch (change)
-        {
-          case 1:
-            logKey = "7DUp1";
-            break;
-          case 2:
-            logKey = "7DUp2";
-            break;
-          case -1:
-            logKey = "7DDown1";
-            break;
-          case -2:
-            logKey = "7DDown2";
-            break;
-          default:
-            if (change > 0) logKey = "7DUp3";
-            else logKey = "7DDown3";
-            break;
-        }
-        AddReportPm(logKey, stat);
+        if (log == null)
+          switch (change)
+          {
+            case 1:
+              log = "7DUp1";
+              break;
+            case 2:
+              log = "7DUp2";
+              break;
+            case -1:
+              log = "7DDown1";
+              break;
+            case -2:
+              log = "7DDown2";
+              break;
+            default:
+              if (change > 0) log = "7DUp3";
+              else log = "7DDown3";
+              break;
+          }
+        AddReportPm(log, stat);
         if (by.Pokemon.TeamId != Pokemon.TeamId && change < 0) Abilities.Defiant(this);
         return true;
       }
       return false;
     }
-    public bool ChangeLv7D(PokemonProxy by, StatType stat, int change, bool showFail)
+    public bool ChangeLv7D(PokemonProxy by, StatType stat, int change, bool showFail, string log = null)
     {
-      if (ChangeLv7DImplement(by, stat, change, showFail))
+      if (ChangeLv7DImplement(by, stat, change, showFail, log))
       {
         Items.WhiteHerb(this);
         return true;
@@ -583,13 +585,13 @@ namespace LightStudio.PokemonBattle.Game.Host
     public bool ChangeLv7D(PokemonProxy by, bool showFail, int a, int d = 0, int sa = 0, int sd = 0, int s = 0, int ac = 0, int e = 0)
     {
       bool r = false;
-      r |= ChangeLv7DImplement(by, StatType.Atk, a, showFail);
-      r |= ChangeLv7DImplement(by, StatType.Def, d, showFail);
-      r |= ChangeLv7DImplement(by, StatType.SpAtk, sa, showFail);
-      r |= ChangeLv7DImplement(by, StatType.SpDef, sd, showFail);
-      r |= ChangeLv7DImplement(by, StatType.Speed, s, showFail);
-      r |= ChangeLv7DImplement(by, StatType.Accuracy, ac, showFail);
-      r |= ChangeLv7DImplement(by, StatType.Evasion, e, showFail);
+      r |= ChangeLv7DImplement(by, StatType.Atk, a, showFail, null);
+      r |= ChangeLv7DImplement(by, StatType.Def, d, showFail, null);
+      r |= ChangeLv7DImplement(by, StatType.SpAtk, sa, showFail, null);
+      r |= ChangeLv7DImplement(by, StatType.SpDef, sd, showFail, null);
+      r |= ChangeLv7DImplement(by, StatType.Speed, s, showFail, null);
+      r |= ChangeLv7DImplement(by, StatType.Accuracy, ac, showFail, null);
+      r |= ChangeLv7DImplement(by, StatType.Evasion, e, showFail, null);
       if (r) Items.WhiteHerb(this);
       return r;
     }
@@ -599,7 +601,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       foreach (MoveLv7DChange c in atk.Move.Lv7DChanges)
       {
         if (c.Probability == 0 || atk.RandomHappen(c.Probability))
-          r |= ChangeLv7DImplement(atk.Attacker, c.Type, c.Change, atk.Move.Category == MoveCategory.Status);
+          r |= ChangeLv7DImplement(atk.Attacker, c.Type, c.Change, atk.Move.Category == MoveCategory.Status, null);
       }
       Items.WhiteHerb(this);
       return r;
@@ -704,11 +706,11 @@ namespace LightStudio.PokemonBattle.Game.Host
     DONE:  
       Item.StateAdded(this, by, state);
     }
-    public bool AddState(PokemonProxy by, AttachedState state, bool showFail, int turn = 0, string logKey = null, int arg1 = 0)
+    public bool AddState(PokemonProxy by, AttachedState state, bool showFail, int turn = 0, string log = null, int arg1 = 0)
     {
       if (CanAddState(by, state, showFail))
       {
-        AddStateImplement(by, state, turn, logKey, arg1);
+        AddStateImplement(by, state, turn, log, arg1);
         return true;
       }
       return false;

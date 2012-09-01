@@ -45,10 +45,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     #endregion
 
     #region extension
-    public static IEnumerable<PokemonProxy> TeamOnboardPms(this PokemonProxy pm)
-    {
-      return pm.Controller.GetOnboardPokemons(pm.Pokemon.TeamId);
-    }
     public static void RaiseAbility(this PokemonProxy pm)
     {
       pm.Controller.ReportBuilder.Add(new AbilityEvent(pm));
@@ -144,6 +140,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       return ability.Id == 136;
     }
+    public static bool SuctionCups(this IAbilityE ability)
+    {
+      return ability.Id == 139;
+    }
     public static bool SuperLuck(this IAbilityE ability)
     {
       return ability.Id == 140;
@@ -188,7 +188,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static Modifier FriendGuard(DefContext def)
     {
       Modifier m = 0x1000;
-      foreach (PokemonProxy pm in def.Defender.TeamOnboardPms())
+      foreach (PokemonProxy pm in def.Defender.Controller.GetOnboardPokemons(def.Defender.Pokemon.TeamId))
         if (pm != def.Defender && pm.Ability.Id == 38) m *= 0xC00;
       return m;
     }
@@ -239,7 +239,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       Modifier m = 0x1000;
       if (atk.Move.Category == MoveCategory.Physical && atk.Controller.Weather == Weather.IntenseSunlight)
       {
-        foreach (PokemonProxy pm in atk.Attacker.TeamOnboardPms())
+        foreach (PokemonProxy pm in atk.Controller.GetOnboardPokemons(atk.Attacker.Pokemon.Id))
           if (pm.Pokemon.PokemonType.Number == 421 && pm.Ability.Id == 35) return m *= 0x1800;
       }
       return m;
@@ -249,7 +249,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       Modifier m = 0x1000;
       if (def.AtkContext.Move.Category == MoveCategory.Special && def.AtkContext.Controller.Weather == Weather.IntenseSunlight)
       {
-        foreach (PokemonProxy pm in def.Defender.TeamOnboardPms())
+        foreach (PokemonProxy pm in def.Defender.Controller.GetOnboardPokemons(def.Defender.Pokemon.TeamId))
           if (pm.Pokemon.PokemonType.Number == 421 && pm.Ability.Id == 35) m *= 0x1800;
       }
       return m;
@@ -319,7 +319,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       if (ab == COMPOUNDEYES) m = 0x14CC;
       else if (ab == HUSTLE && atk.Move.Category == MoveCategory.Physical) m = 0x1800;
       else m = 0x1000;
-      foreach (PokemonProxy pm in atk.Attacker.TeamOnboardPms())
+      foreach (PokemonProxy pm in atk.Controller.GetOnboardPokemons(atk.Attacker.Pokemon.TeamId))
         if (pm.Ability.Id == VICTORY_STAR) m *= 0x1199;
       return m;
     }

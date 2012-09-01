@@ -21,7 +21,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     Modifier AccuracyModifier(DefContext def);
 
     void Attach(PokemonProxy pm);
-    void UnAttach(PokemonProxy pm);
+    void Detach(PokemonProxy pm);
     void Attacked(DefContext def);
   }
 
@@ -38,7 +38,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       Modifier IAbilityE.PowerModifier(DefContext target) { return 0x1000; }
       Modifier IAbilityE.AccuracyModifier(DefContext def) { return 0x1000; }
       void IAbilityE.Attach(PokemonProxy pm) { }
-      void IAbilityE.UnAttach(PokemonProxy pm) { }
+      void IAbilityE.Detach(PokemonProxy pm) { }
       void IAbilityE.Attacked(DefContext def) { }
     }
   }

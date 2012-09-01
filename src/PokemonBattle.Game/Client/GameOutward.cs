@@ -70,7 +70,7 @@ namespace LightStudio.PokemonBattle.Game
       if (team0 == 0 || team1 == 0)
       {
         IText text;
-        if (team1 == 0 && team1 == 0)
+        if (team0 == 0 && team1 == 0)
         {
           text = GameService.Logs["GameResultTie"].Clone(this);
           text.SetData(0, 1);

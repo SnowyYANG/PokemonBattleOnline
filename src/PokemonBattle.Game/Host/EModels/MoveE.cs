@@ -10,6 +10,30 @@ namespace LightStudio.PokemonBattle.Game.Host
 {
   public abstract class MoveE : IMoveE
   {
+    protected static bool ForceSwitch(DefContext def)
+    {
+      var der = def.Defender;
+      var c= der.Controller;
+      if (der.Hp != 0 && c.CanWithdraw(der) && !def.Ability.SuctionCups() && !der.OnboardPokemon.HasCondition("Ingrain"))
+      {
+        var sendouts = new List<int>();
+        {
+          var pms = der.Pokemon.Owner.Pokemons.ToArray();
+          for (int i = 0; i < pms.Length; ++i)
+            if (c.CanSendout(pms[i])) sendouts.Add(i);
+        }
+        if (sendouts.Count != 0)
+        {
+          var tile = der.Tile;
+          der.Withdraw(); //注意应该没有战报
+          tile.WillSendoutPokemonIndex = sendouts[c.GetRandomInt(0, sendouts.Count - 1)];
+          c.Sendout(tile); //xxx被拖出来战斗了
+          return true;
+        }
+      }
+      return false;
+    }
+    
     protected MoveE(int moveId)
     {
       this.Move = DataService.GetMove(moveId);
@@ -188,9 +212,9 @@ namespace LightStudio.PokemonBattle.Game.Host
     { return Move.Accuracy == 0 ? 0x65 : Move.Accuracy; }
     #endregion
     #region CalculateType
-    protected virtual void CalculateType(AtkContext atk) //觉醒力量
+    protected virtual void CalculateType(AtkContext atk)
     {
-      atk.Type = Move.Type;
+      atk.Type = Move.Id == Moves.STRUGGLE ? BattleType.Invalid : Move.Type;
     }
     private bool HasEffect_Ground(DefContext def)
     {

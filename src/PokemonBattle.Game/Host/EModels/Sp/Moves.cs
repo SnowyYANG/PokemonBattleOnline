@@ -19,16 +19,18 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       const int SNORE = 173, SLEEP_TALK = 214;
       return move.Type.Id == SLEEP_TALK || move.Type.Id == SNORE;
     }
+    private const int THRASH = 37, PETAL_DANCE = 80, OUTRAGE = 200, ROLLOUT = 205, ICE_BALL = 301;
     public static bool MultiTurnAttack(this MoveType move)
     {
-      const int THRASH = 37, PETAL_DANCE = 80, OUTRAGE = 200, ROLLOUT = 205, ICE_BALL = 301;
       int id = move.Id;
       return id == THRASH || id == PETAL_DANCE || id == OUTRAGE || id == ROLLOUT || id ==ICE_BALL;
     }
-
+    public static bool MultiTurnAttackWithConfusion(this MoveType move)
+    {
+      return move.Id == THRASH || move.Id == PETAL_DANCE || move.Id == OUTRAGE;
+    }
     public static void MultiTurnAttack(AtkContext atk)
     {
-      const int THRASH = 37, PETAL_DANCE = 80, OUTRAGE = 200, ROLLOUT = 205, ICE_BALL = 301;
       switch (atk.Move.Id)
       {
         case THRASH:

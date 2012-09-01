@@ -52,6 +52,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new GustTwister(239));
       M(new Counter(243, "SpecialDamage", 0x1800));
       M(new SpRangeMove(250, CoordY.Water, true));//whirlpool
+      M(new Stockpile(254));
+      M(new SpitUp(255));
+      M(new Swallow(256));
       M(new Spout(284));
       M(new Leap(291, CoordY.Water));//dives
       M(new Spout(323));

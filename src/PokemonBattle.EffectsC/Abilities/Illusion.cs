@@ -21,7 +21,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Abilities
       pm.Controller.ReportBuilder.Add(GameEvents.OutwardChange.All("DeIllusion", pm));
     }
 
-    public override void UnAttach(PokemonProxy pm)
+    public override void Detach(PokemonProxy pm)
     {
       DeIllusion(pm);
     }

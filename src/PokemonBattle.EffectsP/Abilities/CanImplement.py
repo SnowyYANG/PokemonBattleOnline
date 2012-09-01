@@ -9,7 +9,7 @@ class NoEffectWithLv7DUp(AbilityE):
         if d.AtkContext.Type == self.Type:
             der = d.Defender
             self.Raise(der)
-            if not der.ChangeLv7D(der, self.Stat, 1):
+            if not der.ChangeLv7D(der, self.Stat, 1, False, None):
                 der.AddReportPm('NoEffect', None, None)
             return False
         return True

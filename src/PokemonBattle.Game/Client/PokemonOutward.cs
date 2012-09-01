@@ -97,7 +97,6 @@ namespace LightStudio.PokemonBattle.Game
     #region Host
     internal PokemonOutward(PokemonProxy pm)
     {
-      Pokemon o = pm.OnboardPokemon.GetCondition<Pokemon>("Illusion") ?? pm.Pokemon;
       _listeners = new List<IPokemonOutwardEvents>();
       OwnerId = pm.Pokemon.Owner.Id;
       Id = pm.Id;
@@ -107,9 +106,19 @@ namespace LightStudio.PokemonBattle.Game
       Hp = new PairValue(pm.Pokemon.Hp.Origin, pm.Pokemon.Hp.Value, 48);
       Lv = pm.Pokemon.Lv;
 
-      Name = o.Name;
-      ImageId = o.PokemonType.Id;
-      Gender = o.Gender;
+      Pokemon o = pm.OnboardPokemon.GetCondition<Pokemon>("Illusion");
+      if (o == null)
+      {
+        Name = pm.Pokemon.Name;
+        ImageId = pm.OnboardPokemon.PokemonType.Id;
+        Gender = pm.OnboardPokemon.Gender;
+      }
+      else
+      {
+        Name = o.Name;
+        ImageId = o.PokemonType.Id;
+        Gender = o.Gender;
+      }
     }
     #endregion
 

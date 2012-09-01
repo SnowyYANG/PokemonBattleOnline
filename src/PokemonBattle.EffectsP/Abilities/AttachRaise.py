@@ -33,7 +33,7 @@ class Intimidate(AbilityE):
     def Attach(self, pm):
         self.Raise(pm)
         for p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
-            p.ChangeLv7D(pm, StatType.Atk, -1, True)
+            p.ChangeLv7D(pm, StatType.Atk, -1, True, None)
 A(Intimidate(61))
 
 class Unnerve(AbilityE):
@@ -57,7 +57,7 @@ class Download(AbilityE):
         n = len(stats)
         if n != 0:
             self.Raise(pm)
-            pm.ChangeLv7D(pm, stats[pm.Controller.GetRandomInt(0, n - 1)], 1, False)
+            pm.ChangeLv7D(pm, stats[pm.Controller.GetRandomInt(0, n - 1)], 1, False, None)
 A(Download(22))
 
 class SlowStart(AbilityE):

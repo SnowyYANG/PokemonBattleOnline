@@ -21,10 +21,10 @@ M(LockOn(199))
 
 class BellyDrum(StatusMoveE):
     def NotFail(self, a):
-        return aer.OnboardPokemon.Lv5D.Atk != 6 and a.Attacker.Hp > a.Attacker.Pokemon.Hp.Origin >> 1
+        return a.Attacker.OnboardPokemon.Lv5D.Atk != 6 and a.Attacker.Hp > a.Attacker.Pokemon.Hp.Origin >> 1
     def Act(self, a):
         aer = a.Attacker
-        aer.Hp -= aer.Pokemon.Hp.Origin >> 1
+        aer.Pokemon.SetHp(aer.Hp - (aer.Pokemon.Hp.Origin >> 1))
         aer.OnboardPokemon.ChangeLv7D(StatType.Atk, 12)
         aer.Controller.ReportBuilder.Add(HpChange(aer, 'BellyDrum', 0, 0))
 M(BellyDrum(187))

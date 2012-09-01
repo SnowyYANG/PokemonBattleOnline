@@ -34,7 +34,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public virtual Modifier AccuracyModifier(DefContext def) { return 0x1000; }
 
     public virtual void Attach(PokemonProxy pm) { }
-    public virtual void UnAttach(PokemonProxy pm) { }
+    public virtual void Detach(PokemonProxy pm) { }
     public virtual void Attacked(DefContext def) { }
   }
 }

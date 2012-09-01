@@ -111,7 +111,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           }
           a.CheckFaint();
         }
-      }// else OHKO
+      }// OHKO else
     }
     protected virtual void PreImplement(DefContext def) { }
     protected virtual void CalculateBasePower(DefContext def)
@@ -283,6 +283,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       d.Ability.Attacked(def);//此时破格不能无视
       d.Item.Attacked(def);
+      if (d.OnboardPokemon.HasCondition("Rage")) d.ChangeLv7D(d, StatType.Atk, 1, false, "Rage");
       atk.Attacker.CheckFaint();
       d.CheckFaint();
       Abilities.Moxie(def);
@@ -297,10 +298,12 @@ namespace LightStudio.PokemonBattle.Game.Host
     protected override void MoveEnding(AtkContext atk)
     {
       base.MoveEnding(atk);
-      //2.if (攻击方在场) 特效4（攻击方逆鳞混乱）
       if (atk.Move.MultiTurnAttack())
-        if (atk.Attachment == 0) atk.Attacker.AddState(atk.Attacker, AttachedState.Confusion, false, 0, "EnConfused2");
-        else atk.Attacker.Action = PokemonAction.Moving;
+      {
+        atk.Attachment--;
+        if (atk.Attachment != 0) atk.Attacker.Action = PokemonAction.Moving;
+        else if (atk.Move.MultiTurnAttackWithConfusion()) atk.Attacker.AddState(atk.Attacker, AttachedState.Confusion, false, 0, "EnConfused2");
+      }
       //3.因为逃生按钮下场的精灵选择换人
       if (atk.EjectButton != null) ;
     }

@@ -23,6 +23,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     #region Data
     public int X;
     public CoordY CoordY;
+    public PokemonType PokemonType;
     private BattleType _type1;
     public BattleType Type1
     {
@@ -45,38 +46,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public PokemonGender Gender;
     public int Ability; //特性交换用，不可为0，未必是有效的特性
-    public readonly SixD Base; //百变怪变成会围攻
-    public readonly SixD Iv; //模仿觉醒力
-    public readonly SixD Ev;
     public readonly SixD Static; //力量交换，包含性格修正，不包含等级修正
-    #endregion
-
-    internal OnboardPokemon(Pokemon pokemon, int x)
-    {
-      _type1 = pokemon.PokemonType.Type1;
-      _type2 = pokemon.PokemonType.Type2;
-      Gender = pokemon.Gender;
-      Ability = pokemon.Ability.Id;
-      Base = new SixD(pokemon.Base);
-      Iv = new SixD(pokemon.Iv);
-      Ev = new SixD(pokemon.Ev);
-      Static = new SixD(pokemon.Static);
-      _weight = pokemon.PokemonType.Weight;
-      lv5D = new SixD();
-
-      X = x; //CoordY 默认值
-    }
-
-    private double _weight;
-    public double Weight
-    {
-      get { return _weight; }
-      set
-      {
-        if (value < 0.1) _weight = 0.1;
-        else _weight = value;
-      }
-    }
     private readonly SixD lv5D;
     public I6D Lv5D
     { get { return lv5D; } }
@@ -101,6 +71,31 @@ namespace LightStudio.PokemonBattle.Game.Host
         if (value > 6) value = 6;
         _evasionLv = value;
       }
+    }
+    private double _weight;
+    public double Weight
+    {
+      get { return _weight; }
+      set
+      {
+        if (value < 0.1) _weight = 0.1;
+        else _weight = value;
+      }
+    }
+    #endregion
+
+    internal OnboardPokemon(Pokemon pokemon, int x)
+    {
+      PokemonType = pokemon.PokemonType;
+      _type1 = pokemon.PokemonType.Type1;
+      _type2 = pokemon.PokemonType.Type2;
+      Gender = pokemon.Gender;
+      Ability = pokemon.Ability.Id;
+      Static = new SixD(pokemon.Static);
+      _weight = pokemon.PokemonType.Weight;
+      lv5D = new SixD();
+
+      X = x; //CoordY 默认值
     }
 
     private void ChangeLv7D(ref int lv, int change)
