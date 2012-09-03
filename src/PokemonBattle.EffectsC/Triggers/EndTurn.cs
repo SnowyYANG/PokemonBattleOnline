@@ -58,7 +58,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
               int ab = pm.Ability.Id;
               if (ab == As.ICE_BODY)
               {
-                if (pm.CanHpRecover)
+                if (pm.CanHpRecover())
                 {
                   pm.RaiseAbility();
                   pm.HpRecoverByOneNth(16);
@@ -74,7 +74,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             break;
           case Game.Weather.HeavyRain:
             foreach (var pm in c.OnboardPokemons)
-              if (pm.CanHpRecover)
+              if (pm.CanHpRecover())
                 if (pm.RaiseAbility(As.RAIN_DISH)) pm.HpRecoverByOneNth(16);
                 else if (pm.RaiseAbility(As.DRY_SKIN)) pm.HpRecoverByOneNth(8);
             break;
@@ -135,10 +135,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         switch (pm.Item.Id)
         {
           case Is.LEFTOVERS:
-            pm.HpRecoverByOneNth(16, "Leftovers", Is.LEFTOVERS);
+            pm.HpRecoverByOneNth(16, false, "ItemRecover2", Is.LEFTOVERS);
             break;
           case Is.BLACK_SLUDGE:
-            if (pm.OnboardPokemon.HasType(BattleType.Poison)) pm.HpRecoverByOneNth(16, "Leftovers", Is.BLACK_SLUDGE);
+            if (pm.OnboardPokemon.HasType(BattleType.Poison))
+            {
+              if (pm.CanHpRecover()) pm.HpRecoverByOneNth(16, false, "ItemRecover2", Is.BLACK_SLUDGE);
+            }
             else pm.EffectHurtByOneNth(8, "ItemHurt", Is.BLACK_SLUDGE);
             break;
         }
@@ -152,22 +155,22 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     {
       foreach (var pm in c.OnboardPokemons)
         if (pm.OnboardPokemon.HasCondition("AquaRing"))
-          if (pm.OnboardPokemon.HasCondition("HealBlock")) pm.AddReportPm("HealBlock");
-          else
-          {
-            int hp = pm.Pokemon.Hp.Origin / 16;
-            if (pm.Item.BigRoot()) hp = (int)(hp * 1.3);
-            pm.HpRecover(hp, "AquaRing");
-          }
+        {
+          int hp = pm.Pokemon.Hp.Origin;
+          if (pm.Item.BigRoot()) hp = (int)(hp * 1.3);
+          hp /= 16;
+          if (hp == 0) hp = 1;
+          pm.HpRecover(hp, false, "AquaRing");
+        }
       foreach (var pm in c.OnboardPokemons)
         if (pm.OnboardPokemon.HasCondition("Ingrain"))
-          if (pm.OnboardPokemon.HasCondition("HealBlock")) pm.AddReportPm("HealBlock");
-          else
-          {
-            int hp = pm.Pokemon.Hp.Origin / 16;
-            if (pm.Item.BigRoot()) hp = (int)(hp * 1.3);
-            pm.HpRecover(hp, "Ingrain");
-          }
+        {
+          int hp = pm.Pokemon.Hp.Origin;
+          if (pm.Item.BigRoot()) hp = (int)(hp * 1.3);
+          hp /= 16;
+          if (hp == 0) hp = 1;
+          pm.HpRecover(hp, false, "Ingrain");
+        }
       foreach (var pm in c.OnboardPokemons.ToArray())
       {
         var tile = pm.OnboardPokemon.GetCondition<Tile>("LeechSeed");
@@ -177,14 +180,16 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
           pm.EffectHurtByOneNth(8, "LeechSeed");
           hp -= pm.Hp;
           var recover = tile.Pokemon;
-          if (hp > 0)
-            if (recover.OnboardPokemon.HasCondition("HealBlock")) recover.AddReportPm("HealBlock");
-            else
+          if (hp > 0 && recover.CanHpRecover())
+          {
+            if (recover.Item.BigRoot()) hp = (int)(hp * 1.3);
+            if (!recover.Ability.MagicGuard() && pm.RaiseAbility(As.LIQUID_OOZE))
             {
-              if (recover.Item.BigRoot()) hp = (int)(hp * 1.3);
-              if (!recover.Ability.MagicGuard() && pm.RaiseAbility(As.LIQUID_OOZE)) recover.EffectHurt(hp);
-              else recover.HpRecover(hp);
+              recover.EffectHurt(hp);
+              recover.CheckFaint();
             }
+            else recover.HpRecover(hp);
+          }
         }
         pm.CheckFaint();
       }
@@ -198,7 +203,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         switch (pm.State)
         {
           case PokemonState.BadlyPoisoned:
-            if (pm.CanHpRecover && pm.RaiseAbility(As.POISON_HEAL)) pm.HpRecoverByOneNth(8, "PoisonHeal");
+            if (pm.CanHpRecover() && pm.RaiseAbility(As.POISON_HEAL)) pm.HpRecoverByOneNth(8, "PoisonHeal");
             else
             {
               int turn = 1 + c.TurnNumber - pm.OnboardPokemon.GetCondition<int>("Poison");
@@ -208,7 +213,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             }
             break;
           case PokemonState.Poisoned:
-            if (pm.CanHpRecover && pm.RaiseAbility(As.POISON_HEAL)) pm.HpRecoverByOneNth(8, "PoisonHeal");
+            if (pm.CanHpRecover() && pm.RaiseAbility(As.POISON_HEAL)) pm.HpRecoverByOneNth(8, "PoisonHeal");
             else pm.EffectHurtByOneNth(8, "Poisoned");
             break;
          case PokemonState.Burned:
@@ -355,18 +360,29 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         c.ReportBuilder.Add("De" + condition, team);
       }
     }
-    //22.0 [unfinished] Gravity ends
+    //22.0 Gravity ends
     //23.0 Trick Room ends
     //24.0 [unfinished] Wonder Room ends
-    //25.0 [unfinished] Magic Room ends
+    //25.0 Magic Room ends
     private void BoardCondition(Controller c)
     {
       var board = c.Board;
       int turn = c.TurnNumber;
+      if (board.GetCondition<int>("Gravity") == turn)
+      {
+        board.RemoveCondition("Gravity");
+        c.ReportBuilder.Add("DeGravity");
+      }
       if (board.GetCondition<int>("TrickRoom") == turn)
       {
         board.RemoveCondition("TrickRoom");
         c.ReportBuilder.Add("DeTrickRoom");
+      }
+      if (board.GetCondition<int>("MagicRoom") == turn)
+      {
+        board.RemoveCondition("MagicRoom");
+        c.ReportBuilder.Add("DeMagicRoom");
+        foreach (var pm in c.OnboardPokemons) pm.Item.Attach(pm);
       }
     }
     //26.0 [unfinished] Uproar message

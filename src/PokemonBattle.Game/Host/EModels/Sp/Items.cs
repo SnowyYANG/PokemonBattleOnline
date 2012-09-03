@@ -63,20 +63,14 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       return item.Id == 194;
     }
     
-    private static readonly BattleType[] ARCEUS_TYPE = new BattleType[] { BattleType.Fire, BattleType.Water, BattleType.Electric, BattleType.Grass, BattleType.Ice, BattleType.Fighting, BattleType.Poison, BattleType.Ground, BattleType.Flying, BattleType.Psychic, BattleType.Bug, BattleType.Rock, BattleType.Ghost, BattleType.Dragon, BattleType.Dark, BattleType.Steel };
+    private static readonly BattleType[] PLATE_TYPE = new BattleType[] { BattleType.Fire, BattleType.Water, BattleType.Electric, BattleType.Grass, BattleType.Ice, BattleType.Fighting, BattleType.Poison, BattleType.Ground, BattleType.Flying, BattleType.Psychic, BattleType.Bug, BattleType.Rock, BattleType.Ghost, BattleType.Dragon, BattleType.Dark, BattleType.Steel };
     public static bool PlatedArceus(Pokemon pm)
     {
       return pm.PokemonType.Number == 493 && pm.Item.Id > 74 && pm.Item.Id < 91;
     }
-    public static BattleType PlatedArceusType(Pokemon pm)
+    public static BattleType PlateType(Item item)
     {
-#if DEBUG
-      if (PlatedArceus(pm))
-#endif
-        return ARCEUS_TYPE[pm.Item.Id - 75];
-#if DEBUG
-      return BattleType.Invalid;
-#endif
+      return item != null && item.Id > 74 && item.Id < 91 ? BattleType.Normal : PLATE_TYPE[item.Id - 75];
     }
     public static void MentalHerb(PokemonProxy pm)
     {

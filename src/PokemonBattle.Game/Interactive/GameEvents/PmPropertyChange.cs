@@ -129,16 +129,16 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     protected int Pm;
     [DataMember(EmitDefaultValue = false)]
     public int Hp;
+    [DataMember(EmitDefaultValue = false)]
+    public bool ResetY;
+    [DataMember(EmitDefaultValue = false)]
+    public bool ConsumeItem;
     [DataMember]
     protected string Key;
     [DataMember(EmitDefaultValue = false)]
     protected int Arg1;
     [DataMember(EmitDefaultValue = false)]
     protected int Arg2;
-    [DataMember(EmitDefaultValue = false)]
-    public bool ResetY;
-    [DataMember(EmitDefaultValue = false)]
-    public bool RemoveItem;
 
     public HpChange(PokemonProxy pm, string logKey, int arg1 = 0, int arg2 = 0)
     {
@@ -164,7 +164,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       if (pm != null)
       {
         pm.SetHp(Hp);
-        if (RemoveItem) pm.Item = null;
+        if (ConsumeItem) pm.Item = null;
       }
     }
   }

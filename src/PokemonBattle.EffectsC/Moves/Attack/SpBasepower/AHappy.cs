@@ -5,33 +5,23 @@ using System.Text;
 using LightStudio.PokemonBattle.Game;
 using LightStudio.PokemonBattle.Data;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves
+namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
 {
-    class AHappy : AttackMoveE 
-    {
-        public AHappy(int moveId)
-            : base(moveId)
-        {
-        }
+  class Happiness : AttackMoveE
+  {
+    bool Reverse;
 
-        protected override void CalculateBasePower(DefContext def)
-        {
-            double pw=def.Defender.Pokemon.Happiness /2.5;
-            def.BasePower = (int)pw;
-        }
+    public Happiness(int moveId, bool reverse)
+      : base(moveId)
+    {
+      Reverse = reverse;
     }
 
-    class BHappy : AttackMoveE
+    protected override void CalculateBasePower(DefContext def)
     {
-      public BHappy(int moveId)
-        : base(moveId)
-      {
-      }
-
-      protected override void CalculateBasePower(DefContext def)
-      {
-        double pw = (255 - def.Defender.Pokemon.Happiness) / 2.5;
-        def.BasePower = (int)pw;
-      }
+      int v = def.Defender.Pokemon.Happiness;
+      if (Reverse) v = 255 - v;
+      def.BasePower = v * 4 / 10;
     }
+  }
 }

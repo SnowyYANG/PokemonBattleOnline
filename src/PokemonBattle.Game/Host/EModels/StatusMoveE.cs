@@ -33,25 +33,26 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     protected override void Act(AtkContext atk) //1、2、3、5、A、B、C、D
     {
+      bool notAllFail = false;
       switch (Move.Class)
       {
         case MoveInnerClass.AddState:
-          bool notAllFail = false;
           foreach (var d in atk.Targets) notAllFail |= d.Defender.AddState(d);
           if (atk.Move.Attachment.State == AttachedState.PerishSong)
             if (notAllFail) atk.Controller.ReportBuilder.Add("EnPerishSong");
             else FailAll(atk);
           break;
         case MoveInnerClass.Lv7DChange:
-          foreach (var d in atk.Targets) d.Defender.ChangeLv7D(atk);
+          foreach (var d in atk.Targets) notAllFail |= d.Defender.ChangeLv7D(atk);
+          atk.FailAll = !notAllFail;
           break;
         case MoveInnerClass.HpRecover:
           foreach (var d in atk.Targets)
-            if (atk.Move.AdvancedFlags.IsHeal && d.Defender.OnboardPokemon.HasCondition("HealBlock")) d.Defender.AddReportPm("HealBlock");
-            else if (d.Defender.Hp == d.Defender.Pokemon.Hp.Origin) d.Defender.AddReportPm("FullHp"); //不在场和濒死都是不可能的
-            else d.Defender.HpRecover(d.Defender.Pokemon.Hp.Origin * atk.Move.MaxHpPercentage / 100);
+            d.Defender.HpRecover(d.Defender.Pokemon.Hp.Origin * atk.Move.MaxHpPercentage / 100, true);
           break;
         case MoveInnerClass.ConfusionWithLv7DChange:
+          atk.Target.Defender.AddState(atk.Target);
+          atk.Target.Defender.ChangeLv7D(atk);
           break;
         case MoveInnerClass.ForceToShift:
           int aLv = atk.Attacker.Pokemon.Lv, dLv = atk.Target.Defender.Pokemon.Lv;

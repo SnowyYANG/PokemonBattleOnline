@@ -20,7 +20,7 @@ class EntryHazards(StatusMoveE):
         self.Log = log
     def Act(self, a):
         team = 1 - a.Attacker.Pokemon.TeamId
-        a.Controller.Board[team].AddEntryHazards(self.Move)
+        a.Controller.Board[team].EnEntryHazards(self.Move)
         a.Controller.ReportBuilder.Add(self.Log, team)
 M(EntryHazards(191, 'EnSpikes'))
 M(EntryHazards(390, 'EnToxicSpikes'))

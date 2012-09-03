@@ -10,6 +10,25 @@ namespace LightStudio.PokemonBattle.Game.Host
 {
   public class AttackMoveE : MoveE
   {
+    public void DamagePercentage(DefContext def, sbyte percentage)
+    {
+      var aer = def.AtkContext.Attacker;
+      var ability = aer.Ability;
+      int v = def.Damage * percentage / 100;
+      if (percentage > 0)
+      {
+        if (aer.Item.BigRoot()) v = (int)(v * 1.3);
+        if (!ability.MagicGuard() && def.Defender.RaiseAbility(Abilities.LIQUID_OOZE)) aer.EffectHurt(v);
+        else aer.HpRecover(v, false);
+      }
+      else //ReHurt
+      {
+        if (ability.RockHead() || ability.MagicGuard()) return;
+        aer.Pokemon.SetHp(aer.Hp + v);
+        aer.Controller.ReportBuilder.Add(new GameEvents.HpChange(aer, "ReHurt"));
+      }
+    }
+    
     protected static readonly sbyte[,] BATTLE_TYPE_EFFECT = new sbyte[18, 18] { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 1, 0, -1, -1, 0, 1, -1, 0, 1, 0, 0, 0, 0, -1, 1, 0, 1 }, { 0, 0, 1, 0, 0, 0, -1, 1, 0, -1, 0, 0, 1, -1, 0, 0, 0, 0 }, { 0, 0, 0, 0, -1, -1, -1, 0, -1, 0, 0, 0, 1, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 1, 0, 1, -1, 0, 1, 1, 0, -1, 1, 0, 0, 0, 0 }, { 0, 0, -1, 1, 0, -1, 0, 1, 0, -1, 1, 0, 0, 0, 0, 1, 0, 0 }, { 0, 0, -1, -1, -1, 0, 0, 0, -1, -1, -1, 0, 1, 0, 1, 0, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 1, 0, 0, -1 }, { 0, 0, 0, 0, 0, 0, 1, 0, 0, -1, -1, -1, 0, -1, 0, 1, 0, 0 }, { 0, 0, 0, 0, 0, 0, -1, 1, 0, 1, -1, -1, 1, 0, 0, 1, -1, 0 }, { 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, -1, -1, 0, 0, 0, -1, 0 }, { 0, 0, 0, -1, -1, 1, 1, -1, 0, -1, -1, 1, -1, 0, 0, 0, -1, 0 }, { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, -1, -1, 0, 0, -1, 0 }, { 0, 0, 1, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0 }, { 0, 0, 0, 1, 0, 1, 0, 0, 0, -1, -1, -1, 1, 0, 0, -1, 1, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 1, 0 }, { 0, 0, -1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 1, 0, 0, -1 } };
     protected static readonly int[] TIMES25 = new int[8] { 2, 2, 2, 3, 3, 3, 4, 5 };
     protected static readonly int[] LV_CT = { 16, 8, 4, 3, 2, 0 };
@@ -96,14 +115,14 @@ namespace LightStudio.PokemonBattle.Game.Host
           e.SetHurt(defs);
         }
 
-        if (Move.HurtPercentage > 0) a.DamagePercentage(def, Move.HurtPercentage);
+        if (Move.HurtPercentage > 0) DamagePercentage(def, Move.HurtPercentage);
         if (Move.Class == MoveInnerClass.AttackWithSelfLv7DChange && !(Move.HasProbabilitiedAdditonalEffects() && a.Ability.SheerForce())) a.ChangeLv7D(atk);
 
         foreach (DefContext d in defs) if (!d.HitSubstitute) ImplementEffect(d);
 
         if (a.Hp > 0)
         {
-          if (Move.HurtPercentage < 0) a.DamagePercentage(def, Move.HurtPercentage);
+          if (Move.HurtPercentage < 0) DamagePercentage(def, Move.HurtPercentage);
           else if (Move.MaxHpPercentage < 0) //拼命专用
           {
             a.Pokemon.SetHp(a.Hp + a.Pokemon.Hp.Origin * Move.MaxHpPercentage / 100);

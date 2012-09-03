@@ -1,3 +1,26 @@
+class Present(AttackMoveE):
+    def Execute(self, pm):
+        random = pm.Controller.GetRandomInt(0, 99)
+        pm.BuildAtkContext(self.Move)
+        if random < 20:
+            a = 0
+        else:
+            if random <  60:
+                a = 40
+            else:
+                if random < 90:
+                    a = 80
+                else:
+                    a = 100
+        pm.AtkContext.Attachment = a
+        MoveE.Execute(self, pm)
+    def Act(self, a):
+        if a.Attachment == 0:
+            a.Target.Defender.HpRecoverByOneNth(4, True)
+    def CalculateBasePower(self, d):
+        d.BasePower = d.AtkContext.Attachment
+M(Present(217))
+
 class Magnitude(AttackMoveE):
     def Execute(self, pm):
         random = pm.Controller.GetRandomInt(0, 99)

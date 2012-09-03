@@ -25,7 +25,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public const int LEVITATE = 66;
     public const int LIQUID_OOZE = 70;
     public const int MAGNET_PULL = 74;
-    public const int MULTITYPE = 82;
     public const int NATURAL_CURE = 84;
     public const int PICKUP = 92;
     public const int POISON_HEAL = 96;

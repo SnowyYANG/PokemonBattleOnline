@@ -23,12 +23,12 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     {
       Pm = pm.Id;
       Item = pm.Pokemon.Item.Id;
-      Key = key;
+      Key = key == "GetItem" ? null : key;
       if (itemLoser != null) Loser = itemLoser.Id;
     }
     protected override void Update()
     {
-      if (Key != null) AppendGameLog(Key, Pm, Item);
+      if (Key != null) AppendGameLog(Key ?? "GetItem", Pm, Item, Loser);
     }
     public override void Update(SimGame game)
     {

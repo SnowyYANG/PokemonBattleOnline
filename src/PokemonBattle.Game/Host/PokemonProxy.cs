@@ -131,6 +131,11 @@ namespace LightStudio.PokemonBattle.Game.Host
         return w;
       }
     }
+    public void ChangeForm(int type)
+    {
+      throw new NotImplementedException();
+      //图像、重算数据、类型、体重、特性，不包括技能
+    }
     public void ChangeAbility(int ab)
     {
       Ability.Detach(this);
@@ -198,8 +203,21 @@ namespace LightStudio.PokemonBattle.Game.Host
           (Action == PokemonAction.MoveAttached || Action == PokemonAction.Stiff || Action == PokemonAction.Moving);
       }
     }
-    public bool CanHpRecover
-    { get { return !(Tile == null || Hp == 0 || Hp == Pokemon.Hp.Origin); } }
+    public bool CanHpRecover(bool showFail = false)
+    {
+      if (Tile == null || Hp == 0) return false;
+      if (Hp == Pokemon.Hp.Origin)
+      {
+        if (showFail) AddReportPm("FullHp");
+        return false;
+      }
+      if (OnboardPokemon.HasCondition("HealBlock"))
+      {
+        AddReportPm("HealBlock");
+        return false;
+      }
+      return true;
+    }
     public bool CanEffectHurt
     {
       get { return !(Tile == null || Hp == 0 || Ability.MagicGuard()); }
@@ -423,7 +441,20 @@ namespace LightStudio.PokemonBattle.Game.Host
           {
             _atkContext = null; //考虑下要不要拿到花括号外面或者删掉
             SelectedMove.Execute();
-            OnboardPokemon.SetCondition("LastMove", AtkContext.Move);
+            var o = OnboardPokemon.GetCondition("LastMove");
+            if (o == null)
+            {
+              o = new Condition();
+              o.Move = AtkContext.Move;
+              OnboardPokemon.SetCondition("LastMove", AtkContext.Move);
+            }
+            else if (o.Move != AtkContext.Move)
+            {
+              o.Move = AtkContext.Move;
+              o.Int = 0;
+            }
+            if (AtkContext.FailAll) o.Int = 0;
+            else o.Int++;
           }
           else
           {
@@ -464,27 +495,28 @@ namespace LightStudio.PokemonBattle.Game.Host
     public void MoveHurt(DefContext def)
     {
       def.Damage = MoveHurt(def.Damage);
-      var o = new Dictionary<string, object>();
-      o["Damage"] = def.Damage;
-      o["By"] = def.AtkContext.Attacker;
+      var o = new Condition();
+      o.Damage = def.Damage;
+      o.By = def.AtkContext.Attacker;
       string c = def.AtkContext.Move.Category == MoveCategory.Physical ? "PhysicalDamage" : "SpecialDamage";
       OnboardPokemon.SetTurnCondition(c, o);
       OnboardPokemon.SetTurnCondition("Damage", o);
+      OnboardPokemon.SetTurnCondition("Hurt" + o.By.Id.ToString());
     }
-    public void HpRecover(int changeHp, string logKey = "HpRecover", int arg1 = 0, bool removeItem = false)
+    public void HpRecover(int changeHp, bool showFail = false, string logKey = "HpRecover", int arg1 = 0, bool consumeItem = false)
     {
-      if (CanHpRecover)
+      if (CanHpRecover(showFail))
       {
-        if (removeItem) ConsumeItem();
+        if (consumeItem) ConsumeItem();
         Hp += changeHp;
-        Controller.ReportBuilder.Add(new GameEvents.HpChange(this, logKey, arg1) { RemoveItem = removeItem });
+        Controller.ReportBuilder.Add(new GameEvents.HpChange(this, logKey, arg1) { ConsumeItem = consumeItem });
       }
     }
-    public void HpRecoverByOneNth(int n, string logKey = "HpRecover", int arg1 = 0, bool removeItem = false)
+    public void HpRecoverByOneNth(int n, bool showFail = false, string logKey = "HpRecover", int arg1 = 0, bool consumeItem = false)
     {
       int hp = Pokemon.Hp.Origin / n;
       if (hp == 0) hp = 1;
-      HpRecover(hp, logKey, arg1, removeItem);
+      HpRecover(hp, showFail, logKey, arg1, consumeItem);
     }
     public void EffectHurt(int changeHp, string logKey = "Hurt", int arg1 = 0, int arg2 = 0)
     {
@@ -499,22 +531,6 @@ namespace LightStudio.PokemonBattle.Game.Host
       int hp = Pokemon.Hp.Origin / n;
       if (hp == 0) hp = 1;
       EffectHurt(hp, logKey, arg1, arg2);
-    }
-    public void DamagePercentage(DefContext def, sbyte percentage)
-    {
-      int v = def.Damage * percentage / 100;
-      if (percentage > 0)
-      {
-        if (Item.BigRoot()) v = (int)(v * 1.3);
-        if (!Ability.MagicGuard() && Abilities.RaiseAbility(def.Defender, Abilities.LIQUID_OOZE)) EffectHurt(v);
-        else HpRecover(v);
-      }
-      else //ReHurt
-      {
-        if (Ability.RockHead() || Ability.MagicGuard()) return;
-        Hp += v;
-        Controller.ReportBuilder.Add(new GameEvents.HpChange(this, "ReHurt"));
-      }
     }
     #endregion
 
@@ -598,10 +614,19 @@ namespace LightStudio.PokemonBattle.Game.Host
     public bool ChangeLv7D(AtkContext atk)
     {
       bool r = false;
+      bool showFail = atk.Move.Category == MoveCategory.Status;
       foreach (MoveLv7DChange c in atk.Move.Lv7DChanges)
       {
         if (c.Probability == 0 || atk.RandomHappen(c.Probability))
-          r |= ChangeLv7DImplement(atk.Attacker, c.Type, c.Change, atk.Move.Category == MoveCategory.Status, null);
+          if (c.Type == StatType.All)
+          {
+            r |= ChangeLv7DImplement(atk.Attacker, StatType.Atk, c.Change, showFail, null);
+            r |= ChangeLv7DImplement(atk.Attacker, StatType.Def, c.Change, showFail, null);
+            r |= ChangeLv7DImplement(atk.Attacker, StatType.SpAtk, c.Change, showFail, null);
+            r |= ChangeLv7DImplement(atk.Attacker, StatType.SpDef, c.Change, showFail, null);
+            r |= ChangeLv7DImplement(atk.Attacker, StatType.Speed, c.Change, showFail, null);
+          }
+          else r |= ChangeLv7DImplement(atk.Attacker, c.Type, c.Change, showFail, null);
       }
       Items.WhiteHerb(this);
       return r;

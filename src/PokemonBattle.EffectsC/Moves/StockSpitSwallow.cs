@@ -60,7 +60,16 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves
     }
     protected override void Act(AtkContext atk)
     {
-      base.Act(atk);
+      atk.Attacker.HpRecoverByOneNth(8 >> atk.Attacker.OnboardPokemon.GetCondition<int>("Stockpile"), true);
+    }
+    protected override void MoveEnding(AtkContext atk)
+    {
+      var aer = atk.Attacker;
+      int i = aer.OnboardPokemon.GetCondition<int>("Stockpile");
+      aer.ChangeLv7D(atk.Attacker, false, 0, -i, 0, -i);
+      aer.OnboardPokemon.RemoveCondition("Stockpile");
+      aer.AddReportPm("DeStockpile");
+      base.MoveEnding(atk);
     }
   }
 }

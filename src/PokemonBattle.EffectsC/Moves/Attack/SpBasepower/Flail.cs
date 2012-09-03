@@ -5,7 +5,7 @@ using System.Text;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves
+namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
 {
   class Flail:AttackMoveE 
   {

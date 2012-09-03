@@ -37,18 +37,19 @@ namespace LightStudio.PokemonBattle.Game.Host
         where t.X >= minX && t.X < maxX && t.Pokemon != null
         select t.Pokemon;
     }
-    public void AddEntryHazards(MoveType move)
+    public void EnEntryHazards(MoveType move)
     {
       foreach (var eh in hazards)
         if (eh.Move == move)
         {
-          eh.Add();
+          eh.En();
           return;
         }
       hazards.Add(EntryHazards.New(move));
     }
-    public void ClearEntryHazards()
+    public void DeEntryHazards(ReportBuilder report, int team)
     {
+      foreach (var eh in hazards) eh.De(report, team);
       hazards.Clear();
     }
     /// <summary>
@@ -86,7 +87,8 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         Move = DataService.GetMove(move);
       }
-      public abstract void Add();
+      public abstract void En();
+      public abstract void De(ReportBuilder report, int team);
       public abstract void Debut(PokemonProxy pm); //欢迎登场，口耐的精灵们（笑
 
       #region nested class
@@ -98,10 +100,14 @@ namespace LightStudio.PokemonBattle.Game.Host
         {
           n = 8;
         }
-        public override void Add()
+        public override void En()
         {
           if (n == 8) n = 6;
           else n = 4;
+        }
+        public override void De(ReportBuilder report, int team)
+        {
+          report.Add("DeSpikes", team);
         }
         public override void Debut(PokemonProxy pm)
         {
@@ -116,9 +122,13 @@ namespace LightStudio.PokemonBattle.Game.Host
           : base(Moves.TOXIC_SPIKES)
         {
         }
-        public override void Add()
+        public override void En()
         {
           badly = true;
+        }
+        public override void De(ReportBuilder report, int team)
+        {
+          report.Add("DeToxicSpikes", team);
         }
         public override void Debut(PokemonProxy pm)
         {
@@ -132,8 +142,12 @@ namespace LightStudio.PokemonBattle.Game.Host
           : base(Moves.STEALTH_ROCK)
         {
         }
-        public override void Add()
+        public override void En()
         {
+        }
+        public override void De(ReportBuilder report, int team)
+        {
+          report.Add("DeStealthRock", team);
         }
         public override void Debut(PokemonProxy pm)
         {

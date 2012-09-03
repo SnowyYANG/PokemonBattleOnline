@@ -129,14 +129,34 @@ namespace LightStudio.PokemonBattle.Game.Host
         case StatType.Speed:
           ChangeLv7D(ref lv5D.Speed, change);
           break;
-        case StatType.All:
-          ChangeLv7D(ref lv5D.Atk, change);
-          ChangeLv7D(ref lv5D.Def, change);
-          ChangeLv7D(ref lv5D.SpAtk, change);
-          ChangeLv7D(ref lv5D.SpDef, change);
-          ChangeLv7D(ref lv5D.Speed, change);
+#if DEBUG
+        default:
+          System.Diagnostics.Debugger.Break();
           break;
+#endif
       }
+    }
+    private int FilterLv7D(int? lv, int formerLv)
+    {
+      if (lv.HasValue)
+      {
+        int l = lv.Value;
+        if (l > 6) l = 6;
+        else if (l < -6) l = -6;
+        return l;
+      }
+      return formerLv;
+    }
+    public void SetLv7D(int? a, int? d, int? sa, int? sd, int? s, int? accuracy, int? evasion)
+    {
+      if (accuracy != null) AccuracyLv = accuracy.Value;
+      if (evasion != null) EvasionLv = evasion.Value;
+      lv5D.Set5D(
+        FilterLv7D(a, lv5D.Atk),
+        FilterLv7D(d, lv5D.Def),
+        FilterLv7D(sa, lv5D.SpAtk),
+        FilterLv7D(sd, lv5D.SpDef),
+        FilterLv7D(s, lv5D.Speed));
     }
     public bool HasType(BattleType type)
     {

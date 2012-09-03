@@ -13,5 +13,5 @@ I(AirBalloon(105))
 class EnigmaBerry(ItemE):
     def Attacked(self, d):
         if d.EffectRevise > 0:
-            d.Defender.HpRecoverByOneNth(4, 'ItemRecover', 188, True)
+            d.Defender.HpRecoverByOneNth(4, False, 'ItemRecover', 188, True)
 I(EnigmaBerry(188))            

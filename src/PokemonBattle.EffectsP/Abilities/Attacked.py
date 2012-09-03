@@ -64,7 +64,7 @@ A(Justified(44))
 class Mummy(t_a):
     def TA(self, d):
         ab = d.AtkContext.Attacker.OnboardPokemon.Ability
-        if ab != 82 and ab != 83:
+        if ab != 82 and ab != 83: #multitype
             self.Raise(d.Defender)
             d.AtkContext.Attacker.AddReportPm('Mummy', None, None)
             d.AtkContext.Attacker.ChangeAbility(83)

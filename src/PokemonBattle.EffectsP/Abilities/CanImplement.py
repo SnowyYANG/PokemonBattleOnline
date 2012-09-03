@@ -28,10 +28,10 @@ class NoEffectWithAbsorb(AbilityE):
         if d.AtkContext.Type == self.Type:
             der = d.Defender
             self.Raise(der)
-            if der.CanHpRecover:
-                der.HpRecoverByOneNth(4)
-            else:
+            if der.Hp == der.Pokemon.Hp.Origin:
                 der.AddReportPm('NoEffect', None, None)
+            else:
+                der.HpRecoverByOneNth(4)
             return False
         return True
 A(NoEffectWithAbsorb(25, BattleType.Water))#dry skin

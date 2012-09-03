@@ -4,8 +4,8 @@ class OrganBerry(ItemE):
     def __init__(self, id, hp):
         self.Hp = hp
     def e(self, pm):
-        if pm.Hp << 1 < pm.Pokemon.Hp.Origin and pm.CanHpRecover:
-            pm.HpRecover(self.Hp, 'ItemRecover', 135, True)
+        if pm.Hp << 1 < pm.Pokemon.Hp.Origin:
+            pm.HpRecover(self.Hp, False, 'ItemRecover', 135, True)
     def Attach(self, pm):
         OrganBerry.e(self, pm)
     def HpChanged(self, pm):
@@ -15,8 +15,8 @@ I(OrganBerry(194, 20)) #berry juice
 
 class SitrusBerry(ItemE):
     def e(pm):
-        if pm.Hp << 1 < pm.Pokemon.Hp.Origin and pm.CanHpRecover:
-            pm.HpRecoverByOneNth(4, 'ItemRecover', 138, True)
+        if pm.Hp << 1 < pm.Pokemon.Hp.Origin:
+            pm.HpRecoverByOneNth(4, False, 'ItemRecover', 138, True)
     def Attach(self, pm):
         SitrusBerry.e(pm)
     def HpChanged(self, pm):

@@ -7,7 +7,8 @@ class m_continuoususe(StatusMoveE):
         if a.Controller.OnboardPokemons[a.Controller.OnboardPokemons.Count - 1] == a.Attacker:
             return False
         o = a.Attacker.OnboardPokemon
-        if o.GetCondition[MoveType]('LastMove') == self.Move:
+        c = o.GetCondition('LastMove')
+        if c != None and c.Move == self.Move:
             count = o.GetCondition[int]('ContinuousUse')
             if a.Controller.GetRandomInt(0, 0xffff - 1) < 0xffff >> count:
                 o.SetCondition('ContinuousUse', count + 1)
