@@ -78,6 +78,14 @@ class Brine(AttackMoveE):
         return 0x1000
 M(Brine(362))
 
+class Payback(AttackMoveE):
+    def CalculateBasePower(self, d):
+        if d.Defender.LastActTurn == d.Defender.Controller.TurnNumber:
+            d.BasePower = 100
+        else:
+            d.BasePower = 50
+M(Payback(371))
+
 class Venoshock(AttackMoveE):
     def PowerModifier(self, d):
         if d.Defender.State == PokemonState.Poisoned or d.Defender.State == PokemonState.BadlyPoisoned:

@@ -49,6 +49,7 @@
     <None Include="Items\PowerModifier.py" />
     <None Include="Items\StateAdded.py" />
     <None Include="Moves\Attack\Blizzard.py" />
+    <None Include="Moves\Attack\DeAbnormal.py" />
     <None Include="Moves\Attack\Exclusive.py" />
     <None Include="Moves\Attack\ImplementEffect.py" />
     <None Include="Moves\Attack\MoveProxyUsed.py" />

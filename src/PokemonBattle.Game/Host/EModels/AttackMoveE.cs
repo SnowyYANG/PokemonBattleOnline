@@ -60,18 +60,19 @@ namespace LightStudio.PokemonBattle.Game.Host
       int times = Move.MinTimes == Move.MaxTimes || atk.Attacker.Ability.SkillLink() ? Move.MaxTimes : TIMES25[atk.Controller.GetRandomInt(0, 7)];
       
       int atkTeam = aer.Pokemon.TeamId;
+      int hits = 0;
       do
       {
-        atk.ActualHits++;
+        hits++;
         if (Move.Class != MoveInnerClass.OHKO)
           foreach (DefContext d in atk.Targets) CalculateDamage(d);
         if (aer.UsingItem) atk.Attacker.RaiseItem();
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
       }
-      while (atk.ActualHits < times && atk.Target.Defender.Hp != 0 && aer.Hp != 0 && aer.State != PokemonState.Frozen && aer.State != PokemonState.Sleeping);
+      while (hits < times && atk.Target.Defender.Hp != 0 && aer.Hp != 0 && aer.State != PokemonState.Frozen && aer.State != PokemonState.Sleeping);
       
-      if (Move.MaxTimes > 1) atk.Controller.ReportBuilder.Add("Hits", atk.ActualHits);
+      if (Move.MaxTimes > 1) atk.Controller.ReportBuilder.Add("Hits", hits);
       if (atk.Type == BattleType.Fire)
         foreach (DefContext d in atk.Targets)
           if (d.Defender.State == PokemonState.Frozen) d.Defender.DeAbnormalState();
@@ -79,7 +80,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (!(atk.Move.HasProbabilitiedAdditonalEffects() && atk.Attacker.Ability.SheerForce())) PostEffect(atk);
     }
 
-    private void Implement(IEnumerable<DefContext> defs)
+    protected virtual void Implement(IEnumerable<DefContext> defs)
     {
       if (defs.Count() == 0) return;
       DefContext def = defs.First();
@@ -132,7 +133,6 @@ namespace LightStudio.PokemonBattle.Game.Host
         }
       }// OHKO else
     }
-    protected virtual void PreImplement(DefContext def) { }
     protected virtual void CalculateBasePower(DefContext def)
     {
       def.BasePower = Move.Power;

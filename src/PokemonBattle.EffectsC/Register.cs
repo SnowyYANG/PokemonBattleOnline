@@ -52,6 +52,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new GustTwister(239));
       M(new Counter(243, "SpecialDamage", 0x2000));
       M(new SpRangeMove(250, CoordY.Water, true));//whirlpool
+      M(new BeatUp(251));
       M(new Stockpile(254));
       M(new SpitUp(255));
       M(new Swallow(256));
@@ -62,6 +63,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new SpRangeMove(327, CoordY.Air));
       M(new Leap(340, CoordY.Air));//bounce
       M(new GyroBall(360));
+      M(new Acupressure(367));
       M(new Counter(368, "Damage", 0x1800));
       M(new TrumpCard(376));
       M(new WringOut(378));

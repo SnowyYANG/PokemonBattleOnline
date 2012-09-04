@@ -153,7 +153,6 @@ namespace LightStudio.PokemonBattle.Game.Host
         {
           int revise = AttackMoveE.CalculateEffectRevise(BattleType.Rock, pm.OnboardPokemon.Type1, pm.OnboardPokemon.Type2);//羽栖有效无效都无所谓
           int hp = (revise > 0 ? pm.Pokemon.Hp.Origin << revise : pm.Pokemon.Hp.Origin >> -revise) >> 3;
-          if (hp == 0) hp = 1;
           if (pm.CanEffectHurt) pm.EffectHurt(hp, "StealthRock");
         }
       }

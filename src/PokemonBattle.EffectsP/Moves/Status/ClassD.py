@@ -41,6 +41,28 @@ class Encore(StatusMoveE):
             self.Fail(der)
 M(Encore(227))
 
+class PsychUp(StatusMoveE):
+    def Act(self, a):
+        der = a.Target.Defender
+        lv5d = der.OnboardPokemon.Lv5D
+        a.Attacker.OnboardPokemon.SetLv7D(lv5d.Atk, lv5d.SpAtk, lv5d.Def, lv5d.SpDef, lv5d.Speed, der.AccuracyLv, der.EvasionLv)
+        a.Attacker.AddReportPm('PsychUp', der)
+M(PsychUp(244))
+
+class Memento(StatusMoveE):
+    def Act(self, a):
+        a.Attacker.Pokemon.SetHp(0)
+        a.Attacker.CheckFaint()
+        a.Target.Defender.ChangeLv7D(a.Attacker, True, -2, 0, -2, 0, 0, 0, 0)
+M(Memento(262))
+
+class Charge(StatusMoveE):
+    def Act(self, a):
+        StatusMoveE.Act(self, a)
+        a.Attacker.OnboardPokemon.SetCondition('Charge', a.Controller.TurnNumber + 1)
+        a.Attacker.AddReportPm('Charge')
+M(Charge(268))
+
 class Taunt(StatusMoveE):
     def Act(self, a):
         der = a.Target.Defender
@@ -49,6 +71,55 @@ class Taunt(StatusMoveE):
         else:
             self.Fail(der)
 M(Taunt(269))
+
+class Imprison(StatusMoveE):
+    def Act(self, a):
+        if a.Attacker.OnboardPokemon.AddCondition('Imprison'):
+            a.Attacker.AddReportPm('EnImprison')
+        else:
+            self.FailAll(a)
+M(Imprison(286))
+
+class Refresh(StatusMoveE):
+    def NotFail(self, a):
+        return a.Attacker.State != PokemonState.Normal
+    def Act(self, a):
+        a.Attacker.DeAbnormalState(False)
+M(Refresh(287))
+
+class Camouflage(StatusMoveE):
+    def NotFail(self, a):
+        return not (a.Attacker.OnboardPokemon.Type1 == TerrainExtension.GetBattleType(a.Controller.GameSettings.Terrain) and a.Attacker.OnboardPokemon.Type2 == BattleType.Invalid)
+    def Act(self, a):
+        t = TerrainExtension.GetBattleType(a.Controller.GameSettings.Terrain)
+        a.Attacker.OnboardPokemon.Type1 = t
+        a.Attacker.OnboardPokemon.Type2 = BattleType.Invalid
+        a.Attacker.AddReportPm('TypeChange', t)
+M(Camouflage(293))
+
+class PsychoShift(StatusMoveE):
+    def NotFail(self, a):
+        return a.Attacker.State != PokemonState.Normal
+    def Act(self, a):
+        s = a.Attacker.State
+        if s == PokemonState.BadlyPoisoned:
+            a.Target.Defender.AddState(a.Attacker, AttachedState.Poison, True, 15)
+        else:
+            if s == PokemonState.Burned:
+                s = AttachedState.Burn
+            else:
+                if s == PokemonState.Frozen:
+                    s = AttachedState.Freeze
+                else:
+                    if s == PokemonState.Paralyzed:
+                        s = AttachedState.Paralysis
+                    else:
+                        if s == PokemonState.Sleeping:
+                            s = AttachedState.Sleep
+                        else:
+                            a = AttachedState.Poison
+            a.Target.Defender.AddState(a.Attacker, s, True)
+M(PsychoShift(375))
 
 class PowerTrick(StatusMoveE):
     def Act(self, a):
@@ -61,13 +132,13 @@ M(PowerTrick(379))
 
 class GastroAcid(StatusMoveE):
     def Act(self, a):
-        der = a.Target.Defender.OnboardPokemon
-        if der.HasCondition('GastroAcid') or der.Ability == 82: #multitype
-            self.FailAll()
+        der = a.Target.Defender
+        ab = der.Ability
+        if ab.Id != 82 and der.OnboardPokemon.AddCondition('GastroAcid'): #multitype
+            der.AddReportPm('EnGastroAcid')
+            ab.Detach(der)
         else:
-            a.Target.Defender.AddReportPm('EnGastroAcid')
-            der.Ability.Detach(der)
-            der.SetCondition('GastroAcid')
+            self.FailAll(a)
 M(GastroAcid(380))
         
 class PowerSwap(StatusMoveE):
@@ -145,7 +216,7 @@ class Defog(StatusMoveE):
         if f.HasCondition('Safeguard'):
             f.RemoveCondition('Safeguard')
             r.Add('DeSafeguard', t)
-M(DeFog(432))
+M(Defog(432))
 
 class GuardSplit(StatusMoveE):
     def Act(self, a):
@@ -166,16 +237,14 @@ class PowerSplit(StatusMoveE):
 M(PowerSplit(471))
 
 class Soak(StatusMoveE):
-    def CalculateTargets(self, a):
-        StatusMoveE.CalculateTargets(self, a)
-        if a.Target != None:
-            der = a.Target.Defender
-            if Items.PlatedArceus(der.Pokemon) or (der.OnboardPokemon.Type1 == BattleType.Water and der.OnboardPokemon.Type2 == BattleType.Invalid):
-                a.SetTargets(Array.CreateInstance(DefContext, 0))
     def Act(self, a):
-        a.Target.Defender.OnboardPokemon.Type1 = BattleType.Water
-        a.Target.Defender.OnboardPokemon.Type2 = BattleType.Invalid
-        a.Target.Defender.AddReportPm('TypeChange', BattleType.Water)
+        der = a.Target.Defender
+        if Items.PlatedArceus(der.Pokemon) or (der.OnboardPokemon.Type1 == BattleType.Water and der.OnboardPokemon.Type2 == BattleType.Invalid):
+            self.FailAll(a)
+        else:
+            der.OnboardPokemon.Type1 = BattleType.Water
+            der.OnboardPokemon.Type2 = BattleType.Invalid
+            der.AddReportPm('TypeChange', BattleType.Water)
 M(Soak(487))
 
 class ShellSmash(StatusMoveE):

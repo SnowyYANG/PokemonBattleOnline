@@ -12,7 +12,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
 {
   class EndTurn : Game.Host.Triggers.IEndTurn
   {
-    private static readonly StatType[] SevenD = { StatType.Atk, StatType.Def, StatType.SpAtk, StatType.SpDef, StatType.Speed, StatType.Accuracy, StatType.Evasion };
+    private static readonly StatType[] SEVEN_D = { StatType.Atk, StatType.Def, StatType.SpAtk, StatType.SpDef, StatType.Speed, StatType.Accuracy, StatType.Evasion };
 
     public void Execute(Controller c)
     {
@@ -159,7 +159,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
           int hp = pm.Pokemon.Hp.Origin;
           if (pm.Item.BigRoot()) hp = (int)(hp * 1.3);
           hp /= 16;
-          if (hp == 0) hp = 1;
           pm.HpRecover(hp, false, "AquaRing");
         }
       foreach (var pm in c.OnboardPokemons)
@@ -168,7 +167,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
           int hp = pm.Pokemon.Hp.Origin;
           if (pm.Item.BigRoot()) hp = (int)(hp * 1.3);
           hp /= 16;
-          if (hp == 0) hp = 1;
           pm.HpRecover(hp, false, "Ingrain");
         }
       foreach (var pm in c.OnboardPokemons.ToArray())
@@ -203,17 +201,16 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         switch (pm.State)
         {
           case PokemonState.BadlyPoisoned:
-            if (pm.CanHpRecover() && pm.RaiseAbility(As.POISON_HEAL)) pm.HpRecoverByOneNth(8, "PoisonHeal");
+            if (pm.CanHpRecover() && pm.RaiseAbility(As.POISON_HEAL)) pm.HpRecoverByOneNth(8, false, "PoisonHeal");
             else
             {
               int turn = 1 + c.TurnNumber - pm.OnboardPokemon.GetCondition<int>("Poison");
               int hp = pm.Pokemon.Hp.Origin * (turn > 15 ? 15 : turn) / 16;
-              if (hp == 0) hp = 1;
               pm.EffectHurt(hp, "Poisoned");
             }
             break;
           case PokemonState.Poisoned:
-            if (pm.CanHpRecover() && pm.RaiseAbility(As.POISON_HEAL)) pm.HpRecoverByOneNth(8, "PoisonHeal");
+            if (pm.CanHpRecover() && pm.RaiseAbility(As.POISON_HEAL)) pm.HpRecoverByOneNth(8, false, "PoisonHeal");
             else pm.EffectHurtByOneNth(8, "Poisoned");
             break;
          case PokemonState.Burned:
@@ -431,8 +428,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             break;
           case As.MOODY:
             {
-              StatType[] up = SevenD.Where((s) => pm.CanChangeLv7D(pm, s, 2, false) != 0).ToArray();
-              StatType[] down = SevenD.Where((s) => pm.CanChangeLv7D(pm, s, -1, false) != 0).ToArray();
+              StatType[] up = SEVEN_D.Where((s) => pm.CanChangeLv7D(pm, s, 2, false) != 0).ToArray();
+              StatType[] down = SEVEN_D.Where((s) => pm.CanChangeLv7D(pm, s, -1, false) != 0).ToArray();
               pm.RaiseAbility();
               if (up.Length != 0) pm.ChangeLv7D(pm, up[c.GetRandomInt(0, up.Length)], 2, false);
               if (down.Length != 0) pm.ChangeLv7D(pm, down[c.GetRandomInt(0, down.Length)], -1, false);

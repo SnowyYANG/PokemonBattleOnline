@@ -192,7 +192,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static void AttackPostEffect(PokemonProxy pm)
     {
       const int SHELL_BELL = 35;
-      if (pm.Item.Id == SHELL_BELL) pm.HpRecoverByOneNth(8, "ItemRecover", SHELL_BELL);
+      if (pm.Item.Id == SHELL_BELL) pm.HpRecoverByOneNth(8, false, "ItemRecover", SHELL_BELL);
       else if (pm.Item.Id == LIFE_ORB)
       {
         pm.EffectHurtByOneNth(10, "LifeOrb");

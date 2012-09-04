@@ -508,6 +508,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (CanHpRecover(showFail))
       {
         if (consumeItem) ConsumeItem();
+        if (changeHp == 0) changeHp = 1;
         Hp += changeHp;
         Controller.ReportBuilder.Add(new GameEvents.HpChange(this, logKey, arg1) { ConsumeItem = consumeItem });
       }
@@ -515,13 +516,13 @@ namespace LightStudio.PokemonBattle.Game.Host
     public void HpRecoverByOneNth(int n, bool showFail = false, string logKey = "HpRecover", int arg1 = 0, bool consumeItem = false)
     {
       int hp = Pokemon.Hp.Origin / n;
-      if (hp == 0) hp = 1;
       HpRecover(hp, showFail, logKey, arg1, consumeItem);
     }
     public void EffectHurt(int changeHp, string logKey = "Hurt", int arg1 = 0, int arg2 = 0)
     {
       if (CanEffectHurt)
       {
+        if (changeHp == 0) changeHp = 1;
         Hp -= changeHp;
         Controller.ReportBuilder.Add(new GameEvents.HpChange(this, logKey, arg1, arg2));
       }
@@ -529,7 +530,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     public void EffectHurtByOneNth(int n, string logKey = "Hurt", int arg1 = 0, int arg2 = 0)
     {
       int hp = Pokemon.Hp.Origin / n;
-      if (hp == 0) hp = 1;
       EffectHurt(hp, logKey, arg1, arg2);
     }
     #endregion

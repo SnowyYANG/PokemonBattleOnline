@@ -239,7 +239,7 @@
 <a:KeyValueOfstringanyType><a:Key>EnTrickRoom</a:Key><a:Value i:type="LogText"><text>{0:p}扭曲了时空！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>PerishSong</a:Key><a:Value i:type="LogText"><text>{0:p}的毁灭的倒计时还剩下{1}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DePerishSong</a:Key><a:Value i:type="LogText"><text>{0:p}的毁灭的倒计时还剩下0！</text></a:Value></a:KeyValueOfstringanyType>
-<a:KeyValueOfstringanyType><a:Key>CantWithdraw</a:Key><a:Value i:type="LogText"><text>{0:p}已经逃不掉了！
+<a:KeyValueOfstringanyType><a:Key>CantSelectWithdraw</a:Key><a:Value i:type="LogText"><text>{0:p}已经逃不掉了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnHealBlock</a:Key><a:Value i:type="LogText"><text>{0:p}的回复动作被封印了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeHealBlock</a:Key><a:Value i:type="LogText"><text>{0:p}的回复封印解除了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HealBlock</a:Key><a:Value i:type="LogText"><text>{0:p}因为回复封印无法回复!

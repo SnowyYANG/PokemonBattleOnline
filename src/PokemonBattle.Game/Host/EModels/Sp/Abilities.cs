@@ -347,7 +347,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     public static bool Trace(int abilityId)
     {
-      return abilityId != FORECAST && abilityId != ILLUSION && abilityId != ZEN_MODE && abilityId != MULTITYPE && abilityId != TRACE;
+      return !(abilityId == FORECAST || abilityId == ILLUSION || abilityId == ZEN_MODE || abilityId == 82 || abilityId == TRACE);
     }
     public static void Trace(PokemonProxy sendout)
     {
