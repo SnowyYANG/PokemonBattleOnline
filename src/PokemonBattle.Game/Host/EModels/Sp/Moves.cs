@@ -78,7 +78,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     public static void Pursuit(PokemonProxy target)
     {
-      //228
+      //228 还是用triggers吧
     }
     public static void FocusPunch(MoveProxy move)
     {
@@ -88,7 +88,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         move.Owner.AddReportPm("EnFocusPunch");
       }
     }
-
     public static bool IgnoreDefenderLv7D(this MoveType move)
     {
       return move.Id == 498 || move.Id == 533;

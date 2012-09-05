@@ -28,7 +28,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
           atk.Attachment = pm == aer.Pokemon? aer.OnboardPokemon.PokemonType.BaseAtk : pm.Base.Atk;
           if (Move.Class != MoveInnerClass.OHKO)
             foreach (DefContext d in atk.Targets) CalculateDamage(d);
-          if (aer.UsingItem) atk.Attacker.RaiseItem();
+          if (aer.UsingItem) aer.RaiseItem();
           Implement(atk.Targets);
           if (atk.Target.Defender.Hp == 0 || aer.Hp == 0 || aer.State == PokemonState.Frozen || aer.State == PokemonState.Sleeping) break;
         }

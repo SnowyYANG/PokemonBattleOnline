@@ -12,6 +12,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     #region ids
     public const int ARENA_TRAP = 7;
     public const int BAD_DREAMS = 8;
+    public const int DAMP = 20;
     public const int ZEN_MODE = 21;
     public const int DRY_SKIN = 25;
     public const int OVERCOAT = 27;
@@ -26,6 +27,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public const int LIQUID_OOZE = 70;
     public const int MAGNET_PULL = 74;
     public const int NATURAL_CURE = 84;
+    public const int MOXIE = 88;
     public const int PICKUP = 92;
     public const int POISON_HEAL = 96;
     public const int RAIN_DISH = 102;
@@ -273,11 +275,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static bool SkillLink(this IAbilityE ability)
     {
       return ability.Id == 121;
-    }
-    public static void Moxie(DefContext def)
-    {
-      PokemonProxy pm = def.AtkContext.Attacker;
-      if (def.Defender.Hp == 0 && pm.CanChangeLv7D(pm, StatType.Atk, 1, false) != 0 && pm.RaiseAbility(88)) pm.ChangeLv7D(pm, false, 1);
     }
     public static void Illusion(PokemonProxy pm)
     {

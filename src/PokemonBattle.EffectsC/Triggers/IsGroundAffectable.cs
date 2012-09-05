@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game.Host.Sp;
-using LightStudio.PokemonBattle.Game.Host.Triggers;
 using As = LightStudio.PokemonBattle.Game.Host.Sp.Abilities;
 
 namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers

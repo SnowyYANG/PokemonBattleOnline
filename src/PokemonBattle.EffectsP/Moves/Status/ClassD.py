@@ -29,6 +29,12 @@ class BellyDrum(StatusMoveE):
         aer.Controller.ReportBuilder.Add(HpChange(aer, 'BellyDrum', 0, 0))
 M(BellyDrum(187))
 
+class DestinyBond(StatusMoveE):
+    def Act(self, a):
+        a.Attacker.OnboardPokemon.SetCondition('DestinyBond')
+        a.Attacker.AddReportPm('EnDestinyBond')
+M(DestinyBond(194))
+
 class Encore(StatusMoveE):
     def Act(self, a):
         der = a.Target.Defender
@@ -72,6 +78,14 @@ class Taunt(StatusMoveE):
             self.Fail(der)
 M(Taunt(269))
 
+class MagicCoat(StatusMoveE):
+    def Act(self, a):
+        if a.Attacker.OnboardPokemon.AddCondition('MagicCoat'):
+            a.Attacker.AddReportPm('EnMagicCoat')
+        else:
+            self.FailAll(a)
+M(MagicCoat(277))
+
 class Imprison(StatusMoveE):
     def Act(self, a):
         if a.Attacker.OnboardPokemon.AddCondition('Imprison'):
@@ -86,6 +100,12 @@ class Refresh(StatusMoveE):
     def Act(self, a):
         a.Attacker.DeAbnormalState(False)
 M(Refresh(287))
+
+class Grudge(StatusMoveE):
+    def Act(self, a):
+        a.Attacker.OnboardPokemon.SetCondition('Grudge')
+        a.Attacker.AddReportPm('EnGrudge')
+M(Grudge(288))
 
 class Camouflage(StatusMoveE):
     def NotFail(self, a):

@@ -54,12 +54,14 @@
     <Compile Include="Items\ReHurtBerry.cs" />
     <Compile Include="Items\StickyBarb.cs" />
     <Compile Include="Moves\Attack\BeatUp.cs" />
+    <Compile Include="Moves\Attack\BigBang.cs" />
     <Compile Include="Moves\Attack\Counter.cs" />
     <Compile Include="Moves\Attack\Revenge.cs" />
     <Compile Include="Moves\Attack\SpBasepower\Acrobatics.cs" />
     <Compile Include="Moves\Attack\SpBasepower\AHappy.cs" />
     <Compile Include="Moves\Attack\SpBasepower\EchoedVoice.cs" />
     <Compile Include="Moves\Attack\SpBasepower\Flail.cs" />
+    <Compile Include="Moves\Attack\SpBasepower\FuryCutter.cs" />
     <Compile Include="Moves\Attack\SpBasepower\HeavySlam.cs" />
     <Compile Include="Moves\Attack\SpBasepower\HiddenPower.cs" />
     <Compile Include="Moves\Attack\SpBasepower\PState.cs" />
@@ -75,6 +77,8 @@
     <Compile Include="Moves\Status\Autotomize.cs" />
     <Compile Include="Moves\Status\Curse.cs" />
     <Compile Include="Moves\Status\HealBell.cs" />
+    <Compile Include="Moves\Status\PainSplit.cs" />
+    <Compile Include="Moves\Status\Recycle.cs" />
     <Compile Include="Moves\Status\Rest.cs" />
     <Compile Include="Moves\Status\Substitute.cs" />
     <Compile Include="Moves\StockSpitSwallow.cs" />

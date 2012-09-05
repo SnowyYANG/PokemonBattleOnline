@@ -9,6 +9,12 @@ class FixedDamage(AttackMoveE):
 M(FixedDamage(49, 20)) #sonicboom
 M(FixedDamage(82, 40)) #dragon rage
 
+class NightShade(AttackMoveE):
+    def CalculateDamage(self, d):
+        d.Damage = d.AtkContext.Attacker.Pokemon.Lv
+M(NightShade(101))
+M(NightShade(69)) #Seismic Toss
+
 class Psywave(AttackMoveE):
     def CalculateDamage(self, d):
         d.Damage = d.Defender.Controller.GetRandomInt(50, 150) * d.AtkContext.Attacker.Pokemon.Lv / 100
@@ -16,11 +22,19 @@ class Psywave(AttackMoveE):
             d.Damage = 1
 M(Psywave(149))
 
-class NightShade(AttackMoveE):
+class SuperFang(AttackMoveE):
     def CalculateDamage(self, d):
-        d.Damage = d.AtkContext.Attacker.Pokemon.Lv
-M(NightShade(101))
-M(NightShade(69)) #Seismic Toss
+        d.Damage = d.Defender.Hp >> 1;
+        if d.Damage == 0:
+            d.Damage = 1
+M(SuperFang(162))
+
+class FalseSwipe(AttackMoveE):
+    def CalculateDamage(self, d):
+        AttackMoveE.CalculateDamage(self, d)
+        if d.Damage >= d.Defender.Hp:
+            d.Damage -= 1
+M(FalseSwipe(206))
 
 class Endeavor(AttackMoveE):
     def CalculateDamage(self, d):
@@ -33,10 +47,3 @@ class FinalGambit(AttackMoveE):
     def CalculateDamage(self, d):
         d.Damage = d.AtkContext.Attacker.Hp
 M(FinalGambit(515))
-
-class SuperFang(AttackMoveE):
-    def Calculate(self, a):
-        a.Target.Damage = a.Target.Defender.Hp >> 1;
-        if a.Target.Damage == 0:
-            a.Target.Damage = 1
-M(SuperFang(162))

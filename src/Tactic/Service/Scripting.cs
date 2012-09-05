@@ -22,7 +22,7 @@ namespace LightStudio.Tactic
       PY.SetSearchPaths(files);
 
       PY.Runtime.IO.SetOutput(Stream.Null, new DebugTextWriter());
-      PY.Runtime.IO.SetOutput(Stream.Null, new DebugTextWriter());
+      PY.Runtime.IO.SetErrorOutput(Stream.Null, new DebugTextWriter());
       
       scope = PY.CreateScope();
     }

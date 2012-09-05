@@ -51,7 +51,10 @@
     <Compile Include="Host\Controller\Input.cs" />
     <Compile Include="Host\EModels\IRuleE.cs" />
     <Compile Include="Host\EModels\ITrigger.cs" />
+    <Compile Include="Host\EModels\Sp\Triggers\KOed.cs" />
+    <Compile Include="Host\EModels\Sp\Triggers\WillActMove.cs" />
     <Compile Include="Interactive\GameEvents\GetItem.cs" />
+    <Compile Include="Interactive\GameEvents\PPChange.cs" />
     <Compile Include="Interactive\GameEvents\Sp.cs" />
     <Compile Include="Interactive\InputType.cs" />
     <Compile Include="Host\EModels\Modifier.cs" />

@@ -79,5 +79,5 @@ class Eviolite(ItemE):
         #if stat == StatType.Def or stat == StatType.SpDef:
         #    return 0x1800
         return 0x1000
-print 'WARNING: Items\\ADSModifier.py SP Pm'
+print 'WARNING: Items\\ADSModifier.py Eviolite'
 I(Eviolite(102))

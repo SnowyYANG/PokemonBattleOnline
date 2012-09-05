@@ -424,6 +424,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (!CanActMove) return;
       LastActTurn = Controller.TurnNumber;
+      Triggers.WillActMove(this);
       switch (Action)
       {
         case PokemonAction.Stiff:
@@ -541,6 +542,7 @@ namespace LightStudio.PokemonBattle.Game.Host
 #endif
       OnboardPokemon.SetTurnCondition("UsedItem", Pokemon.Item);
       if (Ability.Unburden()) OnboardPokemon.SetCondition("Unburden");
+      Controller.Board[Pokemon.TeamId].SetCondition("UsedItem" + Id, Pokemon.Item);
       if (Pokemon.Item.Type == ItemType.Berry) Controller.Board[Pokemon.TeamId].SetCondition("UsedBerry" + Id, Pokemon.Item);
       Pokemon.Item = null;
     }

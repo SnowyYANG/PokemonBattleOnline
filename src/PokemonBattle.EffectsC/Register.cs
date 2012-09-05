@@ -41,11 +41,14 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new SpRangeMove(89, CoordY.Underground, true));//earthquake
       M(new SpRangeMove(90, CoordY.Underground));
       M(new Leap(91, CoordY.Underground));//dig
+      M(new BigBang(120));
       M(new SkullBash(130));
+      M(new BigBang(153));
       M(new Rest(156));
       M(new Substitute(164));
       M(new Flail(175));
       M(new Flail(179));
+      M(new FuryCutter(210));
       M(new Happiness(216, false));
       M(new Happiness(218, true));
       M(new HiddenPower(237));
@@ -56,6 +59,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Stockpile(254));
       M(new SpitUp(255));
       M(new Swallow(256));
+      M(new Recycle(278));
       M(new Revenge(279));
       M(new Spout(284));
       M(new Leap(291, CoordY.Water));//dives

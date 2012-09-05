@@ -17,21 +17,39 @@ namespace LightStudio.PokemonBattle.Game
     }
 
     [DataMember(EmitDefaultValue = false)]
+#if DEBUG
+    public
+#endif
     int OnlyMove;
 
     [DataMember(EmitDefaultValue = false)]
+#if DEBUG
+    public
+#endif
     string Only; //choice/encore
 
     [DataMember(EmitDefaultValue = false)]
+#if DEBUG
+    public
+#endif
     string[] Block; //封印挑拨寻衅回复封印残废
 
     [DataMember(EmitDefaultValue = false)]
+#if DEBUG
+    public
+#endif
     bool CantWithdraw;
 
     [DataMember(EmitDefaultValue = false)]
+#if DEBUG
+    public
+#endif
     int CW_pm; //如果因为对方特性，但目前没试出显示特性的实例，逃跑似乎会显示特性交换不显示
 
     [DataMember(EmitDefaultValue = false)]
+#if DEBUG
+    public
+#endif
     int CW_a;
 
     internal PmInputRequest(PokemonProxy pm)
@@ -178,9 +196,15 @@ namespace LightStudio.PokemonBattle.Game
     }
 
     [DataMember(EmitDefaultValue = false)]
+#if DEBUG
+    public
+#endif
     PmInputRequest[] Pms;
 
     [DataMember(EmitDefaultValue = false)]
+#if DEBUG
+    public
+#endif
     Tile[] Tiles;
 
     internal InputRequest(IEnumerable<PokemonProxy> pokemons = null)

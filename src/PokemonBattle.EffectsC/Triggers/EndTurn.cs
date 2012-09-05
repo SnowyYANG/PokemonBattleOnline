@@ -10,7 +10,7 @@ using Is = LightStudio.PokemonBattle.Game.Host.Sp.Items;
 
 namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
 {
-  class EndTurn : Game.Host.Triggers.IEndTurn
+  class EndTurn : IEndTurn
   {
     private static readonly StatType[] SEVEN_D = { StatType.Atk, StatType.Def, StatType.SpAtk, StatType.SpDef, StatType.Speed, StatType.Accuracy, StatType.Evasion };
 

@@ -131,7 +131,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
     protected virtual void InformReportUpdate(ReportFragment fragment)
     {
-      if (RoomState != RoomState.GameStarted)
+      if (game == null)
       {
         RoomState = RoomState.GameStarted;
         Dictionary<int, string> ps = new Dictionary<int,string>();

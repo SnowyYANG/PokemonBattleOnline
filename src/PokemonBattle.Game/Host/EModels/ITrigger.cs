@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LightStudio.PokemonBattle.Game.Host.Triggers
+namespace LightStudio.PokemonBattle.Game.Host
 {
   public interface ITrigger
   {

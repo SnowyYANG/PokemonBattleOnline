@@ -66,7 +66,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         hits++;
         if (Move.Class != MoveInnerClass.OHKO)
           foreach (DefContext d in atk.Targets) CalculateDamage(d);
-        if (aer.UsingItem) atk.Attacker.RaiseItem();
+        if (aer.UsingItem) aer.RaiseItem();
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
       }
@@ -77,7 +77,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         foreach (DefContext d in atk.Targets)
           if (d.Defender.State == PokemonState.Frozen) d.Defender.DeAbnormalState();
       
-      if (!(atk.Move.HasProbabilitiedAdditonalEffects() && atk.Attacker.Ability.SheerForce())) PostEffect(atk);
+      if (!(atk.Move.HasProbabilitiedAdditonalEffects() && aer.Ability.SheerForce())) PostEffect(atk);
     }
 
     protected virtual void Implement(IEnumerable<DefContext> defs)
@@ -305,7 +305,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (d.OnboardPokemon.HasCondition("Rage")) d.ChangeLv7D(d, StatType.Atk, 1, false, "Rage");
       atk.Attacker.CheckFaint();
       d.CheckFaint();
-      Abilities.Moxie(def);
+      Triggers.KOed(def);
       if (Move.MaxTimes > 1) d.Item.HpChanged(d);
     }
     protected virtual void PostEffect(AtkContext atk)

@@ -24,8 +24,9 @@ namespace LightStudio.PokemonBattle.Game.Host
       get { return Move.PP.Value; }
       set
       {
-        if (value < 0) value = 0;
-        Move.PP.Value = value;
+        if (value < 0) Move.PP.Value = 0;
+        else if (value > Move.PP.Origin) Move.PP.Value = Move.PP.Origin;
+        else Move.PP.Value = value;
       }
     }
     public bool HasUsed
