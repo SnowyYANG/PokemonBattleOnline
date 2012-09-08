@@ -6,6 +6,14 @@ class FocusEnergy(StatusMoveE):
             self.FailAll(a)
 M(FocusEnergy(116))
 
+class Conversion(StatusMoveE):
+    def Act(self, a):
+        t = a.Attacker.Moves[a.Controller.GetRandomInt(0, a.Attacker.Moves.Length - 1)].Type.Type
+        a.Attacker.OnboardPokemon.Type1 = t
+        a.Attacker.OnboardPokemon.Type2 = BattleType.Invalid
+        a.Attacker.AddReportPm('TypeChange', t)
+M(Conversion(160))
+
 class LockOn(StatusMoveE):
     def Act(self, a):
         der = a.Target.Defender

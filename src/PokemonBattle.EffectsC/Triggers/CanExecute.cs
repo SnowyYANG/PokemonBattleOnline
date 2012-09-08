@@ -26,13 +26,14 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
           //挑拨 
           //重力  
         Infatuation(pm) &&
-        Paralyzed(pm);
+        Paralyzed(pm) &&
+        FocusPunch(pm);
     }
-    private void AddResetYReport(PokemonProxy p, string key, int arg1 = 0)
+    private static void AddResetYReport(PokemonProxy p, string key, int arg1 = 0)
     {
       p.Controller.ReportBuilder.Add(PositionChange.Reset(key, p, arg1));
     }
-    private bool Sleeping(PokemonProxy pm)
+    private static bool Sleeping(PokemonProxy pm)
     {
       if (pm.State == PokemonState.Sleeping)
       {
@@ -53,7 +54,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
       return true;
     }
-    private bool Frozen(PokemonProxy p)
+    private static bool Frozen(PokemonProxy p)
     {
       if (p.State == PokemonState.Frozen)
       {
@@ -70,7 +71,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
       return true;
     }
-    private bool Disable(PokemonProxy p)
+    private static bool Disable(PokemonProxy p)
     {
       var c = p.OnboardPokemon.GetCondition("Disable");
       if (c != null && p.SelectedMove.Type == c.Move) 
@@ -80,7 +81,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
       return true;
     }
-    private bool Imprison(PokemonProxy p)
+    private static bool Imprison(PokemonProxy p)
     {
       MoveType move = p.SelectedMove.Type;
       foreach (PokemonProxy pm in p.Controller.Board[1 - p.Pokemon.TeamId].GetPokemons(p.OnboardPokemon.X - 1, p.OnboardPokemon.X + 1))
@@ -93,7 +94,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             }
       return true;
     }
-    private bool HealBlock(PokemonProxy pm)
+    private static bool HealBlock(PokemonProxy pm)
     {
       if (pm.SelectedMove.Move.Type.AdvancedFlags.IsHeal && pm.OnboardPokemon.HasCondition("HealBlock"))
       {
@@ -102,7 +103,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
       return true;
     }
-    private bool Confuse(PokemonProxy pm)
+    private static bool Confuse(PokemonProxy pm)
     {
       int count = pm.OnboardPokemon.GetCondition<int>("Confuse");
       if (count != 0)
@@ -129,7 +130,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
       return true;
     }
-    private bool Flinch(PokemonProxy pm)
+    private static bool Flinch(PokemonProxy pm)
     {
       if (pm.OnboardPokemon.HasCondition("Flinch"))
       {
@@ -139,7 +140,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
       return true;
     }
-    private bool Infatuation(PokemonProxy p)
+    private static bool Infatuation(PokemonProxy p)
     {
       var pm = p.OnboardPokemon.GetCondition<PokemonProxy>("Infatuation");
       if (pm != null)
@@ -153,7 +154,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
       return true;
     }
-    private bool Paralyzed(PokemonProxy p)
+    private static bool Paralyzed(PokemonProxy p)
     {
       if (p.State == PokemonState.Paralyzed)
       {
@@ -162,6 +163,15 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
           AddResetYReport(p, "ParalyzedWork");
           return false;
         }
+      }
+      return true;
+    }
+    private static bool FocusPunch(PokemonProxy p)
+    {
+      if (p.SelectedMove.FocusPunch() && p.OnboardPokemon.HasCondition("Damage"))
+      {
+        p.AddReportPm("DeFocusPunch");
+        return false;
       }
       return true;
     }

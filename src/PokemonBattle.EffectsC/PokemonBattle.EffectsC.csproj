@@ -56,6 +56,7 @@
     <Compile Include="Moves\Attack\BeatUp.cs" />
     <Compile Include="Moves\Attack\BigBang.cs" />
     <Compile Include="Moves\Attack\Counter.cs" />
+    <Compile Include="Moves\Attack\RapidSpin.cs" />
     <Compile Include="Moves\Attack\Revenge.cs" />
     <Compile Include="Moves\Attack\SpBasepower\Acrobatics.cs" />
     <Compile Include="Moves\Attack\SpBasepower\AHappy.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Moves\Attack\SpBasepower\WringOut.cs" />
     <Compile Include="Moves\Status\Acupressure.cs" />
     <Compile Include="Moves\Status\Autotomize.cs" />
+    <Compile Include="Moves\Status\Conversion2.cs" />
     <Compile Include="Moves\Status\Curse.cs" />
     <Compile Include="Moves\Status\HealBell.cs" />
     <Compile Include="Moves\Status\PainSplit.cs" />

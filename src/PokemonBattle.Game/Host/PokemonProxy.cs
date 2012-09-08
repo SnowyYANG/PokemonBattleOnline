@@ -411,15 +411,6 @@ namespace LightStudio.PokemonBattle.Game.Host
         Action = PokemonAction.Done;
       }
     }
-    /// <summary>
-    /// 就为了气合拳...
-    /// </summary>
-    /// <returns></returns>
-    internal void PreMove()
-    {
-      if (Action == PokemonAction.MoveAttached)
-        Sp.Moves.FocusPunch(SelectedMove);
-    }
     internal void ActMove()
     {
       if (!CanActMove) return;

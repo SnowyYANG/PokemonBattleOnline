@@ -51,6 +51,7 @@
   <item key="Speed" value="速度" />
   <item key="SpAtk" value="特攻" />
   <item key="SpDef" value="特防" />
+  <item key="Evasion" value="回避"/>
   <item key="Stats" value="能力" />
   <item key="Moves" value="技能" />
   <item key="Category" value="类型"/>

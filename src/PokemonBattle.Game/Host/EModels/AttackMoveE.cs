@@ -10,7 +10,14 @@ namespace LightStudio.PokemonBattle.Game.Host
 {
   public class AttackMoveE : MoveE
   {
-    public void DamagePercentage(DefContext def, sbyte percentage)
+    protected static readonly sbyte[,] BATTLE_TYPE_EFFECT = new sbyte[18, 18] { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 1, 0, -1, -1, 0, 1, -1, 0, 1, 0, 0, 0, 0, -1, 1, 0, 1 }, { 0, 0, 1, 0, 0, 0, -1, 1, 0, -1, 0, 0, 1, -1, 0, 0, 0, 0 }, { 0, 0, 0, 0, -1, -1, -1, 0, -1, 0, 0, 0, 1, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 1, 0, 1, -1, 0, 1, 1, 0, -1, 1, 0, 0, 0, 0 }, { 0, 0, -1, 1, 0, -1, 0, 1, 0, -1, 1, 0, 0, 0, 0, 1, 0, 0 }, { 0, 0, -1, -1, -1, 0, 0, 0, -1, -1, -1, 0, 1, 0, 1, 0, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 1, 0, 0, -1 }, { 0, 0, 0, 0, 0, 0, 1, 0, 0, -1, -1, -1, 0, -1, 0, 1, 0, 0 }, { 0, 0, 0, 0, 0, 0, -1, 1, 0, 1, -1, -1, 1, 0, 0, 1, -1, 0 }, { 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, -1, -1, 0, 0, 0, -1, 0 }, { 0, 0, 0, -1, -1, 1, 1, -1, 0, -1, -1, 1, -1, 0, 0, 0, -1, 0 }, { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, -1, -1, 0, 0, -1, 0 }, { 0, 0, 1, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0 }, { 0, 0, 0, 1, 0, 1, 0, 0, 0, -1, -1, -1, 1, 0, 0, -1, 1, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 1, 0 }, { 0, 0, -1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 1, 0, 0, -1 } };
+    protected static readonly int[] TIMES25 = new int[8] { 2, 2, 2, 3, 3, 3, 4, 5 };
+    protected static readonly int[] LV_CT = { 16, 8, 4, 3, 2, 0 };
+    public static int CalculateEffectRevise(BattleType a, BattleType d1, BattleType d2)
+    {
+      return BATTLE_TYPE_EFFECT[(int)a, (int)d1] + BATTLE_TYPE_EFFECT[(int)a, (int)d2];
+    }
+    public static void DamagePercentage(DefContext def, sbyte percentage)
     {
       var aer = def.AtkContext.Attacker;
       var ability = aer.Ability;
@@ -29,14 +36,6 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
     }
     
-    protected static readonly sbyte[,] BATTLE_TYPE_EFFECT = new sbyte[18, 18] { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 1, 0, -1, -1, 0, 1, -1, 0, 1, 0, 0, 0, 0, -1, 1, 0, 1 }, { 0, 0, 1, 0, 0, 0, -1, 1, 0, -1, 0, 0, 1, -1, 0, 0, 0, 0 }, { 0, 0, 0, 0, -1, -1, -1, 0, -1, 0, 0, 0, 1, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 1, 0, 1, -1, 0, 1, 1, 0, -1, 1, 0, 0, 0, 0 }, { 0, 0, -1, 1, 0, -1, 0, 1, 0, -1, 1, 0, 0, 0, 0, 1, 0, 0 }, { 0, 0, -1, -1, -1, 0, 0, 0, -1, -1, -1, 0, 1, 0, 1, 0, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 1, 0, 0, -1 }, { 0, 0, 0, 0, 0, 0, 1, 0, 0, -1, -1, -1, 0, -1, 0, 1, 0, 0 }, { 0, 0, 0, 0, 0, 0, -1, 1, 0, 1, -1, -1, 1, 0, 0, 1, -1, 0 }, { 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, -1, -1, 0, 0, 0, -1, 0 }, { 0, 0, 0, -1, -1, 1, 1, -1, 0, -1, -1, 1, -1, 0, 0, 0, -1, 0 }, { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, -1, -1, 0, 0, -1, 0 }, { 0, 0, 1, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0 }, { 0, 0, 0, 1, 0, 1, 0, 0, 0, -1, -1, -1, 1, 0, 0, -1, 1, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 1, 0 }, { 0, 0, -1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 1, 0, 0, -1 } };
-    protected static readonly int[] TIMES25 = new int[8] { 2, 2, 2, 3, 3, 3, 4, 5 };
-    protected static readonly int[] LV_CT = { 16, 8, 4, 3, 2, 0 };
-    public static int CalculateEffectRevise(BattleType a, BattleType d1, BattleType d2)
-    {
-      return BATTLE_TYPE_EFFECT[(int)a, (int)d1] + BATTLE_TYPE_EFFECT[(int)a, (int)d2];
-    }
-
     public AttackMoveE(int moveId)
       : base(moveId)
     {
@@ -166,16 +165,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       def.Damage = aer.Pokemon.Lv * 2 / 5 + 2;
       {
         CalculateBasePower(def);
-        Modifier m = atk.Attacker.Ability.PowerModifier(def);
-        m *= Abilities.PowerModifier(def);
-        m *= atk.Attacker.Item.PowerModifier(atk);
-        m *= PowerModifier(def);
-        if (atk.MeFirst) m *= 0x1800;
-        m *= Moves.SolarBeam(def);
-        //charge
-        //helpinghand
-        if ((atk.Type == BattleType.Fire && c.Board.HasCondition("WaterSport")) || (atk.Type == BattleType.Electric && c.Board.HasCondition("MudSport"))) m *= 0x800;
-        def.Damage *= def.BasePower * m;
+        def.Damage *= def.BasePower * Triggers.PowerModifier(def, PowerModifier);
       }
       {
         StatType st = Move.Category == MoveCategory.Physical ? StatType.Atk : StatType.SpAtk;

@@ -80,13 +80,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       //228 还是用triggers吧
     }
-    public static void FocusPunch(MoveProxy move)
+    public static bool FocusPunch(this MoveProxy move)
     {
-      if (move.Type.Id == 264)
-      {
-        move.Owner.OnboardPokemon.SetCondition("FocusPunch");
-        move.Owner.AddReportPm("EnFocusPunch");
-      }
+      return move.Type.Id == 264;
     }
     public static bool IgnoreDefenderLv7D(this MoveType move)
     {

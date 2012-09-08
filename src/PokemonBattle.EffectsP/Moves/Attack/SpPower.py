@@ -1,3 +1,12 @@
+class RollOut(AttackMoveE):
+    def CalculateBasePower(self, d):
+        i = 5 - d.AtkContext.Attachment
+        if d.AtkContext.Attacker.OnboardPokemon.HasCondition('DefenseCurl'):
+            i += 1
+        d.BasePower = 30 * (1 << i)
+M(RollOut(205))
+M(RollOut(301))
+
 class Present(AttackMoveE):
     def Execute(self, pm):
         random = pm.Controller.GetRandomInt(0, 99)

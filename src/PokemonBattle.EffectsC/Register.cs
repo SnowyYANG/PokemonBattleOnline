@@ -47,6 +47,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Rest(156));
       M(new Substitute(164));
       M(new Flail(175));
+      M(new Conversion2(176));
       M(new Flail(179));
       M(new FuryCutter(210));
       M(new Happiness(216, false));

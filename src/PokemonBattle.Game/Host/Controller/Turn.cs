@@ -64,7 +64,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       SortOnboardPokemons();
       foreach (PokemonProxy p in OnboardPokemons) p.AttachBehaviors();
       Switch();
-      Pre_UseMove();
+      CheckFocusPunch();
       ActMove();
     }
     public void Switch()
@@ -75,9 +75,10 @@ namespace LightStudio.PokemonBattle.Game.Host
       p.Switch();
       goto LOOP;  
     }
-    private void Pre_UseMove()
+    private void CheckFocusPunch()
     {
-      foreach (PokemonProxy p in OnboardPokemons) p.PreMove();
+      foreach (PokemonProxy p in OnboardPokemons)
+        if (p.Action == PokemonAction.MoveAttached && Sp.Moves.FocusPunch(p.SelectedMove)) p.AddReportPm("EnFocusPunch");
     }
     public void ActMove() //蜻蜓返的inputFinished
     {

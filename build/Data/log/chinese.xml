@@ -326,7 +326,7 @@
 <a:KeyValueOfstringanyType><a:Key>Magnitude</a:Key><a:Value i:type="LogText"><text>震级{0}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HealBell</a:Key><a:Value i:type="LogText"><text>铃铛的声音响了起来！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Aromatherapy</a:Key><a:Value i:type="LogText"><text>清新的香气传播开来了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>PainSplit</a:Key><a:Value i:type="LogText"><text>互相分担了体力！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>PainSplit</a:Key><a:Value i:type="LogText"><text>{0:p}和{1:p}互相分担了体力！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>WaterSport</a:Key><a:Value i:type="LogText"><text>火焰的威力减弱了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>MudSport</a:Key><a:Value i:type="LogText"><text>电气的威力减弱了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeTrickRoom</a:Key><a:Value i:type="LogText"><text>扭曲的时空恢复了原状！
