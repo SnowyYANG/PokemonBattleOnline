@@ -16,7 +16,7 @@ namespace LightStudio.PokemonBattle.Game
     internal SimMove(Move move)
     {
       Type = move.Type;
-      PP = move.PP;
+      PP = (PairValue)move.PP;
     }
     internal SimMove(MoveType type)
     {

@@ -18,7 +18,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         Sleeping(pm) &&
         Frozen(pm) &&
         Disable(pm) &&
-          //懒惰
+        Truant(pm) &&
         Imprison(pm) &&
         HealBlock(pm) &&
         Confuse(pm) &&
@@ -78,6 +78,20 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       {
         AddResetYReport(p, "Disable", p.SelectedMove.Type.Id);
         return false;
+      }
+      return true;
+    }
+    private static bool Truant(PokemonProxy p)
+    {
+      if (p.Ability.Id == As.TRUANT)
+      {
+        if (p.OnboardPokemon.GetCondition<int>("Truant") == p.Controller.TurnNumber)
+        {
+          p.RaiseAbility();
+          p.AddReportPm("Truant");
+          return false;
+        }
+        p.OnboardPokemon.AddCondition("Truant", p.Controller.TurnNumber + 1);
       }
       return true;
     }

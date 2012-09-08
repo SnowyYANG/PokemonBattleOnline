@@ -30,7 +30,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       if (pm != null)
       {
         pm.SetHp(pm.Hp.Origin);
-        pm.State = PokemonState.Sleeping;
+        pm.ClientChangePokemonStateWithNotify(PokemonState.Sleeping);
       }
     }
   }
@@ -58,7 +58,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       {
         pm.Controller.ReportBuilder.Add(new RestGameEvent(pm));
         pm.Pokemon.SetHp(pm.Pokemon.Hp.Origin);
-        pm.Pokemon.State = PokemonState.Sleeping;
+        pm.Pokemon.ClientChangePokemonStateWithNotify(PokemonState.Sleeping);
         pm.OnboardPokemon.SetCondition("Sleeping", 3);
         pm.Item.StateAdded(pm, pm, AttachedState.Sleep);
       }

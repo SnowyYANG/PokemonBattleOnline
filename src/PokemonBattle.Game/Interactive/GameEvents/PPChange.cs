@@ -17,6 +17,8 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     int Change;
     [DataMember(EmitDefaultValue = false)]
     string Log;
+    [DataMember(EmitDefaultValue = false)]
+    public bool Item;
 
     public PPChange(string log, Host.MoveProxy move, int formerPP)
     {
@@ -32,7 +34,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
     public override void Update(SimGame game)
     {
-      var pm = GetPokemon(game, Pm);
+      var pm = game.OnboardPokemons.FirstOrDefault((p) => p.Id == Pm);
       if (pm != null)
       {
         foreach (var m in pm.Moves)
@@ -41,6 +43,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
             m.PP.Value += Change;
             break;
           }
+        if (Item) pm.Pokemon.Item = null;
       }
     }
   }

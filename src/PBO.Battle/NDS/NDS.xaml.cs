@@ -62,8 +62,5 @@ namespace LightStudio.PokemonBattle.PBO.Battle
           }
         };
     }
-    internal void Init(IPlayerController pc)
-    {
-    }
   }
 }

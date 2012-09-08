@@ -9,7 +9,7 @@ namespace LightStudio.PokemonBattle.Game
   public class Move
   {
     public MoveType Type { get; private set; }
-    public PairValue PP { get; private set; }
+    public IPairValue PP { get; private set; }
 
     internal Move(int moveType, IGameSettings settings)
     {

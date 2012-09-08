@@ -131,7 +131,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         return w;
       }
     }
-    public void ChangeForm(int type)
+    public void ChangeForm(int number, int form)
     {
       throw new NotImplementedException();
       //图像、重算数据、类型、体重、特性，不包括技能
@@ -246,6 +246,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (State != PokemonState.Normal && Hp > 0)
       {
+        string log = "ItemDe" + Pokemon.State.ToString();
         Pokemon.State = PokemonState.Normal;
         int i;
         if (item)
@@ -254,7 +255,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           if (Pokemon.Item.Type != ItemType.Normal) ConsumeItem();
         }
         else i = 0;
-        AddReport(new GameEvents.StateChange(this, null, i));
+        AddReport(new GameEvents.StateChange(this, log , i) { Item = true });
       }
     }
     private bool CanAddState(PokemonProxy by, IAbilityE ability, AttachedState state, bool showFail)

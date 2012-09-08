@@ -350,11 +350,11 @@ namespace LightStudio.PokemonBattle.Game.Host
     protected virtual void MoveEnding(AtkContext atk)
     {
       atk.Attacker.Action = Move.AdvancedFlags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done;
-      atk.Attacker.Item.HpChanged(atk.Attacker);
+      atk.Attacker.Item.Attach(atk.Attacker);
       if (atk.Targets != null)
         foreach (var d in atk.Targets)
         {
-          d.Defender.Item.HpChanged(d.Defender);
+          d.Defender.Item.Attach(d.Defender);
           Abilities.RecoverAfterMoldBreaker(d.Defender);
         }
     }

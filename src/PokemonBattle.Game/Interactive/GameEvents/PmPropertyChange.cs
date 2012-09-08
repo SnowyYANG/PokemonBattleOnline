@@ -19,6 +19,8 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     string Log;
     [DataMember(EmitDefaultValue = false)]
     int Arg1;
+    [DataMember(EmitDefaultValue = false)]
+    public bool Item;
     
     public StateChange(PokemonProxy pm, string log = null, int arg1 = 0)
     {
@@ -54,8 +56,8 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       Pokemon p = GetPokemon(game, Pm);
       if (p != null)
       {
-        p.State = State;
-        if (Log.StartsWith("Item") && Arg1 != 0 && p.Item.Type != ItemType.Normal) p.Item = null;
+        p.ClientChangePokemonStateWithNotify(State);
+        if (Item) p.Item = null;
       }
     }
   }

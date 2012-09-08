@@ -43,6 +43,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public const int STEADFAST = 133;
     public const int STURDY = 138;
     public const int TRACE = 152;
+    public const int TRUANT = 153;
     #endregion
 
     #region extension

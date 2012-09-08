@@ -7,11 +7,12 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  /// <summary>
-  /// do NOT binding directly
-  /// </summary>
-  public class Pokemon
+  public class Pokemon : INotifyPropertyChanged
   {
+    private static readonly PropertyChangedEventArgs STATE = new PropertyChangedEventArgs("State");
+    
+    public event PropertyChangedEventHandler PropertyChanged;
+    
     public readonly int Id;
     public readonly Player Owner;
     public readonly int TeamId;
@@ -75,6 +76,14 @@ namespace LightStudio.PokemonBattle.Game
       if (value < 0) value = 0;
       else if (value > Hp.Origin) value = Hp.Origin;
       hp.Value = value;
+    }
+    public void ClientChangePokemonStateWithNotify(PokemonState value)
+    {
+      if (State != value)
+      {
+        State = value;
+        if (PropertyChanged != null) PropertyChanged(this, STATE);
+      }
     }
   }
 }

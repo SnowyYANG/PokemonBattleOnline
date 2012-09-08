@@ -10,9 +10,12 @@ class Captivate(StatusMoveE):
         MoveE.CalculateTargets(self, a)
         targets = []
         for d in a.Targets:
-            if d.OnboardPokemon.Gender != g:
+            if d.Defender.OnboardPokemon.Gender != g:
                 self.Fail(d)
             else:
-                targets.append(d)
+                if Abilities.RaiseAbility(d.Defender, 87):
+                    d.Defender.AddReportPm('NoEffect')
+                else:
+                    targets.append(d)
         a.SetTargets(targets)
 M(Captivate(445))
