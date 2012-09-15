@@ -83,6 +83,7 @@
     <Compile Include="Moves\Status\PainSplit.cs" />
     <Compile Include="Moves\Status\Recycle.cs" />
     <Compile Include="Moves\Status\Rest.cs" />
+    <Compile Include="Moves\Status\Splash.cs" />
     <Compile Include="Moves\Status\Substitute.cs" />
     <Compile Include="Moves\StockSpitSwallow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

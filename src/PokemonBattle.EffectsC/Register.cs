@@ -43,6 +43,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Leap(91, CoordY.Underground));//dig
       M(new BigBang(120));
       M(new SkullBash(130));
+      M(new Splash(150));
       M(new BigBang(153));
       M(new Rest(156));
       M(new Substitute(164));
