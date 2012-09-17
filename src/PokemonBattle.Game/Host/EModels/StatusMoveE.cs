@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
     }
 
-    protected override void CalculateTargets(AtkContext atk)
+    protected internal override void CalculateTargets(AtkContext atk)
     {
       base.CalculateTargets(atk);
       if (atk.Targets != null)

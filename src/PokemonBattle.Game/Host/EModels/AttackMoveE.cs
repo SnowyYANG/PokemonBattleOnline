@@ -69,7 +69,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
       }
-      while (hits < times && atk.Target.Defender.Hp != 0 && aer.Hp != 0 && aer.State != PokemonState.Frozen && aer.State != PokemonState.Sleeping);
+      while (hits < times && atk.Target.Defender.Hp != 0 && aer.Hp != 0 && aer.State != PokemonState.Frozen && aer.State != PokemonState.Sleeping && Moves.TripleKick(atk));
       
       if (Move.MaxTimes > 1) atk.Controller.ReportBuilder.Add("Hits", hits);
       if (atk.Type == BattleType.Fire)
@@ -111,7 +111,11 @@ namespace LightStudio.PokemonBattle.Game.Host
             if (d.Defender.UsingItem) d.Defender.RaiseItem();
           MoveHurts e = new MoveHurts();
           a.Controller.ReportBuilder.Add(e);
-          foreach (DefContext d in defs) d.Defender.MoveHurt(d);
+          foreach (DefContext d in defs)
+          {
+            d.Defender.MoveHurt(d);
+            atk.TotalDamage += d.Damage;
+          }
           e.SetHurt(defs);
         }
 
@@ -302,7 +306,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       foreach (DefContext d in atk.Targets) Abilities.ColorChange(d);
       //红牌、逃生按钮
-      Items.AttackPostEffect(atk.Attacker);
+      Items.AttackPostEffect(atk);
     }
     protected override void MoveEnding(AtkContext atk)
     {

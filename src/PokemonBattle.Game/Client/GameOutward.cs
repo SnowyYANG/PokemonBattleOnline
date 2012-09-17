@@ -38,6 +38,8 @@ namespace LightStudio.PokemonBattle.Game
       this.teams = teams;
       listeners = new List<IGameOutwardEvents>();
     }
+    public int TurnNumber
+    { get; set; }
 
     public PokemonOutward GetPokemon(int id)
     {
@@ -46,25 +48,31 @@ namespace LightStudio.PokemonBattle.Game
           if (pm != null && pm.Id == id) return pm;
       return null;
     }
-    public void Update(ReportFragment turn)
+    public void Update(ReportFragment fragment)
     {
-      if (turn.Teams != null)
+      if (fragment.Teams != null)
         UIDispatcher.Invoke(() =>
           {
+#warning 欢迎战报
+            //TODO: AppendGameLog("Pokemon Battle Online v0.8")
+            //TODO: GameMode
+            if (fragment.TurnNumber != 0)
+            {
+              //TODO: AppendGameLog("战斗进行中")
+              TurnNumber = fragment.TurnNumber;
+            }
             for (int t = 0; t < Settings.Mode.TeamCount(); t++)
             {
-              Teams[t].Update(turn.Teams[t]);
+              Teams[t].Update(fragment.Teams[t]);
               for (int x = 0; x < Settings.Mode.XBound(); x++)
-                Board[t, x] = turn[t, x];
-              Board.Weather = turn.Weather;
+                Board[t, x] = fragment[t, x];
+              Board.Weather = fragment.Weather;
             }
             LeapTurn();
           });
-      foreach (GameEvent e in turn.Events)
+      foreach (GameEvent e in fragment.Events)
       {
-#if RELEASE
         System.Threading.Thread.Sleep(100);
-#endif
         UIDispatcher.Invoke((Action<GameOutward>)e.Update, this);
       }
       int team0 = Teams[0].Abnormal + Teams[0].Normal;

@@ -11,25 +11,33 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   [DataContract(Namespace = Namespaces.LIGHT)]
   internal class BeginTurn : GameEvent
   {
-    [DataMember(EmitDefaultValue = false)]
-    int TurnNumber;
-
-    public BeginTurn(int turnNumber)
-    {
-      TurnNumber = turnNumber;
-    }
-
     protected override void Update()
     {
-      if (TurnNumber == 0) AppendGameLog("GameStart");
-      else AppendGameLog("BeginTurn", TurnNumber);
+      ++Game.TurnNumber;
+      if (Game.TurnNumber == 0) AppendGameLog("GameStart");
+      else AppendGameLog("BeginTurn", Game.TurnNumber);
     }
   }
+
   [DataContract(Namespace = Namespaces.LIGHT)]
   internal class EndTurn : GameEvent
   {
     protected override void Update()
     {
+      if (Game.TurnNumber != 0)
+      {
+        AppendGameLog("EndTurn", Game.TurnNumber);
+        for (int t = 0; t < Game.Settings.Mode.TeamCount(); ++t)
+          for (int x = 0; x < Game.Settings.Mode.XBound(); ++x)
+          {
+            var pm = Game.Board[t, x];
+            if (pm != null)
+            {
+              if (pm.State == PokemonState.Normal) AppendGameLog("EndTurnNormalPm", pm.Id, pm.Hp.Value);
+              else AppendGameLog("EndTurnAbnormalPm", pm.Id, pm.Hp.Value, pm.State);
+            }
+          }
+      }
       Game.EndTurn();
     }
   }
@@ -55,6 +63,15 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       ((LogText)log).HiddenAfterBattle = true;
       log.SetData(Move);
       Game.AppendGameLog(log);
+    }
+  }
+
+  [DataContract(Namespace = Namespaces.LIGHT)]
+  internal class HorizontalLine : GameEvent
+  {
+    protected override void Update()
+    {
+      AppendGameLog("----");
     }
   }
 }

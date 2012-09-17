@@ -52,11 +52,13 @@
     <Compile Include="Abilities\Frisk.cs" />
     <Compile Include="Abilities\Illusion.cs" />
     <Compile Include="Items\LeppaBerry.cs" />
+    <Compile Include="Items\MentalHerb.cs" />
     <Compile Include="Items\ReHurtBerry.cs" />
     <Compile Include="Items\StickyBarb.cs" />
     <Compile Include="Moves\Attack\BeatUp.cs" />
     <Compile Include="Moves\Attack\BigBang.cs" />
     <Compile Include="Moves\Attack\Counter.cs" />
+    <Compile Include="Moves\Attack\JumpKick.cs" />
     <Compile Include="Moves\Attack\RapidSpin.cs" />
     <Compile Include="Moves\Attack\Revenge.cs" />
     <Compile Include="Moves\Attack\SpBasepower\Acrobatics.cs" />

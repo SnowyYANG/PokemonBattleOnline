@@ -54,5 +54,35 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       pm.OnboardPokemon.RemoveCondition("DestinyBond");
       pm.OnboardPokemon.RemoveCondition("Grudge");
     }
+    public static void Withdrawing(PokemonProxy pm, bool canPursuit)
+    {
+      if (pm.Hp > 0 && canPursuit) ;//228 pursuit
+      foreach (var p in pm.Controller.OnboardPokemons)
+        if (p != pm)
+        {
+          var op = p.OnboardPokemon;
+          {
+            var o = op.GetCondition("CanAttack");
+            if (o != null && o.By == pm) op.RemoveCondition("CanAttack");
+          }
+          {
+            if (op.GetCondition<PokemonProxy>("CantSelectWithdraw") == pm) op.RemoveCondition("CantSelectWithdraw");
+          }
+          {
+            var o = op.GetCondition("HealBlock");
+            if (o != null && o.By == pm) op.RemoveCondition("HealBlock");
+          }
+          {
+            if (op.GetCondition<PokemonProxy>("Infatuation") == pm) op.RemoveCondition("Infatuation");
+          }
+          {
+            if (op.GetCondition<PokemonProxy>("Torment") == pm) op.RemoveCondition("Torment");
+          }
+          {
+            var o = op.GetCondition("Trap");
+            if (o != null && o.By == pm) op.RemoveCondition("Trap");
+          }
+        }
+    }
   }
 }

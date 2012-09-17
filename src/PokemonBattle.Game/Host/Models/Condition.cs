@@ -14,6 +14,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public MoveType Move;
     public Tile Tile;
     public AtkContext Atk;
+    public BattleType BattleType;
     public int Turn;
     public int Damage;
     public int Int;

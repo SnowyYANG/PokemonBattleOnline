@@ -75,7 +75,7 @@ namespace LightStudio.PokemonBattle.PBO
     protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
     {
       base.OnClosing(e);
-      e.Cancel = lobby.Window_Closing() || editor.Window_Closing();
+      e.Cancel = BattleWindow.Window_Closing(this) || lobby.Window_Closing() || editor.Window_Closing();
     }
     protected override void OnClosed(EventArgs e)
     {

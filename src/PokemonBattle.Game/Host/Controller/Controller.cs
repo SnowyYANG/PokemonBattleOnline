@@ -201,13 +201,13 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       return SwitchController.CanWithdraw(pm);
     }
-    public bool Withdraw(PokemonProxy pm, bool canPursuit = true)
+    public bool Withdraw(PokemonProxy pm, bool canPursuit = true, string log = null)
     {
-      return SwitchController.Withdraw(pm, canPursuit);
+      return SwitchController.Withdraw(pm, canPursuit, log);
     }
-    public bool Sendout(Tile position, bool debut = true)
+    public bool Sendout(Tile position, bool debut = true, string log = null)
     {
-      return SwitchController.Sendout(position, debut);
+      return SwitchController.Sendout(position, debut, log);
     }
     #endregion
   }

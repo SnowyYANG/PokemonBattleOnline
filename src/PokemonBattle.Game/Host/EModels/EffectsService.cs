@@ -8,24 +8,24 @@ namespace LightStudio.PokemonBattle.Game.Host
 {
   public static partial class EffectsService
   {
-    public readonly static IAbilityE NULL_ABILITY;
-    public readonly static IItemE NULL_ITEM;
-    private readonly static IRuleE NULL_RULE;
+    public readonly static AbilityE NULL_ABILITY;
+    public readonly static ItemE NULL_ITEM;
+    private readonly static RuleE NULL_RULE;
     private static bool unlocked;
-    private static IMoveE[] moves;
-    private static IAbilityE[] abilities;
-    private static IItemE[] items;
+    private static MoveE[] moves;
+    private static AbilityE[] abilities;
+    private static ItemE[] items;
     private static Dictionary<int, IRuleE> rules;
 
     static EffectsService()
     {
       unlocked = true;
-      NULL_ABILITY = new AbilityE0();
-      NULL_ITEM = new ItemE0();
+      NULL_ABILITY = new AbilityE(0);
+      NULL_ITEM = new ItemE(0);
       NULL_RULE = new RuleE(0);
-      moves = new IMoveE[DataService.Moves.Count() + 1];
-      abilities = new IAbilityE[DataService.Abilities.Count() + 1];
-      items = new IItemE[DataService.Items.Count() + 1];
+      moves = new MoveE[DataService.Moves.Count() + 1];
+      abilities = new AbilityE[DataService.Abilities.Count() + 1];
+      items = new ItemE[DataService.Items.Count() + 1];
       rules = new Dictionary<int, IRuleE>();
       items[0] = NULL_ITEM;
       abilities[0] = NULL_ABILITY;
@@ -42,7 +42,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
 
     #region emodels
-    public static IMoveE GetMove(int id)
+    public static MoveE GetMove(int id)
     {
       if (id < 0 || id > moves.Length) id = 0;
       if (moves[id] == null) //不用Factory大丈夫？
@@ -72,13 +72,13 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       return moves[id];
     }
-    public static IAbilityE GetAbility(int id)
+    public static AbilityE GetAbility(int id)
     {
       if (id < 0 || id > abilities.Length) id = 0;
       if (abilities[id] == null) abilities[id] = new AbilityE(id);
       return abilities[id];
     }
-    public static IItemE GetItem(Item item)
+    public static ItemE GetItem(Item item)
     {
       if (item == null || item.Id < 0 || item.Id > items.Length) return items[0];
       if (items[item.Id] == null) items[item.Id] = new ItemE(item.Id);
@@ -88,15 +88,18 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       return rules.ValueOrDefault(id, NULL_RULE);
     }
-    public static void Register(IMoveE move)
+    public static void Register(MoveE move)
     {
       if (unlocked)
       {
         if (move.Move.Id > 0 && move.Move.Id < moves.Length)
+#if DEBUG
+          if (moves[move.Move.Id] != null) System.Diagnostics.Debugger.Break();
+#endif
           moves[move.Move.Id] = move;
       }
     }
-    public static void Register(IAbilityE ability)
+    public static void Register(AbilityE ability)
     {
       if (unlocked)
       {
@@ -104,7 +107,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           abilities[ability.Id] = ability;
       }
     }
-    public static void Register(IItemE item)
+    public static void Register(ItemE item)
     {
       if (unlocked)
       {
@@ -112,7 +115,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           items[item.Id] = item;
       }
     }
-    public static void Register(IRuleE rule)
+    public static void Register(RuleE rule)
     {
       if (unlocked)
       {
@@ -138,5 +141,24 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
     }
     #endregion
+
+    private sealed class Move0 : MoveE
+    {
+      public Move0(int id)
+        : base(id)
+      {
+      }
+
+      public override void Execute(PokemonProxy pm, GameEvents.UseMove eventForPP)
+      {
+        if (Move == null) pm.Controller.ReportBuilder.Add("error");
+        else pm.Controller.ReportBuilder.Add("unfinish", pm, Move.Id);
+        pm.BuildAtkContext(Move);
+        pm.Action = PokemonAction.Done;
+      }
+      protected override void Act(AtkContext atk)
+      {
+      }
+    }
   }
 }

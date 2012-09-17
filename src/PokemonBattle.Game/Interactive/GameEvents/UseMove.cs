@@ -33,7 +33,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
     public override void Update(SimGame game)
     {
-      var pm = game.OnboardPokemons.FirstOrDefault((p) => p.Id == Pm);
+      var pm = game.OnboardPokemons.FirstOrDefault((p) => p != null && p.Id == Pm);
       if (pm != null)
         foreach (var m in pm.Moves)
           if (m != null && m.Type.Id == Move) m.PP.Value -= 1 + PP;

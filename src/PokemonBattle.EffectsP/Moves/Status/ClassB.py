@@ -50,5 +50,5 @@ class Add5or8TurnCondition(StatusMoveE):
             a.Controller.ReportBuilder.Add('En' + self.Condition, team)
         else:
             self.FailAll(a)
-M(Add5TurnCondition(113, 'LightScreen')) #light screen
-M(Add5TurnCondition(115, 'Reflect')) #reflect
+M(Add5or8TurnCondition(113, 'LightScreen')) #light screen
+M(Add5or8TurnCondition(115, 'Reflect')) #reflect

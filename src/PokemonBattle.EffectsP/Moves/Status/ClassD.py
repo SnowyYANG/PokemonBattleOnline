@@ -46,12 +46,20 @@ M(DestinyBond(194))
 class Encore(StatusMoveE):
     def Act(self, a):
         der = a.Target.Defender
-        c = Condition()
-        c.Turn = 3
-        c.Move = der.AtkContext.MoveProxy.Type
-        if der.AtkContext != None and der.AtkContext.MoveProxy.PP.Value > 0 and der.OnboardPokemon.AddCondition('Encore', c):
-            der.AddReportPm('EnEncore', None, None)
+        if der.AtkContext == None or der.AtkContext.Move == 227:
+            self.FailAll(a)
         else:
+            move = der.AtkContext.Move
+            for m in der.Moves:
+                if m.Type == move:
+                    c = Condition()
+                    c.Turn = 3
+                    c.Move = move
+                    if der.AtkContext.MoveProxy.PP > 0 and der.OnboardPokemon.AddCondition('Encore', c):
+                        der.AddReportPm('EnEncore', None, None)
+                    else:
+                        self.FailAll(a)
+                    return
             self.Fail(der)
 M(Encore(227))
 
@@ -85,6 +93,15 @@ class Taunt(StatusMoveE):
         else:
             self.Fail(der)
 M(Taunt(269))
+
+class Wish(StatusMoveE):
+    def Act(self, a):
+        c = Condition()
+        c.Turn = a.Controller.TurnNumber + 1
+        c.Int = a.Attacker.Pokemon.Hp.Origin >> 1
+        if not a.Attacker.Tile.AddCondition('Wish', c):
+            self.FailAll(a)
+M(Wish(273))
 
 class MagicCoat(StatusMoveE):
     def Act(self, a):
@@ -124,6 +141,18 @@ class Camouflage(StatusMoveE):
         a.Attacker.OnboardPokemon.Type2 = BattleType.Invalid
         a.Attacker.AddReportPm('TypeChange', t)
 M(Camouflage(293))
+
+class HealingWish(StatusMoveE):
+    def __new__(cls, id, condition):
+        return StatusMoveE.__new__(cls, id)
+    def __init__(self, id, condition):
+        self.Condition = condition
+    def NotFail(self, a):
+        return a.Pokemon.Owner.PmsAlive > GameModeExtensions.OnboardPokemonsPerPlayer(a.Controller.GameSettings.Mode)
+    def Act(self, a):
+        print 'UNFINISHED'
+M(HealingWish(361, 'HealingWish'))
+M(HealingWish(461, 'LunarDance')) #lunar dance
 
 class PsychoShift(StatusMoveE):
     def NotFail(self, a):

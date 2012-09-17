@@ -16,6 +16,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public bool MultiTargets
     { get; internal set; }
     public int CTLv;
+    public int TotalDamage;
     public bool MeFirst;
     public Tile EjectButton;
     public bool FailAll;
@@ -38,6 +39,7 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     internal void Execute()
     {
+      TotalDamage = 0;
       Controller.ReportBuilder.Add(new GameEvents.UseMove(Attacker, Move));
       EffectsService.GetMove(Move.Id).Execute(Attacker, null);
     }
@@ -85,7 +87,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
     }
 
-    public IAbilityE Ability
+    public AbilityE Ability
     { get { return AtkContext.Attacker.Ability.IgnoreDefenderAbility() ? EffectsService.NULL_ABILITY : Defender.Ability; } }
     public bool HasInfiltratableCondition(string condition)
     {

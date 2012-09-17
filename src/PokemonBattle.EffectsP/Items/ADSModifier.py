@@ -71,7 +71,7 @@ class DittoItem(ItemE):
         if stat == self.Stat and pm.Pokemon.PokemonType.Number == 132 and not pm.OnboardPokemon.HasCondition('Transform'):
             return 0x2000
         return 0x1000
-I(DittoItem(39, StatType.Atk)) #metal powder
+I(DittoItem(39, StatType.Def)) #metal powder
 I(DittoItem(51, StatType.Speed)) #quick powder
 
 class Eviolite(ItemE):

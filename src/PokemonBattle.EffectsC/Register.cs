@@ -16,15 +16,15 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
 {
   public static class EffectsRegister
   {
-    private static void A(IAbilityE ability)
+    private static void A(AbilityE ability)
     {
       EffectsService.Register(ability);
     }
-    private static void I(IItemE item)
+    private static void I(ItemE item)
     {
       EffectsService.Register(item);
     }
-    private static void M(IMoveE move)
+    private static void M(MoveE move)
     {
       EffectsService.Register(move);
     }
@@ -33,6 +33,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
     {
       M(new GustTwister(16));  
       M(new Leap(19, CoordY.Air));//fly
+      M(new JumpKick(26));
       M(new SpRangeMove(57, CoordY.Water, true));
       M(new GrassKnot(67));
       M(new Counter(68, "PhysicalDamage", 0x2000));
@@ -43,16 +44,20 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Leap(91, CoordY.Underground));//dig
       M(new BigBang(120));
       M(new SkullBash(130));
+      M(new JumpKick(136));
       M(new Splash(150));
       M(new BigBang(153));
       M(new Rest(156));
       M(new Substitute(164));
+      M(new Curse(174));
       M(new Flail(175));
       M(new Conversion2(176));
       M(new Flail(179));
       M(new FuryCutter(210));
+      M(new HealBell(215, "HealBell"));
       M(new Happiness(216, false));
       M(new Happiness(218, true));
+      M(new PainSplit(220));
       M(new HiddenPower(237));
       M(new GustTwister(239));
       M(new Counter(243, "SpecialDamage", 0x2000));
@@ -65,6 +70,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Revenge(279));
       M(new Spout(284));
       M(new Leap(291, CoordY.Water));//dives
+      M(new HealBell(312, "Aromatherapy"));
       M(new Spout(323));
       M(new SpRangeMove(327, CoordY.Air));
       M(new Leap(340, CoordY.Air));//bounce
@@ -88,15 +94,12 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new HeavySlam(535));
       M(new Thunder(542));//Hurricane
 
-      M(new Curse(174));
-      M(new HealBell(215, "HealBell"));
-      M(new HealBell(312, "Aromatherapy"));
-
       A(new FlashFire(34));
       A(new Forewarn(37));
       A(new Frisk(39));
       A(new Illusion(56));
 
+      I(new MentalHerb(8));
       I(new StickyBarb(65));
       I(new ReHurtBerry(191, MoveCategory.Physical));
       I(new ReHurtBerry(192, MoveCategory.Special));

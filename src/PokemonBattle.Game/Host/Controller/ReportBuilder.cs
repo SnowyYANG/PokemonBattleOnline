@@ -37,7 +37,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       List<PokemonOutward> pms = new List<PokemonOutward>();
       {
         foreach (PokemonProxy p in Controller.OnboardPokemons) pms.Add(p.GetOutward());
-        current = new ReportFragment(t, pms.ToArray(), Controller.Board.Weather);
+        current = new ReportFragment(Controller.TurnNumber, t, pms.ToArray(), Controller.Board.Weather);
       }
     }
     internal ReportFragment GetFragment()
@@ -50,7 +50,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     internal void NewTurn()
     {
-      Add(new BeginTurn(++TurnNumber));
+      ++TurnNumber;
+      Add(new BeginTurn());
     }
 
     public void Add(GameEvent e)
@@ -60,6 +61,10 @@ namespace LightStudio.PokemonBattle.Game.Host
     public void Add(string key, object arg0 = null, object arg1 = null, object arg2 = null)
     {
       Add(new SimpleEvent(key, arg0, arg1, arg2));
+    }
+    public void AddHorizontalLine()
+    {
+      if (!(current.LastEvent is HorizontalLine)) current.AddEvent(new HorizontalLine());
     }
   }
 }

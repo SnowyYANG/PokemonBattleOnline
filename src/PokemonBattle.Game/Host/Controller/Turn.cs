@@ -69,6 +69,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public void Switch()
     {
+      ReportBuilder.AddHorizontalLine();
     LOOP:
       PokemonProxy p = OnboardPokemons.FirstOrDefault((pm) => pm.Action == PokemonAction.WillSwitch);
       if (p == null) return;
@@ -84,6 +85,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
     LOOP:
       PokemonProxy p = OnboardPokemons.FirstOrDefault((pm) => pm.CanActMove);
+      ReportBuilder.AddHorizontalLine();
       if (p == null)
       {
         EndTurnEffects();
@@ -138,7 +140,14 @@ namespace LightStudio.PokemonBattle.Game.Host
     private void NextTurn()
     {
       Sp.Abilities.SlowStart(Controller);
-      Board.ClearAllElementsTurnConditions();
+      Board.ClearTurnCondition();
+      foreach (var f in Board.Fields) f.ClearTurnCondition();
+      foreach (var t in Tiles)
+      {
+        if (t.Pokemon != null) t.Pokemon.OnboardPokemon.ClearTurnCondition();
+        t.ClearTurnCondition();
+      }
+      ReportBuilder.Add(new GameEvents.EndTurn());
       BeginTurn();
     }
   }

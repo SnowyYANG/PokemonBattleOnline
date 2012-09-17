@@ -10,7 +10,7 @@ namespace LightStudio.PokemonBattle.Game.Host
   {
     public readonly Move Move;
     public readonly PokemonProxy Owner;
-    private readonly IMoveE e;
+    private readonly MoveE e;
     
     internal MoveProxy(Move move, PokemonProxy owner)
     {

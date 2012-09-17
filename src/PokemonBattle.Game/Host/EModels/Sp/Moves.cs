@@ -76,10 +76,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       }
       return false;
     }
-    public static void Pursuit(PokemonProxy target)
-    {
-      //228 还是用triggers吧
-    }
     public static bool FocusPunch(this MoveProxy move)
     {
       return move.Type.Id == 264;
@@ -101,6 +97,16 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       const int PSYSHOCK = 473, FOUL_PLAY = 492, PSYSTRIKE = 540, SECRET_SWORD = 548;
       return move.Id == PSYSHOCK || move.Id == FOUL_PLAY || move.Id == PSYSTRIKE || move.Id == SECRET_SWORD;
+    }
+
+    internal static bool TripleKick(AtkContext atk)
+    {
+      if (atk.Move.Id == 167)
+      {
+        EffectsService.GetMove(167).CalculateTargets(atk);
+        return atk.Target != null;
+      }
+      return true;
     }
   }
 }

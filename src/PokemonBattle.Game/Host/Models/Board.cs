@@ -34,11 +34,13 @@ namespace LightStudio.PokemonBattle.Game.Host
           var ts = new Tile[XBound];
           for (int j = 0; j < XBound; j++)
             tileMap[i, j] = _tiles[t++] = ts[j] = new Tile(i, j, settings);
-          fields[i] = new Field(ts);
+          fields[i] = new Field(i, ts);
         }
       }
     }
 
+    public IEnumerable<Field> Fields
+    { get { return fields; } }
     private Tile[] _tiles;
     public IEnumerable<Tile> Tiles
     { get { return _tiles; } }
@@ -62,16 +64,5 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public Weather Weather
     { get; set; }
-
-    internal void ClearAllElementsTurnConditions()
-    {
-      ClearTurnCondition();
-      foreach (var f in fields) f.ClearTurnCondition();
-      foreach (var t in Tiles)
-      {
-        if (t.Pokemon != null) t.Pokemon.OnboardPokemon.ClearTurnCondition();
-        t.ClearTurnCondition();
-      }
-    }
   }
 }

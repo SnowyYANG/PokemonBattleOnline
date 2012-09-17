@@ -24,6 +24,17 @@ namespace LightStudio.PokemonBattle.PBO.Battle
   /// </summary>
   public partial class BattleWindow : Window, IRoomEventsListener
   {
+    private static readonly List<BattleWindow> Instances = new List<BattleWindow>();
+    public static bool Window_Closing(Window mainWindow)
+    {
+      if (Instances.FirstOrDefault() != null)
+      {
+        UIElements.ShowMessageBox.CantCloseMainWindow(mainWindow);
+        return true;
+      }
+      return false;
+    }
+    
     IRoom room;
 
     public BattleWindow(IRoom room)
@@ -32,6 +43,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       this.room = room;
       room.AddListener(this);
       room.Quited += () => UIDispatcher.Invoke(() => MessageBox.Show("Quited"));
+      Instances.Add(this);
     }
 
     protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
@@ -48,6 +60,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     {
       base.OnClosed(e);
       room.Quit();
+      Instances.Remove(this);
     }
 
     #region IRoomEventsListener

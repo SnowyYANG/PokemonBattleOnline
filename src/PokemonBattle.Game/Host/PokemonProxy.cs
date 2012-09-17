@@ -99,9 +99,9 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public DefContext DefContext
     { get; private set; }
-    public IAbilityE Ability
+    public AbilityE Ability
     { get { return Tile == null || OnboardPokemon.HasCondition("GastroAcid") ? EffectsService.NULL_ABILITY : EffectsService.GetAbility(OnboardPokemon.Ability); } }
-    public IItemE Item
+    public ItemE Item
     { get { return Tile == null || OnboardPokemon.HasCondition("Detain") || Controller.Board.HasCondition("MagicRoom") || Ability.Klutz() ? EffectsService.NULL_ITEM : EffectsService.GetItem(Pokemon.Item); } }
     private MoveProxy[] moves;
     public IEnumerable<MoveProxy> Moves
@@ -246,7 +246,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (State != PokemonState.Normal && Hp > 0)
       {
-        string log = "ItemDe" + Pokemon.State.ToString();
         Pokemon.State = PokemonState.Normal;
         int i;
         if (item)
@@ -255,10 +254,10 @@ namespace LightStudio.PokemonBattle.Game.Host
           if (Pokemon.Item.Type != ItemType.Normal) ConsumeItem();
         }
         else i = 0;
-        AddReport(new GameEvents.StateChange(this, log , i) { Item = true });
+        AddReport(new GameEvents.StateChange(this, null , i) { Item = item });
       }
     }
-    private bool CanAddState(PokemonProxy by, IAbilityE ability, AttachedState state, bool showFail)
+    private bool CanAddState(PokemonProxy by, AbilityE ability, AttachedState state, bool showFail)
     {
       if (Tile == null || Hp == 0) return false;
       string fail = Controller.Game.Settings.Mode.NeedTarget() ? "Fail" : "Fail0";
@@ -332,12 +331,12 @@ namespace LightStudio.PokemonBattle.Game.Host
         int oldValue = stat == StatType.Accuracy ? OnboardPokemon.AccuracyLv : stat == StatType.Evasion ? OnboardPokemon.EvasionLv : OnboardPokemon.Lv5D.GetStat(stat);
         if (oldValue == 6 && change > 0)
         {
-          if (showFail) AddReportPm("Lv7DMax", stat);
+          if (showFail) AddReportPm("7DMax", stat);
           return 0;
         }
         else if (oldValue == -6 && change < 0)
         {
-          if (showFail) AddReportPm("Lv7DMin", stat);
+          if (showFail) AddReportPm("7DMin", stat);
           return 0;
         }
         int value = oldValue + change;
@@ -439,7 +438,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             {
               o = new Condition();
               o.Move = AtkContext.Move;
-              OnboardPokemon.SetCondition("LastMove", AtkContext.Move);
+              OnboardPokemon.SetCondition("LastMove", o);
             }
             else if (o.Move != AtkContext.Move)
             {
@@ -542,7 +541,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (Hp == 0)
       {
-        Controller.Withdraw(this, false);
+        Controller.Withdraw(this);
         Pokemon.State = PokemonState.Faint;
         Controller.Board[Pokemon.TeamId].SetCondition("FaintTurn", Controller.TurnNumber);
         return true;
@@ -656,7 +655,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           goto DONE;
         case AttachedState.Infatuation:
           OnboardPokemon.SetCondition("Infatuation", by);
-          AddReportPm(log ?? "EnInfatuation");
+          AddReportPm(log ?? "EnInfatuation", arg1);
           goto DONE;
         case AttachedState.Trapped:
           {
@@ -675,28 +674,44 @@ namespace LightStudio.PokemonBattle.Game.Host
           AddReportPm("EnNightmare");
           goto DONE;
         case AttachedState.Torment:
-          OnboardPokemon.SetCondition("Torment");
+          OnboardPokemon.SetCondition("Torment", by);
           AddReportPm("EnTorment");
           goto DONE;
         case AttachedState.Disable:
           {
-            var c = new Dictionary<string, object>();
-            int move = AtkContext.MoveProxy.Type.Id;
-            c["Move"] = move;
-            c["Turn"] = Controller.TurnNumber + turn - 1;
+            var c = new Condition();
+            c.Move = AtkContext.MoveProxy.Type;
+            c.Turn = Controller.TurnNumber + turn - 1;
             OnboardPokemon.SetCondition("Disable", c);
-            AddReportPm("EnDisable", move);
+            AddReportPm("EnDisable", c.Move.Id);
           }
           goto DONE;
         case AttachedState.Yawn:
-          ////////////////////////////
+          {
+            var o = new Condition();
+            o.Turn = Controller.TurnNumber + 1;
+            o.By = by; //睡眠规则
+            OnboardPokemon.AddCondition("Yawn", o);
+          }
+          AddReportPm("EnYawn");
           goto DONE;
         case AttachedState.HealBlock:
-          OnboardPokemon.SetCondition("HealBlock", Controller.TurnNumber + turn - 1);
+          {
+            var o = new Condition();
+            o.Turn = Controller.TurnNumber + turn;
+            o.By = by;
+            OnboardPokemon.SetCondition("HealBlock", o);
+          }
           AddReportPm("EnHealBlock");
           goto DONE;
         case AttachedState.CanAttack:
-          ////////////////////////////
+          {
+            var o = new Condition();
+            o.BattleType = by.AtkContext.Move.Id == 357 ? BattleType.Dark : BattleType.Ghost;
+            o.By = by;
+            OnboardPokemon.SetCondition("CanAttack", o);
+            AddReportPm("CanAttack");
+          }
           goto DONE;
         case AttachedState.LeechSeed:
           OnboardPokemon.SetCondition("LeechSeed", by.Tile);

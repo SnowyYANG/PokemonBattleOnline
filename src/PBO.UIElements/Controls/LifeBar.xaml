@@ -11,8 +11,7 @@
     </Canvas>
     <Border.Resources>
         <Storyboard x:Key="Flash">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="flash" Storyboard.TargetProperty="Opacity"
-                                           RepeatBehavior="3x" Duration="0:0:0.10">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="flash" Storyboard.TargetProperty="Opacity" RepeatBehavior="3x" Duration="0:0:0.10">
                 <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.03"/>
                 <DiscreteDoubleKeyFrame Value="0" KeyTime="0:0:0.07"/>
             </DoubleAnimationUsingKeyFrames>

@@ -8,13 +8,13 @@ using LightStudio.PokemonBattle.Game.Host.Sp;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
-  public abstract class MoveE : IMoveE
+  public abstract class MoveE
   {
     protected static bool ForceSwitch(DefContext def)
     {
       var der = def.Defender;
-      var c= der.Controller;
-      if (der.Hp != 0 && c.CanWithdraw(der) && !def.Ability.SuctionCups() && !der.OnboardPokemon.HasCondition("Ingrain"))
+      var c = der.Controller;
+      if (def.AtkContext.Attacker.Tile != null && der.Hp != 0 && c.CanWithdraw(der) && !def.Ability.SuctionCups() && !der.OnboardPokemon.HasCondition("Ingrain"))
       {
         var sendouts = new List<int>();
         {
@@ -25,9 +25,9 @@ namespace LightStudio.PokemonBattle.Game.Host
         if (sendouts.Count != 0)
         {
           var tile = der.Tile;
-          der.Withdraw(); //注意应该没有战报
+          c.Withdraw(der, false, "ForceWithdraw");
           tile.WillSendoutPokemonIndex = sendouts[c.GetRandomInt(0, sendouts.Count - 1)];
-          c.Sendout(tile); //xxx被拖出来战斗了
+          c.Sendout(tile, true, "ForceSendout");
           return true;
         }
       }
@@ -86,7 +86,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       return true;
     }
-    protected virtual void CalculateTargets(AtkContext atk)
+    protected internal virtual void CalculateTargets(AtkContext atk)
     {
       IEnumerable<Tile> ts = GetRangeTiles(atk);
       if (ts == null) return; //no target needed
@@ -237,9 +237,13 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     protected virtual bool HasEffect(DefContext def)
     {
-      BattleType canAtk = def.Defender.OnboardPokemon.GetCondition<BattleType>("CanAttack");
+      BattleType canAtk;
+      {
+        var o = def.Defender.OnboardPokemon.GetCondition("CanAttack");
+        canAtk = o == null ? BattleType.Invalid : o.BattleType;
+      }
       return
-        (canAtk != BattleType.Invalid && def.Defender.OnboardPokemon.HasType(canAtk) || def.Defender.Item.RingTarget() || def.AtkContext.Type == BattleType.Ground ? HasEffect_Ground(def) : HasEffect_NonGround(def)) &&
+        (canAtk != BattleType.Invalid && def.Defender.OnboardPokemon.HasType(canAtk) || def.Defender.Item.RingTarget() || (def.AtkContext.Type == BattleType.Ground ? HasEffect_Ground(def) : HasEffect_NonGround(def))) &&
         (Move.Class != MoveInnerClass.OHKO || (def.Defender.Pokemon.Lv <= def.AtkContext.Attacker.Pokemon.Lv && !def.Defender.RaiseAbility(Abilities.STURDY)));
     }
     protected virtual MoveRange GetRange(AtkContext atk)

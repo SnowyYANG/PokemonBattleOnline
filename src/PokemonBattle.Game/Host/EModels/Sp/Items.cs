@@ -25,35 +25,35 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       EffectsService.GetItem(pm.Pokemon.Item).Raise(pm, key);
     }
 
-    public static bool LightClay(this IItemE item)
+    public static bool LightClay(this ItemE item)
     {
       return item.Id == 46;
     }
-    public static bool GripClaw(this IItemE item)
+    public static bool GripClaw(this ItemE item)
     {
       return item.Id == 63;
     }
-    public static bool ShedShell(this IItemE item)
+    public static bool ShedShell(this ItemE item)
     {
       return item.Id == 72;
     }
-    public static bool BigRoot(this IItemE item)
+    public static bool BigRoot(this ItemE item)
     {
       return item.Id == 73;
     }
-    public static bool AirBalloon(this IItemE item)
+    public static bool AirBalloon(this ItemE item)
     {
       return item.Id == 105;
     }
-    public static bool RingTarget(this IItemE item)
+    public static bool RingTarget(this ItemE item)
     {
       return item.Id == 107;
     }
-    public static bool BindingBand(this IItemE item)
+    public static bool BindingBand(this ItemE item)
     {
       return item.Id == 108;
     }
-    public static bool IronBall(this IItemE item)
+    public static bool IronBall(this ItemE item)
     {
       return item.Id == 55;
     }
@@ -166,7 +166,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
           break;
         case METRONOME:
           var c = aer.OnboardPokemon.GetCondition("LastMove");
-          if (target.AtkContext.Move == c.Move)
+          if (c != null && target.AtkContext.Move == c.Move)
           {
             if (c.Int < 5) r += (ushort)(0x333 * c.Int);
             else r = 0x2000;
@@ -189,10 +189,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       }
       return false;
     }
-    public static void AttackPostEffect(PokemonProxy pm)
+    public static void AttackPostEffect(AtkContext atk)
     {
       const int SHELL_BELL = 35;
-      if (pm.Item.Id == SHELL_BELL) pm.HpRecoverByOneNth(8, false, "ItemRecover", SHELL_BELL);
+      var pm = atk.Attacker;
+      if (pm.Item.Id == SHELL_BELL) pm.HpRecoverByOneNth(atk.TotalDamage >> 3, false, "ItemRecover", SHELL_BELL);
       else if (pm.Item.Id == LIFE_ORB)
       {
         pm.EffectHurtByOneNth(10, "LifeOrb");

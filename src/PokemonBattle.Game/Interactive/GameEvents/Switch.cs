@@ -12,13 +12,16 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   [DataContract(Namespace = Namespaces.LIGHT)]
   internal class SendOut : GameEvent
   {
+    [DataMember(EmitDefaultValue = false)]
+    string Log;
     [DataMember]
     int Player;
     [DataMember]
     PokemonOutward[] Pms;
 
-    internal SendOut(params PokemonProxy[] pms)
+    internal SendOut(string log = null, params PokemonProxy[] pms)
     {
+      Log = log;
       Player = pms[0].Pokemon.Owner.Id;
       Pms = new PokemonOutward[pms.Length];
       for (int i = 0; i < pms.Length; ++i) Pms[i] = pms[i].GetOutward();
@@ -35,7 +38,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       var args = new List<int>();
       args.Add(Player);
       args.AddRange(Pms.Select((p) => p.Id));
-      AppendGameLog("SendOut" + Pms.Length, args.ToArray());
+      AppendGameLog(Log ?? "SendOut" + Pms.Length, args.ToArray());
     }
     public override void Update(SimGame game)
     {
@@ -52,7 +55,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   internal class Withdraw : GameEvent
   {
     [DataMember(EmitDefaultValue = false)]
-    string Key;
+    string Log;
     
     [DataMember(EmitDefaultValue = false)]
     int Pm;
@@ -60,9 +63,9 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember(EmitDefaultValue = false)]
     int Ab;
 
-    public Withdraw(PokemonProxy pm, string key = null)
+    public Withdraw(PokemonProxy pm, string log = null)
     {
-      Key = key;
+      Log = log == null ? pm.Hp == 0 ? "Faint" : null : log;
       Pm = pm.Id;
       Ab = pm.Ability.Id;
       if (Ab != Host.Sp.Abilities.REGENERATOR && Ab != Host.Sp.Abilities.NATURAL_CURE) Ab = 0;
@@ -74,6 +77,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       var pm = GetPokemon(Pm);
       team = pm.Position.Team;
       x = pm.Position.X;
+      if (Log == "Faint") pm.Hp.Value = 0;
       if (pm.Hp.Value == 0)
       {
         pm.Faint();
@@ -81,10 +85,9 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       }
       else
       {
-        if (Key == null) Key = "Withdraw";
         pm.Withdraw();
         if (Ab == Host.Sp.Abilities.NATURAL_CURE) pm.State = PokemonState.Normal;//for TeamOutward
-        AppendGameLog(Key, pm.OwnerId, pm.Id);
+        if (Log != null) AppendGameLog(Log ?? "Withdraw", pm.OwnerId, pm.Id);
       }
       Game.Board[team, x] = null;
     }
@@ -94,6 +97,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       {
         var pm = game.OnboardPokemons[x].Pokemon;
         game.OnboardPokemons[x] = null;
+        if (Log == "Faint") pm.SetHp(0);
         if (pm.Hp.Value == 0) pm.State = PokemonState.Faint;
         else
         {

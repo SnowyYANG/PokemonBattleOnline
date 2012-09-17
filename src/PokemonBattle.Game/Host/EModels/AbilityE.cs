@@ -7,7 +7,7 @@ using LightStudio.PokemonBattle.Game.GameEvents;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
-  public class AbilityE : IAbilityE
+  public class AbilityE
   {
     private readonly int id;
     protected readonly Ability Ability;
@@ -18,7 +18,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       Ability = DataService.GetAbility(id);
     }
 
-    int IAbilityE.Id
+    public int Id
     { get { return id; } }
 
     protected void Raise(PokemonProxy pm)

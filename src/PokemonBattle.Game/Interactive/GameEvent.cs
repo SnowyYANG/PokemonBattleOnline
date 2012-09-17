@@ -25,16 +25,16 @@ namespace LightStudio.PokemonBattle.Game
       return GameService.Logs[key].Clone(Game);
 #endif
     }
-    protected void AppendGameLog(string key, object arg1 = null, object arg2 = null, object arg3 = null)
+    protected void AppendGameLog(string key, object arg0 = null, object arg1 = null, object arg2 = null, object arg3 = null)
     {
       IText text = GetGameLog(key);
-      text.SetData(arg1, arg2, arg3);
+      text.SetData(arg0, arg1, arg2, arg3);
       Game.AppendGameLog(text);
     }
     protected void AppendGameLog(string key, params int[] data)
     {
       IText text = GetGameLog(key);
-      text.SetData(data.ValueOrDefault(0), data.ValueOrDefault(1), data.ValueOrDefault(2));
+      text.SetData(data.ValueOrDefault(0), data.ValueOrDefault(1), data.ValueOrDefault(2), data.ValueOrDefault(3));
       Game.AppendGameLog(text);
     }
     protected PokemonOutward GetPokemon(int id)

@@ -6,20 +6,23 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
-  public class ItemE : IItemE
+  public class ItemE
   {
     protected readonly Item Item;
 
     public ItemE(int id)
     {
+      Id = id;
       Item = DataService.GetItem(id);
     }
-    
-    int IItemE.Id
-    { get { return Item.Id; } }
 
-    public virtual bool CanLost(PokemonProxy pm) { return true; }
+    public int Id
+    { get; private set; }
+
     public virtual int CompareValue(PokemonProxy pm) { return 0; }
+    /// <summary>
+    /// Atk/Def/SpAtk/SpDef/Speed
+    /// </summary>
     public virtual Modifier ADSModifier(PokemonProxy pm, StatType stat) { return 0x1000; }
     public virtual Modifier DamageFinalModifier(DefContext def) { return 0x1000; }
     public virtual Modifier PowerModifier(AtkContext atk) { return 0x1000; }
@@ -43,6 +46,9 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     public virtual void Attach(PokemonProxy pm) { }
     public virtual void HpChanged(PokemonProxy pm) { }
+    /// <summary>
+    /// 红线、柿果、精神香草、5树果
+    /// </summary>
     public virtual void StateAdded(PokemonProxy pm, PokemonProxy by, AttachedState state) { }
     public virtual void Attacked(DefContext def) { }
   }

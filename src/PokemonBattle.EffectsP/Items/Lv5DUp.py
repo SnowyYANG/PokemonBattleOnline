@@ -4,21 +4,21 @@ def item_changelv5d(pm, stat, change):
         return
     i = pm.Pokemon.Item.Id
     if change == 1:
-        e = UseItem('Item7DUp1', pm, i)
+        e = UseItem('Item7DUp1', pm, i, stat)
     else:
         if change == 2:
-            e = UseItem('Item7DUp2', pm, i)
+            e = UseItem('Item7DUp2', pm, i, stat)
         else:
             if change > 0:
-                e = UseItem('Item7DUp3', pm, i)
+                e = UseItem('Item7DUp3', pm, i, stat)
             else:
                 if change == -1:
-                    e = UseItem('7DDown1', pm)
+                    e = UseItem('7DDown1', pm, stat)
                 else:
                     if change == -2:
-                        e = UseItem('7DDown2', pm)
+                        e = UseItem('7DDown2', pm, stat)
                     else:
-                        e = UseItem('7DDown3', pm)
+                        e = UseItem('7DDown3', pm, stat)
     pm.OnboardPokemon.ChangeLv7D(stat, change)
     pm.ConsumeItem()
     pm.Controller.ReportBuilder.Add(e)
@@ -72,7 +72,7 @@ class AttackedUpItem(ItemE):
         self.Type = type
         self.Stat = stat
     def Attacked(self, d):
-        if d.AtkContext.Type == self.Type and d.Defender.CanChangeLv7D(d.Defender, self.Stat, 1, False) != 0:
+        if d.AtkContext.Type == self.Type:
             item_changelv5d(d.Defender, self.Stat, 1)
 I(AttackedUpItem(109, BattleType.Water, StatType.SpAtk)) #absorb bulb
 I(AttackedUpItem(110, BattleType.Electric, StatType.Atk)) #cell battery

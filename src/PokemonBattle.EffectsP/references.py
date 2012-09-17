@@ -11,8 +11,8 @@ from LightStudio.PokemonBattle.Game.Host import *
 from LightStudio.PokemonBattle.Game.Host.Sp import *
 
 def M(e):
-    EffectsService.Register.Overloads[IMoveE](e)
+    EffectsService.Register.Overloads[MoveE](e)
 def A(e):
-    EffectsService.Register.Overloads[IAbilityE](e)
+    EffectsService.Register.Overloads[AbilityE](e)
 def I(e):
-    EffectsService.Register.Overloads[IItemE](e)
+    EffectsService.Register.Overloads[ItemE](e)

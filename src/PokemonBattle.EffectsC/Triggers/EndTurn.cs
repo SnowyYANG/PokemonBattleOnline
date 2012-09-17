@@ -35,7 +35,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     private void Weather(Controller c)
     {
       int turn = c.Board.GetCondition<int>("Weather");
-      if (turn == c.ReportBuilder.TurnNumber) c.Weather = Game.Weather.Normal;
+      if (turn == c.TurnNumber) c.Weather = Game.Weather.Normal;
       else
       {
         if (c.Board.Weather == Game.Weather.Sandstorm) c.ReportBuilder.Add("Sandstorm");
@@ -93,9 +93,18 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     private void FSDD(Controller c)
     {
     }
-    //4.0 [unfinished] Wish
+    //4.0 Wish
     private void Wish(Controller c)
     {
+      foreach (var pm in c.OnboardPokemons)
+      {
+        var o = pm.Tile.GetCondition("Wish");
+        if (o != null && o.Turn == c.TurnNumber)
+        {
+          pm.Tile.RemoveCondition("Wish");
+          pm.HpRecover(o.Int, false, "Wish");
+        }
+      }
     }
     //5.0 [pass] Fire Pledge + Grass Pledge damage
     //5.1 Shed Skin, Hydration, Healer
@@ -254,7 +263,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     }
     //12.0 Taunt ends
     //13.0 Encore ends
-    //14.0 [unfinished]Disable ends, Cursed Body ends
+    //14.0 Disable ends, Cursed Body ends
     //15.0 Magnet Rise ends
     //16.0 Telekinesis ends
     //17.0 Heal Block ends
@@ -291,26 +300,42 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         }
       }
       foreach (var pm in c.OnboardPokemons)
-      {
-        int turn = pm.OnboardPokemon.GetCondition<int>("MagnetRise");
-        if (turn == c.TurnNumber)
+        if (pm.OnboardPokemon.GetCondition<int>("MagnetRise") == c.TurnNumber)
         {
           pm.OnboardPokemon.RemoveCondition("MagnetRise");
           pm.AddReportPm("DeMagnetRise");
         }
-      }
-      //16.0 Telekinesis ends
+      foreach (var pm in c.OnboardPokemons)
+        if (pm.OnboardPokemon.GetCondition<int>("Telekinesis") == c.TurnNumber)
+        {
+          pm.OnboardPokemon.RemoveCondition("Telekinesis");
+          pm.AddReportPm("DeTelekinesis");
+        }
       foreach (var pm in c.OnboardPokemons)
       {
-        int turn = pm.OnboardPokemon.GetCondition<int>("HealBlock");
-        if (turn == c.TurnNumber)
+        var o = pm.OnboardPokemon.GetCondition("HealBlock");
+        if (o != null && o.Turn == c.TurnNumber)
         {
           pm.OnboardPokemon.RemoveCondition("HealBlock");
           pm.AddReportPm("DeHealBlock");
         }
       }
-      //18.0 Embargo ends
-      //19.0 Yawn
+      foreach (var pm in c.OnboardPokemons)
+        if (pm.OnboardPokemon.GetCondition<int>("Embargo") == c.TurnNumber)
+        {
+          pm.OnboardPokemon.RemoveCondition("Embargo");
+          pm.AddReportPm("DeEmbargo");
+          pm.Item.Attach(pm);
+        }
+      foreach (var pm in c.OnboardPokemons)
+      {
+        var o = pm.OnboardPokemon.GetCondition("Yawn");
+        if (o != null && o.Turn == c.TurnNumber)
+        {
+          pm.AddState(o.By, AttachedState.Sleep, false);
+          pm.OnboardPokemon.RemoveCondition("Yawn");
+        }
+      }
       foreach (var pm in c.OnboardPokemons.ToArray())
       {
         int turn = pm.OnboardPokemon.GetCondition<int>("PerishSong", -1);
@@ -337,24 +362,22 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     //21.6 [pass] Water Pledge + Fire Pledge ends, Fire Pledge + Grass Pledge ends, Grass Pledge + Water Pledge ends
     private void FieldCondition(Controller c)
     {
-      for (int t = 0; t < c.GameSettings.Mode.TeamCount(); ++t)
+      foreach (var f in c.Board.Fields)
       {
-        var f = c.Board[t];
-        FieldCondition("Reflect", t, c);
-        FieldCondition("LightScreen", t, c);
-        FieldCondition("Safeguard", t, c);
-        FieldCondition("Mist", t, c);
-        FieldCondition("Tailwind", t, c);
-        FieldCondition("LuckyChant", t, c);
+        FieldCondition("Reflect", f, c);
+        FieldCondition("LightScreen", f, c);
+        FieldCondition("Safeguard", f, c);
+        FieldCondition("Mist", f, c);
+        FieldCondition("Tailwind", f, c);
+        FieldCondition("LuckyChant", f, c);
       }
     }
-    private void FieldCondition(string condition, int team, Controller c)
+    private void FieldCondition(string condition, Field f, Controller c)
     {
-      var f = c.Board[team];
       if (f.GetCondition<int>(condition) == c.TurnNumber)
       {
         f.RemoveCondition(condition);
-        c.ReportBuilder.Add("De" + condition, team);
+        c.ReportBuilder.Add("De" + condition, f.TeamId);
       }
     }
     //22.0 Gravity ends

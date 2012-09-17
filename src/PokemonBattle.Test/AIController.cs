@@ -12,7 +12,7 @@ namespace LightStudio.PokemonBattle.Test
     public static void WriteBattleReport(string text)
     {
       //TODO: write text to files
-      Console.WriteLine(text);
+      Console.Write(text);
     }
     
     private static ITestClient p1;

@@ -16,7 +16,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public bool CanWithdraw(PokemonProxy pm)
     {
       //黑眼神状态不能防止任何强制交换的技能或道具效果，阻止的是CanSelectSwitch
-      return pm.Hp == 0 || pm.Pokemon.Owner.PmsAlive > GameSettings.Mode.OnboardPokemonsPerPlayer();
+      return pm.Tile != null && (pm.Hp == 0 || pm.Pokemon.Owner.PmsAlive > GameSettings.Mode.OnboardPokemonsPerPlayer());
     }
     public bool CanSendout(Tile tile)
     {
@@ -30,18 +30,18 @@ namespace LightStudio.PokemonBattle.Game.Host
       return pokemon != null && pokemon.Hp.Value > 0 && pokemon.IndexInOwner >= GameSettings.Mode.OnboardPokemonsPerPlayer();
     }
 
-    public bool Withdraw(PokemonProxy pm, bool canPursuit)
+    public bool Withdraw(PokemonProxy pm, bool canPursuit, string log)
     {
       if (CanWithdraw(pm))
       {
-        if (canPursuit) Sp.Moves.Pursuit(pm);
-        ReportBuilder.Add(new GameEvents.Withdraw(pm));
+        Sp.Triggers.Withdrawing(pm, canPursuit);
+        ReportBuilder.Add(new GameEvents.Withdraw(pm, log));
         pm.Withdraw();
         return true;
       }
       return false;
     }
-    public bool Sendout(Tile tile, bool debut)
+    public bool Sendout(Tile tile, bool debut, string log = null)
     {
       Player p = Controller.GetPlayer(tile);
       int origin = Game.Settings.Mode.GetPokemonIndex(tile.X);
@@ -52,7 +52,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         var pm = Controller.GetPokemon(p.GetPokemon(sendout));
         pm.Sendout(tile);
         p.SwitchPokemon(origin, sendout);
-        ReportBuilder.Add(new SendOut(pm));
+        ReportBuilder.Add(new SendOut(log, pm));
         Sp.Abilities.Trace(pm);
         if (debut && Controller.Board[tile.Team].Debut(pm)) pm.Debut();
         return true;

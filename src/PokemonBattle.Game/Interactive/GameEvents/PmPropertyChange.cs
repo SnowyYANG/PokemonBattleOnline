@@ -26,6 +26,8 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     {
       Pm = pm.Id;
       State = pm.Pokemon.State;
+      Log = log;
+      Arg1 = arg1;
     }
 
     protected override void Update()
@@ -35,6 +37,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       if (Log == null)
       {
         if (State == PokemonState.Normal)
+        {
           switch (pm.State)
           {
             case PokemonState.BadlyPoisoned:
@@ -45,6 +48,8 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
               key = "De" + pm.State.ToString();
               break;
           }
+          if (Item) key = "Item" + key;
+        }
         else key = "En" + State.ToString();
       }
       else key = Log;
@@ -135,7 +140,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     public bool ResetY;
     [DataMember(EmitDefaultValue = false)]
     public bool ConsumeItem;
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     protected string Key;
     [DataMember(EmitDefaultValue = false)]
     protected int Arg1;
@@ -210,16 +215,16 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember]
     int Pm;
     [DataMember(EmitDefaultValue = false)]
-    int Arg1;
+    object Arg1;
     [DataMember(EmitDefaultValue = false)]
-    int Arg2;
+    object Arg2;
 
-    public UseItem(string logKey, PokemonProxy pm, int arg1 = 0, int arg2 = 0)
+    public UseItem(string logKey, PokemonProxy pm, object arg1 = null, object arg2 = null)
     {
       Key = logKey;
       Pm = pm.Id;
-      Arg1 = arg1;
-      Arg2 = arg2;
+      Arg1 = arg1 is int ? (object)arg1 : arg1.ToString();
+      Arg2 = arg2 is int ? (object)arg2 : arg2.ToString();
     }
 
     protected override void Update()

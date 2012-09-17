@@ -18,7 +18,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         !
         (
           o.HasType(BattleType.Flying) ||
-          o.HasCondition("Suspension") || o.HasCondition("Telekinesis") ||
+          o.HasCondition("MagnetRise") || o.HasCondition("Telekinesis") ||
           pm.Item.AirBalloon() ||
           (!ignoreDefenderAbility && (raiseAbility ? pm.RaiseAbility(As.LEVITATE) : pm.Ability.Id == As.LEVITATE))
         );

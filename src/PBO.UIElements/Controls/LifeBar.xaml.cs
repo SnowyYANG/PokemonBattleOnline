@@ -68,15 +68,14 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
 
     private void LifeBar_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if (e.OldValue is PairValue)
-        ((PairValue)e.OldValue).PropertyChanged -= LifeChanged;
+      if (e.OldValue is PairValue) ((PairValue)e.OldValue).PropertyChanged -= LifeChanged;
       PairValue hp = DataContext as PairValue;
       if (hp != null)
       {
         bar.BeginAnimation(Border.WidthProperty, null);
         bar.Width = hp.NormalizedValue;
         hp.PropertyChanged += LifeChanged;
-        da.SpeedRatio = hp.Origin / 200.0;
+        if (hp.Origin > 0) da.SpeedRatio = 200d / hp.Origin;
       }
     }
 
@@ -90,8 +89,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
     void da_Completed(object sender, EventArgs e)
     {
       LifeBar_SizeChanged(null, null);
-      if (flash.Width > bar.Width)
-        BeginStoryboard((Storyboard)Resources["Flash"]);
+      if (flash.Width > bar.Width) BeginStoryboard((Storyboard)Resources["Flash"]);
     }
   }
 }

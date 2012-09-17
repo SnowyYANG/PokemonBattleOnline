@@ -11,8 +11,11 @@ namespace LightStudio.PokemonBattle.Game.Host
   {
     private readonly List<EntryHazards> hazards;
 
-    internal Field(IEnumerable<Tile> tiles)
+    public readonly int TeamId;
+
+    internal Field(int teamId, IEnumerable<Tile> tiles)
     {
+      TeamId = teamId;
       hazards = new List<EntryHazards>(3);
       Tiles = tiles;
     }

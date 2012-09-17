@@ -12,7 +12,7 @@ namespace LightStudio.PokemonBattle.Game
   [DataContract(Namespace = Namespaces.LIGHT)]
   public class ReportFragment
   {
-    static HashSet<Type> knownGameEvents = new HashSet<Type>() { typeof(AbilityEvent), typeof(BeginTurn), typeof(EndTurn), typeof(GetItem), typeof(HpChange), typeof(MoveHurts), typeof(OutwardChange), typeof(PPChange), typeof(PositionChange), typeof(SelectMoveFail), typeof(SendOut), typeof(SimpleEvent), typeof(StateChange), typeof(Substitute), typeof(UseItem), typeof(UseMove), typeof(WeatherChange), typeof(Withdraw) };
+    static HashSet<Type> knownGameEvents = new HashSet<Type>() { typeof(AbilityEvent), typeof(BeginTurn), typeof(EndTurn), typeof(GetItem), typeof(HorizontalLine), typeof(HpChange), typeof(MoveHurts), typeof(OutwardChange), typeof(PPChange), typeof(PositionChange), typeof(SelectMoveFail), typeof(SendOut), typeof(SimpleEvent), typeof(StateChange), typeof(Substitute), typeof(UseItem), typeof(UseMove), typeof(WeatherChange), typeof(Withdraw) };
     static IEnumerable<Type> KnownEvents()
     {
       return knownGameEvents;
@@ -24,7 +24,15 @@ namespace LightStudio.PokemonBattle.Game
     {
       knownGameEvents.Add(type);
     }
-    
+
+    [DataMember(EmitDefaultValue = false)]
+    private int _turnNumber;
+    public int TurnNumber
+    { 
+      get { return _turnNumber - 1; }
+      private set { _turnNumber = value + 1; }
+    }
+
     [DataMember(EmitDefaultValue = false)]
     public readonly TeamOutward[] Teams;
     [DataMember(EmitDefaultValue = false)]
@@ -38,8 +46,9 @@ namespace LightStudio.PokemonBattle.Game
     /// <summary>
     /// 为了节约流量，只在用户第一次进入房间的时候给出teams/pms/weather信息
     /// </summary>
-    internal ReportFragment(TeamOutward[] teams, PokemonOutward[] pms, Weather weather)
+    internal ReportFragment(int turnNumber, TeamOutward[] teams, PokemonOutward[] pms, Weather weather)
     {
+      TurnNumber = turnNumber;
       Teams = teams;
       pokemons = pms;
       Weather = weather;
@@ -71,6 +80,8 @@ namespace LightStudio.PokemonBattle.Game
     }
     public IEnumerable<GameEvent> Events
     { get { return events; } }
+    public GameEvent LastEvent
+    { get; private set; }
 
     /// <summary>
     /// Host使用
@@ -78,6 +89,7 @@ namespace LightStudio.PokemonBattle.Game
     /// <param name="e"></param>
     internal void AddEvent(GameEvent e)
     {
+      LastEvent = e;
       events.Enqueue(e);
     }
   }

@@ -42,6 +42,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public const int SPEED_BOOST = 130;
     public const int STEADFAST = 133;
     public const int STURDY = 138;
+    public const int UNNERVE = 147;
     public const int TRACE = 152;
     public const int TRUANT = 153;
     #endregion
@@ -70,100 +71,100 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     #endregion
 
     #region IsXXX
-    public static bool Adaptability(this IAbilityE ability)
+    public static bool Adaptability(this AbilityE ability)
     {
       return ability.Id == 1;
     }
-    public static bool EarlyBird(this IAbilityE ability)
+    public static bool EarlyBird(this AbilityE ability)
     {
       return ability.Id == 27;
     }
-    public static bool SheerForce(this IAbilityE ability)
+    public static bool SheerForce(this AbilityE ability)
     {
       return ability.Id == 30;
     }
-    public static bool Guts(this IAbilityE ability)
+    public static bool Guts(this AbilityE ability)
     {
       return ability.Id == 41;
     }
-    public static bool InnerFocus(this IAbilityE ability)
+    public static bool InnerFocus(this AbilityE ability)
     {
       return ability.Id == 59;
     }
-    public static bool Klutz(this IAbilityE ability)
+    public static bool Klutz(this AbilityE ability)
     {
       return ability.Id == 64;
     }
-    public static bool MagicGuard(this IAbilityE ability)
+    public static bool MagicGuard(this AbilityE ability)
     {
       return ability.Id == 71;
     }
-    public static bool Prankster(this IAbilityE ability)
+    public static bool Prankster(this AbilityE ability)
     {
       return ability.Id == 78;
     }
-    public static bool NoGuard(this IAbilityE ability)
+    public static bool NoGuard(this AbilityE ability)
     {
       return ability.Id == 85;
     }
-    public static bool Normalize(this IAbilityE ability)
+    public static bool Normalize(this AbilityE ability)
     {
       return ability.Id == 86;
     }
-    public static bool QuickFeet(this IAbilityE ability)
+    public static bool QuickFeet(this AbilityE ability)
     {
       return ability.Id == 101;
     }
-    public static bool RockHead(this IAbilityE ability)
+    public static bool RockHead(this AbilityE ability)
     {
       return ability.Id == 106;
     }
-    public static bool Scrappy(this IAbilityE ability)
+    public static bool Scrappy(this AbilityE ability)
     {
       return ability.Id == 113;
     }
-    public static bool SereneGrace(this IAbilityE ability)
+    public static bool SereneGrace(this AbilityE ability)
     {
       return ability.Id == 115;
     }
-    public static bool ShieldDust(this IAbilityE ability)
+    public static bool ShieldDust(this AbilityE ability)
     {
       return ability.Id == 119;
     }
-    public static bool Infiltrator(this IAbilityE ability)
+    public static bool Infiltrator(this AbilityE ability)
     {
       return ability.Id == 122;
     }
-    public static bool Stall(this IAbilityE ability)
+    public static bool Stall(this AbilityE ability)
     {
       return ability.Id == 131;
     }
-    public static bool StickyHold(this IAbilityE ability)
+    public static bool StickyHold(this AbilityE ability)
     {
       return ability.Id == 136;
     }
-    public static bool SuctionCups(this IAbilityE ability)
+    public static bool SuctionCups(this AbilityE ability)
     {
       return ability.Id == 139;
     }
-    public static bool SuperLuck(this IAbilityE ability)
+    public static bool SuperLuck(this AbilityE ability)
     {
       return ability.Id == 140;
     }
-    public static bool Unaware(this IAbilityE ability)
+    public static bool Unaware(this AbilityE ability)
     {
       return ability.Id == 155;
     }
-    public static bool Unburden(this IAbilityE ability)
+    public static bool Unburden(this AbilityE ability)
     {
       return ability.Id == 156;
     }
-    public static bool IgnoreDefenderAbility(this IAbilityE ability)
+    public static bool IgnoreDefenderAbility(this AbilityE ability)
     {
       const int MOLD_BREAKER = 79, TURBOBLAZE = 154, TERAVOLT = 148;
       return ability.Id == MOLD_BREAKER || ability.Id == TURBOBLAZE || ability.Id == TERAVOLT;
     }
-    public static bool CannotBeCted(this IAbilityE ability)
+    public static bool CannotBeCted(this AbilityE ability)
     {
       const int BATTLE_ARMOUR = 9, SHELL_ARMOUR = 118;
       return ability.Id == BATTLE_ARMOUR || ability.Id == SHELL_ARMOUR;
@@ -211,6 +212,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       if (ability == REGENERATOR) pm.Pokemon.SetHp(pm.Hp + pm.Pokemon.Hp.Origin / 3);
       else if (ability == NATURAL_CURE) pm.Pokemon.State = PokemonState.Normal;
+      else if (ability == UNNERVE)
+        foreach (var p in pm.Controller.GetOnboardPokemons(1 - pm.Pokemon.TeamId)) p.Item.Attach(p);
     }
     public static Modifier ThickFat(DefContext def)
     {
@@ -273,7 +276,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       if (pm.CanChangeLv7D(pm, StatType.Atk, 2, false) != 0 && pm.RaiseAbility(16)) pm.ChangeLv7D(pm, false, 2);
     }
-    public static bool SkillLink(this IAbilityE ability)
+    public static bool SkillLink(this AbilityE ability)
     {
       return ability.Id == 121;
     }

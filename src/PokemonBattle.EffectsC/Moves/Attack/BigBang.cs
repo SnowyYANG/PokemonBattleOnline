@@ -37,10 +37,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
       if (Move.Class != MoveInnerClass.OHKO)
         foreach (DefContext d in atk.Targets) CalculateDamage(d);
       if (aer.UsingItem) aer.RaiseItem();
-      Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
-      Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
       aer.Pokemon.SetHp(0);
       aer.CheckFaint();
+      Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
+      Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
       if (atk.Type == BattleType.Fire)
         foreach (DefContext d in atk.Targets)
           if (d.Defender.State == PokemonState.Frozen) d.Defender.DeAbnormalState();

@@ -52,6 +52,7 @@
     <None Include="Moves\Attack\DeAbnormal.py" />
     <None Include="Moves\Attack\DreamEater.py" />
     <None Include="Moves\Attack\Exclusive.py" />
+    <None Include="Moves\Attack\ForceSwitch.py" />
     <None Include="Moves\Attack\ImplementEffect.py" />
     <None Include="Moves\Attack\MoveProxyUsed.py" />
     <None Include="Moves\Attack\Rage.py" />

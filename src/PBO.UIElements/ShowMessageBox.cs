@@ -23,6 +23,10 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
     #endregion
 
     #region Battle
+    public static MessageBoxResult CantCloseMainWindow(Window window)
+    {
+      return MessageBox.Show(window, "您正在对战或观战，无法退出，请关闭所有对战/观战窗口后再退出主程序。", PBO);
+    }
     public static MessageBoxResult ClosingInBattle(Window window)
     {
       //虽然我的目的是不干扰其他窗体，不过如果UI真的只有一个线程，会有效果么

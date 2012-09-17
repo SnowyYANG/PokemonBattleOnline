@@ -116,6 +116,11 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       {
         if (current == null || GetAlignment(text) != current.TextAlignment)
         {
+          if (current != null)
+          {
+            var run = current.Inlines.LastOrDefault() as Run;
+            if (run != null) run.Text = run.Text.TrimEnd();
+          }
           current = new Paragraph() { TextAlignment = GetAlignment(text) };
           nest.AddBlock(current);
         }
