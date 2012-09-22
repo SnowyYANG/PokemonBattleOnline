@@ -167,25 +167,23 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       get
       {
-        if (!Item.ShedShell())
+        if (Item.ShedShell()) return true;
+        if (OnboardPokemon.HasCondition("Ingrain") || OnboardPokemon.HasCondition("CantWithdraw")) return false;
+        bool arenaTrap = false, magnetPull = false, shadowTag = false;
+        foreach (var pm in Controller.GetOnboardPokemons(1 - Pokemon.TeamId))
         {
-          if (OnboardPokemon.HasCondition("Ingrain") || OnboardPokemon.HasCondition("CantWithdraw")) return false;
-          bool arenaTrap, magnetPull, shadowTag;
-          {
-            int ab = Ability.Id;
-            arenaTrap = !OnboardPokemon.HasType(BattleType.Flying) && ab != Abilities.LEVITATE;
-            magnetPull = OnboardPokemon.HasType(BattleType.Steel);
-            shadowTag = ab != Abilities.SHADOW_TAG;
-          }
-          if (arenaTrap || magnetPull || shadowTag)
-            foreach (var pm in Controller.GetOnboardPokemons(1 - Pokemon.TeamId))
-            {
-              int ab = pm.Ability.Id;
-              if ((ab == Abilities.SHADOW_TAG && shadowTag) || (ab == Abilities.ARENA_TRAP && arenaTrap) || (ab == Abilities.MAGNET_PULL && magnetPull))
-                return false;
-            }
+          int ab = pm.Ability.Id;
+          if (ab == Abilities.SHADOW_TAG) shadowTag = true;
+          else if (ab == Abilities.ARENA_TRAP) arenaTrap = true;
+          else if (ab == Abilities.MAGNET_PULL) magnetPull = true;
         }
-        return true;
+        return
+          !
+          (
+          magnetPull && OnboardPokemon.HasType(BattleType.Steel) ||
+          shadowTag && Ability.Id != Abilities.SHADOW_TAG ||
+          arenaTrap && EffectsService.IsGroundAffectable.Execute(this, false, false)
+          );
       }
     }
     /// <summary>
