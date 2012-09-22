@@ -32,7 +32,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     }
     protected override void CalculateDamage(DefContext def)
     {
-      def.AtkContext.Attacker.Item.PowerModifier(def.AtkContext);
       def.Damage = def.AtkContext.Attacker.OnboardPokemon.GetCondition(Condition).Damage;
       def.ModifyDamage(Modifier);
     }

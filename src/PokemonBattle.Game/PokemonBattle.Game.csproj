@@ -53,6 +53,7 @@
     <Compile Include="Host\EModels\ITrigger.cs" />
     <Compile Include="Host\EModels\Sp\Triggers.cs" />
     <Compile Include="Interactive\GameEvents\GetItem.cs" />
+    <Compile Include="Interactive\GameEvents\HLLD.cs" />
     <Compile Include="Interactive\GameEvents\PPChange.cs" />
     <Compile Include="Interactive\GameEvents\Sp.cs" />
     <Compile Include="Interactive\InputType.cs" />

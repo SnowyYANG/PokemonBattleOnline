@@ -16,7 +16,7 @@ namespace LightStudio.PokemonBattle.Data
     private string DefaultName
     { get { return DataService.GetPokemonType(PokemonTypeId).GetLocalizedName(); } }
 
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     private string _name;
     public string Name
     {
@@ -40,11 +40,8 @@ namespace LightStudio.PokemonBattle.Data
     [DataMember]
     private int _pokemonTypeId;
     public int PokemonTypeId
-    {
-      get
-      {
-        return _pokemonTypeId;
-      }
+    { 
+      get { return _pokemonTypeId; }
       private set
       {
         if (_pokemonTypeId != value && value > 0 && value <= 664) ChangeType(value);
@@ -55,10 +52,7 @@ namespace LightStudio.PokemonBattle.Data
     [DataMember]
     public byte Lv
     {
-      get
-      {
-        return _lv;
-      }
+      get { return _lv; }
       set
       {
         if (_lv != value)
@@ -71,13 +65,10 @@ namespace LightStudio.PokemonBattle.Data
     }
 
     private PokemonGender _gender;
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public PokemonGender Gender
     {
-      get
-      {
-        return _gender;
-      }
+      get { return _gender; }
       set
       {
         if (_gender != value)
@@ -89,13 +80,10 @@ namespace LightStudio.PokemonBattle.Data
     }
 
     private PokemonNature _nature;
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public PokemonNature Nature
     {
-      get
-      {
-        return _nature;
-      }
+      get { return _nature; }
       set
       {
         if (_nature != value)
@@ -106,32 +94,26 @@ namespace LightStudio.PokemonBattle.Data
       }
     }
 
-    private int _abilityId;
-    [DataMember]
-    public int AbilityId
+    private int _abilityIndex;
+    [DataMember(EmitDefaultValue = false)]
+    public int AbilityIndex
     {
-      get
-      {
-        return _abilityId;
-      }
+      get { return _abilityIndex; }
       set
       {
-        if (_abilityId != value)
+        if (_abilityIndex != value && value != -1)
         {
-          _abilityId = value;
-          OnPropertyChanged("AbilityId");
+          _abilityIndex = value;
+          OnPropertyChanged("AbilityIndex");
         }
       }
     }
 
     private int? _itemId;
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public int? ItemId
     {
-      get
-      {
-        return _itemId;
-      }
+      get { return _itemId; }
       set
       {
         if (_itemId != value)
@@ -143,7 +125,7 @@ namespace LightStudio.PokemonBattle.Data
     }
     
     private byte _happiness;
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public byte Happiness
     { 
       get { return _happiness; }
@@ -158,115 +140,115 @@ namespace LightStudio.PokemonBattle.Data
     }
 
     #region Iv
+    [DataMember(EmitDefaultValue = false)]
     private byte _hpIv;
-    [DataMember]
     public byte HpIv
     {
       get
       {
-        return _hpIv;
+        return (byte)(31 - _hpIv);
       }
       set
       {
-        if (_hpIv != value)
+        if (HpIv != value)
         {
           if (PokemonValidator.ValidateIv(value))
-            _hpIv = value;
+            _hpIv = (byte)(31 - value);
           OnPropertyChanged("HpIv");
         }
       }
     }
 
+    [DataMember(EmitDefaultValue = false)]
     private byte _atkIv;
-    [DataMember]
     public byte AtkIv
     {
       get
       {
-        return _atkIv;
+        return (byte)(31 - _atkIv);
       }
       set
       {
         if (_atkIv != value)
         {
           if (PokemonValidator.ValidateIv(value))
-            _atkIv = value;
+            _atkIv = (byte)(31 - value);
           OnPropertyChanged("AtkIv");
         }
       }
     }
 
+    [DataMember(EmitDefaultValue = false)]
     private byte _defIv;
-    [DataMember]
     public byte DefIv
     {
       get
       {
-        return _defIv;
+        return (byte)(31 - _defIv);
       }
       set
       {
         if (_defIv != value)
         {
           if (PokemonValidator.ValidateIv(value))
-            _defIv = value;
+            _defIv = (byte)(31 - value);
           OnPropertyChanged("DefIv");
         }
       }
     }
 
+    [DataMember(EmitDefaultValue = false)]
     private byte _speedIv;
-    [DataMember]
     public byte SpeedIv
     {
       get
       {
-        return _speedIv;
+        return (byte)(31 - _speedIv);
       }
       set
       {
         if (_speedIv != value)
         {
           if (PokemonValidator.ValidateIv(value))
-            _speedIv = value;
+            _speedIv = (byte)(31 - value);
           OnPropertyChanged("SpeedIv");
         }
       }
     }
 
+    [DataMember(EmitDefaultValue = false)]
     private byte _spAtkIv;
-    [DataMember]
     public byte SpAtkIv
     {
       get
       {
-        return _spAtkIv;
+        return (byte)(31 - _spAtkIv);
       }
       set
       {
         if (_spAtkIv != value)
         {
           if (PokemonValidator.ValidateIv(value))
-            _spAtkIv = value;
+            _spAtkIv = (byte)(31 - value);
           OnPropertyChanged("SpAtkIv");
         }
       }
     }
 
+    [DataMember(EmitDefaultValue = false)]
     private byte _spDefIv;
-    [DataMember]
     public byte SpDefIv
     {
       get
       {
-        return _spDefIv;
+        return (byte)(31 - _spDefIv);
       }
       set
       {
         if (_spDefIv != value)
         {
           if (PokemonValidator.ValidateIv(value))
-            _spDefIv = value;
+            _spDefIv = (byte)(31 - value);
           OnPropertyChanged("SpDefIv");
         }
       }
@@ -410,8 +392,8 @@ namespace LightStudio.PokemonBattle.Data
       if (PokemonTypeId != type.Id)
       {
         _pokemonTypeId = type.Id;
-        AbilityId = type.Abilities[0];
-        Gender = type.GetAvailableGenders().First();
+        _abilityIndex = 0;
+        _gender = type.GetAvailableGenders().First();
         moveIds.Clear();
         OnPropertyChanged();
       }
@@ -448,7 +430,7 @@ namespace LightStudio.PokemonBattle.Data
           Lv == pm.Lv &&
           Gender == pm.Gender &&
           Nature == pm.Nature &&
-          AbilityId == pm.AbilityId &&
+          AbilityIndex == pm.AbilityIndex &&
           ItemId == pm.ItemId &&
           HpIv == pm.HpIv &&
           AtkIv == pm.AtkIv &&

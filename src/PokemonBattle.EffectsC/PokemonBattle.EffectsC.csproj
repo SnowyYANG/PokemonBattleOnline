@@ -59,8 +59,10 @@
     <Compile Include="Moves\Attack\BigBang.cs" />
     <Compile Include="Moves\Attack\Counter.cs" />
     <Compile Include="Moves\Attack\JumpKick.cs" />
+    <Compile Include="Moves\Attack\KnockOff.cs" />
     <Compile Include="Moves\Attack\RapidSpin.cs" />
     <Compile Include="Moves\Attack\Revenge.cs" />
+    <Compile Include="Moves\Attack\SmackDown.cs" />
     <Compile Include="Moves\Attack\SpBasepower\Acrobatics.cs" />
     <Compile Include="Moves\Attack\SpBasepower\AHappy.cs" />
     <Compile Include="Moves\Attack\SpBasepower\EchoedVoice.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="Moves\Attack\SpRangeMove.cs" />
     <Compile Include="Moves\Attack\SpBasepower\TrumpCard.cs" />
     <Compile Include="Moves\Attack\SpBasepower\WringOut.cs" />
+    <Compile Include="Moves\Attack\Thief.cs" />
     <Compile Include="Moves\Status\Acupressure.cs" />
     <Compile Include="Moves\Status\Autotomize.cs" />
     <Compile Include="Moves\Status\Conversion2.cs" />
@@ -87,6 +90,8 @@
     <Compile Include="Moves\Status\Rest.cs" />
     <Compile Include="Moves\Status\Splash.cs" />
     <Compile Include="Moves\Status\Substitute.cs" />
+    <Compile Include="Moves\Status\Trick.cs" />
+    <Compile Include="Moves\Status\WonderRoom.cs" />
     <Compile Include="Moves\StockSpitSwallow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Register.cs" />

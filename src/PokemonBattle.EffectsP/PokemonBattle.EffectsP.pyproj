@@ -39,10 +39,10 @@
     <None Include="Abilities\CantXXX.py" />
     <None Include="Abilities\PowerModifier.py" />
     <None Include="Items\ADSModifier.py" />
+    <None Include="Items\Antiberry.py" />
     <None Include="Items\Attacked.py" />
     <None Include="Items\CompareValue.py" />
     <None Include="Items\CtLvRevise.py" />
-    <None Include="Items\GemAntiberry.py" />
     <None Include="Items\HpRecover.py" />
     <None Include="Items\Lv5DUp.py" />
     <None Include="Items\Other.py" />
@@ -66,6 +66,7 @@
     <None Include="Moves\Status\ContinuousUseFailEasier.py" />
     <None Include="Moves\Status\DefenseCurl.py" />
     <None Include="Moves\Status\HpRecover.py" />
+    <None Include="Moves\Status\LastMove.py" />
     <None Include="Moves\Status\Telekinesis.py" />
     <None Include="references.py" />
   </ItemGroup>

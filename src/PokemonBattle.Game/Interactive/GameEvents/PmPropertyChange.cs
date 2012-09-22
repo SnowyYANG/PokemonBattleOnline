@@ -208,7 +208,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   }
 
   [DataContract(Namespace = Namespaces.LIGHT)]
-  public class UseItem : GameEvent
+  public class RemoveItem : GameEvent
   {
     [DataMember]
     string Key;
@@ -219,7 +219,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember(EmitDefaultValue = false)]
     object Arg2;
 
-    public UseItem(string logKey, PokemonProxy pm, object arg1 = null, object arg2 = null)
+    public RemoveItem(string logKey, PokemonProxy pm, object arg1 = null, object arg2 = null)
     {
       Key = logKey;
       Pm = pm.Id;
@@ -236,7 +236,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     public override void Update(SimGame game)
     {
       var pm = GetPokemon(game, Pm);
-      if (pm != null && pm.Item.Type != ItemType.Normal) pm.Item = null;
+      if (pm != null) pm.Item = null;
     }
   }
 

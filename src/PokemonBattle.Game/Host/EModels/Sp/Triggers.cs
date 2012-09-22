@@ -16,7 +16,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
 
       Modifier m = atk.Attacker.Ability.PowerModifier(def);
       m *= Abilities.PowerModifier(def);
-      m *= atk.Attacker.Item.PowerModifier(atk);
+      if (def.AtkContext.Gem) m *= 0x1800;
+      else m *= atk.Attacker.Item.PowerModifier(atk);
       m *= movePowerModifier(def);
       if (atk.MeFirst) m *= 0x1800;
       m *= Moves.SolarBeam(def);

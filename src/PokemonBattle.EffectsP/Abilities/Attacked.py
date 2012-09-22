@@ -108,7 +108,7 @@ class WickedThief(t_a):
         aer = d.AtkContext.Attacker
         if der.Pokemon.Item == None and aer.CanLostItem:
             i = aer.Pokemon.Item.Id
-            aer.Pokemon.Item = None
+            aer.RemoveItem()
             der.ChangeItem(i)
             self.Raise(der)
             der.Controller.ReportBuilder.Add('WickedThief', aer.Id, i)

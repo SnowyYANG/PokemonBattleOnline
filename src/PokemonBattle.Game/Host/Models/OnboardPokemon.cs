@@ -21,6 +21,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     
     #region Data
+    private readonly Pokemon Pokemon;
     public int X;
     public CoordY CoordY;
     public PokemonType PokemonType;
@@ -86,15 +87,11 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     internal OnboardPokemon(Pokemon pokemon, int x)
     {
-      PokemonType = pokemon.PokemonType;
-      _type1 = pokemon.PokemonType.Type1;
-      _type2 = pokemon.PokemonType.Type2;
+      Pokemon = pokemon;
+      Static = new SixD() { Hp = pokemon.Static.Hp };
+      ChangeForm(pokemon.PokemonType);
       Gender = pokemon.Gender;
-      Ability = pokemon.Ability.Id;
-      Static = new SixD(pokemon.Static);
-      _weight = pokemon.PokemonType.Weight;
       lv5D = new SixD();
-
       X = x; //CoordY 默认值
     }
 
@@ -161,6 +158,20 @@ namespace LightStudio.PokemonBattle.Game.Host
     public bool HasType(BattleType type)
     {
       return Type1 == type || Type2 == type;
+    }
+    
+    private int GetState(StatType type)
+    {
+      return PokemonStatHelper.GetStat(type, Pokemon.Nature, PokemonType.GetBaseStat(type), (byte)Pokemon.Iv.GetStat(type), (byte)Pokemon.Ev.GetStat(type), (byte)Pokemon.Lv);
+    }
+    public void ChangeForm(PokemonType type)
+    {
+      PokemonType = type;
+      _weight = type.Weight;
+      _type1 = type.Type1;
+      _type2 = type.Type2;
+      Ability = type.GetAbility(Pokemon.AbilityIndex).Id;
+      Static.Set5D(GetState(StatType.Atk), GetState(StatType.Def), GetState(StatType.SpAtk), GetState(StatType.SpDef), GetState(StatType.Speed));
     }
   }
 }

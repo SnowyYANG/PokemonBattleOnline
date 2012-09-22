@@ -17,6 +17,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     { get; internal set; }
     public int CTLv;
     public int TotalDamage;
+    public bool Gem;
     public bool MeFirst;
     public Tile EjectButton;
     public bool FailAll;

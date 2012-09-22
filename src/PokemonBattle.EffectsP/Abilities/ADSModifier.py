@@ -91,7 +91,7 @@ A(QuickFeet(101))
 
 class Unburden(a_s):
     def SModifier(self, pm):
-        if pm.Pokemon.Item == None and pm.OnboardPokemon.HasCondition('Unburden'):
+        if pm.Pokemon.Item == None and pm.OnboardPokemon.HasCondition('HadItem'):
             return 0x2000
         return 0x1000
 A(Unburden(156))

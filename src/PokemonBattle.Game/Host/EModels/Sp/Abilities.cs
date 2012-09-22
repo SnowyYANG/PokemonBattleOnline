@@ -26,6 +26,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public const int LEVITATE = 66;
     public const int LIQUID_OOZE = 70;
     public const int MAGNET_PULL = 74;
+    public const int MULTITYPE = 82;
     public const int NATURAL_CURE = 84;
     public const int MOXIE = 88;
     public const int PICKUP = 92;
@@ -41,6 +42,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public const int SOLAR_POWER = 127;
     public const int SPEED_BOOST = 130;
     public const int STEADFAST = 133;
+    public const int STICKY_HOLD = 136;
     public const int STURDY = 138;
     public const int UNNERVE = 147;
     public const int TRACE = 152;
@@ -141,7 +143,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     public static bool StickyHold(this AbilityE ability)
     {
-      return ability.Id == 136;
+      return ability.Id == STICKY_HOLD;
     }
     public static bool SuctionCups(this AbilityE ability)
     {

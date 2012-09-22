@@ -153,7 +153,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         #region Check for Telepathy (and possibly other abilities)
         if (!atk.Attacker.Ability.IgnoreDefenderAbility()) //为了性能
           foreach (DefContext def in targets.ToArray())
-            if (!def.Defender.Ability.CanImplement(def)) targets.Add(def);
+            if (!def.Defender.Ability.CanImplement(def)) targets.Remove(def);
         #endregion
         #region Check for misses
         if (!atk.Attacker.Ability.NoGuard() && GetAccuracyBase(atk) < 0x65)
@@ -354,13 +354,13 @@ namespace LightStudio.PokemonBattle.Game.Host
     protected virtual void MoveEnding(AtkContext atk)
     {
       atk.Attacker.Action = Move.AdvancedFlags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done;
-      atk.Attacker.Item.Attach(atk.Attacker);
       if (atk.Targets != null)
         foreach (var d in atk.Targets)
         {
           d.Defender.Item.Attach(d.Defender);
           Abilities.RecoverAfterMoldBreaker(d.Defender);
         }
+      atk.Attacker.Item.Attach(atk.Attacker); //先树果汁后PP果
     }
   }
 }

@@ -65,3 +65,11 @@ class Telepathy(AbilityE):
             return False
         return True
 A(Telepathy(146))
+
+class StickyHold(AbilityE):
+    def CanImplement(self, d):
+        m = d.AtkContext.Move.Id
+        if m == 168 or m == 271 or m == 343 or m == 415:
+            self.Raise(d.Defender)
+            d.Defender.AddReportPm('NoEffect', None, None)
+A(StickyHold(136))

@@ -43,26 +43,6 @@ class DestinyBond(StatusMoveE):
         a.Attacker.AddReportPm('EnDestinyBond')
 M(DestinyBond(194))
 
-class Encore(StatusMoveE):
-    def Act(self, a):
-        der = a.Target.Defender
-        if der.AtkContext == None or der.AtkContext.Move == 227:
-            self.FailAll(a)
-        else:
-            move = der.AtkContext.Move
-            for m in der.Moves:
-                if m.Type == move:
-                    c = Condition()
-                    c.Turn = 3
-                    c.Move = move
-                    if der.AtkContext.MoveProxy.PP > 0 and der.OnboardPokemon.AddCondition('Encore', c):
-                        der.AddReportPm('EnEncore', None, None)
-                    else:
-                        self.FailAll(a)
-                    return
-            self.Fail(der)
-M(Encore(227))
-
 class PsychUp(StatusMoveE):
     def Act(self, a):
         der = a.Target.Defender
@@ -105,10 +85,8 @@ M(Wish(273))
 
 class MagicCoat(StatusMoveE):
     def Act(self, a):
-        if a.Attacker.OnboardPokemon.AddCondition('MagicCoat'):
-            a.Attacker.AddReportPm('EnMagicCoat')
-        else:
-            self.FailAll(a)
+        a.Attacker.OnboardPokemon.SetTurnCondition('MagicCoat')
+        a.Attacker.AddReportPm('EnMagicCoat')
 M(MagicCoat(277))
 
 class Imprison(StatusMoveE):
@@ -148,9 +126,11 @@ class HealingWish(StatusMoveE):
     def __init__(self, id, condition):
         self.Condition = condition
     def NotFail(self, a):
-        return a.Pokemon.Owner.PmsAlive > GameModeExtensions.OnboardPokemonsPerPlayer(a.Controller.GameSettings.Mode)
+        return a.Attacker.Pokemon.Owner.PmsAlive > GameModeExtensions.OnboardPokemonsPerPlayer(a.Controller.GameSettings.Mode)
     def Act(self, a):
-        print 'UNFINISHED'
+        a.Attacker.Tile.SetTurnCondition(self.Condition)
+        a.Attacker.Pokemon.SetHp(0)
+        a.Attacker.CheckFaint()
 M(HealingWish(361, 'HealingWish'))
 M(HealingWish(461, 'LunarDance')) #lunar dance
 
@@ -324,12 +304,12 @@ M(ReflectType(513))
 
 class Bestow(StatusMoveE):
     def NotFail(self, a):
-        return a.Attacker.Pokemon.Item != None and a.Attacker.CanLostItem
+        return not (a.Attacker.Pokemon.Item == None or Items.CantLostItem(a.Attacker.Pokemon))
     def Act(self, a):
         if a.Target.Defender.Pokemon.Item == None:
-            self.FailAll(a)
-        else:
             i = a.Attacker.Pokemon.Item.Id
             a.Attacker.Pokemon.Item = None
             a.Target.Defender.ChangeItem(i, 'Bestow', a.Attacker)
+        else:
+            self.FailAll(a)
 M(Bestow(516))

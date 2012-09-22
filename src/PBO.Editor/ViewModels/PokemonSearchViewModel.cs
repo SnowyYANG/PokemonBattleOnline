@@ -73,7 +73,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
             return (lowerName == null || pm.Name.ToLower().Contains(lowerName))
                 && (BattleType == null || pmType.Type1 == BattleType || pmType.Type2 == BattleType)
                 && (PokemonType == null || PokemonType == pmType)
-                && (Ability == null || pm.AbilityId == Ability.Id)
+                && (Ability == null || DataService.GetPokemonType(pm.PokemonTypeId).GetAbility(pm.AbilityIndex) == Ability)
                 && (Item == null || pm.ItemId == Item.Id);
           }).ToArray();
     }

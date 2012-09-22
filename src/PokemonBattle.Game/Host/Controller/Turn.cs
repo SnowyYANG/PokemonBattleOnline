@@ -132,9 +132,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         }
       SortTiles();
       foreach (Tile t in Tiles)
-        if (sendouts[t.Team, t.X]) sendouts[t.Team, t.X] = Controller.Board[t.Team].Debut(t.Pokemon);
-      foreach (Tile t in Tiles)
-        if (t.Pokemon != null) t.Pokemon.Debut();
+        if (sendouts[t.Team, t.X] && t.Pokemon != null) t.Pokemon.Debut();
       if (ReportBuilder.TurnNumber != 0) EndTurnCheckForInput();
     }
     private void NextTurn()

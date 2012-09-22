@@ -18,6 +18,10 @@ namespace LightStudio.PokemonBattle.Game
     public readonly int TeamId;
 
     #region data
+    internal readonly int AbilityIndex;
+    public readonly ReadOnly6D Iv;
+    public readonly ReadOnly6D Ev;
+
     public string Name { get; private set; }
     public PokemonType PokemonType { get; private set; }
     public PokemonGender Gender { get; private set; }
@@ -26,10 +30,9 @@ namespace LightStudio.PokemonBattle.Game
     public Move[] Moves { get; private set; }
     public byte Happiness { get; private set; }
     public PokemonNature Nature { get; private set; }
-
-    public readonly ReadOnly6D Base;
-    public readonly ReadOnly6D Iv;
-    public readonly ReadOnly6D Ev;
+    /// <summary>
+    /// for binding only
+    /// </summary>
     public ReadOnly6D Static { get; private set; }
 
     private PairValue hp;
@@ -48,17 +51,18 @@ namespace LightStudio.PokemonBattle.Game
       Happiness = custom.Happiness;
       Gender = custom.Gender;
       Lv = custom.Lv;
-      Ability = DataService.GetAbility(custom.AbilityId);
+      AbilityIndex = custom.AbilityIndex;
+      Ability = PokemonType.GetAbility(AbilityIndex);
       Nature = custom.Nature;
       Moves = custom.MoveIds.Select((m) => new Move(m, settings)).ToArray();
 
-      Base = new ReadOnly6D(PokemonType.BaseHp, PokemonType.BaseAtk, PokemonType.BaseDef, PokemonType.BaseSpAtk, PokemonType.BaseSpDef, PokemonType.BaseSpeed);
       Iv = new ReadOnly6D(custom.HpIv, custom.AtkIv, custom.DefIv, custom.SpAtkIv, custom.SpDefIv, custom.SpeedIv);
       Ev = new ReadOnly6D(custom.HpEv, custom.AtkEv, custom.DefEv, custom.SpAtkEv, custom.SpDefEv, custom.SpeedEv);
       Static = new ReadOnly6D(GetState(StatType.Hp), GetState(StatType.Atk), GetState(StatType.Def), GetState(StatType.SpAtk), GetState(StatType.SpDef), GetState(StatType.Speed));
       
       if (custom.ItemId.HasValue) Item = DataService.GetItem(custom.ItemId.Value);
-      hp = new PairValue(Static.Hp, Static.Hp, 48);
+      int h = PokemonStatHelper.GetHp(PokemonType.BaseHp, (byte)Iv.Hp, (byte)Ev.Hp, (byte)Lv);
+      hp = new PairValue(h, h, 48);
     }
 
     public int IndexInOwner
@@ -68,8 +72,7 @@ namespace LightStudio.PokemonBattle.Game
 
     private int GetState(StatType type)
     {
-      if (type == StatType.Hp) return PokemonStatHelper.GetHp(Base.Hp, (byte)Iv.Hp, (byte)Ev.Hp, (byte)Lv);
-      else return PokemonStatHelper.GetStat(type, Nature, Base.GetStat(type), (byte)Iv.GetStat(type), (byte)Ev.GetStat(type), (byte)Lv);
+      return PokemonStatHelper.GetStat(type, Nature, PokemonType.GetBaseStat(type), (byte)Iv.GetStat(type), (byte)Ev.GetStat(type), (byte)Lv);
     }
     public void SetHp(int value)
     {

@@ -35,5 +35,24 @@ namespace LightStudio.PokemonBattle.Game.Host
         return speed;
       }
     }
+
+    internal void Debut()
+    {
+      var pm = Pokemon;
+      bool s = !(pm.State == PokemonState.Normal && pm.Hp == pm.Pokemon.Hp.Origin);
+      if (s && HasCondition("HealingWish"))
+      {
+        pm.Pokemon.SetHp(pm.Pokemon.Hp.Origin);
+        pm.Pokemon.State = PokemonState.Normal;
+        pm.Controller.ReportBuilder.Add(new GameEvents.HLLD(pm, false));
+      }
+      else if ((s || pm.Pokemon.Moves.Any((m) => m.PP.Origin != m.PP.Value)) && HasCondition("LunarDance"))
+      {
+        pm.Pokemon.SetHp(pm.Pokemon.Hp.Origin);
+        pm.Pokemon.State = PokemonState.Normal;
+        foreach (var m in pm.Moves) m.PP = m.Move.PP.Origin;
+        pm.Controller.ReportBuilder.Add(new GameEvents.HLLD(pm, true));
+      }
+    }
   }
 }

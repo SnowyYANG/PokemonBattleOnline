@@ -33,7 +33,7 @@ namespace LightStudio.PokemonBattle.Data
             PokemonType pmType = DataService.GetPokemonType(pm.PokemonTypeId);
             if (pmType == null)
                 return false;
-            if (!pmType.Abilities.Contains(pm.AbilityId))
+            if (pm.AbilityIndex < 0 || pm.AbilityIndex >= pmType.Abilities.Count)
                 return false;
             if (!ValidateEv(pm))
                 return false;

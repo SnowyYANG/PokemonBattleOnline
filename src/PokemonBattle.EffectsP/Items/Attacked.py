@@ -6,12 +6,13 @@ I(RockyHelmet(104))
 
 class AirBalloon(ItemE):
     def Attacked(self, d):
-        d.Defender.Pokemon.Item = None
+        d.Defender.RemoveItem()
         d.Defender.AddReportPm('DeBalloon', None, None)
 I(AirBalloon(105))
+print 'WARNING: AirBalloon is wrong, consider substitute'
 
 class EnigmaBerry(ItemE):
     def Attacked(self, d):
         if d.EffectRevise > 0:
             d.Defender.HpRecoverByOneNth(4, False, 'ItemRecover', 188, True)
-I(EnigmaBerry(188))            
+I(EnigmaBerry(188))

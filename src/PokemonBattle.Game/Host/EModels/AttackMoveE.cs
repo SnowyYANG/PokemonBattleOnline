@@ -63,9 +63,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       do
       {
         hits++;
-        if (Move.Class != MoveInnerClass.OHKO)
-          foreach (DefContext d in atk.Targets) CalculateDamage(d);
-        if (aer.UsingItem) aer.RaiseItem();
+        CalculateDamages(atk);
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
       }
@@ -147,6 +145,14 @@ namespace LightStudio.PokemonBattle.Game.Host
       BattleType a = def.AtkContext.Type;
       OnboardPokemon der = def.Defender.OnboardPokemon;
       def.EffectRevise = a == BattleType.Ground && def.Defender.Item.IronBall() && der.HasType(BattleType.Flying)? 0 : CalculateEffectRevise(a, der.Type1, der.Type2);
+    }
+    protected virtual void CalculateDamages(AtkContext atk)
+    {
+      if (Move.Class != MoveInnerClass.OHKO)
+      {
+        Items.CheckGem(atk);
+        foreach (DefContext d in atk.Targets) CalculateDamage(d);
+      }
     }
     protected virtual void CalculateDamage(DefContext def)
     {

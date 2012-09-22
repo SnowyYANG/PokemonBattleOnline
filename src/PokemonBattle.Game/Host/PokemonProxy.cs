@@ -144,12 +144,12 @@ namespace LightStudio.PokemonBattle.Game.Host
       AddReport(new AbilityEvent(this, oldAb, ab));
       Ability.Attach(this);
     }
-    public void ChangeItem(int item, string log, PokemonProxy itemLoser = null) //lost and found
+    public void ChangeItem(int item, string log, PokemonProxy itemLoser = null, bool attach = true) //lost and found
     {
       UsingItem = false;
       Pokemon.Item = DataService.GetItem(item);
       Controller.ReportBuilder.Add(new GetItem(this, log, itemLoser));
-      Item.Attach(this);
+      if (attach) Item.Attach(this);
       OnboardPokemon.RemoveCondition("Unburden");
     }
     public void BuildAtkContext(MoveType move)
@@ -230,11 +230,9 @@ namespace LightStudio.PokemonBattle.Game.Host
         return !
           (
           i == null ||
-          i.Mail() ||
-          Items.PlatedArceus(Pokemon) ||
+          Items.CantLostItem(Pokemon) ||
           Ability.StickyHold()
           );
-#warning TODO: more
       }
     }
     internal bool CanExecute()
@@ -290,6 +288,9 @@ namespace LightStudio.PokemonBattle.Game.Host
           goto CONDITION;
         case AttachedState.LeechSeed:
           if (OnboardPokemon.HasType(BattleType.Grass)) goto NOEFFECT;
+          goto CONDITION;
+        case AttachedState.Embargo:
+          if (OnboardPokemon.Ability == Abilities.MULTITYPE) goto NOEFFECT;
           goto CONDITION;
         case AttachedState.PerishSong:
           return !OnboardPokemon.HasCondition("PerishSong"); //无需判断防音 never show fail
@@ -387,8 +388,13 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (Action == PokemonAction.Debuting)
       {
-        Ability.Attach(this);
-        Items.AirBalloon(this); Item.Attach(this);
+        Tile.Debut();
+        Controller.Board[Pokemon.TeamId].Debut(this);
+        if (!CheckFaint())
+        {
+          Ability.Attach(this);
+          Items.AirBalloon(this); Item.Attach(this);
+        }
         Action = PokemonAction.Done;
       }
     }
@@ -463,12 +469,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     #endregion
 
     #region ChangeHp
-    public void ChangeHp(int change, string log, int arg1 = 0, int arg2 = 0)
-    {
-      Pokemon.SetHp(Hp + change);
-      Controller.ReportBuilder.Add(new HpChange(this, log, arg1, arg2));
-      if (!CheckFaint()) Item.HpChanged(this);
-    }
     public int MoveHurt(int damage)
     {
       if (damage >= Hp)
@@ -526,16 +526,20 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     #endregion
 
-    public void ConsumeItem()
+    public void RemoveItem()
     {
 #if DEBUG
       if (Pokemon.Item == null) System.Diagnostics.Debugger.Break();
 #endif
-      OnboardPokemon.SetTurnCondition("UsedItem", Pokemon.Item);
+      Pokemon.Item = null;
       if (Ability.Unburden()) OnboardPokemon.SetCondition("Unburden");
+    }
+    public void ConsumeItem()
+    {
+      OnboardPokemon.SetTurnCondition("UsedItem", Pokemon.Item);
       Controller.Board[Pokemon.TeamId].SetCondition("UsedItem" + Id, Pokemon.Item);
       if (Pokemon.Item.Type == ItemType.Berry) Controller.Board[Pokemon.TeamId].SetCondition("UsedBerry" + Id, Pokemon.Item);
-      Pokemon.Item = null;
+      RemoveItem();
     }
     public bool CheckFaint()
     {

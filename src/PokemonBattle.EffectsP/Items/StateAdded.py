@@ -31,7 +31,7 @@ class PersimBerry(ItemE):
         if pm.OnboardPokemon.HasCondition('Confused'):
             pm.ConsumeItem()
             pm.OnboardPokemon.RemoveCondition('Confused')
-            pm.Controller.ReportBuilder.Add(UseItem('ItemDeConfused', pm, 136, 0))
+            pm.Controller.ReportBuilder.Add(RemoveItem('ItemDeConfused', pm, 136, 0))
     def Attach(self, pm):
         PerisimBerry.e(self, pm)
     def StateAdded(self, pm, by, state):

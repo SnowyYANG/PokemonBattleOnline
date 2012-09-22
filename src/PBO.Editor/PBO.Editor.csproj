@@ -123,7 +123,6 @@
     <Compile Include="Converters\AvailableAbilitiesC.cs" />
     <Compile Include="Converters\AvailableGendersC.cs" />
     <Compile Include="DragDrop\RecyclerDropTarget.cs" />
-    <Compile Include="Converters\IdAbilityC.cs" />
     <Compile Include="Converters\FrontImageC.cs" />
     <Compile Include="ViewModels\EditingPokemonViewModel.cs" />
     <Compile Include="PokemonEditorView.xaml.cs">

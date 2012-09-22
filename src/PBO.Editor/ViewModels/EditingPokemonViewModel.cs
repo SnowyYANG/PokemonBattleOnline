@@ -137,6 +137,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
             Model.PropertyChanged += Model_PropertyChanged;
           }
           else Model = null;
+          OnPropertyChanged("PokemonType");
           OnPropertyChanged(null);
         }
       }

@@ -479,18 +479,19 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             var i = p.OnboardPokemon.GetCondition<Item>("UsedItem");
             if (i != null) items.Add(i);
           }
-          if (items.Count == 0)
-          {
+          if (items.FirstOrDefault() == null)
             foreach (var p in c.Board[pm.Pokemon.TeamId].Pokemons)
               if (p != pm)
               {
                 var i = p.OnboardPokemon.GetCondition<Item>("UsedItem");
                 if (i != null) items.Add(i);
               }
+          if (items.FirstOrDefault() != null)
+          {
+            var item = items[c.GetRandomInt(0, items.Count - 1)].Id;
+            pm.RaiseAbility();
+            pm.ChangeItem(item, "Pickup");
           }
-          var item = items[c.GetRandomInt(0, items.Count - 1)].Id;
-          pm.RaiseAbility();
-          pm.ChangeItem(item, "Pickup");
         }
         pm.CheckFaint();
       }

@@ -17,6 +17,5 @@ namespace LightStudio.PokemonBattle.Game.Host
     Moving,
     Done,
     Stiff,
-    Faint
   }
 }

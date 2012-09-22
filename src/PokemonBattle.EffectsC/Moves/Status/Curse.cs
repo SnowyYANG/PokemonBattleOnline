@@ -15,15 +15,18 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
 
     protected override void Act(AtkContext atk)
     {
-      if (atk.Attacker.OnboardPokemon.HasType(BattleType.Ghost))
+      var aer = atk.Attacker;
+      if (aer.OnboardPokemon.HasType(BattleType.Ghost))
       {
         if (atk.Target.Defender.OnboardPokemon.AddCondition("Curse"))
         {
-          atk.Attacker.ChangeHp(-(atk.Attacker.Pokemon.Hp.Origin >> 1), "EnCurse", atk.Target.Defender.Id);
+          aer.Pokemon.SetHp(aer.Hp - (aer.Pokemon.Hp.Origin >> 1));
+          atk.Controller.ReportBuilder.Add(new GameEvents.HpChange(aer, "EnCurse", atk.Target.Defender.Id));
+          aer.CheckFaint();
         }
-        else atk.Attacker.AddReportPm("Fail0");
+        else aer.AddReportPm("Fail0");
       }
-      else atk.Attacker.ChangeLv7D(atk.Attacker, true, 1, 1, 0, 0, -1);
+      else aer.ChangeLv7D(aer, true, 1, 1, 0, 0, -1);
     }
     protected override MoveRange GetRange(AtkContext atk)
     {

@@ -34,9 +34,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     {
       PokemonProxy aer = atk.Attacker;
       int atkTeam = aer.Pokemon.TeamId;
-      if (Move.Class != MoveInnerClass.OHKO)
-        foreach (DefContext d in atk.Targets) CalculateDamage(d);
-      if (aer.UsingItem) aer.RaiseItem();
+      CalculateDamages(atk);
       aer.Pokemon.SetHp(0);
       aer.CheckFaint();
       Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));

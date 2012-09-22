@@ -57,61 +57,27 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       return item.Id == 55;
     }
-
-    public static bool Mail(this Item item)
-    {
-      return item.Id == 194;
-    }
     
-    private static readonly BattleType[] PLATE_TYPE = new BattleType[] { BattleType.Fire, BattleType.Water, BattleType.Electric, BattleType.Grass, BattleType.Ice, BattleType.Fighting, BattleType.Poison, BattleType.Ground, BattleType.Flying, BattleType.Psychic, BattleType.Bug, BattleType.Rock, BattleType.Ghost, BattleType.Dragon, BattleType.Dark, BattleType.Steel };
+    private static readonly BattleType[] TYPES = new BattleType[] { BattleType.Fire, BattleType.Water, BattleType.Electric, BattleType.Grass, BattleType.Ice, BattleType.Fighting, BattleType.Poison, BattleType.Ground, BattleType.Flying, BattleType.Psychic, BattleType.Bug, BattleType.Rock, BattleType.Ghost, BattleType.Dragon, BattleType.Dark, BattleType.Steel, BattleType.Normal };
+    public static BattleType PlateType(Item item)
+    {
+      return item != null && item.Id > 74 && item.Id < 91 ? BattleType.Normal : TYPES[item.Id - 75];
+    }
     public static bool PlatedArceus(Pokemon pm)
     {
       return pm.PokemonType.Number == 493 && pm.Item.Id > 74 && pm.Item.Id < 91;
     }
-    public static BattleType PlateType(Item item)
+    public static bool CantLostItem(Pokemon pm)
     {
-      return item != null && item.Id > 74 && item.Id < 91 ? BattleType.Normal : PLATE_TYPE[item.Id - 75];
+      return
+        !(
+        pm.Item.Id == 194 ||
+        pm.PokemonType.Number == 487 && pm.Item.Id == 1 || //giratina
+        PlatedArceus(pm) ||
+        pm.PokemonType.Number == 649 && pm.Item.Id > 97 && pm.Item.Id < 102 //genesect
+        );
     }
-    public static void MentalHerb(PokemonProxy pm)
-    {
-      var o = pm.OnboardPokemon;
-      bool consume = false;
-      if (o.HasCondition("Infatuation"))
-      {
-        o.RemoveCondition("Infatuation");
-        pm.AddReportPm("ItemDeInfatuation", 8);
-        consume = true;
-      }
-      if (o.HasCondition("Encore"))
-      {
-        o.RemoveCondition("Encore");
-        pm.AddReportPm("DeEncore");
-        consume = true;
-      }
-      if (o.HasCondition("Taunt"))
-      {
-        o.RemoveCondition("Taunt");
-        pm.AddReportPm("DeTaunt");
-        consume = true;
-      }
-      if (o.HasCondition("Torment"))
-      {
-        o.RemoveCondition("Torment");
-        pm.AddReportPm("DeTorment");
-        consume = true;
-      }
-      if (o.HasCondition("Disable"))
-      {
-        o.RemoveCondition("Disable");
-        pm.AddReportPm("DeDisable");
-        consume = true;
-      }
-      if (consume)
-      {
-        pm.Controller.ReportBuilder.Add(new GameEvents.UseItem(null, pm));
-        pm.ConsumeItem();
-      }
-    }
+
     public static void WhiteHerb(PokemonProxy pm)
     {
       if (pm.Item.Id == 5)
@@ -193,7 +159,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       const int SHELL_BELL = 35;
       var pm = atk.Attacker;
-      if (pm.Item.Id == SHELL_BELL) pm.HpRecoverByOneNth(atk.TotalDamage >> 3, false, "ItemRecover", SHELL_BELL);
+      if (pm.Item.Id == SHELL_BELL)
+      {
+        if (atk.TotalDamage != 0)
+          pm.HpRecoverByOneNth(atk.TotalDamage >> 3, false, "ItemRecover", SHELL_BELL);
+      }
       else if (pm.Item.Id == LIFE_ORB)
       {
         pm.EffectHurtByOneNth(10, "LifeOrb");
@@ -230,6 +200,18 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         return true;
       }
       return false;
+    }
+
+    internal static void CheckGem(AtkContext atk)
+    {
+      var i = atk.Attacker.Item.Id;
+      if (i > 111 && i < 129 && TYPES[i - 112] == atk.Type)
+      {
+        atk.Gem = true;
+        atk.Controller.ReportBuilder.Add(new GameEvents.RemoveItem("Gem", atk.Attacker, i, atk.Move.Id));
+        atk.Attacker.ConsumeItem();
+      }
+      else atk.Gem = false;
     }
   }
 }

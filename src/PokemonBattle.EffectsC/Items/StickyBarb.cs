@@ -18,7 +18,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Items
       var aer = def.AtkContext.Attacker;
       if (aer.Pokemon.Item == null && def.AtkContext.Move.AdvancedFlags.NeedTouch && der.Controller.RandomHappen(10))
       {
-        der.Pokemon.Item = null;
+        der.RemoveItem();
         aer.ChangeItem(65, null, aer);
       }
     }

@@ -33,15 +33,16 @@ namespace LightStudio.PokemonBattle.Game.Host
 #if DEBUG
       if (key == null) System.Diagnostics.Debugger.Break();
 #endif
-      pm.Controller.ReportBuilder.Add(new GameEvents.UseItem(key, pm, Item.Id));
+      if (Item.Type == ItemType.Normal) pm.AddReportPm(key, Item.Id);
+      else
+      {
+        pm.ConsumeItem();
+        pm.Controller.ReportBuilder.Add(new GameEvents.RemoveItem(key, pm, Item.Id));
+      }
     }
     public void Raise(PokemonProxy pm, string key) //不必包含虫食、啄食、投掷
     {
-      if (pm.Pokemon.Item == Item) //奇妙的单实例道具
-      {
-        RaiseImplement(pm, key);
-        if (Item.Type != ItemType.Normal) pm.ConsumeItem();
-      }
+      if (pm.Pokemon.Item == Item) RaiseImplement(pm, key);
     }
 
     public virtual void Attach(PokemonProxy pm) { }

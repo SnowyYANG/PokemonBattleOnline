@@ -30,7 +30,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
 
     protected override void Update()
     {
-      AppendGameLog(Log, Pm, Move, Change);
+      AppendGameLog(Log, Pm, Move, Math.Abs(Change));
     }
     public override void Update(SimGame game)
     {

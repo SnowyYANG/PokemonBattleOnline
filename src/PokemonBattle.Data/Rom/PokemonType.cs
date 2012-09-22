@@ -21,6 +21,10 @@ namespace LightStudio.PokemonBattle.Data
     public int Number
     { get; private set; }
 
+    [DataMember(EmitDefaultValue = false)]
+    public int Form
+    { get; private set; }
+
     #region Stats
 
     [DataMember]
@@ -55,7 +59,7 @@ namespace LightStudio.PokemonBattle.Data
     public BattleType Type2 { get; private set; }
 
     [DataMember]
-    public Collection<int> Abilities { get; private set; }
+    internal Collection<int> Abilities { get; private set; }
 
     [DataMember]
     public double Height { get; private set; }
@@ -95,6 +99,30 @@ namespace LightStudio.PokemonBattle.Data
     public Ability[] GetAvailableAbilities()
     {
       return Abilities.Select(id => DataService.GetAbility(id)).ToArray();
+    }
+    public Ability GetAbility(int index)
+    {
+      return DataService.GetAbility(Abilities[index]);
+    }
+    public int GetBaseStat(StatType stat)
+    {
+      switch (stat)
+      {
+        case StatType.Hp:
+          return BaseHp;
+        case StatType.Atk:
+          return BaseAtk;
+        case StatType.Def:
+          return BaseDef;
+        case StatType.SpAtk:
+          return BaseSpAtk;
+        case StatType.SpDef:
+          return BaseSpDef;
+        case StatType.Speed:
+          return BaseSpeed;
+        default:
+          throw new Exception("PokemonType.GetStat");
+      }
     }
   }
 }
