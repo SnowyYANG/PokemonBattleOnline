@@ -173,7 +173,21 @@ namespace LightStudio.PokemonBattle.Game.Host
       _type1 = type.Type1;
       _type2 = type.Type2;
       Ability = type.GetAbility(Pokemon.AbilityIndex).Id;
-      Static.Set5D(GetState(StatType.Atk), GetState(StatType.Def), GetState(StatType.SpAtk), GetState(StatType.SpDef), GetState(StatType.Speed));
+      Static.Atk = GetState(StatType.Atk);
+      Static.SpAtk = GetState(StatType.SpAtk);
+      Static.Speed = GetState(StatType.Speed);
+      var d = GetState(StatType.Def);
+      var sd = GetState(StatType.SpDef);
+      if (HasCondition("WonderRoom"))
+      {
+        Static.Def = sd;
+        Static.SpDef = d;
+      }
+      else
+      {
+        Static.Def = d;
+        Static.Speed = sd;
+      }
     }
   }
 }
