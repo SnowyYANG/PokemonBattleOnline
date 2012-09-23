@@ -211,10 +211,10 @@
 <a:KeyValueOfstringanyType><a:Key>IngrainCantMove</a:Key><a:Value i:type="LogText"><text>{0:p}扎下了根，不能移动！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnBide</a:Key><a:Value i:type="LogText"><text>{0:p}正在克制自己……
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeBide</a:Key><a:Value i:type="LogText"><text>{0:p}把累积的愤怒释放了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnSnatch</a:Key><a:Value i:type="LogText"><text>{0:p}抢走了{1:p}的技能！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Snatch</a:Key><a:Value i:type="LogText"><text>{0:p}被魔装反射包住了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnMagicCoat</a:Key><a:Value i:type="LogText"><text>{0:p}将{1:m}反弹了回去！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>MagicCoat</a:Key><a:Value i:type="LogText"><text>{0:p}把{1:m}吹跑了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnSnatch</a:Key><a:Value i:type="LogText"><text>{0:p}在观察对手的行动！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Snatch</a:Key><a:Value i:type="LogText"><text>{0:p}{1:p}的技能！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnMagicCoat</a:Key><a:Value i:type="LogText"><text>{0:p}被魔装反射包住了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>MagicCoat</a:Key><a:Value i:type="LogText"><text>{0:p}将{1:m}反弹了回去！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SelfWithdraw</a:Key><a:Value i:type="LogText"><text>{0:pm.Name}回到了{1:P}身边！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>PowerTrick</a:Key><a:Value i:type="LogText"><text>{0:p}的攻击和防御交换了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EatDefenderBerry</a:Key><a:Value i:type="LogText"><text>{0:p}夺取了{1:i}，开始吃了！

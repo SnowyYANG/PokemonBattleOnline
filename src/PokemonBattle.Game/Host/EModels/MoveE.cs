@@ -226,14 +226,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     private bool HasEffect_NonGround(DefContext def)
     {
-      var a = def.AtkContext.Type;
-      var der = def.Defender.OnboardPokemon;
-      return !(
-        ((a == BattleType.Normal || a == BattleType.Fighting) && der.HasType(BattleType.Ghost) && !def.AtkContext.Attacker.Ability.Scrappy()) ||
-        (a == BattleType.Electric && der.HasType(BattleType.Ground)) ||
-        (a == BattleType.Poison && der.HasType(BattleType.Steel)) ||
-        (a == BattleType.Psychic && der.HasType(BattleType.Dark)) ||
-        (a == BattleType.Ghost && der.HasType(BattleType.Normal)));
+      var type = def.AtkContext.Type.NoEffect();
+      return !(type == BattleType.Ghost ? def.AtkContext.Attacker.Ability.Scrappy() : def.Defender.OnboardPokemon.HasType(type));
     }
     protected virtual bool HasEffect(DefContext def)
     {

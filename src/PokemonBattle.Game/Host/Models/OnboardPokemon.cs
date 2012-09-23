@@ -133,6 +133,17 @@ namespace LightStudio.PokemonBattle.Game.Host
 #endif
       }
     }
+    public void SetLv7D(StatType stat, int lv)
+    {
+      if (stat == StatType.Accuracy) AccuracyLv = lv;
+      else if (stat == StatType.Evasion) EvasionLv = lv;
+      else
+      {
+        if (lv > 6) lv = 6;
+        else if (lv < -6) lv = -6;
+        lv5D.SetStat(stat, lv);
+      }
+    }
     private int FilterLv7D(int? lv, int formerLv)
     {
       if (lv.HasValue)
@@ -186,7 +197,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       else
       {
         Static.Def = d;
-        Static.Speed = sd;
+        Static.SpDef = sd;
       }
     }
   }

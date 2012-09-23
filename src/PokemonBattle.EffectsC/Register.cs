@@ -48,6 +48,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Splash(150));
       M(new BigBang(153));
       M(new Rest(156));
+      M(new Conversion(160));
       M(new Substitute(164));
       M(new Thief(168));
       M(new Curse(174));

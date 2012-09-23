@@ -50,10 +50,11 @@ A(Soundproof(129))
 class WonderGuard(AbilityE):
     def CanImplement(self, d):
         type = d.AtkContext.Type
-        if (d.AtkContext.Move.MoveCategory == MoveCategory.Status and Moves.ThunderWave(d.AtkContext.Move)) or type == BattleType.Flying or type == BattleType.Rock or type == BattleType.Ghost or type == BattleType.Fire or type == BattleType.Dark:
+        der = d.Defender
+        if (d.AtkContext.Move.MoveCategory == MoveCategory.Status and Moves.ThunderWave(d.AtkContext.Move)) or BattleTypeHelper.EffectRevise(type, der.OnboardPokemon.Type1, der.OnboardPokemon.Type2) > 0:
             return True
-        self.Raise(d.Defender)
-        d.Defender.AddReportPm('NoEffect', None, None)
+        self.Raise(der)
+        der.AddReportPm('NoEffect', None, None)
         return False
 A(WonderGuard(164))
 
@@ -72,4 +73,16 @@ class StickyHold(AbilityE):
         if m == 168 or m == 271 or m == 343 or m == 415:
             self.Raise(d.Defender)
             d.Defender.AddReportPm('NoEffect', None, None)
+            return False
+        return True
 A(StickyHold(136))
+
+class SuctionCups(AbilityE):
+    def CanImplement(self, d):
+        if d.AtkContext.Move.Class == MoveInnerClass.ForceToShift:
+            self.Raise(d.Defender)
+            d.Defender.AddReportPm('SuctionCups')
+            return False
+        return True
+A(SuctionCups(139))
+print 'WARNING: MoveInnerClass.ForceToShift'

@@ -1,18 +1,11 @@
-class FocusEnergy(StatusMoveE):
+class PmAddState(StatusMoveE):
     def Act(self, a):
-        if a.Attacker.OnboardPokemon.AddCondition('FocusEnergy'):
-            a.Attacker.AddReportPm('EnFocusEnergy')
+        if a.Attacker.OnboardPokemon.AddCondition(self.Condition):
+            a.Attacker.AddReportPm('En' + self.Condition)
         else:
             self.FailAll(a)
-M(FocusEnergy(116))
-
-class Conversion(StatusMoveE):
-    def Act(self, a):
-        t = a.Attacker.Moves[a.Controller.GetRandomInt(0, a.Attacker.Moves.Length - 1)].Type.Type
-        a.Attacker.OnboardPokemon.Type1 = t
-        a.Attacker.OnboardPokemon.Type2 = BattleType.Invalid
-        a.Attacker.AddReportPm('TypeChange', t)
-M(Conversion(160))
+M(PmAddState(116, 'FocusEnergy'))
+M(PmAddState(286, 'Imprison'))
 
 class LockOn(StatusMoveE):
     def Act(self, a):
@@ -37,18 +30,23 @@ class BellyDrum(StatusMoveE):
         aer.Controller.ReportBuilder.Add(HpChange(aer, 'BellyDrum', 0, 0))
 M(BellyDrum(187))
 
-class DestinyBond(StatusMoveE):
+class KOedCondition(StatusMoveE):
+    def __new__(cls, id, condition):
+        return StatusMoveE.__new__(cls, id)
+    def __init__(self, id, condition):
+        self.Condition = condition
     def Act(self, a):
-        a.Attacker.OnboardPokemon.SetCondition('DestinyBond')
-        a.Attacker.AddReportPm('EnDestinyBond')
-M(DestinyBond(194))
+        a.Attacker.Tile.SetCondition(self.Condition)
+        a.Attacker.AddReportPm('En' + self.Condition)
+M(KOedCondition(194, 'DestinyBond'))
+M(KOedCondition(288, 'Grudge'))
 
 class PsychUp(StatusMoveE):
     def Act(self, a):
-        der = a.Target.Defender
-        lv5d = der.OnboardPokemon.Lv5D
+        der = a.Target.Defender.OnboardPokemon
+        lv5d = der.Lv5D
         a.Attacker.OnboardPokemon.SetLv7D(lv5d.Atk, lv5d.SpAtk, lv5d.Def, lv5d.SpDef, lv5d.Speed, der.AccuracyLv, der.EvasionLv)
-        a.Attacker.AddReportPm('PsychUp', der)
+        a.Attacker.AddReportPm('PsychUp', a.Target.Defender)
 M(PsychUp(244))
 
 class Memento(StatusMoveE):
@@ -89,26 +87,12 @@ class MagicCoat(StatusMoveE):
         a.Attacker.AddReportPm('EnMagicCoat')
 M(MagicCoat(277))
 
-class Imprison(StatusMoveE):
-    def Act(self, a):
-        if a.Attacker.OnboardPokemon.AddCondition('Imprison'):
-            a.Attacker.AddReportPm('EnImprison')
-        else:
-            self.FailAll(a)
-M(Imprison(286))
-
 class Refresh(StatusMoveE):
     def NotFail(self, a):
         return a.Attacker.State != PokemonState.Normal
     def Act(self, a):
         a.Attacker.DeAbnormalState(False)
 M(Refresh(287))
-
-class Grudge(StatusMoveE):
-    def Act(self, a):
-        a.Attacker.OnboardPokemon.SetCondition('Grudge')
-        a.Attacker.AddReportPm('EnGrudge')
-M(Grudge(288))
 
 class Camouflage(StatusMoveE):
     def NotFail(self, a):
@@ -177,44 +161,24 @@ class GastroAcid(StatusMoveE):
         else:
             self.FailAll(a)
 M(GastroAcid(380))
-        
-class PowerSwap(StatusMoveE):
-    def Act(self, a):
-        aer = a.Attacker.OnboardPokemon
-        der = a.Target.Defender.OnboardPokemon
-        aa = aer.Lv5D.Atk
-        asa = aer.Lv5D.SpAtk
-        aer.SetLv7D(der.Lv5D.Atk, None, der.Lv5D.SpAtk, None, None, None, None)
-        der.SetLv7D(aa, None, asa, None, None, None, None)
-        a.Controller.ReportBuilder.Add('PowerSwap', a.Attacker, a.Target.Defender)
-M(PowerSwap(384))
 
-class GuardSwap(StatusMoveE):
+class StatSwap(StatusMoveE):
+    def __new__(cls, id, log, stats):
+        return StatusMoveE.__init__(cls, id)
+    def __init__(self, id, log, stats):
+        self.Log = log
+        self.Stats = stats
     def Act(self, a):
         aer = a.Attacker.OnboardPokemon
         der = a.Target.Defender.OnboardPokemon
-        ad = aer.Lv5D.Def
-        asd = aer.Lv5D.SpDef
-        aer.SetLv7D(None, der.Lv5D.Def, None, der.Lv5D.SpDef, None, None, None)
-        der.SetLv7D(None, ad, None, asd, None, None, None)
-        a.Controller.ReportBuilder.Add('GuardSwap', a.Attacker, a.Target.Defender)
-M(GuardSwap(385))
-
-class HeartSwap(StatusMoveE):
-    def Act(self, a):
-        aer = a.Attacker.OnboardPokemon
-        der = a.Target.Defender.OnboardPokemon
-        aa = aer.Lv5D.Atk
-        ad = aer.Lv5D.Def
-        asa = aer.Lv5D.SpAtk
-        asd = aer.Lv5D.SpDef
-        aspeed = aer.Lv5D.Speed
-        aacc = aer.AccuracyLv
-        aeva = aer.EvasionLv
-        aer.SetLv7D(der.Lv5D.Atk, der.Lv5D.Def, der.Lv5D.SpAtk, der.Lv5D.SpDef, der.Lv5D.Speed, der.AccuracyLv, der.EvasionLv)
-        der.SetLv7D(aa, ad, asa, asd, aspeed, aacc, aeva)
-        a.Controller.ReportBuilder.Add('HeartSwap', a.Attacker, a.Target.Defender)
-M(HeartSwap(391))
+        for s in self.Stats:
+            t = der.Lv5D.GetStat(s)
+            der.SetLv7D(s, aer.Lv5D.GetStat(s))
+            aer.SetLv7D(s, t)
+        a.Controller.ReportBuilder.Add(self.Log, a.Attacker, a.Target.Defender)
+M(StatSwap(384, 'PowerSwap', (StatType.Atk, StatType.SpAtk))) 
+M(StatSwap(385, 'GuardSwap', (StatType.Def, StatType.SpDef)))
+M(StatSwap(391, 'HeartSwap', (StatType.Atk, StatType.Def, StatType.SpAtk, StatType.SpDef, StatType.Speed, StatType.AccuracyLv, StatType.EvasionLv)))
 
 class AquaRing(StatusMoveE):
     def Act(self, a):

@@ -71,7 +71,7 @@ class Anticipation(AbilityE):
     def Attach(self, pm):
         for p in pm.Controller.Board[1-pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
             for m in p.Moves:
-                if m.Type.Class == MoveInnerClass.OHKO or AttackMoveE.CalculateEffectRevise(m.Type.Type, pm.OnboardPokemon.Type1, pm.OnboardPokemon.Type2) > 0:
+                if m.Type.Class == MoveInnerClass.OHKO or BattleTypeHelper.EffectRevise(m.Type.Type, pm.OnboardPokemon.Type1, pm.OnboardPokemon.Type2) > 0:
                     self.Raise(pm)
                     pm.AddReportPm('Anticipation', None, None)
                     return

@@ -32,28 +32,25 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static void KOed(DefContext def)
     {
       var der = def.Defender;
-      if (der.Hp == 0)
+      var aer = def.AtkContext.Attacker;
+      if (der.OnboardPokemon.HasCondition("DestinyBond"))
       {
-        var aer = def.AtkContext.Attacker;
-        if (der.OnboardPokemon.HasCondition("DestinyBond"))
-        {
-          der.AddReportPm("DestinyBond"); //战报顺序已测
-          aer.Pokemon.SetHp(0);
-          aer.CheckFaint();
-        }
-        if (der.OnboardPokemon.HasCondition("Grudge"))
-        {
-          int formerPP = def.AtkContext.MoveProxy.PP;
-          def.AtkContext.MoveProxy.PP = 0;
-          aer.Controller.ReportBuilder.Add(new PPChange("Grudge", def.AtkContext.MoveProxy, formerPP));
-        }
-        if (aer.CanChangeLv7D(aer, StatType.Atk, 1, false) != 0 && aer.RaiseAbility(Abilities.MOXIE)) aer.ChangeLv7D(aer, false, 1);
+        der.AddReportPm("DestinyBond"); //战报顺序已测
+        aer.Pokemon.SetHp(0);
+        aer.CheckFaint();
       }
+      if (der.OnboardPokemon.HasCondition("Grudge"))
+      {
+        int formerPP = def.AtkContext.MoveProxy.PP;
+        def.AtkContext.MoveProxy.PP = 0;
+        aer.Controller.ReportBuilder.Add(new PPChange("Grudge", def.AtkContext.MoveProxy, formerPP));
+      }
+      if (aer.CanChangeLv7D(aer, StatType.Atk, 1, false) != 0 && aer.RaiseAbility(Abilities.MOXIE)) aer.ChangeLv7D(aer, false, 1);
     }
-    public static void WillActMove(PokemonProxy pm)
+    public static void WillAct(PokemonProxy pm)
     {
-      pm.OnboardPokemon.RemoveCondition("DestinyBond");
-      pm.OnboardPokemon.RemoveCondition("Grudge");
+      pm.Tile.RemoveCondition("DestinyBond");
+      pm.Tile.RemoveCondition("Grudge");
     }
     public static void Withdrawing(PokemonProxy pm, bool canPursuit)
     {

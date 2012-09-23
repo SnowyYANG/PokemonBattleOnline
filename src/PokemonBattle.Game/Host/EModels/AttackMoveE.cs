@@ -10,13 +10,9 @@ namespace LightStudio.PokemonBattle.Game.Host
 {
   public class AttackMoveE : MoveE
   {
-    protected static readonly sbyte[,] BATTLE_TYPE_EFFECT = new sbyte[18, 18] { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 1, 0, -1, -1, 0, 1, -1, 0, 1, 0, 0, 0, 0, -1, 1, 0, 1 }, { 0, 0, 1, 0, 0, 0, -1, 1, 0, -1, 0, 0, 1, -1, 0, 0, 0, 0 }, { 0, 0, 0, 0, -1, -1, -1, 0, -1, 0, 0, 0, 1, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 1, 0, 1, -1, 0, 1, 1, 0, -1, 1, 0, 0, 0, 0 }, { 0, 0, -1, 1, 0, -1, 0, 1, 0, -1, 1, 0, 0, 0, 0, 1, 0, 0 }, { 0, 0, -1, -1, -1, 0, 0, 0, -1, -1, -1, 0, 1, 0, 1, 0, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 1, 0, 0, -1 }, { 0, 0, 0, 0, 0, 0, 1, 0, 0, -1, -1, -1, 0, -1, 0, 1, 0, 0 }, { 0, 0, 0, 0, 0, 0, -1, 1, 0, 1, -1, -1, 1, 0, 0, 1, -1, 0 }, { 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, -1, -1, 0, 0, 0, -1, 0 }, { 0, 0, 0, -1, -1, 1, 1, -1, 0, -1, -1, 1, -1, 0, 0, 0, -1, 0 }, { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, -1, -1, 0, 0, -1, 0 }, { 0, 0, 1, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0 }, { 0, 0, 0, 1, 0, 1, 0, 0, 0, -1, -1, -1, 1, 0, 0, -1, 1, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 1, 0 }, { 0, 0, -1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 1, 0, 0, -1 } };
     protected static readonly int[] TIMES25 = new int[8] { 2, 2, 2, 3, 3, 3, 4, 5 };
     protected static readonly int[] LV_CT = { 16, 8, 4, 3, 2, 0 };
-    public static int CalculateEffectRevise(BattleType a, BattleType d1, BattleType d2)
-    {
-      return BATTLE_TYPE_EFFECT[(int)a, (int)d1] + BATTLE_TYPE_EFFECT[(int)a, (int)d2];
-    }
+
     public static void DamagePercentage(DefContext def, sbyte percentage)
     {
       var aer = def.AtkContext.Attacker;
@@ -144,7 +140,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       BattleType a = def.AtkContext.Type;
       OnboardPokemon der = def.Defender.OnboardPokemon;
-      def.EffectRevise = a == BattleType.Ground && def.Defender.Item.IronBall() && der.HasType(BattleType.Flying)? 0 : CalculateEffectRevise(a, der.Type1, der.Type2);
+      def.EffectRevise = a == BattleType.Ground && def.Defender.Item.IronBall() && der.HasType(BattleType.Flying)? 0 : a.EffectRevise(der.Type1, der.Type2);
     }
     protected virtual void CalculateDamages(AtkContext atk)
     {
@@ -304,8 +300,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       d.Item.Attacked(def);
       if (d.OnboardPokemon.HasCondition("Rage")) d.ChangeLv7D(d, StatType.Atk, 1, false, "Rage");
       atk.Attacker.CheckFaint();
-      d.CheckFaint();
-      Triggers.KOed(def);
+      if (d.CheckFaint()) Triggers.KOed(def);
       if (Move.MaxTimes > 1) d.Item.HpChanged(d);
     }
     protected virtual void PostEffect(AtkContext atk)

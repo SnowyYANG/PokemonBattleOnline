@@ -154,7 +154,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         }
         public override void Debut(PokemonProxy pm)
         {
-          int revise = AttackMoveE.CalculateEffectRevise(BattleType.Rock, pm.OnboardPokemon.Type1, pm.OnboardPokemon.Type2);//羽栖有效无效都无所谓
+          int revise = BattleType.Rock.EffectRevise(pm.OnboardPokemon.Type1) + BattleType.Rock.EffectRevise(pm.OnboardPokemon.Type2);//羽栖有效无效都无所谓
           int hp = (revise > 0 ? pm.Pokemon.Hp.Origin << revise : pm.Pokemon.Hp.Origin >> -revise) >> 3;
           if (pm.CanEffectHurt) pm.EffectHurt(hp, "StealthRock");
         }

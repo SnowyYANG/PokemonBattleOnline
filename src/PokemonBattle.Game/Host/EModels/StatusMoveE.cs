@@ -28,6 +28,13 @@ namespace LightStudio.PokemonBattle.Game.Host
               Fail(d);
               targets.Remove(d);
             }
+        if (Move.Class == MoveInnerClass.ForceToShift)
+          foreach(DefContext d in targets.ToArray())
+            if (d.Defender.OnboardPokemon.HasCondition("Ingrain"))
+            {
+              d.Defender.AddReportPm("IngrainCantMove");
+              targets.Remove(d);
+            }
         atk.SetTargets(targets);
       }
     }

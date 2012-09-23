@@ -167,6 +167,30 @@ namespace LightStudio.PokemonBattle.Game
       }
       return value;
     }
+    public void SetStat(StatType type, int value)
+    {
+      switch (type)
+      {
+        case StatType.Hp:
+          Hp = value;
+          break;
+        case StatType.Atk:
+          Atk = value;
+          break;
+        case StatType.Def:
+          Def = value;
+          break;
+        case StatType.SpAtk:
+          SpAtk = value;
+          break;
+        case StatType.SpDef:
+          SpDef = value;
+          break;
+        case StatType.Speed:
+          Speed = value;
+          break;
+      }
+    }
 
     public void Set6D(SixD values)
     {

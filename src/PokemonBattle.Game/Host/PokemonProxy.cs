@@ -405,6 +405,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (Action == PokemonAction.WillSwitch)
       {
+        Triggers.WillAct(this);
         Action = PokemonAction.Switching;
         Tile tile = Tile;
         if (Controller.Withdraw(this)) //追击，无论死没死都已经收回了
@@ -417,47 +418,49 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     internal void ActMove()
     {
-      if (!CanActMove) return;
-      LastActTurn = Controller.TurnNumber;
-      Triggers.WillActMove(this);
-      switch (Action)
+      if (CanActMove)
       {
-        case PokemonAction.Stiff:
-          AddReportPm("Stiff");
-          Action = PokemonAction.Done;
-          break;
-        case PokemonAction.Moving:
-          bool c = CanExecute();
-          Sp.Moves.SkyDrop(AtkContext);
-          if (c) AtkContext.Execute();
-          else Action = PokemonAction.Done;
-          break;
-        case PokemonAction.MoveAttached:
-          if (CanExecute() && SelectedMove.CanExecute())
-          {
-            _atkContext = null; //考虑下要不要拿到花括号外面或者删掉
-            SelectedMove.Execute();
-            var o = OnboardPokemon.GetCondition("LastMove");
-            if (o == null)
-            {
-              o = new Condition();
-              o.Move = AtkContext.Move;
-              OnboardPokemon.SetCondition("LastMove", o);
-            }
-            else if (o.Move != AtkContext.Move)
-            {
-              o.Move = AtkContext.Move;
-              o.Int = 0;
-            }
-            if (AtkContext.FailAll) o.Int = 0;
-            else o.Int++;
-          }
-          else
-          {
-            OnboardPokemon.RemoveCondition("LastMove");
+        LastActTurn = Controller.TurnNumber;
+        Triggers.WillAct(this);
+        switch (Action)
+        {
+          case PokemonAction.Stiff:
+            AddReportPm("Stiff");
             Action = PokemonAction.Done;
-          }
-          break;
+            break;
+          case PokemonAction.Moving:
+            bool c = CanExecute();
+            Sp.Moves.SkyDrop(AtkContext);
+            if (c) AtkContext.Execute();
+            else Action = PokemonAction.Done;
+            break;
+          case PokemonAction.MoveAttached:
+            if (CanExecute() && SelectedMove.CanExecute())
+            {
+              _atkContext = null; //考虑下要不要拿到花括号外面或者删掉
+              SelectedMove.Execute();
+              var o = OnboardPokemon.GetCondition("LastMove");
+              if (o == null)
+              {
+                o = new Condition();
+                o.Move = AtkContext.Move;
+                OnboardPokemon.SetCondition("LastMove", o);
+              }
+              else if (o.Move != AtkContext.Move)
+              {
+                o.Move = AtkContext.Move;
+                o.Int = 0;
+              }
+              if (AtkContext.FailAll) o.Int = 0;
+              else o.Int++;
+            }
+            else
+            {
+              OnboardPokemon.RemoveCondition("LastMove");
+              Action = PokemonAction.Done;
+            }
+            break;
+        } //switch(Action)
       }
     }
     internal PokemonOutward GetOutward()
