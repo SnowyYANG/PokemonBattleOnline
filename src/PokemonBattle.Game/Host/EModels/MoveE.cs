@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       var der = def.Defender;
       var c = der.Controller;
-      if (def.AtkContext.Attacker.Tile != null && der.Hp != 0 && c.CanWithdraw(der) && !def.Ability.SuctionCups() && !der.OnboardPokemon.HasCondition("Ingrain"))
+      if (!(def.AtkContext.Attacker.Tile == null || der.Hp == 0 || !c.CanWithdraw(der) || def.Ability.SuctionCups() || der.OnboardPokemon.HasCondition("Ingrain")))
       {
         var sendouts = new List<int>();
         {

@@ -83,7 +83,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>InfatuationWork</a:Key><a:Value i:type="LogText"><text>{0:p}因为着迷而无法行动
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeInfatuation</a:Key><a:Value i:type="LogText"><text>{0:p}的着迷解除了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>StateReset</a:Key><a:Value i:type="LogText"><text>{0:p}的状态恢复正常了
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Confused</a:Key><a:Value i:type="LogText"><text>{0:p}混乱了
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Confused</a:Key><a:Value i:type="LogText"><text>{0:p}混乱了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeConfused</a:Key><a:Value i:type="LogText"><text>{0:p}的混乱解除了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>BeenConfused</a:Key><a:Value i:type="LogText"><text>{0:p}已经混乱了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CantConfused</a:Key><a:Value i:type="LogText"><text>{0:p}不会混乱！

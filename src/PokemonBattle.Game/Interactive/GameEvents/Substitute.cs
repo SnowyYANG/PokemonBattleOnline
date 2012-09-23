@@ -28,13 +28,27 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     {
       var pm = Game.GetPokemon(Pm);
       pm.IsSubstitute = !De;
-      if (De) pm.HideSubstitute();
+      if (De)
+      {
+        pm.HideSubstitute();
+        AppendGameLog("DeSubstitute", Pm);
+      }
       else
       {
-        pm.Hp.Value -= pm.Hp.Origin >> 2;
+        var hp = -(pm.Hp.Origin >> 2);
+        pm.Hp.Value += hp;
         pm.ShowSubstitute();
+        AppendGameLog("EnSubstitute", Pm);
+        AppendGameLog("Hp", hp);
       }
-      AppendGameLog(De ? "DeSubstitute" : "EnSubstitute", Pm);
+    }
+    public override void Update(SimGame game)
+    {
+      if (!De)
+      {
+        var pm = GetPokemon(game, Pm);
+        if (pm != null) pm.SetHp(pm.Hp.Value - (pm.Hp.Origin >> 2));
+      }
     }
   }
 }

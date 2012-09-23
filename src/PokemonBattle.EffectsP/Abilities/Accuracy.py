@@ -21,7 +21,7 @@ A(SnowCloak(125))
 
 class TangledFeet(AbilityE):
     def AccuracyModifier(self, d):
-        if d.Defender.OnboardPokemon.HasCondition('Confuse'):
+        if d.Defender.OnboardPokemon.HasCondition('Confused'):
             return 0xccc
         return 0x1000
 A(TangledFeet(144))

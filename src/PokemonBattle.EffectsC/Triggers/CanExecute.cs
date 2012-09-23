@@ -21,7 +21,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         Truant(pm) &&
         Imprison(pm) &&
         HealBlock(pm) &&
-        Confuse(pm) &&
+        Confused(pm) &&
         Flinch(pm) &&
           //挑拨 
           //重力  
@@ -117,19 +117,19 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
       return true;
     }
-    private static bool Confuse(PokemonProxy pm)
+    private static bool Confused(PokemonProxy pm)
     {
-      int count = pm.OnboardPokemon.GetCondition<int>("Confuse");
+      int count = pm.OnboardPokemon.GetCondition<int>("Confused");
       if (count != 0)
       {
         if (--count > 0)
         {
           pm.AddReportPm("Confused");
-          pm.OnboardPokemon.SetCondition("Confuse", count);
+          pm.OnboardPokemon.SetCondition("Confused", count);
         }
         else
         {
-          pm.OnboardPokemon.RemoveCondition("confuse");
+          pm.OnboardPokemon.RemoveCondition("confused");
           pm.AddReportPm("DeConfused");
         }
         if (pm.Controller.OneNth(2))

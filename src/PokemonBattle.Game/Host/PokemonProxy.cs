@@ -168,7 +168,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       get
       {
         if (Item.ShedShell()) return true;
-        if (OnboardPokemon.HasCondition("Ingrain") || OnboardPokemon.HasCondition("CantWithdraw")) return false;
+        if (OnboardPokemon.HasCondition("Ingrain") || OnboardPokemon.HasCondition("CantSelectWithdraw")) return false;
         bool arenaTrap = false, magnetPull = false, shadowTag = false;
         foreach (var pm in Controller.GetOnboardPokemons(1 - Pokemon.TeamId))
         {
