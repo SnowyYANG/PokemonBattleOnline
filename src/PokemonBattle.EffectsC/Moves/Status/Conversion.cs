@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     {
       var aer = atk.Attacker;
       var type1 = aer.OnboardPokemon.Type1;
-      var type2 = Data.BattleType.Invalid;
+      var type2 = aer.OnboardPokemon.Type2;
       var ms = (from m in aer.Moves
                where !(m.Type.Id == Move.Id || m.Type.Type == type1 || m.Type.Type == type2)
                select m.Type.Type).ToArray();
