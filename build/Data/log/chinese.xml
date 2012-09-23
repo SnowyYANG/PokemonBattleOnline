@@ -375,7 +375,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Gem</a:Key><a:Value i:type="LogText"><text>{1:i}提升了{2:m}的威力！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnZenMode</a:Key><a:Value i:type="LogText"><text>{0:p}的不倒翁模式发动！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeZenMode</a:Key><a:Value i:type="LogText"><text>{0:p}的不倒翁模式解除！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ForceWithdraw</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>（{0:p}强制下场）
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ForceWithdraw</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>（{1:p}强制下场）
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>AbChange</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>（{0:p}的特性从{1:a}变成了{2:a}）
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Ability</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:a}——</text></a:Value></a:KeyValueOfstringanyType>
 </logs></GameLogs>

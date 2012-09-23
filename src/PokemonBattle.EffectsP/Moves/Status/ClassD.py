@@ -1,4 +1,8 @@
 class PmAddState(StatusMoveE):
+    def __new__(cls, id, condition):
+        return StatusMoveE.__new__(cls, id)
+    def __init__(self, id, condition):
+        self.Condition = condition
     def Act(self, a):
         if a.Attacker.OnboardPokemon.AddCondition(self.Condition):
             a.Attacker.AddReportPm('En' + self.Condition)
@@ -164,7 +168,7 @@ M(GastroAcid(380))
 
 class StatSwap(StatusMoveE):
     def __new__(cls, id, log, stats):
-        return StatusMoveE.__init__(cls, id)
+        return StatusMoveE.__new__(cls, id)
     def __init__(self, id, log, stats):
         self.Log = log
         self.Stats = stats
@@ -178,7 +182,7 @@ class StatSwap(StatusMoveE):
         a.Controller.ReportBuilder.Add(self.Log, a.Attacker, a.Target.Defender)
 M(StatSwap(384, 'PowerSwap', (StatType.Atk, StatType.SpAtk))) 
 M(StatSwap(385, 'GuardSwap', (StatType.Def, StatType.SpDef)))
-M(StatSwap(391, 'HeartSwap', (StatType.Atk, StatType.Def, StatType.SpAtk, StatType.SpDef, StatType.Speed, StatType.AccuracyLv, StatType.EvasionLv)))
+M(StatSwap(391, 'HeartSwap', (StatType.Atk, StatType.Def, StatType.SpAtk, StatType.SpDef, StatType.Speed, StatType.Accuracy, StatType.Evasion)))
 
 class AquaRing(StatusMoveE):
     def Act(self, a):
