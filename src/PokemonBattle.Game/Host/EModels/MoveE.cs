@@ -153,7 +153,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         #region Check for Telepathy (and possibly other abilities)
         if (!atk.Attacker.Ability.IgnoreDefenderAbility()) //为了性能
           foreach (DefContext def in targets.ToArray())
-            if (!def.Defender.Ability.CanImplement(def)) targets.Remove(def);
+            if (def.Defender != atk.Attacker && !def.Defender.Ability.CanImplement(def)) targets.Remove(def);
         #endregion
         #region Check for misses
         if (!atk.Attacker.Ability.NoGuard() && GetAccuracyBase(atk) < 0x65)

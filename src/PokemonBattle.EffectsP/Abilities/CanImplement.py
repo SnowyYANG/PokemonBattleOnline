@@ -51,7 +51,7 @@ class WonderGuard(AbilityE):
     def CanImplement(self, d):
         type = d.AtkContext.Type
         der = d.Defender
-        if (d.AtkContext.Move.MoveCategory == MoveCategory.Status and Moves.ThunderWave(d.AtkContext.Move)) or BattleTypeHelper.EffectRevise(type, der.OnboardPokemon.Type1, der.OnboardPokemon.Type2) > 0:
+        if (d.AtkContext.Move.Category == MoveCategory.Status and Moves.ThunderWave(d.AtkContext.Move)) or BattleTypeHelper.EffectRevise(type, der.OnboardPokemon.Type1, der.OnboardPokemon.Type2) > 0:
             return True
         self.Raise(der)
         der.AddReportPm('NoEffect', None, None)

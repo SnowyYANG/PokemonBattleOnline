@@ -42,27 +42,26 @@ I(Up1Berry(184, StatType.SpAtk)) #petaya berry
 I(Up1Berry(185, StatType.SpDef)) #apicot berry
 
 class StarfBerry(ItemE):
-    def e(pm):
-        if not Abilities.Gluttony(pm):
-            return
-        ss = []
-        if pm.CanChangeLv7D(pm, StatType.Atk, 2, False) != 0:
-            ss.append(StatType.Atk)
-        if pm.CanChangeLv7D(pm, StatType.Def, 2, False) != 0:
-            ss.append(StatType.Def)
-        if pm.CanChangeLv7D(pm, StatType.SpAtk, 2, False) != 0:
-            ss.append(StatType.SpAtk)
-        if pm.CanChangeLv7D(pm, StatType.SpDef, 2, False) != 0:
-            ss.append(StatType.SpDef)
-        if pm.CanChangeLv7D(pm, StatType.Speed, 2, False) != 0:
-            ss.append(StatType.Speed)
-        n = len(ss)
-        if n != 0:
-            item_changelv5d(pm, ss[pm.Controller.GetRandomInt(0, n - 1)], 2)
+    def e(self, pm):
+        if Abilities.Gluttony(pm):
+            ss = []
+            if pm.CanChangeLv7D(pm, StatType.Atk, 2, False) != 0:
+                ss.append(StatType.Atk)
+            if pm.CanChangeLv7D(pm, StatType.Def, 2, False) != 0:
+                ss.append(StatType.Def)
+            if pm.CanChangeLv7D(pm, StatType.SpAtk, 2, False) != 0:
+                ss.append(StatType.SpAtk)
+            if pm.CanChangeLv7D(pm, StatType.SpDef, 2, False) != 0:
+                ss.append(StatType.SpDef)
+            if pm.CanChangeLv7D(pm, StatType.Speed, 2, False) != 0:
+                ss.append(StatType.Speed)
+            n = len(ss)
+            if n != 0:
+                item_changelv5d(pm, ss[pm.Controller.GetRandomInt(0, n - 1)], 2)
     def Attach(self, pm):
-        StarfBerry.e(pm)
+        self.e(pm)
     def HpChanged(self, pm):
-        StarfBerry.e(pm)
+        self.e(pm)
 I(StarfBerry(187))
 
 class AttackedUpItem(ItemE):

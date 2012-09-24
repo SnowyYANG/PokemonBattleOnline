@@ -656,7 +656,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           goto POKEMON_STATE;
         case AttachedState.Confusion:
           OnboardPokemon.SetCondition("Confused", turn == 0 ? Controller.GetRandomInt(2, 5) : turn);
-          AddReportPm(log ?? "EnConfused");
+          AddReportPm(log ?? "Confused");
           goto DONE;
         case AttachedState.Infatuation:
           OnboardPokemon.SetCondition("Infatuation", by);
