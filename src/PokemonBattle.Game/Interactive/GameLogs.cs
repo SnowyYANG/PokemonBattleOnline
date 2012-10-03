@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using LightStudio.Tactic.DataModels.IO;
+using LightStudio.Tactic.DataModels;
 
 namespace LightStudio.PokemonBattle.Game
 {
@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Game
   }
   
   [KnownType(typeof(LogText))]
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class GameLogs : SimpleData
   {
     public static GameLogs Load(string language)

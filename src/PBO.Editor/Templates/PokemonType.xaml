@@ -12,15 +12,7 @@
                     <ToolTip.Template>
                         <ControlTemplate>
                             <Border Background="#C0ffffff">
-                                <Image Height="32" Width="32">
-                                    <Image.Source>
-                                        <Binding Path="Id">
-                                            <Binding.Converter>
-                                                <c:IdIconConverter/>
-                                            </Binding.Converter>
-                                        </Binding>
-                                    </Image.Source>
-                                </Image>
+                                <Image Height="32" Width="32" Source="{Binding Icon}"/>
                             </Border>
                         </ControlTemplate>
                     </ToolTip.Template>

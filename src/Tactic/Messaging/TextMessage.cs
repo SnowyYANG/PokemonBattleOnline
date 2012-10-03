@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 namespace LightStudio.Tactic.Messaging
 {
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class TextMessage : IMessage
   {
     private string content;

@@ -42,12 +42,12 @@ class EffectSpore(t_a):
         if a.Controller.RandomHappen(10):
             i = a.Controller.GetRandomInt(0, 2)
             if i == 0:
-                state = AttachedState.Paralysis
+                state = AttachedState.PAR
             else:
                 if i == 1:
-                    state = AttachedState.Sleep
+                    state = AttachedState.SLP
                 else:
-                    state = AttachedState.Poison
+                    state = AttachedState.PSN
             if a.Attacker.CanAddState(d.Defender, state, False):
                 self.Raise(d.Defender)
                 a.Attacker.AddState(d.Defender, state, False)
@@ -80,10 +80,10 @@ class AttackedAddState(t_a):
         if d.AtkContext.Attacker.CanAddState(d.Defender, self.State, False) and d.AtkContext.Controller.RandomHappen(30):
             self.Raise(d.Defender)
             d.AtkContext.Attacker.AddState(d.Defender, self.State, False, 0)
-A(AttackedAddState(19, AttachedState.Infatuation)) #cute charm
-A(AttackedAddState(33, AttachedState.Burn)) #flame body
-A(AttackedAddState(97, AttachedState.Poison)) #poison point
-A(AttackedAddState(132, AttachedState.Paralysis)) #static
+A(AttackedAddState(19, AttachedState.Attract)) #cute charm
+A(AttackedAddState(33, AttachedState.BRN)) #flame body
+A(AttackedAddState(97, AttachedState.PSN)) #poison point
+A(AttackedAddState(132, AttachedState.PAR)) #static
 
 class Rattled(AbilityE):
     def Attacked(self, d):

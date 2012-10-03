@@ -30,7 +30,6 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     public void Init()
     {
       DataContext = Editor.CurrentEditor;
-      EditorConfig.Init(); //总觉得不对头..
     }
 
     public bool Window_Closing()

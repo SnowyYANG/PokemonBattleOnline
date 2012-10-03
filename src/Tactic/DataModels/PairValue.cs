@@ -20,7 +20,7 @@ namespace LightStudio
     #endregion
   }
 
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class PairValue : IPairValue
   {
     private static readonly PropertyChangedEventArgs ALL = new PropertyChangedEventArgs(null);

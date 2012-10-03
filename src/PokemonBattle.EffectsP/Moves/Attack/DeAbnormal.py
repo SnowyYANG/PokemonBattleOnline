@@ -11,5 +11,5 @@ class DeAbnormalState(AttackMoveE):
     def ImplementEffect(self, d):
         if d.AtkContext.Attacker.Tile != None and d.Defender.State == self.State:
             d.Defender.DeAbnormalState(False)
-M(DeAbnormalState(265, PokemonState.Paralyzed)) #smelling salt
-M(DeAbnormalState(358, PokemonState.Sleeping)) #wake-up slap
+M(DeAbnormalState(265, PokemonState.PAR)) #smelling salt
+M(DeAbnormalState(358, PokemonState.SLP)) #wake-up slap

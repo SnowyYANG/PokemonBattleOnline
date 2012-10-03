@@ -54,22 +54,10 @@
     <Compile Include="DataModels\IText.cs" />
     <Compile Include="DataModels\PairValue.cs" />
     <Compile Include="Messaging\ClientService.cs" />
-    <Compile Include="DataModels\IO\DataCollection.cs" />
-    <Compile Include="DataModels\IO\DataDirectory.cs" />
-    <Compile Include="DataModels\IO\DataFile.cs" />
-    <Compile Include="DataModels\IO\DataItem.cs" />
-    <Compile Include="DataModels\IO\DirectoryBase.cs" />
-    <Compile Include="DataModels\IO\FileHelper.cs" />
-    <Compile Include="DataModels\IO\IDirectory.cs" />
-    <Compile Include="DataModels\IO\IFile.cs" />
-    <Compile Include="DataModels\IO\PathHelper.cs" />
-    <Compile Include="DataModels\IO\RootDirectory.cs" />
-    <Compile Include="DataModels\IO\SimpleData.cs" />
-    <Compile Include="DataModels\IO\XmlFormatter.cs" />
+    <Compile Include="DataModels\SimpleData.cs" />
     <Compile Include="DataModels\GameElement.cs" />
     <Compile Include="extensions.cs" />
-    <Compile Include="Globalization\IDomainStringService.cs" />
-    <Compile Include="Globalization\IStringService.cs" />
+    <Compile Include="Globalization\DomainStringService.cs" />
     <Compile Include="Globalization\LanguagePack.cs" />
     <Compile Include="Globalization\StringService.cs" />
     <Compile Include="Messaging\Factory.cs" />
@@ -134,7 +122,9 @@
     <Compile Include="Threading\SyncObject.cs" />
     <Compile Include="Threading\UIDispatcher.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DataModels\IO\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

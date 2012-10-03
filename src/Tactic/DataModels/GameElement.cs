@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace LightStudio.Tactic.DataModels
 {
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class GameElement
   {
     public const string DESCRIPTION_FORMAT = "{0}_Des";

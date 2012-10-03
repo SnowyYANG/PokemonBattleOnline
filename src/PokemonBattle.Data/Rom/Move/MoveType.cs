@@ -7,7 +7,7 @@ using LightStudio.Tactic.DataModels;
 
 namespace LightStudio.PokemonBattle.Data
 {
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class MoveType : GameElement
   {
     [DataMember]
@@ -40,10 +40,18 @@ namespace LightStudio.PokemonBattle.Data
     [DataMember]
     public MoveTypeAdvancedFlags AdvancedFlags { get; private set; }
 
+#if DEBUG
+    public MoveType(int id)
+      : base(id)
+    {
+
+    }
+#else
     private MoveType(int id)
       : base(id)
     {
     }
+#endif
 
     [DataMember]
     public int Accuracy { get; private set; }

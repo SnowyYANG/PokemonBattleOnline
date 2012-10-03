@@ -51,32 +51,32 @@ class CantAddState(AbilityE):
         if state == self.AtState:
             if showFail:
                 self.Raise(pm)
-                pm.AddReportPm('Cant' + self.AtState.ToString(), None, None)
+                pm.AddReportPm('Cant' + self.AtState.ToString())
             return False
         return True
-A(CantAddState(60, PokemonState.Sleeping, AttachedState.Sleep)) #insomnia
-A(CantAddState(158, PokemonState.Sleeping, AttachedState.Sleep)) #vital spirit
-A(CantAddState(69, PokemonState.Paralyzed, AttachedState.Paralysis)) #limber
-A(CantAddState(73, PokemonState.Frozen, AttachedState.Freeze)) #magma armour
-A(CantAddState(161, PokemonState.Burned, AttachedState.Burn)) #water veil
+A(CantAddState(60, PokemonState.SLP, AttachedState.SLP)) #insomnia
+A(CantAddState(158, PokemonState.SLP, AttachedState.SLP)) #vital spirit
+A(CantAddState(69, PokemonState.PAR, AttachedState.PAR)) #limber
+A(CantAddState(73, PokemonState.FRZ, AttachedState.FRZ)) #magma armour
+A(CantAddState(161, PokemonState.BRN, AttachedState.BRN)) #water veil
 
 class Immunity(AbilityE):
     def Attach(self, pm):
-        if pm.State == PokemonState.Poisoned or pm.STate == PokemonState.BadlyPoisoned:
+        if pm.State == PokemonState.PSN or pm.State == PokemonState.BadlyPSN:
             self.Raise(pm)
             pm.DeAbnormalState(False)
     def CanAddState(self, pm, by, state, showFail):
-        if state == AttachedState.Poison:
+        if state == AttachedState.PSN:
             if showFail:
                 self.Raise(pm)
-                pm.AddReportPm('CantPoisoned', None, None)
+                pm.AddReportPm('CantPSN', None, None)
             return False
         return True
 A(Immunity(57))
 
 class LeafGuard(AbilityE):
     def CanAddState(self, pm, by, state, showFail):
-        if pm.Controller.Weather == Weather.IntenseSunlight and (state == AttachedState.Paralysis or state == AttachedState.Sleep or state == AttachedState.Freeze or state == AttachedState.Burn or state == AttachedState.Poison):
+        if pm.Controller.Weather == Weather.IntenseSunlight and (state == AttachedState.PAR or state == AttachedState.SLP or state == AttachedState.FRZ or state == AttachedState.BRN or state == AttachedState.PSN):
             if showFail:
                 self.Raise(pm)
                 pm.AddReportPm('Cant' + state.ToString(), None, None)
@@ -86,30 +86,30 @@ A(LeafGuard(65))
 
 class OwnTempo(AbilityE):
     def Attach(self, pm):
-        if pm.OnboardPokemon.HasCondition('Confused'):
+        if pm.OnboardPokemon.HasCondition('Confuse'):
             self.Raise(pm)
-            pm.OnboardPokemon.RemoveCondition('Confused')
-            pm.AddReportPm('DeConfused')
+            pm.OnboardPokemon.RemoveCondition('Confuse')
+            pm.AddReportPm('DeConfuse')
     def CanAddState(self, pm, by, state, showFail):
         if state == AttachedState.Confusion:
             if showFail:
                 self.Raise(pm)
-                pm.AddReportPm('CantConfused', None, None)
+                pm.AddReportPm('CantConfuse', None, None)
             return False
         return True
 A(OwnTempo(90))
 
 class Oblivious(AbilityE):
     def Attach(self, pm):
-        if pm.OnboardPokemon.HasCondition('Infatuation'):
+        if pm.OnboardPokemon.HasCondition('Attract'):
             self.Raise(pm)
-            pm.OnboardPokemon.RemoveCondition('Infatuation')
-            pm.AddReportPm('DeInfatuation', None, None)
+            pm.OnboardPokemon.RemoveCondition('Attract')
+            pm.AddReportPm('DeAttract', None, None)
     def CanAddState(self, pm, by, state, showFail):
-        if state == AttachedState.Infatuation:
+        if state == AttachedState.Attract:
             if showFail:
                 self.Raise(pm)
-                pm.AddReportPm('CantInfatuation', None, None)
+                pm.AddReportPm('CantAttract', None, None)
             return False
         return True
 A(Oblivious(87))

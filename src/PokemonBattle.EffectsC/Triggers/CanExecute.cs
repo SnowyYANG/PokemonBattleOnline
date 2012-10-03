@@ -21,11 +21,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         Truant(pm) &&
         Imprison(pm) &&
         HealBlock(pm) &&
-        Confused(pm) &&
+        Confuse(pm) &&
         Flinch(pm) &&
           //挑拨 
           //重力  
-        Infatuation(pm) &&
+        Attract(pm) &&
         Paralyzed(pm) &&
         FocusPunch(pm);
     }
@@ -35,20 +35,20 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     }
     private static bool Sleeping(PokemonProxy pm)
     {
-      if (pm.State == PokemonState.Sleeping)
+      if (pm.State == PokemonState.SLP)
       {
-        int count = pm.OnboardPokemon.GetCondition<int>("Sleeping");
+        int count = pm.OnboardPokemon.GetCondition<int>("SLP");
         count--;
         if (pm.Ability.EarlyBird()) count--;
         if (count <= 0)
         {
-          pm.OnboardPokemon.RemoveCondition("Sleeping");
+          pm.OnboardPokemon.RemoveCondition("SLP");
           pm.DeAbnormalState();
         }
         else
         {
-          pm.OnboardPokemon.SetCondition("Sleeping", count);
-          AddResetYReport(pm, "Sleeping");
+          pm.OnboardPokemon.SetCondition("SLP", count);
+          AddResetYReport(pm, "SLP");
           if (!pm.SelectedMove.AvailableEvenSleeping()) return false;
         }
       }
@@ -56,16 +56,16 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     }
     private static bool Frozen(PokemonProxy p)
     {
-      if (p.State == PokemonState.Frozen)
+      if (p.State == PokemonState.FRZ)
       {
         if (p.SelectedMove.Type.AdvancedFlags.AvailableEvenFrozen || p.Controller.GetRandomInt(0, 3) == 0)
         {
           p.Pokemon.State = PokemonState.Normal;
-          p.Controller.ReportBuilder.Add(new StateChange(p, "DeFrozen2"));
+          p.Controller.ReportBuilder.Add(new StateChange(p, "DeFRZ2"));
         }
         else
         {
-          AddResetYReport(p, "Frozen");
+          AddResetYReport(p, "FRZ");
           return false;
         }
       }
@@ -117,26 +117,26 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
       return true;
     }
-    private static bool Confused(PokemonProxy pm)
+    private static bool Confuse(PokemonProxy pm)
     {
-      int count = pm.OnboardPokemon.GetCondition<int>("Confused");
+      int count = pm.OnboardPokemon.GetCondition<int>("Confuse");
       if (count != 0)
       {
         if (--count > 0)
         {
-          pm.AddReportPm("Confused");
-          pm.OnboardPokemon.SetCondition("Confused", count);
+          pm.AddReportPm("Confuse");
+          pm.OnboardPokemon.SetCondition("Confuse", count);
         }
         else
         {
-          pm.OnboardPokemon.RemoveCondition("confused");
-          pm.AddReportPm("DeConfused");
+          pm.OnboardPokemon.RemoveCondition("confuse");
+          pm.AddReportPm("DeConfuse");
         }
         if (pm.Controller.OneNth(2))
         {
-          var e = new GameEvents.HpChange(pm, "ConfusedWork") { ResetY = true };
+          var e = new GameEvents.HpChange(pm, "ConfuseWork") { ResetY = true };
           pm.Controller.ReportBuilder.Add(e);
-          pm.MoveHurt((pm.Pokemon.Lv * 2 / 5 + 2) * 40 * OnboardPokemon.Get5D(pm.OnboardPokemon.Static.Atk, pm.OnboardPokemon.Lv5D.Atk) / OnboardPokemon.Get5D(pm.OnboardPokemon.Static.Def, pm.OnboardPokemon.Lv5D.Def) / 50 + 2);
+          pm.MoveHurt((pm.Pokemon.Lv * 2 / 5 + 2) * 40 * OnboardPokemon.Get5D(pm.OnboardPokemon.FiveD.Atk, pm.OnboardPokemon.Lv5D.Atk) / OnboardPokemon.Get5D(pm.OnboardPokemon.FiveD.Def, pm.OnboardPokemon.Lv5D.Def) / 50 + 2);
           e.Hp = pm.Hp;
           if (!pm.CheckFaint()) pm.Item.HpChanged(pm);
           return false;
@@ -154,15 +154,15 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
       return true;
     }
-    private static bool Infatuation(PokemonProxy p)
+    private static bool Attract(PokemonProxy p)
     {
-      var pm = p.OnboardPokemon.GetCondition<PokemonProxy>("Infatuation");
+      var pm = p.OnboardPokemon.GetCondition<PokemonProxy>("Attract");
       if (pm != null)
       {
-        p.AddReportPm("Infatuation", pm);
+        p.AddReportPm("Attract", pm);
         if (p.Controller.RandomHappen(50))
         {
-          p.AddReportPm("InfatuationWork");
+          p.AddReportPm("AttractWork");
           return false;
         }
       }
@@ -170,11 +170,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     }
     private static bool Paralyzed(PokemonProxy p)
     {
-      if (p.State == PokemonState.Paralyzed)
+      if (p.State == PokemonState.PAR)
       {
         if (p.Controller.OneNth(4))
         {
-          AddResetYReport(p, "ParalyzedWork");
+          AddResetYReport(p, "PARWork");
           return false;
         }
       }

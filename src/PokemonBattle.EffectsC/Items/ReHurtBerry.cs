@@ -7,7 +7,7 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game.Host.Effects.Items
 {
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   class ReHurtBerryEvent : GameEvent
   {
     [DataMember]

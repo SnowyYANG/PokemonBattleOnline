@@ -5,9 +5,6 @@
                     xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements"
                     xmlns:c="clr-namespace:LightStudio.PokemonBattle.PBO.Converters">
     <Style x:Key="PokemonButton" TargetType="Button">
-        <Style.Resources>
-            <c:IdIconConverter x:Key="IconConverter"/>
-        </Style.Resources>
         <Setter Property="Template" Value="{x:Static ui:Buttons.GameButton}"/>
         <Setter Property="ContentTemplate">
             <Setter.Value>
@@ -27,7 +24,7 @@
                             Lv.<TextBlock Text="{Binding Lv}"/>
                         </TextBlock>
                         <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="12" Canvas.Top="31"/>
-                        <Image IsHitTestVisible="False" Source="{Binding PokemonType.Id,Converter={StaticResource IconConverter}}"  Width="32" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Right="-1"/>
+                        <Image IsHitTestVisible="False" Source="{Binding PokemonType}"  Width="32" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Right="-1"/>
                         <Image Name="item" Stretch="Uniform" Source="/PBO.UIElements;component/Images/item.png" Width="6" Height="8" Canvas.Left="16" Canvas.Top="23" SnapsToDevicePixels="True" />
                         <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" Width="75" Canvas.Left="30" Canvas.Top="5"/>
                         <ContentPresenter Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Right="8" Canvas.Top="3"/>

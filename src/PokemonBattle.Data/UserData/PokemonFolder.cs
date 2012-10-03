@@ -26,12 +26,7 @@ namespace LightStudio.PokemonBattle.Data
             {
                 if (_name != value)
                 {
-                    if (!string.IsNullOrWhiteSpace(value))
-                    {
-                        if (value.Length > UserDataRules.NameLength)
-                            value = value.Substring(0, UserDataRules.NameLength);
-                        _name = value;
-                    }
+                  _name = value;
                     OnPropertyChanged("Name");
                 }
             }

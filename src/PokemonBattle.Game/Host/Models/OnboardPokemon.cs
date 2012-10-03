@@ -24,7 +24,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     private readonly Pokemon Pokemon;
     public int X;
     public CoordY CoordY;
-    public PokemonType PokemonType;
+    public PokemonForme Forme;
     private BattleType _type1;
     public BattleType Type1
     {
@@ -47,8 +47,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public PokemonGender Gender;
     public int Ability; //特性交换用，不可为0，未必是有效的特性
-    public readonly SixD Static; //力量交换，包含性格修正，不包含等级修正
-    private readonly SixD lv5D;
+    public readonly Simple6D FiveD; //力量交换，包含性格修正，不包含等级修正
+    private readonly Simple6D lv5D;
     public I6D Lv5D
     { get { return lv5D; } }
     private int _accuracyLv;
@@ -88,49 +88,30 @@ namespace LightStudio.PokemonBattle.Game.Host
     internal OnboardPokemon(Pokemon pokemon, int x)
     {
       Pokemon = pokemon;
-      Static = new SixD() { Hp = pokemon.Static.Hp };
-      ChangeForm(pokemon.PokemonType);
+      FiveD = new Simple6D() { Hp = pokemon.FiveD.Hp };
+      ChangeForme(pokemon.Forme);
       Gender = pokemon.Gender;
-      lv5D = new SixD();
+      lv5D = new Simple6D();
       X = x; //CoordY 默认值
     }
 
-    private void ChangeLv7D(ref int lv, int change)
-    {
-      lv += change;
-      if (lv > 6) lv = 6;
-      else if (lv < -6) lv = -6;
-    }
     public void ChangeLv7D(StatType stat, int change)
     {
       switch (stat)
       {
         case StatType.Accuracy:
-          ChangeLv7D(ref _accuracyLv, change);
+          AccuracyLv += change;
           break;
         case StatType.Evasion:
-          ChangeLv7D(ref _evasionLv, change);
+          EvasionLv += change;
           break;
-        case StatType.Atk:
-          ChangeLv7D(ref lv5D.Atk, change);
-          break;
-        case StatType.Def:
-          ChangeLv7D(ref lv5D.Def, change);
-          break;
-        case StatType.SpAtk:
-          ChangeLv7D(ref lv5D.SpAtk, change);
-          break;
-        case StatType.SpDef:
-          ChangeLv7D(ref lv5D.SpDef, change);
-          break;
-        case StatType.Speed:
-          ChangeLv7D(ref lv5D.Speed, change);
-          break;
-#if DEBUG
         default:
-          System.Diagnostics.Debugger.Break();
+          var value = lv5D.GetStat(stat);
+          value += change;
+          if (value > 6) value = 6;
+          else if (value < -6) value = -6;
+          lv5D.SetStat(stat, value);
           break;
-#endif
       }
     }
     public void SetLv7D(StatType stat, int lv)
@@ -173,31 +154,31 @@ namespace LightStudio.PokemonBattle.Game.Host
         Type1 == type || Type2 == type : _type1 == type || _type2 == type;
     }
     
-    private int GetState(StatType type)
+    private int Get5D(StatType type)
     {
-      return PokemonStatHelper.GetStat(type, Pokemon.Nature, PokemonType.GetBaseStat(type), (byte)Pokemon.Iv.GetStat(type), (byte)Pokemon.Ev.GetStat(type), (byte)Pokemon.Lv);
+      return PokemonStatHelper.Get5D(type, Pokemon.Nature, Forme.Data.Base.GetStat(type), (byte)Pokemon.Iv.GetStat(type), (byte)Pokemon.Ev.GetStat(type), (byte)Pokemon.Lv);
     }
-    public void ChangeForm(PokemonType type)
+    public void ChangeForme(PokemonForme forme)
     {
-      PokemonType = type;
-      _weight = type.Weight;
-      _type1 = type.Type1;
-      _type2 = type.Type2;
-      Ability = type.GetAbility(Pokemon.AbilityIndex).Id;
-      Static.Atk = GetState(StatType.Atk);
-      Static.SpAtk = GetState(StatType.SpAtk);
-      Static.Speed = GetState(StatType.Speed);
-      var d = GetState(StatType.Def);
-      var sd = GetState(StatType.SpDef);
+      Forme = forme;
+      _weight = forme.Type.Weight;
+      _type1 = forme.Data.Type1;
+      _type2 = forme.Data.Type2;
+      Ability = forme.Data.GetAbility(Pokemon.AbilityIndex).Id;
+      FiveD.Atk = Get5D(StatType.Atk);
+      FiveD.SpAtk = Get5D(StatType.SpAtk);
+      FiveD.Speed = Get5D(StatType.Speed);
+      var d = Get5D(StatType.Def);
+      var sd = Get5D(StatType.SpDef);
       if (HasCondition("WonderRoom"))
       {
-        Static.Def = sd;
-        Static.SpDef = d;
+        FiveD.Def = sd;
+        FiveD.SpDef = d;
       }
       else
       {
-        Static.Def = d;
-        Static.SpDef = sd;
+        FiveD.Def = d;
+        FiveD.SpDef = sd;
       }
     }
   }

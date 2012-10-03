@@ -9,20 +9,20 @@ namespace LightStudio.PokemonBattle.Data
   public enum AttachedState : sbyte
   {
     None,
-    Paralysis = 0x01,
-    Sleep = 0x02,
-    Freeze = 0x03,
-    Burn = 0x04,
+    PAR = 0x01,
+    SLP = 0x02,
+    FRZ = 0x03,
+    BRN = 0x04,
     /// <summary>
     /// 毒和剧毒都是，按持续时间分别
     /// </summary>
-    Poison = 0x05,
-    Confusion = 0x06,
+    PSN = 0x05,
+    Confuse = 0x06,
     /// <summary>
     /// //着迷
     /// </summary>
-    Infatuation = 0x07, 
-    Trapped = 0x08,
+    Attract = 0x07, 
+    Trap = 0x08,
     Nightmare = 0x09,
     /// <summary>
     /// 寻衅
@@ -54,16 +54,16 @@ namespace LightStudio.PokemonBattle.Data
     Forever,
     LimitedTime,
     HeterosexOnly,
-    Trapped //强韧之爪
+    Trap //强韧之爪
   }
 
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class MoveAttachment
   {
     [DataMember]
     public AttachedState State { get; private set; }
     [DataMember(EmitDefaultValue = false)]
-    public byte Probability { get; private set; } //0和100都是必中，但有区别
+    public byte Probability { get; private set; }
     [DataMember]
     public AttachedCategory Category { get; private set; }
     [DataMember(EmitDefaultValue = false)]

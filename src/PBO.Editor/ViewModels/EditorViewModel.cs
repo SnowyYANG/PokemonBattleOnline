@@ -11,8 +11,8 @@ namespace LightStudio.PokemonBattle.PBO.Editor
 {
   internal class EditorViewModel : INotifyPropertyChanged
   {
-    private EditingPokemonViewModel _editingPokemon;
-    public EditingPokemonViewModel EditingPokemon
+    private EditingPokemonVM _editingPokemon;
+    public EditingPokemonVM EditingPokemon
     {
       get
       {
@@ -45,7 +45,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       this.Recycler = new RecyclerViewModel(Model.Recycler);
       this.OpenWindows = new ObservableCollection<object>();
       this.Search = new PokemonSearchViewModel();
-      this.EditingPokemon = new EditingPokemonViewModel();
+      this.EditingPokemon = new EditingPokemonVM();
     }
 
     public void OpenFolder(IFolderViewModel folder)

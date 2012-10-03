@@ -9,9 +9,23 @@ using LightStudio.Tactic.Serialization;
 
 namespace LightStudio.PokemonBattle.Data
 {
-  internal class UserPokemonData : IUserPokemonData, ISaveObject
+  internal class UserPokemonData : IUserPokemonData
   {
-    private DataSaver dataSaver;
+    private const string USER_DATA_FILE = "user_pm.dat";
+
+    public static UserPokemonData Load()
+    {
+      try
+      {
+        using (FileStream fs = new FileStream(USER_DATA_FILE, FileMode.Open))
+        using (DeflateStream stream = new DeflateStream(fs, CompressionMode.Decompress))
+          return UserPokemonData.Load(stream);
+      }
+      catch (Exception e)
+      {
+        return UserPokemonData.Create();
+      }
+    }
 
     public IPokemonCollection Teams
     { get; private set; }
@@ -22,58 +36,19 @@ namespace LightStudio.PokemonBattle.Data
     public IPokemonRecycler Recycler
     { get; private set; }
 
-    public int SaveInterval
-    {
-      get
-      {
-        return dataSaver.SaveInterval;
-      }
-      set
-      {
-        dataSaver.SaveInterval = value;
-      }
-    }
-
     private UserPokemonData()
     { }
 
     public void Save()
     {
-      dataSaver.Save();
-    }
-
-    void ISaveObject.Save()
-    {
-      using (DeflateStream stream = new DeflateStream(
-          DataIOHelper.CreateFile(CONSTS.USER_DATA_FILE, FileMode.Create),
-          CompressionMode.Compress))
-      {
+      using (FileStream fs = new FileStream(USER_DATA_FILE, FileMode.Create))
+      using (DeflateStream stream = new DeflateStream(fs, CompressionMode.Compress))
         Save(stream);
-      }
     }
 
     private void Save(Stream stream)
     {
       Serializer.Serialize(new UserPokemonDataInfo(this), stream);
-    }
-
-    public static UserPokemonData Load()
-    {
-      try
-      {
-        if (File.Exists(DataIOHelper.GetFullPath(CONSTS.USER_DATA_FILE)))
-        {
-          using (DeflateStream stream = new DeflateStream(
-              DataIOHelper.OpenFile(CONSTS.USER_DATA_FILE, FileMode.Open),
-              CompressionMode.Decompress))
-          {
-            return UserPokemonData.Load(stream);
-          }
-        }
-      }
-      catch (Exception e)
-      { }
-      return UserPokemonData.Create();
     }
 
     private static UserPokemonData Load(Stream stream)
@@ -83,7 +58,6 @@ namespace LightStudio.PokemonBattle.Data
       data.Teams = dataInfo.Teams.ToCollection(UserPokemonData.TeamSize);
       data.Boxes = dataInfo.Boxes.ToCollection(UserPokemonData.BoxSize);
       data.Recycler = dataInfo.Recycler.ToRecycle();
-      data.dataSaver = new DataSaver(data, dataInfo.SaveInterval);
       return data;
     }
 
@@ -93,13 +67,11 @@ namespace LightStudio.PokemonBattle.Data
       data.Teams = new PokemonCollection(UserPokemonData.TeamSize);
       data.Boxes = new PokemonCollection(UserPokemonData.BoxSize);
       data.Recycler = new PokemonRecycler(UserPokemonData.DefaultRecyclerSize);
-      data.dataSaver = new DataSaver(data, UserPokemonData.DefaultSaveInterval);
       return data;
     }
 
     public const int TeamSize = 6;
     public const int BoxSize = 50;
     public const int DefaultRecyclerSize = 30;
-    public const int DefaultSaveInterval = 5;
   }
 }

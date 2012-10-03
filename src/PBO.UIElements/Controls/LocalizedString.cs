@@ -12,15 +12,14 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
   {
     // Fields
     private string _key;
-    private IDomainStringService service;
+    private DomainStringService service;
 
     // Events
     public event PropertyChangedEventHandler PropertyChanged;
 
     // Methods
-    public LocalizedString(IDomainStringService stringService)
+    public LocalizedString(DomainStringService stringService)
     {
-      //__ContractsRuntime.Requires(stringService != null, null, "stringService != null");
       this.PropertyChanged = delegate(object param0, PropertyChangedEventArgs param1)
       {
       };
@@ -28,7 +27,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
       PropertyChangedEventManager.AddListener(this.service, this, string.Empty);
     }
 
-    public LocalizedString(IDomainStringService stringService, string key)
+    public LocalizedString(DomainStringService stringService, string key)
       : this(stringService)
     {
       this._key = key;
@@ -88,7 +87,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
   public static class IDomainStringServiceExtensions
   {
     // Methods
-    public static LocalizedString GetLocalizedString(this IDomainStringService service, string key)
+    public static LocalizedString GetLocalizedString(this DomainStringService service, string key)
     {
       return new LocalizedString(service, key);
     }

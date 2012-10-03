@@ -33,7 +33,7 @@ namespace LightStudio.Tactic.DataModels
     T[] Contents { get; }
   }
 
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public abstract class TextBase<T> : IText<T> where T : IText<T>
   {
     public const UInt32 DEFAULT_FOREGROUND = 0xff000000;

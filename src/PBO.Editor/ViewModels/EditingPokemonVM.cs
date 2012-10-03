@@ -15,21 +15,41 @@ using LightStudio.PokemonBattle.PBO.UIElements;
 
 namespace LightStudio.PokemonBattle.PBO.Editor
 {
-  internal class EditingPokemonViewModel : INotifyPropertyChanged
+  internal class EditingPokemonVM : INotifyPropertyChanged
   {
-    public EditingPokemonViewModel()
+    private const int METRONOME = 118;
+    private const int TRANSFORM = 144;
+    private const int ASSIST = 274;
+    private const int ME_FIRST = 382;
+    private const int COPYCAT = 383;
+
+    private static bool HasRandomMove(IEnumerable<int> moves)
+    {
+      moves.FirstOrDefault();
+      return moves.Any((i) => i == METRONOME || i == TRANSFORM || i == ASSIST || i == ME_FIRST || i == COPYCAT);
+    }
+    
+    public EditingPokemonVM()
     {
       this.Learnset = new ObservableCollection<MoveLearnItemViewModel>();
       CollectionViewSource.GetDefaultView(Learnset).Culture = CultureInfo.CurrentUICulture;
-      this.ResetEvCommand = new MenuCommand("ClearEv", ClearEv);
+      this.ResetEvCommand = new MenuCommand("ClearEv", () =>
+        {
+          Model.HpEv = 0;
+          Model.AtkEv = 0;
+          Model.DefEv = 0;
+          Model.SpeedEv = 0;
+          Model.SpAtkEv = 0;
+          Model.SpDefEv = 0;
+        });
     }
 
     #region 6D
     PairValue GetStat(StatType stattype, int typebase, byte iv, byte ev)
     {
       return new PairValue(
-          PokemonStatHelper.GetStat(stattype, PokemonNature.Serious, typebase, iv, ev, Model.Lv),
-          PokemonStatHelper.GetStat(stattype, Model.Nature, typebase, iv, ev, Model.Lv), 0);
+          PokemonStatHelper.Get5D(stattype, PokemonNature.Serious, typebase, iv, ev, Model.Lv),
+          PokemonStatHelper.Get5D(stattype, Model.Nature, typebase, iv, ev, Model.Lv), 0);
     }
     /// <summary>
     /// 判断的是4的倍数，所以剩余1点或2点将被忽略
@@ -50,17 +70,8 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       get
       {
         return ExecIfModelLoaded(() =>
-            PokemonStatHelper.GetStat(StatType.Hp, Model.Nature, PokemonType.BaseHp,
+            PokemonStatHelper.GetHp(PokemonType.BaseHp,
             Model.HpIv, Model.HpEv, Model.Lv));
-      }
-    }
-    public int HiddenPowerPower
-    {
-      get
-      {
-        return ExecIfModelLoaded(() =>
-             PokemonStatHelper.GetHiddenPowerPower(Model.HpIv, Model.AtkIv, Model.DefIv,
-             Model.SpeedIv, Model.SpAtkIv, Model.SpDefIv));
       }
     }
     public PairValue Atk
@@ -106,9 +117,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     #endregion
 
     #region Properties
-    public bool IsChanged
-    { get { return Model != null && PokemonViewModel != null && !Model.ValueEquals(PokemonViewModel.Model); } }
-    private PokemonType _pokemonType;
+    private PokemonForme _pokemonType;
     public PokemonCustomInfo Model { get; private set; }
     private PokemonViewModel _pokemonViewModel;
     public PokemonViewModel PokemonViewModel
@@ -143,7 +152,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       }
     }
 
-    public PokemonType PokemonType
+    public PokemonForme PokemonType
     {
       get { return _pokemonType; }
       set
@@ -151,7 +160,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
         if (_pokemonType != value)
         {
           _pokemonType = value;
-          Model.ChangeType(_pokemonType);
+          Model.ChangeForme(_pokemonType);
           UpdateLearnset();
           ClearEv();
           OnPropertyChanged("PokemonType");
@@ -164,11 +173,31 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     { get; private set; }
     #endregion
 
+    public Visibility HiddenPowerVisibility
+    { get { return Model != null && (Model.MoveIds.Contains(237) || HasRandomMove(Model.MoveIds))? Visibility.Visible : Visibility.Hidden; } }
+    public BattleType HiddenPowerType
+    {
+      get
+      {
+        int pI;
+        var iv = Model.Iv;
+        pI = iv.Hp & 1;
+        pI |= (iv.Atk & 1) << 1;
+        pI |= (iv.Def & 1) << 2;
+        pI |= (iv.Speed & 1) << 3;
+        if ((iv.SpAtk & 1) == 1) pI += 16;
+        if ((iv.SpDef & 1) == 1) pI += 32;
+        return (BattleType)(pI * 15 / 63 + 2);
+      }
+    }
+
     internal void Save()
     {
-      PokemonViewModel.Model = this.Model.Clone();
-      Editor.CurrentEditor.Model.Save();
-      OnPropertyChanged("IsChanged");
+      if (this.Model != null)
+      {
+        PokemonViewModel.Model = this.Model.Clone();
+        Editor.CurrentEditor.Model.Save();
+      }
     }
     internal void ResetToLastSaved()
     {
@@ -184,23 +213,14 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       else return MessageBoxResult.None;
     }
 
+    private static IEnumerable<MoveLearnItem> temp_moves;
     private void UpdateLearnset()
     {
+      if (temp_moves == null) temp_moves = Data.DataService.Moves.Select((m) => new MoveLearnItem(m.Id));
       Learnset.Clear();
-      foreach (MoveLearnItem move in PokemonType.Learnset)
-        Learnset.Add(new MoveLearnItemViewModel(Model, move));
+      foreach (MoveLearnItem move in temp_moves)
+        Learnset.Add(new MoveLearnItemViewModel(Model, move)); //用ItemsControl.Refresh更好吧
     }
-    private void ClearEv()
-    {
-      Model.HpEv = 0;
-      Model.AtkEv = 0;
-      Model.DefEv = 0;
-      Model.SpeedEv = 0;
-      Model.SpAtkEv = 0;
-      Model.SpDefEv = 0;
-    }
-    public Visibility HasHiddenPower
-    { get { return Model!=null? (Model.MoveIds.Contains(237)? Visibility.Visible : Visibility.Hidden) : Visibility.Hidden; } }
 
     void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {

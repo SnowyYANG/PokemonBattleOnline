@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class TeamOutward : INotifyPropertyChanged
   {
     public event PropertyChangedEventHandler PropertyChanged;

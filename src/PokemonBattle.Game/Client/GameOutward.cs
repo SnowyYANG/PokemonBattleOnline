@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.ObjectModel;
 using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game
@@ -25,7 +26,7 @@ namespace LightStudio.PokemonBattle.Game
     public readonly TeamOutward[] Teams;
     private readonly IDictionary<int, string> players;
     private readonly string[] teams;
-    private readonly List<IGameOutwardEvents> listeners;
+    private readonly Collection<IGameOutwardEvents> listeners;
 
     public GameOutward(IGameSettings settings, IDictionary<int, string> players, string[] teams)
     {
@@ -36,7 +37,7 @@ namespace LightStudio.PokemonBattle.Game
         Teams[t] = new TeamOutward(6, 0, 0);
       this.players = players;
       this.teams = teams;
-      listeners = new List<IGameOutwardEvents>();
+      listeners = new Collection<IGameOutwardEvents>();
     }
     public int TurnNumber
     { get; set; }

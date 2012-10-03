@@ -22,7 +22,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\build\dll\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -77,27 +77,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Rom\Ability.cs" />
-    <Compile Include="Rom\enums\MoveInnerClass.cs" />
-    <Compile Include="Rom\MoveAttachment.cs" />
+    <Compile Include="Rom\Move\MoveInnerClass.cs" />
+    <Compile Include="Rom\Move\MoveAttachment.cs" />
     <Compile Include="Rom\Item.cs" />
-    <Compile Include="Rom\MoveLv7DChange.cs" />
-    <Compile Include="Rom\MoveTypeAdvancedFlags.cs" />
-    <Compile Include="Rom\MoveLearnItem.cs" />
+    <Compile Include="Rom\Move\MoveLv7DChange.cs" />
+    <Compile Include="Rom\Move\MoveTypeAdvancedFlags.cs" />
+    <Compile Include="Rom\Move\MoveLearnItem.cs" />
+    <Compile Include="Rom\Pokemon\PokemonFormeData.cs" />
+    <Compile Include="Rom\Pokemon\PokemonType.cs" />
     <Compile Include="Rom\RomData.cs" />
-    <Compile Include="UserData\DataChangeObserver.cs" />
     <Compile Include="UserData\CollectionInfo.cs" />
-    <Compile Include="Utilities\DataIOHelper.cs" />
-    <Compile Include="UserData\DataSaver.cs" />
     <Compile Include="UserData\FolderInfo.cs" />
-    <Compile Include="UserData\Interfaces\ISaveObject.cs" />
     <Compile Include="UserData\Interfaces\IUserPokemonData.cs" />
     <Compile Include="UserData\RecyclerInfo.cs" />
     <Compile Include="UserData\Interfaces\IPokemonRecycler.cs" />
     <Compile Include="UserData\PokemonRecycler.cs" />
-    <Compile Include="Rom\enums\StatType.cs" />
+    <Compile Include="Utilities\StatType.cs" />
     <Compile Include="UserData\Interfaces\IPokemonCollection.cs" />
     <Compile Include="UserData\UserData.cs" />
-    <Compile Include="UserData\UserDataRules.cs" />
     <Compile Include="UserData\UserPokemonDataInfo.cs" />
     <Compile Include="UserData\Interfaces\IPokemonFolder.cs" />
     <Compile Include="UserData\PokemonCollection.cs" />
@@ -107,26 +104,30 @@
     <Compile Include="Utilities\PokemonValidator.cs" />
     <Compile Include="Utilities\PokemonStatHelper.cs" />
     <Compile Include="DataService.cs" />
-    <Compile Include="Rom\enums\BattleType.cs" />
-    <Compile Include="Rom\enums\EggGroup.cs" />
-    <Compile Include="Rom\enums\MoveLearnMethod.cs" />
-    <Compile Include="Rom\enums\PokemonGender.cs" />
-    <Compile Include="Rom\enums\PokemonNature.cs" />
+    <Compile Include="Rom\BattleType.cs" />
+    <Compile Include="Rom\Pokemon\EggGroup.cs" />
+    <Compile Include="Rom\MoveLearnMethod.cs" />
+    <Compile Include="Rom\Pokemon\PokemonGender.cs" />
+    <Compile Include="Rom\Pokemon\PokemonNature.cs" />
     <Compile Include="UserData\UserPokemonData.cs" />
     <Compile Include="ImageService.cs" />
-    <Compile Include="Rom\enums\MoveCategory.cs" />
-    <Compile Include="Rom\enums\MoveRange.cs" />
-    <Compile Include="Rom\MoveType.cs" />
+    <Compile Include="Rom\Move\MoveCategory.cs" />
+    <Compile Include="Rom\Move\MoveRange.cs" />
+    <Compile Include="Rom\Move\MoveType.cs" />
     <Compile Include="UserData\PokemonCustomInfo.cs" />
-    <Compile Include="Rom\PokemonType.cs" />
+    <Compile Include="Rom\Pokemon\PokemonForme.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\StaticStrings.cs" />
+    <Compile Include="Utilities\6D.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tactic\Tactic.csproj">
       <Project>{EE2C451E-A61E-4634-B382-5298982E060C}</Project>
       <Name>Tactic</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Rom\enums\" />
+    <Folder Include="Rom\LearnSet\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

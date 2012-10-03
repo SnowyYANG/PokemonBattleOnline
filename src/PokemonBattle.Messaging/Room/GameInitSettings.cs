@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using LightStudio.Tactic.Messaging;
 using LightStudio.PokemonBattle.Game;
 
 namespace LightStudio.PokemonBattle.Messaging.Room
 {
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class GameInitSettings : IGameSettings, IMessagable
   {
     private bool isLocked;
     private readonly IdGenerator idGen;
     private Queue<int> idQue;
-    private List<Rule> rules;
+    private Collection<Rule> rules;
     [DataMember]
-    private List<int> ruleIds;
+    private Collection<int> ruleIds;
     [DataMember]
     private GameMode mode;
     [DataMember]
@@ -33,8 +34,8 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     public GameInitSettings(GameMode mode, double ppUp = 1.6, Terrain terrain = Terrain.Path)
     {
       idGen = new IdGenerator();
-      rules = new List<Rule>();
-      ruleIds = new List<int>();
+      rules = new Collection<Rule>();
+      ruleIds = new Collection<int>();
       this.mode = mode;
       this.ppUp = ppUp;
       this.terrain = terrain;
@@ -61,7 +62,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       {
         if (rules == null)
         {
-          rules = new List<Rule>();
+          rules = new Collection<Rule>();
           foreach (int i in ruleIds) rules.Add(GameService.GetRule(i));
         }
         return rules;

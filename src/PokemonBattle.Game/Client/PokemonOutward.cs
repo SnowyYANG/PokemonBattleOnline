@@ -21,12 +21,12 @@ namespace LightStudio.PokemonBattle.Game
     void Lv5DDown(); //下降
     void SubstituteAppear();
     void SubstituteDisappear();
-    void ImageIdChanged(); //幻影 变身
+    void FormeChanged(); //幻影 变身
     void Withdrawn();
   }
 
   [KnownType(typeof(PairValue))]
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class PokemonOutward : INotifyPropertyChanged
   {
     private static readonly PropertyChangedEventArgs NAME = new PropertyChangedEventArgs("Name");
@@ -36,7 +36,41 @@ namespace LightStudio.PokemonBattle.Game
     [DataMember]
     internal readonly int Id;
     [DataMember]
-    public int OwnerId { get; private set; }
+    private int number;
+    [DataMember(EmitDefaultValue = false)]
+    private int forme;
+
+    #region Host
+    internal PokemonOutward(PokemonProxy pm)
+    {
+      OwnerId = pm.Pokemon.Owner.Id;
+      Id = pm.Id;
+      _position = new Position(pm.Pokemon.TeamId, pm.OnboardPokemon.X, pm.OnboardPokemon.CoordY);
+      State = pm.State;
+      IsSubstitute = pm.OnboardPokemon.HasCondition("Substitute");
+      Hp = new PairValue(pm.Pokemon.Hp.Origin, pm.Pokemon.Hp.Value, 48);
+      Lv = pm.Pokemon.Lv;
+
+      Pokemon o = pm.OnboardPokemon.GetCondition<Pokemon>("Illusion");
+      if (o == null)
+      {
+        Name = pm.Pokemon.Name;
+        Forme = pm.OnboardPokemon.Forme;
+        Gender = pm.OnboardPokemon.Gender;
+      }
+      else
+      {
+        Name = o.Name;
+        Forme = o.Forme;
+        Gender = o.Gender;
+      }
+    }
+    #endregion
+
+    [DataMember]
+    public int OwnerId
+    { get; private set; }
+
     [DataMember]
     private string _name;
     public string Name
@@ -51,8 +85,17 @@ namespace LightStudio.PokemonBattle.Game
         }
       }
     }
-    [DataMember]
-    public int ImageId { get; private set; }
+
+    public PokemonForme Forme
+    {
+      get { return DataService.GetPokemon(number, forme); }
+      private set
+      {
+        number = value.Type.Number;
+        forme = value.Index;
+      }
+    }
+
     [DataMember(EmitDefaultValue = false)]
     private PokemonGender _gender;
     public PokemonGender Gender
@@ -67,6 +110,7 @@ namespace LightStudio.PokemonBattle.Game
         }
       }
     }
+    
     [DataMember(EmitDefaultValue = false)]
     private PokemonState _state;
     public PokemonState State
@@ -83,56 +127,27 @@ namespace LightStudio.PokemonBattle.Game
         }
       }
     }
+    
     [DataMember(EmitDefaultValue = false)]
-    public bool IsSubstitute { get; internal set; }
+    public bool IsSubstitute
+    { get; internal set; }
+    
     [DataMember]
-    public PairValue Hp { get; private set; }
+    public PairValue Hp
+    { get; private set; }
+    
     [DataMember]
-    public int Lv { get; private set; }
+    public int Lv
+    { get; private set; }
+    
     [DataMember]
     private readonly Position _position;
     public IPosition Position
     { get { return _position; } }
 
-    #region Host
-    internal PokemonOutward(PokemonProxy pm)
-    {
-      _listeners = new List<IPokemonOutwardEvents>();
-      OwnerId = pm.Pokemon.Owner.Id;
-      Id = pm.Id;
-      _position = new Position(pm.Pokemon.TeamId, pm.OnboardPokemon.X, pm.OnboardPokemon.CoordY);
-      State = pm.State;
-      IsSubstitute = pm.OnboardPokemon.HasCondition("Substitute");
-      Hp = new PairValue(pm.Pokemon.Hp.Origin, pm.Pokemon.Hp.Value, 48);
-      Lv = pm.Pokemon.Lv;
-
-      Pokemon o = pm.OnboardPokemon.GetCondition<Pokemon>("Illusion");
-      if (o == null)
-      {
-        Name = pm.Pokemon.Name;
-        ImageId = pm.OnboardPokemon.PokemonType.Id;
-        Gender = pm.OnboardPokemon.Gender;
-      }
-      else
-      {
-        Name = o.Name;
-        ImageId = o.PokemonType.Id;
-        Gender = o.Gender;
-      }
-    }
-    #endregion
-
     #region Client
     public event PropertyChangedEventHandler PropertyChanged;
-    private List<IPokemonOutwardEvents> _listeners;
-    private List<IPokemonOutwardEvents> listeners
-    { 
-      get
-      {
-        if (_listeners == null) _listeners = new List<IPokemonOutwardEvents>();
-        return _listeners;
-      }
-    }
+    private IPokemonOutwardEvents listener;
     private TeamOutward team;
 
     #region Events
@@ -142,9 +157,7 @@ namespace LightStudio.PokemonBattle.Game
     public void Faint()
     {
       State = PokemonState.Faint;
-      var listeners = this.listeners.ToArray();
-      foreach (IPokemonOutwardEvents l in listeners)
-        l.Faint();
+      listener.Faint();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
@@ -152,8 +165,7 @@ namespace LightStudio.PokemonBattle.Game
     public void Hurt(int damage)
     {
       Hp.Value -= damage;
-      foreach (IPokemonOutwardEvents l in listeners)
-        l.Hurt();
+      listener.Hurt();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
@@ -163,24 +175,21 @@ namespace LightStudio.PokemonBattle.Game
       if (Position.X == x && Position.Y == y) return;
       _position.X = x;
       _position.Y = y;
-      foreach (IPokemonOutwardEvents l in listeners)
-        l.PositionChanged();
+      listener.PositionChanged();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
     public void UseItem()
     {
-      foreach (IPokemonOutwardEvents l in listeners)
-        l.UseItem();
+      listener.UseItem();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
     public void UseMove(int moveType)
     {
-      foreach (IPokemonOutwardEvents l in listeners)
-        l.UseMove(moveType);
+      listener.UseMove(moveType);
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
@@ -188,58 +197,51 @@ namespace LightStudio.PokemonBattle.Game
     public void RecoverHp(int currentHp)
     {
       Hp.Value = currentHp;
-      foreach (IPokemonOutwardEvents l in listeners)
-        l.HpRecovered();
+      listener.HpRecovered();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
     public void IncreaseLv5D()
     {
-      foreach (IPokemonOutwardEvents l in listeners)
-        l.Lv5DUp();
+      listener.Lv5DUp();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
     public void DecreaseLv5D()
     {
-      foreach (IPokemonOutwardEvents l in listeners)
-        l.Lv5DDown();
+      listener.Lv5DDown();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
     public void ShowSubstitute()
     {
-      foreach (IPokemonOutwardEvents l in listeners)
-        l.SubstituteAppear();
+      listener.SubstituteAppear();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
     public void HideSubstitute()
     {
-      foreach (IPokemonOutwardEvents l in listeners)
-        l.SubstituteDisappear();
+      listener.SubstituteDisappear();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
-    public void ChangeImageId(int newImageId)
+    public void ChangeForme(int number, int forme)
     {
-      ImageId = newImageId;
-      foreach (IPokemonOutwardEvents l in listeners)
-        l.ImageIdChanged();
+      this.number = number;
+      this.forme = forme;
+      listener.FormeChanged();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
     public void Withdraw()
     {
-      var listeners = this.listeners.ToArray();
-      foreach (IPokemonOutwardEvents l in listeners)
-        l.Withdrawn();
+      listener.Withdrawn();
     }
     #endregion
 
@@ -260,7 +262,7 @@ namespace LightStudio.PokemonBattle.Game
           r = Lv.ToString();
           break;
         case "Type":
-          r = DataService.GetPokemonType(ImageId).GetLocalizedName();
+          r = Forme.Type.GetLocalizedName();
           break;
         case "State":
           r = State.GetLocalizedName();
@@ -274,17 +276,23 @@ namespace LightStudio.PokemonBattle.Game
     }
     public void AddListener(IPokemonOutwardEvents listener)
     {
-      listeners.Add(listener);
+#if DEBUG
+      if (this.listener != null) System.Diagnostics.Debugger.Break();
+#endif
+      this.listener = listener;
     }
     public void RemoveListener(IPokemonOutwardEvents listener)
     {
-      listeners.Remove(listener);
+#if DEBUG
+      if (this.listener != listener) System.Diagnostics.Debugger.Break();
+#endif
+      this.listener = null;
     }
     #endregion
 
     public override string ToString()
     {
-      return string.Format("{0}(Lv.{1} {2})", Name, Lv, DataService.GetPokemonType(ImageId).GetLocalizedName());
+      return string.Format("{0}(Lv.{1} {2})", Name, Lv, Forme.Type.GetLocalizedName());
     }
   }
 }

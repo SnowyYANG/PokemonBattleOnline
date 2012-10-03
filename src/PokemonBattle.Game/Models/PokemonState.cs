@@ -8,12 +8,12 @@ namespace LightStudio.PokemonBattle.Game
     public enum PokemonState
     {
         Normal,
-        Burned,
-        Frozen,
-        Poisoned,
-        Paralyzed,
-        Sleeping,
+        BRN,
+        FRZ,
+        PSN,
+        PAR,
+        SLP,
         Faint,
-        BadlyPoisoned,
+        BadlyPSN,
     }
 }

@@ -2,36 +2,54 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
+using LightStudio.Tactic.DataModels;
 
 namespace LightStudio.PokemonBattle.PBO.UIElements
 {
-  public static class Config
+  [DataContract(Namespace = Namespaces.PBO)]
+  public class Config : SimpleData
   {
-    static readonly Dictionary<string, object> values;
-    static readonly Dictionary<string, object> defaultValues;
+    private static readonly Config Current;
 
     static Config()
     {
-      values = new Dictionary<string, object>();
-      defaultValues = new Dictionary<string, object>();
-    }
-
-    public static void Register(string key, object defaultValue)
-    {
-      defaultValues.Add(key, defaultValue);
+      try
+      {
+        Current = LoadFromXml<Config>("config.xml");
+      }
+      catch
+      {
+        Current = new Config();
+      }
     }
 
     public static T GetValue<T>(string key)
     {
-      object o;
-      if (!values.TryGetValue(key, out o))
-        defaultValues.TryGetValue(key, out o);
-      return (T)o;
+      return GetValue(key, default(T));
+    }
+    public static T GetValue<T>(string key, T defaultValue)
+    {
+      var dict = Current.values;
+      object r;
+      if (!dict.TryGetValue(key, out r))
+      {
+        dict[key] = defaultValue;
+        r = defaultValue;
+      }
+      return (T)r;
     }
     public static void SetValue(string key, object o) //即使没有DefaultValue也一样设置吧
     {
-      if (values.ContainsKey(key)) values[key] = o;
-      else values.Add(key, o);
+      Current.values[key] = o;
+    }
+
+    [DataMember]
+    readonly Dictionary<string, object> values;
+
+    private Config()
+    {
+      values = new Dictionary<string, object>();
     }
   }
 }

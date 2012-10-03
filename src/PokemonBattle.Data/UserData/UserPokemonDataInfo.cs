@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace LightStudio.PokemonBattle.Data
 {
 
-    [DataContract(Namespace = Namespaces.LIGHT)]
+    [DataContract(Namespace = Namespaces.PBO)]
     internal class UserPokemonDataInfo
     {
         [DataMember]
@@ -22,16 +22,11 @@ namespace LightStudio.PokemonBattle.Data
         public RecyclerInfo Recycler
         { get; private set; }
 
-        [DataMember]
-        public int SaveInterval
-        { get; private set; }
-
         public UserPokemonDataInfo(UserPokemonData data)
         {
             this.Teams = CollectionInfo.FromCollection(data.Teams);
             this.Boxes = CollectionInfo.FromCollection(data.Boxes);
             this.Recycler = RecyclerInfo.FromRecycler(data.Recycler);
-            this.SaveInterval = data.SaveInterval;
         }
 
     }

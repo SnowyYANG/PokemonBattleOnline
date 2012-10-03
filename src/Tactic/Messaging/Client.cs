@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.IO;
 using LightStudio.Tactic.Logging;
@@ -23,7 +24,7 @@ namespace LightStudio.Tactic.Messaging
     public event Action<int> UserChanged;
     public event Action<User<T>, string> BroadcastReceived = delegate { };
     
-    private readonly List<ClientService<T>> services;
+    private readonly Collection<ClientService<T>> services;
     private readonly Dictionary<byte, ClientService<T>> servicesIndex;
     private ConcurrentDictionary<int, User<T>> users;
     private int userId;
@@ -35,7 +36,7 @@ namespace LightStudio.Tactic.Messaging
     {
       userId = -1;
       users = new ConcurrentDictionary<int, User<T>>();
-      services = new List<ClientService<T>>();
+      services = new Collection<ClientService<T>>();
       servicesIndex = new Dictionary<byte, ClientService<T>>();
     }
 

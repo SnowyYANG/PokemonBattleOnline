@@ -29,7 +29,7 @@ I(ChoiceItem(74, StatType.SpAtk)) #choice specs
 
 class SoulDew(ItemE):
     def ADSModifier(self, pm, stat):
-        n = pm.Pokemon.PokemonType.Number
+        n = pm.Pokemon.Forme.Type.Number
         if (n == 380 or n == 381) and (stat == StatType.SpAtk or stat == StatType.SpDef):
             return 0x1800
         return 0x1000
@@ -41,7 +41,7 @@ class DeapSea(ItemE):
     def __init__(self, id, stat):
         self.Stat = stat
     def ADSModifier(self, pm, stat):
-        if pm.Pokemon.PokemonType.Number == 366 and stat == self.Stat:
+        if pm.Pokemon.Forme.Type.Number == 366 and stat == self.Stat:
             return 0x2000
         return 0x1000
 I(DeapSea(13, StatType.SpAtk)) #deepseatooth
@@ -49,14 +49,14 @@ I(DeapSea(14, StatType.SpDef)) #deepseascale
 
 class LightBall(ItemE):
     def ADSModifier(self, pm, stat):
-        if pm.Pokemon.PokemonType.Number == 25 and (stat == StatType.Atk or stat == StatType.SpAtk):
+        if pm.Pokemon.Forme.Type.Number == 25 and (stat == StatType.Atk or stat == StatType.SpAtk):
             return 0x2000
         return 0x1000
 I(LightBall(19))
 
 class ThickClub(ItemE):
     def ADSModifier(self, pm, stat):
-        n = pm.Pokemon.PokemonType.Number
+        n = pm.Pokemon.Forme.Type.Number
         if (n == 104 or n == 105) and stat == StatType.Atk:
             return 0x2000
         return 0x1000
@@ -68,7 +68,7 @@ class DittoItem(ItemE):
     def __init__(self, id, stat):
         self.Stat = stat
     def ADSModifier(self, pm, stat):
-        if stat == self.Stat and pm.Pokemon.PokemonType.Number == 132 and not pm.OnboardPokemon.HasCondition('Transform'):
+        if stat == self.Stat and pm.Pokemon.Forme.Type.Number == 132 and not pm.OnboardPokemon.HasCondition('Transform'):
             return 0x2000
         return 0x1000
 I(DittoItem(39, StatType.Def)) #metal powder

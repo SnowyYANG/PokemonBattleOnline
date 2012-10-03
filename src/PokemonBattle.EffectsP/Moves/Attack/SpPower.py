@@ -75,7 +75,7 @@ M(WeatherBall(311))
 class Facade(AttackMoveE):
     def PowerModifier(self, d):
         s = d.AtkContext.Attacker.State
-        if s != PokemonState.Normal and s != PokemonState.Frozen:
+        if s != PokemonState.Normal and s != PokemonState.FRZ:
             return 0x2000
         return 0x1000
 M(Facade(263))
@@ -97,7 +97,7 @@ M(Payback(371))
 
 class Venoshock(AttackMoveE):
     def PowerModifier(self, d):
-        if d.Defender.State == PokemonState.Poisoned or d.Defender.State == PokemonState.BadlyPoisoned:
+        if d.Defender.State == PokemonState.PSN or d.Defender.State == PokemonState.BadlyPSN:
             return 0x2000
         return 0x1000
 M(Venoshock(474))

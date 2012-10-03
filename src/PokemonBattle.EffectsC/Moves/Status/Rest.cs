@@ -7,7 +7,7 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
 {
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   class RestGameEvent : GameEvent
   {
     [DataMember]
@@ -21,7 +21,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     {
       var pm = GetPokemon(Pm);
       pm.Hp.Value = pm.Hp.Origin;
-      pm.State = PokemonState.Sleeping;
+      pm.State = PokemonState.SLP;
       AppendGameLog("Rest", Pm);
     }
     public override void Update(SimGame game)
@@ -30,7 +30,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       if (pm != null)
       {
         pm.SetHp(pm.Hp.Origin);
-        pm.ClientChangePokemonStateWithNotify(PokemonState.Sleeping);
+        pm.ClientChangePokemonStateWithNotify(PokemonState.SLP);
       }
     }
   }
@@ -48,7 +48,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
 
     protected override bool NotFail(AtkContext atk)
     {
-      return atk.Attacker.Ability.CanAddState(atk.Attacker, atk.Attacker, AttachedState.Sleep, false);
+      return atk.Attacker.Ability.CanAddState(atk.Attacker, atk.Attacker, AttachedState.SLP, false);
     }
     protected override void Act(AtkContext atk)
     {
@@ -58,9 +58,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       {
         pm.Controller.ReportBuilder.Add(new RestGameEvent(pm));
         pm.Pokemon.SetHp(pm.Pokemon.Hp.Origin);
-        pm.Pokemon.ClientChangePokemonStateWithNotify(PokemonState.Sleeping);
-        pm.OnboardPokemon.SetCondition("Sleeping", 3);
-        pm.Item.StateAdded(pm, pm, AttachedState.Sleep);
+        pm.Pokemon.ClientChangePokemonStateWithNotify(PokemonState.SLP);
+        pm.OnboardPokemon.SetCondition("SLP", 3);
+        pm.Item.StateAdded(pm, pm, AttachedState.SLP);
       }
     }
   }

@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Data
     Berry
   }
   
-  [DataContract(Namespace=Namespaces.LIGHT)]
+  [DataContract(Namespace=Namespaces.PBO)]
   public class Item : GameElement
   {
     [DataMember(EmitDefaultValue = false)]
@@ -23,7 +23,12 @@ namespace LightStudio.PokemonBattle.Data
     [DataMember]
     public int FlingPower { get; private set; }
 
-    private Item(int id)
+#if DEBUG
+    public
+#else
+    private 
+#endif
+    Item(int id)
       : base(id)
     {
     }

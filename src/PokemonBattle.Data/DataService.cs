@@ -8,21 +8,24 @@ using System.Windows.Media;
 using System.Diagnostics.Contracts;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.Tactic.Globalization;
-using LightStudio.Tactic.DataModels.IO;
 using LightStudio.Tactic.DataModels;
 
 namespace LightStudio.PokemonBattle.Data
 {
   public static class DataService
   {
-    private static DataCollection dataCollection;
+    private const string STRING_RESOURCE_FORMAT = @"string\{0}.xml";
+    private const string DATA_STRING_RESOURCE_FORMAT = @"string\data\{0}.xml";
+    private const string BATTLE_DOMAIN = "PokemonBattle";
+    private const string BATTLE_DATA_DOMAIN = "PokemonBattleData";
+    private const string ROM_FILE = "Data\\rom.dat";
+
     private static RomData romData;
 
     public static bool IsLoaded { get; private set; }
-    public static ImageService Image { get; private set; }
     public static string CurrentLanguage { get; private set; }
-    public static IDomainStringService String { get; private set; }
-    public static IDomainStringService DataString { get; private set; }
+    public static DomainStringService String { get; private set; }
+    public static DomainStringService DataString { get; private set; }
 
     public static IEnumerable<Ability> Abilities
     { get; private set; }
@@ -34,22 +37,18 @@ namespace LightStudio.PokemonBattle.Data
     { get; private set; }
 
     #region private methods
-    private static void LoadImpl(string baseDir, IStringService stringService)
+    private static void LoadImpl(string baseDir, StringService stringService)
     {
-      dataCollection = DataCollection.Load(Path.Combine(baseDir, CONSTS.INDEX_FILE), baseDir);
-      
-      String = stringService.GetDomainService(CONSTS.BATTLE_DOMAIN);
+      String = stringService.GetDomainService(BATTLE_DOMAIN);
       String.SetProvider(LoadGameStrings);
-      DataString = stringService.GetDomainService(CONSTS.BATTLE_DATA_DOMAIN);
+      DataString = stringService.GetDomainService(BATTLE_DATA_DOMAIN);
       DataString.SetProvider(LoadDataStrings);
 
-      romData = RomData.Load();
-      Abilities = romData.Abilities.Values;
+      romData = RomData.Load(ROM_FILE);
+      Moves = romData.Moves;
+      Abilities = romData.Abilities;
       Items = romData.Items.Values;
-      Pokemons = romData.Pokemons.Values;
-      Moves = romData.Moves.Values;
-
-      Image = new ImageService(dataCollection);
+      Pokemons = romData.Pokemons;
     }
     private static void ClearImpl()
     {
@@ -57,17 +56,17 @@ namespace LightStudio.PokemonBattle.Data
     }
     private static LanguagePack LoadGameStrings(string lang)
     {
-      return LoadStrings(string.Format(CONSTS.STRING_RESOURCE_FORMAT, lang));
+      return LoadStrings(STRING_RESOURCE_FORMAT, lang);
     }
     private static LanguagePack LoadDataStrings(string lang)
     {
-      return LoadStrings(string.Format(CONSTS.DATA_STRING_RESOURCE_FORMAT, lang));
+      return LoadStrings(DATA_STRING_RESOURCE_FORMAT, lang);
     }
-    private static LanguagePack LoadStrings(string path)
+    private static LanguagePack LoadStrings(string path, string lang)
     {
       try
       {
-        using (var stream = dataCollection.OpenFile(path, false))
+        using (var stream = new StreamReader(string.Format(path, lang)))
         {
           return LanguagePack.CreateFromXml(XElement.Load(stream));
         }
@@ -78,8 +77,7 @@ namespace LightStudio.PokemonBattle.Data
     }
     #endregion
 
-    /// <param name="baseDir">the value should be an absolute path</param>
-    public static void Load(string baseDir, IStringService stringService)
+    public static void Load(string baseDir, StringService stringService)
     {
       Contract.Requires(baseDir != null);
       Contract.Requires(stringService != null);
@@ -102,9 +100,9 @@ namespace LightStudio.PokemonBattle.Data
     {
       return romData.GetItem(id);
     }
-    public static PokemonType GetPokemonType(int id)
+    public static PokemonForme GetPokemon(int number, int forme)
     {
-      return romData.GetPokemonType(id);
+      return romData.GetPokemon(number, forme);
     }
     public static MoveType GetMove(int id)
     {
@@ -112,13 +110,11 @@ namespace LightStudio.PokemonBattle.Data
     }
     public static string GetLocalizedName(this GameElement e)
     {
-#if DEBUG
-      if (e == null)
-      {
-        return "null";
-      }
-#endif
-      return DataString[e.Name];
+      return e == null ? String["<error>"] : DataString[e.Name];
+    }
+    public static string GetLocalizedName(this PokemonType pm)
+    {
+      return pm == null ? String["<error>"] : DataString[pm.Name];
     }
     public static string GetLocalizedName(this Enum type)
     {

@@ -69,7 +69,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         if (c.OneNth(5))
         {
           int i = c.GetRandomInt(0, 2);
-          AttachedState s = i == 0 ? AttachedState.Paralysis : i == 1 ? AttachedState.Burn : AttachedState.Freeze;
+          AttachedState s = i == 0 ? AttachedState.PAR : i == 1 ? AttachedState.BRN : AttachedState.FRZ;
           def.Defender.AddState(def.AtkContext.Attacker, s, false);
         }
         return true;

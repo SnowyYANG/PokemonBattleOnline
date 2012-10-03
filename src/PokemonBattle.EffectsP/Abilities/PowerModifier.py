@@ -1,13 +1,13 @@
 class Technician(AbilityE):
     def PowerModifier(self, target):
-        if target.BasePower < 60:
+        if target.BasePower <= 60:
             return 0x1800
         return 0x1000
 A(Technician(145))
 
 class FlareBoost(AbilityE):
     def PowerModifier(self, target):
-        if target.AtkContext.Move.Category == MoveCategory.Special and target.AtkContext.Attacker.State == PokemonState.Burned:
+        if target.AtkContext.Move.Category == MoveCategory.Special and target.AtkContext.Attacker.State == PokemonState.BRN:
             return 0x1800
         return 0x1000
 A(FlareBoost(45))
@@ -39,7 +39,7 @@ A(IronFist(62))
 class ToxicBoost(AbilityE):
     def PowerModifier(self, target):
         state = target.AtkContext.Attacker.State
-        if (state == PokemonState.Poisoned or state == PokemonState.BadlyPoisoned) and target.AtkContext.Move.Category == MoveCategory.Physical:
+        if (state == PokemonState.PSN or state == PokemonState.BadlyPSN) and target.AtkContext.Move.Category == MoveCategory.Physical:
             return 0x1800
         return 0x1000
 A(ToxicBoost(98))

@@ -32,8 +32,8 @@ namespace LightStudio.PokemonBattle.Game.Host
       tile.Pokemon = this;
       tile.WillSendoutPokemonIndex = Tile.NOPM_INDEX;
       OnboardPokemon = new OnboardPokemon(Pokemon, tile.X);
-      if (State == PokemonState.Sleeping) OnboardPokemon.SetCondition("Sleeping", Controller.GetRandomInt(2, 4));
-      else if (State == PokemonState.BadlyPoisoned) OnboardPokemon.SetCondition("Poison", Controller.TurnNumber);
+      if (State == PokemonState.SLP) OnboardPokemon.SetCondition("SLP", Controller.GetRandomInt(2, 4));
+      else if (State == PokemonState.BadlyPSN) OnboardPokemon.SetCondition("PSN", Controller.TurnNumber);
       foreach (var m in Moves) m.HasUsed = false;
 
       Controller.OnboardPokemons.Insert(0, this);
@@ -112,8 +112,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       get
       {
-        int speed = OnboardPokemon.Get5D(OnboardPokemon.Static.Speed, OnboardPokemon.Lv5D.Speed);
-        if (State == PokemonState.Paralyzed) speed >>= 1;
+        int speed = OnboardPokemon.Get5D(OnboardPokemon.FiveD.Speed, OnboardPokemon.Lv5D.Speed);
+        if (State == PokemonState.PAR) speed >>= 1;
         speed *= Ability.ADSModifier(this, StatType.Speed);
         speed *= Item.ADSModifier(this, StatType.Speed);
         if (Controller.Board[Pokemon.TeamId].HasCondition("Tailwind")) speed <<= 1;
@@ -259,29 +259,32 @@ namespace LightStudio.PokemonBattle.Game.Host
       string fail = Controller.Game.Settings.Mode.NeedTarget() ? "Fail" : "Fail0";
       switch (state)
       {
-        case AttachedState.Burn:
-          if (State == PokemonState.Burned) goto BEENSTATE;
+        case AttachedState.BRN:
+          if (State == PokemonState.BRN) goto BEENSTATE;
           if (OnboardPokemon.HasType(BattleType.Fire)) goto NOEFFECT;
           goto STATE;
-        case AttachedState.Freeze:
-          if (State == PokemonState.Frozen) goto BEENSTATE;
+        case AttachedState.FRZ:
+          if (State == PokemonState.FRZ) goto BEENSTATE;
           if (OnboardPokemon.HasType(BattleType.Ice)) goto NOEFFECT;
           goto STATE;
-        case AttachedState.Paralysis:
-          if (State == PokemonState.Paralyzed) goto BEENSTATE;
+        case AttachedState.PAR:
+          if (State == PokemonState.PAR) goto BEENSTATE;
           goto STATE;
-        case AttachedState.Poison:
-          if (State == PokemonState.Poisoned || State == PokemonState.BadlyPoisoned)
+        case AttachedState.PSN:
+          if (State == PokemonState.PSN || State == PokemonState.BadlyPSN)
           {
-            if (showFail) AddReportPm("BeenPoisoned");
+            if (showFail) AddReportPm("BeenPSN");
             return false;
           }
           if (OnboardPokemon.HasType(BattleType.Poison) || OnboardPokemon.HasType(BattleType.Steel)) goto FAIL;
           goto STATE;
-        case AttachedState.Sleep:
-          if (State == PokemonState.Sleeping) goto BEENSTATE;
+        case AttachedState.SLP:
+          if (State == PokemonState.SLP) goto BEENSTATE;
           goto STATE;
-        case AttachedState.Infatuation:
+        case AttachedState.Confuse:
+          if (OnboardPokemon.HasCondition("Confuse")) goto BEENSTATE;
+          goto GENERIC;
+        case AttachedState.Attract:
           if (OnboardPokemon.Gender == PokemonGender.None || by.OnboardPokemon.Gender == PokemonGender.None || OnboardPokemon.Gender == by.OnboardPokemon.Gender) goto NOEFFECT;
           goto CONDITION;
         case AttachedState.LeechSeed:
@@ -302,7 +305,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (showFail) AddReportPm("NoEffect");
       return false;
     BEENSTATE:
-      if (showFail) AddReportPm("Been" + State.ToString());
+      if (showFail) AddReportPm("Been" + state);
       return false;
     STATE:
       if (State != PokemonState.Normal) goto FAIL;
@@ -633,36 +636,36 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       switch (state)
       {
-        case AttachedState.Burn:
-          Pokemon.State = PokemonState.Burned;
+        case AttachedState.BRN:
+          Pokemon.State = PokemonState.BRN;
           goto POKEMON_STATE;
-        case AttachedState.Freeze:
-          Pokemon.State = PokemonState.Frozen;
+        case AttachedState.FRZ:
+          Pokemon.State = PokemonState.FRZ;
           goto POKEMON_STATE;
-        case AttachedState.Paralysis:
-          Pokemon.State = PokemonState.Paralyzed;
+        case AttachedState.PAR:
+          Pokemon.State = PokemonState.PAR;
           goto POKEMON_STATE;
-        case AttachedState.Poison:
-          if (turn == 0) Pokemon.State = PokemonState.Poisoned;
+        case AttachedState.PSN:
+          if (turn == 0) Pokemon.State = PokemonState.PSN;
           else
           {
-            Pokemon.State = PokemonState.BadlyPoisoned;
-            OnboardPokemon.SetCondition("Poison", Controller.TurnNumber);
+            Pokemon.State = PokemonState.BadlyPSN;
+            OnboardPokemon.SetCondition("PSN", Controller.TurnNumber);
           }
           goto POKEMON_STATE;
-        case AttachedState.Sleep:
-          Pokemon.State = PokemonState.Sleeping;
-          OnboardPokemon.SetCondition("Sleeping", turn == 0 ? Controller.GetRandomInt(2, 4) : turn);
+        case AttachedState.SLP:
+          Pokemon.State = PokemonState.SLP;
+          OnboardPokemon.SetCondition("SLP", turn == 0 ? Controller.GetRandomInt(2, 4) : turn);
           goto POKEMON_STATE;
-        case AttachedState.Confusion:
-          OnboardPokemon.SetCondition("Confused", turn == 0 ? Controller.GetRandomInt(2, 5) : turn);
-          AddReportPm(log ?? "Confused");
+        case AttachedState.Confuse:
+          OnboardPokemon.SetCondition("Confuse", turn == 0 ? Controller.GetRandomInt(2, 5) : turn);
+          AddReportPm(log ?? "Confuse");
           goto DONE;
-        case AttachedState.Infatuation:
-          OnboardPokemon.SetCondition("Infatuation", by);
-          AddReportPm(log ?? "EnInfatuation", arg1);
+        case AttachedState.Attract:
+          OnboardPokemon.SetCondition("Attract", by);
+          AddReportPm(log ?? "EnAttract", arg1);
           goto DONE;
-        case AttachedState.Trapped:
+        case AttachedState.Trap:
           {
             var move = by.AtkContext.Move;
             var c = new Condition();
@@ -761,7 +764,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if ((attachment.Probability == 0 || atk.RandomHappen(attachment.Probability)) && CanAddState(atk.Attacker, def.Ability, attachment.State, atk.Move.Category == MoveCategory.Status))
       {
         int turn;
-        if (attachment.State == AttachedState.Trapped && atk.Attacker.Item.GripClaw()) turn = 8;
+        if (attachment.State == AttachedState.Trap && atk.Attacker.Item.GripClaw()) turn = 8;
         else if (attachment.MinTurn != attachment.MaxTurn) turn = Controller.GetRandomInt(attachment.MinTurn, attachment.MaxTurn);
         else turn = attachment.MinTurn;
         AddStateImplement(atk.Attacker, attachment.State, turn, null, 0);

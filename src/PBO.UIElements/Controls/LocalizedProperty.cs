@@ -17,7 +17,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
         public DependencyProperty Property
         { get; set; }
 
-        public IDomainStringService StringService
+        public DomainStringService StringService
         { get; set; }
 
         #region Key

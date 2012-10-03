@@ -13,14 +13,14 @@ namespace LightStudio.PokemonBattle.PBO.Editor
 {
   internal class FolderViewModel : FolderViewModelBase
   {
-    static readonly object TEAMICON;
-    static readonly object TEAMICONOPEN;
+    static readonly object TEAMNOPMICON;
+    static readonly object TEAMNOPMICONOPEN;
     static readonly object BOXICON;
     static readonly object BOXICONOPEN;
     static FolderViewModel()
     {
-      TEAMICON = PBO.Helper.GetImage(@"Balls/Normal.png");
-      TEAMICONOPEN = PBO.Helper.GetImage(@"Balls/NormalOpen.png");
+      TEAMNOPMICON = PBO.Helper.GetImage(@"Balls/Normal.png");
+      TEAMNOPMICONOPEN = PBO.Helper.GetImage(@"Balls/NormalOpen.png");
       BOXICON = PBO.Helper.GetImage(@"Balls/Dive.png");
       BOXICONOPEN = PBO.Helper.GetImage(@"Balls/DiveOpen.png");
     }
@@ -47,8 +47,10 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       {
         if (IsTeam)
         {
-          if (IsOpen) return TEAMICONOPEN;
-          return TEAMICON;
+          if (IsOpen) return TEAMNOPMICONOPEN;
+          var pm = Pokemons.FirstOrDefault();
+          if (pm == null) return TEAMNOPMICON;
+          else return pm.Icon;
         }
         if (IsOpen) return BOXICONOPEN;
         return BOXICON;
@@ -62,8 +64,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       }
       set
       {
-        #warning 各种无奈
-        if (/*Renaming &&*/ Model.Name != value)
+        if (Model.Name != value)
         {
           Model.Name = value;
           OnPropertyChanged("Name");
@@ -120,7 +121,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     public void AddNewPokemon()
     {
       Pokemons.Add(new PokemonViewModel(this, 
-        new PokemonCustomInfo(Config.GetValue<int>(EditorConfig.LAST_POKEMON_TYPE))));
+        new PokemonCustomInfo(Config.GetValue<int>("Editor_LastPokemonNumber", 1), Config.GetValue<int>("Editor_LastPokemonForme"))));
     }
     public void Export()
     {

@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 namespace LightStudio.PokemonBattle.Data
 {
-    [DataContract(Namespace = Namespaces.LIGHT)]
+    [DataContract(Namespace = Namespaces.PBO)]
     internal class CollectionInfo
     {
         [DataMember]

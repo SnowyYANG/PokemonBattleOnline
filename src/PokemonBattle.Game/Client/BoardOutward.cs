@@ -25,7 +25,7 @@ namespace LightStudio.PokemonBattle.Game
     private readonly IGameSettings settings;
     private Weather weather;
     
-    private readonly List<IBoardOutwardEvents> listeners;
+    private IBoardOutwardEvents listener;
 
     internal BoardOutward(IGameSettings settings)
     {
@@ -41,8 +41,6 @@ namespace LightStudio.PokemonBattle.Game
         teams[i] = new ObservableCollection<PokemonOutward>(empty);
         Teams[i] = new ReadOnlyObservableCollection<PokemonOutward>(teams[i]);
       }
-
-      listeners = new List<IBoardOutwardEvents>();
     }
 
     public PokemonOutward this[int team, int x]
@@ -69,27 +67,26 @@ namespace LightStudio.PokemonBattle.Game
     #region Events
     public void AddListener(IBoardOutwardEvents listener)
     {
-      listeners.Add(listener);
+#if DEBUG
+      if (this.listener != null) System.Diagnostics.Debugger.Break();
+#endif
+      this.listener = listener;
     }
     public void PokemonSentout(GameOutward game, int team, int x)
     {
-      foreach (IBoardOutwardEvents l in listeners)
-        l.PokemonSentout(team, x);
+      listener.PokemonSentout(team, x);
     }
     public void WeatherChanged()
     {
-      foreach (IBoardOutwardEvents l in listeners)
-        l.WeatherChanged();
+      listener.WeatherChanged();
     }
     public void ShowAbility(PokemonOutward pokemon, Ability ability)
     {
-      foreach (IBoardOutwardEvents l in listeners)
-        l.ShowAbility(pokemon, ability);
+      listener.ShowAbility(pokemon, ability);
     }
     public void AbilityChanged(PokemonOutward pokemon, Ability from, Ability to)
     {
-      foreach (IBoardOutwardEvents l in listeners)
-        l.AbilityChanged(pokemon, from, to);
+      listener.AbilityChanged(pokemon, from, to);
     }
     #endregion
   }

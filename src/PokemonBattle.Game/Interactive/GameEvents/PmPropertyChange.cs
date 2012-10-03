@@ -8,7 +8,7 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class StateChange : GameEvent
   {
     [DataMember]
@@ -40,9 +40,9 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
         {
           switch (pm.State)
           {
-            case PokemonState.BadlyPoisoned:
-            case PokemonState.Poisoned:
-              key = "DePoisoned";
+            case PokemonState.BadlyPSN:
+            case PokemonState.PSN:
+              key = "DePSN";
               break;
             default:
               key = "De" + pm.State.ToString();
@@ -67,7 +67,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class MoveHurts : GameEvent
   {
     [DataMember(EmitDefaultValue = false)]
@@ -129,7 +129,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class HpChange : GameEvent
   {
     [DataMember]
@@ -176,7 +176,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class PositionChange : SimpleEvent
   {
     public static PositionChange Reset(string gameLogKey, PokemonProxy pm, object arg1 = null, object arg2 = null)
@@ -207,7 +207,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class RemoveItem : GameEvent
   {
     [DataMember]
@@ -240,7 +240,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class OutwardChange : GameEvent
   {
     public static OutwardChange FormOnly(string logKey, PokemonProxy pm, string arg = null)
@@ -258,8 +258,10 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     int Pm;
     [DataMember(EmitDefaultValue = false)]
     string Name;
-    [DataMember]
-    int Image;
+    [DataMember(EmitDefaultValue = false)]
+    int Number;
+    [DataMember(EmitDefaultValue = false)]
+    int Forme;
     [DataMember(EmitDefaultValue = false)]
     PokemonGender? Gender;
     [DataMember(EmitDefaultValue = false)]
@@ -269,7 +271,8 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     {
       Log = log;
       Pm = pm.Id;
-      Image = pm.ImageId;
+      Number = pm.Forme.Type.Number;
+      Forme = pm.Forme.Index;
       if (allProperty)
       {
         Name = pm.Name;
@@ -282,7 +285,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
         var pm = GetPokemon(Pm);
         if (Name != null) pm.Name = Name;
         if (Gender != null) pm.Gender = Gender.Value;
-        pm.ChangeImageId(Image);
+        pm.ChangeForme(Number, Forme);
       }
       AppendGameLog(Log, Pm, Arg);
     }

@@ -20,7 +20,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     protected override void Act(AtkContext atk)
     {
       foreach (var pm in atk.Controller.OnboardPokemons)
-        Exchange(pm.OnboardPokemon.Static);
+        Exchange(pm.OnboardPokemon.FiveD);
       if (atk.Controller.Board.AddCondition("WonderRoom")) atk.Controller.ReportBuilder.Add("EnWonderRoom");
       else atk.Controller.ReportBuilder.Add("DeWonderRoom");
     }

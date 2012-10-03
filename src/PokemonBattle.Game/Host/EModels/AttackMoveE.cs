@@ -63,12 +63,12 @@ namespace LightStudio.PokemonBattle.Game.Host
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
       }
-      while (hits < times && atk.Target.Defender.Hp != 0 && aer.Hp != 0 && aer.State != PokemonState.Frozen && aer.State != PokemonState.Sleeping && Moves.TripleKick(atk));
+      while (hits < times && atk.Target.Defender.Hp != 0 && aer.Hp != 0 && aer.State != PokemonState.FRZ && aer.State != PokemonState.SLP && Moves.TripleKick(atk));
       
       if (Move.MaxTimes > 1) atk.Controller.ReportBuilder.Add("Hits", hits);
       if (atk.Type == BattleType.Fire)
         foreach (DefContext d in atk.Targets)
-          if (d.Defender.State == PokemonState.Frozen) d.Defender.DeAbnormalState();
+          if (d.Defender.State == PokemonState.FRZ) d.Defender.DeAbnormalState();
       
       if (!(atk.Move.HasProbabilitiedAdditonalEffects() && aer.Ability.SheerForce())) PostEffect(atk);
     }
@@ -189,7 +189,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             p = atk.Attacker.OnboardPokemon;
             s = st;
           }
-          a = p.Static.GetStat(st);
+          a = p.FiveD.GetStat(st);
           if (!def.Ability.Unaware())
           {
             int atkLv = p.Lv5D.GetStat(st);
@@ -205,7 +205,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       {
         StatType st = Move.Category == MoveCategory.Physical ? StatType.Def : StatType.SpDef;
-        int defRaw = def.Defender.OnboardPokemon.Static.GetStat(st);
+        int defRaw = def.Defender.OnboardPokemon.FiveD.GetStat(st);
         int defLv = 0;
         if (!(aer.Ability.Unaware() || Move.IgnoreDefenderLv7D())) defLv = def.Defender.OnboardPokemon.Lv5D.GetStat(st);
         if (def.IsCt && defLv > 0) defLv = 0;
@@ -251,7 +251,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (def.EffectRevise > 0) def.Damage <<= def.EffectRevise;
       else if (def.EffectRevise < 0) def.Damage >>= -def.EffectRevise;
       //7.Alter with user's burn
-      if (Move.Category == MoveCategory.Physical && aer.State == PokemonState.Burned && !aer.Ability.Guts())
+      if (Move.Category == MoveCategory.Physical && aer.State == PokemonState.BRN && !aer.Ability.Guts())
         def.Damage >>= 1;
       //8.Make sure damage is at least 1
       if (def.Damage < 1) def.Damage = 1;
@@ -316,7 +316,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         atk.Attachment--;
         if (atk.Attachment != 0) atk.Attacker.Action = PokemonAction.Moving;
-        else if (atk.Move.MultiTurnAttackWithConfusion()) atk.Attacker.AddState(atk.Attacker, AttachedState.Confusion, false, 0, "EnConfused2");
+        else if (atk.Move.MultiTurnAttackWithConfusion()) atk.Attacker.AddState(atk.Attacker, AttachedState.Confuse, false, 0, "EnConfuse2");
       }
       //3.因为逃生按钮下场的精灵选择换人
       if (atk.EjectButton != null) ;

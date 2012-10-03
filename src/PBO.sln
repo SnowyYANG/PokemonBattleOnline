@@ -34,9 +34,11 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PokemonBattle.EffectsP", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonBattle.Test", "PokemonBattle.Test\PokemonBattle.Test.csproj", "{CA8FC057-3DD7-4F64-9965-AD4BA3FF5EE6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonBattle.Data.Editor", "PokemonBattle.Data.Editor\PokemonBattle.Data.Editor.csproj", "{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 14
+		SccNumberOfProjects = 15
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs30
 		SccLocalPath0 = .
@@ -79,6 +81,9 @@ Global
 		SccProjectUniqueName13 = PokemonBattle.Test\\PokemonBattle.Test.csproj
 		SccProjectName13 = PokemonBattle.Test
 		SccLocalPath13 = PokemonBattle.Test
+		SccProjectUniqueName14 = PokemonBattle.Data.Editor\\PokemonBattle.Data.Editor.csproj
+		SccProjectName14 = PokemonBattle.Data.Editor
+		SccLocalPath14 = PokemonBattle.Data.Editor
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -287,6 +292,21 @@ Global
 		{CA8FC057-3DD7-4F64-9965-AD4BA3FF5EE6}.Release|Mixed Platforms.Build.0 = Release|x86
 		{CA8FC057-3DD7-4F64-9965-AD4BA3FF5EE6}.Release|x86.ActiveCfg = Release|x86
 		{CA8FC057-3DD7-4F64-9965-AD4BA3FF5EE6}.Release|x86.Build.0 = Release|x86
+		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.Debug|x86.ActiveCfg = Debug|x86
+		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.Debug|x86.Build.0 = Debug|x86
+		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.DllBuild|Any CPU.ActiveCfg = Debug|x86
+		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.DllBuild|Mixed Platforms.ActiveCfg = Debug|x86
+		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.DllBuild|Mixed Platforms.Build.0 = Debug|x86
+		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.DllBuild|x86.ActiveCfg = Debug|x86
+		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.DllBuild|x86.Build.0 = Debug|x86
+		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.Release|Any CPU.ActiveCfg = Release|x86
+		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.Release|Mixed Platforms.Build.0 = Release|x86
+		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.Release|x86.ActiveCfg = Release|x86
+		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

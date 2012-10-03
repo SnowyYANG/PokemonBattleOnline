@@ -19,7 +19,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     public BattleType? BattleType
     { get; set; }
 
-    public PokemonType PokemonType
+    public PokemonForme PokemonType
     { get; set; }
 
     public Ability Ability
@@ -69,7 +69,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
           pokemonViewModel =>
           {
             PokemonCustomInfo pm = pokemonViewModel.Model;
-            PokemonType pmType = DataService.GetPokemonType(pm.PokemonTypeId);
+            PokemonForme pmType = DataService.GetPokemonType(pm.PokemonTypeId);
             return (lowerName == null || pm.Name.ToLower().Contains(lowerName))
                 && (BattleType == null || pmType.Type1 == BattleType || pmType.Type2 == BattleType)
                 && (PokemonType == null || PokemonType == pmType)

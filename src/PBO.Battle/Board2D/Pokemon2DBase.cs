@@ -91,7 +91,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     {
       RefreshImage();
     }
-    void IPokemonOutwardEvents.ImageIdChanged()
+    void IPokemonOutwardEvents.FormeChanged()
     {
       RefreshImage();
     }

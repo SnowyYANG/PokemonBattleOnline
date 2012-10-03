@@ -8,9 +8,9 @@ using System.Runtime.Serialization;
 using System.Xml;
 using LightStudio.Tactic.Serialization;
 
-namespace LightStudio.Tactic.DataModels.IO
+namespace LightStudio.Tactic.DataModels
 {
-  [DataContract(Namespace=Namespaces.LIGHT)]
+  [DataContract(Namespace=Namespaces.PBO)]
   public abstract class SimpleData
   {
     protected static T LoadFromXml<T>(string fileName) where T : SimpleData
@@ -21,8 +21,10 @@ namespace LightStudio.Tactic.DataModels.IO
     protected static T LoadFromDat<T>(string fileName) where T : SimpleData
     {
       using (FileStream f = new FileStream(fileName, FileMode.Open, FileAccess.Read))
-      using (DeflateStream s = new DeflateStream(f, CompressionMode.Decompress))
-        return (T)Serializer.Deserialize<T>(s);
+        using (DeflateStream s = new DeflateStream(f, CompressionMode.Decompress))
+      {
+          return (T)Serializer.Deserialize<T>(s);
+      }
     }
 
     protected SimpleData()

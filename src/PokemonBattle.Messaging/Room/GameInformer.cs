@@ -31,7 +31,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void InformTieRejected();
   }
 
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   class GameEndInfo : IUserInformation
   {
     public static GameEndInfo GameTie()
@@ -65,7 +65,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   class WaitingForInputInfo : IUserInformation
   {
     [DataMember]
@@ -82,7 +82,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   class ReportUpdateInfo : IUserInformation
   {
     [DataMember]
@@ -98,7 +98,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   class RequireInputInfo : IUserInformation
   {
     [DataMember]
@@ -118,7 +118,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
   
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   class RequestTieInfo : IUserInformation
   {
     void IUserInformation.Execute(IRoomUser user)
@@ -127,7 +127,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   class RejectTieInfo : IUserInformation
   {
     void IUserInformation.Execute(IRoomUser user)

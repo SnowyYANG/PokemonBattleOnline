@@ -8,7 +8,7 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class PmInputRequest
   {
     internal static PmInputRequest Origin(Pokemon pm)
@@ -187,7 +187,7 @@ namespace LightStudio.PokemonBattle.Game
     #endregion
   }
   
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class InputRequest
   {
     internal static InputRequest Origin()

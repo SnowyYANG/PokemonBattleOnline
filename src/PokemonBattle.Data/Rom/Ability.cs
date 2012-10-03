@@ -7,7 +7,7 @@ using LightStudio.Tactic.DataModels;
 
 namespace LightStudio.PokemonBattle.Data
 {
-  [DataContract(Namespace=Namespaces.LIGHT)]
+  [DataContract(Namespace=Namespaces.PBO)]
   public class Ability : GameElement
   {
     private Ability(int id)

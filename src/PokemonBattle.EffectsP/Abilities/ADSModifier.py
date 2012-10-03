@@ -95,3 +95,10 @@ class Unburden(a_s):
             return 0x2000
         return 0x1000
 A(Unburden(156))
+
+class SolarPower(AbilityE):
+    def ADSModifier(self, pm, stat):
+        if stat == StatType.SpAtk and pm.Controller.Weather == Weather.IntenseSunlight:
+            return 0x1800
+        return 0x1000
+A(SolarPower(127))

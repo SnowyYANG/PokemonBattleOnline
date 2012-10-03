@@ -59,9 +59,9 @@ class StarfBerry(ItemE):
             if n != 0:
                 item_changelv5d(pm, ss[pm.Controller.GetRandomInt(0, n - 1)], 2)
     def Attach(self, pm):
-        self.e(pm)
+        StarfBerry.e(self, pm)
     def HpChanged(self, pm):
-        self.e(pm)
+        StarfBerry.e(self, pm)
 I(StarfBerry(187))
 
 class AttackedUpItem(ItemE):

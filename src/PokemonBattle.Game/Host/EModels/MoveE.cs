@@ -213,7 +213,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       return controller.RandomHappen(acc);
     }
     public virtual int GetAccuracyBase(AtkContext def)
-    { return Move.Accuracy == 0 ? 0x65 : Move.Accuracy; }
+    { return Move.Accuracy; }
     #endregion
     #region CalculateType
     protected virtual void CalculateType(AtkContext atk)

@@ -8,7 +8,7 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class LogText : Tactic.DataModels.TextBase<IText>, IText
   {
     private static readonly string[] NODATA = new string[] { "{0}", "{1}", "{2}", "{3}", "{4}", "{5}" };

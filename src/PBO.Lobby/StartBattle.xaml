@@ -19,16 +19,16 @@
                         <StackPanel.ToolTip>
                             <ToolTip>
                                 <StackPanel DataContext="{Binding Pokemons}" Orientation="Horizontal">
-                                    <Image Height="32" Width="32" Source="{Binding [0].PokemonTypeId,Converter={x:Static c:IdIconConverter.I}}"/>
-                                    <Image Height="32" Width="32" Source="{Binding [1].PokemonTypeId,Converter={x:Static c:IdIconConverter.I}}"/>
-                                    <Image Height="32" Width="32" Source="{Binding [2].PokemonTypeId,Converter={x:Static c:IdIconConverter.I}}"/>
-                                    <Image Height="32" Width="32" Source="{Binding [3].PokemonTypeId,Converter={x:Static c:IdIconConverter.I}}"/>
-                                    <Image Height="32" Width="32" Source="{Binding [4].PokemonTypeId,Converter={x:Static c:IdIconConverter.I}}"/>
-                                    <Image Height="32" Width="32" Source="{Binding [5].PokemonTypeId,Converter={x:Static c:IdIconConverter.I}}"/>
+                                    <Image Height="32" Width="32" Source="{Binding [0]}"/>
+                                    <Image Height="32" Width="32" Source="{Binding [1]}"/>
+                                    <Image Height="32" Width="32" Source="{Binding [2]}"/>
+                                    <Image Height="32" Width="32" Source="{Binding [3]}"/>
+                                    <Image Height="32" Width="32" Source="{Binding [4]}"/>
+                                    <Image Height="32" Width="32" Source="{Binding [5]}"/>
                                 </StackPanel>
                             </ToolTip>
                         </StackPanel.ToolTip>
-                        <Image Source="{Binding Pokemons[0].PokemonTypeId,Converter={x:Static c:IdIconConverter.I}}" Height="32" Width="32" Margin="0,-5,0,0"/>
+                        <Image Source="{Binding Pokemons[0]}" Height="32" Width="32" Margin="0,-5,0,0"/>
                         <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
                     </StackPanel>
                 </DataTemplate>
@@ -50,7 +50,7 @@
                     </Setter>
                 </Style>
                 <Style TargetType="Image">
-                    <Setter Property="Source" Value="{Binding DataContext.PokemonTypeId,RelativeSource={RelativeSource Self},Converter={x:Static c:IdIconConverter.I}}"/>
+                    <Setter Property="Source" Value="{Binding DataContext.PokemonTypeId,RelativeSource={RelativeSource Self}}"/>
                     <Setter Property="ToolTip" Value="{Binding DataContext,RelativeSource={RelativeSource Self}}"/>
                     <Setter Property="Height" Value="32"/>
                     <Setter Property="Width" Value="32"/>

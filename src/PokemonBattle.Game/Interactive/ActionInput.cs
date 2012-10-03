@@ -8,7 +8,7 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   internal class XActionInput
   {
     public static XActionInput UseMove(SimMove move, int targetTeam, int targetX)
@@ -66,7 +66,7 @@ namespace LightStudio.PokemonBattle.Game
       return r;
     }
   }
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class ActionInput
   {
     [DataMember]

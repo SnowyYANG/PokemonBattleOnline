@@ -41,7 +41,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
 
     private void Save_Click(object sender, RoutedEventArgs e)
     {
-      EditingPokemonViewModel vm = DataContext as EditingPokemonViewModel;
+      EditingPokemonVM vm = DataContext as EditingPokemonVM;
       if (vm != null) vm.Save();
     }
   }

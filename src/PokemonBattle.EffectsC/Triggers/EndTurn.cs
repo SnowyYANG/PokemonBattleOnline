@@ -209,23 +209,23 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       {
         switch (pm.State)
         {
-          case PokemonState.BadlyPoisoned:
+          case PokemonState.BadlyPSN:
             if (pm.CanHpRecover() && pm.RaiseAbility(As.POISON_HEAL)) pm.HpRecoverByOneNth(8, false, "PoisonHeal");
             else
             {
-              int turn = 1 + c.TurnNumber - pm.OnboardPokemon.GetCondition<int>("Poison");
+              int turn = 1 + c.TurnNumber - pm.OnboardPokemon.GetCondition<int>("PSN");
               int hp = pm.Pokemon.Hp.Origin * (turn > 15 ? 15 : turn) / 16;
-              pm.EffectHurt(hp, "Poisoned");
+              pm.EffectHurt(hp, "PSN");
             }
             break;
-          case PokemonState.Poisoned:
+          case PokemonState.PSN:
             if (pm.CanHpRecover() && pm.RaiseAbility(As.POISON_HEAL)) pm.HpRecoverByOneNth(8, false, "PoisonHeal");
-            else pm.EffectHurtByOneNth(8, "Poisoned");
+            else pm.EffectHurtByOneNth(8, "PSN");
             break;
-         case PokemonState.Burned:
-            pm.EffectHurtByOneNth(8, "Burned");
+         case PokemonState.BRN:
+            pm.EffectHurtByOneNth(8, "BRN");
             break;
-          case PokemonState.Sleeping:
+          case PokemonState.SLP:
             if (pm.OnboardPokemon.HasCondition("Nightmare")) pm.EffectHurtByOneNth(4, "Nightmare");
             break;
         }
@@ -332,7 +332,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         var o = pm.OnboardPokemon.GetCondition("Yawn");
         if (o != null && o.Turn == c.TurnNumber)
         {
-          pm.AddState(o.By, AttachedState.Sleep, false);
+          pm.AddState(o.By, AttachedState.SLP, false);
           pm.OnboardPokemon.RemoveCondition("Yawn");
         }
       }
@@ -427,7 +427,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             {
               bool first = true;
               foreach (var target in c.Board[1 - pm.Pokemon.TeamId].Pokemons)
-                if (target.State == PokemonState.Sleeping)
+                if (target.State == PokemonState.SLP)
                 {
                   if (first)
                   {
@@ -462,10 +462,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         switch (pm.Item.Id)
         {
           case Is.TOXIC_ORB:
-            pm.AddState(pm, AttachedState.Poison, false, 15, "ItemEnBadlyPoisoned", Is.TOXIC_ORB);
+            pm.AddState(pm, AttachedState.PSN, false, 15, "ItemEnBadlyPSN", Is.TOXIC_ORB);
             break;
           case Is.FLAME_ORB:
-            pm.AddState(pm, AttachedState.Burn, false, 0, "ItemEnBurned", Is.FLAME_ORB);
+            pm.AddState(pm, AttachedState.BRN, false, 0, "ItemEnBRN", Is.FLAME_ORB);
             break;
           case Is.STICKY_BARB:
             pm.EffectHurtByOneNth(8, "ItemHurt", Is.STICKY_BARB);
@@ -479,14 +479,14 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             var i = p.OnboardPokemon.GetCondition<Item>("UsedItem");
             if (i != null) items.Add(i);
           }
-          if (items.FirstOrDefault() == null)
+          if (!items.Any())
             foreach (var p in c.Board[pm.Pokemon.TeamId].Pokemons)
               if (p != pm)
               {
                 var i = p.OnboardPokemon.GetCondition<Item>("UsedItem");
                 if (i != null) items.Add(i);
               }
-          if (items.FirstOrDefault() != null)
+          if (items.Any())
           {
             var item = items[c.GetRandomInt(0, items.Count - 1)].Id;
             pm.RaiseAbility();

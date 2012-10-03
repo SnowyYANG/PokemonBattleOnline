@@ -247,7 +247,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       if (atk.Move.Category == MoveCategory.Physical && atk.Controller.Weather == Weather.IntenseSunlight)
       {
         foreach (PokemonProxy pm in atk.Controller.GetOnboardPokemons(atk.Attacker.Pokemon.Id))
-          if (pm.Pokemon.PokemonType.Number == 421 && pm.Ability.Id == 35) return m *= 0x1800;
+          if (pm.Pokemon.Forme.Type.Number == 421 && pm.Ability.Id == 35) return m *= 0x1800;
       }
       return m;
     }
@@ -257,7 +257,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       if (def.AtkContext.Move.Category == MoveCategory.Special && def.AtkContext.Controller.Weather == Weather.IntenseSunlight)
       {
         foreach (PokemonProxy pm in def.Defender.Controller.GetOnboardPokemons(def.Defender.Pokemon.TeamId))
-          if (pm.Pokemon.PokemonType.Number == 421 && pm.Ability.Id == 35) m *= 0x1800;
+          if (pm.Pokemon.Forme.Type.Number == 421 && pm.Ability.Id == 35) m *= 0x1800;
       }
       return m;
     }
@@ -342,10 +342,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static void PoisonTouch(DefContext def)
     {
       PokemonProxy a = def.AtkContext.Attacker, d = def.Defender;
-      if (a.Ability.Id == 95 && def.AtkContext.Move.AdvancedFlags.NeedTouch && d.Controller.RandomHappen(30) && d.CanAddState(a, AttachedState.Poison, false))
+      if (a.Ability.Id == 95 && def.AtkContext.Move.AdvancedFlags.NeedTouch && d.Controller.RandomHappen(30) && d.CanAddState(a, AttachedState.PSN, false))
       {
         a.RaiseAbility();
-        d.AddState(a, AttachedState.Poison, false);
+        d.AddState(a, AttachedState.PSN, false);
       }
     }
     public static bool Trace(int abilityId)

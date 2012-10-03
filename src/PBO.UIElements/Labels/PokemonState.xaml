@@ -3,22 +3,22 @@
     <DataTemplate x:Key="PokemonStateLabel">
         <Image Name="img" Height="6" Width="19" SnapsToDevicePixels="True" Stretch="Uniform" ToolTip="{Binding}"/>
         <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding}" Value="Burned">
+            <DataTrigger Binding="{Binding}" Value="BRN">
                 <Setter TargetName="img" Property="Source" Value="/PBO.UIElements;component/Images/Labels/BRN.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding}" Value="Frozen">
+            <DataTrigger Binding="{Binding}" Value="FRZ">
                 <Setter TargetName="img" Property="Source" Value="/PBO.UIElements;component/Images/Labels/FRZ.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding}" Value="Paralyzed">
+            <DataTrigger Binding="{Binding}" Value="PAR">
                 <Setter TargetName="img" Property="Source" Value="/PBO.UIElements;component/Images/Labels/PAR.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding}" Value="Poisoned">
+            <DataTrigger Binding="{Binding}" Value="PSN">
                 <Setter TargetName="img" Property="Source" Value="/PBO.UIElements;component/Images/Labels/PSN.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding}" Value="BadlyPoisoned">
+            <DataTrigger Binding="{Binding}" Value="BadlyPSN">
                 <Setter TargetName="img" Property="Source" Value="/PBO.UIElements;component/Images/Labels/bPSN.png"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding}" Value="Sleeping">
+            <DataTrigger Binding="{Binding}" Value="SLP">
                 <Setter TargetName="img" Property="Source" Value="/PBO.UIElements;component/Images/Labels/SLP.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding}" Value="Faint">

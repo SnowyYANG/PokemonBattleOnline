@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class WeatherChange : GameEvent
   {
     [DataMember]

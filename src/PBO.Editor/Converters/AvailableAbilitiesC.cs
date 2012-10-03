@@ -9,7 +9,7 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.PBO.Editor
 {
-    [ValueConversion(typeof(PokemonType), typeof(IEnumerable<Ability>))]
+    [ValueConversion(typeof(PokemonForme), typeof(IEnumerable<Ability>))]
     class AvailableAbilitiesC : IValueConverter
     {
       public static readonly AvailableAbilitiesC I = new AvailableAbilitiesC();  
@@ -18,7 +18,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
         {
             if (value == null)
                 return null;
-            return (value as PokemonType).GetAvailableAbilities();
+            return (value as PokemonForme).GetAvailableAbilities();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

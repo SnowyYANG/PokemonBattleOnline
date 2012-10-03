@@ -6,7 +6,7 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
-  public static partial class EffectsService
+  public static class EffectsService
   {
     public readonly static AbilityE NULL_ABILITY;
     public readonly static ItemE NULL_ITEM;
@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     private static bool unlocked;
     private static MoveE[] moves;
     private static AbilityE[] abilities;
-    private static ItemE[] items;
+    private static Dictionary<int, ItemE> items;
     private static Dictionary<int, IRuleE> rules;
 
     static EffectsService()
@@ -25,7 +25,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       NULL_RULE = new RuleE(0);
       moves = new MoveE[DataService.Moves.Count() + 1];
       abilities = new AbilityE[DataService.Abilities.Count() + 1];
-      items = new ItemE[DataService.Items.Count() + 1];
+      items = new Dictionary<int, ItemE>();
       rules = new Dictionary<int, IRuleE>();
       items[0] = NULL_ITEM;
       abilities[0] = NULL_ABILITY;
@@ -80,9 +80,14 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public static ItemE GetItem(Item item)
     {
-      if (item == null || item.Id < 0 || item.Id > items.Length) return items[0];
-      if (items[item.Id] == null) items[item.Id] = new ItemE(item.Id);
-      return items[item.Id];
+      if (item == null) return NULL_ITEM;
+      ItemE e;
+      if (items.TryGetValue(item.Id, out e))
+      {
+        e = new ItemE(item.Id);
+        items[item.Id] = e;
+      }
+      return e;
     }
     public static IRuleE GetRule(int id)
     {
@@ -111,8 +116,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (unlocked)
       {
-        if (item.Id > 0 && item.Id < items.Length)
-          items[item.Id] = item;
+        items[item.Id] = item;
       }
     }
     public static void Register(RuleE rule)

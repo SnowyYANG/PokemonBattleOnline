@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 using LightStudio.PokemonBattle.Game;
 using LightStudio.PokemonBattle.Messaging;
 using LightStudio.PokemonBattle.Messaging.Room;
@@ -24,7 +25,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
   /// </summary>
   public partial class BattleWindow : Window, IRoomEventsListener
   {
-    private static readonly List<BattleWindow> Instances = new List<BattleWindow>();
+    private static readonly Collection<BattleWindow> Instances = new Collection<BattleWindow>();
     public static bool Window_Closing(Window mainWindow)
     {
       if (Instances.FirstOrDefault() != null)

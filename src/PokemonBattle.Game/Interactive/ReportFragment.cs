@@ -9,7 +9,7 @@ using LightStudio.PokemonBattle.Game.GameEvents;
 namespace LightStudio.PokemonBattle.Game
 {
   [KnownType("KnownEvents")]
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public class ReportFragment
   {
     static HashSet<Type> knownGameEvents = new HashSet<Type>() { typeof(AbilityEvent), typeof(BeginTurn), typeof(EndTurn), typeof(GetItem), typeof(HLLD), typeof(HorizontalLine), typeof(HpChange), typeof(MoveHurts), typeof(OutwardChange), typeof(PPChange), typeof(PositionChange), typeof(SelectMoveFail), typeof(SendOut), typeof(SimpleEvent), typeof(StateChange), typeof(Substitute), typeof(RemoveItem), typeof(UseMove), typeof(WeatherChange), typeof(Withdraw) };

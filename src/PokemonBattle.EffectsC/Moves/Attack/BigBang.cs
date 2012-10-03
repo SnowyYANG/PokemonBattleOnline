@@ -41,7 +41,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
       Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
       if (atk.Type == BattleType.Fire)
         foreach (DefContext d in atk.Targets)
-          if (d.Defender.State == PokemonState.Frozen) d.Defender.DeAbnormalState();
+          if (d.Defender.State == PokemonState.FRZ) d.Defender.DeAbnormalState();
 
       PostEffect(atk);
     }

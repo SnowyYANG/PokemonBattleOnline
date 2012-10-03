@@ -7,13 +7,13 @@ using Is = LightStudio.PokemonBattle.Game.Host.Sp.Items;
 
 namespace LightStudio.PokemonBattle.Game.Host.Effects.Items
 {
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   class MentalHerbEvent : GameEvent
   {
     [DataMember(EmitDefaultValue = false)]
     int Pm;
     [DataMember(EmitDefaultValue = false)]
-    bool Infatuation;
+    bool Attract;
     [DataMember(EmitDefaultValue = false)]
     bool Encore;
     [DataMember(EmitDefaultValue = false)]
@@ -26,7 +26,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Items
     public MentalHerbEvent(PokemonProxy pm, bool i, bool e, bool ta, bool to, bool d)
     {
       Pm = pm.Id;
-      Infatuation = i;
+      Attract = i;
       Encore = e;
       Taunt = ta;
       Torment = to;
@@ -35,7 +35,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Items
 
     protected override void Update()
     {
-      if (Infatuation) AppendGameLog("ItemDeInfatuation", Pm, 8);
+      if (Attract) AppendGameLog("ItemDeAttract", Pm, 8);
       if (Encore) AppendGameLog("DeEncore", Pm);
       if (Taunt) AppendGameLog("DeTaunt", Pm);
       if (Torment) AppendGameLog("DeTorment", Pm);
@@ -71,7 +71,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Items
     private void Act(PokemonProxy pm)
     {
       var op = pm.OnboardPokemon;
-      bool i = Act(op, "Infatuation");
+      bool i = Act(op, "Attract");
       bool e = Act(op, "Encore");
       bool ta = Act(op, "Taunt");
       bool to = Act(op, "Torment");

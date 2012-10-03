@@ -17,9 +17,9 @@ namespace LightStudio
     }
     public static TValue ValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue defaultValue)
     {
-      TValue value = defaultValue;
-      if (key != null) dict.TryGetValue(key, out value);
-      return value;
+      TValue r;
+      if (key == null || !dict.TryGetValue(key, out r)) r = defaultValue;
+      return r;
     }
     public static TValue ValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key)
     {

@@ -127,28 +127,28 @@ class PsychoShift(StatusMoveE):
         return a.Attacker.State != PokemonState.Normal
     def Act(self, a):
         s = a.Attacker.State
-        if s == PokemonState.BadlyPoisoned:
-            a.Target.Defender.AddState(a.Attacker, AttachedState.Poison, True, 15)
+        if s == PokemonState.BadlyPSN:
+            a.Target.Defender.AddState(a.Attacker, AttachedState.PSN, True, 15)
         else:
-            if s == PokemonState.Burned:
-                s = AttachedState.Burn
+            if s == PokemonState.BRN:
+                s = AttachedState.BRN
             else:
-                if s == PokemonState.Frozen:
-                    s = AttachedState.Freeze
+                if s == PokemonState.FRZ:
+                    s = AttachedState.FRZ
                 else:
-                    if s == PokemonState.Paralyzed:
-                        s = AttachedState.Paralysis
+                    if s == PokemonState.PAR:
+                        s = AttachedState.PAR
                     else:
-                        if s == PokemonState.Sleeping:
-                            s = AttachedState.Sleep
+                        if s == PokemonState.SLP:
+                            s = AttachedState.SLP
                         else:
-                            a = AttachedState.Poison
+                            a = AttachedState.PSN
             a.Target.Defender.AddState(a.Attacker, s, True)
 M(PsychoShift(375))
 
 class PowerTrick(StatusMoveE):
     def Act(self, a):
-        s = a.Attacker.OnboardPokemon.Static
+        s = a.Attacker.OnboardPokemon.FiveD
         atk = s.Atk
         s.Atk = s.Def
         s.Def = atk
@@ -223,23 +223,22 @@ class Defog(StatusMoveE):
             r.Add('DeSafeguard', t)
 M(Defog(432))
 
-class GuardSplit(StatusMoveE):
+class StatSplit(StatusMoveE):
+    def __new__(cls, id, log, stats):
+        return StatusMoveE.__new__(cls, id)
+    def __init__(self, id, log, stats):
+        self.Log = log
+        self.S = stats
     def Act(self, a):
         aer = a.Attacker.OnboardPokemon
         der = a.Target.Defender.OnboardPokemon
-        aer.Static.Def = der.Static.Def = (aer.Static.Def + der.Static.Def) >> 1
-        aer.Static.SpDef = der.Static.SpDef = (aer.Static.SpDef + der.Static.SpDef) >> 1
-        a.Controller.ReportBuilder.Add('GuardSplit', a.Attacker, a.Target.Defender)
-M(GuardSplit(470))
-
-class PowerSplit(StatusMoveE):
-    def Act(self, a):
-        aer = a.Attacker.OnboardPokemon
-        der = a.Target.Defender.OnboardPokemon
-        aer.Static.Atk = der.Static.Atk = (aer.Static.Atk + der.Static.Atk) >> 1
-        aer.Static.SpAtk = der.Static.SpAtk = (aer.Static.SpAtk + der.Static.SpAtk) >> 1
-        a.Controller.ReportBuilder.Add('PowerSplit', a.Attacker, a.Target.Defender)
-M(PowerSplit(471))
+        for s in self.S:
+            v = (aer.FiveD.GetStat(s) + der.FiveD.GetStat(s)) >> 1
+            aer.FiveD.SetStat(s, v)
+            der.FiveD.SetStat(s, v)
+        a.Controller.ReportBuilder.Add(self.Log, a.Attacker, a.Target.Defender)
+M(StatSplit(470, 'GuardSplit', (StatType.Def, StatType.SpDef)))
+M(StatSplit(471, 'PowerSplit', (StatType.Atk, StatType.SpAtk)))
 
 class Soak(StatusMoveE):
     def Act(self, a):

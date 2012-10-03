@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
 {
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   class HealBellEvent : GameEvent
   {
     [DataMember(EmitDefaultValue = false)]

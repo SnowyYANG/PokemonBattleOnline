@@ -8,7 +8,7 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  [DataContract(Namespace = Namespaces.LIGHT)]
+  [DataContract(Namespace = Namespaces.PBO)]
   public abstract class GameEvent
   {
     protected GameOutward Game

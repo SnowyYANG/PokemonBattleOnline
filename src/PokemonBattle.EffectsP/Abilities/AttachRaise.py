@@ -48,7 +48,7 @@ class Download(AbilityE):
         a = pm.CanChangeLv7D(pm, StatType.Atk, 1, False) != 0
         stats = []
         for p in pm.Controller.Board[1-pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
-            if p.OnboardPokemon.Static.Def > p.OnboardPokemon.Static.SpDef:
+            if p.OnboardPokemon.FiveD.Def > p.OnboardPokemon.FiveD.SpDef:
                 if sa:
                     stats.append(StatType.SpAtk)
             else:

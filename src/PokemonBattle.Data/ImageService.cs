@@ -7,29 +7,21 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using System.Diagnostics.Contracts;
 using LightStudio.PokemonBattle.Data;
-using LightStudio.Tactic.DataModels.IO;
 
 namespace LightStudio.PokemonBattle.Data
 {
-  public class ImageService
+  public static class ImageService
   {
-    private readonly DataCollection dataCollection;
-    private readonly ImageSource[] icons;
+    private static readonly Dictionary<int, ImageSource> icons;
 
-    internal ImageService(DataCollection data)
+    static ImageService()
     {
-      dataCollection = data;
-      icons = new ImageSource[DataService.Pokemons.Count() + 1];
+      icons = new Dictionary<int,ImageSource>();
     }
 
-    public ImageSource SubstituteFront
-    { get; private set; }
-    public ImageSource SubstituteBack
-    { get; private set; }
-
-    private ImageSource GetImage(string path, object id)
+    private static ImageSource GetImage(string path, string id)
     {
-      string absolutePath = dataCollection.GetAbsolutePath(string.Format("image\\{0}\\{1}.png", path, id));
+      string absolutePath = string.Format("Data\\image\\{0}\\{1}.png", path, id);
       try
       {
         return new BitmapImage(new Uri(absolutePath, UriKind.Absolute));
@@ -39,41 +31,46 @@ namespace LightStudio.PokemonBattle.Data
         return null;
       }
     }
-    public ImageSource GetPokemonIcon(int id)
+    private static ImageSource GetImage(string path, int number, int forme)
     {
-      if (icons[id] == null)
-        try
-        {
-          icons[id] = new BitmapImage(new Uri(dataCollection.GetAbsolutePath(string.Format("image\\icon\\{0:000}.png", id)), UriKind.Absolute));
-        }
-        catch { }
-      return icons[id];
+      return GetImage(path, (number * 100 + forme).ToString("00000"));
     }
-    public ImageSource GetPokemonMaleFront(int id)
+    public static ImageSource GetPokemonIcon(int number, int forme)
     {
-      return GetImage("front", id);
+      int id = number * 100 + forme;
+      ImageSource r;
+      if (!icons.TryGetValue(id, out r))
+      {
+        r = GetImage("icon", number, forme);
+        icons[id] = r;
+      }
+      return r;
     }
-    public ImageSource GetPokemonFemaleFront(int id)
+    public static ImageSource GetPokemonMaleFront(int number, int forme)
     {
-      ImageSource image = GetImage("front\\female", id);
-      if (image == null) image = GetPokemonMaleFront(id);
+      return GetImage("front", number, forme);
+    }
+    public static ImageSource GetPokemonFemaleFront(int number, int forme)
+    {
+      ImageSource image = GetImage("front\\female", number, forme);
+      if (image == null) image = GetPokemonMaleFront(number, forme);
       return image;
     }
-    public ImageSource GetPokemonMaleBack(int id)
+    public static ImageSource GetPokemonMaleBack(int number, int forme)
     {
-      return GetImage("back", id);
+      return GetImage("back", number, forme);
     }
-    public ImageSource GetPokemonFemaleBack(int id)
+    public static ImageSource GetPokemonFemaleBack(int number, int forme)
     {
-      ImageSource image = GetImage("back\\female", id);
-      if (image == null) image = GetPokemonMaleBack(id);
+      ImageSource image = GetImage("back\\female", number, forme);
+      if (image == null) image = GetPokemonMaleBack(number, forme);
       return image;
     }
-    public ImageSource GetSpFront(string id)
+    public static ImageSource GetSpFront(int number, int forme)
     {
-      return GetImage("front\\sp", id);
+      return GetImage("front\\sp", number, forme);
     }
-    public ImageSource GetSpBack(string id)
+    public static ImageSource GetSpBack(string id)
     {
       return GetImage("back\\sp", id);
     }

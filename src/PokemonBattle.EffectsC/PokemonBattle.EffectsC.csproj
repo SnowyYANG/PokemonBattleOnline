@@ -69,7 +69,7 @@
     <Compile Include="Moves\Attack\SpBasepower\Flail.cs" />
     <Compile Include="Moves\Attack\SpBasepower\FuryCutter.cs" />
     <Compile Include="Moves\Attack\SpBasepower\HeavySlam.cs" />
-    <Compile Include="Moves\Attack\SpBasepower\HiddenPower.cs" />
+    <Compile Include="Moves\Attack\HiddenPower.cs" />
     <Compile Include="Moves\Attack\SpBasepower\PState.cs" />
     <Compile Include="Moves\Attack\SpBasepower\SLevel.cs" />
     <Compile Include="Moves\Attack\SpBasepower\ASpeed.cs" />

@@ -98,7 +98,6 @@
   <ItemGroup>
     <Compile Include="Converters\BoolVisibilityC.cs" />
     <Compile Include="Converters\ObjectVisibilityC.cs" />
-    <Compile Include="EditorConfig.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="FileHelper.cs" />
     <Compile Include="Templates\OpenWindowTemplateSelector.cs" />
@@ -119,12 +118,11 @@
     <Compile Include="Converters\IntStringC.cs" />
     <Compile Include="Converters\MoveLearnItemC.cs" />
     <Compile Include="Converters\IdItemC.cs" />
-    <Compile Include="Converters\HiddenPowerC.cs" />
     <Compile Include="Converters\AvailableAbilitiesC.cs" />
     <Compile Include="Converters\AvailableGendersC.cs" />
     <Compile Include="DragDrop\RecyclerDropTarget.cs" />
     <Compile Include="Converters\FrontImageC.cs" />
-    <Compile Include="ViewModels\EditingPokemonViewModel.cs" />
+    <Compile Include="ViewModels\EditingPokemonVM.cs" />
     <Compile Include="PokemonEditorView.xaml.cs">
       <DependentUpon>PokemonEditorView.xaml</DependentUpon>
     </Compile>

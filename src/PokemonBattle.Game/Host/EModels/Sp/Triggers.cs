@@ -71,7 +71,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
             if (o != null && o.By == pm) op.RemoveCondition("HealBlock");
           }
           {
-            if (op.GetCondition<PokemonProxy>("Infatuation") == pm) op.RemoveCondition("Infatuation");
+            if (op.GetCondition<PokemonProxy>("Attract") == pm) op.RemoveCondition("Attract");
           }
           {
             if (op.GetCondition<PokemonProxy>("Torment") == pm) op.RemoveCondition("Torment");

@@ -65,16 +65,16 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     public static bool PlatedArceus(Pokemon pm)
     {
-      return pm.PokemonType.Number == 493 && pm.Item.Id > 74 && pm.Item.Id < 91;
+      return pm.Forme.Type.Number == 493 && pm.Item.Id > 74 && pm.Item.Id < 91;
     }
     public static bool CantLostItem(Pokemon pm)
     {
       return
         !(
         pm.Item.Id == 194 ||
-        pm.PokemonType.Number == 487 && pm.Item.Id == 1 || //giratina
+        pm.Forme.Type.Number == 487 && pm.Item.Id == 1 || //giratina
         PlatedArceus(pm) ||
-        pm.PokemonType.Number == 649 && pm.Item.Id > 97 && pm.Item.Id < 102 //genesect
+        pm.Forme.Type.Number == 649 && pm.Item.Id > 97 && pm.Item.Id < 102 //genesect
         );
     }
 
@@ -82,7 +82,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       if (pm.Item.Id == 5)
       {
-        SixD lvs = pm.OnboardPokemon.Lv5D as SixD;
+        Simple6D lvs = pm.OnboardPokemon.Lv5D as Simple6D;
         bool raise = false;
         if (lvs.Atk < 0) { lvs.Atk = 0; raise = true; }
         if (lvs.Def < 0) { lvs.Def = 0; raise = true; }

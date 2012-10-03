@@ -8,7 +8,6 @@ namespace LightStudio.PokemonBattle.Data
         IPokemonCollection Boxes { get; }
         IPokemonRecycler Recycler { get; }
         IPokemonCollection Teams { get; }
-        int SaveInterval { get; set; }
 
         void Save();
     }

@@ -35,7 +35,7 @@ namespace LightStudio.Tactic.Serialization
           declaredType, null);
       if (type != null)
         return type;
-      if (typeNamespace == Namespaces.LIGHT)
+      if (typeNamespace == Namespaces.PBO)
       {
         if (typeName.StartsWith(CollectionType))
         {
@@ -62,7 +62,7 @@ namespace LightStudio.Tactic.Serialization
       }
       else
       {
-        ns = Namespaces.LIGHT;
+        ns = Namespaces.PBO;
       }
       return ResolveName(name, ns, typeof(object), knownTypeResolver);
     }
@@ -87,7 +87,7 @@ namespace LightStudio.Tactic.Serialization
 
       if (typeNameString != null)
       {
-        typeNamespace = new XmlDictionaryString(XmlDictionary.Empty, Namespaces.LIGHT, 0);
+        typeNamespace = new XmlDictionaryString(XmlDictionary.Empty, Namespaces.PBO, 0);
         typeName = new XmlDictionaryString(XmlDictionary.Empty, typeNameString, 0);
         return true;
       }
@@ -124,7 +124,7 @@ namespace LightStudio.Tactic.Serialization
             typeName = string.Format("{0}{1}{2}", collectionType, Namespaces.MS,
                 elementTypeName.Value);
             return true;
-          case Namespaces.LIGHT:
+          case Namespaces.PBO:
             typeName = string.Format("{0}{1}", collectionType, elementTypeName.Value);
             return true;
         }
