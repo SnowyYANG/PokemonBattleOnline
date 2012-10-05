@@ -159,7 +159,7 @@ class GastroAcid(StatusMoveE):
     def Act(self, a):
         der = a.Target.Defender
         ab = der.Ability
-        if ab.Id != 82 and der.OnboardPokemon.AddCondition('GastroAcid'): #multitype
+        if ab.Id != Abilities.MULTITYPE and der.OnboardPokemon.AddCondition('GastroAcid'):
             der.AddReportPm('EnGastroAcid')
             ab.Detach(der)
         else:
