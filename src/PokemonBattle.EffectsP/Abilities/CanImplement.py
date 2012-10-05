@@ -13,10 +13,10 @@ class NoEffectWithLv7DUp(AbilityE):
                 der.AddReportPm('NoEffect', None, None)
             return False
         return True
-A(NoEffectWithLv7DUp(48, BattleType.Grass, StatType.Atk)) #sap sipper
-A(NoEffectWithLv7DUp(68, BattleType.Electric, StatType.SpAtk)) #lightningrod
-A(NoEffectWithLv7DUp(80, BattleType.Electric, StatType.Speed)) #motor drive
-A(NoEffectWithLv7DUp(137, BattleType.Water, StatType.SpAtk)) #storm drain
+A(NoEffectWithLv7DUp(157, BattleType.Grass, StatType.Atk)) #sap sipper
+A(NoEffectWithLv7DUp(31, BattleType.Electric, StatType.SpAtk)) #lightningrod
+A(NoEffectWithLv7DUp(78, BattleType.Electric, StatType.Speed)) #motor drive
+A(NoEffectWithLv7DUp(114, BattleType.Water, StatType.SpAtk)) #storm drain
 
 class NoEffectWithAbsorb(AbilityE):
     def __new__(cls, id, type):
@@ -34,9 +34,9 @@ class NoEffectWithAbsorb(AbilityE):
                 der.HpRecoverByOneNth(4)
             return False
         return True
-A(NoEffectWithAbsorb(25, BattleType.Water))#dry skin
-A(NoEffectWithAbsorb(159, BattleType.Electric)) #volt absorb
-A(NoEffectWithAbsorb(160, BattleType.Water)) #water absorb
+A(NoEffectWithAbsorb(87, BattleType.Water))#dry skin
+A(NoEffectWithAbsorb(10, BattleType.Electric)) #volt absorb
+A(NoEffectWithAbsorb(11, BattleType.Water)) #water absorb
 
 class Soundproof(AbilityE):
     def CanImplement(self, d):
@@ -45,7 +45,7 @@ class Soundproof(AbilityE):
             d.Defender.AddReportPm('NoEffect', None, None)
             return False
         return True
-A(Soundproof(129))
+A(Soundproof(43))
 
 class WonderGuard(AbilityE):
     def CanImplement(self, d):
@@ -56,7 +56,7 @@ class WonderGuard(AbilityE):
         self.Raise(der)
         der.AddReportPm('NoEffect', None, None)
         return False
-A(WonderGuard(164))
+A(WonderGuard(25))
 
 class Telepathy(AbilityE):
     def CanImplement(self, d):
@@ -65,7 +65,7 @@ class Telepathy(AbilityE):
             d.Defender.AddReportPm('NoEffect', None, None)
             return False
         return True
-A(Telepathy(146))
+A(Telepathy(140))
 
 class StickyHold(AbilityE):
     def CanImplement(self, d):
@@ -75,7 +75,7 @@ class StickyHold(AbilityE):
             d.Defender.AddReportPm('NoEffect', None, None)
             return False
         return True
-A(StickyHold(136))
+A(StickyHold(60))
 
 class SuctionCups(AbilityE):
     def CanImplement(self, d):
@@ -84,5 +84,5 @@ class SuctionCups(AbilityE):
             d.Defender.AddReportPm('SuctionCups')
             return False
         return True
-A(SuctionCups(139))
+A(SuctionCups(21))
 print 'WARNING: MoveInnerClass.ForceToShift'

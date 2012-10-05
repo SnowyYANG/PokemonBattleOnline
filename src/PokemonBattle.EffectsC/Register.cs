@@ -102,10 +102,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new HeavySlam(535));
       M(new Thunder(542));//Hurricane
 
-      A(new FlashFire(34));
-      A(new Forewarn(37));
-      A(new Frisk(39));
-      A(new Illusion(56));
+      A(new FlashFire(Sp.Abilities.FLASH_FIRE));
+      A(new Forewarn(108));
+      A(new Frisk(119));
+      A(new Illusion(149));
 
       I(new MentalHerb(8));
       I(new StickyBarb(65));

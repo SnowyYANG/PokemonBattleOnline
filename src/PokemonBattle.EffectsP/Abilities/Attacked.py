@@ -7,11 +7,11 @@ class Aftermath(t_a):
     def TA(self, d):
         if d.Defender.Hp == 0 and d.AtkContext.Attacker.CanEffectHurt:
             for pm in d.AtkContext.Controller.OnboardPokemons:
-                if pm.Ability.Id == 20:
+                if pm.Ability.Id == 6:
                     return
             self.Raise(d.Defender)
             d.AtkContext.Attacker.EffectHurtByOneNth(4, 'Hurt', 0, 0)
-A(Aftermath(2))
+A(Aftermath(106))
 
 class AngerPoint(t_a):
     def TA(self, d):
@@ -19,7 +19,7 @@ class AngerPoint(t_a):
         if d.IsCt and der.OnboardPokemon.Lv5D.Atk != 6:
             self.Raise(der)
             der.ChangeLv7D(der, StatType.Atk, 12, False, 'AngerPoint')
-A(AngerPoint(5))
+A(AngerPoint(83))
 
 class WeakArmor(AbilityE):
     def Attacked(self, d):
@@ -27,14 +27,14 @@ class WeakArmor(AbilityE):
         if d.AtkContext.Move.Category == MoveCategory.Physical and (der.CanChangeLv7D(der, StatType.Speed, 1, False) or der.CanChangeLv7D(der, StatType.Def, -1, False)):
             self.Raise(der)
             der.ChangeLv7D(der, False, 0, -1, 0, 0, 1, 0, 0)
-A(WeakArmor(11))
+A(WeakArmor(133))
 
 class CursedBody(AbilityE):
     def Attacked(self, d):
         if d.AtkContext.Controller.RandomHappen(30) and d.AtkContext.Attacker.CanAddState(d.Defender, AttachedState.Disable, False):
             self.Raise(d.Defender)
             d.AtkContext.Attacker.AddState(d.Defender, AttachedState.Disable, False, 4)
-A(CursedBody(18))
+A(CursedBody(130))
 
 class EffectSpore(t_a):
     def TA(self, d):
@@ -51,7 +51,7 @@ class EffectSpore(t_a):
             if a.Attacker.CanAddState(d.Defender, state, False):
                 self.Raise(d.Defender)
                 a.Attacker.AddState(d.Defender, state, False)
-A(EffectSpore(29))
+A(EffectSpore(27))
 
 class Justified(AbilityE):
     def Attacked(self, d):
@@ -59,7 +59,7 @@ class Justified(AbilityE):
         if d.AtkContext.Move.Type == BattleType.Dark and der.CanChangeLv7D(der, StatType.Atk, 1, False):
             self.Raise(der)
             der.ChangeLv7D(der, False, 1, 0, 0, 0, 0, 0, 0)
-A(Justified(44))
+A(Justified(154))
 
 class Mummy(t_a):
     def TA(self, d):
@@ -68,7 +68,7 @@ class Mummy(t_a):
             self.Raise(d.Defender)
             d.AtkContext.Attacker.AddReportPm('Mummy', None, None)
             d.AtkContext.Attacker.ChangeAbility(83)
-A(Mummy(83))
+A(Mummy(152))
 
 class AttackedAddState(t_a):
     def __new__(cls, id, state):
@@ -80,10 +80,10 @@ class AttackedAddState(t_a):
         if d.AtkContext.Attacker.CanAddState(d.Defender, self.State, False) and d.AtkContext.Controller.RandomHappen(30):
             self.Raise(d.Defender)
             d.AtkContext.Attacker.AddState(d.Defender, self.State, False, 0)
-A(AttackedAddState(19, AttachedState.Attract)) #cute charm
-A(AttackedAddState(33, AttachedState.BRN)) #flame body
-A(AttackedAddState(97, AttachedState.PSN)) #poison point
-A(AttackedAddState(132, AttachedState.PAR)) #static
+A(AttackedAddState(56, AttachedState.Attract)) #cute charm
+A(AttackedAddState(49, AttachedState.BRN)) #flame body
+A(AttackedAddState(38, AttachedState.PSN)) #poison point
+A(AttackedAddState(9, AttachedState.PAR)) #static
 
 class Rattled(AbilityE):
     def Attacked(self, d):
@@ -92,15 +92,15 @@ class Rattled(AbilityE):
         if (type == BattleType.Dark or type == BattleType.Ghost or type == BattleType.Bug) and der.CanChangeLv7D(der, StatType.Speed, 1, False):
             self.Raise(der)
             der.ChangeLv7D(der, False, 0, 0, 0, 0, 1, 0, 0)
-A(Rattled(114))
+A(Rattled(155))
 
 class RoughSkin(t_a):
     def TA(self, d):
         if d.AtkContext.Attacker.CanEffectHurt:
             self.Raise(d.Defender)
             d.AtkContext.Attacker.EffectHurtByOneNth(8, 'Hurt', 0, 0)
-A(RoughSkin(107))
-A(RoughSkin(134)) #iron barbs
+A(RoughSkin(24))
+A(RoughSkin(160)) #iron barbs
 
 class WickedThief(t_a):
     def TA(self, d):
@@ -112,4 +112,4 @@ class WickedThief(t_a):
             der.ChangeItem(i)
             self.Raise(der)
             der.Controller.ReportBuilder.Add('WickedThief', aer.Id, i)
-A(WickedThief(163))
+A(WickedThief(124))

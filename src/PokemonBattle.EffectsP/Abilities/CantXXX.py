@@ -6,8 +6,8 @@ class ClearBody(AbilityE):
             self.Raise(pm)
             pm.AddReportPm('7DLockAll', None, None)
         return 0
-A(ClearBody(13))
-A(ClearBody(162)) #white smoke
+A(ClearBody(29))
+A(ClearBody(73)) #white smoke
 
 class CantLvDown(AbilityE):
     def __new__(cls, id, stat):
@@ -22,19 +22,19 @@ class CantLvDown(AbilityE):
                 pm.AddReportPm('7DLock', stat)
             return 0
         return change
-A(CantLvDown(53, StatType.Atk)) #hyper cutter
-A(CantLvDown(63, StatType.Accuracy)) #keen eye
-A(CantLvDown(93, StatType.Def)) #big pecks
+A(CantLvDown(52, StatType.Atk)) #hyper cutter
+A(CantLvDown(51, StatType.Accuracy)) #keen eye
+A(CantLvDown(145, StatType.Def)) #big pecks
 
 class Contrary(AbilityE):
     def Lv7DChanging(self, pm, by, stat, change, showFail):
         return 0 - change
-A(Contrary(91))
+A(Contrary(126))
 
 class Simple(AbilityE):
     def Lv7DChanging(self, pm, by, stat, change, showFail):
         return change << 1
-A(Simple(120))
+A(Simple(86))
 
 class CantAddState(AbilityE):
     def __new__(cls, id, pmstate, atstate):
@@ -54,11 +54,11 @@ class CantAddState(AbilityE):
                 pm.AddReportPm('Cant' + self.AtState.ToString())
             return False
         return True
-A(CantAddState(60, PokemonState.SLP, AttachedState.SLP)) #insomnia
-A(CantAddState(158, PokemonState.SLP, AttachedState.SLP)) #vital spirit
-A(CantAddState(69, PokemonState.PAR, AttachedState.PAR)) #limber
-A(CantAddState(73, PokemonState.FRZ, AttachedState.FRZ)) #magma armour
-A(CantAddState(161, PokemonState.BRN, AttachedState.BRN)) #water veil
+A(CantAddState(15, PokemonState.SLP, AttachedState.SLP)) #insomnia
+A(CantAddState(72, PokemonState.SLP, AttachedState.SLP)) #vital spirit
+A(CantAddState(7, PokemonState.PAR, AttachedState.PAR)) #limber
+A(CantAddState(40, PokemonState.FRZ, AttachedState.FRZ)) #magma armour
+A(CantAddState(41, PokemonState.BRN, AttachedState.BRN)) #water veil
 
 class Immunity(AbilityE):
     def Attach(self, pm):
@@ -72,7 +72,7 @@ class Immunity(AbilityE):
                 pm.AddReportPm('CantPSN', None, None)
             return False
         return True
-A(Immunity(57))
+A(Immunity(17))
 
 class LeafGuard(AbilityE):
     def CanAddState(self, pm, by, state, showFail):
@@ -82,7 +82,7 @@ class LeafGuard(AbilityE):
                 pm.AddReportPm('Cant' + state.ToString(), None, None)
             return False
         return True
-A(LeafGuard(65))
+A(LeafGuard(102))
 
 class OwnTempo(AbilityE):
     def Attach(self, pm):
@@ -97,7 +97,7 @@ class OwnTempo(AbilityE):
                 pm.AddReportPm('CantConfuse', None, None)
             return False
         return True
-A(OwnTempo(90))
+A(OwnTempo(20))
 
 class Oblivious(AbilityE):
     def Attach(self, pm):
@@ -112,4 +112,4 @@ class Oblivious(AbilityE):
                 pm.AddReportPm('CantAttract', None, None)
             return False
         return True
-A(Oblivious(87))
+A(Oblivious(12))

@@ -7,12 +7,12 @@ class SimpleAttachRaise(AbilityE):
     def Attach(self, pm):
         self.Raise(pm)
         pm.AddReportPm(self.log, None, None)
-A(SimpleAttachRaise(3, 'AirLock'))
-A(SimpleAttachRaise(14, 'AirLock'))
-A(SimpleAttachRaise(79, 'MoldBreaker'))
-A(SimpleAttachRaise(99, 'Pressure'))
-A(SimpleAttachRaise(148, 'Teravolt'))
-A(SimpleAttachRaise(154, 'Turboblaze'))
+A(SimpleAttachRaise(76, 'AirLock'))
+A(SimpleAttachRaise(13, 'AirLock'))
+A(SimpleAttachRaise(104, 'MoldBreaker'))
+A(SimpleAttachRaise(46, 'Pressure'))
+A(SimpleAttachRaise(164, 'Teravolt'))
+A(SimpleAttachRaise(163, 'Turboblaze'))
 
 class WeatherAbility(AbilityE):
     def __new__(cls, id, weather):
@@ -24,23 +24,23 @@ class WeatherAbility(AbilityE):
         if pm.Controller.Weather != self.Weather:
             self.Raise(pm)
             pm.Controller.Weather = self.Weather
-A(WeatherAbility(23, Weather.HeavyRain)) #drizzle
-A(WeatherAbility(24, Weather.IntenseSunlight)) #drought
-A(WeatherAbility(126, Weather.Hailstorm)) #snow warning
-A(WeatherAbility(109, Weather.Sandstorm)) #sand stream
+A(WeatherAbility(2, Weather.HeavyRain)) #drizzle
+A(WeatherAbility(70, Weather.IntenseSunlight)) #drought
+A(WeatherAbility(117, Weather.Hailstorm)) #snow warning
+A(WeatherAbility(45, Weather.Sandstorm)) #sand stream
 
 class Intimidate(AbilityE):
     def Attach(self, pm):
         self.Raise(pm)
         for p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
             p.ChangeLv7D(pm, StatType.Atk, -1, True, None)
-A(Intimidate(61))
+A(Intimidate(22))
 
 class Unnerve(AbilityE):
     def Attach(self, pm):
         self.Raise(pm)
         pm.Controller.ReportBuilder.Add('Unnerve', 1 - pm.Pokemon.TeamId)
-A(Unnerve(147))
+A(Unnerve(127))
 
 class Download(AbilityE):
     def Attach(self, pm): #a ability can be copy, so check CanChangeLv7D
@@ -58,14 +58,14 @@ class Download(AbilityE):
         if n != 0:
             self.Raise(pm)
             pm.ChangeLv7D(pm, stats[pm.Controller.GetRandomInt(0, n - 1)], 1, False, None)
-A(Download(22))
+A(Download(88))
 
 class SlowStart(AbilityE):
     def Attach(self, pm):
         pm.OnboardPokemon.SetCondition('SlowStart', pm.Controller.TurnNumber + 5)
         self.Raise(pm)
         pm.AddReportPm('EnSlowStart', None, None)
-A(SlowStart(123))
+A(SlowStart(112))
 
 class Anticipation(AbilityE):
     def Attach(self, pm):
@@ -75,7 +75,7 @@ class Anticipation(AbilityE):
                     self.Raise(pm)
                     pm.AddReportPm('Anticipation', None, None)
                     return
-A(Anticipation(6))
+A(Anticipation(107))
 
 class Trace(AbilityE):
     def Attach(self, pm):
@@ -89,4 +89,4 @@ class Trace(AbilityE):
             target = pms[pm.Controller.GetRandomInt(0, n - 1)]
             pm.Controller.ReportBuilder.Add('Trace', target, target.OnboardPokemon.Ability)
             pm.ChangeAbility(target.OnboardPokemon.Ability)
-A(Trace(152))
+A(Trace(36))
