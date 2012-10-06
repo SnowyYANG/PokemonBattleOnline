@@ -259,7 +259,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       if (atk.Move.Category == MoveCategory.Physical && atk.Controller.Weather == Weather.IntenseSunlight)
       {
         foreach (PokemonProxy pm in atk.Controller.GetOnboardPokemons(atk.Attacker.Pokemon.Id))
-          if (pm.Pokemon.Forme.Type.Number == 421 && pm.Ability.Id == FLOWER_GIFT) return m *= 0x1800;
+          if (pm.Pokemon.Form.Type.Number == 421 && pm.Ability.Id == FLOWER_GIFT) return m *= 0x1800;
       }
       return m;
     }
@@ -269,7 +269,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       if (def.AtkContext.Move.Category == MoveCategory.Special && def.AtkContext.Controller.Weather == Weather.IntenseSunlight)
       {
         foreach (PokemonProxy pm in def.Defender.Controller.GetOnboardPokemons(def.Defender.Pokemon.TeamId))
-          if (pm.Pokemon.Forme.Type.Number == 421 && pm.Ability.Id == FLOWER_GIFT) m *= 0x1800;
+          if (pm.Pokemon.Form.Type.Number == 421 && pm.Ability.Id == FLOWER_GIFT) m *= 0x1800;
       }
       return m;
     }

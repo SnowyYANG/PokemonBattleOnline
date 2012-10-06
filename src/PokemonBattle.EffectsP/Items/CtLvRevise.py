@@ -10,7 +10,7 @@ class Ct2(ItemE):
     def __init__(self, id, pm):
         self.Pm = pm
     def CtLvRevise(self, pm):
-        if pm.Pokemon.Forme.Type.Number == self.Pm:
+        if pm.Pokemon.Form.Type.Number == self.Pm:
             return 2
 I(Ct2(38, 113)) #lucky punch
 I(Ct2(41, 83)) #stick

@@ -21,7 +21,7 @@ namespace LightStudio.PokemonBattle.Game
     void Lv5DDown(); //下降
     void SubstituteAppear();
     void SubstituteDisappear();
-    void FormeChanged(); //幻影 变身
+    void FormChanged(); //幻影 变身
     void Withdrawn();
   }
 
@@ -38,7 +38,7 @@ namespace LightStudio.PokemonBattle.Game
     [DataMember]
     private int number;
     [DataMember(EmitDefaultValue = false)]
-    private int forme;
+    private int form;
 
     #region Host
     internal PokemonOutward(PokemonProxy pm)
@@ -55,13 +55,13 @@ namespace LightStudio.PokemonBattle.Game
       if (o == null)
       {
         Name = pm.Pokemon.Name;
-        Forme = pm.OnboardPokemon.Forme;
+        Form = pm.OnboardPokemon.Form;
         Gender = pm.OnboardPokemon.Gender;
       }
       else
       {
         Name = o.Name;
-        Forme = o.Forme;
+        Form = o.Form;
         Gender = o.Gender;
       }
     }
@@ -86,13 +86,13 @@ namespace LightStudio.PokemonBattle.Game
       }
     }
 
-    public PokemonForme Forme
+    public PokemonForm Form
     {
-      get { return DataService.GetPokemon(number, forme); }
+      get { return DataService.GetPokemon(number, form); }
       private set
       {
         number = value.Type.Number;
-        forme = value.Index;
+        form = value.Index;
       }
     }
 
@@ -230,11 +230,11 @@ namespace LightStudio.PokemonBattle.Game
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
-    public void ChangeForme(int number, int forme)
+    public void ChangeForm(int number, int form)
     {
       this.number = number;
-      this.forme = forme;
-      listener.FormeChanged();
+      this.form = form;
+      listener.FormChanged();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
@@ -262,7 +262,7 @@ namespace LightStudio.PokemonBattle.Game
           r = Lv.ToString();
           break;
         case "Type":
-          r = Forme.Type.GetLocalizedName();
+          r = Form.Type.GetLocalizedName();
           break;
         case "State":
           r = State.GetLocalizedName();
@@ -292,7 +292,7 @@ namespace LightStudio.PokemonBattle.Game
 
     public override string ToString()
     {
-      return string.Format("{0}(Lv.{1} {2})", Name, Lv, Forme.Type.GetLocalizedName());
+      return string.Format("{0}(Lv.{1} {2})", Name, Lv, Form.Type.GetLocalizedName());
     }
   }
 }

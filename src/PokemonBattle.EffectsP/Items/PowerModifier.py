@@ -53,7 +53,7 @@ class Orb(ItemE):
         self.Pm = pm
         self.Type = type
     def PowerModifier(self, atk):
-        if atk.Attacker.Pokemon.Forme.Type.Number == self.Pm and (atk.Type == BattleType.Dragon or atk.Type == self.Type):
+        if atk.Attacker.Pokemon.Form.Type.Number == self.Pm and (atk.Type == BattleType.Dragon or atk.Type == self.Type):
             return 0x1333
         return 0x1000
 I(Orb(1, 487, BattleType.Ghost))

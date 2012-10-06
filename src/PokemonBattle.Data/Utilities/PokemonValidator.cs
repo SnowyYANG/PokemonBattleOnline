@@ -17,6 +17,11 @@ namespace LightStudio.PokemonBattle.Data
       return value > 0 && value <= 100;
     }
 
+    public static bool ValidateAbility(IPokemonCustomInfo pm)
+    {
+      return pm.Form.Data.GetAbility(pm.AbilityIndex) != null;
+    }
+
     public static bool ValidateIv(int value)
     {
       return value >= 0 && value <= 31;
@@ -31,17 +36,17 @@ namespace LightStudio.PokemonBattle.Data
       return ev.Hp + ev.Atk + ev.Def + ev.Speed + ev.SpAtk + ev.SpDef <= 510;
     }
 
-    public static bool ValidateMoves(PokemonCustomInfo pm)
+    public static bool ValidateMoves(IPokemonCustomInfo pm)
     {
       return pm.MoveIds.Count() <= 4;
     }
 
-    public static bool Validate(PokemonCustomInfo pm)
+    public static bool Validate(IPokemonCustomInfo pm)
     {
       return true;
       return
-        pm.Forme != null &&
-        pm.Ability != null &&
+        pm.Form != null &&
+        ValidateAbility(pm) &&
         ValidateEv(pm.Ev) &&
         ValidateLv(pm.Lv) &&
         ValidateIv(pm.Iv) &&

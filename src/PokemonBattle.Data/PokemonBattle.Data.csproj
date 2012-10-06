@@ -83,7 +83,7 @@
     <Compile Include="Rom\Move\MoveLv7DChange.cs" />
     <Compile Include="Rom\Move\MoveTypeAdvancedFlags.cs" />
     <Compile Include="Rom\Move\MoveLearnItem.cs" />
-    <Compile Include="Rom\Pokemon\PokemonFormeData.cs" />
+    <Compile Include="Rom\Pokemon\PokemonFormData.cs" />
     <Compile Include="Rom\Pokemon\PokemonType.cs" />
     <Compile Include="Rom\RomData.cs" />
     <Compile Include="UserData\CollectionInfo.cs" />
@@ -92,6 +92,7 @@
     <Compile Include="UserData\RecyclerInfo.cs" />
     <Compile Include="UserData\Interfaces\IPokemonRecycler.cs" />
     <Compile Include="UserData\PokemonRecycler.cs" />
+    <Compile Include="Utilities\IPokemonCustomInfo.cs" />
     <Compile Include="Utilities\StatType.cs" />
     <Compile Include="UserData\Interfaces\IPokemonCollection.cs" />
     <Compile Include="UserData\UserData.cs" />
@@ -115,7 +116,7 @@
     <Compile Include="Rom\Move\MoveRange.cs" />
     <Compile Include="Rom\Move\MoveType.cs" />
     <Compile Include="UserData\PokemonCustomInfo.cs" />
-    <Compile Include="Rom\Pokemon\PokemonForme.cs" />
+    <Compile Include="Rom\Pokemon\PokemonForm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\6D.cs" />
   </ItemGroup>
@@ -126,7 +127,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Rom\enums\" />
     <Folder Include="Rom\LearnSet\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -49,8 +49,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       AtkContext atk = pm.AtkContext;
       int oldPP = atk.MoveProxy.PP;
       {
-        if (atk.Attacker.Ability.Normalize()) atk.Type = BattleType.Normal;
-        else CalculateType(atk);
+        CalculateType(atk);
         if (NotFail(atk))
         {
           CalculateTargets(atk);
@@ -218,7 +217,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     #region CalculateType
     protected virtual void CalculateType(AtkContext atk)
     {
-      atk.Type = Move.Id == Moves.STRUGGLE ? BattleType.Invalid : Move.Type;
+      atk.Type = Move.Id == Moves.STRUGGLE ? BattleType.Invalid : atk.Attacker.Ability.Normalize() ? BattleType.Normal : Move.Type;
     }
     private bool HasEffect_Ground(DefContext def)
     {

@@ -24,7 +24,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     private readonly Pokemon Pokemon;
     public int X;
     public CoordY CoordY;
-    public PokemonForme Forme;
+    public PokemonForm Form;
     private BattleType _type1;
     public BattleType Type1
     {
@@ -89,7 +89,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       Pokemon = pokemon;
       FiveD = new Simple6D() { Hp = pokemon.FiveD.Hp };
-      ChangeForme(pokemon.Forme);
+      ChangeForm(pokemon.Form);
       Gender = pokemon.Gender;
       lv5D = new Simple6D();
       X = x; //CoordY 默认值
@@ -156,15 +156,15 @@ namespace LightStudio.PokemonBattle.Game.Host
     
     private int Get5D(StatType type)
     {
-      return PokemonStatHelper.Get5D(type, Pokemon.Nature, Forme.Data.Base.GetStat(type), (byte)Pokemon.Iv.GetStat(type), (byte)Pokemon.Ev.GetStat(type), (byte)Pokemon.Lv);
+      return PokemonStatHelper.Get5D(type, Pokemon.Nature, Form.Data.Base.GetStat(type), (byte)Pokemon.Iv.GetStat(type), (byte)Pokemon.Ev.GetStat(type), (byte)Pokemon.Lv);
     }
-    public void ChangeForme(PokemonForme forme)
+    public void ChangeForm(PokemonForm form)
     {
-      Forme = forme;
-      _weight = forme.Type.Weight;
-      _type1 = forme.Data.Type1;
-      _type2 = forme.Data.Type2;
-      Ability = forme.Data.GetAbility(Pokemon.AbilityIndex).Id;
+      Form = form;
+      _weight = form.Type.Weight;
+      _type1 = form.Data.Type1;
+      _type2 = form.Data.Type2;
+      Ability = form.Data.GetAbility(Pokemon.AbilityIndex).Id;
       FiveD.Atk = Get5D(StatType.Atk);
       FiveD.SpAtk = Get5D(StatType.SpAtk);
       FiveD.Speed = Get5D(StatType.Speed);

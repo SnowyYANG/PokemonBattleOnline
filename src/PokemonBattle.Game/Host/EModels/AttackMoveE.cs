@@ -13,7 +13,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     protected static readonly int[] TIMES25 = new int[8] { 2, 2, 2, 3, 3, 3, 4, 5 };
     protected static readonly int[] LV_CT = { 16, 8, 4, 3, 2, 0 };
 
-    public static void DamagePercentage(DefContext def, sbyte percentage)
+    public static void DamagePercentage(DefContext def, int percentage)
     {
       var aer = def.AtkContext.Attacker;
       var ability = aer.Ability;

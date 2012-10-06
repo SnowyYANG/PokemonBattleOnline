@@ -8,7 +8,7 @@ namespace LightStudio.PokemonBattle.Data
 {
   public static class PokemonStatHelper
   {
-    public static int Get5D(StatType statType, PokemonNature nature, int typeBase, byte iv, byte ev, byte lv)
+    public static int Get5D(StatType statType, PokemonNature nature, int typeBase, int iv, int ev, int lv)
     {
       return (((typeBase << 1) + iv + (ev >> 2)) * lv / 100 + 5) * NatureEffects[(int)nature, (int)statType - 1] / 10;
     }

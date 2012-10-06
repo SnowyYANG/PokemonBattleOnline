@@ -31,9 +31,9 @@ namespace LightStudio.PokemonBattle.Data
     }
 
     #region GetXXX
-    public PokemonForme GetPokemon(int number, int forme)
+    public PokemonForm GetPokemon(int number, int form)
     {
-      return Pokemons[number].GetForme(forme);
+      return Pokemons[number].GetForm(form);
     }
     public MoveType GetMoveType(int skillId)
     {

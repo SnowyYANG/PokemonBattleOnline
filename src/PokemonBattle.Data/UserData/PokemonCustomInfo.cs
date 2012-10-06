@@ -11,20 +11,20 @@ using LightStudio.PokemonBattle.Data;
 namespace LightStudio.PokemonBattle.Data
 {
   [DataContract(Namespace = Namespaces.PBO)]
-  public class PokemonCustomInfo : ICloneable, INotifyPropertyChanged
+  public class PokemonCustomInfo : ICloneable, IPokemonCustomInfo, INotifyPropertyChanged
   {
     [DataMember]
     private short number;
     [DataMember(EmitDefaultValue = false)]
-    private byte forme;
+    private byte form;
     [DataMember]
     private ObservableCollection<int> moveIds;
 
-    public PokemonCustomInfo(int number, int forme)
+    public PokemonCustomInfo(int number, int form)
     {
       moveIds = new ObservableCollection<int>();
-      Ev = new Observable6D();
-      Forme = DataService.GetPokemon(number, forme);
+      _ev = new Observable6D();
+      Form = DataService.GetPokemon(number, form);
     }
 
     #region properties
@@ -32,7 +32,7 @@ namespace LightStudio.PokemonBattle.Data
     private string _name;
     public string Name
     {
-      get { return _name ?? Forme.Type.GetLocalizedName(); }
+      get { return _name ?? Form.Type.GetLocalizedName(); }
       set
       {
         if (string.IsNullOrWhiteSpace(value)) value = null;
@@ -45,23 +45,23 @@ namespace LightStudio.PokemonBattle.Data
       }
     }
 
-    private PokemonForme _forme;
-    public PokemonForme Forme
+    private PokemonForm _form;
+    public PokemonForm Form
     { 
       get
       {
-        if (_forme == null) _forme = DataService.GetPokemon(number, forme);
-        return _forme;
+        if (_form == null) _form = DataService.GetPokemon(number, form);
+        return _form;
       }
       set
       {
-        if (Forme != value && value != null)
+        if (Form != value && value != null)
         {
-          _forme = value;
-          number = _forme.Type.Number;
-          forme = (byte)_forme.Index;
+          _form = value;
+          number = _form.Type.Number;
+          form = (byte)_form.Index;
           _abilityIndex = 0;
-          _gender = Forme.Type.GetAvailableGenders().First();
+          _gender = Form.Type.GetAvailableGenders().First();
           moveIds.Clear();
           OnPropertyChanged();
         }
@@ -130,17 +130,22 @@ namespace LightStudio.PokemonBattle.Data
     }
 
     public Ability Ability
-    { get { return Forme.Data.GetAbility(AbilityIndex); } }
+    { get { return Form.Data.GetAbility(AbilityIndex); } }
 
     private Observable6D _iv;
-    public Observable6D Iv
+    public I6D Iv
     {
       get
       {
         if (_iv == null) _iv = new Observable6D(31, 31, 31, 31, 31, 31);
         return _iv;
       }
-      private set { _iv = value; }
+    }
+    [DataMember(EmitDefaultValue = false)]
+    private ReadOnly6D _Iv
+    {
+      get { return new ReadOnly6D(31 - Iv.Hp, 31 - Iv.Atk, 31 - Iv.SpAtk, 31 - Iv.Def, 31 - Iv.SpDef, 31 - Iv.Speed); }
+      set { _iv = new Observable6D(31 - value.Hp, 31 - value.Atk, 31 - value.Def, 31 - value.SpAtk, 31 - value.SpDef, 31 - value.Speed); }
     }
     
     [DataMember(EmitDefaultValue = false)]
@@ -172,22 +177,14 @@ namespace LightStudio.PokemonBattle.Data
         }
       }
     }
-    
+
     [DataMember]
-    public Observable6D Ev
-    { get; private set; }
+    private Observable6D _ev;
+    public I6D Ev
+    { get { return _ev; } }
     
     public IEnumerable<int> MoveIds
     { get { return moveIds; } }
-
-    #region datacontract only
-    [DataMember(EmitDefaultValue = false)]
-    private ReadOnly6D _Iv
-    {
-      get { return new ReadOnly6D(31 - Iv.Hp, 31 - Iv.Atk, 31 - Iv.SpAtk, 31 - Iv.Def, 31 - Iv.SpDef, 31 - Iv.Speed); }
-      set { Iv = new Observable6D(31 - value.Hp, 31 - value.Atk, 31 - value.Def, 31 - value.SpAtk, 31 - value.SpDef, 31 - value.Speed); }
-    }
-    #endregion
     #endregion
 
     public bool AddMove(int moveId)

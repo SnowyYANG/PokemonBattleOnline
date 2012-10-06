@@ -100,9 +100,9 @@ namespace LightStudio.PokemonBattle.Data
     {
       return romData.GetItem(id);
     }
-    public static PokemonForme GetPokemon(int number, int forme)
+    public static PokemonForm GetPokemon(int number, int form)
     {
-      return romData.GetPokemon(number, forme);
+      return romData.GetPokemon(number, form);
     }
     public static MoveType GetMove(int id)
     {

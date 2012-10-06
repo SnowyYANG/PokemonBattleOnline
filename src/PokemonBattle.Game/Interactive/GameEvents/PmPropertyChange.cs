@@ -261,7 +261,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember(EmitDefaultValue = false)]
     int Number;
     [DataMember(EmitDefaultValue = false)]
-    int Forme;
+    int Form;
     [DataMember(EmitDefaultValue = false)]
     PokemonGender? Gender;
     [DataMember(EmitDefaultValue = false)]
@@ -271,8 +271,8 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     {
       Log = log;
       Pm = pm.Id;
-      Number = pm.Forme.Type.Number;
-      Forme = pm.Forme.Index;
+      Number = pm.Form.Type.Number;
+      Form = pm.Form.Index;
       if (allProperty)
       {
         Name = pm.Name;
@@ -285,7 +285,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
         var pm = GetPokemon(Pm);
         if (Name != null) pm.Name = Name;
         if (Gender != null) pm.Gender = Gender.Value;
-        pm.ChangeForme(Number, Forme);
+        pm.ChangeForm(Number, Form);
       }
       AppendGameLog(Log, Pm, Arg);
     }

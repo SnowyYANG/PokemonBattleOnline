@@ -10,67 +10,84 @@ namespace LightStudio.PokemonBattle.Data
   [DataContract(Namespace = Namespaces.PBO)]
   public class PokemonType
   {
+    [DataMember]
+    private readonly PokemonForm[] forms;
+    [DataMember]
+    private readonly PokemonFormData[] formData;
+
 #if DEBUG
     public PokemonType()
+    {
+    }
+#else
+    private PokemonType()
     {
     }
 #endif
 
     [DataMember]
-    public short Number { get; private set; }
-    [DataMember]
-    public string Name { get; private set; }
-    [DataMember]
-    public double Height { get; private set; }
-    [DataMember]
-    public double Weight { get; private set; }
-    [DataMember(EmitDefaultValue = false)]
-    public double MaleRatio { get; private set; }
-    [DataMember(EmitDefaultValue = false)]
-    public double FemaleRatio { get; private set; }
-    [DataMember]
-    public EggGroup EggGroup1 { get; private set; }
-    [DataMember(EmitDefaultValue = false)]
-    public EggGroup EggGroup2 { get; private set; }
+    private readonly short _number;
+    public short Number
+    { get { return _number; } }
 
     [DataMember]
-    private readonly PokemonFormeData[] formeData;
+    private readonly string _name;
+    public string Name
+    { get { return _name; } }
+
     [DataMember]
-    private readonly PokemonForme[] formes;
-    public IEnumerable<PokemonForme> Formes
-    { get { return formes; } }
+    private readonly float _height;
+    public float Height
+    { get { return _height; } }
+    [DataMember]
+    private readonly float _weight;
+    public float Weight
+    { get { return _weight; } }
 
     [DataMember(EmitDefaultValue = false)]
-    public bool AreFormesPostnatal { get; private set; }
-    [DataMember(EmitDefaultValue = false)]
-    public bool CanChooseFormes { get; private set; }
+    private byte _genderBoundary;
+    public byte GenderBoundary
+    { get { return _genderBoundary; } }
 
-    public PokemonGender[] GetAvailableGenders()
+    [DataMember]
+    private readonly EggGroup _eggGroup1;
+    public EggGroup EggGroup1
+    { get { return _eggGroup1; } }
+    [DataMember(EmitDefaultValue = false)]
+    private readonly EggGroup _eggGroup2;
+    public EggGroup EggGroup2
+    { get { return _eggGroup2; } }
+
+    public IEnumerable<PokemonForm> Forms
+    { get { return forms; } }
+
+    private static readonly IEnumerable<PokemonGender> NONE = new[] { PokemonGender.None };
+    private static readonly IEnumerable<PokemonGender> MALE = new[] { PokemonGender.Male };
+    private static readonly IEnumerable<PokemonGender> FEMALE = new[] { PokemonGender.Female };
+    private static readonly IEnumerable<PokemonGender> BOTH = new[] { PokemonGender.Male, PokemonGender.Female };
+    public IEnumerable<PokemonGender> GetAvailableGenders()
     {
-      if (MaleRatio == 0)
+      switch (GenderBoundary)
       {
-        if (FemaleRatio == 0)
-        {
-          return new[] { PokemonGender.None };
-        }
-        else
-        {
-          return new[] { PokemonGender.Female };
-        }
+        case 0x00:
+          return MALE;
+        case 0xfe:
+          return FEMALE;
+        case 0xff:
+          return NONE;
+        default:
+          return BOTH;
       }
-      else if (FemaleRatio == 0)
-      {
-        return new[] { PokemonGender.Male };
-      }
-      return new[] { PokemonGender.Male, PokemonGender.Female };
     }
-    internal PokemonFormeData GetData(int index)
+    
+    internal PokemonFormData GetData(int index)
     {
-      return formeData[index];
+      return formData[index];
     }
-    public PokemonForme GetForme(int index)
+    
+    public PokemonForm GetForm(int index)
     {
-      return formes.ValueOrDefault(index);
+      return forms.ValueOrDefault(index);
     }
   }
 }

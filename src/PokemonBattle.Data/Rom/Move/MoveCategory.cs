@@ -7,8 +7,8 @@ namespace LightStudio.PokemonBattle.Data
 {
   public enum MoveCategory : byte
   {
+    Status,
     Physical,
-    Special,
-    Status
+    Special
   }
 }

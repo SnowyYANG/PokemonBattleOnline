@@ -1,6 +1,6 @@
 class Chatter(AttackMoveE):
     def ImplementEffect(self, d):
-        if d.AtkContext.Attacker.Pokemon.Forme.Type.Number == 441:
+        if d.AtkContext.Attacker.Pokemon.Form.Type.Number == 441:
             AttackMoveE.ImplementEffect(self, d)
 M(Chatter(448))
 

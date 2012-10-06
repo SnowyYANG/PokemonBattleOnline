@@ -10,41 +10,60 @@ namespace LightStudio.PokemonBattle.Data
   [DataContract(Namespace = Namespaces.PBO)]
   public class MoveType : GameElement
   {
+    [DataMember(EmitDefaultValue = false)]
+    private readonly MoveInnerClass _class;
+    public MoveInnerClass Class
+    { get { return _class; } }
+
+    [DataMember(EmitDefaultValue = false)]
+    private readonly sbyte _minTimes;
+    public int MinTimes
+    { get { return _minTimes; } }
+
+    [DataMember(EmitDefaultValue = false)]
+    private readonly sbyte _maxTimes;
+    public int MaxTimes
+    { get { return _maxTimes; } }
+
+    [DataMember(EmitDefaultValue = false)]
+    private readonly MoveAttachment _attachment;
+    public MoveAttachment Attachment
+    { get { return _attachment; } }
+
+    [DataMember(EmitDefaultValue = false)]
+    private readonly sbyte _ctLv;
+    public int CtLv
+    { get { return _ctLv; } }
+
+    [DataMember(EmitDefaultValue = false)]
+    private readonly sbyte _flinchProbability;
+    public int FlinchProbability
+    { get { return _flinchProbability; } }
+
+    [DataMember(EmitDefaultValue = false)]
+    private readonly sbyte _hurtPercentage;
+    public int HurtPercentage
+    { get { return _hurtPercentage; } }
+
+    [DataMember(EmitDefaultValue = false)]
+    private readonly sbyte _maxHpPercentage;
+    public int MaxHpPercentage
+    { get { return _maxTimes; } }
+
     [DataMember]
-    public MoveInnerClass Class { get; private set; }
-
-    [DataMember(EmitDefaultValue = false)]
-    public byte MinTimes { get; private set; }
-
-    [DataMember(EmitDefaultValue = false)]
-    public byte MaxTimes { get; private set; }
-
-    [DataMember(EmitDefaultValue = false)]
-    public MoveAttachment Attachment { get; private set; }
-
-    [DataMember(EmitDefaultValue = false)]
-    public byte CtLv { get; private set; }
-
-    [DataMember(EmitDefaultValue = false)]
-    public byte FlinchProbability { get; private set; }
-
-    [DataMember(EmitDefaultValue = false)]
-    public sbyte HurtPercentage { get; private set; }
-
-    [DataMember(EmitDefaultValue = false)]
-    public sbyte MaxHpPercentage { get; private set; }
+    private readonly MoveLv7DChange[] _lv7DChanges;
+    public IEnumerable<MoveLv7DChange> Lv7DChanges
+    { get { return _lv7DChanges; } }
 
     [DataMember]
-    public IEnumerable<MoveLv7DChange> Lv7DChanges { get; private set; }
-
-    [DataMember]
-    public MoveTypeAdvancedFlags AdvancedFlags { get; private set; }
+    private readonly MoveTypeAdvancedFlags _advancedFlags;
+    public MoveTypeAdvancedFlags AdvancedFlags
+    { get { return _advancedFlags; } }
 
 #if DEBUG
     public MoveType(int id)
       : base(id)
     {
-
     }
 #else
     private MoveType(int id)
@@ -53,25 +72,39 @@ namespace LightStudio.PokemonBattle.Data
     }
 #endif
 
-    [DataMember]
-    public int Accuracy { get; private set; }
-
-    [DataMember]
-    public MoveCategory Category { get; private set; }
-
-    [DataMember]
-    public BattleType Type { get; private set; }
-
-    [DataMember]
-    public int Power { get; private set; }
-
-    [DataMember]
-    public int PP { get; private set; }
-
-    [DataMember]
-    public MoveRange Range { get; private set; }
+    [DataMember(EmitDefaultValue = false)]
+    private readonly sbyte _accuracy;
+    public int Accuracy
+    { get { return _accuracy; } }
 
     [DataMember(EmitDefaultValue = false)]
-    public sbyte Priority { get; private set; }
+    private readonly MoveCategory _category;
+    public MoveCategory Category
+    { get { return _category; } }
+
+    [DataMember(EmitDefaultValue = false)]
+    private readonly BattleType _type;
+    public BattleType Type
+    { get { return _type; } }
+
+    [DataMember(EmitDefaultValue = false)]
+    private readonly byte _power;
+    public int Power
+    { get { return _power; } }
+
+    [DataMember(EmitDefaultValue = false)]
+    private readonly sbyte _pp;
+    public int PP
+    { get { return _pp; } }
+
+    [DataMember(EmitDefaultValue = false)]
+    private readonly MoveRange _range;
+    public MoveRange Range
+    { get { return _range; } }
+
+    [DataMember(EmitDefaultValue = false)]
+    private readonly sbyte _priority;
+    public int Priority
+    { get { return _priority; } }
   }
 }

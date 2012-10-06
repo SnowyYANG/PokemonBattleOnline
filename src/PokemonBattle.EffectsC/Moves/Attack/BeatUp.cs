@@ -25,7 +25,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
         if (pm == aer.Pokemon || pm.State == PokemonState.Normal)
         {
           hits++;
-          atk.Attachment = pm == aer.Pokemon? aer.OnboardPokemon.Forme.BaseAtk : pm.Forme.BaseAtk;
+          atk.Attachment = pm == aer.Pokemon? aer.OnboardPokemon.Form.BaseAtk : pm.Form.BaseAtk;
           CalculateDamages(atk);
           Implement(atk.Targets);
           if (atk.Target.Defender.Hp == 0 || aer.Hp == 0 || aer.State == PokemonState.FRZ || aer.State == PokemonState.SLP) break;

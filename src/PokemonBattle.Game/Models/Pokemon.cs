@@ -19,19 +19,19 @@ namespace LightStudio.PokemonBattle.Game
 
     #region data
     internal readonly int AbilityIndex;
-    public readonly ReadOnly6D Iv;
-    public readonly ReadOnly6D Ev;
+    public readonly I6D Iv;
+    public readonly I6D Ev;
 
     public string Name
     { get; private set; }
-    public PokemonForme Forme
+    public PokemonForm Form
     { get; private set; }
     public PokemonGender Gender
     { get; private set; }
     public int Lv
     { get; private set; }
     public Ability Ability
-    { get { return Forme.Data.GetAbility(AbilityIndex); } }
+    { get { return Form.Data.GetAbility(AbilityIndex); } }
     public Move[] Moves
     { get; private set; }
     public int Happiness
@@ -68,11 +68,11 @@ namespace LightStudio.PokemonBattle.Game
       Iv = new ReadOnly6D(custom.Iv);
       Ev = new ReadOnly6D(custom.Ev);
       {
-        int h = PokemonStatHelper.GetHp(Forme.Data.Base.Hp, (byte)Iv.Hp, (byte)Ev.Hp, (byte)Lv);
+        int h = PokemonStatHelper.GetHp(Form.Data.Base.Hp, (byte)Iv.Hp, (byte)Ev.Hp, (byte)Lv);
         hp = new PairValue(h, h, 48);
       }
 
-      ChangeForme(custom.Forme);
+      ChangeForm(custom.Form);
     }
 
     public int IndexInOwner
@@ -82,11 +82,11 @@ namespace LightStudio.PokemonBattle.Game
 
     private int Get5D(StatType type)
     {
-      return PokemonStatHelper.Get5D(type, Nature, Forme.Data.Base.GetStat(type), (byte)Iv.GetStat(type), (byte)Ev.GetStat(type), (byte)Lv);
+      return PokemonStatHelper.Get5D(type, Nature, Form.Data.Base.GetStat(type), (byte)Iv.GetStat(type), (byte)Ev.GetStat(type), (byte)Lv);
     }
-    private void ChangeForme(PokemonForme forme)
+    private void ChangeForm(PokemonForm form)
     {
-      Forme = forme;
+      Form = form;
       FiveD = new ReadOnly6D(0, Get5D(StatType.Atk), Get5D(StatType.Def), Get5D(StatType.SpAtk), Get5D(StatType.SpDef), Get5D(StatType.Speed));
     }
     public void SetHp(int value)
@@ -95,9 +95,9 @@ namespace LightStudio.PokemonBattle.Game
       else if (value > Hp.Origin) value = Hp.Origin;
       hp.Value = value;
     }
-    public void ChangeForme(int forme)
+    public void ChangeForm(int form)
     {
-      ChangeForme(Forme.Type.GetForme(forme));
+      ChangeForm(Form.Type.GetForm(form));
     }
     public void ClientChangePokemonStateWithNotify(PokemonState value)
     {

@@ -65,16 +65,16 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     public static bool PlatedArceus(Pokemon pm)
     {
-      return pm.Forme.Type.Number == 493 && pm.Item.Id > 74 && pm.Item.Id < 91;
+      return pm.Form.Type.Number == 493 && pm.Item.Id > 74 && pm.Item.Id < 91;
     }
     public static bool CantLostItem(Pokemon pm)
     {
       return
         !(
         pm.Item.Id == 194 ||
-        pm.Forme.Type.Number == 487 && pm.Item.Id == 1 || //giratina
+        pm.Form.Type.Number == 487 && pm.Item.Id == 1 || //giratina
         PlatedArceus(pm) ||
-        pm.Forme.Type.Number == 649 && pm.Item.Id > 97 && pm.Item.Id < 102 //genesect
+        pm.Form.Type.Number == 649 && pm.Item.Id > 97 && pm.Item.Id < 102 //genesect
         );
     }
 

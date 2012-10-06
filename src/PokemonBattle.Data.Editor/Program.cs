@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Collections.ObjectModel;
+using System.IO;
 
 namespace LightStudio.PokemonBattle.Data.Editor
 {
   class Program
   {
+    static byte ToByte(char hex)
+    {
+      return (byte)(hex >= 'A' ? hex - 'A' + 10 : hex - '0');
+    }
+    static byte ToByte(string hex)
+    {
+      return (byte)(ToByte(hex[0]) * 16 + ToByte(hex[1]));
+    }
+
     static void Main(string[] args)
     {
-      //RomData r = RomData.LoadFromXml();
-      //r.SaveXml();
-      Console.ReadKey();
+      RomData r = RomData.LoadFromXml();
+      r.SaveDat();
     }
   }
 }

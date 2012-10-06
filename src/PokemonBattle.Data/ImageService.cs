@@ -12,11 +12,11 @@ namespace LightStudio.PokemonBattle.Data
 {
   public static class ImageService
   {
-    private static readonly Dictionary<int, ImageSource> icons;
+    private static ImageSource[] icons;
 
     static ImageService()
     {
-      icons = new Dictionary<int,ImageSource>();
+      icons = new ImageSource[DataService.Pokemons.Count()];
     }
 
     private static ImageSource GetImage(string path, string id)
@@ -31,44 +31,44 @@ namespace LightStudio.PokemonBattle.Data
         return null;
       }
     }
-    private static ImageSource GetImage(string path, int number, int forme)
+    private static ImageSource GetImage(string path, int number, int form)
     {
-      return GetImage(path, (number * 100 + forme).ToString("00000"));
+      return GetImage(path, (number * 100 + form).ToString("00000"));
     }
-    public static ImageSource GetPokemonIcon(int number, int forme)
+    private static ImageSource GetImage(string path, PokemonForm form)
     {
-      int id = number * 100 + forme;
+      return GetImage(path, form.Type.Number, form.Index);
+    }
+    private static ImageSource GetFemaleImage(string path, PokemonForm form)
+    {
+      var i = GetImage(path + "\\female", form);
+      if (i == null) GetImage(path, form);
+      return i;
+    }
+    public static ImageSource GetPokemonIcon(PokemonForm form, PokemonGender gender)
+    {
+      int n = form.Type.Number, f = form.Index;
       ImageSource r;
-      if (!icons.TryGetValue(id, out r))
+      if (gender == PokemonGender.Female && (n == 521 || n == 592 || n == 593)) r = GetImage("icon\\female", n, f);
+      else if (f == 0)
       {
-        r = GetImage("icon", number, forme);
-        icons[id] = r;
+        if (icons[n] == null) icons[n] = GetImage("icon", n, 0);
+        r = icons[n];
       }
+      else r = GetImage("icon", n, f);
       return r;
     }
-    public static ImageSource GetPokemonMaleFront(int number, int forme)
+    public static ImageSource GetPokemonFront(PokemonForm form, PokemonGender gender)
     {
-      return GetImage("front", number, forme);
+      return gender == PokemonGender.Female ? GetFemaleImage("front", form) : GetImage("front", form);
     }
-    public static ImageSource GetPokemonFemaleFront(int number, int forme)
+    public static ImageSource GetPokemonBack(PokemonForm form, PokemonGender gender)
     {
-      ImageSource image = GetImage("front\\female", number, forme);
-      if (image == null) image = GetPokemonMaleFront(number, forme);
-      return image;
+      return gender == PokemonGender.Female ? GetFemaleImage("back", form) : GetImage("back", form);
     }
-    public static ImageSource GetPokemonMaleBack(int number, int forme)
+    public static ImageSource GetSpFront(string id)
     {
-      return GetImage("back", number, forme);
-    }
-    public static ImageSource GetPokemonFemaleBack(int number, int forme)
-    {
-      ImageSource image = GetImage("back\\female", number, forme);
-      if (image == null) image = GetPokemonMaleBack(number, forme);
-      return image;
-    }
-    public static ImageSource GetSpFront(int number, int forme)
-    {
-      return GetImage("front\\sp", number, forme);
+      return GetImage("front\\sp", id);
     }
     public static ImageSource GetSpBack(string id)
     {
