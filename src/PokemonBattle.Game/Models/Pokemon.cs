@@ -51,7 +51,7 @@ namespace LightStudio.PokemonBattle.Game
     { get; set; }
     #endregion
 
-    internal Pokemon(Player owner, PokemonCustomInfo custom, IGameSettings settings, Func<int> nextId)
+    internal Pokemon(Player owner, IPokemonData custom, IGameSettings settings, Func<int> nextId)
     {
       Id = nextId();
       Owner = owner;
@@ -64,7 +64,7 @@ namespace LightStudio.PokemonBattle.Game
       Nature = custom.Nature;
       AbilityIndex = custom.AbilityIndex;
       Moves = custom.MoveIds.Select((m) => new Move(m, settings)).ToArray();
-      Item = DataService.GetItem(custom.ItemId);
+      Item = GameDataService.GetItem(custom.ItemId);
       Iv = new ReadOnly6D(custom.Iv);
       Ev = new ReadOnly6D(custom.Ev);
       {

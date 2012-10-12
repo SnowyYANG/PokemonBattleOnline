@@ -13,7 +13,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public ItemE(int id)
     {
       Id = id;
-      Item = DataService.GetItem(id);
+      Item = GameDataService.GetItem(id);
     }
 
     public int Id

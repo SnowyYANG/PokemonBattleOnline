@@ -13,7 +13,7 @@ namespace LightStudio.PokemonBattle.Game
 
     internal Move(int moveType, IGameSettings settings)
     {
-      Type = DataService.GetMove(moveType);
+      Type = GameDataService.GetMove(moveType);
       var pp = (int)(Type.PP * settings.PPUp);
       PP = new PairValue(pp, pp, 4);
     }

@@ -26,7 +26,7 @@ namespace LightStudio.PokemonBattle.Game
     internal bool Prepared
     { get { return players.Count == settings.Mode.PlayersPerTeam(); } }
 
-    internal Player AddPlayer(int userId, Data.PokemonCustomInfo[] pokemons)
+    internal Player AddPlayer(int userId, Data.IPokemonData[] pokemons)
     {
       if (players.Count < settings.Mode.PlayersPerTeam())
       {

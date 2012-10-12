@@ -19,7 +19,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
             int? intValue = (int?)value;
             if (!intValue.HasValue)
                 return null;
-            return DataService.GetItem(intValue.Value);
+            return GameDataService.GetItem(intValue.Value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

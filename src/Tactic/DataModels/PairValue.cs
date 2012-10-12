@@ -54,7 +54,7 @@ namespace LightStudio
         if (_value != value)
         {
           _value = value;
-          SendPropertyChanged();
+          OnPropertyChanged();
         }
       }
     }
@@ -79,7 +79,7 @@ namespace LightStudio
     public bool IsChanged
     { get { return _value != _origin; } }
 
-    private void SendPropertyChanged()
+    private void OnPropertyChanged()
     {
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(null));

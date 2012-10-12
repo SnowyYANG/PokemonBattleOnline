@@ -132,7 +132,7 @@ namespace LightStudio.PokemonBattle.Data
         if (_hp != value)
         {
           _hp = value;
-          SendPropertyChanged(HP);
+          OnPropertyChanged(HP);
         }
       }
     }
@@ -146,7 +146,7 @@ namespace LightStudio.PokemonBattle.Data
         if (_atk != value)
         {
           _atk = value;
-          SendPropertyChanged(ATK);
+          OnPropertyChanged(ATK);
         }
       }
     }
@@ -160,7 +160,7 @@ namespace LightStudio.PokemonBattle.Data
         if (_def != value)
         {
           _def = value;
-          SendPropertyChanged(DEF);
+          OnPropertyChanged(DEF);
         }
       }
     }
@@ -174,7 +174,7 @@ namespace LightStudio.PokemonBattle.Data
         if (_spAtk != value)
         {
           _spAtk = value;
-          SendPropertyChanged(SPATK);
+          OnPropertyChanged(SPATK);
         }
       }
     }
@@ -188,7 +188,7 @@ namespace LightStudio.PokemonBattle.Data
         if (_spDef != value)
         {
           _spDef = value;
-          SendPropertyChanged(SPDEF);
+          OnPropertyChanged(SPDEF);
         }
       }
     }
@@ -202,12 +202,12 @@ namespace LightStudio.PokemonBattle.Data
         if (_speed != value)
         {
           _speed = value;
-          SendPropertyChanged(SPEED);
+          OnPropertyChanged(SPEED);
         }
       }
     }
 
-    private void SendPropertyChanged(PropertyChangedEventArgs e)
+    private void OnPropertyChanged(PropertyChangedEventArgs e)
     {
       if (PropertyChanged != null) PropertyChanged(this, e);
     }
@@ -261,6 +261,9 @@ namespace LightStudio.PokemonBattle.Data
           break;
         case StatType.Speed:
           Speed = value;
+          break;
+        case StatType.All:
+          Hp = Atk = Def = SpAtk = SpDef = Speed = 0;
           break;
       }
     }

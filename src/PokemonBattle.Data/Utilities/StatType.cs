@@ -7,6 +7,7 @@ namespace LightStudio.PokemonBattle.Data
 {
   public enum StatType : byte
   {
+    Invalid,
     Atk,
     Def,
     SpAtk,

@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public AbilityE(int id)
     {
       this.id = id;
-      Ability = DataService.GetAbility(id);
+      Ability = GameDataService.GetAbility(id);
     }
 
     public int Id

@@ -39,7 +39,6 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     public event PropertyChangedEventHandler PropertyChanged;
     internal event Action Processed;
     private readonly ChallengeManager challenge;
-    IPokemonFolder chosenTeam;
     DispatcherTimer timer;
     bool isWaiting;
 
@@ -49,8 +48,8 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
       Rival = rival;
       this.isPassive = isPassive;
       RivalAvatar = AvatarVM.GetAvatar(rival.Avatar);
-      Teams = Helper.DataMainInstance.PokemonData.Teams.Folders;
-      chosenTeam = Teams.FirstOrDefault();
+      Teams = DataService.UserData.Teams;
+      _chosenTeam = Teams.FirstOrDefault();
       GameSettings = settings;
       if (isPassive)
       {
@@ -77,18 +76,20 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     public MenuCommand OkCommand { get; private set; }
     public MenuCommand CancelCommand { get; private set; }
     public GameInitSettings GameSettings { get; private set; }
-    public ReadOnlyObservableCollection<IPokemonFolder> Teams { get; private set; }
-    public IPokemonFolder ChosenTeam
+    public IEnumerable<IEnumerable<IPokemonData>> Teams { get; private set; }
+    
+    private IEnumerable<IPokemonData> _chosenTeam;
+    public IEnumerable<IPokemonData> ChosenTeam
     {
-      get { return chosenTeam; }
+      get { return _chosenTeam; }
       set
       {
-        if (chosenTeam != value)
+        if (_chosenTeam != value)
         {
-          chosenTeam = value;
+          _chosenTeam = value;
           if (PropertyChanged != null)
             PropertyChanged(this, new PropertyChangedEventArgs("ChosenTeam"));
-          OkCommand.IsEnabled = chosenTeam != null;
+          OkCommand.IsEnabled = _chosenTeam != null;
         }
       }
     }
@@ -116,9 +117,9 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     void Accept()
     {
       CancelCommand.IsEnabled = false;
-      lock (ChosenTeam.Pokemons)
+      lock (ChosenTeam)
       {
-        if (challenge.AcceptChallenge(Rival.Id, ChosenTeam.Pokemons.ToArray()))
+        if (challenge.AcceptChallenge(Rival.Id, ChosenTeam.ToArray()))
           OnProcessed();
       }
     }
@@ -130,9 +131,9 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     }
     void Challenge()
     {
-      lock (ChosenTeam.Pokemons)
+      lock (ChosenTeam)
       {
-        if (!challenge.Challenge(Rival.Id, ChosenTeam.Pokemons.ToArray(), GameSettings)) return;
+        if (!challenge.Challenge(Rival.Id, ChosenTeam.ToArray(), GameSettings)) return;
         isWaiting = true;
         OkCommand.IsEnabled = CancelCommand.IsEnabled = false;
       }

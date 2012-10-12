@@ -38,15 +38,13 @@ namespace LightStudio.PokemonBattle.PBO.Battle
         };
     }
 
-    protected abstract ImageSource GetFemale(int id);
-    protected abstract ImageSource GetMale(int id);
+    protected abstract ImageSource GetImage(PokemonForm form, PokemonGender gender);
     protected abstract ImageSource GetSp(string id);
 
     private void RefreshImage()
     {
       if (pokemon.IsSubstitute) main.Source = GetSp("substitute");
-      else if (pokemon.Gender == PokemonGender.Female) main.Source = GetFemale(pokemon.ImageId);
-      else main.Source = GetMale(pokemon.ImageId);
+      else main.Source = GetImage(pokemon.Form, pokemon.Gender);
     }
     public void Sendout(PokemonOutward pm)
     {
@@ -91,7 +89,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     {
       RefreshImage();
     }
-    void IPokemonOutwardEvents.FormeChanged()
+    void IPokemonOutwardEvents.FormChanged()
     {
       RefreshImage();
     }

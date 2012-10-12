@@ -18,13 +18,22 @@ namespace LightStudio.PokemonBattle.PBO
   {
     void InitGameService()
     {
-      DataService.Load(System.IO.Path.GetFullPath("Data"), new StringService() { Language = "Chinese" });
+      GameDataService.Load("Data");
+#if DEBUG
+      DataService.Load(new StringService() { Language = "Chinese" });
       DataService.String.DefaultLanguage = "Chinese";
       DataService.DataString.DefaultLanguage = "Chinese";
+#else
+      throw new NotImplementedException();
+#endif
       DataService.String.ReturnKeyOnFallback = true;
       DataService.DataString.ReturnKeyOnFallback = true;
       Game.Host.Effects.EffectsRegister.Register();
+#if DEBUG
       Tactic.Scripting.ExecuteAll("..\\src\\PokemonBattle.EffectsP");
+#else
+      throw new NotImplementedException();
+#endif
     }
     
     protected override void OnStartup(StartupEventArgs e)

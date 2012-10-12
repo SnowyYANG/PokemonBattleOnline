@@ -4,22 +4,23 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Windows.Controls.Primitives;
+using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.PBO.UIElements.Interactivity;
 
 namespace LightStudio.PokemonBattle.PBO.Editor
 {
     internal class PokemonDragDropData : IDragDropData, INotifyPropertyChanged
     {
-        public PokemonViewModel Pokemon
+        public PokemonData Pokemon
         { get; private set; }
 
-        public int PokemonIndexInFolder
+        public int IndexInContainer
         { get; private set; }
 
         public DragDropActions AllowedActions
         { get; private set; }
 
-        public IFolderViewModel SourceFolder
+        public PokemonCollection Source
         { get; private set; }
 
         private DragDropActions _actions = DragDropActions.None;
@@ -40,13 +41,12 @@ namespace LightStudio.PokemonBattle.PBO.Editor
             }
         }
 
-        public PokemonDragDropData(PokemonViewModel data, DragDropActions allowedActions,
-            IFolderViewModel source, int pmIndex)
+        public PokemonDragDropData(PokemonData data, DragDropActions allowedActions, PokemonCollection source, int pmIndex)
         {
             this.Pokemon = data;
             this.AllowedActions = allowedActions;
-            this.SourceFolder = source;
-            this.PokemonIndexInFolder = pmIndex;
+            this.Source = source;
+            this.IndexInContainer = pmIndex;
         }
 
         #region INotifyPropertyChanged
@@ -71,7 +71,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
         {
             get
             {
-                return SourceFolder;
+                return Source;
             }
         }
     }

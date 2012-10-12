@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.PBO.UIElements.Interactivity;
 
 namespace LightStudio.PokemonBattle.PBO.Editor
@@ -16,26 +17,24 @@ namespace LightStudio.PokemonBattle.PBO.Editor
 
         public void HandleMouseMove(UIElement sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Released)
-                return;
+          if (e.LeftButton == MouseButtonState.Pressed)
+          {
             var selector = sender as Selector;
-            if (selector == null || selector.SelectedItem == null)
-                return;
+            if (selector == null || selector.SelectedItem == null) return;
             //find the visual item hit
             var itemContainer = selector.ItemContainerGenerator.
                 ContainerFromIndex(selector.SelectedIndex) as FrameworkElement;
-            if (!FolderDragDropSource.HitElement(e.GetPosition(itemContainer), itemContainer))
-                return;
+            if (!FolderDragDropSource.HitElement(e.GetPosition(itemContainer), itemContainer)) return;
 
-            var selectedItem = selector.SelectedItem as PokemonViewModel;
+            var selectedItem = selector.SelectedItem as PokemonData;
 
-            IFolderViewModel folder = selectedItem.Folder;
+            PokemonCollection folder = selectedItem.Container;
             int selectedIndex = selector.SelectedIndex;
-            var data =
-                new PokemonDragDropData(selectedItem, DragDropActions.All, folder, selectedIndex);
+            var data = new PokemonDragDropData(selectedItem, DragDropActions.All, folder, selectedIndex);
 
             var dataObj = new DataObject(typeof(IDragDropData), data);
             DragDrop.DoDragDrop(selector, dataObj, DragDropEffects.All);
+          }
         }
 
         private static bool HitElement(Point pt, FrameworkElement element)

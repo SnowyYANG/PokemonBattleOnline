@@ -9,19 +9,19 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.PBO.Editor
 {
-    [ValueConversion(typeof(int), typeof(MoveLearnItemViewModel))]
+    [ValueConversion(typeof(int), typeof(LearnItemVM))]
     class MoveLearnItemC : IValueConverter
     {
       public static readonly MoveLearnItemC I = new MoveLearnItemC();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null) return null;
-            if (Editor.CurrentEditor.EditingPokemon.Learnset != null)
-            {
-                return Editor.CurrentEditor.EditingPokemon.Learnset.
-                    FirstOrDefault(m => m.MoveType.Id == (int)value);
-            }
+            //if (value == null) return null;
+            //if (Editor.CurrentEditor.EditingPokemon.Learnset != null)
+            //{
+            //    return Editor.CurrentEditor.EditingPokemon.Learnset.
+            //        FirstOrDefault(m => m.MoveType.Id == (int)value);
+            //}
             return null;
         }
 

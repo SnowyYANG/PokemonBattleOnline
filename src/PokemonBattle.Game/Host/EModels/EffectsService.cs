@@ -23,8 +23,8 @@ namespace LightStudio.PokemonBattle.Game.Host
       NULL_ABILITY = new AbilityE(0);
       NULL_ITEM = new ItemE(0);
       NULL_RULE = new RuleE(0);
-      moves = new MoveE[DataService.Moves.Count() + 1];
-      abilities = new AbilityE[DataService.Abilities.Count() + 1];
+      moves = new MoveE[GameDataService.Moves.Count() + 1];
+      abilities = new AbilityE[GameDataService.Abilities.Count() + 1];
       items = new Dictionary<int, ItemE>();
       rules = new Dictionary<int, IRuleE>();
       items[0] = NULL_ITEM;
@@ -47,7 +47,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (id < 0 || id > moves.Length) id = 0;
       if (moves[id] == null) //不用Factory大丈夫？
       {
-        MoveType move = DataService.GetMove(id);
+        MoveType move = GameDataService.GetMove(id);
         if (move == null) id = 0;
         switch (move.Class)
         {

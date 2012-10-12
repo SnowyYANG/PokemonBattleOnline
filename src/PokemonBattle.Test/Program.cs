@@ -12,18 +12,16 @@ namespace LightStudio.PokemonBattle.Test
   {
     static Program()
     {
-      DataService.Load(System.IO.Path.GetFullPath("Data"), new StringService() { Language = "Chinese" });
+      GameDataService.Load("Data");
+      DataService.Load(new StringService() { Language = "Chinese" });
       DataService.String.DefaultLanguage = "Chinese";
       DataService.DataString.DefaultLanguage = "Chinese";
-      DataService.String.ReturnKeyOnFallback = true;
-      DataService.DataString.ReturnKeyOnFallback = true;
       Game.Host.Effects.EffectsRegister.Register();
       Tactic.Scripting.ExecuteAll("..\\src\\PokemonBattle.EffectsP");
     }
     
     static void Main(string[] args)
     {
-      var userData = new UserData();
       using (var ui = new TestUIDispatcher())
       {
         UIDispatcher.Init(ui);

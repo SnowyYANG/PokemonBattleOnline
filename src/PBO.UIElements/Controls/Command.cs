@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 using System.Windows.Input;
 
 namespace LightStudio.PokemonBattle.PBO.UIElements
@@ -26,10 +27,25 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
     }
   }
 
-  public class MenuCommand : ICommand
+  public class MenuCommand : ICommand, INotifyPropertyChanged
   {
+    private static readonly PropertyChangedEventArgs HEADER = new PropertyChangedEventArgs("Header");
+    
+    public event PropertyChangedEventHandler PropertyChanged;
+    
+    private object _header;
     public object Header
-    { get; private set; }
+    {
+      get { return _header; }
+      set
+      {
+        if (_header != value)
+        {
+          _header = value;
+          if (PropertyChanged != null) PropertyChanged(this, HEADER);
+        }
+      }
+    }
 
     public object Icon
     { get; set; }

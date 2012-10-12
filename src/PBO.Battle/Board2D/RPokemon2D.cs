@@ -13,17 +13,13 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       : base(96)
     {
     }
-    protected override ImageSource GetMale(int id)
+    protected override ImageSource GetImage(PokemonForm form, PokemonGender gender)
     {
-      return DataService.Image.GetPokemonMaleFront(id);
-    }
-    protected override ImageSource GetFemale(int id)
-    {
-      return DataService.Image.GetPokemonFemaleFront(id);
+      return ImageService.GetPokemonFront(form, gender);
     }
     protected override ImageSource GetSp(string id)
     {
-      return DataService.Image.GetSpFront(id);
+      return ImageService.GetSpFront(id);
     }
   }
 }

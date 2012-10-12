@@ -19,30 +19,35 @@ namespace LightStudio.PokemonBattle.PBO.Editor
   /// <summary>
   /// Interaction logic for PokemoEditorView.xaml
   /// </summary>
-  public partial class PokemoEditorView : UserControl
+  public partial class PokemonEditorView : UserControl
   {
     VirtualizingStackPanel panel;
 
-    public PokemoEditorView()
+    public PokemonEditorView()
     {
       InitializeComponent();
       grid.Fill = PBO.UIElements.Brushes.GetHorizontalTileBrush(25, PBO.Helper.NewBrush(0x80ffffff));
     }
 
+    private EditingPokemonVM VM
+    { get { return (EditingPokemonVM)DataContext; } }
+
     private void SelectedMove_MouseDown(object sender, MouseButtonEventArgs e)
     {
       if (((ContentPresenter)sender).Content == null) return;
       learnsetlist.SelectedItem = ((ContentPresenter)sender).Content;
-      if (panel == null)
-        panel = typeof(ItemsControl).InvokeMember("_itemsHost", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField, null, learnsetlist, null) as VirtualizingStackPanel;
-      if (panel != null)
-        panel.SetVerticalOffset(panel.ScrollOwner.ScrollableHeight * learnsetlist.SelectedIndex / learnsetlist.Items.Count);
+      if (panel == null) panel = typeof(ItemsControl).InvokeMember("_itemsHost", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField, null, learnsetlist, null) as VirtualizingStackPanel;
+      if (panel != null) panel.SetVerticalOffset(panel.ScrollOwner.ScrollableHeight * learnsetlist.SelectedIndex / learnsetlist.Items.Count);
     }
 
     private void Save_Click(object sender, RoutedEventArgs e)
     {
-      EditingPokemonVM vm = DataContext as EditingPokemonVM;
-      if (vm != null) vm.Save();
+      VM.Save();
+    }
+
+    private void ResetEv_Click(object sender, RoutedEventArgs e)
+    {
+      VM.Model.Ev.SetStat(Data.StatType.All, 0);
     }
   }
 }

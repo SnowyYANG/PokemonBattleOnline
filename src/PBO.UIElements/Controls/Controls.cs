@@ -17,7 +17,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
 
     static Controls()
     {
-      ResourceDictionary rd = Helper.GetDictionary("Controls", "LocalizedResource");
+      ResourceDictionary rd = Helper.GetDictionary("Controls", "LocalizedProperty");
       LocalizedText = (DataTemplate)rd["LocalizedText"];
       LocalizedDataText = (DataTemplate)rd["LocalizedDataText"];
       rd = Helper.GetDictionary("Controls", "XButton");

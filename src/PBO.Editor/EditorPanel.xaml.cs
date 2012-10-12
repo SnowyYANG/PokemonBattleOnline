@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
+using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.PBO.Editor
 {
@@ -29,7 +30,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
 
     public void Init()
     {
-      DataContext = Editor.CurrentEditor;
+      DataContext = EditorVM.Current;
     }
 
     public bool Window_Closing()
@@ -37,14 +38,14 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       bool cancel = false;
       try
       {
-        if (Editor.CurrentEditor.EditingPokemon != null)
+        var pm = EditorVM.Current.EditingPokemon;
+        if (pm != null)
         {
-          var p = Editor.CurrentEditor.EditingPokemon;
-          MessageBoxResult r = p.ChangedConfirm();
+          MessageBoxResult r = pm.ChangedConfirm();
           if (r == MessageBoxResult.Cancel) cancel = true;
-          else if (r == MessageBoxResult.Yes) p.Save();
+          else if (r == MessageBoxResult.Yes) pm.Save();
         }
-        if (!cancel) Editor.CurrentEditor.Model.Save();
+        if (!cancel) DataService.UserData.Save();
       }
       catch { }
       return cancel;

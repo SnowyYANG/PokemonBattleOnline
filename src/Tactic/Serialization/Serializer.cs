@@ -157,42 +157,27 @@ namespace LightStudio.Tactic.Serialization
 
     public static T Deserialize<T>(Stream stream)
     {
-      Contract.Requires(stream != null);
-
       return (T)Deserialize(typeof(T), stream);
     }
     public static T Deserialize<T>(TextReader reader)
     {
-      Contract.Requires(reader != null);
-
       return (T)Deserialize(typeof(T), reader);
     }
     public static T Deserialize<T>(XmlReader reader)
     {
-      Contract.Requires(reader != null);
-
       return (T)Deserialize(typeof(T), reader);
     }
 
     public static object Deserialize(Type type, Stream stream)
     {
-      Contract.Requires(type != null);
-      Contract.Requires(stream != null);
-
       return Deserialize(type, GetXmlReader(stream));
     }
     public static object Deserialize(Type type, TextReader reader)
     {
-      Contract.Requires(type != null);
-      Contract.Requires(reader != null);
-
       return Deserialize(type, GetXmlReader(reader));
     }
     public static object Deserialize(Type type, XmlReader reader)
     {
-      Contract.Requires(type != null);
-      Contract.Requires(reader != null);
-
       var serializer = GetSerializer(type);
       return serializer.ReadObject(reader);
     }

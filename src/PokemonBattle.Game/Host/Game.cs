@@ -75,7 +75,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         return true;
       }
     }
-    bool IGame.SetPlayer(int teamId, int userId, PokemonCustomInfo[] pokemons)
+    bool IGame.SetPlayer(int teamId, int userId, IPokemonData[] pokemons)
     {
       //TODO: Verify both userId and pm
       return teamId >= 0 && teamId < Teams.Length && GetPlayer(userId) == null && Teams[teamId].AddPlayer(userId, pokemons) != null;

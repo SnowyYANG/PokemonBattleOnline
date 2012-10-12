@@ -35,13 +35,11 @@ namespace LightStudio.PokemonBattle.Data
     public BattleType Type2
     { get { return _type2 == _type1 ? BattleType.Invalid : _type2; } }
 
-    public Ability[] GetAvailableAbilities()
-    {
-      return abilities.Select(id => DataService.GetAbility(id)).ToArray();
-    }
+    public Ability[] Abilities
+    { get { return abilities.Select(id => GameDataService.GetAbility(id)).ToArray(); } }
     public Ability GetAbility(int index)
     {
-      return DataService.GetAbility(abilities.ValueOrDefault(index));
+      return GameDataService.GetAbility(abilities.ValueOrDefault(index));
     }
   }
 }

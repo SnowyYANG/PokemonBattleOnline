@@ -12,7 +12,7 @@ namespace LightStudio.PokemonBattle.PBO.Converters
     
     protected override object Convert(int value)
     {
-      return DataService.GetMove(value).GetLocalizedName();
+      return GameDataService.GetMove(value).GetLocalizedName();
     }
   }
 }

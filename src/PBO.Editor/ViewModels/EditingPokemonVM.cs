@@ -17,164 +17,95 @@ namespace LightStudio.PokemonBattle.PBO.Editor
 {
   internal class EditingPokemonVM : INotifyPropertyChanged
   {
-    private const int METRONOME = 118;
-    private const int TRANSFORM = 144;
-    private const int ASSIST = 274;
-    private const int ME_FIRST = 382;
-    private const int COPYCAT = 383;
-
     private static bool HasRandomMove(IEnumerable<int> moves)
     {
+      const int METRONOME = 118, TRANSFORM = 144, ASSIST = 274, ME_FIRST = 382, COPYCAT = 383;
       moves.FirstOrDefault();
       return moves.Any((i) => i == METRONOME || i == TRANSFORM || i == ASSIST || i == ME_FIRST || i == COPYCAT);
     }
-    
-    public EditingPokemonVM()
-    {
-      this.Learnset = new ObservableCollection<MoveLearnItemViewModel>();
-      CollectionViewSource.GetDefaultView(Learnset).Culture = CultureInfo.CurrentUICulture;
-      this.ResetEvCommand = new MenuCommand("ClearEv", () =>
-        {
-          Model.HpEv = 0;
-          Model.AtkEv = 0;
-          Model.DefEv = 0;
-          Model.SpeedEv = 0;
-          Model.SpAtkEv = 0;
-          Model.SpDefEv = 0;
-        });
-    }
 
-    #region 6D
-    PairValue GetStat(StatType stattype, int typebase, byte iv, byte ev)
+    private readonly PropertyChangedEventHandler statChanged;
+    private bool changed;
+
+    public EditingPokemonVM(PokemonData pm)
     {
-      return new PairValue(
-          PokemonStatHelper.Get5D(stattype, PokemonNature.Serious, typebase, iv, ev, Model.Lv),
-          PokemonStatHelper.Get5D(stattype, Model.Nature, typebase, iv, ev, Model.Lv), 0);
+      statChanged = (sender, e) => OnPropertyChanged(e);
+      Origin = pm;
+      Model = pm.Clone();
+      this.Learnset = Enumerable.Empty<LearnItemVM>();
+      CollectionViewSource.GetDefaultView(Learnset).Culture = CultureInfo.CurrentUICulture;
     }
-    /// <summary>
-    /// 判断的是4的倍数，所以剩余1点或2点将被忽略
-    /// </summary>
-    public bool HasRemainingEv
-    { get { return RemainingEv > 2; } }
+    
+    #region 6D
+    public Visibility RemainingEvVisibility
+    { get { return RemainingEv > 2 ? Visibility.Visible : Visibility.Collapsed; } }
     public int RemainingEv
     {
       get
       {
-        return ExecIfModelLoaded(() =>
-            510 - Model.HpEv - Model.AtkEv - Model.DefEv
-                - Model.SpeedEv - Model.SpAtkEv - Model.SpDefEv);
+        var ev = Model.Ev;
+        return 510 - ev.Hp - ev.Atk - ev.Def - ev.SpAtk - ev.SpDef - ev.Speed;
       }
     }
     public int Hp
-    {
-      get
-      {
-        return ExecIfModelLoaded(() =>
-            PokemonStatHelper.GetHp(PokemonType.BaseHp,
-            Model.HpIv, Model.HpEv, Model.Lv));
-      }
-    }
+    { get { return PokemonStatHelper.GetHp(PokemonForm.Data.Base.Hp, Model.Iv.Hp, Model.Ev.Hp, Model.Lv); } }
     public PairValue Atk
-    {
-      get
-      {
-        return ExecIfModelLoaded(() =>
-            GetStat(StatType.Atk, PokemonType.BaseAtk, Model.AtkIv, Model.AtkEv));
-      }
-    }
+    { get { return GetStat(StatType.Atk); } }
     public PairValue Def
-    {
-      get
-      {
-        return ExecIfModelLoaded(() =>
-            GetStat(StatType.Def, PokemonType.BaseDef, Model.DefIv, Model.DefEv));
-      }
-    }
-    public PairValue Speed
-    {
-      get
-      {
-        return ExecIfModelLoaded(() =>
-            GetStat(StatType.Speed, PokemonType.BaseSpeed, Model.SpeedIv, Model.SpeedEv));
-      }
-    }
+    { get { return GetStat(StatType.Def); } }
     public PairValue SpAtk
-    {
-      get
-      {
-        return ExecIfModelLoaded(() =>
-            GetStat(StatType.SpAtk, PokemonType.BaseSpAtk, Model.SpAtkIv, Model.SpAtkEv));
-      }
-    }
+    { get { return GetStat(StatType.SpAtk); } }
     public PairValue SpDef
+    { get { return GetStat(StatType.SpDef); } }
+    public PairValue Speed
+    { get { return GetStat(StatType.Speed); } }
+    private PairValue GetStat(StatType stat)
     {
-      get
-      {
-        return ExecIfModelLoaded(() =>
-            GetStat(StatType.SpDef, PokemonType.BaseSpDef, Model.SpDefIv, Model.SpDefEv));
-      }
+      return new PairValue(
+          PokemonStatHelper.Get5D(stat, PokemonNature.Serious, PokemonForm.Data.Base.GetStat(stat), Model.Iv.GetStat(stat), Model.Ev.GetStat(stat), Model.Lv),
+          PokemonStatHelper.Get5D(stat, Model.Nature, PokemonForm.Data.Base.GetStat(stat), Model.Iv.GetStat(stat), Model.Ev.GetStat(stat), Model.Lv), 0);
     }
     #endregion
 
-    #region Properties
-    private PokemonForme _pokemonType;
-    public PokemonCustomInfo Model { get; private set; }
-    private PokemonViewModel _pokemonViewModel;
-    public PokemonViewModel PokemonViewModel
+    public PokemonData Origin
+    { get; private set; }
+    private PokemonData _model;
+    public PokemonData Model
     {
-      get
-      {
-        return _pokemonViewModel;
-      }
+      get { return _model; }
       set
       {
-        if (_pokemonViewModel != value)
+        if (_model != value)
         {
-          MessageBoxResult r = ChangedConfirm();
-          if (r == MessageBoxResult.Yes) Save();
-          else if (r == MessageBoxResult.Cancel) return;
-          if (Model != null)
-          {
-            Model.PropertyChanged -= Model_PropertyChanged;
-          }
-          _pokemonViewModel = value;
-          if (value != null)
-          {
-            Model = value.Model.Clone();
-            _pokemonType = DataService.GetPokemonType(Model.PokemonTypeId);
-            UpdateLearnset();
-            Model.PropertyChanged += Model_PropertyChanged;
-          }
-          else Model = null;
-          OnPropertyChanged("PokemonType");
-          OnPropertyChanged(null);
-        }
-      }
-    }
-
-    public PokemonForme PokemonType
-    {
-      get { return _pokemonType; }
-      set
-      {
-        if (_pokemonType != value)
-        {
-          _pokemonType = value;
-          Model.ChangeForme(_pokemonType);
+          _model = value;
+          _model.Iv.PropertyChanged += statChanged;
+          _model.Ev.PropertyChanged += statChanged;
           UpdateLearnset();
-          ClearEv();
-          OnPropertyChanged("PokemonType");
+          OnPropertyChanged();
         }
       }
     }
-    public MenuCommand ResetEvCommand
+    public PokemonForm PokemonForm
+    {
+      get { return Model.Form; }
+      set
+      {
+        if (Model.Form != value)
+        {
+          Model.Form = value;
+          UpdateLearnset();
+          Model.Ev.SetStat(StatType.All, 0);
+          OnPropertyChanged();
+        }
+      }
+    }
+    public ImageSource Image
+    { get { return ImageService.GetPokemonFront(PokemonForm, Model.Gender); } }
+    public IEnumerable<LearnItemVM> Learnset
     { get; private set; }
-    public ObservableCollection<MoveLearnItemViewModel> Learnset
-    { get; private set; }
-    #endregion
 
     public Visibility HiddenPowerVisibility
-    { get { return Model != null && (Model.MoveIds.Contains(237) || HasRandomMove(Model.MoveIds))? Visibility.Visible : Visibility.Hidden; } }
+    { get { return Model.MoveIds.Contains(237) || HasRandomMove(Model.MoveIds) ? Visibility.Visible : Visibility.Collapsed; } }
     public BattleType HiddenPowerType
     {
       get
@@ -185,65 +116,59 @@ namespace LightStudio.PokemonBattle.PBO.Editor
         pI |= (iv.Atk & 1) << 1;
         pI |= (iv.Def & 1) << 2;
         pI |= (iv.Speed & 1) << 3;
-        if ((iv.SpAtk & 1) == 1) pI += 16;
-        if ((iv.SpDef & 1) == 1) pI += 32;
+        pI |= (iv.SpAtk & 1) << 4;
+        pI |= (iv.SpDef & 1) << 5;
         return (BattleType)(pI * 15 / 63 + 2);
       }
     }
-
-    internal void Save()
-    {
-      if (this.Model != null)
-      {
-        PokemonViewModel.Model = this.Model.Clone();
-        Editor.CurrentEditor.Model.Save();
-      }
-    }
-    internal void ResetToLastSaved()
-    {
-      if (PokemonViewModel != null)
-      {
-        Model = PokemonViewModel.Model.Clone();
-        OnPropertyChanged();
-      }
-    }
-    internal MessageBoxResult ChangedConfirm()
-    {
-      if (IsChanged) return UIElements.ShowMessageBox.PokemonUnsaved();
-      else return MessageBoxResult.None;
-    }
-
-    private static IEnumerable<MoveLearnItem> temp_moves;
+    public Visibility HappinessVisibility
+    { get { return Model.MoveIds.Contains(216) || Model.MoveIds.Contains(218) || HasRandomMove(Model.MoveIds) ? Visibility.Visible : Visibility.Collapsed; } }
+    
+    private static IEnumerable<LearnItemVM> temp_moves;
     private void UpdateLearnset()
     {
-      if (temp_moves == null) temp_moves = Data.DataService.Moves.Select((m) => new MoveLearnItem(m.Id));
-      Learnset.Clear();
-      foreach (MoveLearnItem move in temp_moves)
-        Learnset.Add(new MoveLearnItemViewModel(Model, move)); //用ItemsControl.Refresh更好吧
+      //if (temp_moves == null) temp_moves = Data.GameDataService.Moves.Select((m) => new LearnItemVM(new MoveLearnItem(m.Id));
+      //Learnset = temp_moves;
+      //OnPropertyChanged("Learnset");
     }
 
-    void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    public MessageBoxResult ChangedConfirm()
     {
-      OnPropertyChanged();
+      return changed ? UIElements.ShowMessageBox.PokemonUnsaved() : MessageBoxResult.None;
     }
+    public void Save()
+    {
+      if (Origin != null)
+      {
+        var index = Origin.Container.IndexOf(Origin);
+        Origin = _model.Clone();
+        Origin.Container[index] = Origin;
+        changed = false;
+      }
+    }
+    public void ResetToLastSaved()
+    {
+      Model = Origin.Clone();
+      UpdateLearnset();
+      OnPropertyChanged();
+      changed = false;
+    }
+
     #region INotifyPropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;
-    protected void OnPropertyChanged(string propertyName)
+    private void OnPropertyChanged(PropertyChangedEventArgs e)
     {
-      if (PropertyChanged != null)
-        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+      changed = true;
+      if (PropertyChanged != null) PropertyChanged(this, e);
     }
-    protected void OnPropertyChanged()
+    private void OnPropertyChanged(string propertyName)
     {
-      OnPropertyChanged(null);
+      OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+    }
+    private void OnPropertyChanged()
+    {
+      OnPropertyChanged(new PropertyChangedEventArgs(null));
     }
     #endregion
-
-    private T ExecIfModelLoaded<T>(Func<T> func)
-    {
-      if (PokemonType != null && Model != null)
-        return func();
-      return default(T);
-    }
   }
 }

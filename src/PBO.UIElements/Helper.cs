@@ -12,7 +12,6 @@ namespace LightStudio.PokemonBattle.PBO
   public static class Helper
   {
     public static readonly Random Random = new Random();
-    public static readonly UserData DataMainInstance = new UserData();
 
     public static SolidColorBrush NewBrush(uint colorcode)
     {

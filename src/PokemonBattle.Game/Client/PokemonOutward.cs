@@ -88,7 +88,7 @@ namespace LightStudio.PokemonBattle.Game
 
     public PokemonForm Form
     {
-      get { return DataService.GetPokemon(number, form); }
+      get { return GameDataService.GetPokemon(number, form); }
       private set
       {
         number = value.Type.Number;

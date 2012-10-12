@@ -65,18 +65,21 @@ namespace LightStudio.PokemonBattle.Data
     private static readonly IEnumerable<PokemonGender> MALE = new[] { PokemonGender.Male };
     private static readonly IEnumerable<PokemonGender> FEMALE = new[] { PokemonGender.Female };
     private static readonly IEnumerable<PokemonGender> BOTH = new[] { PokemonGender.Male, PokemonGender.Female };
-    public IEnumerable<PokemonGender> GetAvailableGenders()
+    public IEnumerable<PokemonGender> Genders
     {
-      switch (GenderBoundary)
+      get
       {
-        case 0x00:
-          return MALE;
-        case 0xfe:
-          return FEMALE;
-        case 0xff:
-          return NONE;
-        default:
-          return BOTH;
+        switch (GenderBoundary)
+        {
+          case 0x00:
+            return MALE;
+          case 0xfe:
+            return FEMALE;
+          case 0xff:
+            return NONE;
+          default:
+            return BOTH;
+        }
       }
     }
     

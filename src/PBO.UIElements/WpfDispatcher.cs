@@ -61,7 +61,8 @@ namespace LightStudio.PokemonBattle.PBO
     }
     void IUIDispatcher.Invoke(Delegate method, params object[] args)
     {
-      dispatcher.Invoke(method, args);
+      if (dispatcher.CheckAccess()) method.DynamicInvoke(args);
+      else dispatcher.Invoke(method, args);
     }
     void IUIDispatcher.BeginInvoke(Delegate method, params object[] args)
     {

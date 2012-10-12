@@ -88,7 +88,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       public readonly MoveType Move;
       protected EntryHazards(int move)
       {
-        Move = DataService.GetMove(move);
+        Move = GameDataService.GetMove(move);
       }
       public abstract void En();
       public abstract void De(ReportBuilder report, int team);

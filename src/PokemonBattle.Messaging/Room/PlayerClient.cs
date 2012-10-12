@@ -11,10 +11,10 @@ namespace LightStudio.PokemonBattle.Messaging.Room
   internal class PlayerClient : RoomUserClient, IPlayerController
   {
     private readonly int teamId;
-    private readonly PokemonCustomInfo[] pokemons;
+    private readonly IPokemonData[] pokemons;
     private SimGame game;
 
-    public PlayerClient(int hostId, int teamId, PokemonCustomInfo[] pokemons)
+    public PlayerClient(int hostId, int teamId, IPokemonData[] pokemons)
       : base(hostId)
     {
       this.teamId = teamId;

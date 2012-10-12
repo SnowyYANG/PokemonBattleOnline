@@ -35,7 +35,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     protected override void Update()
     {
       var pm = GetPokemon(Pm);
-      var ab = DataService.GetAbility(Ab);
+      var ab = GameDataService.GetAbility(Ab);
       if (OldAb == 0)
       {
         Game.Board.ShowAbility(pm, ab);
@@ -43,7 +43,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       }
       else
       {
-        Game.Board.AbilityChanged(pm, DataService.GetAbility(OldAb), ab);
+        Game.Board.AbilityChanged(pm, GameDataService.GetAbility(OldAb), ab);
         AppendGameLog("AbChange", Pm, OldAb, Ab);
       }
     }

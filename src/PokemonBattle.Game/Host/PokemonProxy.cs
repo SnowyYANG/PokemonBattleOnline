@@ -147,7 +147,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public void ChangeItem(int item, string log, PokemonProxy itemLoser = null, bool attach = true) //lost and found
     {
       UsingItem = false;
-      Pokemon.Item = DataService.GetItem(item);
+      Pokemon.Item = GameDataService.GetItem(item);
       Controller.ReportBuilder.Add(new GetItem(this, log, itemLoser));
       if (attach) Item.Attach(this);
       OnboardPokemon.RemoveCondition("Unburden");

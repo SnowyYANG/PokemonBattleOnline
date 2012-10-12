@@ -46,7 +46,7 @@ namespace LightStudio.PokemonBattle.Messaging
         if (user != null) user.Quit();
       }
     }
-    public bool JoinGame(int hostId, int teamId, PokemonCustomInfo[] pokemons)
+    public bool JoinGame(int hostId, int teamId, IPokemonData[] pokemons)
     {
       lock (this)
       {

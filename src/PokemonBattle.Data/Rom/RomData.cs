@@ -8,62 +8,59 @@ using LightStudio.Tactic.DataModels;
 namespace LightStudio.PokemonBattle.Data
 {
   [DataContract(Namespace=Namespaces.PBO)]
-  public sealed class RomData : SimpleData
+  internal sealed class RomData : SimpleData
   {
-    public static RomData Load(string file)
+    public static RomData Load(string path)
     {
-      return LoadFromDat<RomData>(file);
+      var rom = LoadFromDat<RomData>("Data\\rom.dat");
+      for (int i = 1; i < rom.pokemons.Length; ++i)
+        foreach (var form in rom.pokemons[i].Forms)
+          form.Type = rom.pokemons[i];
+      return rom;
     }
-    
+
     [DataMember]
-    public PokemonType[] Pokemons;
+    private readonly PokemonType[] pokemons;
     [DataMember]
-    public MoveType[] Moves
-    { get; set; }
+    private readonly MoveType[] moves;
     [DataMember]
-    public Ability[] Abilities
-    { get; set; }
+    private readonly Ability[] abilities;
     [DataMember]
-    public readonly Dictionary<int, Item> Items;
+    private readonly Dictionary<int, Item> items;
 
     private RomData()
     {
     }
 
-    #region GetXXX
-    public PokemonForm GetPokemon(int number, int form)
+    public IEnumerable<Ability> Abilities
+    { get { return abilities; } }
+    public IEnumerable<Item> Items
+    { get { return items.Values; } }
+    public IEnumerable<PokemonType> Pokemons
+    { get { return pokemons; } }
+    public IEnumerable<MoveType> Moves
+    { get { return moves; } }
+
+    public PokemonType GetPokemonType(int number)
     {
-      return Pokemons[number].GetForm(form);
+      return pokemons.ValueOrDefault(number);
     }
-    public MoveType GetMoveType(int skillId)
+    public PokemonForm GetPokemonForm(int number, int form)
     {
-      return Moves.ValueOrDefault(skillId);
+      if (number == 0 || number >= pokemons.Length) return null;
+      return pokemons[number].GetForm(form);
+    }
+    public MoveType GetMoveType(int moveId)
+    {
+      return moves.ValueOrDefault(moveId);
     }
     public Ability GetAbility(int abilityId)
     {
-      return Abilities.ValueOrDefault(abilityId);
+      return abilities.ValueOrDefault(abilityId);
     }
     public Item GetItem(int itemId)
     {
-      return Items.ValueOrDefault(itemId);
+      return items.ValueOrDefault(itemId);
     }
-    #endregion
-
-    #region if DEBUG
-#if DEBUG
-    public static RomData LoadFromXml()
-    {
-      return LoadFromXml<RomData>("Data\\rom.xml");
-    }
-    public void SaveXml()
-    {
-      SaveXml("Data\\rom.xml");
-    }
-    public void SaveDat()
-    {
-      SaveDat("Data\\rom.dat");
-    }
-#endif
-    #endregion
   }
 }

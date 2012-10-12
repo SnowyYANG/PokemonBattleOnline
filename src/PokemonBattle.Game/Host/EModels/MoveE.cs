@@ -36,7 +36,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     
     protected MoveE(int moveId)
     {
-      this.Move = DataService.GetMove(moveId);
+      this.Move = GameDataService.GetMove(moveId);
     }
 
     public MoveType Move

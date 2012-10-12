@@ -31,12 +31,12 @@ namespace LightStudio.PokemonBattle.Test
     public readonly int PlayerId;
     public readonly int TeamId;
     private readonly Host Host;
-    private readonly PokemonCustomInfo[] Pokemons;
+    private readonly IPokemonData[] Pokemons;
     private readonly bool ShowLog;
     private readonly Queue<int> Ids;
     private readonly Dispatcher Dispatcher;
 
-    public PlayerClient(Host host, int playerId, int teamId, PokemonCustomInfo[] pokemons, bool showLog, IEnumerable<int> ids)
+    public PlayerClient(Host host, int playerId, int teamId, IPokemonData[] pokemons, bool showLog, IEnumerable<int> ids)
     {
       Host = host;
       PlayerId = playerId;

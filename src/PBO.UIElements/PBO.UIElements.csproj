@@ -86,7 +86,6 @@
     <Compile Include="Converters\MovePriority.cs" />
     <Compile Include="Converters\MoveRange.cs" />
     <Compile Include="Converters\PP.cs" />
-    <Compile Include="Controls\LocalizedString.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Controls\LocalizedProperty.cs" />
     <Compile Include="Controls\SelectAllWhenVisible.cs" />
@@ -119,7 +118,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\LocalizedResource.xaml">
+    <Page Include="Controls\LocalizedProperty.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

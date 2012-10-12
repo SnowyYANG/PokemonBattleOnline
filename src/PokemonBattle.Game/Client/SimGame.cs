@@ -13,7 +13,7 @@ namespace LightStudio.PokemonBattle.Game
     public readonly Team Team;
     public readonly SimPokemon[] OnboardPokemons;
 
-    public SimGame(GameOutward game, int userId, int teamId, PokemonCustomInfo[] pms, Func<int> nextId)
+    public SimGame(GameOutward game, int userId, int teamId, IPokemonData[] pms, Func<int> nextId)
     {
       Outward = game;
       Team = new Team(teamId, Outward.Settings, nextId);

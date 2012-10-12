@@ -134,13 +134,13 @@ namespace LightStudio.PokemonBattle.Game
               }
               break;
             case "m":
-              r = DataService.GetMove(id).GetLocalizedName();
+              r = GameDataService.GetMove(id).GetLocalizedName();
               break;
             case "a":
-              r = DataService.GetAbility(id).GetLocalizedName();
+              r = GameDataService.GetAbility(id).GetLocalizedName();
               break;
             case "i":
-              r = DataService.GetItem(id).GetLocalizedName();
+              r = GameDataService.GetItem(id).GetLocalizedName();
               break;
             case "t":
               r = teams[id];

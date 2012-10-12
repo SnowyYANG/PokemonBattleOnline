@@ -16,12 +16,12 @@ namespace LightStudio.PokemonBattle.Data
 
     static ImageService()
     {
-      icons = new ImageSource[DataService.Pokemons.Count()];
+      icons = new ImageSource[GameDataService.Pokemons.Count()];
     }
 
     private static ImageSource GetImage(string path, string id)
     {
-      string absolutePath = string.Format("Data\\image\\{0}\\{1}.png", path, id);
+      string absolutePath = Path.GetFullPath(string.Format("Data\\image\\{0}\\{1}.png", path, id));
       try
       {
         return new BitmapImage(new Uri(absolutePath, UriKind.Absolute));
@@ -50,7 +50,7 @@ namespace LightStudio.PokemonBattle.Data
       int n = form.Type.Number, f = form.Index;
       ImageSource r;
       if (gender == PokemonGender.Female && (n == 521 || n == 592 || n == 593)) r = GetImage("icon\\female", n, f);
-      else if (f == 0)
+      else if (f == 0 || n == 493 || n == 649) //arceus and genesect
       {
         if (icons[n] == null) icons[n] = GetImage("icon", n, 0);
         r = icons[n];

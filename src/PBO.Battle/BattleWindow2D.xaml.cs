@@ -11,12 +11,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
+using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
 using LightStudio.PokemonBattle.Messaging;
 using LightStudio.PokemonBattle.Messaging.Room;
 using LightStudio.PokemonBattle.PBO.Battle.VM;
 using LightStudio.Tactic.Logging;
-using DataService = LightStudio.PokemonBattle.Data.DataService;
 
 namespace LightStudio.PokemonBattle.PBO.Battle
 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Media.Effects;
 
 namespace LightStudio.PokemonBattle.PBO.Editor
 {
@@ -13,9 +14,10 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     public static readonly Style PokemonDragAdorner;
     public static readonly DataTemplate PokemonType;
     public static readonly DataTemplate SelectedMove;
-    public static readonly DataTemplate FolderIcon;
-    public static readonly DataTemplate OpenFolder;
-    public static readonly DataTemplate SearchResult;
+    public static readonly DataTemplate Collection;
+    public static readonly DataTemplate OpenCollection;
+    public static readonly DropShadowEffect MagentaShadow;
+    public static readonly DropShadowEffect OrangeShadow;
 
     static Resources()
     {
@@ -29,9 +31,10 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       rd = GetDictionary("SelectedMove");
       SelectedMove = (DataTemplate)rd["SelectedMove"];
       rd = GetDictionary("Generic");
-      FolderIcon = (DataTemplate)rd["FolderIcon"];
-      OpenFolder = (DataTemplate)rd["OpenFolder"];
-      SearchResult = (DataTemplate)rd["SearchResult"];
+      Collection = (DataTemplate)rd["Collection"];
+      OpenCollection = (DataTemplate)rd["OpenCollection"];
+      MagentaShadow = (DropShadowEffect)rd["MagentaShadow"];
+      OrangeShadow = (DropShadowEffect)rd["OrangeShadow"];
     }
 
     private static ResourceDictionary GetDictionary(string name)

@@ -97,48 +97,35 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\BoolVisibilityC.cs" />
-    <Compile Include="Converters\ObjectVisibilityC.cs" />
+    <Compile Include="Converters\ModelVMC.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="FileHelper.cs" />
-    <Compile Include="Templates\OpenWindowTemplateSelector.cs" />
-    <Compile Include="ViewModels\SearchResultViewModel.cs" />
-    <Page Include="EditorSearchView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="ViewModels\TeamVM.cs" />
     <Page Include="EditorPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="EditorSearchView.xaml.cs">
-      <DependentUpon>EditorSearchView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="PokemonEnum.cs" />
-    <Compile Include="ViewModels\PokemonSearchViewModel.cs" />
     <Compile Include="Converters\IntStringC.cs" />
     <Compile Include="Converters\MoveLearnItemC.cs" />
     <Compile Include="Converters\IdItemC.cs" />
-    <Compile Include="Converters\AvailableAbilitiesC.cs" />
-    <Compile Include="Converters\AvailableGendersC.cs" />
     <Compile Include="DragDrop\RecyclerDropTarget.cs" />
-    <Compile Include="Converters\FrontImageC.cs" />
+    <Compile Include="ViewModels\BoxVM.cs" />
     <Compile Include="ViewModels\EditingPokemonVM.cs" />
     <Compile Include="PokemonEditorView.xaml.cs">
       <DependentUpon>PokemonEditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Editor.cs" />
-    <Compile Include="ViewModels\EditorViewModel.cs" />
+    <Compile Include="ViewModels\EditorVM.cs" />
     <Compile Include="DragDrop\CollectionDragDropTarget.cs" />
     <Compile Include="DragDrop\DragDropActions.cs" />
     <Compile Include="DragDrop\PokemonDragDropData.cs" />
     <Compile Include="DragDrop\FolderDragDropTarget.cs" />
     <Compile Include="Interactivity\SelectAllWhenVisible.cs" />
     <Compile Include="DragDrop\FolderDragDropSource.cs" />
-    <Compile Include="ViewModels\IFolderViewModel.cs" />
-    <Compile Include="ViewModels\FolderViewModelBase.cs" />
-    <Compile Include="ViewModels\MoveLearnItemViewModel.cs" />
-    <Compile Include="ViewModels\RecyclerViewModel.cs" />
-    <Compile Include="ViewModels\PokemonViewModel.cs" />
+    <Compile Include="ViewModels\CollectionVM.cs" />
+    <Compile Include="ViewModels\LearnItemVM.cs" />
+    <Compile Include="ViewModels\RecyclerVM.cs" />
+    <Compile Include="ViewModels\PokemonVM.cs" />
     <Compile Include="Converters\BoolWrappingC.cs" />
     <Compile Include="Converters\BoolTrimmingC.cs" />
     <Compile Include="EditorPanel.xaml.cs">
@@ -170,11 +157,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ViewModels\FolderViewModel.cs" />
+    <Compile Include="ViewModels\BTVM.cs" />
     <Compile Include="PokemonCollectionView.xaml.cs">
       <DependentUpon>PokemonCollectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\CollectionViewModel.cs" />
+    <Compile Include="ViewModels\GroupVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

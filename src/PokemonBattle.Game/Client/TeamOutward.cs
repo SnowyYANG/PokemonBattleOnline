@@ -26,7 +26,7 @@ namespace LightStudio.PokemonBattle.Game
       Dying = dying;
     }
 
-    private void SendPropertyChanged()
+    private void OnPropertyChanged()
     {
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(null));
@@ -38,13 +38,13 @@ namespace LightStudio.PokemonBattle.Game
       if (pm.State == PokemonState.Normal) Normal++;
       else if (pm.State == PokemonState.Faint) Dying++;
       else Abnormal++;
-      SendPropertyChanged();
+      OnPropertyChanged();
     }
     public void HealBell()
     {
       Normal += Abnormal;
       Abnormal = 0;
-      SendPropertyChanged();
+      OnPropertyChanged();
     }
     internal void Update(TeamOutward team)
     {
@@ -54,7 +54,7 @@ namespace LightStudio.PokemonBattle.Game
         Abnormal = team.Abnormal;
         Dying = team.Dying;
         //很少有只变一个数字的，干脆null
-        SendPropertyChanged();
+        OnPropertyChanged();
       }
     }
   }

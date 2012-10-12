@@ -19,8 +19,6 @@ namespace LightStudio.PokemonBattle.Data.Editor
 
     static void Main(string[] args)
     {
-      RomData r = RomData.LoadFromXml();
-      r.SaveDat();
     }
   }
 }

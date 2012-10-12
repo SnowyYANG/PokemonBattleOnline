@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Messaging
     private readonly object locker = new object();
     private readonly Hosts Hosts;
     private readonly BattleClient Battle;
-    private PokemonCustomInfo[] challengingPms;
+    private IPokemonData[] challengingPms;
     private GameInitSettings currentSettings; //被挑战的临时游戏设置与此变量无关
     
     internal ChallengeManager(Hosts hosts, BattleClient battle)
@@ -50,7 +50,7 @@ namespace LightStudio.PokemonBattle.Messaging
       settings.Lock();
       Challenged(user, settings);
     }
-    public bool Challenge(int target, PokemonCustomInfo[] pokemons, GameInitSettings settings)
+    public bool Challenge(int target, IPokemonData[] pokemons, GameInitSettings settings)
     {
       User u = Client.GetUser(target);
       if (u != null && u.State != UserState.Battling && pokemons != null && pokemons.Length > 0) //it's impossible for a client to get UserState.Invalid
@@ -119,7 +119,7 @@ namespace LightStudio.PokemonBattle.Messaging
         challengingPms = null;
       }
     }
-    public bool AcceptChallenge(int challenger, PokemonCustomInfo[] pokemons)
+    public bool AcceptChallenge(int challenger, IPokemonData[] pokemons)
     {
       if (pokemons != null && pokemons.Length > 0)
         lock (locker)

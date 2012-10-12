@@ -6,17 +6,10 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace LightStudio.PokemonBattle.PBO.Converters
+namespace LightStudio.PokemonBattle.PBO
 {
   public abstract class Converter<T> : IValueConverter
   {
-    //Unfortunately T and converter is not 1 to 1
-    //internal readonly static T Instance;
-    //static Converter()
-    //{
-    //  Instance = new T();
-    //}
-
     protected abstract object Convert(T value);
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

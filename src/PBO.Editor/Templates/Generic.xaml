@@ -7,8 +7,8 @@
                     xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements;assembly=PBO.UIElements"
                     xmlns:c="clr-namespace:LightStudio.PokemonBattle.PBO.Converters;assembly=PBO.UIElements"
                     xmlns:local="clr-namespace:LightStudio.PokemonBattle.PBO.Editor">
-    <DropShadowEffect x:Key="MagentaShadow" ShadowDepth="1" Color="{Binding Color,Source={x:Static ui:Brushes.MagentaM}}" BlurRadius="3" Opacity="1"/>
-    <DropShadowEffect x:Key="OrangeShadow" ShadowDepth="1" Color="{Binding Color,Source={x:Static ui:Brushes.OrangeM}}" BlurRadius="3" Opacity="1"/>
+    <DropShadowEffect x:Key="MagentaShadow" ShadowDepth="1" Color="{Binding Color,Source={x:Static ui:Brushes.MagentaM},Mode=OneTime}" BlurRadius="3" Opacity="1"/>
+    <DropShadowEffect x:Key="OrangeShadow" ShadowDepth="1" Color="{Binding Color,Source={x:Static ui:Brushes.OrangeM},Mode=OneTime}" BlurRadius="3" Opacity="1"/>
     <Style x:Key="FloatableListBox" TargetType="ListBox">
         <Setter Property="Padding" Value="2"/>
         <Setter Property="BorderThickness" Value="1,0,1,1"/>
@@ -66,7 +66,7 @@
                     <ContentPresenter Margin="{TemplateBinding Padding}">
                         <ContentPresenter.ContentTemplate>
                             <DataTemplate>
-                                <UserControl Background="Transparent">
+                                <UserControl DataContext="{Binding Converter={x:Static local:PokemonDataC.C}}" Background="Transparent">
                                     <UserControl.ToolTip>
                                         <ToolTip Background="{x:Static ui:Brushes.GrayF}">
                                             <StackPanel DataContext="{Binding Model}">
@@ -93,17 +93,10 @@
                                         </Grid.RowDefinitions>
                                         <Rectangle x:Name="iconbg" Width="32" Height="32" Fill="{x:Static ui:Brushes.SelectedItemBg}" Visibility="Hidden"/>
                                         <Image Width="32" Height="32" Source="{Binding Icon}"/>
-                                        <TextBlock x:Name="text" Grid.Row="1" HorizontalAlignment="Center" Text="{Binding Model.Name}" TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock x:Name="text" Text="{Binding Model.Name}" Effect="{Binding Effect}" Grid.Row="1" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis"/>
                                     </Grid>
                                 </UserControl>
                                 <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding HasRemainingEv}" Value="True">
-                                        <Setter TargetName="text" Property="Effect" Value="{StaticResource OrangeShadow}"/>
-                                        <!--a000ff-->
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding CanLearnMore}" Value="True">
-                                        <Setter TargetName="text" Property="Effect" Value="{StaticResource MagentaShadow}"/>
-                                    </DataTrigger>
                                     <DataTrigger Binding="{Binding IsSelected,RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
                                         <Setter TargetName="text" Property="Effect" Value="{x:Null}"/>
                                         <Setter TargetName="text" Property="Background" Value="{x:Static ui:Brushes.SelectedItemBg}"/>
@@ -117,8 +110,8 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <DataTemplate x:Key="FolderIcon">
-        <UserControl Height="30" Width="153">
+    <DataTemplate x:Key="Collection">
+        <UserControl DataContext="{Binding}" Height="30" Width="153">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="DragEnter">
                     <ei:ChangePropertyAction TargetName="bg" PropertyName="Fill" Value="{Binding BorderBrush}"/>
@@ -130,17 +123,17 @@
                     <ei:ChangePropertyAction TargetName="bg" PropertyName="Fill" Value="{Binding Background}"/>
                 </i:EventTrigger>
                 <i:EventTrigger EventName="MouseDoubleClick">
-                    <i:InvokeCommandAction Command="{Binding OpenCommand}"/>
+                    <i:InvokeCommandAction Command="{Binding SwitchCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <Grid>
                 <Grid.ContextMenu>
                     <ContextMenu x:Name="menu" ItemsSource="{Binding FolderCommands}" ItemContainerStyle="{x:Static ui:Controls.CommandMenu}"/>
                 </Grid.ContextMenu>
-                <Path Name="bg" Data="M0,6 L151,6 145,29 0,29" Fill="{Binding Background}" Stroke="{Binding BorderBrush}" StrokeThickness="0" Stretch="None" VerticalAlignment="Bottom" SnapsToDevicePixels="True"/>
-                <Image Height="29" Width="24" Source="{Binding Icon}" HorizontalAlignment="Left" Margin="2,1,0,1"/>
-                <TextBlock Name="title" Text="{Binding Name}" Visibility="{Binding Renaming, Converter={x:Static local:BoolVisibilityC.I}, ConverterParameter=inverse}" TextTrimming="CharacterEllipsis" TextWrapping="WrapWithOverflow" Foreground="#d8d8d8" VerticalAlignment="Bottom" Margin="30,0,8,4" SnapsToDevicePixels="True"/>
-                <ui:UITextBox EndEditCommand="{Binding EndRenamingCommand}" IsEditing="{Binding Renaming,Mode=OneWay}" Text="{Binding Name}" MaxLength="{x:Static pm:UserDataRules.NameLength}" Foreground="White" FontWeight="Normal" Padding="0" BorderThickness="0" Margin="30,0,8,3" SnapsToDevicePixels="True" VerticalAlignment="Bottom" Background="Black"/>
+                <Path Name="bg" Fill="{Binding Background}" Stroke="{Binding BorderBrush}" Data="M0,6 L151,6 145,29 0,29" StrokeThickness="0" Stretch="None" VerticalAlignment="Bottom" SnapsToDevicePixels="True"/>
+                <Image Source="{Binding Icon}" Height="29" Width="24" HorizontalAlignment="Left" Margin="2,1,0,1"/>
+                <TextBlock Name="title" Text="{Binding Model.Name}" Effect="{Binding Effect}" Visibility="{Binding Renaming, Converter={x:Static local:BoolVisibilityC.I}, ConverterParameter=inverse}" TextTrimming="CharacterEllipsis" TextWrapping="WrapWithOverflow" Foreground="#d8d8d8" VerticalAlignment="Bottom" Margin="30,0,8,4" SnapsToDevicePixels="True"/>
+                <ui:UITextBox Text="{Binding Model.Name}" EndEditCommand="{Binding EndRenamingCommand}" IsEditing="{Binding Renaming,Mode=OneWay}" MaxLength="20" Foreground="White" FontWeight="Normal" Padding="0" BorderThickness="0" Margin="30,0,8,3" SnapsToDevicePixels="True" VerticalAlignment="Bottom" Background="Black"/>
             </Grid>
 		</UserControl>
         <DataTemplate.Triggers>
@@ -154,7 +147,7 @@
                 <Setter TargetName="title" Property="FontWeight" Value="Bold"/>
                 <Setter TargetName="title" Property="Foreground" Value="White"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding IsTeam}" Value="True">
+            <DataTrigger Binding="{Binding Model.Size}" Value="6">
                 <Setter Property="ToolTip">
                     <Setter.Value>
                         <ToolTip>
@@ -170,23 +163,9 @@
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding IsTeam}" Value="True"/>
-                    <Condition Binding="{Binding CanAddPokemon}" Value="True"/>
-                </MultiDataTrigger.Conditions>
-                <Setter TargetName="title" Property="Effect" Value="{StaticResource MagentaShadow}"/>
-            </MultiDataTrigger>
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding IsBox}" Value="True"/>
-                    <Condition Binding="{Binding Model.Pokemons.Count}" Value="0"/>
-                </MultiDataTrigger.Conditions>
-                <Setter TargetName="title" Property="Effect" Value="{StaticResource OrangeShadow}"/>
-            </MultiDataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
-    <DataTemplate x:Key="OpenFolder">
+    <DataTemplate x:Key="OpenCollection">
         <Grid Background="White" Height="200" Width="320">
             <Grid.ContextMenu>
                 <ContextMenu ItemsSource="{Binding PokemonCommands}" ItemContainerStyle="{x:Static ui:Controls.CommandMenu}"/>
@@ -197,20 +176,20 @@
                 </i:Interaction.Behaviors>
                 <Border Margin="0,1" BorderBrush="{x:Static ui:Brushes.GrayF}" BorderThickness="0,1"/>
             </Border>
-            <TextBlock IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0" Foreground="{x:Static ui:Brushes.GrayF}">
+            <TextBlock DataContext="{Binding Model}" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0" Foreground="{x:Static ui:Brushes.GrayF}">
                 <Run Text="{Binding Name, Mode=OneWay}" />
                 <Run Text="  "/>
-                <Run Text="{Binding Pokemons.Count, Mode=OneWay}"/>
+                <Run Text="{Binding Count, Mode=OneWay}"/>
                 <Run Text="/"/>
                 <Run Text="{Binding Size, Mode=OneWay}"/>
             </TextBlock>
-            <Button Command="{Binding CloseCommand}" ToolTip="{Binding [Close], Source={x:Static pm:DataService.String}, Mode=OneWay}" Style="{x:Static ui:Controls.XButton}" FontSize="15" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-2,5,0" Foreground="{x:Static ui:Brushes.GrayF}"/>
-            <ListBox Margin="0,18,0,0" AllowDrop="True" ItemsSource="{Binding Pokemons}" ItemsPanel="{x:Static ui:Controls.WrapPanel}" BorderBrush="{Binding BorderBrush}" li:DragDropState.ItemOrientation="Horizontal">
+            <Button Command="{Binding SwitchCommand}" ToolTip="{Binding [Close], Source={x:Static pm:DataService.String}, Mode=OneWay}" Style="{x:Static ui:Controls.XButton}" Foreground="{x:Static ui:Brushes.GrayF}" FontSize="15" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-2,5,0"/>
+            <ListBox ItemsSource="{Binding Model}" ItemsPanel="{x:Static ui:Controls.WrapPanel}" BorderBrush="{Binding BorderBrush}" Margin="0,18,0,0" AllowDrop="True" li:DragDropState.ItemOrientation="Horizontal">
                 <ListBox.Style>
                     <Style TargetType="ListBox" BasedOn="{StaticResource FloatableListBox}">
                         <Setter Property="ItemContainerStyle" Value="{StaticResource PokemonIcon}"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsTeam}" Value="True">
+                            <DataTrigger Binding="{Binding Model.Size}" Value="6">
                                 <Setter Property="ItemContainerStyle">
                                     <Setter.Value>
                                         <Style TargetType="ListBoxItem" BasedOn="{StaticResource PokemonIcon}">
@@ -244,52 +223,6 @@
                         <li:BringToFrontAction Target="{Binding RelativeSource={RelativeSource AncestorType=ContentPresenter}}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-            </ListBox>
-        </Grid>
-    </DataTemplate>
-    <DataTemplate x:Key="SearchResult">
-        <Grid Background="White" Height="400" Width="500" li:FloatingBehavior.FloatingElement="{Binding RelativeSource={RelativeSource AncestorType=ContentPresenter}}">
-            <Border li:FloatingBehavior.FloatingElement="{Binding RelativeSource={RelativeSource AncestorType=ContentPresenter}}" Background="{x:Static ui:Brushes.GrayB1}" Height="18" VerticalAlignment="Top">
-                <i:Interaction.Behaviors>
-                    <li:FloatingBehavior />
-                </i:Interaction.Behaviors>
-                <Border Margin="0,1" BorderBrush="#b0b0b0" BorderThickness="0,1"/>
-            </Border>
-            <TextBlock IsHitTestVisible="False" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="#b0b0b0">
-                <Run Text="{Binding [Search Result], Source={x:Static pm:DataService.String}, Mode=OneWay}" />
-                <Run Text="  "/>
-                <Run Text="{Binding Pokemons.Count, Mode=OneWay}"/>
-            </TextBlock>
-            <Button Command="{Binding CloseCommand}" ToolTip="{Binding [Close], Source={x:Static pm:DataService.String}, Mode=OneWay}" Style="{x:Static ui:Controls.XButton}" FontSize="15" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,5,0" Foreground="#b0b0b0"/>
-            <ListBox Background="White" BorderBrush="#b0b0b0" Margin="0,18,0,0" Style="{StaticResource FloatableListBox}" ItemsSource="{Binding Pokemons}" ItemsPanel="{x:Static ui:Controls.WrapPanel}" ItemContainerStyle="{StaticResource PokemonIcon}">
-                <ListBox.GroupStyle>
-                    <GroupStyle>
-                        <GroupStyle.ContainerStyle>
-                            <Style TargetType="GroupItem">
-                                <Setter Property="Margin" Value="0"/>
-                                <Setter Property="Padding" Value="0"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type GroupItem}">
-                                            <Expander IsExpanded="True" BorderBrush="#FFA4B97F" BorderThickness="0,0,0,1">
-                                                <Expander.Header>
-                                                    <TextBlock FontWeight="Bold" Margin="5,0,0,0">
-                                                        <Run Text="{Binding Name.Name, Mode=OneWay}"/>
-                                                        <Run Text="  "/>
-                                                        <Run Text="{Binding ItemCount, Mode=OneWay}"/>
-                                                    </TextBlock>
-                                                </Expander.Header>
-                                                <Expander.Content>
-                                                    <ItemsPresenter />
-                                                </Expander.Content>
-                                            </Expander>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </GroupStyle.ContainerStyle>
-                    </GroupStyle>
-                </ListBox.GroupStyle>
             </ListBox>
         </Grid>
     </DataTemplate>

@@ -10,7 +10,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
 {
   internal interface IRoomManager
   {
-    void JoinGame(int userId, Data.PokemonCustomInfo[] pokemons, int teamId);
+    void JoinGame(int userId, Data.IPokemonData[] pokemons, int teamId);
     void SpectateGame(int userId);
     void Quit(int userId);
   }
@@ -19,12 +19,12 @@ namespace LightStudio.PokemonBattle.Messaging.Room
   class JoinGameCommand : IHostCommand
   {
     [DataMember]
-    readonly Data.PokemonCustomInfo[] Pokemons;
+    readonly Data.IPokemonData[] Pokemons;
     
     [DataMember]
     readonly int TeamId;
 
-    public JoinGameCommand(Data.PokemonCustomInfo[] pokemons, int teamId)
+    public JoinGameCommand(Data.IPokemonData[] pokemons, int teamId)
     {
       Pokemons = pokemons;
       TeamId = teamId;

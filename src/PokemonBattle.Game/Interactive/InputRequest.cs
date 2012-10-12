@@ -128,7 +128,7 @@ namespace LightStudio.PokemonBattle.Game
       if (showAbility)
       {
         showAbility = false;
-        Game.Outward.Board.ShowAbility(Game.Outward.GetPokemon(CW_pm), DataService.GetAbility(CW_a));
+        Game.Outward.Board.ShowAbility(Game.Outward.GetPokemon(CW_pm), GameDataService.GetAbility(CW_a));
       }
     }
     public bool Fight()

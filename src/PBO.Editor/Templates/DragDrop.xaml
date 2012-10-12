@@ -33,11 +33,7 @@
                             <TranslateTransform X="-20" Y="-20"/>
                         </StackPanel.RenderTransform>
                         <Image Opacity="0.8" Width="32" Height="32" Source="{Binding Pokemon.Icon}"/>
-                        <TextBlock>
-                            <i:Interaction.Behaviors>
-                                <ui:LocalizedProperty Property="TextBlock.Text" Key="{Binding Actions}"/>
-                            </i:Interaction.Behaviors>
-                        </TextBlock>
+                        <ContentControl Content="{Binding Actions}" ContentTemplate="{x:Static ui:Controls.LocalizedText}"/>
                     </StackPanel>
                 </DataTemplate>
             </Setter.Value>

@@ -66,9 +66,6 @@
     <Compile Include="Board2D\OPokemon2D.cs" />
     <Compile Include="Board2D\Pokemon2DBase.cs" />
     <Compile Include="Board2D\RPokemon2D.cs" />
-    <Compile Include="Board3D\BattleField3D.xaml.cs">
-      <DependentUpon>BattleField3D.xaml</DependentUpon>
-    </Compile>
     <Compile Include="NDS\BGBall.xaml.cs">
       <DependentUpon>BGBall.xaml</DependentUpon>
     </Compile>
@@ -82,9 +79,6 @@
     <Compile Include="NDS\Subtitle.xaml.cs">
       <DependentUpon>Subtitle.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Board3D\Pokemon.cs" />
-    <Compile Include="Board3D\Terrain.cs" />
-    <Compile Include="Board3D\TerrainBG.cs" />
     <Compile Include="VM\IControlPanel.cs" />
     <Compile Include="VM\Singles.cs" />
     <Compile Include="VM\TargetPanel.cs" />
@@ -97,10 +91,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Board2D\BattleField2D.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Board3D\BattleField3D.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

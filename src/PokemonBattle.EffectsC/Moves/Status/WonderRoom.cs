@@ -11,7 +11,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       : base(id)
     {
     }
-    private void Exchange(SixD stats)
+    private void Exchange(Simple6D stats)
     {
       var d = stats.Def;
       stats.Def = stats.SpDef;
@@ -19,8 +19,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     }
     protected override void Act(AtkContext atk)
     {
-      foreach (var pm in atk.Controller.OnboardPokemons)
-        Exchange(pm.OnboardPokemon.FiveD);
+      foreach (var pm in atk.Controller.OnboardPokemons) Exchange(pm.OnboardPokemon.FiveD);
       if (atk.Controller.Board.AddCondition("WonderRoom")) atk.Controller.ReportBuilder.Add("EnWonderRoom");
       else atk.Controller.ReportBuilder.Add("DeWonderRoom");
     }

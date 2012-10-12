@@ -6,16 +6,13 @@
          xmlns:li="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements.Interactivity;assembly=PBO.UIElements"
          xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements;assembly=PBO.UIElements"
          xmlns:local="clr-namespace:LightStudio.PokemonBattle.PBO.Editor" 
-	     ItemsSource="{Binding Folders}" ItemTemplate="{x:Static local:Resources.FolderIcon}" VerticalContentAlignment="Top" AllowDrop="True">
-    <ListBox.Resources>
-        <SolidColorBrush x:Key="Shine"/>
-    </ListBox.Resources>
+	     ItemsSource="{Binding Model}" VerticalContentAlignment="Top" AllowDrop="True">
     <ListBox.ItemContainerStyle>
 	    <Style TargetType="{x:Type ListBoxItem}">
 		    <Setter Property="Template">
 			    <Setter.Value>
 				    <ControlTemplate TargetType="{x:Type ListBoxItem}">
-					    <ContentPresenter HorizontalAlignment="Left" SnapsToDevicePixels="True" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <ContentControl Content="{Binding Converter={x:Static local:PokemonBTC.C}}" ContentTemplate="{x:Static local:Resources.Collection}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="Left" SnapsToDevicePixels="True"/>
 				    </ControlTemplate>
 			    </Setter.Value>
 		    </Setter>
@@ -32,8 +29,8 @@
 			    <ScrollViewer.Template>
 				    <ControlTemplate TargetType="{x:Type ScrollViewer}">
 					    <Grid x:Name="Grid" Background="{TemplateBinding Background}">
-						    <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Margin="3,25,0,35" CanContentScroll="false" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"/>
-                            <ScrollBar x:Name="PART_VerticalScrollBar" BorderBrush="{TemplateBinding BorderBrush}" Margin="1,25,0,35" MinWidth="0" Width="7" Stylus.IsPressAndHoldEnabled="False" Stylus.IsFlicksEnabled="False" HorizontalAlignment="Left" Minimum="0" Maximum="{TemplateBinding ScrollableHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}">
+						    <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Margin="3,25,0,5" CanContentScroll="false" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"/>
+                            <ScrollBar x:Name="PART_VerticalScrollBar" BorderBrush="{TemplateBinding BorderBrush}" Margin="1,25,0,5" MinWidth="0" Width="7" Stylus.IsPressAndHoldEnabled="False" Stylus.IsFlicksEnabled="False" HorizontalAlignment="Left" Minimum="0" Maximum="{TemplateBinding ScrollableHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}">
                                 <ScrollBar.Background>
                                     <SolidColorBrush Color="{Binding BorderBrush.Color,RelativeSource={RelativeSource TemplatedParent}}" Opacity="0.5"/>
                                 </ScrollBar.Background>

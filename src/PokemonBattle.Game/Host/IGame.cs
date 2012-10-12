@@ -18,7 +18,7 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     bool Start();
     void TryContinue();
-    bool SetPlayer(int teamId, int userId, PokemonCustomInfo[] pokemons);
+    bool SetPlayer(int teamId, int userId, IPokemonData[] pokemons);
     Player GetPlayer(int id);
     bool InputAction(int player, ActionInput action);
     ReportFragment GetLastLeapFragment();

@@ -24,17 +24,15 @@ namespace LightStudio.PokemonBattle.Test
       AIController.p2 = p2;
     }
     
-    //TODO: remove tempData, it is just a sample
-    private static readonly UserData tempData = new UserData();
-    public static PokemonCustomInfo[] GetP1Team()
+    public static IPokemonData[] GetP1Team()
     {
       //TODO: remove the following line and write something else
-      return tempData.PokemonData.Teams.Folders.First().Pokemons.ToArray();
+      return DataService.UserData.Teams.First().ToArray();
     }
-    public static PokemonCustomInfo[] GetP2Team()
+    public static IPokemonData[] GetP2Team()
     {
       //TODO: remove the following line and write something else
-      return tempData.PokemonData.Teams.Folders.Last().Pokemons.ToArray();
+      return DataService.UserData.Teams.Last().ToArray();
     }
     
     public static void P1_RequireInput(InputRequest input)

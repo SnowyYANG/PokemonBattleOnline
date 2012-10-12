@@ -111,7 +111,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
         }
       });
     }
-    void IRoomManager.JoinGame(int userId, PokemonCustomInfo[] pokemons, int teamId)
+    void IRoomManager.JoinGame(int userId, IPokemonData[] pokemons, int teamId)
     {
       bool canStartGame = CanStartGame;
       if (game.SetPlayer(teamId, userId, pokemons))

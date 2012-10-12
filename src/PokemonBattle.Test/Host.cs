@@ -25,7 +25,7 @@ namespace LightStudio.PokemonBattle.Test
       Game.ReportUpdated += InformReportUpdate;
     }
 
-    public ITestClient AddPlayer(PokemonCustomInfo[] pokemons)
+    public ITestClient AddPlayer(IPokemonData[] pokemons)
     {
       int tid = Clients.Count;
       int pid = tid + 1;

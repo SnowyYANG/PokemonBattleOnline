@@ -21,7 +21,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       string paramString = string.Format("{0}", parameter).ToLower();
       if (paramString == "accuracy")
       {
-        if (intValue == 0)
+        if (intValue == 0x65)
           return "-";
       }
       else if (paramString == "power")

@@ -17,22 +17,15 @@
 			<Setter Property="VerticalAlignment" Value="Top"/>
 			<Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="IsHitTestVisible" Value="False"/>
-			<Setter Property="Stroke">
-				<Setter.Value>
-					<LinearGradientBrush EndPoint="1,0.5" MappingMode="RelativeToBoundingBox" StartPoint="0,0.5">
-						<GradientStop Color="#f0f0f0" Offset="0.95"/>
-						<GradientStop Color="#00f0f0f0" Offset="1"/>
-					</LinearGradientBrush>
-				</Setter.Value>
-			</Setter>
+			<Setter Property="Stroke" Value="#f0f0f0"/>
         </Style>
     </UserControl.Resources>
     <Grid>
         <Rectangle IsHitTestVisible="False" Fill="{Binding Background,ElementName=pcv}" HorizontalAlignment="Left" Width="321"/>
         <Rectangle IsHitTestVisible="False" Fill="{Binding Background,ElementName=pcv}" HorizontalAlignment="Left" Width="161" Margin="160,2,0,0"/>
-        <Rectangle IsHitTestVisible="False" Margin="310,0,0,0" HorizontalAlignment="Right" Width="545" Fill="#505060" Visibility="{Binding Visibility,ElementName=pokemoneditor}"/>
+        <Rectangle x:Name="epshadow" Visibility="{Binding EditingPokemonVisibility}" IsHitTestVisible="False" Margin="310,0,0,0" HorizontalAlignment="Right" Width="545" Fill="#505060"/>
         <Rectangle IsHitTestVisible="False" Name="gridbg"/>
-        <local:PokemoEditorView x:Name="pokemoneditor" DataContext="{Binding EditingPokemon}" Visibility="{Binding Model, Converter={x:Static local:ObjectVisibilityC.I}}" Margin="310,0,0,24" HorizontalAlignment="Right"/>
+        <local:PokemonEditorView DataContext="{Binding EditingPokemon}" Visibility="{Binding Visibility,ElementName=epshadow}" Margin="310,0,0,24" HorizontalAlignment="Right"/>
         <Rectangle x:Name="bar" IsHitTestVisible="False" VerticalAlignment="Bottom" Height="23">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -49,23 +42,23 @@
     	<Line X2="321" StrokeThickness="1" Stroke="#f8f8f8" Margin="0,5.5,0,0"/>
     	<Line X2="321" StrokeThickness="1" Stroke="#f8f8f8"  Margin="0,12.5,0,0"/>
     	<Line X2="321" StrokeThickness="1" Stroke="#f8f8f8" Margin="0,9.5,0,0"/>
-    	<Line X2="344" StrokeThickness="3" Margin="0,3.5,0,0"/>
-    	<Line X2="342" StrokeThickness="1" Margin="0,6.5,0,0"/>
-    	<Line X2="340" StrokeThickness="1" Margin="0,8.5,0,0"/>
-    	<Line X2="338" StrokeThickness="2" Margin="0,11,0,0"/>
-    	<Line X2="336" StrokeThickness="3" Margin="0,14.5,0,0"/>
-    	<Line X2="333" StrokeThickness="7" Margin="0,20.5,0,0"/>
-        <TextBlock IsHitTestVisible="False" Text="{Binding [Boxes], Source={x:Static pm:DataService.String}}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,3,0,0">
+    	<Line X2="321" StrokeThickness="3" Margin="0,3.5,0,0"/>
+    	<Line X2="321" StrokeThickness="1" Margin="0,6.5,0,0"/>
+    	<Line X2="321" StrokeThickness="1" Margin="0,8.5,0,0"/>
+    	<Line X2="321" StrokeThickness="2" Margin="0,11,0,0"/>
+    	<Line X2="321" StrokeThickness="3" Margin="0,14.5,0,0"/>
+    	<Line X2="321" StrokeThickness="7" Margin="0,20.5,0,0"/>
+        <TextBlock Text="{Binding [Boxes], Source={x:Static pm:DataService.String}}" IsHitTestVisible="False" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,3,0,0">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="2" ShadowDepth="0" Color="White"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock IsHitTestVisible="False" Text="{Binding [Teams], Source={x:Static pm:DataService.String}}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="159,3,0,0">
+        <TextBlock Text="{Binding [Teams], Source={x:Static pm:DataService.String}}" IsHitTestVisible="False" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="159,3,0,0">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="2" ShadowDepth="0" Color="White"/>
             </TextBlock.Effect>
         </TextBlock>
-        <ContentControl IsTabStop="True" Focusable="True" Content="{Binding Recycler}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,25" Height="30" AllowDrop="True" ContentTemplate="{x:Static local:Resources.FolderIcon}">
+        <ContentControl Content="{Binding Recycler}" ContentTemplate="{x:Static local:Resources.Collection}" IsTabStop="True" Focusable="True" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" AllowDrop="True">
             <i:Interaction.Behaviors>
                 <li:DragDropState >
                     <li:DragDropState.TargetHandler>
@@ -79,13 +72,12 @@
                 </li:AdornerBehavior>
             </i:Interaction.Behaviors>
         </ContentControl>
-        <ItemsControl ItemsSource="{Binding OpenWindows}" ItemTemplateSelector="{x:Static local:OpenWindowTS.I}">
+        <ItemsControl ItemsSource="{Binding OpenWindows}" ItemTemplate="{x:Static local:Resources.OpenCollection}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas IsItemsHost="True" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
-        <local:EditorSearchView DataContext="{Binding Search}" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
     </Grid>
 </UserControl>
