@@ -10,12 +10,20 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
   public class SimpleCommand : ICommand
   {
     public event EventHandler CanExecuteChanged;
-    Action command;
+    Action c1;
+    Action<object> c2;
 
+    public SimpleCommand()
+    {
+      c1 = delegate { };
+    }
     public SimpleCommand(Action command)
     {
-      if (command == null) this.command = delegate { };
-      else this.command = command;
+      c1 = command;
+    }
+    public SimpleCommand(Action<object> command)
+    {
+      c2 = command;
     }
 
     bool ICommand.CanExecute(object parameter)
@@ -23,7 +31,8 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
 
     public void Execute(object parameter)
     {
-      command();
+      if (c1 != null) c1();
+      else c2(parameter);
     }
   }
 

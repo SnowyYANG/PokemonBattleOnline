@@ -52,5 +52,36 @@ namespace LightStudio.PokemonBattle.Data
         ValidateIv(pm.Iv) &&
         ValidateMoves(pm);
     }
+
+    public static bool ValueEquals(this I6D a, I6D b)
+    {
+      return
+        a.Hp == b.Hp &&
+        a.Atk == b.Atk &&
+        a.Def == b.Def &&
+        a.SpAtk == b.SpAtk &&
+        a.SpDef == b.SpDef &&
+        a.Speed == b.Speed;
+    }
+    /// <summary>
+    /// all but Name
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    public static bool ValueEquals(this IPokemonData a, IPokemonData b)
+    {
+      return
+        a.AbilityIndex == b.AbilityIndex &&
+        a.Ev.ValueEquals(b.Ev) &&
+        a.Form == b.Form &&
+        a.Gender == b.Gender &&
+        a.Happiness == b.Happiness &&
+        a.ItemId == b.ItemId &&
+        a.Iv.ValueEquals(b.Iv) &&
+        a.Lv == b.Lv &&
+        a.MoveIds.ToArray().ArrayEquals(b.MoveIds.ToArray()) &&
+        a.Nature == b.Nature;
+    }
   }
 }

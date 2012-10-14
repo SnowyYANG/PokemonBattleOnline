@@ -6,13 +6,12 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
-using System.ComponentModel;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.PBO.UIElements;
 
 namespace LightStudio.PokemonBattle.PBO.Editor
 {
-  internal class PokemonVM : INotifyPropertyChanged
+  internal class PokemonVM : ViewModelBase
   {
     static PokemonVM()
     {
@@ -60,14 +59,5 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       Commands.Add(EditCommand);
       Commands.Add(RemoveCommand);
     }
-
-    #region INotifyPropertyChanged
-    public event PropertyChangedEventHandler PropertyChanged;
-    protected void OnPropertyChanged(string propertyName)
-    {
-      if (PropertyChanged != null)
-        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-    }
-    #endregion
   }
 }

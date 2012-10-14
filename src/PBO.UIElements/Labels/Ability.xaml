@@ -7,5 +7,10 @@
                 <ToolTip Content="{Binding Description}" ContentTemplate="{x:Static ui:Controls.LocalizedDataText}"/>
             </ContentControl.ToolTip>
         </ContentControl>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 </ResourceDictionary>

@@ -130,12 +130,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\female.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\male.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="images\OStateBar.png" />
   </ItemGroup>
   <ItemGroup>

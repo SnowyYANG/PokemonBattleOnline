@@ -111,7 +111,7 @@
         </Setter>
     </Style>
     <DataTemplate x:Key="Collection">
-        <UserControl DataContext="{Binding}" Height="30" Width="153">
+        <UserControl Height="30" Width="153">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="DragEnter">
                     <ei:ChangePropertyAction TargetName="bg" PropertyName="Fill" Value="{Binding BorderBrush}"/>
@@ -131,7 +131,9 @@
                     <ContextMenu x:Name="menu" ItemsSource="{Binding FolderCommands}" ItemContainerStyle="{x:Static ui:Controls.CommandMenu}"/>
                 </Grid.ContextMenu>
                 <Path Name="bg" Fill="{Binding Background}" Stroke="{Binding BorderBrush}" Data="M0,6 L151,6 145,29 0,29" StrokeThickness="0" Stretch="None" VerticalAlignment="Bottom" SnapsToDevicePixels="True"/>
-                <Image Source="{Binding Icon}" Height="29" Width="24" HorizontalAlignment="Left" Margin="2,1,0,1"/>
+                <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-1,-1,0,0">
+                    <Image Source="{Binding Icon}" Height="{Binding Icon.PixelHeight,Mode=OneTime}" Width="{Binding Icon.PixelWidth,Mode=OneTime}" Margin="{Binding IconMargin,Mode=OneTime}"/>
+                </Canvas>
                 <TextBlock Name="title" Text="{Binding Model.Name}" Effect="{Binding Effect}" Visibility="{Binding Renaming, Converter={x:Static local:BoolVisibilityC.I}, ConverterParameter=inverse}" TextTrimming="CharacterEllipsis" TextWrapping="WrapWithOverflow" Foreground="#d8d8d8" VerticalAlignment="Bottom" Margin="30,0,8,4" SnapsToDevicePixels="True"/>
                 <ui:UITextBox Text="{Binding Model.Name}" EndEditCommand="{Binding EndRenamingCommand}" IsEditing="{Binding Renaming,Mode=OneWay}" MaxLength="20" Foreground="White" FontWeight="Normal" Padding="0" BorderThickness="0" Margin="30,0,8,3" SnapsToDevicePixels="True" VerticalAlignment="Bottom" Background="Black"/>
             </Grid>
@@ -151,13 +153,13 @@
                 <Setter Property="ToolTip">
                     <Setter.Value>
                         <ToolTip>
-                            <StackPanel Orientation="Horizontal" DataContext="{Binding Pokemons}">
-                                <Image Height="32" Width="32" Source="{Binding [0].Icon}"/>
-                                <Image Height="32" Width="32" Source="{Binding [1].Icon}"/>
-                                <Image Height="32" Width="32" Source="{Binding [2].Icon}"/>
-                                <Image Height="32" Width="32" Source="{Binding [3].Icon}"/>
-                                <Image Height="32" Width="32" Source="{Binding [4].Icon}"/>
-                                <Image Height="32" Width="32" Source="{Binding [5].Icon}"/>
+                            <StackPanel Orientation="Horizontal" DataContext="{Binding Model}">
+                                <Image Height="32" Width="32" Source="{Binding [0],Converter={x:Static c:PokemonDataIcon.C}}"/>
+                                <Image Height="32" Width="32" Source="{Binding [1],Converter={x:Static c:PokemonDataIcon.C}}"/>
+                                <Image Height="32" Width="32" Source="{Binding [2],Converter={x:Static c:PokemonDataIcon.C}}"/>
+                                <Image Height="32" Width="32" Source="{Binding [3],Converter={x:Static c:PokemonDataIcon.C}}"/>
+                                <Image Height="32" Width="32" Source="{Binding [4],Converter={x:Static c:PokemonDataIcon.C}}"/>
+                                <Image Height="32" Width="32" Source="{Binding [5],Converter={x:Static c:PokemonDataIcon.C}}"/>
                             </StackPanel>
                         </ToolTip>
                     </Setter.Value>

@@ -13,6 +13,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     public static readonly Style FolderInsertionAdorner;
     public static readonly Style PokemonDragAdorner;
     public static readonly DataTemplate PokemonType;
+    public static readonly DataTemplate PokemonForm;
     public static readonly DataTemplate SelectedMove;
     public static readonly DataTemplate Collection;
     public static readonly DataTemplate OpenCollection;
@@ -28,6 +29,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       PokemonDragAdorner = (Style)rd["PokemonDragAdorner"];
       rd = GetDictionary("PokemonType");
       PokemonType = (DataTemplate)rd["PokemonType"];
+      PokemonForm = (DataTemplate)rd["PokemonForm"];
       rd = GetDictionary("SelectedMove");
       SelectedMove = (DataTemplate)rd["SelectedMove"];
       rd = GetDictionary("Generic");

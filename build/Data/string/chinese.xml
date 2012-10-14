@@ -42,9 +42,11 @@
   <item key="Rock" value="岩" />
   <item key="Steel" value="钢铁" />
   <item key="Water" value="水" />
+  
   <item key="Physical" value="物理" />
   <item key="Special" value="特殊" />
   <item key="Status" value="变化" />
+  
   <item key="Hp" value="体力" />
   <item key="Atk" value="物攻" />
   <item key="Def" value="物防" />
@@ -60,6 +62,8 @@
   <item key="Individual Values" value="个体值" />
   <item key="Effort Values" value="努力值" />
   <item key="Hidden Power" value="觉醒力量" />
+  <item key="Happiness" value="亲密度"/>
+  
   <item key="Name" value="名称" />
   <item key="Type" value="属性" />
   <item key="Item" value="道具" />

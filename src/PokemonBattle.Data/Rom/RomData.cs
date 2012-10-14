@@ -8,14 +8,18 @@ using LightStudio.Tactic.DataModels;
 namespace LightStudio.PokemonBattle.Data
 {
   [DataContract(Namespace=Namespaces.PBO)]
-  internal sealed class RomData : SimpleData
+#if DEBUG
+  public
+#else
+  internal
+#endif
+    sealed class RomData : SimpleData
   {
     public static RomData Load(string path)
     {
       var rom = LoadFromDat<RomData>("Data\\rom.dat");
-      for (int i = 1; i < rom.pokemons.Length; ++i)
-        foreach (var form in rom.pokemons[i].Forms)
-          form.Type = rom.pokemons[i];
+      foreach (var pm in rom.Pokemons)
+        foreach (var form in pm.Forms) form.Type = pm;
       return rom;
     }
 
@@ -43,20 +47,20 @@ namespace LightStudio.PokemonBattle.Data
 
     public PokemonType GetPokemonType(int number)
     {
-      return pokemons.ValueOrDefault(number);
+      return pokemons.ValueOrDefault(number - 1);
     }
     public PokemonForm GetPokemonForm(int number, int form)
     {
       if (number == 0 || number >= pokemons.Length) return null;
-      return pokemons[number].GetForm(form);
+      return pokemons[number - 1].GetForm(form);
     }
     public MoveType GetMoveType(int moveId)
     {
-      return moves.ValueOrDefault(moveId);
+      return moves.ValueOrDefault(moveId - 1);
     }
     public Ability GetAbility(int abilityId)
     {
-      return abilities.ValueOrDefault(abilityId);
+      return abilities.ValueOrDefault(abilityId - 1);
     }
     public Item GetItem(int itemId)
     {

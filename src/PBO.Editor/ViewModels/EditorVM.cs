@@ -10,7 +10,7 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.PBO.Editor
 {
-  internal class EditorVM : INotifyPropertyChanged
+  internal class EditorVM : ViewModelBase
   {
     public static readonly EditorVM Current;
 
@@ -27,8 +27,8 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       this.OpenWindows = new ObservableCollection<object>();
     }
 
-    private EditingPokemonVM _editingPokemon;
-    public EditingPokemonVM EditingPokemon
+    private PokemonEditorVM _editingPokemon;
+    public PokemonEditorVM EditingPokemon
     { get { return _editingPokemon; } }
     public Visibility EditingPokemonVisibility
     { get { return EditingPokemon == null ? Visibility.Collapsed : Visibility.Visible; } }
@@ -54,7 +54,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
         if (r == MessageBoxResult.Yes) EditingPokemon.Save();
         else if (r == MessageBoxResult.Cancel) return;
       }
-      _editingPokemon = new EditingPokemonVM(pm);
+      _editingPokemon = new PokemonEditorVM(pm);
       OnPropertyChanged("EditingPokemon");
       OnPropertyChanged("EditingPokemonVisibility");
     }
@@ -64,22 +64,11 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       {
         MessageBoxResult r = EditingPokemon.ChangedConfirm();
         if (r == MessageBoxResult.Yes) EditingPokemon.Save();
-        else if (r == MessageBoxResult.No)
-        {
-          _editingPokemon = null;
-          OnPropertyChanged("EditingPokemon");
-          OnPropertyChanged("EditingPokemonVisibility");
-        }
+        else if (r == MessageBoxResult.Cancel) return;
+        _editingPokemon = null;
+        OnPropertyChanged("EditingPokemon");
+        OnPropertyChanged("EditingPokemonVisibility");
       }
     }
-
-    #region INotifyPropertyChanged
-    public event PropertyChangedEventHandler PropertyChanged;
-    private void OnPropertyChanged(string propertyName)
-    {
-      if (PropertyChanged != null)
-        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-    }
-    #endregion
   }
 }

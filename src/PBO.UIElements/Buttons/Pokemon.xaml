@@ -24,7 +24,7 @@
                             Lv.<TextBlock Text="{Binding Lv}"/>
                         </TextBlock>
                         <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="12" Canvas.Top="31"/>
-                        <Image IsHitTestVisible="False" Source="{Binding PokemonType}"  Width="32" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Right="-1"/>
+                        <Image IsHitTestVisible="False" Source="{Binding Converter={x:Static c:PokemonIcon.C}}"  Width="32" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Right="-1"/>
                         <Image Name="item" Stretch="Uniform" Source="/PBO.UIElements;component/Images/item.png" Width="6" Height="8" Canvas.Left="16" Canvas.Top="23" SnapsToDevicePixels="True" />
                         <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" Width="75" Canvas.Left="30" Canvas.Top="5"/>
                         <ContentPresenter Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Right="8" Canvas.Top="3"/>
@@ -46,22 +46,6 @@
         <Setter Property="Width" Value="126"/>
         <Setter Property="Height" Value="46"/>
         <Setter Property="Background" Value="#383838"/>
-        <Setter Property="OpacityMask">
-            <Setter.Value>
-                <DrawingBrush>
-                    <DrawingBrush.Drawing>
-                        <DrawingGroup>
-                            <GeometryDrawing Brush="Black" Geometry="F1 M 120,45.5L 125.5,34.5L 125.5,23.5L 119.5,0.5L 6.0,0.5L 0.5,23.5L 0.5,34.5L 6,45.5Z">
-                                <GeometryDrawing.Pen>
-                                    <Pen Brush="Black" Thickness="1"/>
-                                </GeometryDrawing.Pen>
-                            </GeometryDrawing>
-                            <ImageDrawing Rect="-1,-1,32,32" ImageSource="{Binding Content.PokemonType.Id,RelativeSource={RelativeSource AncestorType=Button},Converter={StaticResource IconConverter}}"/>
-                        </DrawingGroup>
-                    </DrawingBrush.Drawing>
-                </DrawingBrush>
-            </Setter.Value>
-        </Setter>
         <Setter Property="BorderBrush">
             <Setter.Value>
                 <DrawingBrush Stretch="None">

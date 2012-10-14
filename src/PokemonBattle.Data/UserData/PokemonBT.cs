@@ -43,9 +43,14 @@ namespace LightStudio.PokemonBattle.Data
     }
     protected override void RemoveItem(int index)
     {
-      var i = this[index];
-      if (i.Container == this) PokemonDeleted(i);
+      var p = this[index];
+      if (p.Container == this) PokemonDeleted(p);
       base.RemoveItem(index);
+    }
+    protected override void ClearItems()
+    {
+      foreach (var pm in this) PokemonDeleted(pm);
+      base.ClearItems();
     }
     public void Export(Stream stream)
     {

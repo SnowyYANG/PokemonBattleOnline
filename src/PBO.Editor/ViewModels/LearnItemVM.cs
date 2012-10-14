@@ -9,65 +9,45 @@ using LightStudio.PokemonBattle.PBO.UIElements;
 
 namespace LightStudio.PokemonBattle.PBO.Editor
 {
-    internal class LearnItemVM : INotifyPropertyChanged
+  internal class LearnItemVM : ViewModelBase
+  {
+    private static readonly PropertyChangedEventArgs ISSELECTED = new PropertyChangedEventArgs("IsSelected");
+
+    private readonly PokemonEditorVM pokemon;
+
+    public LearnItemVM(PokemonEditorVM pm, MoveType move)
     {
-        public MoveLearnItem Model
-        { get; private set; }
-
-        public PokemonData Pokemon
-        { get; private set; }
-
-        public MoveType MoveType
-        { get; private set; }
-
-        private bool _isSelected;
-        public bool IsSelected
-        {
-            get
-            {
-                return _isSelected;
-            }
-            set
-            {
-                if (_isSelected != value)
-                {
-                    _isSelected = value;
-                    OnIsSelectedChanged();
-                    OnPropertyChanged("IsSelected");
-                }
-            }
-        }
-
-        public LearnItemVM(PokemonData pm, MoveLearnItem model)
-        {
-            this.Pokemon = pm;
-            this.Model = model;
-            this.MoveType = GameDataService.GetMove(Model.MoveId);
-            this._isSelected = Pokemon.MoveIds.Contains(Model.MoveId);
-        }
-
-        private void OnIsSelectedChanged()
-        {
-            if (!IsSelected)
-            {
-                Pokemon.RemoveMove(MoveType.Id);
-            }
-            else
-            {
-                if (!Pokemon.AddMove(MoveType.Id))
-                    _isSelected = false;
-            }
-        }
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
-        
+      pokemon = pm;
+      Move = move;
+      _isSelected = pokemon.Model.MoveIds.Contains(move.Id);
     }
+    
+    public MoveType Move
+    { get; private set; }
+
+    public string MoveName
+    { get { return Move.GetLocalizedName(); } }
+
+    private bool _isSelected;
+    public bool IsSelected
+    {
+      get
+      {
+        return _isSelected;
+      }
+      set
+      {
+        if (_isSelected != value)
+        {
+          if (value) _isSelected = pokemon.AddMove(Move);
+          else
+          {
+            pokemon.RemoveMove(Move);
+            _isSelected = false;
+          }
+          OnPropertyChanged(ISSELECTED);
+        }
+      }
+    }
+  }
 }

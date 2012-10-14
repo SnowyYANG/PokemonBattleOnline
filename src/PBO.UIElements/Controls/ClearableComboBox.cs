@@ -45,5 +45,9 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
       var cancelButton = GetTemplateChild(PART_CancelButton) as Button;
       cancelButton.Click += (sender, e) => SelectedItem = null;
     }
+    protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+    {
+      base.OnSelectionChanged(e);
+    }
   }
 }

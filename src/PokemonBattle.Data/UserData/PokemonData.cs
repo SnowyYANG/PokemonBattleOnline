@@ -13,6 +13,30 @@ namespace LightStudio.PokemonBattle.Data
   [DataContract(Namespace = Namespaces.PBO)]
   public class PokemonData : ICloneable, IPokemonData, INotifyPropertyChanged
   {
+    private const int WORMADAM = 413;
+    private const int ROTOM = 479;
+    private const int GIRATINA = 487;
+    private const int ARCEUS = 493;
+    private const int DEERLING = 585;
+    private const int SAWSBUCK = 586;
+    private const int GENESECT = 649;
+    private const int KYUREM = 646;
+    private const int KELDEO = 647;
+    private const int SECRET_SWORD = 548;
+    private const int GRISEOUS_ORB = 1;
+    private const int PLATE_MINID = 75;
+    private const int PLATE_MAXID = 90;
+    private const int DRIVE_MINID = 98;
+    private const int DRIVE_MAXID = 101;
+    private static bool CanChangeIv(I6D sender, int oldValue, int newValue)
+    {
+      return 0 <= newValue && newValue < 32;
+    }
+    private static bool CanChangeEv(I6D sender, int oldValue, int newValue)
+    {
+      return 0 <= newValue && newValue <= 255 && sender.Hp + sender.Atk + sender.Def + sender.SpAtk + sender.SpDef + sender.Speed + newValue - oldValue <= 510;
+    }
+
     [DataMember]
     private short number;
     [DataMember(EmitDefaultValue = false)]
@@ -45,24 +69,40 @@ namespace LightStudio.PokemonBattle.Data
       }
     }
 
+    private static readonly int[] CAN_CHOOSE_FORM = { 201, 386, 412, 413, 422, 423, 479, 492, 641, 642, 645, 646 };
+    public bool CanChooseForm
+    { get { return CAN_CHOOSE_FORM.Contains(number) || number == KELDEO && MoveIds.Contains(SECRET_SWORD); } }
+
     private PokemonForm _form;
     public PokemonForm Form
     { 
       get
       {
-        if (_form == null) _form = GameDataService.GetPokemon(number, form);
+        if (_form == null)
+        {
+          CheckSpForm();
+          _form = GameDataService.GetPokemon(number, form);
+        }
         return _form;
       }
       set
       {
-        if (Form != value && value != null)
+        if (!(number == value.Type.Number && form == value.Index))
         {
-          _form = value;
-          number = _form.Type.Number;
-          form = (byte)_form.Index;
+          _form = null;
+          
+          if (number != value.Type.Number)
+          {
+            moveIds.Clear();
+            _gender = value.Type.Genders.First();
+            _ev.SetStat(StatType.All, 0);
+          }
+          else if (number == 413 || number == 479 || number == 646) moveIds.Clear();
           _abilityIndex = 0;
-          _gender = Form.Type.Genders.First();
-          moveIds.Clear();
+          
+          number = value.Type.Number;
+          form = (byte)value.Index;
+          CheckSpForm();
           OnPropertyChanged();
         }
       }
@@ -91,7 +131,7 @@ namespace LightStudio.PokemonBattle.Data
       get { return _gender; }
       set
       {
-        if (_gender != value)
+        if (_gender != value && Form.Type.Genders.Contains(value))
         {
           _gender = value;
           OnPropertyChanged("Gender");
@@ -115,29 +155,34 @@ namespace LightStudio.PokemonBattle.Data
     }
 
     [DataMember(EmitDefaultValue = false)]
-    private int _abilityIndex;
-    public int AbilityIndex
-    {
-      get { return _abilityIndex; }
+    private byte _abilityIndex;
+    int IPokemonData.AbilityIndex
+    { get { return _abilityIndex; } }
+    public Ability Ability
+    { 
+      get { return Form.Data.GetAbility(_abilityIndex); }
       set
       {
-        if (_abilityIndex != value && value != -1)
+        if (Ability != value)
         {
-          _abilityIndex = value;
-          OnPropertyChanged("AbilityIndex");
+          _abilityIndex = 0;
+          if (Form.Data.Abilities[1] == value) _abilityIndex = 1;
+          else if (Form.Data.Abilities[2] == value) _abilityIndex = 2;
+          OnPropertyChanged("Ability");
         }
       }
     }
-
-    public Ability Ability
-    { get { return Form.Data.GetAbility(AbilityIndex); } }
 
     private Observable6D _iv;
     public Observable6D Iv
     {
       get
       {
-        if (_iv == null) _iv = new Observable6D(31, 31, 31, 31, 31, 31);
+        if (_iv == null)
+        {
+          _iv = new Observable6D(31, 31, 31, 31, 31, 31);
+          _iv.CanChange6D += CanChangeIv;
+        }
         return _iv;
       }
     }
@@ -147,20 +192,27 @@ namespace LightStudio.PokemonBattle.Data
     private ReadOnly6D _Iv
     {
       get { return new ReadOnly6D(31 - Iv.Hp, 31 - Iv.Atk, 31 - Iv.SpAtk, 31 - Iv.Def, 31 - Iv.SpDef, 31 - Iv.Speed); }
-      set { _iv = new Observable6D(31 - value.Hp, 31 - value.Atk, 31 - value.Def, 31 - value.SpAtk, 31 - value.SpDef, 31 - value.Speed); }
+      set
+      { 
+        _iv = new Observable6D(31 - value.Hp, 31 - value.Atk, 31 - value.Def, 31 - value.SpAtk, 31 - value.SpDef, 31 - value.Speed);
+        _iv.CanChange6D += CanChangeIv;
+      }
     }
     
     [DataMember(EmitDefaultValue = false)]
     private short _itemId;
-    public int ItemId
-    {
-      get { return _itemId; }
+    int IPokemonData.ItemId
+    { get { return _itemId; } }
+    public Item Item
+    { 
+      get { return GameDataService.GetItem(_itemId); }
       set
-      {
-        if (_itemId != value)
+      { 
+        if (Item != value)
         {
-          _itemId = (short)value;
-          OnPropertyChanged("ItemId");
+          _itemId = (short)(value == null ? 0 : value.Id);
+          if (CheckSpForm()) OnPropertyChanged();
+          else OnPropertyChanged("HeldItem");
         }
       }
     }
@@ -184,8 +236,19 @@ namespace LightStudio.PokemonBattle.Data
     private Observable6D _ev;
     I6D IPokemonData.Ev
     { get { return _ev; } }
+    bool got;
     public Observable6D Ev
-    { get { return _ev; } }
+    { 
+      get
+      {
+        if (!got)
+        {
+          got = true;
+          _ev.CanChange6D += CanChangeEv;
+        }
+        return _ev;
+      }
+    }
 
     public IEnumerable<int> MoveIds
     { get { return moveIds; } }
@@ -205,20 +268,48 @@ namespace LightStudio.PokemonBattle.Data
       }
     }
 
+    private bool CheckSpForm()
+    {
+      switch (number)
+      {
+        case DEERLING:
+        case SAWSBUCK:
+          form = (byte)((DateTime.Now.Month - 1) & 3);
+          break;
+        case ARCEUS:
+          form = (byte)(PLATE_MINID <= _itemId && _itemId <= PLATE_MAXID ? _itemId - DRIVE_MINID + 1 : 0);
+          break;
+        case GIRATINA:
+          form = (byte)(_itemId == GRISEOUS_ORB ? 1 : 0);
+          break;
+        case GENESECT:
+          form = (byte)(DRIVE_MINID <= _itemId && _itemId <= DRIVE_MAXID ? _itemId - DRIVE_MINID + 1 : 0);
+          break;
+        case KELDEO:
+          if (!moveIds.Contains(SECRET_SWORD)) form = 0;
+          break;
+      }
+      if (_form != null && _form.Index != form) _form = null;
+      return _form == null;
+    }
+
     public bool AddMove(int moveId)
     {
       if (moveIds.Count < 4 && !moveIds.Contains(moveId))
       {
         moveIds.Add(moveId);
-        OnPropertyChanged("MoveIds");//对绑定没什么意义，主要是手动订阅
+        if (number == KELDEO && moveId == SECRET_SWORD) OnPropertyChanged("CanChooseForm");
         return true;
       }
       return false;
     }
     public void RemoveMove(int moveId)
     {
-      moveIds.Remove(moveId);
-      OnPropertyChanged("MoveIds");//对绑定无意义，主要是手动订阅
+      if (moveIds.Remove(moveId))
+      {
+        if (CheckSpForm()) OnPropertyChanged();
+        if (number == KELDEO && moveId == SECRET_SWORD) OnPropertyChanged("CanChooseForm");
+      }
     }
 
     #region ICloneable
@@ -228,6 +319,7 @@ namespace LightStudio.PokemonBattle.Data
       clone.PropertyChanged = null;
       clone._iv = new Observable6D(Iv);
       clone._ev = new Observable6D(Ev);
+      clone.got = false;
       clone.moveIds = new ObservableCollection<int>(MoveIds);
       return clone;
     }

@@ -15,6 +15,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void Quit(int userId);
   }
 
+  [KnownType(typeof(Data.PokemonData))]
   [DataContract(Namespace = Namespaces.PBO)]
   class JoinGameCommand : IHostCommand
   {

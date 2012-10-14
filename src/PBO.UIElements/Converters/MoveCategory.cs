@@ -11,6 +11,8 @@ namespace LightStudio.PokemonBattle.PBO.Converters
   [ValueConversion(typeof(MoveCategory), typeof(string))]
   public class MoveCategoryText : Converter<MoveCategory>
   {
+    public static readonly MoveCategoryText C = new MoveCategoryText();
+    
     protected override object Convert(MoveCategory value)
     {
       return DataService.String[value.ToString()];

@@ -97,7 +97,7 @@ namespace LightStudio.PokemonBattle.Data
   }
 
   [DataContract(Namespace = Namespaces.PBO)]
-  public class Observable6D : I6D
+  public class Observable6D : I6D, INotifyPropertyChanged
   {
     private static readonly PropertyChangedEventArgs HP = new PropertyChangedEventArgs("Hp");
     private static readonly PropertyChangedEventArgs ATK = new PropertyChangedEventArgs("Atk");
@@ -105,7 +105,8 @@ namespace LightStudio.PokemonBattle.Data
     private static readonly PropertyChangedEventArgs SPATK = new PropertyChangedEventArgs("SpAtk");
     private static readonly PropertyChangedEventArgs SPDEF = new PropertyChangedEventArgs("SpDef");
     private static readonly PropertyChangedEventArgs SPEED = new PropertyChangedEventArgs("Speed");
-    
+
+    public event Func<I6D, int, int, bool> CanChange6D;
     public event PropertyChangedEventHandler PropertyChanged;
 
     public Observable6D(I6D obj)
@@ -129,7 +130,7 @@ namespace LightStudio.PokemonBattle.Data
       get { return _hp; }
       set
       {
-        if (_hp != value)
+        if (_hp != value && OnPropertyChanging(_hp, value))
         {
           _hp = value;
           OnPropertyChanged(HP);
@@ -143,7 +144,7 @@ namespace LightStudio.PokemonBattle.Data
       get { return _atk; }
       set
       {
-        if (_atk != value)
+        if (_atk != value && OnPropertyChanging(_atk, value))
         {
           _atk = value;
           OnPropertyChanged(ATK);
@@ -157,7 +158,7 @@ namespace LightStudio.PokemonBattle.Data
       get { return _def; }
       set
       {
-        if (_def != value)
+        if (_def != value && OnPropertyChanging(_def, value))
         {
           _def = value;
           OnPropertyChanged(DEF);
@@ -171,7 +172,7 @@ namespace LightStudio.PokemonBattle.Data
       get { return _spAtk; }
       set
       {
-        if (_spAtk != value)
+        if (_spAtk != value && OnPropertyChanging(_spAtk, value))
         {
           _spAtk = value;
           OnPropertyChanged(SPATK);
@@ -185,7 +186,7 @@ namespace LightStudio.PokemonBattle.Data
       get { return _spDef; }
       set
       {
-        if (_spDef != value)
+        if (_spDef != value && OnPropertyChanging(_spDef, value))
         {
           _spDef = value;
           OnPropertyChanged(SPDEF);
@@ -199,7 +200,7 @@ namespace LightStudio.PokemonBattle.Data
       get { return _speed; }
       set
       {
-        if (_speed != value)
+        if (_speed != value && OnPropertyChanging(_speed, value))
         {
           _speed = value;
           OnPropertyChanged(SPEED);
@@ -207,6 +208,10 @@ namespace LightStudio.PokemonBattle.Data
       }
     }
 
+    private bool OnPropertyChanging(int oldValue, int newValue)
+    {
+      return CanChange6D == null ? true : CanChange6D(this, oldValue, newValue);
+    }
     private void OnPropertyChanged(PropertyChangedEventArgs e)
     {
       if (PropertyChanged != null) PropertyChanged(this, e);

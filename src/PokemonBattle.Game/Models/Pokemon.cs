@@ -68,7 +68,7 @@ namespace LightStudio.PokemonBattle.Game
       Iv = new ReadOnly6D(custom.Iv);
       Ev = new ReadOnly6D(custom.Ev);
       {
-        int h = PokemonStatHelper.GetHp(Form.Data.Base.Hp, (byte)Iv.Hp, (byte)Ev.Hp, (byte)Lv);
+        int h = PokemonStatHelper.GetHp(custom.Form.Data.Base.Hp, (byte)Iv.Hp, (byte)Ev.Hp, (byte)Lv);
         hp = new PairValue(h, h, 48);
       }
 

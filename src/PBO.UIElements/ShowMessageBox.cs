@@ -43,6 +43,10 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
     {
       return Show("当前精灵的改动尚未保存，是否保存？", MessageBoxButton.YesNoCancel);
     }
+    public static bool PokemonResetToLastSaved()
+    {
+      return Show("当前精灵已修改，确定放弃改动？", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+    }
     public static void FolderExportFail()
     {
       MessageBox.Show(DataService.String["FolderExportFail"]);

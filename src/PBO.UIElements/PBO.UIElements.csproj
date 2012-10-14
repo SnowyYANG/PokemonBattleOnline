@@ -81,7 +81,8 @@
     <Compile Include="Converters\Converter.cs" />
     <Compile Include="Converters\IdMoveConverter.cs" />
     <Compile Include="Converters\IntString.cs" />
-    <Compile Include="Converters\IPokemon.cs" />
+    <Compile Include="Converters\LocalizedText.cs" />
+    <Compile Include="Converters\PokemonIcon.cs" />
     <Compile Include="Converters\MoveCategory.cs" />
     <Compile Include="Converters\MovePriority.cs" />
     <Compile Include="Converters\MoveRange.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Labels\Labels.cs" />
     <Compile Include="ShowMessageBox.cs" />
     <Compile Include="Controls\ClearableComboBox.cs" />
+    <Compile Include="ViewModelBase.cs" />
     <Compile Include="WpfDispatcher.cs" />
     <Page Include="Cartes\User.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -265,7 +267,7 @@
     <Resource Include="images\Labels\female.png" />
     <Resource Include="images\Labels\FRZ.png" />
     <Resource Include="images\Labels\male.png" />
-    <Resource Include="images\Labels\Neutral.png" />
+    <Resource Include="images\Labels\Status.png" />
     <Resource Include="images\Labels\PAR.png" />
     <Resource Include="images\Labels\Physical.png" />
     <Resource Include="images\Labels\PSN.png" />

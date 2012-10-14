@@ -29,25 +29,41 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       grid.Fill = PBO.UIElements.Brushes.GetHorizontalTileBrush(25, PBO.Helper.NewBrush(0x80ffffff));
     }
 
-    private EditingPokemonVM VM
-    { get { return (EditingPokemonVM)DataContext; } }
+    private PokemonEditorVM VM
+    { get { return (PokemonEditorVM)DataContext; } }
 
     private void SelectedMove_MouseDown(object sender, MouseButtonEventArgs e)
     {
-      if (((ContentPresenter)sender).Content == null) return;
-      learnsetlist.SelectedItem = ((ContentPresenter)sender).Content;
-      if (panel == null) panel = typeof(ItemsControl).InvokeMember("_itemsHost", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField, null, learnsetlist, null) as VirtualizingStackPanel;
-      if (panel != null) panel.SetVerticalOffset(panel.ScrollOwner.ScrollableHeight * learnsetlist.SelectedIndex / learnsetlist.Items.Count);
+      if (((ContentPresenter)sender).Content != null)
+      {
+        int move = (int)((ContentPresenter)sender).Content;
+        for (int i = 0; i < learnsetlist.Items.Count; ++i)
+          if (((LearnItemVM)learnsetlist.Items[i]).Move.Id == move)
+          {
+            learnsetlist.SelectedIndex = i;
+            if (panel == null) panel = typeof(ItemsControl).InvokeMember("_itemsHost", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField, null, learnsetlist, null) as VirtualizingStackPanel;
+            if (panel != null) panel.SetVerticalOffset(panel.ScrollOwner.ScrollableHeight * learnsetlist.SelectedIndex / learnsetlist.Items.Count);
+            break;
+          }
+      }
+    }
+
+    private void ResetEv_Click(object sender, RoutedEventArgs e)
+    {
+      VM.Model.Ev.SetStat(Data.StatType.All, 0);
     }
 
     private void Save_Click(object sender, RoutedEventArgs e)
     {
       VM.Save();
     }
-
-    private void ResetEv_Click(object sender, RoutedEventArgs e)
+    private void Reset_Click(object sender, RoutedEventArgs e)
     {
-      VM.Model.Ev.SetStat(Data.StatType.All, 0);
+      VM.ResetToLastSaved();
+    }
+    private void Close_Click(object sender, RoutedEventArgs e)
+    {
+      EditorVM.Current.EndEditing();
     }
   }
 }

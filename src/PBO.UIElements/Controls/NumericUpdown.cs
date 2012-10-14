@@ -197,7 +197,11 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
       drag = GetTemplateChild(PART_Drag) as Thumb;
       if (drag != null)
       {
-        drag.DragStarted += (sender, e) => dragStartedPosition = Math.Floor(Canvas.GetLeft(drag) + 3);
+        drag.DragStarted += (sender, e) =>
+          {
+            var v = Math.Floor(Canvas.GetLeft(drag) + 3);
+            if (!double.IsNaN(v)) dragStartedPosition = v;
+          };
         drag.DragDelta += (sender, e) =>
           {
             double dv = dragStartedPosition + e.HorizontalChange;

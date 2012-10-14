@@ -107,11 +107,10 @@
     </Page>
     <Compile Include="PokemonEnum.cs" />
     <Compile Include="Converters\IntStringC.cs" />
-    <Compile Include="Converters\MoveLearnItemC.cs" />
-    <Compile Include="Converters\IdItemC.cs" />
+    <Compile Include="Converters\IdMoveC.cs" />
     <Compile Include="DragDrop\RecyclerDropTarget.cs" />
     <Compile Include="ViewModels\BoxVM.cs" />
-    <Compile Include="ViewModels\EditingPokemonVM.cs" />
+    <Compile Include="ViewModels\PokemonEditorVM.cs" />
     <Compile Include="PokemonEditorView.xaml.cs">
       <DependentUpon>PokemonEditorView.xaml</DependentUpon>
     </Compile>

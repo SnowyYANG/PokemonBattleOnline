@@ -6,27 +6,35 @@
                     xmlns:c="clr-namespace:LightStudio.PokemonBattle.PBO.Converters;assembly=PBO.UIElements"
                     xmlns:local="clr-namespace:LightStudio.PokemonBattle.PBO.Editor">
     <DataTemplate x:Key="PokemonType">
-        <StackPanel Orientation="Horizontal">
-            <ToolTipService.ToolTip>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+            <StackPanel.ToolTip>
                 <ToolTip>
                     <ToolTip.Template>
                         <ControlTemplate>
                             <Border Background="#C0ffffff">
-                                <Image Height="32" Width="32" Source="{Binding Icon}"/>
+                                <Image Height="32" Width="32" Source="{Binding Converter={x:Static c:PokemonTypeIcon.C}}"/>
                             </Border>
                         </ControlTemplate>
                     </ToolTip.Template>
                 </ToolTip>
-            </ToolTipService.ToolTip>
-            <TextBlock>
-                <Run Text="{Binding Number, StringFormat=No.{0: 000}, Mode=OneWay}"/>
-				<Run Text=" "/>
-                <Run>
-                    <i:Interaction.Behaviors>
-                        <ui:LocalizedProperty Property="Run.Text" Key="{Binding Name}" StringService="{x:Static d:DataService.DataString}"/>
-                    </i:Interaction.Behaviors>
-                </Run>
-            </TextBlock>
+            </StackPanel.ToolTip>
+            <TextBlock Text="{Binding Number, StringFormat=No.{0: 000}}" Margin="0,0,5,0"/>
+            <ContentControl Content="{Binding Name}" ContentTemplate="{x:Static ui:Controls.LocalizedDataText}"/>
         </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="PokemonForm">
+        <ContentControl Content="{Binding Name}" ContentTemplate="{x:Static ui:Controls.LocalizedDataText}">
+            <ContentControl.ToolTip>
+                <ToolTip>
+                    <ToolTip.Template>
+                        <ControlTemplate>
+                            <Border Background="#C0ffffff">
+                                <Image Height="32" Width="32" Source="{Binding Converter={x:Static c:PokemonFormIcon.C}}"/>
+                            </Border>
+                        </ControlTemplate>
+                    </ToolTip.Template>
+                </ToolTip>
+            </ContentControl.ToolTip>
+        </ContentControl>
     </DataTemplate>
 </ResourceDictionary>

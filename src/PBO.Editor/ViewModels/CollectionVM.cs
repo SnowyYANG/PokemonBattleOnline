@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.ComponentModel;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Windows;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.PBO.UIElements;
 
 namespace LightStudio.PokemonBattle.PBO.Editor
 {
-  internal abstract class CollectionVM : INotifyPropertyChanged
+  internal abstract class CollectionVM : ViewModelBase
   {
     protected CollectionVM(PokemonCollection model)
     {
@@ -20,6 +18,8 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     }
 
     public abstract object Icon { get; }
+    public virtual Thickness IconMargin
+    { get { return new Thickness(3, 2, 0, 0); } }
     public abstract object BorderBrush { get; }
     public abstract object Background { get; }
     public abstract object Effect { get; }
@@ -64,13 +64,5 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       PokemonCommands = new ObservableCollection<MenuCommand>();
       PokemonCommands.Add(ClearCommand);
     }
-
-    #region INotifyPropertyChanged
-    public event PropertyChangedEventHandler PropertyChanged = delegate { };
-    protected void OnPropertyChanged(string propertyName)
-    {
-      PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-    }
-    #endregion
   }
 }

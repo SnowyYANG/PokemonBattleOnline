@@ -19,10 +19,6 @@
         	<ItemsPanelTemplate x:Key="VirtualPanel">
         		<VirtualizingStackPanel/>
         	</ItemsPanelTemplate>
-        	<Style TargetType="TextBox">
-        		<Setter Property="BorderBrush" Value="#4C808080"/>
-        		<Setter Property="Background" Value="White"/>
-        	</Style>
         	<Style TargetType="ui:ClearableComboBox">
         		<Setter Property="BorderBrush" Value="#4C808080"/>
         		<Setter Property="CanClear" Value="False"/>
@@ -36,30 +32,23 @@
         		<Setter Property="Template">
         			<Setter.Value>
         				<ControlTemplate TargetType="{x:Type Label}">
-        					<Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
-        						<StackPanel Margin="{TemplateBinding Padding}" Orientation="Horizontal" VerticalAlignment="Center">
-        							<Rectangle Width="3" Height="3" Fill="{TemplateBinding Foreground}" Opacity="0.85">
-        								<Rectangle.Effect>
-        									<DropShadowEffect BlurRadius="1" ShadowDepth="1.5" Color="#a0a0a8" Direction="225"/>
-        								</Rectangle.Effect>
-        							</Rectangle>
-        							<TextBlock Text="{TemplateBinding Content}" Margin="3,0,0,0" Style="{x:Null}"/>
-        						</StackPanel>
-        					</Border>
+        					<StackPanel Margin="{TemplateBinding Padding}" Orientation="Horizontal" VerticalAlignment="Center">
+        						<Rectangle Width="3" Height="3" Fill="{TemplateBinding Foreground}" Opacity="0.85">
+        							<Rectangle.Effect>
+        								<DropShadowEffect BlurRadius="1" ShadowDepth="1.5" Color="#a0a0a8" Direction="225"/>
+        							</Rectangle.Effect>
+        						</Rectangle>
+        						<ContentControl Content="{TemplateBinding Content}" ContentTemplate="{x:Static ui:Controls.LocalizedText}" Margin="3,0,0,0" Style="{x:Null}"/>
+        					</StackPanel>
         				</ControlTemplate>
         			</Setter.Value>
         		</Setter>
         	</Style>
-        	<Style TargetType="{x:Type ui:NumericUpdown}">
-        		<Setter Property="BorderBrush" Value="#4C808080"/>
-        		<Setter Property="Foreground" Value="Gray"/>
-        		<Setter Property="HorizontalAlignment" Value="Left"/>
-        	</Style>
         </Grid.Resources>
-        <!--<Border Margin="0,-18,0,0" Height="18" VerticalAlignment="Top" BorderThickness="0,1" BorderBrush="{x:Static ui:Brushes.GrayB1}" Background="{x:Static ui:Brushes.GrayB1}">
+        <Border Margin="0,-18,0,0" Height="18" VerticalAlignment="Top" BorderThickness="0,1" BorderBrush="{x:Static ui:Brushes.GrayB1}" Background="{x:Static ui:Brushes.GrayB1}">
             <Border Style="{x:Null}" BorderThickness="0,1" BorderBrush="#b0b0b0"/>
         </Border>
-        <Button FontSize="12" Foreground="#b0b0b0" Background="White" BorderBrush="White" ToolTip="{Binding [Open],Source={x:Static pm:DataService.String}}" Content="{Binding PokemonViewModel.Folder.Name, Mode=OneWay}" Command="{Binding PokemonViewModel.Folder.OpenCommand}" VerticalAlignment="Top" Margin="0,-18,70,0" Style="{x:Static ui:Controls.XButton}"/>-->
+        <Button Click="Close_Click" ToolTip="{Binding [Close],Source={x:Static pm:DataService.String}}" Style="{x:Static ui:Controls.XButton}" Foreground="#b0b0b0" Background="White" BorderBrush="White" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,-22,3,0"/>
         <Rectangle Name="grid" Margin="0,3,0,0"/>
         <Grid Margin="15,15,15,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200">
         	<Grid.Resources>
@@ -73,6 +62,15 @@
                     <Setter Property="ContentTemplate" Value="{x:Static ui:Labels.BattleType}"/>
                     <Setter Property="Width" Value="45"/>
                 </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="BorderBrush" Value="#4C808080"/>
+                    <Setter Property="Background" Value="White"/>
+                </Style>
+                <Style TargetType="{x:Type ui:NumericUpdown}">
+                    <Setter Property="BorderBrush" Value="#4C808080"/>
+                    <Setter Property="Foreground" Value="Gray"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                </Style>
             </Grid.Resources>
         	<Grid.RowDefinitions>
         		<RowDefinition/>
@@ -84,21 +82,21 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Label Content="{Binding [Name], Source={x:Static pm:DataService.String}}"/>
+            <Label Content="Name"/>
         	<TextBox Text="{Binding Model.Name}" Width="155" HorizontalAlignment="Right"/>
-        	<Label Content="{Binding [Pokemon], Source={x:Static pm:DataService.String}}" Grid.Row="1"/>
-            <ui:ClearableComboBox ItemsSource="{x:Static pm:GameDataService.Pokemons}" SelectedItem="{Binding PokemonType}" ItemTemplate="{x:Null}" ItemsPanel="{StaticResource VirtualPanel}" Grid.Row="1" Margin="45,0,0,0" VirtualizingStackPanel.VirtualizationMode="Recycling"/>
-            <Label Content="{Binding [Type], Source={x:Static pm:DataService.String}}" Grid.Row="2" HorizontalAlignment="Left"/>
+        	<Label Content="Pokemon" Grid.Row="1"/>
+            <ui:ClearableComboBox SelectedItem="{Binding PokemonType}" ItemsSource="{x:Static pm:GameDataService.Pokemons}" ItemTemplate="{x:Static local:Resources.PokemonType}" ItemsPanel="{StaticResource VirtualPanel}" Grid.Row="1" Margin="45,0,0,0" VirtualizingStackPanel.VirtualizationMode="Recycling"/>
+            <Label Content="Type" Grid.Row="2" HorizontalAlignment="Left"/>
             <ContentPresenter Content="{Binding PokemonForm.Data.Type1}" Margin="45,0,0,0"/>
             <ContentPresenter Content="{Binding PokemonForm.Data.Type2}" Margin="93,0,0,0"/>
-        	<Label Content="{Binding [Lv], Source={x:Static pm:DataService.String}}" Grid.Row="3"/>
+        	<Label Content="Lv" Grid.Row="3"/>
             <ui:NumericUpdown Value="{Binding Model.Lv,Mode=TwoWay}" Minimum="1" Maximum="100" Grid.Row="3" LargeChange="50" Canvas.Left="45" Width="53" Margin="45,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-        	<Label Content="{Binding [Gender], Source={x:Static pm:DataService.String}}" Grid.Row="3" Canvas.Left="94" Canvas.Top="58" BorderThickness="0" HorizontalAlignment="Right" Margin="0,0,56,0"/>
-        	<ui:ClearableComboBox ItemsSource="{Binding PokemonForm.Type.Genders}" SelectedItem="{Binding Model.Gender}" ItemTemplate="{x:Static ui:Labels.GenderShowNone}" Grid.Row="3" Margin="150,0,0,0"/>
-            <Label Content="{Binding [Ability], Source={x:Static pm:DataService.String}}" Grid.Row="4"/>
-            <ui:ClearableComboBox ItemsSource="{Binding PokemonForm.Data.Abilities}" SelectedIndex="{Binding Model.AbilityIndex}" ItemTemplate="{x:Static ui:Labels.Ability}" ItemContainerStyle="{x:Null}" ToolTip="{Binding SelectedItem.Description,RelativeSource={RelativeSource Self}}" Margin="5,0,102,0" Grid.Row="5"/>
-        	<Label Content="{Binding [Item], Source={x:Static pm:DataService.String}}" Grid.Row="6" VerticalAlignment="Top" Height="25"/>
-            <ui:ClearableComboBox ItemsSource="{x:Static pm:GameDataService.Items}" SelectedItem="{Binding Model.ItemId, Converter={x:Static local:IdItemC.I}}" ItemTemplate="{x:Static ui:Labels.Item}" ItemsPanel="{StaticResource VirtualPanel}" CanClear="True" ToolTip="{Binding SelectedItem.Description,RelativeSource={RelativeSource Self}}" Grid.Row="7" Margin="5,0,102,0"/>
+        	<Label Content="Gender" Grid.Row="3" Canvas.Left="94" Canvas.Top="58" BorderThickness="0" HorizontalAlignment="Right" Margin="0,0,56,0"/>
+        	<ui:ClearableComboBox SelectedItem="{Binding Gender}" ItemsSource="{Binding PokemonType.Genders}" ItemTemplate="{x:Static ui:Labels.GenderShowNone}" Grid.Row="3" Margin="150,0,0,0"/>
+            <Label Content="Ability" Grid.Row="4"/>
+            <ui:ClearableComboBox SelectedItem="{Binding Model.Ability}" ItemsSource="{Binding PokemonForm.Data.Abilities}" ItemTemplate="{x:Static ui:Labels.Ability}" ItemContainerStyle="{x:Null}" ToolTip="{Binding AbilityDescription}" Margin="5,0,102,0" Grid.Row="5"/>
+        	<Label Content="Item" Grid.Row="6" VerticalAlignment="Top" Height="25"/>
+            <ui:ClearableComboBox SelectedItem="{Binding HeldItem}" ItemsSource="{x:Static pm:GameDataService.Items}" ItemTemplate="{x:Static ui:Labels.Item}" ItemsPanel="{StaticResource VirtualPanel}" ToolTip="{Binding ItemDescription}" CanClear="True" Grid.Row="7" Margin="5,0,102,0"/>
         	<Image Source="{Binding Image}" Grid.Row="4" Grid.RowSpan="4" Height="96" Width="96" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <Image.ToolTip>
                     <ToolTip BorderThickness="0">
@@ -123,8 +121,20 @@
                     </ToolTip>
                 </Image.ToolTip>
         	</Image>
+            <ui:ClearableComboBox SelectedItem="{Binding PokemonForm}" ItemsSource="{Binding PokemonType.Forms}" ItemTemplate="{x:Static local:Resources.PokemonForm}" CanClear="False" Grid.Row="7" MaxWidth="96" HorizontalAlignment="Right" Background="{x:Null}" BorderBrush="{x:Null}">
+                <ui:ClearableComboBox.Style>
+                    <Style TargetType="ui:ClearableComboBox">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Model.CanChooseForm}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ui:ClearableComboBox.Style>
+            </ui:ClearableComboBox>
         </Grid>
-        <StackPanel Margin="16,230,15,0" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+        <StackPanel DataContext="{Binding Model.MoveIds}" Margin="16,230,15,0" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
         	<StackPanel.Resources>
         		<Style TargetType="{x:Type ContentPresenter}">
         			<Setter Property="ContentTemplate" Value="{x:Static local:Resources.SelectedMove}"/>
@@ -133,44 +143,47 @@
         			<EventSetter Event="UIElement.MouseDown" Handler="SelectedMove_MouseDown"/>
         		</Style>
         	</StackPanel.Resources>
-        	<ContentPresenter Content="{Binding Model.MoveIds[0], Converter={x:Static local:MoveLearnItemC.I}}"/>
-            <ContentPresenter Content="{Binding Model.MoveIds[1], Converter={x:Static local:MoveLearnItemC.I}}"/>
-            <ContentPresenter Content="{Binding Model.MoveIds[2], Converter={x:Static local:MoveLearnItemC.I}}"/>
-            <ContentPresenter Content="{Binding Model.MoveIds[3], Converter={x:Static local:MoveLearnItemC.I}}"/>
+        	<ContentPresenter Content="{Binding [0]}"/>
+            <ContentPresenter Content="{Binding [1]}"/>
+            <ContentPresenter Content="{Binding [2]}"/>
+            <ContentPresenter Content="{Binding [3]}"/>
         </StackPanel>
-        <Grid VerticalAlignment="Top" Margin="235,15,15,0">
+        <Grid VerticalAlignment="Top" Margin="230,15,15,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto" MinWidth="50"/>
                 <ColumnDefinition Width="*" MinWidth="92"/>
-                <ColumnDefinition Width="Auto" MinWidth="44"/>
-                <ColumnDefinition Width="Auto" MinWidth="35"/>
+                <ColumnDefinition Width="Auto" MinWidth="50"/>
+                <ColumnDefinition Width="Auto" MinWidth="40"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="175"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="150"/>
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="{Binding [Hidden Power],Source={x:Static pm:DataService.String}}" Visibility="{Binding HiddenPowerVisibility}" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="1" FontWeight="Bold"/>
-            <ContentPresenter Content="{Binding HiddenPowerType}" ContentTemplate="{x:Static ui:Labels.BattleType}" Visibility="{Binding HiddenPowerVisibility}" Width="39" Margin="3,0" Grid.Column="3" Grid.Row="1"/>
+            <TextBlock x:Name="hiddenpower" Text="{Binding [Hidden Power],Source={x:Static pm:DataService.String}}" Visibility="{Binding HiddenPowerVisibility}" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="2" FontWeight="Bold"/>
+            <ContentPresenter Content="{Binding HiddenPowerType}" ContentTemplate="{x:Static ui:Labels.BattleType}" Visibility="{Binding Visibility,ElementName=hiddenpower}" Margin="3,0,0,0" Grid.Column="3" Grid.Row="2"/>
+            <Grid Visibility="{Binding HappinessVisibility}" Grid.Row="2" Grid.ColumnSpan="2">
+                <Label Content="Happiness"/>
+                <TextBox Text="{Binding Model.Happiness}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right"/>
+            </Grid>
 
-            <StackPanel DataContext="{x:Static pm:DataService.String}" Margin="0,0,10,0">
-                <Label Content="{Binding [Nature]}"/>
-                <Label Content="{Binding [Hp]}"/>
-                <Label Content="{Binding [Atk]}"/>
-                <Label Content="{Binding [Def]}"/>
-                <Label Content="{Binding [SpAtk]}"/>
-                <Label Content="{Binding [SpDef]}"/>
-                <Label Content="{Binding [Speed]}"/>
+            <Label Content="Nature"/>
+            <StackPanel Margin="0,0,10,0" Grid.Row="1">
+                <Label Content="Hp"/>
+                <Label Content="Atk"/>
+                <Label Content="Def"/>
+                <Label Content="SpAtk"/>
+                <Label Content="SpDef"/>
+                <Label Content="Speed"/>
             </StackPanel>
-            
-            <StackPanel DataContext="{Binding PokemonForm.Data.Base}" Grid.Column="4" Margin="0,25,0,0">
+
+            <StackPanel DataContext="{Binding PokemonForm.Data.Base}" Grid.Row="1" Grid.Column="4" Margin="3,0,5,0">
                 <StackPanel.Resources>
                     <Style TargetType="TextBlock">
-                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
                         <Setter Property="TextAlignment" Value="Right"/>
-                        <Setter Property="Padding" Value="1,1,0,3"/>
-                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Padding" Value="0,5"/>
                         <Setter Property="ToolTip" Value="{Binding [Base Stats],Source={x:Static pm:DataService.String}}"/>
                         <Setter Property="Height" Value="25"/>
                     </Style>
@@ -182,8 +195,8 @@
                 <TextBlock Text="{Binding SpDef}"/>
                 <TextBlock Text="{Binding Speed}"/>
             </StackPanel>
-            
-            <StackPanel DataContext="{Binding Model.Iv}" Grid.Column="3" Margin="3,25,0,0">
+
+            <StackPanel DataContext="{Binding Model.Iv}" Grid.Row="1" Grid.Column="3" Margin="3,0,0,0">
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type ui:NumericUpdown}">
                         <Setter Property="Height" Value="25"/>
@@ -201,19 +214,9 @@
                 <ui:NumericUpdown Value="{Binding Speed}"/>
             </StackPanel>
             
-            <TextBlock VerticalAlignment="Center" Foreground="{x:Static ui:Brushes.MagentaM}" Grid.Column="2" Grid.ColumnSpan="3" HorizontalAlignment="Right">
+            <TextBlock Visibility="{Binding RemainingEvVisibility}" Foreground="{x:Static ui:Brushes.MagentaM}" Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Top" Height="25" Padding="0,5" HorizontalAlignment="Right">
                 <Run Text="{Binding [Remaining EV Points], Mode=OneWay, Source={x:Static pm:DataService.String}}"/>
                 <Run Text="{Binding RemainingEv, Mode=OneWay}"/>
-        		<TextBlock.Style>
-        			<Style TargetType="TextBlock">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-        				<Style.Triggers>
-        					<DataTrigger Binding="{Binding HasRemainingEv}" Value="True">
-        						<Setter Property="Visibility" Value="Visible"/>
-        					</DataTrigger>
-        				</Style.Triggers>
-        			</Style>
-        		</TextBlock.Style>
             </TextBlock>
             <Button Click="ResetEv_Click" Content="{Binding [Reset], Source={x:Static pm:DataService.String}}" Grid.Column="2" Width="86" FontSize="12" HorizontalContentAlignment="Right">
                 <Button.Effect>
@@ -229,7 +232,7 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <StackPanel DataContext="{Binding Model.Ev}" Grid.Column="2" Margin="3,25,0,0">
+            <StackPanel DataContext="{Binding Model.Ev}" Grid.Row="1" Grid.Column="2" Margin="3,0,0,0">
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type ui:NumericUpdown}">
                         <Setter Property="Width" Value="86"/>
@@ -260,15 +263,16 @@
                 <ui:NumericUpdown Value="{Binding Speed, Mode=TwoWay}"/>
             </StackPanel>
             
-            <StackPanel Grid.Column="1" Margin="3,0,0,0">
+            <ui:ClearableComboBox ItemsSource="{x:Static local:PokemonEnum.Natures}" SelectedItem="{Binding Model.Nature}" ItemTemplate="{x:Static ui:Controls.LocalizedText}" Grid.Column="1" Height="25"/>
+            <StackPanel DataContext="{Binding Stats}" Grid.Column="1" Grid.Row="1" Margin="3,0,0,0">
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type ContentControl}">
                         <Setter Property="ContentTemplate" Value="{x:Static ui:Labels.MultipliedValue}"/>
                         <Setter Property="Height" Value="25"/>
+                        <Setter Property="HorizontalAlignment" Value="Left"/>
                     </Style>
                 </StackPanel.Resources>
-                <ui:ClearableComboBox ItemsSource="{x:Static local:PokemonEnum.Natures}" SelectedItem="{Binding Model.Nature}" ItemTemplate="{x:Static ui:Controls.LocalizedText}" Grid.Column="1" Height="25"/>
-                <TextBlock Text="{Binding Hp}" Height="25" HorizontalAlignment="Left">
+                <TextBlock Text="{Binding Hp}" Margin="3,0,0,0" Padding="0,5" Height="25" HorizontalAlignment="Left">
         		    <TextBlock.Effect>
         			    <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="#a0a0a0" />
         		    </TextBlock.Effect>
@@ -280,7 +284,7 @@
                 <ContentControl Content="{Binding Speed}"/>
             </StackPanel>
         </Grid>
-        <ListView Margin="0,265,0,15" MinHeight="100" x:Name="learnsetlist" ItemsSource="{Binding Learnset}" VirtualizingStackPanel.VirtualizationMode="Recycling" BorderThickness="0">
+        <ListView x:Name="learnsetlist" ItemsSource="{Binding Learnset}" Margin="0,265,0,15" MinHeight="100" VirtualizingStackPanel.VirtualizationMode="Recycling" BorderThickness="0">
         	<ListView.ItemContainerStyle>
         		<Style TargetType="{x:Type ListViewItem}">
         			<Setter Property="Margin" Value="0,0,0,1"/>
@@ -289,10 +293,10 @@
         			<Setter Property="Template">
         				<Setter.Value>
         					<ControlTemplate TargetType="{x:Type ListViewItem}">
-        						<Border BorderBrush="{TemplateBinding Background}" BorderThickness="0,3" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+        						<Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}" BorderThickness="0,3" SnapsToDevicePixels="true">
         							<StackPanel Margin="5,1">
         								<GridViewRowPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                        <ContentPresenter x:Name="des" HorizontalAlignment="Stretch" Margin="30,1,0,0" Content="{Binding MoveType.Description}" ContentTemplate="{x:Static ui:Controls.LocalizedDataText}" Visibility="Collapsed">
+                                        <ContentPresenter x:Name="des" Content="{Binding Move.Description}" ContentTemplate="{x:Static ui:Controls.LocalizedDataText}" HorizontalAlignment="Stretch" Margin="30,1,0,0" Visibility="Collapsed">
                                             <ContentPresenter.Resources>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -356,24 +360,24 @@
         					</DataTemplate>
         				</GridViewColumn.CellTemplate>
         			</GridViewColumn>
-        			<GridViewColumn Header="{Binding [Name], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding Name.Value}"/>
-        			<GridViewColumn Header="{Binding [Type], Source={x:Static pm:DataService.String}}" li:SortOnHeaderClick.SortProperty="MoveType.Type">
+        			<GridViewColumn Header="{Binding [Name], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding MoveName}"/>
+        			<GridViewColumn Header="{Binding [Type], Source={x:Static pm:DataService.String}}" li:SortOnHeaderClick.SortProperty="Move.Type">
         				<GridViewColumn.CellTemplate>
         					<DataTemplate>
-        						<ContentPresenter Width="45" Content="{Binding MoveType.Type}" ContentTemplate="{x:Static ui:Labels.BattleType}"/>
+        						<ContentPresenter Width="45" Content="{Binding Move.Type}" ContentTemplate="{x:Static ui:Labels.BattleType}"/>
         					</DataTemplate>
         				</GridViewColumn.CellTemplate>
         			</GridViewColumn>
-        			<GridViewColumn Header="{Binding [Category], Source={x:Static pm:DataService.String}}" li:SortOnHeaderClick.SortProperty="MoveType.Category">
+        			<GridViewColumn Header="{Binding [Category], Source={x:Static pm:DataService.String}}" li:SortOnHeaderClick.SortProperty="Move.Category">
         				<GridViewColumn.CellTemplate>
         					<DataTemplate>
-        						<ContentPresenter Width="45" Content="{Binding MoveType.Category}" ContentTemplate="{x:Static ui:Labels.MoveCategory}"/>
+        						<ContentPresenter Width="45" Content="{Binding Move.Category}" ContentTemplate="{x:Static ui:Labels.MoveCategory}"/>
         					</DataTemplate>
         				</GridViewColumn.CellTemplate>
         			</GridViewColumn>
-        			<GridViewColumn Header="{Binding [Power], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding MoveType.Power, ConverterParameter=power, Converter={x:Static local:IntStringC.I}}"/>
-        			<GridViewColumn Header="{Binding [PP], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding MoveType.PP}"/>
-        			<GridViewColumn Header="{Binding [Accuracy], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding MoveType.Accuracy, ConverterParameter=accuracy, Converter={x:Static local:IntStringC.I}}"/>
+        			<GridViewColumn Header="{Binding [Power], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding Move.Power, ConverterParameter=power, Converter={x:Static local:IntStringC.I}}"/>
+        			<GridViewColumn Header="{Binding [PP], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding Move.PP}"/>
+        			<GridViewColumn Header="{Binding [Accuracy], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding Move.Accuracy, ConverterParameter=accuracy, Converter={x:Static local:IntStringC.I}}"/>
         		</GridView>
         	</ListView.View>
         	<i:Interaction.Behaviors>
@@ -381,5 +385,6 @@
         	</i:Interaction.Behaviors>
         </ListView>
         <ui:UIButton Click="Save_Click" Content="{Binding [Save], Source={x:Static pm:DataService.String}}" Margin="0,-18,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Background="#FF25110E"/>
+        <ui:UIButton Click="Reset_Click" Content="{Binding [Reset], Source={x:Static pm:DataService.String}}" Margin="64,-18,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Background="#FF25110E"/>
     </Grid>
 </UserControl>

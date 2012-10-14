@@ -16,7 +16,7 @@ namespace LightStudio.PokemonBattle.Data
 
     static ImageService()
     {
-      icons = new ImageSource[GameDataService.Pokemons.Count()];
+      icons = new ImageSource[GameDataService.Pokemons.Count() + 1];
     }
 
     private static ImageSource GetImage(string path, string id)
@@ -42,7 +42,7 @@ namespace LightStudio.PokemonBattle.Data
     private static ImageSource GetFemaleImage(string path, PokemonForm form)
     {
       var i = GetImage(path + "\\female", form);
-      if (i == null) GetImage(path, form);
+      if (i == null) i = GetImage(path, form);
       return i;
     }
     public static ImageSource GetPokemonIcon(PokemonForm form, PokemonGender gender)

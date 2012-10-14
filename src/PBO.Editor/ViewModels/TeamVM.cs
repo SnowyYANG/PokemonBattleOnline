@@ -8,21 +8,16 @@ namespace LightStudio.PokemonBattle.PBO.Editor
 {
   internal class TeamVM : BTVM
   {
-    static TeamVM()
-    {
-    }
-
     public TeamVM(PokemonBT model)
       : base(model)
     {
       model.CollectionChanged += (sender, e) =>
         {
-          //TODO: I need decompile!!! I need document!!!
-          if (e.NewStartingIndex == 0) OnPropertyChanged("Icon");
+          if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset || e.NewStartingIndex == 0 || e.OldStartingIndex == 0)
+            OnPropertyChanged("Icon");
         };
     }
 
-    PokemonData lastFirst;
     public override object Icon
     {
       get
@@ -31,6 +26,8 @@ namespace LightStudio.PokemonBattle.PBO.Editor
         return pm == null ? null : ImageService.GetPokemonIcon(pm.Form, pm.Gender);
       }
     }
+    public override System.Windows.Thickness IconMargin
+    { get { return new System.Windows.Thickness(); } }
     public override object BorderBrush
     { get { return PBO.UIElements.Brushes.MagentaM; } }
     public override object Effect
