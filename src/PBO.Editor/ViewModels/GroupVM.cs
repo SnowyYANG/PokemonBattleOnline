@@ -33,8 +33,8 @@ namespace LightStudio.PokemonBattle.PBO.Editor
 
     private void InitializeCommands()
     {
-      if (team) NewCollectionCommand = new MenuCommand("New Team", NewCollection);
-      else NewCollectionCommand = new MenuCommand("New Box", NewCollection);
+      if (team) NewCollectionCommand = new MenuCommand("New Team", NewCollection) { Icon = Helper.GetImage(@"Balls/Normal.png") };
+      else NewCollectionCommand = new MenuCommand("New Box", NewCollection) { Icon = BoxVM.ICON };
       ImportCommand = new MenuCommand("Import", Import);
 
       Commands = new ObservableCollection<MenuCommand>();

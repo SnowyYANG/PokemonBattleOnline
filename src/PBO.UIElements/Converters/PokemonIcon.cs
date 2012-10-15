@@ -16,11 +16,11 @@ namespace LightStudio.PokemonBattle.PBO.Converters
       return ImageService.GetPokemonIcon(value.Form, value.Gender);
     }
   }
-  public class PokemonDataIcon : Converter<PokemonData>
+  public class PokemonDataIcon : Converter<IPokemonData>
   {
     public static readonly PokemonDataIcon C = new PokemonDataIcon();
     
-    protected override object Convert(PokemonData value)
+    protected override object Convert(IPokemonData value)
     {
       return ImageService.GetPokemonIcon(value.Form, value.Gender);
     }

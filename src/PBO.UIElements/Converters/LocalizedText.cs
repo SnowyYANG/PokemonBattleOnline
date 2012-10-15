@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
 
-namespace LightStudio.PokemonBattle.PBO.UIElements.Converters
+namespace LightStudio.PokemonBattle.PBO.Converters
 {
   public class LocalizedText : Converter<string>
   {
@@ -12,7 +12,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements.Converters
     
     protected override object Convert(string value)
     {
-      return DataService.DataString[value];
+      return DataService.String[value];
     }
   }
   public class LocalizedDataText : Converter<string>
@@ -21,7 +21,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements.Converters
     
     protected override object Convert(string value)
     {
-      return DataService.String[value];
+      return DataService.DataString[value];
     }
   }
 }

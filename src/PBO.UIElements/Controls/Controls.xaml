@@ -5,7 +5,6 @@
         <Setter Property="Command" Value="{Binding}"/>
         <Setter Property="Header" Value="{Binding Header}"/>
         <Setter Property="HeaderTemplate" Value="{x:Static ui:Controls.LocalizedText}"/>
-        <Setter Property="Icon" Value="{Binding Icon}"/>
     </Style>
     <ItemsPanelTemplate x:Key="WrapPanelTemplate">
         <WrapPanel Background="Transparent" Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"/>

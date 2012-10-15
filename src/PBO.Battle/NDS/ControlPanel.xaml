@@ -22,7 +22,7 @@
                     <DataTrigger Binding="{Binding SelectedPanel}" Value="-1">
                         <Setter Property="Visibility" Value="Hidden"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding ControllingPokemon}" Value="{x:Null}"> <!--死亡交换/蜻蜓返-->
+                    <DataTrigger Binding="{Binding ControllingPokemon}" Value="{x:Null}">
                         <Setter Property="Visibility" Value="Hidden"/>
                     </DataTrigger>
                 </Style.Triggers>

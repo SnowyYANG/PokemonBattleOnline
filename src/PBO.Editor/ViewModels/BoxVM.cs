@@ -8,12 +8,12 @@ namespace LightStudio.PokemonBattle.PBO.Editor
 {
   internal class BoxVM : BTVM
   {
-    private static readonly object ICON;
+    public static readonly object ICON;
     private static readonly object ICONOPEN;
     static BoxVM()
     {
-      ICON = PBO.Helper.GetImage(@"Balls/Dive.png");
-      ICONOPEN = PBO.Helper.GetImage(@"Balls/DiveOpen.png");
+      ICON = Helper.GetImage(@"Balls/Dive.png");
+      ICONOPEN = Helper.GetImage(@"Balls/DiveOpen.png");
     }
 
     public BoxVM(PokemonBT model)

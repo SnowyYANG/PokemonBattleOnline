@@ -1,30 +1,25 @@
-﻿<ListBox x:Class="LightStudio.PokemonBattle.PBO.Editor.PokemonCollectionView"
-         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-         xmlns:li="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements.Interactivity;assembly=PBO.UIElements"
-         xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements;assembly=PBO.UIElements"
-         xmlns:local="clr-namespace:LightStudio.PokemonBattle.PBO.Editor" 
-	     ItemsSource="{Binding Model}" VerticalContentAlignment="Top" AllowDrop="True">
-    <ListBox.ItemContainerStyle>
-	    <Style TargetType="{x:Type ListBoxItem}">
-		    <Setter Property="Template">
-			    <Setter.Value>
-				    <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                        <ContentControl Content="{Binding Converter={x:Static local:PokemonBTC.C}}" ContentTemplate="{x:Static local:Resources.Collection}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="Left" SnapsToDevicePixels="True"/>
-				    </ControlTemplate>
-			    </Setter.Value>
-		    </Setter>
-	    </Style>
-    </ListBox.ItemContainerStyle>
-    <ListBox.ItemsPanel>
+﻿<ItemsControl x:Class="LightStudio.PokemonBattle.PBO.Editor.PokemonCollectionView"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+              xmlns:li="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements.Interactivity;assembly=PBO.UIElements"
+              xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements;assembly=PBO.UIElements"
+              xmlns:c="clr-namespace:LightStudio.PokemonBattle.PBO.Converters;assembly=PBO.UIElements"
+              xmlns:local="clr-namespace:LightStudio.PokemonBattle.PBO.Editor" 
+              ItemsSource="{Binding Model}" VerticalContentAlignment="Top" AllowDrop="True">
+    <ItemsControl.ItemTemplate>
+		<DataTemplate>
+            <ContentPresenter Content="{Binding Converter={x:Static local:PokemonBTC.C}}" ContentTemplate="{x:Static local:Resources.Collection}" HorizontalAlignment="Left" SnapsToDevicePixels="True"/>
+		</DataTemplate>
+    </ItemsControl.ItemTemplate>
+    <ItemsControl.ItemsPanel>
         <ItemsPanelTemplate>
-            <StackPanel Orientation="Vertical" CanHorizontallyScroll="False" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type local:PokemonCollectionView}}}"/>
+            <StackPanel Orientation="Vertical" CanHorizontallyScroll="False"/>
         </ItemsPanelTemplate>
-    </ListBox.ItemsPanel>
-    <ListBox.Template>
-	    <ControlTemplate TargetType="{x:Type ListBox}">
+    </ItemsControl.ItemsPanel>
+    <ItemsControl.Template>
+        <ControlTemplate TargetType="ItemsControl">
 		    <ScrollViewer Focusable="false" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
 			    <ScrollViewer.Template>
 				    <ControlTemplate TargetType="{x:Type ScrollViewer}">
@@ -79,10 +74,35 @@
 					    </Grid>
 				    </ControlTemplate>
 			    </ScrollViewer.Template>
-			    <ItemsPresenter SnapsToDevicePixels="True"/>
+                <DockPanel VerticalAlignment="{TemplateBinding VerticalContentAlignment}" LastChildFill="True">
+                    <Button x:Name="button" DataContext="{Binding DataContext,RelativeSource={RelativeSource TemplatedParent}}" Command="{Binding NewCollectionCommand}" BorderBrush="{TemplateBinding BorderBrush}" DockPanel.Dock="Bottom" Cursor="Hand" Height="30" HorizontalAlignment="Left">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Canvas DataContext="{TemplateBinding Command}">
+                                    <Path Name="bg" Stroke="{TemplateBinding BorderBrush}" Fill="{x:Static ui:Brushes.GrayB1}" Data="M0,6 L151,6 145,29 0,29" StrokeThickness="0" Stretch="None" Canvas.Top="1" SnapsToDevicePixels="True"/>
+                                    <Image Source="{Binding Icon}" Height="29" Width="24" Canvas.Left="2" Canvas.Top="1"/>
+                                    <TextBlock Name="title" Text="{Binding Header,Converter={x:Static c:LocalizedText.C}}" Foreground="#d8d8d8" VerticalAlignment="Bottom" Canvas.Left="30" Canvas.Top="10" SnapsToDevicePixels="True"/>
+                                </Canvas>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="bg" Property="StrokeThickness" Value="2"/>
+                                        <Setter TargetName="title" Property="FontWeight" Value="Bold"/>
+                                        <Setter TargetName="title" Property="Foreground" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <ItemsPresenter SnapsToDevicePixels="True"/>
+                </DockPanel>
 		    </ScrollViewer>
+            <ControlTemplate.Triggers>
+                <Trigger Property="VerticalContentAlignment" Value="Bottom">
+                    <Setter TargetName="button" Property="DockPanel.Dock" Value="Top"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
         </ControlTemplate>
-    </ListBox.Template>
+    </ItemsControl.Template>
     <i:Interaction.Behaviors>
 	    <li:DragDropState InsertionWidth="0">
 		    <li:DragDropState.TargetHandler>
@@ -95,7 +115,7 @@
 		    </li:AdornerBehavior.Adorners>
 	    </li:AdornerBehavior>
     </i:Interaction.Behaviors>
-    <ListBox.ContextMenu>
+    <ItemsControl.ContextMenu>
 	    <ContextMenu ItemsSource="{Binding Commands}" ItemContainerStyle="{x:Static ui:Controls.CommandMenu}"/>
-    </ListBox.ContextMenu>
-</ListBox>
+    </ItemsControl.ContextMenu>
+</ItemsControl>

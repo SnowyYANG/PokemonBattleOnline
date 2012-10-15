@@ -15,43 +15,36 @@
         <ui:ClearableComboBox ItemsSource="{Binding Teams}" SelectedItem="{Binding ChosenTeam}" CanClear="False" Background="{x:Null}" Padding="0" BorderThickness="0,0,0,1" BorderBrush="#4C808080" Height="32" Width="229" Canvas.Left="59" Canvas.Top="76">
             <ui:ClearableComboBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Background="Transparent">
                         <StackPanel.ToolTip>
-                            <ToolTip>
-                                <StackPanel DataContext="{Binding Pokemons}" Orientation="Horizontal">
-                                    <Image Height="32" Width="32" Source="{Binding [0]}"/>
-                                    <Image Height="32" Width="32" Source="{Binding [1]}"/>
-                                    <Image Height="32" Width="32" Source="{Binding [2]}"/>
-                                    <Image Height="32" Width="32" Source="{Binding [3]}"/>
-                                    <Image Height="32" Width="32" Source="{Binding [4]}"/>
-                                    <Image Height="32" Width="32" Source="{Binding [5]}"/>
-                                </StackPanel>
-                            </ToolTip>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Height="32" Width="32" Source="{Binding [0],Converter={x:Static c:PokemonDataIcon.C}}"/>
+                                <Image Height="32" Width="32" Source="{Binding [1],Converter={x:Static c:PokemonDataIcon.C}}"/>
+                                <Image Height="32" Width="32" Source="{Binding [2],Converter={x:Static c:PokemonDataIcon.C}}"/>
+                                <Image Height="32" Width="32" Source="{Binding [3],Converter={x:Static c:PokemonDataIcon.C}}"/>
+                                <Image Height="32" Width="32" Source="{Binding [4],Converter={x:Static c:PokemonDataIcon.C}}"/>
+                                <Image Height="32" Width="32" Source="{Binding [5],Converter={x:Static c:PokemonDataIcon.C}}"/>
+                            </StackPanel>
                         </StackPanel.ToolTip>
-                        <Image Source="{Binding Pokemons[0]}" Height="32" Width="32" Margin="0,-5,0,0"/>
+                        <Image Source="{Binding [0],Converter={x:Static c:PokemonDataIcon.C}}" Height="32" Width="32" Margin="0,-5,0,0"/>
                         <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
                     </StackPanel>
                 </DataTemplate>
             </ui:ClearableComboBox.ItemTemplate>
         </ui:ClearableComboBox>
         <!--<TabControl Margin="5,161,5,0" VerticalAlignment="Top"></TabControl>-->
-        <StackPanel DataContext="{Binding ChosenTeam.Pokemons}" Orientation="Horizontal" Canvas.Right="5" Canvas.Top="112">
+        <StackPanel DataContext="{Binding ChosenTeam}" Orientation="Horizontal" Canvas.Right="5" Canvas.Top="112">
             <StackPanel.Resources>
-                <Style TargetType="ToolTip">
-                    <Setter Property="ContentTemplate">
+                <Style TargetType="Image">
+                    <Setter Property="Source" Value="{Binding Converter={x:Static c:PokemonDataIcon.C}}"/>
+                    <Setter Property="ToolTip">
                         <Setter.Value>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Name}"/>
-                                    <TextBlock Text="PokemonCarte...还没做完"/>
-                                </StackPanel>
-                            </DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}"/>
+                                <TextBlock Text="PokemonCarte...还没做完"/>
+                            </StackPanel>
                         </Setter.Value>
                     </Setter>
-                </Style>
-                <Style TargetType="Image">
-                    <Setter Property="Source" Value="{Binding DataContext.PokemonTypeId,RelativeSource={RelativeSource Self}}"/>
-                    <Setter Property="ToolTip" Value="{Binding DataContext,RelativeSource={RelativeSource Self}}"/>
                     <Setter Property="Height" Value="32"/>
                     <Setter Property="Width" Value="32"/>
                 </Style>

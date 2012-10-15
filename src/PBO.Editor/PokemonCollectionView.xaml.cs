@@ -17,7 +17,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     /// <summary>
     /// Interaction logic for PokemonCollectionView.xaml
     /// </summary>
-    public partial class PokemonCollectionView : ListBox
+    public partial class PokemonCollectionView : ItemsControl
     {
         public PokemonCollectionView()
         {

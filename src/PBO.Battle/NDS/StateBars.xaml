@@ -7,10 +7,10 @@
         <Setter Property="Height" Value="10"/>
         <Style.Triggers>
             <DataTrigger Binding="{Binding}" Value="Male">
-                <Setter Property="Source" Value="/PBO.Battle;component/Images/male.png"/>
+                <Setter Property="Source" Value="/PBO.UIElements;component/Images/Labels/male.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding}" Value="Female">
-                <Setter Property="Source" Value="/PBO.Battle;component/Images/female.png"/>
+                <Setter Property="Source" Value="/PBO.UIElements;component/Images/Labels/female.png"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>
@@ -51,67 +51,8 @@
             <ui:LifeBar DataContext="{Binding Hp}" Canvas.Left="41" Canvas.Top="11"/>
         </Canvas>
     </DataTemplate>
-    <DataTemplate x:Key="OStateBarSimplify">
-        <Canvas Width="120" Height="20" SnapsToDevicePixels="True">
-            <Canvas.ToolTip>
-                <ToolTip>
-                    <TextBlock>
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0} Hp: {1:P2}">
-                                <Binding Path="Name"/>
-                                <Binding Path="Hp.Percentage"/>
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </ToolTip>
-            </Canvas.ToolTip>
-            <Canvas.Resources>
-                <Style TargetType="TextBlock">
-                    <Setter Property="FontFamily" Value="SimSun"/>
-                </Style>
-            </Canvas.Resources>
-            <Canvas.Background>
-                <ImageBrush ImageSource="/PBO.Battle;component/Images/OStateBarSimplify.png" />
-            </Canvas.Background>
-            <TextBlock Text="{Binding Name}" Canvas.Left="16" Canvas.Top="-1" Foreground="Black">
-                <TextBlock.Effect>
-                    <BlurEffect Radius="3"/>
-                </TextBlock.Effect>
-            </TextBlock>
-            <TextBlock Text="{Binding Name}" Canvas.Left="16" Canvas.Top="-1" TextOptions.TextRenderingMode="Aliased" SnapsToDevicePixels="True" Foreground="White">
-        	    <TextBlock.Effect>
-        		    <DropShadowEffect BlurRadius="3" ShadowDepth="0"/>
-        	    </TextBlock.Effect>
-            </TextBlock>
-            <TextBlock Text="{Binding Lv}" Canvas.Left="88" Canvas.Top="-1" Foreground="Black">
-                <TextBlock.Effect>
-                    <BlurEffect Radius="3"/>
-                </TextBlock.Effect>
-            </TextBlock>
-            <TextBlock Text="{Binding Lv}" Canvas.Left="88" Canvas.Top="-1" TextOptions.TextRenderingMode="Aliased" SnapsToDevicePixels="True" Foreground="White">
-        	    <TextBlock.Effect>
-        		    <DropShadowEffect BlurRadius="3" ShadowDepth="0"/>
-        	    </TextBlock.Effect>
-            </TextBlock>
-            <Image DataContext="{Binding Gender}" Style="{StaticResource BitmapGenderLabel}" Canvas.Left="71" Canvas.Top="1"/>
-            <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}"/>
-            <ui:LifeBar DataContext="{Binding Hp}" Canvas.Left="41" Canvas.Top="11"/>
-        </Canvas>
-    </DataTemplate>
     <DataTemplate x:Key="RStateBar">
         <Canvas Width="124" Height="20" SnapsToDevicePixels="True">
-            <Canvas.ToolTip>
-                <ToolTip>
-                    <TextBlock FontFamily="Microsoft YaHei">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0} Hp: {1:P2}">
-                                <Binding Path="Name"/>
-                                <Binding Path="Hp.Percentage"/>
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </ToolTip>
-            </Canvas.ToolTip>
             <Canvas.Background>
                 <ImageBrush ImageSource="/PBO.Battle;component/Images/RStateBar.png" />
             </Canvas.Background>
