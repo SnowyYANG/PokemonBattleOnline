@@ -12,7 +12,7 @@ namespace LightStudio.PokemonBattle.Game
 
     public Simple6D()
     {
-      stats = new int[5];
+      stats = new int[6];
     }
     public Simple6D(int h, int a, int d, int sa, int sd, int s)
     {
@@ -32,28 +32,28 @@ namespace LightStudio.PokemonBattle.Game
     { get; set; }
     public int Atk
     { 
-      get { return stats[0]; }
-      set { stats[0] = value; }
-    }
-    public int Def
-    { 
       get { return stats[1]; }
       set { stats[1] = value; }
     }
-    public int SpAtk
+    public int Def
     { 
       get { return stats[2]; }
       set { stats[2] = value; }
     }
-    public int SpDef
+    public int SpAtk
     { 
       get { return stats[3]; }
       set { stats[3] = value; }
     }
-    public int Speed
+    public int SpDef
     { 
       get { return stats[4]; }
       set { stats[4] = value; }
+    }
+    public int Speed
+    { 
+      get { return stats[5]; }
+      set { stats[5] = value; }
     }
 
     public int GetStat(StatType type)

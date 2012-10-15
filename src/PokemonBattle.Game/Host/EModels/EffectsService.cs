@@ -82,7 +82,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (item == null) return NULL_ITEM;
       ItemE e;
-      if (items.TryGetValue(item.Id, out e))
+      if (!items.TryGetValue(item.Id, out e))
       {
         e = new ItemE(item.Id);
         items[item.Id] = e;

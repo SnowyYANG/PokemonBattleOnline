@@ -46,10 +46,11 @@ namespace LightStudio.PokemonBattle.Data
     {
       Add(new PokemonBT() { Name = name });
     }
-    public void Import(System.IO.Stream stream)
+    public void Import(string name, System.IO.Stream stream)
     {
       PokemonBT collection = Serializer.Deserialize<PokemonBT>(stream);
       //TODO: validate
+      collection.Name = name;
       if (collection != null) Add(collection);
     }
   }

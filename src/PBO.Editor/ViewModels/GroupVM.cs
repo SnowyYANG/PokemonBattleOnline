@@ -52,8 +52,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     {
       try
       {
-        FileHelper.OpenFile(DataService.String["Xml File(*.xml)|*.xml"],
-            stream => Model.Import(stream));
+        FileHelper.OpenFile(DataService.String["Xml File(*.xml)|*.xml"], Model.Import);
       }
       catch (Exception)
       {

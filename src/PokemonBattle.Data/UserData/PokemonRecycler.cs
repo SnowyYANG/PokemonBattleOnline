@@ -23,7 +23,7 @@ namespace LightStudio.PokemonBattle.Data
 
     protected override void InsertItem(int index, PokemonData item)
     {
-      if (Size == 0 || Count == Size)
+      if (Size != 0 && Count == Size)
       {
         RemoveItem(0);
         index--;

@@ -102,14 +102,13 @@ class RoughSkin(t_a):
 A(RoughSkin(24))
 A(RoughSkin(160)) #iron barbs
 
-class WickedThief(t_a):
+class Pickpocket(t_a):
     def TA(self, d):
         der = d.Defender
         aer = d.AtkContext.Attacker
         if der.Pokemon.Item == None and aer.CanLostItem:
             i = aer.Pokemon.Item.Id
             aer.RemoveItem()
-            der.ChangeItem(i)
             self.Raise(der)
-            der.Controller.ReportBuilder.Add('WickedThief', aer.Id, i)
-A(WickedThief(124))
+            der.ChangeItem(i, 'Pickpocket', aer)
+A(Pickpocket(124))

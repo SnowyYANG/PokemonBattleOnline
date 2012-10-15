@@ -79,8 +79,8 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     {
       try
       {
-        FileHelper.SaveFile(DataService.String["Xml File(*.xml)|*.xml"],
-            stream => ((PokemonBT)Model).Export(stream));
+        FileHelper.SaveFile(DataService.String["Xml File(*.xml)|*.xml"], Model.Name,
+            (f, stream) => ((PokemonBT)Model).Export(stream));
       }
       catch (Exception)
       {

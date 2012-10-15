@@ -10,6 +10,18 @@ namespace LightStudio.PokemonBattle.Data
   [DataContract(Namespace = Namespaces.PBO)]
   public class MoveType : GameElement
   {
+#if DEBUG
+    public MoveType(int id)
+      : base(id)
+    {
+    }
+#else
+    private MoveType(int id)
+      : base(id)
+    {
+    }
+#endif
+
     [DataMember(EmitDefaultValue = false)]
     private readonly MoveInnerClass _class;
     public MoveInnerClass Class
@@ -48,7 +60,7 @@ namespace LightStudio.PokemonBattle.Data
     [DataMember(EmitDefaultValue = false)]
     private readonly sbyte _maxHpPercentage;
     public int MaxHpPercentage
-    { get { return _maxTimes; } }
+    { get { return _maxHpPercentage; } }
 
     [DataMember]
     private readonly MoveLv7DChange[] _lv7DChanges;
@@ -59,18 +71,6 @@ namespace LightStudio.PokemonBattle.Data
     private readonly MoveTypeAdvancedFlags _advancedFlags;
     public MoveTypeAdvancedFlags AdvancedFlags
     { get { return _advancedFlags; } }
-
-#if DEBUG
-    public MoveType(int id)
-      : base(id)
-    {
-    }
-#else
-    private MoveType(int id)
-      : base(id)
-    {
-    }
-#endif
 
     [DataMember(EmitDefaultValue = false)]
     private readonly sbyte _accuracy;
