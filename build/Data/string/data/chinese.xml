@@ -650,6 +650,7 @@
   <item key="Keldeo" value="凯路迪欧"/>
   <item key="Meloetta" value="美洛耶塔"/>
   <item key="Genesect" value="盖诺塞克特"/>
+  
   <item key="Pound" value="拍打" />
   <item key="Karate Chop" value="空手刀" />
   <item key="DoubleSlap" value="往复拍打" />
@@ -1209,10 +1210,11 @@
   <item key="V-create" value="创造胜利" />
   <item key="Fusion Flare" value="交织火焰" />
   <item key="Fusion Bolt" value="交织闪电" />
+  
   <item key="Stench" value="恶臭"/>
   <item key="Drizzle" value="降雨"/>
   <item key="Speed Boost" value="加速"/>
-  <item key="Battle Armour" value="战斗盔甲"/>
+  <item key="Battle Armor" value="战斗盔甲"/>
   <item key="Sturdy" value="坚硬"/>
   <item key="Damp" value="潮湿"/>
   <item key="Limber" value="柔软"/>
@@ -1248,7 +1250,7 @@
   <item key="Huge Power" value="大力士"/>
   <item key="Poison Point" value="毒刺"/>
   <item key="Inner Focus" value="精神力"/>
-  <item key="Magma Armour" value="熔岩铠甲"/>
+  <item key="Magma Armor" value="熔岩铠甲"/>
   <item key="Water Veil" value="水之掩护"/>
   <item key="Magnet Pull" value="磁力"/>
   <item key="Soundproof" value="防音"/>
@@ -1283,7 +1285,7 @@
   <item key="Vital Spirit" value="干劲"/>
   <item key="White Smoke" value="白烟"/>
   <item key="Pure Power" value="瑜珈之力"/>
-  <item key="Shell Armour" value="贝壳盔甲"/>
+  <item key="Shell Armor" value="贝壳盔甲"/>
   <item key="Air Lock" value="天气锁"/>
   <item key="Tangled Feet" value="蹒跚"/>
   <item key="Motor Drive" value="电引擎"/>
@@ -1373,6 +1375,7 @@
   <item key="Victory Star" value="胜利之星"/>
   <item key="Turboblaze" value="涡轮火花"/>
   <item key="Teravolt" value="垓级电压"/>
+  
   <item key="Griseous Orb" value="白金玉" />
   <item key="Adamant Orb" value="金刚玉" />
   <item key="Lustrous Orb" value="白玉" />
