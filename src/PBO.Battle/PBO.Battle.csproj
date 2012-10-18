@@ -142,22 +142,27 @@
     <ProjectReference Include="..\PBO.UIElements\PBO.UIElements.csproj">
       <Project>{82A9B9C3-6FAF-48F2-89B7-CBCF7F2DE191}</Project>
       <Name>PBO.UIElements</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PokemonBattle.Data\PokemonBattle.Data.csproj">
       <Project>{2BD81D18-43CB-420A-B293-469E110473CC}</Project>
       <Name>PokemonBattle.Data</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PokemonBattle.Game\PokemonBattle.Game.csproj">
       <Project>{5F1D7698-AD1E-462A-AEED-063BCB80DF89}</Project>
       <Name>PokemonBattle.Game</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PokemonBattle.Messaging\PokemonBattle.Messaging.csproj">
       <Project>{61056B34-A2A8-485B-8A36-DF633E47C7F2}</Project>
       <Name>PokemonBattle.Messaging</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Tactic\Tactic.csproj">
       <Project>{EE2C451E-A61E-4634-B382-5298982E060C}</Project>
       <Name>Tactic</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

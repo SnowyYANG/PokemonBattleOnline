@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
-using System.Windows;
 using System.IO;
+using System.Windows;
+using System.Windows.Markup;
+using System.Globalization;
 using LightStudio.Tactic.Messaging;
 using LightStudio.Tactic.Globalization;
 using LightStudio.PokemonBattle.Data;
@@ -40,6 +42,7 @@ namespace LightStudio.PokemonBattle.PBO
     {
       base.OnStartup(e);
       InitGameService();
+      FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
       UIDispatcher.Init(new WpfDispatcher(Application.Current.Dispatcher));
       new MainWindow().Show();
     }

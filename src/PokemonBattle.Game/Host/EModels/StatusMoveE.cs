@@ -28,7 +28,7 @@ namespace LightStudio.PokemonBattle.Game.Host
               Fail(d);
               targets.Remove(d);
             }
-        if (Move.Class == MoveInnerClass.ForceToShift)
+        if (Move.Class == MoveInnerClass.ForceToSwitch)
           foreach(DefContext d in targets.ToArray())
             if (d.Defender.OnboardPokemon.HasCondition("Ingrain"))
             {
@@ -61,7 +61,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           atk.Target.Defender.AddState(atk.Target);
           atk.Target.Defender.ChangeLv7D(atk);
           break;
-        case MoveInnerClass.ForceToShift:
+        case MoveInnerClass.ForceToSwitch:
           int aLv = atk.Attacker.Pokemon.Lv, dLv = atk.Target.Defender.Pokemon.Lv;
           if ((aLv < dLv && (aLv + dLv) * atk.Controller.GetRandomInt(0, 255) < dLv >> 2) || !ForceSwitch(atk.Target))
             FailAll(atk);

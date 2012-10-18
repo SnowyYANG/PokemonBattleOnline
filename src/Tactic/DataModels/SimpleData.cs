@@ -6,7 +6,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Runtime.Serialization;
 using System.Xml;
-using LightStudio.Tactic.Serialization;
+using LightStudio.Tactic;
 
 namespace LightStudio.Tactic.DataModels
 {
@@ -20,8 +20,8 @@ namespace LightStudio.Tactic.DataModels
 #endif
       static T LoadFromXml<T>(string fileName) where T : SimpleData
     {
-      using (XmlReader r = XmlReader.Create(fileName))
-        return (T)Serializer.Deserialize(typeof(T), r);
+      using (FileStream f = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+        return (T)Serializer.Deserialize(typeof(T), f);
     }
     protected static T LoadFromDat<T>(string fileName) where T : SimpleData
     {
@@ -46,8 +46,8 @@ namespace LightStudio.Tactic.DataModels
 #endif
       void SaveXml(string fileName)
     {
-      using (XmlWriter w = XmlWriter.Create(fileName))
-        Serializer.Serialize(this, w);
+      using (FileStream f = new FileStream(fileName, FileMode.Create))
+        Serializer.Serialize(this, f);
     }
 #if DEBUG
     public

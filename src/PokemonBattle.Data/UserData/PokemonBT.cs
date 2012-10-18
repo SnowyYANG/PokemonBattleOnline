@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using LightStudio.Tactic.Serialization;
+using LightStudio.Tactic;
 
 namespace LightStudio.PokemonBattle.Data
 {

@@ -65,7 +65,12 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
         bar.BorderBrush = GREENSHADOW;
       }
     }
-
+    private int GetWidth(PairValue hp)
+    {
+      int x2 = hp.Value * 48 / hp.Origin;
+      if (x2 == 0 && hp.Value != 0) x2 = 1;
+      return x2;
+    }
     private void LifeBar_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
       if (e.OldValue is PairValue) ((PairValue)e.OldValue).PropertyChanged -= LifeChanged;
@@ -73,7 +78,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
       if (hp != null)
       {
         bar.BeginAnimation(Border.WidthProperty, null);
-        bar.Width = hp.NormalizedValue;
+        bar.Width = GetWidth(hp);
         hp.PropertyChanged += LifeChanged;
         if (hp.Origin > 0) da.SpeedRatio = 200d / hp.Origin;
       }
@@ -82,7 +87,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
     private void LifeChanged(object sender, PropertyChangedEventArgs e)
     {
       flash.Width = bar.Width;
-      da.To = ((PairValue)sender).NormalizedValue;
+      da.To = GetWidth((PairValue)sender);
       bar.BeginAnimation(Border.WidthProperty, da);
     }
 

@@ -93,6 +93,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       Gender = pokemon.Gender;
       lv5D = new Simple6D();
       X = x; //CoordY 默认值
+      AddTurnCondition("Sendout");
     }
 
     public void ChangeLv7D(StatType stat, int change)

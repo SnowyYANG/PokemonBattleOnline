@@ -49,7 +49,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     {
       return new PairValue(
           PokemonStatHelper.Get5D(stat, PokemonNature.Serious, Model.Form.Data.Base.GetStat(stat), Model.Iv.GetStat(stat), Model.Ev.GetStat(stat), Model.Lv),
-          PokemonStatHelper.Get5D(stat, Model.Nature, Model.Form.Data.Base.GetStat(stat), Model.Iv.GetStat(stat), Model.Ev.GetStat(stat), Model.Lv), 0);
+          PokemonStatHelper.Get5D(stat, Model.Nature, Model.Form.Data.Base.GetStat(stat), Model.Iv.GetStat(stat), Model.Ev.GetStat(stat), Model.Lv));
     }
 
     public void RefreshAll()

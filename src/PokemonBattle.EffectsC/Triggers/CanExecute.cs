@@ -58,11 +58,12 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     {
       if (p.State == PokemonState.FRZ)
       {
-        if (p.SelectedMove.Type.AdvancedFlags.AvailableEvenFrozen || p.Controller.GetRandomInt(0, 3) == 0)
+        if (p.SelectedMove.Type.AdvancedFlags.AvailableEvenFrozen)
         {
           p.Pokemon.State = PokemonState.Normal;
-          p.Controller.ReportBuilder.Add(new StateChange(p, "DeFRZ2"));
+          p.Controller.ReportBuilder.Add(new StateChange(p, "DeFRZ2", p.SelectedMove.Type.Id));
         }
+        else if (p.Controller.GetRandomInt(0, 3) == 0) p.DeAbnormalState();
         else
         {
           AddResetYReport(p, "FRZ");

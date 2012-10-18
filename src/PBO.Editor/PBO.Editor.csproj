@@ -190,14 +190,17 @@
     <ProjectReference Include="..\PBO.UIElements\PBO.UIElements.csproj">
       <Project>{82A9B9C3-6FAF-48F2-89B7-CBCF7F2DE191}</Project>
       <Name>PBO.UIElements</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PokemonBattle.Data\PokemonBattle.Data.csproj">
       <Project>{2BD81D18-43CB-420A-B293-469E110473CC}</Project>
       <Name>PokemonBattle.Data</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Tactic\Tactic.csproj">
       <Project>{EE2C451E-A61E-4634-B382-5298982E060C}</Project>
       <Name>Tactic</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

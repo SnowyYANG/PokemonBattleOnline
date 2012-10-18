@@ -31,11 +31,11 @@
                         <Border Canvas.Top="8" Width="126">
                             <ContentControl Content="{Binding Type.Name}" ContentTemplate="{x:Static ui:Controls.LocalizedDataText}" Foreground="White" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
                         </Border>
-                        <TextBlock Canvas.Left="68" Canvas.Top="26" Foreground="{Binding PP.NormalizedValue,Mode=OneWay,Converter={x:Static c:PPShadow.C}}">
+                        <TextBlock Canvas.Left="68" Canvas.Top="26" Foreground="{Binding PP.Percentage,Mode=OneWay,Converter={x:Static c:PPShadow.C}}">
                         	<Run Text="PP  "/>
                             <Run Text="{Binding PP.Value,Mode=OneWay}"/>
                         </TextBlock>
-                        <TextBlock Canvas.Left="67" Canvas.Top="25" SnapsToDevicePixels="True" Foreground="{Binding PP.NormalizedValue,Mode=OneWay,Converter={x:Static c:PPColor.C}}">
+                        <TextBlock Canvas.Left="67" Canvas.Top="25" SnapsToDevicePixels="True" Foreground="{Binding PP.Percentage,Mode=OneWay,Converter={x:Static c:PPColor.C}}">
                         	<Run Text="PP  "/>
                             <Run Text="{Binding PP.Value,Mode=OneWay}"/>
                         </TextBlock>

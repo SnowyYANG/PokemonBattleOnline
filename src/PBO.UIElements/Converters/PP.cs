@@ -9,55 +9,59 @@ using System.Windows.Media;
 
 namespace LightStudio.PokemonBattle.PBO.Converters
 {
-  public class PPColor : Converter<int>
+  public class PPColor : Converter<double>
   {
     public static readonly PPColor C;
-    static readonly SolidColorBrush White;
-    static readonly SolidColorBrush Yellow; //50%
-    static readonly SolidColorBrush Orange; //25%
-    static readonly SolidColorBrush Red;
+    
+    private static readonly SolidColorBrush WHITE;
+    private static readonly SolidColorBrush YELLOW; //50%
+    private static readonly SolidColorBrush ORANGE; //25%
+    private static readonly SolidColorBrush RED;
+    
     static PPColor()
     {
-      White = Helper.NewBrush(0xfff8f8f8);
-      Yellow = Helper.NewBrush(0xfff8d000);
-      Orange = Helper.NewBrush(0xfff87000);
-      Red = Helper.NewBrush(0xfff80848);
+      WHITE = Helper.NewBrush(0xfff8f8f8);
+      YELLOW = Helper.NewBrush(0xfff8d000);
+      ORANGE = Helper.NewBrush(0xfff87000);
+      RED = Helper.NewBrush(0xfff80848);
       C = new PPColor();
     }
 
-    protected override object Convert(int value)
+    protected override object Convert(double value)
     {
       Brush b;
-      if (value > 2) b = White;
-      else if (value == 2) b = Yellow;
-      else if (value == 1) b = Orange;
-      else b = Red;
+      if (value == 0) b = RED;
+      else if (value <= 0.25) b = ORANGE;
+      else if (value <= 0.5) b = YELLOW;
+      else b = WHITE;
       return b;
     }
   }
-  public class PPShadow : Converter<int>
+  public class PPShadow : Converter<double>
   {
     public static readonly PPShadow C;
-    static readonly SolidColorBrush White;
-    static readonly SolidColorBrush Yellow; //50%
-    static readonly SolidColorBrush Orange; //25%
-    static readonly SolidColorBrush Red;
+    
+    private static readonly SolidColorBrush WHITE;
+    private static readonly SolidColorBrush YELLOW; //50%
+    private static readonly SolidColorBrush ORANGE; //25%
+    private static readonly SolidColorBrush RED;
+
     static PPShadow()
     {
-      White = Helper.NewBrush(0xff707070);
-      Yellow = Helper.NewBrush(0xff786000);
-      Orange = Helper.NewBrush(0xff703800);
-      Red = Helper.NewBrush(0xff780830);
+      WHITE = Helper.NewBrush(0xff707070);
+      YELLOW = Helper.NewBrush(0xff786000);
+      ORANGE = Helper.NewBrush(0xff703800);
+      RED = Helper.NewBrush(0xff780830);
       C = new PPShadow();
     }
 
-    protected override object Convert(int value)
+    protected override object Convert(double value)
     {
       Brush b;
-      if (value > 2) b = White;
-      else if (value == 2) b = Yellow;
-      else if (value == 1) b = Orange;
-      else b = Red;
+      if (value == 0) b = RED;
+      else if (value <= 0.25) b = ORANGE;
+      else if (value <= 0.5) b = YELLOW;
+      else b = WHITE;
       return b;
     }
   }

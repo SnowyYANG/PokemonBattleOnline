@@ -9,7 +9,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
 {
   class Happiness : AttackMoveE
   {
-    bool Reverse;
+    private readonly bool Reverse;
 
     public Happiness(int moveId, bool reverse)
       : base(moveId)
@@ -19,7 +19,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
 
     protected override void CalculateBasePower(DefContext def)
     {
-      int v = def.Defender.Pokemon.Happiness;
+      int v = def.AtkContext.Attacker.Pokemon.Happiness;
       if (Reverse) v = 255 - v;
       def.BasePower = v * 4 / 10;
     }

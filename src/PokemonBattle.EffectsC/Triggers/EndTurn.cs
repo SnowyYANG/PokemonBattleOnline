@@ -417,7 +417,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         switch (ab)
         {
           case As.SPEED_BOOST:
-            if (pm.CanChangeLv7D(pm, StatType.Speed, 1, false) != 0)
+            if (!pm.OnboardPokemon.HasCondition("Sendout") && pm.CanChangeLv7D(pm, StatType.Speed, 1, false) != 0)
             {
               pm.RaiseAbility();
               pm.ChangeLv7D(pm, StatType.Speed, 1, false);

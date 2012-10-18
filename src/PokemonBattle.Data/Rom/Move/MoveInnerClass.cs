@@ -19,7 +19,7 @@ namespace LightStudio.PokemonBattle.Data
     OHKO,
     AddMapState,
     AddTeamState,
-    ForceToShift,
+    ForceToSwitch,
     Special
   }
 }

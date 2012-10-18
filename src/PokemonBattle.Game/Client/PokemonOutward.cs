@@ -48,7 +48,7 @@ namespace LightStudio.PokemonBattle.Game
       _position = new Position(pm.Pokemon.TeamId, pm.OnboardPokemon.X, pm.OnboardPokemon.CoordY);
       State = pm.State;
       IsSubstitute = pm.OnboardPokemon.HasCondition("Substitute");
-      Hp = new PairValue(pm.Pokemon.Hp.Origin, pm.Pokemon.Hp.Value, 48);
+      Hp = new PairValue(pm.Pokemon.Hp.Origin, pm.Pokemon.Hp.Value);
       Lv = pm.Pokemon.Lv;
 
       Pokemon o = pm.OnboardPokemon.GetCondition<Pokemon>("Illusion");

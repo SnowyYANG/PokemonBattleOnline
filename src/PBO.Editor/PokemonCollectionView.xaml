@@ -81,9 +81,12 @@
                                 <Canvas DataContext="{TemplateBinding Command}">
                                     <Path Name="bg" Stroke="{TemplateBinding BorderBrush}" Fill="{x:Static ui:Brushes.GrayB1}" Data="M0,6 L151,6 145,29 0,29" StrokeThickness="0" Stretch="None" Canvas.Top="1" SnapsToDevicePixels="True"/>
                                     <Image Source="{Binding Icon}" Height="29" Width="24" Canvas.Left="2" Canvas.Top="1"/>
-                                    <TextBlock Name="title" Text="{Binding Header,Converter={x:Static c:LocalizedText.C}}" Foreground="#d8d8d8" VerticalAlignment="Bottom" Canvas.Left="30" Canvas.Top="10" SnapsToDevicePixels="True"/>
+                                    <TextBlock Name="title" Text="{Binding Header,Converter={x:Static c:LocalizedText.C}}" Foreground="{TemplateBinding BorderBrush}" VerticalAlignment="Bottom" Canvas.Left="30" Canvas.Top="10" SnapsToDevicePixels="True"/>
                                 </Canvas>
                                 <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="False">
+                                        <Setter Property="Opacity" Value="0.8"/>
+                                    </Trigger>
                                     <Trigger Property="IsPressed" Value="True">
                                         <Setter TargetName="bg" Property="StrokeThickness" Value="2"/>
                                         <Setter TargetName="title" Property="FontWeight" Value="Bold"/>

@@ -5,8 +5,10 @@ using System.Text;
 using System.IO;
 using System.IO.Compression;
 using System.Xml;
+using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
 using LightStudio.Tactic.DataModels;
-using LightStudio.Tactic.Serialization;
+using LightStudio.Tactic;
 
 namespace LightStudio.PokemonBattle.Data.Editor
 {

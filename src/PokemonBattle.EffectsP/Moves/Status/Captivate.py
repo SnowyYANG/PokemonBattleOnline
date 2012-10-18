@@ -13,7 +13,7 @@ class Captivate(StatusMoveE):
             if d.Defender.OnboardPokemon.Gender != g:
                 self.Fail(d)
             else:
-                if Abilities.RaiseAbility(d.Defender, 87):
+                if Abilities.RaiseAbility(d.Defender, 12):
                     d.Defender.AddReportPm('NoEffect')
                 else:
                     targets.append(d)

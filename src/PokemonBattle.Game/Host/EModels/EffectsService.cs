@@ -52,7 +52,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         switch (move.Class)
         {
           case MoveInnerClass.AddState:
-          case MoveInnerClass.ForceToShift:
+          case MoveInnerClass.ForceToSwitch:
           case MoveInnerClass.HpRecover:
           case MoveInnerClass.Lv7DChange:
           case MoveInnerClass.ConfusionWithLv7DChange:

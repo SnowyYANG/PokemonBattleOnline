@@ -17,7 +17,7 @@ namespace LightStudio.PokemonBattle.Data
   {
     public static RomData Load(string path)
     {
-      var rom = LoadFromDat<RomData>("Data\\rom.dat");
+      var rom = LoadFromDat<RomData>(path);
       foreach (var pm in rom.Pokemons)
         foreach (var form in pm.Forms) form.Type = pm;
       return rom;

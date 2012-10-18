@@ -26,7 +26,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\build\dll\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -73,6 +73,9 @@
     <Compile Include="Config.cs" />
     <Compile Include="Controls\Controls.cs" />
     <Compile Include="Controls\Command.cs" />
+    <Compile Include="Controls\LifeBarSimplified.xaml.cs">
+      <DependentUpon>LifeBarSimplified.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Extensions.cs" />
     <Compile Include="Controls\NumericUpdown.cs" />
     <Compile Include="Controls\UIButton.cs" />
@@ -109,6 +112,10 @@
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="WpfDispatcher.cs" />
     <Page Include="Cartes\User.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\LifeBarSimplified.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -305,18 +312,22 @@
     <ProjectReference Include="..\PokemonBattle.Data\PokemonBattle.Data.csproj">
       <Project>{2BD81D18-43CB-420A-B293-469E110473CC}</Project>
       <Name>PokemonBattle.Data</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PokemonBattle.Game\PokemonBattle.Game.csproj">
       <Project>{5F1D7698-AD1E-462A-AEED-063BCB80DF89}</Project>
       <Name>PokemonBattle.Game</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PokemonBattle.Messaging\PokemonBattle.Messaging.csproj">
       <Project>{61056B34-A2A8-485B-8A36-DF633E47C7F2}</Project>
       <Name>PokemonBattle.Messaging</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Tactic\Tactic.csproj">
       <Project>{EE2C451E-A61E-4634-B382-5298982E060C}</Project>
       <Name>Tactic</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

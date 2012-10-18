@@ -28,7 +28,7 @@
                         <Image Name="item" Stretch="Uniform" Source="/PBO.UIElements;component/Images/item.png" Width="6" Height="8" Canvas.Left="16" Canvas.Top="23" SnapsToDevicePixels="True" />
                         <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" Width="75" Canvas.Left="30" Canvas.Top="5"/>
                         <ContentPresenter Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Right="8" Canvas.Top="3"/>
-                        <my:LifeBar DataContext="{Binding Hp}" Canvas.Left="48" Canvas.Top="24"/>
+                        <my:LifeBarSimplified DataContext="{Binding Hp}" Canvas.Left="48" Canvas.Top="24"/>
                         <TextBlock Text="{Binding Hp.Origin}" Canvas.Left="95" Canvas.Bottom="4"/>
                         <TextBlock Text="{Binding Hp.Value}" Canvas.Right="40" Canvas.Bottom="4"/>
                     </Canvas>

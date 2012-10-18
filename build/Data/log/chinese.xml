@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?><GameLogs xmlns:ms="http://www.w3.org/2001/XMLSchema" xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://pbo.codeplex.com/"><logs>
+﻿<GameLogs xmlns:ms="http://www.w3.org/2001/XMLSchema" xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://pbo.codeplex.com/"><logs>
 <a:KeyValueOfstringanyType><a:Key>__sample</a:Key><a:Value i:type="LogText"><Contents><a:anyType i:type="LogText"><foreground>4294901760</foreground><text>Hello </text></a:anyType><a:anyType i:type="LogText"><text>World!</text></a:anyType></Contents></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>unfinish</a:Key><a:Value i:type="LogText"><text>{0:p}使用的技能{1:m}尚未制作。
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>error</a:Key><a:Value i:type="LogText"><text>主机发现了一个错误，数据包损坏或主机程序被篡改。

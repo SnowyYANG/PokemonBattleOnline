@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using LightStudio.Tactic.Messaging.Lobby;
-using LightStudio.Tactic.Serialization;
+using LightStudio.Tactic;
 
 namespace LightStudio.Tactic.Messaging
 {

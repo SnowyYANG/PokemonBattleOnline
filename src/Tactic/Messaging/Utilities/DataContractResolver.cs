@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Reflection;
 using System.IO;
-using LightStudio.Tactic.Serialization;
+using LightStudio.Tactic;
 
 namespace LightStudio.Tactic.Messaging
 {
