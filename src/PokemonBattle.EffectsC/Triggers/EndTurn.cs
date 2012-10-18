@@ -382,7 +382,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     }
     //22.0 Gravity ends
     //23.0 Trick Room ends
-    //24.0 [unfinished] Wonder Room ends
+    //24.0 Wonder Room ends
     //25.0 Magic Room ends
     private void BoardCondition(Controller c)
     {
@@ -397,6 +397,18 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       {
         board.RemoveCondition("TrickRoom");
         c.ReportBuilder.Add("DeTrickRoom");
+      }
+      if (board.GetCondition<int>("WonderRoom") == turn)
+      {
+        foreach (var pm in c.OnboardPokemons)
+        {
+          var stats = pm.OnboardPokemon.FiveD;
+          var d = stats.Def;
+          stats.Def = stats.SpDef;
+          stats.SpDef = d;
+        }
+        board.RemoveCondition("WonderRoom");
+        c.ReportBuilder.Add("DeWonderRoom");
       }
       if (board.GetCondition<int>("MagicRoom") == turn)
       {

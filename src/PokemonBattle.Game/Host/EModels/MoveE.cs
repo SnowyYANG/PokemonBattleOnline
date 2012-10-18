@@ -226,7 +226,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     private bool HasEffect_NonGround(DefContext def)
     {
       var type = def.AtkContext.Type.NoEffect();
-      return type == BattleType.Invalid || !(type == BattleType.Ghost ? def.AtkContext.Attacker.Ability.Scrappy() : def.Defender.OnboardPokemon.HasType(type));
+      return type == BattleType.Invalid || type == BattleType.Ghost && def.AtkContext.Attacker.Ability.Scrappy() || !def.Defender.OnboardPokemon.HasType(type);
     }
     protected virtual bool HasEffect(DefContext def)
     {

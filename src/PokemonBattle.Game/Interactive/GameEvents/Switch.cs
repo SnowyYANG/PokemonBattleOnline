@@ -87,7 +87,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       {
         pm.Withdraw();
         if (Ab == Host.Sp.Abilities.NATURAL_CURE) pm.State = PokemonState.Normal;//for TeamOutward
-        if (Log != null) AppendGameLog(Log ?? "Withdraw", pm.OwnerId, pm.Id);
+        AppendGameLog(Log ?? "Withdraw", pm.OwnerId, pm.Id);
       }
       Game.Board[team, x] = null;
     }

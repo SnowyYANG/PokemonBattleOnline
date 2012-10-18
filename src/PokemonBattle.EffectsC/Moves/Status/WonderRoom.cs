@@ -11,17 +11,22 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       : base(id)
     {
     }
-    private void Exchange(Simple6D stats)
-    {
-      var d = stats.Def;
-      stats.Def = stats.SpDef;
-      stats.SpDef = d;
-    }
     protected override void Act(AtkContext atk)
     {
-      foreach (var pm in atk.Controller.OnboardPokemons) Exchange(pm.OnboardPokemon.FiveD);
-      if (atk.Controller.Board.AddCondition("WonderRoom")) atk.Controller.ReportBuilder.Add("EnWonderRoom");
-      else atk.Controller.ReportBuilder.Add("DeWonderRoom");
+      var c = atk.Controller;
+      foreach (var pm in c.OnboardPokemons)
+      {
+        var stats = pm.OnboardPokemon.FiveD;
+        var d = stats.Def;
+        stats.Def = stats.SpDef;
+        stats.SpDef = d;
+      }
+      if (c.Board.AddCondition("WonderRoom", c.TurnNumber + 4)) c.ReportBuilder.Add("EnWonderRoom");
+      else
+      {
+        c.Board.RemoveCondition("WonderRoom");
+        c.ReportBuilder.Add("DeWonderRoom");
+      }
     }
   }
 }

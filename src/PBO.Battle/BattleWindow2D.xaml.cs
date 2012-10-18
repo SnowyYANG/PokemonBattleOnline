@@ -43,7 +43,6 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       InitializeComponent();
       this.room = room;
       room.AddListener(this);
-      room.Quited += () => UIDispatcher.Invoke(() => MessageBox.Show("Quited"));
       Instances.Add(this);
     }
 

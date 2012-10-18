@@ -301,7 +301,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (d.OnboardPokemon.HasCondition("Rage")) d.ChangeLv7D(d, StatType.Atk, 1, false, "Rage");
       atk.Attacker.CheckFaint();
       if (d.CheckFaint()) Triggers.KOed(def);
-      if (Move.MaxTimes > 1) d.Item.HpChanged(d);
+      else if (Move.MaxTimes > 1) d.Item.HpChanged(d);
     }
     protected virtual void PostEffect(AtkContext atk)
     {

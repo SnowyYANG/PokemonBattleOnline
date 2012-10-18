@@ -55,6 +55,7 @@
     <Compile Include="Items\MentalHerb.cs" />
     <Compile Include="Items\ReHurtBerry.cs" />
     <Compile Include="Items\StickyBarb.cs" />
+    <Compile Include="Moves\Attack\AttackAndForceSwitch.cs" />
     <Compile Include="Moves\Attack\BeatUp.cs" />
     <Compile Include="Moves\Attack\BigBang.cs" />
     <Compile Include="Moves\Attack\Counter.cs" />

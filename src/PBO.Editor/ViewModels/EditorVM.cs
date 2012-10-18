@@ -16,15 +16,19 @@ namespace LightStudio.PokemonBattle.PBO.Editor
 
     static EditorVM()
     {
-      Current = new EditorVM();
+      Current = new EditorVM(DataService.UserData);
     }
 
-    private EditorVM()
+    private EditorVM(UserData model)
     {
-      this.Boxes = new GroupVM(DataService.UserData.Boxes, false);
-      this.Teams = new GroupVM(DataService.UserData.Teams, true);
-      this.Recycler = new RecyclerVM(DataService.UserData.Recycler);
-      this.OpenWindows = new ObservableCollection<object>();
+      Boxes = new GroupVM(model.Boxes, false);
+      Teams = new GroupVM(model.Teams, true);
+      Recycler = new RecyclerVM(model.Recycler);
+      OpenWindows = new ObservableCollection<object>();
+      PokemonBT.PokemonDeleted += (pm) =>
+        {
+          if (EditingPokemon != null && EditingPokemon.Origin == pm) EndEditing();
+        };
     }
 
     private PokemonEditorVM _editingPokemon;

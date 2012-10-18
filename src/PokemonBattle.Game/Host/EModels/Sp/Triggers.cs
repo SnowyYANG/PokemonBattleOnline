@@ -21,7 +21,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       m *= movePowerModifier(def);
       if (atk.MeFirst) m *= 0x1800;
       m *= Moves.SolarBeam(def);
-      if (atk.Type == BattleType.Electric && atk.Attacker.OnboardPokemon.GetCondition<int>("Charge") == c.TurnNumber) m *= 2000;
+      if (atk.Type == BattleType.Electric && atk.Attacker.OnboardPokemon.GetCondition<int>("Charge") == c.TurnNumber) m *= 0x2000;
       //helpinghand
       if ((atk.Type == BattleType.Fire && c.OnboardPokemons.Any((p) => p.OnboardPokemon.HasCondition("WaterSport"))) ||
         (atk.Type == BattleType.Electric && c.OnboardPokemons.Any((p) => p.OnboardPokemon.HasCondition("MudSport"))))

@@ -13,14 +13,17 @@ namespace LightStudio.PokemonBattle.PBO.Editor
 {
   internal class PokemonVM : ViewModelBase
   {
-    static PokemonVM()
-    {
-    }
-    
     public PokemonVM(PokemonData model)
     {
       Model = model;
-      InitializeCommand();
+      Commands = new ObservableCollection<MenuCommand>();
+      if (Model.Container != DataService.UserData.Recycler)
+      {
+        EditCommand = new MenuCommand("Edit", () => EditorVM.Current.EditPokemon(Model));
+        Commands.Add(EditCommand);
+      }
+      RemoveCommand = new MenuCommand("Remove", () => Model.Container.Remove(Model));
+      Commands.Add(RemoveCommand);
     }
 
     public PokemonData Model
@@ -49,15 +52,5 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     { get; private set; }
     public ObservableCollection<MenuCommand> Commands
     { get; private set; }
-
-    private void InitializeCommand()
-    {
-      EditCommand = new MenuCommand("Edit", () => EditorVM.Current.EditPokemon(Model));
-      RemoveCommand = new MenuCommand("Remove", () => Model.Container.Remove(Model));
-
-      Commands = new ObservableCollection<MenuCommand>();
-      Commands.Add(EditCommand);
-      Commands.Add(RemoveCommand);
-    }
   }
 }

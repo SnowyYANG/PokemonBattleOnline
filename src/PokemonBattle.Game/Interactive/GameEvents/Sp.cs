@@ -15,7 +15,11 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     {
       ++Game.TurnNumber;
       if (Game.TurnNumber == 0) AppendGameLog("GameStart");
-      else AppendGameLog("BeginTurn", Game.TurnNumber);
+      else
+      {
+        AppendGameLog("BeginTurn", Game.TurnNumber);
+        AppendGameLog("----");
+      }
     }
   }
 

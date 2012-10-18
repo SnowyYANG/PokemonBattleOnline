@@ -295,9 +295,11 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     {
       if (Origin != null)
       {
-        var index = Origin.Container.IndexOf(Origin);
+        var container = Origin.Container;
+        var index = container.IndexOf(Origin);
         Origin = _model.Clone();
-        Origin.Container[index] = Origin;
+        container[index] = Origin;
+        DataService.UserData.Save();
       }
     }
     public void ResetToLastSaved()

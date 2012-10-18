@@ -54,12 +54,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Curse(174));
       M(new Flail(175));
       M(new Conversion2(176));
-      M(new Flail(179));
+      M(new Flail(179)); //reversal
       M(new FuryCutter(210));
       M(new HealBell(215, "HealBell"));
       M(new Happiness(216, false));
       M(new Happiness(218, true));
       M(new PainSplit(220));
+      M(new RapidSpin(229));
       M(new HiddenPower(237));
       M(new GustTwister(239));
       M(new Counter(243, "SpecialDamage", 0x2000));
@@ -98,7 +99,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new EchoedVoice(497));
       M(new SLevel(500, 20));//stored power
       M(new Hex(506));
+      M(new AttackAndForceSwitch(509));//circle throw
       M(new Acrobatics(512));
+      M(new AttackAndForceSwitch(525));//dragon tail
       M(new HeavySlam(535));
       M(new Thunder(542));//Hurricane
 

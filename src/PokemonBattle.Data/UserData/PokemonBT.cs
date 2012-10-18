@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Data
   {
     private static readonly PropertyChangedEventArgs NAME = new PropertyChangedEventArgs("Name");
 
-    internal static event Action<PokemonData> PokemonDeleted;
+    public static event Action<PokemonData> PokemonDeleted;
 
     internal PokemonBT()
       : base()

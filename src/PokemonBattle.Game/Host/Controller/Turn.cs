@@ -69,11 +69,11 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public void Switch()
     {
-      ReportBuilder.AddHorizontalLine();
     LOOP:
       PokemonProxy p = OnboardPokemons.FirstOrDefault((pm) => pm.Action == PokemonAction.WillSwitch);
       if (p == null) return;
       p.Switch();
+      ReportBuilder.AddHorizontalLine();
       goto LOOP;  
     }
     private void CheckFocusPunch()
@@ -85,7 +85,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
     LOOP:
       PokemonProxy p = OnboardPokemons.FirstOrDefault((pm) => pm.CanActMove);
-      ReportBuilder.AddHorizontalLine();
       if (p == null)
       {
         EndTurnEffects();
@@ -94,6 +93,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       else
       {
         p.ActMove();
+        ReportBuilder.AddHorizontalLine();
         if (Controller.CanContinue) goto LOOP;
       }
     }
@@ -108,6 +108,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         SortTiles();
         EffectsService.EndTurn.Execute(Controller);
+        ReportBuilder.AddHorizontalLine();
         if (Controller.CanContinue) EndTurnCheckForInput();
       }
     }
