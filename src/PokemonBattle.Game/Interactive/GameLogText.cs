@@ -25,8 +25,18 @@ namespace LightStudio.PokemonBattle.Game
     /// <summary>
     /// it's ok to be null
     /// </summary>
+    private IFormatProvider _formatter;
     protected IFormatProvider Formatter
-    { get; private set; }
+    {
+      get { return _formatter; }
+      private set
+      {
+        _formatter = value;
+        if (Contents != null)
+          foreach (var c in Contents)
+            if (c is LogText) ((LogText)c).Formatter = value;
+      }
+    }
 
     [DataMember(EmitDefaultValue = false)]
     public bool HiddenInBattle
@@ -51,12 +61,12 @@ namespace LightStudio.PokemonBattle.Game
     {
       return new LogText()
         {
-          Formatter = formatter,
           Alignment = this.Alignment,
           Background = this.Background,
           Contents = this.Contents,
-          FontSize = this.FontSize,
           Foreground = this.Foreground,
+          Formatter = formatter,
+          FontSize = this.FontSize,
           HiddenAfterBattle = this.HiddenAfterBattle,
           HiddenInBattle = this.HiddenInBattle,
           IsBold = this.IsBold,

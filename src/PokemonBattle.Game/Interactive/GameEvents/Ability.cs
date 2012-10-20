@@ -11,6 +11,9 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   [DataContract(Namespace = Namespaces.PBO)]
   public class AbilityEvent : GameEvent
   {
+    [DataMember(EmitDefaultValue = false)]
+    string Log;
+    
     [DataMember]
     int Pm;
 
@@ -20,14 +23,18 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember]
     int Ab;
 
+    [DataMember(EmitDefaultValue = false)]
+    public int Arg3;
+
     public AbilityEvent(PokemonProxy pm)
     {
       Pm = pm.Id;
       Ab = pm.OnboardPokemon.Ability;
     }
-    public AbilityEvent(PokemonProxy pm, int fromId, int toId)
+    public AbilityEvent(PokemonProxy pm, string log, int fromId, int toId)
     {
       Pm = pm.Id;
+      Log = log == "SetAbility" ? null : log;
       OldAb = fromId;
       Ab = toId;
     }
@@ -44,7 +51,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       else
       {
         Game.Board.AbilityChanged(pm, GameDataService.GetAbility(OldAb), ab);
-        AppendGameLog("AbChange", Pm, OldAb, Ab);
+        AppendGameLog(Log ?? "SetAbility", Pm, Ab, OldAb, Arg3);
       }
     }
   }

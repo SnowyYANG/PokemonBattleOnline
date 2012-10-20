@@ -46,6 +46,22 @@
         <Setter Property="Width" Value="126"/>
         <Setter Property="Height" Value="46"/>
         <Setter Property="Background" Value="#383838"/>
+        <Setter Property="OpacityMask">
+            <Setter.Value>
+                <DrawingBrush>
+                    <DrawingBrush.Drawing>
+                        <DrawingGroup>
+                            <GeometryDrawing Brush="Black" Geometry="F1 M 120,45.5L 125.5,34.5L 125.5,23.5L 119.5,0.5L 6.0,0.5L 0.5,23.5L 0.5,34.5L 6,45.5Z">
+                                <GeometryDrawing.Pen>
+                                    <Pen Brush="Black" Thickness="1"/>
+                                </GeometryDrawing.Pen>
+                            </GeometryDrawing>
+                            <ImageDrawing Rect="-1,-1,32,32" ImageSource="{Binding Content,Converter={x:Static c:PokemonIcon.C}}"/>
+                        </DrawingGroup>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </Setter.Value>
+        </Setter>
         <Setter Property="BorderBrush">
             <Setter.Value>
                 <DrawingBrush Stretch="None">

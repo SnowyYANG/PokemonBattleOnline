@@ -34,27 +34,28 @@ class Magnitude(AttackMoveE):
     def Execute(self, pm):
         random = pm.Controller.GetRandomInt(0, 99)
         pm.BuildAtkContext(self.Move)
-        if random < 5:
-            a = 0
+        if random >= 95:
+            pm.AtkContext.Attachment = 7
+            pm.Controller.ReportBuilder.Add("Magnitude", 10)
         else:
-            if random < 16:
-                a = 1
+            if random < 5:
+                a = 0
             else:
-                if random < 35:
-                    a = 2
+                if random < 16:
+                    a = 1
                 else:
-                    if random < 65:
-                        a = 3
+                    if random < 35:
+                        a = 2
                     else:
-                        if random < 85:
-                            a = 4
+                        if random < 65:
+                            a = 3
                         else:
-                            if random < 95:
-                                a = 5
+                            if random < 85:
+                                a = 4
                             else:
-                                a = 6
-        pm.AtkContext.Attachment = a
-        pm.Controller.ReportBuilder.Add("Magnitude", 4 + a)
+                                a = 5
+            pm.AtkContext.Attachment = a
+            pm.Controller.ReportBuilder.Add("Magnitude", 4 + a)
         MoveE.Execute(self, pm)
     def CalculateBasePower(self, d):
         d.BasePower = 10 + 20 * d.AtkContext.Attachment
@@ -89,7 +90,7 @@ M(Brine(362))
 
 class Payback(AttackMoveE):
     def CalculateBasePower(self, d):
-        if d.Defender.LastActTurn == d.Defender.Controller.TurnNumber:
+        if d.Defender.LastMoveTurn == d.Defender.Controller.TurnNumber:
             d.BasePower = 100
         else:
             d.BasePower = 50

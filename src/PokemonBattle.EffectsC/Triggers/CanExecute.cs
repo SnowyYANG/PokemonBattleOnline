@@ -49,7 +49,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         {
           pm.OnboardPokemon.SetCondition("SLP", count);
           AddResetYReport(pm, "SLP");
-          if (!pm.SelectedMove.AvailableEvenSleeping()) return false;
+          return !pm.SelectedMove.AvailableEvenSleeping();
         }
       }
       return true;
@@ -171,13 +171,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     }
     private static bool Paralyzed(PokemonProxy p)
     {
-      if (p.State == PokemonState.PAR)
+      if (p.State == PokemonState.PAR && p.Controller.OneNth(4))
       {
-        if (p.Controller.OneNth(4))
-        {
-          AddResetYReport(p, "PARWork");
-          return false;
-        }
+        AddResetYReport(p, "PARWork");
+        return false;
       }
       return true;
     }

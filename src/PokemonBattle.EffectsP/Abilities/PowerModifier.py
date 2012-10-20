@@ -48,9 +48,9 @@ A(FlareBoost(138))
 
 class Analytic(AbilityE):
     def PowerModifier(self, target):
-        turn = target.AtkContext.Attacker.LastActTurn
+        turn = target.AtkContext.Attacker.LastMoveTurn
         for pm in target.AtkContext.Controller.OnboardPokemons:
-            if pm.LastActTurn != turn:
+            if pm.LastMoveTurn != turn:
                 return 0x1000
         return 0x14cd
 A(Analytic(148))

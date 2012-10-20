@@ -15,7 +15,7 @@
         </Style.Triggers>
     </Style>
     <DataTemplate x:Key="OStateBar">
-        <Canvas Width="120" Height="25" UseLayoutRounding="True" SnapsToDevicePixels="True">
+        <Canvas Width="114" Height="27" UseLayoutRounding="True" SnapsToDevicePixels="True">
             <Canvas.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="FontFamily" Value="SimSun"/>
@@ -24,35 +24,35 @@
             <Canvas.Background>
                 <ImageBrush ImageSource="/PBO.Battle;component/Images/OStateBar.png" />
             </Canvas.Background>
-            <TextBlock Text="{Binding Name}" Canvas.Left="16" Canvas.Top="-1" Foreground="Black">
+            <TextBlock Text="{Binding Name}" Canvas.Left="10" Width="50" Canvas.Top="-2" Foreground="Black">
                 <TextBlock.Effect>
                     <BlurEffect Radius="3"/>
                 </TextBlock.Effect>
             </TextBlock>
-            <TextBlock Text="{Binding Name}" Canvas.Left="16" Canvas.Top="-1" TextOptions.TextRenderingMode="Aliased" SnapsToDevicePixels="True" Foreground="White">
+            <TextBlock Text="{Binding Name}" Canvas.Left="10" Width="50" Canvas.Top="-2" TextOptions.TextRenderingMode="Aliased" SnapsToDevicePixels="True" Foreground="White">
         	    <TextBlock.Effect>
         		    <DropShadowEffect BlurRadius="3" ShadowDepth="0"/>
         	    </TextBlock.Effect>
             </TextBlock>
-            <TextBlock Text="{Binding Lv}" Canvas.Left="88" Canvas.Top="-1" Foreground="Black">
+            <TextBlock Text="{Binding Lv}" Canvas.Left="82" Canvas.Top="-1" Foreground="Black">
                 <TextBlock.Effect>
                     <BlurEffect Radius="3"/>
                 </TextBlock.Effect>
             </TextBlock>
-            <TextBlock Text="{Binding Lv}" Canvas.Left="88" Canvas.Top="-1" TextOptions.TextRenderingMode="Aliased" SnapsToDevicePixels="True" Foreground="White">
+            <TextBlock Text="{Binding Lv}" Canvas.Left="82" Canvas.Top="-1" TextOptions.TextRenderingMode="Aliased" SnapsToDevicePixels="True" Foreground="White">
         	    <TextBlock.Effect>
         		    <DropShadowEffect BlurRadius="3" ShadowDepth="0"/>
         	    </TextBlock.Effect>
             </TextBlock>
-            <TextBlock Text="{Binding Path=Hp.Origin}" Canvas.Left="88" Canvas.Bottom="-2" Foreground="White" FontSize="11" FontWeight="Bold" TextOptions.TextRenderingMode="Aliased"/>
-            <TextBlock Text="{Binding Path=Hp.Value}" Canvas.Right="41" Canvas.Bottom="-2" Foreground="White" FontSize="11" FontWeight="Bold" TextOptions.TextRenderingMode="Aliased"/>
-            <Image DataContext="{Binding Gender}" Style="{StaticResource BitmapGenderLabel}" Canvas.Left="71" Canvas.Top="1"/>
-            <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}"/>
-            <ui:LifeBar DataContext="{Binding Hp}" Canvas.Left="41" Canvas.Top="11"/>
+            <TextBlock Text="{Binding Path=Hp.Origin}" Canvas.Left="78" Canvas.Bottom="0" Foreground="White" FontSize="11" FontWeight="Bold" FontStyle="Italic" TextOptions.TextRenderingMode="Aliased"/>
+            <TextBlock Text="{Binding Path=Hp.Value}" Canvas.Right="40" Canvas.Bottom="0" Foreground="White" FontSize="11" FontWeight="Bold" FontStyle="Italic" TextOptions.TextRenderingMode="Aliased"/>
+            <Image DataContext="{Binding Gender}" Style="{StaticResource BitmapGenderLabel}" Canvas.Left="66" Canvas.Top="1"/>
+            <ContentControl Content="{Binding State}" Canvas.Left="13" Canvas.Top="11" ContentTemplate="{x:Static ui:Labels.PokemonState}"/>
+            <ui:LifeBar DataContext="{Binding Hp}" Canvas.Left="50" Canvas.Top="13"/>
         </Canvas>
     </DataTemplate>
     <DataTemplate x:Key="RStateBar">
-        <Canvas Width="124" Height="20" SnapsToDevicePixels="True">
+        <Canvas Width="104" Height="23" SnapsToDevicePixels="True">
             <Canvas.Background>
                 <ImageBrush ImageSource="/PBO.Battle;component/Images/RStateBar.png" />
             </Canvas.Background>
@@ -61,29 +61,29 @@
                     <Setter Property="FontFamily" Value="SimSun"/>
                 </Style>
             </Canvas.Resources>
-            <TextBlock Text="{Binding Lv}" Canvas.Left="92" Canvas.Top="-1" Foreground="Black">
+            <TextBlock Text="{Binding Lv}" Canvas.Left="86" Canvas.Top="-1" Foreground="Black">
                 <TextBlock.Effect>
         		    <BlurEffect Radius="3"/>
                 </TextBlock.Effect>
             </TextBlock>
-            <TextBlock Text="{Binding Lv}" Canvas.Left="92" Canvas.Top="-1" TextOptions.TextRenderingMode="Aliased" SnapsToDevicePixels="True" Foreground="White">
+            <TextBlock Text="{Binding Lv}" Canvas.Left="86" Canvas.Top="-1" TextOptions.TextRenderingMode="Aliased" SnapsToDevicePixels="True" Foreground="White">
                 <TextBlock.Effect>
         		    <DropShadowEffect BlurRadius="3" ShadowDepth="0"/>
                 </TextBlock.Effect>
             </TextBlock>
-            <TextBlock Text="{Binding Name}" Canvas.Left="20" Canvas.Top="-1" Foreground="Black">
+            <TextBlock Text="{Binding Name}" Canvas.Left="14" Canvas.Top="-1" Foreground="Black">
                 <TextBlock.Effect>
         		    <BlurEffect Radius="3"/>
                 </TextBlock.Effect>
             </TextBlock>
-            <TextBlock Text="{Binding Name}" Canvas.Left="20" Canvas.Top="-1" TextOptions.TextRenderingMode="Aliased" SnapsToDevicePixels="True" Foreground="White">
+            <TextBlock Text="{Binding Name}" Canvas.Left="14" Canvas.Top="-1" TextOptions.TextRenderingMode="Aliased" SnapsToDevicePixels="True" Foreground="White">
                 <TextBlock.Effect>
         		    <DropShadowEffect BlurRadius="3" ShadowDepth="0"/>
                 </TextBlock.Effect>
             </TextBlock>
-            <Image DataContext="{Binding Gender}" Style="{StaticResource BitmapGenderLabel}" Canvas.Left="76" Canvas.Top="1"/>
-            <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}"/>
-            <ui:LifeBar DataContext="{Binding Hp}" Canvas.Left="29" Canvas.Top="11"/>
+            <Image DataContext="{Binding Gender}" Style="{StaticResource BitmapGenderLabel}" Canvas.Left="70" Canvas.Top="1"/>
+            <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="17" Canvas.Top="11"/>
+            <ui:LifeBar DataContext="{Binding Hp}" Canvas.Left="38" Canvas.Top="13"/>
         </Canvas>
     </DataTemplate>
 </ResourceDictionary>

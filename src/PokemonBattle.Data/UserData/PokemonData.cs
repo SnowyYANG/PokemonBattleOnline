@@ -90,8 +90,14 @@ namespace LightStudio.PokemonBattle.Data
         if (!(number == value.Type.Number && form == value.Index))
         {
           _form = null;
+          var oldNumber = number;
+          var oldForm = form;
           
-          if (number != value.Type.Number)
+          number = value.Type.Number;
+          form = (byte)value.Index;
+          CheckSpForm();
+          
+          if (oldNumber != number)
           {
             moveIds.Clear();
             _gender = value.Type.Genders.First();
@@ -100,9 +106,6 @@ namespace LightStudio.PokemonBattle.Data
           else if (number == 413 || number == 479 || number == 646) moveIds.Clear();
           _abilityIndex = 0;
           
-          number = value.Type.Number;
-          form = (byte)value.Index;
-          CheckSpForm();
           OnPropertyChanged();
         }
       }

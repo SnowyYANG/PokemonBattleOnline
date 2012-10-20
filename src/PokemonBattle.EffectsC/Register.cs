@@ -70,10 +70,12 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new SpitUp(255));
       M(new Swallow(256));
       M(new Trick(271));
+      M(new RolePlay(272));
       M(new Recycle(278));
       M(new Revenge(279));
       M(new KnockOff(282));
       M(new Spout(284));
+      M(new SkillSwap(285));
       M(new Leap(291, CoordY.Water));//dives
       M(new HealBell(312, "Aromatherapy"));
       M(new Spout(323));
@@ -86,6 +88,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new TrumpCard(376));
       M(new WringOut(378));
       M(new SLevel(386, 60));//punishment
+      M(new SetAbility(388, 15));//worry seed
       M(new Trick(415)); //switcheroo
       M(new Revenge(419));//avalanche
       M(new GrassKnot(447));
@@ -96,6 +99,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new SmackDown(479));
       M(new HeavySlam(484));
       M(new ElectroBall(486));
+      M(new SetAbility(493, 86));//simple beam
+      M(new Entrainment(494));
       M(new EchoedVoice(497));
       M(new SLevel(500, 20));//stored power
       M(new Hex(506));

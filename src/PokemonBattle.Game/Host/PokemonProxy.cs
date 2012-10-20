@@ -136,12 +136,11 @@ namespace LightStudio.PokemonBattle.Game.Host
       throw new NotImplementedException();
       //图像、重算数据、类型、体重、特性，不包括技能
     }
-    public void ChangeAbility(int ab)
+    public void ChangeAbility(int ab, string log, int arg3 = 0)
     {
+      AddReport(new AbilityEvent(this, log, OnboardPokemon.Ability, ab) { Arg3 = arg3 });
       Ability.Detach(this);
-      int oldAb = OnboardPokemon.Ability;
       OnboardPokemon.Ability = ab;
-      AddReport(new AbilityEvent(this, oldAb, ab));
       Ability.Attach(this);
     }
     public void ChangeItem(int item, string log, PokemonProxy itemLoser = null, bool attach = true) //lost and found
@@ -191,13 +190,13 @@ namespace LightStudio.PokemonBattle.Game.Host
     /// </summary>
     public bool CanSelectMove
     { get { return Hp > 0; } }
-    public int LastActTurn
+    public int LastMoveTurn
     { get; private set; }
-    public bool CanActMove
+    internal bool CanMove
     {
       get
       {
-        return Hp > 0 && LastActTurn != Controller.TurnNumber &&
+        return Hp > 0 && LastMoveTurn != Controller.TurnNumber &&
           (Action == PokemonAction.MoveAttached || Action == PokemonAction.Stiff || Action == PokemonAction.Moving);
       }
     }
@@ -421,9 +420,9 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     internal void ActMove()
     {
-      if (CanActMove)
+      if (CanMove)
       {
-        LastActTurn = Controller.TurnNumber;
+        LastMoveTurn = Controller.TurnNumber;
         Triggers.WillAct(this);
         switch (Action)
         {

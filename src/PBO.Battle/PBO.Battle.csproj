@@ -133,9 +133,6 @@
     <Resource Include="images\OStateBar.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\OStateBarSimplify.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="images\RStateBar.png" />
   </ItemGroup>
   <ItemGroup>

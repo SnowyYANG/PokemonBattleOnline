@@ -95,7 +95,7 @@
 <a:KeyValueOfstringanyType><a:Key>TrapFree</a:Key><a:Value i:type="LogText"><text>{0:p}被从{1:m}中解放了！
 </text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>ReHurt</a:Key><a:Value i:type="LogText"><text>{0:p}因为反作用受到了伤害</text></a:Value></a:KeyValueOfstringanyType>
-<a:KeyValueOfstringanyType><a:Key>Trace</a:Key><a:Value i:type="LogText"><text>特性变成了{0:p}的{1:a}！
+<a:KeyValueOfstringanyType><a:Key>Trace</a:Key><a:Value i:type="LogText"><text>特性变成了{3:p}的{1:a}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT1</a:Key><a:Value i:type="LogText"><text>命中了{0:p}的要害！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT2</a:Key><a:Value i:type="LogText"><text>命中了{0:p}和{1:p}的要害！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT3</a:Key><a:Value i:type="LogText"><text>命中了{0:p}、{1:p}和{2:p}的要害！
@@ -104,8 +104,8 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>AllPPRecover</a:Key><a:Value i:type="LogText"><text>{0:p}的全部技能的PP都被回复了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SandstormHurt</a:Key><a:Value i:type="LogText"><text>沙尘暴袭击了{0:p}！</text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>HailstormHurt</a:Key><a:Value i:type="LogText"><text>冰雹袭击了{0:p}！</text></a:Value></a:KeyValueOfstringanyType>
-<a:KeyValueOfstringanyType><a:Key>SetAbility</a:Key><a:Value i:type="LogText"><text>{0:p}变成了{1:a}！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnBalloon</a:Key><a:Value i:type="LogText"><text>{0:p}使用轻气球浮在空中！
+<a:KeyValueOfstringanyType><a:Key>SetAbility</a:Key><a:Value i:type="LogText"><Contents><a:anyType i:type="LogText"><text>{0:p}的特性变成了{1:a}！</text></a:anyType><a:anyType i:type="LogText"><foreground>8421504</foreground><text>（原特性：{2:a}）
+</text></a:anyType></Contents></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnBalloon</a:Key><a:Value i:type="LogText"><text>{0:p}使用轻气球浮在空中！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeBalloon</a:Key><a:Value i:type="LogText"><text>{0:p}的轻气球破了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EjectButton</a:Key><a:Value i:type="LogText"><text>{0:p}使用逃生按钮回去了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>RedCard</a:Key><a:Value i:type="LogText"><text>{0:p}使用红牌将{1:p}罚下场！
@@ -119,9 +119,8 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ReTarget</a:Key><a:Value i:type="LogText"><text>{0:p}将攻击吸引了过来！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SuctionCups</a:Key><a:Value i:type="LogText"><text>{0:p}用吸盘紧紧地贴着！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>PoisonHeal</a:Key><a:Value i:type="LogText"><text>{0:p}吸收了毒液！</text></a:Value></a:KeyValueOfstringanyType>
-<a:KeyValueOfstringanyType><a:Key>Pickpocket</a:Key><a:Value i:type="LogText"><text>夺走了{2:p}的{1:i}！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Mummy</a:Key><a:Value i:type="LogText"><text>{0:p}的特性变成木乃伊了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>MagicBounce</a:Key><a:Value i:type="LogText"><text>把{0:p}的{1:m}弹了回去！
+<a:KeyValueOfstringanyType><a:Key>Pickpocket</a:Key><a:Value i:type="LogText"><text>夺走了{2:p}的{1:i}！</text></a:Value></a:KeyValueOfstringanyType>
+<a:KeyValueOfstringanyType><a:Key>MagicBounce</a:Key><a:Value i:type="LogText"><text>把{0:p}的{1:m}弹了回去！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Telepathy</a:Key><a:Value i:type="LogText"><text>{0:p}不会受到己方的攻击！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>PoisonTouch</a:Key><a:Value i:type="LogText"><text>使{0:p}中毒了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Harvest</a:Key><a:Value i:type="LogText"><text>{0:p}收获了{1:i}！
@@ -376,6 +375,6 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnZenMode</a:Key><a:Value i:type="LogText"><text>{0:p}的不倒翁模式发动！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeZenMode</a:Key><a:Value i:type="LogText"><text>{0:p}的不倒翁模式解除！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ForceWithdraw</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>（{1:p}强制下场）
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>AbChange</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>（{0:p}的特性从{1:a}变成了{2:a}）
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SkillSwapDetail</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>（{0:p}的特性变成了{1:a}）
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Ability</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:a}——</text></a:Value></a:KeyValueOfstringanyType>
 </logs></GameLogs>

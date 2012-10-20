@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 using System.ComponentModel;
 
 namespace LightStudio.PokemonBattle.PBO.UIElements
@@ -19,10 +20,8 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
   /// <summary>
   /// Interaction logic for LifeBar.xaml
   /// </summary>
-  public partial class LifeBar : Border
+  public partial class LifeBar : Canvas
   {
-    const double YELLOWBAR_MAXLENGTH = 24;
-    const double REDBAR_MAXLENGTH = 10;
     static readonly SolidColorBrush GREEN;
     static readonly SolidColorBrush GREENSHADOW;
     static readonly SolidColorBrush YELLOW;
@@ -32,29 +31,39 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
     static LifeBar()
     {
       GREEN = Helper.NewBrush(0xff00f848);
-      GREENSHADOW = Helper.NewBrush(0xff00b820);
-      YELLOW = Helper.NewBrush(0xfff8a800);
-      YELLOWSHADOW = Helper.NewBrush(0xffa08028);
-      RED = Helper.NewBrush(0xfff84070);
-      REDSHADOW = Helper.NewBrush(0xffa04858);
+      GREENSHADOW = Helper.NewBrush(0xff008828);
+      YELLOW = Helper.NewBrush(0xfff0b000);
+      YELLOWSHADOW = Helper.NewBrush(0xff986010);
+      RED = Helper.NewBrush(0xfff83040);
+      REDSHADOW = Helper.NewBrush(0xff902030);
     }
 
-    DoubleAnimation da;
+    private readonly Storyboard storyboard;
+    private readonly DispatcherTimer timer;
+    int current;
+    int maxHp;
+    int hp;
+    
     public LifeBar()
     {
       InitializeComponent();
-      da = new DoubleAnimation();
-      da.Completed += new EventHandler(da_Completed);
+      storyboard = (Storyboard)Resources["Flash"];
+      timer = new DispatcherTimer() { Interval = TimeSpan.FromTicks(166666) };
+      timer.Tick += timer_Tick;
     }
 
-    private void LifeBar_SizeChanged(object sender, SizeChangedEventArgs e)
+    private void CurrentChanged()
     {
-      if (bar.Width <= REDBAR_MAXLENGTH)
+      {
+        int x2 = current * 48 / maxHp;
+        bar.Width = x2 == 0 && current != 0 ? 1 : x2;
+      }
+      if (current * 5 <= maxHp)
       {
         bar.Background = RED;
         bar.BorderBrush = REDSHADOW;
       }
-      else if (bar.Width <= YELLOWBAR_MAXLENGTH)
+      else if ((current << 1) <= maxHp)
       {
         bar.Background = YELLOW;
         bar.BorderBrush = YELLOWSHADOW;
@@ -65,11 +74,26 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
         bar.BorderBrush = GREENSHADOW;
       }
     }
-    private int GetWidth(PairValue hp)
+
+    private void LifeChanged(object sender, PropertyChangedEventArgs e)
     {
-      int x2 = hp.Value * 48 / hp.Origin;
-      if (x2 == 0 && hp.Value != 0) x2 = 1;
-      return x2;
+      flash.Width = bar.Width;
+      hp =((PairValue)sender).Value;
+      if (!timer.IsEnabled && current != hp) timer.Start();
+    }
+    private void timer_Tick(object sender, EventArgs e)
+    {
+      if (current == hp)
+      {
+        timer.Stop();
+        BeginStoryboard(storyboard);
+      }
+      else
+      {
+        if (current < hp) ++current;
+        else if (current > hp) --current;
+        CurrentChanged();
+      }
     }
     private void LifeBar_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
@@ -77,24 +101,11 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
       PairValue hp = DataContext as PairValue;
       if (hp != null)
       {
-        bar.BeginAnimation(Border.WidthProperty, null);
-        bar.Width = GetWidth(hp);
         hp.PropertyChanged += LifeChanged;
-        if (hp.Origin > 0) da.SpeedRatio = 200d / hp.Origin;
+        maxHp = hp.Origin;
+        current = this.hp = hp.Value;
+        CurrentChanged();
       }
-    }
-
-    private void LifeChanged(object sender, PropertyChangedEventArgs e)
-    {
-      flash.Width = bar.Width;
-      da.To = GetWidth((PairValue)sender);
-      bar.BeginAnimation(Border.WidthProperty, da);
-    }
-
-    void da_Completed(object sender, EventArgs e)
-    {
-      LifeBar_SizeChanged(null, null);
-      if (flash.Width > bar.Width) BeginStoryboard((Storyboard)Resources["Flash"]);
     }
   }
 }

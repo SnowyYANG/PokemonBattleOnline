@@ -10,46 +10,47 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
   public static class Abilities
   {
     #region ids
-    public const int ARENA_TRAP = 71;
-    public const int BAD_DREAMS = 123;
-    public const int DAMP = 6;
-    public const int ZEN_MODE = 161;
-    public const int DRY_SKIN = 87;
-    public const int OVERCOAT = 142;
-    public const int FORECAST = 59;
-    public const int HARVEST = 139;
-    public const int HEALER = 131;
-    public const int HYDRATION = 93;
-    public const int ICE_BODY = 115;
-    public const int ILLUSION = 149;
-    public const int MOODY = 141;
-    public const int LEVITATE = 26;
-    public const int LIQUID_OOZE = 64;
-    public const int MAGNET_PULL = 42;
-    public const int MULTITYPE = 121;
-    public const int NATURAL_CURE = 30;
-    public const int MOXIE = 153;
-    public const int PICKUP = 53;
-    public const int POISON_HEAL = 90;
-    public const int RAIN_DISH = 44;
-    public const int REGENERATOR = 144;
-    public const int SAND_FORCE = 159;
-    public const int SAND_RUSH = 146;
-    public const int SAND_VEIL = 8;
-    public const int SHADOW_TAG = 23;
-    public const int SHED_SKIN = 61;
-    public const int SNOW_CLOAK = 81;
-    public const int SOLAR_POWER = 94;
     public const int SPEED_BOOST = 3;
-    public const int STEADFAST = 80;
-    public const int STICKY_HOLD = 60;
     public const int STURDY = 5;
-    public const int UNNERVE = 127;
-    public const int TRACE = 36;
-    public const int TRUANT = 54;
-    private const int FLOWER_GIFT = 122;
-    private const int HUSTLE = 55;
+    public const int DAMP = 6;
+    public const int SAND_VEIL = 8;
     public const int FLASH_FIRE = 18;
+    public const int SHADOW_TAG = 23;
+    public const int WONDER_GUARD = 25;
+    public const int LEVITATE = 26;
+    public const int NATURAL_CURE = 30;
+    public const int TRACE = 36;
+    public const int MAGNET_PULL = 42;
+    public const int RAIN_DISH = 44;
+    public const int PICKUP = 53;
+    public const int TRUANT = 54;
+    public const int HUSTLE = 55;
+    public const int FORECAST = 59;
+    public const int STICKY_HOLD = 60;
+    public const int SHED_SKIN = 61;
+    public const int LIQUID_OOZE = 64;
+    public const int ARENA_TRAP = 71;
+    public const int STEADFAST = 80;
+    public const int SNOW_CLOAK = 81;
+    public const int DRY_SKIN = 87;
+    public const int POISON_HEAL = 90;
+    public const int HYDRATION = 93;
+    public const int SOLAR_POWER = 94;
+    public const int ICE_BODY = 115;
+    public const int MULTITYPE = 121;
+    public const int FLOWER_GIFT = 122;
+    public const int BAD_DREAMS = 123;
+    public const int UNNERVE = 127;
+    public const int HEALER = 131;
+    public const int HARVEST = 139;
+    public const int MOODY = 141;
+    public const int OVERCOAT = 142;
+    public const int REGENERATOR = 144;
+    public const int SAND_RUSH = 146;
+    public const int ILLUSION = 149;
+    public const int MOXIE = 153;
+    public const int SAND_FORCE = 159;
+    public const int ZEN_MODE = 161;
     #endregion
 
     #region extension
@@ -371,11 +372,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       int ab = sendout.OnboardPokemon.Ability;
       if (Trace(ab))
         foreach (var pm in sendout.Controller.Board[1 - sendout.Pokemon.TeamId].GetPokemons(sendout.OnboardPokemon.X - 1, sendout.OnboardPokemon.X + 1))
-          if (pm.RaiseAbility(TRACE))
-          {
-            pm.Controller.ReportBuilder.Add("Trace", sendout, ab);
-            pm.ChangeAbility(sendout.OnboardPokemon.Ability);
-          }
+          if (pm.RaiseAbility(TRACE)) pm.ChangeAbility(sendout.OnboardPokemon.Ability, "Trace", sendout.Id);
     }
     public static bool Gluttony(PokemonProxy pm)
     {

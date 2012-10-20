@@ -11,6 +11,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
   {
     public const int STRUGGLE = 165;
     internal const int SPIKES = 191;
+    internal const int ME_FIRST = 382;
+    internal const int SUCKER_PUNCH = 389;
     internal const int TOXIC_SPIKES = 390;
     internal const int STEALTH_ROCK = 446;
 

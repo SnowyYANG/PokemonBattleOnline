@@ -98,7 +98,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     public static Modifier ZoomLens(DefContext target)
     {
-      return (Modifier)(target.AtkContext.Attacker.Item.Id == 53 && target.AtkContext.Attacker.LastActTurn == target.Defender.LastActTurn ? 0x1333 : 0x1000);
+      return (Modifier)(target.AtkContext.Attacker.Item.Id == 53 && target.AtkContext.Attacker.LastMoveTurn == target.Defender.LastMoveTurn ? 0x1333 : 0x1000);
     }
     public static Modifier AccuracyModifier(DefContext def)
     {

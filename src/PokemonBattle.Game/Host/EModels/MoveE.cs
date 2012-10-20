@@ -48,24 +48,22 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (pm.AtkContext == null) pm.BuildAtkContext(Move);
       AtkContext atk = pm.AtkContext;
       int oldPP = atk.MoveProxy.PP;
+      if (NotFail(atk))
       {
         CalculateType(atk);
-        if (NotFail(atk))
+        CalculateTargets(atk);
+        if (atk.Targets == null || atk.Target != null)
         {
-          CalculateTargets(atk);
-          if (atk.Targets == null || atk.Target != null)
-          {
-            Act(atk);
-            MoveEnding(atk);
-          }
-          else
-          {
-            atk.FailAll = true;
-            atk.Attacker.Action = PokemonAction.Done;
-          }
+          Act(atk);
+          MoveEnding(atk);
         }
-        else FailAll(atk);
+        else
+        {
+          atk.FailAll = true;
+          atk.Attacker.Action = PokemonAction.Done;
+        }
       }
+      else FailAll(atk);
       if (eventForPP != null) eventForPP.PP = oldPP - atk.MoveProxy.PP;
     }
 
@@ -85,29 +83,40 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       return true;
     }
+    protected virtual bool NotFailOnTarget(DefContext def)
+    {
+      return true;
+    }
     protected internal virtual void CalculateTargets(AtkContext atk)
     {
       IEnumerable<Tile> ts = GetRangeTiles(atk);
       if (ts == null) return; //no target needed
       List<DefContext> targets = new List<DefContext>();
-      if (ts.Count() != 0)
+      if (ts.Any())
       {
-        #region Check CoordY
+        #region Check Fail
         {
-          var miss = new List<DefContext>();
           int count = 0;
           foreach (Tile t in ts)
             if (t.Pokemon != null)
             {
-              //从压力无视破格来看，严格来说miss的DefContext不应建立，不过为了NoGuard省心
-              var pm = t.Pokemon;
-              DefContext def = new DefContext(atk, pm);
               ++count;
+              var def = new DefContext(atk, t.Pokemon);
               Abilities.Pressure(def);
-              if (IsYInRange(def) || def.NoGuard) targets.Add(def);
-              else pm.AddReportPm("Miss");
+              if (NotFailOnTarget(def)) targets.Add(def);
+              else Fail(def);
             }
           if (count > 1) atk.MultiTargets = true;
+        }
+        #endregion
+        #region Check CoordY
+        {
+          foreach (DefContext def in targets.ToArray())
+            if (!(IsYInRange(def) || def.NoGuard))
+            {
+              def.Defender.AddReportPm("Miss");
+              targets.Remove(def);
+            }
         }
         #endregion
         #region Attack Move and Thunder Wave: Check for Immunity (or Levitate) on the Ally side, position 1, then position 3. Then check Opponent side, position 1, then 2, then 3,

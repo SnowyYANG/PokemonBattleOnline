@@ -81,8 +81,13 @@
     <Compile Include="Moves\Attack\SpBasepower\TrumpCard.cs" />
     <Compile Include="Moves\Attack\SpBasepower\WringOut.cs" />
     <Compile Include="Moves\Attack\Thief.cs" />
+    <Compile Include="Moves\FSDD.cs" />
     <Compile Include="Moves\Status\Acupressure.cs" />
     <Compile Include="Moves\Status\Autotomize.cs" />
+    <Compile Include="Moves\Status\CallMove\MeFirst.cs" />
+    <Compile Include="Moves\Status\ChangeAbility\Entrainment.cs" />
+    <Compile Include="Moves\Status\ChangeAbility\RolePlay.cs" />
+    <Compile Include="Moves\Status\ChangeAbility\SkillSwap.cs" />
     <Compile Include="Moves\Status\Conversion.cs" />
     <Compile Include="Moves\Status\Conversion2.cs" />
     <Compile Include="Moves\Status\Curse.cs" />
@@ -90,6 +95,7 @@
     <Compile Include="Moves\Status\PainSplit.cs" />
     <Compile Include="Moves\Status\Recycle.cs" />
     <Compile Include="Moves\Status\Rest.cs" />
+    <Compile Include="Moves\Status\ChangeAbility\SetAbility.cs" />
     <Compile Include="Moves\Status\Splash.cs" />
     <Compile Include="Moves\Status\Substitute.cs" />
     <Compile Include="Moves\Status\Trick.cs" />

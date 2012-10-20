@@ -14,7 +14,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ListBoxItem">
-                                <Canvas Height="29" Width="120">
+                                <Canvas Height="31" Width="114">
                                     <ContentPresenter Name="cp" Canvas.Top="2" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
                                 </Canvas>
                                 <ControlTemplate.Triggers>
@@ -22,15 +22,15 @@
                                         <Trigger.EnterActions>
                                             <BeginStoryboard Name="shake">
                                                 <Storyboard RepeatBehavior="Forever">
-                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="cp" Storyboard.TargetProperty="(Canvas.Top)" Duration="00:00:00.9600000">
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="cp" Storyboard.TargetProperty="(Canvas.Top)" Duration="00:00:01">
                                                         <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="2"/>
-                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="3"/>
-                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.26" Value="4"/>
-                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.37" Value="3"/>
-                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.48" Value="2"/>
-                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.59" Value="1"/>
-                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.70" Value="0"/>
-                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.81" Value="1"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.16" Value="3"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.28" Value="4"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.41" Value="3"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.53" Value="2"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.65" Value="1"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.77" Value="0"/>
+                                                        <DiscreteDoubleKeyFrame KeyTime="0:0:0.89" Value="1"/>
                                                     </DoubleAnimationUsingKeyFrames>
                                                 </Storyboard>
                                             </BeginStoryboard>

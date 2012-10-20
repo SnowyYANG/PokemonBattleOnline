@@ -25,6 +25,21 @@ namespace LightStudio.PokemonBattle.Game.Host
     public int X;
     public CoordY CoordY;
     public PokemonForm Form;
+    public PokemonGender Gender;
+    public int Ability; //特性交换用，不可为0，未必是有效的特性
+    public readonly Simple6D FiveD; //力量交换，包含性格修正，不包含等级修正
+    private readonly Simple6D lv5D;
+
+    internal OnboardPokemon(Pokemon pokemon, int x)
+    {
+      Pokemon = pokemon;
+      FiveD = new Simple6D() { Hp = pokemon.FiveD.Hp };
+      ChangeForm(pokemon.Form);
+      Gender = pokemon.Gender;
+      lv5D = new Simple6D();
+      X = x; //CoordY 默认值
+    }
+
     private BattleType _type1;
     public BattleType Type1
     {
@@ -45,10 +60,6 @@ namespace LightStudio.PokemonBattle.Game.Host
         RemoveCondition("Roost");
       }
     }
-    public PokemonGender Gender;
-    public int Ability; //特性交换用，不可为0，未必是有效的特性
-    public readonly Simple6D FiveD; //力量交换，包含性格修正，不包含等级修正
-    private readonly Simple6D lv5D;
     public I6D Lv5D
     { get { return lv5D; } }
     private int _accuracyLv;
@@ -84,17 +95,6 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
     }
     #endregion
-
-    internal OnboardPokemon(Pokemon pokemon, int x)
-    {
-      Pokemon = pokemon;
-      FiveD = new Simple6D() { Hp = pokemon.FiveD.Hp };
-      ChangeForm(pokemon.Form);
-      Gender = pokemon.Gender;
-      lv5D = new Simple6D();
-      X = x; //CoordY 默认值
-      AddTurnCondition("Sendout");
-    }
 
     public void ChangeLv7D(StatType stat, int change)
     {

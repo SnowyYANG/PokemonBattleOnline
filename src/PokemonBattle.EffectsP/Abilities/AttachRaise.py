@@ -87,6 +87,5 @@ class Trace(AbilityE):
         if n > 0:
             self.Raise(pm)
             target = pms[pm.Controller.GetRandomInt(0, n - 1)]
-            pm.Controller.ReportBuilder.Add('Trace', target, target.OnboardPokemon.Ability)
-            pm.ChangeAbility(target.OnboardPokemon.Ability)
+            pm.ChangeAbility(target.OnboardPokemon.Ability, 'Trace', target.Id)
 A(Trace(36))

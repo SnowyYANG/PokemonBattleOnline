@@ -84,7 +84,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public void ActMove() //蜻蜓返的inputFinished
     {
     LOOP:
-      PokemonProxy p = OnboardPokemons.FirstOrDefault((pm) => pm.CanActMove);
+      PokemonProxy p = OnboardPokemons.FirstOrDefault((pm) => pm.CanMove);
       if (p == null)
       {
         EndTurnEffects();
