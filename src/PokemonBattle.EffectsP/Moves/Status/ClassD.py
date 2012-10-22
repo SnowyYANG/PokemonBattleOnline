@@ -208,7 +208,7 @@ class Defog(StatusMoveE):
         a.Target.Defender.ChangeLv7D(a.Attacker, StatType.Evasion, -1, True)
         t = a.Target.Defender.Pokemon.TeamId
         f = a.Controller.Board[t]
-        f.DeEntryHazards(r, t)
+        f.DeEntryHazards(r)
         if f.HasCondition('Reflect'):
             f.RemoveCondition('Reflect')
             r.Add('DeReflect', t)

@@ -131,17 +131,16 @@ namespace LightStudio.PokemonBattle.Game.Host
         #endregion
         #region Check for Wide Guard in same way
         {
-          var board = atk.Controller.Board;
           if (Move.Range != MoveRange.Single)
             foreach (var def in targets.ToArray())
-              if (board[def.Defender.Pokemon.TeamId].HasCondition("WideGuard"))
+              if (def.Defender.Tile.Field.HasCondition("WideGuard"))
               {
                 def.Defender.AddReportPm("WideGuard");
                 targets.Remove(def);
               }
           if (Move.Priority > 0)
             foreach (var def in targets.ToArray())
-              if (board[def.Defender.Pokemon.TeamId].HasCondition("QuickGuard"))
+              if (def.Defender.Tile.Field.HasCondition("QuickGuard"))
               {
                 def.Defender.AddReportPm("QuickGuard");
                 targets.Remove(def);
@@ -257,7 +256,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       Tile select = atk.Attacker.SelectedTarget;
       IEnumerable<Tile> targets = null;
-      Controller controller = atk.Controller;
+      Board b = atk.Controller.Board;
       int team = atk.Attacker.Pokemon.TeamId;
       int rTeam = 1 - team;
       int x = atk.Attacker.OnboardPokemon.X;
@@ -272,11 +271,11 @@ namespace LightStudio.PokemonBattle.Game.Host
           {
             var ts = new List<Tile>();
             Tile t;
-            t = controller.GetTile(team, x - 1); if (t != null) ts.Add(t);
-            t = controller.GetTile(team, x + 1); if (t != null) ts.Add(t);
-            t = controller.GetTile(rTeam, x - 1); if (t != null) ts.Add(t);
-            t = controller.GetTile(rTeam, x); if (t != null) ts.Add(t);
-            t = controller.GetTile(rTeam, x + 1); if (t != null) ts.Add(t);
+            t = b[team][x - 1]; if (t != null) ts.Add(t);
+            t = b[team][x + 1]; if (t != null) ts.Add(t);
+            t = b[rTeam][x - 1]; if (t != null) ts.Add(t);
+            t = b[rTeam][x]; if (t != null) ts.Add(t);
+            t = b[rTeam][x + 1]; if (t != null) ts.Add(t);
             targets = ts;
           }
           break;
@@ -284,9 +283,9 @@ namespace LightStudio.PokemonBattle.Game.Host
           {
             var ts = new List<Tile>();
             Tile t;
-            t = controller.GetTile(rTeam, x - 1); if (t != null) ts.Add(t);
-            t = controller.GetTile(rTeam, x); if (t != null) ts.Add(t);
-            t = controller.GetTile(rTeam, x + 1); if (t != null) ts.Add(t);
+            t = b[rTeam][x - 1]; if (t != null) ts.Add(t);
+            t = b[rTeam][x]; if (t != null) ts.Add(t);
+            t = b[rTeam][x + 1]; if (t != null) ts.Add(t);
             targets = ts;
           }
           break;
@@ -299,13 +298,13 @@ namespace LightStudio.PokemonBattle.Game.Host
           break;
         case MoveRange.RandomEnemy:
           {
-            int min = 0, max = controller.Game.Board.XBound - 1;
+            int min = 0, max = b.XBound - 1;
             if (!Move.AdvancedFlags.IsRemote)
             {
               if (x - 1 > min) min = x - 1;
               if (x + 1 < max) max = x + 1;
             }
-            targets = new Tile[] { controller.GetTile(rTeam, controller.GetRandomInt(min, max)) };
+            targets = new Tile[] { b[rTeam][atk.Controller.GetRandomInt(min, max)] };
           }
           break;
         case MoveRange.Single:
@@ -321,13 +320,13 @@ namespace LightStudio.PokemonBattle.Game.Host
           break;
         case MoveRange.UserOrParner:
           {
-            int min = 0, max = controller.Game.Board.XBound - 1;
+            int min = 0, max = b.XBound - 1;
             if (!Move.AdvancedFlags.IsRemote)
             {
               if (x - 1 > min) min = x - 1;
               if (x + 1 < max) max = x + 1;
             }
-            targets = new Tile[] { controller.GetTile(team, controller.GetRandomInt(min, max)) };
+            targets = new Tile[] { b[team][atk.Controller.GetRandomInt(min, max)] };
           }
           break;
       }

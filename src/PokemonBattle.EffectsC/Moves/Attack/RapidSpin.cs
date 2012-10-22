@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     protected override void ImplementEffect(DefContext def)
     {
       var aer = def.AtkContext.Attacker;
-      aer.Controller.Board[aer.Pokemon.TeamId].DeEntryHazards(aer.Controller.ReportBuilder, aer.Pokemon.TeamId);
+      aer.Tile.Field.DeEntryHazards(aer.Controller.ReportBuilder);
       if (aer.OnboardPokemon.HasCondition("LeechSeed")) aer.OnboardPokemon.RemoveCondition("LeechSeed");
       {
         var trap = aer.OnboardPokemon.GetCondition("Trap");

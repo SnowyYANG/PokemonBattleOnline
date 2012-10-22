@@ -114,7 +114,7 @@ M(Venoshock(474))
 class Retaliate(AttackMoveE):
     def PowerModifier(self, d):
         c = d.Defender.Controller
-        if c.Board[d.AtkContext.Attacker.Pokemon.TeamId].GetCondition[int]("FaintTurn") == c.TurnNumber - 1:
+        if d.AtkContext.Attacker.Tile.Field.GetCondition[int]("FaintTurn") == c.TurnNumber - 1:
             return 0x2000
         return 0x1000
 M(Retaliate(514))

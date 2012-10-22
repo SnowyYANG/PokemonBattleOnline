@@ -11,17 +11,22 @@ namespace LightStudio.PokemonBattle.Game.Host
   {
     private readonly List<EntryHazards> hazards;
 
-    public readonly int TeamId;
+    public readonly int Team;
+    private readonly Tile[] tiles;
 
-    internal Field(int teamId, IEnumerable<Tile> tiles)
+    internal Field(int team, IGameSettings settings)
     {
-      TeamId = teamId;
+      Team = team;
       hazards = new List<EntryHazards>(3);
-      Tiles = tiles;
+      tiles = new Tile[settings.Mode.XBound()];
+      for (int x = 0; x < tiles.Length; ++x) tiles[x] = new Tile(this, x, settings); 
     }
 
+    public Tile this[int x]
+    { get { return tiles.ValueOrDefault(x); } }
+
     public IEnumerable<Tile> Tiles
-    { get; private set; }
+    { get { return tiles; } }
     public IEnumerable<PokemonProxy> Pokemons
     {
       get
@@ -50,9 +55,9 @@ namespace LightStudio.PokemonBattle.Game.Host
         }
       hazards.Add(EntryHazards.New(move));
     }
-    public void DeEntryHazards(ReportBuilder report, int team)
+    public void DeEntryHazards(ReportBuilder report)
     {
-      foreach (var eh in hazards) eh.De(report, team);
+      foreach (var eh in hazards) eh.De(report, Team);
       hazards.Clear();
     }
     /// <summary>

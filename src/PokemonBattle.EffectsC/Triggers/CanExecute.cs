@@ -99,7 +99,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     private static bool Imprison(PokemonProxy p)
     {
       MoveType move = p.SelectedMove.Type;
-      foreach (PokemonProxy pm in p.Controller.Board[1 - p.Pokemon.TeamId].GetPokemons(p.OnboardPokemon.X - 1, p.OnboardPokemon.X + 1))
+      foreach (PokemonProxy pm in p.Tile.Field.GetPokemons(p.OnboardPokemon.X - 1, p.OnboardPokemon.X + 1))
         if (pm.OnboardPokemon.HasCondition("Imprison"))
           foreach (MoveProxy m in pm.Moves)
             if (m.Type == move)

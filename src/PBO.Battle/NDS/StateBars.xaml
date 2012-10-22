@@ -71,12 +71,12 @@
         		    <DropShadowEffect BlurRadius="3" ShadowDepth="0"/>
                 </TextBlock.Effect>
             </TextBlock>
-            <TextBlock Text="{Binding Name}" Canvas.Left="14" Canvas.Top="-1" Foreground="Black">
+            <TextBlock Text="{Binding Name}" Canvas.Left="14" Canvas.Top="-2" Foreground="Black">
                 <TextBlock.Effect>
         		    <BlurEffect Radius="3"/>
                 </TextBlock.Effect>
             </TextBlock>
-            <TextBlock Text="{Binding Name}" Canvas.Left="14" Canvas.Top="-1" TextOptions.TextRenderingMode="Aliased" SnapsToDevicePixels="True" Foreground="White">
+            <TextBlock Text="{Binding Name}" Canvas.Left="14" Canvas.Top="-2" TextOptions.TextRenderingMode="Aliased" SnapsToDevicePixels="True" Foreground="White">
                 <TextBlock.Effect>
         		    <DropShadowEffect BlurRadius="3" ShadowDepth="0"/>
                 </TextBlock.Effect>

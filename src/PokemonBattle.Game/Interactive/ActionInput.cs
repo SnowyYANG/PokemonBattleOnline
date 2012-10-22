@@ -56,7 +56,7 @@ namespace LightStudio.PokemonBattle.Game
           foreach (MoveProxy m in pm.Moves)
             if (m.Type.Id == Move)
             {
-              Tile target = TargetTeam > 0 ? controller.GetTile(TargetTeam - 1, TargetX - 1) : null;
+              Tile target = TargetTeam > 0 ? controller.Board[TargetTeam - 1][TargetX - 1] : null;
               r = controller.InputSelectMove(m, target);
               break;
             }
@@ -104,7 +104,7 @@ namespace LightStudio.PokemonBattle.Game
         if (inputs[x] != null)
         { 
           if (controller.Game.Settings.Mode.GetPlayerIndex(x) != player.Team.GetPlayerIndex(player.Id)) return false;
-          if (!inputs[x].Input(controller, controller.GetTile(player.TeamId, x))) return false;
+          if (!inputs[x].Input(controller, controller.Board[player.TeamId][x])) return false;
         }
       return controller.CheckInputSucceed(player);
     }

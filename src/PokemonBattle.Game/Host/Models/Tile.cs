@@ -2,29 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Runtime.Serialization;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
-  [DataContract(Namespace = Namespaces.PBO)]
   public sealed class Tile : ConditionalObject
   {
     public const int NOPM_INDEX = -1;
 
-    [DataMember(EmitDefaultValue = false)]
-    public readonly int Team;
-    [DataMember(EmitDefaultValue = false)]
+    public readonly Field Field;
     public readonly int X;
     private int speed;
 
-    internal Tile(int team, int x, IGameSettings gameSettings)
+    internal Tile(Field team, int x, IGameSettings gameSettings)
     {
-      Team = team;
+      Field = team;
       X = x;
-      speed = (team << 3) + x;
+      speed = (Team << 3) + x;
       WillSendoutPokemonIndex = gameSettings.Mode.GetPokemonIndex(x);
     }
 
+    public int Team
+    { get { return Field.Team; } }
     public PokemonProxy Pokemon
     { get; internal set; }
 

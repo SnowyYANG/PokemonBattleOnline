@@ -132,7 +132,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             break;
           case As.HEALER:
             var ps = new List<PokemonProxy>();
-            foreach (var p in c.Board[pm.Pokemon.TeamId].Pokemons)
+            foreach (var p in pm.Tile.Field.Pokemons)
               if (p != pm && p.State != Game.PokemonState.Normal) ps.Add(p);
             if (ps.Count != 0 && c.RandomHappen(30))
             {
@@ -377,7 +377,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       if (f.GetCondition<int>(condition) == c.TurnNumber)
       {
         f.RemoveCondition(condition);
-        c.ReportBuilder.Add("De" + condition, f.TeamId);
+        c.ReportBuilder.Add("De" + condition, f.Team);
       }
     }
     //22.0 Gravity ends
@@ -453,7 +453,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
           case As.HARVEST:
             if (pm.Pokemon.Item == null)
             {
-              var i = c.Board[pm.Pokemon.TeamId].GetCondition<Item>("UsedBerry" + pm.Id);
+              var i = pm.Tile.Field.GetCondition<Item>("UsedBerry" + pm.Id);
               if (i != null && c.Weather == Game.Weather.IntenseSunlight || c.RandomHappen(50))
               {
                 pm.RaiseAbility();
@@ -492,7 +492,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
             if (i != null) items.Add(i);
           }
           if (!items.Any())
-            foreach (var p in c.Board[pm.Pokemon.TeamId].Pokemons)
+            foreach (var p in pm.Tile.Field.Pokemons)
               if (p != pm)
               {
                 var i = p.OnboardPokemon.GetCondition<Item>("UsedItem");

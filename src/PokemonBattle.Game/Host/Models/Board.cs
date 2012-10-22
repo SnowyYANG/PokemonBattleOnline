@@ -11,7 +11,7 @@ namespace LightStudio.PokemonBattle.Game.Host
   public class Board : ConditionalObject
   {
     private readonly Field[] fields;
-    private readonly Tile[,] tileMap;
+    private readonly Tile[] tiles;
     private readonly Terrain terrain;
     public readonly int TeamCount;
     public readonly int XBound;
@@ -25,43 +25,23 @@ namespace LightStudio.PokemonBattle.Game.Host
       Weather = Weather.Normal;
       terrain = settings.Terrain;
       {
-        tileMap = new Tile[TeamCount, XBound];
-        _tiles = new Tile[TeamCount * XBound];
+        tiles = new Tile[TeamCount * XBound];
         fields = new Field[TeamCount];
-        int t = 0;
+        int j = 0;
         for (int i = 0; i < TeamCount; i++)
         {
-          var ts = new Tile[XBound];
-          for (int j = 0; j < XBound; j++)
-            tileMap[i, j] = _tiles[t++] = ts[j] = new Tile(i, j, settings);
-          fields[i] = new Field(i, ts);
+          fields[i] = new Field(i, settings);
+          foreach(var t in fields[i].Tiles) tiles[j++] = t;
         }
       }
     }
 
     public IEnumerable<Field> Fields
     { get { return fields; } }
-    private Tile[] _tiles;
     public IEnumerable<Tile> Tiles
-    { get { return _tiles; } }
+    { get { return tiles; } }
     public Field this[int team]
-    {
-      get
-      {
-        if (team >= 0 && team < fields.Length)
-          return fields[team];
-        return null;
-      }
-    }
-    public Tile this[int team, int x]
-    {
-      get
-      {
-        if (team >= 0 && team < TeamCount && x >= 0 && x < XBound)
-          return tileMap[team, x];
-        return null;
-      }
-    }
+    { get { return fields.ValueOrDefault(team); } }
     public Weather Weather
     { get; set; }
   }

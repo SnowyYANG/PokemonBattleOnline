@@ -52,7 +52,7 @@ A(MarvelScale(63))
 class PlusMinus(AbilityE):
     def ADSModifier(self, pm, stat):
         if stat == StatType.SpAtk:
-            for p in pm.Controller.Board[pm.Pokemon.TeamId].Pokemons:
+            for p in pm.Tile.Field.Pokemons:
                 if p != pm:
                     a = p.Ability.Id
                     if a == 57 or a == 58:

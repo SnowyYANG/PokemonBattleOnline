@@ -10,7 +10,7 @@ class Add5TurnCondition(StatusMoveE):
         else:
             self.FailAll(a)
 M(Add5TurnCondition(54, 'Mist')) #mist
-M(Add5TurnCondition(219, 'Safegurad')) #safeguard
+M(Add5TurnCondition(219, 'Safeguard')) #safeguard
 M(Add5TurnCondition(381, 'LuckyChant')) #luck chant
 
 class EntryHazards(StatusMoveE):

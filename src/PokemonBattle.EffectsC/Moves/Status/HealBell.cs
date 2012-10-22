@@ -65,7 +65,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     {
       var aer = atk.Attacker;
       aer.Controller.ReportBuilder.Add(new HealBellEvent(aer, log));
-      foreach (var pm in aer.Controller.Board[aer.Pokemon.TeamId].Pokemons)
+      foreach (var pm in aer.Tile.Field.Pokemons)
         if (pm.State != PokemonState.Normal) pm.Pokemon.State = PokemonState.Normal;
       foreach(var pm in aer.Pokemon.Owner.Pokemons)
         if (pm.Hp.Value > 0 && pm.State != PokemonState.Normal) pm.State = PokemonState.Normal;

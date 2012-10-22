@@ -93,10 +93,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       return random.Next(n) == 0;
     }
-    public Tile GetTile(int team, int x)
-    {
-      return Game.Board[team, x];
-    }
     public Weather Weather
     {
       get { return Abilities.IgnoreWeather(this) ? Weather.Normal : Board.Weather; }

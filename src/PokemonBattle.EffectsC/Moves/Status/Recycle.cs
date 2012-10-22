@@ -19,7 +19,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     protected override void Act(AtkContext atk)
     {
       var aer = atk.Attacker;
-      var item = atk.Controller.Board[aer.Pokemon.TeamId].GetCondition<Item>("UsedItem" + aer.Id);
+      var item = aer.Tile.Field.GetCondition<Item>("UsedItem" + aer.Id);
       if (item == null) FailAll(atk);
       else aer.ChangeItem(item.Id, "Recycle");
     }

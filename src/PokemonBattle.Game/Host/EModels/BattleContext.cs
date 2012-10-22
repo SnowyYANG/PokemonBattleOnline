@@ -104,7 +104,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       PokemonProxy a = AtkContext.Attacker;
       return
         !IsCt &&
-        Defender.Controller.Board[Defender.Tile.Team].HasCondition(condition) &&
+        Defender.Tile.Field.HasCondition(condition) &&
         (Defender.Tile.Team == a.Tile.Team || !AtkContext.Attacker.Ability.Infiltrator());
     }
     public void ModifyDamage(UInt16 modifier)

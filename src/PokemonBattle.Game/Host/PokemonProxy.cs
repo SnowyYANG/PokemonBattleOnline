@@ -28,7 +28,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     internal void Sendout(Tile tile)
     {
       Action = PokemonAction.Debuting;
-      Tile = tile;
       tile.Pokemon = this;
       tile.WillSendoutPokemonIndex = Tile.NOPM_INDEX;
       OnboardPokemon = new OnboardPokemon(Pokemon, tile.X);
@@ -43,9 +42,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       var ability = Ability.Id;
       Action = PokemonAction.InBall;
-      OnboardPokemon = nullOnboard;
       Tile.Pokemon = null;
-      Tile = null;
+      OnboardPokemon = nullOnboard;
       Controller.OnboardPokemons.Remove(this);
       Abilities.Withdrawn(this, ability);
     }
@@ -67,7 +65,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public PokemonAction Action;
     public bool UsingItem;
     public Tile Tile
-    { get; internal set; }
+    { get { return Controller.Board[Pokemon.TeamId][OnboardPokemon.X]; } }
     public int Id
     { get { return Pokemon.Id; } }
     public int Hp
@@ -116,8 +114,8 @@ namespace LightStudio.PokemonBattle.Game.Host
         if (State == PokemonState.PAR) speed >>= 1;
         speed *= Ability.ADSModifier(this, StatType.Speed);
         speed *= Item.ADSModifier(this, StatType.Speed);
-        if (Controller.Board[Pokemon.TeamId].HasCondition("Tailwind")) speed <<= 1;
-        if (Controller.Board[Pokemon.TeamId].HasCondition("Swamp")) speed = (speed + 1) >> 2; //小数点是0.5以下就舍去，如果是0.75就四舍五入
+        if (Tile.Field.HasCondition("Tailwind")) speed <<= 1;
+        if (Tile.Field.HasCondition("Swamp")) speed = (speed + 1) >> 2; //小数点是0.5以下就舍去，如果是0.75就四舍五入
         return speed;
       }
     }
@@ -202,7 +200,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public bool CanHpRecover(bool showFail = false)
     {
-      if (Tile == null || Hp == 0) return false;
+      if (OnboardPokemon == nullOnboard || Hp == 0) return false;
       if (Hp == Pokemon.Hp.Origin)
       {
         if (showFail) AddReportPm("FullHp");
@@ -217,7 +215,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public bool CanEffectHurt
     {
-      get { return !(Tile == null || Hp == 0 || Ability.MagicGuard()); }
+      get { return !(OnboardPokemon == nullOnboard || Hp == 0 || Ability.MagicGuard()); }
     }
     public bool CanLostItem
     { 
@@ -254,7 +252,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     private bool CanAddState(PokemonProxy by, AbilityE ability, AttachedState state, bool showFail)
     {
-      if (Tile == null || Hp == 0) return false;
+      if (OnboardPokemon == nullOnboard || Hp == 0) return false;
       string fail = Controller.Game.Settings.Mode.NeedTarget() ? "Fail" : "Fail0";
       switch (state)
       {
@@ -282,6 +280,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           goto STATE;
         case AttachedState.Confuse:
           if (OnboardPokemon.HasCondition("Confuse")) goto BEENSTATE;
+          if (Tile.Field.HasCondition("Safeguard")) goto SAFEGUARD;
           goto GENERIC;
         case AttachedState.Attract:
           if (OnboardPokemon.Gender == PokemonGender.None || by.OnboardPokemon.Gender == PokemonGender.None || OnboardPokemon.Gender == by.OnboardPokemon.Gender) goto NOEFFECT;
@@ -306,8 +305,12 @@ namespace LightStudio.PokemonBattle.Game.Host
     BEENSTATE:
       if (showFail) AddReportPm("Been" + state);
       return false;
+    SAFEGUARD:
+      if (showFail) AddReportPm("Safeguard");
+      return false;
     STATE:
       if (State != PokemonState.Normal) goto FAIL;
+      if (Tile.Field.HasCondition("Safeguard")) goto SAFEGUARD;
       goto GENERIC;
     CONDITION:
       if (OnboardPokemon.HasCondition(state.ToString())) goto FAIL;
@@ -320,8 +323,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public int CanChangeLv7D(PokemonProxy by, StatType stat, int change, bool showFail)
     {
-      if (Tile == null || Hp == 0 || change == 0) return 0;
-      if (change < 0 && by != this && Controller.Board[Pokemon.TeamId].HasCondition("Mist"))
+      if (OnboardPokemon == nullOnboard || Hp == 0 || change == 0) return 0;
+      if (change < 0 && by != this && Tile.Field.HasCondition("Mist"))
       {
         if (showFail) AddReportPm("Mist");
         return 0;
@@ -389,7 +392,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (Action == PokemonAction.Debuting)
       {
         Tile.Debut();
-        Controller.Board[Pokemon.TeamId].Debut(this);
+        Tile.Field.Debut(this);
         if (!CheckFaint())
         {
           Ability.Attach(this);
@@ -536,17 +539,17 @@ namespace LightStudio.PokemonBattle.Game.Host
     public void ConsumeItem()
     {
       OnboardPokemon.SetTurnCondition("UsedItem", Pokemon.Item);
-      Controller.Board[Pokemon.TeamId].SetCondition("UsedItem" + Id, Pokemon.Item);
-      if (Pokemon.Item.Type == ItemType.Berry) Controller.Board[Pokemon.TeamId].SetCondition("UsedBerry" + Id, Pokemon.Item);
+      Tile.Field.SetCondition("UsedItem" + Id, Pokemon.Item);
+      if (Pokemon.Item.Type == ItemType.Berry) Tile.Field.SetCondition("UsedBerry" + Id, Pokemon.Item);
       RemoveItem();
     }
     public bool CheckFaint()
     {
-      if (Hp == 0)
+      if (Hp == 0 && OnboardPokemon != nullOnboard)
       {
-        Controller.Withdraw(this, "Faint", false);
+        Tile.Field.SetCondition("FaintTurn", Controller.TurnNumber);
         Pokemon.State = PokemonState.Faint;
-        Controller.Board[Pokemon.TeamId].SetCondition("FaintTurn", Controller.TurnNumber);
+        Controller.Withdraw(this, "Faint", false);
         return true;
       }
       return false;

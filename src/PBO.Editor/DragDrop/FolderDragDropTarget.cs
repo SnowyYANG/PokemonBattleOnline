@@ -43,7 +43,12 @@ namespace LightStudio.PokemonBattle.PBO.Editor
 
     private static void MoveItemTo(PokemonCollection dest, int destIndex, PokemonDragDropData data)
     {
-      if (dest == data.Source) dest.Move(dest.IndexOf(data.Pokemon), destIndex);
+      if (dest == data.Source)
+      {
+        var i = dest.IndexOf(data.Pokemon);
+        if (i < destIndex) destIndex--;
+        dest.Move(i, destIndex);
+      }
       else
       {
         dest.Insert(destIndex, data.Pokemon);

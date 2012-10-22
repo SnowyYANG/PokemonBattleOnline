@@ -164,7 +164,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         atk.CTLv += aer.Item.CtLvRevise(aer);
         if (atk.CTLv > 4) atk.CTLv = 4;
       }
-      if (!(c.Board[def.Defender.Pokemon.TeamId].HasCondition("LuckyChant") || def.Ability.CannotBeCted()))
+      if (!(def.Defender.Tile.Field.HasCondition("LuckyChant") || def.Ability.CannotBeCted()))
         if (Move.CtLv > 5) def.IsCt = true;
         else def.IsCt = c.OneNth(LV_CT[atk.CTLv]);
 

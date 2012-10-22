@@ -59,10 +59,10 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       dragDropInfo.Action = DragDropActions.None;
 
       int i = DragDropState.GetDraggingOverIndex(target);
-      var collection = (target as FrameworkElement).DataContext as CollectionGroup;
+      var collection = (target as FrameworkElement).DataContext as GroupVM;
       if (collection != null && i != -1)
       {
-        dragDropInfo.Target = collection[i];
+        dragDropInfo.Target = collection.Model[i];
         if (dragDropInfo.Target.CanAdd)
         {
           if (e.KeyStates.HasFlag(DragDropKeyStates.ControlKey)) dragDropInfo.Action = DragDropActions.CopyTo;

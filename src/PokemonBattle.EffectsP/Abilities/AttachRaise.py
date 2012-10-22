@@ -47,7 +47,7 @@ class Download(AbilityE):
         sa = pm.CanChangeLv7D(pm, StatType.SpAtk, 1, False) != 0
         a = pm.CanChangeLv7D(pm, StatType.Atk, 1, False) != 0
         stats = []
-        for p in pm.Controller.Board[1-pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
+        for p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
             if p.OnboardPokemon.FiveD.Def > p.OnboardPokemon.FiveD.SpDef:
                 if sa:
                     stats.append(StatType.SpAtk)
@@ -69,7 +69,7 @@ A(SlowStart(112))
 
 class Anticipation(AbilityE):
     def Attach(self, pm):
-        for p in pm.Controller.Board[1-pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
+        for p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
             for m in p.Moves:
                 if m.Type.Class == MoveInnerClass.OHKO or BattleTypeHelper.EffectRevise(m.Type.Type, pm.OnboardPokemon.Type1, pm.OnboardPokemon.Type2) > 0:
                     self.Raise(pm)
@@ -80,7 +80,7 @@ A(Anticipation(107))
 class Trace(AbilityE):
     def Attach(self, pm):
         pms = []
-        for p in pm.Controller.Board[1-pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
+        for p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
             if Abilities.Trace(p.OnboardPokemon.Ability):
                 pms.append(p)
         n = len(pms)
