@@ -280,7 +280,7 @@ namespace LightStudio.PokemonBattle.Data
           form = (byte)((DateTime.Now.Month - 1) & 3);
           break;
         case ARCEUS:
-          form = (byte)(PLATE_MINID <= _itemId && _itemId <= PLATE_MAXID ? _itemId - DRIVE_MINID + 1 : 0);
+          form = (byte)(PLATE_MINID <= _itemId && _itemId <= PLATE_MAXID ? _itemId - PLATE_MINID + 1 : 0);
           break;
         case GIRATINA:
           form = (byte)(_itemId == GRISEOUS_ORB ? 1 : 0);

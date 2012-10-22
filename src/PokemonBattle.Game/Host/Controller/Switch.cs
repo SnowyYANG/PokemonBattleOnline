@@ -30,14 +30,18 @@ namespace LightStudio.PokemonBattle.Game.Host
       return pokemon != null && pokemon.Hp.Value > 0 && pokemon.IndexInOwner >= GameSettings.Mode.OnboardPokemonsPerPlayer();
     }
 
-    public bool Withdraw(PokemonProxy pm, bool canPursuit, string log)
+    public bool Withdraw(PokemonProxy pm, string log, bool canPursuit)
     {
       if (CanWithdraw(pm))
       {
+        pm.AddReportPm(log);
         Sp.Triggers.Withdrawing(pm, canPursuit);
-        ReportBuilder.Add(new GameEvents.Withdraw(pm, log));
-        pm.Withdraw();
-        return true;
+        if (pm.Tile != null)
+        {
+          ReportBuilder.Add(new GameEvents.Withdraw(pm));
+          pm.Withdraw();
+          return true;
+        }
       }
       return false;
     }

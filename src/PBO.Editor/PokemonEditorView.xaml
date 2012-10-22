@@ -87,8 +87,8 @@
         	<Label Content="Pokemon" Grid.Row="1"/>
             <ui:ClearableComboBox SelectedItem="{Binding PokemonType}" ItemsSource="{x:Static pm:GameDataService.Pokemons}" ItemTemplate="{x:Static local:Resources.PokemonType}" ItemsPanel="{StaticResource VirtualPanel}" Grid.Row="1" Margin="45,0,0,0" VirtualizingStackPanel.VirtualizationMode="Recycling"/>
             <Label Content="Type" Grid.Row="2" HorizontalAlignment="Left"/>
-            <ContentPresenter Content="{Binding PokemonForm.Data.Type1}" Margin="45,0,0,0"/>
-            <ContentPresenter Content="{Binding PokemonForm.Data.Type2}" Margin="93,0,0,0"/>
+            <ContentPresenter Content="{Binding PokemonForm.Type1}" Margin="45,0,0,0"/>
+            <ContentPresenter Content="{Binding PokemonForm.Type2}" Margin="93,0,0,0"/>
         	<Label Content="Lv" Grid.Row="3"/>
             <ui:NumericUpdown Value="{Binding Model.Lv,Mode=TwoWay}" Minimum="1" Maximum="100" Grid.Row="3" LargeChange="50" Canvas.Left="45" Width="53" Margin="45,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
         	<Label Content="Gender" Grid.Row="3" Canvas.Left="94" Canvas.Top="58" BorderThickness="0" HorizontalAlignment="Right" Margin="0,0,56,0"/>

@@ -8,7 +8,7 @@ M(RollOut(205))
 M(RollOut(301))
 
 class Present(AttackMoveE):
-    def Execute(self, pm):
+    def Execute(self, pm, event, flag):
         random = pm.Controller.GetRandomInt(0, 99)
         pm.BuildAtkContext(self.Move)
         if random < 20:
@@ -22,7 +22,7 @@ class Present(AttackMoveE):
                 else:
                     a = 100
         pm.AtkContext.Attachment = a
-        MoveE.Execute(self, pm)
+        MoveE.Execute(self, pm, event, flag)
     def Act(self, a):
         if a.Attachment == 0:
             a.Target.Defender.HpRecoverByOneNth(4, True)
@@ -31,7 +31,7 @@ class Present(AttackMoveE):
 M(Present(217))
 
 class Magnitude(AttackMoveE):
-    def Execute(self, pm):
+    def Execute(self, pm, event, flag):
         random = pm.Controller.GetRandomInt(0, 99)
         pm.BuildAtkContext(self.Move)
         if random >= 95:
@@ -56,7 +56,7 @@ class Magnitude(AttackMoveE):
                                 a = 5
             pm.AtkContext.Attachment = a
             pm.Controller.ReportBuilder.Add("Magnitude", 4 + a)
-        MoveE.Execute(self, pm)
+        MoveE.Execute(self, pm, event, flag)
     def CalculateBasePower(self, d):
         d.BasePower = 10 + 20 * d.AtkContext.Attachment
     def DamageFinalModifier(self, d):
@@ -64,6 +64,14 @@ class Magnitude(AttackMoveE):
             return 0x2000
         return 0x1000
 M(Magnitude(222))
+
+class Pursuit(AttackMoveE):
+    def CalculateBasePower(self, d):
+        if d.AtkContext.Flag.HasFlag(AtkContextFlag.IgnorePostEffectItem):
+            d.BasePower = 80
+        else:
+            d.BasePower = 40
+M(Pursuit(228))
 
 class WeatherBall(AttackMoveE):
     def CalculateBasePower(self, d):

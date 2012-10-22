@@ -54,7 +54,16 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     public static void Withdrawing(PokemonProxy pm, bool canPursuit)
     {
-      if (pm.Hp > 0 && canPursuit) ;//228 pursuit
+      if (pm.Hp > 0 && canPursuit)
+      {
+        var tile = pm.Tile;
+        foreach (var p in pm.Controller.GetOnboardPokemons(1 - pm.Pokemon.TeamId).ToArray())
+          if (p.SelectedMove.Type.Id == Moves.PERSUIT)
+          {
+            p.ActMove(AtkContextFlag.IgnorePostEffectItem);
+            if (pm.CheckFaint()) return;
+          }
+      }
       foreach (var p in pm.Controller.OnboardPokemons)
         if (p != pm)
         {

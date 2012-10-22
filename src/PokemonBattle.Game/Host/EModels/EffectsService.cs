@@ -153,7 +153,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
       }
 
-      public override void Execute(PokemonProxy pm, GameEvents.UseMove eventForPP)
+      public override void Execute(PokemonProxy pm, GameEvents.UseMove eventForPP, AtkContextFlag flag)
       {
         if (Move == null) pm.Controller.ReportBuilder.Add("error");
         else pm.Controller.ReportBuilder.Add("unfinish", pm, Move.Id);

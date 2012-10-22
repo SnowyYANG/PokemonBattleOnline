@@ -150,8 +150,14 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       {
         if (Model.Item != value)
         {
+          var form = PokemonForm;
           Model.Item = value;
-          RefreshImage();
+          if (form != PokemonForm)
+          {
+            RefreshImage();
+            OnPropertyChanged("PokemonForm");
+            if (form.Data != PokemonForm.Data) Stats.RefreshAll();
+          }
         }
       }
     }

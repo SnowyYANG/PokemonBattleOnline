@@ -58,10 +58,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       return item.Id == 55;
     }
     
-    private static readonly BattleType[] TYPES = new BattleType[] { BattleType.Fire, BattleType.Water, BattleType.Electric, BattleType.Grass, BattleType.Ice, BattleType.Fighting, BattleType.Poison, BattleType.Ground, BattleType.Flying, BattleType.Psychic, BattleType.Bug, BattleType.Rock, BattleType.Ghost, BattleType.Dragon, BattleType.Dark, BattleType.Steel, BattleType.Normal };
     public static BattleType PlateType(Item item)
     {
-      return item != null && item.Id > 74 && item.Id < 91 ? BattleType.Normal : TYPES[item.Id - 75];
+      return item != null && item.Id > 74 && item.Id < 91 ? BattleType.Normal : BattleTypeHelper.GetItemType(item.Id, 75);
     }
     public static bool PlatedArceus(Pokemon pm)
     {
@@ -203,7 +202,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     internal static void CheckGem(AtkContext atk)
     {
       var i = atk.Attacker.Item.Id;
-      if (i > 111 && i < 129 && TYPES[i - 112] == atk.Type)
+      if (i > 111 && i < 129 && BattleTypeHelper.GetItemType(i, 112, false) == atk.Type)
       {
         atk.Gem = true;
         atk.Controller.ReportBuilder.Add(new GameEvents.RemoveItem("Gem", atk.Attacker, i, atk.Move.Id));

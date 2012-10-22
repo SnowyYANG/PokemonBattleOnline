@@ -25,7 +25,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         if (sendouts.Count != 0)
         {
           var tile = der.Tile;
-          c.Withdraw(der, false, "ForceWithdraw");
+          c.Withdraw(der, "ForceWithdraw", false);
           tile.WillSendoutPokemonIndex = sendouts[c.GetRandomInt(0, sendouts.Count - 1)];
           c.Sendout(tile, true, "ForceSendout");
           return true;
@@ -43,10 +43,11 @@ namespace LightStudio.PokemonBattle.Game.Host
     { get; private set; }
 
     protected abstract void Act(AtkContext atk);
-    public virtual void Execute(PokemonProxy pm, UseMove eventForPP)
+    public virtual void Execute(PokemonProxy pm, UseMove eventForPP, AtkContextFlag flag)
     {
       if (pm.AtkContext == null) pm.BuildAtkContext(Move);
       AtkContext atk = pm.AtkContext;
+      atk.Flag = flag;
       int oldPP = atk.MoveProxy.PP;
       if (NotFail(atk))
       {

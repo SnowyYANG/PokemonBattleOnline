@@ -37,7 +37,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
     }
 
-    public override void Execute(PokemonProxy pm, UseMove eventForPP)
+    public override void Execute(PokemonProxy pm, UseMove eventForPP, AtkContextFlag flag)
     {
       if (pm.AtkContext == null)
       {
@@ -45,7 +45,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         Moves.MultiTurnAttack(pm.AtkContext);
       }
       if (PrepareOneTurn(pm) && !Sp.Items.PowerHerb(pm)) return;
-      base.Execute(pm, eventForPP);
+      base.Execute(pm, eventForPP, flag);
     }
     protected override void Act(AtkContext atk)
     {
@@ -306,8 +306,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     protected virtual void PostEffect(AtkContext atk)
     {
       foreach (DefContext d in atk.Targets) Abilities.ColorChange(d);
-      //红牌、逃生按钮
-      Items.AttackPostEffect(atk);
+      if (!atk.Flag.HasFlag(AtkContextFlag.IgnorePostEffectItem)) Items.AttackPostEffect(atk);
     }
     protected override void MoveEnding(AtkContext atk)
     {

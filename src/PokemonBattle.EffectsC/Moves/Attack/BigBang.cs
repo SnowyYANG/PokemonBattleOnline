@@ -14,13 +14,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
       : base(id)
     {
     }
-    public override void Execute(PokemonProxy pm, GameEvents.UseMove eventForPP)
+    public override void Execute(PokemonProxy pm, GameEvents.UseMove eventForPP, AtkContextFlag flag)
     {
       pm.BuildAtkContext(Move);
       int oldPP = pm.AtkContext.MoveProxy.PP;
       if (pm.Controller.OnboardPokemons.FirstOrDefault((p) => p.RaiseAbility(As.DAMP)) == null)
       {
-        base.Execute(pm, eventForPP);
+        base.Execute(pm, eventForPP, flag);
         if (pm.AtkContext.FailAll)
         {
           pm.Pokemon.SetHp(0);
@@ -36,6 +36,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
       int atkTeam = aer.Pokemon.TeamId;
       CalculateDamages(atk);
       aer.Pokemon.SetHp(0);
+      aer.Controller.ReportBuilder.Add(new GameEvents.HpChange(aer, null));
       aer.CheckFaint();
       Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
       Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));

@@ -43,7 +43,7 @@ namespace LightStudio.PokemonBattle.Game
     #region Host
     internal PokemonOutward(PokemonProxy pm)
     {
-      OwnerId = pm.Pokemon.Owner.Id;
+      ownerId = pm.Pokemon.Owner.Id;
       Id = pm.Id;
       _position = new Position(pm.Pokemon.TeamId, pm.OnboardPokemon.X, pm.OnboardPokemon.CoordY);
       State = pm.State;
@@ -68,7 +68,8 @@ namespace LightStudio.PokemonBattle.Game
     #endregion
 
     [DataMember]
-    public int OwnerId
+    private int ownerId;
+    public PlayerOutward Owner
     { get; private set; }
 
     [DataMember]
@@ -267,12 +268,16 @@ namespace LightStudio.PokemonBattle.Game
         case "State":
           r = State.GetLocalizedName();
           break;
+        case "Owner.Name":
+          r = Owner.Name;
+          break;
       }
       return r;
     }
     public void Init(GameOutward game)
     {
       team = game.Teams[Position.Team];
+      Owner = game.GetPlayer(ownerId);
     }
     public void AddListener(IPokemonOutwardEvents listener)
     {

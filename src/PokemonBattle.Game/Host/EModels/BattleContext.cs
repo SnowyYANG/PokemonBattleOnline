@@ -7,8 +7,16 @@ using LightStudio.PokemonBattle.Game.Host.Sp;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
+  [Flags]
+  public enum AtkContextFlag
+  {
+    None = 0,
+    IgnorePostEffectItem,
+    MeFirst
+  }
   public class AtkContext
   {
+    public AtkContextFlag Flag;
     public readonly MoveProxy MoveProxy; //压力、诅咒身躯，针对一开始选的技能
     public readonly MoveType Move; //生成技能在后期
     public BattleType Type;
@@ -38,11 +46,12 @@ namespace LightStudio.PokemonBattle.Game.Host
     public DefContext Target
     { get; private set; }
 
-    internal void Execute()
+    internal void Execute(AtkContextFlag flag)
     {
       TotalDamage = 0;
+      Flag = flag;
       Controller.ReportBuilder.Add(new GameEvents.UseMove(Attacker, Move));
-      EffectsService.GetMove(Move.Id).Execute(Attacker, null);
+      EffectsService.GetMove(Move.Id).Execute(Attacker, null, Flag);
     }
     public void SetTargets(IEnumerable<DefContext> targets)
     {

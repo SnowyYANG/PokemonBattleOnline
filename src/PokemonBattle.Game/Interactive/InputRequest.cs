@@ -205,7 +205,7 @@ namespace LightStudio.PokemonBattle.Game
 #if DEBUG
     public
 #endif
-    Tile[] Tiles;
+    int[] Xs;
 
     internal InputRequest(IEnumerable<PokemonProxy> pokemons = null)
     {
@@ -214,7 +214,7 @@ namespace LightStudio.PokemonBattle.Game
     }
     internal InputRequest(params Tile[] tiles)
     {
-      Tiles = tiles;
+      Xs = tiles.Select((t)=>t.X).ToArray();
     }
 
     public override bool Equals(object obj)

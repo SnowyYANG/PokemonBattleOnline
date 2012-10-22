@@ -28,6 +28,7 @@ namespace LightStudio.PokemonBattle.Data
   }
   public static class BattleTypeHelper
   {
+    private static readonly BattleType[] ITEM_TYPE = new BattleType[] { BattleType.Fire, BattleType.Water, BattleType.Electric, BattleType.Grass, BattleType.Ice, BattleType.Fighting, BattleType.Poison, BattleType.Ground, BattleType.Flying, BattleType.Psychic, BattleType.Bug, BattleType.Rock, BattleType.Ghost, BattleType.Dragon, BattleType.Dark, BattleType.Steel, BattleType.Normal };
     /// <summary>
     /// [atk, def]
     /// </summary>
@@ -63,6 +64,10 @@ namespace LightStudio.PokemonBattle.Data
     public static int EffectRevise(this BattleType a, BattleType d1, BattleType d2)
     {
       return EffectRevise(a, d1) + EffectRevise(a, d2);
+    }
+    public static BattleType GetItemType(int id, int beginId, bool ignoreNormal = true)
+    {
+      return ITEM_TYPE[(id - beginId) % (ignoreNormal ? 16 : 17)];
     }
   }
 }

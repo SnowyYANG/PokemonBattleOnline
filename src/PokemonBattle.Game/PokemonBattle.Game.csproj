@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\PlayerOutward.cs" />
     <Compile Include="Client\Position.cs" />
     <Compile Include="Client\SimPokemon.cs" />
     <Compile Include="GameService.cs" />
@@ -88,7 +89,7 @@
     <Compile Include="Host\IGame.cs" />
     <Compile Include="Interactive\GameEvent.cs" />
     <Compile Include="Interactive\GameEvents\Ability.cs" />
-    <Compile Include="Interactive\GameEvents\PmPropertyChange.cs" />
+    <Compile Include="Interactive\GameEvents\PropertyChange.cs" />
     <Compile Include="Interactive\GameEvents\Simple.cs" />
     <Compile Include="Interactive\GameEvents\Switch.cs" />
     <Compile Include="Interactive\GameLogs.cs" />

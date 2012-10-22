@@ -163,8 +163,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       Form = form;
       _weight = form.Type.Weight;
-      _type1 = form.Data.Type1;
-      _type2 = form.Data.Type2;
+      _type1 = form.Type1;
+      _type2 = form.Type2;
       Ability = form.Data.GetAbility(Pokemon.AbilityIndex).Id;
       FiveD.Atk = Get5D(StatType.Atk);
       FiveD.SpAtk = Get5D(StatType.SpAtk);

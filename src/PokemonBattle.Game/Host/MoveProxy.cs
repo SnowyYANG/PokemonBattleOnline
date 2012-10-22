@@ -51,11 +51,11 @@ namespace LightStudio.PokemonBattle.Game.Host
       return null;
     }
 
-    public void Execute()
+    internal void Execute(AtkContextFlag flag)
     {
       var um = new UseMove(Owner, Type);
       Owner.Controller.ReportBuilder.Add(um);
-      e.Execute(Owner, um);
+      e.Execute(Owner, um, flag);
       HasUsed = true;
     }
 

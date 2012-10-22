@@ -201,9 +201,9 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       return SwitchController.CanWithdraw(pm);
     }
-    public bool Withdraw(PokemonProxy pm, bool canPursuit = true, string log = null)
+    public bool Withdraw(PokemonProxy pm, string log, bool canPursuit = true)
     {
-      return SwitchController.Withdraw(pm, canPursuit, log);
+      return SwitchController.Withdraw(pm, log, canPursuit);
     }
     public bool Sendout(Tile position, bool debut = true, string log = null)
     {

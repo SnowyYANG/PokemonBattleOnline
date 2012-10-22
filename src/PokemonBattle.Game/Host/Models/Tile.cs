@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
+  [DataContract(Namespace = Namespaces.PBO)]
   public sealed class Tile : ConditionalObject
   {
     public const int NOPM_INDEX = -1;
 
+    [DataMember(EmitDefaultValue = false)]
     public readonly int Team;
+    [DataMember(EmitDefaultValue = false)]
     public readonly int X;
     private int speed;
 

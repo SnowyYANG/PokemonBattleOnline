@@ -24,7 +24,7 @@ namespace LightStudio.PokemonBattle.Game
     public readonly IGameSettings Settings;
     public readonly BoardOutward Board;
     public readonly TeamOutward[] Teams;
-    private readonly IDictionary<int, string> players;
+    private readonly Dictionary<int, PlayerOutward> players;
     private readonly string[] teams;
     private readonly Collection<IGameOutwardEvents> listeners;
 
@@ -35,13 +35,20 @@ namespace LightStudio.PokemonBattle.Game
       Teams = new TeamOutward[Settings.Mode.TeamCount()];
       for (int t = 0; t < Settings.Mode.TeamCount(); t++)
         Teams[t] = new TeamOutward(6, 0, 0);
-      this.players = players;
+      {
+        this.players = new Dictionary<int, PlayerOutward>();
+        foreach (var p in players) this.players.Add(p.Key, new PlayerOutward(p.Key, p.Value));
+      }
       this.teams = teams;
       listeners = new Collection<IGameOutwardEvents>();
     }
     public int TurnNumber
     { get; set; }
 
+    public PlayerOutward GetPlayer(int id)
+    {
+      return players.ValueOrDefault(id);
+    }
     public PokemonOutward GetPokemon(int id)
     {
       foreach (var team in Board.Teams)
@@ -124,13 +131,10 @@ namespace LightStudio.PokemonBattle.Game
           int id = (int)arg;
           switch (format)
           {
-            case "P":
-              r = players.ValueOrDefault(id);
-              break;
             case "p":
               {
                 var pm = GetPokemon(id);
-                if (pm != null) r = string.Format(this, DataService.String["{0}'s {1}"], players.ValueOrDefault(pm.OwnerId), pm.Name);
+                if (pm != null) r = string.Format(this, DataService.String["{0}'s {1}"], pm.Owner.Name, pm.Name);
               }
               break;
             case "m":

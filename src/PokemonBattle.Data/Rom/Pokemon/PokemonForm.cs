@@ -38,5 +38,16 @@ namespace LightStudio.PokemonBattle.Data
     private readonly byte _data;
     public PokemonFormData Data
     { get { return Type.GetData(_data); } }
+
+    public BattleType Type1
+    { get { return Type.Number == 493 && Index != 0 ? BattleTypeHelper.GetItemType(Index, 1) : Data.Type1; } }
+    public BattleType Type2
+    { 
+      get
+      { 
+        var data = Data;
+        return data.Type1 == data.Type2 ? BattleType.Invalid : data.Type2;
+      }
+    }
   }
 }

@@ -28,15 +28,22 @@ namespace LightStudio.PokemonBattle.Data
     { get { return _base; } }
     [DataMember]
     private readonly BattleType _type1;
-    public BattleType Type1
+    internal BattleType Type1
     { get { return _type1; } }
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember]
     private readonly BattleType _type2;
-    public BattleType Type2
-    { get { return _type2 == _type1 ? BattleType.Invalid : _type2; } }
+    internal BattleType Type2
+    { get { return _type2; } }
 
     public Ability[] Abilities
-    { get { return abilities.Select(id => GameDataService.GetAbility(id)).ToArray(); } }
+    { 
+      get
+      { 
+        var abs = abilities.Select(id => GameDataService.GetAbility(id)).ToArray();
+        if (abs[0] == abs[1]) abs[1] = null;
+        return abs;
+      }
+    }
     public Ability GetAbility(int index)
     {
       return GameDataService.GetAbility(abilities.ValueOrDefault(index));

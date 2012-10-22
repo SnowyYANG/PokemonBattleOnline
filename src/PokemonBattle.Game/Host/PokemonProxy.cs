@@ -410,15 +410,11 @@ namespace LightStudio.PokemonBattle.Game.Host
         Triggers.WillAct(this);
         Action = PokemonAction.Switching;
         Tile tile = Tile;
-        if (Controller.Withdraw(this)) //追击，无论死没死都已经收回了
-        {
-          if (this.Hp == 0) Controller.PauseForSendoutInput(Controller.Switch, Tile);
-          else Controller.Sendout(tile);
-        }
-        Action = PokemonAction.Done;
+        if (Controller.Withdraw(this, "Withdraw")) Controller.Sendout(tile);
+        Action = PokemonAction.InBall;
       }
     }
-    internal void ActMove()
+    internal void ActMove(AtkContextFlag flag = AtkContextFlag.None)
     {
       if (CanMove)
       {
@@ -433,14 +429,14 @@ namespace LightStudio.PokemonBattle.Game.Host
           case PokemonAction.Moving:
             bool c = CanExecute();
             Sp.Moves.SkyDrop(AtkContext);
-            if (c) AtkContext.Execute();
+            if (c) AtkContext.Execute(flag);
             else Action = PokemonAction.Done;
             break;
           case PokemonAction.MoveAttached:
             if (CanExecute() && SelectedMove.CanExecute())
             {
               _atkContext = null; //考虑下要不要拿到花括号外面或者删掉
-              SelectedMove.Execute();
+              SelectedMove.Execute(flag);
               var o = OnboardPokemon.GetCondition("LastMove");
               if (o == null)
               {
@@ -548,7 +544,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (Hp == 0)
       {
-        Controller.Withdraw(this);
+        Controller.Withdraw(this, "Faint", false);
         Pokemon.State = PokemonState.Faint;
         Controller.Board[Pokemon.TeamId].SetCondition("FaintTurn", Controller.TurnNumber);
         return true;
