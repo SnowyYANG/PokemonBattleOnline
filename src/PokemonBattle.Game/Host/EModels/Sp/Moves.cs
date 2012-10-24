@@ -10,8 +10,12 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
   public static class Moves
   {
     public const int STRUGGLE = 165;
+    internal const int CURSE = 174;
     internal const int SPIKES = 191;
     internal const int PERSUIT = 228;
+    private const int FUTURE_SIGHT = 248;
+    public const int UPROAR = 253;
+    private const int DOOM_DESIRE = 353;
     internal const int ME_FIRST = 382;
     internal const int SUCKER_PUNCH = 389;
     internal const int TOXIC_SPIKES = 390;
@@ -22,7 +26,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       const int SNORE = 173, SLEEP_TALK = 214;
       return move.Type.Id == SLEEP_TALK || move.Type.Id == SNORE;
     }
-    private const int THRASH = 37, PETAL_DANCE = 80, OUTRAGE = 200, ROLLOUT = 205, UPROAR = 253, ICE_BALL = 301;
+    private const int THRASH = 37, PETAL_DANCE = 80, OUTRAGE = 200, ROLLOUT = 205, ICE_BALL = 301;
     public static bool MultiTurnAttack(this MoveType move)
     {
       int id = move.Id;
@@ -32,24 +36,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       return move.Id == THRASH || move.Id == PETAL_DANCE || move.Id == OUTRAGE;
     }
-    public static void MultiTurnAttack(AtkContext atk)
-    {
-      switch (atk.Move.Id)
-      {
-        case THRASH:
-        case PETAL_DANCE:
-        case OUTRAGE:
-          atk.Attachment = atk.Controller.GetRandomInt(2, 3);
-          break;
-        case UPROAR:
-          atk.Attachment = 3;
-          break;
-        case ROLLOUT:
-        case ICE_BALL:
-          atk.Attachment = 5;
-          break;
-      }
-    }
+
     public static Modifier SolarBeam(DefContext def)
     {
       if (def.AtkContext.Move.Id == 76)
@@ -110,6 +97,14 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         return atk.Target != null;
       }
       return true;
+    }
+    internal static MoveRange GetRange(PokemonProxy pm, MoveType move)
+    {
+      return move.Id == CURSE ? pm.OnboardPokemon.HasType(BattleType.Ghost) ? MoveRange.Single : MoveRange.User : move.Range;
+    }
+    internal static bool FSDD(AtkContext atk)
+    {
+      return atk.Move.Id == FUTURE_SIGHT || atk.Move.Id == DOOM_DESIRE;
     }
   }
 }

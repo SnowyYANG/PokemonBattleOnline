@@ -195,9 +195,9 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HealingWish</a:Key><a:Value i:type="LogText"><text>治愈之愿传递给了{0:p}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Wish</a:Key><a:Value i:type="LogText"><text>{0:p}的许愿实现了！</text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>EnUproar</a:Key><a:Value i:type="LogText"><text>{0:p}开始吵闹了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Uproar1</a:Key><a:Value i:type="LogText"><text>{0:p}因为太吵所以醒了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Uproar2</a:Key><a:Value i:type="LogText"><text>但是{0:p}因为太吵无法入睡！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Uproar3</a:Key><a:Value i:type="LogText"><text>但是{0:p}正在吵闹，无法入睡！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>UproarDeSLP</a:Key><a:Value i:type="LogText"><text>{0:p}因为太吵所以醒了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>UproarCantSLP</a:Key><a:Value i:type="LogText"><text>但是{0:p}因为太吵无法入睡！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>UproarCantSLP2</a:Key><a:Value i:type="LogText"><text>但是{0:p}正在吵闹，无法入睡！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Uproar</a:Key><a:Value i:type="LogText"><text>{0:p}正在吵闹！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeUproar</a:Key><a:Value i:type="LogText"><text>{0:p}安静下来了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnStockpile</a:Key><a:Value i:type="LogText"><text>{0:p}积累了{1}次！
@@ -281,8 +281,8 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Thief</a:Key><a:Value i:type="LogText"><text>{0:p}从{2:p}那里夺走了{1:i}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnCurse</a:Key><a:Value i:type="LogText"><text>{0:p}消减了自己的体力，向{1:i}下了诅咒！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Curse</a:Key><a:Value i:type="LogText"><text>{0:p}被诅咒了！</text></a:Value></a:KeyValueOfstringanyType>
-<a:KeyValueOfstringanyType><a:Key>FutureSight</a:Key><a:Value i:type="LogText"><text>{0:p}预知了未来的攻击！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DoomDesire</a:Key><a:Value i:type="LogText"><text>{0:p}将破灭之愿托付给了未来！
+<a:KeyValueOfstringanyType><a:Key>EnFSDD248</a:Key><a:Value i:type="LogText"><text>{0:p}预知了未来的攻击！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnFSDD353</a:Key><a:Value i:type="LogText"><text>{0:p}将破灭之愿托付给了未来！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>FSDD</a:Key><a:Value i:type="LogText"><text>{0:p}受到了{1:m}的攻击！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Gravity1</a:Key><a:Value i:type="LogText"><text>{0:p}受到重力的影响，不能漂浮在空中了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Gravity2</a:Key><a:Value i:type="LogText"><text>{0:p}因为重力太强，使不出{1:m}！

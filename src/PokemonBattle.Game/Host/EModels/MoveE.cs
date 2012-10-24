@@ -33,6 +33,95 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       return false;
     }
+    private static IEnumerable<Tile> GetRangeTiles(PokemonProxy attacker, MoveType move, AtkContext context)
+    {
+      Tile select = attacker.SelectedTarget;
+      IEnumerable<Tile> targets = null;
+      Board b = attacker.Controller.Board;
+      bool remote = move.AdvancedFlags.IsRemote;
+      int team = attacker.Pokemon.TeamId;
+      int rTeam = 1 - team;
+      int x = attacker.OnboardPokemon.X;
+      switch (Moves.GetRange(attacker, move))
+      {
+        case MoveRange.UserField: //do nothing
+        case MoveRange.EnemyField: //do nothing
+        case MoveRange.Field: //do nothing
+        case MoveRange.UserParty: //防音防不住治愈铃铛，所以这只是个摆设
+          break;
+        case MoveRange.Adjacent:
+          {
+            var ts = new List<Tile>();
+            Tile t;
+            t = b[team][x - 1]; if (t != null) ts.Add(t);
+            t = b[team][x + 1]; if (t != null) ts.Add(t);
+            t = b[rTeam][x - 1]; if (t != null) ts.Add(t);
+            t = b[rTeam][x]; if (t != null) ts.Add(t);
+            t = b[rTeam][x + 1]; if (t != null) ts.Add(t);
+            targets = ts;
+          }
+          break;
+        case MoveRange.AdjacentEnemies:
+          {
+            var ts = new List<Tile>();
+            Tile t;
+            t = b[rTeam][x - 1]; if (t != null) ts.Add(t);
+            t = b[rTeam][x]; if (t != null) ts.Add(t);
+            t = b[rTeam][x + 1]; if (t != null) ts.Add(t);
+            targets = ts;
+          }
+          break;
+        case MoveRange.All:
+          targets = b.Tiles;
+          break;
+        case MoveRange.Partner:
+          if (select == null) goto case MoveRange.UserOrParner;
+          else targets = new Tile[] { select };
+          break;
+        case MoveRange.RandomEnemy:
+          {
+            int min = 0, max = b.XBound - 1;
+            if (!remote)
+            {
+              if (x - 1 > min) min = x - 1;
+              if (x + 1 < max) max = x + 1;
+            }
+            targets = new Tile[] { b[rTeam][attacker.Controller.GetRandomInt(min, max)] };
+          }
+          break;
+        case MoveRange.Single:
+          if (context != null) Abilities.ReTarget(context, ref select);
+          goto case MoveRange.SingleEnemy;
+        case MoveRange.SingleEnemy:
+          if (select == null || (!remote && (select.X < x - 1 || select.X > x + 1)))
+            goto case MoveRange.RandomEnemy; //非鬼系选诅咒后变诅咒随机对方一个精灵
+          targets = new Tile[] { select };
+          break;
+        case MoveRange.User: //done?
+          targets = new Tile[] { attacker.Tile };
+          break;
+        case MoveRange.UserOrParner:
+          {
+            int min = 0, max = b.XBound - 1;
+            if (!remote)
+            {
+              if (x - 1 > min) min = x - 1;
+              if (x + 1 < max) max = x + 1;
+            }
+            targets = new Tile[] { b[team][attacker.Controller.GetRandomInt(min, max)] };
+          }
+          break;
+      }
+      return targets;
+    }
+    public static IEnumerable<Tile> GetRangeTiles(PokemonProxy attacker, MoveType move)
+    {
+      return GetRangeTiles(attacker, move, null);
+    }
+    public static IEnumerable<Tile> GetRangeTiles(AtkContext atk)
+    {
+      return GetRangeTiles(atk.Attacker, atk.Move, atk);
+    }
     
     protected MoveE(int moveId)
     {
@@ -43,12 +132,14 @@ namespace LightStudio.PokemonBattle.Game.Host
     { get; private set; }
 
     protected abstract void Act(AtkContext atk);
-    public virtual void Execute(PokemonProxy pm, UseMove eventForPP, AtkContextFlag flag)
+    public virtual AtkContext BuildAtkContext(PokemonProxy pm)
     {
-      if (pm.AtkContext == null) pm.BuildAtkContext(Move);
-      AtkContext atk = pm.AtkContext;
+      pm.BuildAtkContext(Move);
+      return pm.AtkContext;
+    }
+    public virtual void Execute(AtkContext atk, AtkContextFlag flag)
+    {
       atk.Flag = flag;
-      int oldPP = atk.MoveProxy.PP;
       if (NotFail(atk))
       {
         CalculateType(atk);
@@ -65,7 +156,6 @@ namespace LightStudio.PokemonBattle.Game.Host
         }
       }
       else FailAll(atk);
-      if (eventForPP != null) eventForPP.PP = oldPP - atk.MoveProxy.PP;
     }
 
     protected virtual bool PrepareOneTurn(PokemonProxy pm)
@@ -90,26 +180,25 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     protected internal virtual void CalculateTargets(AtkContext atk)
     {
-      IEnumerable<Tile> ts = GetRangeTiles(atk);
-      if (ts == null) return; //no target needed
-      List<DefContext> targets = new List<DefContext>();
-      if (ts.Any())
+      List<DefContext> targets;
+      int count = 0;
       {
-        #region Check Fail
-        {
-          int count = 0;
-          foreach (Tile t in ts)
-            if (t.Pokemon != null)
-            {
-              ++count;
-              var def = new DefContext(atk, t.Pokemon);
-              Abilities.Pressure(def);
-              if (NotFailOnTarget(def)) targets.Add(def);
-              else Fail(def);
-            }
-          if (count > 1) atk.MultiTargets = true;
-        }
-        #endregion
+        IEnumerable<Tile> ts = Moves.FSDD(atk) ? atk.Attachment : GetRangeTiles(atk);
+        if (ts == null) return; //no target needed
+        targets = new List<DefContext>();
+        foreach (Tile t in ts)
+          if (t.Pokemon != null)
+          {
+            ++count;
+            var def = new DefContext(atk, t.Pokemon);
+            if (NotFailOnTarget(def)) targets.Add(def);
+            else Fail(def);
+          }
+      }
+      if (count == 0) FailAll(atk);
+      else
+      {
+        if (count > 1) atk.MultiTargets = true;
         #region Check CoordY
         {
           foreach (DefContext def in targets.ToArray())
@@ -180,7 +269,6 @@ namespace LightStudio.PokemonBattle.Game.Host
         }
         #endregion
       }
-      else FailAll(atk);
     DONE:
       atk.SetTargets(targets);
     }
@@ -226,7 +314,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     #region CalculateType
     protected virtual void CalculateType(AtkContext atk)
     {
-      atk.Type = Move.Id == Moves.STRUGGLE ? BattleType.Invalid : atk.Attacker.Ability.Normalize() ? BattleType.Normal : Move.Type;
+      atk.Type = atk.Attacker.Ability.Normalize() ? BattleType.Normal : Move.Type;
     }
     private bool HasEffect_Ground(DefContext def)
     {
@@ -247,90 +335,6 @@ namespace LightStudio.PokemonBattle.Game.Host
       return
         (canAtk != BattleType.Invalid && def.Defender.OnboardPokemon.HasType(canAtk) || def.Defender.Item.RingTarget() || (def.AtkContext.Type == BattleType.Ground ? HasEffect_Ground(def) : HasEffect_NonGround(def))) &&
         (Move.Class != MoveInnerClass.OHKO || (def.Defender.Pokemon.Lv <= def.AtkContext.Attacker.Pokemon.Lv && !def.Defender.RaiseAbility(Abilities.STURDY)));
-    }
-    protected virtual MoveRange GetRange(AtkContext atk)
-    {
-      return Move.Range;
-    }
-    protected virtual IEnumerable<Tile> GetRangeTiles(AtkContext atk)
-    {
-      Tile select = atk.Attacker.SelectedTarget;
-      IEnumerable<Tile> targets = null;
-      Board b = atk.Controller.Board;
-      int team = atk.Attacker.Pokemon.TeamId;
-      int rTeam = 1 - team;
-      int x = atk.Attacker.OnboardPokemon.X;
-      switch (GetRange(atk))
-      {
-        case MoveRange.UserField: //do nothing
-        case MoveRange.EnemyField: //do nothing
-        case MoveRange.Field: //do nothing
-        case MoveRange.UserParty: //防音防不住治愈铃铛，所以这只是个摆设
-          break;
-        case MoveRange.Adjacent:
-          {
-            var ts = new List<Tile>();
-            Tile t;
-            t = b[team][x - 1]; if (t != null) ts.Add(t);
-            t = b[team][x + 1]; if (t != null) ts.Add(t);
-            t = b[rTeam][x - 1]; if (t != null) ts.Add(t);
-            t = b[rTeam][x]; if (t != null) ts.Add(t);
-            t = b[rTeam][x + 1]; if (t != null) ts.Add(t);
-            targets = ts;
-          }
-          break;
-        case MoveRange.AdjacentEnemies:
-          {
-            var ts = new List<Tile>();
-            Tile t;
-            t = b[rTeam][x - 1]; if (t != null) ts.Add(t);
-            t = b[rTeam][x]; if (t != null) ts.Add(t);
-            t = b[rTeam][x + 1]; if (t != null) ts.Add(t);
-            targets = ts;
-          }
-          break;
-        case MoveRange.All:
-          targets = atk.Controller.Board.Tiles;
-          break;
-        case MoveRange.Partner:
-          if (select == null) goto case MoveRange.UserOrParner;
-          else targets = new Tile[] { select };
-          break;
-        case MoveRange.RandomEnemy:
-          {
-            int min = 0, max = b.XBound - 1;
-            if (!Move.AdvancedFlags.IsRemote)
-            {
-              if (x - 1 > min) min = x - 1;
-              if (x + 1 < max) max = x + 1;
-            }
-            targets = new Tile[] { b[rTeam][atk.Controller.GetRandomInt(min, max)] };
-          }
-          break;
-        case MoveRange.Single:
-          Abilities.ReTarget(atk, ref select);
-          goto case MoveRange.SingleEnemy;
-        case MoveRange.SingleEnemy:
-          if (select == null || (!Move.AdvancedFlags.IsRemote && (select.X < x - 1 || select.X > x + 1)))
-            goto case MoveRange.RandomEnemy; //非鬼系选诅咒后变诅咒随机对方一个精灵
-          targets = new Tile[] { select };
-          break;
-        case MoveRange.User: //done?
-          targets = new Tile[] { atk.Attacker.Tile };
-          break;
-        case MoveRange.UserOrParner:
-          {
-            int min = 0, max = b.XBound - 1;
-            if (!Move.AdvancedFlags.IsRemote)
-            {
-              if (x - 1 > min) min = x - 1;
-              if (x + 1 < max) max = x + 1;
-            }
-            targets = new Tile[] { b[team][atk.Controller.GetRandomInt(min, max)] };
-          }
-          break;
-      }
-      return targets;
     }
     protected virtual bool IsYInRange(DefContext def)
     {

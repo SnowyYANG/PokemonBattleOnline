@@ -30,15 +30,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Abilities
       }
       return true;
     }
-    public override Modifier ADSModifier(PokemonProxy pm, StatType stat)
+    public override Modifier AModifier(AtkContext atk)
     {
-      if (stat == StatType.Atk || stat == StatType.SpAtk)
-      {
-        AtkContext atk = pm.AtkContext;
-        if (atk != null && atk.Type == BattleType.Fire && pm.OnboardPokemon.HasCondition("FlashFire"))
-          return 0x1800;
-      }
-      return 0x1000;
+      return (ushort)(atk.Type == BattleType.Fire && atk.Attacker.OnboardPokemon.HasCondition("FlashFire") ? 0x1800 : 0x1000);
     }
   }
 }

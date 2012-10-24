@@ -29,7 +29,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     public virtual bool CanAddState(PokemonProxy pm, PokemonProxy by, AttachedState state, bool showFail) { return true; }
     public virtual bool CanImplement(DefContext def) { return true; } //auto raise
     public virtual int Lv7DChanging(PokemonProxy pm, PokemonProxy by, StatType stat, int change, bool showFail) { return change; }
-    public virtual Modifier ADSModifier(PokemonProxy pm, StatType stat) { return 0x1000; }
+    public virtual Modifier SModifier(PokemonProxy pm) { return 0x1000; }
+    public virtual Modifier AModifier(AtkContext atk) { return 0x1000; }
     public virtual Modifier PowerModifier(DefContext target) { return 0x1000; }
     public virtual Modifier AccuracyModifier(DefContext def) { return 0x1000; }
 

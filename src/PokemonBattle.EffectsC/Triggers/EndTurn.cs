@@ -5,6 +5,7 @@ using System.Text;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game.Host.Sp;
 using LightStudio.PokemonBattle.Game.GameEvents;
+using Ms = LightStudio.PokemonBattle.Game.Host.Sp.Moves;
 using As = LightStudio.PokemonBattle.Game.Host.Sp.Abilities;
 using Is = LightStudio.PokemonBattle.Game.Host.Sp.Items;
 
@@ -89,9 +90,22 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         }
       }
     }
-    //3.0 [unfinished] Future Sight, Doom Desire
+    //3.0 Future Sight, Doom Desire
     private void FSDD(Controller c)
     {
+      foreach (var t in c.Board.Tiles)
+      {
+        var o = t.GetCondition("FSDD");
+        if (o != null && o.Turn == c.TurnNumber)
+        {
+          t.RemoveCondition("FSDD");
+          if (t.Pokemon != null)
+          {
+            t.Pokemon.AddReportPm("FSDD", o.Atk.Move.Id);
+            o.Atk.Execute(AtkContextFlag.FSDD | AtkContextFlag.IgnorePostEffectItem);
+          }
+        }
+      }
     }
     //4.0 Wish
     private void Wish(Controller c)
@@ -417,7 +431,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         foreach (var pm in c.OnboardPokemons) pm.Item.Attach(pm);
       }
     }
-    //26.0 [unfinished] Uproar message
+    //26.0 Uproar message
     //26.1 Speed Boost, Bad Dreams, Harvest, Moody
     //26.2 Toxic Orb activation, Flame Orb activation, Sticky Barb
     //26.3 pickup
@@ -426,6 +440,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       foreach (var pm in c.OnboardPokemons.ToArray())
       {
         int ab = pm.Ability.Id;
+        if (pm.Action == PokemonAction.Moving && pm.AtkContext.Move.Id == Ms.UPROAR)
+        {
+          if (pm.AtkContext.Attachment == 0) pm.AddReportPm("DeUproar");
+          else pm.AddReportPm("Uproar");
+        }
         switch (ab)
         {
           case As.SPEED_BOOST:

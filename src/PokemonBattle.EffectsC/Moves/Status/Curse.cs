@@ -28,9 +28,5 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       }
       else aer.ChangeLv7D(aer, true, 1, 1, 0, 0, -1);
     }
-    protected override MoveRange GetRange(AtkContext atk)
-    {
-      return atk.Attacker.OnboardPokemon.HasType(BattleType.Ghost) ? MoveRange.Single : MoveRange.User;
-    }
   }
 }

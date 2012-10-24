@@ -53,9 +53,15 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     internal void Execute(AtkContextFlag flag)
     {
-      var um = new UseMove(Owner, Type);
-      Owner.Controller.ReportBuilder.Add(um);
-      e.Execute(Owner, um, flag);
+      {
+        var um = new UseMove(Owner, Type);
+        var ts = MoveE.GetRangeTiles(Owner, Type);
+        int pp = PP;
+        foreach (var t in ts) Sp.Abilities.Pressure(this, t);
+        um.PP = pp - PP;
+        Owner.Controller.ReportBuilder.Add(um);
+      }
+      e.Execute(e.BuildAtkContext(Owner), flag);
       HasUsed = true;
     }
 

@@ -189,10 +189,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         if (p.Ability.Id == AIR_LOCK || p.Ability.Id == CLOUD_NINE) return true;
       return false;
     }
-    public static void Pressure(DefContext def)
+    public static void Pressure(MoveProxy move, Tile target)
     {
       const int PRESSURE = 46;
-      if (def.Defender.Pokemon.TeamId != def.AtkContext.Attacker.Pokemon.TeamId && def.Defender.Ability.Id == PRESSURE && def.AtkContext.MoveProxy.PP > 0) --def.AtkContext.MoveProxy.PP;
+      if (target.Pokemon != null && target.Pokemon.Pokemon.TeamId != move.Owner.Pokemon.TeamId && target.Pokemon.Ability.Id == PRESSURE) --move.PP;
     }
     public static Modifier TintedLens(DefContext def)
     {
@@ -264,12 +264,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       }
       return m;
     }
-    public static Modifier FlowerGift(DefContext def)
+    public static Modifier DModifier(DefContext def)
     {
-      Modifier m = 0x1000;
-      if (def.AtkContext.Move.Category == MoveCategory.Special && def.AtkContext.Controller.Weather == Weather.IntenseSunlight)
+      var der = def.Defender;
+      Modifier m = (ushort)(der.Ability.Id == 63 && der.State != PokemonState.Normal? 0x1800 : 0x1000);
+      if (def.AtkContext.Move.Category == MoveCategory.Special && der.Controller.Weather == Weather.IntenseSunlight)
       {
-        foreach (PokemonProxy pm in def.Defender.Controller.GetOnboardPokemons(def.Defender.Pokemon.TeamId))
+        foreach (PokemonProxy pm in der.Controller.GetOnboardPokemons(der.Pokemon.TeamId))
           if (pm.Pokemon.Form.Type.Number == 421 && pm.Ability.Id == FLOWER_GIFT) m *= 0x1800;
       }
       return m;

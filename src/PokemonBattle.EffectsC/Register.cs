@@ -34,14 +34,17 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new GustTwister(16));  
       M(new Leap(19, CoordY.Air));//fly
       M(new JumpKick(26));
+      M(new RandomMTA(37));//thrash
       M(new SpRangeMove(57, CoordY.Water, true));
       M(new GrassKnot(67));
       M(new Counter(68, "PhysicalDamage", 0x2000));
       M(new SolarBeam(76));
+      M(new RandomMTA(80));//petal dance
       M(new Thunder(87));
       M(new SpRangeMove(89, CoordY.Underground, true));//earthquake
       M(new SpRangeMove(90, CoordY.Underground));
       M(new Leap(91, CoordY.Underground));//dig
+      M(new Bide(117));
       M(new BigBang(120));
       M(new SkullBash(130));
       M(new JumpKick(136));
@@ -55,6 +58,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Flail(175));
       M(new Conversion2(176));
       M(new Flail(179)); //reversal
+      M(new RandomMTA(200));//outrage
+      M(new Attack5Turns(205));//rollout
       M(new FuryCutter(210));
       M(new HealBell(215, "HealBell"));
       M(new Happiness(216, false));
@@ -64,8 +69,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new HiddenPower(237));
       M(new GustTwister(239));
       M(new Counter(243, "SpecialDamage", 0x2000));
+      M(new FSDD(248));
       M(new SpRangeMove(250, CoordY.Water, true));//whirlpool
       M(new BeatUp(251));
+      M(new Uproar(253));
       M(new Stockpile(254));
       M(new SpitUp(255));
       M(new Swallow(256));
@@ -77,11 +84,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Spout(284));
       M(new SkillSwap(285));
       M(new Leap(291, CoordY.Water));//dives
+      M(new Attack5Turns(301));//ice ball
       M(new HealBell(312, "Aromatherapy"));
       M(new Spout(323));
       M(new SpRangeMove(327, CoordY.Air));
       M(new Leap(340, CoordY.Air));//bounce
       M(new Thief(343));//covet
+      M(new FSDD(353));
       M(new GyroBall(360));
       M(new Acupressure(367));
       M(new Counter(368, "Damage", 0x1800));

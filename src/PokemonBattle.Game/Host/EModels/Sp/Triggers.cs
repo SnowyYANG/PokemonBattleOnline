@@ -58,9 +58,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       {
         var tile = pm.Tile;
         foreach (var p in pm.Controller.GetOnboardPokemons(1 - pm.Pokemon.TeamId).ToArray())
-          if (Math.Abs(tile.X - p.OnboardPokemon.X) <= 1 && p.SelectedMove.Type.Id == Moves.PERSUIT)
+          if (Math.Abs(tile.X - p.OnboardPokemon.X) <= 1 && p.SelectedMove != null && p.SelectedMove.Type.Id == Moves.PERSUIT)
           {
-            p.ActMove(AtkContextFlag.IgnorePostEffectItem);
+            p.Move(AtkContextFlag.IgnorePostEffectItem);
             if (pm.CheckFaint()) return;
           }
       }

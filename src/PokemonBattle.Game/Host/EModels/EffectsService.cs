@@ -153,12 +153,11 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
       }
 
-      public override void Execute(PokemonProxy pm, GameEvents.UseMove eventForPP, AtkContextFlag flag)
+      public override void Execute(AtkContext atk, AtkContextFlag flag)
       {
-        if (Move == null) pm.Controller.ReportBuilder.Add("error");
-        else pm.Controller.ReportBuilder.Add("unfinish", pm, Move.Id);
-        pm.BuildAtkContext(Move);
-        pm.Action = PokemonAction.Done;
+        if (Move == null) atk.Controller.ReportBuilder.Add("error");
+        else atk.Controller.ReportBuilder.Add("unfinish", atk, Move.Id);
+        atk.Attacker.Action = PokemonAction.Done;
       }
       protected override void Act(AtkContext atk)
       {

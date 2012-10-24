@@ -85,22 +85,11 @@ namespace LightStudio.PokemonBattle.Game.Host
     { get; private set; }
     private AtkContext _atkContext;
     public AtkContext AtkContext
-    { 
-      get { return _atkContext; }
-      private set
-      {
-#if DEBUG
-        if (_atkContext != null) throw new Exception("AtkContext != null");
-#endif
-          _atkContext = value;
-      }
-    }
-    public DefContext DefContext
-    { get; private set; }
+    { get { return _atkContext; } }
     public AbilityE Ability
-    { get { return Tile == null || OnboardPokemon.HasCondition("GastroAcid") ? EffectsService.NULL_ABILITY : EffectsService.GetAbility(OnboardPokemon.Ability); } }
+    { get { return OnboardPokemon == nullOnboard || OnboardPokemon.HasCondition("GastroAcid") ? EffectsService.NULL_ABILITY : EffectsService.GetAbility(OnboardPokemon.Ability); } }
     public ItemE Item
-    { get { return Tile == null || OnboardPokemon.HasCondition("Detain") || Controller.Board.HasCondition("MagicRoom") || Ability.Klutz() ? EffectsService.NULL_ITEM : EffectsService.GetItem(Pokemon.Item); } }
+    { get { return OnboardPokemon == nullOnboard || OnboardPokemon.HasCondition("Detain") || Controller.Board.HasCondition("MagicRoom") || Ability.Klutz() ? EffectsService.NULL_ITEM : EffectsService.GetItem(Pokemon.Item); } }
     private MoveProxy[] moves;
     public IEnumerable<MoveProxy> Moves
     { get { return moves; } }
@@ -112,8 +101,8 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         int speed = OnboardPokemon.Get5D(OnboardPokemon.FiveD.Speed, OnboardPokemon.Lv5D.Speed);
         if (State == PokemonState.PAR) speed >>= 1;
-        speed *= Ability.ADSModifier(this, StatType.Speed);
-        speed *= Item.ADSModifier(this, StatType.Speed);
+        speed *= Ability.SModifier(this);
+        speed *= Item.SModifier(this);
         if (Tile.Field.HasCondition("Tailwind")) speed <<= 1;
         if (Tile.Field.HasCondition("Swamp")) speed = (speed + 1) >> 2; //小数点是0.5以下就舍去，如果是0.75就四舍五入
         return speed;
@@ -148,14 +137,11 @@ namespace LightStudio.PokemonBattle.Game.Host
       Controller.ReportBuilder.Add(new GetItem(this, log, itemLoser));
       if (attach) Item.Attach(this);
       OnboardPokemon.RemoveCondition("Unburden");
+      OnboardPokemon.RemoveCondition("ChoiceItem");
     }
-    public void BuildAtkContext(MoveType move)
+    internal void BuildAtkContext(MoveType move)
     {
-      AtkContext = new AtkContext(this, move);
-    }
-    public void BuildDefContext(AtkContext atk)
-    {
-      DefContext = new DefContext(atk, this);
+      _atkContext = new AtkContext(this, move);
     }
     #endregion
 
@@ -276,6 +262,16 @@ namespace LightStudio.PokemonBattle.Game.Host
           if (OnboardPokemon.HasType(BattleType.Poison) || OnboardPokemon.HasType(BattleType.Steel)) goto FAIL;
           goto STATE;
         case AttachedState.SLP:
+          foreach (var pm in Controller.OnboardPokemons)
+            if (pm.Action == PokemonAction.Moving && pm.AtkContext.Move.Id == Sp.Moves.UPROAR)
+            {
+              if (showFail)
+              {
+                if (pm == this) AddReportPm("UproarCantSLP2");
+                else AddReportPm("UproarCantSLP");
+              }
+              return false;
+            }
           if (State == PokemonState.SLP) goto BEENSTATE;
           goto STATE;
         case AttachedState.Confuse:
@@ -417,7 +413,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         Action = PokemonAction.InBall;
       }
     }
-    internal void ActMove(AtkContextFlag flag = AtkContextFlag.None)
+    internal void Move(AtkContextFlag flag = AtkContextFlag.None)
     {
       if (CanMove)
       {
@@ -432,13 +428,17 @@ namespace LightStudio.PokemonBattle.Game.Host
           case PokemonAction.Moving:
             bool c = CanExecute();
             Sp.Moves.SkyDrop(AtkContext);
-            if (c) AtkContext.Execute(flag);
+            if (c)
+            {
+              AddReportPm("UseMove", AtkContext.Move.Id);
+              AtkContext.Execute(flag);
+            }
             else Action = PokemonAction.Done;
             break;
           case PokemonAction.MoveAttached:
             if (CanExecute() && SelectedMove.CanExecute())
             {
-              _atkContext = null; //考虑下要不要拿到花括号外面或者删掉
+              _atkContext = null;
               SelectedMove.Execute(flag);
               var o = OnboardPokemon.GetCondition("LastMove");
               if (o == null)

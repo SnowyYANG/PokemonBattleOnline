@@ -20,10 +20,9 @@ namespace LightStudio.PokemonBattle.Game.Host
     { get; private set; }
 
     public virtual int CompareValue(PokemonProxy pm) { return 0; }
-    /// <summary>
-    /// Atk/Def/SpAtk/SpDef/Speed
-    /// </summary>
-    public virtual Modifier ADSModifier(PokemonProxy pm, StatType stat) { return 0x1000; }
+    public virtual Modifier SModifier(PokemonProxy pm) { return 0x1000; }
+    public virtual Modifier AModifier(DefContext target) { return 0x1000; }
+    public virtual Modifier DModifier(DefContext def) { return 0x1000; }
     public virtual Modifier DamageFinalModifier(DefContext def) { return 0x1000; }
     public virtual Modifier PowerModifier(AtkContext atk) { return 0x1000; }
     public virtual int CtLvRevise(PokemonProxy pm) { return 0; }

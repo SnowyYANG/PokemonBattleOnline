@@ -37,15 +37,10 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
     }
 
-    public override void Execute(PokemonProxy pm, UseMove eventForPP, AtkContextFlag flag)
+    public override void Execute(AtkContext atk, AtkContextFlag flag)
     {
-      if (pm.AtkContext == null)
-      {
-        pm.BuildAtkContext(Move);
-        Moves.MultiTurnAttack(pm.AtkContext);
-      }
-      if (PrepareOneTurn(pm) && !Sp.Items.PowerHerb(pm)) return;
-      base.Execute(pm, eventForPP, flag);
+      if (PrepareOneTurn(atk.Attacker) && !Sp.Items.PowerHerb(atk.Attacker)) return;
+      base.Execute(atk, flag);
     }
     protected override void Act(AtkContext atk)
     {
@@ -178,17 +173,8 @@ namespace LightStudio.PokemonBattle.Game.Host
         int a;
         {
           OnboardPokemon p;
-          StatType s;
-          if (Move.UseDefenderAtk())
-          {
-            p = def.Defender.OnboardPokemon;
-            s = StatType.Atk;
-          }
-          else
-          {
-            p = atk.Attacker.OnboardPokemon;
-            s = st;
-          }
+          if (Move.UseDefenderAtk()) p = def.Defender.OnboardPokemon;
+          else p = atk.Attacker.OnboardPokemon;
           a = p.FiveD.GetStat(st);
           if (!def.Ability.Unaware())
           {
@@ -198,9 +184,9 @@ namespace LightStudio.PokemonBattle.Game.Host
         }
         a *= Abilities.Hustle(atk);
         Modifier m = Abilities.ThickFat(def);
-        m *= aer.Ability.ADSModifier(aer, st);
+        m *= aer.Ability.AModifier(atk);
         m *= Abilities.FlowerGift(atk);
-        m *= aer.Item.ADSModifier(aer, st);
+        m *= aer.Item.AModifier(def);
         def.Damage *= a * m;
       }
       {
@@ -210,13 +196,8 @@ namespace LightStudio.PokemonBattle.Game.Host
         if (!(aer.Ability.Unaware() || Move.IgnoreDefenderLv7D())) defLv = def.Defender.OnboardPokemon.Lv5D.GetStat(st);
         if (def.IsCt && defLv > 0) defLv = 0;
         int d = OnboardPokemon.Get5D(defRaw, defLv);
-        Modifier m = 0x1000;
-        if (!aer.Ability.IgnoreDefenderAbility())
-        {
-          m = def.Ability.ADSModifier(def.Defender, st); //Marvel Scale only
-          m *= Abilities.FlowerGift(def);
-        }
-        m *= def.Defender.Item.ADSModifier(def.Defender, st);
+        Modifier m = aer.Ability.IgnoreDefenderAbility() ? 0x1000 : Abilities.DModifier(def);
+        m *= def.Defender.Item.DModifier(def);
         def.Damage /= d * m;
       }
       def.Damage /= 50;
@@ -317,8 +298,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         if (atk.Attachment != 0) atk.Attacker.Action = PokemonAction.Moving;
         else if (atk.Move.MultiTurnAttackWithConfusion()) atk.Attacker.AddState(atk.Attacker, AttachedState.Confuse, false, 0, "EnConfuse2");
       }
-      //3.因为逃生按钮下场的精灵选择换人
-      if (atk.EjectButton != null) ;
+      if (atk.EjectButton != null) atk.Controller.PauseForSendoutInput(atk.Controller.ActMove, atk.EjectButton);
     }
   }
 }

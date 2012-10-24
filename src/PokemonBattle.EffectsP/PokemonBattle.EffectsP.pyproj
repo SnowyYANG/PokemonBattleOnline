@@ -57,7 +57,7 @@
     <None Include="Moves\Attack\Rage.py" />
     <None Include="Moves\Attack\SpDamage.py" />
     <None Include="Moves\Attack\SpPower.py" />
-    <None Include="Moves\Attack\Synchronoise.py" />
+    <None Include="Moves\Attack\Struggle.py" />
     <None Include="Moves\Status\Class2.py" />
     <None Include="Moves\Status\ClassA.py" />
     <None Include="Moves\Status\ClassB.py" />

@@ -6,7 +6,6 @@ def last_moveproxy(pm):
                     return m
                 break
     return None
-print 'ERROR: what if paralyzed one turn before'
 
 class Spite(StatusMoveE):
     def Act(self, a):

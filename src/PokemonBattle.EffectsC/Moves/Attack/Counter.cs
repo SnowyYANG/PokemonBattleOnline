@@ -8,9 +8,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
   class Counter : AttackMoveE
   {
     readonly string Condition;
-    readonly UInt16 Modifier;
+    readonly Modifier Modifier;
 
-    public Counter(int id, string condition, UInt16 modifier)
+    public Counter(int id, string condition, Modifier modifier)
       : base(id)
     {
       Condition = condition;

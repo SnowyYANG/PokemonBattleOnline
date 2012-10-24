@@ -15,10 +15,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
 
     protected override void Act(AtkContext atk)
     {
-      var con = atk.Target.Defender.OnboardPokemon.GetCondition("LastMove");
-      if (con != null)
+      if (atk.Target.Defender.AtkContext == null) FailAll(atk);
+      else
       {
-        BattleType a = con.Move.Type;
+        BattleType a = atk.Target.Defender.AtkContext.Type;
         BattleType type1 = atk.Attacker.OnboardPokemon.Type1;
         BattleType type2 = atk.Attacker.OnboardPokemon.Type2;
         var types = (from t in (BattleType[])Enum.GetValues(typeof(BattleType))
@@ -33,7 +33,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
           return;
         }
       }
-      FailAll(atk);
     }
   }
 }

@@ -127,7 +127,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public void ActMove() //蜻蜓返、脱离按钮
     {
-      TurnController.ActMove();
+      TurnController.Move();
     }
     public void Switch()//追击死亡专用后门
     {

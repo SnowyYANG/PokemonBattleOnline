@@ -65,7 +65,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       foreach (PokemonProxy p in OnboardPokemons) p.AttachBehaviors();
       Switch();
       CheckFocusPunch();
-      ActMove();
+      Move();
     }
     public void Switch()
     {
@@ -81,7 +81,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       foreach (PokemonProxy p in OnboardPokemons)
         if (p.Action == PokemonAction.MoveAttached && Sp.Moves.FocusPunch(p.SelectedMove)) p.AddReportPm("EnFocusPunch");
     }
-    public void ActMove() //蜻蜓返的inputFinished
+    public void Move() //蜻蜓返的inputFinished
     {
     LOOP:
       PokemonProxy p = OnboardPokemons.FirstOrDefault((pm) => pm.CanMove);
@@ -92,7 +92,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       else
       {
-        p.ActMove();
+        p.Move();
         ReportBuilder.AddHorizontalLine();
         if (Controller.CanContinue) goto LOOP;
       }
@@ -143,11 +143,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       foreach (var f in Board.Fields) f.ClearTurnCondition();
       foreach (var t in Tiles)
       {
-        if (t.Pokemon != null)
-        {
-          if (t.Pokemon.AtkContext != null) t.Pokemon.AtkContext.Flag = AtkContextFlag.None;
-          t.Pokemon.OnboardPokemon.ClearTurnCondition();
-        }
+        if (t.Pokemon != null) t.Pokemon.OnboardPokemon.ClearTurnCondition();
         t.ClearTurnCondition();
       }
       ReportBuilder.Add(new GameEvents.EndTurn());

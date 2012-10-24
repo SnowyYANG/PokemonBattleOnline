@@ -12,7 +12,8 @@ namespace LightStudio.PokemonBattle.Game.Host
   {
     None = 0,
     IgnorePostEffectItem,
-    MeFirst
+    MeFirst,
+    FSDD
   }
   public class AtkContext
   {
@@ -21,8 +22,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     public readonly MoveType Move; //生成技能在后期
     public BattleType Type;
     public Modifier AccuracyModifier;
-    public bool MultiTargets
-    { get; internal set; }
     public int CTLv;
     public int TotalDamage;
     public bool Gem;
@@ -45,13 +44,14 @@ namespace LightStudio.PokemonBattle.Game.Host
     { get; private set; }
     public DefContext Target
     { get; private set; }
+    public bool MultiTargets
+    { get; internal set; }
 
-    internal void Execute(AtkContextFlag flag)
+    public void Execute(AtkContextFlag flag)
     {
       TotalDamage = 0;
       Flag = flag;
-      Controller.ReportBuilder.Add(new GameEvents.UseMove(Attacker, Move));
-      EffectsService.GetMove(Move.Id).Execute(Attacker, null, Flag);
+      EffectsService.GetMove(Move.Id).Execute(this, Flag);
     }
     public void SetTargets(IEnumerable<DefContext> targets)
     {
@@ -107,9 +107,9 @@ namespace LightStudio.PokemonBattle.Game.Host
         Defender.Tile.Field.HasCondition(condition) &&
         (Defender.Tile.Team == a.Tile.Team || !AtkContext.Attacker.Ability.Infiltrator());
     }
-    public void ModifyDamage(UInt16 modifier)
+    public void ModifyDamage(Modifier modifier)
     {
-      Damage = (Damage * modifier + 0x800) >> 12;
+      Damage *= modifier;
     }
   }
 }

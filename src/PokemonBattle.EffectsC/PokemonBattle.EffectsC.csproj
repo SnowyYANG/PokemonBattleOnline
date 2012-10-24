@@ -61,6 +61,10 @@
     <Compile Include="Moves\Attack\Counter.cs" />
     <Compile Include="Moves\Attack\JumpKick.cs" />
     <Compile Include="Moves\Attack\KnockOff.cs" />
+    <Compile Include="Moves\Attack\MultiTurn\Attack5Turns.cs" />
+    <Compile Include="Moves\Attack\MultiTurn\Bide.cs" />
+    <Compile Include="Moves\Attack\MultiTurn\RandomMTA.cs" />
+    <Compile Include="Moves\Attack\MultiTurn\Uproar.cs" />
     <Compile Include="Moves\Attack\RapidSpin.cs" />
     <Compile Include="Moves\Attack\Revenge.cs" />
     <Compile Include="Moves\Attack\SmackDown.cs" />
