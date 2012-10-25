@@ -9,6 +9,7 @@ namespace LightStudio.PokemonBattle.Game.Host
   {
     private readonly Comparer comparer;
     private readonly Tile[] tiles;
+    private byte current;
 
     public TurnController(Controller controller)
       : base(controller)
@@ -50,47 +51,82 @@ namespace LightStudio.PokemonBattle.Game.Host
       Tiles = tiles.OrderBy((pm) => pm, comparer).ToArray();
     }
 
-    internal void BeginTurn()
+    public void StartGameLoop()
+    {
+      if (!Controller.CanContinue) return;
+    LOOP:
+      switch (current)
+      {
+        case 0:
+          BeginTurn();
+          break;
+        case 1:
+          Prepare();
+          break;
+        case 2:
+          Switch();
+          CheckFocusPunch();//暂定，实际上不在这
+          break;
+        case 3:
+          Move();
+          break;
+        case 4:
+          EndTurnEffects();
+          break;
+        case 5:
+          EndTurnCheckForInput();
+          break;
+        case 6:
+          EndTurnSendout();
+          break;
+        case 7:
+          NextTurn();
+          break;
+        default:
+          current = 0;
+          goto case 0;
+      }
+      if (Controller.CanContinue)
+      {
+        current++;
+        goto LOOP;
+      }
+    }
+
+    private void BeginTurn()
     {
       bool needInput = false;
       foreach (PokemonProxy p in OnboardPokemons)
         needInput |= p.CheckNeedInput();
-      if (needInput) Controller.PauseForTurnInput(Prepare);
-      else Prepare();
+      if (needInput) Controller.PauseForTurnInput();
     }
     private void Prepare()
     {
       ReportBuilder.NewTurn();
       SortOnboardPokemons();
       foreach (PokemonProxy p in OnboardPokemons) p.AttachBehaviors();
-      Switch();
-      CheckFocusPunch();
-      Move();
     }
-    public void Switch()
+    private void Switch()
     {
     LOOP:
       PokemonProxy p = OnboardPokemons.FirstOrDefault((pm) => pm.Action == PokemonAction.WillSwitch);
-      if (p == null) return;
-      p.Switch();
-      ReportBuilder.AddHorizontalLine();
-      goto LOOP;  
+      if (p != null)
+      {
+        p.Switch();
+        ReportBuilder.AddHorizontalLine();
+        goto LOOP;
+      }
     }
     private void CheckFocusPunch()
     {
       foreach (PokemonProxy p in OnboardPokemons)
         if (p.Action == PokemonAction.MoveAttached && Sp.Moves.FocusPunch(p.SelectedMove)) p.AddReportPm("EnFocusPunch");
     }
-    public void Move() //蜻蜓返的inputFinished
+    private void Move()
     {
     LOOP:
       PokemonProxy p = OnboardPokemons.FirstOrDefault((pm) => pm.CanMove);
-      if (p == null)
-      {
-        EndTurnEffects();
-        return;
-      }
-      else
+      if (p != null)
       {
         p.Move();
         ReportBuilder.AddHorizontalLine();
@@ -99,28 +135,25 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     private void EndTurnEffects()
     {
-      if (Controller.TurnNumber == 0)
-      {
-        EndTurnSendout();
-        NextTurn();
-      }
-      else
+      if (Controller.TurnNumber != 0)
       {
         SortTiles();
         EffectsService.EndTurn.Execute(Controller);
         ReportBuilder.AddHorizontalLine();
-        if (Controller.CanContinue) EndTurnCheckForInput();
       }
     }
     private void EndTurnCheckForInput()
     {
-      foreach (Tile t in Tiles)
-        if (t.Pokemon == null && Controller.CanSendout(t))
-        {
-          Controller.PauseForEndTurnInput(EndTurnSendout);
-          return;
-        }
-      NextTurn();
+      if (Controller.TurnNumber != 0)
+      {
+        current++;
+        foreach (Tile t in Tiles)
+          if (t.Pokemon == null && Controller.CanSendout(t))
+          {
+            Controller.PauseForEndTurnInput();
+            return;
+          }
+      }
     }
     private void EndTurnSendout()
     {
@@ -134,7 +167,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       SortTiles();
       foreach (Tile t in Tiles)
         if (sendouts[t.Team, t.X] && t.Pokemon != null) t.Pokemon.Debut();
-      if (ReportBuilder.TurnNumber != 0) EndTurnCheckForInput();
+      if (ReportBuilder.TurnNumber != 0) current -= 2;
     }
     private void NextTurn()
     {
@@ -147,7 +180,6 @@ namespace LightStudio.PokemonBattle.Game.Host
         t.ClearTurnCondition();
       }
       ReportBuilder.Add(new GameEvents.EndTurn());
-      BeginTurn();
     }
   }
 }

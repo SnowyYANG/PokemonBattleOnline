@@ -141,7 +141,16 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (Move.Class != MoveInnerClass.OHKO)
       {
+        var aer = atk.Attacker;
         Items.CheckGem(atk);
+        atk.CTLv = Move.CtLv;
+        if (atk.CTLv < 5)
+        {
+          if (aer.OnboardPokemon.HasCondition("FocusEnergy")) atk.CTLv += 2;
+          if (aer.Ability.SuperLuck()) atk.CTLv++;
+          atk.CTLv += aer.Item.CtLvRevise(aer);
+          if (atk.CTLv > 4) atk.CTLv = 4;
+        }
         foreach (DefContext d in atk.Targets) CalculateDamage(d);
       }
     }
@@ -151,14 +160,6 @@ namespace LightStudio.PokemonBattle.Game.Host
       PokemonProxy aer = atk.Attacker;
       Controller c = aer.Controller;
 
-      atk.CTLv = Move.CtLv;
-      if (atk.CTLv < 5)
-      {
-        if (aer.OnboardPokemon.HasCondition("FocusEnergy")) atk.CTLv += 2;
-        if (aer.Ability.SuperLuck()) atk.CTLv++;
-        atk.CTLv += aer.Item.CtLvRevise(aer);
-        if (atk.CTLv > 4) atk.CTLv = 4;
-      }
       if (!(def.Defender.Tile.Field.HasCondition("LuckyChant") || def.Ability.CannotBeCted()))
         if (Move.CtLv > 5) def.IsCt = true;
         else def.IsCt = c.OneNth(LV_CT[atk.CTLv]);
@@ -298,7 +299,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         if (atk.Attachment != 0) atk.Attacker.Action = PokemonAction.Moving;
         else if (atk.Move.MultiTurnAttackWithConfusion()) atk.Attacker.AddState(atk.Attacker, AttachedState.Confuse, false, 0, "EnConfuse2");
       }
-      if (atk.EjectButton != null) atk.Controller.PauseForSendoutInput(atk.Controller.ActMove, atk.EjectButton);
+      if (atk.EjectButton != null) atk.Controller.PauseForSendoutInput(atk.EjectButton);
     }
   }
 }

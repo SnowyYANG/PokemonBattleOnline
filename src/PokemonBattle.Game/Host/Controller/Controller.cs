@@ -18,7 +18,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     private readonly Dictionary<int, PokemonProxy> pokemons;
     
     private Random random;
-    private Action inputFinished;
 #if DEBUG
     private Random randomSeeds;
 #endif
@@ -58,19 +57,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     { get { return TurnController.Tiles; } }
     public int TurnNumber
     { get { return ReportBuilder.TurnNumber; } }
-    public bool CanContinue
-    { 
-      get
-      { 
-        if (Game.CheckGameEnd())
-        {
-          ReportBuilder.NewFragment();
-          ReportUpdated(ReportBuilder.GetFragment(), null);
-          return false;
-        }
-        return true;
-      }
-    }
 
     #region Access
     internal Player GetPlayer(Tile tile)
@@ -116,22 +102,28 @@ namespace LightStudio.PokemonBattle.Game.Host
     #endregion
 
     #region Turn Loop
+    public bool CanContinue
+    { 
+      get
+      {
+        if (InputController.NeedInput) return false;
+        if (Game.CheckGameEnd())
+        {
+          ReportBuilder.NewFragment();
+          ReportUpdated(ReportBuilder.GetFragment(), null);
+          return false;
+        }
+        return true;
+      }
+    }
     internal void StartGameLoop()
     {
       ReportBuilder.NewFragment();
-      TurnController.BeginTurn();
+      TurnController.StartGameLoop();
     }
     internal void TryContinueGameLoop()
     {
-      if (inputFinished != null && !InputController.NeedInput) inputFinished();
-    }
-    public void ActMove() //蜻蜓返、脱离按钮
-    {
-      TurnController.Move();
-    }
-    public void Switch()//追击死亡专用后门
-    {
-      TurnController.Switch();
+      if (!InputController.NeedInput) TurnController.StartGameLoop();
     }
     #endregion
 
@@ -140,22 +132,22 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       return InputController.CheckInputSucceed(player);
     }
-    internal void PauseForSendoutInput(Action inputFinished, Tile tile) //逃生按钮、追击死亡
+    public void PauseForSendoutInput(Tile tile) //逃生按钮、追击死亡
     {
       InputController.PauseForSendoutInput(tile);
-      PauseForInput(inputFinished);
+      PauseForInput();
     }
-    internal void PauseForTurnInput(Action inputFinished)
+    internal void PauseForTurnInput()
     {
       InputController.PauseForTurnInput();
-      PauseForInput(inputFinished);
+      PauseForInput();
     }
-    internal void PauseForEndTurnInput(Action inputFinished)
+    internal void PauseForEndTurnInput()
     {
       InputController.PauseForEndTurnInput();
-      PauseForInput(inputFinished);
+      PauseForInput();
     }
-    private void PauseForInput(Action inputFinished)
+    private void PauseForInput()
     {
       if (InputController.NeedInput)
       {
@@ -166,9 +158,7 @@ namespace LightStudio.PokemonBattle.Game.Host
 #endif
         ReportBuilder.NewFragment();
         ReportUpdated(ReportBuilder.GetFragment(), InputController.InputRequirements);
-        this.inputFinished = inputFinished;
       }
-      else inputFinished();
     }
     internal bool InputSendout(Tile tile, int sendoutIndex)
     {
