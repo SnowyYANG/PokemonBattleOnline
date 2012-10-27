@@ -117,7 +117,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       OnboardPokemon.RemoveCondition("Unburden");
       OnboardPokemon.RemoveCondition("ChoiceItem");
     }
-    internal void BuildAtkContext(MoveType move)
+    public void BuildAtkContext(MoveType move)
     {
       _atkContext = new AtkContext(this, move);
     }

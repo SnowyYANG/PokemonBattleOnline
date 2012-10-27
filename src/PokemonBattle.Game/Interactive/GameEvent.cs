@@ -21,7 +21,11 @@ namespace LightStudio.PokemonBattle.Game
 #if DEBUG
       if (key == null) System.Diagnostics.Debugger.Break();
       var t = GameService.Logs[key];
-      if (t == null) System.Diagnostics.Debugger.Break();
+      if (t == null)
+      {
+        t = GameService.Logs["notfound"];
+        t.SetData(key);
+      }
       return t.Clone(Game);
 #else
       return GameService.Logs[key].Clone(Game);

@@ -51,20 +51,18 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     internal void Execute(AtkContextFlag flag)
     {
+      var um = new UseMove(Owner, Type);
+      Owner.Controller.ReportBuilder.Add(um);
       var e = EffectsService.GetMove(Type.Id);
       var atk = e.BuildAtkContext(Owner);
       atk.BuildDefContext(Owner.SelectedTarget);
+      if (atk.Targets != null)
       {
-        var um = new UseMove(Owner, Type);
-        if (atk.Targets != null)
-        {
-          int pp = PP;
-          foreach (var d in atk.Targets) Sp.Abilities.Pressure(this, d.Defender);
-          um.PP = pp - PP;
-        }
-        Owner.Controller.ReportBuilder.Add(um);
+        int pp = PP;
+        foreach (var d in atk.Targets) Sp.Abilities.Pressure(this, d.Defender);
+        um.PP = pp - PP;
       }
-      e.Execute(atk, flag);
+      atk.Execute(flag);
       HasUsed = true;
     }
 

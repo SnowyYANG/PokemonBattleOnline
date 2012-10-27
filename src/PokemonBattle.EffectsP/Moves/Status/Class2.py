@@ -1,6 +1,6 @@
 class Growth(StatusMoveE):
     def Act(self, a):
-        aer = a.AtkContext.Attacker
+        aer = a.Attacker
         if a.Controller.Weather == Weather.IntenseSunlight:
             c = 2
         else:

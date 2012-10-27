@@ -1,7 +1,8 @@
 ﻿<GameLogs xmlns:ms="http://www.w3.org/2001/XMLSchema" xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://pbo.codeplex.com/"><logs>
 <a:KeyValueOfstringanyType><a:Key>__sample</a:Key><a:Value i:type="LogText"><Contents><a:anyType i:type="LogText"><foreground>4294901760</foreground><text>Hello </text></a:anyType><a:anyType i:type="LogText"><text>World!</text></a:anyType></Contents></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>unfinish</a:Key><a:Value i:type="LogText"><text>{0:p}使用的技能{1:m}尚未制作。
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>error</a:Key><a:Value i:type="LogText"><text>主机发现了一个错误，数据包损坏或主机程序被篡改。
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>error</a:Key><a:Value i:type="LogText"><text>主机发生了一个错误，数据包损坏或主机程序被篡改。
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>notfound</a:Key><a:Value i:type="LogText"><text>无法匹配主机传送过来的战报，战报关键字为{0}。
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>----</a:Key><a:Value i:type="LogText"><text>---------------------------------
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameStart</a:Key><a:Value i:type="LogText"><text>战斗开始！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameResultTie</a:Key><a:Value i:type="LogText"><IsBold>true</IsBold><text>
@@ -314,7 +315,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnHailstorm</a:Key><a:Value i:type="LogText"><text>开始下冰雹了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeIntenseSunlight</a:Key><a:Value i:type="LogText"><text>阳光恢复了原样！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeHeavyRain</a:Key><a:Value i:type="LogText"><text>雨停了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeStandstorm</a:Key><a:Value i:type="LogText"><text>沙尘暴停了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeSandstorm</a:Key><a:Value i:type="LogText"><text>沙尘暴停了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeHailstorm</a:Key><a:Value i:type="LogText"><text>冰雹停了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>AirLock</a:Key><a:Value i:type="LogText"><text>天气的影响消失了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Sandstorm</a:Key><a:Value i:type="LogText"><text>沙尘暴刮得很凶！

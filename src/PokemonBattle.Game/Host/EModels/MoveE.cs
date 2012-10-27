@@ -94,10 +94,10 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       return targets;
     }
-    protected static void CallMove(AtkContext atk, MoveType move, AtkContextFlag flag, bool rebuildDefContext = true, string log = "UseMove")
+    protected static void CallMove(AtkContext atk, MoveType move, AtkContextFlag flag, bool rebuildDefContext = true)
     {
       atk.Move = move;
-      atk.Attacker.AddReportPm(log);
+      atk.Attacker.AddReportPm("UseMove");
       if (rebuildDefContext) atk.BuildDefContext(null);
       EffectsService.GetMove(move.Id).Execute(atk, flag);
     }
@@ -321,7 +321,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     protected virtual bool HasEffect(DefContext def)
     {
-      if (Move.Category == MoveCategory.Status && Move.ThunderWave()) return true;
+      if (Move.Category == MoveCategory.Status && !Move.ThunderWave()) return true;
       if (Move.Class == MoveInnerClass.OHKO && (def.Defender.Pokemon.Lv > def.AtkContext.Attacker.Pokemon.Lv || def.Defender.RaiseAbility(Abilities.STURDY))) return false;
       BattleType canAtk;
       {

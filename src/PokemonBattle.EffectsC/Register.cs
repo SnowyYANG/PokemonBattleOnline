@@ -45,6 +45,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new SpRangeMove(90, CoordY.Underground));
       M(new Leap(91, CoordY.Underground));//dig
       M(new Bide(117));
+      M(new Metronome(118));
       M(new BigBang(120));
       M(new SkullBash(130));
       M(new JumpKick(136));

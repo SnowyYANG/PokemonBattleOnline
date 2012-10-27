@@ -89,6 +89,7 @@
     <Compile Include="Moves\Status\Acupressure.cs" />
     <Compile Include="Moves\Status\Autotomize.cs" />
     <Compile Include="Moves\Status\CallMove\MeFirst.cs" />
+    <Compile Include="Moves\Status\CallMove\Metronome.cs" />
     <Compile Include="Moves\Status\ChangeAbility\Entrainment.cs" />
     <Compile Include="Moves\Status\ChangeAbility\RolePlay.cs" />
     <Compile Include="Moves\Status\ChangeAbility\SkillSwap.cs" />

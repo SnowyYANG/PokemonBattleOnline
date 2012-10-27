@@ -156,7 +156,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       public override void Execute(AtkContext atk, AtkContextFlag flag)
       {
         if (Move == null) atk.Controller.ReportBuilder.Add("error");
-        else atk.Controller.ReportBuilder.Add("unfinish", atk, Move.Id);
+        else atk.Attacker.AddReportPm("unfinish", Move.Id);
         atk.Attacker.Action = PokemonAction.Done;
       }
       protected override void Act(AtkContext atk)

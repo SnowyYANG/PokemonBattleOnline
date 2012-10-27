@@ -57,6 +57,12 @@ namespace LightStudio.PokemonBattle.Game
         base.Text = value;
       }
     }
+
+    public override void SetData(params object[] data)
+    {
+      if (Data == null) base.SetData(data);
+    }
+
     public IText Clone(IFormatProvider formatter)
     {
       return new LogText()
