@@ -10,39 +10,16 @@ namespace LightStudio.PokemonBattle.Game.Host
 {
   public abstract class MoveE
   {
-    protected static bool ForceSwitch(DefContext def)
+    protected static IEnumerable<Tile> GetRangeTiles(AtkContext atk, MoveRange range, Tile select)
     {
-      var der = def.Defender;
-      var c = der.Controller;
-      if (!(def.AtkContext.Attacker.Tile == null || der.Hp == 0 || !c.CanWithdraw(der) || def.Ability.SuctionCups() || der.OnboardPokemon.HasCondition("Ingrain")))
-      {
-        var sendouts = new List<int>();
-        {
-          var pms = der.Pokemon.Owner.Pokemons.ToArray();
-          for (int i = 0; i < pms.Length; ++i)
-            if (c.CanSendout(pms[i])) sendouts.Add(i);
-        }
-        if (sendouts.Count != 0)
-        {
-          var tile = der.Tile;
-          c.Withdraw(der, "ForceWithdraw", false);
-          tile.WillSendoutPokemonIndex = sendouts[c.GetRandomInt(0, sendouts.Count - 1)];
-          c.Sendout(tile, true, "ForceSendout");
-          return true;
-        }
-      }
-      return false;
-    }
-    private static IEnumerable<Tile> GetRangeTiles(PokemonProxy attacker, MoveType move, AtkContext context)
-    {
-      Tile select = attacker.SelectedTarget;
+      var aer = atk.Attacker;
       IEnumerable<Tile> targets = null;
-      Board b = attacker.Controller.Board;
-      bool remote = move.AdvancedFlags.IsRemote;
-      int team = attacker.Pokemon.TeamId;
+      Board b = aer.Controller.Board;
+      bool remote = atk.Move.AdvancedFlags.IsRemote;
+      int team = aer.Pokemon.TeamId;
       int rTeam = 1 - team;
-      int x = attacker.OnboardPokemon.X;
-      switch (Moves.GetRange(attacker, move))
+      int x = aer.OnboardPokemon.X;
+      switch (range)
       {
         case MoveRange.UserField: //do nothing
         case MoveRange.EnemyField: //do nothing
@@ -86,11 +63,14 @@ namespace LightStudio.PokemonBattle.Game.Host
               if (x - 1 > min) min = x - 1;
               if (x + 1 < max) max = x + 1;
             }
-            targets = new Tile[] { b[rTeam][attacker.Controller.GetRandomInt(min, max)] };
+            var ts = new List<Tile>();
+            for (int i = min; i <= max; ++i)
+              if (b[rTeam][i].Pokemon != null) ts.Add(b[rTeam][i]);
+            if (ts.Count == 0) targets = new Tile[] { };
+            else targets = new Tile[] { ts[aer.Controller.GetRandomInt(0, ts.Count - 1)] };
           }
           break;
-        case MoveRange.Single:
-          if (context != null) Abilities.ReTarget(context, ref select);
+        case MoveRange.Single: 
           goto case MoveRange.SingleEnemy;
         case MoveRange.SingleEnemy:
           if (select == null || (!remote && (select.X < x - 1 || select.X > x + 1)))
@@ -98,7 +78,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           targets = new Tile[] { select };
           break;
         case MoveRange.User: //done?
-          targets = new Tile[] { attacker.Tile };
+          targets = new Tile[] { aer.Tile };
           break;
         case MoveRange.UserOrParner:
           {
@@ -108,19 +88,41 @@ namespace LightStudio.PokemonBattle.Game.Host
               if (x - 1 > min) min = x - 1;
               if (x + 1 < max) max = x + 1;
             }
-            targets = new Tile[] { b[team][attacker.Controller.GetRandomInt(min, max)] };
+            targets = new Tile[] { b[team][aer.Controller.GetRandomInt(min, max)] };
           }
           break;
       }
       return targets;
     }
-    public static IEnumerable<Tile> GetRangeTiles(PokemonProxy attacker, MoveType move)
+    protected static void CallMove(AtkContext atk, MoveType move, AtkContextFlag flag, bool rebuildDefContext = true, string log = "UseMove")
     {
-      return GetRangeTiles(attacker, move, null);
+      atk.Move = move;
+      atk.Attacker.AddReportPm(log);
+      if (rebuildDefContext) atk.BuildDefContext(null);
+      EffectsService.GetMove(move.Id).Execute(atk, flag);
     }
-    public static IEnumerable<Tile> GetRangeTiles(AtkContext atk)
+    protected static bool ForceSwitch(DefContext def)
     {
-      return GetRangeTiles(atk.Attacker, atk.Move, atk);
+      var der = def.Defender;
+      var c = der.Controller;
+      if (!(def.AtkContext.Attacker.Tile == null || der.Hp == 0 || !c.CanWithdraw(der) || def.Ability.SuctionCups() || der.OnboardPokemon.HasCondition("Ingrain")))
+      {
+        var sendouts = new List<int>();
+        {
+          var pms = der.Pokemon.Owner.Pokemons.ToArray();
+          for (int i = 0; i < pms.Length; ++i)
+            if (c.CanSendout(pms[i])) sendouts.Add(i);
+        }
+        if (sendouts.Count != 0)
+        {
+          var tile = der.Tile;
+          c.Withdraw(der, "ForceWithdraw", false);
+          tile.WillSendoutPokemonIndex = sendouts[c.GetRandomInt(0, sendouts.Count - 1)];
+          c.Sendout(tile, true, "ForceSendout");
+          return true;
+        }
+      }
+      return false;
     }
     
     protected MoveE(int moveId)
@@ -137,13 +139,24 @@ namespace LightStudio.PokemonBattle.Game.Host
       pm.BuildAtkContext(Move);
       return pm.AtkContext;
     }
+    protected internal virtual void BuildDefContext(AtkContext atk, Tile select)
+    {
+      IEnumerable<Tile> ts = GetRangeTiles(atk, Moves.GetRange(atk.Attacker, atk.Move), select);
+      if (ts != null)
+      {
+        var targets = new List<DefContext>();
+        foreach (Tile t in ts)
+          if (t.Pokemon != null) targets.Add(new DefContext(atk, t.Pokemon));
+        atk.SetTargets(targets);
+      }
+    }
     public virtual void Execute(AtkContext atk, AtkContextFlag flag)
     {
       atk.Flag = flag;
       if (NotFail(atk))
       {
         CalculateType(atk);
-        CalculateTargets(atk);
+        FilterDefContext(atk);
         if (atk.Targets == null || atk.Target != null)
         {
           Act(atk);
@@ -172,103 +185,84 @@ namespace LightStudio.PokemonBattle.Game.Host
     #region CalculateTargets
     protected virtual bool NotFail(AtkContext atk)
     {
-      return true;
+      return atk.Targets == null || atk.Target != null;
     }
-    protected virtual bool NotFailOnTarget(DefContext def)
+    protected internal virtual void FilterDefContext(AtkContext atk)
     {
-      return true;
-    }
-    protected internal virtual void CalculateTargets(AtkContext atk)
-    {
-      List<DefContext> targets;
-      int count = 0;
+      if (atk.Targets == null) return;
+      Abilities.ReTarget(atk);
+      List<DefContext> targets = atk.Targets.ToList();
+      #region Check CoordY
       {
-        IEnumerable<Tile> ts = Moves.FSDD(atk) ? atk.Attachment : GetRangeTiles(atk);
-        if (ts == null) return; //no target needed
-        targets = new List<DefContext>();
-        foreach (Tile t in ts)
-          if (t.Pokemon != null)
+        var count = 0;
+        foreach (DefContext def in targets.ToArray())
+        {
+          ++count;
+          if (!(IsYInRange(def) || def.NoGuard))
           {
-            ++count;
-            var def = new DefContext(atk, t.Pokemon);
-            if (NotFailOnTarget(def)) targets.Add(def);
-            else Fail(def);
+            def.Defender.AddReportPm("Miss");
+            targets.Remove(def);
           }
-      }
-      if (count == 0) FailAll(atk);
-      else
-      {
+        }
         if (count > 1) atk.MultiTargets = true;
-        #region Check CoordY
-        {
-          foreach (DefContext def in targets.ToArray())
-            if (!(IsYInRange(def) || def.NoGuard))
-            {
-              def.Defender.AddReportPm("Miss");
-              targets.Remove(def);
-            }
-        }
-        #endregion
-        #region Attack Move and Thunder Wave: Check for Immunity (or Levitate) on the Ally side, position 1, then position 3. Then check Opponent side, position 1, then 2, then 3,
-        if (Move.Category != MoveCategory.Status || Move.ThunderWave())
-          foreach (DefContext def in targets.ToArray())
-            if (!HasEffect(def))
-            {
-              targets.Remove(def);
-              def.Defender.AddReportPm("NoEffect");
-            }
-        #endregion
-        #region Check for Wide Guard in same way
-        {
-          if (Move.Range != MoveRange.Single)
-            foreach (var def in targets.ToArray())
-              if (def.Defender.Tile.Field.HasCondition("WideGuard"))
-              {
-                def.Defender.AddReportPm("WideGuard");
-                targets.Remove(def);
-              }
-          if (Move.Priority > 0)
-            foreach (var def in targets.ToArray())
-              if (def.Defender.Tile.Field.HasCondition("QuickGuard"))
-              {
-                def.Defender.AddReportPm("QuickGuard");
-                targets.Remove(def);
-              }
-        }
-        #endregion
-        #region Check for Protect
-        if (Move.AdvancedFlags.Protectable)
-        {
-          foreach (DefContext d in targets.ToArray())
-            if (d.Defender.OnboardPokemon.HasCondition("Protect"))
-            {
-              d.Defender.AddReportPm("Protect");
-              targets.Remove(d);
-            }
-        }
-        #endregion
-        #region Check for Telepathy (and possibly other abilities)
-        if (!atk.Attacker.Ability.IgnoreDefenderAbility()) //为了性能
-          foreach (DefContext def in targets.ToArray())
-            if (def.Defender != atk.Attacker && !def.Defender.Ability.CanImplement(def)) targets.Remove(def);
-        #endregion
-        #region Check for misses
-        if (!atk.Attacker.Ability.NoGuard() && GetAccuracyBase(atk) < 0x65)
-        {
-          if (Move.Class != MoveInnerClass.OHKO)
-          {
-            if (Items.MicleBerry(atk)) goto DONE;
-            atk.AccuracyModifier = Abilities.AccuracyModifier(atk) * Items.WideLens(atk);
-          }
-          foreach (DefContext def in targets.ToArray())
-            if (!(def.NoGuard || CanHit(def)))//心眼锁定、无防御
-            {
-              targets.Remove(def);
-              def.Defender.AddReportPm("Miss");
-            }
-        }
-        #endregion
       }
+      #endregion
+      #region Attack Move and Thunder Wave: Check for Immunity (or Levitate) on the Ally side, position 1, then position 3. Then check Opponent side, position 1, then 2, then 3,
+      foreach (DefContext def in targets.ToArray())
+        if (!HasEffect(def))
+        {
+          targets.Remove(def);
+          def.Defender.AddReportPm("NoEffect");
+        }
+      #endregion
+      #region Check for Wide Guard in same way
+      if (Move.Range == MoveRange.Adjacent || Move.Range == MoveRange.AdjacentEnemies)
+        foreach (var def in targets.ToArray())
+          if (def.Defender.Tile.Field.HasCondition("WideGuard"))
+          {
+            def.Defender.AddReportPm("WideGuard");
+            targets.Remove(def);
+          }
+      if (Move.Priority > 0)
+        foreach (var def in targets.ToArray())
+          if (def.Defender.Tile.Field.HasCondition("QuickGuard"))
+          {
+            def.Defender.AddReportPm("QuickGuard");
+            targets.Remove(def);
+          }
+      #endregion
+      #region Check for Protect
+      if (Move.AdvancedFlags.Protectable)
+      {
+        foreach (DefContext d in targets.ToArray())
+          if (d.Defender.OnboardPokemon.HasCondition("Protect"))
+          {
+            d.Defender.AddReportPm("Protect");
+            targets.Remove(d);
+          }
+      }
+      #endregion
+      #region Check for Telepathy (and possibly other abilities)
+      if (!atk.Attacker.Ability.IgnoreDefenderAbility()) //为了性能
+        foreach (DefContext def in targets.ToArray())
+          if (def.Defender != atk.Attacker && !def.Defender.Ability.CanImplement(def)) targets.Remove(def);
+      #endregion
+      #region Check for misses
+      if (!atk.Attacker.Ability.NoGuard() && GetAccuracyBase(atk) < 0x65)
+      {
+        if (Move.Class != MoveInnerClass.OHKO)
+        {
+          if (Items.MicleBerry(atk)) goto DONE;
+          atk.AccuracyModifier = Abilities.AccuracyModifier(atk) * Items.WideLens(atk);
+        }
+        foreach (DefContext def in targets.ToArray())
+          if (!(def.NoGuard || CanHit(def)))//心眼锁定、无防御
+          {
+            targets.Remove(def);
+            def.Defender.AddReportPm("Miss");
+          }
+      }
+      #endregion
     DONE:
       atk.SetTargets(targets);
     }
@@ -327,14 +321,18 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     protected virtual bool HasEffect(DefContext def)
     {
+      if (Move.Category == MoveCategory.Status && Move.ThunderWave()) return true;
+      if (Move.Class == MoveInnerClass.OHKO && (def.Defender.Pokemon.Lv > def.AtkContext.Attacker.Pokemon.Lv || def.Defender.RaiseAbility(Abilities.STURDY))) return false;
       BattleType canAtk;
       {
         var o = def.Defender.OnboardPokemon.GetCondition("CanAttack");
         canAtk = o == null ? BattleType.Invalid : o.BattleType;
       }
       return
-        (canAtk != BattleType.Invalid && def.Defender.OnboardPokemon.HasType(canAtk) || def.Defender.Item.RingTarget() || (def.AtkContext.Type == BattleType.Ground ? HasEffect_Ground(def) : HasEffect_NonGround(def))) &&
-        (Move.Class != MoveInnerClass.OHKO || (def.Defender.Pokemon.Lv <= def.AtkContext.Attacker.Pokemon.Lv && !def.Defender.RaiseAbility(Abilities.STURDY)));
+        (
+        canAtk != BattleType.Invalid && def.Defender.OnboardPokemon.HasType(canAtk) ||
+        def.Defender.Item.RingTarget() ||
+        def.AtkContext.Type == BattleType.Ground ? HasEffect_Ground(def) : HasEffect_NonGround(def));
     }
     protected virtual bool IsYInRange(DefContext def)
     {

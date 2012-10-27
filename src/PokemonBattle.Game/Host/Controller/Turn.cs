@@ -129,8 +129,11 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (p != null)
       {
         p.Move();
-        ReportBuilder.AddHorizontalLine();
-        if (Controller.CanContinue) goto LOOP;
+        if (Controller.CanContinue)
+        {
+          ReportBuilder.AddHorizontalLine();
+          goto LOOP;
+        }
       }
     }
     private void EndTurnEffects()

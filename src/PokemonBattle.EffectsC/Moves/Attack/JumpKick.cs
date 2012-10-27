@@ -12,9 +12,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     {
     }
     
-    protected override void CalculateTargets(AtkContext atk)
+    protected override void FilterDefContext(AtkContext atk)
     {
-      base.CalculateTargets(atk);
+      base.FilterDefContext(atk);
       if (atk.Targets != null && atk.Target == null) atk.Attacker.EffectHurtByOneNth(2, "FailSelfHurt");
     }
   }

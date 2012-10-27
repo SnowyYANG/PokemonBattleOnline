@@ -35,6 +35,12 @@ class Oblivious(AbilityE):
                 pm.AddReportPm('NoEffect', None, None)
             return False
         return True
+    def CanImplement(self, d):
+        if d.AtkContext.Move.Id == 445: #captivate
+            self.Raise(pm)
+            pm.AddReportPm('NoEffect', None, None)
+            return False
+        return True
 A(Oblivious(12))
 
 class Immunity(AbilityE):

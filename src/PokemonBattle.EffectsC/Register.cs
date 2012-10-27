@@ -96,6 +96,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Counter(368, "Damage", 0x1800));
       M(new TrumpCard(376));
       M(new WringOut(378));
+      M(new MeFirst(382));
       M(new SLevel(386, 60));//punishment
       M(new SetAbility(388, 15));//worry seed
       M(new Trick(415)); //switcheroo

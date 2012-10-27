@@ -18,5 +18,15 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
       atk.Attachment = 3;
       return atk;
     }
+    protected override void Act(AtkContext atk)
+    {
+      if (atk.Attachment == 3)
+      {
+        atk.Attacker.AddReportPm("EnUproar");
+        foreach (var t in atk.Controller.Board.Tiles)
+          if (t.Pokemon != null && t.Pokemon.State == PokemonState.SLP) t.Pokemon.DeAbnormalState();
+      }
+      base.Act(atk);
+    }
   }
 }

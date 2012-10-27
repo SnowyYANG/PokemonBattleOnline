@@ -24,12 +24,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         if (!ability.MagicGuard() && def.Defender.RaiseAbility(Abilities.LIQUID_OOZE)) aer.EffectHurt(v);
         else aer.HpRecover(v, false);
       }
-      else //ReHurt
-      {
-        if (ability.RockHead() || ability.MagicGuard()) return;
-        aer.Pokemon.SetHp(aer.Hp + v);
-        aer.Controller.ReportBuilder.Add(new GameEvents.HpChange(aer, "ReHurt"));
-      }
+      else if (!ability.RockHead()) aer.EffectHurt(-v, "ReHurt");
     }
     
     public AttackMoveE(int moveId)
@@ -118,7 +113,9 @@ namespace LightStudio.PokemonBattle.Game.Host
           if (Move.HurtPercentage < 0) DamagePercentage(def, Move.HurtPercentage);
           else if (Move.MaxHpPercentage < 0) //拼命专用
           {
-            a.Pokemon.SetHp(a.Hp + a.Pokemon.Hp.Origin * Move.MaxHpPercentage / 100);
+            var change = a.Pokemon.Hp.Origin * Move.MaxHpPercentage / 100;
+            a.Pokemon.SetHp(a.Hp + change == 0 ? -1 : change);
+            a.OnboardPokemon.SetTurnCondition("Assurance");
             a.Controller.ReportBuilder.Add(new HpChange(a, "ReHurt"));
           }
           a.CheckFaint();

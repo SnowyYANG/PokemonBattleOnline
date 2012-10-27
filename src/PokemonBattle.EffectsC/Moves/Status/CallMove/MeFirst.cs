@@ -11,13 +11,26 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       : base(id)
     {
     }
-    
-    protected override bool NotFailOnTarget(DefContext def)
+
+    protected override bool NotFail(AtkContext atk)
     {
-      var dm = def.Defender.SelectedMove;
-      return
-        def.Defender.LastMoveTurn != def.Defender.Controller.TurnNumber && dm != null &&
-        dm.Move.Type.Category != Data.MoveCategory.Status && dm.Move.Type.Id != Sp.Moves.STRUGGLE && Sp.Moves.FocusPunch(dm);
+      if (base.NotFail(atk))
+      {
+        var der = atk.Target.Defender;
+        var dm = der.SelectedMove;
+        return
+          !(
+          der.LastMoveTurn == der.Controller.TurnNumber || der.OnboardPokemon.HasCondition("SkyDrop") ||
+          dm == null ||
+          dm.Move.Type.Category == Data.MoveCategory.Status || dm.Move.Type.Id == Sp.Moves.STRUGGLE || Sp.Moves.FocusPunch(dm)
+          );
+      }
+      return false;
+    }
+    public override void Execute(AtkContext atk, AtkContextFlag flag)
+    {
+      if (NotFail(atk)) CallMove(atk, atk.Target.Defender.SelectedMove.Type, flag | AtkContextFlag.MeFirst, false);
+      else FailAll(atk);
     }
   }
 }

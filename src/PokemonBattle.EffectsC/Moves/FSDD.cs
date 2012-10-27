@@ -12,16 +12,16 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves
     {
     }
 
-    protected override void CalculateTargets(AtkContext atk)
+    protected override void FilterDefContext(AtkContext atk)
     {
-      if (atk.Flag.HasFlag(AtkContextFlag.FSDD)) base.CalculateTargets(atk);
+      if (atk.Flag.HasFlag(AtkContextFlag.FSDD)) base.FilterDefContext(atk);
     }
     protected override void Act(AtkContext atk)
     {
       if (atk.Flag.HasFlag(AtkContextFlag.FSDD)) base.Act(atk);
       else
       {
-        var tile = MoveE.GetRangeTiles(atk);
+        var tile = MoveE.GetRangeTiles(atk, Move.Range, atk.Attacker.SelectedTarget);
         if (tile.First().HasCondition("FSDD")) FailAll(atk);
         else
         {

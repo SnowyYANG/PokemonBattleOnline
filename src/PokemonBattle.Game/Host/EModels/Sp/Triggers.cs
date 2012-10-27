@@ -16,10 +16,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
 
       Modifier m = atk.Attacker.Ability.PowerModifier(def);
       m *= Abilities.PowerModifier(def);
-      if (def.AtkContext.Gem) m *= 0x1800;
+      if (def.AtkContext.Flag.HasFlag(AtkContextFlag.Gem)) m *= 0x1800;
       else m *= atk.Attacker.Item.PowerModifier(atk);
       m *= movePowerModifier(def);
-      if (atk.MeFirst) m *= 0x1800;
+      if (atk.Flag.HasFlag(AtkContextFlag.MeFirst)) m *= 0x1800;
       m *= Moves.SolarBeam(def);
       if (atk.Type == BattleType.Electric && atk.Attacker.OnboardPokemon.GetCondition<int>("Charge") == c.TurnNumber) m *= 0x2000;
       //helpinghand

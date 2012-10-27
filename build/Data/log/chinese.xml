@@ -208,7 +208,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnIngrain</a:Key><a:Value i:type="LogText"><text>{0:p}扎下了根！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Ingrain</a:Key><a:Value i:type="LogText"><text>{0:p}从根吸取了养分！</text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>IngrainCantMove</a:Key><a:Value i:type="LogText"><text>{0:p}扎下了根，不能移动！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnBide</a:Key><a:Value i:type="LogText"><text>{0:p}正在克制自己……
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Bide</a:Key><a:Value i:type="LogText"><text>{0:p}正在克制自己……
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeBide</a:Key><a:Value i:type="LogText"><text>{0:p}把累积的愤怒释放了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnSnatch</a:Key><a:Value i:type="LogText"><text>{0:p}在观察对手的行动！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Snatch</a:Key><a:Value i:type="LogText"><text>{0:p}{1:p}的技能！

@@ -17,7 +17,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public const int UPROAR = 253;
     private const int DOOM_DESIRE = 353;
     internal const int ME_FIRST = 382;
-    internal const int SUCKER_PUNCH = 389;
     internal const int TOXIC_SPIKES = 390;
     internal const int STEALTH_ROCK = 446;
 
@@ -30,7 +29,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static bool MultiTurnAttack(this MoveType move)
     {
       int id = move.Id;
-      return id == THRASH || id == PETAL_DANCE || id == OUTRAGE || id == ROLLOUT || id == UPROAR || id ==ICE_BALL;
+      return id == THRASH || id == PETAL_DANCE || id == OUTRAGE || id == ROLLOUT || id == UPROAR || id ==ICE_BALL || Bide(move);
     }
     public static bool MultiTurnAttackWithConfusion(this MoveType move)
     {
@@ -93,7 +92,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       if (atk.Move.Id == 167)
       {
-        EffectsService.GetMove(167).CalculateTargets(atk);
+        EffectsService.GetMove(167).FilterDefContext(atk);
         return atk.Target != null;
       }
       return true;
@@ -105,6 +104,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     internal static bool FSDD(AtkContext atk)
     {
       return atk.Move.Id == FUTURE_SIGHT || atk.Move.Id == DOOM_DESIRE;
+    }
+    internal static bool Bide(this MoveType move)
+    {
+      const int BIDE = 117;
+      return move.Id == BIDE;
     }
   }
 }

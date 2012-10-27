@@ -8,6 +8,7 @@ namespace LightStudio.PokemonBattle.Game.Host
   internal class InputController : ControllerComponent
   {
     private Dictionary<int, InputRequest> requirements;
+    private bool singleSendout;
 
     public InputController(Controller controller)
       : base(controller)
@@ -52,11 +53,13 @@ namespace LightStudio.PokemonBattle.Game.Host
                    group t by Controller.GetPlayer(t).Id into playerTiles
                    select playerTiles;
       foreach (var g in groups) requirements[g.Key] = new InputRequest();
+      singleSendout = false;
     }
     public void PauseForSendoutInput(Tile tile)
     {
       requirements.Clear();
       if (Controller.CanSendout(tile)) requirements.Add(Controller.GetPlayer(tile).Id, new InputRequest(tile));
+      singleSendout = true;
     }
     private bool Switch(PokemonProxy withdraw, int sendoutIndex)
     {
@@ -67,6 +70,11 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (tile.Pokemon == null && Controller.CanSendout(tile) && Controller.CanSendout(Controller.GetPlayer(tile).GetPokemon(sendoutIndex)))
       {
         tile.WillSendoutPokemonIndex = sendoutIndex;
+        if (singleSendout)
+        {
+          Controller.Sendout(tile, true);
+          ReportBuilder.AddHorizontalLine();
+        }
         return true;
       }
       else return Switch(tile.Pokemon, sendoutIndex);

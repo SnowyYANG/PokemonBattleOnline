@@ -3,13 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         DataContextChanged="LifeBar_DataContextChanged">
     <Canvas.Resources>
-        <Storyboard x:Key="Flash">
+        <Storyboard x:Key="Flash" Completed="Storyboard_Completed">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="flash" Storyboard.TargetProperty="Opacity" RepeatBehavior="3x" Duration="0:0:0.10">
-                <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.03"/>
-                <DiscreteDoubleKeyFrame Value="0" KeyTime="0:0:0.07"/>
+                <DiscreteDoubleKeyFrame Value="0" KeyTime="0:0:0.03"/>
+                <DiscreteDoubleKeyFrame Value="1" KeyTime="0:0:0.07"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Canvas.Resources>
-    <Rectangle Name="flash" Fill="#303030" Opacity="0" Height="3"/>
+    <Rectangle Name="flash" Fill="#303030" Height="3"/>
     <Border Name="bar" Height="3" BorderThickness="0,1"/>
 </Canvas>

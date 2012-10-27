@@ -80,8 +80,8 @@ namespace LightStudio.PokemonBattle.Game
           });
       foreach (GameEvent e in fragment.Events)
       {
-        System.Threading.Thread.Sleep(100);
         UIDispatcher.Invoke((Action<GameOutward>)e.Update, this);
+        System.Threading.Thread.Sleep(e.Sleep);
       }
       int team0 = Teams[0].Abnormal + Teams[0].Normal;
       int team1 = Teams[1].Abnormal + Teams[1].Normal;

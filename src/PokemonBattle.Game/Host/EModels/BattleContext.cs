@@ -13,19 +13,18 @@ namespace LightStudio.PokemonBattle.Game.Host
     None = 0,
     IgnorePostEffectItem,
     MeFirst,
-    FSDD
+    FSDD,
+    MagicBounce,
+    Gem
   }
   public class AtkContext
   {
     public AtkContextFlag Flag;
     public readonly MoveProxy MoveProxy; //压力、诅咒身躯，针对一开始选的技能
-    public readonly MoveType Move; //生成技能在后期
     public BattleType Type;
     public Modifier AccuracyModifier;
     public int CTLv;
     public int TotalDamage;
-    public bool Gem;
-    public bool MeFirst;
     public Tile EjectButton;
     public bool FailAll;
     public dynamic Attachment;
@@ -36,6 +35,8 @@ namespace LightStudio.PokemonBattle.Game.Host
       Move = move;
     }
 
+    public MoveType Move
+    { get; internal set; }
     public Controller Controller
     { get { return MoveProxy.Owner.Controller; } }
     public PokemonProxy Attacker
@@ -47,6 +48,10 @@ namespace LightStudio.PokemonBattle.Game.Host
     public bool MultiTargets
     { get; internal set; }
 
+    public void BuildDefContext(Tile selectTile)
+    {
+      EffectsService.GetMove(Move.Id).BuildDefContext(this, selectTile);
+    }
     public void Execute(AtkContextFlag flag)
     {
       TotalDamage = 0;

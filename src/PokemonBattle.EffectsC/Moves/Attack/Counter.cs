@@ -16,19 +16,22 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
       Condition = condition;
       Modifier = modifier;
     }
-    protected override bool NotFail(AtkContext atk)
+    protected override void BuildDefContext(AtkContext atk, Tile select)
     {
       var o = atk.Attacker.OnboardPokemon.GetCondition(Condition);
       if (o != null)
       {
         var pm = o.By;
-        return pm.Tile != null && pm.Pokemon.TeamId != atk.Attacker.Pokemon.TeamId;
+        if (pm.Tile != null && pm.Pokemon.TeamId != atk.Attacker.Pokemon.TeamId)
+        {
+          atk.SetTargets(new DefContext[] { new DefContext(atk, pm) });
+          return;
+        }
       }
-      return false;
+      atk.SetTargets(new DefContext[0]);
     }
-    protected override void CalculateTargets(AtkContext atk)
+    protected override void FilterDefContext(AtkContext atk)
     {
-      atk.SetTargets(new DefContext[] { new DefContext(atk, atk.Attacker.OnboardPokemon.GetCondition(Condition).By) });
     }
     protected override void CalculateDamage(DefContext def)
     {

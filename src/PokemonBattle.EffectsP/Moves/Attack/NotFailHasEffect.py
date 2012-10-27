@@ -4,9 +4,12 @@ class DreamEater(AttackMoveE):
 M(DreamEater(138))
 
 class SuckerPunch(AttackMoveE):
-    def NotFailOnTarget(self, d):
-        mp = d.Defender.SelectedMove
-        return d.Defender.LastMoveTurn != d.Defender.Controller.TurnNumber and mp != None and mp.Move.Type.Category != MoveCategory.Status
+    def NotFail(self, a):
+        if MoveE.NotFail(self, a):
+            der = a.Target.Defender
+            mp = der.SelectedMove
+            return der.LastMoveTurn != der.Controller.TurnNumber and mp != None and mp.Move.Type.Category != MoveCategory.Status
+        return False
 M(SuckerPunch(389))
 
 class Synchronoise(AttackMoveE):

@@ -10,13 +10,11 @@ namespace LightStudio.PokemonBattle.Game.Host
   {
     public readonly Move Move;
     public readonly PokemonProxy Owner;
-    private readonly MoveE e;
     
     internal MoveProxy(Move move, PokemonProxy owner)
     {
       Move = move;
       Owner = owner;
-      e = EffectsService.GetMove(move.Type.Id);
     }
 
     public int PP
@@ -53,15 +51,20 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     internal void Execute(AtkContextFlag flag)
     {
+      var e = EffectsService.GetMove(Type.Id);
+      var atk = e.BuildAtkContext(Owner);
+      atk.BuildDefContext(Owner.SelectedTarget);
       {
         var um = new UseMove(Owner, Type);
-        var ts = MoveE.GetRangeTiles(Owner, Type);
-        int pp = PP;
-        foreach (var t in ts) Sp.Abilities.Pressure(this, t);
-        um.PP = pp - PP;
+        if (atk.Targets != null)
+        {
+          int pp = PP;
+          foreach (var d in atk.Targets) Sp.Abilities.Pressure(this, d.Defender);
+          um.PP = pp - PP;
+        }
         Owner.Controller.ReportBuilder.Add(um);
       }
-      e.Execute(e.BuildAtkContext(Owner), flag);
+      e.Execute(atk, flag);
       HasUsed = true;
     }
 

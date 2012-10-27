@@ -17,6 +17,15 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     {
       Pm = pm.Id;
     }
+
+    public override int Sleep
+    {
+      get
+      {
+        return base.Sleep;
+      }
+    }
+
     protected override void Update()
     {
       var pm = GetPokemon(Pm);
@@ -60,6 +69,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
         pm.Pokemon.SetHp(pm.Pokemon.Hp.Origin);
         pm.Pokemon.ClientChangePokemonStateWithNotify(PokemonState.SLP);
         pm.OnboardPokemon.SetCondition("SLP", 3);
+        pm.Tile.Field.SetCondition("Rest" + pm.Id);
         pm.Item.StateAdded(pm, pm, AttachedState.SLP);
       }
     }

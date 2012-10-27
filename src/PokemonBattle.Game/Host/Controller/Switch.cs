@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Game.GameEvents;
+using LightStudio.PokemonBattle.Game.Host.Sp;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
@@ -35,11 +36,16 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (CanWithdraw(pm))
       {
         pm.AddReportPm(log);
-        Sp.Triggers.Withdrawing(pm, canPursuit);
+        Triggers.Withdrawing(pm, canPursuit);
         if (pm.Tile != null)
         {
           ReportBuilder.Add(new GameEvents.Withdraw(pm));
-          pm.Withdraw();
+          var ability = pm.Ability.Id;
+          pm.Action = PokemonAction.InBall;
+          pm.Tile.Pokemon = null;
+          pm.OnboardPokemon = pm.NullOnboardPokemon;
+          Controller.OnboardPokemons.Remove(pm);
+          Abilities.Withdrawn(pm, ability);
           return true;
         }
       }
@@ -52,12 +58,22 @@ namespace LightStudio.PokemonBattle.Game.Host
       int sendout = tile.WillSendoutPokemonIndex;
       if ((ReportBuilder.TurnNumber == 0 && origin == sendout) || (CanSendout(tile) && CanSendout(p.GetPokemon(sendout))))
       {
-        //交换必须在构建实例之后，交换怪兽会导致队伍的排序改变，幻影特性以交换时的队伍顺序决定。
         var pm = Controller.GetPokemon(p.GetPokemon(sendout));
-        pm.Sendout(tile);
+        pm.Action = PokemonAction.Debuting;
+        tile.Pokemon = pm;
+        tile.WillSendoutPokemonIndex = Tile.NOPM_INDEX;
+        {
+          var o = new OnboardPokemon(pm.Pokemon, tile.X);
+          pm.OnboardPokemon = o;
+          if (pm.State == PokemonState.SLP) o.SetCondition("SLP", pm.Tile.Field.HasCondition("Rest" + pm.Id) ? 3 : Controller.GetRandomInt(2, 4));
+          else if (pm.State == PokemonState.BadlyPSN) o.SetCondition("PSN", Controller.TurnNumber);
+        }
+        foreach (var m in pm.Moves) m.HasUsed = false;
+        Controller.OnboardPokemons.Insert(0, pm);
+        Abilities.Illusion(pm);//幻影特性以交换前的队伍顺序决定
         p.SwitchPokemon(origin, sendout);
         ReportBuilder.Add(new SendOut(log, pm));
-        Sp.Abilities.Trace(pm);
+        Abilities.Trace(pm);
         if (debut) pm.Debut();
         return true;
       }

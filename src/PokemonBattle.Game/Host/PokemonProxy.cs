@@ -17,36 +17,14 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       Controller = controller;
       Pokemon = pokemon;
-      nullOnboard = new OnboardPokemon(pokemon, -1);
+      NullOnboardPokemon = new OnboardPokemon(pokemon, -1);
       moves = pokemon.Moves.Select((m) => new MoveProxy(m, this)).ToArray();
       StruggleMove = new MoveProxy(new Move(Sp.Moves.STRUGGLE, Controller.Game.Settings), this);
     }
 
-    private readonly OnboardPokemon nullOnboard;
+    internal readonly OnboardPokemon NullOnboardPokemon;
     public OnboardPokemon OnboardPokemon
-    { get; private set; }
-    internal void Sendout(Tile tile)
-    {
-      Action = PokemonAction.Debuting;
-      tile.Pokemon = this;
-      tile.WillSendoutPokemonIndex = Tile.NOPM_INDEX;
-      OnboardPokemon = new OnboardPokemon(Pokemon, tile.X);
-      if (State == PokemonState.SLP) OnboardPokemon.SetCondition("SLP", Controller.GetRandomInt(2, 4));
-      else if (State == PokemonState.BadlyPSN) OnboardPokemon.SetCondition("PSN", Controller.TurnNumber);
-      foreach (var m in Moves) m.HasUsed = false;
-
-      Controller.OnboardPokemons.Insert(0, this);
-      Abilities.Illusion(this);
-    }
-    internal void Withdraw()
-    {
-      var ability = Ability.Id;
-      Action = PokemonAction.InBall;
-      Tile.Pokemon = null;
-      OnboardPokemon = nullOnboard;
-      Controller.OnboardPokemons.Remove(this);
-      Abilities.Withdrawn(this, ability);
-    }
+    { get; internal set; }
 
     private void AddReport(GameEvent e)
     {
@@ -87,9 +65,9 @@ namespace LightStudio.PokemonBattle.Game.Host
     public AtkContext AtkContext
     { get { return _atkContext; } }
     public AbilityE Ability
-    { get { return OnboardPokemon == nullOnboard || OnboardPokemon.HasCondition("GastroAcid") ? EffectsService.NULL_ABILITY : EffectsService.GetAbility(OnboardPokemon.Ability); } }
+    { get { return OnboardPokemon == NullOnboardPokemon || OnboardPokemon.HasCondition("GastroAcid") ? EffectsService.NULL_ABILITY : EffectsService.GetAbility(OnboardPokemon.Ability); } }
     public ItemE Item
-    { get { return OnboardPokemon == nullOnboard || OnboardPokemon.HasCondition("Detain") || Controller.Board.HasCondition("MagicRoom") || Ability.Klutz() ? EffectsService.NULL_ITEM : EffectsService.GetItem(Pokemon.Item); } }
+    { get { return OnboardPokemon == NullOnboardPokemon || OnboardPokemon.HasCondition("Detain") || Controller.Board.HasCondition("MagicRoom") || Ability.Klutz() ? EffectsService.NULL_ITEM : EffectsService.GetItem(Pokemon.Item); } }
     private MoveProxy[] moves;
     public IEnumerable<MoveProxy> Moves
     { get { return moves; } }
@@ -186,7 +164,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public bool CanHpRecover(bool showFail = false)
     {
-      if (OnboardPokemon == nullOnboard || Hp == 0) return false;
+      if (OnboardPokemon == NullOnboardPokemon || Hp == 0) return false;
       if (Hp == Pokemon.Hp.Origin)
       {
         if (showFail) AddReportPm("FullHp");
@@ -201,7 +179,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public bool CanEffectHurt
     {
-      get { return !(OnboardPokemon == nullOnboard || Hp == 0 || Ability.MagicGuard()); }
+      get { return !(OnboardPokemon == NullOnboardPokemon || Hp == 0 || Ability.MagicGuard()); }
     }
     public bool CanLostItem
     { 
@@ -225,6 +203,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (State != PokemonState.Normal && Hp > 0)
       {
+        if (Pokemon.State == PokemonState.SLP) Tile.Field.RemoveCondition("Rest" + Id);
         Pokemon.State = PokemonState.Normal;
         int i;
         if (item)
@@ -238,7 +217,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     private bool CanAddState(PokemonProxy by, AbilityE ability, AttachedState state, bool showFail)
     {
-      if (OnboardPokemon == nullOnboard || Hp == 0) return false;
+      if (OnboardPokemon == NullOnboardPokemon || Hp == 0) return false;
       string fail = Controller.Game.Settings.Mode.NeedTarget() ? "Fail" : "Fail0";
       switch (state)
       {
@@ -319,7 +298,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public int CanChangeLv7D(PokemonProxy by, StatType stat, int change, bool showFail)
     {
-      if (OnboardPokemon == nullOnboard || Hp == 0 || change == 0) return 0;
+      if (OnboardPokemon == NullOnboardPokemon || Hp == 0 || change == 0) return 0;
       if (change < 0 && by != this && Tile.Field.HasCondition("Mist"))
       {
         if (showFail) AddReportPm("Mist");
@@ -430,7 +409,8 @@ namespace LightStudio.PokemonBattle.Game.Host
             Sp.Moves.SkyDrop(AtkContext);
             if (c)
             {
-              AddReportPm("UseMove", AtkContext.Move.Id);
+              if (!AtkContext.Move.Bide()) AddReportPm("UseMove", AtkContext.Move.Id);
+              AtkContext.BuildDefContext(SelectedTarget);
               AtkContext.Execute(flag);
             }
             else Action = PokemonAction.Done;
@@ -484,18 +464,26 @@ namespace LightStudio.PokemonBattle.Game.Host
         else Pokemon.SetHp(0);
       }
       else Pokemon.SetHp(Hp - damage);
+      if (damage != 0) OnboardPokemon.SetTurnCondition("Assurance");
       return damage;
     }
     public void MoveHurt(DefContext def)
     {
       def.Damage = MoveHurt(def.Damage);
-      var o = new Condition();
-      o.Damage = def.Damage;
-      o.By = def.AtkContext.Attacker;
-      string c = def.AtkContext.Move.Category == MoveCategory.Physical ? "PhysicalDamage" : "SpecialDamage";
-      OnboardPokemon.SetTurnCondition(c, o);
-      OnboardPokemon.SetTurnCondition("Damage", o);
-      OnboardPokemon.SetTurnCondition("Hurt" + o.By.Id.ToString());
+      {
+        var o = new Condition();
+        o.Damage = def.Damage;
+        o.By = def.AtkContext.Attacker;
+        string c = def.AtkContext.Move.Category == MoveCategory.Physical ? "PhysicalDamage" : "SpecialDamage";
+        OnboardPokemon.SetTurnCondition(c, o);
+        OnboardPokemon.SetTurnCondition("Damage", o);
+      }
+      if (Action == PokemonAction.Moving && AtkContext.Move.Bide())
+      {
+        var o = OnboardPokemon.GetCondition("Bide");
+        o.By = def.AtkContext.Attacker;
+        o.Damage += def.Damage;
+      }
     }
     public void HpRecover(int changeHp, bool showFail = false, string logKey = "HpRecover", int arg1 = 0, bool consumeItem = false)
     {
@@ -518,6 +506,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         if (changeHp == 0) changeHp = 1;
         Hp -= changeHp;
+        OnboardPokemon.SetTurnCondition("Assurance");
         Controller.ReportBuilder.Add(new GameEvents.HpChange(this, logKey, arg1, arg2));
       }
     }
@@ -545,7 +534,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public bool CheckFaint()
     {
-      if (Hp == 0 && OnboardPokemon != nullOnboard)
+      if (Hp == 0 && OnboardPokemon != NullOnboardPokemon)
       {
         Tile.Field.SetCondition("FaintTurn", Controller.TurnNumber);
         Pokemon.State = PokemonState.Faint;

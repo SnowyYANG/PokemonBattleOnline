@@ -189,10 +189,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         if (p.Ability.Id == AIR_LOCK || p.Ability.Id == CLOUD_NINE) return true;
       return false;
     }
-    public static void Pressure(MoveProxy move, Tile target)
+    public static void Pressure(MoveProxy move, PokemonProxy der)
     {
       const int PRESSURE = 46;
-      if (target.Pokemon != null && target.Pokemon.Pokemon.TeamId != move.Owner.Pokemon.TeamId && target.Pokemon.Ability.Id == PRESSURE) --move.PP;
+      if (der.Pokemon.TeamId != move.Owner.Pokemon.TeamId && der.Ability.Id == PRESSURE) --move.PP;
     }
     public static Modifier TintedLens(DefContext def)
     {
@@ -397,21 +397,27 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
           }
         }
     }
-    internal static void ReTarget(AtkContext atk, ref Tile select)
+    internal static void ReTarget(AtkContext atk)
     {
-      const int LIGHTNINGROD = 31,  STORM_DRAIN = 114;
-      int ab = 0;
-      if (atk.Type == BattleType.Electric) ab = LIGHTNINGROD;
-      else if (atk.Type == BattleType.Fire) ab = FLASH_FIRE;
-      else if (atk.Type == BattleType.Water) ab = STORM_DRAIN;
-      if (ab != 0 && (select == null || select.Pokemon == null || select.Pokemon.Ability.Id != ab))
-        foreach(var pm in atk.Controller.OnboardPokemons)
-          if (pm != atk.Attacker && pm.RaiseAbility(ab))
-          {
-            select = pm.Tile;
-            pm.AddReportPm("ReTarget");
-            return;
-          }
+      if (atk.Move.Range == MoveRange.Single)
+      {
+        const int LIGHTNINGROD = 31, STORM_DRAIN = 114;
+        int ab = 0;
+        if (atk.Type == BattleType.Electric) ab = LIGHTNINGROD;
+        else if (atk.Type == BattleType.Water) ab = STORM_DRAIN;
+        if (ab != 0)
+          foreach (var pm in atk.Controller.OnboardPokemons)
+            if (pm.Ability.Id == ab)
+            {
+              if (pm != atk.Target.Defender)
+              {
+                pm.RaiseAbility();
+                pm.AddReportPm("ReTarget");
+                atk.SetTargets(new DefContext[] { new DefContext(atk, pm) });
+              }
+              return;
+            }
+      }
     }
     internal static void RecoverAfterMoldBreaker(PokemonProxy pm)
     {

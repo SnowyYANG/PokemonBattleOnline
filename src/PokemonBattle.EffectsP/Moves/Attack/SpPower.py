@@ -64,14 +64,6 @@ class Pursuit(AttackMoveE):
             d.BasePower = 40
 M(Pursuit(228))
 
-class WeatherBall(AttackMoveE):
-    def CalculateBasePower(self, d):
-        if d.Defender.Controller.Weather == Weather.Normal:
-            d.BasePower = 50
-        else:
-            d.BasePower = 100
-M(WeatherBall(311))
-
 class Facade(AttackMoveE):
     def PowerModifier(self, d):
         s = d.AtkContext.Attacker.State
@@ -79,6 +71,14 @@ class Facade(AttackMoveE):
             return 0x2000
         return 0x1000
 M(Facade(263))
+
+class WeatherBall(AttackMoveE):
+    def CalculateBasePower(self, d):
+        if d.Defender.Controller.Weather == Weather.Normal:
+            d.BasePower = 50
+        else:
+            d.BasePower = 100
+M(WeatherBall(311))
 
 class Brine(AttackMoveE):
     def PowerModifier(self, d):
@@ -94,6 +94,14 @@ class Payback(AttackMoveE):
         else:
             d.BasePower = 50
 M(Payback(371))
+
+class Assurance(AttackMoveE):
+    def CalculateBasePower(self, d):
+        if d.Defender.OnboardPokemon.HasCondition('Assurance'):
+            d.BasePower = 100
+        else:
+            d.BasePower = 50
+M(Assurance(372))
 
 class Venoshock(AttackMoveE):
     def PowerModifier(self, d):

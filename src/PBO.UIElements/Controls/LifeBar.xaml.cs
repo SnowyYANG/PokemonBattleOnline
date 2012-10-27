@@ -52,12 +52,14 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
       timer.Tick += timer_Tick;
     }
 
+    private double GetWidth()
+    {
+      int x2 = current * 48 / maxHp;
+      return x2 == 0 && current != 0 ? 1 : x2;
+    }
     private void CurrentChanged()
     {
-      {
-        int x2 = current * 48 / maxHp;
-        bar.Width = x2 == 0 && current != 0 ? 1 : x2;
-      }
+      bar.Width = GetWidth();
       if (current * 5 <= maxHp)
       {
         bar.Background = RED;
@@ -105,7 +107,12 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
         maxHp = hp.Origin;
         current = this.hp = hp.Value;
         CurrentChanged();
+        flash.Width = GetWidth();
       }
+    }
+    private void Storyboard_Completed(object sender, EventArgs e)
+    {
+      flash.Width = GetWidth();
     }
   }
 }

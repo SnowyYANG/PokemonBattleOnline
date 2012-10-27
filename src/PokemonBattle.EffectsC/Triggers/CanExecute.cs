@@ -49,7 +49,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         {
           pm.OnboardPokemon.SetCondition("SLP", count);
           AddResetYReport(pm, "SLP");
-          return !pm.SelectedMove.AvailableEvenSleeping();
+          return pm.SelectedMove.AvailableEvenSleeping();
         }
       }
       return true;

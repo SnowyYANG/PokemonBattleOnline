@@ -13,7 +13,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     }
     protected override void CalculateBasePower(DefContext def)
     {
-      if (def.AtkContext.Attacker.OnboardPokemon.HasCondition("Hurt" + def.Defender.Id.ToString())) def.BasePower = 120;
+      var o = def.AtkContext.Attacker.OnboardPokemon.GetCondition("Damage");
+      if (o != null && o.By == def.Defender) def.BasePower = 120;
       else def.BasePower = 60;
     }
   }

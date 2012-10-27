@@ -13,8 +13,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
 {
   class EndTurn : IEndTurn
   {
-    private static readonly StatType[] SEVEN_D = { StatType.Atk, StatType.Def, StatType.SpAtk, StatType.SpDef, StatType.Speed, StatType.Accuracy, StatType.Evasion };
-
     public void Execute(Controller c)
     {
       Weather(c); if (!c.CanContinue) goto GAMEEND;
@@ -102,6 +100,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
           if (t.Pokemon != null)
           {
             t.Pokemon.AddReportPm("FSDD", o.Atk.Move.Id);
+            o.Atk.BuildDefContext(t);
             o.Atk.Execute(AtkContextFlag.FSDD | AtkContextFlag.IgnorePostEffectItem);
           }
         }
@@ -435,15 +434,20 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     //26.1 Speed Boost, Bad Dreams, Harvest, Moody
     //26.2 Toxic Orb activation, Flame Orb activation, Sticky Barb
     //26.3 pickup
+    private static readonly StatType[] SEVEN_D = { StatType.Atk, StatType.Def, StatType.SpAtk, StatType.SpDef, StatType.Speed, StatType.Accuracy, StatType.Evasion };
     private void Pokemon(Controller c)
     {
       foreach (var pm in c.OnboardPokemons.ToArray())
       {
         int ab = pm.Ability.Id;
-        if (pm.Action == PokemonAction.Moving && pm.AtkContext.Move.Id == Ms.UPROAR)
+        if (pm.AtkContext != null && pm.AtkContext.Move.Id == Ms.UPROAR)
         {
-          if (pm.AtkContext.Attachment == 0) pm.AddReportPm("DeUproar");
-          else pm.AddReportPm("Uproar");
+          if (pm.Action == PokemonAction.Moving)  pm.AddReportPm("Uproar");
+          else if (pm.AtkContext.Attachment == 0)
+          {
+            pm.AtkContext.Attachment = -1;
+            pm.AddReportPm("DeUproar");
+          }
         }
         switch (ab)
         {
