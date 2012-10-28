@@ -10,6 +10,6 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Canvas.Resources>
-    <Rectangle Name="flash" Fill="#303030" Height="3"/>
+    <Rectangle Name="flash" Fill="#80303030" Height="3"/>
     <Border Name="bar" Height="3" BorderThickness="0,1"/>
 </Canvas>

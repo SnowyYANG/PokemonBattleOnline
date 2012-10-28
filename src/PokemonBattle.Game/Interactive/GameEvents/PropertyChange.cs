@@ -81,6 +81,10 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember(EmitDefaultValue = false)]
     protected int[] CT;
 
+    private TimeSpan sleep;
+    public override TimeSpan Sleep
+    { get { return sleep; } }
+
     internal bool SetHurt(IEnumerable<DefContext> defs) //auto delay
     {
       List<int> pms = new List<int>();
@@ -109,12 +113,15 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
 
     protected override void Update()
     {
+      int max = 0;
       for (int i = 0; i < Pms.Length; ++i)
       {
         PokemonOutward p = GetPokemon(Pms[i]);
         p.Hurt(Damages[i]);
         AppendGameLog("Hurt", Pms[i]); AppendGameLog("Hp", -Damages[i]);
+        if (Damages[i] > max) max = Damages[i];
       }
+      sleep = TimeSpan.FromMilliseconds(16 * max + 1000);
       if (SH != null) AppendGameLog("SuperHurt" + SH.Length, SH);
       if (WH != null) AppendGameLog("WeakHurt" + WH.Length, WH);
       if (CT != null) AppendGameLog("CT" + CT.Length, CT);

@@ -18,7 +18,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       Pm = pm.Id;
     }
 
-    public override int Sleep
+    public override TimeSpan Sleep
     {
       get
       {

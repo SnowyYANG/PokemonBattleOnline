@@ -48,7 +48,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
     {
       InitializeComponent();
       storyboard = (Storyboard)Resources["Flash"];
-      timer = new DispatcherTimer() { Interval = TimeSpan.FromTicks(166666) };
+      timer = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(16) };
       timer.Tick += timer_Tick;
     }
 

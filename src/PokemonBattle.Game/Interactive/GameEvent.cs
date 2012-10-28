@@ -11,8 +11,9 @@ namespace LightStudio.PokemonBattle.Game
   [DataContract(Namespace = Namespaces.PBO)]
   public abstract class GameEvent
   {
-    public virtual int Sleep
-    { get { return 100; } }
+    private static readonly TimeSpan SLEEP = TimeSpan.FromMilliseconds(100);
+    public virtual TimeSpan Sleep
+    { get { return SLEEP; } }
     protected GameOutward Game
     { get; private set; }
 
