@@ -1,64 +1,12 @@
-class Present(AttackMoveE):
-    def Execute(self, pm, flag):
-        random = pm.Controller.GetRandomInt(0, 99)
-        pm.BuildAtkContext(self.Move)
-        if random < 20:
-            a = 0
-        else:
-            if random <  60:
-                a = 40
-            else:
-                if random < 90:
-                    a = 80
-                else:
-                    a = 100
-        pm.AtkContext.Attachment = a
-        MoveE.Execute(self, pm, flag)
-    def Act(self, a):
-        if a.Attachment == 0:
-            a.Target.Defender.HpRecoverByOneNth(4, True)
-    def CalculateBasePower(self, d):
-        d.BasePower = d.AtkContext.Attachment
-M(Present(217))
-
-class Magnitude(AttackMoveE):
-    def Execute(self, pm, flag):
-        random = pm.Controller.GetRandomInt(0, 99)
-        pm.BuildAtkContext(self.Move)
-        if random >= 95:
-            pm.AtkContext.Attachment = 7
-            pm.Controller.ReportBuilder.Add("Magnitude", 10)
-        else:
-            if random < 5:
-                a = 0
-            else:
-                if random < 16:
-                    a = 1
-                else:
-                    if random < 35:
-                        a = 2
-                    else:
-                        if random < 65:
-                            a = 3
-                        else:
-                            if random < 85:
-                                a = 4
-                            else:
-                                a = 5
-            pm.AtkContext.Attachment = a
-            pm.Controller.ReportBuilder.Add("Magnitude", 4 + a)
-        MoveE.Execute(self, pm, flag)
-    def CalculateBasePower(self, d):
-        d.BasePower = 10 + 20 * d.AtkContext.Attachment
-    def DamageFinalModifier(self, d):
-        if d.Defender.OnboardPokemon.CoordY == CoordY.Underground:
-            return 0x2000
-        return 0x1000
-M(Magnitude(222))
-
 class Pursuit(AttackMoveE):
+    def BuildAtkContext(self, pm):
+        atk = MoveE.BuildAtkContext(self, pm)
+        if pm.OnboardPokemon.HasCondition('Pursuiting'):
+            pm.OnboardPokemon.RemoveCondition('Pursuiting')
+            atk.IgnorePostEffectItem = True
+        return atk
     def CalculateBasePower(self, d):
-        if d.AtkContext.Flag.HasFlag(AtkContextFlag.IgnorePostEffectItem):
+        if d.AtkContext.IgnorePostEffectItem:
             d.BasePower = 80
         else:
             d.BasePower = 40

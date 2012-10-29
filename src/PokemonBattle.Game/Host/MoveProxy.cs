@@ -49,7 +49,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       return null;
     }
 
-    internal void Execute(AtkContextFlag flag)
+    internal void Execute()
     {
       var um = new UseMove(Owner, Type);
       Owner.Controller.ReportBuilder.Add(um);
@@ -62,7 +62,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         foreach (var d in atk.Targets) Sp.Abilities.Pressure(this, d.Defender);
         um.PP = pp - PP;
       }
-      atk.Execute(flag);
+      atk.Execute();
       HasUsed = true;
     }
 

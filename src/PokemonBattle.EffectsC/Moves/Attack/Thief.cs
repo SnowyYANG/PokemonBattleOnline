@@ -13,13 +13,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     }
     protected override void Act(AtkContext atk)
     {
-      atk.Attachment = atk.Attacker.Pokemon.Item == null;
+      if (atk.Attacker.Pokemon.Item == null) atk.SetCondition("Thief");
       base.Act(atk);
     }
     protected override void ImplementEffect(DefContext def)
     {
       var aer = def.AtkContext.Attacker;
-      if (def.AtkContext.Attachment && def.Defender.CanLostItem)
+      if (def.AtkContext.HasCondition("Thief") && def.Defender.CanLostItem)
       {
         var i = def.Defender.Pokemon.Item.Id;
         def.Defender.RemoveItem();

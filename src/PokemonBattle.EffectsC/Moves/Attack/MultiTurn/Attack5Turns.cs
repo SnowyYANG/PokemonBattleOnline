@@ -15,12 +15,12 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     public override AtkContext BuildAtkContext(PokemonProxy pm)
     {
       var atk = base.BuildAtkContext(pm);
-      atk.Attachment = 5;
+      atk.SetCondition("MultiTurn", 5);
       return atk;
     }
     protected override void CalculateBasePower(DefContext d)
     {
-      d.BasePower = 30 * (1 << ((d.AtkContext.Attacker.OnboardPokemon.HasCondition("DefenseCurl") ? 6 : 5) - d.AtkContext.Attachment));
+      d.BasePower = 30 * (1 << ((d.AtkContext.Attacker.OnboardPokemon.HasCondition("DefenseCurl") ? 6 : 5) - d.AtkContext.GetCondition("MultiTurn").Turn));
     }
   }
 }

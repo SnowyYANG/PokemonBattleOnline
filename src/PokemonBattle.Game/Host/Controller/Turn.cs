@@ -179,7 +179,11 @@ namespace LightStudio.PokemonBattle.Game.Host
       foreach (var f in Board.Fields) f.ClearTurnCondition();
       foreach (var t in Tiles)
       {
-        if (t.Pokemon != null) t.Pokemon.OnboardPokemon.ClearTurnCondition();
+        if (t.Pokemon != null)
+        {
+          t.Pokemon.OnboardPokemon.ClearTurnCondition();
+          if (t.Pokemon.AtkContext != null) t.Pokemon.AtkContext.ClearTurnCondition();
+        }
         t.ClearTurnCondition();
       }
       ReportBuilder.Add(new GameEvents.EndTurn());

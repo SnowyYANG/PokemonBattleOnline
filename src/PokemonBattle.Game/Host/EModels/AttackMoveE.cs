@@ -32,10 +32,10 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
     }
 
-    public override void Execute(AtkContext atk, AtkContextFlag flag)
+    public override void Execute(AtkContext atk)
     {
       if (PrepareOneTurn(atk.Attacker) && !Sp.Items.PowerHerb(atk.Attacker)) return;
-      base.Execute(atk, flag);
+      base.Execute(atk);
     }
     protected override void Act(AtkContext atk)
     {
@@ -285,18 +285,24 @@ namespace LightStudio.PokemonBattle.Game.Host
     protected virtual void PostEffect(AtkContext atk)
     {
       foreach (DefContext d in atk.Targets) Abilities.ColorChange(d);
-      if (!atk.Flag.HasFlag(AtkContextFlag.IgnorePostEffectItem)) Items.AttackPostEffect(atk);
+      if (!atk.IgnorePostEffectItem) Items.AttackPostEffect(atk);
     }
     protected override void MoveEnding(AtkContext atk)
     {
       base.MoveEnding(atk);
-      if (atk.Move.MultiTurnAttack())
       {
-        atk.Attachment--;
-        if (atk.Attachment != 0) atk.Attacker.Action = PokemonAction.Moving;
-        else if (atk.Move.MultiTurnAttackWithConfusion()) atk.Attacker.AddState(atk.Attacker, AttachedState.Confuse, false, 0, "EnConfuse2");
+        var o = atk.GetCondition("MultiTurn");
+        if (o != null)
+        {
+          o.Turn--;
+          if (o.Turn != 0) atk.Attacker.Action = PokemonAction.Moving;
+          else if (o.Bool) atk.Attacker.AddState(atk.Attacker, AttachedState.Confuse, false, 0, "EnConfuse2");
+        }
       }
-      if (atk.EjectButton != null) atk.Controller.PauseForSendoutInput(atk.EjectButton);
+      {
+        var o = atk.GetCondition<Tile>("EjectButton");
+        if (o != null) atk.Controller.PauseForSendoutInput(o);
+      }
     }
   }
 }

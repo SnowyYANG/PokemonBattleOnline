@@ -392,7 +392,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         Action = PokemonAction.InBall;
       }
     }
-    internal void Move(AtkContextFlag flag = AtkContextFlag.None)
+    internal void Move()
     {
       if (CanMove)
       {
@@ -411,7 +411,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             {
               if (!AtkContext.Move.Bide()) AddReportPm("UseMove", AtkContext.Move.Id);
               AtkContext.BuildDefContext(SelectedTarget);
-              AtkContext.Execute(flag);
+              AtkContext.Execute();
             }
             else Action = PokemonAction.Done;
             break;
@@ -419,7 +419,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             if (CanExecute() && SelectedMove.CanExecute())
             {
               _atkContext = null;
-              SelectedMove.Execute(flag);
+              SelectedMove.Execute();
               var o = OnboardPokemon.GetCondition("LastMove");
               if (o == null)
               {

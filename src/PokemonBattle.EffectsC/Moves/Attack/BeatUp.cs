@@ -25,7 +25,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
         if (pm == aer.Pokemon || pm.State == PokemonState.Normal)
         {
           hits++;
-          atk.Attachment = pm == aer.Pokemon? aer.OnboardPokemon.Form.Data.Base.Atk : pm.Form.Data.Base.Atk;
+          atk.SetCondition("BeatUpAtk", pm == aer.Pokemon? aer.OnboardPokemon.Form.Data.Base.Atk : pm.Form.Data.Base.Atk);
           CalculateDamages(atk);
           Implement(atk.Targets);
           if (atk.Target.Defender.Hp == 0 || aer.Hp == 0 || aer.State == PokemonState.FRZ || aer.State == PokemonState.SLP) break;
@@ -36,7 +36,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     }
     protected override void CalculateBasePower(DefContext def)
     {
-      def.BasePower = def.AtkContext.Attachment / 10 + 5;
+      def.BasePower = def.AtkContext.GetCondition<int>("BeatUpAtk") / 10 + 5;
     }
     protected override void CalculateEffectRevise(DefContext def)
     {

@@ -14,11 +14,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves
 
     protected override void FilterDefContext(AtkContext atk)
     {
-      if (atk.Flag.HasFlag(AtkContextFlag.FSDD)) base.FilterDefContext(atk);
+      if (atk.HasCondition("FSDD")) base.FilterDefContext(atk);
     }
     protected override void Act(AtkContext atk)
     {
-      if (atk.Flag.HasFlag(AtkContextFlag.FSDD)) base.Act(atk);
+      if (atk.HasCondition("FSDD")) base.Act(atk);
       else
       {
         var tile = MoveE.GetRangeTiles(atk, Move.Range, atk.Attacker.SelectedTarget);
@@ -28,7 +28,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves
           atk.Attacker.AddReportPm("EnFSDD" + Move.Id);
           var c = new Condition();
           c.Turn = atk.Controller.TurnNumber + 2;
-          c.Atk = new AtkContext(atk.Attacker, Move) { Attachment = tile };
+          c.Atk = new AtkContext(atk.Attacker, Move);
+          c.Atk.SetCondition("FSDD", tile);
           tile.First().AddCondition("FSDD", c);
         }
       }

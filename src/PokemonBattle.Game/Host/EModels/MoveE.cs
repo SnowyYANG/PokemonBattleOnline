@@ -94,12 +94,12 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       return targets;
     }
-    protected static void CallMove(AtkContext atk, MoveType move, AtkContextFlag flag, bool rebuildDefContext = true)
+    protected static void CallMove(AtkContext atk, MoveType move, bool rebuildDefContext = true)
     {
       atk.Move = move;
       atk.Attacker.AddReportPm("UseMove");
       if (rebuildDefContext) atk.BuildDefContext(null);
-      EffectsService.GetMove(move.Id).Execute(atk, flag);
+      EffectsService.GetMove(move.Id).Execute(atk);
     }
     protected static bool ForceSwitch(DefContext def)
     {
@@ -150,9 +150,8 @@ namespace LightStudio.PokemonBattle.Game.Host
         atk.SetTargets(targets);
       }
     }
-    public virtual void Execute(AtkContext atk, AtkContextFlag flag)
+    public virtual void Execute(AtkContext atk)
     {
-      atk.Flag = flag;
       if (NotFail(atk))
       {
         CalculateType(atk);

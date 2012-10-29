@@ -16,7 +16,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     public override AtkContext BuildAtkContext(PokemonProxy pm)
     {
       var atk = base.BuildAtkContext(pm);
-      atk.Attachment = atk.Controller.GetRandomInt(2, 3);
+      atk.SetCondition("MultiTurn", new Condition() { Turn = atk.Controller.GetRandomInt(2, 3), Bool = true });
       return atk;
     }
   }

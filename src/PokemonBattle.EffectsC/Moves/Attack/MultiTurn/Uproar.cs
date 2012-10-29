@@ -15,12 +15,12 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     public override AtkContext BuildAtkContext(PokemonProxy pm)
     {
       var atk = base.BuildAtkContext(pm);
-      atk.Attachment = 3;
+      atk.SetCondition("MultiTurn", new Condition() { Turn = 3 });
       return atk;
     }
     protected override void Act(AtkContext atk)
     {
-      if (atk.Attachment == 3)
+      if (atk.GetCondition("MultiTurn").Turn == 3)
       {
         atk.Attacker.AddReportPm("EnUproar");
         foreach (var t in atk.Controller.Board.Tiles)

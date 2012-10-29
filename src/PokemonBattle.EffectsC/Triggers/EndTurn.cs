@@ -101,7 +101,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
           {
             t.Pokemon.AddReportPm("FSDD", o.Atk.Move.Id);
             o.Atk.BuildDefContext(t);
-            o.Atk.Execute(AtkContextFlag.FSDD | AtkContextFlag.IgnorePostEffectItem);
+            o.Atk.Execute();
           }
         }
       }
@@ -443,9 +443,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         if (pm.AtkContext != null && pm.AtkContext.Move.Id == Ms.UPROAR)
         {
           if (pm.Action == PokemonAction.Moving)  pm.AddReportPm("Uproar");
-          else if (pm.AtkContext.Attachment == 0)
+          else if (pm.AtkContext.GetCondition("MultiTurn").Turn == 0)
           {
-            pm.AtkContext.Attachment = -1;
+            pm.AtkContext.RemoveCondition("MultiTurn");
             pm.AddReportPm("DeUproar");
           }
         }

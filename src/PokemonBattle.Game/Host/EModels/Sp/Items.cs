@@ -204,7 +204,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       var i = atk.Attacker.Item.Id;
       if (i > 111 && i < 129 && BattleTypeHelper.GetItemType(i, 112, false) == atk.Type)
       {
-        atk.Flag |= AtkContextFlag.Gem;
+        atk.SetTurnCondition("Gem");
         atk.Controller.ReportBuilder.Add(new GameEvents.RemoveItem("Gem", atk.Attacker, i, atk.Move.Id));
         atk.Attacker.ConsumeItem();
       }

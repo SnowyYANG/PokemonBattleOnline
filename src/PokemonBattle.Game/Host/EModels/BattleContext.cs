@@ -7,27 +7,15 @@ using LightStudio.PokemonBattle.Game.Host.Sp;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
-  [Flags]
-  public enum AtkContextFlag
+  public class AtkContext : ConditionalObject
   {
-    None = 0,
-    IgnorePostEffectItem,
-    MeFirst,
-    FSDD,
-    MagicBounce,
-    Gem
-  }
-  public class AtkContext
-  {
-    public AtkContextFlag Flag;
     public readonly MoveProxy MoveProxy; //压力、诅咒身躯，针对一开始选的技能
     public BattleType Type;
     public Modifier AccuracyModifier;
     public int CTLv;
     public int TotalDamage;
-    public Tile EjectButton;
     public bool FailAll;
-    public dynamic Attachment;
+    public bool IgnorePostEffectItem;
 
     public AtkContext(PokemonProxy pm, MoveType move)
     {
@@ -52,11 +40,10 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       EffectsService.GetMove(Move.Id).BuildDefContext(this, selectTile);
     }
-    public void Execute(AtkContextFlag flag)
+    public void Execute()
     {
       TotalDamage = 0;
-      Flag = flag;
-      EffectsService.GetMove(Move.Id).Execute(this, Flag);
+      EffectsService.GetMove(Move.Id).Execute(this);
     }
     public void SetTargets(IEnumerable<DefContext> targets)
     {

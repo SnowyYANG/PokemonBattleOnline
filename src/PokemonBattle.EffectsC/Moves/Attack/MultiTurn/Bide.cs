@@ -15,13 +15,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     public override AtkContext BuildAtkContext(PokemonProxy pm)
     {
       var atk = base.BuildAtkContext(pm);
-      atk.Attachment = 3;
-      atk.Attacker.OnboardPokemon.SetCondition("Bide", new Condition());
+      atk.SetCondition("MultiTurn", 3);
+      pm.OnboardPokemon.SetCondition("Bide", new Condition());
       return atk;
     }
     protected override void BuildDefContext(AtkContext atk, Tile select)
     {
-      if (atk.Attachment == 1)
+      if (atk.GetCondition("MultiTurn").Turn == 1)
       {
         var o = atk.Attacker.OnboardPokemon.GetCondition("Bide");
         var targets = new List<DefContext>();
@@ -36,12 +36,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     }
     protected override void Act(AtkContext atk)
     {
-      if (atk.Attachment == 1)
+      var turn = atk.GetCondition("MultiTurn").Turn;
+      if (turn == 1)
       {
         atk.Attacker.AddReportPm("DeBide");
         base.Act(atk);
       }
-      else if (atk.Attachment == 2) atk.Attacker.AddReportPm("Bide");
+      else if (turn == 2) atk.Attacker.AddReportPm("Bide");
     }
     protected override void CalculateDamages(AtkContext atk)
     {

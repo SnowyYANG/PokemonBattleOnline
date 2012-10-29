@@ -153,7 +153,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
       }
 
-      public override void Execute(AtkContext atk, AtkContextFlag flag)
+      public override void Execute(AtkContext atk)
       {
         if (Move == null) atk.Controller.ReportBuilder.Add("error");
         else atk.Attacker.AddReportPm("unfinish", Move.Id);

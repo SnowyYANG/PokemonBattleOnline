@@ -20,11 +20,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
       pm.Controller.ReportBuilder.Add(new GameEvents.HpChange(pm, null));
       pm.CheckFaint();
     }
-    public override void Execute(AtkContext atk, AtkContextFlag flag)
+    public override void Execute(AtkContext atk)
     {
       if (atk.Controller.OnboardPokemons.FirstOrDefault((p) => p.RaiseAbility(As.DAMP)) == null)
       {
-        base.Execute(atk, flag);
+        base.Execute(atk);
         if (atk.FailAll) Suicide(atk.Attacker);
       }
       else atk.Attacker.AddReportPm("FailSp", Move.Id);

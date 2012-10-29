@@ -27,9 +27,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       }
       return false;
     }
-    public override void Execute(AtkContext atk, AtkContextFlag flag)
+    public override void Execute(AtkContext atk)
     {
-      if (NotFail(atk)) CallMove(atk, atk.Target.Defender.SelectedMove.Type, flag | AtkContextFlag.MeFirst, false);
+      atk.SetTurnCondition("MeFirst");
+      if (NotFail(atk)) CallMove(atk, atk.Target.Defender.SelectedMove.Type, false);
       else FailAll(atk);
     }
   }

@@ -64,8 +64,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new FuryCutter(210));
       M(new HealBell(215, "HealBell"));
       M(new Happiness(216, false));
+      M(new Present(217));
       M(new Happiness(218, true));
       M(new PainSplit(220));
+      M(new Magnitude(222));
       M(new RapidSpin(229));
       M(new HiddenPower(237));
       M(new GustTwister(239));
