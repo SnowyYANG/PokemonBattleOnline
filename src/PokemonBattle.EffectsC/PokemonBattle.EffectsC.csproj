@@ -90,8 +90,15 @@
     <Compile Include="Moves\Present.cs" />
     <Compile Include="Moves\Status\Acupressure.cs" />
     <Compile Include="Moves\Status\Autotomize.cs" />
+    <Compile Include="Moves\Status\BatonPass.cs" />
+    <Compile Include="Moves\Status\CallMove\Assist.cs" />
+    <Compile Include="Moves\Status\CallMove\Copycat.cs" />
     <Compile Include="Moves\Status\CallMove\MeFirst.cs" />
     <Compile Include="Moves\Status\CallMove\Metronome.cs" />
+    <Compile Include="Moves\Status\CallMove\MirrorMove.cs" />
+    <Compile Include="Moves\Status\CallMove\NaturePower.cs" />
+    <Compile Include="Moves\Status\CallMove\SleepTalk.cs" />
+    <Compile Include="Moves\Status\CallMove\Snatch.cs" />
     <Compile Include="Moves\Status\ChangeAbility\Entrainment.cs" />
     <Compile Include="Moves\Status\ChangeAbility\RolePlay.cs" />
     <Compile Include="Moves\Status\ChangeAbility\SkillSwap.cs" />

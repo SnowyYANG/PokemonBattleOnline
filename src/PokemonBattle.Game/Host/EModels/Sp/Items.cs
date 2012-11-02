@@ -142,16 +142,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       if (pm.Item.Id == 105) pm.AddReportPm("EnBalloon");
     }
-    public static bool Remain1Hp(PokemonProxy pm) //调用前已判断过 damage > pm.Hp
-    {
-      const int FOCUS_BAND = 15, FOCUS_SASH = 52;
-      if ((pm.Item.Id == FOCUS_BAND && pm.Controller.OneNth(10)) || (pm.Item.Id == FOCUS_SASH && pm.Hp == pm.Pokemon.Hp.Origin))
-      {
-        pm.RaiseItem("FocusItem");
-        return true;
-      }
-      return false;
-    }
     public static void AttackPostEffect(AtkContext atk)
     {
       const int SHELL_BELL = 35;

@@ -29,17 +29,17 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
 
       return m;
     }
-    public static void KOed(DefContext def)
+    public static void KOed(DefContext def, OnboardPokemon o)
     {
       var der = def.Defender;
       var aer = def.AtkContext.Attacker;
-      if (der.OnboardPokemon.HasCondition("DestinyBond"))
+      if (o.HasCondition("DestinyBond"))
       {
         der.AddReportPm("DestinyBond"); //战报顺序已测
         aer.Pokemon.SetHp(0);
         aer.CheckFaint();
       }
-      if (der.OnboardPokemon.HasCondition("Grudge"))
+      if (o.HasCondition("Grudge"))
       {
         int formerPP = def.AtkContext.MoveProxy.PP;
         def.AtkContext.MoveProxy.PP = 0;
@@ -49,20 +49,73 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     public static void WillAct(PokemonProxy pm)
     {
-      pm.Tile.RemoveCondition("DestinyBond");
-      pm.Tile.RemoveCondition("Grudge");
+      pm.OnboardPokemon.RemoveCondition("DestinyBond");
+      pm.OnboardPokemon.RemoveCondition("Grudge");
+      pm.OnboardPokemon.RemoveCondition("Rage");
+    }
+    public static void SendingOut(PokemonProxy pm)
+    {
+      var o = pm.OnboardPokemon;
+      if (pm.State == PokemonState.SLP) o.SetCondition("SLP", pm.Tile.Field.HasCondition("Rest" + pm.Id) ? 3 : pm.Controller.GetRandomInt(2, 4));
+      else
+      {
+        pm.Tile.Field.RemoveCondition("Rest" + pm.Id);
+        if (pm.State == PokemonState.BadlyPSN) o.SetCondition("PSN", pm.Controller.TurnNumber);
+      }
+      var pass = pm.Tile.GetCondition<OnboardPokemon>("BatonPass");
+      if (pass != null)
+      {
+        o.SetLv7D(pass.Lv5D.Atk, pass.Lv5D.Def, pass.Lv5D.SpAtk, pass.Lv5D.SpDef, pass.Lv5D.Speed, pass.AccuracyLv, pass.EvasionLv);
+        pm.Tile.RemoveCondition("BatonPass");
+        object c;
+        //混乱状态 
+        c = pass.GetCondition<object>("Confuse");
+        if (c != null) o.SetCondition("Confuse", c);
+        //寄生种子状态 
+        c = pass.GetCondition<object>("LeechSeed");
+        if (c != null) o.SetCondition("LeechSeed", c);
+        //扣押状态
+        c = pass.GetCondition<object>("Embargo");
+        if (c != null) o.SetCondition("Embargo", c);
+        //回复封印状态 
+        c = pass.GetCondition<object>("HealBlock");
+        if (c != null) o.SetCondition("HealBlock", c);
+        //念动力状态
+        c = pass.GetCondition<object>("Telekinesis");
+        if (c != null) o.SetCondition("Telekinesis", c);
+        //胃液状态
+        if (pass.HasCondition("GastroAcid")) o.SetCondition("GastroAcid");
+        //扎根状态
+        if (pass.HasCondition("Ingrain")) o.SetCondition("Ingrain");
+        //液态圈状态
+        if (pass.HasCondition("AquaRing")) o.SetCondition("AquaRing");
+        //蓄气状态 
+        if (pass.HasCondition("FocusEnergy")) o.SetCondition("FocusEnergy");
+        //替身状态
+        c = pass.GetCondition<object>("Substitute");
+        if (c != null) o.SetCondition("Substitute", c);
+        //电磁浮游状态
+        c = pass.GetCondition<object>("MagnetRise");
+        if (c != null) o.SetCondition("MagnetRise", c);
+        //灭亡之歌状态
+        c = pass.GetCondition<object>("PerishSong");
+        if (c != null) o.SetCondition("PerishSong", c);
+      }
+      foreach (var m in pm.Moves) m.HasUsed = false;
+      Abilities.Illusion(pm);//幻影特性以交换前的队伍顺序决定
     }
     public static void Withdrawing(PokemonProxy pm, bool canPursuit)
     {
-      if (pm.Hp > 0 && canPursuit)
+      if (canPursuit && pm.Hp != 0)
       {
         var tile = pm.Tile;
-        foreach (var p in pm.Controller.GetOnboardPokemons(1 - pm.Pokemon.TeamId).ToArray())
-          if (Math.Abs(tile.X - p.OnboardPokemon.X) <= 1 && p.SelectedMove != null && p.SelectedMove.Type.Id == Moves.PERSUIT)
+        foreach (var p in pm.Controller.Board[tile.Team].GetPokemons(tile.X - 1, tile.X + 1).ToArray())
+          if (p.SelectedMove != null && p.SelectedMove.Type.Id == Moves.PURSUIT)
           {
             p.OnboardPokemon.SetCondition("Pursuiting");
             p.Move();
-            if (pm.CheckFaint()) return;
+            p.OnboardPokemon.RemoveCondition("Pursuiting");
+            if (pm.Hp == 0) return;
           }
       }
       foreach (var p in pm.Controller.OnboardPokemons)
@@ -91,6 +144,42 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
             if (o != null && o.By == pm) op.RemoveCondition("Trap");
           }
         }
+    }
+    public static bool Remaining1HP(PokemonProxy pm)
+    {
+      if (pm.OnboardPokemon.HasCondition("Endure"))
+      {
+        pm.AddReportPm("Endure");
+        return true;
+      }
+      if (pm.Hp == pm.Pokemon.Hp.Origin && pm.RaiseAbility(Abilities.STURDY))
+      {
+        pm.AddReportPm("Endure");
+        return true;
+      }
+      const int FOCUS_BAND = 15, FOCUS_SASH = 52;
+      if ((pm.Item.Id == FOCUS_BAND && pm.Controller.OneNth(10)) || (pm.Item.Id == FOCUS_SASH && pm.Hp == pm.Pokemon.Hp.Origin))
+      {
+        pm.RaiseItem("FocusItem");
+        return true;
+      }
+      return false;
+    }
+    public static bool MagicCoat(AtkContext atk, PokemonProxy der)
+    {
+      //atk.Move.AdvancedFlags.MagicCoat is already checked
+      if (der.OnboardPokemon.HasCondition("MagicCoat") || !atk.Attacker.Ability.IgnoreDefenderAbility() && der.Ability.Id == Abilities.MAGIC_BOUNCE)
+      {
+        var o = atk.GetCondition<List<PokemonProxy>>("MagicCoat");
+        if (o == null)
+        {
+          o = new List<PokemonProxy>();
+          atk.SetCondition("MagicCoat", o);
+        }
+        o.Add(der);
+        return true;
+      }
+      return false;
     }
   }
 }

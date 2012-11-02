@@ -69,7 +69,7 @@ namespace LightStudio.PokemonBattle.Data
 
     [DataMember]
     private readonly MoveTypeAdvancedFlags _advancedFlags;
-    public MoveTypeAdvancedFlags AdvancedFlags
+    public MoveTypeAdvancedFlags Flags
     { get { return _advancedFlags; } }
 
     [DataMember(EmitDefaultValue = false)]

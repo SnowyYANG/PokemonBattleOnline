@@ -1,3 +1,11 @@
+class Stomp(AttackMoveE):
+    def DamageFinalModifier(self, d):
+        if d.Defender.OnboardPokemon.HasCondition('Minimize'):
+            return 0x2000
+        return 0x1000
+M(Stomp(23))
+M(Stomp(537)) #steamroller
+
 class FixedDamage(AttackMoveE):
     def __new__(cls, id, damage):
         return AttackMoveE.__new__(cls, id)
@@ -12,8 +20,8 @@ M(FixedDamage(82, 40)) #dragon rage
 class NightShade(AttackMoveE):
     def CalculateDamages(self, a):
         a.Target.Damage = a.Attacker.Pokemon.Lv
-M(NightShade(101))
 M(NightShade(69)) #Seismic Toss
+M(NightShade(101))
 
 class Psywave(AttackMoveE):
     def CalculateDamages(self, a):

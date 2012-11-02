@@ -60,7 +60,7 @@ A(NoEffectWithLv7DUp(157, BattleType.Grass, StatType.Atk)) #sap sipper
 
 class Soundproof(AbilityE):
     def CanImplement(self, d):
-        if d.AtkContext.Move.AdvancedFlags.IsSound:
+        if d.AtkContext.Move.Flags.IsSound:
             self.Raise(d.Defender)
             d.Defender.AddReportPm('NoEffect', None, None)
             return False

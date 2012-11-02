@@ -46,6 +46,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Leap(91, CoordY.Underground));//dig
       M(new Bide(117));
       M(new Metronome(118));
+      M(new MirrorMove(119));
       M(new BigBang(120));
       M(new SkullBash(130));
       M(new JumpKick(136));
@@ -62,12 +63,14 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new RandomMTA(200));//outrage
       M(new Attack5Turns(205));//rollout
       M(new FuryCutter(210));
+      M(new SleepTalk(214));
       M(new HealBell(215, "HealBell"));
       M(new Happiness(216, false));
       M(new Present(217));
       M(new Happiness(218, true));
       M(new PainSplit(220));
       M(new Magnitude(222));
+      M(new BatonPass(226));
       M(new RapidSpin(229));
       M(new HiddenPower(237));
       M(new GustTwister(239));
@@ -79,13 +82,16 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Stockpile(254));
       M(new SpitUp(255));
       M(new Swallow(256));
+      M(new NaturePower(267));
       M(new Trick(271));
       M(new RolePlay(272));
+      M(new Assist(274));
       M(new Recycle(278));
       M(new Revenge(279));
       M(new KnockOff(282));
       M(new Spout(284));
       M(new SkillSwap(285));
+      M(new Snatch(289));
       M(new Leap(291, CoordY.Water));//dives
       M(new Attack5Turns(301));//ice ball
       M(new HealBell(312, "Aromatherapy"));
@@ -100,6 +106,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new TrumpCard(376));
       M(new WringOut(378));
       M(new MeFirst(382));
+      M(new Copycat(383));
       M(new SLevel(386, 60));//punishment
       M(new SetAbility(388, 15));//worry seed
       M(new Trick(415)); //switcheroo

@@ -117,9 +117,9 @@ namespace LightStudio.PokemonBattle.Game.Host
       OnboardPokemon.RemoveCondition("Unburden");
       OnboardPokemon.RemoveCondition("ChoiceItem");
     }
-    public void BuildAtkContext(MoveType move)
+    internal void BuildAtkContext(MoveProxy move)
     {
-      _atkContext = new AtkContext(this, move);
+      _atkContext = new AtkContext(move);
     }
     #endregion
 
@@ -194,7 +194,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           );
       }
     }
-    internal bool CanExecute()
+    private bool CanExecute()
     {
       OnboardPokemon.CoordY = CoordY.Plate;
       return EffectsService.CanExecute.Execute(this);
@@ -434,10 +434,12 @@ namespace LightStudio.PokemonBattle.Game.Host
               }
               if (AtkContext.FailAll) o.Int = 0;
               else o.Int++;
+              Controller.Board.SetCondition("LastMove", o);
             }
             else
             {
               OnboardPokemon.RemoveCondition("LastMove");
+              Controller.Board.RemoveCondition("LastMove");
               Action = PokemonAction.Done;
             }
             break;
@@ -456,7 +458,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (damage >= Hp)
       {
         damage = Hp;
-        if (Abilities.Sturdy(this) || Items.Remain1Hp(this))
+        if (Triggers.Remaining1HP(this))
         {
           damage--;
           Pokemon.SetHp(1);
@@ -480,7 +482,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       if (Action == PokemonAction.Moving && AtkContext.Move.Bide())
       {
-        var o = OnboardPokemon.GetCondition("Bide");
+        var o = AtkContext.GetCondition("Bide");
         o.By = def.AtkContext.Attacker;
         o.Damage += def.Damage;
       }

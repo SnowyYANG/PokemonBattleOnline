@@ -63,6 +63,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           case MoveInnerClass.AttackWithSelfLv7DChange:
           case MoveInnerClass.AttackWithState:
           case MoveInnerClass.AttackWithTargetLv7DChange:
+          case MoveInnerClass.OHKO:
             moves[id] = new AttackMoveE(id);
             break;
           default:

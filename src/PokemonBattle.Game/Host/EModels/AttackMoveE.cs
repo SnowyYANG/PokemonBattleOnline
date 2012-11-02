@@ -71,11 +71,12 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         if (!Sp.Conditions.Substitute.OHKO(def))
         {
+          def.Defender.Controller.ReportBuilder.Add("OHKO");
           def.Damage = def.Defender.Hp;
           MoveHurts e = new MoveHurts();
+          def.Defender.Controller.ReportBuilder.Add(e);
           def.Defender.MoveHurt(def);
           e.SetHurt(defs);
-          def.Defender.Controller.ReportBuilder.Add("OHKO");
           ImplementEffect(def);
         }
       }
@@ -84,7 +85,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         AtkContext atk = def.AtkContext;
         PokemonProxy a = atk.Attacker;
         bool allSub = true;
-        if (!Move.AdvancedFlags.IgnoreSubstitute)
+        if (!Move.Flags.IgnoreSubstitute)
         {
           foreach (DefContext d in defs)
             if (!Sp.Conditions.Substitute.Hurt(d)) allSub = false;
@@ -261,6 +262,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       AtkContext atk = def.AtkContext;
       PokemonProxy d = def.Defender;
+      OnboardPokemon o = d.OnboardPokemon;
       if (d.Hp > 0 && !(atk.Move.HasProbabilitiedAdditonalEffects() && (d.Ability.ShieldDust() || atk.Attacker.Ability.SheerForce())))
       {
         switch (Move.Class)
@@ -272,14 +274,14 @@ namespace LightStudio.PokemonBattle.Game.Host
             if (!Moves.CheckTriAttack(def) && atk.RandomHappen(Move.Attachment.Probability)) d.AddState(def);
             break;
         }
-        if (!def.Ability.InnerFocus() && (atk.RandomHappen(Move.FlinchProbability, true) || Abilities.Stench(def) || Items.CanAttackFlinch(def))) d.OnboardPokemon.SetTurnCondition("Flinch");
+        if (!def.Ability.InnerFocus() && (atk.RandomHappen(Move.FlinchProbability, true) || Abilities.Stench(def) || Items.CanAttackFlinch(def))) o.SetTurnCondition("Flinch");
         Abilities.PoisonTouch(def);
       }
       d.Ability.Attacked(def);//此时破格不能无视
       d.Item.Attacked(def);
-      if (d.OnboardPokemon.HasCondition("Rage")) d.ChangeLv7D(d, StatType.Atk, 1, false, "Rage");
+      if (o.HasCondition("Rage")) d.ChangeLv7D(d, StatType.Atk, 1, false, "Rage");
       atk.Attacker.CheckFaint();
-      if (d.CheckFaint()) Triggers.KOed(def);
+      if (d.CheckFaint()) Triggers.KOed(def, o);
       else if (Move.MaxTimes > 1) d.Item.HpChanged(d);
     }
     protected virtual void PostEffect(AtkContext atk)

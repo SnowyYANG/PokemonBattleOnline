@@ -14,12 +14,16 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
 
     protected override void CalculateBasePower(DefContext def)
     {
-      int pwa = def.AtkContext.MoveProxy.PP;
-      if (pwa >= 5 || def.AtkContext.Move != Move) def.BasePower = 40;
-      else if (pwa == 4) def.BasePower = 50;
-      else if (pwa == 3) def.BasePower = 60;
-      else if (pwa == 2) def.BasePower = 80;
-      else def.BasePower = 200;
+      if (def.AtkContext.MoveProxy == null || def.AtkContext.MoveProxy.Type != Move) def.BasePower = 40;
+      else
+      {
+        int pwa = def.AtkContext.MoveProxy.PP;
+        if (pwa >= 5) def.BasePower = 40;
+        else if (pwa == 4) def.BasePower = 50;
+        else if (pwa == 3) def.BasePower = 60;
+        else if (pwa == 2) def.BasePower = 80;
+        else def.BasePower = 200;
+      }
     }
   }
 }

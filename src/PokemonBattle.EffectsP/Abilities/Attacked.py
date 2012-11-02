@@ -1,6 +1,6 @@
 class t_a(AbilityE):
     def Attacked(self, d):
-        if d.AtkContext.Move.AdvancedFlags.NeedTouch:
+        if d.AtkContext.Move.Flags.NeedTouch:
             self.TA(d)
 
 class AttackedAddState(t_a):

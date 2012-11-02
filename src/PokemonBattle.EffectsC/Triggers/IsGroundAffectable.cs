@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     {
       var o = pm.OnboardPokemon;
       return
-        (o.HasCondition("SmackDown") || o.HasCondition("Ingrain") || pm.Item.IronBall() || pm.Controller.Board.HasCondition("Gravity")) ||
+        (o.HasCondition("SmackDown") || o.HasCondition("Ingrain") || pm.Controller.Board.HasCondition("Gravity")) || pm.Item.IronBall() ||
         !
         (
           o.HasType(BattleType.Flying) ||

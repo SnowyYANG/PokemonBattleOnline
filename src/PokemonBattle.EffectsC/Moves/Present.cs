@@ -11,12 +11,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves
       : base(id)
     {
     }
-    public override AtkContext BuildAtkContext(PokemonProxy pm)
+    public override void InitAtkContext(AtkContext atk)
     {
-      var atk = base.BuildAtkContext(pm);
-      var random = pm.Controller.GetRandomInt(0, 99);
+      var random = atk.Controller.GetRandomInt(0, 99);
       atk.SetCondition("Present", random < 20 ? 0 : random < 60 ? 40 : random < 90 ? 80 : 100);
-      return atk;
     }
     protected override void Act(AtkContext atk)
     {

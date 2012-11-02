@@ -9,11 +9,16 @@ class Growth(StatusMoveE):
         aer.ChangeLv7D(aer, StatType.SpAtk, c, True)
 M(Growth(74))
 
-class DefenseCurl(StatusMoveE):
+class Class2AddCondition(StatusMoveE):
+    def __new__(cls, id, c):
+        return StatusMoveE.__new__(cls, id)
+    def __init__(self, id, condition):
+        self.Condition = condition
     def Act(self, a):
         StatusMoveE.Act(self, a)
-        a.Attacker.OnboardPokemon.SetCondition('DefenseCurl')
-M(DefenseCurl(111))
+        a.Attacker.OnboardPokemon.SetCondition(self.Condition)
+M(Class2AddCondition(107, 'Minimize'))
+M(Class2AddCondition(111, 'DefenseCurl'))
 
 class Captivate(StatusMoveE): 
     def HasEffect(self, d):
@@ -21,3 +26,4 @@ class Captivate(StatusMoveE):
         ag = d.AtkContext.Attacker.OnboardPokemon.Gender
         return dg == PokemonGender.Male and ag == PokemonGender.Female or dg == PokemonGender.Female and ag == PokemonGender.Male
 M(Captivate(445))
+

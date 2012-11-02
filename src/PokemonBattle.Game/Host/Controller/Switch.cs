@@ -62,15 +62,9 @@ namespace LightStudio.PokemonBattle.Game.Host
         pm.Action = PokemonAction.Debuting;
         tile.Pokemon = pm;
         tile.WillSendoutPokemonIndex = Tile.NOPM_INDEX;
-        {
-          var o = new OnboardPokemon(pm.Pokemon, tile.X);
-          pm.OnboardPokemon = o;
-          if (pm.State == PokemonState.SLP) o.SetCondition("SLP", pm.Tile.Field.HasCondition("Rest" + pm.Id) ? 3 : Controller.GetRandomInt(2, 4));
-          else if (pm.State == PokemonState.BadlyPSN) o.SetCondition("PSN", Controller.TurnNumber);
-        }
-        foreach (var m in pm.Moves) m.HasUsed = false;
+        pm.OnboardPokemon = new OnboardPokemon(pm.Pokemon, tile.X);
+        Triggers.SendingOut(pm);
         Controller.OnboardPokemons.Insert(0, pm);
-        Abilities.Illusion(pm);//幻影特性以交换前的队伍顺序决定
         p.SwitchPokemon(origin, sendout);
         ReportBuilder.Add(new SendOut(log, pm));
         Abilities.Trace(pm);

@@ -49,6 +49,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public const int SAND_RUSH = 146;
     public const int ILLUSION = 149;
     public const int MOXIE = 153;
+    public const int MAGIC_BOUNCE = 156;
     public const int SAND_FORCE = 159;
     public const int ZEN_MODE = 161;
     #endregion
@@ -275,15 +276,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       }
       return m;
     }
-    public static bool Sturdy(PokemonProxy pm) //调用前已判断过 damage > pm.Hp
-    {
-      if (pm.Hp == pm.Pokemon.Hp.Origin && pm.RaiseAbility(STURDY))
-      {
-        pm.AddReportPm("Endure");
-        return true;
-      }
-      return false;
-    }
     public static void Synchronize(PokemonProxy pm, PokemonProxy by, AttachedState state, int turn)
     {
       const int SYNCHRONIZE = 28;
@@ -358,7 +350,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       const int POISON_TOUCH = 143;
       PokemonProxy a = def.AtkContext.Attacker, d = def.Defender;
-      if (a.Ability.Id == POISON_TOUCH && def.AtkContext.Move.AdvancedFlags.NeedTouch && d.Controller.RandomHappen(30) && d.CanAddState(a, AttachedState.PSN, false))
+      if (a.Ability.Id == POISON_TOUCH && def.AtkContext.Move.Flags.NeedTouch && d.Controller.RandomHappen(30) && d.CanAddState(a, AttachedState.PSN, false))
       {
         a.RaiseAbility();
         d.AddState(a, AttachedState.PSN, false);

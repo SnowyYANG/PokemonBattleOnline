@@ -1,6 +1,6 @@
 class RockyHelmet(ItemE):
     def Attacked(self, d):
-        if d.AtkContext.Move.AdvancedFlags.NeedTouch:
+        if d.AtkContext.Move.Flags.NeedTouch:
             d.AtkContext.Attacker.EffectHurtByOneNth(6, 'RockyHelmet', 0, 0)
 I(RockyHelmet(104))
 

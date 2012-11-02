@@ -10,18 +10,67 @@ namespace LightStudio.PokemonBattle.Game.Host
 {
   public class StatusMoveE : MoveE
   {
+    private static void MagicCoat(AtkContext atk)
+    {
+      var list = atk.GetCondition<List<PokemonProxy>>("MagicCoat");
+      if (list != null)
+      {
+        atk.RemoveCondition("MagicCoat");
+        foreach (var d in list)
+        {
+          if (d.RaiseAbility(Abilities.MAGIC_BOUNCE)) d.Controller.ReportBuilder.Add("MagicBounce", atk.Attacker, atk.Move);
+          else d.AddReportPm("MagicCoat", atk.Move);
+          var e = EffectsService.GetMove(atk.Move.Id);
+          var a = new AtkContext(d, atk.Move);
+          e.InitAtkContext(a);
+          a.BuildDefContext(atk.Attacker.Tile);
+          a.SetCondition("IgnoreMagicCoat");
+          e.Execute(a);
+          if (atk.Target == null) break;
+        }
+      }
+    }
+    
     public StatusMoveE(int moveId)
       : base(moveId)
     {
     }
 
+    public override void Execute(AtkContext atk)
+    {
+      if (Move.Flags.Snatchable)
+      {
+        foreach(var pm in atk.Controller.OnboardPokemons)
+          if (pm.OnboardPokemon.HasCondition("Snatch"))
+          {
+            pm.OnboardPokemon.RemoveCondition("Snatch");
+            pm.AddReportPm("Snatch", atk.Attacker);
+            var s = new AtkContext(pm, Move);
+            InitAtkContext(s);
+            s.BuildDefContext(null);
+            if (NotFail(atk)) Act(atk);
+            else FailAll(atk);
+            return;
+          }
+      }
+      if (atk.Targets == null && atk.Move.Flags.MagicCoat && atk.Controller.GetOnboardPokemons(1 - atk.Attacker.Pokemon.TeamId).Any((p) => Triggers.MagicCoat(atk, p)))
+      {
+        FailAll(atk, null);
+        MagicCoat(atk);
+      }
+      else
+      {
+        base.Execute(atk);
+        if (atk.Target == null) MagicCoat(atk);
+      }
+    }
     protected internal override void FilterDefContext(AtkContext atk)
     {
       base.FilterDefContext(atk);
-      if (atk.Targets != null)
+      if (atk.Target != null)
       {
         var targets = atk.Targets.ToList();
-        if (!Move.AdvancedFlags.IgnoreSubstitute)
+        if (!Move.Flags.IgnoreSubstitute)
           foreach (DefContext d in targets.ToArray())
             if (d.Defender != atk.Attacker && d.Defender.OnboardPokemon.HasCondition("Substitute"))
             {
@@ -67,6 +116,11 @@ namespace LightStudio.PokemonBattle.Game.Host
             FailAll(atk);
           break;
       }
+    }
+    protected override void MoveEnding(AtkContext atk)
+    {
+      MagicCoat(atk);
+      base.MoveEnding(atk);
     }
   }
 }

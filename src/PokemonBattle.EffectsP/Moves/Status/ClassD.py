@@ -1,4 +1,4 @@
-class PmAddState(StatusMoveE):
+class ClassDAddCondition(StatusMoveE):
     def __new__(cls, id, condition):
         return StatusMoveE.__new__(cls, id)
     def __init__(self, id, condition):
@@ -8,8 +8,8 @@ class PmAddState(StatusMoveE):
             a.Attacker.AddReportPm('En' + self.Condition)
         else:
             self.FailAll(a)
-M(PmAddState(116, 'FocusEnergy'))
-M(PmAddState(286, 'Imprison'))
+M(ClassDAddCondition(116, 'FocusEnergy'))
+M(ClassDAddCondition(286, 'Imprison'))
 
 class LockOn(StatusMoveE):
     def Act(self, a):
@@ -40,7 +40,7 @@ class KOedCondition(StatusMoveE):
     def __init__(self, id, condition):
         self.Condition = condition
     def Act(self, a):
-        a.Attacker.Tile.SetCondition(self.Condition)
+        a.Attacker.SetCondition(self.Condition)
         a.Attacker.AddReportPm('En' + self.Condition)
 M(KOedCondition(194, 'DestinyBond'))
 M(KOedCondition(288, 'Grudge'))

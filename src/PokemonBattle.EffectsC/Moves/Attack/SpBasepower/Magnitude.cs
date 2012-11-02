@@ -11,22 +11,20 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
       : base(id)
     {
     }
-    public override AtkContext BuildAtkContext(PokemonProxy pm)
+    public override void InitAtkContext(AtkContext atk)
     {
-      var atk = base.BuildAtkContext(pm);
-      var random = pm.Controller.GetRandomInt(0, 99);
+      var random = atk.Controller.GetRandomInt(0, 99);
       if (random >= 95)
       {
         atk.SetCondition("Magnitude", 7);
-        pm.Controller.ReportBuilder.Add("Magnitude", 10);
+        atk.Controller.ReportBuilder.Add("Magnitude", 10);
       }
       else
       {
         var a = random < 5 ? 0 : random < 16 ? 1 : random < 35 ? 2 : random < 65 ? 3 : random < 85 ? 4 : 5;
         atk.SetCondition("Magnitude", a);
-        pm.Controller.ReportBuilder.Add("Magnitude", 4 + a);
+        atk.Controller.ReportBuilder.Add("Magnitude", 4 + a);
       }
-      return atk;
     }
     protected override void CalculateBasePower(DefContext def)
     {

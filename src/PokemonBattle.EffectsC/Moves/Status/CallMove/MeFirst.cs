@@ -30,7 +30,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     public override void Execute(AtkContext atk)
     {
       atk.SetTurnCondition("MeFirst");
-      if (NotFail(atk)) CallMove(atk, atk.Target.Defender.SelectedMove.Type, false);
+      if (NotFail(atk)) CallMove(atk, atk.Target.Defender.SelectedMove.Type, atk.Target.Defender.Tile);
       else FailAll(atk);
     }
   }

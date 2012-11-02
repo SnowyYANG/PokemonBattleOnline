@@ -22,25 +22,17 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     }
     public override void Execute(AtkContext atk)
     {
-      if (atk.Controller.OnboardPokemons.FirstOrDefault((p) => p.RaiseAbility(As.DAMP)) == null)
+      if (atk.Controller.OnboardPokemons.Any((p) => p.RaiseAbility(As.DAMP))) FailAll(atk, "FailSp", atk.Attacker.Id, Move.Id);
+      else
       {
         base.Execute(atk);
         if (atk.FailAll) Suicide(atk.Attacker);
       }
-      else atk.Attacker.AddReportPm("FailSp", Move.Id);
     }
-    protected override void Act(AtkContext atk)
+    protected override void CalculateDamages(AtkContext atk)
     {
-      PokemonProxy aer = atk.Attacker;
-      int atkTeam = aer.Pokemon.TeamId;
-      CalculateDamages(atk);
-      Suicide(aer);
-      Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
-      Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
-      if (atk.Type == BattleType.Fire)
-        foreach (DefContext d in atk.Targets)
-          if (d.Defender.State == PokemonState.FRZ) d.Defender.DeAbnormalState();
-      PostEffect(atk);
+      base.CalculateDamages(atk);
+      Suicide(atk.Attacker);
     }
   }
 }

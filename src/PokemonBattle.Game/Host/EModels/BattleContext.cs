@@ -9,6 +9,7 @@ namespace LightStudio.PokemonBattle.Game.Host
 {
   public class AtkContext : ConditionalObject
   {
+    public readonly PokemonProxy Attacker;
     public readonly MoveProxy MoveProxy; //压力、诅咒身躯，针对一开始选的技能
     public BattleType Type;
     public Modifier AccuracyModifier;
@@ -17,18 +18,22 @@ namespace LightStudio.PokemonBattle.Game.Host
     public bool FailAll;
     public bool IgnorePostEffectItem;
 
+    internal AtkContext(MoveProxy mp)
+    {
+      MoveProxy = mp;
+      Attacker = mp.Owner;
+      Move = mp.Type;
+    }
     public AtkContext(PokemonProxy pm, MoveType move)
     {
-      MoveProxy = pm.SelectedMove;
+      Attacker = pm;
       Move = move;
     }
 
     public MoveType Move
-    { get; internal set; }
+    { get; set; }
     public Controller Controller
-    { get { return MoveProxy.Owner.Controller; } }
-    public PokemonProxy Attacker
-    { get { return MoveProxy.Owner; } }
+    { get { return Attacker.Controller; } }
     public IEnumerable<DefContext> Targets
     { get; private set; }
     public DefContext Target

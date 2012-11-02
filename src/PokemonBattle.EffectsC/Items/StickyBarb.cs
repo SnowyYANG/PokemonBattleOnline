@@ -16,7 +16,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Items
     {
       var der = def.Defender;
       var aer = def.AtkContext.Attacker;
-      if (aer.Pokemon.Item == null && def.AtkContext.Move.AdvancedFlags.NeedTouch && der.Controller.RandomHappen(10))
+      if (aer.Pokemon.Item == null && def.AtkContext.Move.Flags.NeedTouch && der.Controller.RandomHappen(10))
       {
         der.RemoveItem();
         aer.ChangeItem(65, null, aer);

@@ -54,7 +54,9 @@ namespace LightStudio.PokemonBattle.Game.Host
       var um = new UseMove(Owner, Type);
       Owner.Controller.ReportBuilder.Add(um);
       var e = EffectsService.GetMove(Type.Id);
-      var atk = e.BuildAtkContext(Owner);
+      Owner.BuildAtkContext(this);
+      var atk = Owner.AtkContext;
+      e.InitAtkContext(atk);
       atk.BuildDefContext(Owner.SelectedTarget);
       if (atk.Targets != null)
       {

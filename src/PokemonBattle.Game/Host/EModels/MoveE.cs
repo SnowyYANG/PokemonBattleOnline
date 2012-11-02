@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       var aer = atk.Attacker;
       IEnumerable<Tile> targets = null;
       Board b = aer.Controller.Board;
-      bool remote = atk.Move.AdvancedFlags.IsRemote;
+      bool remote = atk.Move.Flags.IsRemote;
       int team = aer.Pokemon.TeamId;
       int rTeam = 1 - team;
       int x = aer.OnboardPokemon.X;
@@ -94,12 +94,14 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       return targets;
     }
-    protected static void CallMove(AtkContext atk, MoveType move, bool rebuildDefContext = true)
+    protected static void CallMove(AtkContext atk, MoveType move, Tile selectTile = null)
     {
+      atk.Attacker.AddReportPm("UseMove", move.Id);
       atk.Move = move;
-      atk.Attacker.AddReportPm("UseMove");
-      if (rebuildDefContext) atk.BuildDefContext(null);
-      EffectsService.GetMove(move.Id).Execute(atk);
+      var e = EffectsService.GetMove(move.Id);
+      e.InitAtkContext(atk);
+      atk.BuildDefContext(selectTile);
+      e.Execute(atk);
     }
     protected static bool ForceSwitch(DefContext def)
     {
@@ -134,10 +136,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     { get; private set; }
 
     protected abstract void Act(AtkContext atk);
-    public virtual AtkContext BuildAtkContext(PokemonProxy pm)
+    public virtual void InitAtkContext(AtkContext atk)
     {
-      pm.BuildAtkContext(Move);
-      return pm.AtkContext;
     }
     protected internal virtual void BuildDefContext(AtkContext atk, Tile select)
     {
@@ -161,18 +161,14 @@ namespace LightStudio.PokemonBattle.Game.Host
           Act(atk);
           MoveEnding(atk);
         }
-        else
-        {
-          atk.FailAll = true;
-          atk.Attacker.Action = PokemonAction.Done;
-        }
+        else FailAll(atk, null);
       }
       else FailAll(atk);
     }
 
     protected virtual bool PrepareOneTurn(PokemonProxy pm)
     {
-      if (Move.AdvancedFlags.PrepareOneTurn && pm.Action == PokemonAction.MoveAttached)
+      if (Move.Flags.PrepareOneTurn && pm.Action == PokemonAction.MoveAttached)
       {
         pm.AddReportPm("Prepare" + Move.Id.ToString());
         pm.Action = PokemonAction.Moving;
@@ -231,7 +227,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           }
       #endregion
       #region Check for Protect
-      if (Move.AdvancedFlags.Protectable)
+      if (Move.Flags.Protectable)
       {
         foreach (DefContext d in targets.ToArray())
           if (d.Defender.OnboardPokemon.HasCondition("Protect"))
@@ -242,9 +238,12 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       #endregion
       #region Check for Telepathy (and possibly other abilities)
-      if (!atk.Attacker.Ability.IgnoreDefenderAbility()) //为了性能
+      {
+        var mc = Move.Flags.MagicCoat && !atk.HasCondition("IgnoreMagicCoat");
+        var ab = !atk.Attacker.Ability.IgnoreDefenderAbility();
         foreach (DefContext def in targets.ToArray())
-          if (def.Defender != atk.Attacker && !def.Defender.Ability.CanImplement(def)) targets.Remove(def);
+          if (def.Defender != atk.Attacker && (mc && Triggers.MagicCoat(atk, def.Defender) || ab && !def.Ability.CanImplement(def))) targets.Remove(def);
+      }
       #endregion
       #region Check for misses
       if (!atk.Attacker.Ability.NoGuard() && GetAccuracyBase(atk) < 0x65)
@@ -339,11 +338,11 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     #endregion
 
-    protected void FailAll(AtkContext atk)
+    protected void FailAll(AtkContext atk, string log = "Fail0", int arg0 = 0, int arg1 = 0)
     {
       atk.FailAll = true;
       atk.Attacker.Action = PokemonAction.Done;
-      atk.Controller.ReportBuilder.Add("Fail0");
+      if (log != null) atk.Controller.ReportBuilder.Add(log, arg0, arg1);
     }
     protected void Fail(DefContext def)
     {
@@ -356,7 +355,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     protected virtual void MoveEnding(AtkContext atk)
     {
-      atk.Attacker.Action = Move.AdvancedFlags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done;
+      atk.Attacker.Action = Move.Flags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done;
       if (atk.Targets != null)
         foreach (var d in atk.Targets)
         {

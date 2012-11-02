@@ -11,7 +11,7 @@ A(Rivalry(79))
 
 class IronFist(AbilityE):
     def PowerModifier(self, target):
-        if target.AtkContext.Move.AdvancedFlags.IsFist:
+        if target.AtkContext.Move.Flags.IsFist:
             return 0x1333
         return 0x1000
 A(IronFist(89))

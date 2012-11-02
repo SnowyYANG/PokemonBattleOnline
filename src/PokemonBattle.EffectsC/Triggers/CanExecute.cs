@@ -58,7 +58,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     {
       if (p.State == PokemonState.FRZ)
       {
-        if (p.SelectedMove.Type.AdvancedFlags.AvailableEvenFrozen)
+        if (p.SelectedMove.Type.Flags.AvailableEvenFrozen)
         {
           p.Pokemon.State = PokemonState.Normal;
           p.Controller.ReportBuilder.Add(new StateChange(p, "DeFRZ2", p.SelectedMove.Type.Id));
@@ -111,7 +111,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     }
     private static bool HealBlock(PokemonProxy pm)
     {
-      if (pm.SelectedMove.Move.Type.AdvancedFlags.IsHeal && pm.OnboardPokemon.HasCondition("HealBlock"))
+      if (pm.SelectedMove.Move.Type.Flags.IsHeal && pm.OnboardPokemon.HasCondition("HealBlock"))
       {
         AddResetYReport(pm, "HealBlock2", pm.SelectedMove.Move.Type.Id);
         return false;

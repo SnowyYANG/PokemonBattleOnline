@@ -12,7 +12,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public const int STRUGGLE = 165;
     internal const int CURSE = 174;
     internal const int SPIKES = 191;
-    internal const int PERSUIT = 228;
+    internal const int PURSUIT = 228;
     private const int FUTURE_SIGHT = 248;
     public const int UPROAR = 253;
     private const int DOOM_DESIRE = 353;
@@ -24,16 +24,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       const int SNORE = 173, SLEEP_TALK = 214;
       return move.Type.Id == SLEEP_TALK || move.Type.Id == SNORE;
-    }
-    private const int THRASH = 37, PETAL_DANCE = 80, OUTRAGE = 200, ROLLOUT = 205, ICE_BALL = 301;
-    public static bool MultiTurnAttack(this MoveType move)
-    {
-      int id = move.Id;
-      return id == THRASH || id == PETAL_DANCE || id == OUTRAGE || id == ROLLOUT || id == UPROAR || id ==ICE_BALL || Bide(move);
-    }
-    public static bool MultiTurnAttackWithConfusion(this MoveType move)
-    {
-      return move.Id == THRASH || move.Id == PETAL_DANCE || move.Id == OUTRAGE;
     }
 
     public static Modifier SolarBeam(DefContext def)
