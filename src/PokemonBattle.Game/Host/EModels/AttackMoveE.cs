@@ -266,7 +266,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     { return 0x1000; }
     protected virtual void ImplementEffect(DefContext def)
     {
-      AtkContext atk = def.AtkContext;
       PokemonProxy d = def.Defender;
       if (d.Hp > 0)
       {

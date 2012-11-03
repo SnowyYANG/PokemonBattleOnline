@@ -11,10 +11,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
       : base(id)
     {
     }
-    protected override void Act(AtkContext atk)
+    public override void InitAtkContext(AtkContext atk)
     {
       if (atk.Attacker.Pokemon.Item == null) atk.SetCondition("Thief");
-      base.Act(atk);
     }
     protected override void ImplementEffect(DefContext def)
     {

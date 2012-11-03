@@ -194,7 +194,7 @@ namespace LightStudio.PokemonBattle.Data
     [DataMember(EmitDefaultValue = false)]
     private ReadOnly6D _Iv
     {
-      get { return new ReadOnly6D(31 - Iv.Hp, 31 - Iv.Atk, 31 - Iv.SpAtk, 31 - Iv.Def, 31 - Iv.SpDef, 31 - Iv.Speed); }
+      get { return new ReadOnly6D(31 - Iv.Hp, 31 - Iv.Atk, 31 - Iv.Def, 31 - Iv.SpAtk, 31 - Iv.SpDef, 31 - Iv.Speed); }
       set
       { 
         _iv = new Observable6D(31 - value.Hp, 31 - value.Atk, 31 - value.Def, 31 - value.SpAtk, 31 - value.SpDef, 31 - value.Speed);

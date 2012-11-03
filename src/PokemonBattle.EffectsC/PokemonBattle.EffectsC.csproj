@@ -63,12 +63,12 @@
     <Compile Include="Moves\Attack\Feint.cs" />
     <Compile Include="Moves\Attack\ImplementEffect\TriAttack.cs" />
     <Compile Include="Moves\Attack\JumpKick.cs" />
-    <Compile Include="Moves\Attack\KnockOff.cs" />
+    <Compile Include="Moves\Attack\ImplementEffect\KnockOff.cs" />
     <Compile Include="Moves\Attack\MultiTurn\Attack5Turns.cs" />
     <Compile Include="Moves\Attack\MultiTurn\Bide.cs" />
     <Compile Include="Moves\Attack\MultiTurn\RandomMTA.cs" />
     <Compile Include="Moves\Attack\MultiTurn\Uproar.cs" />
-    <Compile Include="Moves\Attack\RapidSpin.cs" />
+    <Compile Include="Moves\Attack\ImplementEffect\RapidSpin.cs" />
     <Compile Include="Moves\Attack\Revenge.cs" />
     <Compile Include="Moves\Attack\SmackDown.cs" />
     <Compile Include="Moves\Attack\SpBasepower\Acrobatics.cs" />
@@ -88,7 +88,7 @@
     <Compile Include="Moves\Attack\SpRangeMove.cs" />
     <Compile Include="Moves\Attack\SpBasepower\TrumpCard.cs" />
     <Compile Include="Moves\Attack\SpBasepower\WringOut.cs" />
-    <Compile Include="Moves\Attack\Thief.cs" />
+    <Compile Include="Moves\Attack\ImplementEffect\Thief.cs" />
     <Compile Include="Moves\FSDD.cs" />
     <Compile Include="Moves\Present.cs" />
     <Compile Include="Moves\Status\Acupressure.cs" />

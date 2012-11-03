@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
 
     public override void InitAtkContext(AtkContext atk)
     {
-      atk.SetCondition("MultiTurn", 5);
+      atk.SetCondition("MultiTurn", new Condition() { Turn = 5 });
     }
     protected override void CalculateBasePower(DefContext d)
     {
