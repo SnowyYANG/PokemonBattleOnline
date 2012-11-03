@@ -28,9 +28,8 @@ I(PechaBerry(131))
 
 class PersimBerry(ItemE):
     def e(self, pm):
-        if pm.OnboardPokemon.HasCondition('Confuse'):
+        if pm.OnboardPokemon.RemoveCondition('Confuse'):
             pm.ConsumeItem()
-            pm.OnboardPokemon.RemoveCondition('Confuse')
             pm.Controller.ReportBuilder.Add(RemoveItem('ItemDeConfuse', pm, 136, 0))
     def Attach(self, pm):
         PerisimBerry.e(self, pm)

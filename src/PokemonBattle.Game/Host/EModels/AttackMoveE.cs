@@ -78,6 +78,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           def.Defender.MoveHurt(def);
           e.SetHurt(defs);
           ImplementEffect(def);
+          PassiveEffect(def);
         }
       }
       else
@@ -105,9 +106,14 @@ namespace LightStudio.PokemonBattle.Game.Host
         }
 
         if (Move.HurtPercentage > 0) DamagePercentage(def, Move.HurtPercentage);
-        if (Move.Class == MoveInnerClass.AttackWithSelfLv7DChange && !(Move.HasProbabilitiedAdditonalEffects() && a.Ability.SheerForce())) a.ChangeLv7D(atk);
+        if (Move.Class == MoveInnerClass.AttackWithSelfLv7DChange && atk.RandomHappen(Move.Lv7DChanges.First().Probability)) a.ChangeLv7D(atk.Attacker, Move);
 
-        foreach (DefContext d in defs) if (!d.HitSubstitute) ImplementEffect(d);
+        foreach (DefContext d in defs)
+          if (!d.HitSubstitute)
+          {
+            ImplementEffect(d);
+            PassiveEffect(d);
+          }
 
         if (a.Hp > 0)
         {
@@ -262,26 +268,22 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       AtkContext atk = def.AtkContext;
       PokemonProxy d = def.Defender;
-      OnboardPokemon o = d.OnboardPokemon;
-      if (d.Hp > 0 && !(atk.Move.HasProbabilitiedAdditonalEffects() && (d.Ability.ShieldDust() || atk.Attacker.Ability.SheerForce())))
+      if (d.Hp > 0)
       {
-        switch (Move.Class)
-        {
-          case MoveInnerClass.AttackWithTargetLv7DChange:
-            d.ChangeLv7D(atk);
-            break;
-          case MoveInnerClass.AttackWithState:
-            if (!Moves.CheckTriAttack(def) && atk.RandomHappen(Move.Attachment.Probability)) d.AddState(def);
-            break;
-        }
-        if (!def.Ability.InnerFocus() && (atk.RandomHappen(Move.FlinchProbability, true) || Abilities.Stench(def) || Items.CanAttackFlinch(def))) o.SetTurnCondition("Flinch");
-        Abilities.PoisonTouch(def);
+        if (Move.Class == MoveInnerClass.AttackWithTargetLv7DChange) d.ChangeLv7D(def);
+        else if (Move.Class == MoveInnerClass.AttackWithState) d.AddState(def);
+        if (!def.Ability.InnerFocus() && (Move.FlinchProbability != 0 && def.RandomHappen(Move.FlinchProbability) || Abilities.Stench(def) || Items.CanAttackFlinch(def))) d.OnboardPokemon.SetTurnCondition("Flinch");
       }
+    }
+    protected virtual void PassiveEffect(DefContext def)
+    {
+      PokemonProxy d = def.Defender;
+      Abilities.PoisonTouch(def);
       d.Ability.Attacked(def);//此时破格不能无视
       d.Item.Attacked(def);
-      if (o.HasCondition("Rage")) d.ChangeLv7D(d, StatType.Atk, 1, false, "Rage");
-      atk.Attacker.CheckFaint();
-      if (d.CheckFaint()) Triggers.KOed(def, o);
+      if (d.OnboardPokemon.HasCondition("Rage")) d.ChangeLv7D(d, StatType.Atk, 1, false, "Rage");
+      def.AtkContext.Attacker.CheckFaint();
+      if (d.CheckFaint()) Triggers.KOed(def, d.OnboardPokemon);
       else if (Move.MaxTimes > 1) d.Item.HpChanged(d);
     }
     protected virtual void PostEffect(AtkContext atk)

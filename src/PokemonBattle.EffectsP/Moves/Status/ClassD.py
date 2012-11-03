@@ -209,17 +209,13 @@ class Defog(StatusMoveE):
         t = a.Target.Defender.Pokemon.TeamId
         f = a.Controller.Board[t]
         f.DeEntryHazards(r)
-        if f.HasCondition('Reflect'):
-            f.RemoveCondition('Reflect')
+        if f.RemoveCondition('Reflect'):
             r.Add('DeReflect', t)
-        if f.HasCondition('LightScreen'):
-            f.RemoveCondition('LightScreen')
+        if f.RemoveCondition('LightScreen'):
             r.Add('DeLightScreen', t)
-        if f.HasCondition('Mist'):
-            f.RemoveCondition('Mist')
+        if f.RemoveCondition('Mist'):
             r.Add('DeMist', t)
-        if f.HasCondition('Safeguard'):
-            f.RemoveCondition('Safeguard')
+        if f.RemoveCondition('Safeguard'):
             r.Add('DeSafeguard', t)
 M(Defog(432))
 

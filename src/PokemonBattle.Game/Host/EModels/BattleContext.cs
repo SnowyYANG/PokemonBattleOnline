@@ -55,11 +55,11 @@ namespace LightStudio.PokemonBattle.Game.Host
       Targets = targets;
       Target = targets.FirstOrDefault();
     }
-    public bool RandomHappen(int percentage, bool isFlinch = false)
+    public bool RandomHappen(int percentage)
     {
-      if (!isFlinch && percentage == 0) return true;
-      if (Move.HasProbabilitiedAdditonalEffects() && Attacker.Ability.SereneGrace()) percentage *= 3;
-      return Controller.RandomHappen(percentage);
+      if (percentage == 0) return true;
+      var a = Attacker.Ability;
+      return !a.SheerForce() && Controller.RandomHappen(a.SereneGrace() ? percentage *= 3 : percentage);
     }
   }
   public class DefContext
@@ -96,6 +96,10 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     public AbilityE Ability
     { get { return AtkContext.Attacker.Ability.IgnoreDefenderAbility() ? EffectsService.NULL_ABILITY : Defender.Ability; } }
+    public bool RandomHappen(int percentage)
+    {
+      return percentage == 0 || !Ability.ShieldDust() && AtkContext.RandomHappen(percentage);
+    }
     public bool HasInfiltratableCondition(string condition)
     {
       PokemonProxy a = AtkContext.Attacker;

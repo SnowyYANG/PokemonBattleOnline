@@ -45,9 +45,9 @@ namespace LightStudio.Tactic.DataModels
       if (valueConditions.TryGetValue(name, out o) && o is T) return (T)o;
       return defaultValue;
     }
-    public void RemoveCondition(string name)
+    public bool RemoveCondition(string name)
     {
-      if (!markConditions.Remove(name)) valueConditions.Remove(name);
+      return markConditions.Remove(name) || valueConditions.Remove(name);
     }
     public void ClearCondition()
     {

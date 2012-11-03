@@ -99,7 +99,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             else FailAll(atk);
           break;
         case MoveInnerClass.Lv7DChange:
-          foreach (var d in atk.Targets) notAllFail |= d.Defender.ChangeLv7D(atk);
+          foreach (var d in atk.Targets) notAllFail |= d.Defender.ChangeLv7D(d);
           atk.FailAll = !notAllFail;
           break;
         case MoveInnerClass.HpRecover:
@@ -108,7 +108,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           break;
         case MoveInnerClass.ConfusionWithLv7DChange:
           atk.Target.Defender.AddState(atk.Target);
-          atk.Target.Defender.ChangeLv7D(atk);
+          atk.Target.Defender.ChangeLv7D(atk.Target);
           break;
         case MoveInnerClass.ForceToSwitch:
           int aLv = atk.Attacker.Pokemon.Lv, dLv = atk.Target.Defender.Pokemon.Lv;

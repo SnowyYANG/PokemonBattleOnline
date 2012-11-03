@@ -58,7 +58,10 @@
     <Compile Include="Moves\Attack\AttackAndForceSwitch.cs" />
     <Compile Include="Moves\Attack\BeatUp.cs" />
     <Compile Include="Moves\Attack\BigBang.cs" />
+    <Compile Include="Moves\Attack\BrickBreak.cs" />
     <Compile Include="Moves\Attack\Counter.cs" />
+    <Compile Include="Moves\Attack\Feint.cs" />
+    <Compile Include="Moves\Attack\ImplementEffect\TriAttack.cs" />
     <Compile Include="Moves\Attack\JumpKick.cs" />
     <Compile Include="Moves\Attack\KnockOff.cs" />
     <Compile Include="Moves\Attack\MultiTurn\Attack5Turns.cs" />

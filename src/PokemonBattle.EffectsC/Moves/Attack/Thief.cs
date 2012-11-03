@@ -25,7 +25,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
         def.Defender.RemoveItem();
         aer.ChangeItem(i, "Thief", def.Defender, false); //先铁棘再果子
       }
-      base.ImplementEffect(def);
     }
   }
 }

@@ -69,6 +69,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       return
         (
+        move.Class == MoveInnerClass.AttackWithState ||
         move.Class == MoveInnerClass.AttackWithTargetLv7DChange ||
         move.FlinchProbability > 0 ||
         (move.Attachment != null && move.Attachment.Probability > 0) ||

@@ -28,6 +28,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
       }
       return false;
     }
+    protected override void ImplementEffect(DefContext def)
+    {
+      if (!Move.Flags.Protectable && def.Defender.OnboardPokemon.RemoveCondition("Protect")) def.Defender.AddReportPm("DeProtect");
+    }
   }
   class SolarBeam : AttackMoveE
   {

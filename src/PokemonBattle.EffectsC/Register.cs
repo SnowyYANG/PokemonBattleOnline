@@ -54,6 +54,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new BigBang(153));
       M(new Rest(156));
       M(new Conversion(160));
+      M(new TriAttack(161));
       M(new Substitute(164));
       M(new Thief(168));
       M(new Curse(174));
@@ -88,6 +89,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Assist(274));
       M(new Recycle(278));
       M(new Revenge(279));
+      M(new BrickBreak(280));
       M(new KnockOff(282));
       M(new Spout(284));
       M(new SkillSwap(285));
@@ -101,6 +103,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Thief(343));//covet
       M(new FSDD(353));
       M(new GyroBall(360));
+      M(new Feint(364));
       M(new Acupressure(367));
       M(new Counter(368, "Damage", 0x1800));
       M(new TrumpCard(376));

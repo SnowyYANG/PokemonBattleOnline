@@ -601,25 +601,32 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (r) Items.WhiteHerb(this);
       return r;
     }
-    public bool ChangeLv7D(AtkContext atk)
+    public bool ChangeLv7D(PokemonProxy by, MoveType move)
     {
       bool r = false;
-      bool showFail = atk.Move.Category == MoveCategory.Status;
-      foreach (MoveLv7DChange c in atk.Move.Lv7DChanges)
+      if (move.Lv7DChanges.Any())
       {
-        if (c.Probability == 0 || atk.RandomHappen(c.Probability))
-          if (c.Type == StatType.All)
+        bool showFail = move.Category == MoveCategory.Status;
+        foreach (MoveLv7DChange c in move.Lv7DChanges)
           {
-            r |= ChangeLv7DImplement(atk.Attacker, StatType.Atk, c.Change, showFail, null);
-            r |= ChangeLv7DImplement(atk.Attacker, StatType.Def, c.Change, showFail, null);
-            r |= ChangeLv7DImplement(atk.Attacker, StatType.SpAtk, c.Change, showFail, null);
-            r |= ChangeLv7DImplement(atk.Attacker, StatType.SpDef, c.Change, showFail, null);
-            r |= ChangeLv7DImplement(atk.Attacker, StatType.Speed, c.Change, showFail, null);
+            if (c.Type == StatType.All)
+            {
+              r |= ChangeLv7DImplement(by, StatType.Atk, c.Change, showFail, null);
+              r |= ChangeLv7DImplement(by, StatType.Def, c.Change, showFail, null);
+              r |= ChangeLv7DImplement(by, StatType.SpAtk, c.Change, showFail, null);
+              r |= ChangeLv7DImplement(by, StatType.SpDef, c.Change, showFail, null);
+              r |= ChangeLv7DImplement(by, StatType.Speed, c.Change, showFail, null);
+            }
+            else r |= ChangeLv7DImplement(by, c.Type, c.Change, showFail, null);
           }
-          else r |= ChangeLv7DImplement(atk.Attacker, c.Type, c.Change, showFail, null);
+        Items.WhiteHerb(this);
       }
-      Items.WhiteHerb(this);
       return r;
+    }
+    public bool ChangeLv7D(DefContext def)
+    {
+      var c = def.AtkContext.Move.Lv7DChanges.FirstOrDefault();
+      return c != null && def.RandomHappen(c.Probability) && ChangeLv7D(def.AtkContext.Attacker, def.AtkContext.Move);
     }
     private void AddStateImplement(PokemonProxy by, AttachedState state, int turn, string log, int arg1)
     {
@@ -748,15 +755,15 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public bool AddState(DefContext def)
     {
-      var atk = def.AtkContext;
-      MoveAttachment attachment = atk.Move.Attachment;
-      if ((attachment.Probability == 0 || atk.RandomHappen(attachment.Probability)) && CanAddState(atk.Attacker, def.Ability, attachment.State, atk.Move.Category == MoveCategory.Status))
+      var aer = def.AtkContext.Attacker;
+      MoveAttachment attachment = def.AtkContext.Move.Attachment;
+      if (def.RandomHappen(attachment.Probability) && CanAddState(aer, def.Ability, attachment.State, def.AtkContext.Move.Category == MoveCategory.Status))
       {
         int turn;
-        if (attachment.State == AttachedState.Trap && atk.Attacker.Item.GripClaw()) turn = 8;
+        if (attachment.State == AttachedState.Trap && aer.Item.GripClaw()) turn = 8;
         else if (attachment.MinTurn != attachment.MaxTurn) turn = Controller.GetRandomInt(attachment.MinTurn, attachment.MaxTurn);
         else turn = attachment.MinTurn;
-        AddStateImplement(atk.Attacker, attachment.State, turn, null, 0);
+        AddStateImplement(aer, attachment.State, turn, null, 0);
         return true;
       }
       return false;

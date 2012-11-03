@@ -24,9 +24,8 @@ A(CantAddState(72, PokemonState.SLP, AttachedState.SLP)) #vital spirit
 
 class Oblivious(AbilityE):
     def Attach(self, pm):
-        if pm.OnboardPokemon.HasCondition('Attract'):
+        if pm.OnboardPokemon.RemoveCondition('Attract'):
             self.Raise(pm)
-            pm.OnboardPokemon.RemoveCondition('Attract')
             pm.AddReportPm('DeAttract', None, None)
     def CanAddState(self, pm, by, state, showFail):
         if state == AttachedState.Attract:
@@ -59,9 +58,8 @@ A(Immunity(17))
 
 class OwnTempo(AbilityE):
     def Attach(self, pm):
-        if pm.OnboardPokemon.HasCondition('Confuse'):
+        if pm.OnboardPokemon.RemoveCondition('Confuse'):
             self.Raise(pm)
-            pm.OnboardPokemon.RemoveCondition('Confuse')
             pm.AddReportPm('DeConfuse')
     def CanAddState(self, pm, by, state, showFail):
         if state == AttachedState.Confusion:

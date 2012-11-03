@@ -40,21 +40,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       return move.Id == 86;
     }
-    public static bool CheckTriAttack(DefContext def)
-    {
-      Controller c = def.Defender.Controller;
-      if (def.AtkContext.Move.Id == 161)
-      {
-        if (c.OneNth(5))
-        {
-          int i = c.GetRandomInt(0, 2);
-          AttachedState s = i == 0 ? AttachedState.PAR : i == 1 ? AttachedState.BRN : AttachedState.FRZ;
-          def.Defender.AddState(def.AtkContext.Attacker, s, false);
-        }
-        return true;
-      }
-      return false;
-    }
+
     public static bool FocusPunch(this MoveProxy move)
     {
       return move.Type.Id == 264;

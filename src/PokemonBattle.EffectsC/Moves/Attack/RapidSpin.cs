@@ -24,7 +24,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
           aer.AddReportPm("TrapFree", trap.Move.Id);
         }
       }
-      base.ImplementEffect(def);
     }
   }
 }

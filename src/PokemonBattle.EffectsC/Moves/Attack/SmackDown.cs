@@ -14,9 +14,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     {
     }
     
-    protected override void ImplementEffect(DefContext def)
+    protected override void PassiveEffect(DefContext def)
     {
-      base.ImplementEffect(def);
+      base.PassiveEffect(def);
       var der = def.Defender;
       if (der.OnboardPokemon.HasType(BattleType.Flying) || der.Ability.Id == As.LEVITATE)
       {
