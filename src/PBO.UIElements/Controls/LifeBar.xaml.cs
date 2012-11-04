@@ -57,16 +57,19 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
     int redHp, yellowHp;
     int hp;
     int current;
-    byte currentWidth, currenColor;
-    private void RefreshUI()
+    byte currentWidth, currentColor;
+    private void RefreshWidth()
     {
       bar.Width = currentWidth;
-      if (currenColor == 0)
+    }
+    private void RefreshColor()
+    {
+      if (currentColor == 0)
       {
         bar.Background = RED;
         bar.BorderBrush = REDSHADOW;
       }
-      else if (currenColor == 1)
+      else if (currentColor == 1)
       {
         bar.Background = YELLOW;
         bar.BorderBrush = YELLOWSHADOW;
@@ -76,7 +79,11 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
         bar.Background = GREEN;
         bar.BorderBrush = GREENSHADOW;
       }
-      bar.Background = currenColor == 0 ? RED : currenColor == 1 ? YELLOW : GREEN;
+    }
+    private void RefreshBoth()
+    {
+      RefreshWidth();
+      RefreshColor();
     }
     private byte GetWidth()
     {
@@ -88,11 +95,20 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
       byte w, c;
       w = GetWidth();
       c = (byte)(current <= redHp ? 0 : current <= yellowHp ? 1 : 2);
-      if (w != currentWidth || c != currenColor)
+      if (w != currentWidth)
       {
         currentWidth = w;
-        currenColor = c;
-        UIDispatcher.Invoke(RefreshUI);
+        if (c != currentColor)
+        {
+          currentColor = c;
+          UIDispatcher.Invoke(RefreshBoth);
+        }
+        else UIDispatcher.Invoke(RefreshWidth);
+      }
+      else if (c != currentColor)
+      {
+        currentColor = c;
+        UIDispatcher.Invoke(RefreshColor);
       }
     }
     bool animating;

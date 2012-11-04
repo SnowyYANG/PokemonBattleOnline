@@ -18,14 +18,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       Pm = pm.Id;
     }
 
-    public override TimeSpan Sleep
-    {
-      get
-      {
-        return base.Sleep;
-      }
-    }
-
     protected override void Update()
     {
       var pm = GetPokemon(Pm);
