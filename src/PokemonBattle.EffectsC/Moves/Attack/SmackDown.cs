@@ -23,16 +23,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
         der.OnboardPokemon.SetCondition("SmackDown");
         der.AddReportPm("EnSmackDown");
       }
-      if (der.OnboardPokemon.HasCondition("MagnetRise"))
-      {
-        der.OnboardPokemon.RemoveCondition("MagnetRise");
-        der.AddReportPm("DeMagnetRise");
-      }
-      if (der.OnboardPokemon.HasCondition("Telekinesis"))
-      {
-        der.OnboardPokemon.RemoveCondition("Telekinesis");
-        der.AddReportPm("DeTelekinesis");
-      }
+      if (der.OnboardPokemon.RemoveCondition("MagnetRise")) der.AddReportPm("DeMagnetRise");
+      if (der.OnboardPokemon.RemoveCondition("Telekinesis")) der.AddReportPm("DeTelekinesis");
     }
   }
 }

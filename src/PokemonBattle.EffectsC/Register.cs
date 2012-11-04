@@ -94,6 +94,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Spout(284));
       M(new SkillSwap(285));
       M(new Snatch(289));
+      M(new SecretPower(290));
       M(new Leap(291, CoordY.Water));//dives
       M(new Attack5Turns(301));//ice ball
       M(new HealBell(312, "Aromatherapy"));
@@ -115,6 +116,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Trick(415)); //switcheroo
       M(new Revenge(419));//avalanche
       M(new GrassKnot(447));
+      M(new Chatter(448));
       M(new WringOut(462));
       M(new Leap(467, CoordY.Another));//shadow
       M(new WonderRoom(472));

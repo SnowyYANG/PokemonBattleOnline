@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
-using System.Windows.Threading;
+using System.Threading;
 using System.ComponentModel;
 
 namespace LightStudio.PokemonBattle.PBO.UIElements
@@ -22,6 +22,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
   /// </summary>
   public partial class LifeBar : Canvas
   {
+    private const int PERIOD = 16;
     static readonly SolidColorBrush GREEN;
     static readonly SolidColorBrush GREENSHADOW;
     static readonly SolidColorBrush YELLOW;
@@ -37,35 +38,35 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
       RED = Helper.NewBrush(0xfff83040);
       REDSHADOW = Helper.NewBrush(0xff902030);
     }
+    private static void TimerCallback(object o)
+    {
+      ((LifeBar)o).TimerCallback();
+    }
 
     private readonly Storyboard storyboard;
-    private readonly DispatcherTimer timer;
-    int current;
-    int maxHp;
-    int hp;
+    private readonly Timer timer;
     
     public LifeBar()
     {
       InitializeComponent();
       storyboard = (Storyboard)Resources["Flash"];
-      timer = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(16) };
-      timer.Tick += timer_Tick;
+      timer = new Timer(TimerCallback, this, Timeout.Infinite, PERIOD);
     }
 
-    private double GetWidth()
+    int maxHp;
+    int redHp, yellowHp;
+    int hp;
+    int current;
+    byte currentWidth, currenColor;
+    private void RefreshUI()
     {
-      int x2 = current * 48 / maxHp;
-      return x2 == 0 && current != 0 ? 1 : x2;
-    }
-    private void CurrentChanged()
-    {
-      bar.Width = GetWidth();
-      if (current * 5 <= maxHp)
+      bar.Width = currentWidth;
+      if (currenColor == 0)
       {
         bar.Background = RED;
         bar.BorderBrush = REDSHADOW;
       }
-      else if ((current << 1) <= maxHp)
+      else if (currenColor == 1)
       {
         bar.Background = YELLOW;
         bar.BorderBrush = YELLOWSHADOW;
@@ -75,20 +76,48 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
         bar.Background = GREEN;
         bar.BorderBrush = GREENSHADOW;
       }
+      bar.Background = currenColor == 0 ? RED : currenColor == 1 ? YELLOW : GREEN;
     }
-
-    private void LifeChanged(object sender, PropertyChangedEventArgs e)
+    private byte GetWidth()
     {
-      flash.Width = bar.Width;
-      hp =((PairValue)sender).Value;
-      if (!timer.IsEnabled && current != hp) timer.Start();
+      int x2 = current * 48 / maxHp;
+      return (byte)(x2 == 0 && current != 0 ? 1 : x2);
     }
-    private void timer_Tick(object sender, EventArgs e)
+    private void CurrentChanged()
+    {
+      byte w, c;
+      w = GetWidth();
+      c = (byte)(current <= redHp ? 0 : current <= yellowHp ? 1 : 2);
+      if (w != currentWidth || c != currenColor)
+      {
+        currentWidth = w;
+        currenColor = c;
+        UIDispatcher.Invoke(RefreshUI);
+      }
+    }
+    bool animating;
+    private void StartTimer()
+    {
+      lock (this)
+      {
+        animating = true;
+        timer.Change(0, PERIOD);
+      }
+    }
+    private void StopTimer()
+    {
+      lock (this)
+      {
+        animating = false;
+        timer.Change(Timeout.Infinite, PERIOD);
+      }
+    }
+    private void TimerCallback()
     {
       if (current == hp)
       {
-        timer.Stop();
-        BeginStoryboard(storyboard);
+        StopTimer();
+        UIDispatcher.Invoke((Action<Storyboard>)BeginStoryboard, storyboard);
       }
       else
       {
@@ -96,6 +125,13 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
         else if (current > hp) --current;
         CurrentChanged();
       }
+    }
+
+    private void LifeChanged(object sender, PropertyChangedEventArgs e)
+    {
+      flash.Width = bar.Width;
+      hp =((PairValue)sender).Value;
+      if (!(animating || current == hp)) StartTimer();
     }
     private void LifeBar_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
@@ -105,6 +141,8 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
       {
         hp.PropertyChanged += LifeChanged;
         maxHp = hp.Origin;
+        yellowHp = maxHp >> 1;
+        redHp = maxHp / 5;
         current = this.hp = hp.Value;
         CurrentChanged();
         flash.Width = GetWidth();

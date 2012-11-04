@@ -409,7 +409,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             Sp.Moves.SkyDrop(AtkContext);
             if (c)
             {
-              if (!AtkContext.Move.Bide()) AddReportPm("UseMove", AtkContext.Move.Id);
+              if (!AtkContext.Move.Bide()) Controller.ReportBuilder.Add(PositionChange.Reset("UseMove", this, AtkContext.Move.Id));
               AtkContext.BuildDefContext(SelectedTarget);
               AtkContext.Execute();
             }

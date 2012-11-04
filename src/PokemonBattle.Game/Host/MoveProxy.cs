@@ -58,10 +58,12 @@ namespace LightStudio.PokemonBattle.Game.Host
       var atk = Owner.AtkContext;
       e.InitAtkContext(atk);
       atk.BuildDefContext(Owner.SelectedTarget);
-      if (atk.Targets != null)
       {
         int pp = PP;
-        foreach (var d in atk.Targets) Sp.Abilities.Pressure(this, d.Defender);
+        if (atk.Targets != null)
+          foreach (var d in atk.Targets) Sp.Abilities.Pressure(this, d.Defender);
+        else if (atk.Move.Range == Data.MoveRange.Field || atk.Move.Range == Data.MoveRange.EnemyField)
+          foreach (var pm in Owner.Controller.Board[1 - Owner.Pokemon.TeamId].Pokemons) Sp.Abilities.Pressure(this, pm);
         um.PP = pp - PP;
       }
       atk.Execute();

@@ -296,7 +296,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Bestow</a:Key><a:Value i:type="LogText"><text>{0:p}从{2:p}那里获得了{1:i}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnSkyDrop</a:Key><a:Value i:type="LogText"><text>{0:p}把{1:p}带到空中去了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeSkyDrop</a:Key><a:Value i:type="LogText"><text>{0:p}从自由降落中解脱了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SmackDown</a:Key><a:Value i:type="LogText"><text>{0:p}被击落到了地面上！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnSmackDown</a:Key><a:Value i:type="LogText"><text>{0:p}被击落到了地面上！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Quash</a:Key><a:Value i:type="LogText"><text>{0:p}的顺序被推迟了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>AfterYou</a:Key><a:Value i:type="LogText"><text>{0:p}听信了对手的话！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>AllySwitch</a:Key><a:Value i:type="LogText"><text>{0:p}和{1:p}交换了位置！
