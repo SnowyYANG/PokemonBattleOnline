@@ -35,7 +35,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (CanWithdraw(pm))
       {
-        pm.AddReportPm(log);
+        if (log != null) pm.AddReportPm(log);
         Triggers.Withdrawing(pm, canPursuit);
         if (pm.Tile != null)
         {

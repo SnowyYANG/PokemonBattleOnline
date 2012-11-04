@@ -288,7 +288,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     protected virtual void PostEffect(AtkContext atk)
     {
       foreach (DefContext d in atk.Targets) Abilities.ColorChange(d);
-      if (!atk.IgnorePostEffectItem) Items.AttackPostEffect(atk);
+      Items.AttackPostEffect(atk);
     }
     protected override void MoveEnding(AtkContext atk)
     {

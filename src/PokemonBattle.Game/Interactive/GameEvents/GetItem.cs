@@ -17,27 +17,27 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember(EmitDefaultValue = false)]
     string Key;
     [DataMember(EmitDefaultValue = false)]
-    int Loser;
+    int Loster;
 
-    public GetItem(PokemonProxy pm, string key, PokemonProxy itemLoser)
+    public GetItem(PokemonProxy pm, string key, PokemonProxy formerOwner)
     {
       Pm = pm.Id;
       Item = pm.Pokemon.Item.Id;
       Key = key == "GetItem" ? null : key;
-      if (itemLoser != null) Loser = itemLoser.Id;
+      if (formerOwner != null) Loster = formerOwner.Id;
     }
     protected override void Update()
     {
-      if (Key != null) AppendGameLog(Key ?? "GetItem", Pm, Item, Loser);
+      if (Key != null) AppendGameLog(Key ?? "GetItem", Pm, Item, Loster);
     }
     public override void Update(SimGame game)
     {
       var pm = GetPokemon(game, Pm);
-      if (pm != null) pm.Item = Data.GameDataService.GetItem(Item);
-      if (Loser != 0)
+      if (pm != null) pm.ClientChangeItemWithNotify(Data.GameDataService.GetItem(Item));
+      if (Loster != 0)
       {
-        pm = GetPokemon(game, Loser);
-        if (pm != null) pm.Item = null;
+        pm = GetPokemon(game, Loster);
+        if (pm != null) pm.ClientChangeItemWithNotify(null);
       }
     }
   }

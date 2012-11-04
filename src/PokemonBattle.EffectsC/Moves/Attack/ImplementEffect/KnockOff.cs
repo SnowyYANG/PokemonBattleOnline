@@ -18,7 +18,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
       {
         var i = der.Pokemon.Item.Id;
         der.RemoveItem();
-        der.Controller.ReportBuilder.Add(new GameEvents.RemoveItem("KnockOff", der, i, def.AtkContext.Attacker));
+        der.Controller.ReportBuilder.Add(new GameEvents.RemoveItem("KnockOff", der, i, def.AtkContext.Attacker.Id));
       }
     }
   }

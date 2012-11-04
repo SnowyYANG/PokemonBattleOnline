@@ -28,7 +28,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves
           atk.Attacker.AddReportPm("EnFSDD" + Move.Id);
           var c = new Condition();
           c.Turn = atk.Controller.TurnNumber + 2;
-          c.Atk = new AtkContext(atk.Attacker, Move);
+          c.Atk = new AtkContext(atk.Attacker, Move) { IgnoreSwitchItem = true };
           c.Atk.SetCondition("FSDD", tile);
           tile.First().AddCondition("FSDD", c);
         }

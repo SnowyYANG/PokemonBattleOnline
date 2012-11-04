@@ -236,7 +236,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Struggle</a:Key><a:Value i:type="LogText"><text>{0:p}没有能够使用的技能！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Safeguard</a:Key><a:Value i:type="LogText"><text>{0:p}被神秘的纱幕保护住了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Mist</a:Key><a:Value i:type="LogText"><text>{0:p}被白雾保护住了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ForceSendout</a:Key><a:Value i:type="LogText"><text>{0:P}的{1:pm.Name}（Lv.{1:pm.Lv} {1:pm.Type}）被拽出来战斗了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ForceSendout</a:Key><a:Value i:type="LogText"><text>{0:pm.Owner.Name}的{0:pm.Name}（Lv.{0:pm.Lv} {0:pm.Type}）被拽出来战斗了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Stiff</a:Key><a:Value i:type="LogText"><text>{0:p}因为攻击的反作用不能行动！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Spikes</a:Key><a:Value i:type="LogText"><text>{0:p}受到了撒菱的伤害！</text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>StealthRock</a:Key><a:Value i:type="LogText"><text>{0:p}被尖锐的岩石扎伤了！</text></a:Value></a:KeyValueOfstringanyType>
@@ -375,7 +375,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Gem</a:Key><a:Value i:type="LogText"><text>{1:i}提升了{2:m}的威力！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnZenMode</a:Key><a:Value i:type="LogText"><text>{0:p}的不倒翁模式发动！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeZenMode</a:Key><a:Value i:type="LogText"><text>{0:p}的不倒翁模式解除！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ForceWithdraw</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>（{1:p}强制下场）
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ForceWithdraw</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>（{0:p}强制下场）
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SkillSwapDetail</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>（{0:p}的特性变成了{1:a}）
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Ability</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:a}——</text></a:Value></a:KeyValueOfstringanyType>
 </logs></GameLogs>

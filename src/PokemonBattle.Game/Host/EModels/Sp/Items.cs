@@ -14,8 +14,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public const int FLAME_ORB = 50;
     public const int BLACK_SLUDGE = 58;
     public const int STICKY_BARB = 65;
-    public const int RED_CARD = 106;
-    public const int EJECT_BUTTON = 111;
     private const int LIFE_ORB = 47;
     #endregion
 
@@ -144,17 +142,44 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     public static void AttackPostEffect(AtkContext atk)
     {
-      const int SHELL_BELL = 35;
-      var pm = atk.Attacker;
-      if (pm.Item.Id == SHELL_BELL)
+      const int SHELL_BELL = 35, EJECT_BUTTON = 111, RED_CARD = 106;
+      var aer = atk.Attacker;
+      var c = aer.Controller;
+      if (!atk.IgnoreSwitchItem)
+      {
+        bool e = true, r = MoveE.CanForceSwitch(aer, true);
+        foreach (var d in atk.Targets.Where((d) => d.Defender.Tile != null).OrderBy((d) => d.Defender.Speed).ToArray())
+        {
+          var der = d.Defender;
+          var i = der.Item.Id;
+          if (e && i == EJECT_BUTTON)
+          {
+            atk.SetCondition("EjectButton", der.Tile);
+            der.ConsumeItem();
+            c.ReportBuilder.Add(new GameEvents.RemoveItem(null, der));
+            c.Withdraw(der, "EjectButton");
+            if (r == false) break;
+            e = false;
+          }
+          else if (r && i == RED_CARD)
+          {
+            der.ConsumeItem();
+            c.ReportBuilder.Add(new GameEvents.RemoveItem("RedCard", der, aer.Id));
+            MoveE.ForceSwitchImplement(aer, null);
+            if (e == false) break;
+            r = false;
+          }
+        }
+      }
+      if (aer.Item.Id == SHELL_BELL)
       {
         if (atk.TotalDamage != 0)
-          pm.HpRecoverByOneNth(atk.TotalDamage >> 3, false, "ItemRecover", SHELL_BELL);
+          aer.HpRecoverByOneNth(atk.TotalDamage >> 3, false, "ItemRecover", SHELL_BELL);
       }
-      else if (pm.Item.Id == LIFE_ORB)
+      else if (aer.Item.Id == LIFE_ORB)
       {
-        pm.EffectHurtByOneNth(10, "LifeOrb");
-        pm.CheckFaint();
+        aer.EffectHurtByOneNth(10, "LifeOrb");
+        aer.CheckFaint();
       }
     }
     public static bool CanAttackFlinch(DefContext def)

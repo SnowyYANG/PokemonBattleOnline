@@ -103,26 +103,30 @@ namespace LightStudio.PokemonBattle.Game.Host
       atk.BuildDefContext(selectTile);
       e.Execute(atk);
     }
+    internal static bool CanForceSwitch(PokemonProxy pm, bool abilityAvailable)
+    {
+      return !(pm.Hp == 0 || !pm.Controller.CanWithdraw(pm) || abilityAvailable && pm.Ability.SuctionCups() || pm.OnboardPokemon.HasCondition("Ingrain"));
+    }
+    internal static void ForceSwitchImplement(PokemonProxy pm, string log = "ForceWithdraw")
+    {
+      var c = pm.Controller;
+      var sendouts = new List<int>();
+      {
+        var pms = pm.Pokemon.Owner.Pokemons.ToArray();
+        for (int i = pm.Controller.GameSettings.Mode.OnboardPokemonsPerPlayer(); i < pms.Length; ++i)
+          if (c.CanSendout(pms[i])) sendouts.Add(i);
+      }
+      var tile = pm.Tile;
+      c.Withdraw(pm, log, false);
+      tile.WillSendoutPokemonIndex = sendouts[c.GetRandomInt(0, sendouts.Count - 1)];
+      c.Sendout(tile, true, "ForceSendout");
+    }
     protected static bool ForceSwitch(DefContext def)
     {
-      var der = def.Defender;
-      var c = der.Controller;
-      if (!(def.AtkContext.Attacker.Tile == null || der.Hp == 0 || !c.CanWithdraw(der) || def.Ability.SuctionCups() || der.OnboardPokemon.HasCondition("Ingrain")))
+      if (def.AtkContext.Attacker.Tile != null && CanForceSwitch(def.Defender, def.AtkContext.Attacker.Ability.IgnoreDefenderAbility()))
       {
-        var sendouts = new List<int>();
-        {
-          var pms = der.Pokemon.Owner.Pokemons.ToArray();
-          for (int i = 0; i < pms.Length; ++i)
-            if (c.CanSendout(pms[i])) sendouts.Add(i);
-        }
-        if (sendouts.Count != 0)
-        {
-          var tile = der.Tile;
-          c.Withdraw(der, "ForceWithdraw", false);
-          tile.WillSendoutPokemonIndex = sendouts[c.GetRandomInt(0, sendouts.Count - 1)];
-          c.Sendout(tile, true, "ForceSendout");
-          return true;
-        }
+        ForceSwitchImplement(def.Defender);
+        return true;
       }
       return false;
     }

@@ -10,7 +10,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
 {
   class IsGroundAffectable : IIsGroundAffectable
   {
-    public bool Execute(PokemonProxy pm, bool ignoreDefenderAbility, bool raiseAbility)
+    public bool Execute(PokemonProxy pm, bool abilityAvailable, bool raiseAbility)
     {
       var o = pm.OnboardPokemon;
       return
@@ -20,7 +20,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
           o.HasType(BattleType.Flying) ||
           o.HasCondition("MagnetRise") || o.HasCondition("Telekinesis") ||
           pm.Item.AirBalloon() ||
-          (!ignoreDefenderAbility && (raiseAbility ? pm.RaiseAbility(As.LEVITATE) : pm.Ability.Id == As.LEVITATE))
+          (abilityAvailable && (raiseAbility ? pm.RaiseAbility(As.LEVITATE) : pm.Ability.Id == As.LEVITATE))
         );
     }
   }

@@ -10,7 +10,8 @@ namespace LightStudio.PokemonBattle.Game
   public class Pokemon : INotifyPropertyChanged
   {
     private static readonly PropertyChangedEventArgs STATE = new PropertyChangedEventArgs("State");
-    
+    private static readonly PropertyChangedEventArgs ITEM = new PropertyChangedEventArgs("Item");
+
     public event PropertyChangedEventHandler PropertyChanged;
     
     public readonly int Id;
@@ -105,6 +106,14 @@ namespace LightStudio.PokemonBattle.Game
       {
         State = value;
         if (PropertyChanged != null) PropertyChanged(this, STATE);
+      }
+    }
+    public void ClientChangeItemWithNotify(Item item)
+    {
+      if (Item != item)
+      {
+        Item = item;
+        if (PropertyChanged != null) PropertyChanged(this, ITEM);
       }
     }
   }

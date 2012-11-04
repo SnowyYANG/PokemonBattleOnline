@@ -16,7 +16,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public int CTLv;
     public int TotalDamage;
     public bool FailAll;
-    public bool IgnorePostEffectItem;
+    public bool IgnoreSwitchItem;
 
     internal AtkContext(MoveProxy mp)
     {

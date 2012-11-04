@@ -117,7 +117,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
         AppendGameLog("Hurt", Pms[i]); AppendGameLog("Hp", -Damages[i]);
         if (Damages[i] > max) max = Damages[i];
       }
-      Sleep = 17 * max + 2000;
+      Sleep = 17 * max + 1000;
       if (SH != null) AppendGameLog("SuperHurt" + SH.Length, SH);
       if (WH != null) AppendGameLog("WeakHurt" + WH.Length, WH);
       if (CT != null) AppendGameLog("CT" + CT.Length, CT);
@@ -216,33 +216,40 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   [DataContract(Namespace = Namespaces.PBO)]
   public class RemoveItem : GameEvent
   {
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     string Key;
     [DataMember]
     int Pm;
     [DataMember(EmitDefaultValue = false)]
-    object Arg1;
+    int I1;
     [DataMember(EmitDefaultValue = false)]
-    object Arg2;
+    int I2;
+    [DataMember(EmitDefaultValue = false)]
+    string S1;
+    [DataMember(EmitDefaultValue = false)]
+    string S2;
 
-    public RemoveItem(string logKey, PokemonProxy pm, object arg1 = null, object arg2 = null)
+    public RemoveItem(string logKey, PokemonProxy pm, ValueType arg1 = null, ValueType arg2 = null)
     {
       Key = logKey;
       Pm = pm.Id;
-      Arg1 = arg1 is int ? (object)arg1 : arg1.ToString();
-      Arg2 = arg2 is int ? (object)arg2 : arg2.ToString();
+      if (arg1 is int) I1 = (int)arg1;
+      else if (arg1 != null) S1 = arg1.ToString();
+      if (arg2 is int) I2 = (int)arg2;
+      else if (arg2 != null) S2 = arg2.ToString();
     }
 
     protected override void Update()
     {
       var pm = GetPokemon(Pm);
       if (Key == "PowerHerb") pm.ChangePosition(pm.Position.X, CoordY.Plate);
-      if (Key != null) AppendGameLog(Key, Pm, Arg1, Arg2);
+      if (Key != null) AppendGameLog(Key, Pm, (object)S1 ?? I1, (object)S2 ?? I2);
+      else Sleep = 0;
     }
     public override void Update(SimGame game)
     {
       var pm = GetPokemon(game, Pm);
-      if (pm != null) pm.Item = null;
+      if (pm != null) pm.ClientChangeItemWithNotify(null);
     }
   }
 

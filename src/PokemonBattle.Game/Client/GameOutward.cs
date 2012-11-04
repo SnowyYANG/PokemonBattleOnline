@@ -153,7 +153,7 @@ namespace LightStudio.PokemonBattle.Game
               if (format != null && format.StartsWith("pm."))
               {
                 var pm = GetPokemon(id);
-                r = pm.GetProperty(format.Substring(3));
+                r = pm == null ? DataService.String["<error>"] : pm.GetProperty(format.Substring(3));
               }
               break;
           }//switch

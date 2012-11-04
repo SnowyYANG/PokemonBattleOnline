@@ -2,10 +2,10 @@ class Pursuit(AttackMoveE):
     def BuildAtkContext(self, pm):
         atk = MoveE.BuildAtkContext(self, pm)
         if pm.OnboardPokemon.HasCondition('Pursuiting'):
-            atk.IgnorePostEffectItem = True
+            atk.IgnoreSwitchItem = True
         return atk
     def CalculateBasePower(self, d):
-        if d.AtkContext.IgnorePostEffectItem:
+        if d.AtkContext.IgnoreSwitchItem:
             d.BasePower = 80
         else:
             d.BasePower = 40
