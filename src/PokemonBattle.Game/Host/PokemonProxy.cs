@@ -143,7 +143,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           (
           magnetPull && OnboardPokemon.HasType(BattleType.Steel) ||
           shadowTag && Ability.Id != Abilities.SHADOW_TAG ||
-          arenaTrap && EffectsService.IsGroundAffectable.Execute(this, false, false)
+          arenaTrap && EffectsService.IsGroundAffectable.Execute(this, true, false)
           );
       }
     }

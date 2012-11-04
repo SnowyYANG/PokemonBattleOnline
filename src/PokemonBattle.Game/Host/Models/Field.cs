@@ -119,7 +119,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         }
         public override void Debut(PokemonProxy pm)
         {
-          if (pm.CanEffectHurt && EffectsService.IsGroundAffectable.Execute(pm, false, false))
+          if (pm.CanEffectHurt && EffectsService.IsGroundAffectable.Execute(pm, true, false))
             pm.EffectHurtByOneNth(n, "Spikes");
         }
       }
@@ -140,7 +140,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         }
         public override void Debut(PokemonProxy pm)
         {
-          if (pm.CanAddState(pm, AttachedState.PSN, false) && EffectsService.IsGroundAffectable.Execute(pm, false, false))
+          if (pm.CanAddState(pm, AttachedState.PSN, false) && EffectsService.IsGroundAffectable.Execute(pm, true, false))
             pm.AddState(pm, AttachedState.PSN, false, 15);
         }
       }
