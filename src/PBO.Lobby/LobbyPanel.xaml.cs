@@ -39,9 +39,5 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     {
       return lobby.Window_Closing();
     }
-    public void Window_Closed()
-    {
-      lobby.Window_Closed();
-    }
   }
 }

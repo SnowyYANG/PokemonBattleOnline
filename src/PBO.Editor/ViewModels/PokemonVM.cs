@@ -44,7 +44,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     }
 
     public ImageSource Icon
-    { get { return ImageService.GetPokemonIcon(Model.Form, Model.Gender); } }
+    { get { return GameDataService.GetPokemonIcon(Model.Form, Model.Gender); } }
 
     public MenuCommand EditCommand
     { get; private set; }

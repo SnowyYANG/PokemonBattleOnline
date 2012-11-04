@@ -23,7 +23,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       get
       {
         var pm = Model.FirstOrDefault();
-        return pm == null ? null : ImageService.GetPokemonIcon(pm.Form, pm.Gender);
+        return pm == null ? null : GameDataService.GetPokemonIcon(pm.Form, pm.Gender);
       }
     }
     public override System.Windows.Thickness IconMargin

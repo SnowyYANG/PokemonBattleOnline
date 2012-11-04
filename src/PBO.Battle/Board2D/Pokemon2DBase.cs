@@ -17,18 +17,19 @@ namespace LightStudio.PokemonBattle.PBO.Battle
   abstract class Pokemon2DBase : Canvas, IPokemonOutwardEvents
   {
     protected readonly Image main;
+    protected readonly int Scale;
     protected PokemonOutward pokemon;
     private DoubleAnimation faint;
 
-    protected Pokemon2DBase(double size)
+    protected Pokemon2DBase(int scale)
     {
-      main = new Image() { Height = size, Width = size, Stretch = Stretch.UniformToFill };
-      main.SetValue(Canvas.LeftProperty, size * -0.5);
-      main.SetValue(Canvas.BottomProperty, size * -0.5);
+      Scale = scale;
+      main = new Image() { Stretch = Stretch.UniformToFill };
+      main.SetValue(Canvas.BottomProperty, (double)-48 * Scale);
       Children.Add(main);
       IsHitTestVisible = false;
       SnapsToDevicePixels = true;
-      faint = new DoubleAnimation(size, 0, Duration.Automatic);
+      faint = new DoubleAnimation(96 * scale, 0, Duration.Automatic);
       faint.Completed += (sender, e) =>
         {
           main.Source = null;
@@ -38,13 +39,19 @@ namespace LightStudio.PokemonBattle.PBO.Battle
         };
     }
 
-    protected abstract ImageSource GetImage(PokemonForm form, PokemonGender gender);
-    protected abstract ImageSource GetSp(string id);
+    protected abstract BitmapImage GetImage(PokemonForm form, PokemonGender gender, bool shiny);
+    protected abstract BitmapImage GetSp(string id);
 
     private void RefreshImage()
     {
       if (pokemon.IsSubstitute) main.Source = GetSp("substitute");
-      else main.Source = GetImage(pokemon.Form, pokemon.Gender);
+      else
+      {
+        var s = GetImage(pokemon.Form, pokemon.Gender, pokemon.Shiny);
+        main.Source = s;
+        main.SetValue(Canvas.LeftProperty, (double)-((s.PixelWidth * Scale) >> 1));
+        main.Width = s.PixelWidth * Scale;
+      }
     }
     public void Sendout(PokemonOutward pm)
     {

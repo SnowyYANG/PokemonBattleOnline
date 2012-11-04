@@ -51,7 +51,7 @@ namespace LightStudio.PokemonBattle.Data
     }
     public PokemonForm GetPokemonForm(int number, int form)
     {
-      if (number == 0 || number >= pokemons.Length) return null;
+      if (number == 0 || number > pokemons.Length) return null;
       return pokemons[number - 1].GetForm(form);
     }
     public MoveType GetMoveType(int moveId)

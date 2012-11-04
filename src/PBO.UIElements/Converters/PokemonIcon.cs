@@ -13,7 +13,7 @@ namespace LightStudio.PokemonBattle.PBO.Converters
     
     protected override object Convert(Pokemon value)
     {
-      return ImageService.GetPokemonIcon(value.Form, value.Gender);
+      return GameDataService.GetPokemonIcon(value.Form, value.Gender);
     }
   }
   public class PokemonDataIcon : Converter<IPokemonData>
@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.PBO.Converters
     
     protected override object Convert(IPokemonData value)
     {
-      return ImageService.GetPokemonIcon(value.Form, value.Gender);
+      return GameDataService.GetPokemonIcon(value.Form, value.Gender);
     }
   }
   public class PokemonTypeIcon : Converter<PokemonType>
@@ -31,7 +31,7 @@ namespace LightStudio.PokemonBattle.PBO.Converters
     
     protected override object Convert(PokemonType value)
     {
-      return ImageService.GetPokemonIcon(value.GetForm(0), value.Genders.First());
+      return GameDataService.GetPokemonIcon(value.GetForm(0), value.Genders.First());
     }
   }
   public class PokemonFormIcon : Converter<PokemonForm>
@@ -40,7 +40,7 @@ namespace LightStudio.PokemonBattle.PBO.Converters
 
     protected override object Convert(PokemonForm value)
     {
-      return ImageService.GetPokemonIcon(value, value.Type.Genders.First());
+      return GameDataService.GetPokemonIcon(value, value.Type.Genders.First());
     }
   }
 }

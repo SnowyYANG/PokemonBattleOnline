@@ -85,9 +85,5 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     {
       return PBOClient.Client != null && ShowMessageBox.ExitLobby() == MessageBoxResult.No;
     }
-    internal void Window_Closed()
-    {
-      PBOClient.Dispose();
-    }
   }
 }

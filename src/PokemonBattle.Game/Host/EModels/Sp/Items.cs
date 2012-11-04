@@ -166,7 +166,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
             der.ConsumeItem();
             c.ReportBuilder.Add(new GameEvents.RemoveItem("RedCard", der, aer.Id));
             MoveE.ForceSwitchImplement(aer, null);
-            if (e == false) break;
+            if (e == false) return;
             r = false;
           }
         }

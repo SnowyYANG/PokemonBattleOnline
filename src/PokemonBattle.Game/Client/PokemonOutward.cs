@@ -33,6 +33,8 @@ namespace LightStudio.PokemonBattle.Game
     private static readonly PropertyChangedEventArgs GENDER = new PropertyChangedEventArgs("Gender");
     private static readonly PropertyChangedEventArgs STATE = new PropertyChangedEventArgs("State");
     
+    [DataMember(EmitDefaultValue = false)]
+    public readonly bool Shiny;
     [DataMember]
     internal readonly int Id;
     [DataMember]

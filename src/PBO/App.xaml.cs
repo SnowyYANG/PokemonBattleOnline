@@ -46,5 +46,11 @@ namespace LightStudio.PokemonBattle.PBO
       UIDispatcher.Init(new WpfDispatcher(Application.Current.Dispatcher));
       new MainWindow().Show();
     }
+    protected override void OnExit(ExitEventArgs e)
+    {
+      base.OnExit(e);
+      Messaging.PBOClient.Dispose();
+      GameDataService.Unload();
+    }
   }
 }

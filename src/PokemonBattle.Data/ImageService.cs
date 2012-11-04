@@ -2,54 +2,62 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.IO;
-using System.Diagnostics.Contracts;
-using LightStudio.PokemonBattle.Data;
+using System.Windows.Media.Imaging;
+using System.IO.Packaging;
 
 namespace LightStudio.PokemonBattle.Data
 {
-  public static class ImageService
+  internal class ImageService : IDisposable
   {
-    private static ImageSource[] icons;
+    private readonly Package Pack;
+    private BitmapImage[] icons;
 
-    static ImageService()
+    public ImageService(string pack)
     {
-      icons = new ImageSource[GameDataService.Pokemons.Count() + 1];
+      icons = new BitmapImage[GameDataService.Pokemons.Count() + 1];
+      Pack = ZipPackage.Open(pack, FileMode.Open, FileAccess.Read);
     }
 
-    private static ImageSource GetImage(string path, string id)
+    private BitmapImage GetImage(string path, string id)
     {
-      string absolutePath = Path.GetFullPath(string.Format("Data\\image\\{0}\\{1}.png", path, id));
       try
       {
-        return new BitmapImage(new Uri(absolutePath, UriKind.Absolute));
+        var image = new BitmapImage();
+        image.BeginInit();
+        image.StreamSource = Pack.GetPart(new Uri(string.Format("/{0}/{1}.png", path, id), UriKind.Relative)).GetStream(FileMode.Open, FileAccess.Read);
+        image.EndInit();
+        return image;
       }
       catch
       {
         return null;
       }
     }
-    private static ImageSource GetImage(string path, int number, int form)
+    private BitmapImage GetImage(string path, int number, int form)
     {
       return GetImage(path, (number * 100 + form).ToString("00000"));
     }
-    private static ImageSource GetImage(string path, PokemonForm form)
+    private BitmapImage GetImage(string path, PokemonForm form)
     {
       return GetImage(path, form.Type.Number, form.Index);
     }
-    private static ImageSource GetFemaleImage(string path, PokemonForm form)
+    private BitmapImage GetFemaleImage(string path, PokemonForm form)
     {
-      var i = GetImage(path + "\\female", form);
+      var i = GetImage(path + "/female", form);
       if (i == null) i = GetImage(path, form);
       return i;
     }
-    public static ImageSource GetPokemonIcon(PokemonForm form, PokemonGender gender)
+    private BitmapImage GetPokemonImage(string category, PokemonForm form, PokemonGender gender, bool shiny)
+    {
+      var path = shiny ? "shiny/" : "normal/" + category;
+      return gender == PokemonGender.Female ? GetFemaleImage(path, form) : GetImage(path, form);
+    }
+    public BitmapImage GetPokemonIcon(PokemonForm form, PokemonGender gender)
     {
       int n = form.Type.Number, f = form.Index;
-      ImageSource r;
-      if (gender == PokemonGender.Female && (n == 521 || n == 592 || n == 593)) r = GetImage("icon\\female", n, f);
+      BitmapImage r;
+      if (gender == PokemonGender.Female && (n == 521 || n == 592 || n == 593)) r = GetImage("icon/female", n, f);
       else if (f == 0 || n == 493 || n == 649) //arceus and genesect
       {
         if (icons[n] == null) icons[n] = GetImage("icon", n, 0);
@@ -58,21 +66,26 @@ namespace LightStudio.PokemonBattle.Data
       else r = GetImage("icon", n, f);
       return r;
     }
-    public static ImageSource GetPokemonFront(PokemonForm form, PokemonGender gender)
+    public BitmapImage GetPokemonFront(PokemonForm form, PokemonGender gender, bool shiny)
     {
-      return gender == PokemonGender.Female ? GetFemaleImage("front", form) : GetImage("front", form);
+      return GetPokemonImage("front", form, gender, shiny);
     }
-    public static ImageSource GetPokemonBack(PokemonForm form, PokemonGender gender)
+    public BitmapImage GetPokemonBack(PokemonForm form, PokemonGender gender, bool shiny)
     {
-      return gender == PokemonGender.Female ? GetFemaleImage("back", form) : GetImage("back", form);
+      return GetPokemonImage("back", form, gender, shiny);
     }
-    public static ImageSource GetSpFront(string id)
+    public BitmapImage GetSpFront(string id)
     {
-      return GetImage("front\\sp", id);
+      return GetImage("sp/front", id);
     }
-    public static ImageSource GetSpBack(string id)
+    public BitmapImage GetSpBack(string id)
     {
-      return GetImage("back\\sp", id);
+      return GetImage("sp/back", id);
+    }
+
+    public void Dispose()
+    {
+      ((IDisposable)Pack).Dispose();
     }
   }
 }

@@ -82,22 +82,7 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Label Content="Name"/>
-        	<TextBox Text="{Binding Model.Name}" Width="155" HorizontalAlignment="Right"/>
-        	<Label Content="Pokemon" Grid.Row="1"/>
-            <ui:ClearableComboBox SelectedItem="{Binding PokemonType}" ItemsSource="{x:Static pm:GameDataService.Pokemons}" ItemTemplate="{x:Static local:Resources.PokemonType}" ItemsPanel="{StaticResource VirtualPanel}" Grid.Row="1" Margin="45,0,0,0" VirtualizingStackPanel.VirtualizationMode="Recycling"/>
-            <Label Content="Type" Grid.Row="2" HorizontalAlignment="Left"/>
-            <ContentPresenter Content="{Binding PokemonForm.Type1}" Margin="45,0,0,0"/>
-            <ContentPresenter Content="{Binding PokemonForm.Type2}" Margin="93,0,0,0"/>
-        	<Label Content="Lv" Grid.Row="3"/>
-            <ui:NumericUpdown Value="{Binding Model.Lv,Mode=TwoWay}" Minimum="1" Maximum="100" Grid.Row="3" LargeChange="50" Canvas.Left="45" Width="53" Margin="45,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-        	<Label Content="Gender" Grid.Row="3" Canvas.Left="94" Canvas.Top="58" BorderThickness="0" HorizontalAlignment="Right" Margin="0,0,56,0"/>
-        	<ui:ClearableComboBox SelectedItem="{Binding Gender}" ItemsSource="{Binding PokemonType.Genders}" ItemTemplate="{x:Static ui:Labels.GenderShowNone}" Grid.Row="3" Margin="150,0,0,0"/>
-            <Label Content="Ability" Grid.Row="4"/>
-            <ui:ClearableComboBox SelectedItem="{Binding Model.Ability}" ItemsSource="{Binding PokemonForm.Data.Abilities}" ItemTemplate="{x:Static ui:Labels.Ability}" ItemContainerStyle="{x:Null}" ToolTip="{Binding AbilityDescription}" Margin="5,0,102,0" Grid.Row="5"/>
-        	<Label Content="Item" Grid.Row="6" VerticalAlignment="Top" Height="25"/>
-            <ui:ClearableComboBox SelectedItem="{Binding HeldItem}" ItemsSource="{x:Static pm:GameDataService.Items}" ItemTemplate="{x:Static ui:Labels.Item}" ItemsPanel="{StaticResource VirtualPanel}" ToolTip="{Binding ItemDescription}" CanClear="True" Grid.Row="7" Margin="5,0,102,0"/>
-        	<Image Source="{Binding Image}" Grid.Row="4" Grid.RowSpan="4" Height="96" Width="96" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+        	<Image Source="{Binding Image}" Grid.Row="4" Grid.RowSpan="4" Height="96" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <Image.ToolTip>
                     <ToolTip BorderThickness="0">
                         <Grid DataContext="{Binding PokemonForm.Type}">
@@ -121,6 +106,21 @@
                     </ToolTip>
                 </Image.ToolTip>
         	</Image>
+            <Label Content="Name"/>
+        	<TextBox Text="{Binding Model.Name}" Width="155" HorizontalAlignment="Right"/>
+        	<Label Content="Pokemon" Grid.Row="1"/>
+            <ui:ClearableComboBox SelectedItem="{Binding PokemonType}" ItemsSource="{x:Static pm:GameDataService.Pokemons}" ItemTemplate="{x:Static local:Resources.PokemonType}" ItemsPanel="{StaticResource VirtualPanel}" Grid.Row="1" Margin="45,0,0,0" VirtualizingStackPanel.VirtualizationMode="Recycling"/>
+            <Label Content="Type" Grid.Row="2" HorizontalAlignment="Left"/>
+            <ContentPresenter Content="{Binding PokemonForm.Type1}" Margin="45,0,0,0"/>
+            <ContentPresenter Content="{Binding PokemonForm.Type2}" Margin="93,0,0,0"/>
+        	<Label Content="Lv" Grid.Row="3"/>
+            <ui:NumericUpdown Value="{Binding Model.Lv,Mode=TwoWay}" Minimum="1" Maximum="100" Grid.Row="3" LargeChange="50" Canvas.Left="45" Width="53" Margin="45,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+        	<Label Content="Gender" Grid.Row="3" Canvas.Left="94" Canvas.Top="58" BorderThickness="0" HorizontalAlignment="Right" Margin="0,0,56,0"/>
+        	<ui:ClearableComboBox SelectedItem="{Binding Gender}" ItemsSource="{Binding PokemonType.Genders}" ItemTemplate="{x:Static ui:Labels.GenderShowNone}" Grid.Row="3" Margin="150,0,0,0"/>
+            <Label Content="Ability" Grid.Row="4"/>
+            <ui:ClearableComboBox SelectedItem="{Binding Model.Ability}" ItemsSource="{Binding PokemonForm.Data.Abilities}" ItemTemplate="{x:Static ui:Labels.Ability}" ItemContainerStyle="{x:Null}" ToolTip="{Binding AbilityDescription}" Margin="5,0,102,0" Grid.Row="5"/>
+        	<Label Content="Item" Grid.Row="6" VerticalAlignment="Top" Height="25"/>
+            <ui:ClearableComboBox SelectedItem="{Binding HeldItem}" ItemsSource="{x:Static pm:GameDataService.Items}" ItemTemplate="{x:Static ui:Labels.Item}" ItemsPanel="{StaticResource VirtualPanel}" ToolTip="{Binding ItemDescription}" CanClear="True" Grid.Row="7" Margin="5,0,102,0"/>
             <ui:ClearableComboBox SelectedItem="{Binding PokemonForm}" ItemsSource="{Binding PokemonType.Forms}" ItemTemplate="{x:Static local:Resources.PokemonForm}" CanClear="False" Grid.Row="7" MaxWidth="96" HorizontalAlignment="Right" Background="{x:Null}" BorderBrush="{x:Null}">
                 <ui:ClearableComboBox.Style>
                     <Style TargetType="ui:ClearableComboBox">
