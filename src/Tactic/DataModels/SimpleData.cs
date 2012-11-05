@@ -20,15 +20,15 @@ namespace LightStudio.Tactic.DataModels
 #endif
       static T LoadFromXml<T>(string fileName) where T : SimpleData
     {
-      using (FileStream f = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+      using (FileStream f = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
         return (T)Serializer.Deserialize(typeof(T), f);
     }
     protected static T LoadFromDat<T>(string fileName) where T : SimpleData
     {
-      using (FileStream f = new FileStream(fileName, FileMode.Open, FileAccess.Read))
-        using (DeflateStream s = new DeflateStream(f, CompressionMode.Decompress))
+      using (FileStream f = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+      using (DeflateStream s = new DeflateStream(f, CompressionMode.Decompress))
       {
-          return (T)Serializer.Deserialize<T>(s);
+        return (T)Serializer.Deserialize<T>(s);
       }
     }
 

@@ -16,7 +16,7 @@ namespace LightStudio.PokemonBattle.Data
     public ImageService(string pack)
     {
       icons = new BitmapImage[GameDataService.Pokemons.Count() + 1];
-      Pack = ZipPackage.Open(pack, FileMode.Open, FileAccess.Read);
+      Pack = ZipPackage.Open(new FileStream(pack, FileMode.Open, FileAccess.Read, FileShare.Read));
     }
 
     private BitmapImage GetImage(string path, string id)
