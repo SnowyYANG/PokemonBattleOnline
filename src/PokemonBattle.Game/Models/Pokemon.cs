@@ -22,11 +22,14 @@ namespace LightStudio.PokemonBattle.Game
     internal readonly int AbilityIndex;
     public readonly I6D Iv;
     public readonly I6D Ev;
+    public readonly string Chatter;
 
     public string Name
     { get; private set; }
     public PokemonForm Form
     { get; private set; }
+    public bool Shiny
+    { get; internal set; }
     public PokemonGender Gender
     { get; private set; }
     public int Lv
@@ -68,6 +71,7 @@ namespace LightStudio.PokemonBattle.Game
       Item = GameDataService.GetItem(custom.ItemId);
       Iv = new ReadOnly6D(custom.Iv);
       Ev = new ReadOnly6D(custom.Ev);
+      Chatter = custom.Chatter;
       {
         int h = PokemonStatHelper.GetHp(custom.Form.Data.Base.Hp, (byte)Iv.Hp, (byte)Ev.Hp, (byte)Lv);
         hp = new PairValue(h);

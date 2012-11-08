@@ -120,7 +120,7 @@ namespace LightStudio.PokemonBattle.Data
       {
         if (_lv != value)
         {
-          if (PokemonValidator.ValidateLv(value))
+          if (PokemonValidator.ValidateLv(this, value))
             _lv = (byte)(100 - value);
           OnPropertyChanged("Lv");
         }
@@ -215,7 +215,7 @@ namespace LightStudio.PokemonBattle.Data
         {
           _itemId = (short)(value == null ? 0 : value.Id);
           if (CheckSpForm()) OnPropertyChanged();
-          else OnPropertyChanged("HeldItem");
+          else OnPropertyChanged("Item");
         }
       }
     }
@@ -251,6 +251,14 @@ namespace LightStudio.PokemonBattle.Data
         }
         return _ev;
       }
+    }
+
+    private string _chatter;
+    [DataMember(EmitDefaultValue = false)]
+    public string Chatter
+    {
+      get { return number == 441 && MoveIds.Contains(448) ? null : _chatter; }
+      set { _chatter = value; }
     }
 
     public IEnumerable<int> MoveIds

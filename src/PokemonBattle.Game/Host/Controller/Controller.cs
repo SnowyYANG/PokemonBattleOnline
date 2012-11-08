@@ -46,7 +46,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public Board Board
     { get { return Game.Board; } }
     /// <summary>
-    /// sorted by speed
+    /// sorted by action speed
     /// </summary>
     public List<PokemonProxy> OnboardPokemons
     { get { return TurnController.OnboardPokemons; } }
@@ -97,7 +97,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     /// </summary>
     public IEnumerable<PokemonProxy> GetOnboardPokemons(int teamId)
     {
-      return OnboardPokemons.Where((p) => p.Pokemon.TeamId == teamId);
+      return Tiles.Where((t) => t.Pokemon != null && t.Pokemon.Pokemon.TeamId == teamId).Select((t)=>t.Pokemon);
     }
     #endregion
 
@@ -189,11 +189,21 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public bool Withdraw(PokemonProxy pm, string log, bool canPursuit = true)
     {
-      return SwitchController.Withdraw(pm, log, canPursuit);
+      if (SwitchController.Withdraw(pm, log, canPursuit))
+      {
+        Board.RefreshPokemons();
+        return true;
+      }
+      return false;
     }
     public bool Sendout(Tile position, bool debut = true, string log = null)
     {
-      return SwitchController.Sendout(position, debut, log);
+      if (SwitchController.Sendout(position, debut, log))
+      {
+        Board.RefreshPokemons();
+        return true;
+      }
+      return false;
     }
     #endregion
   }

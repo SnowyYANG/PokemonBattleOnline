@@ -45,15 +45,12 @@ namespace LightStudio.PokemonBattle.Game.Host
         where t.X >= minX && t.X < maxX && t.Pokemon != null
         select t.Pokemon;
     }
-    public void EnEntryHazards(MoveType move)
+    public bool EnEntryHazards(MoveType move)
     {
       foreach (var eh in hazards)
-        if (eh.Move == move)
-        {
-          eh.En();
-          return;
-        }
+        if (eh.Move == move) return eh.En();
       hazards.Add(EntryHazards.New(move));
+      return true;
     }
     public void DeEntryHazards(ReportBuilder report)
     {
@@ -95,7 +92,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         Move = GameDataService.GetMove(move);
       }
-      public abstract void En();
+      public abstract bool En();
       public abstract void De(ReportBuilder report, int team);
       public abstract void Debut(PokemonProxy pm); //欢迎登场，口耐的精灵们（笑
 
@@ -108,10 +105,12 @@ namespace LightStudio.PokemonBattle.Game.Host
         {
           n = 8;
         }
-        public override void En()
+        public override bool En()
         {
+          if (n == 4) return false;
           if (n == 8) n = 6;
           else n = 4;
+          return true;
         }
         public override void De(ReportBuilder report, int team)
         {
@@ -130,9 +129,11 @@ namespace LightStudio.PokemonBattle.Game.Host
           : base(Moves.TOXIC_SPIKES)
         {
         }
-        public override void En()
+        public override bool En()
         {
+          if (badly) return false;
           badly = true;
+          return true;
         }
         public override void De(ReportBuilder report, int team)
         {
@@ -150,8 +151,9 @@ namespace LightStudio.PokemonBattle.Game.Host
           : base(Moves.STEALTH_ROCK)
         {
         }
-        public override void En()
+        public override bool En()
         {
+          return false;
         }
         public override void De(ReportBuilder report, int team)
         {

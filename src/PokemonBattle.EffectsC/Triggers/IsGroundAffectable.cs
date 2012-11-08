@@ -10,11 +10,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
 {
   class IsGroundAffectable : IIsGroundAffectable
   {
-    public bool Execute(PokemonProxy pm, bool abilityAvailable, bool raiseAbility)
+    public bool Execute(PokemonProxy pm, bool abilityAvailable, bool raiseAbility, bool ground)
     {
       var o = pm.OnboardPokemon;
       return
-        (o.HasCondition("SmackDown") || o.HasCondition("Ingrain") || pm.Controller.Board.HasCondition("Gravity")) || pm.Item.IronBall() ||
+        (o.HasCondition("SmackDown") || o.HasCondition("Ingrain") || ground && pm.Controller.Board.HasCondition("Gravity")) || pm.Item.IronBall() ||
         !
         (
           o.HasType(BattleType.Flying) ||

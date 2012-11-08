@@ -5,11 +5,11 @@ class AntiBerry(ItemE):
         self.Type = type
     def DamageFinalModifier(self, d):
         if d.AtkContext.Type == self.Type and d.EffectRevise > 0:
-            d.Defender.UsingItem = True
+            d.SetCondition('Antiberry')
             return 0x800
         return 0x1000
     def RaiseImplement(self, pm, key):
-        pm.Controller.ReportBuilder.Add(RemoveItem('AntiBerry', pm, self.Item.Id, 0))
+        pm.Controller.ReportBuilder.Add(RemoveItem('Antiberry', pm, self.Item.Id, 0))
 I(AntiBerry(164, BattleType.Fire)) #occa berry
 I(AntiBerry(165, BattleType.Water)) #passho berry
 I(AntiBerry(166, BattleType.Electric)) #wacan berry

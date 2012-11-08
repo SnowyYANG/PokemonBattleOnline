@@ -34,6 +34,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           foreach(var t in fields[i].Tiles) tiles[j++] = t;
         }
       }
+      Pokemons = Enumerable.Empty<PokemonProxy>();
     }
 
     public IEnumerable<Field> Fields
@@ -44,5 +45,15 @@ namespace LightStudio.PokemonBattle.Game.Host
     { get { return fields.ValueOrDefault(team); } }
     public Weather Weather
     { get; set; }
+    public IEnumerable<PokemonProxy> Pokemons
+    { get; private set; }
+
+    internal void RefreshPokemons()
+    {
+      var pms = new List<PokemonProxy>();
+      foreach (var t in Tiles)
+        if (t.Pokemon != null) pms.Add(t.Pokemon);
+      Pokemons = pms;
+    }
   }
 }

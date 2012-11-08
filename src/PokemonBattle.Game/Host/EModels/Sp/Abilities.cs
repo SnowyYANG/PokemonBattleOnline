@@ -188,41 +188,16 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       const int CLOUD_NINE = 13, AIR_LOCK = 76;
       foreach (PokemonProxy p in c.OnboardPokemons)
-        if (p.Ability.Id == AIR_LOCK || p.Ability.Id == CLOUD_NINE) return true;
+      {
+        var a = p.Ability.Id;
+        if (a == AIR_LOCK || a == CLOUD_NINE) return true;
+      }
       return false;
     }
     public static void Pressure(MoveProxy move, PokemonProxy der)
     {
       const int PRESSURE = 46;
       if (der.Pokemon.TeamId != move.Owner.Pokemon.TeamId && der.Ability.Id == PRESSURE) --move.PP;
-    }
-    public static Modifier TintedLens(DefContext def)
-    {
-      const int TINTED_LENS = 110;
-      return (Modifier)(def.EffectRevise < 0 && def.AtkContext.Attacker.Ability.Id == TINTED_LENS ? 0x2000 : 0x1000);
-    }
-    public static Modifier FriendGuard(DefContext def)
-    {
-      const int FRIEND_GUARD = 132;
-      Modifier m = 0x1000;
-      foreach (PokemonProxy pm in def.Defender.Controller.GetOnboardPokemons(def.Defender.Pokemon.TeamId))
-        if (pm != def.Defender && pm.Ability.Id == FRIEND_GUARD) m *= 0xC00;
-      return m;
-    }
-    public static Modifier Sniper(DefContext def)
-    {
-      const int SNIPER = 97;
-      return (Modifier)(def.IsCt && def.AtkContext.Attacker.Ability.Id == SNIPER ? 0x1800 : 0x1000);
-    }
-    public static Modifier FilterSolidRock(DefContext def)
-    {
-      const int FILTER = 111, SOLID_ROCK = 116;
-      if (def.EffectRevise > 0)
-      {
-        int id = def.Ability.Id;
-        if (id == FILTER || id == SOLID_ROCK) return 0xC00;
-      }
-      return 0x1000;
     }
     public static void Withdrawn(PokemonProxy pm, int ability)
     {
@@ -311,11 +286,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         def.Defender.AddReportPm("TypeChange", def.AtkContext.Type);
       }
     }
-    public static Modifier Multiscale(DefContext def)
-    {
-      const int MULTISCALE = 136;
-      return (Modifier)(def.Ability.Id == MULTISCALE && def.Defender.Hp == def.Defender.Pokemon.Hp.Origin ? 0x800 : 0x1000);
-    }
     public static Modifier Hustle(AtkContext atk)
     {
       return (Modifier)(atk.Attacker.Ability.Id == HUSTLE && atk.Move.Category == MoveCategory.Physical ? 0x1800 : 0x1000);
@@ -399,7 +369,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         if (atk.Type == BattleType.Electric) ab = LIGHTNINGROD;
         else if (atk.Type == BattleType.Water) ab = STORM_DRAIN;
         if (ab != 0)
-          foreach (var pm in atk.Controller.OnboardPokemons)
+          foreach (var pm in atk.Controller.Board.Pokemons)
             if (pm.Ability.Id == ab)
             {
               if (pm != atk.Target.Defender)
@@ -419,6 +389,24 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       int id = ability.Id;
       if (id == LIMBER || id == OBLIVIOUS || id == IMMUNITY || id == INSOMNIA || id == OWN_TEMPO || id == MAGMA_ARMOUR || id == WATER_VEIL || id == VITAL_SPIRIT)
         ability.Attach(pm);
+    }
+    internal static Modifier DamageFinalModifier(DefContext def)
+    {
+      const int MULTISCALE = 136, TINTED_LENS = 110, FRIEND_GUARD = 132, SNIPER = 97, FILTER = 111, SOLID_ROCK = 116;
+      var der = def.Defender;
+      int aa = def.AtkContext.Attacker.Ability.Id, da = def.Ability.Id;
+      //If the target's ability is Multiscale and the target is at full health.
+      Modifier m = (Modifier)(da == MULTISCALE && der.Hp == der.Pokemon.Hp.Origin ? 0x800 : 0x1000);
+      //If the user's ability is Tinted Lens and the move wasn't very effective.
+      if (def.EffectRevise < 0 && aa == TINTED_LENS) m *= 0x2000;
+      //If one of the target's allies' ability is Friend Guard.
+      foreach (PokemonProxy pm in der.Controller.GetOnboardPokemons(der.Pokemon.TeamId))
+        if (pm != der && pm.Ability.Id == FRIEND_GUARD) m *= 0xC00;
+      //If user has ability Sniper and move was a critical hit.
+      if (def.IsCt && aa == SNIPER) m *= 0x1800;
+      //If the target's ability is Solid Rock or Filter and the move was super effective.
+      if (def.EffectRevise > 0 && (da == FILTER || da == SOLID_ROCK)) m *= 0xC00;
+      return m;
     }
     #endregion
   }

@@ -90,7 +90,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Recycle(278));
       M(new Revenge(279));
       M(new BrickBreak(280));
-      M(new KnockOff(282));
+      M(new RemoveItem(282, false, "KnockOff"));
       M(new Spout(284));
       M(new SkillSwap(285));
       M(new Snatch(289));
@@ -103,10 +103,14 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Leap(340, CoordY.Air));//bounce
       M(new Thief(343));//covet
       M(new FSDD(353));
+      M(new Gravity(356));
       M(new GyroBall(360));
       M(new Feint(364));
+      M(new NaturalGift(363));
+      M(new EatDefenderBerry(365));
       M(new Acupressure(367));
       M(new Counter(368, "Damage", 0x1800));
+      M(new Fling(374));
       M(new TrumpCard(376));
       M(new WringOut(378));
       M(new MeFirst(382));
@@ -117,6 +121,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Revenge(419));//avalanche
       M(new GrassKnot(447));
       M(new Chatter(448));
+      M(new EatDefenderBerry(450));
       M(new WringOut(462));
       M(new Leap(467, CoordY.Another));//shadow
       M(new WonderRoom(472));
@@ -130,6 +135,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new SLevel(500, 20));//stored power
       M(new Hex(506));
       M(new AttackAndForceSwitch(509));//circle throw
+      M(new RemoveItem(510, true, "Incinerate"));
       M(new Acrobatics(512));
       M(new AttackAndForceSwitch(525));//dragon tail
       M(new HeavySlam(535));

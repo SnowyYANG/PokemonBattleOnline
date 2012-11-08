@@ -42,7 +42,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DLock</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:e}不能下降！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>NoEffect</a:Key><a:Value i:type="LogText"><text>对{0:p}完全没有效果...
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Miss</a:Key><a:Value i:type="LogText"><text>没有打中{0:p}！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>AntiBerry</a:Key><a:Value i:type="LogText"><text>{1:i}下降了给予{0:p}的伤害！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Antiberry</a:Key><a:Value i:type="LogText"><text>{1:i}下降了给予{0:p}的伤害！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>FormChange</a:Key><a:Value i:type="LogText"><text>{0:p}的形态改变了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>TurnLeft</a:Key><a:Value i:type="LogText"><text>{0}的精灵向左旋转了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>TurnRight</a:Key><a:Value i:type="LogText"><text>{0}的精灵向右旋转了！
@@ -218,8 +218,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SelfWithdraw</a:Key><a:Value i:type="LogText"><text>{0:pm.Name}回到了{0:pm.Owner.Name}身边！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>PowerTrick</a:Key><a:Value i:type="LogText"><text>{0:p}的攻击和防御交换了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EatDefenderBerry</a:Key><a:Value i:type="LogText"><text>{0:p}夺取了{1:i}，开始吃了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Fling</a:Key><a:Value i:type="LogText"><text>{0:p}把{1:m}扔出去了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Defog</a:Key><a:Value i:type="LogText"><text>{0:p}把{1:m}吹跑了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Fling</a:Key><a:Value i:type="LogText"><text>{0:p}把{1:i}扔出去了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnSubstitute</a:Key><a:Value i:type="LogText"><text>{0:p}的替身出现了！</text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>HasSubstitute</a:Key><a:Value i:type="LogText"><text>但是{0:p}的替身已经出现了……
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HurtSubstitute</a:Key><a:Value i:type="LogText"><text>{0:p}的替身承受了攻击！
@@ -247,7 +246,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnHealBlock</a:Key><a:Value i:type="LogText"><text>{0:p}的回复动作被封印了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeHealBlock</a:Key><a:Value i:type="LogText"><text>{0:p}的回复封印解除了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HealBlock</a:Key><a:Value i:type="LogText"><text>{0:p}因为回复封印无法回复!
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HealBlock2</a:Key><a:Value i:type="LogText"><text>{0:p}因为回复封印无法使用{1:m}!
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HealBlockCantUseMove</a:Key><a:Value i:type="LogText"><text>{0:p}因为回复封印无法使用{1:m}!
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>FullHp</a:Key><a:Value i:type="LogText"><text>但是{0:p}体力充沛!
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>TypeChange</a:Key><a:Value i:type="LogText"><text>{0:p}变成了{1:e}属性！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HpAbosorb</a:Key><a:Value i:type="LogText"><text>从{0:p}那里吸取了体力！</text></a:Value></a:KeyValueOfstringanyType>
@@ -285,8 +284,8 @@
 <a:KeyValueOfstringanyType><a:Key>EnFSDD248</a:Key><a:Value i:type="LogText"><text>{0:p}预知了未来的攻击！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnFSDD353</a:Key><a:Value i:type="LogText"><text>{0:p}将破灭之愿托付给了未来！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>FSDD</a:Key><a:Value i:type="LogText"><text>{0:p}受到了{1:m}的攻击！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Gravity1</a:Key><a:Value i:type="LogText"><text>{0:p}受到重力的影响，不能漂浮在空中了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Gravity2</a:Key><a:Value i:type="LogText"><text>{0:p}因为重力太强，使不出{1:m}！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Gravity</a:Key><a:Value i:type="LogText"><text>{0:p}受到重力的影响，不能漂浮在空中了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GravityCantUseMove</a:Key><a:Value i:type="LogText"><text>{0:p}因为重力太强，使不出{1:m}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ReflectType</a:Key><a:Value i:type="LogText"><text>{0:p}的属性变成和{1:p}一样的了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>PowerSplit</a:Key><a:Value i:type="LogText"><text>{0:p}和{1:p}共享了力量！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GuardSplit</a:Key><a:Value i:type="LogText"><text>{0:p}和{1:p}共享了防御！
@@ -303,7 +302,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnTelekinesis</a:Key><a:Value i:type="LogText"><text>{0:p}漂浮在空中！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeTelekinesis</a:Key><a:Value i:type="LogText"><text>{0:p}被从念动力中释放了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>FireSea</a:Key><a:Value i:type="LogText"><text>{0:p}受到了火海的伤害！</text></a:Value></a:KeyValueOfstringanyType>
-<a:KeyValueOfstringanyType><a:Key>Fail0</a:Key><a:Value i:type="LogText"><text>但是没能成功！
+<a:KeyValueOfstringanyType><a:Key>Fail0</a:Key><a:Value i:type="LogText"><text>但是没能成功！！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SuperHurt0</a:Key><a:Value i:type="LogText"><text>效果拔群!
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>WeakHurt0</a:Key><a:Value i:type="LogText"><text>没有什么效果...
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ConfuseWork</a:Key><a:Value i:type="LogText"><text>不知为什么攻击了自己！</text></a:Value></a:KeyValueOfstringanyType>
@@ -377,5 +376,6 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeZenMode</a:Key><a:Value i:type="LogText"><text>{0:p}的不倒翁模式解除！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ForceWithdraw</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>（{0:p}强制下场）
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SkillSwapDetail</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>（{0:p}的特性变成了{1:a}）
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Chatter</a:Key><a:Value i:type="LogText"><text>（{0:p}：{0:pm.Chatter}）
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Ability</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:a}——</text></a:Value></a:KeyValueOfstringanyType>
 </logs></GameLogs>

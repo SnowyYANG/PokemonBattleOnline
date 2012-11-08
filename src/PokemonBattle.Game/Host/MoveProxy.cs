@@ -44,8 +44,12 @@ namespace LightStudio.PokemonBattle.Game.Host
     /// <returns>key, null if no problem</returns>
     internal SelectMoveFail IfSelected()
     { 
-      //事件事件事件...
-      //return PP > 0; //这是不真实的，PP>0才不告诉客户端呢你自己猜去吧！
+      //专爱鼓掌
+      //寻衅
+      //封印
+      //残废
+      //回复封印
+      //吵闹
       return null;
     }
 
@@ -81,7 +85,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         }
         PP--;
       }
-      return true;
+      return Sp.Triggers.CanExecuteMove(Owner, Type);
     }
   }
 }

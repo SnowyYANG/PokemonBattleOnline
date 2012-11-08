@@ -12,9 +12,14 @@ namespace LightStudio.PokemonBattle.Data
       return name == null || name.Length < 11 && !name.Any((c) => c == '\n' || c == '\r' || c == '\t');
     }
 
-    public static bool ValidateLv(int value)
+    public static bool Shiney(IPokemonData pm, int random)
     {
-      return value > 0 && value <= 100;
+      return random % 1366 == 0;
+    }
+
+    public static bool ValidateLv(IPokemonData pm, int lv)
+    {
+      return 0 < pm.Lv && pm.Lv <= 100;
     }
 
     public static bool ValidateAbility(IPokemonData pm)
@@ -48,7 +53,7 @@ namespace LightStudio.PokemonBattle.Data
         pm.Form != null &&
         ValidateAbility(pm) &&
         ValidateEv(pm.Ev) &&
-        ValidateLv(pm.Lv) &&
+        ValidateLv(pm, pm.Lv) &&
         ValidateIv(pm.Iv) &&
         ValidateMoves(pm);
     }

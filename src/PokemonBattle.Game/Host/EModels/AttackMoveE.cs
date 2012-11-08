@@ -73,7 +73,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         {
           def.Defender.Controller.ReportBuilder.Add("OHKO");
           def.Damage = def.Defender.Hp;
-          MoveHurts e = new MoveHurts();
+          MoveHurt e = new MoveHurt();
           def.Defender.Controller.ReportBuilder.Add(e);
           def.Defender.MoveHurt(def);
           e.SetHurt(defs);
@@ -87,15 +87,12 @@ namespace LightStudio.PokemonBattle.Game.Host
         PokemonProxy a = atk.Attacker;
         bool allSub = true;
         if (!Move.Flags.IgnoreSubstitute)
-        {
-          foreach (DefContext d in defs)
-            if (!Sp.Conditions.Substitute.Hurt(d)) allSub = false;
-        }
+          foreach (DefContext d in defs) allSub &= Sp.Conditions.Substitute.Hurt(d);
         if (!allSub)
         {
           foreach (DefContext d in defs)
-            if (d.Defender.UsingItem) d.Defender.RaiseItem();
-          MoveHurts e = new MoveHurts();
+            if (d.RemoveCondition("Antiberry")) d.Defender.RaiseItem();
+          MoveHurt e = new MoveHurt();
           a.Controller.ReportBuilder.Add(e);
           foreach (DefContext d in defs)
           {
@@ -237,32 +234,13 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (def.EffectRevise > 0) def.Damage <<= def.EffectRevise;
       else if (def.EffectRevise < 0) def.Damage >>= -def.EffectRevise;
       //7.Alter with user's burn
-      if (Move.Category == MoveCategory.Physical && aer.State == PokemonState.BRN && !aer.Ability.Guts())
-        def.Damage >>= 1;
+      if (Move.Category == MoveCategory.Physical && aer.State == PokemonState.BRN && !aer.Ability.Guts()) def.Damage >>= 1;
       //8.Make sure damage is at least 1
       if (def.Damage < 1) def.Damage = 1;
       //9.Apply the final modifier
-      {
-        Modifier m = Sp.Conditions.LightScreenReflect.DamageFinalModifier(def);
-        //If the target's ability is Multiscale and the target is at full health.
-        m *= Abilities.Multiscale(def);
-        //If the user's ability is Tinted Lens and the move wasn't very effective.
-        m *= Abilities.TintedLens(def);
-        //If one of the target's allies' ability is Friend Guard.
-        m *= Abilities.FriendGuard(def);
-        //If user has ability Sniper and move was a critical hit.
-        m *= Abilities.Sniper(def);
-        //If the target's ability is Solid Rock or Filter and the move was super effective.
-        m *= Abilities.FilterSolidRock(def);
-        //metronome expertbelt lifeorb
-        m *= Items.DamageFinalModifier(def);
-        //If the target is holding a damage lowering berry of the attack's type.
-        m *= def.Defender.Item.DamageFinalModifier(def);
-
-        def.Damage *= (m * DamageFinalModifier(def));
-      }
+      def.Damage *= Triggers.DamageFinalModifier(def, DamageFinalModifier(def));
     }
-    protected virtual Modifier DamageFinalModifier(DefContext def)
+    protected internal virtual Modifier DamageFinalModifier(DefContext def)
     { return 0x1000; }
     protected virtual void ImplementEffect(DefContext def)
     {

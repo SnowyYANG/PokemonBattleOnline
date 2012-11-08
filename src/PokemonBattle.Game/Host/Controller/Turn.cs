@@ -34,9 +34,8 @@ namespace LightStudio.PokemonBattle.Game.Host
         OnboardPokemons[i] = OnboardPokemons[j];
         OnboardPokemons[j] = temp;
       }
-      OnboardPokemons = new List<PokemonProxy>(OnboardPokemons.OrderBy((pm) => pm, comparer));
-      foreach (var pm in OnboardPokemons)
-        if (pm.UsingItem) Sp.Items.RaiseItem(pm);
+      foreach (var p in Board.Pokemons) p.ItemSpeedValue = p.Item.CompareValue(p);
+      OnboardPokemons = OnboardPokemons.OrderBy((pm) => pm, comparer).ToList();
     }
     private void SortTiles()
     {
@@ -141,6 +140,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (Controller.TurnNumber != 0)
       {
         SortTiles();
+        OnboardPokemons = Tiles.Select((t) => t.Pokemon).ToList();
         EffectsService.EndTurn.Execute(Controller);
         ReportBuilder.AddHorizontalLine();
       }

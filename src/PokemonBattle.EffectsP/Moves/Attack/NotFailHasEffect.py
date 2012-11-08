@@ -8,7 +8,7 @@ class SuckerPunch(AttackMoveE):
         if MoveE.NotFail(self, a):
             der = a.Target.Defender
             mp = der.SelectedMove
-            return der.LastMoveTurn != der.Controller.TurnNumber and mp != None and mp.Move.Type.Category != MoveCategory.Status
+            return not (der.LastMoveTurn == der.Controller.TurnNumber or mp == None or mp.Move.Type.Category == MoveCategory.Status)
         return False
 M(SuckerPunch(389))
 

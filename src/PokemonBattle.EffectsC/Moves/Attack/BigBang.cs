@@ -10,19 +10,21 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
 {
   class BigBang : AttackMoveE
   {
-    public BigBang(int id)
-      : base(id)
-    {
-    }
-    private void Suicide(PokemonProxy pm)
+    private static void Suicide(PokemonProxy pm)
     {
       pm.Pokemon.SetHp(0);
       pm.Controller.ReportBuilder.Add(new GameEvents.HpChange(pm, null));
       pm.CheckFaint();
     }
+
+    public BigBang(int id)
+      : base(id)
+    {
+    }
+
     public override void Execute(AtkContext atk)
     {
-      if (atk.Controller.OnboardPokemons.Any((p) => p.RaiseAbility(As.DAMP))) FailAll(atk, "FailSp", atk.Attacker.Id, Move.Id);
+      if (atk.Controller.Board.Pokemons.Any((p) => p.RaiseAbility(As.DAMP))) FailAll(atk, "FailSp", atk.Attacker.Id, Move.Id);
       else
       {
         base.Execute(atk);

@@ -531,7 +531,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         pm.CheckFaint();
       }
     }
-    //27.0 Zen Mode
+    //27.0 [unfinish]Zen Mode
     private void ZenMode(Controller c)
     {
     }

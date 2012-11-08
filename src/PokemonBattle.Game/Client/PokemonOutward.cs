@@ -35,6 +35,8 @@ namespace LightStudio.PokemonBattle.Game
     
     [DataMember(EmitDefaultValue = false)]
     public readonly bool Shiny;
+    [DataMember(EmitDefaultValue = false)]
+    public readonly string Chatter;
     [DataMember]
     internal readonly int Id;
     [DataMember]
@@ -58,13 +60,17 @@ namespace LightStudio.PokemonBattle.Game
       {
         Name = pm.Pokemon.Name;
         Form = pm.OnboardPokemon.Form;
-        Gender = pm.OnboardPokemon.Gender;
+        Gender = pm.Pokemon.Gender;//即使对战画面中不显示性别，实际性别也与变身对象一致，可以被着迷。 
+        Chatter = pm.Pokemon.Chatter;
+        Shiny = pm.Pokemon.Shiny;
       }
       else
       {
         Name = o.Name;
         Form = o.Form;
         Gender = o.Gender;
+        Chatter = o.Chatter;
+        Shiny = o.Shiny;
       }
     }
     #endregion
@@ -272,6 +278,9 @@ namespace LightStudio.PokemonBattle.Game
           break;
         case "Owner.Name":
           r = Owner.Name;
+          break;
+        case "Chatter":
+          r = Chatter;
           break;
       }
       return r;

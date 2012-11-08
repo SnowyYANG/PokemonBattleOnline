@@ -62,7 +62,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       return !a.SheerForce() && Controller.RandomHappen(a.SereneGrace() ? percentage *= 3 : percentage);
     }
   }
-  public class DefContext
+  public class DefContext : ConditionalObject
   {
     public readonly AtkContext AtkContext;
     public readonly PokemonProxy Defender;

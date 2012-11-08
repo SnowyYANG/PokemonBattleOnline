@@ -1,6 +1,12 @@
 class Judgment(AttackMoveE):
     def CalculateType(self, a):
-        a.Type = Items.PlateType(a.Attacker.Pokemon.Item)
+        item = a.Attacker.Pokemon.Item
+        if item != None:
+            i = item.Id
+            if 74 <= i and i < 91:
+                a.Type = BattleTypeHelper.GetItemType(item.Id, 75)
+                return
+        a.Type = BattleType.Normal
 M(Judgment(449))
 
 class FusionFlare(AttackMoveE):

@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     MoveAttached,
     Switching,
     Moving,
-    Done,
     Stiff,
+    Done
   }
 }

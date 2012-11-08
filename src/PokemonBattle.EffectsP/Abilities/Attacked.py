@@ -55,7 +55,7 @@ class Aftermath(t_a):
     def TA(self, d):
         if d.Defender.Hp == 0 and d.AtkContext.Attacker.CanEffectHurt:
             for pm in d.AtkContext.Controller.OnboardPokemons:
-                if pm.Ability.Id == Abilities.DAMP:
+                if pm.Ability.Id == 6: #damp
                     return
             self.Raise(d.Defender)
             d.AtkContext.Attacker.EffectHurtByOneNth(4, 'Hurt', 0, 0)
@@ -90,7 +90,7 @@ A(WeakArmor(133))
 class Mummy(t_a):
     def TA(self, d):
         ab = d.AtkContext.Attacker.OnboardPokemon.Ability
-        if ab != Abilities.MULTITYPE and ab != 152:
+        if ab != 121 and ab != 152: #multitype
             self.Raise(d.Defender)
             d.AtkContext.Attacker.ChangeAbility(152, 'SetAbility')
 A(Mummy(152))

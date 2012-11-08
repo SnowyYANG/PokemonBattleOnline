@@ -18,6 +18,6 @@ namespace LightStudio.PokemonBattle.Game.Host
   }
   public interface IIsGroundAffectable : ITrigger
   {
-    bool Execute(PokemonProxy pm, bool abilityAvailable, bool raiseAbility);
+    bool Execute(PokemonProxy pm, bool abilityAvailable, bool raiseAbility, bool groundAvailable = true);
   }
 }

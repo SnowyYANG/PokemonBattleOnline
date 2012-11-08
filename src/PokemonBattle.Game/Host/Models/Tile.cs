@@ -11,13 +11,12 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     public readonly Field Field;
     public readonly int X;
-    private int speed;
 
     internal Tile(Field team, int x, IGameSettings gameSettings)
     {
       Field = team;
       X = x;
-      speed = (Team << 3) + x;
+      _speed = (Team << 3) + x;
       WillSendoutPokemonIndex = gameSettings.Mode.GetPokemonIndex(x);
     }
 
@@ -28,13 +27,13 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     public int WillSendoutPokemonIndex
     { get; internal set; }
+    private int _speed;
     public int Speed
     { 
       get
       {
-        if (Pokemon != null)
-          speed = Pokemon.Speed;
-        return speed;
+        if (Pokemon != null) _speed = Pokemon.Speed;
+        return _speed;
       }
     }
 

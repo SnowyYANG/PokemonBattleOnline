@@ -13,7 +13,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
   {
     public bool Execute(PokemonProxy pm)
     {
-      //鼓掌计数器递减？
       return
         Sleeping(pm) &&
         Frozen(pm) &&
@@ -23,8 +22,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         HealBlock(pm) &&
         Confuse(pm) &&
         Flinch(pm) &&
-          //挑拨 
-          //重力  
+        Taunt(pm) && 
+        Gravity(pm) &&  
         Attract(pm) &&
         Paralyzed(pm) &&
         FocusPunch(pm);
@@ -113,7 +112,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     {
       if (pm.SelectedMove.Move.Type.Flags.IsHeal && pm.OnboardPokemon.HasCondition("HealBlock"))
       {
-        AddResetYReport(pm, "HealBlock2", pm.SelectedMove.Move.Type.Id);
+        AddResetYReport(pm, "HealBlockCantUseMove", pm.SelectedMove.Move.Type.Id);
         return false;
       }
       return true;
@@ -151,6 +150,24 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       {
         AddResetYReport(pm, "Flinch");
         if (pm.RaiseAbility(As.STEADFAST)) pm.ChangeLv7D(pm, false, 0, 0, 0, 0, 1);
+        return false;
+      }
+      return true;
+    }
+    private static bool Taunt(PokemonProxy p)
+    {
+      if (p.SelectedMove.Type.Category == MoveCategory.Status && p.OnboardPokemon.HasCondition("Taunt"))
+      {
+        AddResetYReport(p, "Taunt", p.SelectedMove.Type.Id);
+        return false;
+      }
+      return true;
+    }
+    private static bool Gravity(PokemonProxy p)
+    {
+      if (p.SelectedMove.Type.Flags.UnavailableWithGravity && p.Controller.Board.HasCondition("Gravity"))
+      {
+        AddResetYReport(p, "GravityCantUseMove", p.SelectedMove.Type.Id);
         return false;
       }
       return true;

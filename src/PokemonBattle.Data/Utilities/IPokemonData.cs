@@ -17,6 +17,7 @@ namespace LightStudio.PokemonBattle.Data
     int Happiness { get; }
     I6D Iv { get; }
     I6D Ev { get; }
+    string Chatter { get; }
     IEnumerable<int> MoveIds { get; }
   }
 }

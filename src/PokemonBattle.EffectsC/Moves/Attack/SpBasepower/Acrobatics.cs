@@ -15,8 +15,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
 
     protected override void CalculateBasePower(DefContext def)
     {
-      if (def.AtkContext.Attacker.Pokemon.Item == null || def.AtkContext.Attacker.UsingItem) def.BasePower = 110;
-      else def.BasePower = 55;
+      def.BasePower = def.AtkContext.Attacker.Pokemon.Item == null ? 110 : 55;
     }
   }
 }

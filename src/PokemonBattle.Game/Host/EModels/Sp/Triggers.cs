@@ -9,7 +9,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
 {
   public static class Triggers
   {
-    public static Modifier PowerModifier(DefContext def, Func<DefContext, Modifier> movePowerModifier)
+    internal static Modifier PowerModifier(DefContext def, Func<DefContext, Modifier> movePowerModifier)
     {
       var atk = def.AtkContext;
       var c = def.Defender.Controller;
@@ -28,6 +28,23 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         m *= 0x800;
 
       return m;
+    }
+    internal static Modifier DamageFinalModifier(DefContext def, Modifier move)
+    {
+      //If the target's side is affected by Reflect, the move used was physical, the user's ability isn't Infiltrator and the critical hit flag isn't set. 
+      //The value of the modificator is 0xA8F if there is more than one Pokemon per side of the field and 0x800 otherwise.
+      //Same as above with Light Screen and special moves.
+      Modifier m = (Modifier)(
+        def.AtkContext.Move.Category == MoveCategory.Physical && def.HasInfiltratableCondition("Reflect") ||
+        def.AtkContext.Move.Category == MoveCategory.Special && def.HasInfiltratableCondition("LightScreen") ?
+        def.AtkContext.MultiTargets ? 0xA8F : 0x800 : 0x1000);
+      //multiscale tinedlens friendguard sniper filter solidrock
+      m *= Abilities.DamageFinalModifier(def);
+      //metronome expertbelt lifeorb
+      m *= Items.DamageFinalModifier(def);
+      //If the target is holding a damage lowering berry of the attack's type.
+      m *= def.Defender.Item.DamageFinalModifier(def);
+      return m * move;
     }
     public static void KOed(DefContext def, OnboardPokemon o)
     {
@@ -52,6 +69,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       pm.OnboardPokemon.RemoveCondition("DestinyBond");
       pm.OnboardPokemon.RemoveCondition("Grudge");
       pm.OnboardPokemon.RemoveCondition("Rage");
+      var i = pm.OnboardPokemon.GetCondition<int>("Taunt");
+      if (i != 0) pm.OnboardPokemon.SetCondition("Taunt", i - 1);
+      var o = pm.OnboardPokemon.GetCondition("Encore");
+      if (o != null) o.Turn--;
     }
     public static void SendingOut(PokemonProxy pm)
     {
@@ -180,6 +201,22 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         return true;
       }
       return false;
+    }
+    public static bool CanExecuteMove(PokemonProxy pm, MoveType move)
+    {
+      //重力
+      if (move.Flags.UnavailableWithGravity && pm.Controller.Board.HasCondition("Gravity"))
+      {
+        pm.AddReportPm("GravityCantUseMove", move.Id);
+        return false;
+      }
+      //回复封印
+      if (move.Flags.IsHeal && pm.OnboardPokemon.HasCondition("HealBlock"))
+      {
+        pm.AddReportPm("HealBlockCantUseMove", move.Id);
+        return false;
+      }
+      return true;
     }
   }
 }

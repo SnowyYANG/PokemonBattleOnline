@@ -61,12 +61,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Items
 
     private bool Act(OnboardPokemon pm, string condition)
     {
-      if (pm.HasCondition(condition))
-      {
-        pm.RemoveCondition(condition);
-        return true;
-      }
-      return false;
+      return pm.RemoveCondition(condition);
     }
     private void Act(PokemonProxy pm)
     {

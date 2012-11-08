@@ -21,8 +21,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
       if (atk.GetCondition("MultiTurn").Turn == 3)
       {
         atk.Attacker.AddReportPm("EnUproar");
-        foreach (var t in atk.Controller.Board.Tiles)
-          if (t.Pokemon != null && t.Pokemon.State == PokemonState.SLP) t.Pokemon.DeAbnormalState();
+        foreach (var p in atk.Controller.Board.Pokemons)
+          if (p.State == PokemonState.SLP) p.DeAbnormalState();
       }
       base.Act(atk);
     }

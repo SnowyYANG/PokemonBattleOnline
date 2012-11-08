@@ -41,7 +41,6 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     #region Data
     public PokemonAction Action;
-    public bool UsingItem;
     public Tile Tile
     { get { return Controller.Board[Pokemon.TeamId][OnboardPokemon.X]; } }
     public int Id
@@ -67,7 +66,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public AbilityE Ability
     { get { return OnboardPokemon == NullOnboardPokemon || OnboardPokemon.HasCondition("GastroAcid") ? EffectsService.NULL_ABILITY : EffectsService.GetAbility(OnboardPokemon.Ability); } }
     public ItemE Item
-    { get { return OnboardPokemon == NullOnboardPokemon || OnboardPokemon.HasCondition("Detain") || Controller.Board.HasCondition("MagicRoom") || Ability.Klutz() ? EffectsService.NULL_ITEM : EffectsService.GetItem(Pokemon.Item); } }
+    { get { return OnboardPokemon != NullOnboardPokemon && CanUseItem ? EffectsService.GetItem(Pokemon.Item) : EffectsService.NULL_ITEM; } }
     private MoveProxy[] moves;
     public IEnumerable<MoveProxy> Moves
     { get { return moves; } }
@@ -110,7 +109,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public void ChangeItem(int item, string log, PokemonProxy formerOwner = null, bool attach = true) //lost and found
     {
-      UsingItem = false;
       Pokemon.Item = GameDataService.GetItem(item);
       Controller.ReportBuilder.Add(new GetItem(this, log, formerOwner));
       if (attach) Item.Attach(this);
@@ -194,6 +192,8 @@ namespace LightStudio.PokemonBattle.Game.Host
           );
       }
     }
+    public bool CanUseItem
+    { get { return !(OnboardPokemon.HasCondition("Detain") || Controller.Board.HasCondition("MagicRoom") || Ability.Klutz()); } }
     private bool CanExecute()
     {
       OnboardPokemon.CoordY = CoordY.Plate;
@@ -326,12 +326,13 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     #endregion
 
+    #region internal
     #region Input
     internal bool CanInput
     { get { return Action == PokemonAction.WaitingForInput; } }
     internal bool CheckNeedInput()
     {
-      if (Action == PokemonAction.Done)
+      if (Action == PokemonAction.Done || State == PokemonState.SLP && Action == PokemonAction.Moving && AtkContext.Move.SkipSleepMTA())
       {
         Action = PokemonAction.WaitingForInput;
         return true;
@@ -360,8 +361,8 @@ namespace LightStudio.PokemonBattle.Game.Host
       return false;
     }
     #endregion
-
-    #region internal
+    #region Turn
+    internal int ItemSpeedValue;
     internal void Debut()
     {
       if (Action == PokemonAction.Debuting)
@@ -450,6 +451,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       return new PokemonOutward(this);
     }
+    #endregion
     #endregion
 
     #region ChangeHp

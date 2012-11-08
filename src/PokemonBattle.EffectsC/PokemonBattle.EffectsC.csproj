@@ -64,8 +64,11 @@
     <Compile Include="Moves\Attack\ImplementEffect\Chatter.cs" />
     <Compile Include="Moves\Attack\ImplementEffect\SecretPower.cs" />
     <Compile Include="Moves\Attack\ImplementEffect\TriAttack.cs" />
+    <Compile Include="Moves\Attack\Item\EatDefenderBerry.cs" />
+    <Compile Include="Moves\Attack\Item\Fling.cs" />
+    <Compile Include="Moves\Attack\Item\NaturalGift.cs" />
     <Compile Include="Moves\Attack\JumpKick.cs" />
-    <Compile Include="Moves\Attack\ImplementEffect\KnockOff.cs" />
+    <Compile Include="Moves\Attack\Item\RemoveItem.cs" />
     <Compile Include="Moves\Attack\MultiTurn\Attack5Turns.cs" />
     <Compile Include="Moves\Attack\MultiTurn\Bide.cs" />
     <Compile Include="Moves\Attack\MultiTurn\RandomMTA.cs" />
@@ -110,6 +113,7 @@
     <Compile Include="Moves\Status\Conversion.cs" />
     <Compile Include="Moves\Status\Conversion2.cs" />
     <Compile Include="Moves\Status\Curse.cs" />
+    <Compile Include="Moves\Status\Gravity.cs" />
     <Compile Include="Moves\Status\HealBell.cs" />
     <Compile Include="Moves\Status\PainSplit.cs" />
     <Compile Include="Moves\Status\Recycle.cs" />

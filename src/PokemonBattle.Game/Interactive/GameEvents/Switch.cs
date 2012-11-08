@@ -33,6 +33,10 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
         Game.Board.PokemonSentout(Game, p.Position.Team, p.Position.X);
       }
       AppendGameLog(Log ?? "SendOut" + Pms.Length, Pms.Select((p) => p.Id).ToArray());
+      foreach (PokemonOutward p in Pms)
+      {
+        //if (p.Cha
+      }
     }
     public override void Update(SimGame game)
     {
