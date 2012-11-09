@@ -140,7 +140,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (Controller.TurnNumber != 0)
       {
         SortTiles();
-        OnboardPokemons = Tiles.Select((t) => t.Pokemon).ToList();
+        OnboardPokemons = Tiles.Where((t) => t.Pokemon != null).Select((t) => t.Pokemon).ToList();
         EffectsService.EndTurn.Execute(Controller);
         ReportBuilder.AddHorizontalLine();
       }

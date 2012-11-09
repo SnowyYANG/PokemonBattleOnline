@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Game.GameEvents;
+using LightStudio.PokemonBattle.Game.Host.Sp;
+using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
@@ -31,7 +33,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public bool HasUsed
     { get; internal set; }
 
-    public Data.MoveType Type
+    public MoveType Type
     { get { return Move.Type; } }
     public int Priority
     { get { return Move.Type.Priority; } }
@@ -43,18 +45,38 @@ namespace LightStudio.PokemonBattle.Game.Host
     /// </summary>
     /// <returns>key, null if no problem</returns>
     internal SelectMoveFail IfSelected()
-    { 
-      //专爱鼓掌
+    {
+      var op = Owner.OnboardPokemon;
+      //专爱
+      if (Owner.Item.ChoiceItem())
+      {
+        var o = op.GetCondition<MoveType>("ChoiceItem");
+        if (o != null && o != Type) return new SelectMoveFail("ChoiceItem", o.Id);
+      }
       //寻衅
+      if (op.HasCondition("Torment") && Owner.AtkContext != null && Owner.AtkContext.MoveProxy.Type == Type) return new SelectMoveFail("TormentCantUseMove", Owner.AtkContext.MoveProxy.Type.Id);
+      //鼓掌
+      if (op.HasCondition("Encore") && Owner.AtkContext != null && Owner.AtkContext.MoveProxy.Type != Type) return new SelectMoveFail("Encore", Owner.AtkContext.MoveProxy.Type.Id);
       //封印
+      foreach (var pm in Owner.Controller.Board[1 - Owner.Pokemon.TeamId].Pokemons)
+        if (pm.OnboardPokemon.HasCondition("Imprison"))
+          foreach (var m in pm.Moves)
+            if (m.Type == Type) return new SelectMoveFail("Imprison", Type.Id);
       //残废
+      {
+        var o = op.GetCondition("Disable");
+        if (o != null && o.Move == Type) return new SelectMoveFail("Disable", Type.Id);
+      }
+      //重力
+      if (Type.Flags.UnavailableWithGravity && Owner.Controller.Board.HasCondition("Gravity")) return new SelectMoveFail("GravityCantUseMove", Type.Id);
       //回复封印
-      //吵闹
+      if (Type.Flags.IsHeal && op.HasCondition("HealBlock")) return new SelectMoveFail("HealBlockCantUseMove", Type.Id);
       return null;
     }
 
     internal void Execute()
     {
+      if (Owner.Item.ChoiceItem()) Owner.OnboardPokemon.AddCondition("ChoiceItem", Type);
       var um = new UseMove(Owner, Type);
       Owner.Controller.ReportBuilder.Add(um);
       var e = EffectsService.GetMove(Type.Id);

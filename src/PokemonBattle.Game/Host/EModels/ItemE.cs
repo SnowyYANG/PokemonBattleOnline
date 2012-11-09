@@ -21,7 +21,7 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     public virtual int CompareValue(PokemonProxy pm) { return 0; }
     public virtual Modifier SModifier(PokemonProxy pm) { return 0x1000; }
-    public virtual Modifier AModifier(DefContext target) { return 0x1000; }
+    public virtual Modifier AModifier(AtkContext atk) { return 0x1000; }
     public virtual Modifier DModifier(DefContext def) { return 0x1000; }
     public virtual Modifier DamageFinalModifier(DefContext def) { return 0x1000; }
     public virtual Modifier PowerModifier(AtkContext atk) { return 0x1000; }

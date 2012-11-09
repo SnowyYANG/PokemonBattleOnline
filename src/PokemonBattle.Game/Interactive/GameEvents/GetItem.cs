@@ -28,7 +28,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
     protected override void Update()
     {
-      if (Key != null) AppendGameLog(Key ?? "GetItem", Pm, Item, Loster);
+      if (Key != null) AppendGameLog(Key, Pm, Item, Loster);
     }
     public override void Update(SimGame game)
     {

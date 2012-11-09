@@ -334,6 +334,31 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (Action == PokemonAction.Done || State == PokemonState.SLP && Action == PokemonAction.Moving && AtkContext.Move.SkipSleepMTA())
       {
+        if (Item.ChoiceItem())
+        {
+          var o = OnboardPokemon.GetCondition<MoveType>("ChoiceItem");
+          if (o != null)
+            foreach (var m in Moves)
+              if (m.Type == o)
+              {
+                if (m.PP == 0) OnboardPokemon.RemoveCondition("ChoiceItem");
+                goto OKCHOICEITEM;
+              }
+          OnboardPokemon.RemoveCondition("ChoiceItem");
+        }
+      OKCHOICEITEM:
+        if (OnboardPokemon.HasCondition("Encore") && AtkContext != null)
+        {
+          var move = AtkContext.MoveProxy.Type;
+          foreach(var m in Moves)
+            if (m.Type == move)
+            {
+              if (m.PP == 0) OnboardPokemon.RemoveCondition("Encore");
+              goto OKENCORE;
+            }
+          OnboardPokemon.RemoveCondition("Encore");
+        }
+      OKENCORE:
         Action = PokemonAction.WaitingForInput;
         return true;
       }

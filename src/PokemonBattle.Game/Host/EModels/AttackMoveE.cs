@@ -118,7 +118,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           else if (Move.MaxHpPercentage < 0) //拼命专用
           {
             var change = a.Pokemon.Hp.Origin * Move.MaxHpPercentage / 100;
-            a.Pokemon.SetHp(a.Hp + change == 0 ? -1 : change);
+            a.Pokemon.SetHp(a.Hp + (change == 0 ? -1 : change));
             a.OnboardPokemon.SetTurnCondition("Assurance");
             a.Controller.ReportBuilder.Add(new HpChange(a, "ReHurt"));
           }
@@ -188,7 +188,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         Modifier m = Abilities.ThickFat(def);
         m *= aer.Ability.AModifier(atk);
         m *= Abilities.FlowerGift(atk);
-        m *= aer.Item.AModifier(def);
+        m *= aer.Item.AModifier(atk);
         def.Damage *= a * m;
       }
       {

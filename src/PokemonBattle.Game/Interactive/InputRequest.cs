@@ -17,39 +17,21 @@ namespace LightStudio.PokemonBattle.Game
     }
 
     [DataMember(EmitDefaultValue = false)]
-#if DEBUG
-    public
-#endif
     int OnlyMove;
 
     [DataMember(EmitDefaultValue = false)]
-#if DEBUG
-    public
-#endif
     string Only; //choice/encore
 
     [DataMember(EmitDefaultValue = false)]
-#if DEBUG
-    public
-#endif
     string[] Block; //封印挑拨寻衅回复封印残废
 
     [DataMember(EmitDefaultValue = false)]
-#if DEBUG
-    public
-#endif
     bool CantWithdraw;
 
     [DataMember(EmitDefaultValue = false)]
-#if DEBUG
-    public
-#endif
     int CW_pm; //如果因为对方特性，但目前没试出显示特性的实例，逃跑似乎会显示特性交换不显示
 
     [DataMember(EmitDefaultValue = false)]
-#if DEBUG
-    public
-#endif
     int CW_a;
 
     internal PmInputRequest(PokemonProxy pm)
@@ -65,6 +47,7 @@ namespace LightStudio.PokemonBattle.Game
             if (f == null) struggle = false; //PP不为0且IfSelect为null肯定是可以选择了
             else
             {
+              if (Block == null) Block = new string[pm.Moves.Count()];
               if (f.Move == move.Type.Id) Block[i] = f.Key;
               else if (Only == null)
               {
@@ -114,10 +97,10 @@ namespace LightStudio.PokemonBattle.Game
       error = null;
       return r;
     }
-    private void SetErrorMessage(string key, int arg1)
+    private void SetErrorMessage(string key, string arg1, string arg2)
     {
-      var text = GameService.Logs[key].Clone(Game.Outward);
-      text.SetData(Pm.Pokemon.Name, arg1);
+      var text = GameService.Logs["subtitle_" + key].Clone(Game.Outward);
+      text.SetData(Pm.Pokemon.Name, arg1, arg2);
       error = text.Text;
     }
     /// <summary>
@@ -142,15 +125,15 @@ namespace LightStudio.PokemonBattle.Game
     /// <returns></returns>
     public bool Move(SimMove move)
     {
-      if (OnlyMove != 0 && OnlyMove != move.Type.Id)
-        SetErrorMessage(Only, OnlyMove);
-      else if (Block != null)
-        for (int i = 0; i < Pm.Moves.Length; ++i)
-          if (move == Pm.Moves[i])
-          {
-            if (Block[i] != null) SetErrorMessage(Block[i], move.Type.Id);
-            break;
-          }
+      if (OnlyMove != 0 && OnlyMove != move.Type.Id) SetErrorMessage(Only, GameDataService.GetMove(OnlyMove).GetLocalizedName(), Pm.Pokemon.Item == null ? null : Pm.Pokemon.Item.GetLocalizedName());
+      else
+        if (Block != null)
+          for (int i = 0; i < Pm.Moves.Length; ++i)
+            if (move == Pm.Moves[i])
+            {
+              if (Block[i] != null) SetErrorMessage(Block[i], move.Type.GetLocalizedName(), null);
+              break;
+            }
       return error == null;
     }
     public void Target(PokemonOutward target = null)

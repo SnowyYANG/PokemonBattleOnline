@@ -55,15 +55,20 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       return item.Id == 55;
     }
+    public static bool ChoiceItem(this ItemE item)
+    {
+      return item.Id == 9 || item.Id == 64 || item.Id == 74;
+    }
     #endregion
 
     public static bool CantLostItem(Pokemon pm)
     {
       return
-        pm.Item.Id == 194 ||
+        pm.Item != null &&
+        (pm.Item.Id == 194 ||
         pm.Form.Type.Number == 487 && pm.Item.Id == 1 || //giratina
         PlatedArceus(pm) ||
-        pm.Form.Type.Number == 649 && pm.Item.Id > 97 && pm.Item.Id < 102; //genesect
+        pm.Form.Type.Number == 649 && pm.Item.Id > 97 && pm.Item.Id < 102); //genesect
     }
     public static bool PlatedArceus(Pokemon pm)
     {

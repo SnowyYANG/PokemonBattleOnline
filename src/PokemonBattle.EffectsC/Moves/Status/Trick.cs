@@ -15,15 +15,24 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     }
     protected override void Act(AtkContext atk)
     {
+      var aer = atk.Attacker;
       var der = atk.Target.Defender;
-      if ((der.Pokemon.Item == null && atk.Attacker.Item == null) || Is.CantLostItem(atk.Attacker.Pokemon) || Is.CantLostItem(der.Pokemon)) FailAll(atk);
+      var di = der.Pokemon.Item;
+      var ai = aer.Pokemon.Item;
+      if ((di == null && ai == null) || ai == di || Is.CantLostItem(aer.Pokemon) || Is.CantLostItem(der.Pokemon)) FailAll(atk);
       else
       {
-        atk.Attacker.AddReportPm("Trick");
-        var di = der.Pokemon.Item;
-        var ai = atk.Attacker.Pokemon.Item;
-        if (ai != null) der.ChangeItem(ai.Id, "GetItem", null, false);
-        if (di != null) atk.Attacker.ChangeItem(di.Id, "GetItem", null, false);
+        aer.AddReportPm("Trick");
+        if (ai != null)
+        {
+          aer.RemoveItem();
+          der.ChangeItem(ai.Id, "GetItem", aer, false);
+        }
+        if (di != null)
+        {
+          der.RemoveItem();
+          aer.ChangeItem(di.Id, "GetItem", der, false);
+        }
       }
     }
   }

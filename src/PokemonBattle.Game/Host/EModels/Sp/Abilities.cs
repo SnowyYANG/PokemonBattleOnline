@@ -275,15 +275,17 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static void ColorChange(DefContext def)
     {
       const int COLOR_CHANGE = 16;
+      var type = def.AtkContext.Type;
+      if (type == BattleType.Invalid) type = BattleType.Normal;
       if (
         !def.HitSubstitute &&
-        !(def.Defender.OnboardPokemon.Type1 == def.AtkContext.Type && def.Defender.OnboardPokemon.Type2 == BattleType.Invalid) &&
+        !(def.Defender.OnboardPokemon.Type1 == type && def.Defender.OnboardPokemon.Type2 == BattleType.Invalid) &&
         def.Defender.RaiseAbility(COLOR_CHANGE)
         )
       {
-        def.Defender.OnboardPokemon.Type1 = def.AtkContext.Type;
+        def.Defender.OnboardPokemon.Type1 = type;
         def.Defender.OnboardPokemon.Type2 = BattleType.Invalid;
-        def.Defender.AddReportPm("TypeChange", def.AtkContext.Type);
+        def.Defender.AddReportPm("TypeChange", type);
       }
     }
     public static Modifier Hustle(AtkContext atk)

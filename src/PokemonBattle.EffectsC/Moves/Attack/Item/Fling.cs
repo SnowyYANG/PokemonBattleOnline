@@ -41,7 +41,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     {
       var aer = def.AtkContext.Attacker;
       var i = aer.Pokemon.Item.Id;
-      aer.RemoveItem();
+      aer.ConsumeItem();
       Is.RaiseItemByMove(def.Defender, i, aer);
     }
   }
