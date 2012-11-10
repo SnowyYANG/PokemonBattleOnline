@@ -651,6 +651,926 @@
   <item key="Meloetta" value="美洛耶塔"/>
   <item key="Genesect" value="盖诺塞克特"/>
 
+  <item key="Pound" value="拍打" />
+  <item key="Karate Chop" value="空手刀" />
+  <item key="DoubleSlap" value="往复拍打" />
+  <item key="Comet Punch" value="连续拳" />
+  <item key="Mega Punch" value="百万拳击" />
+  <item key="Pay Day" value="招财猫" />
+  <item key="Fire Punch" value="火焰拳" />
+  <item key="Ice Punch" value="冷冻拳" />
+  <item key="ThunderPunch" value="雷电拳" />
+  <item key="Scratch" value="抓" />
+  <item key="ViceGrip" value="夹" />
+  <item key="Guillotine" value="剪刀断头台" />
+  <item key="Razor Wind" value="镰鼬风" />
+  <item key="Swords Dance" value="剑之舞" />
+  <item key="Cut" value="居合斩" />
+  <item key="Gust" value="起风" />
+  <item key="Wing Attack" value="翅膀拍击" />
+  <item key="Whirlwind" value="吹飞" />
+  <item key="Fly" value="飞空" />
+  <item key="Bind" value="勒住" />
+  <item key="Slam" value="打倒" />
+  <item key="Vine Whip" value="藤鞭" />
+  <item key="Stomp" value="践踏" />
+  <item key="Double Kick" value="连环踢" />
+  <item key="Mega Kick" value="百万腿踢" />
+  <item key="Jump Kick" value="飞踢" />
+  <item key="Rolling Kick" value="回旋踢" />
+  <item key="Sand-Attack" value="扔沙" />
+  <item key="Headbutt" value="头槌" />
+  <item key="Horn Attack" value="角突" />
+  <item key="Fury Attack" value="乱突" />
+  <item key="Horn Drill" value="尖角钻" />
+  <item key="Tackle" value="撞击" />
+  <item key="Body Slam" value="压制" />
+  <item key="Wrap" value="卷紧" />
+  <item key="Take Down" value="突进" />
+  <item key="Thrash" value="暴走" />
+  <item key="Double-Edge" value="舍身撞" />
+  <item key="Tail Whip" value="甩尾" />
+  <item key="Poison Sting" value="毒针" />
+  <item key="Twineedle" value="双针" />
+  <item key="Pin Missile" value="导弹针" />
+  <item key="Leer" value="瞪眼" />
+  <item key="Bite" value="啃咬" />
+  <item key="Growl" value="叫声" />
+  <item key="Roar" value="吼叫" />
+  <item key="Sing" value="歌唱" />
+  <item key="Supersonic" value="超音波" />
+  <item key="SonicBoom" value="音波爆" />
+  <item key="Disable" value="束缚" />
+  <item key="Acid" value="溶解液" />
+  <item key="Ember" value="火苗" />
+  <item key="Flamethrower" value="火焰放射" />
+  <item key="Mist" value="白雾" />
+  <item key="Water Gun" value="水枪" />
+  <item key="Hydro Pump" value="水压" />
+  <item key="Surf" value="冲浪" />
+  <item key="Ice Beam" value="冷冻光线" />
+  <item key="Blizzard" value="暴风雪" />
+  <item key="Psybeam" value="精神光线" />
+  <item key="BubbleBeam" value="泡沫光线" />
+  <item key="Aurora Beam" value="极光光线" />
+  <item key="Hyper Beam" value="破坏光线" />
+  <item key="Peck" value="戳" />
+  <item key="Drill Peck" value="钻孔啄" />
+  <item key="Submission" value="地狱车" />
+  <item key="Low Kick" value="过肩摔" />
+  <item key="Counter" value="反击" />
+  <item key="Seismic Toss" value="地球投" />
+  <item key="Strength" value="怪力" />
+  <item key="Absorb" value="吸取" />
+  <item key="Mega Drain" value="百万吸取" />
+  <item key="Leech Seed" value="寄生种子" />
+  <item key="Growth" value="成长" />
+  <item key="Razor Leaf" value="飞叶斩" />
+  <item key="SolarBeam" value="太阳光线" />
+  <item key="PoisonPowder" value="毒粉" />
+  <item key="Stun Spore" value="麻痹粉" />
+  <item key="Sleep Powder" value="催眠粉" />
+  <item key="Petal Dance" value="花瓣舞" />
+  <item key="String Shot" value="吐丝" />
+  <item key="Dragon Rage" value="龙之怒" />
+  <item key="Fire Spin" value="火旋涡" />
+  <item key="ThunderShock" value="电击" />
+  <item key="Thunderbolt" value="十万伏特" />
+  <item key="Thunder Wave" value="电磁波" />
+  <item key="Thunder" value="雷电" />
+  <item key="Rock Throw" value="落石" />
+  <item key="Earthquake" value="地震" />
+  <item key="Fissure" value="地裂" />
+  <item key="Dig" value="挖洞" />
+  <item key="Toxic" value="剧毒" />
+  <item key="Confusion" value="念力" />
+  <item key="Psychic" value="精神干扰" />
+  <item key="Hypnosis" value="催眠术" />
+  <item key="Meditate" value="瑜珈之形" />
+  <item key="Agility" value="高速移动" />
+  <item key="Quick Attack" value="电光石火" />
+  <item key="Rage" value="愤怒" />
+  <item key="Teleport" value="瞬间移动" />
+  <item key="Night Shade" value="黑夜魔影" />
+  <item key="Mimic" value="模仿" />
+  <item key="Screech" value="噪音" />
+  <item key="Double Team" value="影分身" />
+  <item key="Recover" value="自我再生" />
+  <item key="Harden" value="变硬" />
+  <item key="Minimize" value="变小" />
+  <item key="SmokeScreen" value="烟幕" />
+  <item key="Confuse Ray" value="怪异光线" />
+  <item key="Withdraw" value="躲进贝壳" />
+  <item key="Defense Curl" value="变圆" />
+  <item key="Barrier" value="栅栏" />
+  <item key="Light Screen" value="光之壁" />
+  <item key="Haze" value="黑雾" />
+  <item key="Reflect" value="反射盾" />
+  <item key="Focus Energy" value="蓄气" />
+  <item key="Bide" value="克制" />
+  <item key="Metronome" value="摇手指" />
+  <item key="Mirror Move" value="鹦鹉学舌" />
+  <item key="Selfdestruct" value="自爆" />
+  <item key="Egg Bomb" value="蛋蛋爆弹" />
+  <item key="Lick" value="舌舔" />
+  <item key="Smog" value="毒雾" />
+  <item key="Sludge" value="淤泥攻击" />
+  <item key="Bone Club" value="骨头棍" />
+  <item key="Fire Blast" value="大字火" />
+  <item key="Waterfall" value="登瀑" />
+  <item key="Clamp" value="贝壳夹" />
+  <item key="Swift" value="迅星" />
+  <item key="Skull Bash" value="火箭头槌" />
+  <item key="Spike Cannon" value="尖刺加农炮" />
+  <item key="Constrict" value="缠绕" />
+  <item key="Amnesia" value="超级健忘" />
+  <item key="Kinesis" value="弄弯匙子" />
+  <item key="Softboiled" value="生蛋" />
+  <item key="Hi Jump Kick" value="飞膝踢" />
+  <item key="Glare" value="蛇瞪眼" />
+  <item key="Dream Eater" value="食梦" />
+  <item key="Poison Gas" value="毒瓦斯" />
+  <item key="Barrage" value="扔蛋" />
+  <item key="Leech Life" value="吸血" />
+  <item key="Lovely Kiss" value="恶魔之吻" />
+  <item key="Sky Attack" value="神鸟" />
+  <item key="Transform" value="变身" />
+  <item key="Bubble" value="水泡" />
+  <item key="Dizzy Punch" value="飘飘拳" />
+  <item key="Spore" value="蘑菇孢子" />
+  <item key="Flash" value="闪光" />
+  <item key="Psywave" value="精神波动" />
+  <item key="Splash" value="弹跳" />
+  <item key="Acid Armor" value="溶化" />
+  <item key="Crabhammer" value="蟹钳锤" />
+  <item key="Explosion" value="大爆炸" />
+  <item key="Fury Swipes" value="乱抓" />
+  <item key="Bonemerang" value="骨头回旋镖" />
+  <item key="Rest" value="睡眠" />
+  <item key="Rock Slide" value="岩崩" />
+  <item key="Hyper Fang" value="必杀门牙" />
+  <item key="Sharpen" value="变方" />
+  <item key="Conversion" value="属性切换" />
+  <item key="Tri Attack" value="三角攻击" />
+  <item key="Super Fang" value="愤怒门牙" />
+  <item key="Slash" value="切裂" />
+  <item key="Substitute" value="替身" />
+  <item key="Struggle" value="拼命" />
+  <item key="Sketch" value="素描" />
+  <item key="Triple Kick" value="三连踢" />
+  <item key="Thief" value="偷盗" />
+  <item key="Spider Web" value="蜘蛛网" />
+  <item key="Mind Reader" value="心眼" />
+  <item key="Nightmare" value="噩梦" />
+  <item key="Flame Wheel" value="火焰车" />
+  <item key="Snore" value="鼾声" />
+  <item key="Curse" value="诅咒" />
+  <item key="Flail" value="垂死挣扎" />
+  <item key="Conversion 2" value="属性切换２" />
+  <item key="Aeroblast" value="空中爆破" />
+  <item key="Cotton Spore" value="棉花孢子" />
+  <item key="Reversal" value="起死回生" />
+  <item key="Spite" value="恨" />
+  <item key="Powder Snow" value="细雪" />
+  <item key="Protect" value="保护" />
+  <item key="Mach Punch" value="音速拳" />
+  <item key="Scary Face" value="恐惧颜" />
+  <item key="Faint Attack" value="暗算" />
+  <item key="Sweet Kiss" value="天使之吻" />
+  <item key="Belly Drum" value="腹鼓" />
+  <item key="Sludge Bomb" value="淤泥爆弹" />
+  <item key="Mud-Slap" value="扔泥" />
+  <item key="Octazooka" value="墨汁炮" />
+  <item key="Spikes" value="撒菱" />
+  <item key="Zap Cannon" value="电磁炮" />
+  <item key="Foresight" value="识破" />
+  <item key="Destiny Bond" value="同旅" />
+  <item key="Perish Song" value="灭亡之歌" />
+  <item key="Icy Wind" value="冰冻之风" />
+  <item key="Detect" value="见切" />
+  <item key="Bone Rush" value="骨头冲锋" />
+  <item key="Lock-On" value="锁定" />
+  <item key="Outrage" value="逆鳞" />
+  <item key="Sandstorm" value="沙暴" />
+  <item key="Giga Drain" value="亿万吸取" />
+  <item key="Endure" value="忍耐" />
+  <item key="Charm" value="撒娇" />
+  <item key="Rollout" value="滚动" />
+  <item key="False Swipe" value="刀背打" />
+  <item key="Swagger" value="虚张声势" />
+  <item key="Milk Drink" value="饮奶" />
+  <item key="Spark" value="电火花" />
+  <item key="Fury Cutter" value="连续切" />
+  <item key="Steel Wing" value="钢之翼" />
+  <item key="Mean Look" value="黑眼神" />
+  <item key="Attract" value="着迷" />
+  <item key="Sleep Talk" value="梦话" />
+  <item key="Heal Bell" value="治愈之铃" />
+  <item key="Return" value="报恩" />
+  <item key="Present" value="礼物" />
+  <item key="Frustration" value="撒气" />
+  <item key="Safeguard" value="神秘守护" />
+  <item key="Pain Split" value="痛苦平分" />
+  <item key="Sacred Fire" value="神圣火焰" />
+  <item key="Magnitude" value="震级变化" />
+  <item key="DynamicPunch" value="爆裂拳" />
+  <item key="Megahorn" value="百万角击" />
+  <item key="DragonBreath" value="龙之吐息" />
+  <item key="Baton Pass" value="接力棒" />
+  <item key="Encore" value="鼓掌" />
+  <item key="Pursuit" value="追击" />
+  <item key="Rapid Spin" value="高速旋转" />
+  <item key="Sweet Scent" value="香甜气息" />
+  <item key="Iron Tail" value="铁尾" />
+  <item key="Metal Claw" value="金属爪" />
+  <item key="Vital Throw" value="当身投" />
+  <item key="Morning Sun" value="朝之阳" />
+  <item key="Synthesis" value="光合作用" />
+  <item key="Moonlight" value="月之光" />
+  <item key="Hidden Power" value="觉醒力量" />
+  <item key="Cross Chop" value="十字切" />
+  <item key="Twister" value="龙卷风" />
+  <item key="Rain Dance" value="祈雨" />
+  <item key="Sunny Day" value="放晴" />
+  <item key="Crunch" value="咬碎" />
+  <item key="Mirror Coat" value="镜面反射" />
+  <item key="Psych Up" value="自我暗示" />
+  <item key="ExtremeSpeed" value="神速" />
+  <item key="AncientPower" value="原始力量" />
+  <item key="Shadow Ball" value="阴影球" />
+  <item key="Future Sight" value="预知未来" />
+  <item key="Rock Smash" value="碎岩" />
+  <item key="Whirlpool" value="漩涡" />
+  <item key="Beat Up" value="围攻" />
+  <item key="Fake Out" value="下马威" />
+  <item key="Uproar" value="吵闹" />
+  <item key="Stockpile" value="能量储存" />
+  <item key="Spit Up" value="能量释放" />
+  <item key="Swallow" value="能量吸入" />
+  <item key="Heat Wave" value="热风" />
+  <item key="Hail" value="冰雹" />
+  <item key="Torment" value="寻衅" />
+  <item key="Flatter" value="煽动" />
+  <item key="Will-O-Wisp" value="鬼火" />
+  <item key="Memento" value="临别礼物" />
+  <item key="Facade" value="空元气" />
+  <item key="Focus Punch" value="气合拳" />
+  <item key="SmellingSalt" value="清醒" />
+  <item key="Follow Me" value="跟我来" />
+  <item key="Nature Power" value="自然力量" />
+  <item key="Charge" value="充电" />
+  <item key="Taunt" value="挑拨" />
+  <item key="Helping Hand" value="帮手" />
+  <item key="Trick" value="戏法" />
+  <item key="Role Play" value="换装" />
+  <item key="Wish" value="许愿" />
+  <item key="Assist" value="猫之手" />
+  <item key="Ingrain" value="扎根" />
+  <item key="Superpower" value="蛮力" />
+  <item key="Magic Coat" value="魔装反射" />
+  <item key="Recycle" value="道具回收" />
+  <item key="Revenge" value="复仇" />
+  <item key="Brick Break" value="瓦割" />
+  <item key="Yawn" value="哈欠" />
+  <item key="Knock Off" value="打落" />
+  <item key="Endeavor" value="莽撞" />
+  <item key="Eruption" value="喷火" />
+  <item key="Skill Swap" value="特性交换" />
+  <item key="Imprison" value="封印" />
+  <item key="Refresh" value="精神回复" />
+  <item key="Grudge" value="怨念" />
+  <item key="Snatch" value="抢夺" />
+  <item key="Secret Power" value="秘密力量" />
+  <item key="Dive" value="潜水" />
+  <item key="Arm Thrust" value="突张" />
+  <item key="Camouflage" value="保护色" />
+  <item key="Tail Glow" value="萤火" />
+  <item key="Luster Purge" value="光栅净化" />
+  <item key="Mist Ball" value="迷雾球" />
+  <item key="FeatherDance" value="羽毛舞" />
+  <item key="Teeter Dance" value="草裙舞" />
+  <item key="Blaze Kick" value="火花踢" />
+  <item key="Mud Sport" value="玩泥" />
+  <item key="Ice Ball" value="冰球" />
+  <item key="Needle Arm" value="针刺臂膀" />
+  <item key="Slack Off" value="偷懒" />
+  <item key="Hyper Voice" value="高级噪音" />
+  <item key="Poison Fang" value="剧毒之牙" />
+  <item key="Crush Claw" value="崩击之爪" />
+  <item key="Blast Burn" value="爆裂燃烧" />
+  <item key="Hydro Cannon" value="水压加农" />
+  <item key="Meteor Mash" value="彗星拳" />
+  <item key="Astonish" value="恐吓" />
+  <item key="Weather Ball" value="气象球" />
+  <item key="Aromatherapy" value="芳香疗法" />
+  <item key="Fake Tears" value="假哭" />
+  <item key="Air Cutter" value="空气刃" />
+  <item key="Overheat" value="燃烧殆尽" />
+  <item key="Odor Sleuth" value="嗅觉" />
+  <item key="Rock Tomb" value="岩石封" />
+  <item key="Silver Wind" value="银色之风" />
+  <item key="Metal Sound" value="金属音" />
+  <item key="GrassWhistle" value="草笛" />
+  <item key="Tickle" value="挠痒" />
+  <item key="Cosmic Power" value="宇宙力量" />
+  <item key="Water Spout" value="喷水" />
+  <item key="Signal Beam" value="信号光线" />
+  <item key="Shadow Punch" value="暗影拳" />
+  <item key="Extrasensory" value="神通力" />
+  <item key="Sky Uppercut" value="升空拳" />
+  <item key="Sand Tomb" value="沙地狱" />
+  <item key="Sheer Cold" value="绝对零度" />
+  <item key="Muddy Water" value="浊流" />
+  <item key="Bullet Seed" value="种子机枪" />
+  <item key="Aerial Ace" value="燕返" />
+  <item key="Icicle Spear" value="冰柱针" />
+  <item key="Iron Defense" value="铁壁" />
+  <item key="Block" value="禁止通行" />
+  <item key="Howl" value="远吠" />
+  <item key="Dragon Claw" value="龙之爪" />
+  <item key="Frenzy Plant" value="硬化植物" />
+  <item key="Bulk Up" value="巨大化" />
+  <item key="Bounce" value="飞跃" />
+  <item key="Mud Shot" value="泥浆喷射" />
+  <item key="Poison Tail" value="毒尾" />
+  <item key="Covet" value="索要" />
+  <item key="Volt Tackle" value="高压电击" />
+  <item key="Magical Leaf" value="魔叶斩" />
+  <item key="Water Sport" value="玩水" />
+  <item key="Calm Mind" value="冥想" />
+  <item key="Leaf Blade" value="刃叶斩" />
+  <item key="Dragon Dance" value="龙之舞" />
+  <item key="Rock Blast" value="岩石爆破" />
+  <item key="Shock Wave" value="电击波" />
+  <item key="Water Pulse" value="水之波动" />
+  <item key="Doom Desire" value="破灭之愿" />
+  <item key="Psycho Boost" value="精神增压" />
+  <item key="Roost" value="羽栖" />
+  <item key="Gravity" value="重力" />
+  <item key="Miracle Eye" value="奇迹之眼" />
+  <item key="Wake-Up Slap" value="清醒拍打" />
+  <item key="Hammer Arm" value="臂锤" />
+  <item key="Gyro Ball" value="螺旋球" />
+  <item key="Healing Wish" value="治愈之愿" />
+  <item key="Brine" value="潮水" />
+  <item key="Natural Gift" value="自然恩惠" />
+  <item key="Feint" value="佯攻" />
+  <item key="Pluck" value="啄食" />
+  <item key="Tailwind" value="顺风" />
+  <item key="Acupressure" value="点穴" />
+  <item key="Metal Burst" value="金属爆破" />
+  <item key="U-turn" value="蜻蜓回转" />
+  <item key="Close Combat" value="近战" />
+  <item key="Payback" value="报复" />
+  <item key="Assurance" value="连打" />
+  <item key="Embargo" value="扣押" />
+  <item key="Fling" value="投掷" />
+  <item key="Psycho Shift" value="精神转移" />
+  <item key="Trump Card" value="王牌" />
+  <item key="Heal Block" value="回复封印" />
+  <item key="Wring Out" value="绞紧" />
+  <item key="Power Trick" value="力量戏法" />
+  <item key="Gastro Acid" value="胃液" />
+  <item key="Lucky Chant" value="咒语" />
+  <item key="Me First" value="先取" />
+  <item key="Copycat" value="效仿" />
+  <item key="Power Swap" value="力量交换" />
+  <item key="Guard Swap" value="防御交换" />
+  <item key="Punishment" value="惩罚" />
+  <item key="Last Resort" value="最终手段" />
+  <item key="Worry Seed" value="烦恼种子" />
+  <item key="Sucker Punch" value="偷袭" />
+  <item key="Toxic Spikes" value="毒菱" />
+  <item key="Heart Swap" value="心灵交换" />
+  <item key="Aqua Ring" value="液态圈" />
+  <item key="Magnet Rise" value="电磁浮游" />
+  <item key="Flare Blitz" value="火焰驱进" />
+  <item key="Force Palm" value="发劲" />
+  <item key="Aura Sphere" value="波导弹" />
+  <item key="Rock Polish" value="岩切" />
+  <item key="Poison Jab" value="毒突" />
+  <item key="Dark Pulse" value="恶之波动" />
+  <item key="Night Slash" value="试刀" />
+  <item key="Aqua Tail" value="水之尾" />
+  <item key="Seed Bomb" value="种子爆弹" />
+  <item key="Air Slash" value="空气切割" />
+  <item key="X-Scissor" value="十字剪" />
+  <item key="Bug Buzz" value="虫鸣" />
+  <item key="Dragon Pulse" value="龙之波动" />
+  <item key="Dragon Rush" value="龙之冲锋" />
+  <item key="Power Gem" value="力量宝石" />
+  <item key="Drain Punch" value="吸取拳" />
+  <item key="Vacuum Wave" value="真空波" />
+  <item key="Focus Blast" value="气合弹" />
+  <item key="Energy Ball" value="能量球" />
+  <item key="Brave Bird" value="勇鸟" />
+  <item key="Earth Power" value="大地之力" />
+  <item key="Switcheroo" value="偷换" />
+  <item key="Giga Impact" value="亿万冲击" />
+  <item key="Nasty Plot" value="阴谋" />
+  <item key="Bullet Punch" value="子弹拳" />
+  <item key="Avalanche" value="雪崩" />
+  <item key="Ice Shard" value="冰之砾" />
+  <item key="Shadow Claw" value="阴影爪" />
+  <item key="Thunder Fang" value="雷之牙" />
+  <item key="Ice Fang" value="冰之牙" />
+  <item key="Fire Fang" value="火之牙" />
+  <item key="Shadow Sneak" value="影击" />
+  <item key="Mud Bomb" value="泥爆弾" />
+  <item key="Psycho Cut" value="精神切割" />
+  <item key="Zen Headbutt" value="思念头槌" />
+  <item key="Mirror Shot" value="镜面射击" />
+  <item key="Flash Cannon" value="光栅加农" />
+  <item key="Rock Climb" value="攀岩" />
+  <item key="Defog" value="除雾" />
+  <item key="Trick Room" value="欺骗空间" />
+  <item key="Draco Meteor" value="龙星群" />
+  <item key="Discharge" value="放电" />
+  <item key="Lava Plume" value="喷烟" />
+  <item key="Leaf Storm" value="飞叶风暴" />
+  <item key="Power Whip" value="强力鞭挞" />
+  <item key="Rock Wrecker" value="岩石炮" />
+  <item key="Cross Poison" value="毒十字" />
+  <item key="Gunk Shot" value="粉尘射击" />
+  <item key="Iron Head" value="铁头槌" />
+  <item key="Magnet Bomb" value="磁体炸弹" />
+  <item key="Stone Edge" value="石刃" />
+  <item key="Captivate" value="诱惑" />
+  <item key="Stealth Rock" value="秘密岩石" />
+  <item key="Grass Knot" value="草绳结" />
+  <item key="Chatter" value="喋喋不休" />
+  <item key="Judgment" value="制裁之砾" />
+  <item key="Bug Bite" value="虫食" />
+  <item key="Charge Beam" value="充电光线" />
+  <item key="Wood Hammer" value="木锤" />
+  <item key="Aqua Jet" value="水流喷射" />
+  <item key="Attack Order" value="攻击指令" />
+  <item key="Defend Order" value="防御指令" />
+  <item key="Heal Order" value="回复指令" />
+  <item key="Head Smash" value="双刃头槌" />
+  <item key="Double Hit" value="双重攻击" />
+  <item key="Roar of Time" value="时之咆哮" />
+  <item key="Spacial Rend" value="亚空切断" />
+  <item key="Lunar Dance" value="新月之舞" />
+  <item key="Crush Grip" value="捏碎" />
+  <item key="Magma Storm" value="熔岩风暴" />
+  <item key="Dark Void" value="黑洞" />
+  <item key="Seed Flare" value="闪耀种子" />
+  <item key="Ominous Wind" value="妖风" />
+  <item key="Shadow Force" value="影袭" />
+  <item key="Hone Claws" value="磨爪" />
+  <item key="Wide Guard" value="广域防御" />
+  <item key="Guard Split" value="防御平分" />
+  <item key="Power Split" value="力量平分" />
+  <item key="Wonder Room" value="神奇空间" />
+  <item key="Psyshock" value="精神冲击" />
+  <item key="Venoshock" value="毒液冲击" />
+  <item key="Autotomize" value="身体净化" />
+  <item key="Rage Powder" value="愤怒之粉" />
+  <item key="Telekinesis" value="念动力" />
+  <item key="Magic Room" value="魔术空间" />
+  <item key="Smack Down" value="击坠" />
+  <item key="Storm Throw" value="山岚" />
+  <item key="Flame Burst" value="爆裂火焰" />
+  <item key="Sludge Wave" value="淤泥波" />
+  <item key="Quiver Dance" value="蝶之舞" />
+  <item key="Heavy Slam" value="重量炸弹" />
+  <item key="Synchronoise" value="同调噪音" />
+  <item key="Electro Ball" value="电球" />
+  <item key="Soak" value="浸水" />
+  <item key="Flame Charge" value="硝化冲锋" />
+  <item key="Coil" value="盘蜷" />
+  <item key="Low Sweep" value="下旋" />
+  <item key="Acid Spray" value="酸性炸弹" />
+  <item key="Foul Play" value="诈骗" />
+  <item key="Simple Beam" value="单纯光线" />
+  <item key="Entrainment" value="变为同伴" />
+  <item key="After You" value="您先请" />
+  <item key="Round" value="轮唱" />
+  <item key="Echoed Voice" value="回音" />
+  <item key="Chip Away" value="循序渐进" />
+  <item key="Clear Smog" value="净化之雾" />
+  <item key="Stored Power" value="援助力量" />
+  <item key="Quick Guard" value="快速防御" />
+  <item key="Ally Switch" value="位置交换" />
+  <item key="Scald" value="沸水" />
+  <item key="Shell Smash" value="破壳而出" />
+  <item key="Heal Pulse" value="治愈波动" />
+  <item key="Hex" value="厄运" />
+  <item key="Sky Drop" value="自由下落" />
+  <item key="Shift Gear" value="齿轮变换" />
+  <item key="Circle Throw" value="仰投" />
+  <item key="Incinerate" value="燃尽" />
+  <item key="Quash" value="押后" />
+  <item key="Acrobatics" value="杂耍" />
+  <item key="Reflect Type" value="镜面属性" />
+  <item key="Retaliate" value="报仇" />
+  <item key="Final Gambit" value="豁命攻击" />
+  <item key="Bestow" value="传递礼物" />
+  <item key="Inferno" value="炼狱" />
+  <item key="Water Pledge" value="水之誓" />
+  <item key="Fire Pledge" value="火之誓" />
+  <item key="Grass Pledge" value="草之誓" />
+  <item key="Volt Switch" value="闪电交替" />
+  <item key="Struggle Bug" value="虫之抵抗" />
+  <item key="Bulldoze" value="压路" />
+  <item key="Frost Breath" value="冰之吐息" />
+  <item key="Dragon Tail" value="龙之尾" />
+  <item key="Work Up" value="鼓舞士气" />
+  <item key="Electroweb" value="电网" />
+  <item key="Wild Charge" value="野性电击" />
+  <item key="Drill Run" value="钻头直击" />
+  <item key="Dual Chop" value="连环切击" />
+  <item key="Heart Stamp" value="心灵压迫" />
+  <item key="Horn Leech" value="木角" />
+  <item key="Sacred Sword" value="神圣之剑" />
+  <item key="Razor Shell" value="贝壳刃" />
+  <item key="Heat Crash" value="热践踏" />
+  <item key="Leaf Tornado" value="草旋风" />
+  <item key="Steamroller" value="坚硬滚动" />
+  <item key="Cotton Guard" value="棉花防御" />
+  <item key="Night Daze" value="暗夜爆破" />
+  <item key="Psystrike" value="精神破坏" />
+  <item key="Tail Slap" value="扫荡拍打" />
+  <item key="Hurricane" value="暴风" />
+  <item key="Head Charge" value="阿弗罗撞击" />
+  <item key="Gear Grind" value="齿轮飞盘" />
+  <item key="Searing Shot" value="火焰弹" />
+  <item key="Techno Blast" value="科技爆破" />
+  <item key="Relic Song" value="古代之歌" />
+  <item key="Secret Sword" value="神秘之剑" />
+  <item key="Glaciate" value="冰封世界" />
+  <item key="Bolt Strike" value="雷击" />
+  <item key="Blue Flare" value="青色火焰" />
+  <item key="Fiery Dance" value="火焰之舞" />
+  <item key="Freeze Shock" value="冰结电击" />
+  <item key="Ice Burn" value="冰冷闪光" />
+  <item key="Snarl" value="大喊" />
+  <item key="Icicle Crash" value="冰柱坠落" />
+  <item key="V-create" value="创造胜利" />
+  <item key="Fusion Flare" value="交织火焰" />
+  <item key="Fusion Bolt" value="交织闪电" />
+
+  <item key="Stench" value="恶臭"/>
+  <item key="Drizzle" value="降雨"/>
+  <item key="Speed Boost" value="加速"/>
+  <item key="Battle Armor" value="战斗盔甲"/>
+  <item key="Sturdy" value="坚硬"/>
+  <item key="Damp" value="潮湿"/>
+  <item key="Limber" value="柔软"/>
+  <item key="Sand Veil" value="沙隐"/>
+  <item key="Static" value="静电"/>
+  <item key="Volt Absorb" value="蓄电"/>
+  <item key="Water Absorb" value="贮水"/>
+  <item key="Oblivious" value="钝感"/>
+  <item key="Cloud Nine" value="无天气"/>
+  <item key="Compoundeyes" value="复眼"/>
+  <item key="Insomnia" value="不眠"/>
+  <item key="Color Change" value="变色"/>
+  <item key="Immunity" value="免疫"/>
+  <item key="Flash Fire" value="引火"/>
+  <item key="Shield Dust" value="鳞粉"/>
+  <item key="Own Tempo" value="自我中心"/>
+  <item key="Suction Cups" value="吸盘"/>
+  <item key="Intimidate" value="威吓"/>
+  <item key="Shadow Tag" value="踩影"/>
+  <item key="Rough Skin" value="鲨鱼皮"/>
+  <item key="Wonder Guard" value="奇异守护"/>
+  <item key="Levitate" value="浮游"/>
+  <item key="Effect Spore" value="孢子"/>
+  <item key="Synchronize" value="同步率"/>
+  <item key="Clear Body" value="净体"/>
+  <item key="Natural Cure" value="自然回复"/>
+  <item key="Lightningrod" value="避雷针"/>
+  <item key="Serene Grace" value="天之恩惠"/>
+  <item key="Swift Swim" value="轻快"/>
+  <item key="Chlorophyll" value="叶绿素"/>
+  <item key="Illuminate" value="发光"/>
+  <item key="Trace" value="复制"/>
+  <item key="Huge Power" value="大力士"/>
+  <item key="Poison Point" value="毒刺"/>
+  <item key="Inner Focus" value="精神力"/>
+  <item key="Magma Armor" value="熔岩铠甲"/>
+  <item key="Water Veil" value="水之掩护"/>
+  <item key="Magnet Pull" value="磁力"/>
+  <item key="Soundproof" value="防音"/>
+  <item key="Rain Dish" value="接雨盘"/>
+  <item key="Sand Stream" value="起沙"/>
+  <item key="Pressure" value="压力"/>
+  <item key="Thick Fat" value="厚脂肪"/>
+  <item key="Early Bird" value="早起"/>
+  <item key="Flame Body" value="火焰之躯"/>
+  <item key="Run Away" value="逃足"/>
+  <item key="Keen Eye" value="锐利目光"/>
+  <item key="Hyper Cutter" value="怪力钳"/>
+  <item key="Pickup" value="拾取"/>
+  <item key="Truant" value="懒惰"/>
+  <item key="Hustle" value="紧张"/>
+  <item key="Cute Charm" value="魅惑身躯"/>
+  <item key="Plus" value="正极"/>
+  <item key="Minus" value="负极"/>
+  <item key="Forecast" value="气象台"/>
+  <item key="Sticky Hold" value="黏着"/>
+  <item key="Shed Skin" value="蜕皮"/>
+  <item key="Guts" value="根性"/>
+  <item key="Marvel Scale" value="神秘鳞片"/>
+  <item key="Liquid Ooze" value="毒液"/>
+  <item key="Overgrow" value="深绿"/>
+  <item key="Blaze" value="猛火"/>
+  <item key="Torrent" value="激流"/>
+  <item key="Swarm" value="虫之预感"/>
+  <item key="Rock Head" value="石脑"/>
+  <item key="Drought" value="干旱"/>
+  <item key="Arena Trap" value="蚁地狱"/>
+  <item key="Vital Spirit" value="干劲"/>
+  <item key="White Smoke" value="白烟"/>
+  <item key="Pure Power" value="瑜珈之力"/>
+  <item key="Shell Armor" value="贝壳盔甲"/>
+  <item key="Air Lock" value="天气锁"/>
+  <item key="Tangled Feet" value="蹒跚"/>
+  <item key="Motor Drive" value="电引擎"/>
+  <item key="Rivalry" value="斗争心"/>
+  <item key="Steadfast" value="不屈之心"/>
+  <item key="Snow Cloak" value="雪隐"/>
+  <item key="Gluttony" value="贪吃"/>
+  <item key="Anger Point" value="怒穴"/>
+  <item key="Unburden" value="轻身"/>
+  <item key="Heatproof" value="耐热"/>
+  <item key="Simple" value="单纯"/>
+  <item key="Dry Skin" value="干燥肌肤"/>
+  <item key="Download" value="下载"/>
+  <item key="Iron Fist" value="铁拳"/>
+  <item key="Poison Heal" value="毒疗"/>
+  <item key="Adaptability" value="适应力"/>
+  <item key="Skill Link" value="技能连锁"/>
+  <item key="Hydration" value="湿润身躯"/>
+  <item key="Solar Power" value="太阳力量"/>
+  <item key="Quick Feet" value="早足"/>
+  <item key="Normalize" value="普通皮肤"/>
+  <item key="Sniper" value="狙击手"/>
+  <item key="Magic Guard" value="魔法守护"/>
+  <item key="No Guard" value="无防御"/>
+  <item key="Stall" value="后出"/>
+  <item key="Technician" value="技师"/>
+  <item key="Leaf Guard" value="绿叶守护"/>
+  <item key="Klutz" value="不器用"/>
+  <item key="Mold Breaker" value="破格"/>
+  <item key="Super Luck" value="强运"/>
+  <item key="Aftermath" value="引爆"/>
+  <item key="Anticipation" value="危险预知"/>
+  <item key="Forewarn" value="预知梦"/>
+  <item key="Unaware" value="天然"/>
+  <item key="Tinted Lens" value="有色眼镜"/>
+  <item key="Filter" value="过滤器"/>
+  <item key="Slow Start" value="缓慢启动"/>
+  <item key="Scrappy" value="胆气"/>
+  <item key="Storm Drain" value="引水"/>
+  <item key="Ice Body" value="寒冰身躯"/>
+  <item key="Solid Rock" value="坚岩"/>
+  <item key="Snow Warning" value="降雪"/>
+  <item key="Honey Gather" value="集蜜"/>
+  <item key="Frisk" value="洞察"/>
+  <item key="Reckless" value="舍身"/>
+  <item key="Multitype" value="多重属性"/>
+  <item key="Flower Gift" value="花之礼物"/>
+  <item key="Bad Dreams" value="梦魇"/>
+  <item key="Pickpocket" value="偷盗恶习"/>
+  <item key="Sheer Force" value="全力攻击"/>
+  <item key="Contrary" value="性情乖僻"/>
+  <item key="Unnerve" value="紧张感"/>
+  <item key="Defiant" value="不服输"/>
+  <item key="Defeatist" value="懦弱"/>
+  <item key="Cursed Body" value="诅咒身躯"/>
+  <item key="Healer" value="治愈之心"/>
+  <item key="Friend Guard" value="队友守护"/>
+  <item key="Weak Armor" value="破碎铠甲"/>
+  <item key="Heavy Metal" value="重金属"/>
+  <item key="Light Metal" value="轻金属"/>
+  <item key="Multiscale" value="多重鳞片"/>
+  <item key="Toxic Boost" value="毒暴走"/>
+  <item key="Flare Boost" value="热暴走"/>
+  <item key="Harvest" value="收获"/>
+  <item key="Telepathy" value="超感知觉"/>
+  <item key="Moody" value="心意不定"/>
+  <item key="Overcoat" value="防尘"/>
+  <item key="Poison Touch" value="毒手"/>
+  <item key="Regenerator" value="再生力"/>
+  <item key="Big Pecks" value="胸甲"/>
+  <item key="Sand Rush" value="挖沙"/>
+  <item key="Wonder Skin" value="奇迹皮肤"/>
+  <item key="Analytic" value="分析"/>
+  <item key="Illusion" value="幻影"/>
+  <item key="Imposter" value="替代物"/>
+  <item key="Infiltrator" value="穿透"/>
+  <item key="Mummy" value="木乃伊"/>
+  <item key="Moxie" value="自信过剩"/>
+  <item key="Justified" value="正义之心"/>
+  <item key="Rattled" value="颤抖"/>
+  <item key="Magic Bounce" value="魔法反射"/>
+  <item key="Sap Sipper" value="食草"/>
+  <item key="Prankster" value="恶作剧之心"/>
+  <item key="Sand Force" value="沙之力量"/>
+  <item key="Iron Barbs" value="铁棘"/>
+  <item key="Zen Mode" value="不倒翁模式"/>
+  <item key="Victory Star" value="胜利之星"/>
+  <item key="Turboblaze" value="涡轮火花"/>
+  <item key="Teravolt" value="垓级电压"/>
+
+  <item key="Griseous Orb" value="白金玉" />
+  <item key="Adamant Orb" value="金刚玉" />
+  <item key="Lustrous Orb" value="白玉" />
+  <item key="BrightPowder" value="光粉" />
+  <item key="White Herb" value="白色香草" />
+  <item key="Macho Brace" value="矫正背心" />
+  <item key="Quick Claw" value="先制之爪" />
+  <item key="Mental Herb" value="精神香草" />
+  <item key="Choice Band" value="专爱头巾" />
+  <item key="King's Rock" value="王者之证" />
+  <item key="SilverPowder" value="银粉" />
+  <item key="Soul Dew" value="心之水珠" />
+  <item key="DeepSeaTooth" value="深海之牙" />
+  <item key="DeepSeaScale" value="深海之鳞" />
+  <item key="Focus Band" value="气息头巾" />
+  <item key="Scope Lens" value="聚焦镜" />
+  <item key="Metal Coat" value="金属外套" />
+  <item key="Leftovers" value="剩饭" />
+  <item key="Light Ball" value="电珠" />
+  <item key="Soft Sand" value="软沙" />
+  <item key="Hard Stone" value="硬石" />
+  <item key="Miracle Seed" value="奇迹之种" />
+  <item key="BlackGlasses" value="黑色眼镜" />
+  <item key="Black Belt" value="黑带" />
+  <item key="Magnet" value="磁石" />
+  <item key="Mystic Water" value="神秘水珠" />
+  <item key="Sharp Beak" value="尖嘴" />
+  <item key="Poison Barb" value="毒针" />
+  <item key="NeverMeltIce" value="不溶冰" />
+  <item key="Spell Tag" value="诅咒符" />
+  <item key="TwistedSpoon" value="弯匙" />
+  <item key="Charcoal" value="木炭" />
+  <item key="Dragon Fang" value="龙之牙" />
+  <item key="Silk Scarf" value="丝绸围巾" />
+  <item key="Shell Bell" value="贝壳铃" />
+  <item key="Sea Incense" value="海潮之香" />
+  <item key="Lax Incense" value="舒畅之香" />
+  <item key="Lucky Punch" value="幸运拳套" />
+  <item key="Metal Powder" value="金属粉末" />
+  <item key="Thick Club" value="粗骨头" />
+  <item key="Stick" value="长葱" />
+  <item key="Wide Lens" value="广角镜" />
+  <item key="Muscle Band" value="力量头巾" />
+  <item key="Wise Glasses" value="知识眼镜" />
+  <item key="Expert Belt" value="达人腰带" />
+  <item key="Light Clay" value="光之黏土" />
+  <item key="Life Orb" value="生命之玉" />
+  <item key="Power Herb" value="力量香草" />
+  <item key="Toxic Orb" value="剧毒珠" />
+  <item key="Flame Orb" value="火焰珠" />
+  <item key="Quick Powder" value="速度粉末" />
+  <item key="Focus Sash" value="气息腰带" />
+  <item key="Zoom Lens" value="放大镜" />
+  <item key="Metronome_" value="节拍器" />
+  <item key="Iron Ball" value="黑铁球" />
+  <item key="Lagging Tail" value="后攻之尾" />
+  <item key="Destiny Knot" value="红线" />
+  <item key="Black Sludge" value="黑色污泥" />
+  <item key="Icy Rock" value="冰冷岩石" />
+  <item key="Smooth Rock" value="流沙岩石" />
+  <item key="Heat Rock" value="炽热岩石" />
+  <item key="Damp Rock" value="潮湿岩石" />
+  <item key="Grip Claw" value="强韧之爪" />
+  <item key="Choice Scarf" value="专爱围巾" />
+  <item key="Sticky Barb" value="粘针" />
+  <item key="Power Bracer" value="力量护腕" />
+  <item key="Power Belt" value="力量腰带" />
+  <item key="Power Lens" value="力量镜片" />
+  <item key="Power Band" value="力量束带" />
+  <item key="Power Anklet" value="力量护踝" />
+  <item key="Power Weight" value="力量负重" />
+  <item key="Shed Shell" value="漂亮脱壳" />
+  <item key="Big Root" value="巨大根茎" />
+  <item key="Choice Specs" value="专爱眼镜" />
+  <item key="Flame Plate" value="火球石板" />
+  <item key="Splash Plate" value="水珠石板" />
+  <item key="Zap Plate" value="雷电石板" />
+  <item key="Meadow Plate" value="碧绿石板" />
+  <item key="Icicle Plate" value="冰柱石板" />
+  <item key="Fist Plate" value="拳击石板" />
+  <item key="Toxic Plate" value="猛毒石板" />
+  <item key="Earth Plate" value="大地石板" />
+  <item key="Sky Plate" value="青空石板" />
+  <item key="Mind Plate" value="神秘石板" />
+  <item key="Insect Plate" value="昆虫石板" />
+  <item key="Stone Plate" value="岩石石板" />
+  <item key="Spooky Plate" value="阴魂石板" />
+  <item key="Draco Plate" value="龙之石板" />
+  <item key="Dread Plate" value="恐惧石板" />
+  <item key="Iron Plate" value="钢铁石板" />
+  <item key="Odd Incense" value="怪异之香" />
+  <item key="Rock Incense" value="岩石之香" />
+  <item key="Full Incense" value="满腹之香" />
+  <item key="Wave Incense" value="涟漪之香" />
+  <item key="Rose Incense" value="蔷薇之香" />
+  <item key="Razor Claw" value="锋锐之爪" />
+  <item key="Razor Fang" value="锋锐之牙" />
+  <item key="Douse Drive" value="海洋卡带" />
+  <item key="Shock Drive" value="雷电卡带" />
+  <item key="Burn Drive" value="火焰卡带" />
+  <item key="Chill Drive" value="冰冻卡带" />
+  <item key="Eviolite" value="进化辉石" />
+  <item key="Float Stone" value="浮石" />
+  <item key="Rocky Helmet" value="坚硬头盔" />
+  <item key="Air Balloon" value="气球" />
+  <item key="Red Card" value="红牌" />
+  <item key="Ring Target" value="狙击标靶" />
+  <item key="Binding Band" value="束缚头巾" />
+  <item key="Absorb Bulb" value="球茎" />
+  <item key="Cell Battery" value="充电池" />
+  <item key="Eject Button" value="脱离按钮" />
+  <item key="Fire Gem" value="火之宝石" />
+  <item key="Water Gem" value="水之宝石" />
+  <item key="Electric Gem" value="电之宝石" />
+  <item key="Grass Gem" value="草之宝石" />
+  <item key="Ice Gem" value="冰之宝石" />
+  <item key="Fighting Gem" value="斗之宝石" />
+  <item key="Poison Gem" value="毒之宝石" />
+  <item key="Ground Gem" value="地之宝石" />
+  <item key="Flying Gem" value="飞之宝石" />
+  <item key="Psychic Gem" value="超之宝石" />
+  <item key="Bug Gem" value="虫之宝石" />
+  <item key="Rock Gem" value="岩之宝石" />
+  <item key="Ghost Gem" value="鬼之宝石" />
+  <item key="Dragon Gem" value="龙之宝石" />
+  <item key="Dark Gem" value="恶之宝石" />
+  <item key="Steel Gem" value="钢之宝石" />
+  <item key="Normal Gem" value="普之宝石" />
+  <item key="Cheri Berry" value="No.01 樱桃果"/>
+  <item key="Chesto Berry" value="No.02 栗果"/>
+  <item key="Pecha Berry" value="No.03 桃果"/>
+  <item key="Rawst Berry" value="No.04 草莓果"/>
+  <item key="Aspear Berry" value="No.05 沙梨果"/>
+  <item key="Leppa Berry" value="No.06 海棠果"/>
+  <item key="Oran Berry" value="No.07 橙果"/>
+  <item key="Persim Berry" value="No.08 柿果"/>
+  <item key="Lum Berry" value="No.09 李子果"/>
+  <item key="Sitrus Berry" value="No.10 文旦果"/>
+  <item key="Figy Berry" value="No.11 无花果"/>
+  <item key="Wiki Berry" value="No.12 猕猴果"/>
+  <item key="Mago Berry" value="No.13 芒果"/>
+  <item key="Aguav Berry" value="No.14 芭乐果"/>
+  <item key="Iapapa Berry" value="No.15 木瓜果"/>
+  <item key="Razz Berry" value="No.16 木莓果"/>
+  <item key="Bluk Berry" value="No.17 黑莓果"/>
+  <item key="Nanab Berry" value="No.18 香蕉果"/>
+  <item key="Wepear Berry" value="No.19 洋梨果"/>
+  <item key="Pinap Berry" value="No.20 菠萝果"/>
+  <item key="Pomeg Berry" value="No.21 石榴果"/>
+  <item key="Kelpsy Berry" value="No.22 昆布果"/>
+  <item key="Qualot Berry" value="No.23 枇杷果"/>
+  <item key="Hondew Berry" value="No.24 蜜瓜果"/>
+  <item key="Grepa Berry" value="No.25 葡萄果"/>
+  <item key="Tamato Berry" value="No.26 番茄果"/>
+  <item key="Cornn Berry" value="No.27 蜀黍果"/>
+  <item key="Magost Berry" value="No.28 山竹果"/>
+  <item key="Rabuta Berry" value="No.29 红毛果"/>
+  <item key="Nomel Berry" value="No.30 柠檬果"/>
+  <item key="Spelon Berry" value="No.31 刺角果"/>
+  <item key="Pamtre Berry" value="No.32 棕榈果"/>
+  <item key="Watmel Berry" value="No.33 水瓜果"/>
+  <item key="Durin Berry" value="No.34 榴莲果"/>
+  <item key="Belue Berry" value="No.35 蓝莓果"/>
+  <item key="Occa Berry" value="No.36 可可果"/>
+  <item key="Passho Berry" value="No.37 百香果"/>
+  <item key="Wacan Berry" value="No.38 碧根果"/>
+  <item key="Rindo Berry" value="No.39 罗望果"/>
+  <item key="Yache Berry" value="No.40 释迦果"/>
+  <item key="Chople Berry" value="No.41 红椒果"/>
+  <item key="Kebia Berry" value="No.42 木通果"/>
+  <item key="Shuca Berry" value="No.43 腰果"/>
+  <item key="Coba Berry" value="No.44 巴可果"/>
+  <item key="Payapa Berry" value="No.45 葫芦果"/>
+  <item key="Tanga Berry" value="No.46 番樱果 "/>
+  <item key="Charti Berry" value="No.47 菜蓟果"/>
+  <item key="Kasib Berry" value="No.48 佛手果"/>
+  <item key="Haban Berry" value="No.49 黄番果"/>
+  <item key="Colbur Berry" value="No.50 苍耳果"/>
+  <item key="Babiri Berry" value="No.51 小檗果"/>
+  <item key="Chilan Berry" value="No.52 酸浆果"/>
+  <item key="Liechi Berry" value="No.53 荔枝果"/>
+  <item key="Ganlon Berry" value="No.54 龙眼果"/>
+  <item key="Salac Berry" value="No.55 蛇皮果"/>
+  <item key="Petaya Berry" value="No.56 火龙果"/>
+  <item key="Apicot Berry" value="No.57 杏果"/>
+  <item key="Lansat Berry" value="No.58 莲心果"/>
+  <item key="Starf Berry" value="No.59 杨桃果"/>
+  <item key="Enigma Berry" value="No.60 迷之果"/>
+  <item key="Micle Berry" value="No.61 神秘果"/>
+  <item key="Custap Berry" value="No.62 番荔果"/>
+  <item key="Jaboca Berry" value="No.63 嘉宝果"/>
+  <item key="Rowap Berry" value="No.64 莲雾果"/>
+  <item key="RSVP Mail" value="邀请信件"/>
+  <item key="Berry Juice" value="树果汁"/>
+
   <item key="m001" value="拍击"/>
   <item key="m002" value="手刀"/>
   <item key="m003" value="连环巴掌"/>
@@ -2097,199 +3017,4 @@
   <item key="A162" value="提高自身和同伴的命中。"/>
   <item key="A163" value="能够无视特性，向对手使用技能。"/>
   <item key="A164" value="能够无视特性，向对手使用技能。"/>
-  
-  <item key="Griseous Orb" value="白金玉" />
-  <item key="Adamant Orb" value="金刚玉" />
-  <item key="Lustrous Orb" value="白玉" />
-  <item key="BrightPowder" value="光粉" />
-  <item key="White Herb" value="白色香草" />
-  <item key="Macho Brace" value="矫正背心" />
-  <item key="Quick Claw" value="先制之爪" />
-  <item key="Mental Herb" value="精神香草" />
-  <item key="Choice Band" value="专爱头巾" />
-  <item key="King's Rock" value="王者之证" />
-  <item key="SilverPowder" value="银粉" />
-  <item key="Soul Dew" value="心之水珠" />
-  <item key="DeepSeaTooth" value="深海之牙" />
-  <item key="DeepSeaScale" value="深海之鳞" />
-  <item key="Focus Band" value="气息头巾" />
-  <item key="Scope Lens" value="聚焦镜" />
-  <item key="Metal Coat" value="金属外套" />
-  <item key="Leftovers" value="剩饭" />
-  <item key="Light Ball" value="电珠" />
-  <item key="Soft Sand" value="软沙" />
-  <item key="Hard Stone" value="硬石" />
-  <item key="Miracle Seed" value="奇迹之种" />
-  <item key="BlackGlasses" value="黑色眼镜" />
-  <item key="Black Belt" value="黑带" />
-  <item key="Magnet" value="磁石" />
-  <item key="Mystic Water" value="神秘水珠" />
-  <item key="Sharp Beak" value="尖嘴" />
-  <item key="Poison Barb" value="毒针" />
-  <item key="NeverMeltIce" value="不溶冰" />
-  <item key="Spell Tag" value="诅咒符" />
-  <item key="TwistedSpoon" value="弯匙" />
-  <item key="Charcoal" value="木炭" />
-  <item key="Dragon Fang" value="龙之牙" />
-  <item key="Silk Scarf" value="丝绸围巾" />
-  <item key="Shell Bell" value="贝壳铃" />
-  <item key="Sea Incense" value="海潮之香" />
-  <item key="Lax Incense" value="舒畅之香" />
-  <item key="Lucky Punch" value="幸运拳套" />
-  <item key="Metal Powder" value="金属粉末" />
-  <item key="Thick Club" value="粗骨头" />
-  <item key="Stick" value="长葱" />
-  <item key="Wide Lens" value="广角镜" />
-  <item key="Muscle Band" value="力量头巾" />
-  <item key="Wise Glasses" value="知识眼镜" />
-  <item key="Expert Belt" value="达人腰带" />
-  <item key="Light Clay" value="光之黏土" />
-  <item key="Life Orb" value="生命之玉" />
-  <item key="Power Herb" value="力量香草" />
-  <item key="Toxic Orb" value="剧毒珠" />
-  <item key="Flame Orb" value="火焰珠" />
-  <item key="Quick Powder" value="速度粉末" />
-  <item key="Focus Sash" value="气息腰带" />
-  <item key="Zoom Lens" value="放大镜" />
-  <item key="Metronome_" value="节拍器" />
-  <item key="Iron Ball" value="黑铁球" />
-  <item key="Lagging Tail" value="后攻之尾" />
-  <item key="Destiny Knot" value="红线" />
-  <item key="Black Sludge" value="黑色污泥" />
-  <item key="Icy Rock" value="冰冷岩石" />
-  <item key="Smooth Rock" value="流沙岩石" />
-  <item key="Heat Rock" value="炽热岩石" />
-  <item key="Damp Rock" value="潮湿岩石" />
-  <item key="Grip Claw" value="强韧之爪" />
-  <item key="Choice Scarf" value="专爱围巾" />
-  <item key="Sticky Barb" value="粘针" />
-  <item key="Power Bracer" value="力量护腕" />
-  <item key="Power Belt" value="力量腰带" />
-  <item key="Power Lens" value="力量镜片" />
-  <item key="Power Band" value="力量束带" />
-  <item key="Power Anklet" value="力量护踝" />
-  <item key="Power Weight" value="力量负重" />
-  <item key="Shed Shell" value="漂亮脱壳" />
-  <item key="Big Root" value="巨大根茎" />
-  <item key="Choice Specs" value="专爱眼镜" />
-  <item key="Flame Plate" value="火球石板" />
-  <item key="Splash Plate" value="水珠石板" />
-  <item key="Zap Plate" value="雷电石板" />
-  <item key="Meadow Plate" value="碧绿石板" />
-  <item key="Icicle Plate" value="冰柱石板" />
-  <item key="Fist Plate" value="拳击石板" />
-  <item key="Toxic Plate" value="猛毒石板" />
-  <item key="Earth Plate" value="大地石板" />
-  <item key="Sky Plate" value="青空石板" />
-  <item key="Mind Plate" value="神秘石板" />
-  <item key="Insect Plate" value="昆虫石板" />
-  <item key="Stone Plate" value="岩石石板" />
-  <item key="Spooky Plate" value="阴魂石板" />
-  <item key="Draco Plate" value="龙之石板" />
-  <item key="Dread Plate" value="恐惧石板" />
-  <item key="Iron Plate" value="钢铁石板" />
-  <item key="Odd Incense" value="怪异之香" />
-  <item key="Rock Incense" value="岩石之香" />
-  <item key="Full Incense" value="满腹之香" />
-  <item key="Wave Incense" value="涟漪之香" />
-  <item key="Rose Incense" value="蔷薇之香" />
-  <item key="Razor Claw" value="锋锐之爪" />
-  <item key="Razor Fang" value="锋锐之牙" />
-  <item key="Douse Drive" value="海洋卡带" />
-  <item key="Shock Drive" value="雷电卡带" />
-  <item key="Burn Drive" value="火焰卡带" />
-  <item key="Chill Drive" value="冰冻卡带" />
-  <item key="Eviolite" value="进化辉石" />
-  <item key="Float Stone" value="浮石" />
-  <item key="Rocky Helmet" value="坚硬头盔" />
-  <item key="Air Balloon" value="气球" />
-  <item key="Red Card" value="红牌" />
-  <item key="Ring Target" value="狙击标靶" />
-  <item key="Binding Band" value="束缚头巾" />
-  <item key="Absorb Bulb" value="球茎" />
-  <item key="Cell Battery" value="充电池" />
-  <item key="Eject Button" value="脱离按钮" />
-  <item key="Fire Gem" value="火之宝石" />
-  <item key="Water Gem" value="水之宝石" />
-  <item key="Electric Gem" value="电之宝石" />
-  <item key="Grass Gem" value="草之宝石" />
-  <item key="Ice Gem" value="冰之宝石" />
-  <item key="Fighting Gem" value="斗之宝石" />
-  <item key="Poison Gem" value="毒之宝石" />
-  <item key="Ground Gem" value="地之宝石" />
-  <item key="Flying Gem" value="飞之宝石" />
-  <item key="Psychic Gem" value="超之宝石" />
-  <item key="Bug Gem" value="虫之宝石" />
-  <item key="Rock Gem" value="岩之宝石" />
-  <item key="Ghost Gem" value="鬼之宝石" />
-  <item key="Dragon Gem" value="龙之宝石" />
-  <item key="Dark Gem" value="恶之宝石" />
-  <item key="Steel Gem" value="钢之宝石" />
-  <item key="Normal Gem" value="普之宝石" />
-  <item key="Cheri Berry" value="No.01 樱桃果"/>
-  <item key="Chesto Berry" value="No.02 栗果"/>
-  <item key="Pecha Berry" value="No.03 桃果"/>
-  <item key="Rawst Berry" value="No.04 草莓果"/>
-  <item key="Aspear Berry" value="No.05 沙梨果"/>
-  <item key="Leppa Berry" value="No.06 海棠果"/>
-  <item key="Oran Berry" value="No.07 橙果"/>
-  <item key="Persim Berry" value="No.08 柿果"/>
-  <item key="Lum Berry" value="No.09 李子果"/>
-  <item key="Sitrus Berry" value="No.10 文旦果"/>
-  <item key="Figy Berry" value="No.11 无花果"/>
-  <item key="Wiki Berry" value="No.12 猕猴果"/>
-  <item key="Mago Berry" value="No.13 芒果"/>
-  <item key="Aguav Berry" value="No.14 芭乐果"/>
-  <item key="Iapapa Berry" value="No.15 木瓜果"/>
-  <item key="Razz Berry" value="No.16 木莓果"/>
-  <item key="Bluk Berry" value="No.17 黑莓果"/>
-  <item key="Nanab Berry" value="No.18 香蕉果"/>
-  <item key="Wepear Berry" value="No.19 洋梨果"/>
-  <item key="Pinap Berry" value="No.20 菠萝果"/>
-  <item key="Pomeg Berry" value="No.21 石榴果"/>
-  <item key="Kelpsy Berry" value="No.22 昆布果"/>
-  <item key="Qualot Berry" value="No.23 枇杷果"/>
-  <item key="Hondew Berry" value="No.24 蜜瓜果"/>
-  <item key="Grepa Berry" value="No.25 葡萄果"/>
-  <item key="Tamato Berry" value="No.26 番茄果"/>
-  <item key="Cornn Berry" value="No.27 蜀黍果"/>
-  <item key="Magost Berry" value="No.28 山竹果"/>
-  <item key="Rabuta Berry" value="No.29 红毛果"/>
-  <item key="Nomel Berry" value="No.30 柠檬果"/>
-  <item key="Spelon Berry" value="No.31 刺角果"/>
-  <item key="Pamtre Berry" value="No.32 棕榈果"/>
-  <item key="Watmel Berry" value="No.33 水瓜果"/>
-  <item key="Durin Berry" value="No.34 榴莲果"/>
-  <item key="Belue Berry" value="No.35 蓝莓果"/>
-  <item key="Occa Berry" value="No.36 可可果"/>
-  <item key="Passho Berry" value="No.37 百香果"/>
-  <item key="Wacan Berry" value="No.38 碧根果"/>
-  <item key="Rindo Berry" value="No.39 罗望果"/>
-  <item key="Yache Berry" value="No.40 释迦果"/>
-  <item key="Chople Berry" value="No.41 红椒果"/>
-  <item key="Kebia Berry" value="No.42 木通果"/>
-  <item key="Shuca Berry" value="No.43 腰果"/>
-  <item key="Coba Berry" value="No.44 巴可果"/>
-  <item key="Payapa Berry" value="No.45 葫芦果"/>
-  <item key="Tanga Berry" value="No.46 番樱果 "/>
-  <item key="Charti Berry" value="No.47 菜蓟果"/>
-  <item key="Kasib Berry" value="No.48 佛手果"/>
-  <item key="Haban Berry" value="No.49 黄番果"/>
-  <item key="Colbur Berry" value="No.50 苍耳果"/>
-  <item key="Babiri Berry" value="No.51 小檗果"/>
-  <item key="Chilan Berry" value="No.52 酸浆果"/>
-  <item key="Liechi Berry" value="No.53 荔枝果"/>
-  <item key="Ganlon Berry" value="No.54 龙眼果"/>
-  <item key="Salac Berry" value="No.55 蛇皮果"/>
-  <item key="Petaya Berry" value="No.56 火龙果"/>
-  <item key="Apicot Berry" value="No.57 杏果"/>
-  <item key="Lansat Berry" value="No.58 莲心果"/>
-  <item key="Starf Berry" value="No.59 杨桃果"/>
-  <item key="Enigma Berry" value="No.60 迷之果"/>
-  <item key="Micle Berry" value="No.61 神秘果"/>
-  <item key="Custap Berry" value="No.62 番荔果"/>
-  <item key="Jaboca Berry" value="No.63 嘉宝果"/>
-  <item key="Rowap Berry" value="No.64 莲雾果"/>
-  <item key="RSVP Mail" value="邀请信件"/>
-  <item key="Berry Juice" value="树果汁"/>
 </pack>
