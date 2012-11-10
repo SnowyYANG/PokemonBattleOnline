@@ -13,13 +13,14 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       : base(id)
     {
     }
+
     protected override void Act(AtkContext atk)
     {
       var aer = atk.Attacker;
       var der = atk.Target.Defender;
       var di = der.Pokemon.Item;
       var ai = aer.Pokemon.Item;
-      if ((di == null && ai == null) || ai == di || Is.CantLostItem(aer.Pokemon) || Is.CantLostItem(der.Pokemon)) FailAll(atk);
+      if ((di == null && ai == null) || Is.CantLostItem(aer.Pokemon) || Is.CantLostItem(der.Pokemon)) FailAll(atk);
       else
       {
         aer.AddReportPm("Trick");
