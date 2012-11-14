@@ -11,7 +11,7 @@ using LightStudio.PokemonBattle.Data;
 namespace LightStudio.PokemonBattle.Data
 {
   [DataContract(Namespace = Namespaces.PBO)]
-  public class PokemonData : ICloneable, IPokemonData, INotifyPropertyChanged
+  public class PokemonData : ObservableObject, ICloneable, IPokemonData
   {
     private const int WORMADAM = 413;
     private const int ROTOM = 479;
@@ -327,7 +327,7 @@ namespace LightStudio.PokemonBattle.Data
     public PokemonData Clone()
     {
       var clone = MemberwiseClone() as PokemonData;
-      clone.PropertyChanged = null;
+      clone._propertyChanged = null;
       clone._iv = new Observable6D(Iv);
       clone._ev = new Observable6D(Ev);
       clone.got = false;
@@ -337,15 +337,6 @@ namespace LightStudio.PokemonBattle.Data
     object ICloneable.Clone()
     {
       return Clone();
-    }
-    #endregion
-
-    #region INotifyPropertyChanged
-    public event PropertyChangedEventHandler PropertyChanged;
-    private void OnPropertyChanged(string propertyName = null)
-    {
-      if (PropertyChanged != null)
-        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
     }
     #endregion
   }

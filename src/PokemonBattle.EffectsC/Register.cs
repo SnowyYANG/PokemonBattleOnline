@@ -50,6 +50,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new BigBang(120));
       M(new SkullBash(130));
       M(new JumpKick(136));
+      M(new Transform(144));
       M(new Splash(150));
       M(new BigBang(153));
       M(new Rest(156));

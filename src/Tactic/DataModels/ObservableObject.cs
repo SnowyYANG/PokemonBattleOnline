@@ -3,22 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 
-namespace LightStudio.PokemonBattle.PBO
+namespace LightStudio
 {
-  public abstract class ViewModelBase : INotifyPropertyChanged
+  [DataContract(Namespace = Namespaces.PBO)]
+  public abstract class ObservableObject : INotifyPropertyChanged
   {
     private static readonly PropertyChangedEventArgs ALL = new PropertyChangedEventArgs(null);
-    
-    public event PropertyChangedEventHandler PropertyChanged;
 
-    protected ViewModelBase()
+    protected PropertyChangedEventHandler _propertyChanged;
+    public event PropertyChangedEventHandler PropertyChanged
+    {
+      add { _propertyChanged += value; }
+      remove { _propertyChanged -= value; }
+    }
+
+    protected ObservableObject()
     {
     }
 
     protected void OnPropertyChanged(PropertyChangedEventArgs e)
     {
-      if (PropertyChanged != null) PropertyChanged(this, e);
+      if (_propertyChanged != null) _propertyChanged(this, e);
     }
     protected void OnPropertyChanged(string propertyName)
     {

@@ -6,7 +6,7 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  public class SimPokemon
+  public class SimPokemon : ObservableObject
   {
     public readonly Pokemon Pokemon;
     public readonly PokemonOutward Outward;
@@ -26,7 +26,14 @@ namespace LightStudio.PokemonBattle.Game
       Outward = outward;
       X = outward.Position.X;
       Moves = new SimMove[4];
-      for (int i = 0; i < pokemon.Moves.Length; i++) Moves[i] = new SimMove(pokemon.Moves[i]);
+      for (int i = 0; i < pokemon.Moves.Length; ++i) Moves[i] = new SimMove(pokemon.Moves[i]);
+    }
+
+    internal void ChangeMoves(int[] moves)
+    {
+      Moves = new SimMove[moves.Length];
+      for (int i = 0; i < moves.Length; ++i) Moves[i] = new SimMove(GameDataService.GetMove(moves[i]));
+      OnPropertyChanged("Moves");
     }
   }
 }

@@ -31,7 +31,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       if (pm != null)
       {
         pm.SetHp(pm.Hp.Origin);
-        pm.ClientChangePokemonStateWithNotify(PokemonState.SLP);
+        pm.ClientChangePokemonState(PokemonState.SLP);
       }
     }
   }
@@ -61,7 +61,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       {
         pm.Controller.ReportBuilder.Add(new RestGameEvent(pm));
         pm.Pokemon.SetHp(pm.Pokemon.Hp.Origin);
-        pm.Pokemon.ClientChangePokemonStateWithNotify(PokemonState.SLP);
+        pm.Pokemon.ClientChangePokemonState(PokemonState.SLP);
         pm.OnboardPokemon.SetCondition("SLP", 3);
         pm.Tile.Field.SetCondition("Rest" + pm.Id);
         pm.Item.StateAdded(pm, pm, AttachedState.SLP);

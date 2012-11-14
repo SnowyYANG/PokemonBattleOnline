@@ -10,7 +10,7 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.PBO.Editor
 {
-  internal class EditorVM : ViewModelBase
+  internal class EditorVM : ObservableObject
   {
     public static readonly EditorVM Current;
 

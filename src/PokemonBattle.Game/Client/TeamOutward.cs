@@ -8,10 +8,8 @@ using System.ComponentModel;
 namespace LightStudio.PokemonBattle.Game
 {
   [DataContract(Namespace = Namespaces.PBO)]
-  public class TeamOutward : INotifyPropertyChanged
+  public class TeamOutward : ObservableObject
   {
-    public event PropertyChangedEventHandler PropertyChanged;
-
     [DataMember(EmitDefaultValue = false)]
     public int Normal { get; private set; }
     [DataMember(EmitDefaultValue = false)]
@@ -26,11 +24,6 @@ namespace LightStudio.PokemonBattle.Game
       Dying = dying;
     }
 
-    private void OnPropertyChanged()
-    {
-      if (PropertyChanged != null)
-        PropertyChanged(this, new PropertyChangedEventArgs(null));
-    }
     internal void StateChanged(PokemonOutward pm, PokemonState formerState)
     {
       if (formerState == PokemonState.Normal) Normal--;

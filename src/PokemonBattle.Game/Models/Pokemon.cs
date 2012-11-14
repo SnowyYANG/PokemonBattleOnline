@@ -7,13 +7,11 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game
 {
-  public class Pokemon : INotifyPropertyChanged
+  public class Pokemon : ObservableObject
   {
     private static readonly PropertyChangedEventArgs STATE = new PropertyChangedEventArgs("State");
     private static readonly PropertyChangedEventArgs ITEM = new PropertyChangedEventArgs("Item");
 
-    public event PropertyChangedEventHandler PropertyChanged;
-    
     public readonly int Id;
     public readonly Player Owner;
     public readonly int TeamId;
@@ -104,20 +102,29 @@ namespace LightStudio.PokemonBattle.Game
     {
       ChangeForm(Form.Type.GetForm(form));
     }
-    public void ClientChangePokemonStateWithNotify(PokemonState value)
+    
+    public void ClientChangePokemonState(PokemonState value)
     {
       if (State != value)
       {
         State = value;
-        if (PropertyChanged != null) PropertyChanged(this, STATE);
+        OnPropertyChanged(STATE);
       }
     }
-    public void ClientChangeItemWithNotify(Item item)
+    public void ClientChangeItem(Item item)
     {
       if (Item != item)
       {
         Item = item;
-        if (PropertyChanged != null) PropertyChanged(this, ITEM);
+        OnPropertyChanged(ITEM);
+      }
+    }
+    public void ClientChangeForm(int form)
+    {
+      if (form != Form.Index)
+      {
+        ChangeForm(form);
+        OnPropertyChanged();
       }
     }
   }

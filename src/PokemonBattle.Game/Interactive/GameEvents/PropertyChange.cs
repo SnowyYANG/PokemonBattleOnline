@@ -61,7 +61,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       Pokemon p = GetPokemon(game, Pm);
       if (p != null)
       {
-        p.ClientChangePokemonStateWithNotify(State);
+        p.ClientChangePokemonState(State);
         if (Item) p.Item = null;
       }
     }
@@ -184,20 +184,26 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     public override void Update(SimGame game)
     {
       var pm = GetPokemon(game, Pm);
-      if (pm != null) pm.ClientChangeItemWithNotify(null);
+      if (pm != null) pm.ClientChangeItem(null);
     }
   }
 
   [DataContract(Namespace = Namespaces.PBO)]
   public class OutwardChange : GameEvent
   {
-    public static OutwardChange FormOnly(string logKey, PokemonProxy pm, string arg = null)
+    public static OutwardChange Transform(PokemonProxy pm, PokemonProxy target)
     {
-      return new OutwardChange(logKey, pm.GetOutward(), false) { Arg = arg };
+      var o = pm.GetOutward();
+      return new OutwardChange("Transform", o.Id, target.Id) { Number = o.Form.Type.Number, Form = o.Form.Index, Moves = pm.Moves.Select((m)=>m.Type.Id).ToArray() };
     }
-    public static OutwardChange All(string logKey, PokemonProxy pm, string arg = null)
+    public static OutwardChange DeIllusion(string log, PokemonProxy pm, int arg = 0)
     {
-      return new OutwardChange(logKey, pm.GetOutward(), true) { Arg = arg };
+      var o = pm.GetOutward();
+      return new OutwardChange(log, o.Id, arg) { Number = o.Form.Type.Number, Form = o.Form.Index, Name = o.Name, Gender = o.Gender, Arg = arg };
+    }
+    public static OutwardChange ChangeForm(string log, PokemonProxy pm)
+    {
+      return new OutwardChange(log, pm.Id, 0) { Form = pm.Pokemon.Form.Index };
     }
 
     [DataMember]
@@ -213,29 +219,40 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember(EmitDefaultValue = false)]
     PokemonGender? Gender;
     [DataMember(EmitDefaultValue = false)]
-    string Arg;
+    int[] Moves;
+    [DataMember(EmitDefaultValue = false)]
+    int Arg;
 
-    private OutwardChange(string log, PokemonOutward pm, bool allProperty)
+    private OutwardChange(string log, int pm, int arg)
     {
       Log = log;
-      Pm = pm.Id;
-      Number = pm.Form.Type.Number;
-      Form = pm.Form.Index;
-      if (allProperty)
-      {
-        Name = pm.Name;
-        Gender = pm.Gender;
-      }
+      Pm = pm;
+      Arg = arg;
     }
+
     protected override void Update()
     {
       {
         var pm = GetPokemon(Pm);
         if (Name != null) pm.Name = Name;
         if (Gender != null) pm.Gender = Gender.Value;
-        pm.ChangeForm(Number, Form);
+        pm.ChangeImage(Number == 0 ? pm.Form.Type.Number : Number, Form);
       }
       AppendGameLog(Log, Pm, Arg);
+      Sleep = 500;
+    }
+    public override void Update(SimGame game)
+    {
+      if (Number == 0)
+      {
+        var pm = GetPokemon(game, Pm);
+        if (pm != null) pm.ClientChangeForm(Form);
+      }
+      else if (Moves != null)
+      {
+        var pm = game.OnboardPokemons.FirstOrDefault((p) => p.Id == Pm);
+        if (pm != null && pm.Pokemon.Owner == game.Player) pm.ChangeMoves(Moves);
+      }
     }
   }
 }

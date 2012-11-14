@@ -9,7 +9,7 @@ using LightStudio.PokemonBattle.PBO.UIElements;
 
 namespace LightStudio.PokemonBattle.PBO.Editor
 {
-  internal class LearnItemVM : ViewModelBase
+  internal class LearnItemVM : ObservableObject
   {
     private static readonly PropertyChangedEventArgs ISSELECTED = new PropertyChangedEventArgs("IsSelected");
 

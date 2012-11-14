@@ -97,7 +97,7 @@ namespace LightStudio.PokemonBattle.Data
   }
 
   [DataContract(Namespace = Namespaces.PBO)]
-  public class Observable6D : I6D, INotifyPropertyChanged
+  public class Observable6D : ObservableObject, I6D
   {
     private static readonly PropertyChangedEventArgs HP = new PropertyChangedEventArgs("Hp");
     private static readonly PropertyChangedEventArgs ATK = new PropertyChangedEventArgs("Atk");
@@ -107,7 +107,6 @@ namespace LightStudio.PokemonBattle.Data
     private static readonly PropertyChangedEventArgs SPEED = new PropertyChangedEventArgs("Speed");
 
     public event Func<I6D, int, int, bool> CanChange6D;
-    public event PropertyChangedEventHandler PropertyChanged;
 
     public Observable6D(I6D obj)
       : this(obj.Hp, obj.Atk, obj.Def, obj.SpAtk, obj.SpDef, obj.Speed)
@@ -211,10 +210,6 @@ namespace LightStudio.PokemonBattle.Data
     private bool OnPropertyChanging(int oldValue, int newValue)
     {
       return CanChange6D == null ? true : CanChange6D(this, oldValue, newValue);
-    }
-    private void OnPropertyChanged(PropertyChangedEventArgs e)
-    {
-      if (PropertyChanged != null) PropertyChanged(this, e);
     }
     public int GetStat(StatType type)
     {

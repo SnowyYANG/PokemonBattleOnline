@@ -40,9 +40,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       {
         var player = GetPokemon(game, Pm).Owner;
         foreach (var pm in game.OnboardPokemons)
-          if (pm != null) pm.Pokemon.ClientChangePokemonStateWithNotify(PokemonState.Normal);
+          if (pm != null) pm.Pokemon.ClientChangePokemonState(PokemonState.Normal);
         foreach (var pm in player.Pokemons)
-          if (pm.State != PokemonState.Faint) pm.ClientChangePokemonStateWithNotify(PokemonState.Normal);
+          if (pm.State != PokemonState.Faint) pm.ClientChangePokemonState(PokemonState.Normal);
       }
     }
   }

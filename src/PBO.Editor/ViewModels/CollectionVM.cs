@@ -9,7 +9,7 @@ using LightStudio.PokemonBattle.PBO.UIElements;
 
 namespace LightStudio.PokemonBattle.PBO.Editor
 {
-  internal abstract class CollectionVM : ViewModelBase
+  internal abstract class CollectionVM : ObservableObject
   {
     protected CollectionVM(PokemonCollection model)
     {

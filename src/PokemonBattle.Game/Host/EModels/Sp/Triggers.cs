@@ -122,7 +122,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         c = pass.GetCondition<object>("PerishSong");
         if (c != null) o.SetCondition("PerishSong", c);
       }
-      foreach (var m in pm.Moves) m.HasUsed = false;
+      pm.ResetMoves();
       Abilities.Illusion(pm);//幻影特性以交换前的队伍顺序决定
     }
     public static void Withdrawing(PokemonProxy pm, bool canPursuit)

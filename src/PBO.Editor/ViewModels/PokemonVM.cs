@@ -11,7 +11,7 @@ using LightStudio.PokemonBattle.PBO.UIElements;
 
 namespace LightStudio.PokemonBattle.PBO.Editor
 {
-  internal class PokemonVM : ViewModelBase
+  internal class PokemonVM : ObservableObject
   {
     public PokemonVM(PokemonData model)
     {

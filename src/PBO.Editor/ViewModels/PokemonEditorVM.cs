@@ -16,7 +16,7 @@ using LightStudio.PokemonBattle.PBO.UIElements;
 
 namespace LightStudio.PokemonBattle.PBO.Editor
 {
-  internal class PokemonEditor6D : ViewModelBase
+  internal class PokemonEditor6D : ObservableObject
   {
     private readonly PokemonData Model;
 
@@ -57,7 +57,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       OnPropertyChanged();
     }
   }
-  internal class PokemonEditorVM : ViewModelBase
+  internal class PokemonEditorVM : ObservableObject
   {
     public static readonly ICommand RemoveMoveCommand;
 

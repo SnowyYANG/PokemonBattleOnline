@@ -15,7 +15,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     public readonly Team[] Teams;
     private readonly IGameSettings gameSettings;
     private Controller controller;
-    private Action<int, int> gameEnd;
     private bool gaming;
 
     internal GameContext(IGameSettings settings, Func<int> nextId)

@@ -18,7 +18,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Abilities
     private void DeIllusion(PokemonProxy pm)
     {
       pm.OnboardPokemon.RemoveCondition("Illusion");
-      pm.Controller.ReportBuilder.Add(GameEvents.OutwardChange.All("DeIllusion", pm));
+      pm.Controller.ReportBuilder.Add(GameEvents.OutwardChange.DeIllusion("DeIllusion", pm));
     }
 
     public override void Detach(PokemonProxy pm)

@@ -121,6 +121,7 @@
     <Compile Include="Moves\Status\ChangeAbility\SetAbility.cs" />
     <Compile Include="Moves\Status\Splash.cs" />
     <Compile Include="Moves\Status\Substitute.cs" />
+    <Compile Include="Moves\Status\Transform.cs" />
     <Compile Include="Moves\Status\Trick.cs" />
     <Compile Include="Moves\Status\WonderRoom.cs" />
     <Compile Include="Moves\StockSpitSwallow.cs" />

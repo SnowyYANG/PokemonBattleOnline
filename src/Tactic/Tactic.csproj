@@ -62,6 +62,7 @@
     <Compile Include="Globalization\StringService.cs" />
     <Compile Include="Messaging\Factory.cs" />
     <Compile Include="Messaging\IUser.cs" />
+    <Compile Include="DataModels\ObservableObject.cs" />
     <Compile Include="Service\Category.cs" />
     <Compile Include="Service\DebugLogger.cs" />
     <Compile Include="Service\ILogger.cs" />
@@ -121,9 +122,7 @@
     <Compile Include="Threading\SyncObject.cs" />
     <Compile Include="Threading\UIDispatcher.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Serialization\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

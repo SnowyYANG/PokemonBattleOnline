@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Animation;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
@@ -19,13 +20,17 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     protected readonly Image main;
     protected readonly int Scale;
     protected PokemonOutward pokemon;
-    private DoubleAnimation faint;
+    private readonly DoubleAnimation faint;
+    private readonly DoubleAnimation beginChangeImage;
+    private readonly DoubleAnimation endChangeImage;
+    private readonly BlurEffect imageChanging;
 
     protected Pokemon2DBase(int scale)
     {
       Scale = scale;
       main = new Image() { Stretch = Stretch.UniformToFill };
       main.SetValue(Canvas.BottomProperty, (double)-48 * Scale);
+      main.Effect = imageChanging = new BlurEffect() { Radius = 0 };
       Children.Add(main);
       IsHitTestVisible = false;
       SnapsToDevicePixels = true;
@@ -36,6 +41,13 @@ namespace LightStudio.PokemonBattle.PBO.Battle
           pokemon.RemoveListener(this);
           pokemon = null;
           main.BeginAnimation(Image.HeightProperty, null);
+        };
+      endChangeImage = new DoubleAnimation(15 * Scale, 0, new Duration(TimeSpan.FromSeconds(0.5)));
+      beginChangeImage = new DoubleAnimation(0, 15 * Scale, new Duration(TimeSpan.FromSeconds(0.5)));
+      beginChangeImage.Completed += (sender, e) =>
+        {
+          RefreshImage();
+          imageChanging.BeginAnimation(BlurEffect.RadiusProperty, endChangeImage);
         };
     }
 
@@ -96,9 +108,9 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     {
       RefreshImage();
     }
-    void IPokemonOutwardEvents.FormChanged()
+    void IPokemonOutwardEvents.ImageChanged()
     {
-      RefreshImage();
+      imageChanging.BeginAnimation(BlurEffect.RadiusProperty, beginChangeImage);
     }
     void IPokemonOutwardEvents.Withdrawn()
     {

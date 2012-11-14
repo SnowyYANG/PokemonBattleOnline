@@ -21,13 +21,13 @@ namespace LightStudio.PokemonBattle.Game
     void Lv5DDown(); //下降
     void SubstituteAppear();
     void SubstituteDisappear();
-    void FormChanged(); //幻影 变身
+    void ImageChanged(); //幻影 变身
     void Withdrawn();
   }
 
   [KnownType(typeof(PairValue))]
   [DataContract(Namespace = Namespaces.PBO)]
-  public class PokemonOutward : INotifyPropertyChanged
+  public class PokemonOutward : ObservableObject
   {
     private static readonly PropertyChangedEventArgs NAME = new PropertyChangedEventArgs("Name");
     private static readonly PropertyChangedEventArgs GENDER = new PropertyChangedEventArgs("Gender");
@@ -155,7 +155,6 @@ namespace LightStudio.PokemonBattle.Game
     { get { return _position; } }
 
     #region Client
-    public event PropertyChangedEventHandler PropertyChanged;
     private IPokemonOutwardEvents listener;
     private TeamOutward team;
 
@@ -239,11 +238,11 @@ namespace LightStudio.PokemonBattle.Game
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
-    public void ChangeForm(int number, int form)
+    public void ChangeImage(int number, int form)
     {
       this.number = number;
       this.form = form;
-      listener.FormChanged();
+      listener.ImageChanged();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
@@ -254,11 +253,6 @@ namespace LightStudio.PokemonBattle.Game
     }
     #endregion
 
-    private void OnPropertyChanged(PropertyChangedEventArgs e)
-    {
-      if (PropertyChanged != null)
-        PropertyChanged(this, e);//据说性别虽然改变但不会显示出来
-    }
     public string GetProperty(string propertyName)
     {
       string r = null;

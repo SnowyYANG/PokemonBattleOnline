@@ -17,9 +17,9 @@ namespace LightStudio.PokemonBattle.Game
       var pp = (int)(Type.PP * settings.PPUp);
       PP = new PairValue(pp);
     }
-    internal Move(Move move, IGameSettings settings)
+    internal Move(MoveType move)
     {
-      Type = move.Type;
+      Type = move;
       PP = new PairValue(5);
     }
   }

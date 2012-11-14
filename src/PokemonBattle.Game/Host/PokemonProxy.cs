@@ -18,7 +18,6 @@ namespace LightStudio.PokemonBattle.Game.Host
       Controller = controller;
       Pokemon = pokemon;
       NullOnboardPokemon = new OnboardPokemon(pokemon, -1);
-      moves = pokemon.Moves.Select((m) => new MoveProxy(m, this)).ToArray();
       StruggleMove = new MoveProxy(new Move(Sp.Moves.STRUGGLE, Controller.Game.Settings), this);
     }
 
@@ -95,10 +94,19 @@ namespace LightStudio.PokemonBattle.Game.Host
         return w;
       }
     }
-    public void ChangeForm(int number, int form)
+    public void ChangeForm(int form, string log = "FormChange")
     {
-      throw new NotImplementedException();
-      //图像、重算数据、类型、体重、特性，不包括技能
+      OnboardPokemon.ChangeForm(Pokemon.Form.Type.GetForm(form));
+      Pokemon.ChangeForm(form);
+      Controller.ReportBuilder.Add(OutwardChange.ChangeForm(log, this));
+    }
+    public void Transform(PokemonProxy target)
+    {
+      OnboardPokemon.SetCondition("Transform");
+      OnboardPokemon.Transform(target.OnboardPokemon);
+      moves = new MoveProxy[target.moves.Length];
+      for (int i = 0; i < moves.Length; ++i) moves[i] = new MoveProxy(target.moves[i].Type, this);
+      Controller.ReportBuilder.Add(OutwardChange.Transform(this, target));
     }
     public void ChangeAbility(int ab, string log, int arg3 = 0)
     {
@@ -122,44 +130,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     #endregion
 
     #region Predict
-    internal bool CanSelectWithdraw
-    {
-      get
-      {
-        if (Item.ShedShell()) return true;
-        if (OnboardPokemon.HasCondition("Ingrain") || OnboardPokemon.HasCondition("CantSelectWithdraw")) return false;
-        bool arenaTrap = false, magnetPull = false, shadowTag = false;
-        foreach (var pm in Controller.GetOnboardPokemons(1 - Pokemon.TeamId))
-        {
-          int ab = pm.Ability.Id;
-          if (ab == Abilities.SHADOW_TAG) shadowTag = true;
-          else if (ab == Abilities.ARENA_TRAP) arenaTrap = true;
-          else if (ab == Abilities.MAGNET_PULL) magnetPull = true;
-        }
-        return
-          !
-          (
-          magnetPull && OnboardPokemon.HasType(BattleType.Steel) ||
-          shadowTag && Ability.Id != Abilities.SHADOW_TAG ||
-          arenaTrap && EffectsService.IsGroundAffectable.Execute(this, true, false)
-          );
-      }
-    }
-    /// <summary>
-    /// 和Struggle一起的
-    /// </summary>
-    public bool CanSelectMove
-    { get { return Hp > 0; } }
     public int LastMoveTurn
     { get; private set; }
-    internal bool CanMove
-    {
-      get
-      {
-        return Hp > 0 && LastMoveTurn != Controller.TurnNumber &&
-          (Action == PokemonAction.MoveAttached || Action == PokemonAction.Stiff || Action == PokemonAction.Moving);
-      }
-    }
     public bool CanHpRecover(bool showFail = false)
     {
       if (OnboardPokemon == NullOnboardPokemon || Hp == 0) return false;
@@ -324,10 +296,45 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       return change;
     }
+    public bool CanTransform(PokemonProxy target)
+    {
+      var to = target.OnboardPokemon;
+      return !(OnboardPokemon.HasCondition("Transform") || to.HasCondition("Illusion") || to.HasCondition("Transform") || to.HasCondition("Substitute"));
+    }
     #endregion
 
     #region internal
+    internal void ResetMoves()
+    {
+      moves = Pokemon.Moves.Select((m) => new MoveProxy(m, this)).ToArray();
+    }
     #region Input
+    internal bool CanSelectWithdraw
+    {
+      get
+      {
+        if (Item.ShedShell()) return true;
+        if (OnboardPokemon.HasCondition("Ingrain") || OnboardPokemon.HasCondition("CantSelectWithdraw")) return false;
+        bool arenaTrap = false, magnetPull = false, shadowTag = false;
+        foreach (var pm in Controller.GetOnboardPokemons(1 - Pokemon.TeamId))
+        {
+          int ab = pm.Ability.Id;
+          if (ab == Abilities.SHADOW_TAG) shadowTag = true;
+          else if (ab == Abilities.ARENA_TRAP) arenaTrap = true;
+          else if (ab == Abilities.MAGNET_PULL) magnetPull = true;
+        }
+        return
+          !
+          (
+          magnetPull && OnboardPokemon.HasType(BattleType.Steel) ||
+          shadowTag && Ability.Id != Abilities.SHADOW_TAG ||
+          arenaTrap && EffectsService.IsGroundAffectable.Execute(this, true, false)
+          );
+      }
+    }
+    /// <summary>
+    /// 和Struggle一起的
+    /// </summary>
     internal bool CanInput
     { get { return Action == PokemonAction.WaitingForInput; } }
     internal bool CheckNeedInput()
@@ -376,7 +383,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     internal bool SelectMove(MoveProxy move, Tile target)
     {
-      if (CanSelectMove && move.CanBeSelected)
+      if (Hp > 0 && move.CanBeSelected)
       {
         Action = PokemonAction.WillMove;
         SelectedMove = move;
@@ -388,6 +395,14 @@ namespace LightStudio.PokemonBattle.Game.Host
     #endregion
     #region Turn
     internal int ItemSpeedValue;
+    internal bool CanMove
+    {
+      get
+      {
+        return Hp > 0 && LastMoveTurn != Controller.TurnNumber &&
+          (Action == PokemonAction.MoveAttached || Action == PokemonAction.Stiff || Action == PokemonAction.Moving);
+      }
+    }
     internal void Debut()
     {
       if (Action == PokemonAction.Debuting)

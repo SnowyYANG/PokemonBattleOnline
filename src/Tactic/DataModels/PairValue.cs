@@ -20,12 +20,8 @@ namespace LightStudio
   }
 
   [DataContract(Namespace = Namespaces.PBO)]
-  public class PairValue : IPairValue
+  public class PairValue : ObservableObject, IPairValue
   {
-    private static readonly PropertyChangedEventArgs ALL = new PropertyChangedEventArgs(null);
-    
-    public event PropertyChangedEventHandler PropertyChanged;
-
     public PairValue(int origin, int value)
     {
       this._origin = origin;
@@ -55,24 +51,13 @@ namespace LightStudio
       }
     }
     public double Percentage
-    { 
-      get
-      {
-        return _origin == 0 ? 0 : (double)_value / (double)_origin;
-      }
-    }
+    { get { return _origin == 0 ? 0 : _value / (double)_origin; } }
     public bool IsIncreased
     { get { return _value > _origin; } }
     public bool IsDecreased
     { get { return _value < _origin; } }
     public bool IsChanged
     { get { return _value != _origin; } }
-
-    private void OnPropertyChanged()
-    {
-      if (PropertyChanged != null)
-        PropertyChanged(this, new PropertyChangedEventArgs(null));
-    }
 
     public override string ToString()
     {

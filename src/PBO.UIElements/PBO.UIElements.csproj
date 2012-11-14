@@ -109,7 +109,6 @@
     <Compile Include="Labels\Labels.cs" />
     <Compile Include="ShowMessageBox.cs" />
     <Compile Include="Controls\ClearableComboBox.cs" />
-    <Compile Include="ViewModelBase.cs" />
     <Compile Include="WpfDispatcher.cs" />
     <Page Include="Cartes\User.xaml">
       <Generator>MSBuild:Compile</Generator>

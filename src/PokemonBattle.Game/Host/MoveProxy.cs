@@ -18,6 +18,11 @@ namespace LightStudio.PokemonBattle.Game.Host
       Move = move;
       Owner = owner;
     }
+    internal MoveProxy(MoveType move, PokemonProxy owner)
+    {
+      Move = new Move(move);
+      Owner = owner;
+    }
 
     public int PP
     { 
@@ -87,9 +92,9 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         int pp = PP;
         if (atk.Targets != null)
-          foreach (var d in atk.Targets) Sp.Abilities.Pressure(this, d.Defender);
-        else if (atk.Move.Range == Data.MoveRange.Field || atk.Move.Range == Data.MoveRange.EnemyField)
-          foreach (var pm in Owner.Controller.Board[1 - Owner.Pokemon.TeamId].Pokemons) Sp.Abilities.Pressure(this, pm);
+          foreach (var d in atk.Targets) Abilities.Pressure(this, d.Defender);
+        else if (atk.Move.Range == MoveRange.Field || atk.Move.Range == MoveRange.EnemyField)
+          foreach (var pm in Owner.Controller.Board[1 - Owner.Pokemon.TeamId].Pokemons) Abilities.Pressure(this, pm);
         um.PP = pp - PP;
       }
       atk.Execute();
@@ -98,7 +103,7 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     internal bool CanExecute()
     {
-      if (Type.Id != Sp.Moves.STRUGGLE)
+      if (Type.Id != Moves.STRUGGLE)
       {
         if (PP < 1)
         {
@@ -107,7 +112,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         }
         PP--;
       }
-      return Sp.Triggers.CanExecuteMove(Owner, Type);
+      return Triggers.CanExecuteMove(Owner, Type);
     }
   }
 }

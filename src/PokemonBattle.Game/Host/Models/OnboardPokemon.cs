@@ -182,5 +182,18 @@ namespace LightStudio.PokemonBattle.Game.Host
         FiveD.SpDef = sd;
       }
     }
+    public void Transform(OnboardPokemon op)
+    {
+      //形态（包括种族值）、能力值、能力等级、属性、特性、技能等变为与对方怪兽一样。
+      Form = op.Form;
+      FiveD.Set5D(op.FiveD);
+      lv5D.Set5D(op.lv5D);
+      _accuracyLv = op._accuracyLv;
+      _evasionLv = op._evasionLv;
+      _type1 = op._type1;//无视羽休
+      _type2 = op._type2;
+      Ability = op.Ability;
+      _weight = op.Weight;
+    }
   }
 }
