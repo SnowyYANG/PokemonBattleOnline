@@ -203,7 +203,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
     public static OutwardChange ChangeForm(string log, PokemonProxy pm)
     {
-      return new OutwardChange(log, pm.Id, 0) { Form = pm.Pokemon.Form.Index };
+      return new OutwardChange(log, pm.Id, 0) { Form = pm.OnboardPokemon.Form.Index };
     }
 
     [DataMember]

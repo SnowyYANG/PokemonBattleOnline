@@ -62,6 +62,7 @@
     <Compile Include="Moves\Attack\Counter.cs" />
     <Compile Include="Moves\Attack\Feint.cs" />
     <Compile Include="Moves\Attack\ImplementEffect\Chatter.cs" />
+    <Compile Include="Moves\Attack\ImplementEffect\RelicSong.cs" />
     <Compile Include="Moves\Attack\ImplementEffect\SecretPower.cs" />
     <Compile Include="Moves\Attack\ImplementEffect\TriAttack.cs" />
     <Compile Include="Moves\Attack\Item\EatDefenderBerry.cs" />

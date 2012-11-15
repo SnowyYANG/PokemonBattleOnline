@@ -96,8 +96,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public void ChangeForm(int form, string log = "FormChange")
     {
-      OnboardPokemon.ChangeForm(Pokemon.Form.Type.GetForm(form));
-      Pokemon.ChangeForm(form);
+      OnboardPokemon.ChangeForm(OnboardPokemon.Form.Type.GetForm(form));
       Controller.ReportBuilder.Add(OutwardChange.ChangeForm(log, this));
     }
     public void Transform(PokemonProxy target)
@@ -300,6 +299,10 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       var to = target.OnboardPokemon;
       return !(OnboardPokemon.HasCondition("Transform") || to.HasCondition("Illusion") || to.HasCondition("Transform") || to.HasCondition("Substitute"));
+    }
+    public bool CanChangeForm(int number)
+    { 
+      return Pokemon.Form.Type.Number == number && !OnboardPokemon.HasCondition("Transform");
     }
     #endregion
 

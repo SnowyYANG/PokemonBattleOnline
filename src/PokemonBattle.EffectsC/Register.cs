@@ -141,6 +141,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new AttackAndForceSwitch(525));//dragon tail
       M(new HeavySlam(535));
       M(new Thunder(542));//Hurricane
+      M(new RelicSong(547));
 
       A(new FlashFire(Sp.Abilities.FLASH_FIRE));
       A(new Forewarn(108));

@@ -24,8 +24,17 @@ namespace LightStudio.PokemonBattle.Game
 
     public string Name
     { get; private set; }
+    private PokemonForm _form;
     public PokemonForm Form
-    { get; private set; }
+    {
+      get { return _form; }
+      private set
+      {
+        _form = value;
+        FiveD = new ReadOnly6D(0, Get5D(StatType.Atk), Get5D(StatType.Def), Get5D(StatType.SpAtk), Get5D(StatType.SpDef), Get5D(StatType.Speed));
+        OnPropertyChanged();
+      }
+    }
     public bool Shiny
     { get; internal set; }
     public PokemonGender Gender
@@ -75,7 +84,8 @@ namespace LightStudio.PokemonBattle.Game
         hp = new PairValue(h);
       }
 
-      ChangeForm(custom.Form);
+      Form = custom.Form;
+      originForm = Form; //client only
     }
 
     public int IndexInOwner
@@ -87,20 +97,11 @@ namespace LightStudio.PokemonBattle.Game
     {
       return PokemonStatHelper.Get5D(type, Nature, Form.Data.Base.GetStat(type), (byte)Iv.GetStat(type), (byte)Ev.GetStat(type), (byte)Lv);
     }
-    private void ChangeForm(PokemonForm form)
-    {
-      Form = form;
-      FiveD = new ReadOnly6D(0, Get5D(StatType.Atk), Get5D(StatType.Def), Get5D(StatType.SpAtk), Get5D(StatType.SpDef), Get5D(StatType.Speed));
-    }
     public void SetHp(int value)
     {
       if (value < 0) value = 0;
       else if (value > Hp.Origin) value = Hp.Origin;
       hp.Value = value;
-    }
-    public void ChangeForm(int form)
-    {
-      ChangeForm(Form.Type.GetForm(form));
     }
     
     public void ClientChangePokemonState(PokemonState value)
@@ -119,13 +120,14 @@ namespace LightStudio.PokemonBattle.Game
         OnPropertyChanged(ITEM);
       }
     }
+    private PokemonForm originForm;
     public void ClientChangeForm(int form)
     {
-      if (form != Form.Index)
-      {
-        ChangeForm(form);
-        OnPropertyChanged();
-      }
+      if (form != Form.Index) Form = Form.Type.GetForm(form);
+    }
+    public void ClientResetForm()
+    {
+      Form = originForm;
     }
   }
 }

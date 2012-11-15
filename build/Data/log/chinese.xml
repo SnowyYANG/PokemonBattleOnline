@@ -11,8 +11,8 @@
 对战结束了，{0:t}取得了胜利！
 {1}  :  {2}
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>BeginTurn</a:Key><a:Value i:type="LogText"><text>
-开始回合 #{0}
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EndTurn</a:Key><a:Value i:type="LogText"><Alignment>Right</Alignment><text>结束回合 #{0}
+第{0}回合开始
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EndTurn</a:Key><a:Value i:type="LogText"><Alignment>Right</Alignment><text>第{0}回合结束
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EndTurnNormalPm</a:Key><a:Value i:type="LogText"><Alignment>Right</Alignment><text>{0:p}（{0:pm.Type}）：{1}HP
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EndTurnAbnormalPm</a:Key><a:Value i:type="LogText"><Alignment>Right</Alignment><text>{0:p}（{0:pm.Type}）：{1}HP（{2:e}）
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>UseMove</a:Key><a:Value i:type="LogText"><text>{0:p}使用了{1:m}！

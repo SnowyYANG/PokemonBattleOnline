@@ -85,6 +85,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       {
         var pm = game.OnboardPokemons[x].Pokemon;
         game.OnboardPokemons[x] = null;
+        pm.ClientResetForm();
         if (pm.Hp.Value == 0) pm.State = PokemonState.Faint;
         else
         {
