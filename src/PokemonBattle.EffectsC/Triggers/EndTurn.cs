@@ -31,7 +31,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     GAMEEND: ;
     }
     //1.0 weather ends, Sandstorm/Hail damage, Rain Dish/Dry Skin/Ice Body/SolarPower
-    private void Weather(Controller c)
+    private static void Weather(Controller c)
     {
       int turn = c.Board.GetCondition<int>("Weather");
       if (turn == c.TurnNumber) c.Weather = Game.Weather.Normal;
@@ -89,7 +89,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
     }
     //3.0 Future Sight, Doom Desire
-    private void FSDD(Controller c)
+    private static void FSDD(Controller c)
     {
       foreach (var t in c.Board.Tiles)
       {
@@ -107,7 +107,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
     }
     //4.0 Wish
-    private void Wish(Controller c)
+    private static void Wish(Controller c)
     {
       foreach (var pm in c.OnboardPokemons)
       {
@@ -122,7 +122,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     //5.0 [pass] Fire Pledge + Grass Pledge damage
     //5.1 Shed Skin, Hydration, Healer
     //5.2 Leftovers, Black Sludge
-    private void PropertyChange(Controller c)
+    private static void PropertyChange(Controller c)
     {
       bool hydration = c.Weather == Game.Weather.HeavyRain;
       foreach (var pm in c.OnboardPokemons.ToArray())
@@ -173,7 +173,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     //6.0 Aqua Ring
     //7.0 Ingrain
     //8.0 Leech Seed
-    private void HpRecover(Controller c)
+    private static void HpRecover(Controller c)
     {
       foreach (var pm in c.OnboardPokemons)
         if (pm.OnboardPokemon.HasCondition("AquaRing"))
@@ -216,23 +216,29 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     }
     //9.0 (bad) poison damage, burn damage, Poison Heal
     //9.1 Nightmare
-    private void PmState(Controller c)
+    private static void PmState(Controller c)
     {
       foreach (var pm in c.OnboardPokemons.ToArray())
       {
         switch (pm.State)
         {
           case PokemonState.BadlyPSN:
-            if (pm.CanHpRecover() && pm.RaiseAbility(As.POISON_HEAL)) pm.HpRecoverByOneNth(8, false, "PoisonHeal");
-            else
+          case PokemonState.PSN:
+            var id = pm.Ability.Id;
+            if (id == As.POISON_HEAL)
+            {
+              if (pm.CanHpRecover())
+              {
+                pm.RaiseAbility();
+                pm.HpRecoverByOneNth(8, false, "PoisonHeal");
+              }
+            }
+            else if (pm.State == PokemonState.BadlyPSN)
             {
               int turn = 1 + c.TurnNumber - pm.OnboardPokemon.GetCondition<int>("PSN");
               int hp = pm.Pokemon.Hp.Origin * (turn > 15 ? 15 : turn) / 16;
               pm.EffectHurt(hp, "PSN");
             }
-            break;
-          case PokemonState.PSN:
-            if (pm.CanHpRecover() && pm.RaiseAbility(As.POISON_HEAL)) pm.HpRecoverByOneNth(8, false, "PoisonHeal");
             else pm.EffectHurtByOneNth(8, "PSN");
             break;
          case PokemonState.BRN:
@@ -246,7 +252,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
     }
     //10.0 Curse (from a Ghost-type)
-    private void Curse(Controller c)
+    private static void Curse(Controller c)
     {
       foreach (var pm in c.OnboardPokemons)
         if (pm.OnboardPokemon.HasCondition("Curse"))
@@ -256,7 +262,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         }
     }
     //11.0 Bind, Wrap, Fire Spin, Clamp, Whirlpool, Sand Tomb, Magma Storm
-    private void Trap(Controller c)
+    private static void Trap(Controller c)
     {
       foreach (var pm in c.OnboardPokemons.ToArray())
       {
@@ -283,7 +289,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     //18.0 Embargo ends
     //19.0 Yawn
     //20.0 Perish Song
-    private void PokemonCondition(Controller c)
+    private static void PokemonCondition(Controller c)
     {
       foreach (var pm in c.OnboardPokemons)
       {
@@ -373,7 +379,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     //21.4 Tailwind ends
     //21.5 Lucky Chant ends
     //21.6 [pass] Water Pledge + Fire Pledge ends, Fire Pledge + Grass Pledge ends, Grass Pledge + Water Pledge ends
-    private void FieldCondition(Controller c)
+    private static void FieldCondition(Controller c)
     {
       foreach (var f in c.Board.Fields)
       {
@@ -385,7 +391,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         FieldCondition("LuckyChant", f, c);
       }
     }
-    private void FieldCondition(string condition, Field f, Controller c)
+    private static void FieldCondition(string condition, Field f, Controller c)
     {
       if (f.GetCondition<int>(condition) == c.TurnNumber)
       {
@@ -397,7 +403,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     //23.0 Trick Room ends
     //24.0 Wonder Room ends
     //25.0 Magic Room ends
-    private void BoardCondition(Controller c)
+    private static void BoardCondition(Controller c)
     {
       var board = c.Board;
       int turn = c.TurnNumber;
@@ -435,7 +441,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     //26.2 Toxic Orb activation, Flame Orb activation, Sticky Barb
     //26.3 pickup
     private static readonly StatType[] SEVEN_D = { StatType.Atk, StatType.Def, StatType.SpAtk, StatType.SpDef, StatType.Speed, StatType.Accuracy, StatType.Evasion };
-    private void Pokemon(Controller c)
+    private static void Pokemon(Controller c)
     {
       foreach (var pm in c.OnboardPokemons.ToArray())
       {
@@ -531,9 +537,14 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         pm.CheckFaint();
       }
     }
-    //27.0 [unfinish]Zen Mode
-    private void ZenMode(Controller c)
+    //27.0 Zen Mode
+    private static void ZenMode(Controller c)
     {
+      foreach (var pm in c.OnboardPokemons)
+      {
+        var form = pm.Hp << 1 <= pm.Pokemon.Hp.Origin ? 1 : 0;
+        if (form != pm.OnboardPokemon.Form.Index && pm.CanChangeForm(555) && pm.RaiseAbility(As.ZEN_MODE)) pm.ChangeForm(form, form == 0 ? "DeZenMode" : "EnZenMode");
+      }
     }
   }
 }

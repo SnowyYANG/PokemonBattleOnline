@@ -39,9 +39,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>server.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -62,6 +67,7 @@
     <Compile Include="AvatarVM.cs" />
     <Compile Include="Messaging\PBOServer.cs" />
     <Compile Include="Messaging\RoomInfo.cs" />
+    <Compile Include="TaskbarIconService.cs" />
     <Compile Include="UserVM.cs" />
     <Compile Include="WpfDispatcher.cs" />
     <Page Include="MainWindow.xaml">
@@ -103,32 +109,14 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\Avatars\0.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\Avatars\1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\Avatars\2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\Avatars\3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\Avatars\4.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\Avatars\afk.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\Avatars\aggressive.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Tactic\Tactic.csproj">
       <Project>{EE2C451E-A61E-4634-B382-5298982E060C}</Project>
       <Name>Tactic</Name>
       <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="server.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

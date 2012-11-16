@@ -82,22 +82,8 @@
   <item key="PSN" value="中毒"/>
   <item key="BadlyPSN" value="剧毒"/>
   <item key="SLP" value="睡眠"/>
-  <item key="Single" value="单体"/>
-  <item key="UserOrParner" value="己方单体"/>
-  <item key="Partner" value="队友单体"/>
-  <item key="SingleEnemy" value="对方单体"/>
-  <item key="Adjacent" value="自身周围"/>
-  <item key="AdjacentEnemies" value="对方全体"/>
-  <item key="UserParty" value="己方全体"/>
-  <item key="User" value="自身"/>
-  <item key="All" value="场上全体怪兽"/>
-  <item key="RandomEnemy" value="对方随即单体"/>
-  <item key="Field" value="全场场地"/>
-  <item key="EnemyField" value="对方场地"/>
-  <item key="UserField" value="己方场地"/>
-  <item key="Varies" value="自身待机"/>
 
-  <item key="(nature ignored)" value="（无视性格）"/>
+  <item key="Description" value="描述"/>
   <item key="Results" value="结果"/>
   <item key="Search" value="搜索" />
   <item key="Settings" value="设置" />
@@ -133,7 +119,7 @@
   <item key="Recycler Size" value="回收站容量"/>
   <item key="Reset" value="重置"/>
   <item key="Lobby" value="大厅"/>
-  <item key="_All" value="全部"/>
+  <item key="All" value="全部"/>
   <item key="Editor" value="编辑器"/>
   <item key="Login" value="登陆"/>
   <item key="new box" value="新箱子"/>

@@ -32,5 +32,8 @@ namespace LightStudio.PokemonBattle.Data
       : base(id)
     {
     }
+
+    public override string Description
+    { get { return null; } }
   }
 }

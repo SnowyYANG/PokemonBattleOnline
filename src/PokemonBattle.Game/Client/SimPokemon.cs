@@ -35,5 +35,11 @@ namespace LightStudio.PokemonBattle.Game
       for (int i = 0; i < moves.Length; ++i) Moves[i] = new SimMove(GameDataService.GetMove(moves[i]));
       OnPropertyChanged("Moves");
     }
+
+    public void ChangeMove(int from, int to)
+    {
+      for (int i = 0; i < Moves.Length; ++i)
+        if (Moves[i].Type.Id == from) Moves[i] = new SimMove(Data.GameDataService.GetMove(to));
+    }
   }
 }

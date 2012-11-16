@@ -44,6 +44,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new SpRangeMove(89, CoordY.Underground, true));//earthquake
       M(new SpRangeMove(90, CoordY.Underground));
       M(new Leap(91, CoordY.Underground));//dig
+      M(new Mimic(102));
       M(new Bide(117));
       M(new Metronome(118));
       M(new MirrorMove(119));
@@ -147,6 +148,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       A(new Forewarn(108));
       A(new Frisk(119));
       A(new Illusion(149));
+      A(new Imposter(150));
 
       I(new MentalHerb(8));
       I(new StickyBarb(65));

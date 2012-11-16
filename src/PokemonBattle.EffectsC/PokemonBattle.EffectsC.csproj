@@ -51,6 +51,7 @@
     </Compile>
     <Compile Include="Abilities\Frisk.cs" />
     <Compile Include="Abilities\Illusion.cs" />
+    <Compile Include="Abilities\Imposter.cs" />
     <Compile Include="Items\LeppaBerry.cs" />
     <Compile Include="Items\MentalHerb.cs" />
     <Compile Include="Items\ReHurtBerry.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Moves\Status\Curse.cs" />
     <Compile Include="Moves\Status\Gravity.cs" />
     <Compile Include="Moves\Status\HealBell.cs" />
+    <Compile Include="Moves\Status\Mimic.cs" />
     <Compile Include="Moves\Status\PainSplit.cs" />
     <Compile Include="Moves\Status\Recycle.cs" />
     <Compile Include="Moves\Status\Rest.cs" />

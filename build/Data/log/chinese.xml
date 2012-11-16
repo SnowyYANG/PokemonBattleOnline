@@ -2,6 +2,7 @@
 <a:KeyValueOfstringanyType><a:Key>__sample</a:Key><a:Value i:type="LogText"><Contents><a:anyType i:type="LogText"><foreground>4294901760</foreground><text>Hello </text></a:anyType><a:anyType i:type="LogText"><text>World!</text></a:anyType></Contents></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>unfinish</a:Key><a:Value i:type="LogText"><text>{0:p}使用的技能{1:m}尚未制作。
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>error</a:Key><a:Value i:type="LogText"><text>主机发生了一个错误，数据包损坏或主机程序被篡改。
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>nokey</a:Key><a:Value i:type="LogText"><text>主机传送过来的战报信息错误，缺少战报关键字。
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>notfound</a:Key><a:Value i:type="LogText"><text>无法匹配主机传送过来的战报，战报关键字为{0}。
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>----</a:Key><a:Value i:type="LogText"><text>---------------------------------
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameStart</a:Key><a:Value i:type="LogText"><text>战斗开始！
@@ -196,6 +197,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GuardSwap</a:Key><a:Value i:type="LogText"><text>{0:p}和{1:p}交换了防御与特防能力等级！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Trick</a:Key><a:Value i:type="LogText"><text>{0:p}将双方的道具交换了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GetItem</a:Key><a:Value i:type="LogText"><text>{0:p}得到了{1:i}！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Mimic</a:Key><a:Value i:type="LogText"><text>{0:p}学会了{1:m}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>LunarDance</a:Key><a:Value i:type="LogText"><text>{0:p}被神秘的月光包住了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HealingWish</a:Key><a:Value i:type="LogText"><text>治愈之愿传递给了{0:p}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Wish</a:Key><a:Value i:type="LogText"><text>{0:p}的许愿实现了！</text></a:Value></a:KeyValueOfstringanyType>

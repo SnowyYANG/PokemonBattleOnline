@@ -7,7 +7,7 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ListView x:Name="usersView" Margin="0,25,0,0">
+        <ListView x:Name="usersView">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="Height" Value="48"/>
@@ -24,13 +24,6 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="InnerAvatar">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Image Source="{Binding Avatar.InnerAvatar}" Width="48" Height="48"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
                     <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"/>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
                     <GridViewColumn Header="State" DisplayMemberBinding="{Binding State}"/>
@@ -41,7 +34,6 @@
         </ListView>
         <TextBox x:Name="chat" Grid.Column="1" IsReadOnly="True" IsReadOnlyCaretVisible="True" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" Margin="3,0,0,0"/>
         <Rectangle x:Name="mask" Grid.ColumnSpan="2" Fill="#80ffffff"/>
-        <Button x:Name="s" Content="Start" VerticalAlignment="Top" Height="25" Click="Button_Click" Foreground="Red"/>
         <GridSplitter Width="3" Grid.Column="1" HorizontalAlignment="Left" Background="#a0b0c0" ShowsPreview="True" />
     </Grid>
 </Window>

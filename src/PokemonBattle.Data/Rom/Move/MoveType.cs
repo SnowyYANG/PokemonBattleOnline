@@ -22,6 +22,9 @@ namespace LightStudio.PokemonBattle.Data
     }
 #endif
 
+    public override string Description
+    { get { return DataService.DataString["M" + Id.ToString("000")]; } }
+
     [DataMember(EmitDefaultValue = false)]
     private readonly MoveInnerClass _class;
     public MoveInnerClass Class

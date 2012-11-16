@@ -24,7 +24,7 @@
                     </Setter>
                 </Style>
             </TabControl.ItemContainerStyle>
-            <TabItem Header="{Binding [_All], Source={x:Static pm:DataService.String}}" FontSize="13" Style="{x:Null}" Background="{x:Null}">
+            <TabItem Header="{Binding [All], Source={x:Static pm:DataService.String}}" FontSize="13" Style="{x:Null}" Background="{x:Null}">
                 <FlowDocumentScrollViewer Margin="3" Background="{x:Null}" Name="chatViewer" IsToolBarVisible="False" BorderThickness="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
                     <FlowDocument FontSize="12" TextAlignment="Left" PagePadding="0">
                         <Paragraph x:Name="chat" Margin="0"/>

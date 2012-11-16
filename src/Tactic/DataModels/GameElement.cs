@@ -7,10 +7,8 @@ using System.Runtime.Serialization;
 namespace LightStudio.Tactic.DataModels
 {
   [DataContract(Namespace = Namespaces.PBO)]
-  public class GameElement
+  public abstract class GameElement
   {
-    public const string DESCRIPTION_FORMAT = "{0}_Des";
-
     [DataMember]
     public int Id { get; private set; }
 
@@ -22,13 +20,7 @@ namespace LightStudio.Tactic.DataModels
     [DataMember]
     public string Name { get; protected set; }
 
-    public string Description
-    {
-      get
-      {
-        return string.Format(DESCRIPTION_FORMAT, Name);
-      }
-    }
+    public abstract string Description { get; }
 
     public override string ToString()
     {

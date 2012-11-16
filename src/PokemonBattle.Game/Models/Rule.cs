@@ -13,10 +13,11 @@ namespace LightStudio.PokemonBattle.Game
     public Rule(int id, string name, string description) : base(id)
     {
       Name = name;
-      Description = description;
+      _description = description;
     }
-    public new string Description
-    { get; private set; }
 
+    private string _description;
+    public override string Description
+    { get { return _description; } }
   }
 }

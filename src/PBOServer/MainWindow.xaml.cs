@@ -32,6 +32,7 @@ namespace LightStudio.PokemonBattle.PBO.Server
       WpfDispatcher.Init(Dispatcher);
       InitializeComponent();
       StartServer();
+      TaskbarIconService.Show();
     }
 
     private void AddUser(User u)
@@ -55,7 +56,6 @@ namespace LightStudio.PokemonBattle.PBO.Server
         System.Windows.MessageBox.Show(e.Message);
         return;
       }
-      s.Content = "Stop";
       mask.Visibility = System.Windows.Visibility.Hidden;
       usersDictionary = new Dictionary<int, UserVM>(50);//容量
       users = new ObservableCollection<UserVM>();
@@ -77,7 +77,6 @@ namespace LightStudio.PokemonBattle.PBO.Server
         System.Windows.MessageBox.Show(e.Message);
         return;
       }
-      s.Content = "Start";
       mask.Visibility = System.Windows.Visibility.Visible;
     }
 
@@ -113,21 +112,6 @@ namespace LightStudio.PokemonBattle.PBO.Server
         });
     }
     
-    private void Button_Click(object sender, RoutedEventArgs e)
-    {
-      if (server.IsStarted)
-      {
-        StopServer();
-        ((Button)sender).Content = "Start";
-        mask.Visibility = Visibility.Visible;
-      }
-      else
-      {
-        StartServer();
-        ((Button)sender).Content = "Stop";
-        mask.Visibility = Visibility.Hidden;
-      }
-    }
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
       e.Cancel = MessageBox.Show("Exit?", "PBO Server", MessageBoxButton.YesNo) == MessageBoxResult.No;

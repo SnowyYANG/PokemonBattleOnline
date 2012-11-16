@@ -107,6 +107,15 @@ namespace LightStudio.PokemonBattle.Game.Host
       for (int i = 0; i < moves.Length; ++i) moves[i] = new MoveProxy(target.moves[i].Type, this);
       Controller.ReportBuilder.Add(OutwardChange.Transform(this, target));
     }
+    public void ChangeMove(MoveType from, MoveType to)
+    {
+      for (int i = 0; i < moves.Length; ++i)
+        if (moves[i].Type == from)
+        {
+          moves[i] = new MoveProxy(to, this);
+          break;
+        }
+    }
     public void ChangeAbility(int ab, string log, int arg3 = 0)
     {
       AddReport(new AbilityEvent(this, log, OnboardPokemon.Ability, ab) { Arg3 = arg3 });
@@ -121,10 +130,6 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (attach) Item.Attach(this);
       OnboardPokemon.RemoveCondition("Unburden");
       OnboardPokemon.RemoveCondition("ChoiceItem");
-    }
-    internal void BuildAtkContext(MoveProxy move)
-    {
-      _atkContext = new AtkContext(move);
     }
     #endregion
 
@@ -297,6 +302,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public bool CanTransform(PokemonProxy target)
     {
+      if (target == null) return false;
       var to = target.OnboardPokemon;
       return !(OnboardPokemon.HasCondition("Transform") || to.HasCondition("Illusion") || to.HasCondition("Transform") || to.HasCondition("Substitute"));
     }
@@ -310,6 +316,10 @@ namespace LightStudio.PokemonBattle.Game.Host
     internal void ResetMoves()
     {
       moves = Pokemon.Moves.Select((m) => new MoveProxy(m, this)).ToArray();
+    }
+    internal void BuildAtkContext(MoveProxy move)
+    {
+      _atkContext = new AtkContext(move);
     }
     #region Input
     internal bool CanSelectWithdraw

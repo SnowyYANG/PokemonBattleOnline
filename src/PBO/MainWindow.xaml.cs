@@ -65,6 +65,7 @@ namespace LightStudio.PokemonBattle.PBO
     private void Grid_Loaded(object sender, RoutedEventArgs e)
     {
       border = ActualWidth - ((Grid)sender).ActualWidth;
+      c1.Width = GLMIN;
     }
     private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
     {
