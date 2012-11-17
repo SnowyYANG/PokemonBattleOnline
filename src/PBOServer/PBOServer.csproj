@@ -116,7 +116,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="server.ico" />
+    <EmbeddedResource Include="server.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Bitmap1.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

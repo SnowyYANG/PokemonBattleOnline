@@ -32,7 +32,7 @@ namespace LightStudio.PokemonBattle.PBO.Server
       WpfDispatcher.Init(Dispatcher);
       InitializeComponent();
       StartServer();
-      TaskbarIconService.Show();
+      TaskbarIconService.Init(this);
     }
 
     private void AddUser(User u)
@@ -111,19 +111,19 @@ namespace LightStudio.PokemonBattle.PBO.Server
           else chat.AppendText("\n" + "[" + userId + "]" + ": " + content);
         });
     }
-    
-    private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+
+    protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
     {
-      e.Cancel = MessageBox.Show("Exit?", "PBO Server", MessageBoxButton.YesNo) == MessageBoxResult.No;
-      if (!e.Cancel)
-      {
-        try { StopServer(); }
-        catch { }
-        finally
-        {
-          server.Dispose();
-        }
-      }
+      e.Cancel = true;
+      Visibility = System.Windows.Visibility.Collapsed;
+      base.OnClosing(e);
+    }
+    protected override void OnClosed(EventArgs e)
+    {
+      try { StopServer(); }
+      catch { }
+      finally { server.Dispose(); }
+      base.OnClosed(e);
     }
   }
 }
