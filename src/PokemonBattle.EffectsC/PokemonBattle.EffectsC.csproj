@@ -46,12 +46,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abilities\FlashFire.cs" />
+    <Compile Include="Abilities\FlowerGift.cs" />
+    <Compile Include="Abilities\Forecast.cs" />
     <Compile Include="Abilities\Forewarn.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Abilities\Frisk.cs" />
     <Compile Include="Abilities\Illusion.cs" />
     <Compile Include="Abilities\Imposter.cs" />
+    <Compile Include="Abilities\ZenMode.cs" />
     <Compile Include="Items\LeppaBerry.cs" />
     <Compile Include="Items\MentalHerb.cs" />
     <Compile Include="Items\ReHurtBerry.cs" />

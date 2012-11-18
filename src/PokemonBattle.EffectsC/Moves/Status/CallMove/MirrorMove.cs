@@ -11,19 +11,18 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       : base(id)
     {
     }
-    protected override bool NotFail(AtkContext atk)
-    {
-      if (base.NotFail(atk))
-      {
-        var o = atk.Target.Defender.OnboardPokemon.GetCondition("LastMove");
-        return o != null && o.Move.Flags.Mirrorable;
-      }
-      return false;
-    }
     public override void Execute(AtkContext atk)
     {
-      if (NotFail(atk)) CallMove(atk, atk.Target.Defender.AtkContext.MoveProxy.Type, atk.Target.Defender.Tile);
-      else FailAll(atk);
+      if (NotFail(atk))
+      {
+        var last = atk.Target.Defender.AtkContext;
+        if (last != null && last.Move.Flags.Mirrorable)
+        {
+          CallMove(atk, last.Move, atk.Target.Defender.Tile);
+          return;
+        }
+      }
+      FailAll(atk);
     }
   }
 }

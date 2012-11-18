@@ -71,11 +71,12 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       pm.OnboardPokemon.RemoveCondition("Rage");
       var i = pm.OnboardPokemon.GetCondition<int>("Taunt");
       if (i != 0) pm.OnboardPokemon.SetCondition("Taunt", i - 1);
-      var o = pm.OnboardPokemon.GetCondition("Encore");
-      if (o != null) o.Turn--;
+      i = pm.OnboardPokemon.GetCondition<int>("Encore");
+      if (i != 0) pm.OnboardPokemon.SetCondition("Encore", i - 1);
     }
     public static void SendingOut(PokemonProxy pm)
     {
+      pm.ResetMoves();
       var o = pm.OnboardPokemon;
       if (pm.State == PokemonState.SLP) o.SetCondition("SLP", pm.Tile.Field.HasCondition("Rest" + pm.Id) ? 3 : pm.Controller.GetRandomInt(2, 4));
       else
@@ -122,7 +123,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         c = pass.GetCondition<object>("PerishSong");
         if (c != null) o.SetCondition("PerishSong", c);
       }
-      pm.ResetMoves();
       Abilities.Illusion(pm);//幻影特性以交换前的队伍顺序决定
     }
     public static void Withdrawing(PokemonProxy pm, bool canPursuit)

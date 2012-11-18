@@ -45,14 +45,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public int Id
     { get { return Pokemon.Id; } }
     public int Hp
-    { 
-      get { return Pokemon.Hp.Value; }
-      private set
-      {
-        Pokemon.SetHp(value);
-        Item.HpChanged(this);
-      }
-    }
+    { get { return Pokemon.Hp.Value; } }
     public PokemonState State
     { get { return Pokemon.State; } }
     public MoveProxy SelectedMove //先取
@@ -94,10 +87,10 @@ namespace LightStudio.PokemonBattle.Game.Host
         return w;
       }
     }
-    public void ChangeForm(int form, string log = "FormChange")
+    public void ChangeForm(int form)
     {
       OnboardPokemon.ChangeForm(OnboardPokemon.Form.Type.GetForm(form));
-      Controller.ReportBuilder.Add(OutwardChange.ChangeForm(log, this));
+      Controller.ReportBuilder.Add(OutwardChange.ChangeForm(this));
     }
     public void Transform(PokemonProxy target)
     {
@@ -310,11 +303,18 @@ namespace LightStudio.PokemonBattle.Game.Host
     { 
       return Pokemon.Form.Type.Number == number && !OnboardPokemon.HasCondition("Transform");
     }
+    public bool CanChangeForm(int number, int form)
+    {
+      return Pokemon.Form.Index != form && CanChangeForm(number);
+    }
     #endregion
 
     #region internal
     internal void ResetMoves()
     {
+      _atkContext = null;
+      SelectedMove = null;
+      SelectedTarget = null;
       moves = Pokemon.Moves.Select((m) => new MoveProxy(m, this)).ToArray();
     }
     internal void BuildAtkContext(MoveProxy move)
@@ -354,6 +354,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (Action == PokemonAction.Done || State == PokemonState.SLP && Action == PokemonAction.Moving && AtkContext.Move.SkipSleepMTA())
       {
+        if (OnboardPokemon.HasCondition("Encore") && AtkContext != null && AtkContext.MoveProxy.PP == 0) OnboardPokemon.RemoveCondition("Encore");
         if (Item.ChoiceItem())
         {
           var o = OnboardPokemon.GetCondition<MoveType>("ChoiceItem");
@@ -362,23 +363,11 @@ namespace LightStudio.PokemonBattle.Game.Host
               if (m.Type == o)
               {
                 if (m.PP == 0) OnboardPokemon.RemoveCondition("ChoiceItem");
-                goto OKCHOICEITEM;
+                goto DONE;
               }
           OnboardPokemon.RemoveCondition("ChoiceItem");
         }
-      OKCHOICEITEM:
-        if (OnboardPokemon.HasCondition("Encore") && AtkContext != null)
-        {
-          var move = AtkContext.MoveProxy.Type;
-          foreach(var m in Moves)
-            if (m.Type == move)
-            {
-              if (m.PP == 0) OnboardPokemon.RemoveCondition("Encore");
-              goto OKENCORE;
-            }
-          OnboardPokemon.RemoveCondition("Encore");
-        }
-      OKENCORE:
+      DONE:
         Action = PokemonAction.WaitingForInput;
         return true;
       }
@@ -470,6 +459,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             else Action = PokemonAction.Done;
             break;
           case PokemonAction.MoveAttached:
+            if (OnboardPokemon.HasCondition("Encore")) SelectedMove = AtkContext.MoveProxy;
             if (CanExecute() && SelectedMove.CanExecute())
             {
               _atkContext = null;
@@ -548,7 +538,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         if (consumeItem) ConsumeItem();
         if (changeHp == 0) changeHp = 1;
-        Hp += changeHp;
+        Pokemon.SetHp(Hp + changeHp);
         Controller.ReportBuilder.Add(new GameEvents.HpChange(this, logKey, arg1) { ConsumeItem = consumeItem });
       }
     }
@@ -562,7 +552,8 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (CanEffectHurt)
       {
         if (changeHp == 0) changeHp = 1;
-        Hp -= changeHp;
+        Pokemon.SetHp(Hp - changeHp);
+        Item.HpChanged(this);
         OnboardPokemon.SetTurnCondition("Assurance");
         Controller.ReportBuilder.Add(new GameEvents.HpChange(this, logKey, arg1, arg2));
       }
@@ -692,7 +683,9 @@ namespace LightStudio.PokemonBattle.Game.Host
           goto POKEMON_STATE;
         case AttachedState.FRZ:
           Pokemon.State = PokemonState.FRZ;
-          goto POKEMON_STATE;
+          Controller.ReportBuilder.Add(new StateChange(this, log, arg1));
+          if (CanChangeForm(492, 0)) ChangeForm(0);
+          goto DONE;
         case AttachedState.PAR:
           Pokemon.State = PokemonState.PAR;
           goto POKEMON_STATE;

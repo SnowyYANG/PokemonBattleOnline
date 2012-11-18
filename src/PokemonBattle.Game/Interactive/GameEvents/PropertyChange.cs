@@ -103,7 +103,8 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       if (Key != null)
       {
         AppendGameLog(Key, Pm, Arg1, Arg2);
-        AppendGameLog("Hp", Hp - oldHp);
+        var h = Hp - oldHp;
+        AppendGameLog("Hp", h == 0 ? "0" : h.ToString("+0"));
       }
     }
     public override void Update(SimGame game)
@@ -201,12 +202,12 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       var o = pm.GetOutward();
       return new OutwardChange(log, o.Id, arg) { Number = o.Form.Type.Number, Form = o.Form.Index, Name = o.Name, Gender = o.Gender, Arg = arg };
     }
-    public static OutwardChange ChangeForm(string log, PokemonProxy pm)
+    public static OutwardChange ChangeForm(PokemonProxy pm)
     {
-      return new OutwardChange(log, pm.Id, 0) { Form = pm.OnboardPokemon.Form.Index };
+      return new OutwardChange(null, pm.Id, 0) { Form = pm.OnboardPokemon.Form.Index };
     }
 
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     string Log;
     [DataMember]
     int Pm;
@@ -237,8 +238,9 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
         if (Name != null) pm.Name = Name;
         if (Gender != null) pm.Gender = Gender.Value;
         pm.ChangeImage(Number == 0 ? pm.Form.Type.Number : Number, Form);
+        if (Number == 0 && pm.Form.Type.Number == 555) Log = Form == 0 ? "DeZenMode" : "EnZenMode";
       }
-      AppendGameLog(Log, Pm, Arg);
+      AppendGameLog(Log ?? "FormChange", Pm, Arg);
       Sleep = 500;
     }
     public override void Update(SimGame game)

@@ -138,7 +138,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
           pm.Controller.ReportBuilder.Add(e);
           pm.MoveHurt((pm.Pokemon.Lv * 2 / 5 + 2) * 40 * OnboardPokemon.Get5D(pm.OnboardPokemon.FiveD.Atk, pm.OnboardPokemon.Lv5D.Atk) / OnboardPokemon.Get5D(pm.OnboardPokemon.FiveD.Def, pm.OnboardPokemon.Lv5D.Def) / 50 + 2);
           e.Hp = pm.Hp;
-          if (!pm.CheckFaint()) pm.Item.HpChanged(pm);
+          //if (!pm.CheckFaint()) pm.Item.HpChanged(pm); //◇硝子玩偶◇ 22:21:00 你知道混乱打自己的时候不触发加HP的果子么
           return false;
         }
       }

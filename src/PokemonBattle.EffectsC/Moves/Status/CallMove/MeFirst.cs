@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
           !(
           der.LastMoveTurn == der.Controller.TurnNumber || der.OnboardPokemon.HasCondition("SkyDrop") ||
           dm == null ||
-          dm.Move.Type.Category == Data.MoveCategory.Status || dm.Move.Type.Id == Sp.Moves.STRUGGLE || Sp.Moves.FocusPunch(dm)
+          dm.Type.Category == Data.MoveCategory.Status || dm.Type.Id == Sp.Moves.STRUGGLE || Sp.Moves.FocusPunch(dm)
           );
       }
       return false;

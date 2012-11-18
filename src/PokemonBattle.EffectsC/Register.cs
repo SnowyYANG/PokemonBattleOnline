@@ -144,11 +144,14 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Thunder(542));//Hurricane
       M(new RelicSong(547));
 
-      A(new FlashFire(Sp.Abilities.FLASH_FIRE));
+      A(new Forecast(59));
+      A(new FlashFire(18));
       A(new Forewarn(108));
       A(new Frisk(119));
+      A(new FlowerGift(122));
       A(new Illusion(149));
       A(new Imposter(150));
+      A(new ZenMode(161));
 
       I(new MentalHerb(8));
       I(new StickyBarb(65));

@@ -26,10 +26,7 @@ class Encore(StatusMoveE):
         if move == None or move.Type.Id == 102 or move.Type.Id == 144 or move.Type.Id == 227:
             self.FailAll(a)
         else:
-            c = Condition()
-            c.Turn = 3
-            c.Move = move.Type
-            if der.OnboardPokemon.AddCondition('Encore', c):
+            if der.OnboardPokemon.AddCondition('Encore', 3):
                 der.AddReportPm('EnEncore', None, None)
             else:
                 self.FailAll(a)

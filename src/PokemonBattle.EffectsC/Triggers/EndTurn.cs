@@ -302,8 +302,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
       foreach (var pm in c.OnboardPokemons)
       {
-        var o = pm.OnboardPokemon.GetCondition("Encore");
-        if (o != null && o.Turn == 0)
+        int turn = pm.OnboardPokemon.GetCondition("Encore", -1);
+        if (turn == 0)
         {
           pm.OnboardPokemon.RemoveCondition("Encore");
           pm.AddReportPm("DeEncore");
@@ -515,23 +515,33 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         if (ab == As.PICKUP && pm.Pokemon.Item == null)
         {
           var items = new List<Item>();
+          var owners = new List<OnboardPokemon>();
           foreach (var p in c.Board[1 - pm.Pokemon.TeamId].Pokemons)
           {
             var i = p.OnboardPokemon.GetCondition<Item>("UsedItem");
-            if (i != null) items.Add(i);
+            if (i != null)
+            {
+              items.Add(i);
+              owners.Add(p.OnboardPokemon);
+            }
           }
           if (!items.Any())
             foreach (var p in pm.Tile.Field.Pokemons)
               if (p != pm)
               {
                 var i = p.OnboardPokemon.GetCondition<Item>("UsedItem");
-                if (i != null) items.Add(i);
+                if (i != null)
+                {
+                  items.Add(i);
+                  owners.Add(p.OnboardPokemon);
+                }
               }
           if (items.Any())
           {
-            var item = items[c.GetRandomInt(0, items.Count - 1)].Id;
+            var i = c.GetRandomInt(0, items.Count - 1);
+            owners[i].RemoveCondition("UsedItem");
             pm.RaiseAbility();
-            pm.ChangeItem(item, "Pickup");
+            pm.ChangeItem(items[i].Id, "Pickup");
           }
         }
         pm.CheckFaint();
@@ -543,7 +553,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       foreach (var pm in c.OnboardPokemons)
       {
         var form = pm.Hp << 1 <= pm.Pokemon.Hp.Origin ? 1 : 0;
-        if (form != pm.OnboardPokemon.Form.Index && pm.CanChangeForm(555) && pm.RaiseAbility(As.ZEN_MODE)) pm.ChangeForm(form, form == 0 ? "DeZenMode" : "EnZenMode");
+        if (pm.CanChangeForm(555, form) && pm.RaiseAbility(As.ZEN_MODE)) pm.ChangeForm(form);
       }
     }
   }

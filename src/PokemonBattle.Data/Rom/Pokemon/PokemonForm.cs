@@ -49,5 +49,10 @@ namespace LightStudio.PokemonBattle.Data
         return data.Type1 == data.Type2 ? BattleType.Invalid : data.Type2;
       }
     }
+
+    public override string ToString()
+    {
+      return Name ?? "Normal Form";
+    }
   }
 }

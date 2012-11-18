@@ -92,5 +92,10 @@ namespace LightStudio.PokemonBattle.Data
     {
       return forms.ValueOrDefault(index);
     }
+
+    public override string ToString()
+    {
+      return Name;
+    }
   }
 }
