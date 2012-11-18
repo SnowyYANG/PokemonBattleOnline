@@ -58,6 +58,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Conversion(160));
       M(new TriAttack(161));
       M(new Substitute(164));
+      M(new TripleKick(167));
       M(new Thief(168));
       M(new Curse(174));
       M(new Flail(175));

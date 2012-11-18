@@ -70,15 +70,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       return move.Id == PSYSHOCK || move.Id == FOUL_PLAY || move.Id == PSYSTRIKE || move.Id == SECRET_SWORD;
     }
 
-    internal static bool TripleKick(AtkContext atk)
-    {
-      if (atk.Move.Id == 167)
-      {
-        EffectsService.GetMove(167).FilterDefContext(atk);
-        return atk.Target != null;
-      }
-      return true;
-    }
     internal static MoveRange GetRange(PokemonProxy pm, MoveType move)
     {
       return move.Id == CURSE ? pm.OnboardPokemon.HasType(BattleType.Ghost) ? MoveRange.Single : MoveRange.User : move.Range;

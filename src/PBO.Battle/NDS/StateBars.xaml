@@ -44,11 +44,9 @@
         		    <DropShadowEffect BlurRadius="3" ShadowDepth="0"/>
         	    </TextBlock.Effect>
             </TextBlock>
-            <TextBlock Text="{Binding Path=Hp.Origin}" Canvas.Left="78" Canvas.Bottom="0" Foreground="White" FontSize="11" FontWeight="Bold" FontStyle="Italic" TextOptions.TextRenderingMode="Aliased"/>
-            <TextBlock Text="{Binding Path=Hp.Value}" Canvas.Right="40" Canvas.Bottom="0" Foreground="White" FontSize="11" FontWeight="Bold" FontStyle="Italic" TextOptions.TextRenderingMode="Aliased"/>
             <Image DataContext="{Binding Gender}" Style="{StaticResource BitmapGenderLabel}" Canvas.Left="66" Canvas.Top="1"/>
             <ContentControl Content="{Binding State}" Canvas.Left="13" Canvas.Top="11" ContentTemplate="{x:Static ui:Labels.PokemonState}"/>
-            <ui:LifeBar DataContext="{Binding Hp}" Canvas.Left="50" Canvas.Top="13"/>
+            <ui:LifeBarWithText DataContext="{Binding Hp}" Canvas.Left="50" Canvas.Top="13"/>
         </Canvas>
     </DataTemplate>
     <DataTemplate x:Key="RStateBar">

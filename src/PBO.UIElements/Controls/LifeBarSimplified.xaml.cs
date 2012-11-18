@@ -54,8 +54,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
       var hp = ((PairValue)sender).Value;
       var max = ((PairValue)sender).Origin;
       {
-        int x2 = hp * 48 / max;
-        if (x2 == 0 && hp != 0) x2 = 1;
+        var x2 = LifeBarHelper.GetWidth(hp, max);
         u.X2 = d.X2 = x2;
       }
       if (hp * 5 <= max)

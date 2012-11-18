@@ -99,6 +99,7 @@
     <Compile Include="Moves\Attack\SpBasepower\TrumpCard.cs" />
     <Compile Include="Moves\Attack\SpBasepower\WringOut.cs" />
     <Compile Include="Moves\Attack\ImplementEffect\Thief.cs" />
+    <Compile Include="Moves\Attack\TripleKick.cs" />
     <Compile Include="Moves\FSDD.cs" />
     <Compile Include="Moves\Present.cs" />
     <Compile Include="Moves\Status\Acupressure.cs" />

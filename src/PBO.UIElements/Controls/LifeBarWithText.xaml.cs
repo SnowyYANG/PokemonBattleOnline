@@ -18,30 +18,33 @@ using System.ComponentModel;
 namespace LightStudio.PokemonBattle.PBO.UIElements
 {
   /// <summary>
-  /// Interaction logic for LifeBar.xaml
+  /// Interaction logic for LifeBarWithText.xaml
   /// </summary>
-  public partial class LifeBar : Canvas
+  public partial class LifeBarWithText : Canvas
   {
     private const int PERIOD = 16;
+
     private static void TimerCallback(object o)
     {
-      ((LifeBar)o).TimerCallback();
+      ((LifeBarWithText)o).TimerCallback();
     }
 
     private readonly Storyboard storyboard;
     private readonly Timer timer;
-    private readonly Delegate RefreshWidthDelegate;
-    private readonly Delegate RefreshColorDelegate;
-    private readonly Delegate RefreshBothDelegate;
-    
-    public LifeBar()
+    private readonly Delegate RefreshAllDelegate;
+    private readonly Delegate RefreshTextWidthDelegate;
+    private readonly Delegate RefreshTextColorDelegate;
+    private readonly Delegate RefreshTextDelegate;
+
+    public LifeBarWithText()
     {
       InitializeComponent();
       storyboard = (Storyboard)Resources["Flash"];
       timer = new Timer(TimerCallback, this, Timeout.Infinite, PERIOD);
-      RefreshWidthDelegate = new Action(RefreshWidth);
-      RefreshColorDelegate = new Action(RefreshColor);
-      RefreshBothDelegate = new Action(RefreshBoth);
+      RefreshAllDelegate = new Action(RefreshAll);
+      RefreshTextWidthDelegate = new Action(RefreshTextWidth);
+      RefreshTextColorDelegate = new Action(RefreshTextColor);
+      RefreshTextDelegate = new Action(RefreshText);
     }
 
     int maxHp;
@@ -50,11 +53,11 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
     int current;
     byte currentColor;
     double currentWidth;
-    private void RefreshWidth()
+    private void RefreshText()
     {
-      bar.Width = currentWidth;
+      Current.Text = current.ToString();
     }
-    private void RefreshColor()
+    private void _RefreshColor()
     {
       if (currentColor == 0)
       {
@@ -72,32 +75,49 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
         bar.BorderBrush = LifeBarHelper.GREENSHADOW;
       }
     }
-    private void RefreshBoth()
+    private void _RefreshWidth()
     {
-      RefreshWidth();
-      RefreshColor();
+      bar.Width = currentWidth;
+    }
+    private void RefreshTextWidth()
+    {
+      RefreshText();
+      _RefreshWidth();
+    }
+    private void RefreshTextColor()
+    {
+      RefreshText();
+      _RefreshColor();
+    }
+    private void RefreshAll()
+    {
+      RefreshText();
+      _RefreshColor();
+      _RefreshWidth();
     }
     private void CurrentChanged()
     {
       byte c;
-      double w;
-      w = LifeBarHelper.GetWidth(current, maxHp);
+      double w = LifeBarHelper.GetWidth(current, maxHp);
       c = (byte)(current <= redHp ? 0 : current <= yellowHp ? 1 : 2);
+      Delegate d;
       if (w != currentWidth)
       {
         currentWidth = w;
         if (c != currentColor)
         {
           currentColor = c;
-          UIDispatcher.BeginInvoke(RefreshBothDelegate);
+          d = RefreshAllDelegate;
         }
-        else UIDispatcher.BeginInvoke(RefreshWidthDelegate);
+        else d = RefreshTextWidthDelegate;
       }
       else if (c != currentColor)
       {
         currentColor = c;
-        UIDispatcher.BeginInvoke(RefreshColorDelegate);
+        d = RefreshTextColorDelegate;
       }
+      else d = RefreshTextDelegate;
+      UIDispatcher.BeginInvoke(d);
     }
     #region timer
     bool animating;
@@ -150,6 +170,8 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
         yellowHp = maxHp >> 1;
         redHp = maxHp / 5;
         current = hp = pair.Value;
+        Max.Text = maxHp.ToString();
+        Current.Text = current.ToString();
         CurrentChanged();
         flash.Width = LifeBarHelper.GetWidth(hp, maxHp);
       }

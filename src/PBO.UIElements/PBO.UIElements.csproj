@@ -73,6 +73,10 @@
     <Compile Include="Config.cs" />
     <Compile Include="Controls\Controls.cs" />
     <Compile Include="Controls\Command.cs" />
+    <Compile Include="Controls\LifeBarHelper.cs" />
+    <Compile Include="Controls\LifeBarWithText.xaml.cs">
+      <DependentUpon>LifeBarWithText.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LifeBarSimplified.xaml.cs">
       <DependentUpon>LifeBarSimplified.xaml</DependentUpon>
     </Compile>
@@ -111,6 +115,10 @@
     <Compile Include="Controls\ClearableComboBox.cs" />
     <Compile Include="WpfDispatcher.cs" />
     <Page Include="Cartes\User.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\LifeBarWithText.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

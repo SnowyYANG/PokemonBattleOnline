@@ -121,27 +121,25 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     {
       int count = pm.OnboardPokemon.GetCondition<int>("Confuse");
       if (count != 0)
-      {
         if (--count > 0)
         {
           pm.AddReportPm("Confuse");
           pm.OnboardPokemon.SetCondition("Confuse", count);
+          if (pm.Controller.OneNth(2))
+          {
+            var e = new GameEvents.HpChange(pm, "ConfuseWork") { ResetY = true };
+            pm.Controller.ReportBuilder.Add(e);
+            pm.MoveHurt((pm.Pokemon.Lv * 2 / 5 + 2) * 40 * OnboardPokemon.Get5D(pm.OnboardPokemon.FiveD.Atk, pm.OnboardPokemon.Lv5D.Atk) / OnboardPokemon.Get5D(pm.OnboardPokemon.FiveD.Def, pm.OnboardPokemon.Lv5D.Def) / 50 + 2);
+            e.Hp = pm.Hp;
+            //if (!pm.CheckFaint()) pm.Item.HpChanged(pm); //◇硝子玩偶◇ 22:21:00 你知道混乱打自己的时候不触发加HP的果子么
+            return false;
+          }
         }
         else
         {
           pm.OnboardPokemon.RemoveCondition("confuse");
           pm.AddReportPm("DeConfuse");
         }
-        if (pm.Controller.OneNth(2))
-        {
-          var e = new GameEvents.HpChange(pm, "ConfuseWork") { ResetY = true };
-          pm.Controller.ReportBuilder.Add(e);
-          pm.MoveHurt((pm.Pokemon.Lv * 2 / 5 + 2) * 40 * OnboardPokemon.Get5D(pm.OnboardPokemon.FiveD.Atk, pm.OnboardPokemon.Lv5D.Atk) / OnboardPokemon.Get5D(pm.OnboardPokemon.FiveD.Def, pm.OnboardPokemon.Lv5D.Def) / 50 + 2);
-          e.Hp = pm.Hp;
-          //if (!pm.CheckFaint()) pm.Item.HpChanged(pm); //◇硝子玩偶◇ 22:21:00 你知道混乱打自己的时候不触发加HP的果子么
-          return false;
-        }
-      }
       return true;
     }
     private static bool Flinch(PokemonProxy pm)

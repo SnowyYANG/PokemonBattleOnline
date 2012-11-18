@@ -53,7 +53,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
       }
-      while (hits < times && atk.Target.Defender.Hp != 0 && aer.Hp != 0 && aer.State != PokemonState.FRZ && aer.State != PokemonState.SLP && Moves.TripleKick(atk));
+      while (hits < times && atk.Target.Defender.Hp != 0 && aer.Hp != 0 && aer.State != PokemonState.FRZ && aer.State != PokemonState.SLP);
       
       if (Move.MaxTimes > 1) atk.Controller.ReportBuilder.Add("Hits", hits);
       if (atk.Type == BattleType.Fire)
