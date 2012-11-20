@@ -35,7 +35,10 @@ namespace LightStudio.PokemonBattle.PBO
         new BattleWindow(user).Show();
       GL0 = new GridLength(0);
       GLMIN = new GridLength(lobby.MinWidth);
-      editor.Init();
+      double x = -PBO.Helper.Random.Next(16);
+      double y = -PBO.Helper.Random.Next(16);
+      editor.Init(x, y);
+      lobby.Init(x, y);
     }
 
     private void switchLobby_Click(object sender, RoutedEventArgs e)

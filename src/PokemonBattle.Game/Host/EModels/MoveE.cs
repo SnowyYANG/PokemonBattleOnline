@@ -250,7 +250,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       #endregion
       #region Check for misses
-      if (!atk.Attacker.Ability.NoGuard() && GetAccuracyBase(atk) < 0x65)
+      if (!atk.Attacker.Ability.NoGuard() && GetAccuracyBase(atk) != 0x65)
       {
         if (Move.Class != MoveInnerClass.OHKO)
         {

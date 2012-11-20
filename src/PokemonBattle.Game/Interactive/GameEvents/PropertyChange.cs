@@ -104,7 +104,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       {
         AppendGameLog(Key, Pm, Arg1, Arg2);
         var h = Hp - oldHp;
-        Sleep = h * 17 + 1000;
+        Sleep = Math.Abs(h) * 17 + 1000;
         AppendGameLog("Hp", h > 0 ? h.ToString("+0") : h.ToString());
       }
     }

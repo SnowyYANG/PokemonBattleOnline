@@ -24,13 +24,13 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     public EditorPanel()
     {
       InitializeComponent();
-      gridbg.Margin = new Thickness(0 - PBO.Helper.Random.Next(16), 0 - PBO.Helper.Random.Next(16), 0, 0);
-      gridbg.Fill = PBO.UIElements.Brushes.GetGridTileBrush(16, PBO.Helper.NewBrush(0x66000000));//opacity=0.4
     }
 
-    public void Init()
+    public void Init(double x, double y)
     {
       DataContext = EditorVM.Current;
+      gridbg.Margin = new Thickness(0, y, x, 0);
+      gridbg.Fill = PBO.UIElements.Brushes.GetGridTileBrush(16, PBO.Helper.NewBrush(0x66000000));//opacity=0.4
     }
 
     public bool Window_Closing()

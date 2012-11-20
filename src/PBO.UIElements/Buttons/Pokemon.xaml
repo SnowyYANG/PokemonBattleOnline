@@ -19,7 +19,6 @@
                             </Style>
                         </Canvas.Resources>
                         <Line Canvas.Left="88" Canvas.Top="32" X1="6" Y2="6" Stroke="#B0B0B0"/>
-                        <Line X2="48" Canvas.Top="27" Canvas.Left="63" Stroke="Black" StrokeThickness="2"/>
                         <TextBlock Name="level" Canvas.Left="7" Canvas.Bottom="4" Visibility="Hidden">
                             Lv.<TextBlock Text="{Binding Lv}"/>
                         </TextBlock>

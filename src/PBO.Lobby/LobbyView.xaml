@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements;assembly=PBO.UIElements"
              xmlns:local="clr-namespace:LightStudio.PokemonBattle.PBO.Lobby"
-             MinHeight="300" MinWidth="200" SizeChanged="UserControl_SizeChanged">
+             MinHeight="300" MinWidth="230" SizeChanged="UserControl_SizeChanged">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

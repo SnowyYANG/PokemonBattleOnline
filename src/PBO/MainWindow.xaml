@@ -5,7 +5,7 @@
         xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements;assembly=PBO.UIElements"
         xmlns:e="clr-namespace:LightStudio.PokemonBattle.PBO.Editor;assembly=PBO.Editor"
         xmlns:l="clr-namespace:LightStudio.PokemonBattle.PBO.Lobby;assembly=PBO.Lobby"
-        Title="Pokemon Battle Online" MinWidth="530" MinHeight="500" SizeChanged="Window_SizeChanged">
+        Title="Pokemon Battle Online" MinWidth="560" MinHeight="500" SizeChanged="Window_SizeChanged">
     <Grid Loaded="Grid_Loaded">
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="c0"/>

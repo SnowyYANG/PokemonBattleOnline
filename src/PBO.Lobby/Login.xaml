@@ -7,7 +7,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:pm="clr-namespace:LightStudio.PokemonBattle.Data;assembly=PokemonBattle.Data"
              mc:Ignorable="d"
-             Height="100" MinWidth="150" MaxWidth="300" Background="WhiteSmoke" BorderThickness="2" BorderBrush="#FFAAAAAA">
+             Height="100" MinWidth="180" MaxWidth="300" Background="#f5f5f5" BorderThickness="2" BorderBrush="#FFAAAAAA">
     <Grid>
         <ContentPresenter x:Name="avatar" ContentTemplate="{x:Static ui:Cartes.DetailedAvatar}" Height="60" Width="60" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,2,0,0"/>
         <TextBox Name="avatarUrl" Foreground="Gray" VerticalAlignment="Top" Margin="70,37,0,0" BorderThickness="0,0,0,1" TextAlignment="Right" TextChanged="avatarUrl_TextChanged" Background="{x:Null}" />
