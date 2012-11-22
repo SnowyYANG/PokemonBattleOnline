@@ -410,6 +410,35 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       if (def.EffectRevise > 0 && (da == FILTER || da == SOLID_ROCK)) m *= 0xC00;
       return m;
     }
+    internal static bool Unnerve(PokemonProxy pm)
+    {
+      return pm.OnboardPokemon.HasCondition("Unnerve") && pm.Ability.Id == UNNERVE;
+    }
+    internal static void AttachUnnerve(Controller c)
+    {
+      foreach(var pm in c.Board.Pokemons)
+        if (!pm.OnboardPokemon.HasCondition("Unnerve") && pm.Ability.Id == UNNERVE)
+        {
+          pm.OnboardPokemon.SetCondition("Unnerve");
+          pm.RaiseAbility();
+          pm.Controller.ReportBuilder.Add("Unnerve", 1 - pm.Pokemon.TeamId);
+        }
+    }
+    internal static void AttachWeatherObserver(PokemonProxy pm)
+    {
+      var a = pm.Ability;
+      if ((a.Id == FORECAST || a.Id == FLOWER_GIFT) && pm.OnboardPokemon.AddCondition("ObserveWeather")) a.Attach(pm);
+    }
+    internal static void WeatherChanged(Controller c)
+    {
+      if (!IgnoreWeather(c))
+        foreach (var pm in c.Board.Pokemons)
+        {
+          var op = pm.OnboardPokemon;
+          if (op.HasCondition("ObserveWeather") && (op.Ability == Abilities.FORECAST || op.Ability == Abilities.FLOWER_GIFT)) pm.Ability.Attach(pm);
+        }
+    }
     #endregion
+
   }
 }

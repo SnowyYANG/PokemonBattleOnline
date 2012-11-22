@@ -68,7 +68,12 @@ namespace LightStudio.PokemonBattle.Game.Host
         p.SwitchPokemon(origin, sendout);
         ReportBuilder.Add(new SendOut(log, pm));
         Abilities.Trace(pm);
-        if (debut) pm.Debut();
+        if (debut)
+        {
+          Abilities.AttachUnnerve(Controller);
+          pm.Debut();
+          Abilities.AttachWeatherObserver(pm);
+        }
         return true;
       }
       return false;

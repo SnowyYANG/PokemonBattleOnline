@@ -58,8 +58,7 @@
                                 <DiscreteThicknessKeyFrame KeyTime="0:0:0" Value="18,2,0,0"/>
                                 <DiscreteThicknessKeyFrame KeyTime="0:0:0.6" Value="18,11,0,0"/>
                             </ThicknessAnimationUsingKeyFrames>
-                            <DoubleAnimation Storyboard.TargetName="fg" Storyboard.TargetProperty="Opacity"
-                                             From="1" To="0" BeginTime="0:0:0.8" Duration="0:0:0.2"/>
+                            <DoubleAnimation Storyboard.TargetName="fg" Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="0:0:0.8" Duration="0:0:0.2"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </DataTrigger.EnterActions>

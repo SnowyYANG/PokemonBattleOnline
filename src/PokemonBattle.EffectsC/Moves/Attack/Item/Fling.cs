@@ -16,17 +16,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     public override void Execute(AtkContext atk)
     {
       var aer = atk.Attacker;
-      if (aer.CanLostItem)
+      if (aer.CanLostItem && aer.CanUseItem && !Is.Gem(aer.Pokemon.Item.Id))
       {
-        var i = aer.Item.Id;
-        if (i != 0 && !Is.Gem(i))
-        {
-          base.Execute(atk);
-          if (atk.FailAll) aer.RemoveItem();
-          return;
-        }
+        base.Execute(atk);
+        if (atk.FailAll) aer.ConsumeItem();
+        aer.Controller.ReportBuilder.Add(new GameEvents.RemoveItem(null, aer));
       }
-      FailAll(atk);
+      else FailAll(atk);
     }
     protected override void Act(AtkContext atk)
     {

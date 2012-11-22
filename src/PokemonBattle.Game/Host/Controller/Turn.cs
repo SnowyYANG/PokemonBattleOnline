@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using LightStudio.PokemonBattle.Game.Host.Sp;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
@@ -48,6 +49,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         tiles[j] = temp;
       }
       Tiles = tiles.OrderBy((pm) => pm, comparer).ToArray();
+      OnboardPokemons = Tiles.Where((t) => t.Pokemon != null).Select((t) => t.Pokemon).ToList();
     }
 
     public void StartGameLoop()
@@ -140,7 +142,6 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (Controller.TurnNumber != 0)
       {
         SortTiles();
-        OnboardPokemons = Tiles.Where((t) => t.Pokemon != null).Select((t) => t.Pokemon).ToList();
         EffectsService.EndTurn.Execute(Controller);
         ReportBuilder.AddHorizontalLine();
       }
@@ -168,8 +169,11 @@ namespace LightStudio.PokemonBattle.Game.Host
           Controller.Sendout(t, false);
         }
       SortTiles();
+      Abilities.AttachUnnerve(Controller);
       foreach (Tile t in Tiles)
-        if (sendouts[t.Team, t.X] && t.Pokemon != null) t.Pokemon.Debut();
+        if (sendouts[t.Team, t.X]) t.Pokemon.Debut();
+      foreach (Tile t in Board.Tiles)
+        if (sendouts[t.Team, t.X]) Abilities.AttachWeatherObserver(t.Pokemon);
       if (ReportBuilder.TurnNumber != 0) current -= 2;
     }
     private void NextTurn()

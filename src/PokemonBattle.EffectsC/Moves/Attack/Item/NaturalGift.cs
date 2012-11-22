@@ -16,10 +16,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     public override void Execute(AtkContext atk)
     {
       var aer = atk.Attacker;
-      if (aer.CanLostItem && Is.BerryNumber(aer.Item.Id) != 0)
+      if (aer.CanLostItem && aer.CanUseItem && Is.Berry(aer.Pokemon.Item.Id))
       {
         base.Execute(atk);
-        if (atk.FailAll) aer.RemoveItem();
+        if (atk.FailAll) aer.ConsumeItem();
+        aer.Controller.ReportBuilder.Add(new GameEvents.RemoveItem(null, aer));
       }
       else FailAll(atk);
     }
@@ -32,7 +33,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     {
       var i = Is.BerryNumber(def.AtkContext.Attacker.Pokemon.Item.Id);
       def.BasePower = i < 17 ? 60 : i < 33 ? 70 : i < 36 ? 80 : i < 53 ? 60 : 80;
-      def.AtkContext.Attacker.RemoveItem();
+    }
+    protected override void ImplementEffect(DefContext def)
+    {
+      def.AtkContext.Attacker.ConsumeItem();
     }
   }
 }

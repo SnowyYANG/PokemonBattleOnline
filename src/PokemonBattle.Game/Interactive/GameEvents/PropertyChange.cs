@@ -180,8 +180,8 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     {
       var pm = GetPokemon(Pm);
       if (Key == "PowerHerb") pm.ChangePosition(pm.Position.X, CoordY.Plate);
-      if (Key != null) AppendGameLog(Key, Pm, (object)S1 ?? I1, (object)S2 ?? I2);
-      else Sleep = 0;
+      if (Key == null) Sleep = 0;
+      else AppendGameLog(Key, Pm, (object)S1 ?? I1, (object)S2 ?? I2);
     }
     public override void Update(SimGame game)
     {

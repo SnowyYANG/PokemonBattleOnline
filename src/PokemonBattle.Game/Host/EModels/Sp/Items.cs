@@ -74,6 +74,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       return pm.Form.Type.Number == 493 && pm.Item.Id > 74 && pm.Item.Id < 91;
     }
+    public static bool Berry(int id)
+    {
+      return BerryNumber(id) != 0;
+    }
     public static int BerryNumber(int id)
     {
       return 129 <= id && id <= 192 ? id - 128 : 0;
@@ -282,9 +286,14 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       }
       return r;
     }
-    internal static void AirBalloon(PokemonProxy pm) //气球的提示信息不是Attach而是Debut，是唯一会Debut的道具
+    internal static bool AirBalloon(PokemonProxy pm) //气球的提示信息不是Attach而是Debut，是唯一会Debut的道具
     {
-      if (pm.Item.Id == 105) pm.AddReportPm("EnBalloon");
+      if (pm.Item.Id == 105)
+      {
+        pm.AddReportPm("EnBalloon");
+        return true;
+      }
+      return false;
     }
     internal static void AttackPostEffect(AtkContext atk)
     {

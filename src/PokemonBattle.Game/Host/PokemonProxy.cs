@@ -58,7 +58,17 @@ namespace LightStudio.PokemonBattle.Game.Host
     public AbilityE Ability
     { get { return OnboardPokemon == NullOnboardPokemon || OnboardPokemon.HasCondition("GastroAcid") ? EffectsService.NULL_ABILITY : EffectsService.GetAbility(OnboardPokemon.Ability); } }
     public ItemE Item
-    { get { return OnboardPokemon != NullOnboardPokemon && CanUseItem ? EffectsService.GetItem(Pokemon.Item) : EffectsService.NULL_ITEM; } }
+    {
+      get
+      {
+        return
+          OnboardPokemon == NullOnboardPokemon ||
+          Pokemon.Item == null ||
+          !CanUseItem ||
+          Items.Berry(Pokemon.Item.Id) && Controller.Board[1 - Pokemon.TeamId].Pokemons.Any(Abilities.Unnerve) ?
+        EffectsService.NULL_ITEM : EffectsService.GetItem(Pokemon.Item);
+      }
+    }
     private MoveProxy[] moves;
     public IEnumerable<MoveProxy> Moves
     { get { return moves; } }
@@ -413,8 +423,8 @@ namespace LightStudio.PokemonBattle.Game.Host
         Tile.Field.Debut(this);
         if (!CheckFaint())
         {
-          Ability.Attach(this);
-          Items.AirBalloon(this); Item.Attach(this);
+          if (OnboardPokemon.Ability != Abilities.FLOWER_GIFT && OnboardPokemon.Ability != Abilities.FORECAST) Ability.Attach(this);
+          if (!Items.AirBalloon(this)) Item.Attach(this);
         }
         Action = PokemonAction.Done;
       }
