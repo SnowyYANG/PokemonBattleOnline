@@ -1,9 +1,10 @@
 ﻿<GameLogs xmlns:ms="http://www.w3.org/2001/XMLSchema" xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://pbo.codeplex.com/"><logs>
-<a:KeyValueOfstringanyType><a:Key>__sample</a:Key><a:Value i:type="LogText"><Contents><a:anyType i:type="LogText"><foreground>4294901760</foreground><text>Hello </text></a:anyType><a:anyType i:type="LogText"><text>World!</text></a:anyType></Contents></a:Value></a:KeyValueOfstringanyType>
-<a:KeyValueOfstringanyType><a:Key>unfinish</a:Key><a:Value i:type="LogText"><text>{0:p}使用的技能{1:m}尚未制作。
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>error</a:Key><a:Value i:type="LogText"><text>主机发生了一个错误，数据包损坏或主机程序被篡改。
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>nokey</a:Key><a:Value i:type="LogText"><text>主机传送过来的战报信息错误，缺少战报关键字。
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>notfound</a:Key><a:Value i:type="LogText"><text>无法匹配主机传送过来的战报，战报关键字为{0}。
+<a:KeyValueOfstringanyType><a:Key>__sample</a:Key><a:Value i:type="LogText"><Contents><a:anyType i:type="LogText"><foreground>16711680</foreground><text>Hello </text></a:anyType><a:anyType i:type="LogText"><text>World!</text></a:anyType></Contents></a:Value></a:KeyValueOfstringanyType>
+<a:KeyValueOfstringanyType><a:Key>error</a:Key><a:Value i:type="LogText"><text>主机发生了一个错误，数据包损坏或主机程序被篡改。
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>nokey</a:Key><a:Value i:type="LogText"><foreground>16711680</foreground><text>主机传送过来的战报信息错误，缺少战报关键字。
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>notfound</a:Key><a:Value i:type="LogText"><foreground>16711680</foreground><text>无法匹配主机传送过来的战报，战报关键字为{0}。
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>unfinish</a:Key><a:Value i:type="LogText"><foreground>16711680</foreground><text>{0:p}使用的技能{1:m}尚未制作。
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>bad</a:Key><a:Value i:type="LogText"><foreground>16711680</foreground><text>{0:p}使用的技能{1:m}暂不制作，原因请见http://pbo.codeplex.com/。
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>----</a:Key><a:Value i:type="LogText"><text>---------------------------------
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameStart</a:Key><a:Value i:type="LogText"><text>战斗开始！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameResultTie</a:Key><a:Value i:type="LogText"><IsBold>true</IsBold><text>
@@ -387,4 +388,5 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SkillSwapDetail</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>（{0:p}的特性变成了{1:a}）
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Chatter</a:Key><a:Value i:type="LogText"><text>（{0:p}：{0:pm.Chatter}）
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Ability</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:a}——</text></a:Value></a:KeyValueOfstringanyType>
-</logs></GameLogs>
+<a:KeyValueOfstringanyType><a:Key>RULE_SLP</a:Key><a:Value i:type="LogText"><foreground>16744448</foreground><text>[催眠条款]{0:pm.Owner.Name}已经有精灵因为对手睡着了，{0:pm.Name}不能被催眠。
+</text></a:Value></a:KeyValueOfstringanyType></logs></GameLogs>

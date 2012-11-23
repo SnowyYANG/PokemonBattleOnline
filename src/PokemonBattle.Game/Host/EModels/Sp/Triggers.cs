@@ -131,7 +131,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       {
         var tile = pm.Tile;
         foreach (var p in pm.Controller.Board[1 - tile.Team].GetPokemons(tile.X - 1, tile.X + 1).ToArray())
-          if (p.SelectedMove != null && p.SelectedMove.Type.Id == Moves.PURSUIT)
+          if (p.SelectedMove != null && p.SelectedMove.Type.Id == Moves.PURSUIT && p.CanMove)
           {
             p.OnboardPokemon.SetCondition("Pursuiting");
             p.Move();

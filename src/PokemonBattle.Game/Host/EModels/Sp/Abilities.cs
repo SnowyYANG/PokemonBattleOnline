@@ -187,7 +187,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     public static bool IgnoreWeather(Controller c)
     {
       const int CLOUD_NINE = 13, AIR_LOCK = 76;
-      foreach (PokemonProxy p in c.OnboardPokemons)
+      foreach (PokemonProxy p in c.ActingPokemons)
       {
         var a = p.Ability.Id;
         if (a == AIR_LOCK || a == CLOUD_NINE) return true;
@@ -351,7 +351,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     internal static void SlowStart(Controller Controller)
     {
       const int SLOW_START = 112;
-      foreach (var pm in Controller.OnboardPokemons)
+      foreach (var pm in Controller.ActingPokemons)
         if (pm.Ability.Id == SLOW_START)
         {
           int turn = pm.OnboardPokemon.GetCondition<int>("SlowStart");
@@ -416,7 +416,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     internal static void AttachUnnerve(Controller c)
     {
-      foreach(var pm in c.Board.Pokemons)
+      foreach(var pm in c.OnboardPokemons)
         if (!pm.OnboardPokemon.HasCondition("Unnerve") && pm.Ability.Id == UNNERVE)
         {
           pm.OnboardPokemon.SetCondition("Unnerve");
@@ -426,19 +426,18 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     }
     internal static void AttachWeatherObserver(PokemonProxy pm)
     {
-      var a = pm.Ability;
-      if ((a.Id == FORECAST || a.Id == FLOWER_GIFT) && pm.OnboardPokemon.AddCondition("ObserveWeather")) a.Attach(pm);
-    }
-    internal static void WeatherChanged(Controller c)
-    {
-      if (!IgnoreWeather(c))
-        foreach (var pm in c.Board.Pokemons)
-        {
-          var op = pm.OnboardPokemon;
-          if (op.HasCondition("ObserveWeather") && (op.Ability == Abilities.FORECAST || op.Ability == Abilities.FLOWER_GIFT)) pm.Ability.Attach(pm);
-        }
+      var a = pm.OnboardPokemon.Ability;
+      if (a == FORECAST || a == FLOWER_GIFT) pm.OnboardPokemon.SetCondition("ObserveWeather");
     }
     #endregion
-
+    public static void WeatherChanged(Controller c)
+    {
+      foreach (var pm in c.OnboardPokemons)
+        if (pm.OnboardPokemon.HasCondition("ObserveWeather"))
+        {
+          var ab = pm.Ability;
+          if (ab.Id == Abilities.FORECAST || ab.Id == Abilities.FLOWER_GIFT) ab.Attach(pm);
+        }
+    }
   }
 }

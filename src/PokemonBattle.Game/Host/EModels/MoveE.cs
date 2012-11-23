@@ -131,13 +131,12 @@ namespace LightStudio.PokemonBattle.Game.Host
       return false;
     }
     
+    public readonly MoveType Move;
+
     protected MoveE(int moveId)
     {
-      this.Move = GameDataService.GetMove(moveId);
+      Move = GameDataService.GetMove(moveId);
     }
-
-    public MoveType Move
-    { get; private set; }
 
     protected abstract void Act(AtkContext atk);
     public virtual void InitAtkContext(AtkContext atk)

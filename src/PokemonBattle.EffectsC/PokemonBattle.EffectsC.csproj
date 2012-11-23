@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abilities\AirLock.cs" />
     <Compile Include="Abilities\FlashFire.cs" />
     <Compile Include="Abilities\Forewarn.cs">
       <SubType>Code</SubType>
@@ -99,8 +100,10 @@
     <Compile Include="Moves\Attack\SpBasepower\WringOut.cs" />
     <Compile Include="Moves\Attack\ImplementEffect\Thief.cs" />
     <Compile Include="Moves\Attack\TripleKick.cs" />
+    <Compile Include="Moves\Bad\Bad.cs" />
     <Compile Include="Moves\FSDD.cs" />
     <Compile Include="Moves\Present.cs" />
+    <Compile Include="Moves\Bad\SkyDrop.cs" />
     <Compile Include="Moves\Status\Acupressure.cs" />
     <Compile Include="Moves\Status\Autotomize.cs" />
     <Compile Include="Moves\Status\BatonPass.cs" />

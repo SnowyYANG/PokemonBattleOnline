@@ -48,13 +48,15 @@ namespace LightStudio.PokemonBattle.Game.Host
     /// <summary>
     /// sorted by action speed
     /// </summary>
-    public List<PokemonProxy> OnboardPokemons
-    { get { return TurnController.OnboardPokemons; } }
+    public List<PokemonProxy> ActingPokemons
+    { get { return TurnController.ActingPokemons; } }
     /// <summary>
     /// sorted by speed
     /// </summary>
     public IEnumerable<Tile> Tiles
     { get { return TurnController.Tiles; } }
+    public IEnumerable<PokemonProxy> OnboardPokemons
+    { get { return TurnController.Pokemons; } }
     public int TurnNumber
     { get { return ReportBuilder.TurnNumber; } }
 
@@ -89,7 +91,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           Board.RemoveCondition("Weather");
           Board.Weather = value;
           ReportBuilder.Add(new GameEvents.WeatherChange(value));
-          Abilities.WeatherChanged(this);
+          if (!Abilities.IgnoreWeather(this)) Abilities.WeatherChanged(this);
         }
       }
     }
@@ -98,7 +100,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     /// </summary>
     public IEnumerable<PokemonProxy> GetOnboardPokemons(int teamId)
     {
-      return Tiles.Where((t) => t.Pokemon != null && t.Pokemon.Pokemon.TeamId == teamId).Select((t)=>t.Pokemon);
+      return OnboardPokemons.Where((p) => p.Pokemon.TeamId == teamId);
     }
     #endregion
 

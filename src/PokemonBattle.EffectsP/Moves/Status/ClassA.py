@@ -1,6 +1,6 @@
 class Haze(StatusMoveE):
     def Act(self, atk):
-        for pm in atk.Controller.OnboardPokemons:
+        for pm in atk.Controller.Board.Pokemons:
             pm.OnboardPokemon.SetLv7D(0, 0, 0, 0, 0, 0, 0)
         atk.Controller.ReportBuilder.Add('Haze')
 M(Haze(114))

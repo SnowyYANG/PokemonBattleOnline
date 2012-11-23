@@ -36,7 +36,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       for (int i = 0; i < t.Length; i++) t[i] = Controller.Game.Teams[i].GetOutward();
       List<PokemonOutward> pms = new List<PokemonOutward>();
       {
-        foreach (PokemonProxy p in Controller.OnboardPokemons) pms.Add(p.GetOutward());
+        foreach (PokemonProxy p in Controller.ActingPokemons) pms.Add(p.GetOutward());
         current = new ReportFragment(Controller.TurnNumber, t, pms.ToArray(), Controller.Board.Weather);
       }
     }

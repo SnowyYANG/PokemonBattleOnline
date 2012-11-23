@@ -17,26 +17,28 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       comparer = new Comparer(Game.Board);
       Tiles = tiles = Board.Tiles.ToArray(); //this is a copy
-      OnboardPokemons = new List<PokemonProxy>();
+      ActingPokemons = new List<PokemonProxy>();
     }
 
-    public List<PokemonProxy> OnboardPokemons
+    public List<PokemonProxy> ActingPokemons
     { get; private set; }
     public IEnumerable<Tile> Tiles
     { get; private set; }
+    public IEnumerable<PokemonProxy> Pokemons
+    { get { return Tiles.Where((t) => t.Pokemon != null).Select((t) => t.Pokemon); } }
 
-    private void SortOnboardPokemons()
+    private void SortActingPokemons()
     {
-      for (int i = 0; i < OnboardPokemons.Count - 1; i++)
+      for (int i = 0; i < ActingPokemons.Count - 1; i++)
       {
         int j;
-        j = Controller.GetRandomInt(i, OnboardPokemons.Count - 1);
-        PokemonProxy temp = OnboardPokemons[i];
-        OnboardPokemons[i] = OnboardPokemons[j];
-        OnboardPokemons[j] = temp;
+        j = Controller.GetRandomInt(i, ActingPokemons.Count - 1);
+        PokemonProxy temp = ActingPokemons[i];
+        ActingPokemons[i] = ActingPokemons[j];
+        ActingPokemons[j] = temp;
       }
       foreach (var p in Board.Pokemons) p.ItemSpeedValue = p.Item.CompareValue(p);
-      OnboardPokemons = OnboardPokemons.OrderBy((pm) => pm, comparer).ToList();
+      ActingPokemons = ActingPokemons.OrderBy((pm) => pm, comparer).ToList();
     }
     private void SortTiles()
     {
@@ -49,7 +51,6 @@ namespace LightStudio.PokemonBattle.Game.Host
         tiles[j] = temp;
       }
       Tiles = tiles.OrderBy((pm) => pm, comparer).ToArray();
-      OnboardPokemons = Tiles.Where((t) => t.Pokemon != null).Select((t) => t.Pokemon).ToList();
     }
 
     public void StartGameLoop()
@@ -97,20 +98,21 @@ namespace LightStudio.PokemonBattle.Game.Host
     private void BeginTurn()
     {
       bool needInput = false;
-      foreach (PokemonProxy p in OnboardPokemons)
+      foreach (PokemonProxy p in Pokemons)
         needInput |= p.CheckNeedInput();
       if (needInput) Controller.PauseForTurnInput();
     }
     private void Prepare()
     {
       ReportBuilder.NewTurn();
-      SortOnboardPokemons();
-      foreach (PokemonProxy p in OnboardPokemons) p.AttachBehaviors();
+      SortTiles();
+      SortActingPokemons();
+      foreach (PokemonProxy p in ActingPokemons) p.AttachBehaviors();
     }
     private void Switch()
     {
     LOOP:
-      PokemonProxy p = OnboardPokemons.FirstOrDefault((pm) => pm.Action == PokemonAction.WillSwitch);
+      PokemonProxy p = ActingPokemons.FirstOrDefault((pm) => pm.Action == PokemonAction.WillSwitch);
       if (p != null)
       {
         p.Switch();
@@ -120,13 +122,13 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     private void CheckFocusPunch()
     {
-      foreach (PokemonProxy p in OnboardPokemons)
+      foreach (PokemonProxy p in ActingPokemons)
         if (p.Action == PokemonAction.MoveAttached && Sp.Moves.FocusPunch(p.SelectedMove)) p.AddReportPm("EnFocusPunch");
     }
     private void Move()
     {
     LOOP:
-      PokemonProxy p = OnboardPokemons.FirstOrDefault((pm) => pm.CanMove);
+      PokemonProxy p = ActingPokemons.FirstOrDefault((pm) => pm.CanMove);
       if (p != null)
       {
         p.Move();
@@ -172,8 +174,9 @@ namespace LightStudio.PokemonBattle.Game.Host
       Abilities.AttachUnnerve(Controller);
       foreach (Tile t in Tiles)
         if (sendouts[t.Team, t.X]) t.Pokemon.Debut();
-      foreach (Tile t in Board.Tiles)
+      foreach (Tile t in Tiles)
         if (sendouts[t.Team, t.X]) Abilities.AttachWeatherObserver(t.Pokemon);
+      Abilities.WeatherChanged(Controller);
       if (ReportBuilder.TurnNumber != 0) current -= 2;
     }
     private void NextTurn()

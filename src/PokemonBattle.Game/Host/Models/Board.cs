@@ -15,6 +15,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     private readonly Terrain terrain;
     public readonly int TeamCount;
     public readonly int XBound;
+    public Weather Weather;
 
     internal Board(GameContext game)
     {
@@ -43,8 +44,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     { get { return tiles; } }
     public Field this[int team]
     { get { return fields.ValueOrDefault(team); } }
-    public Weather Weather
-    { get; set; }
     public IEnumerable<PokemonProxy> Pokemons
     { get; private set; }
 

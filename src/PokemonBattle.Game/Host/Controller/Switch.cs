@@ -44,7 +44,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           pm.Action = PokemonAction.InBall;
           pm.Tile.Pokemon = null;
           pm.OnboardPokemon = pm.NullOnboardPokemon;
-          Controller.OnboardPokemons.Remove(pm);
+          Controller.ActingPokemons.Remove(pm);
           Abilities.Withdrawn(pm, ability);
           return true;
         }
@@ -64,7 +64,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         tile.WillSendoutPokemonIndex = Tile.NOPM_INDEX;
         pm.OnboardPokemon = new OnboardPokemon(pm.Pokemon, tile.X);
         Triggers.SendingOut(pm);
-        Controller.OnboardPokemons.Insert(0, pm);
+        Controller.ActingPokemons.Insert(0, pm);
         p.SwitchPokemon(origin, sendout);
         ReportBuilder.Add(new SendOut(log, pm));
         Abilities.Trace(pm);
@@ -73,6 +73,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           Abilities.AttachUnnerve(Controller);
           pm.Debut();
           Abilities.AttachWeatherObserver(pm);
+          Abilities.WeatherChanged(Controller);
         }
         return true;
       }

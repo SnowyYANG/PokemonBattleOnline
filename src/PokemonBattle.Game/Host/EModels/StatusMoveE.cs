@@ -40,7 +40,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (Move.Flags.Snatchable)
       {
-        foreach(var pm in atk.Controller.OnboardPokemons)
+        foreach(var pm in atk.Controller.ActingPokemons)
           if (pm.OnboardPokemon.HasCondition("Snatch"))
           {
             pm.OnboardPokemon.RemoveCondition("Snatch");

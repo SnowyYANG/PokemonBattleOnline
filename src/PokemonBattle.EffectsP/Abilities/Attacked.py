@@ -54,7 +54,7 @@ A(AngerPoint(83))
 class Aftermath(t_a):
     def TA(self, d):
         if d.Defender.Hp == 0 and d.AtkContext.Attacker.CanEffectHurt:
-            for pm in d.AtkContext.Controller.OnboardPokemons:
+            for pm in d.AtkContext.Controller.Board.Pokemons:
                 if pm.Ability.Id == 6: #damp
                     return
             self.Raise(d.Defender)

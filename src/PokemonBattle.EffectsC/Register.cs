@@ -44,6 +44,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new SpRangeMove(89, CoordY.Underground, true));//earthquake
       M(new SpRangeMove(90, CoordY.Underground));
       M(new Leap(91, CoordY.Underground));//dig
+      M(new Bad(100));
       M(new Mimic(102));
       M(new Bide(117));
       M(new Metronome(118));
@@ -58,6 +59,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Conversion(160));
       M(new TriAttack(161));
       M(new Substitute(164));
+      M(new Bad(166));
       M(new TripleKick(167));
       M(new Thief(168));
       M(new Curse(174));
@@ -137,15 +139,18 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new EchoedVoice(497));
       M(new SLevel(500, 20));//stored power
       M(new Hex(506));
+      M(new SkyDrop(507));
       M(new AttackAndForceSwitch(509));//circle throw
       M(new RemoveItem(510, true, "Incinerate"));
       M(new Acrobatics(512));
       M(new AttackAndForceSwitch(525));//dragon tail
       M(new HeavySlam(535));
-      M(new Thunder(542));//Hurricane
+      M(new Thunder(542));//hurricane
       M(new RelicSong(547));
 
+      A(new AirLock(13));//cloud nine
       A(new Forecast(59));
+      A(new AirLock(76));
       A(new FlashFire(18));
       A(new Forewarn(108));
       A(new Frisk(119));

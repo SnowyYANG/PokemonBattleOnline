@@ -18,12 +18,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     private Collection<Rule> rules;
     [DataMember]
     private Collection<int> ruleIds;
-    [DataMember]
-    private GameMode mode;
-    [DataMember]
-    private Terrain terrain;
-    [DataMember]
-    private double ppUp;
 
     /// <summary>
     /// HostOnly
@@ -31,30 +25,41 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     /// <param name="mode"></param>
     /// <param name="ppUp"></param>
     /// <param name="terrain"></param>
-    public GameInitSettings(GameMode mode, double ppUp = 1.6, Terrain terrain = Terrain.Path)
+    public GameInitSettings(GameMode mode, Terrain terrain = Terrain.Path, bool sleepRule = true)
     {
       idGen = new IdGenerator();
       rules = new Collection<Rule>();
       ruleIds = new Collection<int>();
-      this.mode = mode;
-      this.ppUp = ppUp;
-      this.terrain = terrain;
+      Mode = mode;
+      Terrain = terrain;
+      SleepRule = sleepRule;
     }
 
+    [DataMember(EmitDefaultValue = false)]
+    private GameMode _mode;
     public GameMode Mode
     {
-      get { return mode; }
-      set { if (!isLocked) mode = value; }
+      get { return _mode; }
+      set { if (!isLocked) _mode = value; }
     }
+    [DataMember(EmitDefaultValue = false)]
+    private Terrain _terrain;
     public Terrain Terrain
     {
-      get { return terrain; }
-      set { if (!isLocked) terrain = value; }
+      get { return _terrain; }
+      set { if (!isLocked) _terrain = value; }
     }
     public double PPUp
     {
-      get { return ppUp; }
-      set { if (!isLocked) ppUp = value; }
+      get { return 1.6; }
+      set { }
+    }
+    [DataMember(EmitDefaultValue = false)]
+    private bool _noSR;
+    public bool SleepRule
+    {
+      get { return !_noSR; }
+      set { if (!isLocked) _noSR = !value; }
     }
     public IEnumerable<Rule> Rules
     {

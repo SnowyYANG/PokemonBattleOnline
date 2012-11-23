@@ -39,7 +39,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public void PauseForTurnInput()
     {
       requirements.Clear();
-      var groups = from p in Controller.OnboardPokemons
+      var groups = from p in Controller.ActingPokemons
                    where p.Action == PokemonAction.WaitingForInput
                    group p by p.Pokemon.Owner.Id into playerPms
                    select playerPms;

@@ -4,7 +4,7 @@ class m_continuoususe(StatusMoveE):
     def __init__(self, id, condition):
         self.Condition = condition
     def NotFail(self, a):
-        if a.Controller.OnboardPokemons[a.Controller.OnboardPokemons.Count - 1] == a.Attacker:
+        if a.Controller.ActingPokemons[a.Controller.ActingPokemons.Count - 1] == a.Attacker:
             return False
         o = a.Attacker.OnboardPokemon
         c = o.GetCondition('LastMove')

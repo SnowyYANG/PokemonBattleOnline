@@ -142,7 +142,7 @@ class PsychoShift(StatusMoveE):
                         if s == PokemonState.SLP:
                             s = AttachedState.SLP
                         else:
-                            a = AttachedState.PSN
+                            s = AttachedState.PSN
             a.Target.Defender.AddState(a.Attacker, s, True)
 M(PsychoShift(375))
 

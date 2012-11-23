@@ -220,14 +220,12 @@ namespace LightStudio.PokemonBattle.Game.Host
           if (OnboardPokemon.HasType(BattleType.Poison) || OnboardPokemon.HasType(BattleType.Steel)) goto FAIL;
           goto STATE;
         case AttachedState.SLP:
-          foreach (var pm in Controller.OnboardPokemons)
+          foreach (var pm in Controller.ActingPokemons)
             if (pm.Action == PokemonAction.Moving && pm.AtkContext.Move.Id == Sp.Moves.UPROAR)
             {
               if (showFail)
-              {
                 if (pm == this) AddReportPm("UproarCantSLP2");
                 else AddReportPm("UproarCantSLP");
-              }
               return false;
             }
           if (State == PokemonState.SLP) goto BEENSTATE;
@@ -269,7 +267,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     CONDITION:
       if (OnboardPokemon.HasCondition(state.ToString())) goto FAIL;
     GENERIC:
-      return ability.CanAddState(this, by, state, showFail);
+      return ability.CanAddState(this, by, state, showFail) && Sp.Rules.CanAddState(this, state, by, showFail);
     }
     public bool CanAddState(PokemonProxy by, AttachedState state, bool showFail)
     {
@@ -411,7 +409,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       get
       {
-        return Hp > 0 && LastMoveTurn != Controller.TurnNumber &&
+        return Hp != 0 && LastMoveTurn != Controller.TurnNumber &&
           (Action == PokemonAction.MoveAttached || Action == PokemonAction.Stiff || Action == PokemonAction.Moving);
       }
     }
@@ -447,58 +445,55 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     internal void Move()
     {
-      if (CanMove)
+      LastMoveTurn = Controller.TurnNumber;
+      Triggers.WillAct(this);
+      switch (Action)
       {
-        LastMoveTurn = Controller.TurnNumber;
-        Triggers.WillAct(this);
-        switch (Action)
-        {
-          case PokemonAction.Stiff:
-            AddReportPm("Stiff");
+        case PokemonAction.Stiff:
+          AddReportPm("Stiff");
+          Action = PokemonAction.Done;
+          break;
+        case PokemonAction.Moving:
+          bool c = CanExecute();
+          Sp.Moves.SkyDrop(AtkContext);
+          if (c)
+          {
+            if (!AtkContext.Move.Bide()) Controller.ReportBuilder.Add(PositionChange.Reset("UseMove", this, AtkContext.Move.Id));
+            AtkContext.BuildDefContext(SelectedTarget);
+            AtkContext.Execute();
+          }
+          else Action = PokemonAction.Done;
+          break;
+        case PokemonAction.MoveAttached:
+          if (OnboardPokemon.HasCondition("Encore")) SelectedMove = AtkContext.MoveProxy;
+          if (CanExecute() && SelectedMove.CanExecute())
+          {
+            _atkContext = null;
+            SelectedMove.Execute();
+            var o = OnboardPokemon.GetCondition("LastMove");
+            if (o == null)
+            {
+              o = new Condition();
+              o.Move = AtkContext.Move;
+              OnboardPokemon.SetCondition("LastMove", o);
+            }
+            else if (o.Move != AtkContext.Move)
+            {
+              o.Move = AtkContext.Move;
+              o.Int = 0;
+            }
+            if (AtkContext.FailAll) o.Int = 0;
+            else o.Int++;
+            Controller.Board.SetCondition("LastMove", o);
+          }
+          else
+          {
+            OnboardPokemon.RemoveCondition("LastMove");
+            Controller.Board.RemoveCondition("LastMove");
             Action = PokemonAction.Done;
-            break;
-          case PokemonAction.Moving:
-            bool c = CanExecute();
-            Sp.Moves.SkyDrop(AtkContext);
-            if (c)
-            {
-              if (!AtkContext.Move.Bide()) Controller.ReportBuilder.Add(PositionChange.Reset("UseMove", this, AtkContext.Move.Id));
-              AtkContext.BuildDefContext(SelectedTarget);
-              AtkContext.Execute();
-            }
-            else Action = PokemonAction.Done;
-            break;
-          case PokemonAction.MoveAttached:
-            if (OnboardPokemon.HasCondition("Encore")) SelectedMove = AtkContext.MoveProxy;
-            if (CanExecute() && SelectedMove.CanExecute())
-            {
-              _atkContext = null;
-              SelectedMove.Execute();
-              var o = OnboardPokemon.GetCondition("LastMove");
-              if (o == null)
-              {
-                o = new Condition();
-                o.Move = AtkContext.Move;
-                OnboardPokemon.SetCondition("LastMove", o);
-              }
-              else if (o.Move != AtkContext.Move)
-              {
-                o.Move = AtkContext.Move;
-                o.Int = 0;
-              }
-              if (AtkContext.FailAll) o.Int = 0;
-              else o.Int++;
-              Controller.Board.SetCondition("LastMove", o);
-            }
-            else
-            {
-              OnboardPokemon.RemoveCondition("LastMove");
-              Controller.Board.RemoveCondition("LastMove");
-              Action = PokemonAction.Done;
-            }
-            break;
-        } //switch(Action)
-      }
+          }
+          break;
+      } //switch(Action)
     }
     internal PokemonOutward GetOutward()
     {

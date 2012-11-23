@@ -1,19 +1,3 @@
-class SimpleAttachRaise(AbilityE):
-    def __new__(cls, id, logKey):
-        return AbilityE.__new__(cls, id)
-    def __init__(self, id, logKey):
-        AbilityE.__init__(self, id)
-        self.log = logKey
-    def Attach(self, pm):
-        self.Raise(pm)
-        pm.AddReportPm(self.log, None, None)
-A(SimpleAttachRaise(76, 'AirLock'))
-A(SimpleAttachRaise(13, 'AirLock'))
-A(SimpleAttachRaise(104, 'MoldBreaker'))
-A(SimpleAttachRaise(46, 'Pressure'))
-A(SimpleAttachRaise(164, 'Teravolt'))
-A(SimpleAttachRaise(163, 'Turboblaze'))
-
 class WeatherAbility(AbilityE):
     def __new__(cls, id, weather):
         return AbilityE.__new__(cls, id)
@@ -26,8 +10,8 @@ class WeatherAbility(AbilityE):
             pm.Controller.Weather = self.Weather
 A(WeatherAbility(2, Weather.HeavyRain)) #drizzle
 A(WeatherAbility(70, Weather.IntenseSunlight)) #drought
-A(WeatherAbility(117, Weather.Hailstorm)) #snow warning
 A(WeatherAbility(45, Weather.Sandstorm)) #sand stream
+A(WeatherAbility(117, Weather.Hailstorm)) #snow warning
 
 class Intimidate(AbilityE):
     def Attach(self, pm):
@@ -36,11 +20,32 @@ class Intimidate(AbilityE):
             p.ChangeLv7D(pm, StatType.Atk, -1, True, None)
 A(Intimidate(22))
 
-class Unnerve(AbilityE):
+class Trace(AbilityE):
+    def Attach(self, pm):
+        pms = []
+        for p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
+            if Abilities.Trace(p.OnboardPokemon.Ability):
+                pms.append(p)
+        n = len(pms)
+        if n > 0:
+            self.Raise(pm)
+            target = pms[pm.Controller.GetRandomInt(0, n - 1)]
+            pm.ChangeAbility(target.OnboardPokemon.Ability, 'Trace', target.Id)
+A(Trace(36))
+
+class SimpleAttachRaise(AbilityE):
+    def __new__(cls, id, logKey):
+        return AbilityE.__new__(cls, id)
+    def __init__(self, id, logKey):
+        AbilityE.__init__(self, id)
+        self.log = logKey
     def Attach(self, pm):
         self.Raise(pm)
-        pm.Controller.ReportBuilder.Add('Unnerve', 1 - pm.Pokemon.TeamId)
-A(Unnerve(127))
+        pm.AddReportPm(self.log, None, None)
+A(SimpleAttachRaise(46, 'Pressure'))
+A(SimpleAttachRaise(104, 'MoldBreaker'))
+A(SimpleAttachRaise(163, 'Turboblaze'))
+A(SimpleAttachRaise(164, 'Teravolt'))
 
 class Download(AbilityE):
     def Attach(self, pm): #a ability can be copy, so check CanChangeLv7D
@@ -60,13 +65,6 @@ class Download(AbilityE):
             pm.ChangeLv7D(pm, stats[pm.Controller.GetRandomInt(0, n - 1)], 1, False, None)
 A(Download(88))
 
-class SlowStart(AbilityE):
-    def Attach(self, pm):
-        pm.OnboardPokemon.SetCondition('SlowStart', pm.Controller.TurnNumber + 5)
-        self.Raise(pm)
-        pm.AddReportPm('EnSlowStart', None, None)
-A(SlowStart(112))
-
 class Anticipation(AbilityE):
     def Attach(self, pm):
         for p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
@@ -77,15 +75,10 @@ class Anticipation(AbilityE):
                     return
 A(Anticipation(107))
 
-class Trace(AbilityE):
+class SlowStart(AbilityE):
     def Attach(self, pm):
-        pms = []
-        for p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1):
-            if Abilities.Trace(p.OnboardPokemon.Ability):
-                pms.append(p)
-        n = len(pms)
-        if n > 0:
-            self.Raise(pm)
-            target = pms[pm.Controller.GetRandomInt(0, n - 1)]
-            pm.ChangeAbility(target.OnboardPokemon.Ability, 'Trace', target.Id)
-A(Trace(36))
+        pm.OnboardPokemon.SetCondition('SlowStart', pm.Controller.TurnNumber + 5)
+        self.Raise(pm)
+        pm.AddReportPm('EnSlowStart', None, None)
+A(SlowStart(112))
+
