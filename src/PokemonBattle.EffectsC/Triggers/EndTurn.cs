@@ -302,8 +302,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
       foreach (var pm in c.OnboardPokemons)
       {
-        int turn = pm.OnboardPokemon.GetCondition("Encore", -1);
-        if (turn == 0)
+        var o = pm.OnboardPokemon.GetCondition("Encore");
+        if (o != null && o.Turn == 0)
         {
           pm.OnboardPokemon.RemoveCondition("Encore");
           pm.AddReportPm("DeEncore");
@@ -311,8 +311,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       }
       foreach (var pm in c.OnboardPokemons)
       {
-        var d = pm.OnboardPokemon.GetCondition("Disable");
-        if (d != null && d.Turn == c.TurnNumber)
+        var o = pm.OnboardPokemon.GetCondition("Disable");
+        if (o != null && o.Turn == c.TurnNumber)
         {
           pm.OnboardPokemon.RemoveCondition("Disable");
           pm.AddReportPm("DeDisable");

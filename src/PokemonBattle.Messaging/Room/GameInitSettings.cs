@@ -49,11 +49,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       get { return _terrain; }
       set { if (!isLocked) _terrain = value; }
     }
-    public double PPUp
-    {
-      get { return 1.6; }
-      set { }
-    }
     [DataMember(EmitDefaultValue = false)]
     private bool _noSR;
     public bool SleepRule

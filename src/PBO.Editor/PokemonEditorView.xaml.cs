@@ -36,7 +36,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     {
       if (((ContentPresenter)sender).Content != null)
       {
-        int move = (int)((ContentPresenter)sender).Content;
+        var move = ((Data.LearnedMove)((ContentPresenter)sender).Content).Move.Id;
         for (int i = 0; i < learnsetlist.Items.Count; ++i)
           if (((LearnItemVM)learnsetlist.Items[i]).Move.Id == move)
           {

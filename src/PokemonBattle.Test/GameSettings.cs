@@ -14,8 +14,8 @@ namespace LightStudio.PokemonBattle.Test
     { get { return GameMode.Single; } }
     public Terrain Terrain
     { get { return Terrain.Path; } }
-    public double PPUp
-    { get { return 1.6; } }
+    public bool SleepRule
+    { get { return true; } }
     public IEnumerable<Rule> Rules
     { get { return NORULE; } }
 

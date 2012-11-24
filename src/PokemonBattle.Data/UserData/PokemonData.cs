@@ -41,12 +41,12 @@ namespace LightStudio.PokemonBattle.Data
     private short number;
     [DataMember(EmitDefaultValue = false)]
     private byte form;
-    [DataMember]
-    private ObservableCollection<int> moveIds;
+    //[DataMember]
+    //private ObservableCollection<int> moveIds;
 
     public PokemonData(int number, int form)
     {
-      moveIds = new ObservableCollection<int>();
+      _moves = new ObservableCollection<LearnedMove>();
       _ev = new Observable6D();
       Form = GameDataService.GetPokemon(number, form);
     }
@@ -71,7 +71,7 @@ namespace LightStudio.PokemonBattle.Data
 
     private static readonly int[] CAN_CHOOSE_FORM = { 201, 386, 412, 413, 422, 423, 479, 492, 641, 642, 645, 646 };
     public bool CanChooseForm
-    { get { return CAN_CHOOSE_FORM.Contains(number) || number == KELDEO && MoveIds.Contains(SECRET_SWORD); } }
+    { get { return CAN_CHOOSE_FORM.Contains(number) || number == KELDEO && HasMove(SECRET_SWORD); } }
 
     private PokemonForm _form;
     public PokemonForm Form
@@ -99,11 +99,11 @@ namespace LightStudio.PokemonBattle.Data
           
           if (oldNumber != number)
           {
-            moveIds.Clear();
+            _moves.Clear();
             _gender = value.Type.Genders.First();
             _ev.SetStat(StatType.All, 0);
           }
-          else if (number == 413 || number == 479 || number == 646) moveIds.Clear();
+          else if (number == 413 || number == 479 || number == 646) _moves.Clear();
           _abilityIndex = 0;
           
           OnPropertyChanged();
@@ -257,12 +257,56 @@ namespace LightStudio.PokemonBattle.Data
     [DataMember(EmitDefaultValue = false)]
     public string Chatter
     {
-      get { return number == 441 && MoveIds.Contains(448) ? null : _chatter; }
+      get { return number == 441 && HasMove(448) ? null : _chatter; }
       set { _chatter = value; }
     }
 
-    public IEnumerable<int> MoveIds
-    { get { return moveIds; } }
+    private byte GetMoveIds_PPx(int x)
+    {
+      byte r = 0;
+      byte i = 1;
+      foreach (var m in _moves)
+      {
+        if (m.PPUp == x) r |= i;
+        i <<= 1;
+      }
+      return r;
+    }
+    private void SetMoveIds_PPx(int x, byte value)
+    {
+      if ((value & 1) != 0) _moves[0].PPUp = 2;
+      if ((value & 2) != 0) _moves[1].PPUp = 2;
+      if ((value & 4) != 0) _moves[2].PPUp = 2;
+      if ((value & 8) != 0) _moves[3].PPUp = 2;
+    }
+    [DataMember]
+    private List<int> moveIds
+    {
+      get { return Moves.Select((m) => m.Move.Id).ToList(); }
+      set { _moves = new ObservableCollection<LearnedMove>(value.Select((m) => new LearnedMove(GameDataService.GetMove(m)))); }
+    }
+    [DataMember(EmitDefaultValue = false)]
+    private byte moveIds_PP2
+    {
+      get { return GetMoveIds_PPx(2); }
+      set { SetMoveIds_PPx(2, value); }
+    }
+    [DataMember(EmitDefaultValue = false)]
+    private byte moveIds_PP1
+    {
+      get { return GetMoveIds_PPx(1); }
+      set { SetMoveIds_PPx(1, value); }
+    }
+    [DataMember(EmitDefaultValue = false)]
+    private byte moveIds_PP0
+    {
+      get { return GetMoveIds_PPx(0); }
+      set { SetMoveIds_PPx(0, value); }
+    }
+
+    private ObservableCollection<LearnedMove> _moves;
+    public IEnumerable<LearnedMove> Moves
+    { get { return _moves; } }
     #endregion
 
     private PokemonCollection _container;
@@ -297,30 +341,36 @@ namespace LightStudio.PokemonBattle.Data
           form = (byte)(DRIVE_MINID <= _itemId && _itemId <= DRIVE_MAXID ? _itemId - DRIVE_MINID + 1 : 0);
           break;
         case KELDEO:
-          if (!moveIds.Contains(SECRET_SWORD)) form = 0;
+          if (!HasMove(SECRET_SWORD)) form = 0;
           break;
       }
       if (_form != null && _form.Index != form) _form = null;
       return _form == null;
     }
 
-    public bool AddMove(int moveId)
+    public bool HasMove(int moveId)
     {
-      if (moveIds.Count < 4 && !moveIds.Contains(moveId))
+      return _moves.Any((m) => m.Move.Id == moveId);
+    }
+    public bool AddMove(MoveType move)
+    {
+      if (_moves.Count < 4 && !HasMove(move.Id))
       {
-        moveIds.Add(moveId);
-        if (number == KELDEO && moveId == SECRET_SWORD) OnPropertyChanged("CanChooseForm");
+        _moves.Add(new LearnedMove(move));
+        if (number == KELDEO && move.Id == SECRET_SWORD) OnPropertyChanged("CanChooseForm");
         return true;
       }
       return false;
     }
-    public void RemoveMove(int moveId)
+    public void RemoveMove(MoveType move)
     {
-      if (moveIds.Remove(moveId))
-      {
-        if (CheckSpForm()) OnPropertyChanged();
-        if (number == KELDEO && moveId == SECRET_SWORD) OnPropertyChanged("CanChooseForm");
-      }
+      foreach(var m in Moves)
+        if (m.Move == move)
+        {
+          if (CheckSpForm()) OnPropertyChanged();
+          if (number == KELDEO && move.Id == SECRET_SWORD) OnPropertyChanged("CanChooseForm");
+          break;
+        }
     }
 
     #region ICloneable
@@ -331,7 +381,8 @@ namespace LightStudio.PokemonBattle.Data
       clone._iv = new Observable6D(Iv);
       clone._ev = new Observable6D(Ev);
       clone.got = false;
-      clone.moveIds = new ObservableCollection<int>(MoveIds);
+      clone._moves = new ObservableCollection<LearnedMove>();
+      foreach (var m in Moves) clone._moves.Add(new LearnedMove(m.Move, m.PPUp));
       return clone;
     }
     object ICloneable.Clone()

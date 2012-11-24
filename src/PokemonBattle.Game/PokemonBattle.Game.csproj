@@ -50,7 +50,6 @@
     <Compile Include="Client\SimPokemon.cs" />
     <Compile Include="GameService.cs" />
     <Compile Include="Host\Controller\Input.cs" />
-    <Compile Include="Host\EModels\RuleE.cs" />
     <Compile Include="Host\EModels\ITrigger.cs" />
     <Compile Include="Host\EModels\Sp\Rules.cs" />
     <Compile Include="Host\EModels\Sp\Triggers.cs" />

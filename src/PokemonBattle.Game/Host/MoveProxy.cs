@@ -59,9 +59,12 @@ namespace LightStudio.PokemonBattle.Game.Host
         if (o != null && o != Type) return new SelectMoveFail("ChoiceItem", o.Id);
       }
       //寻衅
-      if (op.HasCondition("Torment") && Owner.AtkContext != null && Owner.AtkContext.MoveProxy.Type == Type) return new SelectMoveFail("TormentCantUseMove", Owner.AtkContext.MoveProxy.Type.Id);
+      if (op.HasCondition("Torment") && Owner.LastMove == Type) return new SelectMoveFail("TormentCantUseMove", Owner.AtkContext.MoveProxy.Type.Id);
       //鼓掌
-      if (op.HasCondition("Encore") && Owner.AtkContext != null && Owner.AtkContext.MoveProxy.Type != Type) return new SelectMoveFail("Encore", Owner.AtkContext.MoveProxy.Type.Id);
+      {
+        var o = op.GetCondition("Encore");
+        if (o != null && o.Move != Type) return new SelectMoveFail("Encore", Owner.AtkContext.MoveProxy.Type.Id);
+      }
       //封印
       foreach (var pm in Owner.Controller.Board[1 - Owner.Pokemon.TeamId].Pokemons)
         if (pm.OnboardPokemon.HasCondition("Imprison"))

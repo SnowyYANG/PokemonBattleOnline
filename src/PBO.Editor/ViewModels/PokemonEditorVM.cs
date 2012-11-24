@@ -75,11 +75,11 @@ namespace LightStudio.PokemonBattle.PBO.Editor
         });
     }
 
-    private static bool HasRandomMove(IEnumerable<int> moves)
+    private static bool HasRandomMove(IEnumerable<LearnedMove> moves)
     {
       const int METRONOME = 118, TRANSFORM = 144, ASSIST = 274, ME_FIRST = 382, COPYCAT = 383;
       moves.FirstOrDefault();
-      return moves.Any((i) => i == METRONOME || i == TRANSFORM || i == ASSIST || i == ME_FIRST || i == COPYCAT);
+      return moves.Any((m) => m.Move.Id == METRONOME || m.Move.Id == TRANSFORM || m.Move.Id == ASSIST || m.Move.Id == ME_FIRST || m.Move.Id == COPYCAT);
     }
 
     public PokemonEditorVM(PokemonData pm)
@@ -105,6 +105,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
           RefreshImage();
           RefreshLearnset();
           RefreshOptionalVisibility();
+          RefreshRemainingEv();
           OnPropertyChanged();
         }
       }
@@ -242,7 +243,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     { get { return _happinessVisibility; } }
     private void RefreshOptionalVisibility()
     {
-      if (HasRandomMove(Model.MoveIds))
+      if (HasRandomMove(Model.Moves))
       {
         if (_happinessVisibility != Visibility.Visible)
         {
@@ -259,7 +260,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       {
 
         {
-          var value = Model.MoveIds.Contains(216) || Model.MoveIds.Contains(218) ? Visibility.Visible : Visibility.Collapsed;
+          var value = Model.HasMove(216) || Model.HasMove(218) ? Visibility.Visible : Visibility.Collapsed;
           if (_happinessVisibility != value)
           {
             _happinessVisibility = value;
@@ -267,7 +268,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
           }
         }
         {
-          var value = Model.MoveIds.Contains(237) ? Visibility.Visible : Visibility.Collapsed;
+          var value = Model.HasMove(237) ? Visibility.Visible : Visibility.Collapsed;
           if (_hiddenPowerVisibility != value)
           {
             _hiddenPowerVisibility = value;
@@ -279,7 +280,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
 
     public bool AddMove(MoveType m)
     {
-      if (Model.AddMove(m.Id))
+      if (Model.AddMove(m))
       {
         RefreshOptionalVisibility();
         return true;
@@ -288,7 +289,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     }
     public void RemoveMove(MoveType m)
     {
-      Model.RemoveMove(m.Id);
+      Model.RemoveMove(m);
       RefreshOptionalVisibility();
       if (m.Id == 548 && PokemonType.Number == 647) RefreshImage();
     }

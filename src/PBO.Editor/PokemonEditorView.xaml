@@ -118,9 +118,9 @@
         	<Label Content="Gender" Grid.Row="3" Canvas.Left="94" Canvas.Top="58" BorderThickness="0" HorizontalAlignment="Right" Margin="0,0,56,0"/>
         	<ui:ClearableComboBox SelectedItem="{Binding Gender}" ItemsSource="{Binding PokemonType.Genders}" ItemTemplate="{x:Static ui:Labels.GenderShowNone}" Grid.Row="3" Margin="150,0,0,0"/>
             <Label Content="Ability" Grid.Row="4"/>
-            <ui:ClearableComboBox SelectedItem="{Binding Model.Ability}" ItemsSource="{Binding PokemonForm.Data.Abilities}" ItemTemplate="{x:Static ui:Labels.Ability}" ItemContainerStyle="{x:Null}" ToolTip="{Binding AbilityDescription}" Margin="5,0,102,0" Grid.Row="5"/>
+            <ui:ClearableComboBox SelectedItem="{Binding Model.Ability}" ItemsSource="{Binding PokemonForm.Data.Abilities}" ItemTemplate="{x:Static ui:Labels.Ability}" ItemContainerStyle="{x:Null}" ToolTip="{Binding Model.Ability.Description}" Margin="5,0,102,0" Grid.Row="5"/>
         	<Label Content="Item" Grid.Row="6" VerticalAlignment="Top" Height="25"/>
-            <ui:ClearableComboBox SelectedItem="{Binding HeldItem}" ItemsSource="{x:Static pm:GameDataService.Items}" ItemTemplate="{x:Static ui:Labels.Item}" ItemsPanel="{StaticResource VirtualPanel}" ToolTip="{Binding ItemDescription}" CanClear="True" Grid.Row="7" Margin="5,0,102,0"/>
+            <ui:ClearableComboBox SelectedItem="{Binding HeldItem}" ItemsSource="{x:Static pm:GameDataService.Items}" ItemTemplate="{x:Static ui:Labels.Item}" ItemsPanel="{StaticResource VirtualPanel}" ToolTip="{Binding HeldItem.Description}" CanClear="True" Grid.Row="7" Margin="5,0,102,0"/>
             <ui:ClearableComboBox SelectedItem="{Binding PokemonForm}" ItemsSource="{Binding PokemonType.Forms}" ItemTemplate="{x:Static local:Resources.PokemonForm}" CanClear="False" Grid.Row="7" MaxWidth="96" HorizontalAlignment="Right" Background="{x:Null}" BorderBrush="{x:Null}">
                 <ui:ClearableComboBox.Style>
                     <Style TargetType="ui:ClearableComboBox">
@@ -134,7 +134,7 @@
                 </ui:ClearableComboBox.Style>
             </ui:ClearableComboBox>
         </Grid>
-        <StackPanel DataContext="{Binding Model.MoveIds}" Margin="16,230,15,0" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+        <StackPanel DataContext="{Binding Model.Moves}" Margin="16,230,15,0" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
         	<StackPanel.Resources>
         		<Style TargetType="{x:Type ContentPresenter}">
         			<Setter Property="ContentTemplate" Value="{x:Static local:Resources.SelectedMove}"/>
@@ -284,7 +284,7 @@
                 <ContentControl Content="{Binding Speed}"/>
             </StackPanel>
         </Grid>
-        <ListView x:Name="learnsetlist" ItemsSource="{Binding Learnset}" Margin="0,265,0,15" MinHeight="100" VirtualizingStackPanel.VirtualizationMode="Recycling" BorderThickness="0">
+        <ListView x:Name="learnsetlist" ItemsSource="{Binding Learnset}" Margin="0,265,0,0" MinHeight="100" VirtualizingStackPanel.VirtualizationMode="Recycling" BorderThickness="0">
         	<ListView.ItemContainerStyle>
         		<Style TargetType="{x:Type ListViewItem}">
         			<Setter Property="Margin" Value="0,0,0,1"/>

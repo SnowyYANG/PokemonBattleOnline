@@ -56,7 +56,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         aer.Pokemon.SetHp(0);
         aer.CheckFaint();
       }
-      if (o.HasCondition("Grudge"))
+      if (o.HasCondition("Grudge") && def.AtkContext.MoveProxy != null) //预知未来不发动怨念
       {
         int formerPP = def.AtkContext.MoveProxy.PP;
         def.AtkContext.MoveProxy.PP = 0;
@@ -71,8 +71,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       pm.OnboardPokemon.RemoveCondition("Rage");
       var i = pm.OnboardPokemon.GetCondition<int>("Taunt");
       if (i != 0) pm.OnboardPokemon.SetCondition("Taunt", i - 1);
-      i = pm.OnboardPokemon.GetCondition<int>("Encore");
-      if (i != 0) pm.OnboardPokemon.SetCondition("Encore", i - 1);
+      var o = pm.OnboardPokemon.GetCondition("Encore");
+      if (o != null) o.Turn--;
     }
     public static void SendingOut(PokemonProxy pm)
     {

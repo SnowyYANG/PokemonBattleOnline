@@ -66,6 +66,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Flail(175));
       M(new Conversion2(176));
       M(new Flail(179)); //reversal
+      M(new Spite(180));
       M(new RandomMTA(200));//outrage
       M(new Attack5Turns(205));//rollout
       M(new FuryCutter(210));
@@ -77,6 +78,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new PainSplit(220));
       M(new Magnitude(222));
       M(new BatonPass(226));
+      M(new Encore(227));
       M(new RapidSpin(229));
       M(new HiddenPower(237));
       M(new GustTwister(239));

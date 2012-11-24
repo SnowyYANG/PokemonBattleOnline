@@ -74,7 +74,7 @@ namespace LightStudio.PokemonBattle.Game
       Lv = custom.Lv;
       Nature = custom.Nature;
       AbilityIndex = custom.AbilityIndex;
-      Moves = custom.MoveIds.Select((m) => new Move(m, settings)).ToArray();
+      Moves = custom.Moves.Select((m) => new Move(m.Move, m.PP)).ToArray();
       Item = GameDataService.GetItem(custom.ItemId);
       Iv = new ReadOnly6D(custom.Iv);
       Ev = new ReadOnly6D(custom.Ev);

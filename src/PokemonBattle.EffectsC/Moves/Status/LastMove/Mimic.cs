@@ -43,11 +43,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     protected override void Act(AtkContext atk)
     {
       var aer = atk.Attacker;
-      var last = atk.Target.Defender.AtkContext;
-      if (last == null || last.MoveProxy.Type == Move) FailAll(atk);
+      var last = aer.LastMove;
+      if (last == null || last == Move) FailAll(atk);
       else
       {
-        var move = last.MoveProxy.Type;
+        var move = last;
         aer.ChangeMove(Move, move);
         aer.Controller.ReportBuilder.Add(new MimicEvent(aer, move));
       }

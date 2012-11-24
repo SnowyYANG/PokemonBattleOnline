@@ -11,16 +11,14 @@ namespace LightStudio.PokemonBattle.Game
     public MoveType Type { get; private set; }
     public IPairValue PP { get; private set; }
 
-    internal Move(int moveType, IGameSettings settings)
+    internal Move(MoveType move, int pp)
     {
-      Type = GameDataService.GetMove(moveType);
-      var pp = (int)(Type.PP * settings.PPUp);
+      Type = move;
       PP = new PairValue(pp);
     }
     internal Move(MoveType move)
+      : this(move, 5)
     {
-      Type = move;
-      PP = new PairValue(5);
     }
   }
 }

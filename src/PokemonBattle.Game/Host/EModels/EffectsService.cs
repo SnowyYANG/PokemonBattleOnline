@@ -10,23 +10,19 @@ namespace LightStudio.PokemonBattle.Game.Host
   {
     public readonly static AbilityE NULL_ABILITY;
     public readonly static ItemE NULL_ITEM;
-    private readonly static RuleE NULL_RULE;
     private static bool unlocked;
     private static MoveE[] moves;
     private static AbilityE[] abilities;
     private static Dictionary<int, ItemE> items;
-    private static Dictionary<string, RuleE> rules;
 
     static EffectsService()
     {
       unlocked = true;
       NULL_ABILITY = new AbilityE(0);
       NULL_ITEM = new ItemE(0);
-      NULL_RULE = new RuleE("null");
       moves = new MoveE[GameDataService.Moves.Count() + 1];
       abilities = new AbilityE[GameDataService.Abilities.Count() + 1];
       items = new Dictionary<int, ItemE>();
-      rules = new Dictionary<string, RuleE>();
       items[0] = NULL_ITEM;
       abilities[0] = NULL_ABILITY;
     }
@@ -90,10 +86,6 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       return e;
     }
-    public static RuleE GetRule(string id)
-    {
-      return rules.ValueOrDefault(id, NULL_RULE);
-    }
     public static void Register(MoveE move)
     {
       if (unlocked)
@@ -118,13 +110,6 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (unlocked)
       {
         items[item.Id] = item;
-      }
-    }
-    public static void Register(RuleE rule)
-    {
-      if (unlocked)
-      {
-        rules.Add(rule.Id, rule);
       }
     }
     #endregion

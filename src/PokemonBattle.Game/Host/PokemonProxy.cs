@@ -18,7 +18,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       Controller = controller;
       Pokemon = pokemon;
       NullOnboardPokemon = new OnboardPokemon(pokemon, -1);
-      StruggleMove = new MoveProxy(new Move(Sp.Moves.STRUGGLE, Controller.Game.Settings), this);
+      StruggleMove = new MoveProxy(new Move(GameDataService.GetMove(Sp.Moves.STRUGGLE), 1), this);
     }
 
     internal readonly OnboardPokemon NullOnboardPokemon;
@@ -55,6 +55,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     private AtkContext _atkContext;
     public AtkContext AtkContext
     { get { return _atkContext; } }
+    public MoveType LastMove
+    { get { return AtkContext == null ? null : AtkContext.MoveProxy == null ? null : AtkContext.MoveProxy.Type; } }
     public AbilityE Ability
     { get { return OnboardPokemon == NullOnboardPokemon || OnboardPokemon.HasCondition("GastroAcid") ? EffectsService.NULL_ABILITY : EffectsService.GetAbility(OnboardPokemon.Ability); } }
     public ItemE Item
@@ -362,7 +364,20 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (Action == PokemonAction.Done || State == PokemonState.SLP && Action == PokemonAction.Moving && AtkContext.Move.SkipSleepMTA())
       {
-        if (OnboardPokemon.HasCondition("Encore") && AtkContext != null && AtkContext.MoveProxy.PP == 0) OnboardPokemon.RemoveCondition("Encore");
+        {
+          var o = OnboardPokemon.GetCondition("Encore");
+          if (o != null)
+          {
+            foreach(var m in Moves)
+              if (m.Type == o.Move)
+              {
+                if (m.PP == 0) break;
+                else goto DONE1;
+              }
+            OnboardPokemon.RemoveCondition("Encore");
+          }
+        }
+      DONE1:
         if (Item.ChoiceItem())
         {
           var o = OnboardPokemon.GetCondition<MoveType>("ChoiceItem");
@@ -370,12 +385,12 @@ namespace LightStudio.PokemonBattle.Game.Host
             foreach (var m in Moves)
               if (m.Type == o)
               {
-                if (m.PP == 0) OnboardPokemon.RemoveCondition("ChoiceItem");
-                goto DONE;
+                if (m.PP == 0) break;
+                goto DONE2;
               }
           OnboardPokemon.RemoveCondition("ChoiceItem");
         }
-      DONE:
+      DONE2:
         Action = PokemonAction.WaitingForInput;
         return true;
       }
@@ -465,7 +480,10 @@ namespace LightStudio.PokemonBattle.Game.Host
           else Action = PokemonAction.Done;
           break;
         case PokemonAction.MoveAttached:
-          if (OnboardPokemon.HasCondition("Encore")) SelectedMove = AtkContext.MoveProxy;
+          {
+            var o = OnboardPokemon.GetCondition("Encore");
+            if (o != null) SelectedMove = Moves.First((m) => m.Type == o.Move);
+          }
           if (CanExecute() && SelectedMove.CanExecute())
           {
             _atkContext = null;
@@ -737,7 +755,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         case AttachedState.Disable:
           {
             var c = new Condition();
-            c.Move = AtkContext.MoveProxy.Type;
+            c.Move = LastMove;
             c.Turn = Controller.TurnNumber + turn - 1;
             OnboardPokemon.SetCondition("Disable", c);
             AddReportPm("EnDisable", c.Move.Id);

@@ -119,11 +119,13 @@
     <Compile Include="Moves\Status\ChangeAbility\RolePlay.cs" />
     <Compile Include="Moves\Status\ChangeAbility\SkillSwap.cs" />
     <Compile Include="Moves\Status\Conversion.cs" />
-    <Compile Include="Moves\Status\Conversion2.cs" />
+    <Compile Include="Moves\Status\LastMove\Conversion2.cs" />
     <Compile Include="Moves\Status\Curse.cs" />
     <Compile Include="Moves\Status\Gravity.cs" />
     <Compile Include="Moves\Status\HealBell.cs" />
-    <Compile Include="Moves\Status\Mimic.cs" />
+    <Compile Include="Moves\Status\LastMove\Encore.cs" />
+    <Compile Include="Moves\Status\LastMove\Mimic.cs" />
+    <Compile Include="Moves\Status\LastMove\Spite.cs" />
     <Compile Include="Moves\Status\PainSplit.cs" />
     <Compile Include="Moves\Status\Recycle.cs" />
     <Compile Include="Moves\Status\Rest.cs" />

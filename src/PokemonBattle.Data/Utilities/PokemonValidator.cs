@@ -43,7 +43,7 @@ namespace LightStudio.PokemonBattle.Data
 
     public static bool ValidateMoves(IPokemonData pm)
     {
-      return pm.MoveIds.Count() <= 4;
+      return pm.Moves.Count() <= 4;
     }
 
     public static bool Validate(IPokemonData pm)
@@ -85,7 +85,7 @@ namespace LightStudio.PokemonBattle.Data
         a.ItemId == b.ItemId &&
         a.Iv.ValueEquals(b.Iv) &&
         a.Lv == b.Lv &&
-        a.MoveIds.ToArray().ArrayEquals(b.MoveIds.ToArray()) &&
+        a.Moves.ToArray().ArrayEquals(b.Moves.ToArray()) &&
         a.Nature == b.Nature;
     }
   }

@@ -24,7 +24,6 @@
         <Rectangle IsHitTestVisible="False" Fill="{Binding Background,ElementName=pcv}" HorizontalAlignment="Left" Width="161" Margin="160,2,0,0"/>
         <Rectangle x:Name="epshadow" Visibility="{Binding EditingPokemonVisibility}" IsHitTestVisible="False" Margin="310,0,0,0" HorizontalAlignment="Right" Width="545" Fill="#505060"/>
         <Rectangle IsHitTestVisible="False" Name="gridbg"/>
-        <local:PokemonEditorView DataContext="{Binding EditingPokemon}" Visibility="{Binding Visibility,ElementName=epshadow}" Margin="310,0,0,24" HorizontalAlignment="Right"/>
         <Rectangle x:Name="bar" IsHitTestVisible="False" VerticalAlignment="Bottom" Height="23">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -34,20 +33,20 @@
             </Rectangle.Fill>
         </Rectangle>
         <Line X2="{Binding ElementName=bar,Path=ActualWidth}" Stroke="Black" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,23.5"/>
-        <local:PokemonCollectionView x:Name="pcv" DataContext="{Binding Boxes}" BorderBrush="{x:Static ui:Brushes.BlueM}" HorizontalAlignment="Left" Width="321" Margin="0,0,0,23"/>
-        <local:PokemonCollectionView DataContext="{Binding Teams}" BorderBrush="{x:Static ui:Brushes.MagentaM}" HorizontalAlignment="Left" VerticalContentAlignment="Bottom" Width="161" Margin="160,2,0,23"/>
+        <local:PokemonCollectionView x:Name="pcv" DataContext="{Binding Teams}" BorderBrush="{x:Static ui:Brushes.MagentaM}" HorizontalAlignment="Left" Width="321" Margin="0,0,0,23"/>
+        <local:PokemonCollectionView DataContext="{Binding Boxes}" BorderBrush="{x:Static ui:Brushes.BlueM}" HorizontalAlignment="Left" VerticalContentAlignment="Bottom" Width="161" Margin="160,2,0,23"/>
         <Rectangle Fill="#f0f0f0" Width="321" Height="24" HorizontalAlignment="Left" VerticalAlignment="Top" StrokeThickness="0" />
         <Line Stroke="#f8f8f8" Margin="0,16,0,0"/>
     	<Line Stroke="#f8f8f8"  Margin="0,7,0,0"/>
     	<Line Stroke="#f8f8f8" Margin="0,5,0,0"/>
     	<Line Stroke="#f8f8f8"  Margin="0,12,0,0"/>
     	<Line Stroke="#f8f8f8" Margin="0,9,0,0"/>
-        <TextBlock Text="{Binding [Boxes], Source={x:Static pm:DataService.String}}" IsHitTestVisible="False" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,3,0,0">
+        <TextBlock Text="{Binding [Teams], Source={x:Static pm:DataService.String}}" IsHitTestVisible="False" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,3,0,0">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="2" ShadowDepth="0" Color="White"/>
             </TextBlock.Effect>
         </TextBlock>
-        <TextBlock Text="{Binding [Teams], Source={x:Static pm:DataService.String}}" IsHitTestVisible="False" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="159,3,0,0">
+        <TextBlock Text="{Binding [Boxes], Source={x:Static pm:DataService.String}}" IsHitTestVisible="False" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="159,3,0,0">
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="2" ShadowDepth="0" Color="White"/>
             </TextBlock.Effect>
@@ -66,6 +65,7 @@
                 </li:AdornerBehavior>
             </i:Interaction.Behaviors>
         </ContentControl>
+        <local:PokemonEditorView DataContext="{Binding EditingPokemon}" Visibility="{Binding Visibility,ElementName=epshadow}" Margin="310,0,0,24" HorizontalAlignment="Right"/>
         <ItemsControl ItemsSource="{Binding OpenWindows}" ItemTemplate="{x:Static local:Resources.OpenCollection}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

@@ -44,7 +44,7 @@ namespace LightStudio.PokemonBattle.Game
           if (move.PP != 0)
           {
             var f = move.IfSelected();
-            if (f == null) struggle = false; //PP不为0且IfSelect为null肯定是可以选择了
+            if (f == null) struggle = false;
             else
             {
               if (Block == null) Block = new string[pm.Moves.Count()];
@@ -61,7 +61,7 @@ namespace LightStudio.PokemonBattle.Game
         if (struggle)
         {
           Block = null;
-          Only = null; //就是说如果有鼓掌效果但又没PP的话，用IfSelect可能还是会返回一个Only的Fail
+          Only = null;
           OnlyMove = Host.Sp.Moves.STRUGGLE;
         }
       }

@@ -30,8 +30,8 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       rd = GetDictionary("PokemonType");
       PokemonType = (DataTemplate)rd["PokemonType"];
       PokemonForm = (DataTemplate)rd["PokemonForm"];
-      rd = GetDictionary("SelectedMove");
-      SelectedMove = (DataTemplate)rd["SelectedMove"];
+      rd = GetDictionary("LearnedMove");
+      SelectedMove = (DataTemplate)rd["LearnedMove"];
       rd = GetDictionary("Generic");
       Collection = (DataTemplate)rd["Collection"];
       OpenCollection = (DataTemplate)rd["OpenCollection"];

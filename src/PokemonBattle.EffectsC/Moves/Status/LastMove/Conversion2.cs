@@ -19,6 +19,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       else
       {
         BattleType a = atk.Target.Defender.AtkContext.Type;
+        if (a == BattleType.Invalid) a = BattleType.Normal;
         BattleType type1 = atk.Attacker.OnboardPokemon.Type1;
         BattleType type2 = atk.Attacker.OnboardPokemon.Type2;
         var types = (from t in (BattleType[])Enum.GetValues(typeof(BattleType))

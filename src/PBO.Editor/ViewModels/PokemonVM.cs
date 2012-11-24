@@ -35,7 +35,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       {
         var ev = Model.Ev;
         return
-          Model.Form.Type.Number != 132 && Model.MoveIds.Count() != 4 ?
+          Model.Form.Type.Number != 132 && Model.Moves.Count() != 4 ?
           Resources.MagentaShadow :
           508 > ev.Hp + ev.Atk + ev.Def + ev.Speed + ev.SpAtk + ev.SpDef ?
           Resources.OrangeShadow :

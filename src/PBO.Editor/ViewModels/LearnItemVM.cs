@@ -19,7 +19,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     {
       pokemon = pm;
       Move = move;
-      _isSelected = pokemon.Model.MoveIds.Contains(move.Id);
+      _isSelected = pokemon.Model.HasMove(move.Id);
     }
     
     public MoveType Move
