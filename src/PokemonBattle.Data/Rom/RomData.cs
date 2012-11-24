@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Data
 #endif
     sealed class RomData : SimpleData
   {
-    public static RomData Load(string path)
+    internal static RomData Load(string path)
     {
       var rom = LoadFromDat<RomData>(path);
       foreach (var pm in rom.Pokemons)
@@ -31,6 +31,8 @@ namespace LightStudio.PokemonBattle.Data
     private readonly Ability[] abilities;
     [DataMember]
     private readonly Dictionary<int, Item> items;
+    [DataMember]
+    private readonly Evolution[] evolutions;
 
     private RomData()
     {
@@ -65,6 +67,15 @@ namespace LightStudio.PokemonBattle.Data
     public Item GetItem(int itemId)
     {
       return items.ValueOrDefault(itemId);
+    }
+    public int? GetPreEvolution(int number)
+    {
+      var r = evolutions.FirstOrDefault((e) => e.To == number);
+      return r == null ? null : (int?)r.From;
+    }
+    public IEnumerable<int> GetEvolutions(int number)
+    {
+      return evolutions.Where((e) => e.From == number).Select((e) => e.To);
     }
   }
 }

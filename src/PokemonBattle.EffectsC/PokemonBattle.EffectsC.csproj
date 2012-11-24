@@ -55,6 +55,7 @@
     <Compile Include="Abilities\Imposter.cs" />
     <Compile Include="Abilities\WeatherObserver.cs" />
     <Compile Include="Abilities\ZenMode.cs" />
+    <Compile Include="Items\Eviolite.cs" />
     <Compile Include="Items\LeppaBerry.cs" />
     <Compile Include="Items\MentalHerb.cs" />
     <Compile Include="Items\ReHurtBerry.cs" />

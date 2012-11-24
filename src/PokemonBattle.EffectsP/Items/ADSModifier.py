@@ -82,10 +82,3 @@ class ThickClub(ItemE):
             return 0x2000
         return 0x1000
 I(ThickClub(40))
-
-class Eviolite(ItemE):
-    def DModifier(self, d):
-        #    return 0x1800
-        return 0x1000
-print 'WARNING: Items\\ADSModifier.py Eviolite'
-I(Eviolite(102))

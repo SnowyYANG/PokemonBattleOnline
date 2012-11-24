@@ -29,6 +29,8 @@ namespace LightStudio.PokemonBattle.Data.Editor
       return (sbyte)i;
     }
 
+    static string Desktop
+    { get { return string.Format(@"c:\users\{0}\desktop\", Environment.UserName); } } 
     static void Main(string[] args)
     {
     }

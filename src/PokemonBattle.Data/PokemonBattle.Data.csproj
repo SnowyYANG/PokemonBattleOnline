@@ -84,6 +84,7 @@
     <Compile Include="Rom\Move\MoveLv7DChange.cs" />
     <Compile Include="Rom\Move\MoveTypeAdvancedFlags.cs" />
     <Compile Include="Rom\Move\MoveLearnItem.cs" />
+    <Compile Include="Rom\Pokemon\Evolution.cs" />
     <Compile Include="Rom\Pokemon\PokemonFormData.cs" />
     <Compile Include="Rom\Pokemon\PokemonType.cs" />
     <Compile Include="Rom\RomData.cs" />

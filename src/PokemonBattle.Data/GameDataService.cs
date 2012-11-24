@@ -55,6 +55,14 @@ namespace LightStudio.PokemonBattle.Data
     {
       return rom.GetItem(itemId);
     }
+    public static int? GetPreEvolution(int number)
+    {
+      return rom.GetPreEvolution(number);
+    }
+    public static IEnumerable<int> GetEvolutions(int number)
+    {
+      return rom.GetEvolutions(number);
+    }
 
     public static BitmapImage GetPokemonIcon(PokemonForm form, PokemonGender gender)
     {
