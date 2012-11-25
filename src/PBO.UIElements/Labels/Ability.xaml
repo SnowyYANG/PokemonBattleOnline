@@ -2,11 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements">
     <DataTemplate x:Key="AbilityLabel">
-        <ContentControl Content="{Binding Name}" ContentTemplate="{x:Static ui:Controls.LocalizedDataText}">
-            <ContentControl.ToolTip>
-                <ToolTip Content="{Binding Description}" ContentTemplate="{x:Static ui:Controls.LocalizedDataText}"/>
-            </ContentControl.ToolTip>
-        </ContentControl>
+        <TextBlock Text="{Binding Name}">
+            <TextBlock.ToolTip>
+                <ToolTip Content="{Binding Description}"/>
+            </TextBlock.ToolTip>
+        </TextBlock>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding}" Value="{x:Null}">
                 <Setter Property="Visibility" Value="Collapsed"/>

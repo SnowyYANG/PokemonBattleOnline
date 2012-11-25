@@ -9,7 +9,7 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Canvas UseLayoutRounding="True">
+                    <Canvas UseLayoutRounding="True" IsHitTestVisible="False">
                         <Canvas.Resources>
                             <Style TargetType="TextBlock">
                                 <Setter Property="FontSize" Value="11"/>
@@ -23,7 +23,7 @@
                             Lv.<TextBlock Text="{Binding Lv}"/>
                         </TextBlock>
                         <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="12" Canvas.Top="31"/>
-                        <Image IsHitTestVisible="False" Source="{Binding Converter={x:Static c:PokemonIcon.C}}"  Width="32" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Right="-1"/>
+                        <Image Source="{Binding Converter={x:Static c:PokemonIcon.C}}" Width="32" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Right="-1"/>
                         <Image Name="item" Stretch="Uniform" Source="/PBO.UIElements;component/Images/item.png" Width="6" Height="8" Canvas.Left="16" Canvas.Top="23" SnapsToDevicePixels="True" />
                         <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" Width="75" Canvas.Left="30" Canvas.Top="5"/>
                         <ContentPresenter Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Right="8" Canvas.Top="3"/>

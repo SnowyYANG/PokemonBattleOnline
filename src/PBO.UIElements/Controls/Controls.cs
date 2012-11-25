@@ -10,7 +10,6 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
   public static class Controls
   {
     public static readonly DataTemplate LocalizedText;
-    public static readonly DataTemplate LocalizedDataText;
     public static readonly Style XButton;
     public static readonly Style CommandMenu;
     public static readonly ItemsPanelTemplate WrapPanel;
@@ -19,7 +18,6 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
     {
       ResourceDictionary rd = Helper.GetDictionary("Controls", "LocalizedProperty");
       LocalizedText = (DataTemplate)rd["LocalizedText"];
-      LocalizedDataText = (DataTemplate)rd["LocalizedDataText"];
       rd = Helper.GetDictionary("Controls", "XButton");
       XButton = (Style)rd["XButton"];
       rd = Helper.GetDictionary("Controls", "Controls");

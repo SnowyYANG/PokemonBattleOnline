@@ -110,6 +110,15 @@ namespace LightStudio.PokemonBattle.PBO.UIElements.Interactivity
         sourceHandler.HandleQueryContinueDrag(base.AssociatedObject, e);
       }
     }
+    private static T GetParent<T>(DependencyObject element) where T : DependencyObject
+    {
+        do
+        {
+          element = VisualTreeHelper.GetParent(element);
+        }
+        while ((element != null) && !(element is T));
+        return (element as T);
+    }
     private static void Scroll(ScrollBar scroll, Point pt)
     {
       VisualTreeHelper.HitTest(scroll, null, delegate(HitTestResult result)
@@ -118,7 +127,7 @@ namespace LightStudio.PokemonBattle.PBO.UIElements.Interactivity
         RepeatButton parent = element as RepeatButton;
         if (parent == null)
         {
-          parent = element.GetParent<RepeatButton>();
+          parent = GetParent<RepeatButton>(element);
         }
         if ((parent != null) && (parent.Command != null))
         {

@@ -6,7 +6,7 @@
     <UserControl.Resources>
         <ResourceDictionary Source="/PBO.Battle;component/NDS/StateBars.xaml"/>  
     </UserControl.Resources>
-    <Canvas Height="384" MinWidth="256" MaxWidth="256">
+    <Canvas Height="384" Width="256">
         <my:BattleField2D x:Name="board"/>
         <ListBox x:Name="opms" ItemTemplate="{StaticResource ResourceKey=OStateBar}" SnapsToDevicePixels="True" Background="{x:Null}" Canvas.Right="-1" Canvas.Top="105" BorderThickness="0" Padding="0" HorizontalContentAlignment="Right" IsHitTestVisible="False" IsTabStop="False">
             <ListBox.ItemContainerStyle>

@@ -14,6 +14,5 @@ namespace LightStudio.PokemonBattle.Game
     GameMode Mode { get; }
     Terrain Terrain { get; }
     bool SleepRule { get; }
-    IEnumerable<Rule> Rules { get; }
   }
 }

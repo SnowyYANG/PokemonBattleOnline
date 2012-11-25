@@ -23,6 +23,12 @@ namespace LightStudio.PokemonBattle.PBO.Battle
   /// </summary>
   public partial class NDS : UserControl
   {
+    public event Action<Pokemon> ReviewPokemon
+    {
+      add { cp.ReviewPokemon += value; }
+      remove { cp.ReviewPokemon -= value; }
+    }
+    
     public NDS()
     {
       InitializeComponent();

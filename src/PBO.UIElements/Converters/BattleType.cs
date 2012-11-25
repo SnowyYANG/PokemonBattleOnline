@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.PBO.Converters
   [ValueConversion(typeof(BattleType), typeof(SolidColorBrush))]
   public class BattleTypeBg : IValueConverter
   {
-    public readonly static BattleTypeBg I = new BattleTypeBg();
+    public readonly static BattleTypeBg C = new BattleTypeBg();
     static readonly SolidColorBrush[] c;
     static BattleTypeBg()
     {
@@ -51,7 +51,7 @@ namespace LightStudio.PokemonBattle.PBO.Converters
   [ValueConversion(typeof(BattleType), typeof(SolidColorBrush))]
   public class BattleTypeBorder : IValueConverter
   {
-    public static readonly BattleTypeBorder I = new BattleTypeBorder();
+    public static readonly BattleTypeBorder C = new BattleTypeBorder();
     static readonly SolidColorBrush[] c;
     static BattleTypeBorder()
     {
@@ -88,7 +88,7 @@ namespace LightStudio.PokemonBattle.PBO.Converters
   [ValueConversion(typeof(BattleType), typeof(SolidColorBrush))]
   public class BattleTypeCircle : IValueConverter
   {
-    public static readonly BattleTypeCircle I = new BattleTypeCircle();
+    public static readonly BattleTypeCircle C = new BattleTypeCircle();
     static readonly SolidColorBrush[] c;
     static BattleTypeCircle()
     {

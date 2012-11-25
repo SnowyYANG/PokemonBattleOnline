@@ -19,12 +19,12 @@
                 </ToolTip>
             </StackPanel.ToolTip>
             <TextBlock Text="{Binding Number, StringFormat=No.{0: 000}}" Margin="0,0,5,0"/>
-            <ContentControl Content="{Binding Name}" ContentTemplate="{x:Static ui:Controls.LocalizedDataText}"/>
+            <TextBlock Text="{Binding Name}"/>
         </StackPanel>
     </DataTemplate>
     <DataTemplate x:Key="PokemonForm">
-        <ContentControl Content="{Binding Name}" ContentTemplate="{x:Static ui:Controls.LocalizedDataText}">
-            <ContentControl.ToolTip>
+        <TextBlock Text="{Binding Name}">
+            <TextBlock.ToolTip>
                 <ToolTip>
                     <ToolTip.Template>
                         <ControlTemplate>
@@ -34,7 +34,7 @@
                         </ControlTemplate>
                     </ToolTip.Template>
                 </ToolTip>
-            </ContentControl.ToolTip>
-        </ContentControl>
+            </TextBlock.ToolTip>
+        </TextBlock>
     </DataTemplate>
 </ResourceDictionary>

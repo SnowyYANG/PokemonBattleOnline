@@ -22,12 +22,25 @@ namespace LightStudio.PokemonBattle.PBO.Battle
   /// </summary>
   public partial class ControlPanel : Canvas
   {
+    public event Action<Pokemon> ReviewPokemon;
     IControlPanel vm;
 
     public ControlPanel()
     {
       InitializeComponent();
     }
+
+    private Pokemon _current;
+    private Pokemon Current
+    {
+      get { return _current; }
+      set
+      {
+        _current = value;
+        ReviewPokemon(_current);
+      }
+    }
+
     private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       if (vm != null)
@@ -55,6 +68,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       if (controlPanel.SelectedIndex == ControlPanelIndex.TARGET)
         controlPanel.SelectedIndex = ControlPanelIndex.FIGHT;
       controlPanel.SelectedIndex = ControlPanelIndex.MAIN;
+      Current = null;
     }
     private void fight_Click(object sender, RoutedEventArgs e)
     {
@@ -76,7 +90,11 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     private void pokemon_Click(object sender, RoutedEventArgs e)
     {
       Pokemon pm = ((Button)sender).Content as Pokemon;
-      if (pm != null) vm.Pokemon_Click(pm);
+      if (pm != null)
+      {
+        if (pm == Current) vm.Pokemon_Click(pm);
+        else Current = pm;
+      }
     }
     private void giveup_Click(object sender, RoutedEventArgs e)
     {

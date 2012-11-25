@@ -15,9 +15,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     private bool isLocked;
     private readonly IdGenerator idGen;
     private Queue<int> idQue;
-    private Collection<Rule> rules;
-    [DataMember]
-    private Collection<int> ruleIds;
 
     /// <summary>
     /// HostOnly
@@ -28,8 +25,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     public GameInitSettings(GameMode mode, Terrain terrain = Terrain.Path, bool sleepRule = true)
     {
       idGen = new IdGenerator();
-      rules = new Collection<Rule>();
-      ruleIds = new Collection<int>();
       Mode = mode;
       Terrain = terrain;
       SleepRule = sleepRule;
@@ -56,18 +51,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       get { return !_noSR; }
       set { if (!isLocked) _noSR = !value; }
     }
-    public IEnumerable<Rule> Rules
-    {
-      get
-      {
-        if (rules == null)
-        {
-          rules = new Collection<Rule>();
-          foreach (int i in ruleIds) rules.Add(GameService.GetRule(i));
-        }
-        return rules;
-      }
-    }
 
     internal int NextId()
     {
@@ -80,11 +63,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       {
         isLocked = true;
       }
-    }
-    public void AddRule(Rule rule)
-    {
-      ruleIds.Add(rule.Id);
-      rules.Add(rule);
     }
     internal void SetIds(int[] ids)
     {

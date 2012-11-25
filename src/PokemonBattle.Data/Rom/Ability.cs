@@ -14,6 +14,8 @@ namespace LightStudio.PokemonBattle.Data
       : base(id)
     {
     }
+    public override string Name
+    { get { return DataService.DataString[EnglishName]; } }
     public override string Description
     { get { return DataService.DataString["A" + Id.ToString("000")]; } }
   }

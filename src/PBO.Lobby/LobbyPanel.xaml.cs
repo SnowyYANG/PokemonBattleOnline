@@ -23,6 +23,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     public LobbyPanel()
     {
       InitializeComponent();
+      gridbg.Fill = PBO.UIElements.Brushes.GetGridTileBrush(16, PBO.Helper.NewBrush(0xffffffff));
       login.LoginComplete += () =>
         {
           PBOClient.Client.Disconnected += (sender, e) => UIDispatcher.Invoke(() =>
@@ -35,10 +36,9 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
         };
     }
 
-    public void Init(double x, double y)
+    public void SetGridBg(double x, double y)
     {
       gridbg.Margin = new Thickness(x, y, 0, 0);
-      gridbg.Fill = PBO.UIElements.Brushes.GetGridTileBrush(16, PBO.Helper.NewBrush(0xffffffff));
     }
 
     public bool Window_Closing()

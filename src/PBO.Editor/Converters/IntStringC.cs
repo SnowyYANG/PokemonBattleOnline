@@ -8,33 +8,23 @@ using System.Globalization;
 
 namespace LightStudio.PokemonBattle.PBO.Editor
 {
-  [ValueConversion(typeof(int), typeof(string))]
-  class IntStringC : IValueConverter
+  class AccuracyStringC : Converter<int>
   {
-    public static readonly IntStringC I = new IntStringC();
+    public static readonly AccuracyStringC I = new AccuracyStringC();
 
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    protected override object Convert(int value)
     {
-      if (value == null)
-        return null;
-      int intValue = (int)value;
-      string paramString = string.Format("{0}", parameter).ToLower();
-      if (paramString == "accuracy")
-      {
-        if (intValue == 0x65)
-          return "-";
-      }
-      else if (paramString == "power")
-      {
-        if (intValue == 0 || intValue == 1)
-          return "-";
-      }
-      return value.ToString();
+      return value == 0x65 ? "-" : value.ToString();
     }
+  }
+  [ValueConversion(typeof(int), typeof(string))]
+  class PowerStringC : Converter<int>
+  {
+    public static readonly PowerStringC I = new PowerStringC();
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    protected override object Convert(int value)
     {
-      return null;
+      return value == 0 || value == 1 ? "-" : value.ToString();
     }
   }
 }

@@ -10,11 +10,4 @@
             </i:Interaction.Behaviors>
         </TextBlock>
     </DataTemplate>
-    <DataTemplate x:Key="LocalizedDataText">
-        <TextBlock>
-            <i:Interaction.Behaviors>
-                <ui:LocalizedProperty Property="TextBlock.Text" Key="{Binding}" StringService="{x:Static pm:DataService.DataString}"/>
-            </i:Interaction.Behaviors>
-        </TextBlock>
-    </DataTemplate>
 </ResourceDictionary>

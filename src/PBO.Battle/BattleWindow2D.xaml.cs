@@ -36,20 +36,21 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       return false;
     }
     
-    IRoom room;
+    private readonly IRoom Room;
 
     public BattleWindow(IRoom room)
     {
       InitializeComponent();
-      this.room = room;
+      Room = room;
       room.AddListener(this);
       Instances.Add(this);
+      nds.ReviewPokemon += (p) => pmReview.Content = p;
     }
 
     protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
     {
       base.OnClosing(e);
-      if (room != null && room.RoomState != RoomState.GameEnd)
+      if (Room != null && Room.RoomState != RoomState.GameEnd)
       {
         var result = UIElements.ShowMessageBox.ClosingInBattle(this);
         e.Cancel = result != MessageBoxResult.Yes;
@@ -59,7 +60,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     protected override void OnClosed(EventArgs e)
     {
       base.OnClosed(e);
-      room.Quit();
+      Room.Quit();
       Instances.Remove(this);
     }
 
@@ -68,9 +69,26 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     {
       UIDispatcher.Invoke(() =>
         {
-          nds.Init(room);
-          br.Init(room.Game);
-          room.Game.LeapTurn += () => mask.Visibility = System.Windows.Visibility.Collapsed;
+          StringBuilder t0 = new StringBuilder();
+          StringBuilder t1 = new StringBuilder();
+          foreach (var p in Room.Players)
+            if (p.Team == 0)
+            {
+              t0.Append(p.GetName());
+              t0.Append(' ');
+            }
+            else
+            {
+              t1.Append(' ');
+              t1.Append(p.GetName());
+            }
+          t0.Append(" VS ");
+          t0.Append(t1);
+          Title = t0.ToString();
+
+          nds.Init(Room);
+          br.Init(Room.Game);
+          Room.Game.LeapTurn += () => mask.Visibility = System.Windows.Visibility.Collapsed;
         });
     }
     void IRoomEventsListener.GameTie()
@@ -132,7 +150,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
         {
           br.AddLogText(DataService.String["TimeUp\n"]);
           foreach(var pair in spentTime)
-            br.AddLogText(string.Format(room.Game, "{0:P}使用了{1}秒\n", pair.Key, pair.Value));
+            br.AddLogText(string.Format(Room.Game, "{0:P}使用了{1}秒\n", pair.Key, pair.Value));
         });
     }
     void IRoomEventsListener.Error(string message)

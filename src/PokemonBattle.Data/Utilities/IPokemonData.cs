@@ -40,6 +40,10 @@ namespace LightStudio.PokemonBattle.Data
       var m = obj as LearnedMove;
       return m != null && m.Move == Move && m.PPUp == PPUp;
     }
+    public override string ToString()
+    {
+      return Move.GetLocalizedName();//纯粹用来给UI作弊的
+    }
   }
   public interface IPokemonData
   {

@@ -5,13 +5,13 @@
         xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements;assembly=PBO.UIElements"
         xmlns:e="clr-namespace:LightStudio.PokemonBattle.PBO.Editor;assembly=PBO.Editor"
         xmlns:l="clr-namespace:LightStudio.PokemonBattle.PBO.Lobby;assembly=PBO.Lobby"
-        Title="Pokemon Battle Online" MinWidth="560" MinHeight="500" SizeChanged="Window_SizeChanged">
-    <Grid Loaded="Grid_Loaded">
+        Title="Pokemon Battle Online" MinWidth="560" MinHeight="500">
+    <Grid x:Name="grid" Loaded="Grid_Loaded" SizeChanged="Grid_SizeChanged">
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="c0"/>
             <ColumnDefinition x:Name="c1"/>
         </Grid.ColumnDefinitions>
-        <Rectangle Grid.Column="1" Height="1" VerticalAlignment="Top" SizeChanged="Rectangle_SizeChanged"/>
+        <Rectangle SizeChanged="Rectangle_SizeChanged" Grid.Column="1" Height="1" VerticalAlignment="Top" IsHitTestVisible="False"/>
         <l:LobbyPanel x:Name="lobby" Grid.Column="1"/>
         <e:EditorPanel x:Name="editor" Margin="0,0,3,0"/>
         <GridSplitter VerticalAlignment="Stretch" HorizontalAlignment="Right" ResizeDirection="Columns" Width="3" Background="Black" ShowsPreview="True" />

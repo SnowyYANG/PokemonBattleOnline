@@ -3,12 +3,12 @@
                     xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements">
     <DataTemplate x:Key="ItemLabel">
         <!--<Grid>-->
-            <ContentControl Content="{Binding Name}" ContentTemplate="{x:Static ui:Controls.LocalizedDataText}">
-                <ContentControl.ToolTip>
-                    <ToolTip Content="{Binding Description}" ContentTemplate="{x:Static ui:Controls.LocalizedDataText}"/>
-                </ContentControl.ToolTip>
-            </ContentControl>
-            <!--<TextBlock Name="nothing" Foreground="Black" Text="无" Visibility="Hidden"/>
+        <TextBlock Text="{Binding Name}">
+            <TextBlock.ToolTip>
+                <ToolTip Content="{Binding Description}"/>
+            </TextBlock.ToolTip>
+        </TextBlock>
+        <!--<TextBlock Name="nothing" Foreground="Black" Text="无" Visibility="Hidden"/>
         </Grid>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding}" Value="{x:Null}">

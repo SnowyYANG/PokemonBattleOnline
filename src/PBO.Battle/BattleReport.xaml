@@ -7,7 +7,7 @@
              d:DesignHeight="300" d:MinWidth="300">
     <Grid>
         <FlowDocumentScrollViewer Name="reportViewer" IsToolBarVisible="False" BorderThickness="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
-            <FlowDocument Name="report" FontSize="15" PagePadding="0">
+            <FlowDocument Name="report" FontSize="11" PagePadding="0">
                 <FlowDocument.Resources>
                     <Style TargetType="Paragraph">
                         <Setter Property="Margin" Value="0"/>

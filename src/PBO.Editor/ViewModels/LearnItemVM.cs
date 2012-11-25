@@ -25,9 +25,6 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     public MoveType Move
     { get; private set; }
 
-    public string MoveName
-    { get { return Move.GetLocalizedName(); } }
-
     private bool _isSelected;
     public bool IsSelected
     {

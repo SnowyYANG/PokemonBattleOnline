@@ -33,6 +33,8 @@ namespace LightStudio.PokemonBattle.Data
     {
     }
 
+    public override string Name
+    { get { return DataService.DataString[EnglishName]; } }
     public override string Description
     { get { return null; } }
   }

@@ -296,7 +296,7 @@
         						<Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}" BorderThickness="0,3" SnapsToDevicePixels="true">
         							<StackPanel Margin="5,1">
         								<GridViewRowPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                        <ContentPresenter x:Name="des" Content="..." ContentTemplate="{x:Static ui:Controls.LocalizedDataText}" HorizontalAlignment="Stretch" Margin="30,1,0,0" Visibility="Collapsed">
+                                        <ContentPresenter x:Name="des" Content="..." HorizontalAlignment="Stretch" Margin="30,1,0,0" Visibility="Collapsed">
                                             <ContentPresenter.Resources>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="TextWrapping" Value="Wrap"/>
@@ -360,7 +360,7 @@
         					</DataTemplate>
         				</GridViewColumn.CellTemplate>
         			</GridViewColumn>
-        			<GridViewColumn Header="{Binding [Name], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding MoveName}"/>
+        			<GridViewColumn Header="{Binding [Name], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding Move.Name}"/>
         			<GridViewColumn Header="{Binding [Type], Source={x:Static pm:DataService.String}}" li:SortOnHeaderClick.SortProperty="Move.Type">
         				<GridViewColumn.CellTemplate>
         					<DataTemplate>
@@ -375,8 +375,8 @@
         					</DataTemplate>
         				</GridViewColumn.CellTemplate>
         			</GridViewColumn>
-        			<GridViewColumn Header="{Binding [Power], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding Move.Power, ConverterParameter=power, Converter={x:Static local:IntStringC.I}}"/>
-        			<GridViewColumn Header="{Binding [Accuracy], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding Move.Accuracy, ConverterParameter=accuracy, Converter={x:Static local:IntStringC.I}}"/>
+        			<GridViewColumn Header="{Binding [Power], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding Move.Power, Converter={x:Static local:PowerStringC.I}}"/>
+        			<GridViewColumn Header="{Binding [Accuracy], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding Move.Accuracy, Converter={x:Static local:AccuracyStringC.I}}"/>
         			<GridViewColumn Header="{Binding [PP], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding Move.PP}"/>
         			<GridViewColumn Header="{Binding [Description], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding Move.Description}"/>
         		</GridView>

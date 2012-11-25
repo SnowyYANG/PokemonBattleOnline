@@ -10,15 +10,14 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
   {
     public static readonly DataTemplate DetailedAvatar;
     public static readonly DataTemplate User;
-    public static readonly DataTemplate Move;
+    public static readonly DataTemplate Pokemon;
 
     static Cartes()
     {
-      ResourceDictionary rd = Helper.GetDictionary("Cartes", "Move");
-      Move = rd["MoveCarte"] as DataTemplate;
-      rd = Helper.GetDictionary("Cartes", "User");
+      var rd = Helper.GetDictionary("Cartes", "User");
       DetailedAvatar = (DataTemplate)rd["DetailedAvatar"];
       User = (DataTemplate)rd["User"];
+      Pokemon = Helper.GetObject<DataTemplate>("Cartes", "Pokemon");
     }
   }
 }

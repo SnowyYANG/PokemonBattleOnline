@@ -17,9 +17,10 @@ namespace LightStudio.Tactic.DataModels
       Id = id;
     }
 
-    [DataMember]
-    public string Name { get; protected set; }
+    [DataMember(Name = "Name")]
+    public string EnglishName { get; protected set; }
 
+    public abstract string Name { get; }
     public abstract string Description { get; }
 
     public override string ToString()

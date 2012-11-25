@@ -36,9 +36,13 @@ namespace LightStudio.PokemonBattle.PBO
       return (ResourceDictionary)Application.LoadComponent(
         new Uri(string.Format(@"/PBO.UIElements;component/{0}/{1}.xaml", group, name), UriKind.Relative));
     }
-    internal static object GetObject(string group, string filename, string key)
+    internal static T GetObject<T>(string group, string filename, string key)
     {
-      return GetDictionary(group, filename)[key];
+      return (T)GetDictionary(group, filename)[key];
+    }
+    internal static T GetObject<T>(string group, string name)
+    {
+      return GetObject<T>(group, name, name);
     }
   }
 }

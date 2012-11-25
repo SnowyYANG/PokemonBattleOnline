@@ -73,26 +73,21 @@
     <Compile Include="Config.cs" />
     <Compile Include="Controls\Controls.cs" />
     <Compile Include="Controls\Command.cs" />
-    <Compile Include="Controls\LifeBarHelper.cs" />
-    <Compile Include="Controls\LifeBarWithText.xaml.cs">
+    <Compile Include="Controls\LifeBars\LifeBarHelper.cs" />
+    <Compile Include="Controls\LifeBars\LifeBarWithText.xaml.cs">
       <DependentUpon>LifeBarWithText.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\LifeBarSimplified.xaml.cs">
+    <Compile Include="Controls\LifeBars\LifeBarSimplified.xaml.cs">
       <DependentUpon>LifeBarSimplified.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Extensions.cs" />
     <Compile Include="Controls\NumericUpdown.cs" />
     <Compile Include="Controls\UIButton.cs" />
     <Compile Include="Controls\UITextBox.cs" />
     <Compile Include="Converters\BattleType.cs" />
     <Compile Include="Converters\Converter.cs" />
-    <Compile Include="Converters\IdMoveConverter.cs" />
-    <Compile Include="Converters\IntString.cs" />
     <Compile Include="Converters\LocalizedText.cs" />
     <Compile Include="Converters\PokemonIcon.cs" />
     <Compile Include="Converters\MoveCategory.cs" />
-    <Compile Include="Converters\MovePriority.cs" />
-    <Compile Include="Converters\MoveRange.cs" />
     <Compile Include="Converters\PP.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Controls\LocalizedProperty.cs" />
@@ -118,11 +113,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\LifeBarWithText.xaml">
+    <Page Include="Controls\LifeBars\LifeBarWithText.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\LifeBarSimplified.xaml">
+    <Page Include="Controls\LifeBars\LifeBarSimplified.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -190,10 +185,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Cartes\Move.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Cartes\Pokemon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -222,15 +213,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\LifeBar.xaml">
+    <Page Include="Controls\LifeBars\LifeBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Cartes\Pokemon.xaml.cs">
-      <DependentUpon>Pokemon.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\HorizontalAnimatedImage.cs" />
-    <Compile Include="Controls\LifeBar.xaml.cs">
+    <Compile Include="Controls\LifeBars\LifeBar.xaml.cs">
       <DependentUpon>LifeBar.xaml</DependentUpon>
     </Compile>
   </ItemGroup>

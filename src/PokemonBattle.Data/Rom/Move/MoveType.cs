@@ -22,6 +22,8 @@ namespace LightStudio.PokemonBattle.Data
     }
 #endif
 
+    public override string Name
+    { get { return DataService.DataString[EnglishName]; } }
     public override string Description
     { get { return DataService.DataString["M" + Id.ToString("000")]; } }
 

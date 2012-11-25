@@ -61,11 +61,11 @@ namespace LightStudio.PokemonBattle.Data
     #region DataService
     public static string GetLocalizedName(this GameElement e)
     {
-      return e == null ? String["<error>"] : DataString[e.Name];
+      return e == null ? String["<error>"] : e.Name;
     }
     public static string GetLocalizedName(this PokemonType pm)
     {
-      return pm == null ? String["<error>"] : DataString[pm.Name];
+      return pm == null ? String["<error>"] : pm.Name;
     }
     public static string GetLocalizedName(this Enum type)
     {

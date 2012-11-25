@@ -71,10 +71,10 @@
                                         <ToolTip Background="{x:Static ui:Brushes.GrayF}">
                                             <StackPanel DataContext="{Binding Model}">
                                                 <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
-                                                <TextBlock Text="{Binding MoveIds[0],Converter={x:Static c:IdMoveConverter.I}}"/>
-                                                <TextBlock Text="{Binding MoveIds[1],Converter={x:Static c:IdMoveConverter.I}}"/>
-                                                <TextBlock Text="{Binding MoveIds[2],Converter={x:Static c:IdMoveConverter.I}}"/>
-                                                <TextBlock Text="{Binding MoveIds[3],Converter={x:Static c:IdMoveConverter.I}}"/>
+                                                <TextBlock Text="{Binding Moves[0]}"/>
+                                                <TextBlock Text="{Binding Moves[1]}"/>
+                                                <TextBlock Text="{Binding Moves[2]}"/>
+                                                <TextBlock Text="{Binding Moves[3]}"/>
                                             </StackPanel>
                                         </ToolTip>
                                     </UserControl.ToolTip>

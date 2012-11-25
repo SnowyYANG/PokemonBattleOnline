@@ -8,16 +8,12 @@ namespace LightStudio.PokemonBattle.Test
 {
   class GameSettings : IGameSettings
   {
-    private static readonly Rule[] NORULE = new Rule[0];
-    
     public GameMode Mode
     { get { return GameMode.Single; } }
     public Terrain Terrain
     { get { return Terrain.Path; } }
     public bool SleepRule
     { get { return true; } }
-    public IEnumerable<Rule> Rules
-    { get { return NORULE; } }
 
     private readonly IdGenerator idGen = new IdGenerator();
     internal int NextId()

@@ -3,21 +3,8 @@
                     xmlns:c="clr-namespace:LightStudio.PokemonBattle.PBO.Converters"
                     xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements">
     <DataTemplate x:Key="BattleTypeLabel">
-        <DataTemplate.Resources>
-            <ResourceDictionary>
-                <c:BattleTypeBg x:Key="TypeBgConverter"/>
-                <c:BattleTypeBorder x:Key="TypeBorderConverter"/>
-                <c:BattleTypeCircle x:Key="TypeCircleConverter"/>
-            </ResourceDictionary>
-        </DataTemplate.Resources>
-        <Border Height="17" MinWidth="35" BorderThickness="1">
-            <Border.Background>
-                <Binding Converter="{StaticResource TypeBgConverter}"/>
-            </Border.Background>
-            <Border.BorderBrush>
-                <Binding Converter="{StaticResource TypeBorderConverter}"/>
-            </Border.BorderBrush>
-            <ContentControl Style="{x:Null}" Content="{Binding}" ContentTemplate="{x:Static Member=ui:Controls.LocalizedText}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-1,0,0"/>
+        <Border Background="{Binding Converter={x:Static c:BattleTypeBg.C}}" BorderBrush="{Binding Converter={x:Static c:BattleTypeBorder.C}}" BorderThickness="1" Height="17" MinWidth="35">
+            <ContentControl Style="{x:Null}" Content="{Binding}" ContentTemplate="{x:Static ui:Controls.LocalizedText}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-1,0,0"/>
         </Border>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding}" Value="Invalid">

@@ -32,8 +32,10 @@ namespace LightStudio.PokemonBattle.Data
 
     [DataMember]
     private readonly string _name;
-    public string Name
+    public string EnglishName
     { get { return _name; } }
+    public string Name
+    { get { return DataService.DataString[_name]; } }
 
     [DataMember]
     private readonly float _height;

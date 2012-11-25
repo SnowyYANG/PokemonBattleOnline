@@ -71,7 +71,6 @@
     <Compile Include="Host\EModels\BattleContext.cs" />
     <Compile Include="Host\EModels\ItemE.cs" />
     <Compile Include="Host\EModels\MoveE.cs" />
-    <Compile Include="Models\Rule.cs" />
     <Compile Include="Host\EModels\Sp\Abilities.cs" />
     <Compile Include="Host\EModels\Sp\Items.cs" />
     <Compile Include="Host\EModels\Sp\Moves.cs" />

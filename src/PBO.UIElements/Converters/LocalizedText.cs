@@ -15,13 +15,4 @@ namespace LightStudio.PokemonBattle.PBO.Converters
       return DataService.String[value];
     }
   }
-  public class LocalizedDataText : Converter<string>
-  {
-    public static readonly LocalizedDataText C = new LocalizedDataText();
-    
-    protected override object Convert(string value)
-    {
-      return DataService.DataString[value];
-    }
-  }
 }
