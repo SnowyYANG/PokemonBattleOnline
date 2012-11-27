@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
         a == Abs.WONDER_GUARD || a == Abs.ILLUSION || a == Abs.MULTITYPE ||
         d == Abs.WONDER_GUARD || d == Abs.ILLUSION || d == Abs.MULTITYPE
         )
-        FailAll(atk);
+        atk.FailAll();
       else
       {
         var aer = atk.Attacker;

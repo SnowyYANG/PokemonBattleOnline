@@ -18,14 +18,15 @@ namespace LightStudio.PokemonBattle.Data
     { get { return _move; } }
     
     private byte _ppUp;
-    public byte PPUp
+    public int PPUp
     {
       get { return _ppUp; }
       set
       {
-        if (_ppUp != value && 0 <= value && value <= 3)
+        var v = (byte)value;
+        if (_ppUp != v && 0 <= v && v <= 3)
         {
-          _ppUp = value;
+          _ppUp = v;
           OnPropertyChanged("PPUp");
           OnPropertyChanged("PP");
         }

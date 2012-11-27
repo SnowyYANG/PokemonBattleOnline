@@ -19,10 +19,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
       if (aer.CanLostItem && aer.CanUseItem && Is.Berry(aer.Pokemon.Item.Id))
       {
         base.Execute(atk);
-        if (atk.FailAll) aer.ConsumeItem();
+        if (atk.Fail) aer.ConsumeItem();
         aer.Controller.ReportBuilder.Add(new GameEvents.RemoveItem(null, aer));
       }
-      else FailAll(atk);
+      else atk.FailAll();
     }
     protected override void CalculateType(AtkContext atk)
     {

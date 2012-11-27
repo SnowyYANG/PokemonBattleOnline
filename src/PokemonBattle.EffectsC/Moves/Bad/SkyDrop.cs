@@ -13,7 +13,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves
     }
     public override void Execute(AtkContext atk)
     {
-      FailAll(atk, "bad", atk.Attacker.Id, Move.Id);
+      atk.FailAll("bad", atk.Attacker.Id, Move.Id);
     }
   }
 }

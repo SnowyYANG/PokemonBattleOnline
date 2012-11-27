@@ -33,11 +33,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
           if (!(m.Type.Flags.PrepareOneTurn || BLOCK.Contains(m.Type.Id))) moves.Add(m.Type);
         if (moves.Count != 0)
         {
-          CallMove(atk, moves[aer.Controller.GetRandomInt(0, moves.Count - 1)]);
+          atk.StartExecute(moves[aer.Controller.GetRandomInt(0, moves.Count - 1)]);
           return;
         }
       }
-      FailAll(atk);
+      atk.FailAll();
     }
   }
 }

@@ -10,7 +10,7 @@ class CantSelectWithdraw(StatusMoveE):
         if a.Target.Defender.OnboardPokemon.AddCondition('CantSelectWithdraw', a.Attacker):
             a.Target.Defender.AddReportPm('CantSelectWithdraw')
         else:
-            self.FailAll(a)
+            a.FailAll()
 M(CantSelectWithdraw(169)) #spider web
 M(CantSelectWithdraw(212)) #mean look
 M(CantSelectWithdraw(335)) #block
@@ -44,7 +44,7 @@ class Sport(StatusMoveE):
         if a.Attacker.OnboardPokemon.AddCondition(self.Condition):
             a.Controller.ReportBuilder.Add(self.Condition)
         else:
-            self.FailAll(a)
+            a.FailAll()
 M(Sport(300, 'MudSport'))
 M(Sport(346, 'WaterSport'))
 

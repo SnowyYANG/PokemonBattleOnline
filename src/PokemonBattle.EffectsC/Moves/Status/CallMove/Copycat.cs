@@ -34,8 +34,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     public override void Execute(AtkContext atk)
     {
       var o = atk.Controller.Board.GetCondition("LastMove");
-      if (o == null || BLOCK.Contains(o.Move.Id)) FailAll(atk);
-      else CallMove(atk, o.Move);
+      if (o == null || BLOCK.Contains(o.Move.Id)) atk.FailAll();
+      else atk.StartExecute(o.Move);
     }
   }
 }

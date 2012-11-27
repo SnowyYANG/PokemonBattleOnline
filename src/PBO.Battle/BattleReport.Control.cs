@@ -103,7 +103,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
             {
               Background = GetBackground(text),
               Foreground = GetForeground(text),
-              FontSize = text.FontSize,
+              FontSize = nest.report.FontSize + text.FontSize,
               FontWeight = GetFontWeight(text),
               FontStyle = GetFontStyle(text),
               TextDecorations = GetTextDecorations(text)

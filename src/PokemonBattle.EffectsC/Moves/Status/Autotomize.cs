@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     protected override void Act(AtkContext atk)
     {
       base.Act(atk);
-      if (!atk.FailAll && atk.Attacker.OnboardPokemon.Weight > 0.1)
+      if (!atk.Fail && atk.Attacker.OnboardPokemon.Weight > 0.1)
       {
         atk.Attacker.OnboardPokemon.Weight -= 100;
         atk.Attacker.AddReportPm("Autotomize");

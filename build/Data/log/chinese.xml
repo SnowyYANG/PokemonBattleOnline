@@ -7,9 +7,9 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>bad</a:Key><a:Value i:type="LogText"><foreground>16711680</foreground><text>{0:p}使用的技能{1:m}暂不制作，原因请见http://pbo.codeplex.com/。
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>----</a:Key><a:Value i:type="LogText"><text>---------------------------------
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameStart</a:Key><a:Value i:type="LogText"><text>战斗开始！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameResultTie</a:Key><a:Value i:type="LogText"><IsBold>true</IsBold><text>
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameResultTie</a:Key><a:Value i:type="LogText"><Alignment>Center</Alignment><IsBold>true</IsBold><text>
 对战结束了，{0:t}与{1:t}打成了平手！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameResult</a:Key><a:Value i:type="LogText"><IsBold>true</IsBold><text>
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameResult</a:Key><a:Value i:type="LogText"><Alignment>Center</Alignment><IsBold>true</IsBold><text>
 对战结束了，{0:t}取得了胜利！
 {1}  :  {2}
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>BeginTurn</a:Key><a:Value i:type="LogText"><text>
@@ -219,7 +219,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Bide</a:Key><a:Value i:type="LogText"><text>{0:p}正在克制自己……
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeBide</a:Key><a:Value i:type="LogText"><text>{0:p}把累积的愤怒释放了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnSnatch</a:Key><a:Value i:type="LogText"><text>{0:p}在观察对手的行动！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Snatch</a:Key><a:Value i:type="LogText"><text>{0:p}{1:p}的技能！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Snatch</a:Key><a:Value i:type="LogText"><text>{0:p}抢走了{1:p}的技能！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnMagicCoat</a:Key><a:Value i:type="LogText"><text>{0:p}被魔装反射包住了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>MagicCoat</a:Key><a:Value i:type="LogText"><text>{0:p}将{1:m}反弹了回去！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SelfWithdraw</a:Key><a:Value i:type="LogText"><text>{0:pm.Name}回到了{0:pm.Owner.Name}身边！
@@ -248,8 +248,7 @@
 <a:KeyValueOfstringanyType><a:Key>StealthRock</a:Key><a:Value i:type="LogText"><text>{0:p}被尖锐的岩石扎伤了！</text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>EnTrickRoom</a:Key><a:Value i:type="LogText"><text>{0:p}扭曲了时空！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>PerishSong</a:Key><a:Value i:type="LogText"><text>{0:p}的毁灭的倒计时还剩下{1}！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DePerishSong</a:Key><a:Value i:type="LogText"><text>{0:p}的毁灭的倒计时还剩下0！</text></a:Value></a:KeyValueOfstringanyType>
-<a:KeyValueOfstringanyType><a:Key>CantSelectWithdraw</a:Key><a:Value i:type="LogText"><text>{0:p}已经逃不掉了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CantSelectWithdraw</a:Key><a:Value i:type="LogText"><text>{0:p}已经逃不掉了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnHealBlock</a:Key><a:Value i:type="LogText"><text>{0:p}的回复动作被封印了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeHealBlock</a:Key><a:Value i:type="LogText"><text>{0:p}的回复封印解除了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HealBlock</a:Key><a:Value i:type="LogText"><text>{0:p}因为回复封印无法回复!
@@ -346,8 +345,8 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnGravity</a:Key><a:Value i:type="LogText"><text>重力变强了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeGravity</a:Key><a:Value i:type="LogText"><text>重力恢复了原状！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnPerishSong</a:Key><a:Value i:type="LogText"><text>听到灭亡歌的精灵在3回合后将会毁灭！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Metronome</a:Key><a:Value i:type="LogText"><text>摇动手指后，使出了{0:m}！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>NaturePower</a:Key><a:Value i:type="LogText"><text>自然力量变成了{0:t}！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Metronome</a:Key><a:Value i:type="LogText"><text>摇动手指后，使出了{1:m}！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>NaturePower</a:Key><a:Value i:type="LogText"><text>自然力量变成了{1:m}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>PayDay</a:Key><a:Value i:type="LogText"><text>金币撒在了周围！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>NoHp4Substitute</a:Key><a:Value i:type="LogText"><text>但是体力已经不够制造替身了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnReflect</a:Key><a:Value i:type="LogText"><text>反射盾使{0:t}的队伍的物理抗性提高了！

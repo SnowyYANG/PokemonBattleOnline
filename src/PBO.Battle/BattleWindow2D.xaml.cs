@@ -63,7 +63,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       Room.Quit();
       Instances.Remove(this);
     }
-
+    
     #region IRoomEventsListener
     void IRoomEventsListener.GameStart()
     {

@@ -7,7 +7,7 @@ class ClassDAddCondition(StatusMoveE):
         if a.Attacker.OnboardPokemon.AddCondition(self.Condition):
             a.Attacker.AddReportPm('En' + self.Condition)
         else:
-            self.FailAll(a)
+            a.FailAll()
 M(ClassDAddCondition(116, 'FocusEnergy'))
 M(ClassDAddCondition(286, 'Imprison'))
 
@@ -55,8 +55,7 @@ M(PsychUp(244))
 
 class Memento(StatusMoveE):
     def Act(self, a):
-        a.Attacker.Pokemon.SetHp(0)
-        a.Attacker.CheckFaint()
+        a.Attacker.Faint()
         a.Target.Defender.ChangeLv7D(a.Attacker, True, -2, 0, -2, 0, 0, 0, 0)
 M(Memento(262))
 
@@ -82,7 +81,7 @@ class Wish(StatusMoveE):
         c.Turn = a.Controller.TurnNumber + 1
         c.Int = a.Attacker.Pokemon.Hp.Origin >> 1
         if not a.Attacker.Tile.AddCondition('Wish', c):
-            self.FailAll(a)
+            a.FailAll()
 M(Wish(273))
 
 class MagicCoat(StatusMoveE):
@@ -117,8 +116,7 @@ class HealingWish(StatusMoveE):
         return a.Attacker.Pokemon.Owner.PmsAlive > GameModeExtensions.OnboardPokemonsPerPlayer(a.Controller.GameSettings.Mode)
     def Act(self, a):
         a.Attacker.Tile.SetTurnCondition(self.Condition)
-        a.Attacker.Pokemon.SetHp(0)
-        a.Attacker.CheckFaint()
+        a.Attacker.Faint()
 M(HealingWish(361, 'HealingWish'))
 M(HealingWish(461, 'LunarDance')) #lunar dance
 
@@ -163,7 +161,7 @@ class GastroAcid(StatusMoveE):
             der.AddReportPm('EnGastroAcid')
             ab.Detach(der)
         else:
-            self.FailAll(a)
+            a.FailAll()
 M(GastroAcid(380))
 
 class StatSwap(StatusMoveE):
@@ -190,7 +188,7 @@ class AquaRing(StatusMoveE):
         if aer.OnboardPokemon.AddCondition('AquaRing', None):
             aer.AddReportPm('EnAquaRing', None, None)
         else:
-            self.FailAll(a)
+            a.FailAll()
 M(AquaRing(392))
 
 class MagnetRise(StatusMoveE):
@@ -199,7 +197,7 @@ class MagnetRise(StatusMoveE):
         if not aer.HasCondition('Ingrain') and aer.AddCondition('MagnetRise', a.Controller.TurnNumber + 5):
             aer.AddReportPm('EnMagnetRise', None, None)
         else:
-            self.FailAll(a)
+            a.FailAll()
 M(MagnetRise(393))
 
 class Defog(StatusMoveE):
@@ -240,7 +238,7 @@ class Soak(StatusMoveE):
     def Act(self, a):
         der = a.Target.Defender
         if Items.PlatedArceus(der.Pokemon) or (der.OnboardPokemon.Type1 == BattleType.Water and der.OnboardPokemon.Type2 == BattleType.Invalid):
-            self.FailAll(a)
+            a.FailAll()
         else:
             der.OnboardPokemon.Type1 = BattleType.Water
             der.OnboardPokemon.Type2 = BattleType.Invalid
@@ -258,11 +256,11 @@ class ReflectType(StatusMoveE):
         t1 = a.Target.Defender.OnboardPokemon.Type1
         t2 = a.Target.Defender.OnboardPokemon.Type2
         if aer.Type1 == t1 and aer.Type2 == t2:
-            self.FailAll(a)
+            a.FailAll()
         else:
             aer.Type1 = t1
             aer.Type2 = t2
-            aer.AddReportPm('ReflectType', a.Target.Defender)
+            a.Attacker.AddReportPm('ReflectType', a.Target.Defender)
 M(ReflectType(513))
 
 class Bestow(StatusMoveE):
@@ -274,5 +272,5 @@ class Bestow(StatusMoveE):
             a.Attacker.Pokemon.Item = None
             a.Target.Defender.ChangeItem(i, 'Bestow', a.Attacker)
         else:
-            self.FailAll(a)
+            a.FailAll()
 M(Bestow(516))

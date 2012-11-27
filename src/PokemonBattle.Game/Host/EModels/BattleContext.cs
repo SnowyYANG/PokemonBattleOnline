@@ -12,26 +12,25 @@ namespace LightStudio.PokemonBattle.Game.Host
     public readonly PokemonProxy Attacker;
     public readonly MoveProxy MoveProxy; //压力、诅咒身躯，针对一开始选的技能
     public BattleType Type;
+    public int Pressure;
     public Modifier AccuracyModifier;
     public int CTLv;
     public int TotalDamage;
-    public bool FailAll;
+    public bool Fail;
     public bool IgnoreSwitchItem;
 
     internal AtkContext(MoveProxy mp)
     {
       MoveProxy = mp;
       Attacker = mp.Owner;
-      Move = mp.Type;
     }
-    public AtkContext(PokemonProxy pm, MoveType move)
+    public AtkContext(PokemonProxy pm)
     {
       Attacker = pm;
-      Move = move;
     }
 
     public MoveType Move
-    { get; set; }
+    { get; internal set; }
     public Controller Controller
     { get { return Attacker.Controller; } }
     public IEnumerable<DefContext> Targets
@@ -41,13 +40,28 @@ namespace LightStudio.PokemonBattle.Game.Host
     public bool MultiTargets
     { get; internal set; }
 
-    public void BuildDefContext(Tile selectTile)
+    public void StartExecute(MoveType move, Tile selectTile = null, string log = "UseMove")
+    {
+      Move = move;
+      if (Triggers.CanExecuteMove(Attacker, move))
+      {
+        if (log != null) Attacker.AddReportPm(log, move.Id);
+        var e = EffectsService.GetMove(move.Id);
+        e.InitAtkContext(this);
+        BuildDefContext(selectTile);
+        e.Execute(this);
+      }
+      else FailAll(null);
+    }
+    internal void BuildDefContext(Tile selectTile)
     {
       EffectsService.GetMove(Move.Id).BuildDefContext(this, selectTile);
+      if (MoveProxy != null) Abilities.Pressure(this, Moves.GetRange(Attacker, Move));
     }
-    public void Execute()
+    internal void ContinueExecute(Tile selectTile)
     {
       TotalDamage = 0;
+      BuildDefContext(selectTile);
       EffectsService.GetMove(Move.Id).Execute(this);
     }
     public void SetTargets(IEnumerable<DefContext> targets)
@@ -55,11 +69,26 @@ namespace LightStudio.PokemonBattle.Game.Host
       Targets = targets;
       Target = targets.FirstOrDefault();
     }
+    public void ImplementPressure()
+    {
+      if (MoveProxy != null)
+      {
+        MoveProxy.PP -= Pressure;
+        Pressure = 0;
+      }
+    }
     public bool RandomHappen(int percentage)
     {
       if (percentage == 0) return true;
       var a = Attacker.Ability;
       return !a.SheerForce() && Controller.RandomHappen(a.SereneGrace() ? percentage *= 3 : percentage);
+    }
+    public void FailAll(string log = "Fail0", int arg0 = 0, int arg1 = 0)
+    {
+      ImplementPressure();
+      Fail = true;
+      Attacker.Action = PokemonAction.Done;
+      if (log != null) Controller.ReportBuilder.Add(log, arg0, arg1);
     }
   }
   public class DefContext : ConditionalObject

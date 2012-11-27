@@ -3,13 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:my="clr-namespace:LightStudio.PokemonBattle.PBO.Battle"
         xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements;assembly=PBO.UIElements"
-        Title="等待主机开始对战..." Height="576" Width="600">
-    <Grid>
-        <StackPanel Background="#f5f5f5" Width="276" HorizontalAlignment="Left">
-            <my:NDS x:Name="nds" HorizontalAlignment="Left"/>
-            <ContentControl x:Name="pmReview" ContentTemplate="{x:Static ui:Cartes.Pokemon}" HorizontalAlignment="Left" VerticalAlignment="Top"/>    
-        </StackPanel>
-        <my:BattleReport x:Name="br" Margin="276,0,0,0"/>
-        <Label x:Name="mask" Content="正在等待主机开始对战..." Background="Black" Foreground="White" Grid.ColumnSpan="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        ResizeMode="CanMinimize" Title="等待主机开始对战" SizeToContent="WidthAndHeight">
+    <Grid Height="545" Width="750">
+        <Canvas Background="#f5f5f5" Width="266" HorizontalAlignment="Left">
+            <my:NDS x:Name="nds"/>
+            <ContentControl x:Name="pmReview" ContentTemplate="{x:Static ui:Cartes.Pokemon}" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="384"/>    
+        </Canvas>
+        <my:BattleReport x:Name="br" Margin="266,0,0,0"/>
+        <Label x:Name="mask" Content="请稍候..." Background="Black" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>           
     </Grid>
 </Window>

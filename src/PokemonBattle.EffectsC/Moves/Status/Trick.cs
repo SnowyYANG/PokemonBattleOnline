@@ -20,7 +20,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       var der = atk.Target.Defender;
       var di = der.Pokemon.Item;
       var ai = aer.Pokemon.Item;
-      if ((di == null && ai == null) || Is.CantLostItem(aer.Pokemon) || Is.CantLostItem(der.Pokemon)) FailAll(atk);
+      if ((di == null && ai == null) || Is.CantLostItem(aer.Pokemon) || Is.CantLostItem(der.Pokemon)) atk.FailAll();
       else
       {
         aer.AddReportPm("Trick");

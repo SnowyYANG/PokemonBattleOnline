@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Markup;
 using System.Globalization;
 using LightStudio.Tactic.Messaging;
@@ -43,6 +45,8 @@ namespace LightStudio.PokemonBattle.PBO
       base.OnStartup(e);
       InitGameService();
       FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+      var font = new FontFamily("Microsoft YaHei");
+      TextBlock.FontFamilyProperty.OverrideMetadata(typeof(TextBlock), new FrameworkPropertyMetadata(font));
       UIDispatcher.Init(new WpfDispatcher(Application.Current.Dispatcher));
       new MainWindow().Show();
     }

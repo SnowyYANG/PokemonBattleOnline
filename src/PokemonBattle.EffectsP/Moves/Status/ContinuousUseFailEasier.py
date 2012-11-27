@@ -5,6 +5,7 @@ class m_continuoususe(StatusMoveE):
         self.Condition = condition
     def NotFail(self, a):
         if a.Controller.ActingPokemons[a.Controller.ActingPokemons.Count - 1] == a.Attacker:
+            a.Attacker.OnboardPokemon.RemoveCondition('ContinuousUse')
             return False
         o = a.Attacker.OnboardPokemon
         c = o.GetCondition('LastMove')
@@ -13,11 +14,10 @@ class m_continuoususe(StatusMoveE):
             if a.Controller.GetRandomInt(0, 0xffff - 1) < 0xffff >> count:
                 o.SetCondition('ContinuousUse', count + 1)
                 return True
+            a.Attacker.OnboardPokemon.RemoveCondition('ContinuousUse')
             return False
         o.SetCondition('ContinuousUse', 1)
         return True
-    def FailAll(self, a):
-        a.Attacker.OnboardPokemon.RemoveCondition('ContinuousUse')
 
 class SelfProtect(m_continuoususe):
     def Act(self, a):

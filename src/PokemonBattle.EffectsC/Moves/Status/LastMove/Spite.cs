@@ -27,7 +27,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
           }
           break;
         }
-      FailAll(atk);
+      atk.FailAll();
     }
   }
 }

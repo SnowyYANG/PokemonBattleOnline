@@ -23,18 +23,28 @@
         </StackPanel>
     </DataTemplate>
     <DataTemplate x:Key="PokemonForm">
-        <TextBlock Text="{Binding Name}">
-            <TextBlock.ToolTip>
-                <ToolTip>
-                    <ToolTip.Template>
-                        <ControlTemplate>
-                            <Border Background="#C0ffffff">
-                                <Image Height="32" Width="32" Source="{Binding Converter={x:Static c:PokemonFormIcon.C}}"/>
-                            </Border>
-                        </ControlTemplate>
-                    </ToolTip.Template>
-                </ToolTip>
-            </TextBlock.ToolTip>
-        </TextBlock>
+        <Grid>
+            <TextBlock Text="{Binding Name}" Foreground="White" IsHitTestVisible="False">
+                <TextBlock.Effect>
+                    <BlurEffect Radius="3"/>
+                </TextBlock.Effect>
+            </TextBlock>
+            <TextBlock Text="{Binding Name}">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="White" ShadowDepth="0" BlurRadius="3"/>
+                </TextBlock.Effect>
+                <TextBlock.ToolTip>
+                    <ToolTip>
+                        <ToolTip.Template>
+                            <ControlTemplate>
+                                <Border Background="#C0ffffff">
+                                    <Image Height="32" Width="32" Source="{Binding Converter={x:Static c:PokemonFormIcon.C}}"/>
+                                </Border>
+                            </ControlTemplate>
+                        </ToolTip.Template>
+                    </ToolTip>
+                </TextBlock.ToolTip>
+            </TextBlock>            
+        </Grid>
     </DataTemplate>
 </ResourceDictionary>

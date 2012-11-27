@@ -23,7 +23,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
         a == Abs.ILLUSION || a == Abs.MULTITYPE ||
         d == Abs.WONDER_GUARD || d == Abs.FORECAST || d == Abs.MULTITYPE || d == Abs.ILLUSION || d == Abs.ZEN_MODE
         )
-        FailAll(atk);
+        atk.FailAll();
       else atk.Attacker.ChangeAbility(d, "SetAbility");
     }
   }

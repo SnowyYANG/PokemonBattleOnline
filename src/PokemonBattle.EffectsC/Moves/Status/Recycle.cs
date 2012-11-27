@@ -20,7 +20,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     {
       var aer = atk.Attacker;
       var item = aer.Tile.Field.GetCondition<Item>("UsedItem" + aer.Id);
-      if (item == null) FailAll(atk);
+      if (item == null) atk.FailAll();
       else aer.ChangeItem(item.Id, "Recycle");
     }
   }

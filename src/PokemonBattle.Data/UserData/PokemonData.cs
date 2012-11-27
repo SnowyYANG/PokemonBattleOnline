@@ -364,9 +364,10 @@ namespace LightStudio.PokemonBattle.Data
     }
     public void RemoveMove(MoveType move)
     {
-      foreach(var m in Moves)
+      foreach(var m in _moves)
         if (m.Move == move)
         {
+          _moves.Remove(m);
           if (CheckSpForm()) OnPropertyChanged();
           if (number == KELDEO && move.Id == SECRET_SWORD) OnPropertyChanged("CanChooseForm");
           break;

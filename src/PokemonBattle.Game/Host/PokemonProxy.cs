@@ -329,7 +329,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     internal void BuildAtkContext(MoveProxy move)
     {
-      _atkContext = new AtkContext(move);
+      if (move.Type.Id == Sp.Moves.STRUGGLE) _atkContext = new AtkContext(this);
+      else _atkContext = new AtkContext(move);
     }
     #region Input
     internal bool CanSelectWithdraw
@@ -474,8 +475,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           if (c)
           {
             if (!AtkContext.Move.Bide()) Controller.ReportBuilder.Add(PositionChange.Reset("UseMove", this, AtkContext.Move.Id));
-            AtkContext.BuildDefContext(SelectedTarget);
-            AtkContext.Execute();
+            AtkContext.ContinueExecute(SelectedTarget);
           }
           else Action = PokemonAction.Done;
           break;
@@ -500,14 +500,13 @@ namespace LightStudio.PokemonBattle.Game.Host
               o.Move = AtkContext.Move;
               o.Int = 0;
             }
-            if (AtkContext.FailAll) o.Int = 0;
+            if (AtkContext.Fail) o.Int = 0;
             else o.Int++;
             Controller.Board.SetCondition("LastMove", o);
           }
           else
           {
             OnboardPokemon.RemoveCondition("LastMove");
-            Controller.Board.RemoveCondition("LastMove");
             Action = PokemonAction.Done;
           }
           break;
@@ -521,6 +520,12 @@ namespace LightStudio.PokemonBattle.Game.Host
     #endregion
 
     #region ChangeHp
+    public void Faint()
+    {
+      Pokemon.SetHp(0);
+      Controller.ReportBuilder.Add(new GameEvents.HpChange(this, null));
+      CheckFaint();
+    }
     public int MoveHurt(int damage)
     {
       if (damage >= Hp)

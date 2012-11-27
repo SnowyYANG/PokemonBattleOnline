@@ -18,11 +18,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
         var last = atk.Target.Defender.AtkContext;
         if (last != null && last.Move.Flags.Mirrorable)
         {
-          CallMove(atk, last.Move, atk.Target.Defender.Tile);
+          atk.StartExecute(last.Move, atk.Target.Defender.Tile);
           return;
         }
       }
-      FailAll(atk);
+      atk.FailAll();
     }
   }
 }

@@ -19,7 +19,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       var der = atk.Target.Defender;
       var aer = atk.Attacker;
       StatType[] ss = SEVEN_D.Where((s) => der.CanChangeLv7D(aer, s, 2, false) != 0).ToArray();
-      if (ss.Length == 0) FailAll(atk);
+      if (ss.Length == 0) atk.FailAll();
       else der.ChangeLv7D(aer, ss[aer.Controller.GetRandomInt(0, ss.Length - 1)], 2, true);
     }
   }

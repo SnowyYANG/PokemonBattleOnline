@@ -56,8 +56,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       for (int i = aer.Controller.GameSettings.Mode.OnboardPokemonsPerPlayer(); i < aer.Pokemon.Owner.Pokemons.Count(); ++i)
         foreach (var m in aer.Pokemon.Owner.GetPokemon(i).Moves)
           if (!BLOCK.Contains(m.Type.Id)) moves.Add(m.Type);
-      if (moves.Count == 0) CallMove(atk, moves[aer.Controller.GetRandomInt(0, moves.Count - 1)]);
-      else FailAll(atk);
+      if (moves.Count == 0) atk.FailAll();
+      else atk.StartExecute(moves[aer.Controller.GetRandomInt(0, moves.Count - 1)]);
     }
   }
 }

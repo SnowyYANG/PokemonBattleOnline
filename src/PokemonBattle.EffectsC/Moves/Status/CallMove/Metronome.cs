@@ -53,13 +53,12 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     {
     }
     
-    public override void InitAtkContext(AtkContext atk)
+    public override void Execute(AtkContext atk)
     {
     LOOP:
       var m = GameDataService.GetMove(atk.Controller.GetRandomInt(1, GameDataService.Moves.Count()));
       if (BLACK_LIST.Contains(m.Id)) goto LOOP;
-      atk.Controller.ReportBuilder.Add("Metronome", m.Id);
-      atk.Move = m;
+      atk.StartExecute(m, null, "Metronome");
     }
   }
 }

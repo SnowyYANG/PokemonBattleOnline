@@ -8,7 +8,7 @@ class Add5TurnCondition(StatusMoveE):
         if a.Controller.Board[team].AddCondition(self.Condition, a.Controller.TurnNumber + 4):
             a.Controller.ReportBuilder.Add('En' + self.Condition, team)
         else:
-            self.FailAll(a)
+            a.FailAll()
 M(Add5TurnCondition(54, 'Mist')) #mist
 M(Add5TurnCondition(219, 'Safeguard')) #safeguard
 M(Add5TurnCondition(381, 'LuckyChant')) #luck chant
@@ -23,7 +23,7 @@ class EntryHazards(StatusMoveE):
         if a.Controller.Board[team].EnEntryHazards(self.Move):
             a.Controller.ReportBuilder.Add(self.Log, team)
         else:
-            self.FailAll(a)
+            a.FailAll()
 M(EntryHazards(191, 'EnSpikes'))
 M(EntryHazards(390, 'EnToxicSpikes'))
 M(EntryHazards(446, 'EnStealthRock'))
@@ -34,7 +34,7 @@ class Tailwind(StatusMoveE):
         if a.Controller.Board[team].AddCondition('Tailwind', a.Controller.TurnNumber + 4):
             a.Controller.ReportBuilder.Add('EnTailwind', team)
         else:
-            self.FailAll(a)
+            a.FailAll()
 M(Tailwind(366))
 
 class Add5or8TurnCondition(StatusMoveE):
@@ -51,6 +51,6 @@ class Add5or8TurnCondition(StatusMoveE):
         if a.Controller.Board[team].AddCondition(self.Condition, a.Controller.TurnNumber + turn):
             a.Controller.ReportBuilder.Add('En' + self.Condition, team)
         else:
-            self.FailAll(a)
+            a.FailAll()
 M(Add5or8TurnCondition(113, 'LightScreen')) #light screen
 M(Add5or8TurnCondition(115, 'Reflect')) #reflect

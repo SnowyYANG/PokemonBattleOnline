@@ -14,7 +14,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     protected override void Act(AtkContext atk)
     {
       if (atk.Attacker.CanTransform(atk.Target.Defender)) atk.Attacker.Transform(atk.Target.Defender);
-      else FailAll(atk);
+      else atk.FailAll();
     }
   }
 }

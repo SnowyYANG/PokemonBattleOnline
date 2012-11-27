@@ -60,18 +60,19 @@ namespace LightStudio.PokemonBattle.PBO.Editor
   internal class PokemonEditorVM : ObservableObject
   {
     public static readonly ICommand RemoveMoveCommand;
+    public static readonly ICommand PPUpChangeCommand;
 
     static PokemonEditorVM()
     {
       RemoveMoveCommand = new SimpleCommand((_m) =>
         {
-          var m = (MoveType)_m;
-          foreach (var l in EditorVM.Current.EditingPokemon.Learnset)
-            if (l.Move == m)
-            {
-              l.IsSelected = false;
-              break;
-            }
+          var l = EditorVM.Current.EditingPokemon._learnset.ValueOrDefault(((LearnedMove)_m).Move.Id);
+          if (l != null) l.IsSelected = false;
+        });
+      PPUpChangeCommand = new SimpleCommand((_m) =>
+        {
+          var m = (LearnedMove)_m;
+          m.PPUp = m.PPUp == 3 ? 0 : m.PPUp + 1;
         });
     }
 
@@ -198,12 +199,12 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       }
     }
     
-    private IEnumerable<LearnItemVM> _learnset;
+    private Dictionary<int, LearnItemVM> _learnset;
     public IEnumerable<LearnItemVM> Learnset
-    { get { return _learnset; } }
+    { get { return _learnset.Values; } }
     private void RefreshLearnset()
     {
-      _learnset = Data.GameDataService.Moves.Select((m) => new LearnItemVM(this, m)).ToArray();
+      _learnset = Data.GameDataService.Moves.ToDictionary((m) => m.Id, (m) => new LearnItemVM(this, m));
       OnPropertyChanged("Learnset");
     }
     

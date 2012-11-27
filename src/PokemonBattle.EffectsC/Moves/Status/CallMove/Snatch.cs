@@ -11,10 +11,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       : base(id)
     {
     }
-    protected override void Act(AtkContext atk)
+    public override void Execute(AtkContext atk)
     {
       atk.Attacker.OnboardPokemon.SetTurnCondition("Snatch");
       atk.Attacker.AddReportPm("EnSnatch");
+      atk.Attacker.Action = PokemonAction.Done;
     }
   }
 }

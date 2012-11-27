@@ -11,15 +11,19 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       : base(id)
     {
     }
-    public override void InitAtkContext(AtkContext atk)
+    public override void Execute(AtkContext atk)
     {
+      Data.MoveType m;
       switch (atk.Controller.GameSettings.Terrain)
       {
         case Terrain.Path:
-          atk.Move = Data.GameDataService.GetMove(89);//earthquake
+          m = Data.GameDataService.GetMove(89);//earthquake
           break;
+        default:
+          atk.Controller.ReportBuilder.Add("error");
+          return;
       }
-      atk.Controller.ReportBuilder.Add("NaturePower", atk.Move);
+      atk.StartExecute(m, null, "NaturePower");
     }
   }
 }

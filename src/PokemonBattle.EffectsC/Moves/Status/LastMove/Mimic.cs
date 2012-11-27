@@ -44,7 +44,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     {
       var aer = atk.Attacker;
       var last = aer.LastMove;
-      if (last == null || last == Move) FailAll(atk);
+      if (last == null || last == Move) atk.FailAll();
       else
       {
         var move = last;

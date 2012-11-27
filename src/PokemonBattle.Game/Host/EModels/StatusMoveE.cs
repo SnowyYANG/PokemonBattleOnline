@@ -18,14 +18,9 @@ namespace LightStudio.PokemonBattle.Game.Host
         atk.RemoveCondition("MagicCoat");
         foreach (var d in list)
         {
-          if (d.RaiseAbility(Abilities.MAGIC_BOUNCE)) d.Controller.ReportBuilder.Add("MagicBounce", atk.Attacker, atk.Move);
-          else d.AddReportPm("MagicCoat", atk.Move);
-          var e = EffectsService.GetMove(atk.Move.Id);
-          var a = new AtkContext(d, atk.Move);
-          e.InitAtkContext(a);
-          a.BuildDefContext(atk.Attacker.Tile);
+          var a = new AtkContext(d);
           a.SetCondition("IgnoreMagicCoat");
-          e.Execute(a);
+          a.StartExecute(atk.Move, atk.Attacker.Tile, d.RaiseAbility(Abilities.MAGIC_BOUNCE) ? "MagicBounce" : "MagicCoat");
           if (atk.Target == null) break;
         }
       }
@@ -45,17 +40,18 @@ namespace LightStudio.PokemonBattle.Game.Host
           {
             pm.OnboardPokemon.RemoveCondition("Snatch");
             pm.AddReportPm("Snatch", atk.Attacker);
-            var s = new AtkContext(pm, Move);
+            var s = new AtkContext(pm) { Move = Move };
             InitAtkContext(s);
             s.BuildDefContext(null);
-            if (NotFail(atk)) Act(atk);
-            else FailAll(atk);
+            if (NotFail(s)) Act(s);
+            else s.FailAll();
+            atk.Attacker.Action = PokemonAction.Done;
             return;
           }
       }
       if (atk.Targets == null && atk.Move.Flags.MagicCoat && atk.Controller.GetOnboardPokemons(1 - atk.Attacker.Pokemon.TeamId).Any((p) => Triggers.MagicCoat(atk, p)))
       {
-        FailAll(atk, null);
+        atk.FailAll(null);
         MagicCoat(atk);
       }
       else
@@ -96,11 +92,11 @@ namespace LightStudio.PokemonBattle.Game.Host
           foreach (var d in atk.Targets) notAllFail |= d.Defender.AddState(d);
           if (atk.Move.Attachment.State == AttachedState.PerishSong)
             if (notAllFail) atk.Controller.ReportBuilder.Add("EnPerishSong");
-            else FailAll(atk);
+            else atk.FailAll();
           break;
         case MoveInnerClass.Lv7DChange:
           foreach (var d in atk.Targets) notAllFail |= d.Defender.ChangeLv7D(d);
-          atk.FailAll = !notAllFail;
+          atk.Fail = !notAllFail;
           break;
         case MoveInnerClass.HpRecover:
           foreach (var d in atk.Targets)
@@ -112,8 +108,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           break;
         case MoveInnerClass.ForceToSwitch:
           int aLv = atk.Attacker.Pokemon.Lv, dLv = atk.Target.Defender.Pokemon.Lv;
-          if ((aLv < dLv && (aLv + dLv) * atk.Controller.GetRandomInt(0, 255) < dLv >> 2) || !ForceSwitch(atk.Target))
-            FailAll(atk);
+          if ((aLv < dLv && (aLv + dLv) * atk.Controller.GetRandomInt(0, 255) < dLv >> 2) || !ForceSwitch(atk.Target)) atk.FailAll();
           break;
       }
     }

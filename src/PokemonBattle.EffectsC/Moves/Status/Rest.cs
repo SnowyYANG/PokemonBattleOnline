@@ -50,13 +50,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     public override void Execute(AtkContext atk)
     {
       var pm = atk.Attacker;
-      if (pm.Hp == pm.Pokemon.Hp.Origin) FailAll(atk, "FullHp", pm.Id);
+      if (pm.Hp == pm.Pokemon.Hp.Origin) atk.FailAll("FullHp", pm.Id);
       else if (pm.Ability.CanAddState(pm, pm, AttachedState.SLP, true)) base.Execute(atk);
     }
     protected override void Act(AtkContext atk)
     {
       var pm = atk.Attacker;
-      if (pm.Hp == pm.Pokemon.Hp.Origin) FailAll(atk); //for snatch...
+      if (pm.Hp == pm.Pokemon.Hp.Origin) atk.FailAll(); //for snatch...
       else if (pm.Ability.CanAddState(pm, pm, AttachedState.SLP, true))
       {
         pm.Controller.ReportBuilder.Add(new RestGameEvent(pm));

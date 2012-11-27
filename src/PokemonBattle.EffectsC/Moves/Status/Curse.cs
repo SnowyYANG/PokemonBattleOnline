@@ -24,7 +24,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
           atk.Controller.ReportBuilder.Add(new GameEvents.HpChange(aer, "EnCurse", atk.Target.Defender.Id));
           aer.CheckFaint();
         }
-        else FailAll(atk);
+        else atk.FailAll();
       }
       else aer.ChangeLv7D(aer, true, 1, 1, 0, 0, -1);
     }

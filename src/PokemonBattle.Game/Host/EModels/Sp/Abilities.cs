@@ -194,10 +194,17 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       }
       return false;
     }
-    public static void Pressure(MoveProxy move, PokemonProxy der)
+    public static void Pressure(AtkContext atk, MoveRange range)
     {
       const int PRESSURE = 46;
-      if (der.Pokemon.TeamId != move.Owner.Pokemon.TeamId && der.Ability.Id == PRESSURE) --move.PP;
+      var ts =
+        atk.Move.Range == MoveRange.Field || atk.Move.Range == MoveRange.EnemyField ?
+        atk.Attacker.Controller.Board[1 - atk.Attacker.Pokemon.TeamId].Pokemons :
+        atk.Targets == null ?
+        Enumerable.Empty<PokemonProxy>() :
+        atk.Targets.Select((t) => t.Defender).Where((p) => p.Pokemon.TeamId != atk.Attacker.Pokemon.TeamId);
+      foreach (var d in ts)
+        if (d.Ability.Id == PRESSURE) atk.Pressure++;     
     }
     public static void Withdrawn(PokemonProxy pm, int ability)
     {

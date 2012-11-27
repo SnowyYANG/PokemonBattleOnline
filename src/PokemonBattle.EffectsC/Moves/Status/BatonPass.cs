@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves
         t.SetCondition("BatonPass", o);
         aer.Controller.PauseForSendoutInput(t);
       }
-      else FailAll(atk);
+      else atk.FailAll();
     }
   }
 }

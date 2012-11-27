@@ -31,7 +31,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
           pm.AddReportPm("Gravity");
         }
       }
-      else FailAll(atk);
+      else atk.FailAll();
     }
   }
 }

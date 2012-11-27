@@ -97,12 +97,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         if (o != null && o.Turn == c.TurnNumber)
         {
           t.RemoveCondition("FSDD");
-          if (t.Pokemon != null)
-          {
-            t.Pokemon.AddReportPm("FSDD", o.Atk.Move.Id);
-            o.Atk.BuildDefContext(t);
-            o.Atk.Execute();
-          }
+          if (t.Pokemon != null) o.Atk.StartExecute(o.Atk.GetCondition<MoveType>("FSDD"), t, "FSDD");
         }
       }
     }
@@ -358,17 +353,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
       foreach (var pm in c.OnboardPokemons.ToArray())
       {
         int turn = pm.OnboardPokemon.GetCondition<int>("PerishSong", -1);
-        if (turn == 0)
-        {
-          pm.OnboardPokemon.RemoveCondition("PerishSong");
-          pm.Pokemon.SetHp(0);
-          c.ReportBuilder.Add(new HpChange(pm, "DePerishSong"));
-          pm.CheckFaint();
-        }
-        else if (turn != -1)
+        if (turn != -1)
         {
           pm.AddReportPm("PerishSong", turn);
-          pm.OnboardPokemon.SetCondition("PerishSong", turn - 1);
+          if (turn == 0) pm.Faint();
+          else pm.OnboardPokemon.SetCondition("PerishSong", turn - 1);
         }
       }
     }

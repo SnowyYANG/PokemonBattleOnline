@@ -53,14 +53,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       if (o.HasCondition("DestinyBond"))
       {
         der.AddReportPm("DestinyBond"); //战报顺序已测
-        aer.Pokemon.SetHp(0);
-        aer.CheckFaint();
+        aer.Faint();
       }
-      if (o.HasCondition("Grudge") && def.AtkContext.MoveProxy != null) //预知未来不发动怨念
+      var mp = def.AtkContext.MoveProxy;
+      if (o.HasCondition("Grudge") && mp != null && mp.PP != 0)
       {
-        int formerPP = def.AtkContext.MoveProxy.PP;
-        def.AtkContext.MoveProxy.PP = 0;
-        aer.Controller.ReportBuilder.Add(new PPChange("Grudge", def.AtkContext.MoveProxy, formerPP));
+        aer.Controller.ReportBuilder.Add(new PPChange("Grudge", mp, mp.PP));
+        mp.PP = 0;
       }
       if (aer.CanChangeLv7D(aer, StatType.Atk, 1, false) != 0 && aer.RaiseAbility(Abilities.MOXIE)) aer.ChangeLv7D(aer, false, 1);
     }

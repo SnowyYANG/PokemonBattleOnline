@@ -94,15 +94,6 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       return targets;
     }
-    protected static void CallMove(AtkContext atk, MoveType move, Tile selectTile = null)
-    {
-      atk.Attacker.AddReportPm("UseMove", move.Id);
-      atk.Move = move;
-      var e = EffectsService.GetMove(move.Id);
-      e.InitAtkContext(atk);
-      atk.BuildDefContext(selectTile);
-      e.Execute(atk);
-    }
     internal static bool CanForceSwitch(PokemonProxy pm, bool abilityAvailable)
     {
       return !(pm.Hp == 0 || !pm.Controller.CanWithdraw(pm) || abilityAvailable && pm.Ability.SuctionCups() || pm.OnboardPokemon.HasCondition("Ingrain"));
@@ -161,12 +152,13 @@ namespace LightStudio.PokemonBattle.Game.Host
         FilterDefContext(atk);
         if (atk.Targets == null || atk.Target != null)
         {
+          atk.ImplementPressure();
           Act(atk);
           MoveEnding(atk);
         }
-        else FailAll(atk, null);
+        else atk.FailAll(null);
       }
-      else FailAll(atk);
+      else atk.FailAll();
     }
 
     protected virtual bool PrepareOneTurn(PokemonProxy pm)
@@ -341,12 +333,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     #endregion
 
-    protected void FailAll(AtkContext atk, string log = "Fail0", int arg0 = 0, int arg1 = 0)
-    {
-      atk.FailAll = true;
-      atk.Attacker.Action = PokemonAction.Done;
-      if (log != null) atk.Controller.ReportBuilder.Add(log, arg0, arg1);
-    }
     protected void Fail(DefContext def)
     {
       Fail(def.Defender);

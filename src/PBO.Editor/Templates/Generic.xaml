@@ -9,52 +9,6 @@
                     xmlns:local="clr-namespace:LightStudio.PokemonBattle.PBO.Editor">
     <DropShadowEffect x:Key="MagentaShadow" ShadowDepth="1" Color="{Binding Color,Source={x:Static ui:Brushes.MagentaM},Mode=OneTime}" BlurRadius="3" Opacity="1"/>
     <DropShadowEffect x:Key="OrangeShadow" ShadowDepth="1" Color="{Binding Color,Source={x:Static ui:Brushes.OrangeM},Mode=OneTime}" BlurRadius="3" Opacity="1"/>
-    <Style x:Key="FloatableListBox" TargetType="ListBox">
-        <Setter Property="Padding" Value="2"/>
-        <Setter Property="BorderThickness" Value="1,0,1,1"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListBox}">
-                    <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="1" SnapsToDevicePixels="true">
-                        <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
-                            <ScrollViewer.Template>
-                                <ControlTemplate TargetType="{x:Type ScrollViewer}">
-                                    <Grid x:Name="Grid" Background="{TemplateBinding Background}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        <!--<Rectangle x:Name="Corner" Grid.Column="1" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.Row="1"/>-->
-                                        <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" li:FloatingBehavior.FloatingElement="{Binding RelativeSource={RelativeSource AncestorType=ContentPresenter}}" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.Column="0" Margin="{TemplateBinding Padding}" Grid.Row="0">
-                                            <i:Interaction.Behaviors>
-                                                <li:FloatingBehavior />
-                                            </i:Interaction.Behaviors>
-                                        </ScrollContentPresenter>
-                                        <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Grid.Row="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}"/>
-                                        <!--<ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}"/>-->
-                                        <ScrollBar Name="PART_HorizontalScrollBar" Visibility="Collapsed"/>
-                                    </Grid>
-                                </ControlTemplate>
-                            </ScrollViewer.Template>
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        </ScrollViewer>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-                        </Trigger>
-                        <Trigger Property="IsGrouping" Value="true">
-                            <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
     <Style x:Key="PokemonIcon" TargetType="ListBoxItem">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
@@ -188,8 +142,52 @@
             <Button Command="{Binding SwitchCommand}" ToolTip="{Binding [Close], Source={x:Static pm:DataService.String}, Mode=OneWay}" Style="{x:Static ui:Controls.XButton}" Foreground="{x:Static ui:Brushes.GrayF}" FontSize="15" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-2,5,0"/>
             <ListBox ItemsSource="{Binding Model}" ItemsPanel="{x:Static ui:Controls.WrapPanel}" BorderBrush="{Binding BorderBrush}" Margin="0,18,0,0" AllowDrop="True" li:DragDropState.ItemOrientation="Horizontal">
                 <ListBox.Style>
-                    <Style TargetType="ListBox" BasedOn="{StaticResource FloatableListBox}">
+                    <Style TargetType="ListBox">
+                        <Setter Property="Padding" Value="2"/>
+                        <Setter Property="BorderThickness" Value="1,0,1,1"/>
                         <Setter Property="ItemContainerStyle" Value="{StaticResource PokemonIcon}"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBox}">
+                                    <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="1" SnapsToDevicePixels="true">
+                                        <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
+                                            <ScrollViewer.Template>
+                                                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                                    <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <!--<Rectangle x:Name="Corner" Grid.Column="1" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.Row="1"/>-->
+                                                        <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" li:FloatingBehavior.FloatingElement="{Binding RelativeSource={RelativeSource AncestorType=ContentPresenter}}" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.Column="0" Margin="{TemplateBinding Padding}" Grid.Row="0">
+                                                            <i:Interaction.Behaviors>
+                                                                <li:FloatingBehavior />
+                                                            </i:Interaction.Behaviors>
+                                                        </ScrollContentPresenter>
+                                                        <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Grid.Row="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}"/>
+                                                        <!--<ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}"/>-->
+                                                        <ScrollBar Name="PART_HorizontalScrollBar" Visibility="Collapsed"/>
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </ScrollViewer.Template>
+                                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                        </ScrollViewer>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsEnabled" Value="false">
+                                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                                        </Trigger>
+                                        <Trigger Property="IsGrouping" Value="true">
+                                            <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Model.Size}" Value="6">
                                 <Setter Property="ItemContainerStyle">

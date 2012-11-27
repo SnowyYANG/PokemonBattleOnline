@@ -7,5 +7,5 @@ class Telekinesis(StatusMoveE):
             if der.AddCondition('Telekinesis', a.Controller.TurnNumber + 2):
                 der.AddReportPm('EnTelekinesis')
             else:
-                self.FailAll(a)
+                a.FailAll()
 M(Telekinesis(477))

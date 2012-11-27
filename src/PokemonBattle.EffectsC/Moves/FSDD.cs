@@ -22,14 +22,14 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves
       else
       {
         var tile = MoveE.GetRangeTiles(atk, Move.Range, atk.Attacker.SelectedTarget);
-        if (tile.First().HasCondition("FSDD")) FailAll(atk);
+        if (tile.First().HasCondition("FSDD")) atk.FailAll();
         else
         {
           atk.Attacker.AddReportPm("EnFSDD" + Move.Id);
           var c = new Condition();
           c.Turn = atk.Controller.TurnNumber + 2;
-          c.Atk = new AtkContext(atk.Attacker, Move) { IgnoreSwitchItem = true };
-          c.Atk.SetCondition("FSDD", tile);
+          c.Atk = new AtkContext(atk.Attacker) { IgnoreSwitchItem = true };
+          c.Atk.SetCondition("FSDD", Move);
           tile.First().AddCondition("FSDD", c);
         }
       }

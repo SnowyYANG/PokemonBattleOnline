@@ -19,7 +19,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       var ms = (from m in aer.Moves
                where !(m.Type.Id == Move.Id || m.Type.Type == type1 || m.Type.Type == type2)
                select m.Type.Type).ToArray();
-      if (ms.Length == 0) FailAll(atk);
+      if (ms.Length == 0) atk.FailAll();
       else
       {
         var type = ms[aer.Controller.GetRandomInt(0, ms.Length - 1)];

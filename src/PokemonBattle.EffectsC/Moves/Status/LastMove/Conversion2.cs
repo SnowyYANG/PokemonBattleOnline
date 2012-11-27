@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
 
     protected override void Act(AtkContext atk)
     {
-      if (atk.Target.Defender.AtkContext == null) FailAll(atk);
+      if (atk.Target.Defender.AtkContext == null) atk.FailAll();
       else
       {
         BattleType a = atk.Target.Defender.AtkContext.Type;
