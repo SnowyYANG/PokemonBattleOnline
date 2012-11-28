@@ -23,7 +23,7 @@
                                 <ColumnDefinition Width="21"/>
                             </Grid.ColumnDefinitions>
                             <Rectangle Visibility="{Binding Visibility,ElementName=PART_Drag}" Fill="{TemplateBinding Foreground}" Width="{TemplateBinding DragValue}" HorizontalAlignment="Left"/>
-                            <TextBox Name="PART_TextBox" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" BorderThickness="0" Background="Transparent" Foreground="Black" Padding="0,3,2,3">
+                            <TextBox Name="PART_TextBox" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" FontFamily="Microsoft YaHei" BorderThickness="0" Background="Transparent" Foreground="Black" Padding="0,3,2,3">
                                 <TextBox.Effect>
                                     <DropShadowEffect Color="White" BlurRadius="5" ShadowDepth="0"/>
                                 </TextBox.Effect>

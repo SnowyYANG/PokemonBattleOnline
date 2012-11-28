@@ -45,9 +45,7 @@ namespace LightStudio.PokemonBattle.PBO
       base.OnStartup(e);
       InitGameService();
       FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
-      var font = new FontFamily("Microsoft YaHei");
-      TextBlock.FontFamilyProperty.OverrideMetadata(typeof(TextBlock), new FrameworkPropertyMetadata(font));
-      ScrollViewer.FontFamilyProperty.OverrideMetadata(typeof(ScrollViewer), new FrameworkPropertyMetadata(font));
+      TextBlock.FontFamilyProperty.OverrideMetadata(typeof(TextBlock), new FrameworkPropertyMetadata( new FontFamily("Microsoft YaHei")));
       UIDispatcher.Init(new WpfDispatcher(Application.Current.Dispatcher));
       new MainWindow().Show();
     }

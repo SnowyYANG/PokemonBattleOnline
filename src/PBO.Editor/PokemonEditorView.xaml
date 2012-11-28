@@ -24,7 +24,12 @@
         		<Setter Property="CanClear" Value="False"/>
         		<Setter Property="Background" Value="White"/>
         	</Style>
-        	<Style TargetType="Label">
+            <Style TargetType="TextBox">
+                <Setter Property="FontFamily" Value="Microsoft YaHei"/>
+                <Setter Property="BorderBrush" Value="#4C808080"/>
+                <Setter Property="Background" Value="White"/>
+            </Style>
+            <Style TargetType="Label">
         		<Setter Property="Foreground" Value="#585050"/>
         		<Setter Property="FontWeight" Value="Bold"/>
         		<Setter Property="Padding" Value="4,0"/>
@@ -52,21 +57,17 @@
         <Rectangle Name="grid" Margin="0,3,0,0"/>
         <Grid Margin="15,15,15,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200">
         	<Grid.Resources>
-        		<Style TargetType="{x:Type RowDefinition}">
+        		<Style TargetType="RowDefinition">
         			<Setter Property="Height" Value="25" />
         		</Style>
-                <Style TargetType="{x:Type ContentPresenter}">
+                <Style TargetType="ContentPresenter">
                     <Setter Property="Grid.Row" Value="2"/>
                     <Setter Property="HorizontalAlignment" Value="Left"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                     <Setter Property="ContentTemplate" Value="{x:Static ui:Labels.BattleType}"/>
                     <Setter Property="Width" Value="45"/>
                 </Style>
-                <Style TargetType="TextBox">
-                    <Setter Property="BorderBrush" Value="#4C808080"/>
-                    <Setter Property="Background" Value="White"/>
-                </Style>
-                <Style TargetType="{x:Type ui:NumericUpdown}">
+                <Style TargetType="ui:NumericUpdown">
                     <Setter Property="BorderBrush" Value="#4C808080"/>
                     <Setter Property="Foreground" Value="Gray"/>
                     <Setter Property="HorizontalAlignment" Value="Left"/>
