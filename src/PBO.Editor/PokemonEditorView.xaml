@@ -163,11 +163,56 @@
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
 
-            <TextBlock x:Name="hiddenpower" Text="{Binding [Hidden Power],Source={x:Static pm:DataService.String}}" Visibility="{Binding HiddenPowerVisibility}" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="2" FontWeight="Bold"/>
-            <ContentPresenter Content="{Binding HiddenPowerType}" ContentTemplate="{x:Static ui:Labels.BattleType}" Visibility="{Binding Visibility,ElementName=hiddenpower}" Margin="3,0,0,0" Grid.Column="3" Grid.Row="2"/>
-            <Grid Visibility="{Binding HappinessVisibility}" Grid.Row="2" Grid.ColumnSpan="2">
-                <Label Content="Happiness"/>
-                <TextBox Text="{Binding Model.Happiness}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right"/>
+            <ContentControl Visibility="{Binding HiddenPowerVisibility}" Content="{Binding HiddenPowerType}" ContentTemplate="{x:Static ui:Labels.BattleType}" ToolTip="{Binding [Hidden Power],Source={x:Static pm:DataService.String}}" Margin="3,0,0,0" Grid.Column="3" Grid.Row="2"/>
+            <Canvas Visibility="{Binding HappinessVisibility}" ToolTip="{Binding [Happiness],Source={x:Static pm:DataService.String}}" MouseLeftButtonDown="Happiness_MouseLeftButtonDown" Cursor="Hand" Background="Transparent" Width="29" HorizontalAlignment="Right" Grid.Column="4" Grid.Row="2">
+                <Path Canvas.Right="0" IsHitTestVisible="False" StrokeLineJoin="Round" Height="25.5" Width="29" Stretch="Uniform" Data="M343.94027,195.18266 C341.16391,190.67782 336.88841,191.48044 335.01251,192.38285 330.82134,194.39901 328.41787,199.18479 330.9993,204.96216 334.89117,213.50771 343.98761,216.27715 343.98761,216.27715 343.98761,216.27715 352.53953,214.02943 357.37982,204.48072 359.15438,199.18479 357.05787,194.29035 353.10437,192.36459 351.32944,191.48194 347.05351,190.75974 343.94027,195.18266 z">
+                    <Path.Style>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeThickness" Value="2"/>
+                            <Setter Property="Stroke" Value="{x:Static ui:Brushes.OrangeM}"/>
+                            <Setter Property="Fill">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{Binding Stroke.Color,RelativeSource={RelativeSource AncestorType=Path}}" Opacity="0.2"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Model.Happiness}" Value="0">                                    
+                                    <Setter Property="StrokeThickness" Value="1"/>
+                                    <Setter Property="Stroke" Value="#600038"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Model.Happiness}" Value="255">
+                                    <Setter Property="Stroke" Value="{x:Static ui:Brushes.MagentaM}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Path.Style>
+                </Path>
+                <TextBox Text="{Binding Model.Happiness}" ToolTip="{Binding [Happiness],Source={x:Static pm:DataService.String}}" TextAlignment="Center" Width="29" Padding="0" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Canvas.Right="0" Canvas.Bottom="5"/>
+            </Canvas>
+            <Grid DataContext="{Binding Model}" Margin="0,0,19,0" Grid.Row="2" Grid.ColumnSpan="3">
+                <TextBox x:Name="chatterTextBox" Text="{Binding Chatter}" MaxLength="15"/>
+                <TextBlock Text="喋喋不休 X﹏X" Margin="5,0,0,0" IsHitTestVisible="False" Foreground="Gray" VerticalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text,ElementName=chatterTextBox}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Form.Type.Number}" Value="441">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
             </Grid>
 
             <Label Content="Nature"/>
@@ -178,23 +223,6 @@
                 <Label Content="SpAtk"/>
                 <Label Content="SpDef"/>
                 <Label Content="Speed"/>
-            </StackPanel>
-
-            <StackPanel DataContext="{Binding PokemonForm.Data.Base}" Grid.Row="1" Grid.Column="4" Margin="3,0,5,0">
-                <StackPanel.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="TextAlignment" Value="Right"/>
-                        <Setter Property="Padding" Value="0,5"/>
-                        <Setter Property="ToolTip" Value="{Binding [Base Stats],Source={x:Static pm:DataService.String}}"/>
-                        <Setter Property="Height" Value="25"/>
-                    </Style>
-                </StackPanel.Resources>
-                <TextBlock Text="{Binding Hp}"/>
-                <TextBlock Text="{Binding Atk}"/>
-                <TextBlock Text="{Binding Def}"/>
-                <TextBlock Text="{Binding SpAtk}"/>
-                <TextBlock Text="{Binding SpDef}"/>
-                <TextBlock Text="{Binding Speed}"/>
             </StackPanel>
 
             <StackPanel DataContext="{Binding Model.Iv}" Grid.Row="1" Grid.Column="3" Margin="3,0,0,0">
@@ -213,6 +241,23 @@
                 <ui:NumericUpdown Value="{Binding SpAtk}"/>
                 <ui:NumericUpdown Value="{Binding SpDef}"/>
                 <ui:NumericUpdown Value="{Binding Speed}"/>
+            </StackPanel>
+
+            <StackPanel DataContext="{Binding PokemonForm.Data.Base}" Grid.Row="1" Grid.Column="4" Margin="3,0,5,0">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="TextAlignment" Value="Right"/>
+                        <Setter Property="Padding" Value="0,5"/>
+                        <Setter Property="ToolTip" Value="{Binding [Base Stats],Source={x:Static pm:DataService.String}}"/>
+                        <Setter Property="Height" Value="25"/>
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock Text="{Binding Hp}"/>
+                <TextBlock Text="{Binding Atk}"/>
+                <TextBlock Text="{Binding Def}"/>
+                <TextBlock Text="{Binding SpAtk}"/>
+                <TextBlock Text="{Binding SpDef}"/>
+                <TextBlock Text="{Binding Speed}"/>
             </StackPanel>
             
             <TextBlock Visibility="{Binding RemainingEvVisibility}" Foreground="{x:Static ui:Brushes.MagentaM}" Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Top" Height="25" Padding="0,5" HorizontalAlignment="Right">

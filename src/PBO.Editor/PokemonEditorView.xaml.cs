@@ -65,5 +65,9 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     {
       EditorVM.Current.EndEditing();
     }
+    private void Happiness_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+      VM.Model.Happiness = VM.Model.Happiness == 255 ? 0 : 255;
+    }
   }
 }

@@ -13,14 +13,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     }
     public override void Execute(AtkContext atk)
     {
-      if (atk.Attacker.Pokemon.Chatter != null) atk.Controller.ReportBuilder.Add("Chatter", atk.Attacker.Pokemon.Chatter);
+      if (atk.Attacker.Pokemon.Chatter != null) atk.Controller.ReportBuilder.Add("Chatter", atk.Attacker.Id);
       base.Execute(atk);
     }
     protected override void ImplementEffect(DefContext def)
     {
       var chatter = def.AtkContext.Attacker.Pokemon.Chatter;
-      //我不认为天之恩惠全力攻击会有效，这也没法测
-      if (chatter != null && def.Defender.Controller.RandomHappen(Math.Abs(chatter.GetHashCode()) % 30))
+      if (chatter != null && Math.Abs(chatter.GetHashCode()) % 3 != 1 && def.RandomHappen(10))
         def.Defender.AddState(def.AtkContext.Attacker, Data.AttachedState.Confuse, false);
     }
   }

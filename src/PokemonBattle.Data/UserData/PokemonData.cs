@@ -41,8 +41,6 @@ namespace LightStudio.PokemonBattle.Data
     private short number;
     [DataMember(EmitDefaultValue = false)]
     private byte form;
-    //[DataMember]
-    //private ObservableCollection<int> moveIds;
 
     public PokemonData(int number, int form)
     {
@@ -227,7 +225,7 @@ namespace LightStudio.PokemonBattle.Data
       get { return 255 - _happiness; }
       set
       {
-        if (_happiness != value)
+        if (Happiness != value)
         {
           _happiness = (byte)(255 - value);
           OnPropertyChanged("Happiness");
@@ -254,11 +252,22 @@ namespace LightStudio.PokemonBattle.Data
     }
 
     private string _chatter;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(EmitDefaultValue = false, Order = 0)]
     public string Chatter
     {
-      get { return number == 441 && HasMove(448) ? null : _chatter; }
-      set { _chatter = value; }
+      get { return number != 441 || _chatter == null || _chatter.Length > 15 ? null : _chatter; }
+      set
+      {
+        if (number != 441 || string.IsNullOrWhiteSpace(value)) _chatter = null;
+        else
+        {
+          var ca = value.ToCharArray(0, value.Length < 15 ? value.Length : 15);
+          for (int i = 0; i < ca.Length; ++i)
+            if (Char.IsWhiteSpace(ca[i])) ca[i] = ' ';
+          _chatter = new String(ca);
+        }
+        OnPropertyChanged("Chatter");
+      }
     }
 
     private byte GetMoveIds_PPx(int x)

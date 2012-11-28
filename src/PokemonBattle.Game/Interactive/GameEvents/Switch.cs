@@ -34,9 +34,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       }
       AppendGameLog(Log ?? "SendOut" + Pms.Length, Pms.Select((p) => p.Id).ToArray());
       foreach (PokemonOutward p in Pms)
-      {
-        //if (p.Cha
-      }
+        if (p.Chatter != null) AppendGameLog("Chatter", p.Id);
     }
     public override void Update(SimGame game)
     {

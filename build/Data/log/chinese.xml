@@ -385,7 +385,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeZenMode</a:Key><a:Value i:type="LogText"><text>{0:p}的不倒翁模式解除！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ForceWithdraw</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>（{0:p}强制下场）
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SkillSwapDetail</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>（{0:p}的特性变成了{1:a}）
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Chatter</a:Key><a:Value i:type="LogText"><text>（{0:p}：{0:pm.Chatter}）
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Chatter</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>（{0:p}：{0:pm.Chatter}）
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Ability</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:a}——</text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>RULE_SLP</a:Key><a:Value i:type="LogText"><foreground>16744448</foreground><text>[催眠条款]{0:pm.Owner.Name}已经有精灵因为对手睡着了，{0:pm.Name}不能被催眠。
 </text></a:Value></a:KeyValueOfstringanyType></logs></GameLogs>
