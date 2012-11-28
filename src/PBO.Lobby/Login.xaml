@@ -34,7 +34,7 @@
             </TextBlock.Style>
         </TextBlock>
         <Button Name="button" Content="{Binding [Login], Source={x:Static pm:DataService.String}}" Click="button_Click" HorizontalContentAlignment="Left" Padding="30,0" FontWeight="Bold" VerticalAlignment="Bottom" Height="30" Background="#FFC4C4C4" BorderBrush="White" />
-        <ComboBox Name="servers" IsEditable="True" VerticalAlignment="Bottom" HorizontalAlignment="Right" VerticalContentAlignment="Center" Height="30" BorderThickness="0" Background="{x:Null}" KeyDown="servers_KeyDown">
+        <ComboBox Name="servers" IsEditable="True" FontFamily="Microsoft YaHei" VerticalAlignment="Bottom" HorizontalAlignment="Right" VerticalContentAlignment="Center" Height="30" BorderThickness="0" Background="{x:Null}" KeyDown="servers_KeyDown">
             <ComboBoxItem Content="127.0.0.1" IsSelected="True"/>
         </ComboBox>
         <Canvas Height="10" VerticalAlignment="Top">
