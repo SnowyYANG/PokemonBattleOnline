@@ -121,6 +121,11 @@
                         <Setter Property="SnapsToDevicePixels" Value="True"/>
                     </Style>
                 </Canvas.Resources>
+                <Border BorderBrush="Black" BorderThickness="0,1,1,1" Canvas.Bottom="7">
+                    <Border BorderBrush="#505050" BorderThickness="0,2">
+                        <Label Content="点击一次预览 再次点击交换" Foreground="#585050" Padding="5,0,5,0" Background="#f8f8f8" BorderBrush="#c0c0c0" BorderThickness="1"/>
+                    </Border>
+                </Border>
                 <Button Content="{Binding Pokemons[0]}" Canvas.Left="1" Canvas.Top="9"/>
                 <Button Content="{Binding Pokemons[1]}" Canvas.Right="1" Canvas.Top="1"/>
                 <Button Content="{Binding Pokemons[2]}" Canvas.Left="1" Canvas.Top="57"/>
@@ -143,5 +148,27 @@
         </TabItem>
         <TabItem></TabItem>
     </TabControl>
-    <TextBlock Text="{Binding Time}" Canvas.Bottom="-20" Background="Black" Foreground="White"/>
+    <Canvas DataContext="{Binding Time}" Canvas.Top="-60" Canvas.Left="5">
+        <StackPanel Orientation="Horizontal">
+            <StackPanel.Effect>
+                <BlurEffect Radius="5"/>
+            </StackPanel.Effect>
+            <TextBlock Text="剩余时间：" FontFamily="SimSun" TextOptions.TextRenderingMode="Aliased" Foreground="Black"/>
+            <TextBlock Text="{Binding}" FontFamily="SimSun" TextOptions.TextRenderingMode="Aliased" Foreground="Black"/>        
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel.Effect>
+                <BlurEffect Radius="5"/>
+            </StackPanel.Effect>
+            <TextBlock Text="剩余时间：" FontFamily="SimSun" TextOptions.TextRenderingMode="Aliased" Foreground="Black"/>
+            <TextBlock Text="{Binding}" FontFamily="SimSun" TextOptions.TextRenderingMode="Aliased" Foreground="Black"/>        
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel.Effect>
+                <DropShadowEffect BlurRadius="5" ShadowDepth="0"/>
+            </StackPanel.Effect>
+            <TextBlock Text="剩余时间：" FontFamily="SimSun" TextOptions.TextRenderingMode="Aliased" Foreground="#f8f8f8"/>
+            <TextBlock Text="{Binding}" FontFamily="SimSun" TextOptions.TextRenderingMode="Aliased" Foreground="#f8f8f8"/>        
+        </StackPanel>
+    </Canvas>
 </Canvas>

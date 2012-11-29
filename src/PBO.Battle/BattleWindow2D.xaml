@@ -7,7 +7,7 @@
     <Grid Height="545" Width="750">
         <Canvas Background="#f5f5f5" Width="266" HorizontalAlignment="Left">
             <my:NDS x:Name="nds"/>
-            <ContentControl x:Name="pmReview" ContentTemplate="{x:Static ui:Cartes.Pokemon}" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="384"/>    
+            <ContentControl x:Name="pmReview" ContentTemplate="{x:Static ui:Cartes.Pokemon}" Canvas.Top="384"/>
         </Canvas>
         <my:BattleReport x:Name="br" Margin="266,0,0,0"/>
         <Label x:Name="mask" Content="请稍候..." Background="Black" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>           

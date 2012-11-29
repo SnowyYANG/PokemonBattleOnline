@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Data;
+using System.Globalization;
+using System.Windows.Data;
 
 namespace LightStudio.PokemonBattle.PBO.Converters
 {
-  public class LocalizedText : Converter<string>
+  public class LocalizedText : IValueConverter
   {
     public static readonly LocalizedText C = new LocalizedText();
     
-    protected override object Convert(string value)
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      return DataService.String[value];
+      return value == null ? null : Data.DataService.String[value.ToString()];
+    }
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+      return null;
     }
   }
 }

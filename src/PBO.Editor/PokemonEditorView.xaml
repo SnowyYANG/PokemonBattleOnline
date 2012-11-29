@@ -421,8 +421,8 @@
         					</DataTemplate>
         				</GridViewColumn.CellTemplate>
         			</GridViewColumn>
-        			<GridViewColumn Header="{Binding [Power], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding Move.Power, Converter={x:Static local:PowerStringC.I}}"/>
-        			<GridViewColumn Header="{Binding [Accuracy], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding Move.Accuracy, Converter={x:Static local:AccuracyStringC.I}}"/>
+        			<GridViewColumn Header="{Binding [Power], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding Move.Power, Converter={x:Static c:PowerString.C}}"/>
+        			<GridViewColumn Header="{Binding [Accuracy], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding Move.Accuracy, Converter={x:Static c:AccuracyString.C}}"/>
         			<GridViewColumn Header="{Binding [PP], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding Move.PP}"/>
         			<GridViewColumn Header="{Binding [Description], Source={x:Static pm:DataService.String}}" DisplayMemberBinding="{Binding Move.Description}"/>
         		</GridView>

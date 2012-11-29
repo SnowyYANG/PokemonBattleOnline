@@ -126,9 +126,13 @@
   <item key="new team" value="新队伍"/>
   <item key="Username" value="用户名"/>
   <item key="Avatar URL" value="头像URL"/>
-  
+
+  <item key="Single" value="单打"/>
   <item key="{0}'s {1}" value="{0}的{1}"/>
   <item key="Can't withdraw {0}!" value="不能将{0}收回来！"/>
   <item key="{0} has no strength to fight!" value="{0}已经没有力气再战斗了！"/>
   <item key="{0} is already fighting." value="{0}已经在战斗了！"/>
+  <item key="Waiting for {0}'s command to pokemon." value="等待{0}给精灵下达命令。"/>
+  <item key="{0} commands something wrong to pokemon(s). Game stopped." value="{0}给精灵下达了错误的命令，对战终止。"/>
+  <item key="Player {0} chooses to surrender." value="{0}选择了投降。"/>
 </pack>

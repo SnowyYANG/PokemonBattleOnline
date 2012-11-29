@@ -14,6 +14,7 @@ namespace LightStudio.PokemonBattle.Game
   {
     void TurnEnd();
     void GameLogAppend(IText t);
+    void GameEnd();
   }
   public class GameOutward : IFormatProvider, ICustomFormatter
   {
@@ -62,18 +63,24 @@ namespace LightStudio.PokemonBattle.Game
         UIDispatcher.Invoke(() =>
           {
 #warning 欢迎战报
-            //TODO: AppendGameLog("Pokemon Battle Online v0.8")
-            //TODO: GameMode
-            if (fragment.TurnNumber != 0)
             {
-              //TODO: AppendGameLog("战斗进行中")
+              AppendGameLog(GameHeader.I);
+              var t = GameService.Logs["GameMode"].Clone(this);
+              t.SetData(GameMode.Single);
+              AppendGameLog(t);
+              t = GameService.Logs["GameRule"].Clone(this);
+              t.SetData("催眠条款");
+              AppendGameLog(t);
+            }
+            if (fragment.TurnNumber > 0)
+            {
+              AppendGameLog(GameService.Logs["GameContinue"]);
               TurnNumber = fragment.TurnNumber;
             }
             for (int t = 0; t < Settings.Mode.TeamCount(); t++)
             {
               Teams[t].Update(fragment.Teams[t]);
-              for (int x = 0; x < Settings.Mode.XBound(); x++)
-                Board[t, x] = fragment[t, x];
+              for (int x = 0; x < Settings.Mode.XBound(); x++) Board[t, x] = fragment[t, x];
               Board.Weather = fragment.Weather;
             }
             LeapTurn();
@@ -99,7 +106,11 @@ namespace LightStudio.PokemonBattle.Game
           int winer = team0 == 0 ? 1 : 0;
           text.SetData(winer, team0, team1);
         }
-        UIDispatcher.Invoke((Action<IText>)AppendGameLog, text);
+        UIDispatcher.Invoke(() =>
+          {
+            AppendGameLog(text);
+            GameEnd();
+          });
       }
     }
     public void AppendGameLog(IText text)
@@ -109,6 +120,10 @@ namespace LightStudio.PokemonBattle.Game
     public void EndTurn()
     {
       foreach (var l in listeners) l.TurnEnd();
+    }
+    public void GameEnd()
+    {
+      foreach (var l in listeners) l.GameEnd();
     }
     public void AddListner(IGameOutwardEvents listener)
     {
@@ -161,6 +176,17 @@ namespace LightStudio.PokemonBattle.Game
         if (r == null) r = arg.ToString();
       }// if (arg != null
       return r;
+    }
+
+    private class GameHeader : LogText
+    {
+      public static readonly GameHeader I = new GameHeader();
+      
+      private GameHeader()
+        : base("Pokemon Battle Online v0.8 beta\n")
+      {
+        IsBold = true;
+      }
     }
   }
 }

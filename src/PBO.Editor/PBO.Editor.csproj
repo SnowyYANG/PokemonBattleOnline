@@ -106,7 +106,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="PokemonEnum.cs" />
-    <Compile Include="Converters\IntStringC.cs" />
     <Compile Include="Converters\IdMoveC.cs" />
     <Compile Include="DragDrop\RecyclerDropTarget.cs" />
     <Compile Include="ViewModels\BoxVM.cs" />

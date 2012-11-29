@@ -25,10 +25,46 @@ namespace LightStudio.PokemonBattle.PBO.Battle
   {
     private class Control : IGameOutwardEvents
     {
-      #region Static
-      private static TextAlignment GetAlignment(IText text)
+      private readonly BattleReport Nest;
+      public readonly BattleReportImplement RealTime;
+      private readonly BattleReportImplement Final;
+      //private readonly StringBattleReport Text;
+
+      public Control(BattleReport battlereport)
       {
-        switch (text.Alignment)
+        Nest = battlereport;
+        beginTurn = true;
+        RealTime = new DocumentBattleReport(Nest.RealTime, true, false);
+        Final = new DocumentBattleReport(Nest.Final, false, false);
+      }
+
+      bool beginTurn;
+      void IGameOutwardEvents.TurnEnd()
+      {
+        beginTurn = true;
+      }
+      void IGameOutwardEvents.GameLogAppend(IText text)
+      {
+        RealTime.AddText(text); Final.AddText(text);
+        Nest.AutoScroll();
+        if (beginTurn)
+        {
+          //Nest.nowTurn = new LinkedListNode<TextElement>(currentRealTime.Inlines.Last());
+          //Nest.turnsBookmark.AddLast(Nest.nowTurn);
+          beginTurn = false;
+        }
+      }
+      void IGameOutwardEvents.GameEnd()
+      {
+        Nest.reportViewer.Document = Nest.Final;
+      }
+    }
+
+    private class DocumentBattleReport : BattleReportImplement
+    {
+      private static TextAlignment GetAlignment(Alignment alignment)
+      {
+        switch (alignment)
         {
           case Alignment.Center:
             return TextAlignment.Center;
@@ -38,93 +74,46 @@ namespace LightStudio.PokemonBattle.PBO.Battle
             return TextAlignment.Left;
         }
       }
-      private static Brush GetBackground(IText text)
-      {
-        return Helper.NewBrush(text.Background);
-      }
-      private static Brush GetForeground(IText text)
-      {
-        return Helper.NewBrush(text.Foreground);
-      }
-      private static FontWeight GetFontWeight(IText text)
-      {
-        return text.IsBold ? FontWeights.Bold : FontWeights.Normal;
-      }
-      private static FontStyle GetFontStyle(IText text)
-      {
-        return text.IsItalic ? FontStyles.Italic : FontStyles.Normal;
-      }
-      private static TextDecorationCollection GetTextDecorations(IText text)
-      {
-        return text.IsUnderlined ? TextDecorations.Underline : null;
-      }
-      #endregion
 
-      BattleReport nest;
-      Paragraph current;
+      private readonly FlowDocument Document;
+      private readonly bool Battle, Final;
 
-      public Control(BattleReport battlereport)
+      public DocumentBattleReport(FlowDocument doc, bool battle, bool final)
       {
-        nest = battlereport;
-        beginTurn = true;
+        Document = doc;
+        Battle = battle;
+        Final = final;
       }
 
-      public void AddText(string text, Brush foreground)
+      private Paragraph current;
+      private uint lastBg = 0;
+      private Alignment lastAlignment = Alignment.Left;
+      public override void AddText(string text, uint foreground, Alignment alignment, uint background, double size, bool bold, bool italic, bool underline)
       {
-        if (current == null || current.TextAlignment != TextAlignment.Left)
-        {
-          current = new Paragraph() { TextAlignment = TextAlignment.Left };
-          nest.AddBlock(current);
-        }
-        current.Inlines.Add(new Run(text) { Foreground = foreground });
-      }
-      bool beginTurn;
-      void IGameOutwardEvents.TurnEnd()
-      {
-        beginTurn = true;
-      }
-      void IGameOutwardEvents.GameLogAppend(IText text)
-      {
-        AddText(text);
-        nest.AutoScroll();
-        if (beginTurn)
-        {
-          nest.nowTurn = new LinkedListNode<TextElement>(current.Inlines.Last());
-          nest.turnsBookmark.AddLast(nest.nowTurn);
-          beginTurn = false;
-        }
-      }
-      private void AddInline(Paragraph paragraph, IText text)
-      {
-        if (text.Contents == null)
-        {
-          var str = text.Text;
-          paragraph.Inlines.Add(new Run(text.Text)
-            {
-              Background = GetBackground(text),
-              Foreground = GetForeground(text),
-              FontSize = nest.report.FontSize + text.FontSize,
-              FontWeight = GetFontWeight(text),
-              FontStyle = GetFontStyle(text),
-              TextDecorations = GetTextDecorations(text)
-            });
-          using (System.IO.StreamWriter sw = new System.IO.StreamWriter(Messaging.PBOClient.Client.User.Name, true)) sw.Write(text.Text);
-        }
-        else foreach (IText t in text.Contents) AddText(t);
-      }
-      private void AddText(IText text)
-      {
-        if (current == null || GetAlignment(text) != current.TextAlignment)
-        {
-          if (current != null)
+          if (current == null || alignment != lastAlignment || lastBg != background)
           {
-            var run = current.Inlines.LastOrDefault() as Run;
-            if (run != null) run.Text = run.Text.TrimEnd();
+            lastAlignment = alignment;
+            lastBg = background;
+            if (current != null)
+            {
+              var run = current.Inlines.LastOrDefault() as Run;
+              if (run != null) run.Text = run.Text.TrimEnd();
+            }
+            current = new Paragraph() { TextAlignment = GetAlignment(alignment), Background = Helper.NewBrush(background) };
+            Document.Blocks.Add(current);
           }
-          current = new Paragraph() { TextAlignment = GetAlignment(text) };
-          nest.AddBlock(current);
-        }
-        AddInline(current, text);
+          current.Inlines.Add(new Run(text)
+            {
+              Foreground = Helper.NewBrush(foreground),
+              FontSize = BattleReport.DEFAULT_FONTSIZE + size,
+              FontWeight = bold ? FontWeights.Bold : FontWeights.Normal,
+              FontStyle = italic ? FontStyles.Italic : FontStyles.Normal,
+              TextDecorations = underline ? TextDecorations.Underline : null
+            });
+      }
+      protected override bool Visible(IText text)
+      {
+        return !(text.HiddenInBattle && Battle || text.HiddenAfterBattle && Final);
       }
     }
   }

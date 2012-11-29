@@ -20,16 +20,22 @@ namespace LightStudio.PokemonBattle.PBO.Battle
   /// </summary>
   public partial class BattleReport : UserControl
   {
-    ScrollViewer scroll;
-    LinkedList<TextElement> turnsBookmark;
-    LinkedListNode<TextElement> nowTurn;
-    Control controller;
+    internal const double DEFAULT_FONTSIZE = 15;
+    
+    internal readonly FlowDocument RealTime, Final;
+    private readonly StringBuilder Text;
+    private readonly LinkedList<TextElement> turnsBookmark;
+    private readonly Control controller;
     
     public BattleReport()
     {
       InitializeComponent();
       turnsBookmark = new LinkedList<TextElement>();
-      this.controller = new Control(this);
+      RealTime = new FlowDocument();
+      Final = new FlowDocument();
+      Text = new StringBuilder();
+      reportViewer.Document = RealTime;
+      controller = new Control(this);
     }
 
     public void Init(GameOutward game)
@@ -37,6 +43,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       game.AddListner(controller);
     }
 
+    private LinkedListNode<TextElement> nowTurn;
     private void previousTurn_Click(object sender, RoutedEventArgs e)
     {
       if (nowTurn.Previous != null)
@@ -45,10 +52,8 @@ namespace LightStudio.PokemonBattle.PBO.Battle
         nowTurn.Value.BringIntoView();
       }
     }
-    private void AddBlock(Block block)
-    {
-      report.Blocks.Add(block);
-    }
+    
+    private ScrollViewer scroll;
     private void AutoScroll()
     {
       if (scroll == null)
@@ -57,7 +62,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     }
     public void AddLogText(string text)
     {
-      controller.AddText(text, Brushes.OrangeRed);
+      controller.RealTime.AddText(text, 0xffff8000);
       AutoScroll();
     }
   }

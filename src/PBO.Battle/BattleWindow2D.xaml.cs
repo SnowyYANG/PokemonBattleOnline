@@ -82,13 +82,13 @@ namespace LightStudio.PokemonBattle.PBO.Battle
               t1.Append(' ');
               t1.Append(p.GetName());
             }
-          t0.Append(" VS ");
+          t0.Append("VS");
           t0.Append(t1);
           Title = t0.ToString();
 
           nds.Init(Room);
           br.Init(Room.Game);
-          Room.Game.LeapTurn += () => mask.Visibility = System.Windows.Visibility.Collapsed;
+          Room.Game.LeapTurn += () => mask.Visibility = Visibility.Collapsed;
         });
     }
     void IRoomEventsListener.GameTie()
@@ -103,26 +103,26 @@ namespace LightStudio.PokemonBattle.PBO.Battle
           switch (reason)
           {
             case GameStopReason.InvalidInput:
-              formatKey = "{0} commands something wrong to pokemon(s). Game stopped.\n";
+              formatKey = "{0} commands something wrong to pokemon(s). Game stopped.";
               break;
             case GameStopReason.RoomClosed:
-              formatKey = "The room is closed by room administrator. Game stopped.\n";
+              formatKey = "The room is closed by room administrator. Game stopped.";
               break;
             case GameStopReason.ServerClosed: //这个不是直接连接与服务器中断么
-              formatKey = "Disconnected from server.\n";
+              formatKey = "Disconnected from server.";
               break;
             case GameStopReason.PlayerDisconnect:
-              formatKey = "Player {0} disconnected. Game stopped.\n";
+              formatKey = "Player {0} disconnected. Game stopped.";
               break;
-            case GameStopReason.PlayerQuit:
-              formatKey = "Player {0} quitted. Game stopped.\n";
+            case GameStopReason.PlayerGiveUp:
+              formatKey = "Player {0} chooses to surrender.";
               break;
             default:
-              formatKey = "Disconnected from room.\n";
+              formatKey = "Disconnected from room.";
               break;
           }
           string playerName = player == 0 ? null : PBOClient.GetName(player);
-          br.AddLogText(string.Format(DataService.String[formatKey], playerName));
+          br.AddLogText(string.Format(DataService.String[formatKey] + "\n", playerName));
         });
     }
     void IRoomEventsListener.TimeReminder(int[] waitForWhom)
@@ -133,13 +133,13 @@ namespace LightStudio.PokemonBattle.PBO.Battle
           switch (waitForWhom.Length)
           {
             case 1: //双打三打pm复数
-              br.AddLogText(string.Format(DataService.String["Waiting for {0}'s command to pokemon.\n"], names[0]));
+              br.AddLogText(string.Format(DataService.String["Waiting for {0}'s command to pokemon."], names[0]) + "\n");
               break;
             case 2:
-              br.AddLogText(string.Format(DataService.String["Waiting for {0} and {1}'s commands to pokemons.\n"], names[0], names[1]));
+              br.AddLogText(string.Format(DataService.String["Waiting for {0} and {1}'s commands to pokemons."], names[0], names[1]) + "\n");
               break;
             case 3:
-              br.AddLogText(string.Format(DataService.String["Waiting for {0}, {1} and {2}'s commands to pokemons.\n"], names[0], names[1], names[2]));
+              br.AddLogText(string.Format(DataService.String["Waiting for {0}, {1} and {2}'s commands to pokemons."], names[0], names[1], names[2]) + "\n");
               break;
           }
         });
@@ -148,9 +148,9 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     {
       UIDispatcher.Invoke(() =>
         {
-          br.AddLogText(DataService.String["TimeUp\n"]);
+          br.AddLogText(DataService.String["Time Up"] + "\n");
           foreach(var pair in spentTime)
-            br.AddLogText(string.Format(Room.Game, "{0:P}使用了{1}秒\n", pair.Key, pair.Value));
+            br.AddLogText(string.Format(Room.Game, "{0:P}使用了{1}秒", pair.Key, pair.Value) + "\n");
         });
     }
     void IRoomEventsListener.Error(string message)

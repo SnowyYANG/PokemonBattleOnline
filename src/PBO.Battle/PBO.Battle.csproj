@@ -57,6 +57,7 @@
     <Compile Include="BattleReport.xaml.cs">
       <DependentUpon>BattleReport.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BattleReportImplement.cs" />
     <Compile Include="BattleWindow2D.xaml.cs">
       <DependentUpon>BattleWindow2D.xaml</DependentUpon>
     </Compile>
@@ -79,6 +80,7 @@
     <Compile Include="NDS\Subtitle.xaml.cs">
       <DependentUpon>Subtitle.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StringBattleReport.cs" />
     <Compile Include="VM\IControlPanel.cs" />
     <Compile Include="VM\Singles.cs" />
     <Compile Include="VM\TargetPanel.cs" />

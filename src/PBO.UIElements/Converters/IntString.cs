@@ -6,21 +6,21 @@ using System.Windows;
 using System.Windows.Data;
 using System.Globalization;
 
-namespace LightStudio.PokemonBattle.PBO.Editor
+namespace LightStudio.PokemonBattle.PBO.Converters
 {
-  class AccuracyStringC : Converter<int>
+  public class AccuracyString : Converter<int>
   {
-    public static readonly AccuracyStringC I = new AccuracyStringC();
+    public static readonly AccuracyString C = new AccuracyString();
 
     protected override object Convert(int value)
     {
       return value == 0x65 ? "-" : value.ToString();
     }
   }
-  [ValueConversion(typeof(int), typeof(string))]
-  class PowerStringC : Converter<int>
+
+  public class PowerString : Converter<int>
   {
-    public static readonly PowerStringC I = new PowerStringC();
+    public static readonly PowerString C = new PowerString();
 
     protected override object Convert(int value)
     {

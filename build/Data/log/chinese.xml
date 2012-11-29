@@ -6,7 +6,10 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>unfinish</a:Key><a:Value i:type="LogText"><foreground>16711680</foreground><text>{0:p}使用的技能{1:m}尚未制作。
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>bad</a:Key><a:Value i:type="LogText"><foreground>16711680</foreground><text>{0:p}使用的技能{1:m}暂不制作，原因请见http://pbo.codeplex.com/。
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>----</a:Key><a:Value i:type="LogText"><text>---------------------------------
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameMode</a:Key><a:Value i:type="LogText"><text>对战模式：{0:e}
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameRule</a:Key><a:Value i:type="LogText"><text>对战规则：{0}
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameStart</a:Key><a:Value i:type="LogText"><text>战斗开始！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameContinue</a:Key><a:Value i:type="LogText"><text>战斗进行中...
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameResultTie</a:Key><a:Value i:type="LogText"><Alignment>Center</Alignment><IsBold>true</IsBold><text>
 对战结束了，{0:t}与{1:t}打成了平手！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameResult</a:Key><a:Value i:type="LogText"><Alignment>Center</Alignment><IsBold>true</IsBold><text>
@@ -333,8 +336,8 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Haze</a:Key><a:Value i:type="LogText"><text>全部的能力值都复原了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Splash</a:Key><a:Value i:type="LogText"><text>但是什么都没有发生！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Hurt</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>{0:p}受到了伤害</text></a:Value></a:KeyValueOfstringanyType>
-<a:KeyValueOfstringanyType><a:Key>Hp</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>({0})
-</text><HiddenInBattle>true</HiddenInBattle></a:Value></a:KeyValueOfstringanyType>
+<a:KeyValueOfstringanyType><a:Key>Hp</a:Key><a:Value i:type="LogText"><Contents><a:anyType i:type="LogText"><foreground>8421504</foreground><text>({0})</text><HiddenInBattle>true</HiddenInBattle></a:anyType><a:anyType i:type="LogText"><text>
+</text></a:anyType></Contents></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>Magnitude</a:Key><a:Value i:type="LogText"><text>震级{0}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HealBell</a:Key><a:Value i:type="LogText"><text>铃铛的声音响了起来！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Aromatherapy</a:Key><a:Value i:type="LogText"><text>清新的香气传播开来了！

@@ -10,7 +10,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
 {
   public enum GameStopReason
   {
-    PlayerQuit,
+    PlayerGiveUp,
     PlayerDisconnect,
     InvalidInput,
     RoomClosed,

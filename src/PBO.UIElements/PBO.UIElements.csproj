@@ -85,6 +85,7 @@
     <Compile Include="Controls\UITextBox.cs" />
     <Compile Include="Converters\BattleType.cs" />
     <Compile Include="Converters\Converter.cs" />
+    <Compile Include="Converters\IntString.cs" />
     <Compile Include="Converters\LocalizedText.cs" />
     <Compile Include="Converters\PokemonIcon.cs" />
     <Compile Include="Converters\MoveCategory.cs" />
@@ -178,10 +179,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Buttons\Text.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Cartes\CarteResource.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

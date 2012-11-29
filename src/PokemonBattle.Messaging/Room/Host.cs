@@ -144,7 +144,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
               players.Remove(p);
               break;
             }
-          if (State == RoomState.GameStarted) InformGameStop(userId, GameStopReason.PlayerQuit);
+          if (State == RoomState.GameStarted) InformGameStop(userId, GameStopReason.PlayerGiveUp);
         }
         if (auto && users.Count == 0) CloseRoom();
       }

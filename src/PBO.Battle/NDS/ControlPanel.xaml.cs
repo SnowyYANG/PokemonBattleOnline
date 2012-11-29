@@ -84,17 +84,17 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     }
     private void move_Click(object sender, RoutedEventArgs e)
     {
-      SimMove move = ((Button)sender).Content as SimMove;
-      if (move != null) vm.Move_Click(move);
+      vm.Move_Click((SimMove)((Button)sender).Content);
     }
     private void pokemon_Click(object sender, RoutedEventArgs e)
     {
-      Pokemon pm = ((Button)sender).Content as Pokemon;
-      if (pm != null)
+      Pokemon pm = (Pokemon)((Button)sender).Content;
+      if (pm == Current)
       {
-        if (pm == Current) vm.Pokemon_Click(pm);
-        else Current = pm;
+        vm.Pokemon_Click(pm);
+        Current = null;
       }
+      else Current = pm;
     }
     private void giveup_Click(object sender, RoutedEventArgs e)
     {

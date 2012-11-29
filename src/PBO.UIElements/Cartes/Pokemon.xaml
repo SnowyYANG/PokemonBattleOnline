@@ -22,7 +22,7 @@
             <TextBlock Text="{Binding Name}" Canvas.Left="40" Canvas.Top="8" Width="111" />
             <ContentPresenter Content="{Binding Form.Type1}" ContentTemplate="{x:Static ui:Labels.BattleType}" Width="40" Canvas.Right="3" Canvas.Top="8"/>
             <ContentPresenter Content="{Binding Form.Type2}" ContentTemplate="{x:Static ui:Labels.BattleType}" Width="40" Canvas.Right="45" Canvas.Top="8"/>
-            <Canvas Width="256">
+            <Canvas x:Name="main" Width="256">
                 <Canvas.Resources>
                     <Style TargetType="Line">
                         <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -47,9 +47,9 @@
                                             </Rectangle.Effect>
                                         </Rectangle>
                                         <TextBlock Text="{TemplateBinding Content}" Canvas.Left="8" Foreground="#e8e8e8">
-					                <TextBlock.Effect>
-                    	                <DropShadowEffect ShadowDepth="1.2" BlurRadius="2" Color="#B0B0B0"/>
-					                </TextBlock.Effect>
+					                        <TextBlock.Effect>
+                    	                        <DropShadowEffect ShadowDepth="1.2" BlurRadius="2" Color="#B0B0B0"/>
+					                        </TextBlock.Effect>
                                         </TextBlock>
                                     </Canvas>
                                 </ControlTemplate>
@@ -70,11 +70,14 @@
                 <Line X2="256" Canvas.Top="120" Stroke="Black"/>
                 <Polyline Points="12,78 16,81 151,81"/>
                 <Line X1="8" X2="151" Canvas.Top="105"/>
-                <Label Content="攻击" Width="92" Canvas.Left="162" Canvas.Top="33"/>
-                <Label Content="防御" Width="92" Canvas.Left="162" Canvas.Top="49"/>
-                <Label Content="特攻" Width="92" Canvas.Left="162" Canvas.Top="65"/>
-                <Label Content="特防" Width="92" Canvas.Left="162" Canvas.Top="81"/>
-                <Label Content="速度" Width="92" Canvas.Left="162" Canvas.Top="97"/>
+                
+                <Canvas x:Name="labels">
+                    <Label Content="攻击" Width="92" Canvas.Left="162" Canvas.Top="33"/>
+                    <Label Content="防御" Width="92" Canvas.Left="162" Canvas.Top="49"/>
+                    <Label Content="特攻" Width="92" Canvas.Left="162" Canvas.Top="65"/>
+                    <Label Content="特防" Width="92" Canvas.Left="162" Canvas.Top="81"/>
+                    <Label Content="速度" Width="92" Canvas.Left="162" Canvas.Top="97"/>                    
+                </Canvas>
 
                 <Label Content="{Binding Ability.Name}" Width="146" Canvas.Left="2" Canvas.Top="33"/>
                 <TextBlock Text="{Binding Ability.Description}" TextWrapping="Wrap" Canvas.Left="18" Canvas.Top="49" Height="32" Width="133"/>
@@ -92,11 +95,48 @@
                         <Setter Property="ContentTemplate">
                             <Setter.Value>
                                 <DataTemplate>
-                                    <Canvas Width="106">
+                                    <Canvas Width="106" ToolTip="{Binding Type}">
                                         <Canvas.Resources>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Foreground" Value="White"/>
                                                 <Setter Property="IsHitTestVisible" Value="False"/>
+                                            </Style>
+                                            <Style TargetType="ToolTip">
+                                                <Setter Property="Background" Value="Black"/>
+                                                <Setter Property="ContentTemplate">
+                                                    <Setter.Value>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <Grid.Resources>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Setter Property="FontFamily" Value="Microsoft YaHei"/>
+                                                                        <Setter Property="Foreground" Value="#a0a0a0"/>
+                                                                    </Style>
+                                                                </Grid.Resources>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto"/>
+                                                                    <RowDefinition Height="Auto"/>
+                                                                    <RowDefinition Height="Auto"/>
+                                                                </Grid.RowDefinitions>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                    <ColumnDefinition Width="*"/>
+                                                                    <ColumnDefinition Width="Auto"/>
+                                                                    <ColumnDefinition Width="*"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock Text="属性："/>
+                                                                <TextBlock Text="{Binding Type,Converter={x:Static c:LocalizedText.C}}" Grid.Column="1"/>
+                                                                <TextBlock Text="分类：" Grid.Row="1"/>
+                                                                <TextBlock Text="{Binding Category,Converter={x:Static c:LocalizedText.C}}" Grid.Column="1" Grid.Row="1"/>
+                                                                <TextBlock Text="威力：" Grid.Column="2"/>
+                                                                <TextBlock Text="{Binding Power,Converter={x:Static c:PowerString.C}}" Grid.Column="3"/>
+                                                                <TextBlock Text="命中：" Grid.Row="1" Grid.Column="2"/>
+                                                                <TextBlock Text="{Binding Accuracy,Converter={x:Static c:AccuracyString.C}}" Grid.Column="3" Grid.Row="1"/>
+                                                                <TextBlock Grid.Row="2" Grid.ColumnSpan="4" Text="{Binding Description}" Width="160" TextWrapping="Wrap"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
                                             </Style>
                                         </Canvas.Resources>
                                         <Polygon DataContext="{Binding Type.Type}" Fill="{Binding Converter={x:Static c:BattleTypeBg.C}}" Stroke="{Binding Converter={x:Static c:BattleTypeBorder.C}}" StrokeThickness="1" Points="0,8 3,0 103,0 106,8 103,16 3,16"/>
@@ -120,8 +160,25 @@
                 <ContentControl Content="{Binding [2]}" Canvas.Left="18" Canvas.Top="20"/>
                 <ContentControl Content="{Binding [3]}" Canvas.Right="18" Canvas.Top="20"/>
             </Canvas>
+            <Border x:Name="mask" Visibility="Collapsed" Background="#c0000000" Width="256" Height="192">
+                <Border BorderBrush="#80000000" BorderThickness="0,3" Margin="0,50">
+                    <Border.Effect>
+                        <BlurEffect KernelType="Box"/>
+                    </Border.Effect>
+                </Border>
+            </Border>
         </Canvas>
         <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                <Setter TargetName="itemText" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="labels" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="mask" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="main" Property="Effect">
+                    <Setter.Value>
+                        <BlurEffect KernelType="Box" Radius="3"/>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
             <DataTrigger Binding="{Binding Item}" Value="{x:Null}">
                 <Setter TargetName="itemImage" Property="Visibility" Value="Collapsed"/>
                 <Setter TargetName="itemText" Property="Text" Value="无道具"/>

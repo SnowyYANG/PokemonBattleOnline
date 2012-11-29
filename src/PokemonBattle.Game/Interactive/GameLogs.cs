@@ -25,7 +25,9 @@ namespace LightStudio.PokemonBattle.Game
       foreach (KeyValuePair<string,IText> t in i.logs)
         if (t.Value == null || (t.Value.Contents == null && t.Value.Text == null))
         {
+#if DEBUG
           System.Diagnostics.Debugger.Break();
+#endif
           badKeys.Add(t.Key);
         }
       foreach (string k in badKeys) i.logs.Remove(k);
