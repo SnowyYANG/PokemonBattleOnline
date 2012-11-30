@@ -92,7 +92,7 @@ namespace LightStudio.PokemonBattle.Data.Editor
       HashSet<int>[] pms;
       using (FileStream fs = new FileStream(Desktop + "temp.xml", FileMode.Open, FileAccess.Read))
         pms = Serializer.Deserialize<HashSet<int>[]>(fs);
-      int index = -1;
+      int index = 0;
       using (StreamReader sr = new StreamReader(Desktop + "lv.txt"))
       {
         while (true)
@@ -110,8 +110,9 @@ namespace LightStudio.PokemonBattle.Data.Editor
                 var m = Convert.ToInt32(s);
                 if (m > 559) System.Diagnostics.Debugger.Break();
                 pms[number - 1].Add(m);
+                move = false;
               }
-              else move = false;
+              else move = true;
           }
         }
       }
