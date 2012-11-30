@@ -93,7 +93,7 @@ namespace LightStudio.PokemonBattle.Data.Editor
       using (FileStream fs = new FileStream(Desktop + "temp.xml", FileMode.Open, FileAccess.Read))
         pms = Serializer.Deserialize<HashSet<int>[]>(fs);
       int index = 0;
-      using (StreamReader sr = new StreamReader(Desktop + "TM.txt"))
+      using (StreamReader sr = new StreamReader(Desktop + "Tutor.txt"))
       {
         while (true)
         {
