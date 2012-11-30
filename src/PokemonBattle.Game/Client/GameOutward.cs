@@ -182,7 +182,7 @@ namespace LightStudio.PokemonBattle.Game
       public static readonly GameHeader I = new GameHeader();
       
       private GameHeader()
-        : base("POKEMON BATTLE ONLINE v0.8 <BETA>\n")
+        : base("POKEMON BATTLE ONLINE v0.8 <ETV>\n")
       {
         IsBold = true;
       }

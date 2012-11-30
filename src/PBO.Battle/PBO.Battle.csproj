@@ -53,11 +53,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BattleReport.Control.cs" />
-    <Compile Include="BattleReport.xaml.cs">
+    <Compile Include="BattleReport\BattleReport.Control.cs" />
+    <Compile Include="BattleReport\BattleReport.xaml.cs">
       <DependentUpon>BattleReport.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BattleReportImplement.cs" />
+    <Compile Include="BattleReport\BattleReportImplement.cs" />
     <Compile Include="BattleWindow2D.xaml.cs">
       <DependentUpon>BattleWindow2D.xaml</DependentUpon>
     </Compile>
@@ -80,11 +80,11 @@
     <Compile Include="NDS\Subtitle.xaml.cs">
       <DependentUpon>Subtitle.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StringBattleReport.cs" />
+    <Compile Include="BattleReport\StringBattleReport.cs" />
     <Compile Include="VM\IControlPanel.cs" />
     <Compile Include="VM\Singles.cs" />
     <Compile Include="VM\TargetPanel.cs" />
-    <Page Include="BattleReport.xaml">
+    <Page Include="BattleReport\BattleReport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

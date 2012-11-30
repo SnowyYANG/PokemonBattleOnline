@@ -25,7 +25,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     internal readonly FlowDocument RealTime, Final;
     private readonly StringBuilder Text;
     private readonly LinkedList<TextElement> turnsBookmark;
-    private readonly Control controller;
+    private Control controller;
     
     public BattleReport()
     {
@@ -35,11 +35,11 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       Final = new FlowDocument();
       Text = new StringBuilder();
       reportViewer.Document = RealTime;
-      controller = new Control(this);
     }
 
-    public void Init(GameOutward game)
+    public void Init(GameOutward game, string title, string playerName)
     {
+      controller = new Control(this, title, playerName);
       game.AddListner(controller);
     }
 

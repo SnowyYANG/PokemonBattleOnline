@@ -84,10 +84,11 @@ namespace LightStudio.PokemonBattle.PBO.Battle
             }
           t0.Append("VS");
           t0.Append(t1);
-          Title = t0.ToString();
+          var title = t0.ToString();
+          Title = title;
 
           nds.Init(Room);
-          br.Init(Room.Game);
+          br.Init(Room.Game, title, Room.PlayerController == null ? null : PBOClient.GetName(Room.PlayerController.Player.Id));
           Room.Game.LeapTurn += () => mask.Visibility = Visibility.Collapsed;
         });
     }

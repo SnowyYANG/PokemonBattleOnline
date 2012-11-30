@@ -36,6 +36,10 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
     {
       return MessageBox.Show(window, "这将输掉这场对战，确定放弃？", PBO, MessageBoxButton.YesNo);
     }
+    public static MessageBoxResult SaveLogFail()
+    {
+      return MessageBox.Show("存储战报失败！");
+    }
     #endregion
 
     #region Editor

@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
+using System.IO;
 using LightStudio.Tactic.DataModels;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game;
@@ -28,14 +29,21 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       private readonly BattleReport Nest;
       public readonly BattleReportImplement RealTime;
       private readonly BattleReportImplement Final;
-      //private readonly StringBattleReport Text;
+      private readonly BattleReportImplement TextReport;
+      private readonly StringBuilder Text;
+      private readonly string Title;
+      private readonly string PlayerName;
 
-      public Control(BattleReport battlereport)
+      public Control(BattleReport battlereport, string title, string player)
       {
         Nest = battlereport;
         beginTurn = true;
         RealTime = new DocumentBattleReport(Nest.RealTime, true, false);
         Final = new DocumentBattleReport(Nest.Final, false, false);
+        Text = new StringBuilder();
+        TextReport = new StringBattleReport(Text);
+        Title = title;
+        PlayerName = player;
       }
 
       bool beginTurn;
@@ -45,7 +53,9 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       }
       void IGameOutwardEvents.GameLogAppend(IText text)
       {
-        RealTime.AddText(text); Final.AddText(text);
+        RealTime.AddText(text);
+        Final.AddText(text);
+        TextReport.AddText(text);
         Nest.AutoScroll();
         if (beginTurn)
         {
@@ -57,6 +67,17 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       void IGameOutwardEvents.GameEnd()
       {
         Nest.reportViewer.Document = Nest.Final;
+        try
+        {
+          var path = "..\\Logs\\" + PlayerName;
+          if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+          using (StreamWriter sw = new System.IO.StreamWriter(path + string.Format("\\[{0}] {1}", DateTime.Now.ToString("yyyy-MM-dd-HHmm"), Title) + ".txt"))
+            sw.Write(Text);
+        }
+        catch
+        {
+          UIElements.ShowMessageBox.SaveLogFail();
+        }
       }
     }
 
