@@ -92,22 +92,27 @@ namespace LightStudio.PokemonBattle.Data.Editor
       HashSet<int>[] pms;
       using (FileStream fs = new FileStream(Desktop + "temp.xml", FileMode.Open, FileAccess.Read))
         pms = Serializer.Deserialize<HashSet<int>[]>(fs);
-      int index = 0;
-      using (StreamReader sr = new StreamReader(Desktop + "Tutor.txt"))
+      int index = -1;
+      using (StreamReader sr = new StreamReader(Desktop + "lv.txt"))
       {
         while (true)
         {
           var line = sr.ReadLine();
           if (line == null) break;
           ++index;
-          var ms = line.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+          var ms = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
           var number = GetNumberBW2(index);
-          if (number <= 649)
+          {
+            bool move = true;
             foreach (var s in ms)
-            {
-              var m = Convert.ToInt32(s);
-              pms[number - 1].Add(m);
-            }
+              if (move)
+              {
+                var m = Convert.ToInt32(s);
+                if (m > 559) System.Diagnostics.Debugger.Break();
+                pms[number - 1].Add(m);
+              }
+              else move = false;
+          }
         }
       }
       using (StreamWriter sw = new StreamWriter(Desktop + "temp.xml"))
