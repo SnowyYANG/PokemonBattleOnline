@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("PokemonBattle.Data.Editor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("http://pbo.codeplex.com/")]
 [assembly: AssemblyProduct("PokemonBattle.Data.Editor")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2012")]
+[assembly: AssemblyCopyright("http://pbo.codeplex.com/license")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

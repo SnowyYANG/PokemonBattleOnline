@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("PBO")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("http://pbo.codeplex.com/")]
 [assembly: AssemblyProduct("PBO")]
-[assembly: AssemblyCopyright("GPLv2")]
+[assembly: AssemblyCopyright("http://pbo.codeplex.com/license")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

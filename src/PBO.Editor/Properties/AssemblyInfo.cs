@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("PokemonBattle.PBO.Editor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("LightStudio")]
+[assembly: AssemblyCompany("http://pbo.codeplex.com/")]
 [assembly: AssemblyProduct("PokemonBattle.PBO.Editor")]
-[assembly: AssemblyCopyright("Copyright © LightStudio 2011")]
+[assembly: AssemblyCopyright("http://pbo.codeplex.com/license")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

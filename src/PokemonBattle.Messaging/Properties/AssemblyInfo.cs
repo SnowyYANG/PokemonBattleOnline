@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("PokemonBattle.Messaging")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("http://pbo.codeplex.com/")]
 [assembly: AssemblyProduct("PokemonBattle.Messaging")]
-[assembly: AssemblyCopyright("http://pbo.codeplex.com/")]
+[assembly: AssemblyCopyright("http://pbo.codeplex.com/license")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

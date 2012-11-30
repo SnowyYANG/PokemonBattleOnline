@@ -62,7 +62,6 @@ namespace LightStudio.PokemonBattle.Game
       if (fragment.Teams != null)
         UIDispatcher.Invoke(() =>
           {
-#warning 欢迎战报
             {
               AppendGameLog(GameHeader.I);
               var t = GameService.Logs["GameMode"].Clone(this);
@@ -183,7 +182,7 @@ namespace LightStudio.PokemonBattle.Game
       public static readonly GameHeader I = new GameHeader();
       
       private GameHeader()
-        : base("Pokemon Battle Online v0.8 beta\n")
+        : base("POKEMON BATTLE ONLINE v0.8 <BETA>\n")
       {
         IsBold = true;
       }

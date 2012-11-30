@@ -137,7 +137,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
         }
         else
         {
-          pm.OnboardPokemon.RemoveCondition("confuse");
+          pm.OnboardPokemon.RemoveCondition("Confuse");
           pm.AddReportPm("DeConfuse");
         }
       return true;

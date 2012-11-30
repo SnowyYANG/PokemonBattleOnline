@@ -4,7 +4,7 @@
         Title="Server - Pokemon Battle Online" MinHeight="300" MinWidth="400" WindowState="Maximized">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <ListView x:Name="usersView">

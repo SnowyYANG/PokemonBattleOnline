@@ -105,13 +105,15 @@ namespace LightStudio.PokemonBattle.Game.Host
     #endregion
 
     #region Turn Loop
+    private bool gameEnd;
     public bool CanContinue
     { 
       get
       {
-        if (InputController.NeedInput) return false;
+        if (InputController.NeedInput || gameEnd) return false;
         if (Game.CheckGameEnd())
         {
+          gameEnd = true;
           ReportBuilder.NewFragment();
           ReportUpdated(ReportBuilder.GetFragment(), null);
           return false;
