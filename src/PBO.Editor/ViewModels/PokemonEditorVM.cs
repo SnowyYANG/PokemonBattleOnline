@@ -204,7 +204,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     { get { return _learnset.Values; } }
     private void RefreshLearnset()
     {
-      _learnset = Data.GameDataService.Moves.ToDictionary((m) => m.Id, (m) => new LearnItemVM(this, m));
+      _learnset = Data.TempLearnSet.GetMoves(PokemonType.Number).ToDictionary(m => m, (m) => new LearnItemVM(this, Data.GameDataService.GetMove(m)));
       OnPropertyChanged("Learnset");
     }
     

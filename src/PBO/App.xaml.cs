@@ -24,6 +24,7 @@ namespace LightStudio.PokemonBattle.PBO
     void InitGameService()
     {
       GameDataService.Load("Data");
+      Data.TempLearnSet.Load("Data\\learnset\\temp.xml");
 #if DEBUG
       DataService.Load(new StringService() { Language = "Chinese" });
       DataService.String.DefaultLanguage = "Chinese";

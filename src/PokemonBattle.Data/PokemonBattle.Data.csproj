@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Rom\Ability.cs" />
     <Compile Include="Rom\GiftPokemon.cs" />
+    <Compile Include="Rom\LearnSet\TempLearnSet.cs" />
     <Compile Include="Rom\Move\MoveInnerClass.cs" />
     <Compile Include="Rom\Move\MoveAttachment.cs" />
     <Compile Include="Rom\Item.cs" />
