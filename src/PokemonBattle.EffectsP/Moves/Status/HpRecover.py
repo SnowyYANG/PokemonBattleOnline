@@ -11,7 +11,6 @@ class Moonlight(StatusMoveE):
                     hp >>= 1
                 else:
                     hp >>= 2
-            aer.AddReportPm('Moonlight')
             aer.HpRecover(hp)
         else:
             a.AllFail = True

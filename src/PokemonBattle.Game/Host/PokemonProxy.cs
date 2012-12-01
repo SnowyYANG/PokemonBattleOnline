@@ -816,7 +816,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
     POKEMON_STATE:
       Controller.ReportBuilder.Add(new StateChange(this, log, arg1));
-      Abilities.Synchronize(this, by, state, turn);
+      if (state != AttachedState.FRZ && state != AttachedState.SLP) Abilities.Synchronize(this, by, state, turn);
     DONE:  
       Item.StateAdded(this, by, state);
     }

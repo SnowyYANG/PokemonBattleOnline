@@ -289,7 +289,6 @@ Global
 		{CA8FC057-3DD7-4F64-9965-AD4BA3FF5EE6}.DllBuild|x86.Build.0 = Debug|x86
 		{CA8FC057-3DD7-4F64-9965-AD4BA3FF5EE6}.Release|Any CPU.ActiveCfg = Release|x86
 		{CA8FC057-3DD7-4F64-9965-AD4BA3FF5EE6}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{CA8FC057-3DD7-4F64-9965-AD4BA3FF5EE6}.Release|Mixed Platforms.Build.0 = Release|x86
 		{CA8FC057-3DD7-4F64-9965-AD4BA3FF5EE6}.Release|x86.ActiveCfg = Release|x86
 		{CA8FC057-3DD7-4F64-9965-AD4BA3FF5EE6}.Release|x86.Build.0 = Release|x86
 		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.Debug|Any CPU.ActiveCfg = Debug|x86
@@ -304,7 +303,6 @@ Global
 		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.DllBuild|x86.Build.0 = Debug|x86
 		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.Release|Any CPU.ActiveCfg = Release|x86
 		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.Release|Mixed Platforms.Build.0 = Release|x86
 		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.Release|x86.ActiveCfg = Release|x86
 		{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection

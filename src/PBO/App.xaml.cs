@@ -21,7 +21,7 @@ namespace LightStudio.PokemonBattle.PBO
   /// </summary>
   public partial class App : Application
   {
-    void InitGameService()
+    private void Init()
     {
       GameDataService.Load("Data");
       Data.TempLearnSet.Load("Data\\learnset\\temp.xml");
@@ -38,14 +38,15 @@ namespace LightStudio.PokemonBattle.PBO
     
     protected override void OnStartup(StartupEventArgs e)
     {
-      base.OnStartup(e);
-      InitGameService();
+      Init();
+      
       FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
       var font = new FontFamily("Microsoft YaHei");
       TextBlock.FontFamilyProperty.OverrideMetadata(typeof(TextBlock), new FrameworkPropertyMetadata(font));
       TextElement.FontFamilyProperty.OverrideMetadata(typeof(TextElement), new FrameworkPropertyMetadata(font));
       UIDispatcher.Init(new WpfDispatcher(Application.Current.Dispatcher));
       new MainWindow().Show();
+      base.OnStartup(e);
     }
     protected override void OnExit(ExitEventArgs e)
     {

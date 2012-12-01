@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
         else if (o is string) s = (string)o;
         else throw new Exception("bad event arg");
 #else
-      else s = o.ToString();
+        else s = o.ToString();
 #endif
       }
     }

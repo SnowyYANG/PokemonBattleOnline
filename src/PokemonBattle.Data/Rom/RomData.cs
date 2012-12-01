@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Data
 #endif
     sealed class RomData : SimpleData
   {
-    internal static RomData Load(string path)
+    public static RomData Load(string path)
     {
       var rom = LoadFromDat<RomData>(path);
       foreach (var pm in rom.Pokemons)

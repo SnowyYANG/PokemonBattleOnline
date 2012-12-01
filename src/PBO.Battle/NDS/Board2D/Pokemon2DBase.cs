@@ -30,7 +30,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       Scale = scale;
       main = new Image() { Stretch = Stretch.UniformToFill };
       main.SetValue(Canvas.BottomProperty, (double)-48 * Scale);
-      main.Effect = imageChanging = new BlurEffect() { Radius = 0 };
+      main.Effect = imageChanging = new BlurEffect() { Radius = 0, KernelType = KernelType.Box };
       Children.Add(main);
       IsHitTestVisible = false;
       SnapsToDevicePixels = true;
@@ -70,6 +70,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       pokemon = pm;
       if (pokemon != null)
       {
+        main.Visibility = System.Windows.Visibility.Visible;
         pokemon.AddListener(this);
         RefreshImage();
       }
