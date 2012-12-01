@@ -90,66 +90,11 @@ namespace LightStudio.PokemonBattle.Data.Editor
     static void Main(string[] args)
     {
       RomData r = RomData.Load("Data\\rom.dat");
-      using(StreamWriter sw = new StreamWriter(Desktop + "moves.csv", false, Encoding.Default))
-        foreach (var m in r.Moves)
+      using(StreamWriter sw = new StreamWriter(Desktop + "forms.txt", false, Encoding.Default))
+        foreach (var pm in r.Pokemons)
         {
-          sw.Write(m.Id);
-          sw.Write(',');
-          sw.Write(m.EnglishName);
-          sw.Write(',');
-          sw.Write(m.Class);
-          sw.Write(',');
-          sw.Write(m.Category);
-          sw.Write(',');
-          sw.Write(m.Power);
-          sw.Write(',');
-          sw.Write(m.Accuracy);
-          sw.Write(',');
-          sw.Write(m.PP);
-          sw.Write(',');
-          sw.Write(m.Priority);
-          sw.Write(',');
-          sw.Write(m.MaxTimes);
-          sw.Write(m.MinTimes);
-          sw.Write(',');
-          sw.Write(m.CtLv);
-          sw.Write(',');
-          sw.Write(m.FlinchProbability);
-          sw.Write(',');
-          sw.Write(m.HurtPercentage);
-          sw.Write(',');
-          sw.Write(m.MaxHpPercentage);
-          sw.Write(',');
-          sw.Write(m.Range);
-          sw.Write(',');
-          if (m.Flags.AvailableEvenFrozen) sw.Write("解冻");
-          sw.Write(',');
-          if (m.Flags.IgnoreSubstitute) sw.Write("替身");
-          sw.Write(',');
-          if (m.Flags.IsFist) sw.Write("拳击");
-          sw.Write(',');
-          if (m.Flags.IsHeal) sw.Write("回复");
-          sw.Write(',');
-          if (m.Flags.IsRemote) sw.Write("远程");
-          sw.Write(',');
-          if (m.Flags.IsSound) sw.Write("声音");
-          sw.Write(',');
-          if (m.Flags.MagicCoat) sw.Write("魔反");
-          sw.Write(',');
-          if (m.Flags.Mirrorable) sw.Write("鹦鹉");
-          sw.Write(',');
-          if (m.Flags.NeedTouch) sw.Write("接触");
-          sw.Write(',');
-          if (m.Flags.PrepareOneTurn) sw.Write("蓄力");
-          sw.Write(',');
-          if (m.Flags.Protectable) sw.Write("保护");
-          sw.Write(',');
-          if (m.Flags.Snatchable) sw.Write("抢夺");
-          sw.Write(',');
-          if (m.Flags.StiffOneTurn) sw.Write("僵直");
-          sw.Write(',');
-          if (m.Flags.UnavailableWithGravity) sw.Write("重力");
-          sw.WriteLine();
+          foreach (var f in pm.Forms)
+            if (f.EnglishName != null) sw.WriteLine(f.EnglishName);
         }
     }
   }

@@ -37,5 +37,9 @@ namespace LightStudio
         if (!x.GetValue(i).Equals(y.GetValue(i))) return false;
       return true;
     }
+    public static void Append(this StringBuilder sb, params object[] args)
+    {
+      foreach (var o in args) sb.Append(o);
+    }
   }
 }
