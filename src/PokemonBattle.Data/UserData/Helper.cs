@@ -49,9 +49,9 @@ namespace LightStudio.PokemonBattle.Data
       pm.Ev.SpAtk = TryMatch(m.Groups[6].Value, @"(\d+) SAtk", 1, 0);
       pm.Ev.SpDef = TryMatch(m.Groups[6].Value, @"(\d+) SDef", 1, 0);
       pm.Ev.Speed = TryMatch(m.Groups[6].Value, @"(\d+) Spd", 1, 0);
-      for (var j = 8; j < m.Length; j++)
+      foreach ( Match m2 in Regex.Matches(m.Groups[8].Value, @"\- (.+?)\n") )
       {
-        var Move = GameDataService.Rom.GetMoveType(m.Groups[j].Value);
+        var Move = GameDataService.Rom.GetMoveType(m2.Groups[1].Value);
         if (Move != null) pm.AddMove(Move);
       }
       return pm;
@@ -108,7 +108,7 @@ namespace LightStudio.PokemonBattle.Data
     private static PokemonBT ImportFromPO(string source, int size)
     {
       var pms = new PokemonBT();
-      foreach (Match m in Regex.Matches(source, @"(.+?)(\-\w){0,1} (\([FM]\) ){0,1}@ (.+?)\nTrait: (.+?)\nEVs: (.+?)\n(.+?) Nature.+\n(?:\- (.+?)\n)+"))
+      foreach (Match m in Regex.Matches(source, @"(.+?)(\-\w){0,1} (\([FM]\) ){0,1}@ (.+?)\nTrait: (.+?)\nEVs: (.+?)\n(.+?) Nature.+\n((?:\- .+?\n)+)"))
       {
         try
         {
