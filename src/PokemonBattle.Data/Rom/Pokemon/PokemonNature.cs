@@ -33,4 +33,47 @@ namespace LightStudio.PokemonBattle.Data
     Careful,
     Quirky,
   }
+  public static class PokemonNatureHelper
+  {
+    private static readonly sbyte[,] REVISES = new sbyte[,]
+    {
+      { 10, 10, 10, 10, 10 },
+      { 11, 9, 10, 10, 10 },
+      { 11, 10, 10, 10, 9 },
+      { 11, 10, 9, 10, 10 },
+      { 11, 10, 10, 9, 10 },
+      { 9, 11, 10, 10, 10 },
+      { 10, 10, 10, 10, 10 },
+      { 10, 11, 10, 10, 9 },
+      { 10, 11, 9, 10, 10 },
+      { 10, 11, 10, 9, 10 },
+      { 9, 10, 10, 10, 11 },
+      { 10, 9, 10, 10, 11 },
+      { 10, 10, 10, 10, 10 },
+      { 10, 10, 9, 10, 11 },
+      { 10, 10, 10, 9, 11 },
+      { 9, 10, 11, 10, 10 },
+      { 10, 9, 11, 10, 10 },
+      { 10, 10, 11, 10, 9 },
+      { 10, 10, 10, 10, 10 },
+      { 10, 10, 11, 9, 10 },
+      { 9, 10, 10, 11, 10 },
+      { 10, 9, 10, 11, 10 },
+      { 10, 10, 10, 11, 9 },
+      { 10, 10, 9, 11, 10 },
+      { 10, 10, 10, 10, 10 }
+    };
+
+    public static int StatRevise(this PokemonNature nature, StatType stat)
+    {
+      return REVISES[(int)nature, (int)stat - 1];
+    }
+    public static PokemonNature? GetNature(string name)
+    {
+      var es = (PokemonNature[])Enum.GetValues(typeof(PokemonNature));
+      foreach (var e in es)
+        if (e.ToString() == name || e.GetLocalizedName() == name) return e;
+      return null;
+    }
+  }
 }
