@@ -13,12 +13,28 @@ namespace LightStudio.PokemonBattle.Data
     internal PokemonCollection()
     {
     }
+    internal PokemonCollection(IEnumerable<PokemonData> pms)
+      : base(pms)
+    {
+    }
 
     public abstract string Name
     { get; set; }
 
+    private int _size;
     public int Size
-    { get; internal set; }
+    {
+      get { return _size; }
+      internal set
+      {
+        if (_size != value)
+        {
+          _size = value;
+          var removes = Count - _size;
+          while (--removes >= 0) RemoveAt(_size);
+        }
+      }
+    }
 
     public abstract bool CanAdd
     { get; }

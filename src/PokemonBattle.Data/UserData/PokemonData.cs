@@ -116,10 +116,9 @@ namespace LightStudio.PokemonBattle.Data
       get { return 100 - _lv; }
       set
       {
-        if (_lv != value)
+        if (_lv != value && PokemonValidator.ValidateLv(this, value))
         {
-          if (PokemonValidator.ValidateLv(this, value))
-            _lv = (byte)(100 - value);
+          _lv = (byte)(100 - value);
           OnPropertyChanged("Lv");
         }
       }
@@ -225,7 +224,7 @@ namespace LightStudio.PokemonBattle.Data
       get { return 255 - _happiness; }
       set
       {
-        if (Happiness != value)
+        if (Happiness != value && 0 <= value && value <= 255)
         {
           _happiness = (byte)(255 - value);
           OnPropertyChanged("Happiness");

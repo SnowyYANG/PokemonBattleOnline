@@ -29,8 +29,8 @@ namespace LightStudio.PokemonBattle.PBO
       DataService.String.ReturnKeyOnFallback = true;
       DataService.DataString.ReturnKeyOnFallback = true;
       
-      GameDataService.Load("Data");
-      Data.TempLearnSet.Load("Data\\learnset\\temp.xml");
+      GameDataService.Load("..\\res\\Data");
+      Data.TempLearnSet.Load("..\\res\\Data\\learnset\\temp.xml");
       DataService.LoadUserData();
 
       Game.Host.Effects.EffectsRegister.Register();

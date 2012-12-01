@@ -7,7 +7,7 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Name = "e", Namespace = Namespaces.PBO)]
   public class SimpleEvent : GameEvent
   {
     protected static void Filter(object o, ref int i, ref string s)

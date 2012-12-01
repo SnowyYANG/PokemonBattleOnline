@@ -70,9 +70,6 @@ namespace LightStudio.PokemonBattle.PBO.Editor
 
     private static void ProcessFile(string fileName, FileMode fileMode, Action<string, Stream> action)
     {
-      Contract.Requires(!string.IsNullOrEmpty(fileName));
-      Contract.Requires(action != null);
-
       if (!string.IsNullOrEmpty(fileName))
       {
         using (var stream = new FileStream(fileName, fileMode))

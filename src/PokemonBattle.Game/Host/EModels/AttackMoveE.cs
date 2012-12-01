@@ -171,12 +171,12 @@ namespace LightStudio.PokemonBattle.Game.Host
         def.Damage *= def.BasePower * Triggers.PowerModifier(def, PowerModifier);
       }
       {
-        StatType st = Move.Category == MoveCategory.Physical ? StatType.Atk : StatType.SpAtk;
         int a;
         {
           OnboardPokemon p;
           if (Move.FoulPlay()) p = def.Defender.OnboardPokemon;
           else p = atk.Attacker.OnboardPokemon;
+          StatType st = Move.Category == MoveCategory.Physical ? StatType.Atk : StatType.SpAtk;
           a = p.FiveD.GetStat(st);
           if (!def.Ability.Unaware())
           {

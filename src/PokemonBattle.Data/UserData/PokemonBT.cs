@@ -20,6 +20,10 @@ namespace LightStudio.PokemonBattle.Data
       : base()
     {
     }
+    internal PokemonBT(IEnumerable<PokemonData> pms)
+      : base(pms)
+    {
+    }
 
     private string _name;
     public override string Name
@@ -52,9 +56,9 @@ namespace LightStudio.PokemonBattle.Data
       foreach (var pm in this) PokemonDeleted(pm);
       base.ClearItems();
     }
-    public void Export(Stream stream)
+    public string Export()
     {
-      Serializer.Serialize(this, stream);
+      return Helper.Export(this);
     }
   }
 }

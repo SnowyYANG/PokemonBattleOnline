@@ -28,7 +28,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     static readonly SoundPlayer sound;
     static Chat()
     {
-      sound = new SoundPlayer("Resources\\chat.wav");
+      sound = new SoundPlayer("..\\res\\chat.wav");
       try
       {
         sound.LoadAsync();

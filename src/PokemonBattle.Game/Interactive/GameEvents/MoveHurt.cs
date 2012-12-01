@@ -7,7 +7,7 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Name = "ed", Namespace = Namespaces.PBO)]
   public class MoveHurt : GameEvent
   {
     [DataMember(EmitDefaultValue = false)]

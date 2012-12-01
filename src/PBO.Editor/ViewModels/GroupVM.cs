@@ -52,7 +52,10 @@ namespace LightStudio.PokemonBattle.PBO.Editor
     {
       try
       {
-        FileHelper.OpenFile(DataService.String["Xml File(*.xml)|*.xml"], Model.Import);
+        FileHelper.OpenFile(DataService.String["Text File(*.txt)|*.txt"], (name, stream) =>
+          {
+            using (var sr = new System.IO.StreamReader(stream)) Model.Import(name, sr.ReadToEnd());
+          });
       }
       catch (Exception)
       {

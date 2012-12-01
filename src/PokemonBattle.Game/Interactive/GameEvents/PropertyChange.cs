@@ -8,7 +8,7 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Name = "est", Namespace = Namespaces.PBO)]
   public class StateChange : GameEvent
   {
     [DataMember]
@@ -67,7 +67,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Name = "eh", Namespace = Namespaces.PBO)]
   public class HpChange : GameEvent
   {
     [DataMember]

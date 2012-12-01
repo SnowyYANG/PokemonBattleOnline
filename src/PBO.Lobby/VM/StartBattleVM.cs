@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     static SoundPlayer sound;
     static StartBattleVM()
     {
-      sound = new SoundPlayer("Resources\\challenged.wav");
+      sound = new SoundPlayer("..\\res\\challenged.wav");
       try
       {
         sound.LoadAsync();

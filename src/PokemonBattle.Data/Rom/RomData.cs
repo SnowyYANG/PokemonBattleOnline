@@ -71,27 +71,19 @@ namespace LightStudio.PokemonBattle.Data
 
     public PokemonType GetPokemonType(string name)
     {
-      var r = pokemons.FirstOrDefault((p) => p.EnglishName == name);
-      if (r == null) r = pokemons.FirstOrDefault((p) => p.Name == name);
-      return r;
+      return pokemons.FirstOrDefault((p) => p.Name == name || p.EnglishName == name);
     }
     public MoveType GetMoveType(string name)
     {
-      var r = moves.FirstOrDefault((m) => m.EnglishName == name);
-      if (r == null) r = moves.FirstOrDefault((m) => m.Name == name);
-      return r;
+      return moves.FirstOrDefault((m) => m.Name == name || m.EnglishName == name);
     }
     public Ability GetAbility(string name)
     {
-      var r = abilities.FirstOrDefault((a) => a.EnglishName == name);
-      if (r == null) r = abilities.FirstOrDefault((a) => a.Name == name);
-      return r;
+      return abilities.FirstOrDefault((a) => a.Name == name || a.EnglishName == name);
     }
     public Item GetItem(string name)
     {
-      var r = items.Values.FirstOrDefault((i) => i.EnglishName == name);
-      if (r == null) r = items.Values.FirstOrDefault((i) => i.Name == name);
-      return r;
+      return items.Values.FirstOrDefault((i) => i.Name == name || i.EnglishName == name);
     }
 
     public int? GetPreEvolution(int number)
