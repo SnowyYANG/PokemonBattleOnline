@@ -41,5 +41,10 @@ namespace LightStudio
     {
       foreach (var o in args) sb.Append(o);
     }
+    public static void AppendLine(this StringBuilder sb, params object[] args)
+    {
+      foreach (var o in args) sb.Append(o);
+      sb.AppendLine();
+    }
   }
 }
