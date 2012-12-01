@@ -23,15 +23,16 @@ namespace LightStudio.PokemonBattle.PBO
   {
     private void Init()
     {
-      GameDataService.Load("Data");
-      Data.TempLearnSet.Load("Data\\learnset\\temp.xml");
-
       DataService.Load(new StringService() { Language = "Chinese" });
       DataService.String.DefaultLanguage = "Chinese";
       DataService.DataString.DefaultLanguage = "Chinese";
       DataService.String.ReturnKeyOnFallback = true;
       DataService.DataString.ReturnKeyOnFallback = true;
       
+      GameDataService.Load("Data");
+      Data.TempLearnSet.Load("Data\\learnset\\temp.xml");
+      DataService.LoadUserData();
+
       Game.Host.Effects.EffectsRegister.Register();
       Tactic.Scripting.ExecuteAll("..\\src\\PokemonBattle.EffectsP");
     }

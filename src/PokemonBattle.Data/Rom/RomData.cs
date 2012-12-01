@@ -8,14 +8,9 @@ using LightStudio.Tactic.DataModels;
 namespace LightStudio.PokemonBattle.Data
 {
   [DataContract(Namespace=Namespaces.PBO)]
-#if DEBUG
-  public
-#else
-  internal
-#endif
-    sealed class RomData : SimpleData
+  public sealed class RomData : SimpleData
   {
-    public static RomData Load(string path)
+    internal static RomData Load(string path)
     {
       var rom = LoadFromDat<RomData>(path);
       foreach (var pm in rom.Pokemons)
@@ -68,6 +63,32 @@ namespace LightStudio.PokemonBattle.Data
     {
       return items.ValueOrDefault(itemId);
     }
+
+    public PokemonType GetPokemonType(string name)
+    {
+      var r = pokemons.FirstOrDefault((p) => p.EnglishName == name);
+      if (r == null) r = pokemons.FirstOrDefault((p) => p.Name == name);
+      return r;
+    }
+    public MoveType GetMoveType(string name)
+    {
+      var r = moves.FirstOrDefault((m) => m.EnglishName == name);
+      if (r == null) r = moves.FirstOrDefault((m) => m.Name == name);
+      return r;
+    }
+    public Ability GetAbility(string name)
+    {
+      var r = abilities.FirstOrDefault((a) => a.EnglishName == name);
+      if (r == null) r = abilities.FirstOrDefault((a) => a.Name == name);
+      return r;
+    }
+    public Item GetItem(string name)
+    {
+      var r = items.Values.FirstOrDefault((i) => i.EnglishName == name);
+      if (r == null) r = items.Values.FirstOrDefault((i) => i.Name == name);
+      return r;
+    }
+
     public int? GetPreEvolution(int number)
     {
       var r = evolutions.FirstOrDefault((e) => e.To == number);

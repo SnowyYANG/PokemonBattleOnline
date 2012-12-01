@@ -30,8 +30,11 @@ namespace LightStudio.PokemonBattle.Data
       DataString = stringService.GetDomainService(BATTLE_DATA_DOMAIN);
       DataString.SetProvider(LoadDataStrings);
       DataString.ReturnKeyOnFallback = true;
-      UserData = UserData.Load(USER_DATA);
       CurrentLanguage = stringService.Language;
+    }
+    public static void LoadUserData()
+    {
+      UserData = UserData.Load(USER_DATA);
     }
 
     #region private methods

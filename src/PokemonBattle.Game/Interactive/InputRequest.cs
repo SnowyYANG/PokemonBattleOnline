@@ -28,12 +28,6 @@ namespace LightStudio.PokemonBattle.Game
     [DataMember(EmitDefaultValue = false)]
     bool CantWithdraw;
 
-    [DataMember(EmitDefaultValue = false)]
-    int CW_pm; //如果因为对方特性，但目前没试出显示特性的实例，逃跑似乎会显示特性交换不显示
-
-    [DataMember(EmitDefaultValue = false)]
-    int CW_a;
-
     internal PmInputRequest(PokemonProxy pm)
     {
       {
@@ -76,9 +70,7 @@ namespace LightStudio.PokemonBattle.Game
         OnlyMove == i.OnlyMove &&
         Only == i.Only &&
         Block.ArrayEquals(i.Block) &&
-        CantWithdraw == i.CantWithdraw &&
-        CW_pm == i.CW_pm &&
-        CW_a == i.CW_a;
+        CantWithdraw == i.CantWithdraw;
     }
 
     #region Client
@@ -102,17 +94,6 @@ namespace LightStudio.PokemonBattle.Game
       var text = GameService.Logs["subtitle_" + key].Clone(Game.Outward);
       text.SetData(Pm.Pokemon.Name, arg1, arg2);
       error = text.Text;
-    }
-    /// <summary>
-    /// 只在Rom数据里见过，游戏里没找到需要发动特性的地方
-    /// </summary>
-    public void TryRaiseAbility()
-    {
-      if (showAbility)
-      {
-        showAbility = false;
-        Game.Outward.Board.ShowAbility(Game.Outward.GetPokemon(CW_pm), GameDataService.GetAbility(CW_a));
-      }
     }
     public bool Fight()
     {
@@ -162,7 +143,6 @@ namespace LightStudio.PokemonBattle.Game
       if (CantWithdraw)
       {
         error = string.Format(DataService.String["Can't withdraw {0}!"], Pm.Pokemon.Name);
-        if (CW_a != 0) showAbility = true;
         return false;
       }
       return true;
@@ -251,10 +231,6 @@ namespace LightStudio.PokemonBattle.Game
     public string GetErrorMessage()
     {
       return error;
-    }
-    public void TryRaiseAbility()
-    {
-      Pms[CurrentX].TryRaiseAbility();
     }
     public bool Fight()
     {

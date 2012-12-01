@@ -89,11 +89,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
       }
       else
       {
-        if (!request.Pokemon(pokemon))
-        {
-          request.TryRaiseAbility();
-          InputFailed(request.GetErrorMessage());
-        }
+        if (!request.Pokemon(pokemon)) InputFailed(request.GetErrorMessage());
       }
     }
     public void Fight_Click()
