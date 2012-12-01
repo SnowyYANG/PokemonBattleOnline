@@ -64,10 +64,15 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         d.Controller.ReportBuilder.Add(PositionChange.Reset("DeSkyDrop", d));
       }
     }
-    public static bool UseDefenderAtk(this MoveType move)
+    public static bool FoulPlay(this MoveType move)
     {
-      const int PSYSHOCK = 473, FOUL_PLAY = 492, PSYSTRIKE = 540, SECRET_SWORD = 548;
-      return move.Id == PSYSHOCK || move.Id == FOUL_PLAY || move.Id == PSYSTRIKE || move.Id == SECRET_SWORD;
+      const int FOUL_PLAY = 492;
+      return move.Id == FOUL_PLAY;
+    }
+    public static bool UsePhysicalDef(this MoveType move)
+    {
+      const int PSYSHOCK = 473, PSYSTRIKE = 540, SECRET_SWORD = 548;
+      return move.Id == PSYSHOCK || move.Id == PSYSTRIKE || move.Id == SECRET_SWORD;
     }
 
     internal static MoveRange GetRange(PokemonProxy pm, MoveType move)

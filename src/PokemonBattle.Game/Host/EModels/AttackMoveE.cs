@@ -175,7 +175,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         int a;
         {
           OnboardPokemon p;
-          if (Move.UseDefenderAtk()) p = def.Defender.OnboardPokemon;
+          if (Move.FoulPlay()) p = def.Defender.OnboardPokemon;
           else p = atk.Attacker.OnboardPokemon;
           a = p.FiveD.GetStat(st);
           if (!def.Ability.Unaware())
@@ -192,7 +192,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         def.Damage *= a * m;
       }
       {
-        StatType st = Move.Category == MoveCategory.Physical ? StatType.Def : StatType.SpDef;
+        StatType st = Move.Category == MoveCategory.Physical || Move.UsePhysicalDef() ? StatType.Def : StatType.SpDef;
         int defRaw = def.Defender.OnboardPokemon.FiveD.GetStat(st);
         int defLv = 0;
         if (!(aer.Ability.Unaware() || Move.IgnoreDefenderLv7D())) defLv = def.Defender.OnboardPokemon.Lv5D.GetStat(st);
