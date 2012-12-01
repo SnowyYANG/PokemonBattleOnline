@@ -154,8 +154,8 @@ namespace LightStudio.PokemonBattle.Data
             switch (s)
             {
                 case "M": return PokemonGender.Male;
-                case "F": return PokemonGender.Male;
-                case "♂": return PokemonGender.Female;
+                case "F": return PokemonGender.Female;
+                case "♂": return PokemonGender.Male;
                 case "♀": return PokemonGender.Female;
                 default: return PokemonGender.None;
             }
