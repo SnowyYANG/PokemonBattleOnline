@@ -91,6 +91,7 @@
     <Compile Include="Rom\RomData.cs" />
     <Compile Include="DataService.cs" />
     <Compile Include="UserData\CollectionGroup.cs" />
+    <Compile Include="UserData\Helper.cs" />
     <Compile Include="UserData\PokemonBT.cs" />
     <Compile Include="UserData\PokemonCollection.cs" />
     <Compile Include="UserData\PokemonRecycler.cs" />
