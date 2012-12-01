@@ -11,8 +11,8 @@ namespace LightStudio.PokemonBattle.Data
     public static PokemonBT Import(string source, int size)
     {
       source = Regex.Replace(source, @"\r\n|\r", "\n") + "\n";
-      if (Regex.IsMatch(source, @"(.+?)（(.+?)）Lv.(\d+)")) return ImportFromPBO(source, size);
-      else if (Regex.IsMatch(source, @"(.+?)(\-\w){0,1} (\([FM]\) ){0,1} @ (.+?)\n")) return ImportFromPO(source, size);
+      if (Regex.IsMatch(source, @".+?（.+?） *Lv\.\d+")) return ImportFromPBO(source, size);
+      else if (Regex.IsMatch(source, @".+?(\-\w){0,1} (\([FM]\) ){0,1}@ .+?\n")) return ImportFromPO(source, size);
       return null;
       //Gliscor (M) @ Flying Gem
       //Trait: Sand Veil
@@ -75,7 +75,7 @@ namespace LightStudio.PokemonBattle.Data
       pm.Gender = GetGender(m.Groups[4].Value);
       pm.Ability = GameDataService.Rom.GetAbility(m.Groups[5].Value);
       pm.Nature = PokemonNatureHelper.GetNature(m.Groups[6].Value) ?? PokemonNature.Hardy;
-      pm.Happiness = ToInt(m.Groups[9].Value);
+      if ( m.Groups[9].Value.Length > 0 ) pm.Happiness = ToInt(m.Groups[9].Value);
       pm.Item = GameDataService.Rom.GetItem(m.Groups[10].Value);
 
       if (!string.IsNullOrEmpty(m.Groups[7].Value))
@@ -122,7 +122,7 @@ namespace LightStudio.PokemonBattle.Data
     private static PokemonBT ImportFromPBO(string source, int size)
     {
       var pms = new PokemonBT();
-      foreach (Match m in Regex.Matches(source, @"(.+?)（(.+?)）Lv.(\d+)(?: *(.)){0,1}\n\* 特性： *(.+?)\n\* 性格： *(.+?)\n(?:\* 个体值： *(.+?)\n){0,1}\* 努力值： *(.+?)\n(?:\* 亲密度： *(\d+?)\n){0,1}\* 道具： *(.+?)\n\* 技能： *(.+?)\n"))
+      foreach (Match m in Regex.Matches(source, @"(.+?)（(.+?)） *Lv.(\d+)(?: *(.)){0,1}\n\* 特性：[ 　]*(.+?)\n\* 性格：[ 　]*(.+?)\n(?:\* 个体值{0,1}：[ 　]*(.+?)\n){0,1}\* 努力值{0,1}：[ 　]*(.+?)\n(?:\* 亲密度：[ 　]*(\d+?)\n){0,1}\* 道具：[ 　]*(.+?)\n\* 技能：[ 　]*(.+?)\n"))
       {
         try
         {
@@ -135,6 +135,7 @@ namespace LightStudio.PokemonBattle.Data
     }
     private static void Export(StringBuilder sb, PokemonData pm)
     {
+      var space = "";//"　";
       sb.Append(pm.Name, "（", pm.Form.Type.Name, "）", " Lv.", pm.Lv);
       switch (pm.Gender)
       {
@@ -142,18 +143,18 @@ namespace LightStudio.PokemonBattle.Data
         case PokemonGender.Female: sb.Append(" ♀"); break;
       }
       sb.AppendLine();
-      sb.AppendLine("* 特性：  ", pm.Ability.GetLocalizedName());
-      sb.AppendLine("* 性格：  ", pm.Nature.GetLocalizedName());
+      sb.AppendLine("* 特性：", space, pm.Ability.GetLocalizedName());
+      sb.AppendLine("* 性格：", space, pm.Nature.GetLocalizedName());
       {
         var ss = pm.Iv;
         if (ss.Hp != 31 || ss.Atk != 31 || ss.Def < 31 || ss.SpAtk != 31 || ss.SpDef != 31 || ss.Speed != 31)
-          sb.AppendLine("* 个体值：", ss.Hp, "/", ss.Atk, "/", ss.Def, "/", ss.SpAtk, "/", ss.SpDef, "/", ss.Speed);
+            sb.AppendLine("* 个体：", space, ss.Hp, "/", ss.Atk, "/", ss.Def, "/", ss.SpAtk, "/", ss.SpDef, "/", ss.Speed);
         ss = pm.Ev;
-        sb.AppendLine("* 努力值：", ss.Hp, "/", ss.Atk, "/", ss.Def, "/", ss.SpAtk, "/", ss.SpDef, "/", ss.Speed);
+        sb.AppendLine("* 努力：", space, ss.Hp, "/", ss.Atk, "/", ss.Def, "/", ss.SpAtk, "/", ss.SpDef, "/", ss.Speed);
       }
       if (pm.Happiness < 255) sb.AppendLine("* 亲密度：", pm.Happiness);
-      sb.AppendLine("* 道具：  ", pm.Item == null ? "无" : pm.Item.GetLocalizedName());
-      sb.Append("* 技能：  ");
+      sb.AppendLine("* 道具：", space, pm.Item == null ? "无" : pm.Item.GetLocalizedName());
+      sb.Append("* 技能：", space);
       if (pm.Moves.Count() == 0)
       {
         sb.Append("无");
