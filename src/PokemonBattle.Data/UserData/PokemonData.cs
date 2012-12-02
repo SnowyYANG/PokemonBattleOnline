@@ -10,7 +10,7 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Data
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Name = "pd", Namespace = Namespaces.PBO)]
   public class PokemonData : ObservableObject, ICloneable, IPokemonData
   {
     private const int WORMADAM = 413;
@@ -37,9 +37,9 @@ namespace LightStudio.PokemonBattle.Data
       return 0 <= newValue && newValue <= 255 && sender.Hp + sender.Atk + sender.Def + sender.SpAtk + sender.SpDef + sender.Speed + newValue - oldValue <= 510;
     }
 
-    [DataMember]
+    [DataMember(Name = "n")]
     private short number;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "f", EmitDefaultValue = false)]
     private byte form;
 
     public PokemonData(int number, int form)
@@ -50,7 +50,7 @@ namespace LightStudio.PokemonBattle.Data
     }
 
     #region properties
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "nc", EmitDefaultValue = false)]
     private string _name;
     public string Name
     {
@@ -109,7 +109,7 @@ namespace LightStudio.PokemonBattle.Data
       }
     }
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "l", EmitDefaultValue = false)]
     private byte _lv;
     public int Lv
     {
@@ -124,7 +124,7 @@ namespace LightStudio.PokemonBattle.Data
       }
     }
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "g", EmitDefaultValue = false)]
     private PokemonGender _gender;
     public PokemonGender Gender
     {
@@ -139,7 +139,7 @@ namespace LightStudio.PokemonBattle.Data
       }
     }
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "t", EmitDefaultValue = false)]
     private PokemonNature _nature;
     public PokemonNature Nature
     {
@@ -154,7 +154,7 @@ namespace LightStudio.PokemonBattle.Data
       }
     }
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "a", EmitDefaultValue = false)]
     private byte _abilityIndex;
     int IPokemonData.AbilityIndex
     { get { return _abilityIndex; } }
@@ -188,7 +188,7 @@ namespace LightStudio.PokemonBattle.Data
     }
     I6D IPokemonData.Iv
     { get { return Iv; } }
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "iv", EmitDefaultValue = false)]
     private ReadOnly6D _Iv
     {
       get { return new ReadOnly6D(31 - Iv.Hp, 31 - Iv.Atk, 31 - Iv.Def, 31 - Iv.SpAtk, 31 - Iv.SpDef, 31 - Iv.Speed); }
@@ -199,7 +199,7 @@ namespace LightStudio.PokemonBattle.Data
       }
     }
     
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "i", EmitDefaultValue = false)]
     private short _itemId;
     int IPokemonData.ItemId
     { get { return _itemId; } }
@@ -217,7 +217,7 @@ namespace LightStudio.PokemonBattle.Data
       }
     }
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "h", EmitDefaultValue = false)]
     private byte _happiness;
     public int Happiness
     { 
@@ -232,7 +232,7 @@ namespace LightStudio.PokemonBattle.Data
       }
     }
 
-    [DataMember]
+    [DataMember(Name = "e")]
     private Observable6D _ev;
     I6D IPokemonData.Ev
     { get { return _ev; } }
@@ -251,7 +251,7 @@ namespace LightStudio.PokemonBattle.Data
     }
 
     private string _chatter;
-    [DataMember(EmitDefaultValue = false, Order = 0)]
+    [DataMember(Name = "chat", EmitDefaultValue = false, Order = 0)]
     public string Chatter
     {
       get { return number != 441 || _chatter == null || _chatter.Length > 15 ? null : _chatter; }

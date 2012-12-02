@@ -20,7 +20,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
   [DataContract(Namespace = Namespaces.PBO)]
   class UserSpectateGameInfo : IUserInformation
   {
-
     [DataMember(EmitDefaultValue = false)]
     public int UserId
     { get; private set; }
@@ -35,15 +34,15 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Name = "ji", Namespace = Namespaces.PBO)]
   class UserJoinGameInfo : IUserInformation
   {
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "a", EmitDefaultValue = false)]
     public int UserId
     { get; private set; }
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "b", EmitDefaultValue = false)]
     public int TeamId
     { get; private set; }
 
@@ -61,7 +60,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
   [DataContract(Namespace = Namespaces.PBO)]
   class UserQuitInfo : IUserInformation
   {
-
     [DataMember(EmitDefaultValue = false)]
     public int UserId
     { get; private set; }
@@ -112,7 +110,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Name = "js", Namespace = Namespaces.PBO)]
   class EnterSucceedInfo : IUserInformation
   {
     public static EnterSucceedInfo Player(Host host, int[] ids)
@@ -125,20 +123,20 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       return new EnterSucceedInfo(host.GameSettings, host.Players, host.Spectators) { Leap = leapTurn };
     }
     
-    [DataMember]
+    [DataMember(Name = "a")]
     public GameInitSettings Settings
     { get; private set; }
 
-    [DataMember]
+    [DataMember(Name = "b")]
     Player[] Players;
 
-    [DataMember]
+    [DataMember(Name = "c")]
     int[] Spectators;
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "d", EmitDefaultValue = false)]
     int[] Ids; //players only
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "e", EmitDefaultValue = false)]
     Game.ReportFragment Leap; //spectator only
 
     private EnterSucceedInfo(GameInitSettings settings, IEnumerable<Player> players, IEnumerable<int> spectators)

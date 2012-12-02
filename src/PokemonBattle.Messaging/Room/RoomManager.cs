@@ -16,13 +16,13 @@ namespace LightStudio.PokemonBattle.Messaging.Room
   }
 
   [KnownType(typeof(Data.PokemonData))]
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Name = "jc", Namespace = Namespaces.PBO)]
   class JoinGameCommand : IHostCommand
   {
-    [DataMember]
+    [DataMember(Name = "a")]
     readonly Data.IPokemonData[] Pokemons;
     
-    [DataMember]
+    [DataMember(Name = "b", EmitDefaultValue = false)]
     readonly int TeamId;
 
     public JoinGameCommand(Data.IPokemonData[] pokemons, int teamId)

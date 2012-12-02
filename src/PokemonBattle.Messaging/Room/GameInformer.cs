@@ -65,10 +65,10 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Name = "w", Namespace = Namespaces.PBO)]
   class WaitingForInputInfo : IUserInformation
   {
-    [DataMember]
+    [DataMember(Name = "a")]
     int[] Players;
 
     public WaitingForInputInfo(IEnumerable<int> players)
@@ -82,10 +82,10 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Name = "l", Namespace = Namespaces.PBO)]
   class ReportUpdateInfo : IUserInformation
   {
-    [DataMember]
+    [DataMember(Name = "a")]
     ReportFragment Fragment;
 
     public ReportUpdateInfo(ReportFragment turn)
@@ -98,13 +98,13 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Name = "r", Namespace = Namespaces.PBO)]
   class RequireInputInfo : IUserInformation
   {
-    [DataMember]
+    [DataMember(Name = "a")]
     InputRequest PmInfo;
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "b", EmitDefaultValue = false)]
     int SpentTime;
 
     public RequireInputInfo(InputRequest pmInfo, int spentTime)

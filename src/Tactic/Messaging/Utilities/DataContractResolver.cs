@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Reflection;
 using System.IO;
+using System.IO.Compression;
 using LightStudio.Tactic;
 
 namespace LightStudio.Tactic.Messaging
@@ -14,27 +15,14 @@ namespace LightStudio.Tactic.Messaging
     public IMessagable GetMessageObject(IMessage message)
     {
       var type = Type.GetType(message.Header);
-      if (type != null)
-      {
-        var serializer = Serializer.GetSerializer(type);
-        using (var reader = XmlReader.Create(new StringReader(message.Content)))
-        {
-          return (IMessagable)serializer.ReadObject(reader);
-        }
-      }
+      if (type != null) return (IMessagable)Serializer.DeserializeFromString(type, message.Content);
       return null;
     }
 
     public IMessage ToMessage(IMessagable obj)
     {
       var type = obj.GetType();
-      var serializer = Serializer.GetSerializer(type);
-      var sb = new StringBuilder();
-      using (var writer = XmlWriter.Create(sb))
-      {
-        serializer.WriteObject(writer, obj);
-      }
-      return new TextMessage(type.AssemblyQualifiedName, sb.ToString());
+      return new TextMessage(type.AssemblyQualifiedName, Serializer.SerializeToString(obj));
     }
   }
 }
