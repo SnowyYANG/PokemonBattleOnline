@@ -69,7 +69,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
         Nest.reportViewer.Document = Nest.Final;
         try
         {
-          var path = "..\\Logs\\" + PlayerName;
+          var path = "..\\MyPBO\\Logs\\" + PlayerName;
           if (!Directory.Exists(path)) Directory.CreateDirectory(path);
           using (StreamWriter sw = new System.IO.StreamWriter(path + string.Format("\\[{0}] {1}", DateTime.Now.ToString("yyyy-MM-dd-HHmm"), Title) + ".txt", false, Encoding.Unicode))
             sw.Write(Text);
