@@ -69,5 +69,10 @@ namespace LightStudio.PokemonBattle.Data
     {
       return ITEM_TYPE[(id - beginId) % (ignoreNormal ? 16 : 17)];
     }
+    public static BattleType GetBattleType(string name)
+    {
+      var bs = Enum.GetValues(typeof(BattleType)) as BattleType[];
+      return bs.FirstOrDefault((b) => b.ToString() == name || b.GetLocalizedName() == name);
+    }
   }
 }
