@@ -75,5 +75,9 @@ namespace LightStudio.PokemonBattle.Data
         if (e.ToString() == name || e.GetLocalizedName() == name) return e;
       return null;
     }
+    public static bool DislikeTaste(this PokemonNature nature, StatType stat)
+    {
+      return StatRevise(nature, stat) == 9;
+    }
   }
 }

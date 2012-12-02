@@ -166,6 +166,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       I(new Eviolite(102));
       I(new ReHurtBerry(191, MoveCategory.Physical));
       I(new ReHurtBerry(192, MoveCategory.Special));
+      I(new TastyBerry(139));
+      I(new TastyBerry(140));
+      I(new TastyBerry(141));
+      I(new TastyBerry(142));
+      I(new TastyBerry(143));
 
       EffectsService.Register(new EndTurn());
       EffectsService.Register(new CanExecute());

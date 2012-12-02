@@ -90,6 +90,27 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       return 111 < id && id < 129;
     }
+    public static StatType GetTaste(int berry)
+    {
+      switch (berry)
+      {
+        case 11:
+          return StatType.Atk;
+        case 12:
+          return StatType.SpAtk;
+        case 13:
+          return StatType.Speed;
+        case 14:
+          return StatType.SpDef;
+        case 15:
+          return StatType.Def;
+      }
+      return StatType.Invalid;
+    }
+    public static StatType GetTaste(Item item)
+    {
+      return GetTaste(BerryNumber(item.Id));
+    }
     public static void RaiseItemByMove(PokemonProxy pm, int id, PokemonProxy by)
     {
       var op = pm.OnboardPokemon;
@@ -174,14 +195,12 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
           pm.HpRecoverByOneNth(3, false, "ItemHpRecover", 138);
           break;
         case 139:
-          break;
         case 140:
-          break;
         case 141:
-          break;
         case 142:
-          break;
         case 143:
+          pm.HpRecoverByOneNth(8, false, "ItemRecover", id);
+          if (pm.Pokemon.Nature.DislikeTaste(GetTaste(BerryNumber(id)))) pm.AddState(pm, AttachedState.Confuse, false);
           break;
         case 181:
           pm.ChangeLv7D(by, StatType.Atk, 1, false);
