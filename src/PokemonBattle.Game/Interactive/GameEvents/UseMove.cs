@@ -11,11 +11,11 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   [DataContract(Name = "em", Namespace = Namespaces.PBO)]
   public class UseMove : GameEvent
   {
-    [DataMember]
+    [DataMember(Name = "a")]
     int Pm;
-    [DataMember]
+    [DataMember(Name = "b")]
     int Move;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "c", EmitDefaultValue = false)]
     public int PP;
 
     public UseMove(PokemonProxy pm, MoveType move)

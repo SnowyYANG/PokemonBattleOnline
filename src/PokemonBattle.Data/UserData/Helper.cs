@@ -135,13 +135,10 @@ namespace LightStudio.PokemonBattle.Data
     }
     private static void Export(StringBuilder sb, PokemonData pm)
     {
-      var space = "";//"　";
+      const string space = "";//"　";
       sb.Append(pm.Name, "（", pm.Form.Type.Name, "）", " Lv.", pm.Lv);
-      switch (pm.Gender)
-      {
-        case PokemonGender.Male: sb.Append(" ♂"); break;
-        case PokemonGender.Female: sb.Append(" ♀"); break;
-      }
+      if (pm.Gender == PokemonGender.Male) sb.Append(" ♂");
+      else if (pm.Gender == PokemonGender.Female) sb.Append(" ♀");
       sb.AppendLine();
       sb.AppendLine("* 特性：", space, pm.Ability.GetLocalizedName());
       sb.AppendLine("* 性格：", space, pm.Nature.GetLocalizedName());
@@ -192,9 +189,9 @@ namespace LightStudio.PokemonBattle.Data
     {
       switch (s)
       {
-        case "M": return PokemonGender.Male;
-        case "F": return PokemonGender.Female;
+        case "M":
         case "♂": return PokemonGender.Male;
+        case "F":
         case "♀": return PokemonGender.Female;
         default: return PokemonGender.None;
       }

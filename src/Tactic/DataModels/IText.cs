@@ -37,9 +37,6 @@ namespace LightStudio.Tactic.DataModels
   public abstract class TextBase<T> : IText<T> where T : IText<T>
   {
     public const UInt32 DEFAULT_FOREGROUND = 0xff000000;
-    
-    [DataMember(EmitDefaultValue = false)]
-    private string text;
 
     [DataMember(EmitDefaultValue = false)]
     public UInt32 Background { get; protected set; }
@@ -72,7 +69,7 @@ namespace LightStudio.Tactic.DataModels
       FontSize = fontSize;
       Alignment = alignment;
       Background = bg;
-      this.text = text;
+      this.RawText = text;
       Contents = content;
     }
     protected TextBase(params T[] contents)
@@ -84,12 +81,26 @@ namespace LightStudio.Tactic.DataModels
     {
     }
 
+    [DataMember(Name = "text", EmitDefaultValue = false)]
+    private string RawText;
+    //private string _text;
+    //[DataMember(Name = "text", EmitDefaultValue = false)]
+    //private string RawText
+    //{
+    //  get { return _text; }
+    //  set
+    //  {
+    //    if (value == null) _text = null;
+    //    else _text = value.Replace("\n", Environment.NewLine);
+    //  }
+    //}
+
     public virtual string Text
     {
-      get { return text; }
+      get { return RawText; }
       protected set
       {
-        text = value;
+        RawText = value;
         if (value != null) Contents = null;
       }
     }

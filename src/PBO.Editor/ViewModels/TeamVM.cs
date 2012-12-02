@@ -35,6 +35,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
 
     protected override void Remove()
     {
+      base.Remove();
       DataService.UserData.Teams.Remove((PokemonBT)Model);
     }
   }

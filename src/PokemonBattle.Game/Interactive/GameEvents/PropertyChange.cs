@@ -11,15 +11,15 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   [DataContract(Name = "est", Namespace = Namespaces.PBO)]
   public class StateChange : GameEvent
   {
-    [DataMember]
+    [DataMember(Name = "a")]
     int Pm;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "b", EmitDefaultValue = false)]
     PokemonState State;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "c", EmitDefaultValue = false)]
     string Log;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "d", EmitDefaultValue = false)]
     int Arg1;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "e", EmitDefaultValue = false)]
     public bool Item;
     
     public StateChange(PokemonProxy pm, string log = null, int arg1 = 0)
@@ -70,19 +70,19 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   [DataContract(Name = "eh", Namespace = Namespaces.PBO)]
   public class HpChange : GameEvent
   {
-    [DataMember]
+    [DataMember(Name = "a")]
     protected int Pm;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "b", EmitDefaultValue = false)]
     public int Hp;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "d", EmitDefaultValue = false)]
     public bool ResetY;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "e", EmitDefaultValue = false)]
     public bool ConsumeItem;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "c", EmitDefaultValue = false)]
     protected string Key;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "f", EmitDefaultValue = false)]
     protected int Arg1;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "g", EmitDefaultValue = false)]
     protected int Arg2;
 
     public HpChange(PokemonProxy pm, string logKey, int arg1 = 0, int arg2 = 0)

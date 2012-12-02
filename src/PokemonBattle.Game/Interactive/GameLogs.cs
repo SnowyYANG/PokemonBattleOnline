@@ -18,9 +18,9 @@ namespace LightStudio.PokemonBattle.Game
   [DataContract(Namespace = Namespaces.PBO)]
   public class GameLogs : SimpleData
   {
-    public static GameLogs Load(string language)
+    public static GameLogs Load(string path, string language)
     {
-      GameLogs i = LoadFromXml<GameLogs>("Data\\log\\" + language + ".xml");
+      GameLogs i = LoadFromXml<GameLogs>(path + "\\" + language + ".xml");
       HashSet<string> badKeys = new HashSet<string>();
       foreach (KeyValuePair<string,IText> t in i.logs)
         if (t.Value == null || (t.Value.Contents == null && t.Value.Text == null))

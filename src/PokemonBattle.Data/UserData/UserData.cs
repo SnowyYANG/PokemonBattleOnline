@@ -15,11 +15,7 @@ namespace LightStudio.PokemonBattle.Data
       UserData i;
       try
       {
-#if DEBUG
-        i = LoadFromXml<UserData>(fileName);
-#else
         i = LoadFromDat<UserData>(fileName);
-#endif
       }
       catch
       {
@@ -95,11 +91,7 @@ namespace LightStudio.PokemonBattle.Data
 
     public void Save(string fileName)
     {
-#if DEBUG
-      SaveXml(fileName);
-#else
       SaveDat(fileName);
-#endif
     }
     public void Save()
     {

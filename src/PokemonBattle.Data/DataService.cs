@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Data
     private const string DATA_STRING_RESOURCE_FORMAT = @"..\res\Data\string\data\{0}.xml";
     private const string BATTLE_DOMAIN = "PokemonBattle";
     private const string BATTLE_DATA_DOMAIN = "PokemonBattleData";
-    private const string USER_DATA = "user.dat";
+    private const string USER_DATA = @"..\MyPBO\user.dat";
 
     public static string CurrentLanguage { get; private set; }
     public static DomainStringService String { get; private set; }

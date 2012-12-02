@@ -12,7 +12,7 @@ namespace LightStudio.PokemonBattle.Game
 
     static GameService()
     {
-      Logs = GameLogs.Load(DataService.CurrentLanguage);
+      Logs = GameLogs.Load(@"..\res\Data\log", DataService.CurrentLanguage);
     }
   }
 }

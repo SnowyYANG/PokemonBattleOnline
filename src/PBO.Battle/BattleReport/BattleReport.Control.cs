@@ -71,7 +71,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
         {
           var path = "..\\Logs\\" + PlayerName;
           if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-          using (StreamWriter sw = new System.IO.StreamWriter(path + string.Format("\\[{0}] {1}", DateTime.Now.ToString("yyyy-MM-dd-HHmm"), Title) + ".txt"))
+          using (StreamWriter sw = new System.IO.StreamWriter(path + string.Format("\\[{0}] {1}", DateTime.Now.ToString("yyyy-MM-dd-HHmm"), Title) + ".txt", false, Encoding.Unicode))
             sw.Write(Text);
         }
         catch

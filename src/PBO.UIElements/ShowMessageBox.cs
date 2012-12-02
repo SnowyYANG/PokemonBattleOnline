@@ -51,13 +51,13 @@ namespace LightStudio.PokemonBattle.PBO.UIElements
     {
       return Show("当前精灵已修改，确定放弃改动？", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
     }
-    public static void FolderExportFail()
+    public static void FolderExportFail(string reason)
     {
-      MessageBox.Show(DataService.String["FolderExportFail"]);
+      MessageBox.Show(DataService.String["Export fail!"] + "\n" + reason);
     }
-    public static void FolderImportFail()
+    public static void FolderImportFail(string reason)
     {
-      MessageBox.Show(DataService.String["FolderImportFail"]);
+      MessageBox.Show(DataService.String["Import fail!"] + "\n" + reason);
     }
     #endregion
   }

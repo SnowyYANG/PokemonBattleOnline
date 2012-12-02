@@ -30,7 +30,8 @@ namespace LightStudio.PokemonBattle.PBO.Editor
 
     protected override void Remove()
     {
-      throw new NotImplementedException();
+      base.Remove();
+      DataService.UserData.Boxes.Remove((PokemonBT)Model);
     }
   }
 }

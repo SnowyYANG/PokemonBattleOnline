@@ -9,7 +9,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   [DataContract(Namespace = Namespaces.PBO)]
   public class WeatherChange : GameEvent
   {
-    [DataMember]
+    [DataMember(Name = "a")]
     Weather Weather;
 
     public WeatherChange(Weather weather)

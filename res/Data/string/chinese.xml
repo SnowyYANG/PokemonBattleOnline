@@ -112,9 +112,9 @@
   <item key="Replace" value="替换"/>
   <item key="Export" value="导出"/>
   <item key="Import" value="导入"/>
-  <item key="FolderExportFail" value="导出失败"/>
-  <item key="FolderImportFail" value="导入失败"/>
-  <item key="Xml File(*.xml)|*.xml" value="Xml文件(*.xml)|*.xml"/>
+  <item key="Export fail!" value="导出失败！"/>
+  <item key="Import fail!" value="导入失败！"/>
+  <item key="Text File(*.txt)|*.txt" value="文本文件(*.txt)|*.txt"/>
   <item key="AutoSave Interval(minutes)" value="自动保存间隔(分钟)"/>
   <item key="Recycler Size" value="回收站容量"/>
   <item key="Reset" value="重置"/>

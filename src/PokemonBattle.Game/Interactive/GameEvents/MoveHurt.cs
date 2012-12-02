@@ -10,15 +10,15 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   [DataContract(Name = "ed", Namespace = Namespaces.PBO)]
   public class MoveHurt : GameEvent
   {
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "a", EmitDefaultValue = false)]
     protected int[] Pms;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "b", EmitDefaultValue = false)]
     protected int[] Damages;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "c", EmitDefaultValue = false)]
     protected int[] SH; //效果拔群
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "d", EmitDefaultValue = false)]
     protected int[] WH; //没有什么效果
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "e", EmitDefaultValue = false)]
     protected int[] CT;
 
     internal bool SetHurt(IEnumerable<DefContext> defs) //auto delay

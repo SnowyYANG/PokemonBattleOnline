@@ -32,25 +32,25 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       return s;
     }
     
-    [DataMember]
+    [DataMember(Name = "a")]
     protected string Key;
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "b", EmitDefaultValue = false)]
     protected int I0;
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "c", EmitDefaultValue = false)]
     protected int I1;
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "d", EmitDefaultValue = false)]
     protected int I2;
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "e", EmitDefaultValue = false)]
     protected string S0;
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "f", EmitDefaultValue = false)]
     protected string S1;
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "g", EmitDefaultValue = false)]
     protected string S2;
 
     /// <param name="args">string and int is fine</param>

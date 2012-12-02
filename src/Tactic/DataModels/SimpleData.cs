@@ -56,6 +56,8 @@ namespace LightStudio.Tactic.DataModels
 #endif
       void SaveDat(string fileName)
     {
+      var dir = Path.GetDirectoryName(fileName);
+      if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
       using (FileStream f = new FileStream(fileName, FileMode.Create))
       using (DeflateStream s = new DeflateStream(f, CompressionMode.Compress))
         Serializer.Serialize(this, s);

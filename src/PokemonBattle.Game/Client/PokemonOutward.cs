@@ -26,20 +26,20 @@ namespace LightStudio.PokemonBattle.Game
   }
 
   [KnownType(typeof(PairValue))]
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Name = "pm", Namespace = Namespaces.PBO)]
   public class PokemonOutward : ObservableObject
   {
     private static readonly PropertyChangedEventArgs NAME = new PropertyChangedEventArgs("Name");
     private static readonly PropertyChangedEventArgs GENDER = new PropertyChangedEventArgs("Gender");
     private static readonly PropertyChangedEventArgs STATE = new PropertyChangedEventArgs("State");
-    
+
     [DataMember(EmitDefaultValue = false)]
     public readonly bool Shiny;
     [DataMember(EmitDefaultValue = false)]
     public readonly string Chatter;
-    [DataMember]
+    [DataMember(Name = "a")]
     internal readonly int Id;
-    [DataMember]
+    [DataMember(Name = "b")]
     private int number;
     [DataMember(EmitDefaultValue = false)]
     private int form;
@@ -75,12 +75,12 @@ namespace LightStudio.PokemonBattle.Game
     }
     #endregion
 
-    [DataMember]
+    [DataMember(Name = "c")]
     private int ownerId;
     public PlayerOutward Owner
     { get; private set; }
 
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     private string _name;
     public string Name
     {
@@ -105,7 +105,7 @@ namespace LightStudio.PokemonBattle.Game
       }
     }
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "d", EmitDefaultValue = false)]
     private PokemonGender _gender;
     public PokemonGender Gender
     {
@@ -119,8 +119,8 @@ namespace LightStudio.PokemonBattle.Game
         }
       }
     }
-    
-    [DataMember(EmitDefaultValue = false)]
+
+    [DataMember(Name = "e", EmitDefaultValue = false)]
     private PokemonState _state;
     public PokemonState State
     { 
@@ -144,10 +144,14 @@ namespace LightStudio.PokemonBattle.Game
     [DataMember]
     public PairValue Hp
     { get; private set; }
-    
-    [DataMember]
+
+    [DataMember(Name = "l", EmitDefaultValue = false)]
+    private int _lv;
     public int Lv
-    { get; private set; }
+    {
+      get { return 100 - _lv; }
+      private set { _lv = 100 - value; }
+    }
     
     [DataMember]
     private readonly Position _position;

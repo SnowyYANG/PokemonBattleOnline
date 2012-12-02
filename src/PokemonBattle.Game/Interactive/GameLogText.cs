@@ -69,7 +69,7 @@ namespace LightStudio.PokemonBattle.Game
         {
           Alignment = this.Alignment,
           Background = this.Background,
-          Contents = this.Contents,
+          Contents = this.Contents == null ? null : this.Contents.Select((c) => c.Clone(formatter)).ToArray(),
           Foreground = this.Foreground,
           Formatter = formatter,
           FontSize = this.FontSize,
