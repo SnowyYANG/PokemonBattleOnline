@@ -18,9 +18,9 @@ namespace LightStudio.PokemonBattle.Game.Host
     private readonly Dictionary<int, PokemonProxy> pokemons;
     
     private Random random;
-#if DEBUG
+//#if DEBUG
     private Random randomSeeds;
-#endif
+//#endif
 
     internal Controller(GameContext game)
     {
@@ -33,12 +33,12 @@ namespace LightStudio.PokemonBattle.Game.Host
       SwitchController = new SwitchController(this);
       InputController = new InputController(this);
       TurnController = new TurnController(this);
-#if DEBUG
+//#if DEBUG
       randomSeeds = new Random(1);
       random = new Random(randomSeeds.Next());
-#else
-      random = new Random();
-#endif
+//#else
+//      random = new Random();
+//#endif
     }
 
     public IGameSettings GameSettings

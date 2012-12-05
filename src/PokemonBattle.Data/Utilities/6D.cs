@@ -263,7 +263,7 @@ namespace LightStudio.PokemonBattle.Data
           Speed = value;
           break;
         case StatType.All:
-          Hp = Atk = Def = SpAtk = SpDef = Speed = 0;
+          Hp = Atk = Def = SpAtk = SpDef = Speed = value;
           break;
       }
     }

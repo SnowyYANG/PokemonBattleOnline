@@ -161,12 +161,12 @@ namespace LightStudio.PokemonBattle.Game.Host
       else atk.FailAll();
     }
 
-    protected virtual bool PrepareOneTurn(PokemonProxy pm)
+    protected virtual bool PrepareOneTurn(AtkContext atk)
     {
-      if (Move.Flags.PrepareOneTurn && pm.Action == PokemonAction.MoveAttached)
+      if (Move.Flags.PrepareOneTurn && atk.Attacker.Action == PokemonAction.MoveAttached)
       {
-        pm.AddReportPm("Prepare" + Move.Id.ToString());
-        pm.Action = PokemonAction.Moving;
+        atk.Attacker.AddReportPm("Prepare" + Move.Id.ToString());
+        atk.SetAttackerAction(PokemonAction.Moving);
         return true;
       }
       return false;
@@ -237,7 +237,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         var mc = Move.Flags.MagicCoat && !atk.HasCondition("IgnoreMagicCoat");
         var ab = !atk.Attacker.Ability.IgnoreDefenderAbility();
         foreach (DefContext def in targets.ToArray())
-          if (def.Defender != atk.Attacker && (mc && Triggers.MagicCoat(atk, def.Defender) || ab && !def.Ability.CanImplement(def))) targets.Remove(def);
+          if (def.Defender != atk.Attacker && (mc && Triggers.MagicCoat(atk, def.Defender) || ab && !def.Defender.Ability.CanImplement(def))) targets.Remove(def);
       }
       #endregion
       #region Check for misses
@@ -305,7 +305,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     private bool HasEffect_Ground(DefContext def)
     {
-      return EffectsService.IsGroundAffectable.Execute(def.Defender, def.AtkContext.Attacker.Ability.IgnoreDefenderAbility(), true);
+      return EffectsService.IsGroundAffectable.Execute(def.Defender, !def.AtkContext.Attacker.Ability.IgnoreDefenderAbility(), true);
     }
     private bool HasEffect_NonGround(DefContext def)
     {
@@ -344,7 +344,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     protected virtual void MoveEnding(AtkContext atk)
     {
-      atk.Attacker.Action = Move.Flags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done;
+      atk.SetAttackerAction(Move.Flags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done);
       if (atk.Targets != null)
         foreach (var d in atk.Targets)
         {

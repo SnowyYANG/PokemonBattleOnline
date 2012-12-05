@@ -48,8 +48,8 @@
   <item key="Status" value="变化" />
   
   <item key="Hp" value="体力" />
-  <item key="Atk" value="物攻" />
-  <item key="Def" value="物防" />
+  <item key="Atk" value="攻击" />
+  <item key="Def" value="防御" />
   <item key="Speed" value="速度" />
   <item key="SpAtk" value="特攻" />
   <item key="SpDef" value="特防" />

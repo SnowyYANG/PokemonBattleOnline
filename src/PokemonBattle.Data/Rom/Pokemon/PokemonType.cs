@@ -97,7 +97,7 @@ namespace LightStudio.PokemonBattle.Data
 
     public override string ToString()
     {
-      return Name;
+      return EnglishName;
     }
   }
 }

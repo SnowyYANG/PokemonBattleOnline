@@ -143,7 +143,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         if (Move == null) atk.Controller.ReportBuilder.Add("error");
         else atk.Attacker.AddReportPm("unfinish", Move.Id);
-        atk.Attacker.Action = PokemonAction.Done;
+        atk.SetAttackerAction(PokemonAction.Done);
       }
       protected override void Act(AtkContext atk)
       {

@@ -45,7 +45,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             s.BuildDefContext(null);
             if (NotFail(s)) Act(s);
             else s.FailAll();
-            atk.Attacker.Action = PokemonAction.Done;
+            atk.SetAttackerAction(PokemonAction.Done);
             return;
           }
       }

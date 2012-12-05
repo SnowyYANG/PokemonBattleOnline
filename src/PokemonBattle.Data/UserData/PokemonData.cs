@@ -100,6 +100,11 @@ namespace LightStudio.PokemonBattle.Data
             _moves.Clear();
             _gender = value.Type.Genders.First();
             _ev.SetStat(StatType.All, 0);
+            _lv = 0;
+            _nature = default(PokemonNature);
+            Iv.SetStat(StatType.All, 31);
+            _happiness = 255;
+            _itemId = 0;
           }
           else if (number == 413 || number == 479 || number == 646) _moves.Clear();
           _abilityIndex = 0;

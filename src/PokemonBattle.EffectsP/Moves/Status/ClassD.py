@@ -247,7 +247,7 @@ M(Soak(487))
 
 class ShellSmash(StatusMoveE):
     def Act(self, a):
-        a.Attacker.ChangeLv7D(a.Attacker, True, 2, 2, -1, -1, 2)
+        a.Attacker.ChangeLv7D(a.Attacker, True, 2, -1, 2, -1, 2)
 M(ShellSmash(504))
 
 class ReflectType(StatusMoveE):

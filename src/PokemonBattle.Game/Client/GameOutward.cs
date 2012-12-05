@@ -71,11 +71,8 @@ namespace LightStudio.PokemonBattle.Game
               t.SetData("催眠条款");
               AppendGameLog(t);
             }
-            if (fragment.TurnNumber > 0)
-            {
-              AppendGameLog(GameService.Logs["GameContinue"]);
-              TurnNumber = fragment.TurnNumber;
-            }
+            if (fragment.TurnNumber >= 0) AppendGameLog(GameService.Logs["GameContinue"]);
+            TurnNumber = fragment.TurnNumber;
             for (int t = 0; t < Settings.Mode.TeamCount(); t++)
             {
               Teams[t].Update(fragment.Teams[t]);

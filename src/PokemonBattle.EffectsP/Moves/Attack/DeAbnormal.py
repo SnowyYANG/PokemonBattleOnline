@@ -8,7 +8,7 @@ class DeAbnormalState(AttackMoveE):
             d.BasePower = 120
         else:
             d.BasePower = 60
-    def ImplementEffect(self, d):
+    def PostEffect(self, d):
         if d.AtkContext.Attacker.Tile != None and d.Defender.State == self.State:
             d.Defender.DeAbnormalState(False)
 M(DeAbnormalState(265, PokemonState.PAR)) #smelling salt

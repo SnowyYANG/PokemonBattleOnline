@@ -34,7 +34,7 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     public override void Execute(AtkContext atk)
     {
-      if (PrepareOneTurn(atk.Attacker) && !Sp.Items.PowerHerb(atk.Attacker)) return;
+      if (PrepareOneTurn(atk) && !Sp.Items.PowerHerb(atk.Attacker)) return;
       base.Execute(atk);
     }
     protected override void Act(AtkContext atk)
@@ -60,7 +60,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         foreach (DefContext d in atk.Targets)
           if (d.Defender.State == PokemonState.FRZ) d.Defender.DeAbnormalState();
       
-      if (!(atk.Move.HasProbabilitiedAdditonalEffects() && aer.Ability.SheerForce())) PostEffect(atk);
+      if (!(atk.Move.HasProbabilitiedAdditonalEffects() && aer.Ability.SheerForce())) FinalEffect(atk);
     }
 
     protected virtual void Implement(IEnumerable<DefContext> defs)
@@ -110,6 +110,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           {
             ImplementEffect(d);
             PassiveEffect(d);
+
           }
 
         if (a.Hp > 0)
@@ -263,7 +264,10 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (d.CheckFaint()) Triggers.KOed(def, d.OnboardPokemon);
       else if (Move.MaxTimes > 1) d.Item.HpChanged(d);
     }
-    protected virtual void PostEffect(AtkContext atk)
+    protected virtual void PostEffect(DefContext def)
+    {
+    }
+    protected virtual void FinalEffect(AtkContext atk)
     {
       foreach (DefContext d in atk.Targets) Abilities.ColorChange(d);
       Items.AttackPostEffect(atk);
@@ -276,7 +280,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         if (o != null)
         {
           o.Turn--;
-          if (o.Turn != 0) atk.Attacker.Action = PokemonAction.Moving;
+          if (o.Turn != 0) atk.SetAttackerAction(PokemonAction.Moving);
           else if (o.Bool) atk.Attacker.AddState(atk.Attacker, AttachedState.Confuse, false, 0, "EnConfuse2");
         }
       }

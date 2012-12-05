@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
           if (pm.OnboardPokemon.CoordY == CoordY.Air)
           {
             pm.OnboardPokemon.CoordY = CoordY.Plate;
-            pm.Action = PokemonAction.Done;
+            pm.CancelMove();
             pm.OnboardPokemon.RemoveCondition("SkyDrop");
             goto SHOW;
           }

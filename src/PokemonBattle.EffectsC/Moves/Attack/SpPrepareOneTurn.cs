@@ -17,12 +17,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
       Y = y;
     }
     
-    protected override bool PrepareOneTurn(PokemonProxy pm)
+    protected override bool PrepareOneTurn(AtkContext atk)
     {
+      var pm = atk.Attacker;
       if (pm.Action == PokemonAction.MoveAttached)
       {
         pm.Controller.ReportBuilder.Add(GameEvents.PositionChange.Leap("Prepare" + Move.Id.ToString(), pm, Y));
-        pm.Action = PokemonAction.Moving;
+        atk.SetAttackerAction(PokemonAction.Moving);
         pm.OnboardPokemon.CoordY = Y;
         return true;
       }
@@ -40,9 +41,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     {
     }
 
-    protected override bool PrepareOneTurn(PokemonProxy pm)
+    protected override bool PrepareOneTurn(AtkContext atk)
     {
-      return base.PrepareOneTurn(pm) && pm.Controller.Weather != Weather.IntenseSunlight;
+      return base.PrepareOneTurn(atk) && atk.Controller.Weather != Weather.IntenseSunlight;
     }
   }
   class SkullBash : AttackMoveE
@@ -51,11 +52,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
       : base(id)
     {
     }
-    protected override bool PrepareOneTurn(PokemonProxy pm)
+    protected override bool PrepareOneTurn(AtkContext atk)
     {
-      if (base.PrepareOneTurn(pm))
+      if (base.PrepareOneTurn(atk))
       {
-        pm.ChangeLv7D(pm, false, 0, 1);
+        atk.Attacker.ChangeLv7D(atk.Attacker, false, 0, 1);
         return true;
       }
       return false;

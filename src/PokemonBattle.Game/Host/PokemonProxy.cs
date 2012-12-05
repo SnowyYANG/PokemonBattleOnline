@@ -39,7 +39,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
 
     #region Data
-    public PokemonAction Action;
+    public PokemonAction Action
+    { get; internal set; }
     public Tile Tile
     { get { return Controller.Board[Pokemon.TeamId][OnboardPokemon.X]; } }
     public int Id
@@ -593,6 +594,10 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     #endregion
 
+    public void CancelMove()
+    {
+      Action = PokemonAction.Done;
+    }
     public void RemoveItem()
     {
 #if DEBUG

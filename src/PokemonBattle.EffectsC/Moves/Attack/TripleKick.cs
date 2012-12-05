@@ -32,7 +32,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
 
       atk.Controller.ReportBuilder.Add("Hits", hits);
 
-      PostEffect(atk);
+      FinalEffect(atk);
     }
     protected override void CalculateBasePower(DefContext def)
     {

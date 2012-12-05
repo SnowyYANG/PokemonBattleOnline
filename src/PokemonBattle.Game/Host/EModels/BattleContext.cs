@@ -40,6 +40,11 @@ namespace LightStudio.PokemonBattle.Game.Host
     public bool MultiTargets
     { get; internal set; }
 
+    public void SetAttackerAction(PokemonAction action)
+    {
+      if (Attacker.AtkContext == this) Attacker.Action = action;
+    }
+
     public void StartExecute(MoveType move, Tile selectTile = null, string log = "UseMove")
     {
       Move = move;
@@ -87,7 +92,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       ImplementPressure();
       Fail = true;
-      Attacker.Action = PokemonAction.Done;
+      SetAttackerAction(PokemonAction.Done);
       if (log != null) Controller.ReportBuilder.Add(log, arg0, arg1);
     }
   }

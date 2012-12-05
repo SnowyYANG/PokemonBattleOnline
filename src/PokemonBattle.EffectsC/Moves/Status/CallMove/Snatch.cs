@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     {
       atk.Attacker.OnboardPokemon.SetTurnCondition("Snatch");
       atk.Attacker.AddReportPm("EnSnatch");
-      atk.Attacker.Action = PokemonAction.Done;
+      atk.SetAttackerAction(PokemonAction.Done);
     }
   }
 }
