@@ -10,6 +10,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
   {
     private readonly static int[] BLOCK = new int[]
     {
+      214,
       117,
       448,
       253,
