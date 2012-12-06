@@ -12,11 +12,12 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       if (state != AttachedState.SLP || !pm.Controller.GameSettings.SleepRule || pm.Pokemon.TeamId == by.Pokemon.TeamId) goto TRUE;
       var p = pm.Tile.Field.GetCondition<PokemonProxy>("RULE_SLP");
-      if (p == null || p.State != PokemonState.SLP) goto TRUE;
-      if (showFail) pm.AddReportPm("RULE_SLP");
+      if (p == null || p.State != PokemonState.SLP) goto PREPARE;
+      pm.AddReportPm("RULE_SLP");
       return false;
-    TRUE:
+    PREPARE:
       pm.Tile.Field.SetCondition("RULE_SLP", pm);
+    TRUE:
       return true;
     }
   }
