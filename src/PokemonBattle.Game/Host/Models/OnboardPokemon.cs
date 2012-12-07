@@ -188,6 +188,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       Form = op.Form;
       FiveD.Set5D(op.FiveD);
       lv5D.Set5D(op.lv5D);
+      Gender = op.Gender;
       _accuracyLv = op._accuracyLv;
       _evasionLv = op._evasionLv;
       _type1 = op._type1;//无视羽休
