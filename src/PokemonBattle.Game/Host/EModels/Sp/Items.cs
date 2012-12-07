@@ -65,7 +65,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       return
         pm.Item != null &&
-        (pm.Item.Id == 194 ||
+        (pm.Item.Id == 193 ||
         pm.Form.Type.Number == 487 && pm.Item.Id == 1 || //giratina
         PlatedArceus(pm) ||
         pm.Form.Type.Number == 649 && pm.Item.Id > 97 && pm.Item.Id < 102); //genesect
