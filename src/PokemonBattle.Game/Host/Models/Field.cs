@@ -141,8 +141,11 @@ namespace LightStudio.PokemonBattle.Game.Host
         }
         public override void Debut(PokemonProxy pm)
         {
-          if (pm.CanAddState(pm, AttachedState.PSN, false) && EffectsService.IsGroundAffectable.Execute(pm, true, false))
-            pm.AddState(pm, AttachedState.PSN, false, 15);
+          if (EffectsService.IsGroundAffectable.Execute(pm, true, false))
+          {
+            if (pm.OnboardPokemon.HasType(BattleType.Poison)) De(pm.Controller.ReportBuilder, pm.Pokemon.TeamId);
+            else if (pm.CanAddState(pm, AttachedState.PSN, false)) pm.AddState(pm, AttachedState.PSN, false, badly ? 15 : 0);
+          }
         }
       }
       private class StealthRock : EntryHazards
