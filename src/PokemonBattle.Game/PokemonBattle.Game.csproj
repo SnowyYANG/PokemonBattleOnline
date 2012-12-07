@@ -65,7 +65,11 @@
     <Compile Include="Host\EModels\ITrigger.cs" />
     <Compile Include="Host\EModels\Sp\Rules.cs" />
     <Compile Include="Host\EModels\Sp\Triggers.cs" />
+    <Compile Include="Host\GameContext.cs" />
     <Compile Include="Host\InitingGame.cs" />
+    <Compile Include="Host\Models\Player.cs" />
+    <Compile Include="Host\Models\Pokemon.cs" />
+    <Compile Include="Host\Models\Team.cs" />
     <Compile Include="Interactive\GameEvents\GetItem.cs" />
     <Compile Include="Interactive\GameEvents\HLLD.cs" />
     <Compile Include="Interactive\GameEvents\MoveHurt.cs" />
@@ -112,7 +116,6 @@
     <Compile Include="Interactive\ActionInput.cs" />
     <Compile Include="Client\SimMove.cs" />
     <Compile Include="Host\Models\Board.cs" />
-    <Compile Include="Host\Game.cs" />
     <Compile Include="Interactive\InputRequest.cs" />
     <Compile Include="Client\IPlayerController.cs" />
     <Compile Include="Host\Models\ConditionalObject.cs" />
@@ -120,10 +123,7 @@
     <Compile Include="Host\Models\Field.cs" />
     <Compile Include="Models\Move.cs" />
     <Compile Include="Host\Models\OnboardPokemon.cs" />
-    <Compile Include="Models\Player.cs" />
-    <Compile Include="Models\Pokemon.cs" />
     <Compile Include="Models\PokemonState.cs" />
-    <Compile Include="Models\Team.cs" />
     <Compile Include="Models\Terrain.cs" />
     <Compile Include="Host\Models\Tile.cs" />
     <Compile Include="Client\BoardOutward.cs" />

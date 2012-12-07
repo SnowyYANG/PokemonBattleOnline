@@ -74,7 +74,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       if (Pm.Position.Team == game.Player.Team)
       {
         game.OnboardPokemons[Pm.Position.X] = new SimOnboardPokemon(game.Pokemons[Pm.Id], Pm);
-        if (Pm.Owner.Id == game.Player.Id) game.Player.SwitchPokemon(FormerIndex, game.Player.GetPokemonIndex(Pm.Id));
+        if (Pm.Owner.Id == game.Player.Id) game.Player.SwitchPokemon(game.Settings.Mode.GetPokemonIndex(Pm.Position.X), FormerIndex);
       }
     }
   }
