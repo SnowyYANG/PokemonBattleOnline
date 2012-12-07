@@ -13,23 +13,14 @@ namespace LightStudio.PokemonBattle.Game.Host
   {
     event Action<ReportFragment, IDictionary<int, InputRequest>> ReportUpdated;
 
-    bool Prepared { get; }
+    IEnumerable<Team> Teams { get; }
     IGameSettings Settings { get; }
+    int Turn { get; }
 
-    bool Start();
+    void Start();
     void TryContinue();
-    bool SetPlayer(int teamId, int userId, IPokemonData[] pokemons);
     Player GetPlayer(int id);
     bool InputAction(int player, ActionInput action);
     ReportFragment GetLastLeapFragment();
-
-    int Turn { get; }
-  }
-  public static class GameFactory
-  {
-    public static IGame CreateGame(IGameSettings settings, Func<int> nextId)
-    {
-      return new GameContext(settings, nextId);
-    }
   }
 }

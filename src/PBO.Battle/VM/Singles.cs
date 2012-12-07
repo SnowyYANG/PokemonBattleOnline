@@ -9,9 +9,8 @@ using LightStudio.PokemonBattle.Game;
 
 namespace LightStudio.PokemonBattle.PBO.Battle.VM
 {
-  class Singles : IControlPanel
+  class Singles : ObservableObject, IControlPanel
   {
-    public event PropertyChangedEventHandler PropertyChanged;
     public event Action<string> InputFailed;
     private readonly IPlayerController controller;
     private readonly GameOutward game;
@@ -23,8 +22,6 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
       game = c.Game;
       timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(1) };
       _time = 180;
-      _teamPms = c.Game.Teams[controller.Player.TeamId];
-      _rivalPms = c.Game.Teams[1 - controller.Player.TeamId];
       _selectedPanel = ControlPanelIndex.INACTIVE;
 
       controller.RequireInput += RequireInput;
@@ -60,28 +57,21 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     }
     public Weather Weather
     { get { return game.Board.Weather; } }
-    public SimPokemon ControllingPokemon
+    public SimOnboardPokemon ControllingPokemon
     { get { return controller.Game.OnboardPokemons.FirstOrDefault(); } }
     public Visibility UndoVisibility
     { get { return Visibility.Collapsed; } }
     public bool IsFightEnabled
     { get { return ControllingPokemon != null; } }
-    private TeamOutward _teamPms;
     public TeamOutward TeamPokemonsCount
-    { get { return _teamPms; } }
-    private TeamOutward _rivalPms;
+    { get { return game.Teams[controller.Player.Team]; } }
     public TeamOutward RivalTeamPokemonsCount
-    { get { return _rivalPms; } }
-    public IEnumerable<Pokemon> Pokemons
+    { get { return game.Teams[1 - controller.Player.Team]; } }
+    public IEnumerable<SimPokemon> Pokemons
     { get { return controller.Player.Pokemons; } }
 
-    protected void OnPropertyChanged(string propertyName)
-    {
-      if (PropertyChanged != null)
-        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-    }
     private InputRequest request;
-    public void Pokemon_Click(Pokemon pokemon)
+    public void Pokemon_Click(SimPokemon pokemon)
     {
       if (request.IsSendout)
       {
@@ -117,7 +107,6 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
 
     private void RequireInput(InputRequest request, int spentTime)
     {
-      timer.Start();
       this.request = request;
       request.Init(controller.Game);
       request.InputFinished += (i) =>
@@ -128,7 +117,8 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
         };
       _selectedPanel = request.IsSendout ? ControlPanelIndex.POKEMONS : ControlPanelIndex.MAIN;
       _time = 180 - spentTime;
-      OnPropertyChanged(null);
+      timer.Start();
+      OnPropertyChanged();
     }
   }
 }

@@ -24,11 +24,33 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void InformTimeUp(IEnumerable<KeyValuePair<int, int>> remainingTime);
     void InformWaitingForInput(int[] players);
 
+    void InformPlayerInfo(int teamIndex, Data.IPokemonData[] parnerPokemons);
     void InformReportUpdate(ReportFragment fragment);
     void InformRequireInput(InputRequest pms, int time);
     
     void InformRequestTie();
     void InformTieRejected();
+  }
+
+  [DataContract(Namespace = Namespaces.PBO)]
+  class PlayerInfo : IUserInformation
+  {
+    [DataMember(EmitDefaultValue = false)]
+    int TeamIndex;
+
+    [DataMember(EmitDefaultValue = false)]
+    Data.IPokemonData[] Parner;
+
+    public PlayerInfo(int teamIndex, Data.IPokemonData[] parner)
+    {
+      TeamIndex = teamIndex;
+      Parner = parner;
+    }
+
+    void IUserInformation.Execute(IRoomUser user)
+    {
+      user.InformPlayerInfo(TeamIndex, Parner);
+    }
   }
 
   [DataContract(Namespace = Namespaces.PBO)]

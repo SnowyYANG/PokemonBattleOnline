@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
   /// </summary>
   public partial class ControlPanel : Canvas
   {
-    public event Action<Pokemon> ReviewPokemon;
+    public event Action<SimPokemon> ReviewPokemon;
     IControlPanel vm;
 
     public ControlPanel()
@@ -30,8 +30,8 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       InitializeComponent();
     }
 
-    private Pokemon _current;
-    private Pokemon Current
+    private SimPokemon _current;
+    private SimPokemon Current
     {
       get { return _current; }
       set
@@ -88,7 +88,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     }
     private void pokemon_Click(object sender, RoutedEventArgs e)
     {
-      Pokemon pm = (Pokemon)((Button)sender).Content;
+      SimPokemon pm = (SimPokemon)((Button)sender).Content;
       if (pm == Current)
       {
         vm.Pokemon_Click(pm);

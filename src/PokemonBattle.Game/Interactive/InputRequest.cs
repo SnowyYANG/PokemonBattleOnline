@@ -11,7 +11,7 @@ namespace LightStudio.PokemonBattle.Game
   [DataContract(Namespace = Namespaces.PBO)]
   public class PmInputRequest
   {
-    internal static PmInputRequest Origin(Pokemon pm)
+    internal static PmInputRequest Origin(SimPokemon pm)
     {
       throw new NotImplementedException();
     }
@@ -75,10 +75,10 @@ namespace LightStudio.PokemonBattle.Game
 
     #region Client
     private SimGame Game;
-    private SimPokemon Pm;
+    private SimOnboardPokemon Pm;
     private string error;
     private bool showAbility;
-    public void Init(SimGame game, SimPokemon pm)
+    public void Init(SimGame game, SimOnboardPokemon pm)
     {
       Game = game;
       Pm = pm;
@@ -91,7 +91,7 @@ namespace LightStudio.PokemonBattle.Game
     }
     private void SetErrorMessage(string key, string arg1, string arg2)
     {
-      var text = GameService.Logs["subtitle_" + key].Clone(Game.Outward);
+      var text = GameService.Logs["subtitle_" + key].Clone(null);
       text.SetData(Pm.Pokemon.Name, arg1, arg2);
       error = text.Text;
     }
@@ -128,7 +128,7 @@ namespace LightStudio.PokemonBattle.Game
     /// </summary>
     /// <param name="pokemon"></param>
     /// <returns></returns>
-    public bool Pokemon(Pokemon pokemon)
+    public bool Pokemon(SimPokemon pokemon)
     {
       if (pokemon.Hp.Value == 0)
       {
@@ -261,7 +261,7 @@ namespace LightStudio.PokemonBattle.Game
     {
       Pms[CurrentX].Target(target);
     }
-    public bool Pokemon(Pokemon pokemon, int x)
+    public bool Pokemon(SimPokemon pokemon, int x)
     {
       if (pokemon.Hp.Value == 0)
       {
@@ -277,7 +277,7 @@ namespace LightStudio.PokemonBattle.Game
       CheckSendoutFinished();
       return true;
     }
-    public bool Pokemon(Pokemon pokemon)
+    public bool Pokemon(SimPokemon pokemon)
     {
       if (Pms[CurrentX].Pokemon(pokemon))
       {

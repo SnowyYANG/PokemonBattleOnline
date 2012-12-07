@@ -223,14 +223,15 @@ namespace LightStudio.PokemonBattle.Game.Host
           if (OnboardPokemon.HasType(BattleType.Poison) || OnboardPokemon.HasType(BattleType.Steel)) goto FAIL;
           goto STATE;
         case AttachedState.SLP:
-          foreach (var pm in Controller.ActingPokemons)
-            if (pm.Action == PokemonAction.Moving && pm.AtkContext.Move.Id == Sp.Moves.UPROAR)
-            {
-              if (showFail)
-                if (pm == this) AddReportPm("UproarCantSLP2");
-                else AddReportPm("UproarCantSLP");
-              return false;
-            }
+          if (!ability.SoundProof())
+            foreach (var pm in Controller.ActingPokemons)
+              if (pm.Action == PokemonAction.Moving && pm.AtkContext.Move.Id == Sp.Moves.UPROAR)
+              {
+                if (showFail)
+                  if (pm == this) AddReportPm("UproarCantSLP2");
+                  else AddReportPm("UproarCantSLP");
+                return false;
+              }
           if (State == PokemonState.SLP) goto BEENSTATE;
           goto STATE;
         case AttachedState.Confuse:
@@ -248,6 +249,9 @@ namespace LightStudio.PokemonBattle.Game.Host
           goto CONDITION;
         case AttachedState.PerishSong:
           return !OnboardPokemon.HasCondition("PerishSong"); //无需判断防音 never show fail
+        case AttachedState.Yawn:
+          if (CanAddState(by, ability, AttachedState.SLP, false)) goto CONDITION;
+          else goto FAIL;
         default:
           goto CONDITION;
       }
@@ -316,7 +320,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public bool CanChangeForm(int number, int form)
     {
-      return Pokemon.Form.Index != form && CanChangeForm(number);
+      return OnboardPokemon.Form.Index != form && CanChangeForm(number);
     }
     #endregion
 
@@ -717,7 +721,11 @@ namespace LightStudio.PokemonBattle.Game.Host
         case AttachedState.FRZ:
           Pokemon.State = PokemonState.FRZ;
           Controller.ReportBuilder.Add(new StateChange(this, log, arg1));
-          if (CanChangeForm(492, 0)) ChangeForm(0);
+          if (CanChangeForm(492, 0))
+          {
+            ChangeForm(0);
+            Pokemon.Form = OnboardPokemon.Form;
+          }
           goto DONE;
         case AttachedState.PAR:
           Pokemon.State = PokemonState.PAR;

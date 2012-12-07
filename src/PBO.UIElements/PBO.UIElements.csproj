@@ -35,7 +35,8 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\bin\dll\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -271,14 +272,6 @@
     <Resource Include="images\Labels\PSN.png" />
     <Resource Include="images\Labels\SLP.png" />
     <Resource Include="images\Labels\Special.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\Balls\OAbnormal.png" />
-    <Resource Include="images\Balls\ODying.png" />
-    <Resource Include="images\Balls\ONormal.png" />
-    <Resource Include="images\Balls\RAbnormal.png" />
-    <Resource Include="images\Balls\RDying.png" />
-    <Resource Include="images\Balls\RNormal.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\UI\ButtonBG.png" />

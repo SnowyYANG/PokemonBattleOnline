@@ -51,22 +51,31 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       return false;
     }
-    public bool Sendout(Tile tile, bool debut, string log = null)
+    private PokemonProxy SendoutImplement(Tile tile)
+    {
+      var pm = Controller.GetPokemon(Controller.GetPlayer(tile).GetPokemon(tile.WillSendoutPokemonIndex));
+      pm.Action = PokemonAction.Debuting;
+      tile.Pokemon = pm;
+      tile.WillSendoutPokemonIndex = Tile.NOPM_INDEX;
+      pm.OnboardPokemon = new OnboardPokemon(pm.Pokemon, tile.X);
+      Triggers.SendingOut(pm);
+      Controller.ActingPokemons.Insert(0, pm);
+      return pm;
+    }
+    public void GameStartSendout(IEnumerable<Tile> tiles)
+    {
+      ReportBuilder.Add(new GameStartSendOut(tiles.Select((t) => SendoutImplement(t))));
+    }
+    public bool Sendout(Tile tile, bool debut, string log)
     {
       Player p = Controller.GetPlayer(tile);
       int origin = Game.Settings.Mode.GetPokemonIndex(tile.X);
       int sendout = tile.WillSendoutPokemonIndex;
-      if ((ReportBuilder.TurnNumber == 0 && origin == sendout) || (CanSendout(tile) && CanSendout(p.GetPokemon(sendout))))
+      if (CanSendout(tile) && CanSendout(p.GetPokemon(sendout)))
       {
-        var pm = Controller.GetPokemon(p.GetPokemon(sendout));
-        pm.Action = PokemonAction.Debuting;
-        tile.Pokemon = pm;
-        tile.WillSendoutPokemonIndex = Tile.NOPM_INDEX;
-        pm.OnboardPokemon = new OnboardPokemon(pm.Pokemon, tile.X);
-        Triggers.SendingOut(pm);
-        Controller.ActingPokemons.Insert(0, pm);
+        var pm = SendoutImplement(tile);
         p.SwitchPokemon(origin, sendout);
-        ReportBuilder.Add(new SendOut(log, pm));
+        ReportBuilder.Add(new SendOut(pm, sendout, log));
         Abilities.Trace(pm);
         if (debut)
         {

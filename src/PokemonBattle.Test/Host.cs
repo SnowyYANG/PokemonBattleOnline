@@ -20,32 +20,34 @@ namespace LightStudio.PokemonBattle.Test
     {
       Settings = new GameSettings();
       Clients = new Dictionary<int, PlayerClient>(2);
-      Game = GameFactory.CreateGame(Settings, Settings.NextId);
-      Game.ReportUpdated += InformReportUpdate;
+      //Game = GameFactory.CreateGame(Settings, Settings.NextId);
+      //Game.ReportUpdated += InformReportUpdate;
     }
 
     public ITestClient AddPlayer(IPokemonData[] pokemons)
     {
-      int tid = Clients.Count;
-      int pid = tid + 1;
-      if (Game.SetPlayer(tid, pid, pokemons))
-      {
-        Player p = Game.GetPlayer(pid);
-        int[] ids = new int[p.Pokemons.Count()];
-        {
-          int i = -1;
-          foreach (Pokemon pm in p.Pokemons) ids[++i] = pm.Id;
-        }
-        var c = new PlayerClient(this, pid, tid, pokemons, pid == 1, ids);
-        if (pid == 1) c.GameEnd += GameEnd;
-        Clients.Add(pid, c);
-        return c;
-      }
-      return null;
+      //int tid = Clients.Count;
+      //int pid = tid + 1;
+      //if (Game.SetPlayer(tid, pid, pokemons))
+      //{
+      //  Player p = Game.GetPlayer(pid);
+      //  int[] ids = new int[p.Pokemons.Count()];
+      //  {
+      //    int i = -1;
+      //    foreach (SimPokemon pm in p.Pokemons) ids[++i] = pm.Id;
+      //  }
+      //  var c = new PlayerClient(this, pid, tid, pokemons, pid == 1, ids);
+      //  if (pid == 1) c.GameEnd += GameEnd;
+      //  Clients.Add(pid, c);
+      //  return c;
+      //}
+      //return null;
+      throw new NotImplementedException();
     }
     public bool StartGame()
     {
-      return Game.Start();
+      //return Game.Start();
+      throw new NotImplementedException();
     }
 
     private void InformReportUpdate(ReportFragment fragment, IDictionary<int, InputRequest> requirements)

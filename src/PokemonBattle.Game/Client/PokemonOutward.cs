@@ -131,7 +131,7 @@ namespace LightStudio.PokemonBattle.Game
         {
           var former = _state;
           _state = value;
-          if (team != null) team.StateChanged(this, former);
+          if (team != null) team.StateChanged(this);
           OnPropertyChanged(STATE);
         }
       }
@@ -161,6 +161,8 @@ namespace LightStudio.PokemonBattle.Game
     #region Client
     private IPokemonOutwardEvents listener;
     private TeamOutward team;
+    internal int TeamIndex
+    { get; private set; }
 
     #region Events
     /// <summary>
@@ -286,6 +288,7 @@ namespace LightStudio.PokemonBattle.Game
     public void Init(GameOutward game)
     {
       team = game.Teams[Position.Team];
+      TeamIndex = game.Settings.Mode.GetPokemonIndexInTeam(Position.X);
       Owner = game.GetPlayer(ownerId);
     }
     public void AddListener(IPokemonOutwardEvents listener)

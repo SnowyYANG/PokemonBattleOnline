@@ -13,18 +13,14 @@ namespace LightStudio.PokemonBattle.Messaging.Room
   public class GameInitSettings : IGameSettings, IMessagable
   {
     private bool isLocked;
-    private readonly IdGenerator idGen;
-    private Queue<int> idQue;
 
     /// <summary>
     /// HostOnly
     /// </summary>
     /// <param name="mode"></param>
-    /// <param name="ppUp"></param>
     /// <param name="terrain"></param>
     public GameInitSettings(GameMode mode, Terrain terrain = Terrain.Path, bool sleepRule = true)
     {
-      idGen = new IdGenerator();
       Mode = mode;
       Terrain = terrain;
       SleepRule = sleepRule;
@@ -52,23 +48,12 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       set { if (!isLocked) _noSR = !value; }
     }
 
-    internal int NextId()
-    {
-      if (idGen != null) return idGen.NextId();
-      return idQue.Dequeue();
-    }
     public void Lock()
     {
       lock (this)
       {
         isLocked = true;
       }
-    }
-    internal void SetIds(int[] ids)
-    {
-      if (isLocked) return;
-      idQue = new Queue<int>(ids);
-      Lock();
     }
   }
 }

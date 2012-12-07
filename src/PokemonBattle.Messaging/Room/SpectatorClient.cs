@@ -18,17 +18,25 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     { get { return null; } }
 
     #region Errors
+    private void Error()
+    {
+      Listener.Error("收到非法的消息，数据包损毁或房间主机程序被修改");
+    }
     protected override void InformRequireInput(Game.InputRequest info, int time)
     {
-      if (info != null) Listener.Error("收到非法的消息，数据包损毁或房间主机程序被修改");
+      if (info != null) Error();
     }
     protected override void InformRequestTie()
     {
-      Listener.Error("收到非法的消息，数据包损毁或房间主机程序被修改");
+      Error();
     }
     protected override void InformTieRejected()
     {
-      Listener.Error("收到非法的消息，数据包损毁或房间主机程序被修改");
+      Error();
+    }
+    protected override void InformPlayerInfo(int teamIndex, Data.IPokemonData[] parner)
+    {
+      Error();
     }
     #endregion
 

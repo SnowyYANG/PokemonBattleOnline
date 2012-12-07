@@ -8,21 +8,22 @@ namespace LightStudio.PokemonBattle.Game
 {
   public class SimGame
   {
-    public readonly GameOutward Outward;
-    public readonly Player Player;
-    public readonly Team Team;
-    public readonly SimPokemon[] OnboardPokemons;
+    public readonly IGameSettings Settings;
+    public readonly SimPlayer Player;
+    public readonly SimOnboardPokemon[] OnboardPokemons;
 
-    public SimGame(GameOutward game, int userId, int teamId, IPokemonData[] pms, Func<int> nextId)
+    public SimGame(IGameSettings settings, SimPlayer player, IPokemonData[] parner)
     {
-      Outward = game;
-      Team = new Team(teamId, Outward.Settings, nextId);
-      Player = Team.AddPlayer(userId, pms);
-      OnboardPokemons = new SimPokemon[Outward.Settings.Mode.XBound()];
+      Settings = settings;
+      Player = player;
+      OnboardPokemons = new SimOnboardPokemon[Settings.Mode.XBound()];
+      Pokemons = new Dictionary<int, SimPokemon>();
+      foreach (var pm in player.Pokemons) Pokemons.Add(pm.Id, pm);
+      //讨厌的parner等做4p再说
     }
 
-    public IGameSettings Settings
-    { get { return Outward.Settings; } }
+    public Dictionary<int, SimPokemon> Pokemons
+    { get; private set; }
 
     /// <summary>
     /// 

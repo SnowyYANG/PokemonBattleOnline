@@ -113,9 +113,9 @@ namespace LightStudio.PokemonBattle.Messaging.Room
   [DataContract(Name = "js", Namespace = Namespaces.PBO)]
   class EnterSucceedInfo : IUserInformation
   {
-    public static EnterSucceedInfo Player(Host host, int[] ids)
+    public static EnterSucceedInfo Player(Host host)
     {
-      return new EnterSucceedInfo(host.GameSettings, host.Players, host.Spectators) { Ids = ids };
+      return new EnterSucceedInfo(host.GameSettings, host.Players, host.Spectators);
     }
     /// <param name="leapTurn">it can be null</param>
     public static EnterSucceedInfo Spectator(Host host, Game.ReportFragment leapTurn)
@@ -134,9 +134,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     int[] Spectators;
 
     [DataMember(Name = "d", EmitDefaultValue = false)]
-    int[] Ids; //players only
-
-    [DataMember(Name = "e", EmitDefaultValue = false)]
     Game.ReportFragment Leap; //spectator only
 
     private EnterSucceedInfo(GameInitSettings settings, IEnumerable<Player> players, IEnumerable<int> spectators)
@@ -147,7 +144,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
     void IUserInformation.Execute(IRoomUser user)
     {
-      if (Ids != null) Settings.SetIds(Ids); //序列化后
       user.InformEnterSucceed(Settings, Players, Spectators);
       if (Leap != null) user.InformReportUpdate(Leap);
     }

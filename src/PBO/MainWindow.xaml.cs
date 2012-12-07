@@ -25,7 +25,6 @@ namespace LightStudio.PokemonBattle.PBO
   {
     readonly GridLength GL0;
     readonly GridLength GLMIN;
-    double border;
     
     public MainWindow()
     {
@@ -79,7 +78,7 @@ namespace LightStudio.PokemonBattle.PBO
     {
       if (e.WidthChanged)
       {
-        if (c1.ActualWidth == e.PreviousSize.Width) c1.Width = new GridLength(e.NewSize.Width - border);
+        if (c1.ActualWidth == e.PreviousSize.Width) c1.Width = new GridLength(e.NewSize.Width);
         RefreshGrid();
       }
     }

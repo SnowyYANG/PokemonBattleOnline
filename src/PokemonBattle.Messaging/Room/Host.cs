@@ -19,12 +19,16 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     public event PropertyChangedEventHandler PropertyChanged = delegate { };
     public event Action Closed;
     internal readonly GameInitSettings GameSettings;
+    private readonly bool auto;
+    
     private readonly Dispatcher dispatcher;
+    
     private readonly HashSet<int> users;
     private readonly ObservableCollection<Player> players;
     private readonly ObservableCollection<int> spectators;
-    private readonly IGame game;
-    private readonly bool auto;
+    private readonly InitingGame initingGame;
+    
+    private IGame game;
     private GoTimer timer;
     
     /// <param name="auto">游戏自动开始，游戏结束时自动关闭房间</param>
@@ -38,8 +42,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       spectators = new ObservableCollection<int>();
       Spectators = new ReadOnlyObservableCollection<int>(spectators);
       
-      game = GameFactory.CreateGame(settings, settings.NextId);
-      game.ReportUpdated += InformReportUpdate;
+      initingGame = new InitingGame(settings);
       GameSettings = settings;
       this.auto = auto;
     }
@@ -62,7 +65,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       }
     }
     public bool CanStartGame
-    { get { return game.Prepared; } }
+    { get { return initingGame.CanComplete; } }
     private void OnPropertyChanged(PropertyChangedEventArgs e)
     {
       PropertyChanged(this, e);
@@ -79,13 +82,21 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
     public void StartGame()
     {
-      if (game.Prepared)
+      if (CanStartGame)
       {
         State = RoomState.GameStarted;
         timer = new GoTimer(from p in players select p.Id);
         timer.TimeUp += InformTimeUp;
         timer.WaitingNotify += InformWaitingForInput;
         timer.Start();
+        game = initingGame.Complete();
+        game.ReportUpdated += InformReportUpdate;
+        foreach (var t in game.Teams)
+          foreach (var p in t.Players)
+          {
+            var parner = GameSettings.Mode.PlayersPerTeam() == 1 ? null : initingGame.GetPokemons(t.Id, 1 - p.IndexInTeam);
+            InformPlayerInfo(p.Id, p.IndexInTeam, parner);
+          }
         game.Start();
       }
     }
@@ -114,22 +125,21 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void IRoomManager.JoinGame(int userId, IPokemonData[] pokemons, int teamId)
     {
       bool canStartGame = CanStartGame;
-      if (game.SetPlayer(teamId, userId, pokemons))
+      if (initingGame.SetPlayer(teamId, userId, pokemons))
       {
         users.Add(userId);
         players.Add(new Player(userId, teamId));
-        InformEnterSucceed(userId, true);
+        InformEnterSucceed(userId, teamId);
         OnPropertyChanged(null);
         if (CanStartGame && auto) StartGame();
       }
-      else
-        InformEnterFailed("debug.failed", userId);
+      else InformEnterFailed("debug.failed", userId);
     }
     void IRoomManager.SpectateGame(int userId)
     {
       spectators.Add(userId);
       users.Add(userId);
-      InformEnterSucceed(userId, false);
+      InformEnterSucceed(userId, -1);
     }
     void IRoomManager.Quit(int userId)
     {
@@ -200,18 +210,12 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     {
       OnSendInformation(new EnterFailedInfo(message), userId);
     }
-    void InformEnterSucceed(int userId, bool isPlayer)
+    void InformEnterSucceed(int userId, int teamId)
     {
-      if (isPlayer)
+      if (teamId != -1)
       {
-        Game.Player p = game.GetPlayer(userId);
-        int[] ids = new int[p.Pokemons.Count()];
-        {
-          int i = -1;
-          foreach (Pokemon pm in p.Pokemons) ids[++i] = pm.Id;
-        }
-        OnSendInformation(new UserJoinGameInfo(userId, p.Team.Id));
-        OnSendInformation(EnterSucceedInfo.Player(this, ids), userId);
+        OnSendInformation(new UserJoinGameInfo(userId, teamId));
+        OnSendInformation(EnterSucceedInfo.Player(this), userId);
       }
       else
       {
@@ -222,6 +226,10 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     #endregion
 
     #region Game Informer
+    void InformPlayerInfo(int playerId, int teamIndex, IPokemonData[] pokemons)
+    {
+      OnSendInformation(new PlayerInfo(teamIndex, pokemons), playerId);
+    }
     /// <summary>
     /// 议和，不经过Game
     /// </summary>
@@ -245,6 +253,9 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       OnSendInformation(new WaitingForInputInfo(players));
     }
 
+    void InformReport()
+    {
+    }
     private int lastTurn;
     void InformReportUpdate(ReportFragment fragment, IDictionary<int, InputRequest> requirements)
     {

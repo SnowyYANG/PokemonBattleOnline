@@ -34,8 +34,6 @@ namespace LightStudio.PokemonBattle.Game
       Settings = settings;
       Board = new BoardOutward(Settings);
       Teams = new TeamOutward[Settings.Mode.TeamCount()];
-      for (int t = 0; t < Settings.Mode.TeamCount(); t++)
-        Teams[t] = new TeamOutward(6, 0, 0);
       {
         this.players = new Dictionary<int, PlayerOutward>();
         foreach (var p in players) this.players.Add(p.Key, new PlayerOutward(p.Key, p.Value));
@@ -75,7 +73,7 @@ namespace LightStudio.PokemonBattle.Game
             TurnNumber = fragment.TurnNumber;
             for (int t = 0; t < Settings.Mode.TeamCount(); t++)
             {
-              Teams[t].Update(fragment.Teams[t]);
+              Teams[t] = fragment.Teams[t];
               for (int x = 0; x < Settings.Mode.XBound(); x++) Board[t, x] = fragment[t, x];
               Board.Weather = fragment.Weather;
             }
@@ -86,8 +84,8 @@ namespace LightStudio.PokemonBattle.Game
         UIDispatcher.Invoke((Action<GameOutward>)e.Update, this);
         System.Threading.Thread.Sleep(e.Sleep);
       }
-      int team0 = Teams[0].Abnormal + Teams[0].Normal;
-      int team1 = Teams[1].Abnormal + Teams[1].Normal;
+      int team0 = Teams[0].AliveCount;
+      int team1 = Teams[1].AliveCount;
       if (team0 == 0 || team1 == 0)
       {
         IText text;

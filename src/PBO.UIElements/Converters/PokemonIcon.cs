@@ -7,11 +7,11 @@ using LightStudio.PokemonBattle.Game;
 
 namespace LightStudio.PokemonBattle.PBO.Converters
 {
-  public class PokemonIcon : Converter<Pokemon>
+  public class PokemonIcon : Converter<SimPokemon>
   {
     public static readonly PokemonIcon C = new PokemonIcon();
     
-    protected override object Convert(Pokemon value)
+    protected override object Convert(SimPokemon value)
     {
       return GameDataService.GetPokemonIcon(value.Form, value.Gender);
     }

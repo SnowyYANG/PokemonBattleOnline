@@ -126,9 +126,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       Players = new ReadOnlyObservableCollection<Player>(this.players);
       Spectators = new ReadOnlyObservableCollection<int>(this.spectators);
     }
-    protected virtual void OnGameStarted()
-    {
-    }
     protected virtual void InformReportUpdate(ReportFragment fragment)
     {
       if (game == null)
@@ -143,7 +140,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
           if (teams[p.Team] == null) teams[p.Team] = name;
         }
         game = new GameOutward(Settings, ps, teams);
-        OnGameStarted();
         Listener.GameStart();
       }
       game.Update(fragment);
@@ -154,6 +150,11 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
 
     #region Player Only
+    protected abstract void InformPlayerInfo(int teamIndex, IPokemonData[] parner);
+    void IGameInformer.InformPlayerInfo(int teamIndex, IPokemonData[] parner)
+    {
+      InformPlayerInfo(teamIndex, parner);
+    }
     protected abstract void InformRequireInput(InputRequest pminfo, int spentTime);
     void IGameInformer.InformRequireInput(InputRequest pminfo, int spentTime)
     {

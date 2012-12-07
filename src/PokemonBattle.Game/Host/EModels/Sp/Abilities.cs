@@ -79,81 +79,73 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     #endregion
 
     #region IsXXX
-    public static bool Adaptability(this AbilityE ability)
+    public static bool ShieldDust(this AbilityE ability)
     {
-      return ability.Id == 91;
+      return ability.Id == 19;
     }
-    public static bool EarlyBird(this AbilityE ability)
+    public static bool SuctionCups(this AbilityE ability)
     {
-      return ability.Id == 48;
-    }
-    public static bool SheerForce(this AbilityE ability)
-    {
-      return ability.Id == 125;
-    }
-    public static bool Guts(this AbilityE ability)
-    {
-      return ability.Id == 62;
-    }
-    public static bool InnerFocus(this AbilityE ability)
-    {
-      return ability.Id == 39;
-    }
-    public static bool Klutz(this AbilityE ability)
-    {
-      return ability.Id == 103;
-    }
-    public static bool MagicGuard(this AbilityE ability)
-    {
-      return ability.Id == 98;
-    }
-    public static bool Prankster(this AbilityE ability)
-    {
-      return ability.Id == 158;
-    }
-    public static bool NoGuard(this AbilityE ability)
-    {
-      return ability.Id == 99;
-    }
-    public static bool Normalize(this AbilityE ability)
-    {
-      return ability.Id == 96;
-    }
-    public static bool QuickFeet(this AbilityE ability)
-    {
-      return ability.Id == 95;
-    }
-    public static bool RockHead(this AbilityE ability)
-    {
-      return ability.Id == 69;
-    }
-    public static bool Scrappy(this AbilityE ability)
-    {
-      return ability.Id == 113;
+      return ability.Id == 21;
     }
     public static bool SereneGrace(this AbilityE ability)
     {
       return ability.Id == 32;
     }
-    public static bool ShieldDust(this AbilityE ability)
+    public static bool InnerFocus(this AbilityE ability)
     {
-      return ability.Id == 19;
+      return ability.Id == 39;
     }
-    public static bool Infiltrator(this AbilityE ability)
+    public static bool SoundProof(this AbilityE ability)
     {
-      return ability.Id == 151;
+      return ability.Id == 43;
+    }
+    public static bool EarlyBird(this AbilityE ability)
+    {
+      return ability.Id == 48;
+    }
+    public static bool Guts(this AbilityE ability)
+    {
+      return ability.Id == 62;
+    }
+    public static bool RockHead(this AbilityE ability)
+    {
+      return ability.Id == 69;
+    }
+    public static bool Unburden(this AbilityE ability)
+    {
+      return ability.Id == 84;
+    }
+    public static bool Adaptability(this AbilityE ability)
+    {
+      return ability.Id == 91;
+    }
+    public static bool SkillLink(this AbilityE ability)
+    {
+      return ability.Id == 92;
+    }
+    public static bool QuickFeet(this AbilityE ability)
+    {
+      return ability.Id == 95;
+    }
+    public static bool Normalize(this AbilityE ability)
+    {
+      return ability.Id == 96;
+    }
+    public static bool MagicGuard(this AbilityE ability)
+    {
+      return ability.Id == 98;
+    }
+    public static bool NoGuard(this AbilityE ability)
+    {
+      return ability.Id == 99;
     }
     public static bool Stall(this AbilityE ability)
     {
       return ability.Id == 100;
     }
-    public static bool StickyHold(this AbilityE ability)
+    public static bool Klutz(this AbilityE ability)
     {
-      return ability.Id == STICKY_HOLD;
-    }
-    public static bool SuctionCups(this AbilityE ability)
-    {
-      return ability.Id == 21;
+      return ability.Id == 103;
     }
     public static bool SuperLuck(this AbilityE ability)
     {
@@ -163,13 +155,25 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
     {
       return ability.Id == 109;
     }
-    public static bool Unburden(this AbilityE ability)
+    public static bool Scrappy(this AbilityE ability)
     {
-      return ability.Id == 84;
+      return ability.Id == 113;
     }
-    public static bool SkillLink(this AbilityE ability)
+    public static bool SheerForce(this AbilityE ability)
     {
-      return ability.Id == 92;
+      return ability.Id == 125;
+    }
+    public static bool Infiltrator(this AbilityE ability)
+    {
+      return ability.Id == 151;
+    }
+    public static bool Prankster(this AbilityE ability)
+    {
+      return ability.Id == 158;
+    }
+    public static bool StickyHold(this AbilityE ability)
+    {
+      return ability.Id == STICKY_HOLD;
     }
     public static bool IgnoreDefenderAbility(this AbilityE ability)
     {
@@ -443,7 +447,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
         if (pm.OnboardPokemon.HasCondition("ObserveWeather"))
         {
           var ab = pm.Ability;
-          if (ab.Id == Abilities.FORECAST || ab.Id == Abilities.FLOWER_GIFT) ab.Attach(pm);
+          if (ab.Id == FORECAST || ab.Id == FLOWER_GIFT) ab.Attach(pm);
         }
     }
   }

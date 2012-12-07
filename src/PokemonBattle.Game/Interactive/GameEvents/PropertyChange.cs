@@ -58,10 +58,10 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
     public override void Update(SimGame game)
     {
-      Pokemon p = GetPokemon(game, Pm);
+      SimPokemon p = GetPokemon(game, Pm);
       if (p != null)
       {
-        p.ClientChangePokemonState(State);
+        p.State = State;
         if (Item) p.Item = null;
       }
     }
@@ -186,11 +186,11 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     public override void Update(SimGame game)
     {
       var pm = GetPokemon(game, Pm);
-      if (pm != null) pm.ClientChangeItem(null);
+      if (pm != null) pm.Item = null;
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Name = "eo", Namespace = Namespaces.PBO)]
   public class OutwardChange : GameEvent
   {
     public static OutwardChange Transform(PokemonProxy pm, PokemonProxy target)
@@ -205,25 +205,27 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
     public static OutwardChange ChangeForm(PokemonProxy pm)
     {
-      return new OutwardChange(null, pm.Id, 0) { Form = pm.OnboardPokemon.Form.Index };
+      return new OutwardChange(null, pm.Id, 0) { Form = pm.OnboardPokemon.Form.Index, Forever = pm.Pokemon.Form.Type.Number == 492 && pm.OnboardPokemon.Form == pm.Pokemon.Form };
     }
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "b", EmitDefaultValue = false)]
     string Log;
-    [DataMember]
+    [DataMember(Name = "a")]
     int Pm;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "d", EmitDefaultValue = false)]
     string Name;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "e", EmitDefaultValue = false)]
     int Number;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "f", EmitDefaultValue = false)]
     int Form;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "g", EmitDefaultValue = false)]
     PokemonGender? Gender;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "c", EmitDefaultValue = false)]
     int[] Moves;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "h", EmitDefaultValue = false)]
     int Arg;
+    [DataMember(Name = "i", EmitDefaultValue = false)]
+    bool Forever; //shaymi，虽然会误判不过不影响
 
     private OutwardChange(string log, int pm, int arg)
     {
@@ -249,7 +251,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       if (Number == 0)
       {
         var pm = GetPokemon(game, Pm);
-        if (pm != null) pm.ClientChangeForm(Form);
+        if (pm != null) pm.ChangeForm(Form, Forever);
       }
       else if (Moves != null)
       {

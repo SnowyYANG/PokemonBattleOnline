@@ -10,7 +10,7 @@ namespace LightStudio.PokemonBattle.Game
   {
     event Action<InputRequest, int> RequireInput;
     
-    Player Player { get; }
+    SimPlayer Player { get; }
     SimGame Game { get; }
 
     void Input(ActionInput input);

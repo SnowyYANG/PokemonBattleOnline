@@ -173,8 +173,8 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Imprison</a:Key><a:Value i:type="LogText"><text>{0:p}被封印无法使用{1:m}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>subtitle_Imprison</a:Key><a:Value i:type="LogText"><text>{0}被封印无法使用{1}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnDisable</a:Key><a:Value i:type="LogText"><text>将{0:p}的{1:m}封印了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Disable</a:Key><a:Value i:type="LogText"><text>{0}因为被束缚，所以无法使出{1}！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>subtitle_Disable</a:Key><a:Value i:type="LogText"><text>{0:p}因为被束缚，所以无法使出{1:m}！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Disable</a:Key><a:Value i:type="LogText"><text>{0}因为被束缚，所以无法使出{1:m}！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>subtitle_Disable</a:Key><a:Value i:type="LogText"><text>{0}因为被束缚，所以无法使出{1}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeDisable</a:Key><a:Value i:type="LogText"><text>{0:p}的束缚解除了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnAquaRing</a:Key><a:Value i:type="LogText"><text>水之环笼罩了{0:p}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>AquaRing</a:Key><a:Value i:type="LogText"><text>水之环回复了{0:p}的体力！</text></a:Value></a:KeyValueOfstringanyType>

@@ -19,15 +19,12 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Abilities
 
     public override void Attach(PokemonProxy pm)
     {
-      if (pm.CanChangeForm(Number))
+      var form = GetForm(pm.Controller.Weather);
+      if (pm.CanChangeForm(Number, form))
       {
         //pm.OnboardPokemon.SetCondition("ObserveWeather"); Sp.Abilities.AttachWeatherObserver
-        var form = GetForm(pm.Controller.Weather);
-        if (pm.OnboardPokemon.Form.Index != form)
-        {
-          Raise(pm);
-          pm.ChangeForm(form);
-        }
+        Raise(pm);
+        pm.ChangeForm(form);
       }
     }
     public override void Detach(PokemonProxy pm)

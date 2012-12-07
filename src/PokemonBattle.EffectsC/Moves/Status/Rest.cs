@@ -7,10 +7,10 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Name = "eer", Namespace = Namespaces.PBO)]
   class RestGameEvent : GameEvent
   {
-    [DataMember]
+    [DataMember(Name = "a")]
     int Pm;
 
     public RestGameEvent(PokemonProxy pm)
@@ -31,7 +31,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       if (pm != null)
       {
         pm.SetHp(pm.Hp.Origin);
-        pm.ClientChangePokemonState(PokemonState.SLP);
+        pm.State = PokemonState.SLP;
       }
     }
   }
@@ -61,7 +61,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
       {
         pm.Controller.ReportBuilder.Add(new RestGameEvent(pm));
         pm.Pokemon.SetHp(pm.Pokemon.Hp.Origin);
-        pm.Pokemon.ClientChangePokemonState(PokemonState.SLP);
+        pm.Pokemon.State = PokemonState.SLP;
         pm.OnboardPokemon.SetCondition("SLP", 3);
         pm.Tile.Field.SetCondition("Rest" + pm.Id);
         pm.Item.StateAdded(pm, pm, AttachedState.SLP);

@@ -61,27 +61,27 @@ namespace LightStudio.PokemonBattle.Test
     }
     private void _InformReportUpdate(ReportFragment fragment)
     {
-      if (GameOutward == null)
-      {
-        GameOutward = new GameOutward(Host.Settings, PLAYERS, TEAMS);
-        GameOutward.LeapTurn += delegate { };
-        GameOutward.AddListner(this);
-        SimGame = new SimGame(GameOutward, PlayerId, TeamId, Pokemons, Ids.Dequeue);
-      }
-      GameOutward.Update(fragment);
-      SimGame.Update(fragment);
-      if (GameOutward.Teams[0].Normal + GameOutward.Teams[0].Abnormal == 0 || GameOutward.Teams[1].Normal + GameOutward.Teams[1].Abnormal == 0) GameEnd();
-      else
-        if (needInput)
-        {
-          needInput = false;
-          if (_requireInput != null)
-          {
-            request.Init(SimGame);
-            request.InputFinished += (i) => Host.Input(this, i);
-            _requireInput(request);
-          }
-        }
+      //if (GameOutward == null)
+      //{
+      //  GameOutward = new GameOutward(Host.Settings, PLAYERS, TEAMS);
+      //  GameOutward.LeapTurn += delegate { };
+      //  GameOutward.AddListner(this);
+      //  SimGame = new SimGame(GameOutward, PlayerId, TeamId, Pokemons, Ids.Dequeue);
+      //}
+      //GameOutward.Update(fragment);
+      //SimGame.Update(fragment);
+      //if (GameOutward.Teams[0].Normal + GameOutward.Teams[0].Abnormal == 0 || GameOutward.Teams[1].Normal + GameOutward.Teams[1].Abnormal == 0) GameEnd();
+      //else
+      //  if (needInput)
+      //  {
+      //    needInput = false;
+      //    if (_requireInput != null)
+      //    {
+      //      request.Init(SimGame);
+      //      request.InputFinished += (i) => Host.Input(this, i);
+      //      _requireInput(request);
+      //    }
+      //  }
     }
     public void InformRequireInput(InputRequest request)
     {

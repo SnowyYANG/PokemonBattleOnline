@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     event Action<string> InputFailed;
 
     int SelectedPanel { get; set; }
-    IEnumerable<Pokemon> Pokemons { get; } //it's a readonly IList infact, fine with WPF.Binding
+    IEnumerable<SimPokemon> Pokemons { get; } //it's a readonly IList infact, fine with WPF.Binding
     TargetPanel TargetPanel { get; }
     int Time { get; }
 
@@ -30,12 +30,12 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
     Visibility ThumbnailsVisibility { get; }
     Visibility UndoVisibility { get; }
     PokemonOutward[] PokemonsOnBoard { get; } //3个图标
-    SimPokemon ControllingPokemon { get; }
+    SimOnboardPokemon ControllingPokemon { get; }
     bool IsFightEnabled { get; }
     TeamOutward TeamPokemonsCount { get; }
     TeamOutward RivalTeamPokemonsCount { get; }
 
-    void Pokemon_Click(Pokemon pokemon);
+    void Pokemon_Click(SimPokemon pokemon);
     void Fight_Click();
     void Move_Click(SimMove move);
     void Giveup_Click();

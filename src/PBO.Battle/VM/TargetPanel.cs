@@ -8,9 +8,9 @@ namespace LightStudio.PokemonBattle.PBO.Battle.VM
 {
   class TargetPanel
   {
-    Pokemon[] PokemonsRival;
-    Pokemon[] PokemonsOwner;
-    internal void SetTargetPanel(Move move, Team rival)
+    SimPokemon[] PokemonsRival;
+    SimPokemon[] PokemonsOwner;
+    internal void SetTargetPanel(Move move)
     {
     }
   }

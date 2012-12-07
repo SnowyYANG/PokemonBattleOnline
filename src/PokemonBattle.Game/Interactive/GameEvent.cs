@@ -47,9 +47,9 @@ namespace LightStudio.PokemonBattle.Game
     {
       return Game.GetPokemon(id);
     }
-    protected Pokemon GetPokemon(SimGame game, int id)
+    protected SimPokemon GetPokemon(SimGame game, int id)
     {
-      return game.Team.Pokemons.ValueOrDefault(id);
+      return game.Pokemons.ValueOrDefault(id);
     }
     protected virtual void Update()
     {

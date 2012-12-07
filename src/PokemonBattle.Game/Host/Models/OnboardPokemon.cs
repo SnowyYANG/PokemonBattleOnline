@@ -33,7 +33,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     internal OnboardPokemon(Pokemon pokemon, int x)
     {
       Pokemon = pokemon;
-      FiveD = new Simple6D() { Hp = pokemon.FiveD.Hp };
+      FiveD = new Simple6D();
       ChangeForm(pokemon.Form);
       Gender = pokemon.Gender;
       lv5D = new Simple6D();

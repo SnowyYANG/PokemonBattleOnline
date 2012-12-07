@@ -35,7 +35,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       if (pm != null)
       {
         pm.SetHp(pm.Hp.Origin);
-        pm.ClientChangePokemonState(PokemonState.Normal);
+        pm.State = PokemonState.Normal;
         if (PP)
           foreach (var m in pm.Moves) ((PairValue)m.PP).Value = m.PP.Origin;
       }

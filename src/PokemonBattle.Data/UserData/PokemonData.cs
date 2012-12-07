@@ -103,7 +103,7 @@ namespace LightStudio.PokemonBattle.Data
             _lv = 0;
             _nature = default(PokemonNature);
             Iv.SetStat(StatType.All, 31);
-            _happiness = 255;
+            _happiness = 0;
             _itemId = 0;
           }
           else if (number == 413 || number == 479 || number == 646) _moves.Clear();

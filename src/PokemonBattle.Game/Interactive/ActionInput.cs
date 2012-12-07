@@ -19,7 +19,7 @@ namespace LightStudio.PokemonBattle.Game
     {
       return new XActionInput() { Move = move.Type.Id };
     }
-    public static XActionInput Sendout(Pokemon sendout)
+    public static XActionInput Sendout(SimPokemon sendout)
     {
       return new XActionInput() { SendoutIndex = (byte)sendout.IndexInOwner };
     }
@@ -85,11 +85,11 @@ namespace LightStudio.PokemonBattle.Game
     {
       inputs[x] = XActionInput.UseMove(move);
     }
-    public void Switch(int x, Pokemon sendout)
+    public void Switch(int x, SimPokemon sendout)
     {
       inputs[x] = XActionInput.Sendout(sendout);
     }
-    public void Sendout(int x, Pokemon sendout)
+    public void Sendout(int x, SimPokemon sendout)
     {
       inputs[x] = XActionInput.Sendout(sendout);
     }
@@ -103,7 +103,7 @@ namespace LightStudio.PokemonBattle.Game
       for (int x = 0; x < inputs.Length; ++x)
         if (inputs[x] != null)
         { 
-          if (controller.Game.Settings.Mode.GetPlayerIndex(x) != player.Team.GetPlayerIndex(player.Id)) return false;
+          if (controller.Game.Settings.Mode.GetPlayerIndex(x) != controller.Game.Teams[player.TeamId].GetPlayerIndex(player.Id)) return false;
           if (!inputs[x].Input(controller, controller.Board[player.TeamId][x])) return false;
         }
       return controller.CheckInputSucceed(player);

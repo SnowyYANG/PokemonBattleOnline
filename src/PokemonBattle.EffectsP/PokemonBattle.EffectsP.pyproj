@@ -64,7 +64,6 @@
     <None Include="Moves\Status\ClassD.py" />
     <None Include="Moves\Status\ContinuousUseFailEasier.py" />
     <None Include="Moves\Status\HpRecover.py" />
-    <None Include="Moves\Status\LastMove.py" />
     <None Include="Moves\Status\Telekinesis.py" />
     <None Include="references.py" />
   </ItemGroup>

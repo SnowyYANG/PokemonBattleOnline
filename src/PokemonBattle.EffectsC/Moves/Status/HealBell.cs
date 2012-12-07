@@ -36,13 +36,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
     }
     public override void Update(SimGame game)
     {
-      if (game.Team.Id == team)
+      if (game.Player.Team == team)
       {
         var player = GetPokemon(game, Pm).Owner;
         foreach (var pm in game.OnboardPokemons)
-          if (pm != null) pm.Pokemon.ClientChangePokemonState(PokemonState.Normal);
+          if (pm != null) pm.Pokemon.State = PokemonState.Normal;
         foreach (var pm in player.Pokemons)
-          if (pm.State != PokemonState.Faint) pm.ClientChangePokemonState(PokemonState.Normal);
+          if (pm.State != PokemonState.Faint) pm.State = PokemonState.Normal;
       }
     }
   }

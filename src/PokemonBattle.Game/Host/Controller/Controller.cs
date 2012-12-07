@@ -18,27 +18,28 @@ namespace LightStudio.PokemonBattle.Game.Host
     private readonly Dictionary<int, PokemonProxy> pokemons;
     
     private Random random;
-//#if DEBUG
+#if ETV
     private Random randomSeeds;
-//#endif
+#endif
 
     internal Controller(GameContext game)
     {
       Game = game;
       pokemons = new Dictionary<int, PokemonProxy>();
       foreach (Team t in game.Teams)
-        foreach (Pokemon p in t.Pokemons.Values) pokemons.Add(p.Id, new PokemonProxy(this, p));
+        foreach(var pl in t.Players)
+          foreach (Pokemon p in pl.Pokemons) pokemons.Add(p.Id, new PokemonProxy(this, p));
 
       ReportBuilder = new ReportBuilder(this);
       SwitchController = new SwitchController(this);
       InputController = new InputController(this);
       TurnController = new TurnController(this);
-//#if DEBUG
+#if ETV || DEBUG
       randomSeeds = new Random(1);
       random = new Random(randomSeeds.Next());
-//#else
-//      random = new Random();
-//#endif
+#else
+      random = new Random();
+#endif
     }
 
     public IGameSettings GameSettings
@@ -201,7 +202,11 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       return false;
     }
-    public bool Sendout(Tile position, bool debut = true, string log = null)
+    internal void GameStartSendout(IEnumerable<Tile> tiles)
+    {
+      SwitchController.GameStartSendout(tiles);
+    }
+    public bool Sendout(Tile position, bool debut = true, string log = "Sendout1")
     {
       if (SwitchController.Sendout(position, debut, log))
       {

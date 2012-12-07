@@ -33,11 +33,11 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     public override void Update(SimGame game)
     {
       var pm = GetPokemon(game, Pm);
-      if (pm != null) pm.ClientChangeItem(Data.GameDataService.GetItem(Item));
+      if (pm != null) pm.Item = Data.GameDataService.GetItem(Item);
       if (Loster != 0)
       {
         pm = GetPokemon(game, Loster);
-        if (pm != null) pm.ClientChangeItem(null);
+        if (pm != null) pm.Item = null;
       }
     }
   }

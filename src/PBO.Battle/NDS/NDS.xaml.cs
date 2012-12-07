@@ -23,7 +23,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
   /// </summary>
   public partial class NDS : UserControl
   {
-    public event Action<Pokemon> ReviewPokemon
+    public event Action<SimPokemon> ReviewPokemon
     {
       add { cp.ReviewPokemon += value; }
       remove { cp.ReviewPokemon -= value; }
@@ -38,7 +38,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     {
       var game = userController.Game;
       int observerTeamId;
-      if (userController.PlayerController != null) observerTeamId = userController.PlayerController.Player.TeamId;
+      if (userController.PlayerController != null) observerTeamId = userController.PlayerController.Player.Team;
       else observerTeamId = 0;
       opms.ItemsSource = game.Board.Teams[observerTeamId];
       rpms.ItemsSource = game.Board.Teams[1 - observerTeamId];

@@ -9,19 +9,15 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Name = "es", Namespace = Namespaces.PBO)]
-  internal class SendOut : GameEvent
+  [DataContract(Name = "es2", Namespace = Namespaces.PBO)]
+  internal class GameStartSendOut : GameEvent
   {
-    [DataMember(Name = "a", EmitDefaultValue = false)]
-    string Log;
-    [DataMember(Name = "b")]
+    [DataMember(Name = "a")]
     PokemonOutward[] Pms;
 
-    internal SendOut(string log = null, params PokemonProxy[] pms)
+    internal GameStartSendOut(IEnumerable<PokemonProxy> pms)
     {
-      Log = log;
-      Pms = new PokemonOutward[pms.Length];
-      for (int i = 0; i < pms.Length; ++i) Pms[i] = pms[i].GetOutward();
+      Pms = pms.Select((p) => p.GetOutward()).ToArray();
     }
 
     protected override void Update()
@@ -32,18 +28,54 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
         Game.Board[p.Position.Team, p.Position.X] = p;
         Game.Board.PokemonSentout(Game, p.Position.Team, p.Position.X);
       }
-      AppendGameLog(Log ?? "SendOut" + Pms.Length, Pms.Select((p) => p.Id).ToArray());
+      AppendGameLog("SendOut" + Pms.Length, Pms.Select((p) => p.Id).ToArray());
       foreach (PokemonOutward p in Pms)
         if (p.Chatter != null) AppendGameLog("Chatter", p.Id);
     }
     public override void Update(SimGame game)
     {
-      if (game.Team.Pokemons.ContainsKey(Pms[0].Id))
+      if (game.Pokemons.ContainsKey(Pms[0].Id))
         foreach (PokemonOutward p in Pms)
         {
-          game.OnboardPokemons[p.Position.X] = new SimPokemon(game.Team.Pokemons[p.Id], p);
+          game.OnboardPokemons[p.Position.X] = new SimOnboardPokemon(game.Pokemons[p.Id], p);
           if (p.Owner.Id == game.Player.Id) game.Player.SwitchPokemon(game.Settings.Mode.GetPokemonIndex(p.Position.X), game.Player.GetPokemonIndex(p.Id));
         }
+    }
+  }
+
+  [DataContract(Name = "es", Namespace = Namespaces.PBO)]
+  internal class SendOut : GameEvent
+  {
+    [DataMember(Name = "a")]
+    PokemonOutward Pm;
+    [DataMember(Name = "b")]
+    int FormerIndex;
+    [DataMember(Name = "c", EmitDefaultValue = false)]
+    string Log;
+
+    internal SendOut(PokemonProxy pm, int formerIndex, string log)
+    {
+      Log = log == "Sendout1" ? null : log;
+      Pm = pm.GetOutward();
+      FormerIndex = formerIndex;
+    }
+
+    protected override void Update()
+    {
+      Pm.Init(Game);
+      Game.Board[Pm.Position.Team, Pm.Position.X] = Pm;
+      Game.Board.PokemonSentout(Game, Pm.Position.Team, Pm.Position.X);
+      Game.Teams[Pm.Position.Team].SwitchPokemon(FormerIndex, Game.Settings.Mode.GetPokemonIndex(Pm.Position.X));
+      AppendGameLog(Log ?? "SendOut1", Pm.Id);
+      if (Pm.Chatter != null) AppendGameLog("Chatter", Pm.Id);
+    }
+    public override void Update(SimGame game)
+    {
+      if (Pm.Position.Team == game.Player.Team)
+      {
+        game.OnboardPokemons[Pm.Position.X] = new SimOnboardPokemon(game.Pokemons[Pm.Id], Pm);
+        if (Pm.Owner.Id == game.Player.Id) game.Player.SwitchPokemon(FormerIndex, game.Player.GetPokemonIndex(Pm.Id));
+      }
     }
   }
 
@@ -79,11 +111,11 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
     public override void Update(SimGame game)
     {
-      if (team == game.Player.TeamId)
+      if (team == game.Player.Team)
       {
         var pm = game.OnboardPokemons[x].Pokemon;
         game.OnboardPokemons[x] = null;
-        pm.ClientResetForm();
+        pm.ResetForm();
         if (pm.Hp.Value == 0) pm.State = PokemonState.Faint;
         else
         {

@@ -10,15 +10,15 @@ namespace LightStudio.PokemonBattle.Messaging.Room
 {
   internal class PlayerClient : RoomUserClient, IPlayerController
   {
-    private readonly int teamId;
-    private readonly IPokemonData[] pokemons;
+    private readonly int TeamId;
+    private readonly IPokemonData[] Pokemons;
     private SimGame game;
 
     public PlayerClient(int hostId, int teamId, IPokemonData[] pokemons)
       : base(hostId)
     {
-      this.teamId = teamId;
-      this.pokemons = pokemons;
+      this.TeamId = teamId;
+      this.Pokemons = pokemons;
     }
 
     public override Tactic.Messaging.UserState State
@@ -30,9 +30,10 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     {
       base.InformEnterSucceed(settings, players, spectators);
     }
-    protected override void OnGameStarted()
+    protected override void InformPlayerInfo(int teamIndex, IPokemonData[] parner)
     {
-      game = new SimGame(Game, PBOClient.Client.User.Id, teamId, pokemons, Settings.NextId);
+      var player = new SimPlayer(PBOClient.Client.User.Id, TeamId, teamIndex, Pokemons);
+      game = new SimGame(Settings, player, parner);
     }
 
     #region IPlayerController
@@ -42,7 +43,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       add { _requireInput += value; }
       remove { _requireInput -= value; }
     }
-    Game.Player IPlayerController.Player
+    SimPlayer IPlayerController.Player
     { get { return game.Player; } }
     SimGame IPlayerController.Game
     { get { return game; } }
@@ -99,7 +100,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
 
     public override void EnterRoom()
     {
-      sendCommand(new JoinGameCommand(pokemons, teamId));
+      sendCommand(new JoinGameCommand(Pokemons, TeamId));
     }
   }
 }

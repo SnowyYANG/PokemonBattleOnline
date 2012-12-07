@@ -163,19 +163,24 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     private void EndTurnSendout()
     {
-      var sendouts = new bool[2, 3]; //max size
-      foreach(Tile t in Tiles)
-        if (t.WillSendoutPokemonIndex != Tile.NOPM_INDEX)
-        {
-          sendouts[t.Team, t.X] = true;
-          Controller.Sendout(t, false);
-        }
+      if (Controller.TurnNumber == 0)
+      {
+        Controller.GameStartSendout(Board[0].Tiles);
+        Controller.GameStartSendout(Board[1].Tiles);
+      }
+      else
+        foreach (Tile t in Tiles)
+          if (t.WillSendoutPokemonIndex != Tile.NOPM_INDEX) Controller.Sendout(t, false);
       SortTiles();
       Abilities.AttachUnnerve(Controller);
+      var debut = new List<PokemonProxy>();
       foreach (Tile t in Tiles)
-        if (sendouts[t.Team, t.X]) t.Pokemon.Debut();
-      foreach (Tile t in Tiles)
-        if (sendouts[t.Team, t.X]) Abilities.AttachWeatherObserver(t.Pokemon);
+        if (t.Pokemon != null && t.Pokemon.Action == PokemonAction.Debuting)
+        {
+          t.Pokemon.Debut();
+          debut.Add(t.Pokemon);
+        }
+      foreach (var p in debut) Abilities.AttachWeatherObserver(p);
       Abilities.WeatherChanged(Controller);
       if (ReportBuilder.TurnNumber != 0) current -= 2;
     }
