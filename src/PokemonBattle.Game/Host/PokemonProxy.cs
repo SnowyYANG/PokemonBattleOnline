@@ -604,9 +604,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public void RemoveItem()
     {
-#if DEBUG
-      if (Pokemon.Item == null) System.Diagnostics.Debugger.Break();
-#endif
       Pokemon.Item = null;
       if (Ability.Unburden()) OnboardPokemon.SetCondition("Unburden");
     }
