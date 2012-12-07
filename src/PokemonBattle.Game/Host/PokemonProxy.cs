@@ -269,7 +269,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       return false;
     STATE:
       if (State != PokemonState.Normal) goto FAIL;
-      if (Tile.Field.HasCondition("Safeguard")) goto SAFEGUARD;
+      if (Tile.Field.HasCondition("Safeguard") && !by.Ability.Infiltrator()) goto SAFEGUARD;
       goto GENERIC;
     CONDITION:
       if (OnboardPokemon.HasCondition(state.ToString())) goto FAIL;
@@ -283,7 +283,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public int CanChangeLv7D(PokemonProxy by, StatType stat, int change, bool showFail)
     {
       if (OnboardPokemon == NullOnboardPokemon || Hp == 0 || change == 0) return 0;
-      if (change < 0 && by != this && Tile.Field.HasCondition("Mist"))
+      if (change < 0 && by != this && Tile.Field.HasCondition("Mist") && !by.Ability.Infiltrator()) //根据百科非技能似乎不该发动，但排除了一下这样写肯定是对的
       {
         if (showFail) AddReportPm("Mist");
         return 0;
