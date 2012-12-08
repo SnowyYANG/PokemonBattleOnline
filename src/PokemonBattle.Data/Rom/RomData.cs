@@ -10,12 +10,12 @@ namespace LightStudio.PokemonBattle.Data
   [DataContract(Namespace=Namespaces.PBO)]
   public sealed class RomData : SimpleData
   {
-#if DEBUG
+#if EDITING
     public
 #else
     internal
 #endif
-      static RomData Load(string path)
+     static RomData Load(string path)
     {
       var rom = LoadFromDat<RomData>(path);
       foreach (var pm in rom.Pokemons)
@@ -24,15 +24,44 @@ namespace LightStudio.PokemonBattle.Data
     }
 
     [DataMember]
-    private readonly PokemonType[] pokemons;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     PokemonType[] pokemons;
+
     [DataMember]
-    private readonly MoveType[] moves;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     MoveType[] moves;
+
     [DataMember]
-    private readonly Ability[] abilities;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     Ability[] abilities;
+
     [DataMember]
-    private readonly Dictionary<int, Item> items;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     Dictionary<int, Item> items;
+
     [DataMember]
-    private readonly Evolution[] evolutions;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     Evolution[] evolutions;
 
     private RomData()
     {

@@ -9,65 +9,140 @@ namespace LightStudio.PokemonBattle.Data
   public class GiftPokemon
   {
     [DataMember]
-    public short number;
-    [DataMember(EmitDefaultValue = false)]
-    public byte form;
-    [DataMember]
-    public short ownerId; //N精灵素大坑，日后再填
-    [DataMember]
-    public ushort personality; //0xffffffff for random
-    [DataMember]
-    public bool neverShiney; //闪光素大坑，日后再填
-
-#if DEBUG
-    public GiftPokemon()
-    {
-    }
+#if EDITING
+    public
 #else
-    private GiftPokemon()
+    private readonly
+#endif
+     short number;
+    [DataMember(EmitDefaultValue = false)]
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     byte form;
+    [DataMember]
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     short ownerId; //N精灵素大坑，日后再填
+    [DataMember]
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     ushort personality; //0xffffffff for random
+    [DataMember]
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     bool neverShiney; //闪光素大坑，日后再填
+
+#if EDITING
+    public
+#else
+    private
+#endif
+     GiftPokemon()
     {
     }
-#endif
 
-    private byte _gen;
+    [DataMember]
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     byte _gen;
     public int Gen
     { get { return _gen; } }
     
     [DataMember]
-    public string _name;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     string _name;
 
     public PokemonForm Form
     { get { return GameDataService.GetPokemon(number, form); } }
 
     [DataMember]
-    public PokemonGender _gender;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     PokemonGender _gender;
     public PokemonGender Gender
     { get { return _gender; } }
 
     [DataMember]
-    public int _lv;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     int _lv;
     public int Lv
     { get { return _lv; } }
 
     [DataMember]
-    public int _ability; //不是AbilityIndex大丈夫？
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     int _ability; //不是AbilityIndex大丈夫？
 
     [DataMember(EmitDefaultValue = false)]
-    public int _item;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     int _item;
 
     [DataMember(EmitDefaultValue = false)]
-    public PokemonNature? _nature;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     PokemonNature? _nature;
 
     [DataMember(EmitDefaultValue = false)]
-    public ReadOnly6D _ivs; //0 for random
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     ReadOnly6D _ivs; //0 for random
 
     [DataMember(EmitDefaultValue = false)]
-    public int[] _moveIds;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     int[] _moveIds;
     public IEnumerable<int> MoveIds
     { get { return _moveIds; } }
 
     [DataMember(EmitDefaultValue = false)]
-    public bool _fatefulEncounter;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+     bool _fatefulEncounter;
     public bool FatefulEncounter
     { get { return _fatefulEncounter; } }
   }

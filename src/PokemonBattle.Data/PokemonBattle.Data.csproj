@@ -62,6 +62,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'EDITING|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\EDITING\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;EDITING</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>BasicDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -79,7 +88,10 @@
   <ItemGroup>
     <Compile Include="Rom\Ability.cs" />
     <Compile Include="Rom\GiftPokemon.cs" />
-    <Compile Include="Rom\LearnSet\TempLearnSet.cs" />
+    <Compile Include="Rom\LearnList\GenLearnList.cs" />
+    <Compile Include="Rom\LearnList\LearnList.cs" />
+    <Compile Include="Rom\LearnList\PokemonLearnList.cs" />
+    <Compile Include="Rom\LearnList\TempLearnSet.cs" />
     <Compile Include="Rom\Move\MoveInnerClass.cs" />
     <Compile Include="Rom\Move\MoveAttachment.cs" />
     <Compile Include="Rom\Item.cs" />
@@ -104,7 +116,7 @@
     <Compile Include="GameDataService.cs" />
     <Compile Include="Rom\BattleType.cs" />
     <Compile Include="Rom\Pokemon\EggGroup.cs" />
-    <Compile Include="Rom\LearnSet\MoveLearnMethod.cs" />
+    <Compile Include="Rom\LearnList\MoveLearnMethod.cs" />
     <Compile Include="Rom\Pokemon\PokemonGender.cs" />
     <Compile Include="Rom\Pokemon\PokemonNature.cs" />
     <Compile Include="ImageService.cs" />

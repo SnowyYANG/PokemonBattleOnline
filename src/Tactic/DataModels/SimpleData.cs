@@ -13,7 +13,7 @@ namespace LightStudio.Tactic.DataModels
   [DataContract(Namespace=Namespaces.PBO)]
   public abstract class SimpleData
   {
-#if DEBUG
+#if EDITING
     public
 #else
     protected
@@ -39,7 +39,7 @@ namespace LightStudio.Tactic.DataModels
     {
     }
     
-#if DEBUG
+#if EDITING
     public
 #else
     protected
@@ -49,7 +49,7 @@ namespace LightStudio.Tactic.DataModels
       using (FileStream f = new FileStream(fileName, FileMode.Create))
         Serializer.Serialize(this, f);
     }
-#if DEBUG
+#if EDITING
     public
 #else
     protected

@@ -10,17 +10,15 @@ namespace LightStudio.PokemonBattle.Data
   [DataContract(Namespace = Namespaces.PBO)]
   public class MoveType : GameElement
   {
-#if DEBUG
-    public MoveType(int id)
-      : base(id)
-    {
-    }
+#if EDITING
+    public
 #else
-    private MoveType(int id)
+    private
+#endif
+     MoveType(int id)
       : base(id)
     {
     }
-#endif
 
     public override string Name
     { get { return DataService.DataString[EnglishName]; } }

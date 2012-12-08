@@ -23,12 +23,12 @@ namespace LightStudio.PokemonBattle.Data
     [DataMember]
     public int FlingPower { get; private set; }
 
-#if DEBUG
+#if EDITING
     public
 #else
     private 
 #endif
-    Item(int id)
+     Item(int id)
       : base(id)
     {
     }
