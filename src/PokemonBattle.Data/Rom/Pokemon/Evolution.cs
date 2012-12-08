@@ -7,9 +7,14 @@ using System.Runtime.Serialization;
 namespace LightStudio.PokemonBattle.Data
 {
   [DataContract(Namespace = Namespaces.PBO)]
-  internal sealed class Evolution
+#if EDITING
+  public
+#else
+  internal sealed
+#endif
+   class Evolution
   {
-#if DEBUG
+#if EDITING
     public
 #else
     private
