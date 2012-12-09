@@ -24,11 +24,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
             pm.OnboardPokemon.CoordY = CoordY.Plate;
             pm.CancelMove();
             pm.OnboardPokemon.RemoveCondition("SkyDrop");
-            goto SHOW;
+            c.ReportBuilder.Add(GameEvents.PositionChange.Reset("Gravity", pm));
           }
-          if (!EffectsService.IsGroundAffectable.Execute(pm, true, false, false)) continue;
-        SHOW:
-          pm.AddReportPm("Gravity");
+          else if (!EffectsService.IsGroundAffectable.Execute(pm, true, false, false)) pm.AddReportPm("Gravity");
         }
       }
       else atk.FailAll();
