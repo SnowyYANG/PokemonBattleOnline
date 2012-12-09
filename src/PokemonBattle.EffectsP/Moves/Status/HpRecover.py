@@ -14,6 +14,8 @@ class Moonlight(StatusMoveE):
             aer.HpRecover(hp)
         else:
             a.AllFail = True
+M(Moonlight(234))
+M(Moonlight(235))
 M(Moonlight(236))
 
 class Roost(StatusMoveE):
