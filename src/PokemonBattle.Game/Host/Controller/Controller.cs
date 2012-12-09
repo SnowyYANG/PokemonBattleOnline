@@ -140,18 +140,15 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public void PauseForSendoutInput(Tile tile) //逃生按钮、追击死亡
     {
-      InputController.PauseForSendoutInput(tile);
-      PauseForInput();
+      if (InputController.PauseForSendoutInput(tile)) PauseForInput();
     }
     internal void PauseForTurnInput()
     {
-      InputController.PauseForTurnInput();
-      PauseForInput();
+      if (InputController.PauseForTurnInput()) PauseForInput();
     }
     internal void PauseForEndTurnInput()
     {
-      InputController.PauseForEndTurnInput();
-      PauseForInput();
+      if (InputController.PauseForEndTurnInput()) PauseForInput();
     }
     private void PauseForInput()
     {

@@ -31,6 +31,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp
       int id = move.Id;
       return id == THRASH || id == PETAL_DANCE || id == OUTRAGE || id == ROLLOUT || id == ICE_BALL;
     }
+    internal static bool AttackSwitch(this MoveType move)
+    {
+      const int U_TURN = 369, VOLT_SWITCH = 521;
+      return move.Id == U_TURN || move.Id == VOLT_SWITCH;
+    }
 
     public static Modifier SolarBeam(DefContext def)
     {

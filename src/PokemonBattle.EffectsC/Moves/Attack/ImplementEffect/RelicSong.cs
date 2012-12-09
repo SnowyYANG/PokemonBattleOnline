@@ -13,6 +13,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     }
     protected override void ImplementEffect(DefContext def)
     {
+      base.ImplementEffect(def);
       var aer = def.AtkContext.Attacker;
       if (aer.CanChangeForm(648)) aer.ChangeForm(1 - aer.OnboardPokemon.Form.Index);
     }

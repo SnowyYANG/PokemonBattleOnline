@@ -21,9 +21,12 @@
 </text><HiddenInBattle>true</HiddenInBattle></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EndTurnNormalPm</a:Key><a:Value i:type="LogText"><Alignment>Right</Alignment><text>{0:p}（{0:pm.Type}）：{1}HP
 </text><HiddenInBattle>true</HiddenInBattle></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EndTurnAbnormalPm</a:Key><a:Value i:type="LogText"><Alignment>Right</Alignment><text>{0:p}（{0:pm.Type}）：{1}HP（{2:e}）
 </text><HiddenInBattle>true</HiddenInBattle></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>UseMove</a:Key><a:Value i:type="LogText"><text>{0:p}使用了{1:m}！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SendOut1</a:Key><a:Value i:type="LogText"><text>{0:pm.Owner.Name}放出了{0:pm.Name}（Lv.{0:pm.Lv} {0:pm.Type}）！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SendOut2</a:Key><a:Value i:type="LogText"><text>{0:pm.Owner.Name}放出了{0:pm.Name}（Lv.{0:pm.Lv} {0:pm.Type}）和{1:pm.Name}（Lv.{1:pm.Lv} {1:pm.Type}）！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>SendOut3</a:Key><a:Value i:type="LogText"><text>{0:pm.Owner.Name}放出了{0:pm.Name}（Lv.{0:pm.Lv} {0:pm.Type}）、{1:pm.Name}（Lv.{1:pm.Lv} {1:pm.Type}）和{2:pm.Name}（Lv.{2:pm.Lv} {2:pm.Type}）！
+</text></a:Value></a:KeyValueOfstringanyType>
+<a:KeyValueOfstringanyType><a:Key>SendOut1</a:Key><a:Value i:type="LogText"><Contents><a:anyType i:type="LogText"><text>{0:pm.Owner.Name}放出了{0:pm.Name}</text></a:anyType><a:anyType i:type="LogText"><text>（Lv.{0:pm.Lv} {0:pm.Type}）</text><HiddenInBattle>true</HiddenInBattle></a:anyType><a:anyType i:type="LogText"><text>！
+</text></a:anyType></Contents></a:Value></a:KeyValueOfstringanyType>
+<a:KeyValueOfstringanyType><a:Key>SendOut2</a:Key><a:Value i:type="LogText"><text>{0:pm.Owner.Name}放出了{0:pm.Name}（Lv.{0:pm.Lv} {0:pm.Type}）和{1:pm.Name}（Lv.{1:pm.Lv} {1:pm.Type}）！
+</text></a:Value></a:KeyValueOfstringanyType>
+<a:KeyValueOfstringanyType><a:Key>SendOut3</a:Key><a:Value i:type="LogText"><text>{0:pm.Owner.Name}放出了{0:pm.Name}（Lv.{0:pm.Lv} {0:pm.Type}）、{1:pm.Name}（Lv.{1:pm.Lv} {1:pm.Type}）和{2:pm.Name}（Lv.{2:pm.Lv} {2:pm.Type}）！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Withdraw</a:Key><a:Value i:type="LogText"><text>{0:pm.Owner.Name}收回了{0:pm.Name}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Hits</a:Key><a:Value i:type="LogText"><text>命中{0}次！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Faint</a:Key><a:Value i:type="LogText"><text>{0:p}倒下了！

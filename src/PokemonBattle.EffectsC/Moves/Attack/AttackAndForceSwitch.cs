@@ -12,9 +12,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     {
     }
     
-    protected override void PassiveEffect(DefContext def)
+    protected override void PostEffect(DefContext def)
     {
-      base.PassiveEffect(def);
       MoveE.ForceSwitch(def);
     }
   }

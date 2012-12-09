@@ -17,11 +17,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     {
       var i = Sp.Items.BerryNumber(def.Defender.Item.Id);
       if (i != 0) def.SetCondition("EatenBerry", i);
-      base.ImplementEffect(def);
     }
-    protected override void PassiveEffect(DefContext def)
+    protected override void PostEffect(DefContext def)
     {
-      base.PassiveEffect(def);
       var b = def.GetCondition<int>("EatenBerry");
       if (b != 0)
       {

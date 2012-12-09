@@ -51,7 +51,7 @@
     <None Include="Moves\Attack\Blizzard.py" />
     <None Include="Moves\Attack\DeAbnormal.py" />
     <None Include="Moves\Attack\Exclusive.py" />
-    <None Include="Moves\Attack\ImplementEffect.py" />
+    <None Include="Moves\Attack\ClearSmog.py" />
     <None Include="Moves\Attack\MoveProxyUsed.py" />
     <None Include="Moves\Attack\NotFailHasEffect.py" />
     <None Include="Moves\Attack\Rage.py" />

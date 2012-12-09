@@ -11,7 +11,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
       : base(id)
     {
     }
-    protected override void ImplementEffect(DefContext def)
+    protected override void PostEffect(DefContext def)
     {
       var aer = def.AtkContext.Attacker;
       aer.Tile.Field.DeEntryHazards(aer.Controller.ReportBuilder);

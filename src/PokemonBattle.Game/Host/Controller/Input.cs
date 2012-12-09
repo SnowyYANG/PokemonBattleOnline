@@ -36,30 +36,33 @@ namespace LightStudio.PokemonBattle.Game.Host
       requirements.Remove(player.Id);
       return true;
     }
-    public void PauseForTurnInput()
+    public bool PauseForTurnInput()
     {
-      requirements.Clear();
+      if (requirements.Any()) return false;
       var groups = from p in Controller.ActingPokemons
                    where p.Action == PokemonAction.WaitingForInput
                    group p by p.Pokemon.Owner.Id into playerPms
                    select playerPms;
       foreach (var g in groups) requirements.Add(g.Key, new InputRequest(g));
+      return true;
     }
-    public void PauseForEndTurnInput()
+    public bool PauseForEndTurnInput()
     {
-      requirements.Clear();
+      if (requirements.Any()) return false;
       var groups = from t in Controller.Game.Board.Tiles
                    where Controller.CanSendout(t)
                    group t by Controller.GetPlayer(t).Id into playerTiles
                    select playerTiles;
       foreach (var g in groups) requirements[g.Key] = new InputRequest();
       singleSendout = false;
+      return true;
     }
-    public void PauseForSendoutInput(Tile tile)
+    public bool PauseForSendoutInput(Tile tile)
     {
-      requirements.Clear();
+      if (requirements.Any()) return false;
       if (Controller.CanSendout(tile)) requirements.Add(Controller.GetPlayer(tile).Id, new InputRequest(tile));
       singleSendout = true;
+      return true;
     }
     private bool Switch(PokemonProxy withdraw, int sendoutIndex)
     {

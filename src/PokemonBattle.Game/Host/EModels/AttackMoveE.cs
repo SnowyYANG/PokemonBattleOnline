@@ -77,7 +77,6 @@ namespace LightStudio.PokemonBattle.Game.Host
           def.Defender.Controller.ReportBuilder.Add(e);
           def.Defender.MoveHurt(def);
           e.SetHurt(defs);
-          ImplementEffect(def);
           PassiveEffect(def);
         }
       }
@@ -110,7 +109,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           {
             ImplementEffect(d);
             PassiveEffect(d);
-
+            if (a.Hp != 0 && d.Defender.Hp != 0) PostEffect(d);
           }
 
         if (a.Hp > 0)
@@ -275,18 +274,29 @@ namespace LightStudio.PokemonBattle.Game.Host
     protected override void MoveEnding(AtkContext atk)
     {
       base.MoveEnding(atk);
+      var c = atk.Controller;
+      var aer = atk.Attacker;
       {
         var o = atk.GetCondition("MultiTurn");
         if (o != null)
         {
           o.Turn--;
           if (o.Turn != 0) atk.SetAttackerAction(PokemonAction.Moving);
-          else if (o.Bool) atk.Attacker.AddState(atk.Attacker, AttachedState.Confuse, false, 0, "EnConfuse2");
+          else if (o.Bool) aer.AddState(aer, AttachedState.Confuse, false, 0, "EnConfuse2");
         }
       }
       {
         var o = atk.GetCondition<Tile>("EjectButton");
-        if (o != null) atk.Controller.PauseForSendoutInput(o);
+        if (o != null)
+        {
+          c.PauseForSendoutInput(o);
+          return;
+        }
+      }
+      if (Move.AttackSwitch() && aer.Tile != null)
+      {
+         c.Withdraw(aer, "SelfWithdraw", true);
+         c.PauseForSendoutInput(aer.Tile);
       }
     }
   }
