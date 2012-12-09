@@ -104,13 +104,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
     //4.0 Wish
     private static void Wish(Controller c)
     {
-      foreach (var pm in c.OnboardPokemons)
+      foreach (var t in c.Tiles)
       {
-        var o = pm.Tile.GetCondition("Wish");
+        var o = t.GetCondition("Wish");
         if (o != null && o.Turn == c.TurnNumber)
         {
-          pm.Tile.RemoveCondition("Wish");
-          pm.HpRecover(o.Int, false, "Wish");
+          t.RemoveCondition("Wish");
+          if (t.Pokemon != null) t.Pokemon.HpRecover(o.Int, false, "Wish");
         }
       }
     }
