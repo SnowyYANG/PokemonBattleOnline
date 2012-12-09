@@ -196,7 +196,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     public static OutwardChange Transform(PokemonProxy pm, PokemonProxy target)
     {
       var o = pm.GetOutward();
-      return new OutwardChange("Transform", o.Id, target.Id) { Number = o.Form.Type.Number, Form = o.Form.Index, Moves = pm.Moves.Select((m)=>m.Type.Id).ToArray() };
+      return new OutwardChange("Transform", o.Id, target.Id) { Number = o.Form.Type.Number, Form = o.Form.Index, Moves = pm.Moves.Select((m) => m.Type.Id).ToArray() };
     }
     public static OutwardChange DeIllusion(string log, PokemonProxy pm, int arg = 0)
     {

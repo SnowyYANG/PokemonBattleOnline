@@ -62,6 +62,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects
       M(new Bad(166));
       M(new TripleKick(167));
       M(new Thief(168));
+      M(new Snore(173));
       M(new Curse(174));
       M(new Flail(175));
       M(new Conversion2(176));

@@ -84,6 +84,7 @@
     <Compile Include="Moves\Attack\ImplementEffect\RapidSpin.cs" />
     <Compile Include="Moves\Attack\Revenge.cs" />
     <Compile Include="Moves\Attack\SmackDown.cs" />
+    <Compile Include="Moves\Attack\Snore.cs" />
     <Compile Include="Moves\Attack\SpBasepower\Acrobatics.cs" />
     <Compile Include="Moves\Attack\SpBasepower\AHappy.cs" />
     <Compile Include="Moves\Attack\SpBasepower\EchoedVoice.cs" />
