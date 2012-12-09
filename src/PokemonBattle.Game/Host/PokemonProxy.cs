@@ -208,6 +208,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           if (OnboardPokemon.HasType(BattleType.Fire)) goto NOEFFECT;
           goto STATE;
         case AttachedState.FRZ:
+          if (Controller.Weather == Weather.IntenseSunlight) goto FAIL;//战报顺序未测
           if (State == PokemonState.FRZ) goto BEENSTATE;
           if (OnboardPokemon.HasType(BattleType.Ice)) goto NOEFFECT;
           goto STATE;
@@ -220,7 +221,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             if (showFail) AddReportPm("BeenPSN");
             return false;
           }
-          if (OnboardPokemon.HasType(BattleType.Poison) || OnboardPokemon.HasType(BattleType.Steel)) goto FAIL;
+          if (OnboardPokemon.HasType(BattleType.Poison) || OnboardPokemon.HasType(BattleType.Steel)) goto NOEFFECT;
           goto STATE;
         case AttachedState.SLP:
           if (!ability.SoundProof())
