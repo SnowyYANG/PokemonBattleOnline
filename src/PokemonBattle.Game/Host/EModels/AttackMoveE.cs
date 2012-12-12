@@ -54,8 +54,13 @@ namespace LightStudio.PokemonBattle.Game.Host
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
       }
       while (hits < times && atk.Target.Defender.Hp != 0 && aer.Hp != 0 && aer.State != PokemonState.FRZ && aer.State != PokemonState.SLP);
-      
-      if (Move.MaxTimes > 1) atk.Controller.ReportBuilder.Add("Hits", hits);
+
+      if (Move.MinTimes != 0)
+      {
+        if (atk.Target.EffectRevise > 0) aer.Controller.ReportBuilder.Add("SuperHurt0");
+        else if (atk.Target.EffectRevise < 0) aer.Controller.ReportBuilder.Add("WeakHurt0");
+        aer.Controller.ReportBuilder.Add("Hits", hits);
+      }
       if (atk.Type == BattleType.Fire)
         foreach (DefContext d in atk.Targets)
           if (d.Defender.State == PokemonState.FRZ) d.Defender.DeAbnormalState();
@@ -76,7 +81,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           MoveHurt e = new MoveHurt();
           def.Defender.Controller.ReportBuilder.Add(e);
           def.Defender.MoveHurt(def);
-          e.SetHurt(defs);
+          e.SetHurt(defs, true);
           PassiveEffect(def);
         }
       }
@@ -98,7 +103,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             d.Defender.MoveHurt(d);
             atk.TotalDamage += d.Damage;
           }
-          e.SetHurt(defs);
+          e.SetHurt(defs, atk.Move.MinTimes == 0);
         }
 
         if (Move.HurtPercentage > 0) DamagePercentage(def, Move.HurtPercentage);

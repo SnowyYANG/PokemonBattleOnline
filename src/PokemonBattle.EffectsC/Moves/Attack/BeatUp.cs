@@ -41,5 +41,12 @@ namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
     protected override void CalculateEffectRevise(DefContext def)
     {
     }
+    protected override void CalculateDamage(DefContext def)
+    {
+      base.CalculateDamage(def);
+      BattleType a = def.AtkContext.Type;
+      OnboardPokemon der = def.Defender.OnboardPokemon;
+      def.EffectRevise = a == BattleType.Ground && def.Defender.Item.IronBall() && der.HasType(BattleType.Flying) ? 0 : a.EffectRevise(der.Type1, der.Type2);      
+    }
   }
 }

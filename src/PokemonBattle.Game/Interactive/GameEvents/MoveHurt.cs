@@ -14,14 +14,14 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     protected int[] Pms;
     [DataMember(Name = "b", EmitDefaultValue = false)]
     protected int[] Damages;
+    [DataMember(Name = "e", EmitDefaultValue = false)]
+    protected int[] CT;
     [DataMember(Name = "c", EmitDefaultValue = false)]
     protected int[] SH; //效果拔群
     [DataMember(Name = "d", EmitDefaultValue = false)]
     protected int[] WH; //没有什么效果
-    [DataMember(Name = "e", EmitDefaultValue = false)]
-    protected int[] CT;
 
-    internal bool SetHurt(IEnumerable<DefContext> defs) //auto delay
+    internal bool SetHurt(IEnumerable<DefContext> defs, bool effects) //auto delay
     {
       List<int> pms = new List<int>();
       List<int> damages = new List<int>();
@@ -38,12 +38,15 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
           else if (d.EffectRevise < 0) wh.Add(id);
           if (d.IsCt) ct.Add(id);
         }
-      if (pms.Count > 0) Pms = pms.ToArray();
+      if (pms.Any()) Pms = pms.ToArray();
       else return false;
-      if (damages.Count > 0) Damages = damages.ToArray();
-      if (sh.Count > 0) SH = sh.ToArray();
-      if (wh.Count > 0) WH = wh.ToArray();
-      if (ct.Count > 0) CT = ct.ToArray();
+      if (damages.Any()) Damages = damages.ToArray();
+      if (effects)
+      {
+        if (sh.Any()) SH = sh.ToArray();
+        if (wh.Any()) WH = wh.ToArray();
+      }
+      if (ct.Any()) CT = ct.ToArray();
       return true;
     }
 

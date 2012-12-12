@@ -34,7 +34,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       SwitchController = new SwitchController(this);
       InputController = new InputController(this);
       TurnController = new TurnController(this);
-#if ETV || DEBUG
+#if ETV
       randomSeeds = new Random(1);
       random = new Random(randomSeeds.Next());
 #else

@@ -37,7 +37,8 @@ namespace LightStudio.PokemonBattle.Game.Host
         ActingPokemons[i] = ActingPokemons[j];
         ActingPokemons[j] = temp;
       }
-      foreach (var p in Board.Pokemons) p.ItemSpeedValue = p.Item.CompareValue(p);
+      foreach (var p in Board.Pokemons)
+        if (p.Action != PokemonAction.WillSwitch) p.ItemSpeedValue = p.Item.CompareValue(p);
       ActingPokemons = ActingPokemons.OrderBy((pm) => pm, comparer).ToList();
     }
     private void SortTiles()
