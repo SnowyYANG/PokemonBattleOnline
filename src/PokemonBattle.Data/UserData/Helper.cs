@@ -12,7 +12,7 @@ namespace LightStudio.PokemonBattle.Data
     {
       source = Regex.Replace(source, @"\r\n|\r", "\n") + "\n";
       if (Regex.IsMatch(source, @".+?（.+?） *Lv\.\d+")) return ImportFromPBO(source, size);
-      else if (Regex.IsMatch(source, @".+?(\-\w){0,1} (\([FM]\) ){0,1}@ .+?\n")) return ImportFromPO(source, size);
+      else if (Regex.IsMatch(source, @".+?(\-\w){0,1} (\(.+?\) ){0,1}(\([FM]\) ){0,1}@ .+?\n")) return ImportFromPO(source, size);
       return null;
       //Gliscor (M) @ Flying Gem
       //Trait: Sand Veil
@@ -26,30 +26,36 @@ namespace LightStudio.PokemonBattle.Data
 
     private static PokemonData ImportFromPO(Match m)
     {
-      // 1: Pokemon
-      // 2: Form
-      // 3: Gender
-      // 4: Item
-      // 5: Ability
-      // 6: EVs
-      // 7: Nature
-      // 8~11: Moves
-      var pm = new PokemonData(GameDataService.Rom.GetPokemonType(m.Groups[1].Value).Number, 0);
-      var Item = GameDataService.Rom.GetItem(m.Groups[4].Value);
-      var Ability = GameDataService.Rom.GetAbility(m.Groups[5].Value);
-      var Nature = PokemonNatureHelper.GetNature(m.Groups[7].Value);
+        // 1: Nickname
+        // 2: Form
+        // 3: Pokemon
+      // 4: Gender
+      // 5: Item
+      // 6: Ability
+      // 7: EVs
+      // 8: Nature
+      // 9~12: Moves
 
-      pm.Gender = GetGender(m.Groups[3].Value);
+      var hasNickname = m.Groups[3].Value.Length > 0;
+      var pname = m.Groups[3].Value;
+      if (!hasNickname) pname = m.Groups[1].Value;
+      var pm = new PokemonData(GameDataService.Rom.GetPokemonType(pname).Number, 0);
+      var Item = GameDataService.Rom.GetItem(m.Groups[5].Value);
+      var Ability = GameDataService.Rom.GetAbility(m.Groups[6].Value);
+      var Nature = PokemonNatureHelper.GetNature(m.Groups[8].Value);
+
+      pm.Gender = GetGender(m.Groups[4].Value);
+      if (hasNickname) pm.Name = m.Groups[1].Value;
       if (Item != null) pm.Item = Item;
       if (Ability != null) pm.Ability = Ability;
       if (Nature != null) pm.Nature = Nature.Value;
-      pm.Ev.Hp = TryMatch(m.Groups[6].Value, @"(\d+) HP", 1, 0);
-      pm.Ev.Atk = TryMatch(m.Groups[6].Value, @"(\d+) Atk", 1, 0);
-      pm.Ev.Def = TryMatch(m.Groups[6].Value, @"(\d+) Def", 1, 0);
-      pm.Ev.SpAtk = TryMatch(m.Groups[6].Value, @"(\d+) SAtk", 1, 0);
-      pm.Ev.SpDef = TryMatch(m.Groups[6].Value, @"(\d+) SDef", 1, 0);
-      pm.Ev.Speed = TryMatch(m.Groups[6].Value, @"(\d+) Spd", 1, 0);
-      foreach (Match m2 in Regex.Matches(m.Groups[8].Value, @"\- (.+?)(?: \[(.+?)\])*\n"))
+      pm.Ev.Hp = TryMatch(m.Groups[7].Value, @"(\d+) HP", 1, 0);
+      pm.Ev.Atk = TryMatch(m.Groups[7].Value, @"(\d+) Atk", 1, 0);
+      pm.Ev.Def = TryMatch(m.Groups[7].Value, @"(\d+) Def", 1, 0);
+      pm.Ev.SpAtk = TryMatch(m.Groups[7].Value, @"(\d+) SAtk", 1, 0);
+      pm.Ev.SpDef = TryMatch(m.Groups[7].Value, @"(\d+) SDef", 1, 0);
+      pm.Ev.Speed = TryMatch(m.Groups[7].Value, @"(\d+) Spd", 1, 0);
+      foreach (Match m2 in Regex.Matches(m.Groups[9].Value, @"\- (.+?)(?: \[(.+?)\])*\n"))
       {
         var Move = GameDataService.Rom.GetMoveType(m2.Groups[1].Value);
         if (Move != null) pm.AddMove(Move);
@@ -108,7 +114,7 @@ namespace LightStudio.PokemonBattle.Data
     private static PokemonBT ImportFromPO(string source, int size)
     {
       var pms = new PokemonBT();
-      foreach (Match m in Regex.Matches(source, @"(.+?)(\-\w){0,1} (\([FM]\) ){0,1}@ (.+?)\nTrait: (.+?)\nEVs: (.+?)\n(.+?) Nature.+\n((?:\- .+?\n)+)"))
+      foreach (Match m in Regex.Matches(source, @"(.+?)(\-\w){0,1} (?:\((.{2,}?)(?:\-\w){0,1}\) ){0,1}(?:\(([FM])\) ){0,1}@ (.+?)\nTrait: (.+?)\nEVs: (.+?)\n(.+?) Nature.*\n((?:\- .+?\n)+)"))
       {
         try
         {
