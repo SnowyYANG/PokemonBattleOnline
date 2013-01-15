@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using LightStudio.Tactic.DataModels;
-using LightStudio.PokemonBattle.Game.Host;
+using PokemonBattleOnline.Tactic.DataModels;
+using PokemonBattleOnline.Game.Host;
 
-namespace LightStudio.PokemonBattle.Game
+namespace PokemonBattleOnline.Game
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = Namespaces.JSON)]
   internal class XActionInput
   {
     public static XActionInput UseMove(SimMove move, int targetTeam, int targetX)
@@ -66,7 +66,7 @@ namespace LightStudio.PokemonBattle.Game
       return r;
     }
   }
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = Namespaces.JSON)]
   public class ActionInput
   {
     [DataMember]

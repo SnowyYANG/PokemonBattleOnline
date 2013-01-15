@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Is = LightStudio.PokemonBattle.Game.Host.Sp.Items;
+using Is = PokemonBattleOnline.Game.Host.Sp.Items;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
+namespace PokemonBattleOnline.Game.Host.Effects.Moves.Attack
 {
   class Fling : AttackMoveE
   {

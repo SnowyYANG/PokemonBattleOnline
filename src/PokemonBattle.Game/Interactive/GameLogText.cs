@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using System.Reflection;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.Data;
 
-namespace LightStudio.PokemonBattle.Game
+namespace PokemonBattleOnline.Game
 {
   [DataContract(Namespace = Namespaces.PBO)]
   public class LogText : Tactic.DataModels.TextBase<IText>, IText

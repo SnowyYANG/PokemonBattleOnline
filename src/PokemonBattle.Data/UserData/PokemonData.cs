@@ -6,9 +6,9 @@ using System.Text;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Diagnostics.Contracts;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.Data;
 
-namespace LightStudio.PokemonBattle.Data
+namespace PokemonBattleOnline.Data
 {
   [DataContract(Name = "pd", Namespace = Namespaces.PBO)]
   public class PokemonData : ObservableObject, ICloneable, IPokemonData

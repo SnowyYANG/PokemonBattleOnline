@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
 
-namespace LightStudio.PokemonBattle.PBO.Battle
+namespace PokemonBattleOnline.PBO.Battle
 {
   /// <summary>
   /// Interaction logic for BGBall.xaml

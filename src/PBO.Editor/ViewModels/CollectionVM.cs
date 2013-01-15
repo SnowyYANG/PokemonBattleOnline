@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Windows;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.PBO.UIElements;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.PBO.UIElements;
 
-namespace LightStudio.PokemonBattle.PBO.Editor
+namespace PokemonBattleOnline.PBO.Editor
 {
   internal abstract class CollectionVM : ObservableObject
   {

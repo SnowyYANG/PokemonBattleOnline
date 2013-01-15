@@ -8,8 +8,8 @@
     <ProjectGuid>{480C2C92-A2D7-4D44-96A6-030FFC3E6ACD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LightStudio.PokemonBattle.PBO.Server</RootNamespace>
-    <AssemblyName>Server</AssemblyName>
+    <RootNamespace>PokemonBattleOnline.PBO.Server</RootNamespace>
+    <AssemblyName>PBO.Server</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -31,6 +31,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <OutputPath>..\..\bin\</OutputPath>
@@ -64,9 +65,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AvatarVM.cs" />
-    <Compile Include="Messaging\PBOServer.cs" />
-    <Compile Include="Messaging\RoomInfo.cs" />
     <Compile Include="TaskbarIconService.cs" />
     <Compile Include="UserVM.cs" />
     <Compile Include="WpfDispatcher.cs" />
@@ -109,6 +107,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PokemonBattle.Messaging\PokemonBattle.Messaging.csproj">
+      <Project>{61056b34-a2a8-485b-8a36-df633e47c7f2}</Project>
+      <Name>PokemonBattle.Messaging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tactic\Tactic.csproj">
       <Project>{EE2C451E-A61E-4634-B382-5298982E060C}</Project>
       <Name>Tactic</Name>

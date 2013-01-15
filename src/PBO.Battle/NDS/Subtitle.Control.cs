@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
-using LightStudio.PokemonBattle.PBO.Battle.VM;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
+using PokemonBattleOnline.PBO.Battle.VM;
 
-namespace LightStudio.PokemonBattle.PBO.Battle
+namespace PokemonBattleOnline.PBO.Battle
 {
   public partial class Subtitle : System.Windows.Controls.Border
   {

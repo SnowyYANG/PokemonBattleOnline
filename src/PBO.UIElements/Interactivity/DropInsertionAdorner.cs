@@ -10,7 +10,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Interactivity;
 using Adorner = System.Windows.Documents.Adorner;
 
-namespace LightStudio.PokemonBattle.PBO.UIElements.Interactivity
+namespace PokemonBattleOnline.PBO.UIElements.Interactivity
 {
   public class DropInsertionAdorner : Adorner
   {

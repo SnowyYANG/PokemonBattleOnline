@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
+namespace PokemonBattleOnline.Game.Host.Effects.Moves.Attack
 {
   class HiddenPower: AttackMoveE
   {

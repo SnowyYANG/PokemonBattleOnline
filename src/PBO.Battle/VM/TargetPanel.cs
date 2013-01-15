@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Game;
+using PokemonBattleOnline.Game;
 
-namespace LightStudio.PokemonBattle.PBO.Battle.VM
+namespace PokemonBattleOnline.PBO.Battle.VM
 {
   class TargetPanel
   {

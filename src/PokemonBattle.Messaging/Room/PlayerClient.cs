@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
-using LightStudio.Tactic.Messaging.Lobby;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
+using PokemonBattleOnline.Tactic.Network;
 
-namespace LightStudio.PokemonBattle.Messaging.Room
+namespace PokemonBattleOnline.Messaging.Room
 {
   internal class PlayerClient : RoomUserClient, IPlayerController
   {
@@ -21,8 +21,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       this.Pokemons = pokemons;
     }
 
-    public override Tactic.Messaging.UserState State
-    { get { return Tactic.Messaging.UserState.Battling; } }
     public override IPlayerController PlayerController
     { get { return this; } }
 
@@ -32,7 +30,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
     protected override void InformPlayerInfo(int teamIndex, IPokemonData[] parner)
     {
-      var player = new SimPlayer(PBOClient.Client.User.Id, TeamId, teamIndex, Pokemons);
+      var player = new SimPlayer(PBOClient.Current.User.Id, TeamId, teamIndex, Pokemons);
       game = new SimGame(Settings, player, parner);
     }
 

@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LightStudio.PokemonBattle.Game
+namespace PokemonBattleOnline.Game
 {
-    public enum Weather
-    {
-        Normal,
-        IntenseSunlight,
-        HeavyRain,
-        Hailstorm,
-        Sandstorm,
-        Fog,
-    }
+  public enum Weather
+  {
+    Normal,
+    IntenseSunlight,
+    HeavyRain,
+    Hailstorm,
+    Sandstorm,
+    Fog,
+  }
 }

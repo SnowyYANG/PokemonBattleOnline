@@ -2,11 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-                    xmlns:li="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements.Interactivity;assembly=PBO.UIElements"
-                    xmlns:pm="clr-namespace:LightStudio.PokemonBattle.Data;assembly=PokemonBattle.Data"
-                    xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements;assembly=PBO.UIElements"
-                    xmlns:c="clr-namespace:LightStudio.PokemonBattle.PBO.Converters;assembly=PBO.UIElements"
-                    xmlns:local="clr-namespace:LightStudio.PokemonBattle.PBO.Editor">
+                    xmlns:li="clr-namespace:PokemonBattleOnline.PBO.UIElements.Interactivity;assembly=PBO.UIElements"
+                    xmlns:pm="clr-namespace:PokemonBattleOnline.Data;assembly=PokemonBattle.Data"
+                    xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.UIElements;assembly=PBO.UIElements"
+                    xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters;assembly=PBO.UIElements"
+                    xmlns:local="clr-namespace:PokemonBattleOnline.PBO.Editor">
     <DropShadowEffect x:Key="MagentaShadow" ShadowDepth="1" Color="{Binding Color,Source={x:Static ui:Brushes.MagentaM},Mode=OneTime}" BlurRadius="3" Opacity="1"/>
     <DropShadowEffect x:Key="OrangeShadow" ShadowDepth="1" Color="{Binding Color,Source={x:Static ui:Brushes.OrangeM},Mode=OneTime}" BlurRadius="3" Opacity="1"/>
     <Style x:Key="PokemonIcon" TargetType="ListBoxItem">

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.Data;
 
-namespace LightStudio.PokemonBattle.Game
+namespace PokemonBattleOnline.Game
 {
   public class SimOnboardPokemon : ObservableObject
   {

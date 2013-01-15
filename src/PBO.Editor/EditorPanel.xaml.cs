@@ -12,9 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.Data;
 
-namespace LightStudio.PokemonBattle.PBO.Editor
+namespace PokemonBattleOnline.PBO.Editor
 {
   /// <summary>
   /// Interaction logic for EditorView.xaml

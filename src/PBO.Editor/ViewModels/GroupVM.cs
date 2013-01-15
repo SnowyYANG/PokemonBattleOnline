@@ -7,10 +7,10 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 using Microsoft.Win32;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.PBO.UIElements;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.PBO.UIElements;
 
-namespace LightStudio.PokemonBattle.PBO.Editor
+namespace PokemonBattleOnline.PBO.Editor
 {
   internal class GroupVM
   {

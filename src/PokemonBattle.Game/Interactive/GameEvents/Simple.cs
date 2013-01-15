@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using LightStudio.PokemonBattle.Game.Host;
+using PokemonBattleOnline.Game.Host;
 
-namespace LightStudio.PokemonBattle.Game.GameEvents
+namespace PokemonBattleOnline.Game.GameEvents
 {
-  [DataContract(Name = "e", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "e", Namespace = Namespaces.JSON)]
   public class SimpleEvent : GameEvent
   {
     protected static void Filter(object o, ref int i, ref string s)
@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       if (o != null)
       {
         if (o is PokemonProxy) i = ((PokemonProxy)o).Id;
-        else if (o is Tactic.DataModels.GameElement) i = ((Tactic.DataModels.GameElement)o).Id;
+        else if (o is PokemonBattleOnline.Data.GameElement) i = ((PokemonBattleOnline.Data.GameElement)o).Id;
         else if (o is int) i = (int)o;
 #if DEBUG
         else if (o is Enum) s = o.ToString();
@@ -38,13 +38,13 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember(Name = "b", EmitDefaultValue = false)]
     protected int I0;
 
-    [DataMember(Name = "c", EmitDefaultValue = false)]
+    [DataMember(Name = "d", EmitDefaultValue = false)]
     protected int I1;
 
-    [DataMember(Name = "d", EmitDefaultValue = false)]
+    [DataMember(Name = "e", EmitDefaultValue = false)]
     protected int I2;
 
-    [DataMember(Name = "e", EmitDefaultValue = false)]
+    [DataMember(Name = "c", EmitDefaultValue = false)]
     protected string S0;
 
     [DataMember(Name = "f", EmitDefaultValue = false)]

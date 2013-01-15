@@ -5,7 +5,7 @@ using System.Text;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace LightStudio.PokemonBattle.PBO.Converters
+namespace PokemonBattleOnline.PBO.Converters
 {
   public class LocalizedText : IValueConverter
   {

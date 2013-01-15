@@ -6,7 +6,7 @@ using System.IO;
 using Microsoft.Scripting.Hosting;
 using IronPython.Hosting;
 
-namespace LightStudio.Tactic
+namespace PokemonBattleOnline.Tactic
 {
   public static class Scripting
   {

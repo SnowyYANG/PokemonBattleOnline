@@ -6,7 +6,7 @@ using System.Threading;
 using System.IO;
 using XmlSerializer = System.Xml.Serialization.XmlSerializer;
 
-namespace LightStudio.PokemonBattle.PBO
+namespace PokemonBattleOnline.PBO
 {
   public class WpfDispatcher
   {

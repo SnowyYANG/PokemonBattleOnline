@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.Data;
 
-namespace LightStudio.PokemonBattle.PBO.Editor
+namespace PokemonBattleOnline.PBO.Editor
 {
     public static class PokemonEnum
     {

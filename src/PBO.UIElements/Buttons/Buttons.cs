@@ -6,7 +6,7 @@ using System.Windows;
 using Brush = System.Windows.Media.Brush;
 using ControlTemplate = System.Windows.Controls.ControlTemplate;
 
-namespace LightStudio.PokemonBattle.PBO.UIElements
+namespace PokemonBattleOnline.PBO.UIElements
 {
   public static class Buttons
   {

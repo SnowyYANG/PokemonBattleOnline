@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
-using LightStudio.PokemonBattle.Game;
+using PokemonBattleOnline.Game;
 
-namespace LightStudio.PokemonBattle.Messaging.Room
+namespace PokemonBattleOnline.Messaging.Room
 {
   internal interface IRoomManager
   {
@@ -16,8 +16,8 @@ namespace LightStudio.PokemonBattle.Messaging.Room
   }
 
   [KnownType(typeof(Data.PokemonData))]
-  [DataContract(Name = "jc", Namespace = Namespaces.PBO)]
-  class JoinGameCommand : IHostCommand
+  [DataContract(Name = "jc", Namespace = Namespaces.JSON)]
+  class JoinGameCommand : HostCommand
   {
     [DataMember(Name = "a")]
     readonly Data.IPokemonData[] Pokemons;
@@ -30,26 +30,26 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       Pokemons = pokemons;
       TeamId = teamId;
     }
-    
-    void IHostCommand.Execute(IHost host, int userId)
+
+    public override void Execute(IHost host, int userId)
     {
       host.JoinGame(userId, Pokemons, TeamId);
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
-  class SpectateGameCommand : IHostCommand
+  [DataContract(Namespace = Namespaces.JSON)]
+  class SpectateGameCommand : HostCommand
   {
-    void IHostCommand.Execute(IHost host, int userId)
+    public override void Execute(IHost host, int userId)
     {
       host.SpectateGame(userId);
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
-  class QuitCommand : IHostCommand
+  [DataContract(Namespace = Namespaces.JSON)]
+  class QuitCommand : HostCommand
   {
-    void IHostCommand.Execute(IHost host, int userId)
+    public override void Execute(IHost host, int userId)
     {
       host.Quit(userId);
     }

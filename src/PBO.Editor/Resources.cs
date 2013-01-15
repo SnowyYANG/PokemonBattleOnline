@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media.Effects;
 
-namespace LightStudio.PokemonBattle.PBO.Editor
+namespace PokemonBattleOnline.PBO.Editor
 {
   static class Resources
   {

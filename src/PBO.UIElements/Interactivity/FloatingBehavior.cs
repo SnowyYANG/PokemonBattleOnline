@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interactivity;
 
-namespace LightStudio.PokemonBattle.PBO.UIElements.Interactivity
+namespace PokemonBattleOnline.PBO.UIElements.Interactivity
 {
   public class FloatingBehavior : Behavior<UIElement>
   {

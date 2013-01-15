@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using LightStudio.PokemonBattle.Game.Host;
+using PokemonBattleOnline.Game.Host;
 
-namespace LightStudio.PokemonBattle.Game.GameEvents
+namespace PokemonBattleOnline.Game.GameEvents
 {
-  [DataContract(Name = "ed", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "ed", Namespace = Namespaces.JSON)]
   public class MoveHurt : GameEvent
   {
     [DataMember(Name = "a", EmitDefaultValue = false)]

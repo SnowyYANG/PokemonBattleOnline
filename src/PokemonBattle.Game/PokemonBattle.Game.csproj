@@ -8,7 +8,7 @@
     <ProjectGuid>{5F1D7698-AD1E-462A-AEED-063BCB80DF89}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LightStudio.PokemonBattle.Game</RootNamespace>
+    <RootNamespace>PokemonBattleOnline.Game</RootNamespace>
     <AssemblyName>PokemonBattle.Game</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -16,6 +16,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -75,7 +76,6 @@
     <Compile Include="Interactive\GameEvents\MoveHurt.cs" />
     <Compile Include="Interactive\GameEvents\PPChange.cs" />
     <Compile Include="Interactive\GameEvents\Sp.cs" />
-    <Compile Include="Interactive\InputType.cs" />
     <Compile Include="Host\EModels\Modifier.cs" />
     <Compile Include="Host\IGameSettings.cs" />
     <Compile Include="Host\EModels\Sp\Substitute.cs" />
@@ -132,7 +132,7 @@
     <Compile Include="Client\PokemonOutward.cs" />
     <Compile Include="Models\Weather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\Simple6D.cs" />
+    <Compile Include="Host\Models\Simple6D.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PokemonBattle.Data\PokemonBattle.Data.csproj">

@@ -8,7 +8,7 @@
     <ProjectGuid>{4C482289-194B-4E55-AD2F-EF8C7843052D}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LightStudio.PokemonBattle.PBO.Lobby</RootNamespace>
+    <RootNamespace>PokemonBattleOnline.PBO.Lobby</RootNamespace>
     <AssemblyName>PBO.Lobby</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>

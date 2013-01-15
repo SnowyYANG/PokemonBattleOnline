@@ -11,10 +11,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LightStudio.PokemonBattle.Messaging;
-using LightStudio.PokemonBattle.PBO.UIElements;
+using PokemonBattleOnline.Messaging;
+using PokemonBattleOnline.PBO.UIElements;
 
-namespace LightStudio.PokemonBattle.PBO.Lobby
+namespace PokemonBattleOnline.PBO.Lobby
 {
   /// <summary>
   /// Interaction logic for LobbyView.xaml
@@ -30,22 +30,22 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
 
     internal void Init(LobbyVM lobby)
     {
-      if (lobby != null)
-      {
-        vm = lobby;
-        DataContext = vm;
-        PBOClient.Challenge.Challenged += (user, settings) =>
-          {
-            UIDispatcher.Invoke(()=>
-              new StartBattle(user, settings, true).Show());
-          };
-        chat.Init();
-      }
-      else //uninit
-      {
-        vm = null;
-        DataContext = null;
-      }
+      //if (lobby != null)
+      //{
+      //  vm = lobby;
+      //  DataContext = vm;
+      //  //PBOClient.Current.Challenged += (user, settings) =>
+      //  //  {
+      //  //    UIDispatcher.Invoke(()=>
+      //  //      new StartBattle(user, settings, true).Show());
+      //  //  };
+      //  chat.Init();
+      //}
+      //else //uninit
+      //{
+      //  vm = null;
+      //  DataContext = null;
+      //}
     }
 
     private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -83,7 +83,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     }
     internal bool Window_Closing()
     {
-      return PBOClient.Client != null && ShowMessageBox.ExitLobby() == MessageBoxResult.No;
+      return PBOClient.Current != null && ShowMessageBox.ExitLobby() == MessageBoxResult.No;
     }
   }
 }

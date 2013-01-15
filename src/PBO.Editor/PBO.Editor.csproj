@@ -8,11 +8,10 @@
     <ProjectGuid>{56AFF630-B134-4D70-9E77-DB87A598E805}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LightStudio.PokemonBattle.PBO.Editor</RootNamespace>
+    <RootNamespace>PokemonBattleOnline.PBO.Editor</RootNamespace>
     <AssemblyName>PBO.Editor</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -74,6 +73,7 @@
     <Compile Include="Converters\ModelVMC.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="FileHelper.cs" />
+    <Compile Include="ViewModels\LearnMethod.cs" />
     <Compile Include="ViewModels\TeamVM.cs" />
     <Page Include="EditorPanel.xaml">
       <SubType>Designer</SubType>
@@ -95,7 +95,7 @@
     <Compile Include="Interactivity\SelectAllWhenVisible.cs" />
     <Compile Include="DragDrop\FolderDragDropSource.cs" />
     <Compile Include="ViewModels\CollectionVM.cs" />
-    <Compile Include="ViewModels\LearnItemVM.cs" />
+    <Compile Include="ViewModels\LearnVM.cs" />
     <Compile Include="ViewModels\RecyclerVM.cs" />
     <Compile Include="ViewModels\PokemonVM.cs" />
     <Compile Include="Converters\BoolWrappingC.cs" />

@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace LightStudio.PokemonBattle.PBO.UIElements
+namespace PokemonBattleOnline.PBO.UIElements
 {
   public partial class UITextBox : TextBox
   {

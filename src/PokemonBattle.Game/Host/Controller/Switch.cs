@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Game.GameEvents;
-using LightStudio.PokemonBattle.Game.Host.Sp;
+using PokemonBattleOnline.Game.GameEvents;
+using PokemonBattleOnline.Game.Host.Sp;
 
-namespace LightStudio.PokemonBattle.Game.Host
+namespace PokemonBattleOnline.Game.Host
 {
   class SwitchController : ControllerComponent
   {

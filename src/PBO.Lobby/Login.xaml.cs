@@ -11,11 +11,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using LightStudio.Tactic.Messaging;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Messaging;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Messaging;
 
-namespace LightStudio.PokemonBattle.PBO.Lobby
+namespace PokemonBattleOnline.PBO.Lobby
 {
   /// <summary>
   /// Interaction logic for GlanceLobbies.xaml
@@ -85,10 +84,10 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
       {
         lock (this)
         {
-          PBOClient.Prepare4Login(ip, PORT);
-          PBOClient.Client.LoginFailed += client_LoginFailed;
-          PBOClient.Client.LoginCompleted += client_LoginComplete;
-          PBOClient.Client.Login(name.Text.Trim(), avatarVM.InnerAvatarId, avatarUrl.Text);//"http://tb.himg.baidu.com/sys/portrait/item/f543c7aec9f1b2bbcac76c6f6c69bfd85603"
+          //PBOClient.Prepare4Login(ip, PORT);
+          //PBOClient.Client.LoginFailed += client_LoginFailed;
+          //PBOClient.Client.LoginCompleted += client_LoginComplete;
+          //PBOClient.Client.Login(name.Text.Trim(), avatarVM.InnerAvatarId, avatarUrl.Text);//"http://tb.himg.baidu.com/sys/portrait/item/f543c7aec9f1b2bbcac76c6f6c69bfd85603"
         }
         IsEnabled = false;
       }

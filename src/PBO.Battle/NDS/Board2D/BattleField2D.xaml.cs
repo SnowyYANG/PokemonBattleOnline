@@ -11,10 +11,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 
-namespace LightStudio.PokemonBattle.PBO.Battle
+namespace PokemonBattleOnline.PBO.Battle
 {
   /// <summary>
   /// Interaction logic for BattleField2D.xaml

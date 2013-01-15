@@ -6,11 +6,10 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using LightStudio.PokemonBattle.PBO.UIElements;
-using LightStudio.Tactic.Messaging;
-using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
+using PokemonBattleOnline.PBO.UIElements;
+using PokemonBattleOnline.Messaging;
 
-namespace LightStudio.PokemonBattle.PBO
+namespace PokemonBattleOnline.PBO
 {
   /// <summary>
   /// Lobby和Battle都需要用这个 所以...
@@ -37,28 +36,28 @@ namespace LightStudio.PokemonBattle.PBO
     
     public event PropertyChangedEventHandler PropertyChanged;
     protected readonly ObservableCollection<MenuCommand> commands;
-    protected readonly User Model;
-    private readonly AvatarVM avatar;
+    //protected readonly User Model;
 
-    public UserVM(User user, bool innerAvatarOnly)
+    public UserVM(bool innerAvatarOnly)
     {
-      Model = user;
-      avatar = new AvatarVM(user.Avatar, innerAvatarOnly);
+      //Model = user;
+      //avatar = new AvatarVM(user.Avatar, innerAvatarOnly);
       commands = new ObservableCollection<MenuCommand>();
       Commands = new ReadOnlyObservableCollection<MenuCommand>(commands);
     }
 
-    public int Id
-    { get { return Model.Id; } }
-    public string Name
-    { get { return Model.Name; } }
-    public AvatarVM Avatar
-    { get { return avatar; } }
-    public UserState State
-    { get { return Model.State; } }
-    public string Sign
-    { get { return Model.Sign; } }
-    public ReadOnlyObservableCollection<MenuCommand> Commands { get; private set; }
+    public int Id { get; set; }
+    //{ get { return Model.Id; } }
+    public string Name { get; set; }
+    //{ get { return Model.Name; } }
+    public AvatarVM Avatar { get; set; }
+    //{ get { return avatar; } }
+    public UserState State { get; set; }
+    //{ get { return Model.State; } }
+    public string Sign { get; set; }
+    //{ get { return Model.Sign; } }
+    public ReadOnlyObservableCollection<MenuCommand> Commands { get; set; }
+    //{ get; private set; }
 
     void OnPropertyChanged(string propertyname)
     {
@@ -75,7 +74,7 @@ namespace LightStudio.PokemonBattle.PBO
     }
     public override string ToString()
     {
-      return Model.Name;
+      return Name;
     }
   }
 }

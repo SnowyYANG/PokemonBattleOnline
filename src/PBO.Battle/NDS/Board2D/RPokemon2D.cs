@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Media.Imaging;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.Data;
 
-namespace LightStudio.PokemonBattle.PBO.Battle
+namespace PokemonBattleOnline.PBO.Battle
 {
   class RPokemon2D : Pokemon2DBase
   {

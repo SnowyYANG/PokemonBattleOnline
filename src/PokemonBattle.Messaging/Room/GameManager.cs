@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
-using LightStudio.PokemonBattle.Game;
-using LightStudio.PokemonBattle.Game.Host;
+using PokemonBattleOnline.Game;
+using PokemonBattleOnline.Game.Host;
 
-namespace LightStudio.PokemonBattle.Messaging.Room
+namespace PokemonBattleOnline.Messaging.Room
 {
   internal interface IGameManager
   {
@@ -17,35 +17,35 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void Input(int userId, ActionInput action);
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
-  class RequestTieCommand : IHostCommand
+  [DataContract(Namespace = Namespaces.JSON)]
+  class RequestTieCommand : HostCommand
   {
-    void IHostCommand.Execute(IHost host, int userId)
+    public override void Execute(IHost host, int userId)
     {
       host.RequestTie(userId);
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
-  class RejectTieCommand : IHostCommand
+  [DataContract(Namespace = Namespaces.JSON)]
+  class RejectTieCommand : HostCommand
   {
-    void IHostCommand.Execute(IHost host, int userId)
+    public override void Execute(IHost host, int userId)
     {
       host.RejectTie(userId);
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
-  class AcceptTieCommand : IHostCommand
+  [DataContract(Namespace = Namespaces.JSON)]
+  class AcceptTieCommand : HostCommand
   {
-    void IHostCommand.Execute(IHost host, int userId)
+    public override void Execute(IHost host, int userId)
     {
       host.AcceptTie(userId);
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
-  class InputCommand : IHostCommand
+  [DataContract(Namespace = Namespaces.JSON)]
+  class InputCommand : HostCommand
   {
     [DataMember(EmitDefaultValue = false)]
     public ActionInput Action
@@ -55,7 +55,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     {
       this.Action = action;
     }
-    void IHostCommand.Execute(IHost host, int userId)
+    public override void Execute(IHost host, int userId)
     {
       host.Input(userId, Action);
     }

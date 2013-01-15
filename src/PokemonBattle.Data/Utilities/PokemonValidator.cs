@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LightStudio.PokemonBattle.Data
+namespace PokemonBattleOnline.Data
 {
   public static class PokemonValidator
   {
@@ -85,7 +85,7 @@ namespace LightStudio.PokemonBattle.Data
         a.ItemId == b.ItemId &&
         a.Iv.ValueEquals(b.Iv) &&
         a.Lv == b.Lv &&
-        a.Moves.ToArray().ArrayEquals(b.Moves.ToArray()) &&
+        a.Moves.SequenceEqual(b.Moves) &&
         a.Nature == b.Nature;
     }
   }

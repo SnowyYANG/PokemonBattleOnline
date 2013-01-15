@@ -6,11 +6,11 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using LightStudio.Tactic.Messaging;
-using LightStudio.PokemonBattle.Messaging;
-using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.RoomInfo>;
+using PokemonBattleOnline.Tactic.Network;
+using PokemonBattleOnline.Messaging;
+using User = PokemonBattleOnline.Tactic.Network.User<PokemonBattleOnline.Messaging.UE>;
 
-namespace LightStudio.PokemonBattle.PBO
+namespace PokemonBattleOnline.PBO
 {
   public class UserVM : INotifyPropertyChanged
   {
@@ -48,9 +48,7 @@ namespace LightStudio.PokemonBattle.PBO
     public string Name
     { get { return Model.Name; } }
     public UserState State
-    { get { return Model.State; } }
-    public string Sign
-    { get { return Model.Sign; } }
+    { get { return Model.E.State; } }
     //public ReadOnlyObservableCollection<MenuCommand> Commands { get; private set; }
 
     void OnPropertyChanged(string propertyname)

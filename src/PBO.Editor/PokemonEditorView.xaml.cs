@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using System.Reflection;
 using System.Windows.Media.Animation;
 
-namespace LightStudio.PokemonBattle.PBO.Editor
+namespace PokemonBattleOnline.PBO.Editor
 {
   /// <summary>
   /// Interaction logic for PokemoEditorView.xaml
@@ -38,7 +38,7 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       {
         var move = ((Data.LearnedMove)((ContentPresenter)sender).Content).Move.Id;
         for (int i = 0; i < learnsetlist.Items.Count; ++i)
-          if (((LearnItemVM)learnsetlist.Items[i]).Move.Id == move)
+          if (((LearnVM)learnsetlist.Items[i]).Move.Id == move)
           {
             learnsetlist.SelectedIndex = i;
             if (panel == null) panel = typeof(ItemsControl).InvokeMember("_itemsHost", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField, null, learnsetlist, null) as VirtualizingStackPanel;

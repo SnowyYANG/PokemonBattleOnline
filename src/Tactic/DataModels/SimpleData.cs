@@ -6,9 +6,9 @@ using System.IO;
 using System.IO.Compression;
 using System.Runtime.Serialization;
 using System.Xml;
-using LightStudio.Tactic;
+using PokemonBattleOnline.Tactic;
 
-namespace LightStudio.Tactic.DataModels
+namespace PokemonBattleOnline.Tactic.DataModels
 {
   [DataContract(Namespace=Namespaces.PBO)]
   public abstract class SimpleData

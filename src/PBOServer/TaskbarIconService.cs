@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Media.Imaging;
 using System.Windows.Forms;
 
-namespace LightStudio.PokemonBattle.PBO.Server
+namespace PokemonBattleOnline.PBO.Server
 {
   static class TaskbarIconService
   {

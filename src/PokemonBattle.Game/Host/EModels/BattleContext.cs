@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game.Host.Sp;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game.Host.Sp;
 
-namespace LightStudio.PokemonBattle.Game.Host
+namespace PokemonBattleOnline.Game.Host
 {
   public class AtkContext : ConditionalObject
   {

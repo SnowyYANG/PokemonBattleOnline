@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace LightStudio.PokemonBattle.Data
+namespace PokemonBattleOnline.Data
 {
   public interface I6D
   {

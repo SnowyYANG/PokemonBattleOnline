@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Abs = LightStudio.PokemonBattle.Game.Host.Sp.Abilities;
+using Abs = PokemonBattleOnline.Game.Host.Sp.Abilities;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
+namespace PokemonBattleOnline.Game.Host.Effects.Moves.Status
 {
   class RolePlay : StatusMoveE
   {

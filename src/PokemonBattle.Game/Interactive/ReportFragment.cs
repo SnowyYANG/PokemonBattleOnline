@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game.GameEvents;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game.GameEvents;
 
-namespace LightStudio.PokemonBattle.Game
+namespace PokemonBattleOnline.Game
 {
   [KnownType("KnownEvents")]
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = Namespaces.JSON)]
   public class ReportFragment
   {
     static HashSet<Type> knownGameEvents = new HashSet<Type>() { typeof(AbilityEvent), typeof(BeginTurn), typeof(EndTurn), typeof(GameStartSendOut), typeof(GetItem), typeof(HLLD), typeof(HorizontalLine), typeof(HpChange), typeof(MoveHurt), typeof(OutwardChange), typeof(PPChange), typeof(PositionChange), typeof(SelectMoveFail), typeof(SendOut), typeof(SimpleEvent), typeof(StateChange), typeof(Substitute), typeof(RemoveItem), typeof(UseMove), typeof(WeatherChange), typeof(Withdraw) };
@@ -25,7 +25,7 @@ namespace LightStudio.PokemonBattle.Game
       knownGameEvents.Add(type);
     }
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "e", EmitDefaultValue = false)]
     private int _turnNumber;
     public int TurnNumber
     { 
@@ -33,20 +33,25 @@ namespace LightStudio.PokemonBattle.Game
       private set { _turnNumber = value + 1; }
     }
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "c", EmitDefaultValue = false)]
     public readonly TeamOutward[] Teams;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "d", EmitDefaultValue = false)]
     public readonly Weather Weather;
-    
-    [DataMember(EmitDefaultValue = false)]
-    private readonly Queue<GameEvent> events;
-    [DataMember(EmitDefaultValue = false)]
+
+    [DataMember(Name = "a0", EmitDefaultValue = false)] //json deserialization bug
+    private GameEvent[] _events
+    {
+      get { return events.ToArray(); }
+      set { events = new Queue<GameEvent>(value); }
+    }
+    private Queue<GameEvent> events;
+    [DataMember(Name = "b", EmitDefaultValue = false)]
     private readonly PokemonOutward[] pokemons; //onBoardOnly
 
     /// <summary>
     /// 为了节约流量，只在用户第一次进入房间的时候给出teams/pms/weather信息
     /// </summary>
-    internal ReportFragment(int turnNumber, TeamOutward[] teams, PokemonOutward[] pms, Weather weather)
+    public ReportFragment(int turnNumber, TeamOutward[] teams, PokemonOutward[] pms, Weather weather)
     {
       TurnNumber = turnNumber;
       Teams = teams;
@@ -87,7 +92,7 @@ namespace LightStudio.PokemonBattle.Game
     /// Host使用
     /// </summary>
     /// <param name="e"></param>
-    internal void AddEvent(GameEvent e)
+    public void AddEvent(GameEvent e)
     {
       LastEvent = e;
       events.Enqueue(e);

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.Tactic;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
-using LightStudio.PokemonBattle.Game.Host;
+using PokemonBattleOnline.Tactic;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
+using PokemonBattleOnline.Game.Host;
 
-namespace LightStudio.PokemonBattle.Test
+namespace PokemonBattleOnline.Test
 {
   class Host
   {

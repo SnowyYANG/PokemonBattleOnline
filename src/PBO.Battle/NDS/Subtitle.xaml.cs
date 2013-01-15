@@ -12,9 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using LightStudio.PokemonBattle.PBO.Battle.VM;
+using PokemonBattleOnline.PBO.Battle.VM;
 
-namespace LightStudio.PokemonBattle.PBO.Battle
+namespace PokemonBattleOnline.PBO.Battle
 {
   /// <summary>
   /// Interaction logic for Subtitle.xaml

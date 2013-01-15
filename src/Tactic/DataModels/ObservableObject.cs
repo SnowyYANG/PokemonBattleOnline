@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace LightStudio
+namespace PokemonBattleOnline
 {
   [DataContract(Namespace = Namespaces.PBO)]
   public abstract class ObservableObject : INotifyPropertyChanged

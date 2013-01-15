@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects.Abilities
+namespace PokemonBattleOnline.Game.Host.Effects.Abilities
 {
   class AirLock : AbilityE
   {

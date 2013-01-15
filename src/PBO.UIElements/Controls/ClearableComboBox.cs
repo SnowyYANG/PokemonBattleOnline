@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Controls.Primitives;
 
-namespace LightStudio.PokemonBattle.PBO.UIElements
+namespace PokemonBattleOnline.PBO.UIElements
 {
   [TemplatePart(Name = PART_CancelButton, Type = typeof(Button))]
   [TemplatePart(Name = PART_Selector, Type = typeof(ComboBox))]

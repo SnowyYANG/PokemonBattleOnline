@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 
-namespace LightStudio.PokemonBattle.PBO.UIElements
+namespace PokemonBattleOnline.PBO.UIElements
 {
   /// <summary>
   /// [ui] B:Background F:Foreground BHL:BackgroundHightlight FHL:ForegroundHighlight

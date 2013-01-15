@@ -7,9 +7,9 @@ using System.Windows.Data;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Globalization;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.Data;
 
-namespace LightStudio.PokemonBattle.PBO.Converters
+namespace PokemonBattleOnline.PBO.Converters
 {
   [ValueConversion(typeof(BattleType), typeof(SolidColorBrush))]
   public class BattleTypeBg : IValueConverter

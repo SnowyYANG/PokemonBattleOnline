@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Runtime.Serialization;
-using LightStudio.Tactic.Messaging;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.Data;
 
-namespace LightStudio.PokemonBattle.Game
+namespace PokemonBattleOnline.Game
 {
   public interface IGameSettings
   {

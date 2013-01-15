@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using LightStudio.Tactic.DataModels;
+using PokemonBattleOnline.Tactic.DataModels;
 
-namespace LightStudio.PokemonBattle.PBO.UIElements
+namespace PokemonBattleOnline.PBO.UIElements
 {
   [DataContract(Namespace = Namespaces.PBO)]
   public class Config : SimpleData

@@ -2,22 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.Tactic.Messaging;
-using LightStudio.Tactic.Globalization;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.Tactic.Globalization;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Tactic;
+using PokemonBattleOnline.Game;
 
-namespace LightStudio.PokemonBattle.Test
+namespace PokemonBattleOnline.Test
 {
   class Program
   {
     static Program()
     {
-      GameDataService.Load("Data");
-      DataService.Load(new StringService() { Language = "Chinese" });
-      DataService.String.DefaultLanguage = "Chinese";
-      DataService.DataString.DefaultLanguage = "Chinese";
-      Game.Host.Effects.EffectsRegister.Register();
-      Tactic.Scripting.ExecuteAll("..\\src\\PokemonBattle.EffectsP");
+      //ReportFragment rf = new ReportFragment(0, null, null, Weather.Normal);
+      //rf.AddEvent(new Game.GameEvents.SimpleEvent("test", 1, "Atk"));
+      //var rf = Tactic.Network.Commands.UserChanged<int>.AddUser(1, "a", 3);
+
+      //var buffer = Serializer.SerializeToJson(rf);
+      //Console.WriteLine(Encoding.UTF8.GetString(buffer));
+      //var o = Serializer.DeserializeFromJson<Tactic.Network.Commands.UserChanged<int>>(buffer);
+      //Console.WriteLine(o);
+      
+      //GameDataService.Load("Data");
+      //DataService.Load(new StringService() { Language = "Chinese" });
+      //DataService.String.DefaultLanguage = "Chinese";
+      //DataService.DataString.DefaultLanguage = "Chinese";
+      //Game.Host.Effects.EffectsRegister.Register();
+      //Tactic.Scripting.ExecuteAll("..\\src\\PokemonBattle.EffectsP");
+      Console.ReadKey();
     }
     
     static void Main(string[] args)

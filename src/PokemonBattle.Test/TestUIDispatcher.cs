@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace LightStudio.PokemonBattle.Test
+namespace PokemonBattleOnline.Test
 {
   class TestUIDispatcher : IUIDispatcher
   {

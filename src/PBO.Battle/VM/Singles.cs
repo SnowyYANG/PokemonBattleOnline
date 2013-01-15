@@ -5,9 +5,9 @@ using System.Text;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Threading;
-using LightStudio.PokemonBattle.Game;
+using PokemonBattleOnline.Game;
 
-namespace LightStudio.PokemonBattle.PBO.Battle.VM
+namespace PokemonBattleOnline.PBO.Battle.VM
 {
   class Singles : ObservableObject, IControlPanel
   {

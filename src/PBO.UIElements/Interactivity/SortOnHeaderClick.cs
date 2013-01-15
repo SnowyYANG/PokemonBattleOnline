@@ -12,7 +12,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Interactivity;
 
-namespace LightStudio.PokemonBattle.PBO.UIElements.Interactivity
+namespace PokemonBattleOnline.PBO.UIElements.Interactivity
 {
   public class SortOnHeaderClick : Behavior<ListView>
   {

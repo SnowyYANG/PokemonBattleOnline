@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.IO;
 
-namespace LightStudio.Tactic.Globalization
+namespace PokemonBattleOnline.Tactic.Globalization
 {
   public delegate LanguagePack LanguagePackProvider(string language);
   public static class LanguagePackProviderFactory

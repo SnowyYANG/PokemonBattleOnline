@@ -7,10 +7,10 @@ using System.Windows.Data;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 using System.ComponentModel;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.Tactic.Globalization;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Tactic.Globalization;
 
-namespace LightStudio.PokemonBattle.PBO.UIElements
+namespace PokemonBattleOnline.PBO.UIElements
 {
   public class LocalizedProperty : Behavior<DependencyObject>, IWeakEventListener
   {

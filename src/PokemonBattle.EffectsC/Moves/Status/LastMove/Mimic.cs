@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
+namespace PokemonBattleOnline.Game.Host.Effects.Moves.Status
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = Namespaces.JSON)]
   class MimicEvent : GameEvent
   {
     [DataMember]

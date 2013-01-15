@@ -10,11 +10,11 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Markup;
 using System.Globalization;
-using LightStudio.Tactic.Messaging;
-using LightStudio.Tactic.Globalization;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.Tactic.Globalization;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Messaging;
 
-namespace LightStudio.PokemonBattle.PBO
+namespace PokemonBattleOnline.PBO
 {
   /// <summary>
   /// Interaction logic for App.xaml
@@ -52,7 +52,7 @@ namespace LightStudio.PokemonBattle.PBO
     protected override void OnExit(ExitEventArgs e)
     {
       base.OnExit(e);
-      Messaging.PBOClient.Dispose();
+      PBOClient.Current.Dispose();
       GameDataService.Unload();
     }
   }

@@ -6,8 +6,9 @@ using System.Text;
 using System.IO;
 using System.Xml;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 
-namespace LightStudio.Tactic
+namespace PokemonBattleOnline.Tactic
 {
   public static class Serializer
   {
@@ -125,6 +126,22 @@ namespace LightStudio.Tactic
       using (var sr = new StringReader(content))
       using (var reader = XmlReader.Create(sr, READER_SETTINGS))
         return (T)Deserialize(typeof(T), reader);
+    }
+
+    public static T DeserializeFromJson<T>(byte[] bytes)
+    {
+      var d = new DataContractJsonSerializer(typeof(T));
+      using (MemoryStream ms = new MemoryStream(bytes))
+        return (T)d.ReadObject(ms);
+    }
+    public static byte[] SerializeToJson<T>(T obj)
+    {
+      var s = new DataContractJsonSerializer(typeof(T));
+      using (MemoryStream ms = new MemoryStream())
+      {
+        s.WriteObject(ms, obj);
+        return ms.ToArray();
+      }
     }
   }
 }

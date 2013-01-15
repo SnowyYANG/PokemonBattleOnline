@@ -11,11 +11,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
-using LightStudio.PokemonBattle.PBO.Battle.VM;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
+using PokemonBattleOnline.PBO.Battle.VM;
 
-namespace LightStudio.PokemonBattle.PBO.Battle
+namespace PokemonBattleOnline.PBO.Battle
 {
   /// <summary>
   /// Interaction logic for ControlPanel.xaml

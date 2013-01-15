@@ -5,9 +5,8 @@ using System.Text;
 using System.ComponentModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using AvatarModel = LightStudio.Tactic.Messaging.Avatar;
 
-namespace LightStudio.PokemonBattle.PBO
+namespace PokemonBattleOnline.PBO
 {
   /// <summary>
   /// for player only
@@ -36,10 +35,10 @@ namespace LightStudio.PokemonBattle.PBO
       if (i == null) i = GetAvatar(id);
       return i;
     }
-    public static BitmapImage GetAvatar(AvatarModel avatar)
-    {
-      return GetAvatar(avatar.InnerAvatarId, avatar.Url);
-    }
+    //public static BitmapImage GetAvatar(AvatarModel avatar)
+    //{
+    //  return GetAvatar(avatar.InnerAvatarId, avatar.Url);
+    //}
     public static BitmapImage GetAvatar(byte id)
     {
       return InnerAvatars[id % InnerAvatars.Length];
@@ -61,17 +60,17 @@ namespace LightStudio.PokemonBattle.PBO
     string url;
     BitmapImage urlAvatar;
     
-    public AvatarVM(AvatarModel avatar, bool innerOnly = false)
-      : this(avatar.InnerAvatarId, avatar.Url, innerOnly)
-    {
-    }
+    //public AvatarVM(AvatarModel avatar, bool innerOnly = false)
+    //  : this(avatar.InnerAvatarId, avatar.Url, innerOnly)
+    //{
+    //}
     public AvatarVM(byte innerId, string url, bool innerOnly = false)
     {
       this.id = innerId;
       if (innerOnly) this.url = url ?? string.Empty;
       else
       {
-        this.url = AvatarModel.FormatUrl(url);
+        //this.url = AvatarModel.FormatUrl(url);
         this.urlAvatar = GetAvatar(this.url);
       }
     }
@@ -104,7 +103,7 @@ namespace LightStudio.PokemonBattle.PBO
     }
     public void SetUrl(string url)
     {
-      this.url = AvatarModel.FormatUrl(url);
+      //this.url = AvatarModel.FormatUrl(url);
       OnPropertyChanged("Url");
       urlAvatar = GetAvatar(this.url);
       OnPropertyChanged("Avatar");

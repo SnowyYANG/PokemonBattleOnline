@@ -10,10 +10,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using LightStudio.PokemonBattle.Messaging;
-using LightStudio.PokemonBattle.PBO.UIElements;
+using PokemonBattleOnline.Messaging;
+using PokemonBattleOnline.PBO.UIElements;
 
-namespace LightStudio.PokemonBattle.PBO.Lobby
+namespace PokemonBattleOnline.PBO.Lobby
 {
   /// <summary>
   /// Interaction logic for LobbyWindow.xaml
@@ -24,16 +24,16 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     {
       InitializeComponent();
       gridbg.Fill = PBO.UIElements.Brushes.GetGridTileBrush(16, PBO.Helper.NewBrush(0xffffffff));
-      login.LoginComplete += () =>
-        {
-          PBOClient.Client.Disconnected += (sender, e) => UIDispatcher.Invoke(() =>
-            {
-              lobby.Init(null);
-              login.Visibility = Visibility.Visible;
-            });
-          login.Visibility = Visibility.Hidden;
-          lobby.Init(new LobbyVM());
-        };
+      //login.LoginComplete += () =>
+      //  {
+      //    PBOClient.Client.Disconnected += (sender, e) => UIDispatcher.Invoke(() =>
+      //      {
+      //        lobby.Init(null);
+      //        login.Visibility = Visibility.Visible;
+      //      });
+      //    login.Visibility = Visibility.Hidden;
+      //    lobby.Init(new LobbyVM());
+      //  };
     }
 
     public void SetGridBg(double x, double y)

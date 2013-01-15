@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game.Host.Sp;
-using LightStudio.PokemonBattle.Game.GameEvents;
-using Ms = LightStudio.PokemonBattle.Game.Host.Sp.Moves;
-using As = LightStudio.PokemonBattle.Game.Host.Sp.Abilities;
-using Is = LightStudio.PokemonBattle.Game.Host.Sp.Items;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game.Host.Sp;
+using PokemonBattleOnline.Game.GameEvents;
+using Ms = PokemonBattleOnline.Game.Host.Sp.Moves;
+using As = PokemonBattleOnline.Game.Host.Sp.Abilities;
+using Is = PokemonBattleOnline.Game.Host.Sp.Items;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
+namespace PokemonBattleOnline.Game.Host.Effects.Triggers
 {
   class EndTurn : IEndTurn
   {

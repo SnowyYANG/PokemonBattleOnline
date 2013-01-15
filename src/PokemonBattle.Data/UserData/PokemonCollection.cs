@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 
-namespace LightStudio.PokemonBattle.Data
+namespace PokemonBattleOnline.Data
 {
 	[CollectionDataContract(Namespace = Namespaces.PBO, ItemName="PokemonData")]
   public abstract class PokemonCollection : ObservableCollection<PokemonData>

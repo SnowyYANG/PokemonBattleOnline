@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Data;
-using Is = LightStudio.PokemonBattle.Game.Host.Sp.Items;
+using PokemonBattleOnline.Data;
+using Is = PokemonBattleOnline.Game.Host.Sp.Items;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
+namespace PokemonBattleOnline.Game.Host.Effects.Moves.Attack
 {
   class NaturalGift : AttackMoveE
   {

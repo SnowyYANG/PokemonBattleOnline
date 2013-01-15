@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Windows.Input;
 
-namespace LightStudio.PokemonBattle.PBO.UIElements
+namespace PokemonBattleOnline.PBO.UIElements
 {
   public class SimpleCommand : ICommand
   {

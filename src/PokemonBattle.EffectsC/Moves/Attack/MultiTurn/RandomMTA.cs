@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ms = LightStudio.PokemonBattle.Game.Host.Sp.Moves;
+using Ms = PokemonBattleOnline.Game.Host.Sp.Moves;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
+namespace PokemonBattleOnline.Game.Host.Effects.Moves.Attack
 {
   class RandomMTA : AttackMoveE
   {

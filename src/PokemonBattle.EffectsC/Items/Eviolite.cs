@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects.Items
+namespace PokemonBattleOnline.Game.Host.Effects.Items
 {
   class Eviolite : ItemE
   {

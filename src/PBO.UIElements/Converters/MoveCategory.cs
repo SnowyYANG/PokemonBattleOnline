@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using System.Globalization;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.Data;
 
-namespace LightStudio.PokemonBattle.PBO.Converters
+namespace PokemonBattleOnline.PBO.Converters
 {
   [ValueConversion(typeof(MoveCategory), typeof(string))]
   public class MoveCategoryText : Converter<MoveCategory>

@@ -5,14 +5,14 @@ using System.Text;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace LightStudio.PokemonBattle.Messaging.Room
+namespace PokemonBattleOnline.Messaging.Room
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = Namespaces.JSON)]
   public class Player
   {
-    [DataMember]
+    [DataMember(Name = "a")]
     public readonly int Id;
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "b", EmitDefaultValue = false)]
     public readonly int Team;
 
     public Player(int id, int team)
@@ -20,5 +20,8 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       Id = id;
       Team = team;
     }
+
+    public string Name
+    { get; internal set; }
   }
 }

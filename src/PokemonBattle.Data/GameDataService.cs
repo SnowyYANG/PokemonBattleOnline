@@ -6,7 +6,7 @@ using System.IO;
 using System.Xml.Linq;
 using System.Windows.Media.Imaging;
 
-namespace LightStudio.PokemonBattle.Data
+namespace PokemonBattleOnline.Data
 {
   public static class GameDataService
   {

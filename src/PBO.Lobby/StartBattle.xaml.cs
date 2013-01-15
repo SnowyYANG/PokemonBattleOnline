@@ -11,12 +11,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LightStudio.Tactic.Messaging;
-using LightStudio.PokemonBattle.Messaging.Room;
-using LightStudio.PokemonBattle.Game;
-using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
+using PokemonBattleOnline.Tactic.Network;
+using PokemonBattleOnline.Messaging.Room;
+using PokemonBattleOnline.Game;
+using User = PokemonBattleOnline.Tactic.Network.User<PokemonBattleOnline.Messaging.UE>;
 
-namespace LightStudio.PokemonBattle.PBO.Lobby
+namespace PokemonBattleOnline.PBO.Lobby
 {
   /// <summary>
   /// Interaction logic for StartBattle.xaml

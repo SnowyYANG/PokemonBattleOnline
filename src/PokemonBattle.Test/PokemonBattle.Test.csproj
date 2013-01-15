@@ -8,7 +8,7 @@
     <ProjectGuid>{CA8FC057-3DD7-4F64-9965-AD4BA3FF5EE6}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LightStudio.PokemonBattle.Test</RootNamespace>
+    <RootNamespace>PokemonBattleOnline.Test</RootNamespace>
     <AssemblyName>PokemonBattle.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>

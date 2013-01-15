@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game.Host.Sp;
-using LightStudio.PokemonBattle.Game.GameEvents;
-using As = LightStudio.PokemonBattle.Game.Host.Sp.Abilities;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game.Host.Sp;
+using PokemonBattleOnline.Game.GameEvents;
+using As = PokemonBattleOnline.Game.Host.Sp.Abilities;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects.Triggers
+namespace PokemonBattleOnline.Game.Host.Effects.Triggers
 {
   class CanExecute : ICanExecute
   {

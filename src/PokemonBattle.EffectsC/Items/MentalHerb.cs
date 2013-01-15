@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using Is = LightStudio.PokemonBattle.Game.Host.Sp.Items;
+using Is = PokemonBattleOnline.Game.Host.Sp.Items;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects.Items
+namespace PokemonBattleOnline.Game.Host.Effects.Items
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = Namespaces.JSON)]
   class MentalHerbEvent : GameEvent
   {
     [DataMember(EmitDefaultValue = false)]

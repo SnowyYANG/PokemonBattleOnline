@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements">
+                    xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.UIElements">
     <Style x:Key="ColorfulButton" TargetType="Button">
         <Setter Property="Template" Value="{x:Static ui:Buttons.GameButton}"/>
         <Setter Property="Padding" Value="0,10,0,0"/>

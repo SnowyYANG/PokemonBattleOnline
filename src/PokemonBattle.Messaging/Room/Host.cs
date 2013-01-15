@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using LightStudio.Tactic;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
-using LightStudio.PokemonBattle.Game.Host;
+using PokemonBattleOnline.Tactic;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
+using PokemonBattleOnline.Game.Host;
 
-namespace LightStudio.PokemonBattle.Messaging.Room
+namespace PokemonBattleOnline.Messaging.Room
 {
   public class Host : IHost, INotifyPropertyChanged, IDisposable
   {
@@ -108,7 +108,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     #endregion
 
     #region Commands
-    void IHost.ExecuteCommand(IHostCommand command, int senderId)
+    void IHost.ExecuteCommand(HostCommand command, int senderId)
     {
       dispatcher.Invoke(() =>
       {
@@ -184,8 +184,8 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     #endregion
 
     #region Inform
-    internal event Action<IUserInformation, int[]> SendInformation;
-    void OnSendInformation(IUserInformation info, params int[] userIds)
+    internal event Action<UserInformation, int[]> SendInformation;
+    void OnSendInformation(UserInformation info, params int[] userIds)
     {
       if (userIds.Length == 0) SendInformation(info, users.ToArray());
       else SendInformation(info, userIds);

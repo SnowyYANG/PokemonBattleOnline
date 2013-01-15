@@ -8,7 +8,7 @@
     <ProjectGuid>{EE2C451E-A61E-4634-B382-5298982E060C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LightStudio.Tactic</RootNamespace>
+    <RootNamespace>PokemonBattleOnline.Tactic</RootNamespace>
     <AssemblyName>Tactic</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -16,6 +16,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,72 +64,41 @@
     <Compile Include="DataModels\IdGenerator.cs" />
     <Compile Include="DataModels\IText.cs" />
     <Compile Include="DataModels\PairValue.cs" />
-    <Compile Include="Messaging\ClientService.cs" />
     <Compile Include="DataModels\SimpleData.cs" />
-    <Compile Include="DataModels\GameElement.cs" />
     <Compile Include="extensions.cs" />
     <Compile Include="Globalization\DomainStringService.cs" />
     <Compile Include="Globalization\LanguagePack.cs" />
     <Compile Include="Globalization\StringService.cs" />
-    <Compile Include="Messaging\Factory.cs" />
-    <Compile Include="Messaging\IUser.cs" />
     <Compile Include="DataModels\ObservableObject.cs" />
-    <Compile Include="Service\Category.cs" />
-    <Compile Include="Service\DebugLogger.cs" />
-    <Compile Include="Service\ILogger.cs" />
-    <Compile Include="Service\LoggerFacade.cs" />
-    <Compile Include="Service\Priority.cs" />
-    <Compile Include="Messaging\Primitives\EventArgs.cs" />
-    <Compile Include="Messaging\Interfaces\IAcceptor.cs" />
-    <Compile Include="Messaging\Interfaces\IConnector.cs" />
-    <Compile Include="Messaging\Interfaces\IMessage.cs" />
-    <Compile Include="Messaging\Interfaces\IMessageCenter.cs" />
-    <Compile Include="Messaging\Interfaces\IMessageClient.cs" />
-    <Compile Include="Messaging\Interfaces\IMessager.cs" />
-    <Compile Include="Messaging\Interfaces\IMessageServer.cs" />
-    <Compile Include="Messaging\Avatar.cs" />
-    <Compile Include="Messaging\Lobby\ClientBase.cs" />
-    <Compile Include="Messaging\Lobby\ClientInterpreter.cs" />
-    <Compile Include="Messaging\Lobby\IOHelper.cs" />
-    <Compile Include="Messaging\Client.cs" />
-    <Compile Include="Messaging\Server.cs" />
-    <Compile Include="Messaging\Lobby\MessageHeaders.cs" />
-    <Compile Include="Messaging\Lobby\ServerBase.cs" />
-    <Compile Include="Messaging\Lobby\ServerInterpreter.cs" />
-    <Compile Include="Messaging\Lobby\User.cs" />
-    <Compile Include="Messaging\Primitives\MessageCenter.cs" />
-    <Compile Include="Messaging\Primitives\MessageClient.cs" />
-    <Compile Include="Messaging\Primitives\MessageException.cs" />
-    <Compile Include="Messaging\Primitives\MessageServer.cs" />
-    <Compile Include="Messaging\Primitives\MessageSession.cs" />
-    <Compile Include="Messaging\Network\IInterpreter.cs" />
-    <Compile Include="Messaging\Network\INetworkMessager.cs" />
-    <Compile Include="Messaging\Network\NetworkMessager.cs" />
-    <Compile Include="Messaging\Network\ReadMessageResult.cs" />
-    <Compile Include="Messaging\Network\Tcp\TcpAcceptor.cs" />
-    <Compile Include="Messaging\Network\Tcp\TcpConnector.cs" />
-    <Compile Include="Messaging\Network\Tcp\TcpMessageClient.cs" />
-    <Compile Include="Messaging\Network\Tcp\TcpMessager.cs" />
-    <Compile Include="Messaging\Network\Tcp\TcpMessageServer.cs" />
-    <Compile Include="Messaging\Network\TextInterpreter.cs" />
-    <Compile Include="Messaging\Network\Utilities\IOperationResult.cs" />
-    <Compile Include="Messaging\Network\Utilities\OperationResult.cs" />
-    <Compile Include="Messaging\Network\WriteMessageResult.cs" />
-    <Compile Include="Messaging\Primitives\Acceptor.cs" />
-    <Compile Include="Messaging\Primitives\Connector.cs" />
-    <Compile Include="Messaging\Primitives\Messager.cs" />
-    <Compile Include="Messaging\TextMessage.cs" />
-    <Compile Include="Messaging\Utilities\DataContractResolver.cs" />
-    <Compile Include="Messaging\Utilities\IMessageResolver.cs" />
-    <Compile Include="Messaging\Utilities\MessageResolverFacade.cs" />
     <Compile Include="Namespaces.cs" />
+    <Compile Include="Network\Client.cs" />
+    <Compile Include="Network\ClientBase.cs" />
+    <Compile Include="Network\ClientInitInfo.cs" />
+    <Compile Include="Network\Commands\Chat.cs" />
+    <Compile Include="Network\Commands\Command.cs" />
+    <Compile Include="Network\Commands\UserChanged.cs" />
+    <Compile Include="Network\ServerUser.cs" />
+    <Compile Include="Network\LoginClient.cs" />
+    <Compile Include="Network\RemoveUserReason.cs" />
+    <Compile Include="Network\Server.cs" />
+    <Compile Include="Network\LoginServer.cs" />
+    <Compile Include="Network\LoginUser.cs" />
+    <Compile Include="Network\Presentation\Packable.cs" />
+    <Compile Include="Network\Presentation\PackHelper.cs" />
+    <Compile Include="Network\Session\IPackReceivedListener.cs" />
+    <Compile Include="Network\Session\INetworkClient.cs" />
+    <Compile Include="Network\Session\INetworkServer.cs" />
+    <Compile Include="Network\Session\TcpPack.cs" />
+    <Compile Include="Network\Session\INetworkUser.cs" />
+    <Compile Include="Network\Session\TcpClient.cs" />
+    <Compile Include="Network\Session\TcpServer.cs" />
+    <Compile Include="Network\Session\TcpUser.cs" />
+    <Compile Include="Network\User.cs" />
+    <Compile Include="Network\UserBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\XmlVerifier.cs" />
     <Compile Include="Service\Serializer.cs" />
     <Compile Include="Service\Scripting.cs" />
     <Compile Include="Threading\Dispatcher.cs" />
-    <Compile Include="Threading\SyncList.cs" />
-    <Compile Include="Threading\SyncObject.cs" />
     <Compile Include="Threading\UIDispatcher.cs" />
   </ItemGroup>
   <ItemGroup />

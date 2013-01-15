@@ -3,32 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net;
-using LightStudio.Tactic.Messaging;
+using PokemonBattleOnline.Tactic.Network;
 
-namespace LightStudio.PokemonBattle.Messaging
+namespace PokemonBattleOnline.Messaging
 {
-  public sealed class Client : Client<UserExtension>
+  public sealed class PBOClient : IDisposable
   {
-    public static Client NewTcpClient(IPAddress serverAddress, int serverPort)
+    #region static
+    public static event EventHandler Disconnected;
+    public static event EventHandler BadPack;
+    private static readonly object Locker;
+
+    static PBOClient()
     {
-      return new Client(Factory.TcpMessageClient(serverAddress, serverPort));
+      Locker = new object();
     }
 
-    private Client(Tactic.Messaging.Primitive.IMessageClient client)
-      : base(client)
+    private static PBOClient _current;
+    public static PBOClient Current
     {
-    }
-
-    protected override void OnReceive(IMessage message)
-    {
-      if (message.Header == "u") message.Resolve((reader) =>
+      get
+      {
+        lock (Locker)
         {
-          int userId = reader.ReadInt16();
-          var user = GetUser(userId);
-          if (user != null) user.Extension.LastRoomId = reader.ReadInt16();
-        });
-      else base.OnReceive(message);
+          return _current;
+        }
+      }
+      private set
+      {
+        lock (Locker)
+        {
+          _current = value;
+        }
+      }
     }
+    #endregion
+
+    private readonly Client<E, UE> Client;
+
+    private PBOClient(Client<E, UE> client)
+    {
+      Client = client;
+    }
+
+    public User<UE> User
+    { get { return Client.User; } }
 
     /// <summary>
     /// currently simply do nothing
@@ -42,7 +61,12 @@ namespace LightStudio.PokemonBattle.Messaging
 
     internal void RegisterRoomUser(int userId)
     {
-      Send(new TextMessage("u", userId.ToString()));
+    }
+
+    public void Dispose()
+    {
+      Client.Dispose();
+      Current = null;
     }
   }
 }

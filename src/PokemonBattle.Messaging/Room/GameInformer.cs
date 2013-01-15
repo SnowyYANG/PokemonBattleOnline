@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
-using LightStudio.PokemonBattle.Game;
+using PokemonBattleOnline.Game;
 
-namespace LightStudio.PokemonBattle.Messaging.Room
+namespace PokemonBattleOnline.Messaging.Room
 {
   public enum GameStopReason
   {
@@ -32,8 +32,8 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void InformTieRejected();
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
-  class PlayerInfo : IUserInformation
+  [DataContract(Namespace = Namespaces.JSON)]
+  class PlayerInfo : UserInformation
   {
     [DataMember(EmitDefaultValue = false)]
     int TeamIndex;
@@ -47,14 +47,14 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       Parner = parner;
     }
 
-    void IUserInformation.Execute(IRoomUser user)
+    public override void Execute(IRoomUser user)
     {
       user.InformPlayerInfo(TeamIndex, Parner);
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
-  class GameEndInfo : IUserInformation
+  [DataContract(Namespace = Namespaces.JSON)]
+  class GameEndInfo : UserInformation
   {
     public static GameEndInfo GameTie()
     {
@@ -79,7 +79,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     private GameEndInfo()
     {
     }
-    void IUserInformation.Execute(IRoomUser user)
+    public override void Execute(IRoomUser user)
     {
       if (Player != 0) user.InformGameStop(Reason, Player);
       else if (Time != null) user.InformTimeUp(Time);
@@ -87,8 +87,8 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Name = "w", Namespace = Namespaces.PBO)]
-  class WaitingForInputInfo : IUserInformation
+  [DataContract(Name = "w", Namespace = Namespaces.JSON)]
+  class WaitingForInputInfo : UserInformation
   {
     [DataMember(Name = "a")]
     int[] Players;
@@ -98,14 +98,14 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       Players = players.ToArray();
     }
 
-    void IUserInformation.Execute(IRoomUser user)
+    public override void Execute(IRoomUser user)
     {
       user.InformWaitingForInput(Players);
     }
   }
 
-  [DataContract(Name = "l", Namespace = Namespaces.PBO)]
-  class ReportUpdateInfo : IUserInformation
+  [DataContract(Name = "l", Namespace = Namespaces.JSON)]
+  class ReportUpdateInfo : UserInformation
   {
     [DataMember(Name = "a")]
     ReportFragment Fragment;
@@ -114,14 +114,14 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     {
       Fragment = turn;
     }
-    void IUserInformation.Execute(IRoomUser user)
+    public override void Execute(IRoomUser user)
     {
       user.InformReportUpdate(Fragment);
     }
   }
 
-  [DataContract(Name = "r", Namespace = Namespaces.PBO)]
-  class RequireInputInfo : IUserInformation
+  [DataContract(Name = "r", Namespace = Namespaces.JSON)]
+  class RequireInputInfo : UserInformation
   {
     [DataMember(Name = "a")]
     InputRequest PmInfo;
@@ -134,25 +134,25 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       PmInfo = pmInfo;
       SpentTime = spentTime;
     }
-    void IUserInformation.Execute(IRoomUser user)
+    public override void Execute(IRoomUser user)
     {
       user.InformRequireInput(PmInfo, SpentTime);
     }
   }
   
-  [DataContract(Namespace = Namespaces.PBO)]
-  class RequestTieInfo : IUserInformation
+  [DataContract(Namespace = Namespaces.JSON)]
+  class RequestTieInfo : UserInformation
   {
-    void IUserInformation.Execute(IRoomUser user)
+    public override void Execute(IRoomUser user)
     {
       user.InformRequestTie();
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
-  class RejectTieInfo : IUserInformation
+  [DataContract(Namespace = Namespaces.JSON)]
+  class RejectTieInfo : UserInformation
   {
-    void IUserInformation.Execute(IRoomUser user)
+    public override void Execute(IRoomUser user)
     {
       user.InformTieRejected();
     }

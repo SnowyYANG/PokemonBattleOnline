@@ -11,14 +11,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
-using LightStudio.PokemonBattle.Messaging;
-using LightStudio.PokemonBattle.Messaging.Room;
-using LightStudio.PokemonBattle.PBO.Battle.VM;
-using LightStudio.Tactic.Logging;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
+using PokemonBattleOnline.Messaging;
+using PokemonBattleOnline.Messaging.Room;
+using PokemonBattleOnline.PBO.Battle.VM;
 
-namespace LightStudio.PokemonBattle.PBO.Battle
+namespace PokemonBattleOnline.PBO.Battle
 {
   /// <summary>
   /// Interaction logic for BattleWindow.xaml
@@ -67,30 +66,31 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     #region IRoomEventsListener
     void IRoomEventsListener.GameStart()
     {
-      UIDispatcher.Invoke(() =>
-        {
-          StringBuilder t0 = new StringBuilder();
-          StringBuilder t1 = new StringBuilder();
-          foreach (var p in Room.Players)
-            if (p.Team == 0)
-            {
-              t0.Append(p.GetName());
-              t0.Append(' ');
-            }
-            else
-            {
-              t1.Append(' ');
-              t1.Append(p.GetName());
-            }
-          t0.Append("VS");
-          t0.Append(t1);
-          var title = t0.ToString();
-          Title = title;
+      throw new NotImplementedException();
+      //UIDispatcher.Invoke(() =>
+      //  {
+      //    StringBuilder t0 = new StringBuilder();
+      //    StringBuilder t1 = new StringBuilder();
+      //    foreach (var p in Room.Players)
+      //      if (p.Team == 0)
+      //      {
+      //        t0.Append(p.Name);
+      //        t0.Append(' ');
+      //      }
+      //      else
+      //      {
+      //        t1.Append(' ');
+      //        t1.Append(p.Name);
+      //      }
+      //    t0.Append("VS");
+      //    t0.Append(t1);
+      //    var title = t0.ToString();
+      //    Title = title;
 
-          nds.Init(Room);
-          br.Init(Room.Game, title, Room.PlayerController == null ? null : PBOClient.GetName(Room.PlayerController.Player.Id));
-          Room.Game.LeapTurn += () => mask.Visibility = Visibility.Collapsed;
-        });
+      //    nds.Init(Room);
+      //    br.Init(Room.Game, title, Room.PlayerController == null ? null : PBOClient.GetName(Room.PlayerController.Player.Id));
+      //    Room.Game.LeapTurn += () => mask.Visibility = Visibility.Collapsed;
+      //  });
     }
     void IRoomEventsListener.GameTie()
     {
@@ -98,52 +98,54 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     }
     void IRoomEventsListener.GameStop(GameStopReason reason, int player)
     {
-      UIDispatcher.Invoke(() =>
-        {
-          string formatKey;
-          switch (reason)
-          {
-            case GameStopReason.InvalidInput:
-              formatKey = "{0} commands something wrong to pokemon(s). Game stopped.";
-              break;
-            case GameStopReason.RoomClosed:
-              formatKey = "The room is closed by room administrator. Game stopped.";
-              break;
-            case GameStopReason.ServerClosed: //这个不是直接连接与服务器中断么
-              formatKey = "Disconnected from server.";
-              break;
-            case GameStopReason.PlayerDisconnect:
-              formatKey = "Player {0} disconnected. Game stopped.";
-              break;
-            case GameStopReason.PlayerGiveUp:
-              formatKey = "Player {0} chooses to surrender.";
-              break;
-            default:
-              formatKey = "Disconnected from room.";
-              break;
-          }
-          string playerName = player == 0 ? null : PBOClient.GetName(player);
-          br.AddLogText(string.Format(DataService.String[formatKey] + "\n", playerName));
-        });
+      throw new NotImplementedException();
+      //UIDispatcher.Invoke(() =>
+      //  {
+      //    string formatKey;
+      //    switch (reason)
+      //    {
+      //      case GameStopReason.InvalidInput:
+      //        formatKey = "{0} commands something wrong to pokemon(s). Game stopped.";
+      //        break;
+      //      case GameStopReason.RoomClosed:
+      //        formatKey = "The room is closed by room administrator. Game stopped.";
+      //        break;
+      //      case GameStopReason.ServerClosed: //这个不是直接连接与服务器中断么
+      //        formatKey = "Disconnected from server.";
+      //        break;
+      //      case GameStopReason.PlayerDisconnect:
+      //        formatKey = "Player {0} disconnected. Game stopped.";
+      //        break;
+      //      case GameStopReason.PlayerGiveUp:
+      //        formatKey = "Player {0} chooses to surrender.";
+      //        break;
+      //      default:
+      //        formatKey = "Disconnected from room.";
+      //        break;
+      //    }
+      //    string playerName = player == 0 ? null : PBOClient.GetName(player);
+      //    br.AddLogText(string.Format(DataService.String[formatKey] + "\n", playerName));
+      //  });
     }
     void IRoomEventsListener.TimeReminder(int[] waitForWhom)
     {
-      UIDispatcher.Invoke(() =>
-        {
-          var names = (from p in waitForWhom select PBOClient.GetName(p)).ToArray();
-          switch (waitForWhom.Length)
-          {
-            case 1: //双打三打pm复数
-              br.AddLogText(string.Format(DataService.String["Waiting for {0}'s command to pokemon."], names[0]) + "\n");
-              break;
-            case 2:
-              br.AddLogText(string.Format(DataService.String["Waiting for {0} and {1}'s commands to pokemons."], names[0], names[1]) + "\n");
-              break;
-            case 3:
-              br.AddLogText(string.Format(DataService.String["Waiting for {0}, {1} and {2}'s commands to pokemons."], names[0], names[1], names[2]) + "\n");
-              break;
-          }
-        });
+      throw new NotImplementedException();
+      //UIDispatcher.Invoke(() =>
+      //  {
+      //    var names = (from p in waitForWhom select PBOClient.GetName(p)).ToArray();
+      //    switch (waitForWhom.Length)
+      //    {
+      //      case 1: //双打三打pm复数
+      //        br.AddLogText(string.Format(DataService.String["Waiting for {0}'s command to pokemon."], names[0]) + "\n");
+      //        break;
+      //      case 2:
+      //        br.AddLogText(string.Format(DataService.String["Waiting for {0} and {1}'s commands to pokemons."], names[0], names[1]) + "\n");
+      //        break;
+      //      case 3:
+      //        br.AddLogText(string.Format(DataService.String["Waiting for {0}, {1} and {2}'s commands to pokemons."], names[0], names[1], names[2]) + "\n");
+      //        break;
+      //    }
+      //  });
     }
     void IRoomEventsListener.TimeUp(IEnumerable<KeyValuePair<int, int>> spentTime)
     {

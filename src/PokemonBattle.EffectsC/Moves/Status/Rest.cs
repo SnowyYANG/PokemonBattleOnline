@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.Data;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status
+namespace PokemonBattleOnline.Game.Host.Effects.Moves.Status
 {
-  [DataContract(Name = "eer", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "eer", Namespace = Namespaces.JSON)]
   class RestGameEvent : GameEvent
   {
     [DataMember(Name = "a")]

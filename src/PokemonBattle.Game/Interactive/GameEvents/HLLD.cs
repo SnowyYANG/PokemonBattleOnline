@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using LightStudio.PokemonBattle.Game.Host;
+using PokemonBattleOnline.Game.Host;
 
-namespace LightStudio.PokemonBattle.Game.GameEvents
+namespace PokemonBattleOnline.Game.GameEvents
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = Namespaces.JSON)]
   class HLLD : GameEvent
   {
     [DataMember(EmitDefaultValue = false)]

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using LightStudio.PokemonBattle.Game;
-using LightStudio.PokemonBattle.Messaging.Room;
+using PokemonBattleOnline.Game;
+using PokemonBattleOnline.Messaging.Room;
 
-namespace LightStudio.PokemonBattle.Messaging
+namespace PokemonBattleOnline.Messaging
 {
   internal static class IOExtensions
   {

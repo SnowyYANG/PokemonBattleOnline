@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using LightStudio.PokemonBattle.Game.Host;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.Game.Host;
+using PokemonBattleOnline.Data;
 
-namespace LightStudio.PokemonBattle.Game
+namespace PokemonBattleOnline.Game
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = Namespaces.JSON)]
   public class PmInputRequest
   {
     internal static PmInputRequest Origin(SimPokemon pm)
@@ -69,7 +69,7 @@ namespace LightStudio.PokemonBattle.Game
       return
         OnlyMove == i.OnlyMove &&
         Only == i.Only &&
-        Block.ArrayEquals(i.Block) &&
+        Block.SequenceEqual(i.Block) &&
         CantWithdraw == i.CantWithdraw;
     }
 
@@ -97,7 +97,7 @@ namespace LightStudio.PokemonBattle.Game
     }
     public bool Fight()
     {
-      return OnlyMove == PokemonBattle.Game.Host.Sp.Moves.STRUGGLE;
+      return OnlyMove == Host.Sp.Moves.STRUGGLE;
     }
     /// <summary>
     /// 不判断PP数及技能是否存在
@@ -150,7 +150,7 @@ namespace LightStudio.PokemonBattle.Game
     #endregion
   }
   
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = Namespaces.JSON)]
   public class InputRequest
   {
     internal static InputRequest Origin()
@@ -183,7 +183,7 @@ namespace LightStudio.PokemonBattle.Game
     public override bool Equals(object obj)
     {
       InputRequest ri = obj as InputRequest;
-      return ri != null && Pms.ArrayEquals(ri.Pms);
+      return ri != null && Pms.SequenceEqual(ri.Pms);
     }
 
     #region PlayerClient

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LightStudio.Tactic.DataModels
+namespace PokemonBattleOnline.Tactic.DataModels
 {
   public abstract class ConditionalObject
   {

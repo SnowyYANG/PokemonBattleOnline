@@ -6,16 +6,16 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Windows.Threading;
-using LightStudio.Tactic.Messaging;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
-using LightStudio.PokemonBattle.Messaging;
-using LightStudio.PokemonBattle.Messaging.Room;
-using LightStudio.PokemonBattle.PBO.UIElements;
+using PokemonBattleOnline.Tactic.Network;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
+using PokemonBattleOnline.Messaging;
+using PokemonBattleOnline.Messaging.Room;
+using PokemonBattleOnline.PBO.UIElements;
 using SoundPlayer = System.Media.SoundPlayer;
-using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
+using User = PokemonBattleOnline.Tactic.Network.User<PokemonBattleOnline.Messaging.UE>;
 
-namespace LightStudio.PokemonBattle.PBO.Lobby
+namespace PokemonBattleOnline.PBO.Lobby
 {
   class StartBattleVM : INotifyPropertyChanged
   {
@@ -38,37 +38,37 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     
     public event PropertyChangedEventHandler PropertyChanged;
     internal event Action Processed;
-    private readonly ChallengeManager challenge;
+    //private readonly ChallengeManager challenge;
     DispatcherTimer timer;
     bool isWaiting;
 
     public StartBattleVM(User rival, GameInitSettings settings, bool isPassive)
     {
-      challenge = PBOClient.Challenge; //thread safe?
-      Rival = rival;
-      this.isPassive = isPassive;
-      RivalAvatar = AvatarVM.GetAvatar(rival.Avatar);
-      Teams = DataService.UserData.Teams;
-      _chosenTeam = Teams.FirstOrDefault();
-      GameSettings = settings;
-      if (isPassive)
-      {
-        OkCommand = new MenuCommand("接受", Accept);
-        CancelCommand = new MenuCommand("拒绝", Refuse);
-        challenge.ChallengeCanceled += OnProcessed;
-        PlaySound();
-      }
-      else
-      {
-        OkCommand = new MenuCommand("挑战", Challenge);
-        CancelCommand = new MenuCommand("取消", Cancel);
-        challenge.ChallengeAccepted += OnProcessed;
-        challenge.ChallengeRefused += OnProcessed;
-      }
-      BattleClient.EnterSucceed += OnProcessed;
-      OkCommand.IsEnabled = ChosenTeam != null;
-      timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(10) };
-      timer.Tick += (sender, e) => CancelCommand.IsEnabled = true;
+      //challenge = PBOClient.Challenge; //thread safe?
+      //Rival = rival;
+      //this.isPassive = isPassive;
+      //RivalAvatar = AvatarVM.GetAvatar(rival.Avatar);
+      //Teams = DataService.UserData.Teams;
+      //_chosenTeam = Teams.FirstOrDefault();
+      //GameSettings = settings;
+      //if (isPassive)
+      //{
+      //  OkCommand = new MenuCommand("接受", Accept);
+      //  CancelCommand = new MenuCommand("拒绝", Refuse);
+      //  challenge.ChallengeCanceled += OnProcessed;
+      //  PlaySound();
+      //}
+      //else
+      //{
+      //  OkCommand = new MenuCommand("挑战", Challenge);
+      //  CancelCommand = new MenuCommand("取消", Cancel);
+      //  challenge.ChallengeAccepted += OnProcessed;
+      //  challenge.ChallengeRefused += OnProcessed;
+      //}
+      //BattleClient.EnterSucceed += OnProcessed;
+      //OkCommand.IsEnabled = ChosenTeam != null;
+      //timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(10) };
+      //timer.Tick += (sender, e) => CancelCommand.IsEnabled = true;
     }
 
     public User Rival { get; private set; }
@@ -96,15 +96,15 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
 
     void OnProcessed(IRoom u = null)
     {
-      if (isPassive) challenge.ChallengeCanceled -= OnProcessed;
-      else
-      {
-        challenge.ChallengeAccepted -= OnProcessed;
-        challenge.ChallengeRefused -= OnProcessed;
-      }
-      BattleClient.EnterSucceed -= OnProcessed;
-      if (CancelCommand.IsEnabled) CancelCommand.Execute(null); //auto refuse others
-      if (Processed != null) UIDispatcher.Invoke(Processed);
+      //if (isPassive) challenge.ChallengeCanceled -= OnProcessed;
+      //else
+      //{
+      //  challenge.ChallengeAccepted -= OnProcessed;
+      //  challenge.ChallengeRefused -= OnProcessed;
+      //}
+      //BattleClient.EnterSucceed -= OnProcessed;
+      //if (CancelCommand.IsEnabled) CancelCommand.Execute(null); //auto refuse others
+      //if (Processed != null) UIDispatcher.Invoke(Processed);
     }
     void OnProcessed(User user)
     {
@@ -116,34 +116,34 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     }
     void Accept()
     {
-      CancelCommand.IsEnabled = false;
-      lock (ChosenTeam)
-      {
-        if (challenge.AcceptChallenge(Rival.Id, ChosenTeam.ToArray()))
-          OnProcessed();
-      }
+      //CancelCommand.IsEnabled = false;
+      //lock (ChosenTeam)
+      //{
+      //  if (challenge.AcceptChallenge(Rival.Id, ChosenTeam.ToArray()))
+      //    OnProcessed();
+      //}
     }
     void Refuse()
     {
       OkCommand.IsEnabled = CancelCommand.IsEnabled = false;
-      challenge.RefuseChallenge(Rival.Id);
+      //challenge.RefuseChallenge(Rival.Id);
       OnProcessed();
     }
     void Challenge()
     {
-      lock (ChosenTeam)
-      {
-        if (!challenge.Challenge(Rival.Id, ChosenTeam.ToArray(), GameSettings)) return;
-        isWaiting = true;
-        OkCommand.IsEnabled = CancelCommand.IsEnabled = false;
-      }
-      timer.Start();
+      //lock (ChosenTeam)
+      //{
+      //  if (!challenge.Challenge(Rival.Id, ChosenTeam.ToArray(), GameSettings)) return;
+      //  isWaiting = true;
+      //  OkCommand.IsEnabled = CancelCommand.IsEnabled = false;
+      //}
+      //timer.Start();
     }
     void Cancel()
     {
-      OkCommand.IsEnabled = CancelCommand.IsEnabled = false;
-      if (isWaiting) challenge.CancelChallenge(Rival.Id);
-      OnProcessed();
+      //OkCommand.IsEnabled = CancelCommand.IsEnabled = false;
+      //if (isWaiting) challenge.CancelChallenge(Rival.Id);
+      //OnProcessed();
     }
   }
 }

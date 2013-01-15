@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.Data;
 
-namespace LightStudio.PokemonBattle.Game.Host.Sp
+namespace PokemonBattleOnline.Game.Host.Sp
 {
   public static class Items
   {

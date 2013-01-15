@@ -8,7 +8,7 @@
     <ProjectGuid>{2BD81D18-43CB-420A-B293-469E110473CC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LightStudio.PokemonBattle.Data</RootNamespace>
+    <RootNamespace>PokemonBattleOnline.Data</RootNamespace>
     <AssemblyName>PokemonBattle.Data</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -17,6 +17,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -87,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Rom\Ability.cs" />
+    <Compile Include="Rom\GameElement.cs" />
     <Compile Include="Rom\GiftPokemon.cs" />
     <Compile Include="Rom\LearnList\GenLearnList.cs" />
     <Compile Include="Rom\LearnList\LearnList.cs" />
@@ -97,7 +99,6 @@
     <Compile Include="Rom\Item.cs" />
     <Compile Include="Rom\Move\MoveLv7DChange.cs" />
     <Compile Include="Rom\Move\MoveTypeAdvancedFlags.cs" />
-    <Compile Include="Rom\Move\MoveLearnItem.cs" />
     <Compile Include="Rom\Pokemon\Evolution.cs" />
     <Compile Include="Rom\Pokemon\PokemonFormData.cs" />
     <Compile Include="Rom\Pokemon\PokemonType.cs" />
@@ -116,7 +117,6 @@
     <Compile Include="GameDataService.cs" />
     <Compile Include="Rom\BattleType.cs" />
     <Compile Include="Rom\Pokemon\EggGroup.cs" />
-    <Compile Include="Rom\LearnList\MoveLearnMethod.cs" />
     <Compile Include="Rom\Pokemon\PokemonGender.cs" />
     <Compile Include="Rom\Pokemon\PokemonNature.cs" />
     <Compile Include="ImageService.cs" />

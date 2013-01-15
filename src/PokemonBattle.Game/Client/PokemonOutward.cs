@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using System.ComponentModel;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game.Host;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game.Host;
 
-namespace LightStudio.PokemonBattle.Game
+namespace PokemonBattleOnline.Game
 {
   public interface IPokemonOutwardEvents
   {
@@ -26,7 +26,7 @@ namespace LightStudio.PokemonBattle.Game
   }
 
   [KnownType(typeof(PairValue))]
-  [DataContract(Name = "pm", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "pm", Namespace = Namespaces.JSON)]
   public class PokemonOutward : ObservableObject
   {
     private static readonly PropertyChangedEventArgs NAME = new PropertyChangedEventArgs("Name");

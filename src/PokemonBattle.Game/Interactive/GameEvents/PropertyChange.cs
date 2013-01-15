@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game.Host;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game.Host;
 
-namespace LightStudio.PokemonBattle.Game.GameEvents
+namespace PokemonBattleOnline.Game.GameEvents
 {
-  [DataContract(Name = "est", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "est", Namespace = Namespaces.JSON)]
   public class StateChange : GameEvent
   {
     [DataMember(Name = "a")]
@@ -67,7 +67,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Name = "eh", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "eh", Namespace = Namespaces.JSON)]
   public class HpChange : GameEvent
   {
     [DataMember(Name = "a")]
@@ -119,7 +119,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = Namespaces.JSON)]
   public class PositionChange : SimpleEvent
   {
     public static PositionChange Reset(string gameLogKey, PokemonProxy pm, object arg1 = null, object arg2 = null)
@@ -150,7 +150,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = Namespaces.JSON)]
   public class RemoveItem : GameEvent
   {
     [DataMember(EmitDefaultValue = false)]
@@ -190,7 +190,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Name = "eo", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "eo", Namespace = Namespaces.JSON)]
   public class OutwardChange : GameEvent
   {
     public static OutwardChange Transform(PokemonProxy pm, PokemonProxy target)

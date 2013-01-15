@@ -11,12 +11,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Net;
-using LightStudio.Tactic.Globalization;
-using LightStudio.PokemonBattle.PBO.Lobby;
-using LightStudio.PokemonBattle.PBO.Battle;
-using LightStudio.PokemonBattle.PBO.Editor;
+using PokemonBattleOnline.Tactic.Globalization;
+using PokemonBattleOnline.PBO.Lobby;
+using PokemonBattleOnline.PBO.Battle;
+using PokemonBattleOnline.PBO.Editor;
 
-namespace LightStudio.PokemonBattle.PBO
+namespace PokemonBattleOnline.PBO
 {
   /// <summary>
   /// Interaction logic for MainWindow.xaml
@@ -30,8 +30,8 @@ namespace LightStudio.PokemonBattle.PBO
     {
       InitializeComponent();
       Loaded += switchLobby_Click;
-      Messaging.BattleClient.EnterSucceed += (user) =>
-        new BattleWindow(user).Show();
+      //Messaging.BattleClient.EnterSucceed += (user) =>
+      //  new BattleWindow(user).Show();
       GL0 = new GridLength(0);
       GLMIN = new GridLength(lobby.MinWidth);
       editor.Init();

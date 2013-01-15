@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Globalization;
-namespace LightStudio.PokemonBattle.PBO.Editor
+namespace PokemonBattleOnline.PBO.Editor
 {
     [ValueConversion(typeof(bool), typeof(TextWrapping))]
     class BoolWrappingC : IValueConverter

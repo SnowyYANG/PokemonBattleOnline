@@ -7,7 +7,7 @@ using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
-namespace LightStudio.PokemonBattle.PBO.UIElements.Interactivity
+namespace PokemonBattleOnline.PBO.UIElements.Interactivity
 {
   public class DisableWhenNoItem : Behavior<ContextMenu>
   {

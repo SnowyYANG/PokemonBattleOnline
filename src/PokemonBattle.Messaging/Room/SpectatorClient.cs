@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LightStudio.PokemonBattle.Messaging.Room
+namespace PokemonBattleOnline.Messaging.Room
 {
   internal class SpectatorClient : RoomUserClient
   {
@@ -12,8 +12,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     {
     }
 
-    public override Tactic.Messaging.UserState State
-    { get { return Tactic.Messaging.UserState.Watching; } }
     public override Game.IPlayerController PlayerController
     { get { return null; } }
 

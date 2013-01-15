@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using LightStudio.Tactic.Messaging.Lobby;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game.Host;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game.Host;
 
-namespace LightStudio.PokemonBattle.Game.GameEvents
+namespace PokemonBattleOnline.Game.GameEvents
 {
-  [DataContract(Name = "es2", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "es2", Namespace = Namespaces.JSON)]
   internal class GameStartSendOut : GameEvent
   {
     [DataMember(Name = "a")]
@@ -43,7 +42,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Name = "es", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "es", Namespace = Namespaces.JSON)]
   internal class SendOut : GameEvent
   {
     [DataMember(Name = "a")]
@@ -79,7 +78,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Name = "ew", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "ew", Namespace = Namespaces.JSON)]
   internal class Withdraw : GameEvent
   {
     [DataMember(Name = "a", EmitDefaultValue = false)]

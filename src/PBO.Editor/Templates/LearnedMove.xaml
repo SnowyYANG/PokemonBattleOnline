@@ -2,9 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-					xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements;assembly=PBO.UIElements"
-                    xmlns:pm="clr-namespace:LightStudio.PokemonBattle.Data;assembly=PokemonBattle.Data"
-					xmlns:local="clr-namespace:LightStudio.PokemonBattle.PBO.Editor">
+					xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.UIElements;assembly=PBO.UIElements"
+                    xmlns:pm="clr-namespace:PokemonBattleOnline.Data;assembly=PokemonBattle.Data"
+					xmlns:local="clr-namespace:PokemonBattleOnline.PBO.Editor">
     <DataTemplate x:Key="LearnedMove">
         <Grid Name="grid" Width="136" Height="34" ToolTip="{Binding Move.Description}">
 			<Polygon Name="bg" Stroke="#202020" StrokeThickness="3" Points="1.5,17 9,0.5 127,0.5 134.5,17 127,33.5 9,33.5" Fill="#303030"/>

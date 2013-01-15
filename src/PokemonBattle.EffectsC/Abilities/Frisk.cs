@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game.Host;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game.Host;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects.Abilities
+namespace PokemonBattleOnline.Game.Host.Effects.Abilities
 {
   class Frisk : AbilityE
   {

@@ -2,17 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
-namespace LightStudio.PokemonBattle.Messaging.Room
+namespace PokemonBattleOnline.Messaging.Room
 {
-  internal interface IHostCommand: LightStudio.Tactic.Messaging.IMessagable
+  [DataContract(Namespace = Namespaces.JSON)]
+  internal abstract class HostCommand //knowntype
   {
-    void Execute(IHost host, int senderId);
+    public abstract void Execute(IHost host, int senderId);
   }
 
-  internal interface IUserInformation : LightStudio.Tactic.Messaging.IMessagable
+  [DataContract(Namespace = Namespaces.JSON)]
+  internal abstract class UserInformation //knowntype
   {
-    void Execute(IRoomUser user);
+    public abstract void Execute(IRoomUser user);
   }
 
   /// <summary>
@@ -24,7 +27,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void Kick(int targetId);
     void StartGame();
     void CloseRoom();
-    void ExecuteCommand(IHostCommand command, int userId);
+    void ExecuteCommand(HostCommand command, int userId);
   }
 
   /// <summary>
@@ -32,6 +35,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
   /// </summary>
   internal interface IRoomUser : IRoomInformer, IGameInformer, IDisposable
   {
-    void ExecuteInformation(IUserInformation info);
+    void ExecuteInformation(UserInformation info);
   }
 }

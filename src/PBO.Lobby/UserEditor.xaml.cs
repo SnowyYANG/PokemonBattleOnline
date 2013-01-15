@@ -11,11 +11,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LightStudio.Tactic.Messaging;
-using LightStudio.PokemonBattle.Messaging;
-using LightStudio.PokemonBattle.PBO.UIElements;
+using PokemonBattleOnline.Tactic.Network;
+using PokemonBattleOnline.Messaging;
+using PokemonBattleOnline.PBO.UIElements;
 
-namespace LightStudio.PokemonBattle.PBO.Lobby
+namespace PokemonBattleOnline.PBO.Lobby
 {
   /// <summary>
   /// Interaction logic for UserEditor.xaml
@@ -46,11 +46,11 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
 
     void RefreshState(UserState state)
     {
-      if (vm != null) PBOClient.Client.ChangeUserState(state, sign.Text);
+      //if (vm != null) PBOClient.Client.ChangeUserState(state, sign.Text);
     }
     void RefreshState()
     {
-      RefreshState(vm.User.State);
+      //RefreshState(vm.User.State);
     }
 
     private void normal_Click(object sender, RoutedEventArgs e)

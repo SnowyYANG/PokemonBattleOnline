@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Globalization;
 
-namespace LightStudio.PokemonBattle.PBO.Converters
+namespace PokemonBattleOnline.PBO.Converters
 {
   public class AccuracyString : Converter<int>
   {

@@ -7,7 +7,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Globalization;
 
-namespace LightStudio.PokemonBattle.PBO.Editor
+namespace PokemonBattleOnline.PBO.Editor
 {
   [ValueConversion(typeof(bool), typeof(TextTrimming))]
   class BoolTrimmingC : IValueConverter

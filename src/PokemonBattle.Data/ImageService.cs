@@ -6,7 +6,7 @@ using System.IO;
 using System.Windows.Media.Imaging;
 using System.IO.Packaging;
 
-namespace LightStudio.PokemonBattle.Data
+namespace PokemonBattleOnline.Data
 {
   internal class ImageService : IDisposable
   {

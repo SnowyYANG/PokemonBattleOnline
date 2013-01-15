@@ -6,7 +6,7 @@ using System.IO;
 using Microsoft.Win32;
 using System.Diagnostics.Contracts;
 
-namespace LightStudio.PokemonBattle.PBO.Editor
+namespace PokemonBattleOnline.PBO.Editor
 {
   internal static class FileHelper
   {

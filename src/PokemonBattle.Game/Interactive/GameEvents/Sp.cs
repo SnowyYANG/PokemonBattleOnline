@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game.Host;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game.Host;
 
-namespace LightStudio.PokemonBattle.Game.GameEvents
+namespace PokemonBattleOnline.Game.GameEvents
 {
-  [DataContract(Name = "e0", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "e0", Namespace = Namespaces.JSON)]
   internal class BeginTurn : GameEvent
   {
     protected override void Update()
@@ -23,7 +23,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Name = "e1", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "e1", Namespace = Namespaces.JSON)]
   internal class EndTurn : GameEvent
   {
     protected override void Update()
@@ -46,7 +46,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
   
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = Namespaces.JSON)]
   internal class SelectMoveFail : GameEvent
   {
     [DataMember]
@@ -70,7 +70,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Name = "l", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "l", Namespace = Namespaces.JSON)]
   internal class HorizontalLine : GameEvent
   {
     protected override void Update()

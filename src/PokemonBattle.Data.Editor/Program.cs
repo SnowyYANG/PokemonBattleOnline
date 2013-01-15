@@ -7,10 +7,10 @@ using System.IO.Compression;
 using System.Xml;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
-using LightStudio.Tactic.DataModels;
-using LightStudio.Tactic;
+using PokemonBattleOnline.Tactic.DataModels;
+using PokemonBattleOnline.Tactic;
 
-namespace LightStudio.PokemonBattle.Data.Editor
+namespace PokemonBattleOnline.Data.Editor
 {
   class Program
   {

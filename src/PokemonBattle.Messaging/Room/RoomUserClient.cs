@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
-using LightStudio.Tactic.Logging;
-using LightStudio.Tactic.Messaging;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
+using PokemonBattleOnline.Tactic.Network;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 
-namespace LightStudio.PokemonBattle.Messaging.Room
+namespace PokemonBattleOnline.Messaging.Room
 {
   internal abstract class RoomUserClient : IRoomUser, IRoom, IDisposable
   {
@@ -41,7 +40,6 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     public GameOutward Game
     { get { return game; } }
     public RoomState RoomState { get; private set; }
-    public abstract Tactic.Messaging.UserState State { get; }
     public abstract IPlayerController PlayerController { get; }
 
     private void EndGame()
@@ -57,7 +55,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
 
     #region Information
-    void IRoomUser.ExecuteInformation(IUserInformation info)
+    void IRoomUser.ExecuteInformation(UserInformation info)
     {
       UIDispatcher.Invoke((Action<IRoomUser>)(info.Execute), this);
     }
@@ -135,7 +133,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
         string[] teams = new string[2];
         foreach(Player p in players)
         {
-          string name = p.GetName();
+          string name = p.Name;
           ps.Add(p.Id, name);
           if (teams[p.Team] == null) teams[p.Team] = name;
         }
@@ -174,8 +172,8 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     #endregion
 
     #region Command
-    protected Action<IHostCommand> sendCommand;
-    public event Action<IHostCommand> SendCommand
+    protected Action<HostCommand> sendCommand;
+    public event Action<HostCommand> SendCommand
     { add { sendCommand += value; } remove { } }
     public abstract void EnterRoom();
     private bool isQuited = false;

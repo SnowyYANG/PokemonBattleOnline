@@ -13,11 +13,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
 using System.IO;
-using LightStudio.Tactic.DataModels;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
+using PokemonBattleOnline.Tactic.DataModels;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 
-namespace LightStudio.PokemonBattle.PBO.Battle
+namespace PokemonBattleOnline.PBO.Battle
 {
   /// <summary>
   /// Interaction logic for BattleReport.xaml

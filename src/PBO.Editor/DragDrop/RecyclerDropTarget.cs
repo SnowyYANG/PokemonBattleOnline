@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using LightStudio.PokemonBattle.PBO.UIElements.Interactivity;
+using PokemonBattleOnline.PBO.UIElements.Interactivity;
 
-namespace LightStudio.PokemonBattle.PBO.Editor
+namespace PokemonBattleOnline.PBO.Editor
 {
   public class RecyclerDropTarget : IDragDropTarget
   {

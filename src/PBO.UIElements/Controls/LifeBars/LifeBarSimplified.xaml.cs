@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using System.Windows.Media.Animation;
 using System.ComponentModel;
 
-namespace LightStudio.PokemonBattle.PBO.UIElements
+namespace PokemonBattleOnline.PBO.UIElements
 {
   /// <summary>
   /// Interaction logic for LifeBar.xaml

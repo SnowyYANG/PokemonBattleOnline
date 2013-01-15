@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace LightStudio.Tactic.Globalization
+namespace PokemonBattleOnline.Tactic.Globalization
 {
   public class DomainStringService : INotifyPropertyChanged
   {

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Windows.Controls.Primitives;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.PBO.UIElements.Interactivity;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.PBO.UIElements.Interactivity;
 
-namespace LightStudio.PokemonBattle.PBO.Editor
+namespace PokemonBattleOnline.PBO.Editor
 {
   internal class PokemonDragDropData : ObservableObject, IDragDropData
   {

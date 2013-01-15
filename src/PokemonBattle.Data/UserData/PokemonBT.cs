@@ -5,9 +5,9 @@ using System.Text;
 using System.IO;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using LightStudio.Tactic;
+using PokemonBattleOnline.Tactic;
 
-namespace LightStudio.PokemonBattle.Data
+namespace PokemonBattleOnline.Data
 {
   [CollectionDataContract(Namespace = Namespaces.PBO, ItemName="PokemonData")]
   public class PokemonBT : PokemonCollection, INotifyPropertyChanged

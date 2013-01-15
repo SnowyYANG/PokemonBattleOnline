@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
-using LightStudio.Tactic.Messaging;
-using LightStudio.PokemonBattle.Game;
+using PokemonBattleOnline.Game;
 
-namespace LightStudio.PokemonBattle.Messaging.Room
+namespace PokemonBattleOnline.Messaging.Room
 {
-  [DataContract(Namespace = Namespaces.PBO)]
-  public class GameInitSettings : IGameSettings, IMessagable
+  [DataContract(Namespace = Namespaces.JSON)]
+  public class GameInitSettings : IGameSettings
   {
     private bool isLocked;
 

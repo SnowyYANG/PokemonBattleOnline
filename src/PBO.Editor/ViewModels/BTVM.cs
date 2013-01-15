@@ -6,10 +6,10 @@ using System.Text;
 using System.Windows;
 using System.ComponentModel;
 using System.Collections.Specialized;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.PBO.UIElements;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.PBO.UIElements;
 
-namespace LightStudio.PokemonBattle.PBO.Editor
+namespace PokemonBattleOnline.PBO.Editor
 {
   internal abstract class BTVM : CollectionVM
   {

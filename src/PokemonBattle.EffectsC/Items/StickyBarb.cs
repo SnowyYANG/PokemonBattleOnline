@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects.Items
+namespace PokemonBattleOnline.Game.Host.Effects.Items
 {
   class StickyBarb : ItemE
   {

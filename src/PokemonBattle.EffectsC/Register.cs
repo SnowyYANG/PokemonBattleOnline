@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
-using LightStudio.PokemonBattle.Game.Host.Effects.Moves;
-using LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack;
-using LightStudio.PokemonBattle.Game.Host.Effects.Moves.Status;
-using LightStudio.PokemonBattle.Game.Host.Effects.Abilities;
-using LightStudio.PokemonBattle.Game.Host.Effects.Items;
-using LightStudio.PokemonBattle.Game.Host.Effects.Triggers;
-using GameService = LightStudio.PokemonBattle.Game.GameService;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
+using PokemonBattleOnline.Game.Host.Effects.Moves;
+using PokemonBattleOnline.Game.Host.Effects.Moves.Attack;
+using PokemonBattleOnline.Game.Host.Effects.Moves.Status;
+using PokemonBattleOnline.Game.Host.Effects.Abilities;
+using PokemonBattleOnline.Game.Host.Effects.Items;
+using PokemonBattleOnline.Game.Host.Effects.Triggers;
+using GameService = PokemonBattleOnline.Game.GameService;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects
+namespace PokemonBattleOnline.Game.Host.Effects
 {
   public static class EffectsRegister
   {

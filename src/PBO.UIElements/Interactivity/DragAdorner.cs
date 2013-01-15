@@ -11,7 +11,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Interactivity;
 using System.Windows.Documents;
 
-namespace LightStudio.PokemonBattle.PBO.UIElements.Interactivity
+namespace PokemonBattleOnline.PBO.UIElements.Interactivity
 {
   public class DragAdorner : Adorner, IWeakEventListener
   {

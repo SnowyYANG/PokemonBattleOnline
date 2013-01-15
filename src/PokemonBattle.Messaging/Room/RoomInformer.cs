@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 
-namespace LightStudio.PokemonBattle.Messaging.Room
+namespace PokemonBattleOnline.Messaging.Room
 {
   internal interface IRoomInformer
   {
@@ -17,8 +17,8 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void InformEnterSucceed(GameInitSettings settings, Player[] players, int[] spectators);
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
-  class UserSpectateGameInfo : IUserInformation
+  [DataContract(Namespace = Namespaces.JSON)]
+  class UserSpectateGameInfo : UserInformation
   {
     [DataMember(EmitDefaultValue = false)]
     public int UserId
@@ -28,14 +28,14 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     {
       this.UserId = userId;
     }
-    void IUserInformation.Execute(IRoomUser user)
+    public override void Execute(IRoomUser user)
     {
       user.InformUserSpectateGame(UserId);
     }
   }
 
-  [DataContract(Name = "ji", Namespace = Namespaces.PBO)]
-  class UserJoinGameInfo : IUserInformation
+  [DataContract(Name = "ji", Namespace = Namespaces.JSON)]
+  class UserJoinGameInfo : UserInformation
   {
 
     [DataMember(Name = "a", EmitDefaultValue = false)]
@@ -51,14 +51,14 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       this.UserId = userId;
       this.TeamId = teamId;
     }
-    void IUserInformation.Execute(IRoomUser user)
+    public override void Execute(IRoomUser user)
     {
       user.InformUserJoinGame(UserId, TeamId);
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
-  class UserQuitInfo : IUserInformation
+  [DataContract(Namespace = Namespaces.JSON)]
+  class UserQuitInfo : UserInformation
   {
     [DataMember(EmitDefaultValue = false)]
     public int UserId
@@ -66,18 +66,16 @@ namespace LightStudio.PokemonBattle.Messaging.Room
 
     public UserQuitInfo(int userId)
     {
-
       this.UserId = userId;
-
     }
-    void IUserInformation.Execute(IRoomUser user)
+    public override void Execute(IRoomUser user)
     {
       user.InformUserQuit(UserId);
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
-  class UserKickedInfo : IUserInformation
+  [DataContract(Namespace = Namespaces.JSON)]
+  class UserKickedInfo : UserInformation
   {
     [DataMember(EmitDefaultValue = false)]
     public int UserId
@@ -87,14 +85,14 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     {
       this.UserId = userId;
     }
-    void IUserInformation.Execute(IRoomUser user)
+    public override void Execute(IRoomUser user)
     {
       user.InformUserKicked(UserId);
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
-  class EnterFailedInfo : IUserInformation
+  [DataContract(Namespace = Namespaces.JSON)]
+  class EnterFailedInfo : UserInformation
   {
     [DataMember(EmitDefaultValue = false)]
     public string Message
@@ -104,14 +102,14 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     {
       this.Message = message;
     }
-    void IUserInformation.Execute(IRoomUser user)
+    public override void Execute(IRoomUser user)
     {
       user.InformEnterFailed(Message);
     }
   }
 
-  [DataContract(Name = "js", Namespace = Namespaces.PBO)]
-  class EnterSucceedInfo : IUserInformation
+  [DataContract(Name = "js", Namespace = Namespaces.JSON)]
+  class EnterSucceedInfo : UserInformation
   {
     public static EnterSucceedInfo Player(Host host)
     {
@@ -142,7 +140,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
       Players = players.ToArray();
       Spectators = spectators.ToArray();
     }
-    void IUserInformation.Execute(IRoomUser user)
+    public override void Execute(IRoomUser user)
     {
       user.InformEnterSucceed(Settings, Players, Spectators);
       if (Leap != null) user.InformReportUpdate(Leap);

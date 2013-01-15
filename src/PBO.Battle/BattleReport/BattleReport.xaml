@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="LightStudio.PokemonBattle.PBO.Battle.BattleReport"
+﻿<UserControl x:Class="PokemonBattleOnline.PBO.Battle.BattleReport"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid UseLayoutRounding="True">

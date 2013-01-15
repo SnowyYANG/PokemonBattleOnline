@@ -11,13 +11,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LightStudio.Tactic.Messaging;
-using LightStudio.PokemonBattle.Messaging;
-using LightStudio.PokemonBattle.PBO.UIElements;
+using PokemonBattleOnline.Tactic.Network;
+using PokemonBattleOnline.Messaging;
+using PokemonBattleOnline.PBO.UIElements;
 using SoundPlayer = System.Media.SoundPlayer;
-using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
+using User = PokemonBattleOnline.Tactic.Network.User<PokemonBattleOnline.Messaging.UE>;
 
-namespace LightStudio.PokemonBattle.PBO.Lobby
+namespace PokemonBattleOnline.PBO.Lobby
 {
   /// <summary>
   /// Interaction logic for Chat.xaml
@@ -72,17 +72,17 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     {
       if (!string.IsNullOrEmpty(speaking.Text))
       {
-        if (whom.SelectedIndex > 0)
-        {
-          foreach (KeyValuePair<int, TabItem> p in chatTabs)
-            if (whom.SelectedItem == p.Value)
-            {
-              PBOClient.Lobby.Chat(speaking.Text, p.Key);
-              ((TextBox)p.Value.Content).AppendText(userName + ": " + speaking.Text + "\n");
-            }
-        }
-        else PBOClient.Client.BroadcastMessage(speaking.Text);
-        speaking.Clear();
+        //if (whom.SelectedIndex > 0)
+        //{
+        //  foreach (KeyValuePair<int, TabItem> p in chatTabs)
+        //    if (whom.SelectedItem == p.Value)
+        //    {
+        //      PBOClient.Lobby.Chat(speaking.Text, p.Key);
+        //      ((TextBox)p.Value.Content).AppendText(userName + ": " + speaking.Text + "\n");
+        //    }
+        //}
+        //else PBOClient.Client.BroadcastMessage(speaking.Text);
+        //speaking.Clear();
       }
     }
     private TabItem GetChatTab(User user)
@@ -105,13 +105,13 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     }
     internal void Init()
     {
-      if (PBOClient.Client != null)
+      if (PBOClient.Current != null)
       {
-        speaking.Clear();
-        chat.Inlines.Clear();
-        userName = PBOClient.Client.User.Name;
-        PBOClient.Client.BroadcastReceived += controller_BroadcastReceived;
-        PBOClient.Lobby.ChatMessageReceived += controller_ChatMessageReceived;
+        //speaking.Clear();
+        //chat.Inlines.Clear();
+        //userName = PBOClient.Client.User.Name;
+        //PBOClient.Client.BroadcastReceived += controller_BroadcastReceived;
+        //PBOClient.Lobby.ChatMessageReceived += controller_ChatMessageReceived;
       }
       else
       {
@@ -125,33 +125,33 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
 
     void controller_BroadcastReceived(User user, string content)
     {
-      UIDispatcher.Invoke(() =>
-        {
-          Run r = new Run(user.Name + ": " + content + "\n");
-          r.Foreground = UserVM.GetChatBrush(user.Name);
-          if (Scroll.ScrollableHeight - Scroll.ExtentHeight < 5)
-          {
-            chat.Inlines.Add(r);
-            Scroll.ScrollToEnd();
-          }
-          else
-            chat.Inlines.Add(r);
-        });
+      //UIDispatcher.Invoke(() =>
+      //  {
+      //    Run r = new Run(user.Name + ": " + content + "\n");
+      //    r.Foreground = UserVM.GetChatBrush(user.Name);
+      //    if (Scroll.ScrollableHeight - Scroll.ExtentHeight < 5)
+      //    {
+      //      chat.Inlines.Add(r);
+      //      Scroll.ScrollToEnd();
+      //    }
+      //    else
+      //      chat.Inlines.Add(r);
+      //  });
     }
-    void controller_ChatMessageReceived(object sender, ChatMessageReceivedEventArgs e)
-    {
-      //私聊要开新Tab
-      UIDispatcher.Invoke(() =>
-        {
-          TabItem ti = GetChatTab(e.UserInfo);
-          ((TextBox)ti.Content).AppendText(e.UserInfo.Name + ": " + e.Content + "\n");
-          if (whom.SelectedItem != ti)
-          {
-            ti.Foreground = UIElements.Brushes.OrangeM;
-            PlaySound();
-          }
-        });
-    }
+    //void controller_ChatMessageReceived(object sender, ChatMessageReceivedEventArgs e)
+    //{
+    //  //私聊要开新Tab
+    //  UIDispatcher.Invoke(() =>
+    //    {
+    //      TabItem ti = GetChatTab(e.UserInfo);
+    //      ((TextBox)ti.Content).AppendText(e.UserInfo.Name + ": " + e.Content + "\n");
+    //      if (whom.SelectedItem != ti)
+    //      {
+    //        ti.Foreground = UIElements.Brushes.OrangeM;
+    //        PlaySound();
+    //      }
+    //    });
+    //}
 
     private void Button_Click(object sender, RoutedEventArgs e)
     {

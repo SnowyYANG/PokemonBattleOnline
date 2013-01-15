@@ -5,9 +5,9 @@ using System.Text;
 using System.Windows;
 using System.Windows.Data;
 using System.Globalization;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.Data;
 
-namespace LightStudio.PokemonBattle.PBO.Editor
+namespace PokemonBattleOnline.PBO.Editor
 {
     class IdMoveC : Converter<int>
     {

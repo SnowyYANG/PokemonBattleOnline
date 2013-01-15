@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Windows;
-using LightStudio.Tactic.Globalization;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.Tactic.Globalization;
+using PokemonBattleOnline.Data;
 
-namespace LightStudio.PokemonBattle.PBO.Editor
+namespace PokemonBattleOnline.PBO.Editor
 {
   internal class EditorVM : ObservableObject
   {

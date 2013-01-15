@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game.GameEvents;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game.GameEvents;
 
-namespace LightStudio.PokemonBattle.Game.Host.Sp
+namespace PokemonBattleOnline.Game.Host.Sp
 {
   public static class Abilities
   {

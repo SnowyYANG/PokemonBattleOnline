@@ -2,24 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Diagnostics.Contracts;
+using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LightStudio
+namespace PokemonBattleOnline
 {
   public class Dispatcher : DisposableObject
   {
-    private readonly string name;
-    private SyncList<Work> workList;
-    private ManualResetEvent addWorkEvent;
-    private object addWorkLock;
-    private Thread thread;
+    private readonly Thread thread;
+    private readonly ConcurrentQueue<Work> works;
+    private readonly ManualResetEvent addWorkEvent;
+    private readonly object addWorkLock;
 
     public Dispatcher(string name, bool autoStart)
     {
-      this.name = name;
-      workList = new SyncList<Work>();
+      thread = new Thread(Process) { Name = name };
+      works = new ConcurrentQueue<Work>();
       addWorkEvent = new ManualResetEvent(false);
       addWorkLock = new object();
       if (autoStart) Start();
@@ -27,54 +26,32 @@ namespace LightStudio
 
     public void Start()
     {
-      if (thread == null)
-      {
-        thread = new Thread(Process);
-        thread.Name = name;
-        thread.Start();
-      }
+      thread.Start();
     }
 
     private void Process()
     {
       while (!IdDisposed)
       {
+        Work work;
+        while(works.TryDequeue(out work)) work.DoWork();
         try
         {
+          lock (addWorkLock)
+          {
+            if (works.IsEmpty) addWorkEvent.Reset();
+            else continue;
+          }
           addWorkEvent.WaitOne();
         }
-        catch (Exception)
-        {
-          return;
-        }
-
-        if (IdDisposed)
-          return;
-
-        IList<Work> works;
-        lock (addWorkLock)
-        {
-          works = workList.DeItems();
-          try
-          {
-            addWorkEvent.Reset();
-          }
-          catch (Exception)
-          { }
-        }
-        foreach (var work in works)
-        {
-          work.DoWork();
-        }
+        catch { }
       }
     }
 
     private void AddWork(Work work)
     {
-      if (IdDisposed)
-        return;
-
-      workList.Add(work);
+      if (IdDisposed) return;
+      works.Enqueue(work);
       SetAddWorkEvent();
     }
 
@@ -97,8 +74,7 @@ namespace LightStudio
 
     private void Wait(Work work)
     {
-      if (IdDisposed)
-        return;
+      if (IdDisposed) return;
 
       AddWork(work);
       work.Wait();
@@ -137,15 +113,8 @@ namespace LightStudio
     {
       SetAddWorkEvent();
       addWorkEvent.Dispose();
-      DisposeWorks(workList.DeItems());
-    }
-
-    private static void DisposeWorks(IEnumerable<Work> works)
-    {
-      foreach (var work in works)
-      {
-        work.Dispose();
-      }
+      Work work;
+      while (works.TryDequeue(out work)) work.Dispose();
     }
 
     private class Work : DisposableObject

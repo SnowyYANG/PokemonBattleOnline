@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Windows;
-using LightStudio.PokemonBattle.Game;
+using PokemonBattleOnline.Game;
 
-namespace LightStudio.PokemonBattle.PBO.Battle.VM
+namespace PokemonBattleOnline.PBO.Battle.VM
 {
   internal static class ControlPanelIndex
   {

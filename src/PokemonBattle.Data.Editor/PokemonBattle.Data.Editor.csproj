@@ -8,7 +8,7 @@
     <ProjectGuid>{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PokemonBattle.Data.Editor</RootNamespace>
+    <RootNamespace>PokemonBattleOnline.Data.Editor</RootNamespace>
     <AssemblyName>PokemonBattle.Data.Editor</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>

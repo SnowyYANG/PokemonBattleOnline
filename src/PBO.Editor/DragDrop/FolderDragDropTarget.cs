@@ -5,10 +5,10 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using LightStudio.PokemonBattle.PBO.UIElements.Interactivity;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.PBO.UIElements.Interactivity;
+using PokemonBattleOnline.Data;
 
-namespace LightStudio.PokemonBattle.PBO.Editor
+namespace PokemonBattleOnline.PBO.Editor
 {
   public class FolderDragDropTarget : IDragDropTarget
   {

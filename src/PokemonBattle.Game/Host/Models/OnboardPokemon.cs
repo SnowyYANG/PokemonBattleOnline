@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.Data;
 
-namespace LightStudio.PokemonBattle.Game.Host
+namespace PokemonBattleOnline.Game.Host
 {
   /// <summary>
   /// 在场pm数据副本，不一定正在对战，比如“转盘”

@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace LightStudio.PokemonBattle.PBO.Converters
+namespace PokemonBattleOnline.PBO.Converters
 {
   public class PPColor : Converter<double>
   {

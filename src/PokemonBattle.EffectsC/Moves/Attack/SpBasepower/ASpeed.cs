@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Game;
-using LightStudio.PokemonBattle.Data;
+using PokemonBattleOnline.Game;
+using PokemonBattleOnline.Data;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
+namespace PokemonBattleOnline.Game.Host.Effects.Moves.Attack
 {
     class ElectroBall:AttackMoveE 
     {

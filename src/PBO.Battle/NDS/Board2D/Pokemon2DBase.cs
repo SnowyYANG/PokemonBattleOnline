@@ -10,10 +10,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Animation;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 
-namespace LightStudio.PokemonBattle.PBO.Battle
+namespace PokemonBattleOnline.PBO.Battle
 {
   abstract class Pokemon2DBase : Canvas, IPokemonOutwardEvents
   {

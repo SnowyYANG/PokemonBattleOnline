@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using System.ComponentModel;
-using LightStudio.PokemonBattle.Game.Host;
+using PokemonBattleOnline.Game.Host;
 
-namespace LightStudio.PokemonBattle.Game
+namespace PokemonBattleOnline.Game
 {
   public enum BallState : byte
   {
@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Game
     Abnormal,
     Faint
   }
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = Namespaces.JSON)]
   public class TeamOutward : ObservableObject
   {
     [DataMember]

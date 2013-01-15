@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Xml.Linq;
-using LightStudio.Tactic.Globalization;
-using LightStudio.Tactic.DataModels;
+using PokemonBattleOnline.Tactic.Globalization;
+using PokemonBattleOnline.Tactic.DataModels;
 
-namespace LightStudio.PokemonBattle.Data
+namespace PokemonBattleOnline.Data
 {
   public static class DataService
   {

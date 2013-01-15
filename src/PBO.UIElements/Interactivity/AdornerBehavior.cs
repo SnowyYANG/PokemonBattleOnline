@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Interactivity;
 
-namespace LightStudio.PokemonBattle.PBO.UIElements.Interactivity
+namespace PokemonBattleOnline.PBO.UIElements.Interactivity
 {
   public class AdornerBehavior : Behavior<FrameworkElement>, IWeakEventListener
   {

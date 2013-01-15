@@ -8,7 +8,7 @@
     <ProjectGuid>{3C35464D-CF08-4DBB-9FE8-83F9AB140767}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LightStudio.PokemonBattle.PBO</RootNamespace>
+    <RootNamespace>PokemonBattleOnline.PBO</RootNamespace>
     <AssemblyName>PBO</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>

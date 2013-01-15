@@ -1,7 +1,7 @@
-﻿<UserControl x:Class="LightStudio.PokemonBattle.PBO.Battle.BattleField2D"
+﻿<UserControl x:Class="PokemonBattleOnline.PBO.Battle.BattleField2D"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:my="clr-namespace:LightStudio.PokemonBattle.PBO.Battle"
+             xmlns:my="clr-namespace:PokemonBattleOnline.PBO.Battle"
              Height="192" Width="256" UseLayoutRounding="True" SnapsToDevicePixels="True" ClipToBounds="True" RenderOptions.BitmapScalingMode="NearestNeighbor">
     <Canvas>
         <Image Source="/PBO.Battle;component/images/path.png" SnapsToDevicePixels="True" Width="256" Height="192"/>

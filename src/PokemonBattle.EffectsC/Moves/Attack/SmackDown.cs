@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Data;
-using As = LightStudio.PokemonBattle.Game.Host.Sp.Abilities;
+using PokemonBattleOnline.Data;
+using As = PokemonBattleOnline.Game.Host.Sp.Abilities;
 
-namespace LightStudio.PokemonBattle.Game.Host.Effects.Moves.Attack
+namespace PokemonBattleOnline.Game.Host.Effects.Moves.Attack
 {
   class SmackDown : AttackMoveE
   {

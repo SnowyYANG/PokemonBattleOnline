@@ -15,7 +15,7 @@ using System.Windows.Media.Animation;
 using System.Threading;
 using System.ComponentModel;
 
-namespace LightStudio.PokemonBattle.PBO.UIElements
+namespace PokemonBattleOnline.PBO.UIElements
 {
   internal static class LifeBarHelper
   {

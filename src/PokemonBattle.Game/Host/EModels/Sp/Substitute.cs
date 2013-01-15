@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
+namespace PokemonBattleOnline.Game.Host.Sp.Conditions
 {
   static class Substitute
   {

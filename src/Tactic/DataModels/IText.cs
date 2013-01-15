@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
-namespace LightStudio.Tactic.DataModels
+namespace PokemonBattleOnline.Tactic.DataModels
 {
   public enum Alignment : byte
   {

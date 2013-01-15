@@ -7,10 +7,10 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.PBO.UIElements.Interactivity;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.PBO.UIElements.Interactivity;
 
-namespace LightStudio.PokemonBattle.PBO.Editor
+namespace PokemonBattleOnline.PBO.Editor
 {
     public class FolderDragDropSource : IDragDropSource
     {

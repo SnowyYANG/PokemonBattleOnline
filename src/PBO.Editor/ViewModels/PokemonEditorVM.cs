@@ -10,11 +10,11 @@ using System.Windows.Input;
 using System.ComponentModel;
 using System.Globalization;
 using System.Collections.Specialized;
-using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.PBO;
-using LightStudio.PokemonBattle.PBO.UIElements;
+using PokemonBattleOnline.Data;
+using PokemonBattleOnline.PBO;
+using PokemonBattleOnline.PBO.UIElements;
 
-namespace LightStudio.PokemonBattle.PBO.Editor
+namespace PokemonBattleOnline.PBO.Editor
 {
   internal class PokemonEditor6D : ObservableObject
   {
@@ -199,12 +199,12 @@ namespace LightStudio.PokemonBattle.PBO.Editor
       }
     }
     
-    private Dictionary<int, LearnItemVM> _learnset;
-    public IEnumerable<LearnItemVM> Learnset
+    private Dictionary<int, LearnVM> _learnset;
+    public IEnumerable<LearnVM> Learnset
     { get { return _learnset.Values; } }
     private void RefreshLearnset()
     {
-      _learnset = Data.TempLearnSet.GetMoves(PokemonType.Number).ToDictionary(m => m, (m) => new LearnItemVM(this, Data.GameDataService.GetMove(m)));
+      _learnset = Data.TempLearnSet.GetMoves(PokemonType.Number).ToDictionary(m => m, (m) => new LearnVM(this, Data.GameDataService.GetMove(m)));
       OnPropertyChanged("Learnset");
     }
     

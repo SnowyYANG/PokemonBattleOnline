@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
-using LightStudio.Tactic;
+using PokemonBattleOnline.Tactic;
 
-namespace LightStudio.PokemonBattle.Data
+namespace PokemonBattleOnline.Data
 {
   [CollectionDataContract(Namespace = Namespaces.PBO, ItemName="PokemonBT")]
   public class CollectionGroup : ObservableCollection<PokemonBT>

@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Interactivity;
 using System.Windows.Controls;
 
-namespace LightStudio.PokemonBattle.PBO.UIElements
+namespace PokemonBattleOnline.PBO.UIElements
 {
     public class SelectAllWhenVisible : Behavior<TextBox>
     {
