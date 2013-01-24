@@ -2,18 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace PokemonBattleOnline.Tactic.Network
 {
   public abstract class ClientBase : IPackReceivedListener
   {
     public Action BadPack = delegate { };
-    protected INetworkClient Network;
+    protected readonly INetworkClient Network;
     
     protected ClientBase(INetworkClient network)
     {
       Network = network;
       network.Listener = this;
+      network.Disconnect += OnDisconnect;
+    }
+
+    protected virtual void OnDisconnect()
+    {
     }
 
     protected void OnBadPack()

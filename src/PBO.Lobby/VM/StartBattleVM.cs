@@ -9,11 +9,10 @@ using System.Windows.Threading;
 using PokemonBattleOnline.Tactic.Network;
 using PokemonBattleOnline.Data;
 using PokemonBattleOnline.Game;
-using PokemonBattleOnline.Messaging;
-using PokemonBattleOnline.Messaging.Room;
+using PokemonBattleOnline.Network;
+using PokemonBattleOnline.Network.Room;
 using PokemonBattleOnline.PBO.UIElements;
 using SoundPlayer = System.Media.SoundPlayer;
-using User = PokemonBattleOnline.Tactic.Network.User<PokemonBattleOnline.Messaging.UE>;
 
 namespace PokemonBattleOnline.PBO.Lobby
 {

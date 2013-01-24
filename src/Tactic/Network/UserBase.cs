@@ -6,11 +6,11 @@ using System.Net;
 
 namespace PokemonBattleOnline.Tactic.Network
 {
-  public abstract class UserBase : IPackReceivedListener
+  public abstract class UserBase : IPackReceivedListener, IDisposable
   {
-    protected internal readonly INetworkUser Network;
+    public readonly INetworkUser Network;
 
-    internal UserBase(INetworkUser network)
+    protected UserBase(INetworkUser network)
     {
       Network = network;
       network.Listener = this;
@@ -26,6 +26,15 @@ namespace PokemonBattleOnline.Tactic.Network
     {
       OnPackReceived(pack);
       LastPack = DateTime.Now;
+    }
+    protected void OnBadPack()
+    {
+      Dispose();
+    }
+
+    public virtual void Dispose()
+    {
+      Network.Dispose();
     }
   }
 }

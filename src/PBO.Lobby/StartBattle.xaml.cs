@@ -11,10 +11,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using PokemonBattleOnline.Tactic.Network;
-using PokemonBattleOnline.Messaging.Room;
+using PokemonBattleOnline.Network;
+using PokemonBattleOnline.Network.Room;
 using PokemonBattleOnline.Game;
-using User = PokemonBattleOnline.Tactic.Network.User<PokemonBattleOnline.Messaging.UE>;
 
 namespace PokemonBattleOnline.PBO.Lobby
 {

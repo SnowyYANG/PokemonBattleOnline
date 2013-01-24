@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using PokemonBattleOnline.Messaging;
+using PokemonBattleOnline.Network;
 using PokemonBattleOnline.PBO.UIElements;
 
 namespace PokemonBattleOnline.PBO.Lobby
@@ -83,7 +83,8 @@ namespace PokemonBattleOnline.PBO.Lobby
     }
     internal bool Window_Closing()
     {
-      return PBOClient.Current != null && ShowMessageBox.ExitLobby() == MessageBoxResult.No;
+      throw new NotImplementedException();
+      //return PBOClient.Current != null && ShowMessageBox.ExitLobby() == MessageBoxResult.No;
     }
   }
 }

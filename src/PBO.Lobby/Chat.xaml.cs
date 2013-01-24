@@ -12,10 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PokemonBattleOnline.Tactic.Network;
-using PokemonBattleOnline.Messaging;
+using PokemonBattleOnline.Network;
 using PokemonBattleOnline.PBO.UIElements;
 using SoundPlayer = System.Media.SoundPlayer;
-using User = PokemonBattleOnline.Tactic.Network.User<PokemonBattleOnline.Messaging.UE>;
 
 namespace PokemonBattleOnline.PBO.Lobby
 {
@@ -105,18 +104,18 @@ namespace PokemonBattleOnline.PBO.Lobby
     }
     internal void Init()
     {
-      if (PBOClient.Current != null)
-      {
-        //speaking.Clear();
-        //chat.Inlines.Clear();
-        //userName = PBOClient.Client.User.Name;
-        //PBOClient.Client.BroadcastReceived += controller_BroadcastReceived;
-        //PBOClient.Lobby.ChatMessageReceived += controller_ChatMessageReceived;
-      }
-      else
-      {
-        IsEnabled = false;
-      }
+      //if (PBOClient.Current != null)
+      //{
+      //  speaking.Clear();
+      //  chat.Inlines.Clear();
+      //  userName = PBOClient.Client.User.Name;
+      //  PBOClient.Client.BroadcastReceived += controller_BroadcastReceived;
+      //  PBOClient.Lobby.ChatMessageReceived += controller_ChatMessageReceived;
+      //}
+      //else
+      //{
+      //  IsEnabled = false;
+      //}
     }
     internal void NewChat(User user)
     {

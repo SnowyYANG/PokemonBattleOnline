@@ -13,8 +13,8 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using PokemonBattleOnline.Data;
 using PokemonBattleOnline.Game;
-using PokemonBattleOnline.Messaging;
-using PokemonBattleOnline.Messaging.Room;
+using PokemonBattleOnline.Network;
+using PokemonBattleOnline.Network.Room;
 using PokemonBattleOnline.PBO.Battle.VM;
 
 namespace PokemonBattleOnline.PBO.Battle

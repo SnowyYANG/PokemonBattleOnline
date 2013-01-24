@@ -16,7 +16,7 @@ namespace PokemonBattleOnline.PBO.Battle.VM
     private readonly GameOutward game;
     private readonly DispatcherTimer timer;
 
-    internal Singles(Messaging.Room.IRoom c)
+    internal Singles(Network.Room.IRoom c)
     {
       controller = c.PlayerController;
       game = c.Game;

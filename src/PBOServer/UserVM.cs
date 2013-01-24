@@ -7,8 +7,8 @@ using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PokemonBattleOnline.Tactic.Network;
-using PokemonBattleOnline.Messaging;
-using User = PokemonBattleOnline.Tactic.Network.User<PokemonBattleOnline.Messaging.UE>;
+using PokemonBattleOnline.Network;
+using User = PokemonBattleOnline.Tactic.Network.User<PokemonBattleOnline.Network.UE>;
 
 namespace PokemonBattleOnline.PBO
 {

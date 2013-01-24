@@ -12,7 +12,7 @@ using System.Windows.Markup;
 using System.Globalization;
 using PokemonBattleOnline.Tactic.Globalization;
 using PokemonBattleOnline.Data;
-using PokemonBattleOnline.Messaging;
+using PokemonBattleOnline.Network;
 
 namespace PokemonBattleOnline.PBO
 {
@@ -52,8 +52,9 @@ namespace PokemonBattleOnline.PBO
     protected override void OnExit(ExitEventArgs e)
     {
       base.OnExit(e);
-      PBOClient.Current.Dispose();
-      GameDataService.Unload();
+#warning
+      //PBOClient.Dispose();
+      //GameDataService.Unload();
     }
   }
 }

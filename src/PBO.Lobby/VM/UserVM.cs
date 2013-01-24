@@ -6,10 +6,9 @@ using System.ComponentModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PokemonBattleOnline.Tactic.Network;
-using PokemonBattleOnline.Messaging;
-using PokemonBattleOnline.Messaging.Room;
+using PokemonBattleOnline.Network;
+using PokemonBattleOnline.Network.Room;
 using PokemonBattleOnline.PBO.UIElements;
-using User = PokemonBattleOnline.Tactic.Network.User<PokemonBattleOnline.Messaging.UE>;
 
 namespace PokemonBattleOnline.PBO.Lobby
 {
@@ -17,11 +16,11 @@ namespace PokemonBattleOnline.PBO.Lobby
   {
     public UserVM(User user)
     {
-      if (PBOClient.Current.User.Id != user.Id)
-      {
-        //commands.Add(new MenuCommand("私聊", Chat));
-        //commands.Add(new MenuCommand("挑战", Challenge));
-      }
+      //if (PBOClient.Current.User.Id != user.Id)
+      //{
+      //  commands.Add(new MenuCommand("私聊", Chat));
+      //  commands.Add(new MenuCommand("挑战", Challenge));
+      //}
     }
 
     void Chat()

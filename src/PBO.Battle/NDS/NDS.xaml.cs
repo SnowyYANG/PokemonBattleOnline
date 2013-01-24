@@ -34,7 +34,7 @@ namespace PokemonBattleOnline.PBO.Battle
       InitializeComponent();
     }
 
-    internal void Init(Messaging.Room.IRoom userController)
+    internal void Init(Network.Room.IRoom userController)
     {
       var game = userController.Game;
       int observerTeamId;

@@ -13,8 +13,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using PokemonBattleOnline.Tactic.Network;
-using PokemonBattleOnline.Messaging;
-using User = PokemonBattleOnline.Tactic.Network.User<PokemonBattleOnline.Messaging.UE>;
+using PokemonBattleOnline.Network;
+using User = PokemonBattleOnline.Tactic.Network.User<PokemonBattleOnline.Network.UE>;
 
 namespace PokemonBattleOnline.PBO.Server
 {

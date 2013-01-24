@@ -8,7 +8,7 @@ using System.Xml;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 
-namespace PokemonBattleOnline.Tactic
+namespace PokemonBattleOnline
 {
   public static class Serializer
   {

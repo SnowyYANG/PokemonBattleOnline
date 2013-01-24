@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PokemonBattleOnline.PBO.UIElements;
-using PokemonBattleOnline.Messaging;
+using PokemonBattleOnline.Network;
 
 namespace PokemonBattleOnline.PBO
 {

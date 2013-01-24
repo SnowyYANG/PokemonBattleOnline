@@ -165,9 +165,9 @@
       <Name>PokemonBattle.Game</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\PokemonBattle.Messaging\PokemonBattle.Messaging.csproj">
+    <ProjectReference Include="..\PokemonBattle.Network\PokemonBattle.Network.csproj">
       <Project>{61056B34-A2A8-485B-8A36-DF633E47C7F2}</Project>
-      <Name>PokemonBattle.Messaging</Name>
+      <Name>PokemonBattle.Network</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Tactic\Tactic.csproj">

@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using PokemonBattleOnline.Data;
-using PokemonBattleOnline.Messaging;
+using PokemonBattleOnline.Network;
 
 namespace PokemonBattleOnline.PBO.Lobby
 {

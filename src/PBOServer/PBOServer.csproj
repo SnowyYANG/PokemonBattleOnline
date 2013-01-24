@@ -107,9 +107,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PokemonBattle.Messaging\PokemonBattle.Messaging.csproj">
+    <ProjectReference Include="..\PokemonBattle.Network\PokemonBattle.Network.csproj">
       <Project>{61056b34-a2a8-485b-8a36-df633e47c7f2}</Project>
-      <Name>PokemonBattle.Messaging</Name>
+      <Name>PokemonBattle.Network</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tactic\Tactic.csproj">
       <Project>{EE2C451E-A61E-4634-B382-5298982E060C}</Project>

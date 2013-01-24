@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.UIElements", "PBO.UIEle
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tactic", "Tactic\Tactic.csproj", "{EE2C451E-A61E-4634-B382-5298982E060C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonBattle.Messaging", "PokemonBattle.Messaging\PokemonBattle.Messaging.csproj", "{61056B34-A2A8-485B-8A36-DF633E47C7F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonBattle.Network", "PokemonBattle.Network\PokemonBattle.Network.csproj", "{61056B34-A2A8-485B-8A36-DF633E47C7F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonBattle.Game", "PokemonBattle.Game\PokemonBattle.Game.csproj", "{5F1D7698-AD1E-462A-AEED-063BCB80DF89}"
 EndProject
@@ -75,15 +75,15 @@ Global
 		SccProjectUniqueName11 = PBOServer\\PBOServer.csproj
 		SccProjectName11 = PBOServer
 		SccLocalPath11 = PBOServer
-		SccProjectUniqueName12 = PokemonBattle.Messaging\\PokemonBattle.Messaging.csproj
-		SccProjectName12 = PokemonBattle.Messaging
-		SccLocalPath12 = PokemonBattle.Messaging
-		SccProjectUniqueName13 = PokemonBattle.Test\\PokemonBattle.Test.csproj
-		SccProjectName13 = PokemonBattle.Test
-		SccLocalPath13 = PokemonBattle.Test
-		SccProjectUniqueName14 = PokemonBattle.Data.Editor\\PokemonBattle.Data.Editor.csproj
-		SccProjectName14 = PokemonBattle.Data.Editor
-		SccLocalPath14 = PokemonBattle.Data.Editor
+		SccProjectUniqueName12 = PokemonBattle.Test\\PokemonBattle.Test.csproj
+		SccProjectName12 = PokemonBattle.Test
+		SccLocalPath12 = PokemonBattle.Test
+		SccProjectUniqueName13 = PokemonBattle.Data.Editor\\PokemonBattle.Data.Editor.csproj
+		SccProjectName13 = PokemonBattle.Data.Editor
+		SccLocalPath13 = PokemonBattle.Data.Editor
+		SccProjectUniqueName14 = PokemonBattle.Network\\PokemonBattle.Network.csproj
+		SccProjectName14 = PokemonBattle.Network
+		SccLocalPath14 = PokemonBattle.Network
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
