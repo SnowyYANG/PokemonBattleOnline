@@ -1,0 +1,9 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/PBO.UIElements;component/Controls/ClearableComboBox.xaml"/>
+        <ResourceDictionary Source="/PBO.UIElements;component/Controls/NumericUpdown.xaml"/>
+        <ResourceDictionary Source="/PBO.UIElements;component/Controls/UIButton.xaml"/>
+        <ResourceDictionary Source="/PBO.UIElements;component/Controls/UITextBox.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

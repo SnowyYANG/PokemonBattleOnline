@@ -1,0 +1,78 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Collections.Concurrent;
+using System.Threading;
+using PokemonBattleOnline.Tactic.Network;
+
+namespace PokemonBattleOnline.Network.Lobby
+{
+  internal class LoginServer : IDisposable
+  {
+    private readonly Server Server;
+    private readonly ConcurrentDictionary<int, LoginUser> Users;
+    private readonly Dictionary<string, LoginUser> NamedUsers;
+
+    public LoginServer(INetworkServer network, Server server)
+    {
+      network.NewComingUser += OnNewUser;
+      Server = server;
+      NamedUsers = new Dictionary<string, LoginUser>();
+      Users = new ConcurrentDictionary<int, LoginUser>();
+    }
+
+    private INetworkServer Network
+    { get { return Server.Network; } }
+    private object UserLocker
+    { get { return Server.UserLocker; } }
+
+    private void OnNewUser(INetworkUser user)
+    {
+      if (!Users.TryAdd(user.Id, new LoginUser(user, this))) user.Dispose();
+    }
+
+    public bool RegisterUserName(LoginUser user, string name)
+    {
+      lock (UserLocker)
+      {
+        if (Server.HasUser(name) || NamedUsers.ContainsKey(name)) return false;
+        NamedUsers.Add(name, user);
+        return true;
+      }
+    }
+    public void BadLogin(LoginUser user)
+    {
+      LoginUser u;
+      Users.TryRemove(user.Network.Id, out u);
+      if (user.Name != null)
+      {
+        lock (UserLocker)
+        {
+          NamedUsers.Remove(user.Name);
+        }
+      }
+      u.Dispose();
+    }
+    public void LoginComplete(LoginUser user)
+    {
+      LoginUser u;
+      Users.TryRemove(user.Network.Id, out u);
+      if (user == u)
+      {
+        lock (UserLocker)
+        {
+          NamedUsers.Remove(user.Name);
+          Server.AddUser(user);
+        }
+      }
+      else u.Dispose();
+    }
+
+    public void Dispose()
+    {
+      //never dispose Network, only server should dispose Network
+      foreach (var u in Users.Values) u.Dispose();
+    }
+  }
+}
