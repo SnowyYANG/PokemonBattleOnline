@@ -11,61 +11,98 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
 {
   internal class TcpServer : INetworkServer
   {
+    private static void ClearHalfSocketAsyncEventArgsPool(object state)
+    {
+      var pool = ((ConcurrentStack<SocketAsyncEventArgs>)state);
+      pool.TryPopRange(new SocketAsyncEventArgs[((pool.Count + 3) >> 2) << 1]);
+    }
+    
     public event Action<INetworkUser> NewComingUser;
 
-    private readonly TcpListener listener;
+    public readonly ConcurrentStack<SocketAsyncEventArgs> SendAsyncEventArgsPool;
+    public readonly ConcurrentStack<SocketAsyncEventArgs> ReceiveAsyncEventArgsPool;
+    private readonly Timer SocketAsyncEventArgsPoolClearUp;
+    
+    public readonly ConcurrentQueue<WeakReference<TcpPackSender>> Senders;
+    private readonly AutoResetEvent SenderEvent;
+    private readonly Thread SendThread;
+    
+    private readonly int Port;
+    private readonly object ListenerLocker;
+    private Socket Listener;
 
     public TcpServer(int port)
     {
-      listener = new TcpListener(IPAddress.Any, port);
+      ReceiveAsyncEventArgsPool = new ConcurrentStack<SocketAsyncEventArgs>();
+      SocketAsyncEventArgsPoolClearUp = new Timer(ClearHalfSocketAsyncEventArgsPool, ReceiveAsyncEventArgsPool, Timeout.Infinite, Timeout.Infinite);
+      Senders = new ConcurrentQueue<WeakReference<TcpPackSender>>();
+      Port = port;
+      ListenerLocker = new object();
     }
 
     public IPEndPoint ListenerEndPoint
-    { get { return (IPEndPoint)listener.LocalEndpoint; } }
-    private bool _canAddUser;
-    public bool CanAddUser
+    { get { return (IPEndPoint)Listener.LocalEndPoint; } }
+    private volatile bool _isListening;
+    public bool IsListening
     {
-      get { return _canAddUser; }
+      get
+      {
+        lock (ListenerLocker)
+        {
+          return _isListening;
+        }
+      }
       set
       {
-        lock (listener)
+        lock (ListenerLocker)
         {
-          _canAddUser = value;
-          if (value)
+          if (_isListening != value)
           {
-            listener.Start();
-            WaitForNextUser();
-          }
-          else
-          {
-            listener.Stop();
+            _isListening = value;
+            if (value)
+            {
+              Listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+              Listener.Bind(new IPEndPoint(IPAddress.Any, Port));
+              StartAccept(null);
+            }
+            else
+            {
+              Listener.Close();
+              Listener.Dispose();
+              Listener = null;
+            }
           }
         }
       }
     }
 
-    private void WaitForNextUser()
+    private void StartAccept(SocketAsyncEventArgs acceptEventArg)
     {
-      if (CanAddUser) listener.BeginAcceptSocket(EndingAcceptSocket, null);
+      if (acceptEventArg == null)
+      {
+        acceptEventArg = new SocketAsyncEventArgs();
+        acceptEventArg.Completed += ProcessAccept;
+      }
+      else acceptEventArg.AcceptSocket = null;
+      bool willRaiseEvent = Listener.AcceptAsync(acceptEventArg);
+      if (!willRaiseEvent) ProcessAccept(null, acceptEventArg);
     }
-    private void EndingAcceptSocket(IAsyncResult result)
+    private void ProcessAccept(object sender, SocketAsyncEventArgs e)
     {
-      try
-      {
-        var s = listener.EndAcceptSocket(result);
-        s.LingerState = new LingerOption(true, 10);
-        var user = new TcpUser(this, s);
-        NewComingUser(user);
-      }
-      finally
-      {
-        WaitForNextUser();
-      }
+      SocketAsyncEventArgsPoolClearUp.Change(60000, 60000);
+      Socket s = e.AcceptSocket;
+      s.LingerState = new LingerOption(true, 5);
+      NewComingUser(new TcpUser(this, s));
+      if (_isListening) StartAccept(e);
     }
 
     public void Dispose()
     {
-      CanAddUser = false;
+      NewComingUser = delegate { };
+      IsListening = false;
+      //shall i dispose users
+      SocketAsyncEventArgsPoolClearUp.Dispose();
+      ReceiveAsyncEventArgsPool.Clear();
     }
   }
 }

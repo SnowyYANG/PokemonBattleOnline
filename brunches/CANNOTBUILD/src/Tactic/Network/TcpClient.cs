@@ -39,7 +39,7 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
     private TcpClient(Socket socket)
     {
       Socket = socket;
-      Receiver = new TcpPackReceiver(socket);
+      Receiver = new TcpPackReceiver(socket, new SocketAsyncEventArgs());
     }
 
     public IPEndPoint Server

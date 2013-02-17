@@ -10,15 +10,19 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
   internal class TcpUser : INetworkUser
   {
     public event Action Disconnect;
-    private readonly TcpServer Server;
+    public readonly TcpServer Server;
     private readonly Socket Socket;
+    private readonly TcpPackSender Sender;
     private readonly TcpPackReceiver Receiver;
 
     public TcpUser(TcpServer server, Socket socket)
     {
+      if (!server.ReceiveAsyncEventArgsPool.TryPop(out sendE)) sendE = new TcpPackAsyncEventArgs();
+      if (!server.ReceiveAsyncEventArgsPool.TryPop(out receiveE)) receiveE = new TcpPackAsyncEventArgs();
       Server = server;
       Socket = socket;
-      Receiver = new TcpPackReceiver(socket);
+      Sender = new TcpPackSender(socket, sendE);
+      Receiver = new TcpPackReceiver(socket, receiveE);
     }
 
     public int Id
@@ -33,11 +37,24 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
 
     public void Send(byte[] pack)
     {
-      TcpPackSender.Send(Socket, pack);
+      Sender.Send(pack);
     }
+    private bool _isDisposed;
     public void Dispose()
     {
-      Socket.Dispose();
+      lock (this) //IGNORE: lock (this) is a problem if the instance can be accessed publicly.
+      {
+        if (!_isDisposed)
+        {
+          _isDisposed = true;
+          Server.ReceiveAsyncEventArgsPool.Push(sendE);
+          sendE = null;
+          Server.ReceiveAsyncEventArgsPool.Push(receiveE);
+          receiveE = null;
+          Socket.Close(5);
+        }
+        Socket.Dispose();
+      }
     }
   }
 }

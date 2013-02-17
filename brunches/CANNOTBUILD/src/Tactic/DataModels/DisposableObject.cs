@@ -14,7 +14,9 @@ namespace PokemonBattleOnline
       disposeLock = new object();
     }
 
-    protected bool IdDisposed { get; private set; }
+    private volatile bool _isDisposed;
+    protected bool IsDisposed
+    { get { return _isDisposed; } }
 
     public void Dispose()
     {
@@ -25,19 +27,13 @@ namespace PokemonBattleOnline
 
     private void Dispose(bool disposing)
     {
-      if (IdDisposed)
-        return;
+      if (IsDisposed) return;
       lock (disposeLock)
       {
-        if (IdDisposed)
-          return;
-        IdDisposed = true;
+        if (IsDisposed) return;
+        _isDisposed = true;
       }
-
-      if (disposing)
-      {
-        DisposeManagedResources();
-      }
+      if (disposing) DisposeManagedResources();
       DisposeUnmanagedResources();
     }
 
@@ -46,6 +42,7 @@ namespace PokemonBattleOnline
 
     protected virtual void DisposeUnmanagedResources()
     { }
+
 
     ~DisposableObject()
     {

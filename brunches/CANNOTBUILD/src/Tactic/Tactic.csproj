@@ -87,6 +87,7 @@
     <Compile Include="Service\Scripting.cs" />
     <Compile Include="Threading\Dispatcher.cs" />
     <Compile Include="Threading\UIDispatcher.cs" />
+    <Compile Include="WeakReference.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
