@@ -28,7 +28,6 @@ namespace PokemonBattleOnline.Test
       //DataService.DataString.DefaultLanguage = "Chinese";
       //Game.Host.Effects.EffectsRegister.Register();
       //Tactic.Scripting.ExecuteAll("..\\src\\PBO.EffectsP");
-      Console.ReadKey();
     }
     
     static void Main(string[] args)

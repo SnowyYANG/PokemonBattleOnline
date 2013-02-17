@@ -9,7 +9,6 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
 {
   internal class TcpUser : INetworkUser
   {
-    public event Action Disconnect;
     public readonly TcpServer Server;
     private readonly Socket Socket;
     private readonly TcpPackSender Sender;
@@ -17,14 +16,17 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
 
     public TcpUser(TcpServer server, Socket socket)
     {
-      if (!server.ReceiveAsyncEventArgsPool.TryPop(out sendE)) sendE = new TcpPackAsyncEventArgs();
-      if (!server.ReceiveAsyncEventArgsPool.TryPop(out receiveE)) receiveE = new TcpPackAsyncEventArgs();
       Server = server;
       Socket = socket;
-      Sender = new TcpPackSender(socket, sendE);
-      Receiver = new TcpPackReceiver(socket, receiveE);
+      Sender = new TcpPackSender(socket);
+      Receiver = new TcpPackReceiver(socket);
     }
 
+    public event Action Disconnect
+    {
+      add { Sender.Disconnect += value; }
+      remove { Receiver.Disconnect += value; }
+    }
     public int Id
     { get { return ((IPEndPoint)Socket.LocalEndPoint).Port; } }
     public IPEndPoint EndPoint
@@ -47,10 +49,6 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
         if (!_isDisposed)
         {
           _isDisposed = true;
-          Server.ReceiveAsyncEventArgsPool.Push(sendE);
-          sendE = null;
-          Server.ReceiveAsyncEventArgsPool.Push(receiveE);
-          receiveE = null;
           Socket.Close(5);
         }
         Socket.Dispose();

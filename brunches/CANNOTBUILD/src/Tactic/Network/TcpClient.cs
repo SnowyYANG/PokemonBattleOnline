@@ -34,12 +34,14 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
 
     public event Action Disconnect;
     private readonly Socket Socket;
+    private readonly TcpPackSender Sender;
     private readonly TcpPackReceiver Receiver;
 
     private TcpClient(Socket socket)
     {
       Socket = socket;
-      Receiver = new TcpPackReceiver(socket, new SocketAsyncEventArgs());
+      Sender = new TcpPackSender(socket);
+      Receiver = new TcpPackReceiver(socket);
     }
 
     public IPEndPoint Server
@@ -52,7 +54,7 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
 
     public void Send(byte[] pack)
     {
-      TcpPackSender.Send(Socket, pack);
+      Sender.Send(pack);
     }
 
     public void Dispose()

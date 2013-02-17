@@ -10,29 +10,37 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
 {
   internal class TcpPackSender
   {
-    public static void Completed(object sender, SocketAsyncEventArgs e)
+    private static void Completed(object sender, SocketAsyncEventArgs e)
     {
-      ((TcpPackSender)e.UserToken).Completed(e);
+      var s = ((TcpPackSender)e.UserToken);
+      lock (s.Locker)
+      {
+        s.Completed(e);
+      }
     }
+
+    public event Action Disconnect;
     
-    private readonly TcpServer Server;
     private readonly Socket Socket;
     private readonly SocketAsyncEventArgs E;
     private readonly object Locker;
 
-    public TcpPackSender(TcpUser user, SocketAsyncEventArgs e)
+    public TcpPackSender(Socket socket)
+      : this(socket, new SocketAsyncEventArgs())
+    {
+      E.Completed += TcpPackSender.Completed;
+    }
+    public TcpPackSender(Socket socket, SocketAsyncEventArgs e)
     {
       e.UserToken = this;
-
-      E = e;
-      Buffer = new List<ArraySegment<byte>>();
-      
+      Socket = socket;
+      E = e;      
       Locker = new object();
     }
 
     private List<ArraySegment<byte>> Buffer;
     private bool isSending;
-    public void SendAsync()
+    private void SendAsync()
     {
       lock (Locker)
       {
@@ -45,8 +53,12 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
     private void Completed(SocketAsyncEventArgs e)
     {
       //already locked
-      if (Buffer == null) isSending = false;
-      else SendAsync();
+      if (e.SocketError == SocketError.Success)
+      {
+        if (Buffer == null) isSending = false;
+        else SendAsync();
+      }
+      else Disconnect();
     }
 
     public void Send(byte[] pack)
@@ -64,24 +76,33 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
       }
     }
   }
+  
   internal class TcpPackReceiver
   {
-    public static void Completed(object sender, SocketAsyncEventArgs e)
+    private static void Completed(object sender, SocketAsyncEventArgs e)
     {
       ((TcpPackReceiver)e.UserToken).Completed(e);
     }
+
+    public event Action Disconnect;
 
     private readonly Socket Socket;
     private readonly object Locker;
     private SocketAsyncEventArgs E;
     private byte[] buffer;
 
+    public TcpPackReceiver(Socket socket)
+      : this(socket, new SocketAsyncEventArgs())
+    {
+      E.Completed += TcpPackReceiver.Completed;
+    }
     public TcpPackReceiver(Socket socket, SocketAsyncEventArgs e)
     {
+      e.UserToken = this;
       Socket = socket;
       Locker = new object();
-      buffer = new byte[1024];
       E = e;
+      buffer = new byte[1024];
     }
 
     private IPackReceivedListener _listener;
@@ -141,6 +162,7 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
             break;
         }
       }
+      else Disconnect();
     }
   }
 }

@@ -11,31 +11,14 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
 {
   internal class TcpServer : INetworkServer
   {
-    private static void ClearHalfSocketAsyncEventArgsPool(object state)
-    {
-      var pool = ((ConcurrentStack<SocketAsyncEventArgs>)state);
-      pool.TryPopRange(new SocketAsyncEventArgs[((pool.Count + 3) >> 2) << 1]);
-    }
-    
     public event Action<INetworkUser> NewComingUser;
 
-    public readonly ConcurrentStack<SocketAsyncEventArgs> SendAsyncEventArgsPool;
-    public readonly ConcurrentStack<SocketAsyncEventArgs> ReceiveAsyncEventArgsPool;
-    private readonly Timer SocketAsyncEventArgsPoolClearUp;
-    
-    public readonly ConcurrentQueue<WeakReference<TcpPackSender>> Senders;
-    private readonly AutoResetEvent SenderEvent;
-    private readonly Thread SendThread;
-    
     private readonly int Port;
     private readonly object ListenerLocker;
     private Socket Listener;
 
     public TcpServer(int port)
     {
-      ReceiveAsyncEventArgsPool = new ConcurrentStack<SocketAsyncEventArgs>();
-      SocketAsyncEventArgsPoolClearUp = new Timer(ClearHalfSocketAsyncEventArgsPool, ReceiveAsyncEventArgsPool, Timeout.Infinite, Timeout.Infinite);
-      Senders = new ConcurrentQueue<WeakReference<TcpPackSender>>();
       Port = port;
       ListenerLocker = new object();
     }
@@ -89,7 +72,6 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
     }
     private void ProcessAccept(object sender, SocketAsyncEventArgs e)
     {
-      SocketAsyncEventArgsPoolClearUp.Change(60000, 60000);
       Socket s = e.AcceptSocket;
       s.LingerState = new LingerOption(true, 5);
       NewComingUser(new TcpUser(this, s));
@@ -100,9 +82,6 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
     {
       NewComingUser = delegate { };
       IsListening = false;
-      //shall i dispose users
-      SocketAsyncEventArgsPoolClearUp.Dispose();
-      ReceiveAsyncEventArgsPool.Clear();
     }
   }
 }
