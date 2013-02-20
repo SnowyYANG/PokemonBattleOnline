@@ -51,6 +51,10 @@ namespace PokemonBattleOnline.Network
     }
 
     private static LoginClient currentLogin;
+    public static bool Login(string server, string name, ushort avatar)
+    {
+      return Login(server, PBOMarks.DEFAULT_PORT, name, avatar);
+    }
     public static bool Login(string server, int port, string name, ushort avatar)
     {
       lock (Locker)
@@ -58,15 +62,32 @@ namespace PokemonBattleOnline.Network
         if (_current == null && currentLogin == null)
         {
           currentLogin = new LoginClient(server, port, name, avatar);
-          currentLogin.Disconnected += Disconnected;
-          currentLogin.BadVersion += LoginFailed_Version;
-          currentLogin.BadName += LoginFailed_Name;
-          currentLogin.Full += LoginFailed_Full;
+          currentLogin.Disconnected += OnDisconnected;
+          currentLogin.BadVersion += OnLoginFailed_Version;
+          currentLogin.BadName += OnLoginFailed_Name;
+          currentLogin.Full += OnLoginFailed_Full;
           currentLogin.BeginLogin();
           return true;
         }
-        else return false;
+        return false;
       }
+    }
+
+    private static void OnLoginFailed_Full()
+    {
+      UIDispatcher.BeginInvoke(LoginFailed_Full);
+    }
+    private static void OnLoginFailed_Name()
+    {
+      UIDispatcher.BeginInvoke(LoginFailed_Name);
+    }
+    private static void OnLoginFailed_Version()
+    {
+      UIDispatcher.BeginInvoke(LoginFailed_Version);
+    }
+    private static void OnDisconnected()
+    {
+      UIDispatcher.BeginInvoke(Disconnected);
     }
 
     public static void Dispose()

@@ -61,7 +61,7 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
         s.EndConnect(ar);
         cb(new TcpClient(s));
       }
-      catch
+      catch (Exception e)
       {
         s.Dispose();
         cb(null);

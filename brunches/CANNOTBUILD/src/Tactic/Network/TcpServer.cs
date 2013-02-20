@@ -25,7 +25,7 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
 
     public IPEndPoint ListenerEndPoint
     { get { return (IPEndPoint)Listener.LocalEndPoint; } }
-    private volatile bool _isListening;
+    private bool _isListening;
     public bool IsListening
     {
       get
@@ -76,7 +76,7 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
       Socket s = e.AcceptSocket;
       s.LingerState = new LingerOption(true, 5);
       NewComingUser(new TcpUser(this, s));
-      if (_isListening) StartAccept(e);
+      if (IsListening) StartAccept(e);
     }
 
     public void Dispose()

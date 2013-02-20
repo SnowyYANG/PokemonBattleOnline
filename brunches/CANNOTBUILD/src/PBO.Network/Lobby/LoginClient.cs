@@ -33,7 +33,7 @@ namespace PokemonBattleOnline.Network.Lobby
       Port = port;
       Name = name;
       Avatar = avatar;
-      TimeBomb = new Timer(OnLoginTimeout, this, 30000, System.Threading.Timeout.Infinite);
+      TimeBomb = new Timer(OnLoginTimeout, this, Timeout.Infinite, Timeout.Infinite);
     }
 
     public void BeginLogin()
@@ -49,7 +49,9 @@ namespace PokemonBattleOnline.Network.Lobby
       if (client == null) OnLoginFailed(Disconnected);
       else
       {
+        TimeBomb.Change(30000, Timeout.Infinite);
         Network = client;
+        Network.Listener = this;
         Network.Send(PBOMarks.VERSION);
       }
     }
