@@ -46,6 +46,7 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
             {
               Listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
               Listener.Bind(new IPEndPoint(IPAddress.Any, Port));
+              Listener.Listen(32);
               StartAccept(null);
             }
             else

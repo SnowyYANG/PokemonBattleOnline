@@ -6,12 +6,34 @@ using System.Net;
 
 namespace PokemonBattleOnline.Tactic.Network
 {
-  public static class Factory
+  public static class ClientFactory
   {
-    public static INetworkClient TryTcpConnect(IPAddress address, int port)
+    public static void TryTcpConnect(IPAddress address, int port, Action<INetworkClient> callback)
     {
-      return Tcp.TcpClient.TryConnect(address, port);
+      try
+      {
+        Tcp.TcpClient.BeginConnect(address, port, callback);
+      }
+      catch
+      {
+        callback(null);
+      }
     }
+    public static void TryTcpConnect(string address, int port, Action<INetworkClient> callback)
+    {
+      try
+      {
+        Tcp.TcpClient.BeginConnect(address, port, callback);
+      }
+      catch
+      {
+        callback(null);
+      }
+    }
+  }
+
+  public static class ServerFactory
+  {
     public static INetworkServer NewTcpServer(int port)
     {
       return new Tcp.TcpServer(port);

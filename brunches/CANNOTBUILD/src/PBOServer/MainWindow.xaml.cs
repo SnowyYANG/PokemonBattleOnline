@@ -44,10 +44,11 @@ namespace PokemonBattleOnline.PBO.Server
     {
       try
       {
-        PBOServer.NewTcpServer(9898);
+        PBOServer.NewTcpServer(PBOMarks.DEFAULT_PORT);
         server = PBOServer.Current;
         //server.UserChanged += model_UserChanged;
         //server.MessageBroadcast += model_MessageBroadcast;
+        server.Start();
       }
       catch (Exception e)
       {

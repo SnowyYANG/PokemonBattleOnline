@@ -16,10 +16,9 @@ namespace PokemonBattleOnline.Network
     public static event Action Disconnected;
     public static event Action CurrentChanged;
     public static event Action LoginFailed_Full;
-    public static event Action LoginFailed_BadName;
-    public static event Action LoginFailed_BadVersion;
+    public static event Action LoginFailed_Name;
+    public static event Action LoginFailed_Version;
     private static readonly object Locker;
-    private static LoginClient currentLogin;
 
     static PBOClient()
     {
@@ -27,15 +26,12 @@ namespace PokemonBattleOnline.Network
     }
 
     private static Client _current;
+    /// <summary>
+    /// get is not thread safe
+    /// </summary>
     public static Client Current
     {
-      get
-      {
-        lock (Locker)
-        {
-          return _current;
-        }
-      }
+      get { return _current; }
       private set
       {
         lock (Locker)
@@ -54,37 +50,22 @@ namespace PokemonBattleOnline.Network
       Current = obj;
     }
 
-    public static void Login(IPAddress serverIp, int serverPort, string name, ushort avatar)
+    private static LoginClient currentLogin;
+    public static bool Login(string server, int port, string name, ushort avatar)
     {
       lock (Locker)
       {
-        if (currentLogin == null && _current == null)
+        if (_current == null && currentLogin == null)
         {
-          currentLogin = new LoginClient(Factory.TryTcpConnect(serverIp, serverPort));
-          currentLogin.BadName += LoginFailed_BadName;
-          currentLogin.LoginSucceed += LoginSucceed;
-          currentLogin.BeginLogin(name, avatar);
+          currentLogin = new LoginClient(server, port, name, avatar);
+          currentLogin.Disconnected += Disconnected;
+          currentLogin.BadVersion += LoginFailed_Version;
+          currentLogin.BadName += LoginFailed_Name;
+          currentLogin.Full += LoginFailed_Full;
+          currentLogin.BeginLogin();
+          return true;
         }
-      }
-    }
-    public static void Login(string server, string name, ushort avatar)
-    {
-      if (Current == null && currentLogin == null)
-      {
-        System.Net.IPAddress ip;
-        if (!System.Net.IPAddress.TryParse(server, out ip))
-          try
-          {
-            var ips = System.Net.Dns.GetHostAddresses(server);
-            foreach (var i in ips)
-              if (i.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-              {
-                ip = i;
-                break;
-              }
-          }
-          catch { }
-        if (ip != null) Login(ip, PBOMarks.DEFAULT_PORT, name, avatar);
+        else return false;
       }
     }
 

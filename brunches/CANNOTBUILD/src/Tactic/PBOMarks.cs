@@ -14,5 +14,6 @@ namespace PokemonBattleOnline
     public const string ARRAY = "http://schemas.microsoft.com/2003/10/Serialization/Arrays";
     public const string A = "a";
     public const int DEFAULT_PORT = 9705;
+    public const ushort VERSION = 0;
   }
 }

@@ -63,6 +63,7 @@
     <Compile Include="DataModels\DisposableObject.cs" />
     <Compile Include="DataModels\IdGenerator.cs" />
     <Compile Include="DataModels\IText.cs" />
+    <Compile Include="DataModels\MultiObjects.cs" />
     <Compile Include="DataModels\PairValue.cs" />
     <Compile Include="DataModels\SimpleData.cs" />
     <Compile Include="extensions.cs" />
@@ -72,7 +73,6 @@
     <Compile Include="DataModels\ObservableObject.cs" />
     <Compile Include="Network\Factory.cs" />
     <Compile Include="PBOMarks.cs" />
-    <Compile Include="Network\ClientBase.cs" />
     <Compile Include="Network\PackHelper.cs" />
     <Compile Include="Network\NullPackReceivedListener.cs" />
     <Compile Include="Network\INetworkServer.cs" />

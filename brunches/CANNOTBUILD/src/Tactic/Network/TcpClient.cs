@@ -14,21 +14,57 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
     /// </summary>
     /// <param name="address"></param>
     /// <param name="port"></param>
-    /// <returns></returns>
-    public static TcpClient TryConnect(IPAddress address, int port)
+    /// <exception cref=""></exception>
+    public static void BeginConnect(IPAddress address, int port, Action<TcpClient> callback)
     {
       var socket = new Socket(address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
       try
       {
         socket.Blocking = true;
         socket.LingerState = new LingerOption(true, 5);
-        socket.Connect(address, port);
-        return new TcpClient(socket);
+        socket.BeginConnect(address, port, OnConnectCompleted, new MultiObjects(socket, callback));
       }
       catch (Exception e)
       {
         socket.Dispose();
         throw e;
+      }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="address"></param>
+    /// <param name="port"></param>
+    /// <exception cref=""></exception>
+    public static void BeginConnect(string address, int port, Action<TcpClient> callback)
+    {
+      var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+      try
+      {
+        socket.Blocking = true;
+        socket.LingerState = new LingerOption(true, 5);
+        socket.BeginConnect(address, port, OnConnectCompleted, new MultiObjects(socket, callback));
+      }
+      catch (Exception e)
+      {
+        socket.Dispose();
+        throw e;
+      }
+    }
+    private static void OnConnectCompleted(IAsyncResult ar)
+    {
+      var mo = (MultiObjects)ar.AsyncState;
+      var s = (Socket)mo.First;
+      var cb = (Action<TcpClient>)mo.Second;
+      try
+      {
+        s.EndConnect(ar);
+        cb(new TcpClient(s));
+      }
+      catch
+      {
+        s.Dispose();
+        cb(null);
       }
     }
 

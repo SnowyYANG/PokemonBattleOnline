@@ -37,7 +37,7 @@ namespace PokemonBattleOnline.PBO
 #if RELEASE
       throw new NotImplementedException();
 #else
-      Tactic.Scripting.ExecuteAll("..\\src\\PBO.EffectsP");
+      Tactic.Scripting.ExecuteAll("..\\src\\PBO.Game.EffectsP");
 #endif
     }
     

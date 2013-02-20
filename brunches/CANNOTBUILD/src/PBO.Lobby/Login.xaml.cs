@@ -26,8 +26,8 @@ namespace PokemonBattleOnline.PBO.Lobby
     public Login()
     {
       InitializeComponent();
-      PBOClient.LoginFailed_BadName += () => System.Diagnostics.Debugger.Break();
-      PBOClient.LoginFailed_BadVersion += () => System.Diagnostics.Debugger.Break();
+      PBOClient.LoginFailed_Name += () => System.Diagnostics.Debugger.Break();
+      PBOClient.LoginFailed_Version += () => System.Diagnostics.Debugger.Break();
       PBOClient.LoginFailed_Full += () => System.Diagnostics.Debugger.Break();
     }
 

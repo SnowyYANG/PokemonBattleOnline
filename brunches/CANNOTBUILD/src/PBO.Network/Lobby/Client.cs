@@ -6,23 +6,31 @@ using System.Collections.ObjectModel;
 using PokemonBattleOnline.Tactic.Network;
 using PokemonBattleOnline.Network.Lobby;
 using PokemonBattleOnline.Network.Room;
+using System.Threading;
 
 namespace PokemonBattleOnline.Network
 {
-  public class Client : ClientBase, IDisposable
+  public class Client : IPackReceivedListener, IDisposable
   {
+    private const int KEEP_ALIVE = 30000;
+
+    private static void OnKeepAlive(object state)
+    {
+      ((INetworkClient)state).SendEmpty();
+    }
+
     public event Action<string> AdminChat;
     public event Action<string, User> PublicChat;
     public event Action<string, User> PrivateChat;
-    
-    static Client()
-    {
-      //register
-    }
+    protected readonly INetworkClient Network;
+    private readonly Timer KeepAlive;
     
     internal Client(INetworkClient network, ClientInitInfo init)
-      : base(network)
     {
+      Network = network;
+      network.Listener = this;
+      network.Disconnect += OnDisconnect;
+      KeepAlive = new Timer(OnKeepAlive, network, KEEP_ALIVE, KEEP_ALIVE);
     }
 
     public ObservableCollection<User> Users
@@ -30,12 +38,20 @@ namespace PokemonBattleOnline.Network
     public User User
     { get; private set; }
 
-    protected virtual void OnPackReceived(byte header, byte[] content)
+    public User GetUser(int id)
     {
-      //header >= 128
-      //user define
+      throw new NotImplementedException();
     }
-    protected sealed override void OnPackReceived(byte[] pack)
+    public User GetUser(string name)
+    {
+      throw new NotImplementedException();
+    }
+
+    protected virtual void OnDisconnect()
+    {
+      Dispose();
+    }
+    void IPackReceivedListener.OnPackReceived(byte[] pack)
     {
       var h = pack.GetHeader();
       var c = pack.GetContent();
@@ -98,15 +114,6 @@ namespace PokemonBattleOnline.Network
     protected void SendPublicChat(string chat)
     {
       Network.Send(10, Encoding.Unicode.GetBytes(chat));
-    }
-
-    public User GetUser(int id)
-    {
-      throw new NotImplementedException();
-    }
-    public User GetUser(string name)
-    {
-      throw new NotImplementedException();
     }
 
     private void SendKeepAlive()
