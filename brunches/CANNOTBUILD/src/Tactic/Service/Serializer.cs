@@ -134,14 +134,24 @@ namespace PokemonBattleOnline
       using (MemoryStream ms = new MemoryStream(bytes))
         return (T)d.ReadObject(ms);
     }
+    public static T DeserializeFromJson<T>(byte[] bytes, int offset)
+    {
+      var d = new DataContractJsonSerializer(typeof(T));
+      using (MemoryStream ms = new MemoryStream(bytes, offset, bytes.Length - offset))
+        return (T)d.ReadObject(ms);
+    }
     public static byte[] SerializeToJson<T>(T obj)
     {
-      var s = new DataContractJsonSerializer(typeof(T));
       using (MemoryStream ms = new MemoryStream())
       {
-        s.WriteObject(ms, obj);
+        SerializeToJson(obj, ms);
         return ms.ToArray();
       }
+    }
+    public static void SerializeToJson<T>(T obj, Stream stream)
+    {
+      var s = new DataContractJsonSerializer(typeof(T));
+      s.WriteObject(stream, obj);
     }
   }
 }

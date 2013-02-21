@@ -53,30 +53,29 @@ namespace PokemonBattleOnline.Network
     }
     void IPackReceivedListener.OnPackReceived(byte[] pack)
     {
-      var h = pack.GetHeader();
-      var c = pack.GetContent();
+      var h = pack[0];
       switch (h)
       {
         case 0:
-          Serializer.DeserializeFromJson<ClientCommand>(c).Execute(this);
+          Serializer.DeserializeFromJson<ClientCommand>(pack, 1).Execute(this);
           break;
         case 1:
           {
-            var u = c.SubArray(0, 2).ToInt16();
+            var u = pack.ToUInt16(1);
             if (u != null)
             {
               var user = GetUser(u.Value);
-              if (user != null) Serializer.DeserializeFromJson<P2PCommand>(c.SubArray(2)).Execute(this, user);
+              if (user != null) Serializer.DeserializeFromJson<P2PCommand>(pack, 3).Execute(this, user);
             }
           }
           break;
         case 2:
           {
-            var u = c.SubArray(0, 2).ToInt16();
+            var u = pack.ToUInt16(1);
             if (u != null)
             {
               var user = GetUser(u.Value);
-              if (user != null) UIDispatcher.BeginInvoke(PublicChat, Encoding.Unicode.GetString(c.SubArray(2)), user);
+              if (user != null) UIDispatcher.BeginInvoke(PublicChat, pack.ToUnicodeString(3), user);
             }
           }
           break;
@@ -88,32 +87,35 @@ namespace PokemonBattleOnline.Network
           break;
       }
     }
-    private void Send(byte header, byte[] pack)
-    {
-      Network.Send(header, pack);
-    }
     protected void SendUserCommand(UserCommand command)
     {
-      Network.Send(0, Serializer.SerializeToJson(command));
+      using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+      {
+        ms.WriteByte(0);
+        Serializer.SerializeToJson(command, ms);
+        Network.Send(ms.ToArray());
+      }
     }
     protected void SendP2PCommand(P2PCommand command, params int[] to)
     {
-      var c = Serializer.SerializeToJson(command);
-      using (System.IO.MemoryStream ms = new System.IO.MemoryStream(c.Length + 8))
+      using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
       {
+        ms.WriteByte(1);
         ms.WriteByte((byte)to.Length);
         foreach (var t in to)
         {
           var i = ((ushort)to[0]).ToPack();
           ms.Write(i, 0, i.Length);
         }
-        ms.Write(c, 0, c.Length);
-        Network.Send(1, ms.ToArray());
+        Serializer.SerializeToJson(command, ms);
+        Network.Send(ms.ToArray());
       }
     }
     protected void SendPublicChat(string chat)
     {
-      Network.Send(10, Encoding.Unicode.GetBytes(chat));
+      var pack = chat.ToPack(1);
+      pack[0] = 10;
+      Network.Send(pack);
     }
 
     private void SendKeepAlive()

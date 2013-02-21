@@ -45,15 +45,17 @@ namespace PokemonBattleOnline.Network.Lobby
     public void BadLogin(LoginUser user)
     {
       LoginUser u;
-      Users.TryRemove(user.Network.Id, out u);
-      if (user.Name != null)
+      if (Users.TryRemove(user.Network.Id, out u))
       {
-        lock (UserLocker)
+        if (user.Name != null)
         {
-          NamedUsers.Remove(user.Name);
+          lock (UserLocker)
+          {
+            NamedUsers.Remove(user.Name);
+          }
         }
+        u.Dispose();
       }
-      u.Dispose();
     }
     public void LoginComplete(LoginUser user)
     {

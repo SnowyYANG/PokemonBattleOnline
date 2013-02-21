@@ -70,7 +70,7 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
         {
           if (Buffer == null) Buffer = new List<ArraySegment<byte>>();
           Buffer.Add(new ArraySegment<byte>(header < 0x80 ? new byte[] { (byte)(header | 0x80) } : new byte[] { (byte)(header >> 8), (byte)header }));
-          Buffer.Add(new ArraySegment<byte>(pack));
+          if (pack.Any()) Buffer.Add(new ArraySegment<byte>(pack));
           if (!isSending) SendAsync();
         }
       }
@@ -105,11 +105,25 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
       buffer = new byte[1024];
     }
 
+    private bool set;
     private IPackReceivedListener _listener;
     public IPackReceivedListener Listener
     {
       get { return _listener ?? NullPackReceivedListener.I; }
-      set { _listener = value; }
+      set
+      { 
+        _listener = value;
+        if (!set)
+        {
+          set = true;
+          StartReceive();
+        }
+      }
+    }
+
+    private void StartReceive()
+    {
+      ReceivePackAsync(0, 1);
     }
 
     private byte step;
@@ -117,12 +131,12 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
     private void ReceivePackAsync(int offset, int count)
     {
       E.SetBuffer(buffer, offset, count);
-      if (!Socket.ReceiveAsync(E)) Completed(E);
+      if (count == 0 || !Socket.ReceiveAsync(E)) Completed(E);
     }
     private void Completed(SocketAsyncEventArgs e)
     {
-      var done = e.BytesTransferred;
-      if (done > 0 && e.SocketError == SocketError.Success)
+      var done = e.Count == 0 ? 0 : e.BytesTransferred;
+      if (e.SocketError == SocketError.Success)
       {
         switch (step)
         {
@@ -157,7 +171,7 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
             {
               Listener.OnPackReceived(buffer.SubArray(0, size));
               step = 0;
-              ReceivePackAsync(0, 1);
+              StartReceive();
             }
             break;
         }

@@ -61,7 +61,7 @@
   <ItemGroup>
     <Compile Include="DataModels\ConditionalObject.cs" />
     <Compile Include="DataModels\DisposableObject.cs" />
-    <Compile Include="DataModels\IdGenerator.cs" />
+    <Compile Include="DataModels\IdsPool.cs" />
     <Compile Include="DataModels\IText.cs" />
     <Compile Include="DataModels\MultiObjects.cs" />
     <Compile Include="DataModels\PairValue.cs" />

@@ -13,7 +13,8 @@ namespace PokemonBattleOnline.Network
     Afk,
     Battling,
     Spectating,
-    Aggressive
+    Aggressive,
+    Quited
   }
   public class User
   {
@@ -34,7 +35,11 @@ namespace PokemonBattleOnline.Network
     { get; internal set; }
     public ushort Avatar
     { get; set; }
+    private UserState _state;
     public UserState State
-    { get; set; }
+    {
+      get { return _state; }
+      set { if (_state != UserState.Quited) _state = value; }
+    }
   }
 }

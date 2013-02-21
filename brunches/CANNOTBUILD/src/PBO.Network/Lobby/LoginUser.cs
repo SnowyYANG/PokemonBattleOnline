@@ -21,7 +21,8 @@ namespace PokemonBattleOnline.Network.Lobby
       : base(network)
     {
       Server = server;
-      TimeBomb = new Timer(OnLoginTimeout, null, 30000, Timeout.Infinite);
+      TimeBomb = new Timer(OnLoginTimeout, this, PBOMarks.TIMEOUT, Timeout.Infinite);
+      network.Disconnect += OnLoginFailed;
     }
 
     public string Name
@@ -36,7 +37,7 @@ namespace PokemonBattleOnline.Network.Lobby
       switch (state)
       {
         case 0: //version
-          if (pack.ToInt16() == null) OnLoginFailed();
+          if (pack.ToUInt16() == null) OnLoginFailed();
           else
           {
             state = 1;
@@ -54,7 +55,7 @@ namespace PokemonBattleOnline.Network.Lobby
           else OnLoginFailed();
           break;
         case 2: //Avatar
-          var av = pack.ToInt16();
+          var av = pack.ToUInt16();
           if (av.HasValue)
           {
             Avatar = av.Value;

@@ -13,12 +13,14 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
   {
     public event Action<INetworkUser> NewComingUser;
 
+    public readonly IdsPool IdsPool;
     private readonly int Port;
     private readonly object ListenerLocker;
     private Socket Listener;
 
     public TcpServer(int port)
     {
+      IdsPool = new IdsPool();
       Port = port;
       ListenerLocker = new object();
     }

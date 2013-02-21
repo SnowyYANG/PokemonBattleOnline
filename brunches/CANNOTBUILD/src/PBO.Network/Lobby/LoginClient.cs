@@ -49,7 +49,7 @@ namespace PokemonBattleOnline.Network.Lobby
       if (client == null) OnLoginFailed(Disconnected);
       else
       {
-        TimeBomb.Change(30000, Timeout.Infinite);
+        TimeBomb.Change(PBOMarks.TIMEOUT, Timeout.Infinite);
         Network = client;
         Network.Listener = this;
         Network.Send(PBOMarks.VERSION);
@@ -70,7 +70,7 @@ namespace PokemonBattleOnline.Network.Lobby
         case 0: //version，失败直接结束，满员
           if (pack.IsEmpty())
           {
-            state++;
+            state = 1;
             Network.Send(Name);
           }
           else if (pack.ToByte() == 'f') OnLoginFailed(Full); //实际上这条消息在version发送前就会收到

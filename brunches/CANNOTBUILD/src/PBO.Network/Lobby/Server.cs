@@ -11,8 +11,7 @@ namespace PokemonBattleOnline.Network
 {
   public class Server : IDisposable
   {
-    public event Action<User> NewUser;
-    public event Action<User> UserRemoved;
+    public event Action<User> UsersUpdate;
     
     internal readonly INetworkServer Network;
     internal readonly object UserLocker;
@@ -24,6 +23,7 @@ namespace PokemonBattleOnline.Network
       Network = network;
       UserLocker = new object();
       LoginServer = new LoginServer(network, this);
+      Users = new Dictionary<string, ServerUser>();
     }
 
     internal bool HasUser(string name)
@@ -36,14 +36,15 @@ namespace PokemonBattleOnline.Network
     internal void AddUser(ServerUser user) //处于UserLocker中
     {
       Users.Add(user.User.Name, user);
-      NewUser(user.User);
+      UsersUpdate(user.User);
     }
     internal void RemoveUser(ServerUser user)
     {
       lock (UserLocker) //其实我觉得不lock也行...
       {
         Users.Remove(user.User.Name);
-        UserRemoved(user.User);
+        user.User.State = UserState.Quited;
+        UsersUpdate(user.User);
       }
     }
 

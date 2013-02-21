@@ -36,30 +36,28 @@ namespace PokemonBattleOnline.Network.Lobby
     {
       if (!pack.IsEmpty())
       {
-        var h = pack.GetHeader();
-        var c = pack.GetContent();
-        switch (h)
+        switch (pack[0])
         {
           case 0:
-            Serializer.DeserializeFromJson<UserCommand>(c).Execute(this);
+            Serializer.DeserializeFromJson<UserCommand>(pack, 1).Execute(this);
             break;
           case 1: //p2p
             {
-              var n = c[0];
+              var n = pack[1];
               var receivers = new int[n]; //n == 0 means all
-              var offset = 1;
+              var offset = 2;
               for (int i = 0; i < n; ++i)
               {
-                receivers[i] = c.SubArray(offset, 2).ToInt16().Value;
+                receivers[i] = pack.ToUInt16(offset).Value;
                 offset += 2;
               }
-              Server.SendP2PPack(this, c.SubArray(offset), receivers);
+              Server.SendP2PPack(this, pack.SubArray(offset), receivers);
             }
             break;
           case 10: //群聊专用
             try
             {
-              Server.PublicChat(this, Encoding.Unicode.GetString(pack));
+              Server.PublicChat(this, pack.ToUnicodeString(1));
             }
             catch
             {

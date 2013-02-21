@@ -77,6 +77,7 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
     {
       Socket = socket;
       Sender = new TcpPackSender(socket);
+
       Receiver = new TcpPackReceiver(socket);
     }
 
