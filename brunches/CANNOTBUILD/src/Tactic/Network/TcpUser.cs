@@ -51,6 +51,8 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
       get { return Receiver.Listener; }
       set { Receiver.Listener = value; }
     }
+    internal DateTime LastPack
+    { get { return Receiver.LastPack; } }
 
     public void Send(byte[] pack)
     {
@@ -64,7 +66,7 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
         if (!_isDisposed)
         {
           _isDisposed = true;
-          Server.IdsPool.Push(_id);
+          Server.Remove(this);
           try
           {
             Socket.Close(5);

@@ -103,6 +103,7 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
       Locker = new object();
       E = e;
       buffer = new byte[1024];
+      _lastPack = DateTime.Now;
     }
 
     private bool set;
@@ -120,6 +121,9 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
         }
       }
     }
+    private DateTime _lastPack;
+    public DateTime LastPack
+    { get { return _lastPack; } }
 
     private void StartReceive()
     {
@@ -169,6 +173,7 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
             if (done < e.Count) ReceivePackAsync(current, size - current);
             else
             {
+              _lastPack = DateTime.Now;
               Listener.OnPackReceived(buffer.SubArray(0, size));
               step = 0;
               StartReceive();

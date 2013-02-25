@@ -85,5 +85,9 @@ namespace PokemonBattleOnline.Data
     {
       return image.GetSpBack(id);
     }
+    public static BitmapImage GetAvatar(int id)
+    {
+      return image.GetAvatar(id);
+    }
   }
 }

@@ -19,7 +19,7 @@ namespace PokemonBattleOnline.Network.Lobby.Commands
 
     public override void Execute(Client client, User from)
     {
-      client.OnPrivateChat(from, Info);
+      client.OnPrivateChat(Info, from);
     }
   }
   [DataContract(Namespace = PBOMarks.JSON)]

@@ -17,6 +17,7 @@ namespace PokemonBattleOnline.Network
     internal readonly object UserLocker;
     private readonly LoginServer LoginServer;
     private readonly Dictionary<string, ServerUser> Users;
+    private readonly ConcurrentDictionary<int, ServerUser> users;
 
     internal Server(INetworkServer network)
     {
@@ -24,6 +25,7 @@ namespace PokemonBattleOnline.Network
       UserLocker = new object();
       LoginServer = new LoginServer(network, this);
       Users = new Dictionary<string, ServerUser>();
+      users = new ConcurrentDictionary<int, ServerUser>();
     }
 
     internal bool HasUser(string name)
@@ -36,6 +38,7 @@ namespace PokemonBattleOnline.Network
     internal void AddUser(ServerUser user) //处于UserLocker中
     {
       Users.Add(user.User.Name, user);
+      users[user.Network.Id] = user;
       UsersUpdate(user.User);
     }
     internal void RemoveUser(ServerUser user)

@@ -21,37 +21,20 @@ namespace PokemonBattleOnline.PBO.Lobby
   /// </summary>
   public partial class Login : UserControl
   {
-    public event Action LoginComplete = delegate { };
-
     public Login()
     {
       InitializeComponent();
-      PBOClient.LoginFailed_Name += () => System.Diagnostics.Debugger.Break();
-      PBOClient.LoginFailed_Version += () => System.Diagnostics.Debugger.Break();
-      PBOClient.LoginFailed_Full += () => System.Diagnostics.Debugger.Break();
+      PBOClient.LoginFailed_Name += () => LoginFailed(LS.LOGINFAILED_NAME);
+      PBOClient.LoginFailed_Version += () => LoginFailed(LS.LOGINFAILED_VERSION);
+      PBOClient.LoginFailed_Full += () => LoginFailed(LS.LOGINFAILED_FULL);
+      PBOClient.CurrentChanged += () => IsEnabled = true;
+      avatar.Content = 821;
     }
 
-    private void client_LoginComplete() //not in UI thread
+    private void LoginFailed(string message)
     {
-      lock (this)
-      {
-        UIDispatcher.Invoke(() =>
-          {
-            LoginComplete();
-            button.IsEnabled = true;
-          });
-      }
-    }
-    private void client_LoginFailed()
-    {
-      lock (this)
-      {
-        UIDispatcher.Invoke(() =>
-          {
-            MessageBox.Show("Login Failed");
-            IsEnabled = true;
-          });
-      }
+      MessageBox.Show(message);
+      IsEnabled = true;
     }
     private void button_Click(object sender, RoutedEventArgs e)
     {
@@ -62,9 +45,15 @@ namespace PokemonBattleOnline.PBO.Lobby
       }
     }
 
-    private void servers_KeyDown(object sender, KeyEventArgs e)
+    private void avs_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if (e.Key == Key.Enter) button_Click(button, e);
+      avs.Visibility = System.Windows.Visibility.Collapsed;
+      login.Visibility = System.Windows.Visibility.Visible;
+    }
+    private void avatar_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+      login.Visibility = System.Windows.Visibility.Collapsed;
+      avs.Visibility = System.Windows.Visibility.Visible;
     }
   }
 }

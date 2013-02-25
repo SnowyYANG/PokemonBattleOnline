@@ -55,7 +55,7 @@
     <Compile Include="Lobby\Commands\Chat.cs" />
     <Compile Include="Lobby\Commands\GameRoom.cs" />
     <Compile Include="Lobby\Commands\Hosts.cs" />
-    <Compile Include="Lobby\Commands\MessageHeaders.cs" />
+    <Compile Include="Lobby\Commands\PackHeaders.cs" />
     <Compile Include="Lobby\Commands\UserChanged.cs" />
     <Compile Include="Lobby\LoginClient.cs" />
     <Compile Include="Lobby\LoginServer.cs" />

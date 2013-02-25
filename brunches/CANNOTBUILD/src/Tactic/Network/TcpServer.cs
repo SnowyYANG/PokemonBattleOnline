@@ -11,22 +11,32 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
 {
   internal class TcpServer : INetworkServer
   {
+    private static void OnKeepAlive(object state)
+    {
+      var users = (List<TcpUser>)state;
+      var lastPack = DateTime.Now.AddMilliseconds(-2d * PBOMarks.TIMEOUT);
+      foreach (var u in users.ToArray())
+        if (u.LastPack < lastPack) u.Dispose();
+    }
+    
     public event Action<INetworkUser> NewComingUser;
 
     public readonly IdsPool IdsPool;
+    private readonly List<TcpUser> Users;
     private readonly int Port;
+    private readonly Timer KeepAliveTimer;
     private readonly object ListenerLocker;
-    private Socket Listener;
 
     public TcpServer(int port)
     {
       IdsPool = new IdsPool();
+      Users = new List<TcpUser>(300);
       Port = port;
+      KeepAliveTimer = new Timer(OnKeepAlive, Users, PBOMarks.TIMEOUT << 1, PBOMarks.TIMEOUT << 1);
       ListenerLocker = new object();
     }
 
-    public IPEndPoint ListenerEndPoint
-    { get { return (IPEndPoint)Listener.LocalEndPoint; } }
+    private Socket listener;
     private bool _isListening;
     public bool IsListening
     {
@@ -46,21 +56,23 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
             _isListening = value;
             if (value)
             {
-              Listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-              Listener.Bind(new IPEndPoint(IPAddress.Any, Port));
-              Listener.Listen(32);
+              listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+              listener.Bind(new IPEndPoint(IPAddress.Any, Port));
+              listener.Listen(32);
               StartAccept(null);
             }
             else
             {
-              Listener.Close();
-              Listener.Dispose();
-              Listener = null;
+              listener.Close();
+              listener.Dispose();
+              listener = null;
             }
           }
         }
       }
     }
+    public IPEndPoint ListenerEndPoint
+    { get { return (IPEndPoint)listener.LocalEndPoint; } }
 
     private void StartAccept(SocketAsyncEventArgs acceptEventArg)
     {
@@ -70,15 +82,23 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
         acceptEventArg.Completed += ProcessAccept;
       }
       else acceptEventArg.AcceptSocket = null;
-      bool willRaiseEvent = Listener.AcceptAsync(acceptEventArg);
+      bool willRaiseEvent = listener.AcceptAsync(acceptEventArg);
       if (!willRaiseEvent) ProcessAccept(null, acceptEventArg);
     }
     private void ProcessAccept(object sender, SocketAsyncEventArgs e)
     {
       Socket s = e.AcceptSocket;
       s.LingerState = new LingerOption(true, 5);
-      NewComingUser(new TcpUser(this, s));
+      var u = new TcpUser(this, s);
+      Users.Add(u); //thread safe?
+      NewComingUser(u);
       if (IsListening) StartAccept(e);
+    }
+
+    internal void Remove(TcpUser user)
+    {
+      Users.Remove(user); //thread safe?
+      IdsPool.Push(user.Id);
     }
 
     public void Dispose()

@@ -1,6 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.UIElements">
+                    xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.UIElements"
+                    xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters">
+    <DataTemplate x:Key="Avatar">
+        <Image Source="{Binding Converter={x:Static c:IdAvatar.C}}" Height="64" Width="64"/>
+    </DataTemplate>
     <DataTemplate x:Key="User">
         <Grid Height="40" Margin="1" Name="grid">
             <Grid.ContextMenu>

@@ -55,7 +55,7 @@ namespace PokemonBattleOnline.Test
       if (requirements != null)
       {
         foreach (var pair in requirements)
-          Clients[pair.Key].InformRequireInput(Serializer.DeserializeFromString<InputRequest>(Serializer.SerializeToString(pair.Value)));
+          Clients[pair.Key].InformRequireInput(pair.Value);
       }
       foreach (var c in Clients.Values) c.InformReportUpdate(fragment);
     }

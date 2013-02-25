@@ -119,7 +119,7 @@
     <Compile Include="Rom\Pokemon\EggGroup.cs" />
     <Compile Include="Rom\Pokemon\PokemonGender.cs" />
     <Compile Include="Rom\Pokemon\PokemonNature.cs" />
-    <Compile Include="ImageService.cs" />
+    <Compile Include="Rom\ImageService.cs" />
     <Compile Include="Rom\Move\MoveCategory.cs" />
     <Compile Include="Rom\Move\MoveRange.cs" />
     <Compile Include="Rom\Move\MoveType.cs" />

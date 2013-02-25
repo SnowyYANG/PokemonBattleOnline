@@ -31,7 +31,7 @@ namespace PokemonBattleOnline.Network
     private readonly string _name;
     public string Name
     { get { return _name; } }
-    public short RoomId
+    public ushort RoomId
     { get; internal set; }
     public ushort Avatar
     { get; set; }

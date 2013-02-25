@@ -9,19 +9,12 @@ namespace PokemonBattleOnline.Network.Lobby
 {
   internal class LoginUser : UserBase
   {
-    private static void OnLoginTimeout(object state)
-    {
-      ((LoginUser)state).OnLoginFailed();
-    }
-
     private readonly LoginServer Server;
-    private readonly Timer TimeBomb;
     
     public LoginUser(INetworkUser network, LoginServer server)
       : base(network)
     {
       Server = server;
-      TimeBomb = new Timer(OnLoginTimeout, this, PBOMarks.TIMEOUT, Timeout.Infinite);
       network.Disconnect += OnLoginFailed;
     }
 
@@ -72,7 +65,6 @@ namespace PokemonBattleOnline.Network.Lobby
 
     public override void Dispose()
     {
-      TimeBomb.Dispose();
       Server.BadLogin(this);
       base.Dispose();
     }
