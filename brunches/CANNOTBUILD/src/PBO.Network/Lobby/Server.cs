@@ -15,6 +15,7 @@ namespace PokemonBattleOnline.Network
     
     internal readonly INetworkServer Network;
     internal readonly object UserLocker;
+    internal readonly object StateLocker;
     private readonly LoginServer LoginServer;
     private readonly Dictionary<string, ServerUser> Users;
     private readonly ConcurrentDictionary<int, ServerUser> users;
@@ -23,9 +24,35 @@ namespace PokemonBattleOnline.Network
     {
       Network = network;
       UserLocker = new object();
+      StateLocker = new object();
       LoginServer = new LoginServer(network, this);
       Users = new Dictionary<string, ServerUser>();
       users = new ConcurrentDictionary<int, ServerUser>();
+    }
+
+    private string _welcome;
+    public string Welcome
+    {
+      get { return _welcome; }
+      set
+      {
+        if (_welcome != value)
+        {
+          _welcome = value;
+          //通知客户端
+        }
+      }
+    }
+
+    internal ClientInitInfo ClientInitInfo
+    { 
+      get
+      {
+        lock (StateLocker)
+        {
+          return new ClientInitInfo(this);
+        }
+      }
     }
 
     internal bool HasUser(string name)
@@ -46,6 +73,8 @@ namespace PokemonBattleOnline.Network
       lock (UserLocker) //其实我觉得不lock也行...
       {
         Users.Remove(user.User.Name);
+        ServerUser u;
+        users.TryRemove(user.Network.Id, out u);
         user.User.State = UserState.Quited;
         UsersUpdate(user.User);
       }

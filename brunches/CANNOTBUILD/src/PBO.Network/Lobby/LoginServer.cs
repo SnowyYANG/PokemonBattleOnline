@@ -27,6 +27,8 @@ namespace PokemonBattleOnline.Network.Lobby
     { get { return Server.Network; } }
     private object UserLocker
     { get { return Server.UserLocker; } }
+    public ClientInitInfo ClientInitInfo
+    { get { return Server.ClientInitInfo; } }
 
     private void OnNewUser(INetworkUser user)
     {
