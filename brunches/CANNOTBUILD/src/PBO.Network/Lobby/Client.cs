@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using System.IO.Compression;
 using PokemonBattleOnline.Tactic.Network;
 using PokemonBattleOnline.Network.Lobby;
 using PokemonBattleOnline.Network.Room;
@@ -64,7 +65,7 @@ namespace PokemonBattleOnline.Network
       switch (h)
       {
         case PackHeaders.CS_COMMAND:
-          Serializer.DeserializeFromJson<ClientCommand>(pack, 1).Execute(this);
+          Serializer.DeserializeFromCompressedJson<ClientCommand>(pack, 1).Execute(this);
           break;
         case PackHeaders.P2P_COMMAND:
           {
@@ -72,7 +73,7 @@ namespace PokemonBattleOnline.Network
             if (u != null)
             {
               var user = GetUser(u.Value);
-              if (user != null) Serializer.DeserializeFromJson<P2PCommand>(pack, 3).Execute(this, user);
+              if (user != null) Serializer.DeserializeFromCompressedJson<P2PCommand>(pack, 3).Execute(this, user);
             }
           }
           break;
@@ -87,10 +88,7 @@ namespace PokemonBattleOnline.Network
           }
           break;
         default:
-#if DEBUG
-          System.Diagnostics.Debugger.Break();
-#endif
-          //close
+          Dispose();
           break;
       }
     }
@@ -99,22 +97,17 @@ namespace PokemonBattleOnline.Network
       using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
       {
         ms.WriteByte(0);
-        Serializer.SerializeToJson(command, ms);
+        Serializer.SerializeToCompressedJson(command, ms);
         Network.Send(ms.ToArray());
       }
     }
-    public void SendP2PCommand(P2PCommand command, params int[] to)
+    public void SendP2PCommand(P2PCommand command, int to)
     {
       using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
       {
         ms.WriteByte(PackHeaders.P2P_COMMAND);
-        ms.WriteByte((byte)to.Length);
-        foreach (var t in to)
-        {
-          var i = ((ushort)to[0]).ToPack();
-          ms.Write(i, 0, i.Length);
-        }
-        Serializer.SerializeToJson(command, ms);
+        ms.Write(((ushort)to).ToPack(), 0, 2);
+        Serializer.SerializeToCompressedJson(command, ms);
         Network.Send(ms.ToArray());
       }
     }

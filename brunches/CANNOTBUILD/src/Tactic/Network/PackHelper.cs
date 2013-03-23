@@ -70,11 +70,11 @@ namespace PokemonBattleOnline.Tactic.Network
 
     public static void Send<T>(this INetworkIO network, T obj)
     {
-      network.Send(Serializer.SerializeToJson(obj));
+      network.Send(Serializer.SerializeToCompressedJson(obj));
     }
     public static T ToObject<T>(this byte[] pack)
     {
-      return Serializer.DeserializeFromJson<T>(pack);
+      return Serializer.DeserializeFromCompressedJson<T>(pack);
     }
   }
 }

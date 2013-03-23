@@ -44,14 +44,11 @@ namespace PokemonBattleOnline.Network
       }
     }
 
-    internal ClientInitInfo ClientInitInfo
-    { 
-      get
+    internal ClientInitInfo GetClientInitInfo(int user)
+    {
+      lock (StateLocker)
       {
-        lock (StateLocker)
-        {
-          return new ClientInitInfo(this);
-        }
+        return new ClientInitInfo(this, user);
       }
     }
 

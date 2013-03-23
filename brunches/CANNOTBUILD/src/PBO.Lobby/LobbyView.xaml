@@ -13,17 +13,16 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <DockPanel x:Name="upper" LastChildFill="True">
-            <!--<local:UserEditor x:Name="editor" DockPanel.Dock="Top" IsHitTestVisible="False"/>-->
-            <!--<ListBox ItemsSource="{Binding Users}" ItemTemplate="{x:Static ui:Cartes.User}" Margin="0,10,0,0" BorderThickness="0">
+        <StackPanel x:Name="upper">
+            <ListBox ItemsSource="{Binding Users}" Margin="0,10,0,0" BorderThickness="0">
                 <ListBox.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                         <GradientStop Color="#00ffffff" Offset="1"/>
                         <GradientStop Color="White" Offset="0"/>
                     </LinearGradientBrush>
                 </ListBox.Background>
-            </ListBox>-->
-        </DockPanel>
+            </ListBox>
+        </StackPanel>
         <local:Chat x:Name="chat"/>
         <GridSplitter x:Name="split" Background="Transparent" ShowsPreview="True">
             <GridSplitter.Style>

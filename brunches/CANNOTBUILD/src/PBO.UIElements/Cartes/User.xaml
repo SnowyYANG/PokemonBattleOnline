@@ -5,27 +5,4 @@
     <DataTemplate x:Key="Avatar">
         <Image Source="{Binding Converter={x:Static c:IdAvatar.C}}" Height="64" Width="64"/>
     </DataTemplate>
-    <DataTemplate x:Key="User">
-        <Grid Height="40" Margin="1" Name="grid">
-            <Grid.ContextMenu>
-                <ContextMenu ItemsSource="{Binding Commands}" ItemContainerStyle="{x:Static ui:Controls.CommandMenu}"/>
-            </Grid.ContextMenu>
-            <Image Source="{Binding Avatar}" Stretch="UniformToFill" Height="40" Width="40" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Image Name="state" Height="11" Width="11" Margin="29,29,0,0"/>
-            <TextBlock Name="name" Text="{Binding Name}" Margin="45,2,0,0" VerticalAlignment="Top"/>
-        </Grid>
-        <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding State}" Value="Afk">
-                <Setter TargetName="state" Property="Source" Value="/PBO.UIElements;component/images/Avatars/afk.png"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding State}" Value="Aggressive">
-                <Setter TargetName="state" Property="Source" Value="/PBO.UIElements;component/images/Avatars/aggressive.png"/>
-                <Setter TargetName="name" Property="Foreground" Value="{x:Static ui:Brushes.MagentaM}"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Commands.Count}" Value="0">
-                <Setter TargetName="grid" Property="ContextMenu" Value="{x:Null}"/>
-                <Setter TargetName="name" Property="FontStyle" Value="Italic"/>
-            </DataTrigger>
-        </DataTemplate.Triggers>
-    </DataTemplate>
 </ResourceDictionary>

@@ -110,50 +110,33 @@ namespace PokemonBattleOnline
       return (T)Deserialize(typeof(T), stream);
     }
 
-    public static T DeserializeFromJson<T>(byte[] bytes)
+    public static T DeserializeFromCompressedJson<T>(byte[] bytes)
     {
-      var d = new DataContractJsonSerializer(typeof(T));
-      using (MemoryStream ms = new MemoryStream(bytes))
-        return (T)d.ReadObject(ms);
+      return DeserializeFromCompressedJson<T>(bytes, 0);
     }
-    public static T DeserializeFromJson<T>(byte[] bytes, int offset)
+    public static T DeserializeFromCompressedJson<T>(byte[] bytes, int offset)
     {
-      var d = new DataContractJsonSerializer(typeof(T));
       using (MemoryStream ms = new MemoryStream(bytes, offset, bytes.Length - offset))
+      using (DeflateStream ds = new DeflateStream(ms, CompressionMode.Decompress))
+      {
+        var d = new DataContractJsonSerializer(typeof(T));
         return (T)d.ReadObject(ms);
+      }
     }
-    public static byte[] SerializeToJson<T>(T obj)
+    public static byte[] SerializeToCompressedJson<T>(T obj)
     {
       using (MemoryStream ms = new MemoryStream())
       {
-        SerializeToJson(obj, ms);
+        SerializeToCompressedJson(obj, ms);
         return ms.ToArray();
       }
     }
-    public static void SerializeToJson<T>(T obj, Stream stream)
+    public static void SerializeToCompressedJson<T>(T obj, Stream stream)
     {
-      var s = new DataContractJsonSerializer(typeof(T));
-      s.WriteObject(stream, obj);
-    }
-
-    public static byte[] EnCompress(byte[] bytes)
-    {
-      using (MemoryStream i = new MemoryStream(bytes))
-      using (DeflateStream ds = new DeflateStream(i, CompressionMode.Compress))
-      using (MemoryStream s = new MemoryStream(bytes.Length))
+      using (DeflateStream ds = new DeflateStream(stream, CompressionMode.Compress, true))
       {
-        ds.CopyTo(s);
-        return s.ToArray();
-      }
-    }
-    public static byte[] DeCompress(byte[] bytes)
-    {
-      using (MemoryStream i = new MemoryStream(bytes))
-      using (DeflateStream ds = new DeflateStream(i, CompressionMode.Decompress))
-      using (MemoryStream s = new MemoryStream(bytes.Length))
-      {
-        ds.CopyTo(s);
-        return s.ToArray();
+        var s = new DataContractJsonSerializer(typeof(T));
+        s.WriteObject(stream, obj);
       }
     }
   }

@@ -39,7 +39,7 @@ namespace PokemonBattleOnline.Network.Lobby
         switch (pack[0])
         {
           case 0:
-            Serializer.DeserializeFromJson<UserCommand>(pack, 1).Execute(this);
+            Serializer.DeserializeFromCompressedJson<UserCommand>(pack, 1).Execute(this);
             break;
           case 1: //p2p
             {

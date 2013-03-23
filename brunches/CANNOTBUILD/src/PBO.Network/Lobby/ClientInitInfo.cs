@@ -10,16 +10,20 @@ namespace PokemonBattleOnline.Network
   [DataContract(Namespace = PBOMarks.JSON)]
   public class ClientInitInfo
   {
+    [DataMember(EmitDefaultValue = false)]
     public readonly string Welcome;
-    public readonly int[] Ids;
-    public readonly string[] Names;
-    public readonly int[] Avatars;
-    public readonly UserState[] States;
+    [DataMember]
+    public readonly int User;
 
-    public ClientInitInfo(Server server)
+    public ClientInitInfo(Server server, int user)
     {
       Welcome = server.Welcome;
-      //var n = server.Users.Count();
+      User = user;
     }
+
+    private readonly string[] _names;
+    public IEnumerable<string> Names
+    { get { return _names; } }
+    private readonly int[] Avatars;
   }
 }
