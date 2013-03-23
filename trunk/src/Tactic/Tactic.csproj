@@ -61,8 +61,9 @@
   <ItemGroup>
     <Compile Include="DataModels\ConditionalObject.cs" />
     <Compile Include="DataModels\DisposableObject.cs" />
-    <Compile Include="DataModels\IdGenerator.cs" />
+    <Compile Include="DataModels\IdsPool.cs" />
     <Compile Include="DataModels\IText.cs" />
+    <Compile Include="DataModels\MultiObjects.cs" />
     <Compile Include="DataModels\PairValue.cs" />
     <Compile Include="DataModels\SimpleData.cs" />
     <Compile Include="extensions.cs" />
@@ -72,7 +73,6 @@
     <Compile Include="DataModels\ObservableObject.cs" />
     <Compile Include="Network\Factory.cs" />
     <Compile Include="PBOMarks.cs" />
-    <Compile Include="Network\ClientBase.cs" />
     <Compile Include="Network\PackHelper.cs" />
     <Compile Include="Network\NullPackReceivedListener.cs" />
     <Compile Include="Network\INetworkServer.cs" />
@@ -87,6 +87,7 @@
     <Compile Include="Service\Scripting.cs" />
     <Compile Include="Threading\Dispatcher.cs" />
     <Compile Include="Threading\UIDispatcher.cs" />
+    <Compile Include="WeakReference.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

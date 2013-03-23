@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PokemonBattleOnline.Game.Host.Effects</RootNamespace>
-    <AssemblyName>PokemonBattle.Effects</AssemblyName>
+    <AssemblyName>PBO.Effects</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

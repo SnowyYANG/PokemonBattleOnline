@@ -55,6 +55,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LobbyStrings.cs" />
     <Compile Include="LobbyView.xaml.cs">
       <DependentUpon>LobbyView.xaml</DependentUpon>
     </Compile>
@@ -70,9 +71,6 @@
     </Compile>
     <Compile Include="StartBattle.xaml.cs">
       <DependentUpon>StartBattle.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserEditor.xaml.cs">
-      <DependentUpon>UserEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Chat.xaml.cs">
       <DependentUpon>Chat.xaml</DependentUpon>
@@ -123,10 +121,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="StartBattle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

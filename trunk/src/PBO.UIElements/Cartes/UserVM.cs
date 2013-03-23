@@ -36,28 +36,25 @@ namespace PokemonBattleOnline.PBO
     
     public event PropertyChangedEventHandler PropertyChanged;
     protected readonly ObservableCollection<MenuCommand> commands;
-    //protected readonly User Model;
+    protected readonly User Model;
 
-    public UserVM(bool innerAvatarOnly)
+    public UserVM(User model)
     {
-      //Model = user;
-      //avatar = new AvatarVM(user.Avatar, innerAvatarOnly);
+      Model = model;
       commands = new ObservableCollection<MenuCommand>();
       Commands = new ReadOnlyObservableCollection<MenuCommand>(commands);
     }
 
-    public int Id { get; set; }
-    //{ get { return Model.Id; } }
-    public string Name { get; set; }
-    //{ get { return Model.Name; } }
-    public AvatarVM Avatar { get; set; }
-    //{ get { return avatar; } }
-    public UserState State { get; set; }
-    //{ get { return Model.State; } }
-    public string Sign { get; set; }
-    //{ get { return Model.Sign; } }
-    public ReadOnlyObservableCollection<MenuCommand> Commands { get; set; }
-    //{ get; private set; }
+    public int Id
+    { get { return Model.Id; } }
+    public string Name
+    { get { return Model.Name; } }
+    public int Avatar
+    { get { return Model.Avatar; } }
+    public UserState State
+    { get { return Model.State; } }
+    public ReadOnlyObservableCollection<MenuCommand> Commands
+    { get; private set; }
 
     void OnPropertyChanged(string propertyname)
     {
@@ -70,7 +67,6 @@ namespace PokemonBattleOnline.PBO
     public void RefreshProperties()
     {
       OnPropertyChanged("State");
-      OnPropertyChanged("Sign");
     }
     public override string ToString()
     {

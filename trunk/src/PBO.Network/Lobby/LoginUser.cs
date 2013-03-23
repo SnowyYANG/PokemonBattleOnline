@@ -10,13 +10,12 @@ namespace PokemonBattleOnline.Network.Lobby
   internal class LoginUser : UserBase
   {
     private readonly LoginServer Server;
-    private readonly Timer TimeBomb;
     
     public LoginUser(INetworkUser network, LoginServer server)
       : base(network)
     {
       Server = server;
-      TimeBomb = new Timer(OnLoginTimeout, null, 30000, Timeout.Infinite);
+      network.Disconnect += OnLoginFailed;
     }
 
     public string Name
@@ -31,7 +30,7 @@ namespace PokemonBattleOnline.Network.Lobby
       switch (state)
       {
         case 0: //version
-          if (pack.ToInt16() == null) OnLoginFailed();
+          if (pack.ToUInt16() == null) OnLoginFailed();
           else
           {
             state = 1;
@@ -49,21 +48,18 @@ namespace PokemonBattleOnline.Network.Lobby
           else OnLoginFailed();
           break;
         case 2: //Avatar
-          var av = pack.ToInt16();
+          var av = pack.ToUInt16();
           if (av.HasValue)
           {
             Avatar = av.Value;
+            Network.Send(Server.GetClientInitInfo(Network.Id));
             Server.LoginComplete(this);
           }
-          else OnBadPack();
+          else OnLoginFailed();
           break;
       }
     }
     private void OnLoginFailed()
-    {
-      Dispose();
-    }
-    private void OnLoginTimeout(object state)
     {
       Dispose();
     }

@@ -8,13 +8,13 @@ namespace PokemonBattleOnline.PBO.UIElements
 {
   public static class Cartes
   {
-    public static readonly DataTemplate User;
+    public static readonly DataTemplate Avatar;
     public static readonly DataTemplate Pokemon;
 
     static Cartes()
     {
       var rd = Helper.GetDictionary("Cartes", "User");
-      User = (DataTemplate)rd["User"];
+      Avatar = (DataTemplate)rd["Avatar"];
       Pokemon = Helper.GetObject<DataTemplate>("Cartes", "Pokemon");
     }
   }

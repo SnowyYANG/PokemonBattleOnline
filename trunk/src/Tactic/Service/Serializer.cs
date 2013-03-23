@@ -7,6 +7,7 @@ using System.IO;
 using System.Xml;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using System.IO.Compression;
 
 namespace PokemonBattleOnline
 {
@@ -41,7 +42,7 @@ namespace PokemonBattleOnline
     {
       return XmlReader.Create(reader, READER_SETTINGS);
     }
-    
+
     public static DataContractSerializer GetSerializer(Type type)
     {
       return new DataContractSerializer(type);
@@ -60,13 +61,6 @@ namespace PokemonBattleOnline
     public static void Serialize(object obj, Stream output)
     {
       Serialize(obj, XmlWriter.Create(output, WRITER_SETTINGS));
-    }
-    public static string SerializeToString(object obj)
-    {
-      var sb = new StringBuilder();
-      using (var xw = XmlWriter.Create(sb, WRITER_SETTINGS))
-        Serialize(obj, xw);
-      return sb.ToString();
     }
 
     private static bool TryDeserialize(Type type, XmlReader reader, out object value)
@@ -110,37 +104,39 @@ namespace PokemonBattleOnline
     {
       return Deserialize(type, GetXmlReader(stream));
     }
-    public static object DeserializeFromString(Type type, string content)
-    {
-      using (var sr = new StringReader(content))
-      using (var reader = XmlReader.Create(sr, READER_SETTINGS))
-        return Deserialize(type, reader);
-    }
-    
+
     public static T Deserialize<T>(Stream stream)
     {
       return (T)Deserialize(typeof(T), stream);
     }
-    public static T DeserializeFromString<T>(string content)
-    {
-      using (var sr = new StringReader(content))
-      using (var reader = XmlReader.Create(sr, READER_SETTINGS))
-        return (T)Deserialize(typeof(T), reader);
-    }
 
-    public static T DeserializeFromJson<T>(byte[] bytes)
+    public static T DeserializeFromCompressedJson<T>(byte[] bytes)
     {
-      var d = new DataContractJsonSerializer(typeof(T));
-      using (MemoryStream ms = new MemoryStream(bytes))
-        return (T)d.ReadObject(ms);
+      return DeserializeFromCompressedJson<T>(bytes, 0);
     }
-    public static byte[] SerializeToJson<T>(T obj)
+    public static T DeserializeFromCompressedJson<T>(byte[] bytes, int offset)
     {
-      var s = new DataContractJsonSerializer(typeof(T));
+      using (MemoryStream ms = new MemoryStream(bytes, offset, bytes.Length - offset))
+      using (DeflateStream ds = new DeflateStream(ms, CompressionMode.Decompress))
+      {
+        var d = new DataContractJsonSerializer(typeof(T));
+        return (T)d.ReadObject(ms);
+      }
+    }
+    public static byte[] SerializeToCompressedJson<T>(T obj)
+    {
       using (MemoryStream ms = new MemoryStream())
       {
-        s.WriteObject(ms, obj);
+        SerializeToCompressedJson(obj, ms);
         return ms.ToArray();
+      }
+    }
+    public static void SerializeToCompressedJson<T>(T obj, Stream stream)
+    {
+      using (DeflateStream ds = new DeflateStream(stream, CompressionMode.Compress, true))
+      {
+        var s = new DataContractJsonSerializer(typeof(T));
+        s.WriteObject(stream, obj);
       }
     }
   }

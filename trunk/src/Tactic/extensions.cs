@@ -32,7 +32,9 @@ namespace PokemonBattleOnline
     }
     public static T[] SubArray<T>(this T[] array, int offset, int count)
     {
-      return new ArraySegment<T>(array, offset, count).Array;
+      T[] r = new T[count];
+      Array.Copy(array, offset, r, 0, count);
+      return r;
     }
     public static T[] SubArray<T>(this T[] array, int offset)
     {

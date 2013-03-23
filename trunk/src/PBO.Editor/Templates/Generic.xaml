@@ -140,12 +140,13 @@
                 <Run Text="{Binding Size, Mode=OneWay}"/>
             </TextBlock>
             <Button Command="{Binding SwitchCommand}" ToolTip="{Binding [Close], Source={x:Static pm:DataService.String}, Mode=OneWay}" Style="{x:Static ui:Controls.XButton}" Foreground="{x:Static ui:Brushes.GrayF}" FontSize="15" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-2,5,0"/>
-            <ListBox ItemsSource="{Binding Model}" ItemsPanel="{x:Static ui:Controls.WrapPanel}" BorderBrush="{Binding BorderBrush}" Margin="0,18,0,0" AllowDrop="True" li:DragDropState.ItemOrientation="Horizontal">
+            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Model}" ItemContainerStyle="{StaticResource PokemonIcon}" BorderBrush="{Binding BorderBrush}" BorderThickness="1,0,1,1" Margin="0,18,0,0" AllowDrop="True" li:DragDropState.ItemOrientation="Horizontal">
+                <ListBox.ItemsPanel>
+                    <WrapPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                </ListBox.ItemsPanel>
                 <ListBox.Style>
                     <Style TargetType="ListBox">
                         <Setter Property="Padding" Value="2"/>
-                        <Setter Property="BorderThickness" Value="1,0,1,1"/>
-                        <Setter Property="ItemContainerStyle" Value="{StaticResource PokemonIcon}"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type ListBox}">

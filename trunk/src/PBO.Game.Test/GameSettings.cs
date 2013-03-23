@@ -14,12 +14,5 @@ namespace PokemonBattleOnline.Test
     { get { return Terrain.Path; } }
     public bool SleepRule
     { get { return true; } }
-
-    private readonly IdGenerator idGen = new IdGenerator();
-    internal int NextId()
-    {
-      return idGen.NextId();
-    }
-
   }
 }

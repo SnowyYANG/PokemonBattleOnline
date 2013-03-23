@@ -24,10 +24,6 @@ namespace PokemonBattleOnline.Tactic.Network
     {
       OnPackReceived(pack);
     }
-    protected void OnBadPack()
-    {
-      Dispose();
-    }
 
     public virtual void Dispose()
     {

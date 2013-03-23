@@ -9,20 +9,41 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
 {
   internal class TcpUser : INetworkUser
   {
-    public event Action Disconnect;
-    private readonly TcpServer Server;
+    public readonly TcpServer Server;
     private readonly Socket Socket;
+    private readonly TcpPackSender Sender;
     private readonly TcpPackReceiver Receiver;
+    private readonly object Locker;
 
     public TcpUser(TcpServer server, Socket socket)
     {
       Server = server;
       Socket = socket;
+      Sender = new TcpPackSender(socket);
       Receiver = new TcpPackReceiver(socket);
+      Locker = new object();
+      _id = server.IdsPool.GetId();
     }
 
+    /// <summary>
+    /// 妥妥的执行两次
+    /// </summary>
+    public event Action Disconnect
+    {
+      add
+      { 
+        Sender.Disconnect += value;
+        Receiver.Disconnect += value;
+      }
+      remove
+      {
+        Sender.Disconnect -= value;
+        Receiver.Disconnect -= value;
+      }
+    }
+    private readonly int _id;
     public int Id
-    { get { return ((IPEndPoint)Socket.LocalEndPoint).Port; } }
+    { get { return _id; } }
     public IPEndPoint EndPoint
     { get { return (IPEndPoint)Socket.RemoteEndPoint; } }
     public IPackReceivedListener Listener
@@ -30,14 +51,30 @@ namespace PokemonBattleOnline.Tactic.Network.Tcp
       get { return Receiver.Listener; }
       set { Receiver.Listener = value; }
     }
+    internal DateTime LastPack
+    { get { return Receiver.LastPack; } }
 
     public void Send(byte[] pack)
     {
-      TcpPackSender.Send(Socket, pack);
+      Sender.Send(pack);
     }
+    private bool _isDisposed;
     public void Dispose()
     {
-      Socket.Dispose();
+      lock (Locker)
+      {
+        if (!_isDisposed)
+        {
+          _isDisposed = true;
+          Server.Remove(this);
+          try
+          {
+            Socket.Close(5);
+            Socket.Dispose();
+          }
+          catch { }
+        }
+      }
     }
   }
 }

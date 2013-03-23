@@ -11,19 +11,45 @@ namespace PokemonBattleOnline.Network
 {
   public class Server : IDisposable
   {
-    static Server()
-    {
-      //register
-    }
+    public event Action<User> UsersUpdate;
     
     internal readonly INetworkServer Network;
     internal readonly object UserLocker;
-    public readonly Dictionary<string, ServerUser> Users;
+    internal readonly object StateLocker;
+    private readonly LoginServer LoginServer;
+    private readonly Dictionary<string, ServerUser> Users;
+    private readonly ConcurrentDictionary<int, ServerUser> users;
 
     internal Server(INetworkServer network)
     {
       Network = network;
       UserLocker = new object();
+      StateLocker = new object();
+      LoginServer = new LoginServer(network, this);
+      Users = new Dictionary<string, ServerUser>();
+      users = new ConcurrentDictionary<int, ServerUser>();
+    }
+
+    private string _welcome;
+    public string Welcome
+    {
+      get { return _welcome; }
+      set
+      {
+        if (_welcome != value)
+        {
+          _welcome = value;
+          //通知客户端
+        }
+      }
+    }
+
+    internal ClientInitInfo GetClientInitInfo(int user)
+    {
+      lock (StateLocker)
+      {
+        return new ClientInitInfo(this, user);
+      }
     }
 
     internal bool HasUser(string name)
@@ -33,19 +59,22 @@ namespace PokemonBattleOnline.Network
         return Users.ContainsKey(name);
       }
     }
-    internal void AddUser(LoginUser user) //处于UserLocker中
+    internal void AddUser(ServerUser user) //处于UserLocker中
     {
-      Users.Add(user.Name, new ServerUser(user, this));
+      Users.Add(user.User.Name, user);
+      users[user.Network.Id] = user;
+      UsersUpdate(user.User);
     }
-    private void UserRemoved(User user)
+    internal void RemoveUser(ServerUser user)
     {
-    }
-    public void RemoveUser(string name)
-    {
-    }
-    internal void RemoveUser(ServerUser serverUser)
-    {
-      throw new NotImplementedException();
+      lock (UserLocker) //其实我觉得不lock也行...
+      {
+        Users.Remove(user.User.Name);
+        ServerUser u;
+        users.TryRemove(user.Network.Id, out u);
+        user.User.State = UserState.Quited;
+        UsersUpdate(user.User);
+      }
     }
 
     internal void SendP2PPack(ServerUser serverUser, byte[] arraySegment, params int[] to)
@@ -57,9 +86,15 @@ namespace PokemonBattleOnline.Network
       throw new NotImplementedException();
     }
 
+    public void Start()
+    {
+      Network.IsListening = true;
+    }
+
     public void Dispose()
     {
       Network.Dispose();
+      LoginServer.Dispose();
     }
   }
 }

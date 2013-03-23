@@ -12,15 +12,15 @@ namespace PokemonBattleOnline
   {
     private readonly Thread thread;
     private readonly ConcurrentQueue<Work> works;
-    private readonly ManualResetEvent addWorkEvent;
-    private readonly object addWorkLock;
+    private readonly AutoResetEvent addWorkEvent;
+    private readonly object addWorkLocker;
 
     public Dispatcher(string name, bool autoStart)
     {
       thread = new Thread(Process) { Name = name };
       works = new ConcurrentQueue<Work>();
-      addWorkEvent = new ManualResetEvent(false);
-      addWorkLock = new object();
+      addWorkLocker = new object();
+      addWorkEvent = new AutoResetEvent(false);
       if (autoStart) Start();
     }
 
@@ -31,28 +31,36 @@ namespace PokemonBattleOnline
 
     private void Process()
     {
-      while (!IdDisposed)
+    LOOP:
+      try
       {
         Work work;
-        while(works.TryDequeue(out work)) work.DoWork();
-        try
+        while (!IsDisposed)
         {
-          lock (addWorkLock)
+          addWorkEvent.WaitOne();
+          while (works.TryDequeue(out work)) work.DoWork();
+          lock (addWorkLocker)
           {
             if (works.IsEmpty) addWorkEvent.Reset();
-            else continue;
           }
-          addWorkEvent.WaitOne();
         }
-        catch { }
+      }
+      catch
+      {
+        goto LOOP;
       }
     }
 
     private void AddWork(Work work)
     {
-      if (IdDisposed) return;
-      works.Enqueue(work);
-      SetAddWorkEvent();
+      if (!IsDisposed)
+      {
+        works.Enqueue(work);
+        lock (addWorkLocker)
+        {
+          addWorkEvent.Set();
+        }
+      }
     }
 
     public void Invoke(Action action)
@@ -74,7 +82,7 @@ namespace PokemonBattleOnline
 
     private void Wait(Work work)
     {
-      if (IdDisposed) return;
+      if (IsDisposed) return;
 
       AddWork(work);
       work.Wait();
@@ -96,23 +104,16 @@ namespace PokemonBattleOnline
       AddWork(new Work(method, args));
     }
 
-    private void SetAddWorkEvent()
+    protected override void DisposeManagedResources()
     {
       try
       {
-        lock (addWorkLock)
-        {
-          addWorkEvent.Set();
-        }
+        addWorkEvent.Set();
+        addWorkEvent.Dispose();
       }
-      catch (Exception)
-      { }
-    }
-
-    protected override void DisposeManagedResources()
-    {
-      SetAddWorkEvent();
-      addWorkEvent.Dispose();
+      catch
+      {
+      }
       Work work;
       while (works.TryDequeue(out work)) work.Dispose();
     }

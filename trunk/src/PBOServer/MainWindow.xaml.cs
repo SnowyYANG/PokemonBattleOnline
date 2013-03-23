@@ -23,7 +23,6 @@ namespace PokemonBattleOnline.PBO.Server
   public partial class MainWindow : Window
   {
     Network.Server server;
-    Dictionary<int, UserVM> usersDictionary;
     ObservableCollection<UserVM> users;
 
     public MainWindow()
@@ -33,21 +32,15 @@ namespace PokemonBattleOnline.PBO.Server
       StartServer();
     }
 
-    private void AddUser(User u)
-    {
-      UserVM uvm= new UserVM(u, true);
-      usersDictionary.Add(u.Id, uvm);
-      users.Add(uvm);
-      chat.AppendText("\n<SYSTEM> " + u.Name + " logs in, ID. " + u.Id);
-    }
     private void StartServer()
     {
       try
       {
-        PBOServer.NewTcpServer(9898);
+        PBOServer.NewTcpServer(PBOMarks.DEFAULT_PORT);
         server = PBOServer.Current;
-        //server.UserChanged += model_UserChanged;
+        server.UsersUpdate += model_UserChanged;
         //server.MessageBroadcast += model_MessageBroadcast;
+        server.Start();
       }
       catch (Exception e)
       {
@@ -55,7 +48,6 @@ namespace PokemonBattleOnline.PBO.Server
         return;
       }
       mask.Visibility = System.Windows.Visibility.Hidden;
-      usersDictionary = new Dictionary<int, UserVM>(50);//容量
       users = new ObservableCollection<UserVM>();
       usersView.ItemsSource = users;
     }
@@ -75,27 +67,25 @@ namespace PokemonBattleOnline.PBO.Server
       //mask.Visibility = System.Windows.Visibility.Visible;
     }
 
-    void model_UserChanged(int userId)
+    void model_UserChanged(User user)
     {
       ////thread
-      //WpfDispatcher.Invoke(() =>
-      //  {
-      //    User u = server.GetUser(userId);
-      //    UserVM uvm = usersDictionary.ValueOrDefault(userId);
-      //    if (u == null)
-      //    {
-      //      usersDictionary.Remove(userId);
-      //      users.Remove(uvm);
-      //      string x = "\n<SYSTEM> User"+ userId;
-      //      if (uvm != null) x += " " + uvm.Name;
-      //      chat.AppendText(x + " exits.");
-      //    }
-      //    else
-      //    {
-      //      if (uvm == null) AddUser(u);
-      //      else uvm.RefreshProperties();
-      //    }
-      //  });
+      UIDispatcher.Invoke(() =>
+        {
+          if (user.State == UserState.Quited)
+          {
+            //users.Remove(user);
+            string x = "\n<SYSTEM> User" + user.Id;
+            if (user.Name != null) x += " " + user.Name;
+            chat.AppendText(x + " exits.");
+          }
+          else
+          {
+            UserVM uvm = new UserVM(user, true);
+            users.Add(uvm);
+            chat.AppendText("\n<SYSTEM> " + user.Name + " logs in, ID. " + user.Id);
+          }
+        });
     }
     void model_MessageBroadcast(int userId, string content)
     {
@@ -109,13 +99,16 @@ namespace PokemonBattleOnline.PBO.Server
 
     protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
     {
-      e.Cancel = true;
-      Visibility = System.Windows.Visibility.Collapsed;
       base.OnClosing(e);
+      if (!e.Cancel) e.Cancel = MessageBox.Show("真的要退出吗？", "PBO Server", MessageBoxButton.YesNo) != MessageBoxResult.Yes;
     }
     protected override void OnClosed(EventArgs e)
     {
-      try { StopServer(); }
+      try
+      {
+        TaskbarIconService.Close();
+        StopServer();
+      }
       catch { }
       finally { server.Dispose(); }
       base.OnClosed(e);

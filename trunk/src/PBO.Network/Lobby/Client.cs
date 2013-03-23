@@ -2,111 +2,129 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using System.IO.Compression;
 using PokemonBattleOnline.Tactic.Network;
 using PokemonBattleOnline.Network.Lobby;
 using PokemonBattleOnline.Network.Room;
 
 namespace PokemonBattleOnline.Network
 {
-  public class Client : ClientBase, IDisposable
+  internal interface IClientEventsListener
   {
-    public event Action<string> AdminChat;
-    public event Action<string, User> PublicChat;
-    public event Action<string, User> PrivateChat;
-    
-    static Client()
+    void Disconnected();
+    void UsersUpdate(User user);
+    void AdminChat(string chat);
+    void PublicChat(string chat, User from);
+    void PrivateChat(string chat, User from);
+  }
+  public class Client : IPackReceivedListener, IDisposable
+  {
+    private static void OnKeepAlive(object state)
     {
-      //register
+      ((INetworkClient)state).SendEmpty();
     }
+
+    protected readonly INetworkClient Network;
+    private readonly ConcurrentDictionary<int, User> Users;
+    private readonly Timer KeepAlive;
     
     internal Client(INetworkClient network, ClientInitInfo init)
-      : base(network)
     {
+      Network = network;
+      network.Listener = this;
+      network.Disconnect += OnDisconnect;
+      KeepAlive = new Timer(OnKeepAlive, network, PBOMarks.TIMEOUT, PBOMarks.TIMEOUT);
     }
 
-    public ObservableCollection<User> Users
-    { get; private set; }
+    private User _user;
     public User User
-    { get; private set; }
+    { get { return _user; } }
+    internal IClientEventsListener Listener
+    { get; set; }
 
-    protected virtual void OnPackReceived(byte header, byte[] content)
+    public User GetUser(int id)
     {
-      //header >= 128
-      //user define
+      User r;
+      return Users.TryGetValue(id, out r) ? r : null;
     }
-    protected sealed override void OnPackReceived(byte[] pack)
+
+    protected virtual void OnDisconnect()
     {
-      var h = pack.GetHeader();
-      var c = pack.GetContent();
+      if (!isDisposed)
+      {
+        Listener.Disconnected();
+        Dispose();
+      }
+    }
+    void IPackReceivedListener.OnPackReceived(byte[] pack)
+    {
+      var h = pack[0];
       switch (h)
       {
-        case 0:
-          Serializer.DeserializeFromJson<ClientCommand>(c).Execute(this);
+        case PackHeaders.CS_COMMAND:
+          Serializer.DeserializeFromCompressedJson<ClientCommand>(pack, 1).Execute(this);
           break;
-        case 1:
+        case PackHeaders.P2P_COMMAND:
           {
-            var u = c.SubArray(0, 2).ToInt16();
+            var u = pack.ToUInt16(1);
             if (u != null)
             {
               var user = GetUser(u.Value);
-              if (user != null) Serializer.DeserializeFromJson<P2PCommand>(c.SubArray(2)).Execute(this, user);
+              if (user != null) Serializer.DeserializeFromCompressedJson<P2PCommand>(pack, 3).Execute(this, user);
             }
           }
           break;
-        case 2:
+        case PackHeaders.PUBLIC_CHAT:
           {
-            var u = c.SubArray(0, 2).ToInt16();
+            var u = pack.ToUInt16(1);
             if (u != null)
             {
               var user = GetUser(u.Value);
-              if (user != null) UIDispatcher.BeginInvoke(PublicChat, Encoding.Unicode.GetString(c.SubArray(2)), user);
+              if (user != null) OnPublicChat(pack.ToUnicodeString(3), user);
             }
           }
           break;
         default:
-#if DEBUG
-          System.Diagnostics.Debugger.Break();
-#endif
-          //close
+          Dispose();
           break;
       }
     }
-    private void Send(byte header, byte[] pack)
+    public void SendUserCommand(UserCommand command)
     {
-      Network.Send(header, pack);
-    }
-    protected void SendUserCommand(UserCommand command)
-    {
-      Network.Send(0, Serializer.SerializeToJson(command));
-    }
-    protected void SendP2PCommand(P2PCommand command, params int[] to)
-    {
-      var c = Serializer.SerializeToJson(command);
-      using (System.IO.MemoryStream ms = new System.IO.MemoryStream(c.Length + 8))
+      using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
       {
-        ms.WriteByte((byte)to.Length);
-        foreach (var t in to)
-        {
-          var i = ((ushort)to[0]).ToPack();
-          ms.Write(i, 0, i.Length);
-        }
-        ms.Write(c, 0, c.Length);
-        Network.Send(1, ms.ToArray());
+        ms.WriteByte(0);
+        Serializer.SerializeToCompressedJson(command, ms);
+        Network.Send(ms.ToArray());
       }
     }
-    protected void SendPublicChat(string chat)
+    public void SendP2PCommand(P2PCommand command, int to)
     {
-      Network.Send(10, Encoding.Unicode.GetBytes(chat));
+      using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+      {
+        ms.WriteByte(PackHeaders.P2P_COMMAND);
+        ms.Write(((ushort)to).ToPack(), 0, 2);
+        Serializer.SerializeToCompressedJson(command, ms);
+        Network.Send(ms.ToArray());
+      }
     }
 
-    public User GetUser(int id)
+    private void SendChat(byte header, string chat)
     {
-      throw new NotImplementedException();
+      var pack = chat.ToPack(1);
+      pack[0] = header;
+      Network.Send(pack);
     }
-    public User GetUser(string name)
+    public void SendPublicChat(string chat)
     {
-      throw new NotImplementedException();
+      SendChat(PackHeaders.PUBLIC_CHAT, chat);
+    }
+    public void SendRoomChat(string chat)
+    {
+      SendChat(PackHeaders.ROOM_CHAT, chat);
     }
 
     private void SendKeepAlive()
@@ -114,32 +132,42 @@ namespace PokemonBattleOnline.Network
       Network.SendEmpty();
     }
     #region clientcommand
-    internal void AddUser(int id, string name, ushort avatar)
+    internal void AddUser(User user)
     {
-      UIDispatcher.Invoke((Action<User>)Users.Add, new User(id, name, avatar));
+      Users[user.Id] = user;
+      Listener.UsersUpdate(user);
     }
     internal void RemoveUser(int id)
     {
-      foreach (var u in Users)
-        if (u.Id == id)
-        {
-          UIDispatcher.Invoke((Func<User, bool>)Users.Remove, u);
-          break;
-        }
+      User u;
+      if (Users.TryRemove(id, out u))
+      {
+        u.State = UserState.Quited;
+        Listener.UsersUpdate(u);
+      }
     }
     internal void OnAdminChat(string chat)
     {
-      UIDispatcher.BeginInvoke(AdminChat, chat);
+      Listener.AdminChat(chat);
     }
-    internal void OnPrivateChat(User from, string chat)
+    internal void OnPrivateChat(string chat, User from)
     {
-      UIDispatcher.BeginInvoke(PrivateChat, chat, from);
+      Listener.PrivateChat(chat, from);
+    }
+    internal void OnPublicChat(string chat, User from)
+    {
+      Listener.PublicChat(chat, from);
     }
     #endregion
 
+    private volatile bool isDisposed;
     public void Dispose()
     {
-      Network.Dispose();
+      if (!isDisposed)
+      {
+        isDisposed = true;
+        Network.Dispose();
+      }
     }
   }
 }

@@ -10,6 +10,6 @@ namespace PokemonBattleOnline.Tactic.Network
   {
     event Action<INetworkUser> NewComingUser;
     IPEndPoint ListenerEndPoint { get; }
-    bool CanAddUser { get; set; }
+    bool IsListening { get; set; }
   }
 }

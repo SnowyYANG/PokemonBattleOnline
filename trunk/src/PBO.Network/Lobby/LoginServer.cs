@@ -13,6 +13,7 @@ namespace PokemonBattleOnline.Network.Lobby
     private readonly Server Server;
     private readonly ConcurrentDictionary<int, LoginUser> Users;
     private readonly Dictionary<string, LoginUser> NamedUsers;
+    private volatile bool isDisposed;
 
     public LoginServer(INetworkServer network, Server server)
     {
@@ -26,10 +27,15 @@ namespace PokemonBattleOnline.Network.Lobby
     { get { return Server.Network; } }
     private object UserLocker
     { get { return Server.UserLocker; } }
-
+    
     private void OnNewUser(INetworkUser user)
     {
-      if (!Users.TryAdd(user.Id, new LoginUser(user, this))) user.Dispose();
+      if (isDisposed || !Users.TryAdd(user.Id, new LoginUser(user, this))) user.Dispose();
+    }
+
+    public ClientInitInfo GetClientInitInfo(int id)
+    {
+      return  Server.GetClientInitInfo(id);
     }
 
     public bool RegisterUserName(LoginUser user, string name)
@@ -44,15 +50,17 @@ namespace PokemonBattleOnline.Network.Lobby
     public void BadLogin(LoginUser user)
     {
       LoginUser u;
-      Users.TryRemove(user.Network.Id, out u);
-      if (user.Name != null)
+      if (Users.TryRemove(user.Network.Id, out u))
       {
-        lock (UserLocker)
+        if (user.Name != null)
         {
-          NamedUsers.Remove(user.Name);
+          lock (UserLocker)
+          {
+            NamedUsers.Remove(user.Name);
+          }
         }
+        u.Dispose();
       }
-      u.Dispose();
     }
     public void LoginComplete(LoginUser user)
     {
@@ -63,7 +71,7 @@ namespace PokemonBattleOnline.Network.Lobby
         lock (UserLocker)
         {
           NamedUsers.Remove(user.Name);
-          Server.AddUser(user);
+          Server.AddUser(new ServerUser(user, Server));
         }
       }
       else u.Dispose();
@@ -72,6 +80,7 @@ namespace PokemonBattleOnline.Network.Lobby
     public void Dispose()
     {
       //never dispose Network, only server should dispose Network
+      isDisposed = true;
       foreach (var u in Users.Values) u.Dispose();
     }
   }
