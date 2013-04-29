@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5F1D7698-AD1E-462A-AEED-063BCB80DF89}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PokemonBattleOnline.Game</RootNamespace>
+    <AssemblyName>PBO.Game</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\build\dll\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ETV</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\dll\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ETV|AnyCPU'">
+    <OutputPath>bin\ETV\</OutputPath>
+    <DefineConstants>ETV</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Client\PlayerOutward.cs" />
+    <Compile Include="Client\SimPlayer.cs" />
+    <Compile Include="Client\SimPokemon.cs" />
+    <Compile Include="Client\Position.cs" />
+    <Compile Include="Client\SimOnboardPokemon.cs" />
+    <Compile Include="GameService.cs" />
+    <Compile Include="Host\Controller\Input.cs" />
+    <Compile Include="Host\EModels\ITrigger.cs" />
+    <Compile Include="Host\EModels\Sp\Rules.cs" />
+    <Compile Include="Host\EModels\Sp\Triggers.cs" />
+    <Compile Include="Host\GameContext.cs" />
+    <Compile Include="Host\InitingGame.cs" />
+    <Compile Include="Host\Models\Player.cs" />
+    <Compile Include="Host\Models\Pokemon.cs" />
+    <Compile Include="Host\Models\Team.cs" />
+    <Compile Include="Interactive\GameEvents\GetItem.cs" />
+    <Compile Include="Interactive\GameEvents\HLLD.cs" />
+    <Compile Include="Interactive\GameEvents\MoveHurt.cs" />
+    <Compile Include="Interactive\GameEvents\PPChange.cs" />
+    <Compile Include="Interactive\GameEvents\Sp.cs" />
+    <Compile Include="Host\EModels\Modifier.cs" />
+    <Compile Include="Host\IGameSettings.cs" />
+    <Compile Include="Host\EModels\Sp\Substitute.cs" />
+    <Compile Include="Interactive\GameEvents\Substitute.cs" />
+    <Compile Include="Interactive\GameEvents\UseMove.cs" />
+    <Compile Include="Interactive\GameEvents\WeatherChange.cs" />
+    <Compile Include="Host\Models\Condition.cs" />
+    <Compile Include="Host\EModels\AbilityE.cs" />
+    <Compile Include="Host\EModels\AttackMoveE.cs" />
+    <Compile Include="Host\EModels\BattleContext.cs" />
+    <Compile Include="Host\EModels\ItemE.cs" />
+    <Compile Include="Host\EModels\MoveE.cs" />
+    <Compile Include="Host\EModels\Sp\Abilities.cs" />
+    <Compile Include="Host\EModels\Sp\Items.cs" />
+    <Compile Include="Host\EModels\Sp\Moves.cs" />
+    <Compile Include="Host\EModels\StatusMoveE.cs" />
+    <Compile Include="Host\Controller\ControllerComponent.cs" />
+    <Compile Include="Host\Controller\Turn.cs" />
+    <Compile Include="Host\PokemonAction.cs" />
+    <Compile Include="Host\Controller\Controller.cs" />
+    <Compile Include="Host\MoveProxy.cs" />
+    <Compile Include="Host\Controller\Comparer.cs" />
+    <Compile Include="Host\PokemonProxy.cs" />
+    <Compile Include="Host\Controller\Switch.cs" />
+    <Compile Include="GameMode.cs" />
+    <Compile Include="Host\EModels\EffectsService.cs" />
+    <Compile Include="Host\IGame.cs" />
+    <Compile Include="Interactive\GameEvent.cs" />
+    <Compile Include="Interactive\GameEvents\Ability.cs" />
+    <Compile Include="Interactive\GameEvents\PropertyChange.cs" />
+    <Compile Include="Interactive\GameEvents\Simple.cs" />
+    <Compile Include="Interactive\GameEvents\Switch.cs" />
+    <Compile Include="Interactive\GameLogs.cs" />
+    <Compile Include="Interactive\GameLogText.cs" />
+    <Compile Include="Host\Controller\ReportBuilder.cs" />
+    <Compile Include="Interactive\ReportFragment.cs" />
+    <Compile Include="Client\SimGame.cs" />
+    <Compile Include="Interactive\ActionInput.cs" />
+    <Compile Include="Client\SimMove.cs" />
+    <Compile Include="Host\Models\Board.cs" />
+    <Compile Include="Interactive\InputRequest.cs" />
+    <Compile Include="Client\IPlayerController.cs" />
+    <Compile Include="Host\Models\ConditionalObject.cs" />
+    <Compile Include="Models\CoordY.cs" />
+    <Compile Include="Host\Models\Field.cs" />
+    <Compile Include="Models\Move.cs" />
+    <Compile Include="Host\Models\OnboardPokemon.cs" />
+    <Compile Include="Models\PokemonState.cs" />
+    <Compile Include="Models\Terrain.cs" />
+    <Compile Include="Host\Models\Tile.cs" />
+    <Compile Include="Client\BoardOutward.cs" />
+    <Compile Include="Client\GameOutward.cs" />
+    <Compile Include="Client\TeamOutward.cs" />
+    <Compile Include="Client\PokemonOutward.cs" />
+    <Compile Include="Models\Weather.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Host\Models\Simple6D.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PBO.Data\PBO.Data.csproj">
+      <Project>{2BD81D18-43CB-420A-B293-469E110473CC}</Project>
+      <Name>PBO.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tactic\Tactic.csproj">
+      <Project>{EE2C451E-A61E-4634-B382-5298982E060C}</Project>
+      <Name>Tactic</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
