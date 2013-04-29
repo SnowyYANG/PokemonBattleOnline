@@ -8,13 +8,6 @@ using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Network.Room
 {
-  internal interface IRoomManager
-  {
-    void JoinGame(int userId, Data.IPokemonData[] pokemons, int teamId);
-    void SpectateGame(int userId);
-    void Quit(int userId);
-  }
-
   [KnownType(typeof(Data.PokemonData))]
   [DataContract(Name = "jc", Namespace = PBOMarks.JSON)]
   class JoinGameCommand : HostCommand

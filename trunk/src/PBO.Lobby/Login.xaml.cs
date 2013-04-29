@@ -24,9 +24,9 @@ namespace PokemonBattleOnline.PBO.Lobby
     public Login()
     {
       InitializeComponent();
-      PBOClient.LoginFailed_Name += () => LoginFailed(LS.LOGINFAILED_NAME);
-      PBOClient.LoginFailed_Version += () => LoginFailed(LS.LOGINFAILED_VERSION);
-      PBOClient.LoginFailed_Full += () => LoginFailed(LS.LOGINFAILED_FULL);
+      PBOClient.LoginFailed_Name += () => LoginFailed(R.LOGINFAILED_NAME);
+      PBOClient.LoginFailed_Version += () => LoginFailed(R.LOGINFAILED_VERSION);
+      PBOClient.LoginFailed_Full += () => LoginFailed(R.LOGINFAILED_FULL);
       PBOClient.CurrentChanged += () => IsEnabled = true;
       avatar.Content = 821;
     }

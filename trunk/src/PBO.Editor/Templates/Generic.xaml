@@ -76,7 +76,7 @@
                 <i:EventTrigger EventName="Drop">
                     <ei:ChangePropertyAction TargetName="bg" PropertyName="Fill" Value="{Binding Background}"/>
                 </i:EventTrigger>
-                <i:EventTrigger EventName="MouseDoubleClick">
+                <i:EventTrigger EventName="MouseLeftButtonDown">
                     <i:InvokeCommandAction Command="{Binding SwitchCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
@@ -122,14 +122,14 @@
         </DataTemplate.Triggers>
     </DataTemplate>
     <DataTemplate x:Key="OpenCollection">
-        <Grid Background="White" Height="200" Width="320">
+        <Grid li:FloatingBehavior.FloatingElement="{Binding RelativeSource={RelativeSource AncestorType=ContentPresenter}}" Background="White" Height="200" Width="320">
+            <i:Interaction.Behaviors>
+                <li:FloatingBehavior />
+            </i:Interaction.Behaviors>
             <Grid.ContextMenu>
                 <ContextMenu ItemsSource="{Binding PokemonCommands}" ItemContainerStyle="{x:Static ui:Controls.CommandMenu}"/>
             </Grid.ContextMenu>
-            <Border li:FloatingBehavior.FloatingElement="{Binding RelativeSource={RelativeSource AncestorType=ContentPresenter}}" Background="{Binding BorderBrush}" Height="18" VerticalAlignment="Top">
-                <i:Interaction.Behaviors>
-                    <li:FloatingBehavior />
-                </i:Interaction.Behaviors>
+            <Border IsHitTestVisible="False" Background="{Binding BorderBrush}" Height="18" VerticalAlignment="Top">
                 <Border Margin="0,1" BorderBrush="{x:Static ui:Brushes.GrayF}" BorderThickness="0,1"/>
             </Border>
             <TextBlock DataContext="{Binding Model}" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0" Foreground="{x:Static ui:Brushes.GrayF}">
@@ -140,18 +140,21 @@
                 <Run Text="{Binding Size, Mode=OneWay}"/>
             </TextBlock>
             <Button Command="{Binding SwitchCommand}" ToolTip="{Binding [Close], Source={x:Static pm:DataService.String}, Mode=OneWay}" Style="{x:Static ui:Controls.XButton}" Foreground="{x:Static ui:Brushes.GrayF}" FontSize="15" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-2,5,0"/>
-            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Model}" ItemContainerStyle="{StaticResource PokemonIcon}" BorderBrush="{Binding BorderBrush}" BorderThickness="1,0,1,1" Margin="0,18,0,0" AllowDrop="True" li:DragDropState.ItemOrientation="Horizontal">
+            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Model}" BorderBrush="{Binding BorderBrush}" Background="{x:Null}" BorderThickness="1,0,1,1" Margin="0,18,0,0" AllowDrop="True" li:DragDropState.ItemOrientation="Horizontal">
                 <ListBox.ItemsPanel>
-                    <WrapPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Background="{x:Null}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 <ListBox.Style>
                     <Style TargetType="ListBox">
+                        <Setter Property="ItemContainerStyle" Value="{StaticResource PokemonIcon}"/>
                         <Setter Property="Padding" Value="2"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type ListBox}">
                                     <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="1" SnapsToDevicePixels="true">
-                                        <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
+                                        <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}" Background="{x:Null}">
                                             <ScrollViewer.Template>
                                                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
                                                     <Grid x:Name="Grid" Background="{TemplateBinding Background}">
@@ -163,12 +166,7 @@
                                                             <RowDefinition Height="*"/>
                                                             <RowDefinition Height="Auto"/>
                                                         </Grid.RowDefinitions>
-                                                        <!--<Rectangle x:Name="Corner" Grid.Column="1" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.Row="1"/>-->
-                                                        <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" li:FloatingBehavior.FloatingElement="{Binding RelativeSource={RelativeSource AncestorType=ContentPresenter}}" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.Column="0" Margin="{TemplateBinding Padding}" Grid.Row="0">
-                                                            <i:Interaction.Behaviors>
-                                                                <li:FloatingBehavior />
-                                                            </i:Interaction.Behaviors>
-                                                        </ScrollContentPresenter>
+                                                        <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.Column="0" Margin="{TemplateBinding Padding}" Grid.Row="0"/>
                                                         <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Grid.Row="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}"/>
                                                         <!--<ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}"/>-->
                                                         <ScrollBar Name="PART_HorizontalScrollBar" Visibility="Collapsed"/>
@@ -215,7 +213,7 @@
                         <li:AdornerBehavior.Adorners>
                             <li:AdornerProxy AdornerType="li:DropHighlightAdorner" AdornerStyle="{x:Static local:Resources.PokemonHighlightAdorner}"/>
                             <li:AdornerProxy AdornerType="li:DropInsertionAdorner" AdornerStyle="{x:Static local:Resources.FolderInsertionAdorner}"/>
-                            <li:AdornerProxy AdornerType="li:DragAdorner"  AdornerStyle="{x:Static local:Resources.PokemonDragAdorner}"/>
+                            <li:AdornerProxy AdornerType="li:DragAdorner" AdornerStyle="{x:Static local:Resources.PokemonDragAdorner}"/>
                         </li:AdornerBehavior.Adorners>
                     </li:AdornerBehavior>
                 </i:Interaction.Behaviors>

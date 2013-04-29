@@ -7,16 +7,6 @@ using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Network.Room
 {
-  internal interface IRoomInformer
-  {
-    void InformUserSpectateGame(int userId);
-    void InformUserJoinGame(int userId, int teamId);
-    void InformUserQuit(int userId);
-    void InformUserKicked(int userId);
-    void InformEnterFailed(string message);//Join or Observe Game
-    void InformEnterSucceed(GameInitSettings settings, Player[] players, int[] spectators);
-  }
-
   [DataContract(Namespace = PBOMarks.JSON)]
   class UserSpectateGameInfo : UserInformation
   {
@@ -37,7 +27,6 @@ namespace PokemonBattleOnline.Network.Room
   [DataContract(Name = "ji", Namespace = PBOMarks.JSON)]
   class UserJoinGameInfo : UserInformation
   {
-
     [DataMember(Name = "a", EmitDefaultValue = false)]
     public int UserId
     { get; private set; }
@@ -71,23 +60,6 @@ namespace PokemonBattleOnline.Network.Room
     public override void Execute(IRoomUser user)
     {
       user.InformUserQuit(UserId);
-    }
-  }
-
-  [DataContract(Namespace = PBOMarks.JSON)]
-  class UserKickedInfo : UserInformation
-  {
-    [DataMember(EmitDefaultValue = false)]
-    public int UserId
-    { get; private set; }
-
-    public UserKickedInfo(int userId)
-    {
-      this.UserId = userId;
-    }
-    public override void Execute(IRoomUser user)
-    {
-      user.InformUserKicked(UserId);
     }
   }
 

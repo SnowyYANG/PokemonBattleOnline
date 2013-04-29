@@ -55,20 +55,19 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LobbyStrings.cs" />
     <Compile Include="LobbyView.xaml.cs">
       <DependentUpon>LobbyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LobbyConfig.cs" />
     <Compile Include="LobbyPanel.xaml.cs">
       <DependentUpon>LobbyPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="R.cs" />
     <Compile Include="StartBattle.xaml.cs">
       <DependentUpon>StartBattle.xaml</DependentUpon>
     </Compile>

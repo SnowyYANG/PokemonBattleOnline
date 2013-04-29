@@ -19,36 +19,27 @@ namespace PokemonBattleOnline.Network.Room
     public event PropertyChangedEventHandler PropertyChanged = delegate { };
     public event Action Closed;
     internal readonly GameInitSettings GameSettings;
-    private readonly bool auto;
-    
-    private readonly Dispatcher dispatcher;
+    private readonly bool Auto;
     
     private readonly HashSet<int> users;
     private readonly ObservableCollection<Player> players;
-    private readonly ObservableCollection<int> spectators;
-    private readonly InitingGame initingGame;
     
+    private InitingGame initingGame;
     private IGame game;
     private GoTimer timer;
     
     /// <param name="auto">游戏自动开始，游戏结束时自动关闭房间</param>
     public Host(GameInitSettings settings, bool auto)
     {
-      dispatcher = new Dispatcher("Host", true);
       users = new HashSet<int>();
       
       players = new ObservableCollection<Player>();
       Players = new ReadOnlyObservableCollection<Player>(players);
-      spectators = new ObservableCollection<int>();
-      Spectators = new ReadOnlyObservableCollection<int>(spectators);
       
       initingGame = new InitingGame(settings);
       GameSettings = settings;
-      this.auto = auto;
     }
 
-    public ReadOnlyObservableCollection<int> Spectators
-    { get; private set; }
     public ReadOnlyObservableCollection<Player> Players
     { get; private set; }
     private RoomState _state;
@@ -71,20 +62,16 @@ namespace PokemonBattleOnline.Network.Room
       PropertyChanged(this, e);
     }
 
-    #region Control
     private void EndGame()
     {
-      State = RoomState.GameEnd;
+      State = RoomState.Available;
       if (timer != null) timer.Dispose();
     }
-    public void Kick(int targetId)
-    {
-    }
-    public void StartGame()
+    private void StartGame()
     {
       if (CanStartGame)
       {
-        State = RoomState.GameStarted;
+        State = RoomState.Battling;
         timer = new GoTimer(from p in players select p.Id);
         timer.TimeUp += InformTimeUp;
         timer.WaitingNotify += InformWaitingForInput;
@@ -100,29 +87,21 @@ namespace PokemonBattleOnline.Network.Room
         game.Start();
       }
     }
-    public void CloseRoom()
+    private void CloseRoom()
     {
       EndGame();
       Closed();
     }
-    #endregion
 
-    #region Commands
+    private readonly object locker = new object();
     void IHost.ExecuteCommand(HostCommand command, int senderId)
     {
-      dispatcher.Invoke(() =>
+      lock (locker)
       {
-        try
-        {
-          command.Execute(this, senderId);
-        }
-        catch
-        {
-          System.Diagnostics.Debugger.Break();
-        }
-      });
+        command.Execute(this, senderId);
+      }
     }
-    void IRoomManager.JoinGame(int userId, IPokemonData[] pokemons, int teamId)
+    void IHost.JoinGame(int userId, IPokemonData[] pokemons, int teamId)
     {
       bool canStartGame = CanStartGame;
       if (initingGame.SetPlayer(teamId, userId, pokemons))
@@ -131,49 +110,37 @@ namespace PokemonBattleOnline.Network.Room
         players.Add(new Player(userId, teamId));
         InformEnterSucceed(userId, teamId);
         OnPropertyChanged(null);
-        if (CanStartGame && auto) StartGame();
+        if (CanStartGame && Auto) StartGame();
       }
       else InformEnterFailed("debug.failed", userId);
     }
-    void IRoomManager.SpectateGame(int userId)
+    void IHost.SpectateGame(int userId)
     {
-      spectators.Add(userId);
-      users.Add(userId);
-      InformEnterSucceed(userId, -1);
+      if (users.Contains(userId))
+      {
+        users.Add(userId);
+        System.Diagnostics.Debugger.Break();
+        //InformEnterSucceed(userId, -1); 
+      }
     }
-    void IRoomManager.Quit(int userId)
+    void IHost.Quit(int userId)
     {
       if (users.Remove(userId))
       {
         InformUserQuit(userId);
-        if (!spectators.Remove(userId))
-        {
-          foreach (Player p in players)
-            if (p.Id == userId)
-            {
-              players.Remove(p);
-              break;
-            }
-          if (State == RoomState.GameStarted) InformGameStop(userId, GameStopReason.PlayerGiveUp);
-        }
-        if (auto && users.Count == 0) CloseRoom();
+        foreach (Player p in players)
+          if (p.Id == userId)
+          {
+            players.Remove(p);
+            if (State == RoomState.Battling) InformGameStop(userId, GameStopReason.PlayerGiveUp);
+            break;
+          }
+        if (users.Count == 0) CloseRoom();
       }
     }
-    void IGameManager.RequestTie(int userId)
+    void IHost.Input(int userId, ActionInput action)
     {
-      if (State == RoomState.GameStarted) ;
-    }
-    void IGameManager.RejectTie(int userId)
-    {
-      if (State == RoomState.GameStarted) ;
-    }
-    void IGameManager.AcceptTie(int userId)
-    {
-      if (State == RoomState.GameStarted) ;
-    }
-    void IGameManager.Input(int userId, ActionInput action)
-    {
-      if (State == RoomState.GameStarted)
+      if (State == RoomState.Battling)
         if (game.GetPlayer(userId) != null && game.InputAction(userId, action))
         {
           timer.Pause(userId);
@@ -181,9 +148,7 @@ namespace PokemonBattleOnline.Network.Room
         }
         else InformGameStop(userId, GameStopReason.InvalidInput);
     }
-    #endregion
 
-    #region Inform
     internal event Action<UserInformation, int[]> SendInformation;
     void OnSendInformation(UserInformation info, params int[] userIds)
     {
@@ -191,7 +156,6 @@ namespace PokemonBattleOnline.Network.Room
       else SendInformation(info, userIds);
     }
 
-    #region Messaging.Room Informer
     void InformUserSpectateGame(int userId)
     {
     }
@@ -201,10 +165,6 @@ namespace PokemonBattleOnline.Network.Room
     void InformUserQuit(int userId)
     {
       OnSendInformation(new UserQuitInfo(userId));
-    }
-    void InformUserKicked(int userId)
-    {
-      OnSendInformation(new UserKickedInfo(userId));
     }
     void InformEnterFailed(string message, int userId)
     {
@@ -223,20 +183,10 @@ namespace PokemonBattleOnline.Network.Room
         OnSendInformation(EnterSucceedInfo.Spectator(this, game.GetLastLeapFragment()), userId);
       }
     }
-    #endregion
 
-    #region Game Informer
     void InformPlayerInfo(int playerId, int teamIndex, IPokemonData[] pokemons)
     {
       OnSendInformation(new PlayerInfo(teamIndex, pokemons), playerId);
-    }
-    /// <summary>
-    /// 议和，不经过Game
-    /// </summary>
-    void InformGameTie()
-    {
-      EndGame();
-      OnSendInformation(GameEndInfo.GameTie());
     }
     void InformGameStop(int userId, GameStopReason reason)
     {
@@ -253,9 +203,6 @@ namespace PokemonBattleOnline.Network.Room
       OnSendInformation(new WaitingForInputInfo(players));
     }
 
-    void InformReport()
-    {
-    }
     private int lastTurn;
     void InformReportUpdate(ReportFragment fragment, IDictionary<int, InputRequest> requirements)
     {
@@ -270,21 +217,11 @@ namespace PokemonBattleOnline.Network.Room
       OnSendInformation(new ReportUpdateInfo(fragment));
     }
 
-    void InformRequestTie()
-    {
-    }
-    void InformTieRejected()
-    {
-    }
-    #endregion
-    #endregion
-
     public void Dispose()
     {
       PropertyChanged = delegate { };
       SendInformation = delegate { };
       timer.Dispose();
-      dispatcher.Dispose();
     }
   }
 }

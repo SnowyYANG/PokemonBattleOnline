@@ -99,7 +99,7 @@ namespace PokemonBattleOnline.PBO.Battle
     private void giveup_Click(object sender, RoutedEventArgs e)
     {
       var result = UIElements.ShowMessageBox.GiveUpBattle(Window.GetWindow(this));
-      if (result == MessageBoxResult.Yes) vm.Giveup_Click();
+      if (result == MessageBoxResult.Yes) vm.GiveUp_Click();
     }
     private void draw_Click(object sender, RoutedEventArgs e)
     {

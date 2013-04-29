@@ -14,9 +14,10 @@ namespace PokemonBattleOnline.Game
     SimGame Game { get; }
 
     void Input(ActionInput input);
-    void Quit();
-    bool RequestTie();
-    bool AcceptTie();
-    bool RejectTie();
+    void GiveUp();
+    /// <summary>
+    /// 拔网线，增加一次断线率
+    /// </summary>
+    void PullCable();
   }
 }

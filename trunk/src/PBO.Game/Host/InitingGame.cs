@@ -49,16 +49,15 @@ namespace PokemonBattleOnline.Game.Host
     }
     private bool CheckPokemon(IPokemonData pokemon)
     {
-      return PokemonValidator.Validate(pokemon); //TODO: more
+      return PokemonValidator.Validate(pokemon); //TODO: rules
     }
     private bool CheckPokemons(IPokemonData[] pokemons)
     {
-      return pokemons != null && pokemons.Any() && pokemons.Length <= 6 && pokemons.All(CheckPokemon); //TODO: more
+      return pokemons != null && pokemons.Any() && pokemons.Length <= 6 && pokemons.All(CheckPokemon); //TODO: rules
     }
     public bool SetPlayer(int teamId, int userId, IPokemonData[] pokemons)
     {
       if (CheckPokemons(pokemons) && 0 <= teamId && teamId < Settings.Mode.TeamCount())
-      {
         for(int i = 0; i < Settings.Mode.PlayersPerTeam(); ++i)
           if (playerIds[teamId, i] == 0)
           {
@@ -66,7 +65,6 @@ namespace PokemonBattleOnline.Game.Host
             this.pokemons[teamId, i] = pokemons;
             return true;
           }
-      }
       return false;
     }
     public IPokemonData[] GetPokemons(int teamId, int teamIndex)

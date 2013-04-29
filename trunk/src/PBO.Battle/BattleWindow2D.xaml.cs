@@ -49,7 +49,7 @@ namespace PokemonBattleOnline.PBO.Battle
     protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
     {
       base.OnClosing(e);
-      if (Room != null && Room.RoomState != RoomState.GameEnd)
+      if (Room != null && Room.RoomState == RoomState.Battling)
       {
         var result = UIElements.ShowMessageBox.ClosingInBattle(this);
         e.Cancel = result != MessageBoxResult.Yes;

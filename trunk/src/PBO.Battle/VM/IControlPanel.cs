@@ -38,7 +38,8 @@ namespace PokemonBattleOnline.PBO.Battle.VM
     void Pokemon_Click(SimPokemon pokemon);
     void Fight_Click();
     void Move_Click(SimMove move);
-    void Giveup_Click();
+    void GiveUp_Click();
+    void PullCable_Click();
     void Undo_Click();
   }
 }

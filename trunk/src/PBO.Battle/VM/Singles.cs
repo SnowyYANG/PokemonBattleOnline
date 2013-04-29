@@ -91,9 +91,13 @@ namespace PokemonBattleOnline.PBO.Battle.VM
       if (move.PP.Value == 0) return;
       if (!request.Move(move)) InputFailed(request.GetErrorMessage());
     }
-    public void Giveup_Click()
+    public void GiveUp_Click()
     {
-      controller.Quit();
+      controller.GiveUp();
+    }
+    public void PullCable_Click()
+    {
+      controller.PullCable();
     }
 
     public TargetPanel TargetPanel

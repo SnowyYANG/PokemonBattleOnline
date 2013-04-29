@@ -9,41 +9,6 @@ using PokemonBattleOnline.Game.Host;
 
 namespace PokemonBattleOnline.Network.Room
 {
-  internal interface IGameManager
-  {
-    void RequestTie(int userId);
-    void RejectTie(int userId);
-    void AcceptTie(int userId);
-    void Input(int userId, ActionInput action);
-  }
-
-  [DataContract(Namespace = PBOMarks.JSON)]
-  class RequestTieCommand : HostCommand
-  {
-    public override void Execute(IHost host, int userId)
-    {
-      host.RequestTie(userId);
-    }
-  }
-
-  [DataContract(Namespace = PBOMarks.JSON)]
-  class RejectTieCommand : HostCommand
-  {
-    public override void Execute(IHost host, int userId)
-    {
-      host.RejectTie(userId);
-    }
-  }
-
-  [DataContract(Namespace = PBOMarks.JSON)]
-  class AcceptTieCommand : HostCommand
-  {
-    public override void Execute(IHost host, int userId)
-    {
-      host.AcceptTie(userId);
-    }
-  }
-
   [DataContract(Namespace = PBOMarks.JSON)]
   class InputCommand : HostCommand
   {

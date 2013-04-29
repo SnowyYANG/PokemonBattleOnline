@@ -12,24 +12,7 @@ namespace PokemonBattleOnline.Network.Room
   {
     PlayerGiveUp,
     PlayerDisconnect,
-    InvalidInput,
-    RoomClosed,
-    RoomDisconnect,
-    ServerClosed
-  }
-  internal interface IGameInformer
-  {
-    void InformGameTie();
-    void InformGameStop(GameStopReason reason, int player);
-    void InformTimeUp(IEnumerable<KeyValuePair<int, int>> remainingTime);
-    void InformWaitingForInput(int[] players);
-
-    void InformPlayerInfo(int teamIndex, Data.IPokemonData[] parnerPokemons);
-    void InformReportUpdate(ReportFragment fragment);
-    void InformRequireInput(InputRequest pms, int time);
-    
-    void InformRequestTie();
-    void InformTieRejected();
+    InvalidInput
   }
 
   [DataContract(Namespace = PBOMarks.JSON)]
@@ -56,10 +39,10 @@ namespace PokemonBattleOnline.Network.Room
   [DataContract(Namespace = PBOMarks.JSON)]
   class GameEndInfo : UserInformation
   {
-    public static GameEndInfo GameTie()
-    {
-      return new GameEndInfo();
-    }
+    //public static GameEndInfo GameTie()
+    //{
+    //  return new GameEndInfo();
+    //}
     public static GameEndInfo GameStop(int player, GameStopReason reason)
     {
       return new GameEndInfo() { Player = player, Reason = reason };
@@ -83,7 +66,7 @@ namespace PokemonBattleOnline.Network.Room
     {
       if (Player != 0) user.InformGameStop(Reason, Player);
       else if (Time != null) user.InformTimeUp(Time);
-      else user.InformGameTie();
+      //else user.InformGameTie();
     }
   }
 
@@ -137,24 +120,6 @@ namespace PokemonBattleOnline.Network.Room
     public override void Execute(IRoomUser user)
     {
       user.InformRequireInput(PmInfo, SpentTime);
-    }
-  }
-  
-  [DataContract(Namespace = PBOMarks.JSON)]
-  class RequestTieInfo : UserInformation
-  {
-    public override void Execute(IRoomUser user)
-    {
-      user.InformRequestTie();
-    }
-  }
-
-  [DataContract(Namespace = PBOMarks.JSON)]
-  class RejectTieInfo : UserInformation
-  {
-    public override void Execute(IRoomUser user)
-    {
-      user.InformTieRejected();
     }
   }
 }

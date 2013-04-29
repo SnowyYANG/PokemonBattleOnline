@@ -44,7 +44,7 @@ namespace PokemonBattleOnline.Network.Room
 
     private void EndGame()
     {
-      RoomState = Room.RoomState.GameEnd;
+      RoomState = Room.RoomState.Available;
       GameEnd();
     }
 

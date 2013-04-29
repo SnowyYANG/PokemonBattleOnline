@@ -7,10 +7,8 @@ namespace PokemonBattleOnline.Network.Room
 {
   public enum RoomState
   {
-    Invalid,
-    RoomOpen,
-    GameStarted,
-    GameEnd,
-    RoomClosed
+    Available,
+    Battling,
+    Disposed
   }
 }
