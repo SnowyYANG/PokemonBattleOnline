@@ -1,0 +1,396 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.5/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.5/ http://www.mediawiki.org/xml/export-0.5.xsd" version="0.5" xml:lang="zh-cn">
+  <siteinfo>
+    <sitename>口袋百科</sitename>
+    <base>http://www.pokemon.name/wiki/%E9%A6%96%E9%A1%B5</base>
+    <generator>MediaWiki 1.18.1</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">媒体文件</namespace>
+      <namespace key="-1" case="first-letter">特殊</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">讨论</namespace>
+      <namespace key="2" case="first-letter">用户</namespace>
+      <namespace key="3" case="first-letter">用户讨论</namespace>
+      <namespace key="4" case="first-letter">口袋百科</namespace>
+      <namespace key="5" case="first-letter">口袋百科讨论</namespace>
+      <namespace key="6" case="first-letter">文件</namespace>
+      <namespace key="7" case="first-letter">文件讨论</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki讨论</namespace>
+      <namespace key="10" case="first-letter">模板</namespace>
+      <namespace key="11" case="first-letter">模板讨论</namespace>
+      <namespace key="12" case="first-letter">帮助</namespace>
+      <namespace key="13" case="first-letter">帮助讨论</namespace>
+      <namespace key="14" case="first-letter">分类</namespace>
+      <namespace key="15" case="first-letter">分类讨论</namespace>
+      <namespace key="100" case="first-letter">卡片游戏</namespace>
+      <namespace key="101" case="first-letter">卡片游戏讨论</namespace>
+      <namespace key="102" case="first-letter">卡片</namespace>
+      <namespace key="103" case="first-letter">卡片讨论</namespace>
+      <namespace key="104" case="first-letter">对战</namespace>
+      <namespace key="105" case="first-letter">对战讨论</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>伤害计算公式（第五世代）</title>
+    <id>35195</id>
+    <revision>
+      <id>101821</id>
+      <timestamp>2013-03-23T06:17:04Z</timestamp>
+      <contributor>
+        <username>313729797</username>
+        <id>6482</id>
+      </contributor>
+      <minor/>
+      <comment>/* 实际伤害计算 */</comment>
+      <text xml:space="preserve" bytes="12156">==伤害计算流程==
+===技能威力计算===
+:# 读取技能威力。
+:# 如果&lt;code&gt;技能威力＝1&lt;/code&gt;，进一步计算技能基础威力。
+:# 如果攻击方拥有[[技师]]特性，且&lt;code&gt;技能基础威力修正≤60&lt;/code&gt;，&lt;code&gt;威力修正×1.5&lt;/code&gt;。
+:# 如果攻击方处于[[热暴走]]状态与[[烧伤]]状态，且使用特殊技能，&lt;code&gt;威力修正×1.5&lt;/code&gt;。
+:# 如果攻击方处于[[毒暴走]]状态与[[中毒]]状态，且使用物理技能，&lt;code&gt;威力修正×1.5&lt;/code&gt;。
+:# 如果攻击方拥有[[分析]]特性，技能不是[[预知未来]]或[[破灭之愿]]，且防御方在当回合内已经行动过，&lt;code&gt;威力修正×1.3&lt;/code&gt;。
+:# 如果攻击方拥有[[舍身]]特性，且技能是[[突进]]、[[地狱车]]、[[舍身撞]]、[[勇鸟]]、[[火焰驱进]]、[[木锤]]、[[高压电击]]、[[双刃头槌]]、[[飞踢]]或[[飞膝踢]]时，&lt;code&gt;威力修正×1.2&lt;/code&gt;。
+:# 如果攻击方拥有[[铁拳]]特性，且技能是[[连续拳]]、[[百万拳击]]、[[火焰拳]]、[[冷冻拳]]、[[雷电拳]]、[[飘飘拳]]、[[音速拳]]、[[爆裂拳]]、[[气合拳]]、[[彗星拳]]、[[暗影拳]]、[[升空拳]]、[[臂锤]]、[[吸取拳]]或[[子弹拳]]时，&lt;code&gt;威力修正×1.2&lt;/code&gt;。
+:# 如果攻击方拥有[[斗争心]]特性，当攻击方与防御方性别相同时，&lt;code&gt;威力修正×1.25&lt;/code&gt;；当攻击方与防御方性别相反时，&lt;code&gt;威力修正×0.75&lt;/code&gt;。如果攻击方或防御方没有性别，跳过此步骤。
+:# 如果攻击方拥有[[沙之力量]]特性，且技能是[[岩]]、[[钢]]或[[地]]属性，&lt;code&gt;威力修正×1.3&lt;/code&gt;。
+:# 如果防御方拥有[[耐热]]特性，且技能是[[火]]属性，&lt;code&gt;威力修正×0.5&lt;/code&gt;。
+:# 如果防御方拥有[[干燥肌肤]]特性，且技能是[[火]]属性，&lt;code&gt;威力修正×1.25&lt;/code&gt;。
+:# 如果攻击方拥有[[全力攻击]]特性，且技能带有正面追加效果，&lt;code&gt;威力修正×1.3&lt;/code&gt;。
+:# 如果攻击方携带[[属性强化道具]]，且技能是对应属性，&lt;code&gt;威力修正×1.2&lt;/code&gt;。
+:# 如果攻击方携带{{I|力量头巾}}，且使用物理技能，&lt;code&gt;威力修正×1.1&lt;/code&gt;。
+:# 如果攻击方携带{{I|知识眼镜}}，且使用特殊技能，&lt;code&gt;威力修正×1.1&lt;/code&gt;。
+:# 如果攻击方携带{{I|怪异之香}}，且技能是[[超能]]属性，&lt;code&gt;威力修正×1.2&lt;/code&gt;。
+:# 如果攻击方是携带{{I|金刚玉}}的[[帝牙卢卡]]，且技能是[[钢]]或[[龙]]属性，&lt;code&gt;威力修正×1.2&lt;/code&gt;。
+:# 如果攻击方是携带{{I|白玉}}的[[帕路奇犽]]，且技能是[[水]]或[[龙]]属性，&lt;code&gt;威力修正×1.2&lt;/code&gt;。
+:# 如果攻击方是携带{{I|白金玉}}的[[骑拉帝纳]]，且技能是[[鬼]]或[[龙]]属性，&lt;code&gt;威力修正×1.2&lt;/code&gt;。
+:# 如果此次攻击发动了对应[[属性宝石]]，&lt;code&gt;威力修正×1.5&lt;/code&gt;。
+:# 如果技能是[[潮水]]，且防御方HP≤50%，&lt;code&gt;威力修正×2&lt;/code&gt;。
+:# 如果技能是[[毒液冲击]]，且防御方处于[[中毒]]状态，&lt;code&gt;威力修正×2&lt;/code&gt;。
+:# 如果技能是[[报仇]]，且攻击方的队伍上回合有精灵濒死，&lt;code&gt;威力修正×2&lt;/code&gt;。
+:# 如果技能是[[交织火焰]]，且回合内上一个成功使用的技能是[[交织闪电]]，&lt;code&gt;威力修正×2&lt;/code&gt;，反之亦然。
+:# 如果技能是通过[[先取]]发出，&lt;code&gt;威力修正×1.5&lt;/code&gt;。
+:# 如果天气是雨天、沙暴或冰雹，且技能是[[太阳光线]]，&lt;code&gt;威力修正×0.5&lt;/code&gt;。如果场上存在[[无天气]]或[[天气锁]]特性的精灵，跳过此步骤。
+:# 如果攻击方处于[[充电]]状态，且技能是[[电]]属性，&lt;code&gt;威力修正×2&lt;/code&gt;。
+:# 如果攻击方处于[[帮手]]状态，&lt;code&gt;威力修正×1.5&lt;/code&gt;。
+:# 如果场上存在[[玩水]]状态，且攻击方是[[火]]属性，&lt;code&gt;威力修正×0.5&lt;/code&gt;。
+:# 如果场上存在[[玩泥]]状态，且攻击方是[[电]]属性，&lt;code&gt;威力修正×0.5&lt;/code&gt;。
+:# &lt;code&gt;威力＝⌊威力×威力修正⌉&lt;/code&gt;。
+
+===攻击力计算===
+:# 如果是物理技能，取攻击方[[攻击]]作为攻击力；如果是特殊技能，取攻击方[[特攻]]作为攻击力。
+:# 如果技能是[[诈骗]]，取防御方[[攻击]]作为攻击力。
+:# &lt;code&gt;攻击力＝⌊攻击力×能力等级修正⌋&lt;/code&gt;。如果防御方拥有[[天然]]特性，跳过此步骤。
+:# 如果防御方拥有[[厚脂肪]]特性，且技能是[[火]]或[[冰]]属性，&lt;code&gt;攻击力修正×0.5&lt;/code&gt;。
+:# 如果攻击方拥有[[深绿]]特性，技能是[[草]]属性，且攻击方最大HP低于1/3，&lt;code&gt;攻击力修正×1.5&lt;/code&gt;。
+:# 如果攻击方拥有[[猛火]]特性，技能是[[火]]属性，且攻击方最大HP低于1/3，&lt;code&gt;攻击力修正×1.5&lt;/code&gt;。
+:# 如果攻击方拥有[[激流]]特性，技能是[[水]]属性，且攻击方最大HP低于1/3，&lt;code&gt;攻击力修正×1.5&lt;/code&gt;。
+:# 如果攻击方拥有[[虫之警报]]特性，技能是[[虫]]属性，且攻击方最大HP低于1/3，&lt;code&gt;攻击力修正×1.5&lt;/code&gt;。
+:# 如果攻击方拥有[[根性]]特性，且处于[[异常状态]]，&lt;code&gt;攻击力修正×1.5&lt;/code&gt;。
+:# 在[[双打对战]]或[[三打对战]]中，如果攻击方拥有[[正极]]或[[负极]]特性且攻击方的队友拥有[[正极]]或[[负极]]特性，且使用特殊技能，&lt;code&gt;攻击力修正×1.5&lt;/code&gt;。
+:# 如果攻击方拥有[[懦弱]]特性，且攻击方HP≤50%，&lt;code&gt;攻击力修正×0.5&lt;/code&gt;。
+:# 如果攻击方拥有[[瑜伽之力]]或[[大力士]]特性，且使用物理技能，&lt;code&gt;攻击力修正×2&lt;/code&gt;。
+:# 如果攻击方拥有[[太阳力量]]特性，天气是晴天，且使用特殊技能，&lt;code&gt;攻击力修正×1.5&lt;/code&gt;。
+:# 如果攻击方拥有[[紧张]]特性，且使用物理技能，&lt;code&gt;攻击力＝⌊攻击力×1.5⌋&lt;/code&gt;。
+:# 如果攻击方处于[[引火]]状态，且技能是[[火]]属性，&lt;code&gt;攻击力修正×1.5&lt;/code&gt;。
+:# 如果攻击方处于[[缓慢启动]]状态，且使用物理技能，&lt;code&gt;攻击力修正×0.5&lt;/code&gt;。
+:# 如果天气是晴天且技能是物理技能，攻击方场上每有一头精灵是[[花之礼物]]特性，&lt;code&gt;攻击力修正×1.5&lt;/code&gt;。
+:# 如果攻击方是携带{{I|粗骨头}}的[[可拉可拉]]或[[嘎拉嘎拉]]，且使用物理技能，&lt;code&gt;攻击力修正×2&lt;/code&gt;。
+:# 如果攻击方是携带{{I|深海之牙}}的[[珍珠贝]]，&lt;code&gt;攻击力修正×2&lt;/code&gt;。
+:# 如果攻击方是携带{{I|电珠}}的[[皮卡丘]]，&lt;code&gt;攻击力修正×2&lt;/code&gt;。
+:# 如果攻击方是携带{{I|心之水珠}}的[[拉帝欧斯]]或[[拉帝亚斯]]，且使用特殊技能，&lt;code&gt;攻击力修正×1.5&lt;/code&gt;。
+:# 如果攻击方携带{{I|专爱头巾}}，且使用物理技能，&lt;code&gt;攻击力修正×1.5&lt;/code&gt;。
+:# 如果攻击方携带{{I|专爱眼镜}}，且使用特殊技能，&lt;code&gt;攻击力修正×1.5&lt;/code&gt;。
+:# &lt;code&gt;攻击力＝⌊攻击力×攻击力修正⌉&lt;/code&gt;。
+
+===防御力计算===
+:# 如果是物理技能，取防御方[[防御]]作为防御力；如果是特殊技能，取防御方[[特防]]作为防御力。
+:# &lt;code&gt;防御力＝⌊防御力×能力等级修正⌋&lt;/code&gt;。如果防御方拥有[[天然]]特性，跳过此步骤。
+:# 如果天气是沙暴，防御方拥有[[岩石]]属性，技能是特殊技能，&lt;code&gt;防御力＝⌊防御力×1.5⌋&lt;/code&gt;。
+:# 如果防御方或其队友拥有[[花之礼物]]特性，天气是晴天，且技能是特殊技能，&lt;code&gt;防御力修正×1.5&lt;/code&gt;。
+:# 如果防御方拥有[[神秘鳞片]]特性，且处于[[异常状态]]，&lt;code&gt;防御力修正×1.5&lt;/code&gt;。
+:# 如果防御方或其队友拥有[[花之礼物]]特性，天气是晴天，且技能是特殊技能，&lt;code&gt;防御力修正×1.5&lt;/code&gt;。
+:# 如果防御方是携带{{I|深海之鳞}}的[[珍珠贝]]，且技能是特殊技能，&lt;code&gt;防御力修正×2&lt;/code&gt;。
+:# 如果防御方是携带{{I|金属粉末}}的[[百变怪]]，且技能是物理技能，&lt;code&gt;防御力修正×2&lt;/code&gt;。
+:# 如果防御方是携带{{I|心之水珠}}的[[拉帝欧斯]]或[[拉帝亚斯]]，且技能是特殊技能，&lt;code&gt;防御力修正×1.5&lt;/code&gt;。
+:# 如果防御方携带{{I|进化辉石}}，且防御方拥有进化型，&lt;code&gt;防御力修正×2&lt;/code&gt;。
+:# &lt;code&gt;防御力＝⌊防御力×防御力修正⌉&lt;/code&gt;。
+
+===基础伤害计算===
+:# &lt;code&gt;基础伤害＝⌊⌊⌊攻击方等级×2÷5＋2⌋×技能威力×攻击力÷防御力⌋÷50⌋＋2&lt;/code&gt;。
+
+====目标修正====
+:# 在[[双打对战]]或[[三打对战]]中，如果技能范围内有多只精灵，&lt;code&gt;目标修正×0.75&lt;/code&gt;。
+:# &lt;code&gt;伤害=⌊伤害×目标修正⌉&lt;/code&gt;。
+
+====天气修正====
+:# 如果天气是晴天，且技能是[[火]]属性，&lt;code&gt;天气修正=1.5&lt;/code&gt;；如果技能是[[水]]属性，&lt;code&gt;天气修正=0.5&lt;/code&gt;。如果场上存在[[无天气]]或[[天气锁]]特性的精灵，跳过此步骤。
+:# 如果天气是雨天，且技能是[[水]]属性，&lt;code&gt;天气修正=1.5&lt;/code&gt;；如果技能是[[火]]属性，&lt;code&gt;天气修正=0.5&lt;/code&gt;。如果场上存在[[无天气]]或[[天气锁]]特性的精灵，跳过此步骤。
+:# &lt;code&gt;伤害=⌊伤害×天气修正⌉&lt;/code&gt;。
+
+====会心一击修正====
+:# 如果发生会心一击，&lt;code&gt;伤害＝伤害×2&lt;/code&gt;。
+
+====随机修正====
+:# 从85～100中产生随机数R，&lt;code&gt;伤害＝⌊伤害×R÷100⌋&lt;/code&gt;。
+
+====属性修正====
+:# 如果技能属性与攻击方属性之一相同，攻击方是[[适应力]]特性时&lt;code&gt;伤害＝伤害×2&lt;/code&gt;，否则&lt;code&gt;伤害＝⌊伤害×1.5⌋&lt;/code&gt;。
+:# 根据[[属性相克表]]取得属性相克倍率，&lt;code&gt;伤害＝⌊伤害×属性相克倍率⌋&lt;/code&gt;。
+
+====烧伤修正====
+:# 如果攻击方处于[[烧伤状态]]，使用物理技能，且不拥有[[根性]]特性，&lt;code&gt;伤害＝⌊伤害×0.5⌋&lt;/code&gt;。
+
+===实际伤害计算===
+:# 如果防御方场上存在[[反射盾]]，技能是物理技能，且未出现会心一击，如果防御方场上只有一只精灵，&lt;code&gt;伤害修正÷2&lt;/code&gt;；如果防御方场上有多只精灵，&lt;code&gt;伤害修正×2/3&lt;/code&gt;。
+:# 如果防御方场上存在[[光之壁]]，技能是特殊技能，且未出现会心一击，如果防御方场上只有一只精灵，&lt;code&gt;伤害修正÷2&lt;/code&gt;；如果防御方场上有多只精灵，&lt;code&gt;伤害修正×2/3&lt;/code&gt;。
+:# 如果防御方拥有[[多重鳞片]]特性，且防御方HP全满，&lt;code&gt;伤害修正×0.5&lt;/code&gt;。
+:# 如果攻击方拥有[[有色眼镜]]特性，防御方抵抗技能属性，&lt;code&gt;伤害修正×2&lt;/code&gt;。
+:# 如果防御方的队友拥有[[队友守护]]特性，&lt;code&gt;伤害修正×0.75&lt;/code&gt;。
+:# 如果攻击方拥有[[狙击手]]特性，且发生会心一击，&lt;code&gt;伤害修正×1.5&lt;/code&gt;。
+:# 如果防御方拥有[[坚硬岩石]]或[[过滤器]]特性，且技能克制防御方，&lt;code&gt;伤害修正×0.75&lt;/code&gt;。
+:# 如果攻击方携带{{I|节拍器}}，&lt;code&gt;伤害修正×Min（1＋0.2×（技能连续使用次数－1）,2）&lt;/code&gt;。
+:# 如果攻击方携带{{I|达人腰带}}，且技能克制防御方，&lt;code&gt;伤害修正×1.2&lt;/code&gt;。
+:# 如果攻击方携带{{I|生命之玉}}，&lt;code&gt;伤害修正×1.3&lt;/code&gt;。
+:# 如果攻击方携带属性抗性树果，技能是对应属性，且技能克制防御方，&lt;code&gt;伤害修正×0.5&lt;/code&gt;。
+:# 如果防御方携带{{I|酸浆果}}，且技能是[[普通]]属性，&lt;code&gt;伤害修正×0.5&lt;/code&gt;。
+:# 如果技能是{{M|践踏}}或{{M|坚硬滚动}}，且防御方处于[[变小]]状态，&lt;code&gt;伤害修正×2&lt;/code&gt;。
+:# 如果技能是{{M|地震}}，且防御方处于[[挖洞]]状态，&lt;code&gt;伤害修正×2&lt;/code&gt;。
+:# 如果技能是{{M|冲浪}}，且防御方处于[[潜水]]状态，&lt;code&gt;伤害修正×2&lt;/code&gt;。
+:# 如果技能是{{M|起风}}、{{M|龙卷风}}，且防御方处于[[飞空]]、[[飞跃]]、[[自由下落]]状态，&lt;code&gt;伤害修正×2&lt;/code&gt;。
+:# &lt;code&gt;实际伤害=⌊基础伤害×伤害修正⌉&lt;/code&gt;。
+
+==相关链接==
+{{Game Mechanics}}</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:Game Mechanics</title>
+    <id>15372</id>
+    <revision>
+      <id>100066</id>
+      <timestamp>2013-02-04T11:27:46Z</timestamp>
+      <contributor>
+        <username>使用說明書</username>
+        <id>5390</id>
+      </contributor>
+      <minor/>
+      <text xml:space="preserve" bytes="2037">{{Navbox
+|title  = 游戏机理
+|subgroup1={{Navbox subgroup
+|title  = 精灵
+|group1 = 固有数值
+|list1  = [[属性]] - [[种族值]] - [[特性]] - [[隐藏特性]] - [[形态]] - [[性能]] - [[身高]] - [[体重]] - [[捕获度]] - [[生蛋分组]]
+|group2 = 先天数值
+|list2  = [[蛋]] - [[性格值]] - [[个体值]] - [[性格]] - [[性别]] - [[闪光精灵|闪光]] - [[尺寸]] - [[个性]] - [[口味]]
+|group3 = 后天数值
+|list3  = [[等级]] - [[能力值]] - [[经验值]] - [[口袋病毒]] - [[努力值]] - [[亲密度]] - [[闪光的叶子]]
+}}
+|subgroup2={{Navbox subgroup
+|title  = 对战
+|group1 = 对战模式
+|list1  = [[单打对战]] - [[双打对战]] - [[合作对战]] - [[三打对战]] - [[转盘对战]] - [[奇迹发射器]]
+|group2 = [[技能]]
+|list2  = [[威力]] - [[命中率]] - [[PP]] - [[技能分类|分类]] - [[技能优先度|优先度]] - [[技能目标|目标]] - [[会心一击]] - [[属性加成]] - [[属性相克]] - [[一击必杀]] - [[固定伤害技]]
+|group3 = [[伤害]]
+|list3  = [[伤害计算公式（第一世代）]] - [[伤害计算公式（第二世代）]] - [[伤害计算公式（第三世代）]] - [[伤害计算公式（第四世代）]] - [[伤害计算公式（第五世代）]]
+|group4 = 效果
+|list4  = [[接触攻击]] - [[连续攻击]] - [[束缚技]] - [[多回合攻击]] - [[蓄力技]] - [[硬直技]] - [[吸取技]] - [[先制攻击]] - [[伤害反弹]] - [[组合技]]
+|group5 = [[状态]]
+|list5  = [[濒死]] - [[异常状态]] - [[害怕]] - [[混乱]] - [[着迷状态|着迷]] - [[能力等级]]
+|group6 = [[天气]]
+|list6  = [[阳光强烈（天气）|阳光强烈]] - [[雨（天气）|雨]] - [[冰雹（天气）|冰雹]] - [[沙尘暴（天气）|沙尘暴]] - [[雾（天气）|雾]] - [[雪（天气）|雪]] - [[阴天（天气）|阴天]] - [[黑暗天气（天气）|黑暗天气]] - [[钻石冰尘（天气）|钻石冰尘]]
+}}
+}}&lt;includeonly&gt;[[分类:游戏机理]]&lt;/includeonly&gt;&lt;noinclude&gt;[[分类:导航模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:I</title>
+    <id>4607</id>
+    <revision>
+      <id>13044</id>
+      <timestamp>2010-09-22T14:28:07Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>已保护“[[模板:I]]” ([edit=sysop] (无期) [move=sysop] (无期))</comment>
+      <text xml:space="preserve" bytes="79">[[{{{1}}}（道具）|{{{1}}}]]&lt;noinclude&gt;[[Category:快捷模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:M</title>
+    <id>6899</id>
+    <revision>
+      <id>23854</id>
+      <timestamp>2010-11-12T12:27:01Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <text xml:space="preserve" bytes="104">[[{{{1}}}（技能）|{{{1}}}]]&lt;noinclude&gt;[[Category:快捷模板]][[Category:链接模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:Navbox</title>
+    <id>35151</id>
+    <revision>
+      <id>99693</id>
+      <timestamp>2013-01-29T23:56:05Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve" bytes="3011">&lt;table class=&quot;navbox {{{class|}}}&quot; cellspacing=&quot;0&quot; style=&quot;border-spacing:0;&quot;&gt;
+&lt;tr&gt;&lt;td style=&quot;padding:2px;border:0&quot;&gt;
+&lt;table class=&quot;navbox-body&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;margin:0;border-spacing:0;&quot;&gt;
+&lt;tr&gt;&lt;th class=&quot;navbox-title&quot; colspan=&quot;3&quot;&gt;{{#if:{{{template|}}}|&lt;div class=&quot;navbox-template&quot;&gt;[[模板:{{{template|Navbox}}}|✍]]&lt;/div&gt;}}{{{title}}}&lt;/th&gt;&lt;/tr&gt;
+&lt;tr style=&quot;height:2px&quot;&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;{{#if:{{{group1|}}}
+|&lt;th class=&quot;navbox-group&quot;&gt;{{{group1}}}&lt;/th&gt;&lt;td style=&quot;width:2px;&quot;&gt;&lt;/td&gt;&lt;td
+|&lt;td colspan=&quot;3&quot;
+}} {{{subgroup1|class=&quot;navbox-list {{{list1class|{{{listclass|}}}}}}&quot;&gt;
+{{{list1}}} }}}&lt;/td&gt;&lt;/tr&gt;
+{{#if:{{{subgroup2|{{{list2|}}}}}}|
+&lt;tr style=&quot;height:2px&quot;&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;{{#if:{{{group2|}}}
+|&lt;th class=&quot;navbox-group&quot;&gt;{{{group2}}}&lt;/th&gt;&lt;td style=&quot;width:2px;&quot;&gt;&lt;/td&gt;&lt;td
+|&lt;td colspan=&quot;3&quot;
+}} {{{subgroup2|class=&quot;navbox-list {{{list2class|{{{listclass|}}}}}}&quot;&gt;
+{{{list2}}} }}}&lt;/td&gt;&lt;/tr&gt;
+{{#if:{{{subgroup3|{{{list3|}}}}}}|
+&lt;tr style=&quot;height:2px&quot;&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;{{#if:{{{group3|}}}
+|&lt;th class=&quot;navbox-group&quot;&gt;{{{group3}}}&lt;/th&gt;&lt;td style=&quot;width:2px;&quot;&gt;&lt;/td&gt;&lt;td
+|&lt;td colspan=&quot;3&quot;
+}} {{{subgroup3|class=&quot;navbox-list {{{list3class|{{{listclass|}}}}}}&quot;&gt;
+{{{list3}}} }}}&lt;/td&gt;&lt;/tr&gt;
+{{#if:{{{subgroup4|{{{list4|}}}}}}|
+&lt;tr style=&quot;height:2px&quot;&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;{{#if:{{{group4|}}}
+|&lt;th class=&quot;navbox-group&quot;&gt;{{{group4}}}&lt;/th&gt;&lt;td style=&quot;width:2px;&quot;&gt;&lt;/td&gt;&lt;td
+|&lt;td colspan=&quot;3&quot;
+}} {{{subgroup4|class=&quot;navbox-list {{{list4class|{{{listclass|}}}}}}&quot;&gt;
+{{{list4}}} }}}&lt;/td&gt;&lt;/tr&gt;
+{{#if:{{{subgroup5|{{{list5|}}}}}}|
+&lt;tr style=&quot;height:2px&quot;&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;{{#if:{{{group5|}}}
+|&lt;th class=&quot;navbox-group&quot;&gt;{{{group5}}}&lt;/th&gt;&lt;td style=&quot;width:2px;&quot;&gt;&lt;/td&gt;&lt;td
+|&lt;td colspan=&quot;3&quot;
+}} {{{subgroup5|class=&quot;navbox-list {{{list5class|{{{listclass|}}}}}}&quot;&gt;
+{{{list5}}} }}}&lt;/td&gt;&lt;/tr&gt;
+{{#if:{{{subgroup6|{{{list6|}}}}}}|
+&lt;tr style=&quot;height:2px&quot;&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;{{#if:{{{group6|}}}
+|&lt;th class=&quot;navbox-group&quot;&gt;{{{group6}}}&lt;/th&gt;&lt;td style=&quot;width:2px;&quot;&gt;&lt;/td&gt;&lt;td
+|&lt;td colspan=&quot;3&quot;
+}} {{{subgroup6|class=&quot;navbox-list {{{list6class|{{{listclass|}}}}}}&quot;&gt;
+{{{list6}}} }}}&lt;/td&gt;&lt;/tr&gt;
+{{#if:{{{subgroup7|{{{list7|}}}}}}|
+&lt;tr style=&quot;height:2px&quot;&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;{{#if:{{{group7|}}}
+|&lt;th class=&quot;navbox-group&quot;&gt;{{{group7}}}&lt;/th&gt;&lt;td style=&quot;width:2px;&quot;&gt;&lt;/td&gt;&lt;td
+|&lt;td colspan=&quot;3&quot;
+}} {{{subgroup7|class=&quot;navbox-list {{{list7class|{{{listclass|}}}}}}&quot;&gt;
+{{{list7}}} }}}&lt;/td&gt;&lt;/tr&gt;
+{{#if:{{{subgroup8|{{{list8|}}}}}}|
+&lt;tr style=&quot;height:2px&quot;&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;{{#if:{{{group8|}}}
+|&lt;th class=&quot;navbox-group&quot;&gt;{{{group8}}}&lt;/th&gt;&lt;td style=&quot;width:2px;&quot;&gt;&lt;/td&gt;&lt;td
+|&lt;td colspan=&quot;3&quot;
+}} {{{subgroup8|class=&quot;navbox-list {{{list8class|{{{listclass|}}}}}}&quot;&gt;
+{{{list8}}} }}}&lt;/td&gt;&lt;/tr&gt;
+{{#if:{{{subgroup9|{{{list9|}}}}}}|
+&lt;tr style=&quot;height:2px&quot;&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;{{#if:{{{group9|}}}
+|&lt;th class=&quot;navbox-group&quot;&gt;{{{group9}}}&lt;/th&gt;&lt;td style=&quot;width:2px;&quot;&gt;&lt;/td&gt;&lt;td
+|&lt;td colspan=&quot;3&quot;
+}} {{{subgroup9|class=&quot;navbox-list {{{list9class|{{{listclass|}}}}}}&quot;&gt;
+{{{list9}}} }}}&lt;/td&gt;&lt;/tr&gt;
+}} }} }} }} }} }} }} }}
+&lt;/table&gt;
+&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;&lt;noinclude&gt;[[分类:导航模板|*]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:Navbox subgroup</title>
+    <id>35154</id>
+    <revision>
+      <id>99730</id>
+      <timestamp>2013-01-30T02:06:13Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve" bytes="2843">&gt;&lt;table class=&quot;navbox-subgroup&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;margin:0;border-spacing:0;background:transparent;color:inherit;&quot;&gt;
+{{#if:{{{title|}}}|&lt;tr&gt;&lt;th class=&quot;navbox-header&quot; colspan=&quot;3&quot;&gt;{{{title}}}&lt;/th&gt;&lt;/tr&gt;&lt;tr style=&quot;height:2px&quot;&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;}}
+&lt;tr&gt;{{#if:{{{group1|}}}
+|&lt;th class=&quot;navbox-group&quot;&gt;{{{group1}}}&lt;/th&gt;&lt;td style=&quot;width:2px;&quot;&gt;&lt;/td&gt;&lt;td
+|&lt;td colspan=&quot;3&quot;
+}} {{{subgroup1|class=&quot;navbox-list {{{list1class|{{{listclass|}}}}}}&quot;&gt;
+{{{list1}}} }}}&lt;/td&gt;&lt;/tr&gt;
+{{#if:{{{subgroup2|{{{list2|}}}}}}|
+&lt;tr style=&quot;height:2px&quot;&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;{{#if:{{{group2|}}}
+|&lt;th class=&quot;navbox-group&quot;&gt;{{{group2}}}&lt;/th&gt;&lt;td style=&quot;width:2px;&quot;&gt;&lt;/td&gt;&lt;td
+|&lt;td colspan=&quot;3&quot;
+}} {{{subgroup2|class=&quot;navbox-list {{{list2class|{{{listclass|}}}}}}&quot;&gt;
+{{{list2}}} }}}&lt;/td&gt;&lt;/tr&gt;
+{{#if:{{{subgroup3|{{{list3|}}}}}}|
+&lt;tr style=&quot;height:2px&quot;&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;{{#if:{{{group3|}}}
+|&lt;th class=&quot;navbox-group&quot;&gt;{{{group3}}}&lt;/th&gt;&lt;td style=&quot;width:2px;&quot;&gt;&lt;/td&gt;&lt;td
+|&lt;td colspan=&quot;3&quot;
+}} {{{subgroup3|class=&quot;navbox-list {{{list3class|{{{listclass|}}}}}}&quot;&gt;
+{{{list3}}} }}}&lt;/td&gt;&lt;/tr&gt;
+{{#if:{{{subgroup4|{{{list4|}}}}}}|
+&lt;tr style=&quot;height:2px&quot;&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;{{#if:{{{group4|}}}
+|&lt;th class=&quot;navbox-group&quot;&gt;{{{group4}}}&lt;/th&gt;&lt;td style=&quot;width:2px;&quot;&gt;&lt;/td&gt;&lt;td
+|&lt;td colspan=&quot;3&quot;
+}} {{{subgroup4|class=&quot;navbox-list {{{list4class|{{{listclass|}}}}}}&quot;&gt;
+{{{list4}}} }}}&lt;/td&gt;&lt;/tr&gt;
+{{#if:{{{subgroup5|{{{list5|}}}}}}|
+&lt;tr style=&quot;height:2px&quot;&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;{{#if:{{{group5|}}}
+|&lt;th class=&quot;navbox-group&quot;&gt;{{{group5}}}&lt;/th&gt;&lt;td style=&quot;width:2px;&quot;&gt;&lt;/td&gt;&lt;td
+|&lt;td colspan=&quot;3&quot;
+}} {{{subgroup5|class=&quot;navbox-list {{{list5class|{{{listclass|}}}}}}&quot;&gt;
+{{{list5}}} }}}&lt;/td&gt;&lt;/tr&gt;
+{{#if:{{{subgroup6|{{{list6|}}}}}}|
+&lt;tr style=&quot;height:2px&quot;&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;{{#if:{{{group6|}}}
+|&lt;th class=&quot;navbox-group&quot;&gt;{{{group6}}}&lt;/th&gt;&lt;td style=&quot;width:2px;&quot;&gt;&lt;/td&gt;&lt;td
+|&lt;td colspan=&quot;3&quot;
+}} {{{subgroup6|class=&quot;navbox-list {{{list6class|{{{listclass|}}}}}}&quot;&gt;
+{{{list6}}} }}}&lt;/td&gt;&lt;/tr&gt;
+{{#if:{{{subgroup7|{{{list7|}}}}}}|
+&lt;tr style=&quot;height:2px&quot;&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;{{#if:{{{group7|}}}
+|&lt;th class=&quot;navbox-group&quot;&gt;{{{group7}}}&lt;/th&gt;&lt;td style=&quot;width:2px;&quot;&gt;&lt;/td&gt;&lt;td
+|&lt;td colspan=&quot;3&quot;
+}} {{{subgroup7|class=&quot;navbox-list {{{list7class|{{{listclass|}}}}}}&quot;&gt;
+{{{list7}}} }}}&lt;/td&gt;&lt;/tr&gt;
+{{#if:{{{subgroup8|{{{list8|}}}}}}|
+&lt;tr style=&quot;height:2px&quot;&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;{{#if:{{{group8|}}}
+|&lt;th class=&quot;navbox-group&quot;&gt;{{{group8}}}&lt;/th&gt;&lt;td style=&quot;width:2px;&quot;&gt;&lt;/td&gt;&lt;td
+|&lt;td colspan=&quot;3&quot;
+}} {{{subgroup8|class=&quot;navbox-list {{{list8class|{{{listclass|}}}}}}&quot;&gt;
+{{{list8}}} }}}&lt;/td&gt;&lt;/tr&gt;
+{{#if:{{{subgroup9|{{{list9|}}}}}}|
+&lt;tr style=&quot;height:2px&quot;&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;{{#if:{{{group9|}}}
+|&lt;th class=&quot;navbox-group&quot;&gt;{{{group9}}}&lt;/th&gt;&lt;td style=&quot;width:2px;&quot;&gt;&lt;/td&gt;&lt;td
+|&lt;td colspan=&quot;3&quot;
+}} {{{subgroup9|class=&quot;navbox-list {{{list9class|{{{listclass|}}}}}}&quot;&gt;
+{{{list9}}} }}}&lt;/td&gt;&lt;/tr&gt;
+}} }} }} }} }} }} }} }}
+&lt;/table&gt;&lt;noinclude&gt;[[分类:导航模板|*]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+</mediawiki>

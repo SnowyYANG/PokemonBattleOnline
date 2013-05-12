@@ -1,0 +1,1527 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.5/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.5/ http://www.mediawiki.org/xml/export-0.5.xsd" version="0.5" xml:lang="zh-cn">
+  <siteinfo>
+    <sitename>口袋百科</sitename>
+    <base>http://www.pokemon.name/wiki/%E9%A6%96%E9%A1%B5</base>
+    <generator>MediaWiki 1.18.1</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">媒体文件</namespace>
+      <namespace key="-1" case="first-letter">特殊</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">讨论</namespace>
+      <namespace key="2" case="first-letter">用户</namespace>
+      <namespace key="3" case="first-letter">用户讨论</namespace>
+      <namespace key="4" case="first-letter">口袋百科</namespace>
+      <namespace key="5" case="first-letter">口袋百科讨论</namespace>
+      <namespace key="6" case="first-letter">文件</namespace>
+      <namespace key="7" case="first-letter">文件讨论</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki讨论</namespace>
+      <namespace key="10" case="first-letter">模板</namespace>
+      <namespace key="11" case="first-letter">模板讨论</namespace>
+      <namespace key="12" case="first-letter">帮助</namespace>
+      <namespace key="13" case="first-letter">帮助讨论</namespace>
+      <namespace key="14" case="first-letter">分类</namespace>
+      <namespace key="15" case="first-letter">分类讨论</namespace>
+      <namespace key="100" case="first-letter">卡片游戏</namespace>
+      <namespace key="101" case="first-letter">卡片游戏讨论</namespace>
+      <namespace key="102" case="first-letter">卡片</namespace>
+      <namespace key="103" case="first-letter">卡片讨论</namespace>
+      <namespace key="104" case="first-letter">对战</namespace>
+      <namespace key="105" case="first-letter">对战讨论</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>啄（技能）</title>
+    <id>193</id>
+    <revision>
+      <id>95177</id>
+      <timestamp>2012-09-09T11:54:28Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve" bytes="5770">{{MoveInfoBox
+|Index=064
+|CName=啄
+|TName=啄
+|JName=つつく
+|EName=Peck
+|Type=飞
+|TypeName=飞行
+|Category=物理
+|Power=35
+|Accuracy=100
+|PP=35
+|Target=0
+|Priority=0
+|Gen=一
+|A=是
+|D=是
+|G=是
+|L=是
+|Describe=用尖锐的喙或角突刺对手。
+}}
+
+==战斗效果==
+:无特效。
+
+==习得精灵==
+===升级===
+{{MoveLearnset/header|flying|1}}
+{{MoveLearnsetLevel1|021|烈雀|G1=1|G2=1|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|022|大嘴雀|G1=1|G2=1|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|032|尼多郎|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|033|尼多力诺|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|034|尼多王|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|083|大葱鸭|G1=1|G2=1|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|084|嘟嘟|G1=1|G2=1|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|085|嘟嘟利|G1=1|G2=1|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|118|角金鱼|G1=1|G2=1|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|119|金鱼王|G1=1|G2=1|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|144|急冻鸟|G1=1}}
+{{MoveLearnsetLevel1|145|闪电鸟|G2=1|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|146|火焰鸟|G1=1}}
+{{MoveLearnsetLevel1|163|咕咕|G2=11|G3=11|DP=13|Pt=9|HGSS=9|G5=9}}
+{{MoveLearnsetLevel1|164|猫头夜鹰|G2=1,11|G3=1,11|DP=13|Pt=9|HGSS=9|G5=9}}
+{{MoveLearnsetLevel1|177|天然雀|G2=1|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|178|天然鸟|G2=1|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|198|黑暗鸦|G2=1|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|221|长毛猪|G4=1|G5=1}}
+{{MoveLearnsetLevel1|227|盔甲鸟|G2=1|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|255|火稚鸡|G3=16|G4=16|G5=16}}
+{{MoveLearnsetLevel1|256|力壮鸡|G3=17|G4=17|G5=17}}
+{{MoveLearnsetLevel1|257|火焰鸡|G3=17|G4=17|G5=17}}
+{{MoveLearnsetLevel1|276|傲骨燕|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|277|大王燕|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|333|青绵鸟|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|334|七夕青鸟|G3=1|G4=1|G5=1}}
+{{MoveLearnsetLevel1|393|波加曼|G4=15|G5=15}}
+{{MoveLearnsetLevel1|394|波皇子|G4=15|G5=15}}
+{{MoveLearnsetLevel1|395|帝王拿波|G4=15|G5=15}}
+{{MoveLearnsetLevel1|441|聒噪鸟|G4=1|G5=1}}
+{{MoveLearnsetLevel1|473|象牙猪|G4=1|G5=1}}
+{{MoveLearnsetLevel1|556|街头沙铃|G5=1}}
+{{MoveLearnsetLevel1|588|盖盖虫|G5=1}}
+{{MoveLearnsetLevel1|589|骑士蜗牛|G5=1}}
+{{MoveLearnsetLevel1|627|毛头小鹰|G5=1}}
+{{MoveLearnsetLevel1|628|勇士鹰|G5=1}}
+{{MoveLearnset/footer|level}}
+
+===遗传===
+{{MoveLearnsetEgg/header|flying|2}}
+{{MoveLearnsetEgg2|086|小海狮|水中1|陆上|G2=√}}
+{{MoveLearnsetEgg2|175|波克比|未发现||飞行|妖精|飞行|妖精|G2=√|G3=√|G4=√|G5=√}}
+{{MoveLearnset/footer|egg}}
+
+===梦境世界===
+{{MoveLearnset/PDW.h|flying}}
+{{MoveLearnset/PDW|021|烈雀|广阔的天空|2500}}
+{{MoveLearnset/PDW|032|尼多郎|小小的森林|0}}
+{{MoveLearnset/PDW|118|角金鱼|光辉的大海|5000}}
+{{MoveLearnset/PDW|198|黑暗鸦|广阔的天空|2500}}
+{{MoveLearnset/PDW|227|盔甲鸟|广阔的天空|7500}}
+{{MoveLearnset/PDW|276|傲骨燕|小小的森林|0}}
+{{MoveLearnset/PDW|276|傲骨燕|广阔的天空|2500}}
+{{MoveLearnset/PDW|333|青绵鸟|广阔的天空|2500}}
+|}
+
+==最终形态一览==
+{{mlplh|flying}}
+{{mlpl|022|大嘴雀|普|飞|锐利目光||狙击手|65|'''90'''|65|100|61|61|442}}
+{{mlpl|034|尼多王|毒|地|毒刺|斗争心|全力攻击|81|92|77|85|85|75|495}}
+{{mlpl|083|大葱鸭|普|飞|锐利目光|精神力|不服输|52|'''65'''|55|60|58|62|352}}
+{{mlpl|085|嘟嘟利|普|飞|逃足|早起|蹒跚|60|'''110'''|70|100|60|60|460}}
+{{mlpl|119|金鱼王|水|水|轻快|水之掩护|避雷针|80|92|65|68|65|80|450}}
+{{mlpl|145|闪电鸟|电|飞|压力||避雷针|90|'''90'''|85|100|125|90|580}}
+{{mlpl|164|猫头夜鹰|普|飞|不眠|锐利目光|有色眼镜|100|'''50'''|50|70|76|96|442}}
+{{mlpl|178|天然鸟|超|飞|同步率|早起|魔法反射|65|'''75'''|70|95|95|70|470}}
+{{mlpl|227|盔甲鸟|钢|飞|锐利目光|坚硬|破碎铠甲|65|'''80'''|140|70|40|70|465}}
+{{mlpl|257|火焰鸡|火|斗|猛火||加速|80|120|70|80|110|70|530}}
+{{mlpl|277|大王燕|普|飞|根性||胆气|60|'''85'''|60|125|50|50|430}}
+{{mlpl|334|七夕青鸟|龙|飞|自然回复||无天气|75|'''70'''|90|80|70|105|490}}
+{{mlpl|395|帝王拿波|水|钢|激流||不服输|84|86|88|60|111|101|530}}
+{{mlpl|430|乌鸦头头|恶|飞|不眠|强运|自信过剩|100|'''125'''|52|71|105|52|505}}
+{{mlpl|441|聒噪鸟|普|飞|锐利目光|蹒跚|胸甲|76|'''65'''|45|91|92|42|411}}
+{{mlpl|468|波克基斯|普|飞|紧张|天之恩惠|强运|85|'''50'''|95|80|120|115|545}}
+{{mlpl|473|象牙猪|冰|地|钝感|雪隐|厚脂肪|110|130|80|80|70|60|530}}
+{{mlpl|556|街头沙铃|草|草|贮水|叶绿素|引水|75|86|67|60|106|67|461}}
+{{mlpl|589|骑士蜗牛|虫|钢|虫之预感|贝壳盔甲|防尘|70|135|105|20|60|105|495}}
+{{mlpl|628|勇士鹰|普|飞|锐利目光|全力攻击|不服输|100|'''123'''|75|80|57|75|510}}
+{{mlplf}}
+
+==其它游戏==
+===[[华丽大赛]]===
+{{ContestMoveDataBox
+|Color=fire
+|Name=啄
+|Type=帅气
+|Appeal=40
+|Effect=作出很棒的表演。
+}}
+
+{{ContestMoveComboHead|fire}}
+{{ContestMoveComboFirst|帅气|啄|40|0|帅气|乱突|20|10}}
+{{ContestMoveComboFirst|帅气|啄|40|0|帅气|钻孔啄|40|0}}
+|}
+
+{{SuperContestMoveDataBox
+|Color=fire
+|Name=啄
+|Type=帅气
+|Appeal=3
+|Effect=基本的表演。
+}}
+
+===[[不可思议的迷宫]]===
+{{RescueTeamMoveDataBox
+|Name=啄
+|Type=飞
+|Acc1=125
+|Acc2=95
+|Power=4
+|MaxPower=99
+|PP=22
+|CT=12
+|Range=11
+|AI=00
+|Describe=对敌方精灵造成伤害。
+|D=y
+|E=y
+}}
+
+{{ExplorersMoveDataBox
+|Name=啄
+|Type=飞
+|Acc1=100
+|Acc2=95
+|AccStars=8
+|PowerTD=4
+|PowerSky=4
+|PowerStars=3
+|MaxPower=99
+|PP=26
+|CT=8
+|Range=11
+|AI=00
+|Describe=对敌方精灵造成伤害。
+|D=y
+|E=y
+}}
+
+==相关链接==
+{{Navbox Moves Type|飞行|flying}}
+
+[[Category:没有特效的技能]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>泥爆弹（技能）</title>
+    <id>210</id>
+    <revision>
+      <id>94666</id>
+      <timestamp>2012-09-03T20:51:46Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve" bytes="4327">{{MoveInfoBox
+|Index=426
+|CName=泥爆弹
+|JName=どろばくだん
+|EName=Mud Bomb
+|Type=地
+|TypeName=地面
+|Category=特殊
+|Power=65
+|Accuracy=85
+|PP=10
+|Target=0
+|Priority=0
+|Gen=四
+|D=是
+|G=是
+|Describe=发射坚硬的泥块攻击，会降低对手命中率。
+|Effect=30%几率令目标命中降低1级。
+}}
+
+==战斗效果==
+:30%几率令目标命中降低[[能力等级|1级]]。
+
+==习得精灵==
+===升级===
+{{MoveLearnset/header|ground|4}}
+{{MoveLearnsetLevel4|023|阿柏蛇|G4=28|G5=33}}
+{{MoveLearnsetLevel4|024|阿柏怪|G4=34|G5=39}}
+{{MoveLearnsetLevel4|050|地鼠|G4=29|G5=26}}
+{{MoveLearnsetLevel4|051|三地鼠|G4=33|G5=28}}
+{{MoveLearnsetLevel4|060|蚊香蝌蚪|G4=41|G5=41}}
+{{MoveLearnsetLevel4|061|蚊香蛙|G4=53|G5=53}}
+{{MoveLearnsetLevel4|088|臭泥|G4=23|BW=23|B2W2=21}}
+{{MoveLearnsetLevel4|089|臭臭泥|G4=23|BW=23|B2W2=21}}
+{{MoveLearnsetLevel4|194|乌波|G4=19|G5=19}}
+{{MoveLearnsetLevel4|195|沼王|G4=19|G5=19}}
+{{MoveLearnsetLevel4|220|小山猪|G4=20|BW=20|B2W2=18}}
+{{MoveLearnsetLevel4|221|长毛猪|G4=20|BW=20|B2W2=18}}
+{{MoveLearnsetLevel4|259|沼跃鱼|G4=25|G5=25}}
+{{MoveLearnsetLevel4|260|巨沼怪|G4=25|G5=25}}
+{{MoveLearnsetLevel4|339|泥泥鳅|G4=14|G5=14}}
+{{MoveLearnsetLevel4|340|鲶鱼王|G4=14|G5=14}}
+{{MoveLearnsetLevel4|422|无壳海牛|G4=11|G5=11}}
+{{MoveLearnsetLevel4|423|海牛兽|G4=11|G5=11}}
+{{MoveLearnsetLevel4|453|不良蛙|G4=29|G5=29}}
+{{MoveLearnsetLevel4|454|毒骷蛙|G4=29|G5=29}}
+{{MoveLearnsetLevel4|473|象牙猪|G4=20|BW=20|B2W2=18}}
+{{MoveLearnsetLevel4|618|泥巴鱼|G5=21}}
+{{MoveLearnset/footer|level}}
+
+===遗传===
+{{MoveLearnsetEgg/header|ground|4}}
+{{MoveLearnsetEgg4|050|地鼠|陆上||G4=√|G5=√}}
+{{MoveLearnsetEgg4|054|可达鸭|水中1|陆上|G4=√|G5=√}}
+{{MoveLearnsetEgg4|113|吉利蛋|妖精||HGSS=√|G5=√}}
+{{MoveLearnsetEgg4|258|水跃鱼|怪兽|水中1|G4=√|G5=√}}
+{{MoveLearnsetEgg4|300|向尾喵|陆上|妖精|HGSS=√|G5=√}}
+{{MoveLearnsetEgg4|322|呆火驼|陆上||G4=√|G5=√}}
+{{MoveLearnsetEgg4|440|好运蛋|未发现||妖精||妖精||HGSS=√|G5=√}}
+{{MoveLearnsetEgg4|535|圆蝌蚪|水中1||G5=√}}
+{{MoveLearnset/footer|egg}}
+
+==最终形态一览==
+{{mlplh|ground}}
+{{mlpl|024|阿柏怪|毒|毒|威吓|蜕皮|紧张感|60|85|69|80|65|79|438}}
+{{mlpl|051|三地鼠|地|地|沙隐|蚁地狱|沙之力量|35|80|50|120|'''50'''|70|405}}
+{{mlpl|055|哥达鸭|水|水|潮湿|无天气|轻快|80|82|78|85|95|80|500}}
+{{mlpl|062|快泳蛙|水|斗|贮水|潮湿|轻快|90|85|95|70|70|90|500}}
+{{mlpl|089|臭臭泥|毒|毒|恶臭|黏着|毒手|105|105|75|50|65|100|500}}
+{{mlpl|186|牛蛙君|水|水|贮水|潮湿|降雨|90|75|75|70|90|100|500}}
+{{mlpl|195|沼王|水|地|潮湿|贮水|天然|95|85|85|35|'''65'''|65|430}}
+{{mlpl|242|幸福蛋|普|普|自然回复|天之恩惠|治愈之心|255|10|10|55|75|135|540}}
+{{mlpl|260|巨沼怪|水|地|激流||潮湿|100|110|90|60|'''85'''|90|535}}
+{{mlpl|301|优雅猫|普|普|魅惑身躯|普通皮肤|奇迹皮肤|70|65|65|70|55|55|380}}
+{{mlpl|323|喷火驼|火|地|熔岩铠甲|坚岩|怒穴|70|100|70|40|'''105'''|75|460}}
+{{mlpl|340|鲶鱼王|水|地|钝感|危险预知|湿润身躯|110|78|73|60|'''76'''|71|468}}
+{{mlpl|423|海牛兽|水|地|黏着|引水|沙之力量|111|83|68|39|'''92'''|82|475}}
+{{mlpl|454|毒骷蛙|毒|斗|危险预知|干燥肌肤|毒手|83|106|65|85|86|65|490}}
+{{mlpl|473|象牙猪|冰|地|钝感|雪隐|厚脂肪|110|130|80|80|'''70'''|60|530}}
+{{mlpl|537|蟾蜍王|水|地|轻快|毒手|贮水|105|85|75|74|'''85'''|75|499}}
+{{mlpl|618|泥巴鱼|地|电|静电|柔软|沙隐|109|66|84|32|'''81'''|99|471}}
+{{mlplf}}
+
+==其它游戏==
+===[[华丽大赛]]===
+{{SuperContestMoveDataBox
+|Color=grass
+|Name=泥爆弹
+|Type=聪明
+|Appeal=2
+|Effect=最后一位表演时，评价+2。
+}}
+
+===[[不可思议的迷宫]]===
+{{ExplorersMoveDataBox
+|Name=泥爆弹
+|Type=地
+|Acc1=100
+|Acc2=88
+|AccStars=6
+|PowerTD=12
+|PowerSky=12
+|PowerStars=5
+|MaxPower=99
+|PP=10
+|CT=8
+|Range=3
+|AI=80
+|Describe=对敌方精灵造成伤害，并且有一定的几率令命中降低1级。
+|D=y
+|E=y
+}}
+
+==相同特效的技能==
+*[[扔泥]]
+*[[墨汁炮]]
+*[[浊流]]
+*[[镜面射击]]
+*[[草旋风]]
+*[[暗夜爆破]]
+
+==相关链接==
+{{Navbox Moves Type|地面|ground}}
+
+[[Category:降低命中的技能]]
+[[Category:升降能力的技能]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>爆爆头突击（技能）</title>
+    <id>7554</id>
+    <revision>
+      <id>94237</id>
+      <timestamp>2012-08-29T15:18:05Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve" bytes="901">{{MoveInfoBox
+|Index=543
+|CName=爆爆头突击
+|TName=爆爆头突击
+|JName=アフロブレイク
+|EName=Head Charge
+|Type=普
+|TypeName=普通
+|Category=物理
+|Power=120
+|Accuracy=100
+|PP=15
+|Target=0
+|Priority=0
+|Gen=五
+|A=是
+|D=是
+|G=是
+|Describe=用爆炸头冲撞对手，自身也会受到少量伤害。
+|Effect=伤害反弹25%。
+}}
+
+{{ExclusiveMove|爆爆头突击|爆爆头水牛}}
+
+==战斗效果==
+{{MoveEffect/Recoil|爆爆头突击|25%}}
+
+==习得精灵==
+===升级===
+{{MoveLearnset/header|normal|5}}
+{{MoveLearnsetLevel5|626|爆爆头水牛|G5=31}}
+{{MoveLearnset/footer|level}}
+
+==最终形态一览==
+{{mlplh|normal}}
+{{mlpl|626|爆爆头水牛|普|普|舍身|食草|防音|95|'''110'''|95|55|40|95|490}}
+{{mlplf}}
+
+==相同特效的技能==
+*[[突进]]
+*[[地狱车]]
+*[[野性电击]]
+
+==相关链接==
+{{Navbox Moves Type|普通|normal}}
+
+[[Category:伤害反弹的技能]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:MoveEffect/042</title>
+    <id>10806</id>
+    <revision>
+      <id>65094</id>
+      <timestamp>2011-08-25T01:12:30Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve" bytes="1098">{{MoveEffectEdit|042}}&lt;noinclude&gt;[[分类:技能效果]]&lt;/noinclude&gt;
+:100%几率束缚目标4～5回合。
+:处于束缚状态的怪兽不能交换。
+:携带{{I|漂亮脱壳}}的怪兽可以无视束缚状态正常交换。
+:{{M|接力棒}}、{{M|蜻蜓回转}}、{{M|闪电交替}}可以无视束缚状态正常使用。
+:束缚状态不会被[[接力棒]]传递。
+:处于束缚状态的怪兽每回合结束时损失HP最大值的1/16。
+:攻击方携带{{I|束缚头巾}}时，每回合结束的束缚伤害变为HP最大值的1/8。
+:处于束缚状态的怪兽使用{{M|高速旋转}}或{{M|替身}}后，束缚状态解除。
+:束缚状态的施加方换下场时，束缚状态解除。
+:[[魔法守护]]特性的怪兽不会受到束缚状态的伤害。
+:束缚状态结束后的下一回合束缚状态才解除，所以技能说明里的造成伤害时间比不能交换的时间少一回合。
+:如果目标已经处于束缚状态，{{{1}}}不会发动特效，旧束缚状态的持续时间不会被刷新。
+:攻击方携带{{I|强韧之爪}}时，持续时间固定为7+1回合。</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:MoveEffect/027</title>
+    <id>21858</id>
+    <revision>
+      <id>101713</id>
+      <timestamp>2013-03-19T13:58:48Z</timestamp>
+      <contributor>
+        <username>Snowy</username>
+        <id>2969</id>
+      </contributor>
+      <minor/>
+      <text xml:space="preserve" bytes="1448">{{effect verification|gen5=true}}
+{{MoveEffectEdit|027}}&lt;noinclude&gt;[[分类:技能效果]]&lt;/noinclude&gt;
+: 使用后进入{{{1}}}状态，[[多回合攻击|2～3回合连续攻击]]。
+: 攻击时的怪兽不受控制，不能交换怪兽或选择其它技能。
+: 攻击结束后攻击方会进入[[混乱状态]]。
+: 如果攻击期间因以下任意一种原因导致技能没有成功命中目标，攻击中止。
+:* 技能没有命中。
+:* 因[[害怕]]、[[麻痹]]、[[冰冻]]、[[封印]]等状态导致无法行动。
+:** 如果处于[[睡眠]]状态，技能中止（没有任何文字提示）且立刻可以选择技能或交换精灵，否则要经过一回合的无法行动才能够选择技能或交换精灵。
+:* 防御方处于[[保护]]、[[见切]]状态。
+:* 攻击无效，例如：
+:** 防御方为[[奇异守护]]特性且属性上不弱于{{{1}}}。
+{{#switch:{{{2|}}}
+|普=
+:** 防御方是[[幽灵]]属性。
+|草=
+:** 防御方是[[食草]]特性。
+}}
+: 若攻击中止的回合正好是{{{1}}}状态结束的回合，则攻击方会进入混乱状态，否则攻击方不会混乱。
+: [[神秘守护]]状态与[[绿叶守护]]特性不能防止攻击方进入混乱状态。
+: 如果攻击方是[[自我中心]]特性，攻击结束后不会混乱，也不会有提示文字。
+: {{{1}}}只在攻击的第一回合消耗一次[[PP]]，第二回合开始即使攻击到[[压力]]特性的精灵也不会消耗PP。</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:MoveEffect/196</title>
+    <id>7632</id>
+    <revision>
+      <id>65163</id>
+      <timestamp>2011-08-25T04:42:42Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve" bytes="527">{{MoveEffectEdit|196}}&lt;noinclude&gt;[[分类:技能效果]]&lt;/noinclude&gt;
+:{{{1|本技能}}}的威力取决于防御方[[体重]]：
+:{| {{TypeTable|{{{2|}}}}} style=text-align:center
+|-
+!colspan=2|体重!!威力
+|-
+|( 0 , 10 ) kg||( 0 , 22 ) lb||align=right|20
+|-
+|[ 10 , 25 ) kg||[ 22 , 55 ) lb||align=right|40
+|-
+|[ 25 , 50 ) kg||[ 55 , 110 ) lb||align=right|60
+|-
+|[ 50 , 100 ) kg||[ 110 , 220 ) lb||align=right|80
+|-
+|[ 100 , 200 ) kg||[220 , 440 ) lb||align=right|100
+|-
+|[ 200 , ∞ ) kg||[ 440 , ∞ ) lb||align=right|120
+|}</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:MoveEffect/183</title>
+    <id>11355</id>
+    <revision>
+      <id>101778</id>
+      <timestamp>2013-03-19T14:28:04Z</timestamp>
+      <contributor>
+        <username>Snowy</username>
+        <id>2969</id>
+      </contributor>
+      <minor/>
+      <comment>魔装反射会不会变奇怪</comment>
+      <text xml:space="preserve" bytes="3146">&lt;noinclude&gt;==技能效果==&lt;/noinclude&gt;
+{{effect verification|gen5=true}}
+:受到变化技能时，将技能反弹到使用方身上。
+::反弹过去的效果有可能没有命中使用方，所以该效果实际类似于防御方对攻击方再使用一次技能。
+:如果双方带有魔装反射效果，只有防御方反弹一次，使用方不会再次反弹。
+:如果防御方同时带有[[魔装反射]]与[[魔法反射]]效果，只反弹一次。
+:对队友有效。
+:对攻击技能的追加特效无效。
+:[[2on2]]中，受到多体变化技能时，反弹给对方多只怪兽，但己方非{{{1|魔装反射}}}的队友依然受到影响。
+::[[3on3]]中，以{{{1|魔装反射}}}精灵的位置决定反弹对方多少只怪兽。
+::己方场上存在多只魔装反射效果的怪兽时，反弹多次。
+::总是等攻击方技能使用完毕后（即非魔法反射防御方受到技能效果后），防御方再依次魔法反射。
+:[[3on3]]时{{{1|魔装反射}}}本身不受位置限制，如果被反射技能不是远程技会使反射效果有位置限制。
+===可以反射的技能===
+*一切升降能力的变化技能。
+*一切施加[[异常状态]]以及[[混乱]]的变化技能（[[草裙舞]]是一个例外，{{{1}}}对草裙舞无效）。
+*[[吹飞]]
+*[[吼叫]]
+*[[残废]]
+*[[寄生种子]]
+*[[蜘蛛网]]
+*[[恨]]
+*[[撒菱]]（即使有多只魔装反射的怪兽也只能反弹一次）
+*[[识破]]
+*[[黑眼神]]
+*[[着迷]]
+*[[鼓掌]]（鼓掌本身不会被鼓掌，因此被反弹后会提示使用失败）
+*[[寻衅]]
+*[[挑拨]]
+*[[哈欠]]
+*[[嗅觉]]
+*[[禁止通行]]
+*[[奇迹之眼]]
+*[[扣押]]
+*[[回复封印]]
+*[[胃液]]
+*[[烦恼种子]]
+*[[毒菱]]（即使有多只魔装反射的怪兽也只能反弹一次）
+*[[除雾]]
+*[[秘密岩石]]
+*[[念动力]]
+*[[浸水]]
+*[[单纯光线]]
+*[[变为同伴]]（使用者会变成防御方的特性）
+*[[治愈波动]]
+*{{{1}}}对诅咒无效，即使使用方为鬼系。
+&lt;noinclude&gt;
+&lt;!--
+*一切升降能力与施加[[异常状态]]的变化技能。
+*[[吹飞]]、[[吼叫]]
+*[[残废]]
+*[[寄生种子]]
+*[[蜘蛛网]]、[[黑眼神]]、[[禁止通行]]
+*[[恨]]
+*[[撒菱]]、[[毒菱]]、[[秘密岩石]]
+*[[识破]]、[[嗅觉]]、[[奇迹之眼]]
+*[[虚张声势]]、[[煽动]]
+*[[着迷]]
+*[[鼓掌]]
+*[[寻衅]]、[[挑拨]]
+*[[扣押]]
+*[[回复封印]]
+*[[胃液]]、[[烦恼种子]]、[[单纯光线]]、[[变为同伴]]
+*[[除雾]]
+*[[念动力]]
+*[[浸水]]
+*[[治愈波动]]
+===不能反射的技能===
+*[[模仿]]
+*[[鹦鹉学舌]]（会根据学到的技能再判定一次）
+*[[噩梦]]、[[诅咒]]
+*[[变身]]、[[属性切换２]]、[[自我暗示]]、[[换装]]、[[镜面属性]]
+*[[心眼]]、[[锁定]]
+*[[灭亡之歌]]
+*[[痛苦平分]]
+*[[临别礼物]]
+*[[戏法]]、[[偷换]]
+*[[特性交换]]
+*[[草裙舞]]
+*[[精神转移]]
+*[[力量交换]]、[[防御交换]]、[[心灵交换]]
+*[[防御平分]]、[[力量平分]]
+*[[您先请]]、[[押后]]
+*[[传递礼物]]--&gt;
+
+==拥有该效果的技能==
+*[[魔装反射]]
+==拥有该效果的特性==
+*[[魔法反射]]
+[[Category:技能效果]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:MoveEffect/080</title>
+    <id>12889</id>
+    <revision>
+      <id>65419</id>
+      <timestamp>2011-08-30T02:25:18Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <text xml:space="preserve" bytes="309">{{MoveEffectEdit|080}}&lt;noinclude&gt;[[分类:技能效果]]&lt;/noinclude&gt;
+:{{{1}}}命中目标后，[[硬直技|攻击方在第二回合不能行动]]。
+:攻击失误或攻击无效时无副作用。
+:对正在使用{{{1}}}的怪兽使用{{M|偷袭}}，无论是攻击的回合还是硬直的回合都能成功。</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:!</title>
+    <id>5730</id>
+    <revision>
+      <id>9677</id>
+      <timestamp>2010-09-07T03:01:51Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>已保护“[[模板:!]]” ([edit=sysop] (无期) [move=sysop] (无期))</comment>
+      <text xml:space="preserve" bytes="49">|&lt;noinclude&gt;[[Category:表格模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:!!</title>
+    <id>5729</id>
+    <revision>
+      <id>9679</id>
+      <timestamp>2010-09-07T03:02:12Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>已保护“[[模板:!!]]” ([edit=sysop] (无期) [move=sysop] (无期))</comment>
+      <text xml:space="preserve" bytes="50">||&lt;noinclude&gt;[[Category:表格模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:ContestMoveComboFirst</title>
+    <id>23236</id>
+    <revision>
+      <id>63567</id>
+      <timestamp>2011-08-22T20:33:23Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve" bytes="1067">|-
+|class=&quot;ttd t_{{#switch:{{{1|美丽}}}|帅气=火|美丽=水|可爱=超|聪明=草|强壮=电}}&quot;|&lt;span style=font-weight:bold;color:black&gt;{{{2|放晴}}}&lt;/span&gt;
+! →
+|style=padding:0 class=&quot;ttd t_{{#switch:{{{5|美丽}}}|帅气=火|美丽=水|可爱=超|聪明=草|强壮=电}}&quot;|
+{|style=width:100%;background:transparent
+|-
+!width=150px style=font-weight:normal;line-height:24px| [[{{{6|火焰放射}}}（技能）|{{{6|火焰放射}}}]]
+|style=line-height:12px;font-size:80%;font-family:monospace;color:#e8a0f8| {{#switch:{{{7|0}}}|0=♡♡♡♡&lt;br&gt;♡♡♡♡|10=♥♡♡♡&lt;br&gt;♡♡♡♡|20=♥♥♡♡&lt;br&gt;♡♡♡♡|30=♥♥♥♡&lt;br&gt;♡♡♡♡|40=♥♥♥♥&lt;br&gt;♡♡♡♡|
+60=♥♥♥♥&lt;br&gt;♥♥♡♡|80=♥♥♥♥&lt;br&gt;♥♥♥♥}}
+|style=line-height:12px;font-size:80%;font-family:monospace;color:#484038| {{#switch:{{{8|0}}}|0=♡♡♡♡&lt;br&gt;♡♡♡♡|10=♥♡♡♡&lt;br&gt;♡♡♡♡|20=♥♥♡♡&lt;br&gt;♡♡♡♡|30=♥♥♥♡&lt;br&gt;♡♡♡♡|40=♥♥♥♥&lt;br&gt;♡♡♡♡}}
+|}&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:ContestMoveComboHead</title>
+    <id>23234</id>
+    <revision>
+      <id>64008</id>
+      <timestamp>2011-08-23T13:28:29Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>已保护“[[模板:ContestMoveComboHead]]” ([edit=sysop] (无期) [move=sysop] (无期))</comment>
+      <text xml:space="preserve" bytes="236">{|class=&quot;color t_{{{1|fire}}}&quot; style=&quot;width:500px;text-align:center;margin:0 0 0.5em 2em&quot;
+|-
+!width=42%|
+!组合技
+!width=42%|
+&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;&lt;includeonly&gt;[[分类:华丽大赛的组合技]]&lt;/includeonly&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:ContestMoveDataBox</title>
+    <id>23230</id>
+    <revision>
+      <id>64009</id>
+      <timestamp>2011-08-23T13:28:36Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>已保护“[[模板:ContestMoveDataBox]]” ([edit=sysop] (无期) [move=sysop] (无期))</comment>
+      <text xml:space="preserve" bytes="1698">{|style=&quot;border-collapse:collapse;margin:0 0 0.5em 2em;&quot;
+|-
+|style=padding:0|
+{|class=&quot;color t_{{{Color|fire}}}&quot; style=margin-left:2em;border-bottom-width:0
+|-
+!width=80px|{{{Name|拍打}}}
+|}
+|style=font-size:80%;text-align:right;padding-right:0.3em|&lt;span style=&quot;width:100px;padding:2px;border:1px solid #f80800;background:#f87800;margin:1px&quot;&gt;[[华丽大赛|&lt;span style=&quot;color:#f8f800;margin:0 1em&quot;&gt;华丽大赛&lt;/span&gt;]]&lt;/span&gt;
+|-
+|style=padding:0 colspan=2|
+{|class=&quot;color t_{{{Color|fire}}}&quot; style=width:500px;text-align:center
+|-
+!width=70px|属性
+|width=70px class=&quot;ttd t_{{#switch:{{{Type|帅气}}}|帅气=火|美丽=水|可爱=超|聪明=草|强壮=电}}&quot;|[[{{{Type|帅气}}}]]
+!width=70px|吸引力
+|style=color:#e8a0f8;|&lt;div style=font-size:150%;line-height:28px;float:left;width:30px&gt;{{{Appeal|40}}}&lt;/div&gt;&lt;div style=line-height:14px;font-size:80%;font-family:monospace;&gt;{{#switch:{{{Appeal|40}}}|0=♡♡♡♡&lt;br&gt;♡♡♡♡|10=♥♡♡♡&lt;br&gt;♡♡♡♡|20=♥♥♡♡&lt;br&gt;♡♡♡♡|30=♥♥♥♡&lt;br&gt;♡♡♡♡|40=♥♥♥♥&lt;br&gt;♡♡♡♡|
+60=♥♥♥♥&lt;br&gt;♥♥♡♡|80=♥♥♥♥&lt;br&gt;♥♥♥♥}}&lt;/div&gt;
+!width=70px|妨碍
+|style=color:#484038;|&lt;div style=font-size:150%;line-height:28px;float:left;width:30px&gt;{{{Jam|0}}}&lt;/div&gt;&lt;div style=line-height:14px;font-size:80%;font-family:monospace;&gt;{{#switch:{{{Jam|0}}}|0=♡♡♡♡&lt;br&gt;♡♡♡♡|10=♥♡♡♡&lt;br&gt;♡♡♡♡|20=♥♥♡♡&lt;br&gt;♡♡♡♡|30=♥♥♥♡&lt;br&gt;♡♡♡♡|40=♥♥♥♥&lt;br&gt;♡♡♡♡}}&lt;/div&gt;
+|-
+|colspan=6 style=text-align:left|{{{Effect|作出很棒的表演。}}}
+|}&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;&lt;includeonly&gt;[[分类:{{{Type}}}的技能]]&lt;/includeonly&gt;
+|}</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:ExplorersMoveDataBox</title>
+    <id>23239</id>
+    <revision>
+      <id>64141</id>
+      <timestamp>2011-08-23T14:28:33Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve" bytes="5003">{|style=&quot;border-collapse:collapse;margin-left:2em;&quot;
+|-
+|style=padding:0|
+{| class=&quot;color t_{{#switch:{{{Type|普}}}|普=normal|斗=fighting|飞=flying|毒=poison|地=ground|岩=rock|虫=bug|鬼=ghost|钢=steel|火=fire|水=water|草=grass|电=electric|超=psychic|冰=ice|龙=dragon|恶=dark|无=typeless}}&quot; style=margin-left:2em;border-bottom-width:0
+|-
+!width=80px|{{{Name|拍打}}}
+|}
+|style=font-size:80%;text-align:right;padding-right:0.3em|&lt;span style=&quot;padding:2px;border:1px solid #0060a8;background:#00b8f0;margin:1px&quot;&gt;[[口袋妖怪不可思议的迷宫 时之探险队·暗之探险队|&lt;span style=&quot;color:#0060a8;&quot;&gt;时之探险队&lt;/span&gt;]]&lt;/span&gt;&lt;span style=&quot;padding:2px;border:solid 1px #682020;background:#e83030;margin:1px&quot;&gt;[[口袋妖怪不可思议的迷宫 时之探险队·暗之探险队|&lt;span style=&quot;color:#682020;&quot;&gt;暗之探险队&lt;/span&gt;]]&lt;/span&gt;&lt;span style=&quot;padding:2px;border:solid 1px #086850;background:#58b828;margin:1px&quot;&gt;[[口袋妖怪不可思议的迷宫 空之探险队|&lt;span style=&quot;color:#086850;&quot;&gt;空之探险队&lt;/span&gt;]]&lt;/span&gt;
+|-
+|style=padding:0 colspan=2|
+{| class=&quot;color t_{{#switch:{{{Type|普}}}|普=normal|斗=fighting|飞=flying|毒=poison|地=ground|岩=rock|虫=bug|鬼=ghost|钢=steel|火=fire|水=water|草=grass|电=electric|超=psychic|冰=ice|龙=dragon|恶=dark|无=typeless}}&quot; style=width:500px;text-align:center;
+|-
+!width=16.6%|属性
+|width=16.6% class=&quot;ttd t_{{#ifeq:{{{Type|无}}}|无|？|{{{Type}}}}}&quot;|[[{{#ifeq:{{{Type|无}}}|无|？？？|{{{Type}}}}}|{{{Type|普}}}]]
+!width=16.6%|命中
+|width=25%|{{{Acc1|}}}, {{{Acc2|}}}
+|width=25% style=color:gold|{{#switch:{{{AccStars|}}}|0=&lt;span style=color:black&gt;必中&lt;/span&gt;|1=★|2=★★|3=★★★|4=★★★★|5=★★★★★|6=★★★★★★|7=★★★★★★★|8=★★★★★★★★|#default=&lt;span style=color:black&gt;必中&lt;/span&gt;}}
+|-
+!类型
+|style=&quot;background:#{{#switch:{{{Category|特殊}}}|变化=a8a090|物理=f05030|特殊=5070a8}};border-color:#{{#switch:{{{Category|变化}}}|变化=505050|物理=702008|特殊=483850}}&quot;|[[{{{Category|变化}}}技能|&lt;span style=&quot;color:#{{#switch:{{{Category|变化}}}|变化=f8f8f8|物理=f8c030|特殊=c0d8f8}};&quot;&gt;{{{Category|变化}}}&lt;/span&gt;]]
+!威力
+|style=padding:0| 
+{|style=&quot;width:100%;line-height:15px;&quot; cellspacing=1px
+|style=&quot;padding:0;width:15px;border:solid 1px #0060a8;background:#00b8f0;&quot;|[[口袋妖怪不可思议的迷宫 时之探险队·暗之探险队|&lt;span style=&quot;color:#0060a8;&quot;&gt;时&lt;/span&gt;]]
+|style=&quot;padding:0;width:15px;border:solid 1px #682020;background:#e83030;&quot;|[[口袋妖怪不可思议的迷宫 时之探险队·暗之探险队|&lt;span style=&quot;color:#682020;&quot;&gt;暗&lt;/span&gt;]]
+|style=border:0|{{{PowerTD|{{{Power|10}}}}}}
+|style=&quot;padding:0;width:15px;border:solid 1px #086850;background:#58b828;&quot;|[[口袋妖怪不可思议的迷宫 空之探险队|&lt;span style=&quot;color:#086850;&quot;&gt;空&lt;/span&gt;]]
+|style=border:0|{{{PowerSky|10}}}
+|}
+|style=color:gold|{{#switch:{{{PowerStars}}}|0=&lt;span style=color:black&gt;没有伤害&lt;/span&gt;|3=★★★|4=★★★★|5=★★★★★|6=★★★★★★|7=★★★★★★★|8=★★★★★★★★|#default=&lt;span style=color:black&gt;{{{PowerStars|没有伤害}}}&lt;/span&gt;}}
+|-
+!PP
+| {{{PP}}}
+!范围
+|colspan=2| {{#switch:{{{Range}}}
+|2=周围一格的敌人
+|3=正面的敌人，无视转角
+|4|5=全层的己方成员
+|6=全层的怪兽
+|7=全层的敌人
+|11=正面的敌人
+|12=相邻的怪兽
+|13=两格前的敌人&lt;small&gt;（正面两格内最近的敌人）&lt;/small&gt;
+|14=直线上&lt;small&gt;（正面十格内最近的怪兽）&lt;/small&gt;
+|15=房间里的敌人
+|16=房间里的己方成员
+|17=房间里的怪兽
+|18=房间里除自己外
+|19|20|21=自己
+|22=房间里的同伴
+|24=楼层
+|28=正面的敌人，无视转角
+|30=正面的怪兽
+|31=正面的怪兽，无视转角
+|{{{Range}}}
+}}
+|-
+!会心几率
+| {{{CT}}}
+!AI使用条件
+|colspan=2| {{#switch:{{{AI}}}
+|00=正面有敌人时
+|02=正面有怪兽时
+|20=周围一格内有敌人时
+|30=房间内有敌人时
+|31=房间内有己方成员HP不足/异常时
+|32=房间内有怪兽时
+|40=正面两格内有敌人时
+|50=直线上有敌人时
+|60=楼层里有敌人时
+|61=楼层里己方成员HP不足时
+|62=楼层里有怪兽时
+|73=HP不足时
+|80=正面有敌人时，无视转角
+|{{{AI}}} }}
+|-
+|colspan=5 style=padding:0|
+{|style=width:100%;font-size:80%;line-height:16px
+|-
+|width=20%|{{#if:{{{A|}}}|会被魔装反射|&lt;span style=color:gray&gt;不会被魔装反射&lt;/span&gt;}}
+|width=20%|{{#if:{{{B|}}}|会被抢夺|&lt;span style=color:gray&gt;不会被抢夺&lt;/span&gt;}}
+|width=20%|{{#if:{{{C|}}}|依靠嘴巴发动|&lt;span style=color:gray&gt;不依靠嘴巴发动&lt;/span&gt;}}
+|width=20%|{{#if:{{{D|}}}|对冰冻怪兽无效|&lt;span style=color:gray&gt;对冰冻怪兽有效&lt;/span&gt;}}
+|width=20%|{{#if:{{{E|}}}|不会被挑拨|&lt;span style=color:gray&gt;会被挑拨&lt;/span&gt;}}
+|}
+|-
+|colspan=5 style=text-align:left|{{{Describe|造成伤害。}}}{{#if:{{{Effect|}}}|&lt;br&gt;{{{Effect}}}}}
+|}&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;
+|}</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:Mlpl</title>
+    <id>34051</id>
+    <revision>
+      <id>94820</id>
+      <timestamp>2012-09-07T17:54:02Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>保护“[[模板:Mlpl]]” ([edit=sysop] (无限期) [move=sysop] (无限期))</comment>
+      <text xml:space="preserve" bytes="772">&lt;tr&gt;
+&lt;th style=&quot;padding:0&quot;&gt;{{#POKEMONICON:{{{1|000}}}{{{15|}}}}}&lt;/th&gt;
+&lt;td&gt;{{{1|000}}}&lt;/td&gt;
+&lt;td&gt;[[{{{2}}}]]{{#if:{{{16|}}}|&lt;div style=&quot;font-size:10px;line-height:12px&quot;&gt;{{{16}}}&lt;/div&gt;}}&lt;/td&gt;
+{{#ifeq:{{{3|}}}|{{{4|}}}
+|&lt;td colspan=&quot;2&quot; class=&quot;cc t-{{{3}}}&quot;&gt;{{{3}}}&lt;/td&gt;
+|&lt;td class=&quot;cc t-{{{3}}}&quot;&gt;{{{3}}}&lt;/td&gt;&lt;td class=&quot;cc t-{{{4}}}&quot;&gt;{{{4}}}&lt;/td&gt;
+}}
+{{#if:{{{6|}}}
+|&lt;td&gt;[[{{{5}}}]]&lt;/td&gt;&lt;td&gt;[[{{{6}}}]]&lt;/td&gt;
+|&lt;td colspan=&quot;2&quot;&gt;[[{{{5}}}]]&lt;/td&gt;
+}}
+&lt;td&gt;{{#if:{{{7|}}}|[[{{{7}}}]]|&amp;nbsp;}}&lt;/td&gt;
+&lt;td class=&quot;stat-hp&quot;&gt;{{{8}}}&lt;/td&gt;
+&lt;td class=&quot;stat-at&quot;&gt;{{{9}}}&lt;/td&gt;
+&lt;td class=&quot;stat-df&quot;&gt;{{{10}}}&lt;/td&gt;
+&lt;td class=&quot;stat-sp&quot;&gt;{{{11}}}&lt;/td&gt;
+&lt;td class=&quot;stat-sa&quot;&gt;{{{12}}}&lt;/td&gt;
+&lt;td class=&quot;stat-sd&quot;&gt;{{{13}}}&lt;/td&gt;
+&lt;td class=&quot;stat-sum&quot;&gt;{{{14}}}&lt;/td&gt;
+&lt;/tr&gt;&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:Mlplf</title>
+    <id>34062</id>
+    <revision>
+      <id>94819</id>
+      <timestamp>2012-09-07T17:53:55Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>保护“[[模板:Mlplf]]” ([edit=sysop] (无限期) [move=sysop] (无限期))</comment>
+      <text xml:space="preserve" bytes="427">&lt;tr class=&quot;unsortable&quot;&gt;
+&lt;th colspan=&quot;15&quot;&gt;
+&lt;hr /&gt;
+&lt;div style=&quot;font-size:90%;text-align:center;line-height:15px;font-weight:normal&quot;&gt;这个表列出了在[[口袋妖怪 黑2·白2]]环境下，所有能掌握本技能的精灵的最终形态。&lt;br&gt;点击表头可以进行排序，加粗的种族值表示该精灵享受本技能的[[属性加成]]修正。&lt;/div&gt;
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/table&gt;&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:Mlplh</title>
+    <id>34049</id>
+    <revision>
+      <id>94818</id>
+      <timestamp>2012-09-07T17:53:53Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>保护“[[模板:Mlplh]]” ([edit=sysop] (无限期) [move=sysop] (无限期))</comment>
+      <text xml:space="preserve" bytes="693">&lt;table class=&quot;color t_{{{1|normal}}} colorlist&quot; style=&quot;text-align:center;margin-left:2em;line-height:15px&quot;&gt;
+&lt;tr class=&quot;header&quot; style=&quot;line-height:1.5em&quot;&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th class=&quot;sortable&quot;&gt;编号&lt;/th&gt;
+&lt;th class=&quot;sortable&quot; style=&quot;width:90px&quot;&gt;精灵&lt;/th&gt;
+&lt;th class=&quot;filterable&quot; colspan=&quot;2&quot; style=&quot;width:60px&quot;&gt;属性&lt;/th&gt;
+&lt;th class=&quot;filterable&quot; colspan=&quot;2&quot;&gt;特性&lt;/th&gt;
+&lt;th class=&quot;filterable&quot;&gt;隐藏特性&lt;/th&gt;
+&lt;th class=&quot;sortable&quot;&gt;&amp;nbsp;HP&amp;nbsp;&lt;/th&gt;
+&lt;th class=&quot;sortable&quot;&gt;攻击&lt;/th&gt;
+&lt;th class=&quot;sortable&quot;&gt;防御&lt;/th&gt;
+&lt;th class=&quot;sortable&quot;&gt;速度&lt;/th&gt;
+&lt;th class=&quot;sortable&quot;&gt;特攻&lt;/th&gt;
+&lt;th class=&quot;sortable&quot;&gt;特防&lt;/th&gt;
+&lt;th class=&quot;sortable&quot;&gt;总和&lt;/th&gt;
+&lt;/tr&gt;&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:MoveInfoBox</title>
+    <id>22966</id>
+    <revision>
+      <id>61596</id>
+      <timestamp>2011-08-08T10:20:53Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve" bytes="4148">{| class=&quot;color t_{{#switch:{{{Type|普}}}|普=normal|斗=fighting|飞=flying|毒=poison|地=ground|岩=rock|虫=bug|鬼=ghost|钢=steel|火=fire|水=water|草=grass|电=electric|超=psychic|冰=ice|龙=dragon|恶=dark}}&quot; style=&quot;width:210px;text-align:center;float:right;margin: 0 0 0.5em 0.5em;&quot;
+|- 
+! style=&quot;padding: 0.5em;&quot; colspan=2| &lt;div style=font-size:140%&gt;{{{CName}}}&lt;/div&gt;&lt;span style=font-size:80%;font-weight:normal&gt;{{{JName}}} {{{EName}}}&lt;/span&gt;
+|-
+| colspan=&quot;2&quot; style=font-size:80%| {{{Describe}}}
+|-
+! colspan=&quot;2&quot; | 技能参数
+|-
+|width=38%| '''[[属性]]''' || class=&quot;ttd t_{{{Type|普}}}&quot;|[[{{{TypeName|{{{Type|普通}}}}}}（属性）|{{{TypeName|{{{Type|普通}}}}}}]]&lt;includeonly&gt;[[Category:技能]][[Category:{{{TypeName|{{{Type}}}}}}属性的技能]][[Category:{{{Category}}}技能]][[Category:第{{{Gen}}}世代的技能]]&lt;/includeonly&gt;
+|-
+| '''[[技能类型|类型]]''' || style=&quot;background:#{{#switch:{{{Category|变化}}}|变化=a8a090|物理=f05030|特殊=5070a8}};border-color:#{{#switch:{{{Category|变化}}}|变化=505050|物理=702008|特殊=483850}}&quot;|[[{{{Category|变化}}}技能|&lt;span style=&quot;color:#{{#switch:{{{Category|变化}}}|变化=f8f8f8|物理=f8c030|特殊=c0d8f8}};&quot;&gt;{{{Category|变化}}}&lt;/span&gt;]]
+|-
+|'''[[威力]]''' || {{#switch: {{{Power}}} | 0 = -- | 1 = {{#if:{{{PowerRange|}}}|{{{PowerRange}}}|变动}}[[Category:威力变动的技能]] | {{{Power}}}{{#if:{{{Times|}}}|&lt;small&gt;×{{{Times}}}&lt;/small&gt;}}[[Category:威力{{{Power}}}的技能]] }}
+|-
+|'''[[命中]]''' || {{#switch: {{{Accuracy}}} | 0 = -- | 101 = --{{#ifeq:{{{Power}}}|0| |[[Category:攻击必中技]]}} | {{{Accuracy}}} }}
+|-
+|'''[[PP]]''' || {{#ifeq:{{{PP}}}|1|{{{PP}}}|&lt;span style=&quot;border-bottom:black 1px dotted; cursor:help&quot; title=&quot;最大{{#expr:{{{PP|1}}}*1.6}}&quot;&gt;{{{PP}}}&lt;/span&gt;}}
+|-
+{{#ifeq:{{{Priority|0}}}|0| |{{!}}'''[[技能优先度|优先度]]'''{{!!}}{{{Priority}}}[[Category:优先度不同的技能]] }}
+|-
+{{#if:{{{CT|}}}|{{!}}'''[[会心率]]'''{{!!}}{{{CT}}} }}
+|-
+|'''[[技能目标|目标]]''' || {{#switch:{{{Target|0}}}|0=单体|1=己方单体|2=队友单体|3=对方单体|4=自身周围全体|5=对方全体|6=己方全体|7=自身|8=场上全体怪兽|9=对方随机单体|10=全场场地|11=对方场地|12=己方场地|13=自身待机}}&lt;includeonly&gt;[[Category:{{#switch:{{{Target}}}|0=单体|1=己方单体|2=队友单体|3=对方单体|4=自身周围全体|5=对方全体|6=己方全体|7=自身|8=场上全体怪兽|9=对方随机单体|10=全场场地|11=对方场地|12=己方场地|13=自身待机}}技能]]&lt;/includeonly&gt;
+|-
+{{#if:{{{Effect|}}}|! colspan=&quot;2&quot; {{!}} 技能效果}}
+|-
+{{#if:{{{Effect|}}}|{{!}}colspan=2{{!}}{{{Effect}}} }}
+|-
+{{#if:{{{A|}}}{{{B|}}}{{{C|}}}{{{D|}}}{{{E|}}}{{{F|}}}{{{G|}}}{{{H|}}}{{{I|}}}{{{J|}}}{{{K|}}}{{{L|}}}{{{M|}}}{{{N|}}}|! colspan=&quot;2&quot; {{!}} 判定}}
+|-
+{{#if:{{{A|}}}|{{!}}'''√'''{{!!}}[[接触攻击]][[Category:接触攻击技]]}}
+|-
+{{#if:{{{B|}}}|{{!}}'''√'''{{!!}}[[蓄力技]][[Category:蓄力技]]}}
+|-
+{{#if:{{{C|}}}|{{!}}'''√'''{{!!}}[[硬直技]][[Category:硬直技]]}}
+|-
+{{#if:{{{D|}}}|{{!}}'''√'''{{!!}}可被[[保护]]/[[见切]]}}
+|-
+{{#if:{{{E|}}}|{{!}}'''√'''{{!!}}可被[[魔装反射]]}}
+|-
+{{#if:{{{F|}}}|{{!}}'''√'''{{!!}}可被[[抢夺]]}}
+|-
+{{#if:{{{G|}}}|{{!}}'''√'''{{!!}}可被[[鹦鹉学舌]]}}
+|-
+{{#if:{{{H|}}}|{{!}}'''√'''{{!!}}[[铁拳|拳击技]][[Category:拳击技]]}}
+|-
+{{#if:{{{I|}}}|{{!}}'''√'''{{!!}}[[防音|声音技]][[Category:声音技]]}}
+|-
+{{#if:{{{J|}}}|{{!}}'''√'''{{!!}}[[重力|飞行技]][[Category:飞行技]]}}
+|-
+{{#if:{{{K|}}}|{{!}}'''√'''{{!!}}[[冰冻状态]]下可以使用}}
+|-
+{{#if:{{{L|}}}|{{!}}'''√'''{{!!}}[[三打对战|远程技]][[Category:远程技]]}}
+|-
+{{#if:{{{M|}}}|{{!}}'''√'''{{!!}}[[回复封印|回复技]]}}
+|-
+{{#if:{{{N|}}}|{{!}}'''√'''{{!!}}无视[[替身]][[Category:无视替身的技能]]}}
+|}&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;
+
+'''{{{CName}}}'''（{{{JName}}}，{{{EName}}}）是[[{{{TypeName|{{{Type|普通}}}}}}（属性）|{{{TypeName|{{{Type|普通}}}}}}属性]]的[[技能]]，首次出现于[[第{{{Gen}}}世代]]的游戏中。</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:MoveLearnset/PDW</title>
+    <id>24588</id>
+    <revision>
+      <id>66198</id>
+      <timestamp>2011-09-03T07:06:43Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>已保护“[[模板:MoveLearnset/PDW]]” ([edit=sysop] (无期) [move=sysop] (无期))</comment>
+      <text xml:space="preserve" bytes="300">|-style=line-height:16px
+!style=&quot;padding:0&quot; title=&quot;No.{{{1}}}&quot;|[[Image:Small{{{1|001}}}{{{5|}}}.png|link=]]
+|{{{1}}}
+|[[{{{2}}}]]{{#if:{{{6|}}}|&lt;br&gt;&lt;span style=font-size:65%&gt;{{{6}}}&lt;/span&gt;}}
+|[[{{{3|}}}（梦境世界）|{{{3}}}]]
+|align=right|{{{4}}}
+&lt;noinclude&gt;[[Category:技能模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:MoveLearnset/PDW.h</title>
+    <id>24587</id>
+    <revision>
+      <id>66197</id>
+      <timestamp>2011-09-03T07:06:41Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>已保护“[[模板:MoveLearnset/PDW.h]]” ([edit=sysop] (无期) [move=sysop] (无期))</comment>
+      <text xml:space="preserve" bytes="166">:{|class=&quot;color t_{{{1|normal}}}&quot; style=&quot;text-align:center&quot;
+|-
+!
+!编号
+!style=width:90px|怪兽
+!区域
+!梦境点数
+&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:MoveLearnset/footer</title>
+    <id>34059</id>
+    <revision>
+      <id>94966</id>
+      <timestamp>2012-09-08T16:35:19Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>保护“[[模板:MoveLearnset/footer]]” ([edit=sysop] (无限期) [move=sysop] (无限期))</comment>
+      <text xml:space="preserve" bytes="54">&lt;/table&gt;&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:MoveLearnset/header</title>
+    <id>34040</id>
+    <revision>
+      <id>94896</id>
+      <timestamp>2012-09-07T21:28:56Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>保护“[[模板:MoveLearnset/header]]” ([edit=sysop] (无限期) [move=sysop] (无限期))</comment>
+      <text xml:space="preserve" bytes="1831">&lt;table class=&quot;color t_{{{1|normal}}} move-learnset&quot; style=&quot;text-align:center;margin-left:2em;line-height:15px&quot;&gt;
+&lt;tr class=&quot;header&quot; style=&quot;line-height:1.5em&quot;&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;编号&lt;/th&gt;
+&lt;th style=&quot;width:90px&quot;&gt;精灵&lt;/th&gt;
+{{#ifexpr:{{{2|1}}}&lt;=1|
+&lt;th class=&quot;colorcell game-红&quot;&gt;[[口袋妖怪 红·绿|R]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-绿&quot;&gt;[[口袋妖怪 红·绿|G]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-蓝&quot;&gt;[[口袋妖怪 红·蓝|B]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-黄&quot;&gt;[[口袋妖怪 黄|Y]]&lt;/th&gt;
+}}{{#ifexpr:{{{2|1}}}&lt;=2|
+&lt;th class=&quot;colorcell game-金&quot;&gt;[[口袋妖怪 金·银|G]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-银&quot;&gt;[[口袋妖怪 金·银|S]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-水晶&quot;&gt;[[口袋妖怪 水晶|C]]&lt;/th&gt;
+}}{{#ifexpr:{{{2|1}}}&lt;=3|
+&lt;th class=&quot;colorcell game-红宝石&quot;&gt;[[口袋妖怪 红宝石·蓝宝石|Ru]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-蓝宝石&quot;&gt;[[口袋妖怪 红宝石·蓝宝石|Sa]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-绿宝石&quot;&gt;[[口袋妖怪 绿宝石|Em]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-火红&quot;&gt;[[口袋妖怪 火红·叶绿|FR]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-叶绿&quot;&gt;[[口袋妖怪 火红·叶绿|LG]]&lt;/th&gt;
+}}{{#ifexpr:{{{2|1}}}&lt;=4|
+&lt;th class=&quot;colorcell game-钻石&quot;&gt;[[口袋妖怪 钻石·珍珠|Di]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-珍珠&quot;&gt;[[口袋妖怪 钻石·珍珠|Pe]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-白金&quot;&gt;[[口袋妖怪 白金|Pt]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-心金&quot;&gt;[[口袋妖怪 心金·魂银|HG]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-魂银&quot;&gt;[[口袋妖怪 心金·魂银|SS]]&lt;/th&gt;
+}}
+&lt;th class=&quot;colorcell game-黑&quot;&gt;[[口袋妖怪 黑·白|B]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-白&quot;&gt;[[口袋妖怪 黑·白|W]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-黑2&quot;&gt;[[口袋妖怪 黑2·白2|B2]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-白2&quot;&gt;[[口袋妖怪 黑2·白2|W2]]&lt;/th&gt;
+&lt;/tr&gt;&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:MoveLearnsetEgg/header</title>
+    <id>34060</id>
+    <revision>
+      <id>94897</id>
+      <timestamp>2012-09-07T21:29:10Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>保护“[[模板:MoveLearnsetEgg/header]]” ([edit=sysop] (无限期) [move=sysop] (无限期))</comment>
+      <text xml:space="preserve" bytes="1865">&lt;table class=&quot;color t_{{{1|normal}}} move-learnset&quot; style=&quot;text-align:center;margin-left:2em;line-height:15px&quot;&gt;
+&lt;tr class=&quot;header&quot; style=&quot;line-height:1.5em&quot;&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;编号&lt;/th&gt;
+&lt;th style=&quot;width:90px&quot;&gt;精灵&lt;/th&gt;
+&lt;th colspan=&quot;2&quot;&gt;生蛋分组&lt;/th&gt;
+{{#ifexpr:{{{2|1}}}&lt;=1|
+&lt;th class=&quot;colorcell game-红&quot;&gt;[[口袋妖怪 红·绿|R]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-绿&quot;&gt;[[口袋妖怪 红·绿|G]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-蓝&quot;&gt;[[口袋妖怪 红·蓝|B]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-黄&quot;&gt;[[口袋妖怪 黄|Y]]&lt;/th&gt;
+}}{{#ifexpr:{{{2|1}}}&lt;=2|
+&lt;th class=&quot;colorcell game-金&quot;&gt;[[口袋妖怪 金·银|G]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-银&quot;&gt;[[口袋妖怪 金·银|S]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-水晶&quot;&gt;[[口袋妖怪 水晶|C]]&lt;/th&gt;
+}}{{#ifexpr:{{{2|1}}}&lt;=3|
+&lt;th class=&quot;colorcell game-红宝石&quot;&gt;[[口袋妖怪 红宝石·蓝宝石|Ru]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-蓝宝石&quot;&gt;[[口袋妖怪 红宝石·蓝宝石|Sa]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-绿宝石&quot;&gt;[[口袋妖怪 绿宝石|Em]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-火红&quot;&gt;[[口袋妖怪 火红·叶绿|FR]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-叶绿&quot;&gt;[[口袋妖怪 火红·叶绿|LG]]&lt;/th&gt;
+}}{{#ifexpr:{{{2|1}}}&lt;=4|
+&lt;th class=&quot;colorcell game-钻石&quot;&gt;[[口袋妖怪 钻石·珍珠|Di]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-珍珠&quot;&gt;[[口袋妖怪 钻石·珍珠|Pe]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-白金&quot;&gt;[[口袋妖怪 白金|Pt]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-心金&quot;&gt;[[口袋妖怪 心金·魂银|HG]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-魂银&quot;&gt;[[口袋妖怪 心金·魂银|SS]]&lt;/th&gt;
+}}
+&lt;th class=&quot;colorcell game-黑&quot;&gt;[[口袋妖怪 黑·白|B]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-白&quot;&gt;[[口袋妖怪 黑·白|W]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-黑2&quot;&gt;[[口袋妖怪 黑2·白2|B2]]&lt;/th&gt;
+&lt;th class=&quot;colorcell game-白2&quot;&gt;[[口袋妖怪 黑2·白2|W2]]&lt;/th&gt;
+&lt;/tr&gt;&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:MoveLearnsetEgg2</title>
+    <id>34132</id>
+    <revision>
+      <id>94967</id>
+      <timestamp>2012-09-08T16:35:46Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <text xml:space="preserve" bytes="907">&lt;tr&gt;
+&lt;th style=&quot;padding:0&quot;&gt;{{#POKEMONICON:{{{1|000}}}}}&lt;/th&gt;
+&lt;td&gt;{{{1|000}}}&lt;/td&gt;
+&lt;td&gt;[[{{{2}}}]]&lt;/td&gt;
+{{#if:{{{4|}}}
+|&lt;td&gt;[[{{{3}}}组|{{{3}}}]]&lt;/td&gt;&lt;td&gt;[[{{{4}}}组|{{{4}}}]]&lt;/td&gt;
+|&lt;td colspan=&quot;2&quot;&gt;[[{{{3}}}组|{{{3}}}]]{{#if:{{{5|}}}|&lt;div class=&quot;explain&quot; style=&quot;font-size:10px;line-height:12px&quot; title=&quot;进化后&quot;&gt;[[{{{5|}}}组|{{{5|}}}]]{{#if:{{{6|}}}|&amp;nbsp;/&amp;nbsp;[[{{{6}}}组|{{{6}}}]]}} *&lt;/div&gt;}}&lt;/td&gt;
+}}
+{{#if:{{{GS|}}}{{{C|}}}|&lt;td colspan=&quot;2&quot;&gt;{{{GS|&amp;nbsp;}}}&lt;/td&gt;&lt;td&gt;{{{C|&amp;nbsp;}}}&lt;/td&gt;|&lt;td colspan=&quot;3&quot;&gt;{{{G2|&amp;nbsp;}}}&lt;/td&gt;}}
+&lt;td colspan=&quot;5&quot;&gt;{{{G3|&amp;nbsp;}}}&lt;/td&gt;
+{{#if:{{{DPPt|}}}{{{HGSS|}}}|&lt;td colspan=&quot;3&quot;&gt;{{{DPPt|&amp;nbsp;}}}&lt;/td&gt;&lt;td colspan=&quot;2&quot;&gt;{{{HGSS|&amp;nbsp;}}}&lt;/td&gt;|&lt;td colspan=&quot;5&quot;&gt;{{{G4|&amp;nbsp;}}}&lt;/td&gt;}}
+{{#if:{{{BW|}}}{{{B2W2|}}}|&lt;td colspan=&quot;2&quot;&gt;{{{BW|&amp;nbsp;}}}&lt;/td&gt;&lt;td colspan=&quot;2&quot;&gt;{{{B2W2|&amp;nbsp;}}}&lt;/td&gt;|&lt;td colspan=&quot;4&quot;&gt;{{{G5|&amp;nbsp;}}}&lt;/td&gt;}}
+&lt;/tr&gt;&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:MoveLearnsetLevel1</title>
+    <id>34053</id>
+    <revision>
+      <id>95134</id>
+      <timestamp>2012-09-09T10:21:56Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve" bytes="943">&lt;tr&gt;
+&lt;th style=&quot;padding:0&quot;&gt;{{#POKEMONICON:{{{1|000}}}{{{3|}}}}}&lt;/th&gt;
+&lt;td&gt;{{{1|000}}}&lt;/td&gt;
+&lt;td&gt;[[{{{2}}}]]{{#if:{{{4|}}}|&lt;div style=&quot;font-size:10px;line-height:12px&quot;&gt;{{{4}}}&lt;/div&gt;}}&lt;/td&gt;
+{{#if:{{{RGB|}}}{{{Y|}}}|&lt;td colspan=&quot;3&quot;&gt;{{{RGB|&amp;nbsp;}}}&lt;/td&gt;&lt;td&gt;{{{Y|&amp;nbsp;}}}&lt;/td&gt;|&lt;td colspan=&quot;4&quot;&gt;{{{G1|&amp;nbsp;}}}&lt;/td&gt;}}
+{{#if:{{{GS|}}}{{{C|}}}|&lt;td colspan=&quot;2&quot;&gt;{{{GS|&amp;nbsp;}}}&lt;/td&gt;&lt;td&gt;{{{C|&amp;nbsp;}}}&lt;/td&gt;|&lt;td colspan=&quot;3&quot;&gt;{{{G2|&amp;nbsp;}}}&lt;/td&gt;}}
+{{#if:{{{RSE|}}}{{{FRLG|}}}|&lt;td colspan=&quot;3&quot;&gt;{{{RSE|&amp;nbsp;}}}&lt;/td&gt;&lt;td colspan=&quot;2&quot;&gt;{{{FRLG|&amp;nbsp;}}}&lt;/td&gt;|&lt;td colspan=&quot;5&quot;&gt;{{{G3|&amp;nbsp;}}}&lt;/td&gt;}}
+{{#if:{{{DP|}}}{{{Pt|}}}{{{HGSS|}}}|&lt;td colspan=&quot;2&quot;&gt;{{{DP|&amp;nbsp;}}}&lt;/td&gt;&lt;td&gt;{{{Pt|&amp;nbsp;}}}&lt;/td&gt;&lt;td colspan=&quot;2&quot;&gt;{{{HGSS|&amp;nbsp;}}}&lt;/td&gt;|&lt;td colspan=&quot;5&quot;&gt;{{{G4|&amp;nbsp;}}}&lt;/td&gt;}}
+{{#if:{{{BW|}}}{{{B2W2|}}}|&lt;td colspan=&quot;2&quot;&gt;{{{BW|&amp;nbsp;}}}&lt;/td&gt;&lt;td colspan=&quot;2&quot;&gt;{{{B2W2|&amp;nbsp;}}}&lt;/td&gt;|&lt;td colspan=&quot;4&quot;&gt;{{{G5|&amp;nbsp;}}}&lt;/td&gt;}}
+&lt;/tr&gt;&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:Navbox Moves Type</title>
+    <id>34063</id>
+    <revision>
+      <id>94821</id>
+      <timestamp>2012-09-07T17:54:05Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>保护“[[模板:Navbox Moves Type]]” ([edit=sysop] (无限期) [move=sysop] (无限期))</comment>
+      <text xml:space="preserve" bytes="28">* [[{{{1}}}属性的技能]]</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:RescueTeamMoveDataBox</title>
+    <id>23238</id>
+    <revision>
+      <id>64015</id>
+      <timestamp>2011-08-23T13:29:10Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>已保护“[[模板:RescueTeamMoveDataBox]]” ([edit=sysop] (无期) [move=sysop] (无期))</comment>
+      <text xml:space="preserve" bytes="3248">{|style=&quot;border-collapse:collapse;margin:0 0 0.5em 2em;&quot;
+|-
+|style=padding:0|
+{| class=&quot;color t_{{#switch:{{{Type|普}}}|普=normal|斗=fighting|飞=flying|毒=poison|地=ground|岩=rock|虫=bug|鬼=ghost|钢=steel|火=fire|水=water|草=grass|电=electric|超=psychic|冰=ice|龙=dragon|恶=dark|无=typeless}}&quot; style=margin-left:2em;border-bottom-width:0
+|-
+!width=80px|{{{Name|拍打}}}
+|}
+|style=font-size:80%;text-align:right;padding-right:0.3em|&lt;span style=&quot;padding:2px;border:1px solid #e7155c;background:#f08221;margin:1px&quot;&gt;[[口袋妖怪不可思议的迷宫 赤之救助队·青之救助队|&lt;span style=&quot;color:#e31e27;&quot;&gt;赤之救助队&lt;/span&gt;]]&lt;/span&gt;&lt;span style=&quot;padding:2px;border:solid 1px #0065b3;background:#00b2dc;margin:1px&quot;&gt;[[口袋妖怪不可思议的迷宫 赤之救助队·青之救助队|&lt;span style=&quot;color:#0065b3;&quot;&gt;青之救助队&lt;/span&gt;]]&lt;/span&gt;
+|-
+|style=padding:0 colspan=2|
+{| class=&quot;color t_{{#switch:{{{Type|普}}}|普=normal|斗=fighting|飞=flying|毒=poison|地=ground|岩=rock|虫=bug|鬼=ghost|钢=steel|火=fire|水=water|草=grass|电=electric|超=psychic|冰=ice|龙=dragon|恶=dark|无=typeless}}&quot; style=width:500px;text-align:center;
+|-
+!width=16.6%|属性
+|width=16.6% class=&quot;ttd t_{{#ifeq:{{{Type|无}}}|无|？|{{{Type}}}}}&quot;|[[{{#ifeq:{{{Type|无}}}|无|？？？|{{{Type}}}}}|{{{Type|普}}}]]
+!width=16.6%|命中
+|width=16.6%|{{{Acc1|}}}, {{{Acc2|}}}
+!width=16.6%|威力
+|width=16.6%|{{{Power|10}}}
+|-
+!PP
+| {{{PP}}}
+!范围
+|colspan=3| {{#switch:{{{Range}}}
+|2=周围一格的敌人
+|3=正面的敌人，无视转角
+|4|5=全层的己方成员
+|6=全层的怪兽
+|7=全层的敌人
+|11=正面的敌人
+|12=相邻的怪兽
+|13=两格前的敌人&lt;small&gt;（正面两格内最近的敌人）&lt;/small&gt;
+|14=直线上&lt;small&gt;（正面十格内最近的怪兽）&lt;/small&gt;
+|15=房间里的敌人
+|16=房间里的己方成员
+|17=房间里的怪兽
+|18=房间里除自己外
+|19|20|21=自己
+|22=房间里的同伴
+|24=楼层
+|28=正面的敌人，无视转角
+|30=正面的怪兽
+|31=正面的怪兽，无视转角
+|{{{Range}}}
+}}
+|-
+!会心几率
+| {{{CT}}}
+!AI使用条件
+|colspan=3| {{#switch:{{{AI}}}
+|00=正面有敌人时
+|02=正面有怪兽时
+|20=周围一格内有敌人时
+|30=房间内有敌人时
+|31=房间内有己方成员HP不足/异常时
+|32=房间内有怪兽时
+|40=正面两格内有敌人时
+|50=直线上有敌人时
+|60=楼层里有敌人时
+|61=楼层里己方成员HP不足时
+|62=楼层里有怪兽时
+|73=HP不足时
+|80=正面有敌人时，无视转角
+|{{{AI}}} }}
+|-
+|colspan=6 style=padding:0|
+{|style=width:100%;font-size:80%;line-height:16px
+|-
+|width=20%|{{#if:{{{A|}}}|会被魔装反射|&lt;span style=color:gray&gt;不会被魔装反射&lt;/span&gt;}}
+|width=20%|{{#if:{{{B|}}}|会被抢夺|&lt;span style=color:gray&gt;不会被抢夺&lt;/span&gt;}}
+|width=20%|{{#if:{{{C|}}}|依靠嘴巴发动|&lt;span style=color:gray&gt;不依靠嘴巴发动&lt;/span&gt;}}
+|width=20%|{{#if:{{{D|}}}|对冰冻怪兽无效|&lt;span style=color:gray&gt;对冰冻怪兽有效&lt;/span&gt;}}
+|width=20%|{{#if:{{{E|}}}|不会被挑拨|&lt;span style=color:gray&gt;会被挑拨&lt;/span&gt;}}
+|}
+|-
+|colspan=6 style=text-align:left|{{{Describe|造成伤害。}}}{{#if:{{{Effect|}}}|&lt;br&gt;{{{Effect}}}}}
+|}&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;
+|}</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:SuperContestMoveDataBox</title>
+    <id>23231</id>
+    <revision>
+      <id>62645</id>
+      <timestamp>2011-08-21T01:35:12Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>已保护“[[模板:SuperContestMoveDataBox]]” ([edit=sysop] (无期) [move=sysop] (无期))</comment>
+      <text xml:space="preserve" bytes="1135">{|style=&quot;border-collapse:collapse;margin-left:2em;&quot;
+|-
+|style=padding:0|
+{|class=&quot;color t_{{{Color|fire}}}&quot; style=margin-left:2em;border-bottom-width:0
+|-
+!width=80px|{{{Name|拍打}}}
+|}
+|style=font-size:80%;text-align:right;padding-right:0.3em|&lt;span style=&quot;width:100px;padding:2px;border:1px solid #f80090;background:#f8d0f0;margin:1px&quot;&gt;[[超级华丽大赛|&lt;span style=&quot;color:#f860c0&quot;&gt;超级华丽大赛&lt;/span&gt;]]&lt;/span&gt;
+|-
+|style=padding:0 colspan=2|
+{|class=&quot;color t_{{#switch:{{{Type|帅气}}}|帅气=fire|美丽=water|可爱=psychic|聪明=grass|强壮=electric}}&quot; style=width:500px;text-align:center
+|-style=line-height:28px
+!width=70px|属性
+|width=70px class=&quot;ttd t_{{#switch:{{{Type|帅气}}}|帅气=火|美丽=水|可爱=超|聪明=草|强壮=电}}&quot;|[[{{{Type|帅气}}}]]
+!width=70px|吸引力
+|style=&quot;color:#f970d0;font-size:16px;letter-spacing:1px;font-family:monospace&quot;|{{#switch:{{{Appeal|0}}}|0=♡♡♡♡|1=♥♡♡♡|2=♥♥♡♡|3=♥♥♥♡|4=♥♥♥♥}}♡♡
+|-
+|colspan=4|{{{Effect|&amp;nbsp;}}}
+|}&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;&lt;includeonly&gt;[[分类:{{{Type}}}的技能]]&lt;/includeonly&gt;
+|}</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:MoveLearnsetEgg4</title>
+    <id>34111</id>
+    <revision>
+      <id>94587</id>
+      <timestamp>2012-09-03T14:55:40Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <comment>以“&lt;tr&gt; &lt;th style=&quot;padding:0&quot;&gt;{{#POKEMONICON:{{{1|000}}}}}&lt;/th&gt; &lt;td&gt;{{{1|000}}}&lt;/td&gt; &lt;td&gt;[[{{{2}}}]]&lt;/td&gt; {{#if:{{{4|}}} |&lt;td&gt;[[{{{3}}}组|{{{3}}}]]&lt;/td&gt;&lt;td&gt;[[{{{4}}}...”为内容创建页面</comment>
+      <text xml:space="preserve" bytes="747">&lt;tr&gt;
+&lt;th style=&quot;padding:0&quot;&gt;{{#POKEMONICON:{{{1|000}}}}}&lt;/th&gt;
+&lt;td&gt;{{{1|000}}}&lt;/td&gt;
+&lt;td&gt;[[{{{2}}}]]&lt;/td&gt;
+{{#if:{{{4|}}}
+|&lt;td&gt;[[{{{3}}}组|{{{3}}}]]&lt;/td&gt;&lt;td&gt;[[{{{4}}}组|{{{4}}}]]&lt;/td&gt;
+|&lt;td colspan=&quot;2&quot;&gt;[[{{{3}}}组|{{{3}}}]]{{#if:{{{5|}}}|&lt;div class=&quot;explain&quot; style=&quot;font-size:10px;line-height:12px&quot; title=&quot;进化后&quot;&gt;[[{{{5|}}}组|{{{5|}}}]]{{#if:{{{6|}}}|&amp;nbsp;/&amp;nbsp;[[{{{6}}}组|{{{6}}}]]}} *&lt;/div&gt;}}&lt;/td&gt;
+}}
+{{#if:{{{DPPt|}}}{{{HGSS|}}}|&lt;td colspan=&quot;3&quot;&gt;{{{DPPt|&amp;nbsp;}}}&lt;/td&gt;&lt;td colspan=&quot;2&quot;&gt;{{{HGSS|&amp;nbsp;}}}&lt;/td&gt;|&lt;td colspan=&quot;5&quot;&gt;{{{G4|&amp;nbsp;}}}&lt;/td&gt;}}
+{{#if:{{{BW|}}}{{{B2W2|}}}|&lt;td colspan=&quot;2&quot;&gt;{{{BW|&amp;nbsp;}}}&lt;/td&gt;&lt;td colspan=&quot;2&quot;&gt;{{{B2W2|&amp;nbsp;}}}&lt;/td&gt;|&lt;td colspan=&quot;4&quot;&gt;{{{G5|&amp;nbsp;}}}&lt;/td&gt;}}
+&lt;/tr&gt;&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:MoveLearnsetLevel4</title>
+    <id>34056</id>
+    <revision>
+      <id>94581</id>
+      <timestamp>2012-09-03T13:45:46Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve" bytes="552">&lt;tr&gt;
+&lt;th style=&quot;padding:0&quot;&gt;{{#POKEMONICON:{{{1|000}}}{{{3|}}}}}&lt;/th&gt;
+&lt;td&gt;{{{1|000}}}&lt;/td&gt;
+&lt;td&gt;[[{{{2}}}]]{{#if:{{{4|}}}|&lt;div style=&quot;font-size:10px;line-height:12px&quot;&gt;{{{4}}}&lt;/div&gt;}}&lt;/td&gt;
+{{#if:{{{DP|}}}{{{Pt|}}}{{{HGSS|}}}|&lt;td colspan=&quot;2&quot;&gt;{{{DP|&amp;nbsp;}}}&lt;/td&gt;&lt;td&gt;{{{Pt|&amp;nbsp;}}}&lt;/td&gt;&lt;td colspan=&quot;2&quot;&gt;{{{HGSS|&amp;nbsp;}}}&lt;/td&gt;|&lt;td colspan=&quot;5&quot;&gt;{{{G4|&amp;nbsp;}}}&lt;/td&gt;}}
+{{#if:{{{BW|}}}{{{B2W2|}}}|&lt;td colspan=&quot;2&quot;&gt;{{{BW|&amp;nbsp;}}}&lt;/td&gt;&lt;td colspan=&quot;2&quot;&gt;{{{B2W2|&amp;nbsp;}}}&lt;/td&gt;|&lt;td colspan=&quot;4&quot;&gt;{{{G5|&amp;nbsp;}}}&lt;/td&gt;}}
+&lt;/tr&gt;&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:ExclusiveMove</title>
+    <id>23791</id>
+    <revision>
+      <id>62752</id>
+      <timestamp>2011-08-22T01:35:59Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve" bytes="306">{{{1}}}是[[{{{2}}}]]&lt;includeonly&gt;[[分类:专属技能]][[分类:{{{2}}}的相关页面]]&lt;/includeonly&gt;{{#if:{{{3|}}}|、[[{{{3}}}]][[分类:{{{3}}}的相关页面]]{{#if:{{{4|}}}|、[[{{{4}}}]][[分类:{{{4}}}的相关页面]]}}一族}}的[[专属技能]]。&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:MoveEffect/Recoil</title>
+    <id>24484</id>
+    <revision>
+      <id>96050</id>
+      <timestamp>2012-09-16T06:38:52Z</timestamp>
+      <contributor>
+        <username>使用說明書</username>
+        <id>5390</id>
+      </contributor>
+      <minor/>
+      <comment>撤销由[[Special:Contributions/使用說明書|使用說明書]]（[[User talk:使用說明書|讨论]]）所作出的修订96049</comment>
+      <text xml:space="preserve" bytes="335">{{MoveEffectEdit|Recoil}}&lt;noinclude&gt;[[分类:技能效果]]&lt;/noinclude&gt;
+: 造成伤害时，攻击方同时损失所造成伤害{{{2}}}的HP。
+: 如果攻击方是[[石脑]]或[[魔法守护]]特性，不会受到反弹伤害。
+: 如果攻击方是[[舍身]]特性，所造成的伤害增加20%，相应的反弹伤害也会增加。</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:MoveEffectEdit</title>
+    <id>24473</id>
+    <revision>
+      <id>65103</id>
+      <timestamp>2011-08-25T01:24:32Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>已保护“[[模板:MoveEffectEdit]]” ([edit=sysop] (无期) [move=sysop] (无期))</comment>
+      <text xml:space="preserve" bytes="166">&lt;div class=&quot;plainlinks&quot; style=&quot;float:right&quot;&gt;&amp;#91;[{{fullurl:模板:MoveEffect/{{{1}}}|action=edit}} 编辑]&amp;#93;&lt;/div&gt;&lt;noinclude&gt;[[Category:技能模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:MoveLearnsetLevel5</title>
+    <id>34057</id>
+    <revision>
+      <id>94163</id>
+      <timestamp>2012-08-29T10:39:48Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <text xml:space="preserve" bytes="378">&lt;tr&gt;
+&lt;th style=&quot;padding:0&quot;&gt;{{#POKEMONICON:{{{1|000}}}{{{3|}}}}}&lt;/th&gt;
+&lt;td&gt;{{{1|000}}}&lt;/td&gt;
+&lt;td&gt;[[{{{2}}}]]{{#if:{{{4|}}}|&lt;div style=&quot;font-size:10px;line-height:12px&quot;&gt;{{{4}}}&lt;/div&gt;}}&lt;/td&gt;
+{{#if:{{{BW|}}}{{{B2W2|}}}|&lt;td colspan=&quot;2&quot;&gt;{{{BW|&amp;nbsp;}}}&lt;/td&gt;&lt;td colspan=&quot;2&quot;&gt;{{{B2W2|&amp;nbsp;}}}&lt;/td&gt;|&lt;td colspan=&quot;4&quot;&gt;{{{G5|&amp;nbsp;}}}&lt;/td&gt;}}
+&lt;/tr&gt;&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:I</title>
+    <id>4607</id>
+    <revision>
+      <id>13044</id>
+      <timestamp>2010-09-22T14:28:07Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>已保护“[[模板:I]]” ([edit=sysop] (无期) [move=sysop] (无期))</comment>
+      <text xml:space="preserve" bytes="79">[[{{{1}}}（道具）|{{{1}}}]]&lt;noinclude&gt;[[Category:快捷模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:M</title>
+    <id>6899</id>
+    <revision>
+      <id>23854</id>
+      <timestamp>2010-11-12T12:27:01Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <text xml:space="preserve" bytes="104">[[{{{1}}}（技能）|{{{1}}}]]&lt;noinclude&gt;[[Category:快捷模板]][[Category:链接模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:Ambox</title>
+    <id>35417</id>
+    <revision>
+      <id>101449</id>
+      <timestamp>2013-03-13T16:50:00Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve" bytes="948">&lt;table class=&quot;mbox ambox ambox-{{{type|default}}} {{#if:{{{small|}}}|mbox-small mbox-small-{{{small}}}}} {{{class|}}}&quot; id=&quot;{{{id|}}}&quot; style=&quot;{{{style|}}}&quot;&gt;
+&lt;tr&gt;
+&lt;td class=&quot;mbox-bar&quot; {{#if:{{{barcolor|}}}|style=&quot;background: {{{barcolor| #d2d2d2}}}; &quot;}}&gt;　&lt;/td&gt;
+{{#ifeq:{{{image|}}}|none||&lt;td&gt;&lt;div class=&quot;mbox-image&quot;&gt;{{{image|[[image:Mbox {{{type|talk}}}.png|link=|alt=]]}}}&lt;/div&gt;&lt;/td&gt;}}
+&lt;td class=&quot;mbox-text&quot; style=&quot;{{{textstyle|}}}&quot;&gt;&lt;div&gt;
+{{{text}}}{{#if:{{{date|}}}|&amp;nbsp;&lt;small style=&quot;font-style:italic&quot;&gt;({{{date}}})&lt;/small&gt;}}&lt;/div&gt;{{#if:{{{smalltext|}}}|&lt;div style=&quot;font-size:90%&quot;&gt;
+{{{smalltext}}}&lt;/div&gt;}}&lt;/td&gt;
+&lt;td class=&quot;mbox-empty&quot; &gt;&lt;/td&gt;
+{{#if:{{{imageright|}}}|&lt;td&gt;&lt;div class=&quot;mbox-image&quot;&gt;{{{imageright|}}}&lt;/div&gt;&lt;/td&gt;}}
+&lt;/tr&gt;&lt;/table&gt;&lt;noinclude&gt;[[分类:消息模板|**]][[分类:文章消息模板|*]][[分类:元模板]]&lt;/noinclude&gt;&lt;includeonly&gt;{{#if:{{{cat|}}}|[[分类:{{{cat}}}]]{{#if:{{{cat2|}}}|[[分类:{{{cat2}}}]]}}}}&lt;/includeonly&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:Effect verification</title>
+    <id>35219</id>
+    <revision>
+      <id>101600</id>
+      <timestamp>2013-03-16T09:04:33Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <text xml:space="preserve" bytes="286">{{Ambox
+|text=此效果在第{{#sub:{{#if:{{{gen1|}}}|、一}}{{#if:{{{gen2|}}}|、二}}{{#if:{{{gen3|}}}|、三}}{{#if:{{{gen4|}}}|、四}}{{#if:{{{gen5|}}}|、五}}{{#if:{{{gen6|}}}|、六}}|1}}世代已验证
+|small=right
+|image=none
+}}
+&lt;noinclude&gt;[[分类:技能模板]]&lt;/noinclude&gt;</text>
+    </revision>
+  </page>
+  <page>
+    <title>模板:TypeTable</title>
+    <id>24471</id>
+    <revision>
+      <id>68641</id>
+      <timestamp>2011-09-25T05:37:47Z</timestamp>
+      <contributor>
+        <username>Maple</username>
+        <id>1</id>
+      </contributor>
+      <minor/>
+      <comment>已保护“[[模板:TypeTable]]” ([edit=sysop] (无期) [move=sysop] (无期))</comment>
+      <text xml:space="preserve" bytes="267">&lt;noinclude&gt;[[分类:表格模板]]&lt;/noinclude&gt;class=&quot;color t_{{#switch:{{{1|}}}|普=normal|斗=fighting|飞=flying|毒=poison|地=ground|岩=rock|虫=bug|鬼=ghost|钢=steel|火=fire|水=water|草=grass|电=electric|超=psychic|冰=ice|龙=dragon|恶=dark|typeless}}&quot;</text>
+    </revision>
+  </page>
+</mediawiki>

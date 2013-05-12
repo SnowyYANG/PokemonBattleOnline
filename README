@@ -1,5 +1,7 @@
 ﻿--- Pokemon Battle Online v0.8 ---
 
-项目开发中
-项目请用Visual Studio 2010打开
-项目依赖IronPython，请在此下载 --> http://ironpython.codeplex.com/
+项目开发中。
+项目请用Visual Studio 2012打开。
+项目依赖IronPython，请在此下载 -->  http://pytools.codeplex.com/
+
+如要使用$/PBO/branches/__references中的项目参考资料，请先咨询资料原作者或原责任人，否则产生的一切后果自负。
