@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9A556367-584D-4A0E-803D-591486FB28DB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LightStudio.PokemonBattle.Game.Host.Effects</RootNamespace>
+    <AssemblyName>PokemonBattle.Effects</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\build\dll\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\dll\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Abilities\AirLock.cs" />
+    <Compile Include="Abilities\FlashFire.cs" />
+    <Compile Include="Abilities\Forewarn.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Abilities\Frisk.cs" />
+    <Compile Include="Abilities\Illusion.cs" />
+    <Compile Include="Abilities\Imposter.cs" />
+    <Compile Include="Abilities\WeatherObserver.cs" />
+    <Compile Include="Abilities\ZenMode.cs" />
+    <Compile Include="Items\Eviolite.cs" />
+    <Compile Include="Items\LeppaBerry.cs" />
+    <Compile Include="Items\MentalHerb.cs" />
+    <Compile Include="Items\ReHurtBerry.cs" />
+    <Compile Include="Items\StickyBarb.cs" />
+    <Compile Include="Items\TastyBerry.cs" />
+    <Compile Include="Moves\Attack\AttackAndForceSwitch.cs" />
+    <Compile Include="Moves\Attack\BeatUp.cs" />
+    <Compile Include="Moves\Attack\BigBang.cs" />
+    <Compile Include="Moves\Attack\BrickBreak.cs" />
+    <Compile Include="Moves\Attack\Counter.cs" />
+    <Compile Include="Moves\Attack\Feint.cs" />
+    <Compile Include="Moves\Attack\ImplementEffect\Chatter.cs" />
+    <Compile Include="Moves\Attack\ImplementEffect\RelicSong.cs" />
+    <Compile Include="Moves\Attack\ImplementEffect\SecretPower.cs" />
+    <Compile Include="Moves\Attack\ImplementEffect\TriAttack.cs" />
+    <Compile Include="Moves\Attack\Item\EatDefenderBerry.cs" />
+    <Compile Include="Moves\Attack\Item\Fling.cs" />
+    <Compile Include="Moves\Attack\Item\NaturalGift.cs" />
+    <Compile Include="Moves\Attack\JumpKick.cs" />
+    <Compile Include="Moves\Attack\Item\RemoveItem.cs" />
+    <Compile Include="Moves\Attack\MultiTurn\Attack5Turns.cs" />
+    <Compile Include="Moves\Attack\MultiTurn\Bide.cs" />
+    <Compile Include="Moves\Attack\MultiTurn\RandomMTA.cs" />
+    <Compile Include="Moves\Attack\MultiTurn\Uproar.cs" />
+    <Compile Include="Moves\Attack\ImplementEffect\RapidSpin.cs" />
+    <Compile Include="Moves\Attack\Revenge.cs" />
+    <Compile Include="Moves\Attack\SmackDown.cs" />
+    <Compile Include="Moves\Attack\Snore.cs" />
+    <Compile Include="Moves\Attack\SpBasepower\Acrobatics.cs" />
+    <Compile Include="Moves\Attack\SpBasepower\AHappy.cs" />
+    <Compile Include="Moves\Attack\SpBasepower\EchoedVoice.cs" />
+    <Compile Include="Moves\Attack\SpBasepower\Flail.cs" />
+    <Compile Include="Moves\Attack\SpBasepower\FuryCutter.cs" />
+    <Compile Include="Moves\Attack\SpBasepower\HeavySlam.cs" />
+    <Compile Include="Moves\Attack\HiddenPower.cs" />
+    <Compile Include="Moves\Attack\SpBasepower\Magnitude.cs" />
+    <Compile Include="Moves\Attack\SpBasepower\PState.cs" />
+    <Compile Include="Moves\Attack\SpBasepower\SLevel.cs" />
+    <Compile Include="Moves\Attack\SpBasepower\ASpeed.cs" />
+    <Compile Include="Moves\Attack\SpBasepower\GrassKnot.cs" />
+    <Compile Include="Moves\Attack\SpBasepower\Spout.cs" />
+    <Compile Include="Moves\Attack\SpPrepareOneTurn.cs" />
+    <Compile Include="Moves\Attack\SpRangeMove.cs" />
+    <Compile Include="Moves\Attack\SpBasepower\TrumpCard.cs" />
+    <Compile Include="Moves\Attack\SpBasepower\WringOut.cs" />
+    <Compile Include="Moves\Attack\ImplementEffect\Thief.cs" />
+    <Compile Include="Moves\Attack\TripleKick.cs" />
+    <Compile Include="Moves\Bad\Bad.cs" />
+    <Compile Include="Moves\FSDD.cs" />
+    <Compile Include="Moves\Present.cs" />
+    <Compile Include="Moves\Bad\SkyDrop.cs" />
+    <Compile Include="Moves\Status\Acupressure.cs" />
+    <Compile Include="Moves\Status\Autotomize.cs" />
+    <Compile Include="Moves\Status\BatonPass.cs" />
+    <Compile Include="Moves\Status\CallMove\Assist.cs" />
+    <Compile Include="Moves\Status\CallMove\Copycat.cs" />
+    <Compile Include="Moves\Status\CallMove\MeFirst.cs" />
+    <Compile Include="Moves\Status\CallMove\Metronome.cs" />
+    <Compile Include="Moves\Status\CallMove\MirrorMove.cs" />
+    <Compile Include="Moves\Status\CallMove\NaturePower.cs" />
+    <Compile Include="Moves\Status\CallMove\SleepTalk.cs" />
+    <Compile Include="Moves\Status\CallMove\Snatch.cs" />
+    <Compile Include="Moves\Status\ChangeAbility\Entrainment.cs" />
+    <Compile Include="Moves\Status\ChangeAbility\RolePlay.cs" />
+    <Compile Include="Moves\Status\ChangeAbility\SkillSwap.cs" />
+    <Compile Include="Moves\Status\Conversion.cs" />
+    <Compile Include="Moves\Status\LastMove\Conversion2.cs" />
+    <Compile Include="Moves\Status\Curse.cs" />
+    <Compile Include="Moves\Status\Gravity.cs" />
+    <Compile Include="Moves\Status\HealBell.cs" />
+    <Compile Include="Moves\Status\LastMove\Encore.cs" />
+    <Compile Include="Moves\Status\LastMove\Mimic.cs" />
+    <Compile Include="Moves\Status\LastMove\Spite.cs" />
+    <Compile Include="Moves\Status\PainSplit.cs" />
+    <Compile Include="Moves\Status\Recycle.cs" />
+    <Compile Include="Moves\Status\Rest.cs" />
+    <Compile Include="Moves\Status\ChangeAbility\SetAbility.cs" />
+    <Compile Include="Moves\Status\Splash.cs" />
+    <Compile Include="Moves\Status\Substitute.cs" />
+    <Compile Include="Moves\Status\Transform.cs" />
+    <Compile Include="Moves\Status\Trick.cs" />
+    <Compile Include="Moves\Status\WonderRoom.cs" />
+    <Compile Include="Moves\StockSpitSwallow.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Register.cs" />
+    <Compile Include="Triggers\CanExecute.cs" />
+    <Compile Include="Triggers\EndTurn.cs" />
+    <Compile Include="Triggers\IsGroundAffectable.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PokemonBattle.Data\PokemonBattle.Data.csproj">
+      <Project>{2BD81D18-43CB-420A-B293-469E110473CC}</Project>
+      <Name>PokemonBattle.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PokemonBattle.Game\PokemonBattle.Game.csproj">
+      <Project>{5F1D7698-AD1E-462A-AEED-063BCB80DF89}</Project>
+      <Name>PokemonBattle.Game</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tactic\Tactic.csproj">
+      <Project>{EE2C451E-A61E-4634-B382-5298982E060C}</Project>
+      <Name>Tactic</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

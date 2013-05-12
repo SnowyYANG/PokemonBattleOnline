@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements">
+    <Style x:Key="CommandMenu" TargetType="MenuItem">
+        <Setter Property="Command" Value="{Binding}"/>
+        <Setter Property="Header" Value="{Binding Header}"/>
+        <Setter Property="HeaderTemplate" Value="{x:Static ui:Controls.LocalizedText}"/>
+    </Style>
+    <ItemsPanelTemplate x:Key="WrapPanelTemplate">
+        <WrapPanel Background="Transparent" Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"/>
+    </ItemsPanelTemplate>
+</ResourceDictionary>

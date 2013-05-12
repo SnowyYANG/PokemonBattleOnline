@@ -1,0 +1,48 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements">
+    <DataTemplate x:Key="DetailedAvatar">
+        <Grid><!--Height="64" Width="64"-->
+            <Image x:Name="inner" Source="{Binding InnerAvatar}" Width="48" Height="48" HorizontalAlignment="Left" VerticalAlignment="Bottom" Stretch="UniformToFill" Opacity="0.5"/>
+            <Image x:Name="av" Source="{Binding Avatar}" ToolTip="{Binding Url}" Width="48" Height="48" HorizontalAlignment="Right" VerticalAlignment="Top" Stretch="UniformToFill"/>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Url}" Value="">
+                <Setter TargetName="av" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="inner" Property="HorizontalAlignment" Value="Center"/>
+                <Setter TargetName="inner" Property="VerticalAlignment" Value="Center"/>
+                <Setter TargetName="inner" Property="Opacity" Value="1"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+    <DataTemplate x:Key="User">
+        <Grid Height="48" Width="180" Margin="1" Name="grid">
+            <Grid.ContextMenu>
+                <ContextMenu ItemsSource="{Binding Commands}" ItemContainerStyle="{x:Static ui:Controls.CommandMenu}"/>
+            </Grid.ContextMenu>
+            <Image Source="{Binding Avatar.Avatar}" Stretch="UniformToFill" Height="48" Width="48" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <TextBlock Name="name" Text="{Binding Name}" Margin="50,0,0,0" VerticalAlignment="Top"/>
+            <TextBlock Name="sign" ToolTip="{Binding Sign}" Foreground="#282828" Margin="50,16,0,0" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Height="32">
+                <Image Name="state" Height="11" Width="11" Margin="0,2,0,0"/>
+                <Run Text="{Binding Sign, Mode=OneWay}"/>
+            </TextBlock>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding State}" Value="Afk">
+                <Setter TargetName="sign" Property="Foreground" Value="#909090"/>
+                <Setter TargetName="state" Property="Source" Value="/PBO.UIElements;component/images/Avatars/afk.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding State}" Value="Aggressive">
+                <Setter TargetName="state" Property="Source" Value="/PBO.UIElements;component/images/Avatars/aggressive.png"/>
+                <Setter TargetName="sign" Property="Foreground" Value="{x:Static ui:Brushes.MagentaM}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Commands.Count}" Value="0">
+                <Setter TargetName="grid" Property="ContextMenu" Value="{x:Null}"/>
+                <Setter TargetName="name" Property="FontStyle" Value="Italic"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Sign}" Value="">
+                <Setter TargetName="sign" Property="ToolTip" Value="{x:Null}"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>
