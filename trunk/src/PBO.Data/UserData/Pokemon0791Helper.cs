@@ -57,7 +57,7 @@ namespace PokemonBattleOnline.Data
                 string hash = reader.ReadString();
                 for (int i = 0; i < 6; i++)
                 {
-                    var pm = ReadData(stream);
+                    var pm = ReadData(reader);
                     if (pm != null)
                     {
                         data.Add(pm);
@@ -67,10 +67,9 @@ namespace PokemonBattleOnline.Data
             return data;
         }
 
-        private static PokemonData ReadData(Stream stream)
+        private static PokemonData ReadData(BinaryReader reader)
         {
             PokemonData pm = null;
-            BinaryReader reader = new BinaryReader(stream);
             int identity = reader.ReadInt32();
             if (identity > 0 && identity < 504)
             {
@@ -148,7 +147,7 @@ namespace PokemonBattleOnline.Data
 
         private static PokemonData GetById(int identity)
         {
-            int number = identity, form = identity;
+            int number = identity, form = 0;
             if (identity >= 390 && identity <= 496)
             {
                 number += 3;
@@ -159,28 +158,25 @@ namespace PokemonBattleOnline.Data
                 switch (identity)
                 {
                     //迪奥西斯
-                    case 386:
-                        number = 386;
-
-                        break;
                     //攻击
                     case 387:
                         number = 386;
-
+                        form = 1;
                         break;
                     //防御
                     case 388:
                         number = 386;
-
+                        form = 2;
                         break;
                     //速度
                     case 389:
                         number = 386;
-
+                        form = 3;
                         break;
                     //飞刺猬
                     case 497:
                         number = 492;
+                        form = 1;
                         break;
                     //鬼龙SP
                     case 498:
@@ -189,22 +185,27 @@ namespace PokemonBattleOnline.Data
                     //微波炉
                     case 499:
                         number = 479;
+                        form = 1;
                         break;
                     //洗衣机
                     case 500:
                         number = 479;
+                        form = 2;
                         break;
                     //冰箱
                     case 501:
                         number = 479;
+                        form = 3;
                         break;
                     //电扇
                     case 502:
                         number = 479;
+                        form = 4;
                         break;
                     //割草机
                     case 503:
                         number = 479;
+                        form = 5;
                         break;
                 }
             }
