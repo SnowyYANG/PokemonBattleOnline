@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 
-namespace PokemonBattleOnline.Data.UserData
+namespace PokemonBattleOnline.Data
 {
     /// <summary>
     /// *.ptd
@@ -72,12 +72,9 @@ namespace PokemonBattleOnline.Data.UserData
             PokemonData pm = null;
             BinaryReader reader = new BinaryReader(stream);
             int identity = reader.ReadInt32();
-            if (identity != 0)
+            if (identity > 0 && identity < 504)
             {
-                int id = GetPmId(identity);
-                int form = GetFormId(identity);
-                pm = new PokemonData(id, form);
-
+                pm = GetById(identity);
                 pm.Name = reader.ReadString();
                 pm.Lv = reader.ReadByte();
 
@@ -149,16 +146,70 @@ namespace PokemonBattleOnline.Data.UserData
             return 0;
         }
 
-        private static int GetPmId(int identity)
+        private static PokemonData GetById(int identity)
         {
-            //code
-            return 0;
-        }
+            int number = identity, form = identity;
+            if (identity >= 390 && identity <= 496)
+            {
+                number += 3;
+                form += 3;
+            }
+            else
+            {
+                switch (identity)
+                {
+                    //迪奥西斯
+                    case 386:
+                        number = 386;
 
-        private static int GetFormId(int identity)
-        {
-            //code
-            return 0;
+                        break;
+                    //攻击
+                    case 387:
+                        number = 386;
+
+                        break;
+                    //防御
+                    case 388:
+                        number = 386;
+
+                        break;
+                    //速度
+                    case 389:
+                        number = 386;
+
+                        break;
+                    //飞刺猬
+                    case 497:
+                        number = 492;
+                        break;
+                    //鬼龙SP
+                    case 498:
+                        number = 487;
+                        break;
+                    //微波炉
+                    case 499:
+                        number = 479;
+                        break;
+                    //洗衣机
+                    case 500:
+                        number = 479;
+                        break;
+                    //冰箱
+                    case 501:
+                        number = 479;
+                        break;
+                    //电扇
+                    case 502:
+                        number = 479;
+                        break;
+                    //割草机
+                    case 503:
+                        number = 479;
+                        break;
+                }
+            }
+
+            return new PokemonData(number, form);
         }
 
         #endregion
