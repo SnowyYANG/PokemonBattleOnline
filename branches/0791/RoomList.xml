@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<package name ="PokemonBattle.RoomList" >
+    <datastructures>
+        <struct name="Room">
+            <field name="Identity" type="int" />
+            <field name="Name" type="string" />
+            <field name="Description" type="string" />
+            <field name="MaxUser" type="byte" />
+            <field name="UserCount" type="byte" />
+            <field name="Address" type="string" />
+        </struct>
+        <sequence name="RoomSequence" element="Room"/>
+    </datastructures>
+    <service name="RoomList">
+        <server>
+            <transaction name="RoomLogon">
+                <param name="roomInfo" type="Room" />
+            </transaction>
+            <transaction name="RoomLogout" />
+            <transaction name="UpdateRoomInfo">
+                <param name="roomInfo" type="Room" />
+            </transaction>
+
+            <transaction name="UserLogon" />
+            <transaction name="UserLogout" />
+        </server>
+        <client>
+            <!-- Room Transaction-->
+            <transaction name="LogonSuccess" />
+            <transaction name="LogonFail">
+                <param name="message" type="string" />
+            </transaction>
+            
+            <!-- User transaction-->
+            <transaction name="UpdateRoom">
+                <param name="roomInfo" type="Room" />
+            </transaction>
+            <transaction name="AddNewRoom">
+                <param name="roomInfo" type="Room" />
+            </transaction>
+            <transaction name="RemoveRoom">
+                <param name="identity" type="int" />
+            </transaction>
+            <transaction name="AddRoomList">
+                <param name="rooms" type="RoomSequence"/>
+            </transaction>
+        </client>
+    </service>
+</package>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package name="PokemonBattle.FourPlayer">
+    <service name="FourPlayer">
+        <server>
+            <transaction name="Logon">
+                <param name="identity" type="int"/>
+            </transaction>
+            <transaction name="SetPosition">
+		            <param name="position" type="byte" />
+		            <param name="player" type="string" />
+	          </transaction>
+            <transaction name="StartBattle"/>
+            <transaction name="Close"/>
+        </server>
+        <client>
+            <transaction name="SetPosition">
+                <param name="position" type="byte" />
+                <param name="player" type="string" />
+            </transaction>
+            <transaction name="SetPositionSuccess">
+                <param name="position" type="byte"/>
+            </transaction>
+            <transaction name="StartBattle">
+                <param name="identity" type="int"/>
+            </transaction>
+                
+            <transaction name="Close"/>
+        </client>
+    </service>
+</package>

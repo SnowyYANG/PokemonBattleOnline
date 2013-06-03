@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package name="PokemonBattle.BattleNetwork">
+    <datastructures>
+        <enum name="BattleMove">
+            <element name="Attack" />
+            <element name="SwapPokemon" />
+            <element name="DeathSwap" />
+            <element name="PassSwap" />
+        </enum>
+        <enum name="PokemonIndex">
+            <element name="Pokemon1OfTeam1" />
+            <element name="Pokemon2OfTeam1" />
+            <element name="Pokemon1OfTeam2" />
+            <element name="Pokemon2OfTeam2" />
+        </enum>
+        <enum name="TargetIndex">
+            <element name="DefaultTarget" />
+            <element name="Opponent1" />
+            <element name="Opponent2" />
+            <element name="TeamFriend" />
+            <element name="Self" />
+            <element name="Random" />
+        </enum>
+        <enum name="BattleMode">
+            <element name="Single"/>
+            <element name="Double"/>
+            <element name="Double_4P"/>
+        </enum>
+        <enum name="TieMessage">
+            <element name="TieRequest"/>
+            <element name="AgreeTie" />
+            <element name="RefuseTie" />
+            <element name="Fail"/>
+        </enum>
+        <enum name="BattleRule">
+            <element name="PPUp" />
+            <element name="Random" />
+        </enum>
+        <enum name="BattleTerrain">
+            <element name="Stadium" />
+            <element name="Grass" />
+            <element name="Flat" />
+            <element name="Sand" />
+            <element name="Mountain" />
+            <element name="Cave" />
+            <element name="Water" />
+            <element name="SnowField" />
+        </enum>
+        
+        <struct name="PlayerMove">
+            <field name="Player" type="string" />
+            <field name="Move" type="BattleMove" />
+            <field name="Pokemon" type="PokemonIndex" />
+            <field name="Target" type="TargetIndex"/>
+            <field name="MoveIndex" type="byte"/>
+        </struct>
+        
+        <struct name="BattleSnapshot">
+            <field name="NewText" type="string" />
+            <field name="TextColor" type="int" />
+            <field name="Pokemons" type="PokemonSnapshotSequence" />
+        </struct>
+        <struct name="PokemonSnapshot">
+            <field name="Identity" type="int" />
+            <field name="Nickname" type="string" />
+            <field name="Hp" type="short" />
+            <field name="MaxHp" type="short" />
+            <field name="Gender" type="byte" />
+            <field name="Lv" type="byte"/>
+            <field name="State" type="byte"/>
+            <field name="Substituded" type="bool" />
+            <field name="Hid" type="bool" />
+        </struct>
+        <struct name="BattleInfo">
+            <field name="Terrain" type="BattleTerrain"/>
+            <field name="Mode" type="BattleMode"/>
+            <field name="Caption" type="string"/>
+            <field name="CustomDataHash" type="string"/>
+        </struct>
+
+        <sequence name="ByteSequence" element="byte" />
+        <sequence name="BattleRuleSequence" element="BattleRule" />
+        <sequence name="PokemonSnapshotSequence" element="PokemonSnapshot" />
+    </datastructures>
+    <service name="PokemonBattle">
+        <server>
+            <transaction name="Logon">
+                <param name="identity" type="string" />
+                <param name="modeInfo" type="BattleMode" />
+                <param name="versionInfo" type="string" />
+            </transaction>
+            
+            <transaction name="ReceiveMove">
+                <param name="move" type="PlayerMove" />
+            </transaction>
+            <transaction name="ReceiveTeam">
+                <param name="position" type="byte"/>
+                <param name="identity" type="string" />
+                <param name="team" type="ByteSequence" />
+            </transaction>
+
+            <transaction name="Exit">
+                <param name="identity" type="string" />
+            </transaction>
+
+            <transaction name="TimeUp">
+                <param name="identity" type="string" />
+            </transaction>
+
+            <transaction name="ReceiveTieMessage">
+                <param name="identity" type="string" />
+                <param name="message" type="TieMessage" />
+            </transaction>
+
+            <transaction name="RegistObsever">
+                <param name="identity" type="int"/>
+            </transaction>
+            <transaction name="ReceiveBattleInfo">
+                <param name="info" type="BattleInfo"/>
+            </transaction>
+            <transaction name="ReceiveBattleSnapshot">
+                <param name="snapshot" type="BattleSnapshot"/>
+            </transaction>
+        </server>
+        
+        <client>
+            <transaction name="LogonSuccess" />
+            <transaction name="LogonFail">
+                <param name="message" type="string" />
+            </transaction>
+
+            <transaction name="ReceiveRandomSeed">
+                <param name="seed" type="int" />
+            </transaction>
+            <transaction name="ReceiveMove">
+                <param name="move" type="PlayerMove" />
+            </transaction>
+            <transaction name="ReceiveTeam">
+                <param name="position" type="byte"/>
+                <param name="identity" type="string" />
+                <param name="team" type="ByteSequence" />
+            </transaction>
+            <transaction name="ReceiveRules" >
+                <param name="rules" type="BattleRuleSequence" />
+            </transaction>
+            <transaction name="ReceiveTieMessage">
+                <param name="identity" type="string" />
+                <param name="message" type="TieMessage" />
+            </transaction>
+
+            <transaction name="Exit">
+                <param name="identity" type="string" />
+            </transaction>
+            
+            <transaction name="TimeUp">
+                <param name="identity" type="string" />
+            </transaction>
+
+            <transaction name="RegistObsever">
+                <param name="identity" type="int"/>
+            </transaction>
+            <transaction name="ReceiveBattleInfo">
+                <param name="info" type="BattleInfo"/>
+            </transaction>
+            <transaction name="ReceiveBattleSnapshot">
+                <param name="snapshot" type="BattleSnapshot"/>
+            </transaction>
+        </client>
+    </service>
+</package>
