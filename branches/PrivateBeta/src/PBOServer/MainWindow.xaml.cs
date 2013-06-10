@@ -13,8 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using LightStudio.Tactic.Messaging;
-using LightStudio.PokemonBattle.Messaging;
-using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.RoomInfo>;
+using PBOServer = LightStudio.Tactic.Messaging.Server;
 
 namespace LightStudio.PokemonBattle.PBO.Server
 {

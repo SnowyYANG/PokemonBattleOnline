@@ -49,10 +49,7 @@
     <Compile Include="Room\GoTimer.cs" />
     <Compile Include="Room\Player.cs" />
     <Compile Include="Sevices\ChallengeManager.cs" />
-    <Compile Include="Client.cs" />
     <Compile Include="ClientService.cs" />
-    <Compile Include="UserExtension.cs" />
-    <Compile Include="Sevices\Hosts.cs" />
     <Compile Include="Sevices\MessageHeaders.cs" />
     <Compile Include="PBOClient.cs" />
     <Compile Include="Room\GameInitSettings.cs" />

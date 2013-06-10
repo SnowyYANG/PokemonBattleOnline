@@ -6,11 +6,11 @@ using System.Collections.Generic;
 
 namespace LightStudio.Tactic.Messaging.Lobby
 {
-  internal interface IClientInnerService<T> where T : IBytable, new()
+  internal interface IClientInnerService
   {
     void OnLoginFailed();
-    void OnLoginSucceeded(int id, User<T>[] userList);
-    void OnUserLogined(User<T> user);
+    void OnLoginSucceeded(int id, User[] userList);
+    void OnUserLogined(User user);
     void OnUserExited(int id);
     void OnMessageReceived(int senderid, string content);
     void OnBroadcastReceived(int senderid, string content);
@@ -19,7 +19,7 @@ namespace LightStudio.Tactic.Messaging.Lobby
   }
   internal sealed class ClientInterpreter
   {
-    public static bool Interpret<T>(IMessage message, IClientInnerService<T> service) where T : IBytable, new()
+    public static bool Interpret(IMessage message, IClientInnerService service)
     {
       switch (message.Header)
       {
@@ -28,11 +28,11 @@ namespace LightStudio.Tactic.Messaging.Lobby
           break;
         case MessageHeaders.ON_LOGIN_SUCCEEDED:
           message.Resolve(reader =>
-            service.OnLoginSucceeded(reader.ReadUserId(), reader.ReadArray((Func<User<T>>)reader.ReadUser<T>)));
+            service.OnLoginSucceeded(reader.ReadUserId(), reader.ReadArray((Func<User>)reader.ReadUser)));
           break;
         case MessageHeaders.ON_USER_LOGINED:
           message.Resolve(reader =>
-            service.OnUserLogined(reader.ReadUser<T>()));
+            service.OnUserLogined(reader.ReadUser()));
           break;
         case MessageHeaders.ON_USER_EXITED:
           message.Resolve(reader =>
@@ -64,13 +64,13 @@ namespace LightStudio.Tactic.Messaging.Lobby
     {
       return new TextMessage(header, buildContent);
     }
-    public static IMessage Login(string name)
+    public static IMessage Login(string name, int avatar)
     {
-      return BuildMessage(MessageHeaders.LOGIN, writer => writer.Write(name));
-    }
-    public static IMessage CompleteLogin(Avatar avatar)
-    {
-      return BuildMessage(MessageHeaders.COMPLETELOGIN, writer => writer.WriteAvatar(avatar));
+      return BuildMessage(MessageHeaders.LOGIN, writer =>
+        {
+          writer.Write(name);
+          writer.Write(avatar);
+        });
     }
     public static IMessage SendMessage(IEnumerable<int> receivers, string content)
     {

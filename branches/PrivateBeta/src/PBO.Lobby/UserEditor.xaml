@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Height="64" Background="#80c0c0c0">
     <Grid>
-        <ContentPresenter Content="{Binding Avatar}" ContentTemplate="{x:Static ui:Cartes.DetailedAvatar}" Width="60" Height="60" HorizontalAlignment="Left"/>
+        <ContentPresenter Content="{Binding Avatar}" ContentTemplate="{x:Static ui:Cartes.Avatar}" Width="60" Height="60" HorizontalAlignment="Left"/>
         <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="Bold" Margin="64,0,0,0" VerticalAlignment="Top"/>
         <TextBlock Text="{Binding Sign}" Cursor="IBeam" Margin="65,21,0,0" Background="Transparent" MouseDown="TextBlock_MouseDown"/>
         <ui:UITextBox x:Name="sign" Margin="64,20,0,0" MaxLength="50" TextWrapping="Wrap"/>

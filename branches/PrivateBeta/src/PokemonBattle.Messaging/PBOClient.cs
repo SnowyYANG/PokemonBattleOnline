@@ -37,7 +37,6 @@ namespace LightStudio.PokemonBattle.Messaging
               if (_client.IsLogined) _client.Logout();
               _client.Dispose();
               Lobby.Dispose();
-              Hosts.Dispose();
               Battle.Dispose();
               Challenge.Dispose();
               Spectate.Dispose();
@@ -46,9 +45,8 @@ namespace LightStudio.PokemonBattle.Messaging
             if (_client != null)
             {
               Lobby = new Lobby(_client);
-              Hosts = new Hosts(_client);
               Battle = new BattleClient(_client);
-              Challenge = new ChallengeManager(Hosts, Battle);
+              Challenge = new ChallengeManager(_client, Battle);
               Spectate = new SpectateManager(Battle);
               if (NewClientPrepared != null) NewClientPrepared();
             }
@@ -57,7 +55,6 @@ namespace LightStudio.PokemonBattle.Messaging
     }
     public static BattleClient Battle { get; private set; }
     public static Lobby Lobby { get; private set; }
-    public static Hosts Hosts { get; private set; }
     public static ChallengeManager Challenge { get; private set; }
     public static SpectateManager Spectate { get; private set; }
 

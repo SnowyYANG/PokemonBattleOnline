@@ -9,7 +9,6 @@ namespace LightStudio.Tactic.Messaging.Lobby
   public static class MessageHeaders
   {
     public const string LOGIN = "L";
-    public const string COMPLETELOGIN = "A";
     public const string BROADCAST = "B";
     public const string LOGOUT = "O";
     public const string SEND_MESSAGE = "S";

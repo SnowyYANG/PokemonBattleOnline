@@ -6,14 +6,19 @@ using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.IO;
+using System.Net;
 using LightStudio.Tactic.Logging;
 using LightStudio.Tactic.Messaging.Primitive;
 using LightStudio.Tactic.Messaging.Lobby;
 
 namespace LightStudio.Tactic.Messaging
 {
-  public class Client<T> : ClientBase, IClientInnerService<T> where T : IBytable, new()
+  public class Client : ClientBase, IClientInnerService
   {
+    public static Client NewTcpClient(IPAddress serverAddress, int serverPort)
+    {
+      return new Client(Factory.TcpMessageClient(serverAddress, serverPort));
+    }
     private static void LogUserNotFound(int id)
     {
       LoggerFacade.LogWarn(string.Format("LobbyClient : failed to find user with id {0}", id));
@@ -22,28 +27,28 @@ namespace LightStudio.Tactic.Messaging
     public event Action LoginCompleted = delegate { };
     public event Action LoginFailed = delegate { };
     public event Action<int> UserChanged;
-    public event Action<User<T>, string> BroadcastReceived = delegate { };
+    public event Action<User, string> BroadcastReceived = delegate { };
     
-    private readonly Collection<ClientService<T>> services;
-    private readonly Dictionary<byte, ClientService<T>> servicesIndex;
-    private ConcurrentDictionary<int, User<T>> users;
+    private readonly Collection<ClientService> services;
+    private readonly Dictionary<byte, ClientService> servicesIndex;
+    private ConcurrentDictionary<int, User> users;
     private int userId;
-    private User<T> user;
+    private User user;
     private string userName;
-    private Avatar avatar;
+    private int avatar;
 
     public Client(IMessageClient client) : base(client) //though i dont wanna sealed class
     {
       userId = -1;
-      users = new ConcurrentDictionary<int, User<T>>();
-      services = new Collection<ClientService<T>>();
-      servicesIndex = new Dictionary<byte, ClientService<T>>();
+      users = new ConcurrentDictionary<int, User>();
+      services = new Collection<ClientService>();
+      servicesIndex = new Dictionary<byte, ClientService>();
     }
 
     public bool IsLogined { get; private set; }
-    public User<T> User
+    public User User
     { get { return user; } }
-    public IEnumerable<User<T>> Users
+    public IEnumerable<User> Users
     { get { return users.Values; } }
 
     protected override void OnReceive(IMessage message)
@@ -54,7 +59,7 @@ namespace LightStudio.Tactic.Messaging
     {
       base.OnConnected();
       StartReceive();
-      Send(ClientInterpreter.Login(userName));
+      Send(ClientInterpreter.Login(userName, avatar));
     }
     internal void SendMessage(byte header, Action<BinaryWriter> write, params int[] receivers)
     {
@@ -95,10 +100,10 @@ namespace LightStudio.Tactic.Messaging
       }
     }
 
-    public void Login(string name, byte avatarId, string url = null)
+    public void Login(string name, int av)
     {
       userName = name;
-      avatar = new Avatar(avatarId, url);
+      avatar = av;
       Connect();
     }
     public void Logout()
@@ -112,7 +117,7 @@ namespace LightStudio.Tactic.Messaging
       //also, the connect might be closed before logout sendout
       //so it should be the server close the connect, client can close the connect after a time-out waiting
     }
-    public User<T> GetUser(int userId)
+    public User GetUser(int userId)
     {
       return users.ValueOrDefault(userId);
     }
@@ -122,13 +127,13 @@ namespace LightStudio.Tactic.Messaging
       else if (state != User.State) Send(ClientInterpreter.ChangeState(state));
     }
 
-    internal void RegisterService(ClientService<T> service, params byte[] receiveMessageHeaders)
+    internal void RegisterService(ClientService service, params byte[] receiveMessageHeaders)
     {
       services.Add(service);
       foreach (byte h in receiveMessageHeaders) servicesIndex.Add(h, service);
     }
     #region ILobbyInnerService
-    protected virtual void OnMessageReceived(User<T> sender, string content)
+    protected virtual void OnMessageReceived(User sender, string content)
     {
       if (!string.IsNullOrEmpty(content))
         ReadMessage(content, (header, reader) =>
@@ -144,7 +149,7 @@ namespace LightStudio.Tactic.Messaging
     }
     protected virtual void OnUserExited(int id)
     {
-      User<T> user;
+      User user;
       if (!users.TryRemove(id, out user))
       {
         LogUserNotFound(id);
@@ -155,7 +160,7 @@ namespace LightStudio.Tactic.Messaging
     }
     protected virtual void OnBroadcastReceived(int senderid, string content)
     {
-      User<T> sender;
+      User sender;
       if (users.TryGetValue(senderid, out sender))
       {
         BroadcastReceived(sender, content);
@@ -180,13 +185,12 @@ namespace LightStudio.Tactic.Messaging
         UserChanged(senderid);
       }
     }
-    void IClientInnerService<T>.OnLoginFailed()
+    void IClientInnerService.OnLoginFailed()
     {
       OnLoginFailed();
     }
-    void IClientInnerService<T>.OnLoginSucceeded(int id, User<T>[] userList)
+    void IClientInnerService.OnLoginSucceeded(int id, User[] userList)
     {
-      Send(ClientInterpreter.CompleteLogin(avatar));
       //users = new ConcurrentDictionary<int, User>(1, userList.Length);
       userId = id;
       users.Clear();
@@ -194,7 +198,7 @@ namespace LightStudio.Tactic.Messaging
       LoggerFacade.LogDebug("LobbyClient : logining");
       //LoginSucceeded();
     }
-    void IClientInnerService<T>.OnUserLogined(User<T> user)
+    void IClientInnerService.OnUserLogined(User user)
     {
       if (user.Id == userId)
       {
@@ -206,25 +210,25 @@ namespace LightStudio.Tactic.Messaging
       LoggerFacade.LogDebug(string.Format("LobbyClient : user {0} logined", user.Name));
       UserChanged(user.Id);
     }
-    void IClientInnerService<T>.OnUserExited(int id)
+    void IClientInnerService.OnUserExited(int id)
     {
       OnUserExited(id);
     }
-    void IClientInnerService<T>.OnMessageReceived(int senderid, string content)
+    void IClientInnerService.OnMessageReceived(int senderid, string content)
     {
-      User<T> sender;
+      User sender;
       if (!users.TryGetValue(senderid, out sender)) LogUserNotFound(senderid);
       else OnMessageReceived(sender, content);
     }
-    void IClientInnerService<T>.OnBroadcastReceived(int senderid, string content)
+    void IClientInnerService.OnBroadcastReceived(int senderid, string content)
     {
       OnBroadcastReceived(senderid, content);
     }
-    void IClientInnerService<T>.OnUserStateChanged(int senderid, UserState state)
+    void IClientInnerService.OnUserStateChanged(int senderid, UserState state)
     {
       OnUserStateChanged(senderid, state);
     }
-    void IClientInnerService<T>.OnUserInfoChanged(int senderid, UserState state, string sign)
+    void IClientInnerService.OnUserInfoChanged(int senderid, UserState state, string sign)
     {
       OnUserInfoChanged(senderid, state, sign);
     }
@@ -239,7 +243,7 @@ namespace LightStudio.Tactic.Messaging
       BroadcastReceived = delegate { };
       UserChanged = delegate { };
 
-      foreach (ClientService<T> s in services) s.Dispose();
+      foreach (ClientService s in services) s.Dispose();
       
       Disconnect(); 
     }

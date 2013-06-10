@@ -68,6 +68,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="R.cs" />
     <Compile Include="StartBattle.xaml.cs">
       <DependentUpon>StartBattle.xaml</DependentUpon>
     </Compile>

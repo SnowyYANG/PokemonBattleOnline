@@ -5,7 +5,6 @@ using System.Text;
 using LightStudio.Tactic.Messaging;
 using LightStudio.PokemonBattle.Messaging.Room;
 using LightStudio.PokemonBattle.Data;
-using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.Messaging
 {

@@ -82,6 +82,10 @@ namespace LightStudio.PokemonBattle.Data
     {
       return GetImage("sp/back", id);
     }
+    public BitmapImage GetAvatar(int id)
+    {
+      return GetImage("avatar", id.ToString());
+    }
 
     public void Dispose()
     {

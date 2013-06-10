@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.Tactic.Messaging;
-using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.Messaging
 {

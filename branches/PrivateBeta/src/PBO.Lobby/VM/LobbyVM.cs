@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Data;
 using LightStudio.Tactic.Messaging;
 using LightStudio.PokemonBattle.Messaging;
-using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.PBO.Lobby
 {

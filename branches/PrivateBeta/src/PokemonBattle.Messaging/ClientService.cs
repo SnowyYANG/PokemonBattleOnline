@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.Tactic.Messaging;
-using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.Messaging
 {
-  public abstract class ClientService : Tactic.Messaging.ClientService<UserExtension>
+  public abstract class ClientService : Tactic.Messaging.ClientService
   {
     public ClientService(Client client, params byte[] receiveMessageHeaders)
       : base(client, receiveMessageHeaders)

@@ -8,8 +8,7 @@ namespace LightStudio.Tactic.Messaging.Lobby
 {
   public interface IServerService
   {
-    void Login(int clientId, string name);
-    void CompleteLogin(int clientId, Avatar avatar);
+    void Login(int clientId, string name, int avatar);
     void SendMessage(int clientId, int[] receivers, string content);
     void BroadcastMessage(int clientId, string content);
     void Logout(int clientId);
@@ -23,10 +22,7 @@ namespace LightStudio.Tactic.Messaging.Lobby
       switch (message.Header)
       {
         case MessageHeaders.LOGIN:
-          message.Resolve(reader => service.Login(clientId, reader.ReadString()));
-          break;
-        case MessageHeaders.COMPLETELOGIN:
-          message.Resolve(reader => service.CompleteLogin(clientId, reader.ReadAvatar()));
+          message.Resolve(reader => service.Login(clientId, reader.ReadString(), reader.ReadAvatar()));
           break;
         case MessageHeaders.SEND_MESSAGE:
           message.Resolve(reader =>
@@ -59,7 +55,7 @@ namespace LightStudio.Tactic.Messaging.Lobby
     {
       return BuildMessage(MessageHeaders.ON_LOGIN_FAILED);
     }
-    public static IMessage OnLoginSucceeded<T>(int id, User<T>[] userList) where T : IBytable, new()
+    public static IMessage OnLoginSucceeded(int id, User[] userList)
     {
       return BuildMessage(MessageHeaders.ON_LOGIN_SUCCEEDED, writer =>
         {
@@ -67,7 +63,7 @@ namespace LightStudio.Tactic.Messaging.Lobby
           writer.WriteArray(userList, writer.WriteUser);
         });
     }
-    public static IMessage OnUserLogined<T>(User<T> user) where T : IBytable, new()
+    public static IMessage OnUserLogined(User user)
     {
       return BuildMessage(MessageHeaders.ON_USER_LOGINED, writer => writer.WriteUser(user));
     }

@@ -9,18 +9,23 @@ using LightStudio.Tactic.Messaging.Primitive;
 
 namespace LightStudio.Tactic.Messaging
 {
-  public class Server<T> : ServerBase, IServerService where T : IBytable, new()
+  public class Server : ServerBase, IServerService
   {
+    public static Server NewTcpServer(int port)
+    {
+      return new Server(Factory.TcpMessageServer(port));
+    }
+    
     public event Action<int> UserChanged;
     public event Action<int, string> MessageBroadcast;
-    private readonly Dictionary<int, User<T>> users;
+    private readonly Dictionary<int, User> users;
 
     public Server(IMessageServer server) : base(server)
     {
-      users = new Dictionary<int, User<T>>();
+      users = new Dictionary<int, User>();
     }
 
-    public IEnumerable<User<T>> Users
+    public IEnumerable<User> Users
     { get { return users.Values; } }
 
     private void OnUserChanged(int userId)
@@ -42,7 +47,7 @@ namespace LightStudio.Tactic.Messaging
     protected override void OnClientExited(int userId)
     {
       //thread safe?
-      User<T> user;
+      User user;
       users.TryGetValue(userId, out user);
       if (user != null)
       {
@@ -53,39 +58,29 @@ namespace LightStudio.Tactic.Messaging
         MessageServer.EndSession(userId);
       }
     }
-    public User<T> GetUser(int id)
+    public User GetUser(int id)
     {
       return users.ValueOrDefault(id);
     }
 
     #region ILobbyServerService
-    void IServerService.Login(int clientId, string name)
+    void IServerService.Login(int clientId, string name, int avatar)
     {
       if (!users.ContainsKey(clientId) && Users.All(u => u.Name != name))
       {
         LoggerFacade.LogDebug(string.Format("LobbyServer: user {0} is logining", name));
         Send(clientId, ServerInterpreter.OnLoginSucceeded(clientId, users.Values.ToArray()));
-        users.Add(clientId, new User<T>(clientId, name));
-        //OnUserChanged(clientId); //?
+        var user = new User(clientId, name, avatar);
+        users.Add(clientId, user);
+        user.State = UserState.Normal;/////////
+        LoggerFacade.LogDebug(string.Format("LobbyServer: user {0} logined", user.Name));
+        Broadcast(ServerInterpreter.OnUserLogined(user));
+        OnUserChanged(clientId); //?
       }
       else
       {
         Send(clientId, ServerInterpreter.OnLoginFailed());
       }
-    }
-    void IServerService.CompleteLogin(int clientId, Avatar avatar)
-    {
-      if (users.ContainsKey(clientId))
-      {
-        var user = users[clientId];
-        user.Avatar = avatar;
-        user.State = UserState.Normal;/////////
-        LoggerFacade.LogDebug(string.Format("LobbyServer: user {0} logined", user.Name));
-        Broadcast(ServerInterpreter.OnUserLogined(user));
-        OnUserChanged(clientId);
-      }
-      else
-        LoggerFacade.LogDebug("LobbyServer: invalid operation - CompleteLogin");
     }
     void IServerService.SendMessage(int clientId, int[] receivers, string content)
     {

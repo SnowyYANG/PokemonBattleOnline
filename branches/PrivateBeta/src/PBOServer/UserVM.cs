@@ -7,8 +7,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using LightStudio.Tactic.Messaging;
-using LightStudio.PokemonBattle.Messaging;
-using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.RoomInfo>;
 
 namespace LightStudio.PokemonBattle.PBO
 {

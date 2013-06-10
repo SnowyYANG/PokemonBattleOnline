@@ -25,20 +25,11 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     const int PORT = 9898;
 
     public event Action LoginComplete = delegate { };
-    private DispatcherTimer timer;
-    private AvatarVM avatarVM;
 
     public Login()
     {
-      avatarVM = new AvatarVM(0, null);
-      timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(1.5) };
-      timer.Tick += (sender, e) =>
-        {
-          avatarVM.SetUrl(avatarUrl.Text);
-          timer.Stop();
-        };
       InitializeComponent();
-      avatar.Content = avatarVM;
+      avatar.Content = 821;
     }
 
     private void client_LoginComplete() //not in UI thread
@@ -88,21 +79,21 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
           PBOClient.Prepare4Login(ip, PORT);
           PBOClient.Client.LoginFailed += client_LoginFailed;
           PBOClient.Client.LoginCompleted += client_LoginComplete;
-          PBOClient.Client.Login(name.Text.Trim(), avatarVM.InnerAvatarId, avatarUrl.Text);//"http://tb.himg.baidu.com/sys/portrait/item/f543c7aec9f1b2bbcac76c6f6c69bfd85603"
+          PBOClient.Client.Login(name.Text.Trim(), (int)avs.SelectedItem);//"http://tb.himg.baidu.com/sys/portrait/item/f543c7aec9f1b2bbcac76c6f6c69bfd85603"
         }
         IsEnabled = false;
       }
     }
-    private void avatarUrl_TextChanged(object sender, TextChangedEventArgs e)
-    {
-      if (timer.IsEnabled) timer.Stop();
-      timer.Start();
-    }
 
-    private void servers_KeyDown(object sender, KeyEventArgs e)
+    private void avs_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (e.Key == Key.Enter)
-            button_Click(sender, e);
+      avs.Visibility = System.Windows.Visibility.Collapsed;
+      login.Visibility = System.Windows.Visibility.Visible;
+    }
+    private void avatar_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+      login.Visibility = System.Windows.Visibility.Collapsed;
+      avs.Visibility = System.Windows.Visibility.Visible;
     }
   }
 }

@@ -4,66 +4,51 @@
              xmlns:pbo="clr-namespace:LightStudio.PokemonBattle.PBO;assembly=PBO.UIElements"
              xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements;assembly=PBO.UIElements"
              xmlns:pm="clr-namespace:LightStudio.PokemonBattle.Data;assembly=PokemonBattle.Data"
-             Height="100" MinWidth="180" MaxWidth="300" Background="#f5f5f5" BorderThickness="2" BorderBrush="#FFAAAAAA" SnapsToDevicePixels="True">
+             xmlns:lobby="clr-namespace:LightStudio.PokemonBattleOnline.PBO.Lobby"
+             xmlns:c="clr-namespace:LightStudio.PokemonBattle.PBO.Converters;assembly=PBO.UIElements"
+             UseLayoutRounding="True" SnapsToDevicePixels="True">
     <Grid>
-        <ContentPresenter x:Name="avatar" ContentTemplate="{x:Static ui:Cartes.DetailedAvatar}" Height="60" Width="60" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,2,0,0"/>
-        <TextBox Name="avatarUrl" Foreground="Gray" VerticalAlignment="Top" Margin="70,37,0,0" BorderThickness="0,0,0,1" TextAlignment="Right" TextChanged="avatarUrl_TextChanged" Background="{x:Null}" />
-        <TextBox Name="name" VerticalAlignment="Top" Margin="70,6,3,0" BorderThickness="0,0,0,1" FontSize="14" Background="{x:Null}" />
-        <TextBlock Text="{Binding [Username], Source={x:Static pm:DataService.String}}" IsHitTestVisible="False" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="75,11,0,0" Foreground="Gray">
-            <TextBlock.Style>
-                <Style TargetType="TextBlock">                 
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Text,ElementName=name}" Value="">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBlock.Style>
-        </TextBlock>
-        <TextBlock Text="{Binding [Avatar URL], Source={x:Static pm:DataService.String}}" IsHitTestVisible="False" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,40,5,0" Foreground="Gray">
-            <TextBlock.Style>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Text,ElementName=avatarUrl}" Value="">
-                            <Setter Property="Visibility" Value="Visible"/>                    
-                        </DataTrigger>                    
-                    </Style.Triggers>
-                </Style>
-            </TextBlock.Style>
-        </TextBlock>
-        <Button Name="button" Content="{Binding [Login], Source={x:Static pm:DataService.String}}" Click="button_Click" HorizontalContentAlignment="Left" Padding="10,0" FontWeight="Bold" VerticalAlignment="Bottom" Height="30" Background="#FFC4C4C4" BorderBrush="White" />
-        <ComboBox Name="servers" IsEditable="True" FontFamily="Microsoft YaHei" VerticalAlignment="Bottom" HorizontalAlignment="Right" VerticalContentAlignment="Center" Height="30" BorderThickness="0" Background="{x:Null}" KeyDown="servers_KeyDown">
-            <ComboBoxItem Content="127.0.0.1" IsSelected="True"/>
-        </ComboBox>
-        <Canvas Height="10" VerticalAlignment="Top">
-            <ListBox x:Name="innerAvs" ItemsSource="{x:Static pbo:AvatarVM.InnerAvatars}" SelectedIndex="{Binding ElementName=avatar,Path=Content.InnerAvatarId}" ItemsPanel="{x:Static ui:Controls.WrapPanel}" Width="{Binding ActualWidth,RelativeSource={RelativeSource AncestorType=Canvas}}" Canvas.Bottom="0" BorderThickness="0" Background="Transparent">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Image Height="48" Width="48" Source="{Binding}"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Background" Value="White"/>
-                        <Setter Property="Padding" Value="3"/>
+        <Border x:Name="login" Margin="25,0" Background="#f5f5f5" BorderThickness="2" BorderBrush="#FFAAAAAA" MinWidth="180" MaxWidth="300">
+            <Grid UseLayoutRounding="True" SnapsToDevicePixels="True">
+                <Grid.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="FontFamily" Value="Microsoft YaHei"/>
+                        <Setter Property="FontSize" Value="15"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="BorderBrush" Value="White"/>
+                        <Setter Property="Padding" Value="10,0"/>
                     </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBox.Style>
-                    <Style TargetType="ListBox">
-                        <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding IsMouseOver,ElementName=avatar}" Value="False"/>
-                                    <Condition Binding="{Binding IsMouseOver,ElementName=innerAvs}" Value="False"/>
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="Visibility" Value="Hidden"/>
-                            </MultiDataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ListBox.Style>
-            </ListBox>
-        </Canvas>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="71"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <ContentPresenter x:Name="avatar" MouseDown="avatar_MouseDown" ToolTip="点击选择头像..." Cursor="Hand" ContentTemplate="{x:Static ui:Cartes.Avatar}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,2,0,0"/>
+                <TextBox Name="name" VerticalAlignment="Top" Margin="70,24,3,0" BorderThickness="0,0,0,1" FontSize="16" Background="{x:Null}" HorizontalContentAlignment="Center"/>
+                <TextBlock Text="{x:Static lobby:R.Username}" IsHitTestVisible="False" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="70,24,3,0" Foreground="Gray">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text,ElementName=name}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <Button Name="button" Grid.Row="1" Content="{x:Static lobby:R.LoginToServer}" Click="button_Click" HorizontalContentAlignment="Left" Background="#FFC4C4C4"/>
+                <ComboBox Name="servers" Grid.Row="1" Margin="50,0,0,0" IsEditable="True" FontFamily="Microsoft YaHei" HorizontalAlignment="Right" VerticalContentAlignment="Center" BorderThickness="0" Background="{x:Null}">
+                    <ComboBoxItem Content="127.0.0.1" IsSelected="True"/>
+                </ComboBox>
+            </Grid>
+        </Border>
+        <ListBox x:Name="avs" Visibility="Collapsed" SelectionChanged="avs_SelectionChanged" Background="{x:Null}" BorderThickness="0" SelectedItem="{Binding ElementName=avatar,Path=Content}" ItemsSource="{x:Static c:IdAvatar.Avatars}" ItemTemplate="{x:Static ui:Cartes.Avatar}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel HorizontalAlignment="Center"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
     </Grid>
 </UserControl>

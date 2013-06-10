@@ -15,7 +15,7 @@
         </Rectangle>
         <Line X2="{Binding ElementName=bar,Path=ActualWidth}" Stroke="White" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,23"/>
         <local:LobbyView x:Name="lobby" Margin="0,0,0,24" Foreground="#50000000" />
-        <local:Login x:Name="login" Margin="25,0" VerticalAlignment="Center">
+        <local:Login x:Name="login" Margin="0,0,0,24" VerticalAlignment="Center">
             <local:Login.Effect>
                 <DropShadowEffect Opacity="0.2" ShadowDepth="10" BlurRadius="10" />
             </local:Login.Effect>

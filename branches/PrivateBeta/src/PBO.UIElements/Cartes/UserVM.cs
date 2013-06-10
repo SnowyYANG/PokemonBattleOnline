@@ -8,7 +8,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using LightStudio.PokemonBattle.PBO.UIElements;
 using LightStudio.Tactic.Messaging;
-using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.PBO
 {
@@ -38,12 +37,12 @@ namespace LightStudio.PokemonBattle.PBO
     public event PropertyChangedEventHandler PropertyChanged;
     protected readonly ObservableCollection<MenuCommand> commands;
     protected readonly User Model;
-    private readonly AvatarVM avatar;
+    private int avatar;
 
     public UserVM(User user, bool innerAvatarOnly)
     {
       Model = user;
-      avatar = new AvatarVM(user.Avatar, innerAvatarOnly);
+      avatar = 495;
       commands = new ObservableCollection<MenuCommand>();
       Commands = new ReadOnlyObservableCollection<MenuCommand>(commands);
     }
@@ -52,7 +51,7 @@ namespace LightStudio.PokemonBattle.PBO
     { get { return Model.Id; } }
     public string Name
     { get { return Model.Name; } }
-    public AvatarVM Avatar
+    public int Avatar
     { get { return avatar; } }
     public UserState State
     { get { return Model.State; } }

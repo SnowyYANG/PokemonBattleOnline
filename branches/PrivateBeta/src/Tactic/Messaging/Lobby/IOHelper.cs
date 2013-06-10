@@ -25,36 +25,31 @@ namespace LightStudio.Tactic.Messaging
     {
       writer.Write((byte)state);
     }
-    public static Avatar ReadAvatar(this BinaryReader reader)
+    public static int ReadAvatar(this BinaryReader reader)
     {
-      byte id = reader.ReadByte();
-      string url = reader.ReadString();
-      return new Avatar(id, url);
+      return reader.ReadInt16();
     }
-    public static void WriteAvatar(this BinaryWriter writer, Avatar avatar)
+    public static void WriteAvatar(this BinaryWriter writer, int avatar)
     {
-      writer.Write(avatar.InnerAvatarId);
-      writer.Write(avatar.Url);
+      writer.Write((short)avatar);
     }
-    public static User<T> ReadUser<T>(this BinaryReader reader) where T : IBytable, new()
+    public static User ReadUser(this BinaryReader reader)
     {
       int id = reader.ReadUserId();
       string name = reader.ReadString();
-      Avatar avatar = reader.ReadAvatar();
-      User<T> u = new User<T>(id, name, avatar);
+      int avatar = reader.ReadAvatar();
+      User u = new User(id, name, avatar);
       u.State = reader.ReadUserState();
       u.Sign = reader.ReadString();
-      u.Extension.SetValue(reader);
       return u;
     }
-    public static void WriteUser<T>(this BinaryWriter writer, User<T> user) where T : IBytable, new()
+    public static void WriteUser(this BinaryWriter writer, User user)
     {
       writer.WriteUserId(user.Id);
       writer.Write(user.Name);
       writer.WriteAvatar(user.Avatar);
       writer.WriteUserState(user.State);
       writer.Write(user.Sign);
-      user.Extension.WriteToByte(writer);
     }
 
     public static TElement[] ReadArray<TElement>(this BinaryReader reader, Func<TElement> readElement)

@@ -14,7 +14,6 @@ using System.Windows.Shapes;
 using LightStudio.Tactic.Messaging;
 using LightStudio.PokemonBattle.Messaging.Room;
 using LightStudio.PokemonBattle.Game;
-using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.PBO.Lobby
 {

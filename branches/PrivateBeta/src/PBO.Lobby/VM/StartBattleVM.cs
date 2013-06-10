@@ -13,7 +13,6 @@ using LightStudio.PokemonBattle.Messaging;
 using LightStudio.PokemonBattle.Messaging.Room;
 using LightStudio.PokemonBattle.PBO.UIElements;
 using SoundPlayer = System.Media.SoundPlayer;
-using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.PBO.Lobby
 {
@@ -47,7 +46,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
       challenge = PBOClient.Challenge; //thread safe?
       Rival = rival;
       this.isPassive = isPassive;
-      RivalAvatar = AvatarVM.GetAvatar(rival.Avatar);
+      RivalAvatar = Converters.IdAvatar.GetAvatar(rival.Avatar);
       Teams = DataService.UserData.Teams;
       _chosenTeam = Teams.FirstOrDefault();
       GameSettings = settings;

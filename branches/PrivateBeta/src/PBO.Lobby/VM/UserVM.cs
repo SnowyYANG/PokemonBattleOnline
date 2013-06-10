@@ -9,7 +9,6 @@ using LightStudio.Tactic.Messaging;
 using LightStudio.PokemonBattle.Messaging;
 using LightStudio.PokemonBattle.Messaging.Room;
 using LightStudio.PokemonBattle.PBO.UIElements;
-using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.PBO.Lobby
 {

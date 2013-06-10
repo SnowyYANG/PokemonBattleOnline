@@ -15,7 +15,6 @@ using LightStudio.Tactic.Messaging;
 using LightStudio.PokemonBattle.Messaging;
 using LightStudio.PokemonBattle.PBO.UIElements;
 using SoundPlayer = System.Media.SoundPlayer;
-using User = LightStudio.Tactic.Messaging.User<LightStudio.PokemonBattle.Messaging.UserExtension>;
 
 namespace LightStudio.PokemonBattle.PBO.Lobby
 {
