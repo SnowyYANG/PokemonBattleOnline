@@ -159,7 +159,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         else atk.FailAll(null);
       }
       else atk.FailAll();
-      if (atk.Attacker != null) atk.Attacker.OnboardPokemon.SetCondition("Rage");
+      if (Move.Id == 99 && atk.Attacker != null) atk.Attacker.OnboardPokemon.SetCondition("Rage");
     }
 
     protected virtual bool PrepareOneTurn(AtkContext atk)

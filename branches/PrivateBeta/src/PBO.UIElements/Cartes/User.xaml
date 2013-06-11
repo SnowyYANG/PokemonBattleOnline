@@ -6,11 +6,11 @@
         <Image Source="{Binding Converter={x:Static c:IdAvatar.C}}" Height="64" Width="64"/>
     </DataTemplate>
     <DataTemplate x:Key="User">
-        <Grid Height="40" Margin="1" Name="grid">
+        <Grid Height="32" Margin="1" Name="grid">
             <Grid.ContextMenu>
                 <ContextMenu ItemsSource="{Binding Commands}" ItemContainerStyle="{x:Static ui:Controls.CommandMenu}"/>
             </Grid.ContextMenu>
-            <ContentPresenter Content="{Binding Avatar}" ContentTemplate="{StaticResource Avatar}" Height="40" Width="40" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Image Source="{Binding Avatar,Converter={x:Static c:IdAvatar.C}}" Height="32" Width="32" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Image Name="state" Height="11" Width="11" Margin="29,29,0,0"/>
             <TextBlock Name="name" Text="{Binding Name}" Margin="45,2,0,0" VerticalAlignment="Top"/>
         </Grid>

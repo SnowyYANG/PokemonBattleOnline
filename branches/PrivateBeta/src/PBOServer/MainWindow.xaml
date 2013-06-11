@@ -26,9 +26,9 @@
                     </GridViewColumn>
                     <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"/>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Avatar" DisplayMemberBinding="{Binding Avatar}"/>
                     <GridViewColumn Header="State" DisplayMemberBinding="{Binding State}"/>
                     <GridViewColumn Header="Sign" DisplayMemberBinding="{Binding Sign}"/>
-                    <GridViewColumn Header="UrlAvatar" DisplayMemberBinding="{Binding Avatar.Url}"/>
                 </GridView>
             </ListView.View>
         </ListView>

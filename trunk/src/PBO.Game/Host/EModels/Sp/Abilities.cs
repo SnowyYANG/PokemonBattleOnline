@@ -309,7 +309,7 @@ namespace PokemonBattleOnline.Game.Host.Sp
       int ab = atk.Attacker.Ability.Id;
       Modifier m;
       if (ab == COMPOUNDEYES) m = 0x14CC;
-      else if (ab == HUSTLE && atk.Move.Category == MoveCategory.Physical) m = 0x1800;
+      else if (ab == HUSTLE && atk.Move.Category == MoveCategory.Physical) m = 0xCCC;
       else m = 0x1000;
       foreach (PokemonProxy pm in atk.Controller.GetOnboardPokemons(atk.Attacker.Pokemon.TeamId))
         if (pm.Ability.Id == VICTORY_STAR) m *= 0x1199;

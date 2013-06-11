@@ -36,7 +36,7 @@ namespace LightStudio.PokemonBattle.PBO.Server
 
     private void AddUser(User u)
     {
-      UserVM uvm= new UserVM(u, true);
+      UserVM uvm = new UserVM(u);
       usersDictionary.Add(u.Id, uvm);
       users.Add(uvm);
       chat.AppendText("\n<SYSTEM> " + u.Name + " logs in, ID. " + u.Id);
