@@ -316,6 +316,31 @@ namespace PokemonBattleOnline.Data
             }
         }
 
+        public void SetByIndex(int index, int value)
+        {
+            switch (index)
+            {
+                case 0:
+                    Hp = value;
+                    break;
+                case 1:
+                    Atk = value;
+                    break;
+                case 2:
+                    Def = value;
+                    break;
+                case 3:
+                    SpAtk = value;
+                    break;
+                case 4:
+                    SpDef = value;
+                    break;
+                case 5:
+                    Speed = value;
+                    break;
+            }
+        }
+
         #region IEnumerator
 
         public IEnumerator<int> GetEnumerator()

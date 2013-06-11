@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -235,5 +236,86 @@ namespace PokemonBattleOnline.Data
             return i;
             //return Convert.ToInt32(s);
         }
+
+        #region import from po (*.tp)
+
+        public static PokemonCollection LoadFromPo(string path)
+        {
+            string body = "";
+            using (var sr = new StreamReader(path, Encoding.UTF8))
+            {
+                body = sr.ReadToEnd();
+                sr.Close();
+            }
+            var ms = Regex.Matches(body, "<Pokemon.*?</Pokemon>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+            PokemonBT data = new PokemonBT();
+            for (int i = 0; i < ms.Count && i < 7; i++)
+            {
+                data.Add(MatchPOPokemon(ms[i].Value));
+            }
+            return data;
+        }
+
+        private static PokemonData MatchPOPokemon(string s)
+        {
+            Match m;
+            int num = 1, form = 0;
+            m = MatchCell(s, "Num");
+            if (m.Success) num = m.Value.ToInt();
+            m = MatchCell(s, "Forme");
+            if (m.Success) form = m.Value.ToInt();
+            PokemonData pm = new PokemonData(num, form);
+
+            m = MatchCell(s, "Happiness");
+            if (m.Success) pm.Happiness = m.Value.ToInt();
+            m = MatchCell(s, "Item");
+            if (m.Success) pm.Item = GameDataService.Rom.GetItem(m.Value.ToInt());
+            m = MatchCell(s, "Nickname");
+            if (m.Success) pm.Name = m.Value;
+            m = MatchCell(s, "Nature");
+            if (m.Success) pm.Nature = (PokemonNature)m.Value.ToInt();
+            m = MatchCell(s, "Lvl");
+            if (m.Success) pm.Lv = m.Value.ToInt();
+            m = MatchCell(s, "Ability");
+            if (m.Success) pm.Ability = GameDataService.Rom.GetAbility(m.Value.ToInt());
+
+            Match6D(pm.Iv, s, "DV");
+            Match6D(pm.Ev, s, "EV");
+
+            foreach (var move in MatchMoves(s))
+            {
+                pm.AddMove(move);
+            }
+            return pm;
+        }
+
+        private static Match MatchCell(string input, string key)
+        {
+            return Regex.Match(input, key + @"=""([^""]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        }
+
+        private static void Match6D(Observable6D o6d, string input, string key)
+        {
+            var ms = Regex.Matches(input, "<" + key + @">(\d+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            for (int i = 0; i < ms.Count && i < 7; i++)
+            {
+                o6d.SetByIndex(i, ms[i].Value.ToInt());
+            }
+        }
+
+        private static List<MoveType> MatchMoves(string input)
+        {
+            var moves = new List<MoveType>();
+            var ms = Regex.Matches(input, @"<Move>(\d+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            for (int i = 0; i < ms.Count && i < 5; i++)
+            {
+                moves.Add(GameDataService.Rom.GetMoveType(ms[i].Value.ToInt()));
+            }
+            return moves;
+        }
+
+        #endregion
+
     }
 }
