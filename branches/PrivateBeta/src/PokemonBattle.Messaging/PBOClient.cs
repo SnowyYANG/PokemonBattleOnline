@@ -13,7 +13,7 @@ namespace LightStudio.PokemonBattle.Messaging
     public static event Action NewClientPrepared;
 
     private static object locker = new object();
-    
+
     public static void Prepare4Login(IPAddress serverAddress, int serverPort)
     {
       Client = Client.NewTcpClient(serverAddress, serverPort);
@@ -29,7 +29,7 @@ namespace LightStudio.PokemonBattle.Messaging
       }
       private set
       {
-        lock(locker)
+        lock (locker)
           if (_client != value)
           {
             if (_client != null)
@@ -37,6 +37,7 @@ namespace LightStudio.PokemonBattle.Messaging
               if (_client.IsLogined) _client.Logout();
               _client.Dispose();
               Lobby.Dispose();
+              Hosts.Dispose();
               Battle.Dispose();
               Challenge.Dispose();
               Spectate.Dispose();
@@ -45,8 +46,9 @@ namespace LightStudio.PokemonBattle.Messaging
             if (_client != null)
             {
               Lobby = new Lobby(_client);
+              Hosts = new Hosts(_client);
               Battle = new BattleClient(_client);
-              Challenge = new ChallengeManager(_client, Battle);
+              Challenge = new ChallengeManager(Hosts, Battle);
               Spectate = new SpectateManager(Battle);
               if (NewClientPrepared != null) NewClientPrepared();
             }
@@ -55,19 +57,20 @@ namespace LightStudio.PokemonBattle.Messaging
     }
     public static BattleClient Battle { get; private set; }
     public static Lobby Lobby { get; private set; }
+    public static Hosts Hosts { get; private set; }
     public static ChallengeManager Challenge { get; private set; }
     public static SpectateManager Spectate { get; private set; }
 
     public static string GetName(int player)
     {
       //thread safe?
-      lock(locker)
+      lock (locker)
         if (Client != null)
         {
           var u = Client.GetUser(player);
           if (u != null) return u.Name;
         }
-        return "#" + player.ToString();
+      return "#" + player.ToString();
     }
     public static string GetName(this Player player)
     {

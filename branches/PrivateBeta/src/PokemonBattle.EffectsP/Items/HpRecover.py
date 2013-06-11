@@ -14,11 +14,11 @@ I(OrganBerry(135, 10)) #organ berry
 I(OrganBerry(194, 20)) #berry juice
 
 class SitrusBerry(ItemE):
-    def e(pm):
+    def e(self, pm):
         if pm.Hp << 1 < pm.Pokemon.Hp.Origin:
             pm.HpRecoverByOneNth(4, False, 'ItemRecover', 138, True)
     def Attach(self, pm):
-        SitrusBerry.e(pm)
+        SitrusBerry.e(self, pm)
     def HpChanged(self, pm):
-        SitrusBerry.e(pm)
+        SitrusBerry.e(self, pm)
 I(SitrusBerry(138))

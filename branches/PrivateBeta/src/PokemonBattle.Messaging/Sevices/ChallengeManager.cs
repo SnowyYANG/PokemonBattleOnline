@@ -11,13 +11,15 @@ namespace LightStudio.PokemonBattle.Messaging
   public class ChallengeManager : ClientService
   {
     private readonly object locker = new object();
+    private readonly Hosts Hosts;
     private readonly BattleClient Battle;
     private IPokemonData[] challengingPms;
     private GameInitSettings currentSettings; //被挑战的临时游戏设置与此变量无关
-    
-    internal ChallengeManager(Client client, BattleClient battle)
-      : base(client, MessageHeaders.CHALLENGE, MessageHeaders.ACCEPT_CHALLENGE, MessageHeaders.REFUSE_CHALLENGE, MessageHeaders.CANCEL_CHALLENGE)
+
+    internal ChallengeManager(Hosts hosts, BattleClient battle)
+      : base(hosts.Client, MessageHeaders.CHALLENGE, MessageHeaders.ACCEPT_CHALLENGE, MessageHeaders.REFUSE_CHALLENGE, MessageHeaders.CANCEL_CHALLENGE)
     {
+      Hosts = hosts;
       Battle = battle;
     }
 
@@ -111,6 +113,7 @@ namespace LightStudio.PokemonBattle.Messaging
       lock (locker)
       {
         ChallengeAccepted(user);
+        Hosts.AddHost(currentSettings, true);
         Battle.JoinGame(Client.User.Id, 0, challengingPms);
         challengingPms = null;
       }
