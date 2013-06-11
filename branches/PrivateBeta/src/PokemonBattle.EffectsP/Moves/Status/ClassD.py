@@ -40,7 +40,7 @@ class KOedCondition(StatusMoveE):
     def __init__(self, id, condition):
         self.Condition = condition
     def Act(self, a):
-        a.Attacker.SetCondition(self.Condition)
+        a.Attacker.OnboardPokemon.SetCondition(self.Condition)
         a.Attacker.AddReportPm('En' + self.Condition)
 M(KOedCondition(194, 'DestinyBond'))
 M(KOedCondition(288, 'Grudge'))
