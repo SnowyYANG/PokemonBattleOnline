@@ -54,7 +54,6 @@
     <None Include="Moves\Attack\ClearSmog.py" />
     <None Include="Moves\Attack\MoveProxyUsed.py" />
     <None Include="Moves\Attack\NotFailHasEffect.py" />
-    <None Include="Moves\Attack\Rage.py" />
     <None Include="Moves\Attack\SpDamage.py" />
     <None Include="Moves\Attack\SpPower.py" />
     <None Include="Moves\Attack\Struggle.py" />
