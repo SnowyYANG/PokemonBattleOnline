@@ -34,7 +34,7 @@ class PersimBerry(ItemE):
     def Attach(self, pm):
         PerisimBerry.e(self, pm)
     def StateAdded(self, pm, by, state):
-        if state == AttachedState.Confusion:
+        if state == AttachedState.Confuse:
             PerisimBerry.e(self, pm)
 I(PersimBerry(136))
 

@@ -62,7 +62,7 @@ class OwnTempo(AbilityE):
             self.Raise(pm)
             pm.AddReportPm('DeConfuse')
     def CanAddState(self, pm, by, state, showFail):
-        if state == AttachedState.Confusion:
+        if state == AttachedState.Confuse:
             if showFail:
                 self.Raise(pm)
                 pm.AddReportPm('CantConfuse', None, None)
