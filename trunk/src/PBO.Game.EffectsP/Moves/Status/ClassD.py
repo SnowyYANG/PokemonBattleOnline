@@ -195,7 +195,7 @@ class MagnetRise(StatusMoveE):
     def Act(self, a):
         aer = a.Attacker.OnboardPokemon
         if not aer.HasCondition('Ingrain') and aer.AddCondition('MagnetRise', a.Controller.TurnNumber + 5):
-            aer.AddReportPm('EnMagnetRise', None, None)
+            a.Attacker.AddReportPm('EnMagnetRise', None, None)
         else:
             a.FailAll()
 M(MagnetRise(393))
