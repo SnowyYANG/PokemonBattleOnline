@@ -37,12 +37,10 @@ namespace LightStudio.PokemonBattle.PBO
     public event PropertyChangedEventHandler PropertyChanged;
     protected readonly ObservableCollection<MenuCommand> commands;
     protected readonly User Model;
-    private int avatar;
 
     public UserVM(User user, bool innerAvatarOnly)
     {
       Model = user;
-      avatar = 495;
       commands = new ObservableCollection<MenuCommand>();
       Commands = new ReadOnlyObservableCollection<MenuCommand>(commands);
     }
@@ -52,7 +50,7 @@ namespace LightStudio.PokemonBattle.PBO
     public string Name
     { get { return Model.Name; } }
     public int Avatar
-    { get { return avatar; } }
+    { get { return Model.Avatar; } }
     public UserState State
     { get { return Model.State; } }
     public string Sign
