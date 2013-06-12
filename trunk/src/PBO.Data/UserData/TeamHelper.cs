@@ -1,14 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace PokemonBattleOnline.Data
 {
     /// <summary>
     /// *.ptd
     /// </summary>
-    public static class Pokemon0791Helper
+    public class Team0791 : ITeamIO
     {
+        #region tool
+
         #region Decrypt
 
         private const string KEY = "sJg/jtph3lzuhiy9EafZtw==";
@@ -43,7 +48,7 @@ namespace PokemonBattleOnline.Data
 
         #region Read
 
-        public static PokemonCollection From0791(FileStream stream)
+        private static PokemonCollection From0791(FileStream stream)
         {
             PokemonBT data = new PokemonBT();
             using (MemoryStream ms = Decrypt(stream))
@@ -213,5 +218,208 @@ namespace PokemonBattleOnline.Data
         }
 
         #endregion
+
+        #endregion
+
+        #region instance
+
+        private static Team0791 instance = new Team0791();
+
+        public static Team0791 GetInstance()
+        {
+            return instance;
+        }
+
+        #endregion
+
+        #region IPokemonDataIO
+
+        public PokemonCollection Read(string path)
+        {
+            PokemonCollection pms = null;
+            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                pms = From0791(fs);
+                fs.Close();
+            }
+            return pms;
+        }
+
+        public void Write(IEnumerable<IPokemonData> pds, string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string ExportString(IEnumerable<IPokemonData> pds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PokemonCollection ImportString(string body)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
+    public class TeamPO : ITeamIO
+    {
+        #region import from po (*.tp)
+
+        private static PokemonCollection LoadFromPo(string path)
+        {
+            string body = "";
+            using (var sr = new StreamReader(path, Encoding.UTF8))
+            {
+                body = sr.ReadToEnd();
+                sr.Close();
+            }
+            var ms = Regex.Matches(body, "<Pokemon.*?</Pokemon>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+            PokemonBT data = new PokemonBT();
+            for (int i = 0; i < ms.Count && i < 7; i++)
+            {
+                data.Add(MatchPOPokemon(ms[i].Value));
+            }
+            return data;
+
+
+        }
+
+        private static PokemonData MatchPOPokemon(string s)
+        {
+            Match m;
+            int num = 1, form = 0;
+            m = MatchCell(s, "Num");
+            if (m.Success) num = m.Groups[1].Value.ToInt();
+            m = MatchCell(s, "Forme");
+            if (m.Success) form = m.Groups[1].Value.ToInt();
+            PokemonData pm = new PokemonData(num, form);
+
+            m = MatchCell(s, "Happiness");
+            if (m.Success) pm.Happiness = m.Groups[1].Value.ToInt();
+            m = MatchCell(s, "Item");
+            if (m.Success) pm.Item = GameDataService.Rom.GetItem(m.Groups[1].Value.ToInt());
+            m = MatchCell(s, "Nickname");
+            if (m.Success) pm.Name = m.Groups[1].Value;
+            m = MatchCell(s, "Nature");
+            if (m.Success) pm.Nature = (PokemonNature)m.Groups[1].Value.ToInt();
+            m = MatchCell(s, "Lvl");
+            if (m.Success) pm.Lv = m.Groups[1].Value.ToInt();
+            m = MatchCell(s, "Ability");
+            if (m.Success) pm.Ability = GameDataService.Rom.GetAbility(m.Groups[1].Value.ToInt());
+
+            Match6D(pm.Iv, s, "DV");
+            Match6D(pm.Ev, s, "EV");
+
+            foreach (var move in MatchMoves(s))
+            {
+                pm.AddMove(move);
+            }
+            return pm;
+        }
+
+        private static Match MatchCell(string input, string key)
+        {
+            return Regex.Match(input, key + @"=""([^""]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        }
+
+        private static void Match6D(Observable6D o6d, string input, string key)
+        {
+            var ms = Regex.Matches(input, "<" + key + @">(\d+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            for (int i = 0; i < ms.Count && i < 7; i++)
+            {
+                o6d.SetByIndex(i, ms[i].Groups[1].Value.ToInt());
+            }
+        }
+
+        private static List<MoveType> MatchMoves(string input)
+        {
+            var moves = new List<MoveType>();
+            var ms = Regex.Matches(input, @"<Move>(\d+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            for (int i = 0; i < ms.Count && i < 5; i++)
+            {
+                moves.Add(GameDataService.Rom.GetMoveType(ms[i].Groups[1].Value.ToInt()));
+            }
+            return moves;
+        }
+
+        #endregion
+
+        #region instance
+
+        private static TeamPO instance = new TeamPO();
+
+        public static TeamPO GetInstance()
+        {
+            return instance;
+        }
+
+        #endregion
+
+        #region IPokemonDataIO
+
+        public PokemonCollection Read(string path)
+        {
+            return LoadFromPo(path);
+        }
+
+        public void Write(IEnumerable<IPokemonData> pds, string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string ExportString(IEnumerable<IPokemonData> pds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PokemonCollection ImportString(string body)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
+    public class TeamPBO : ITeamIO
+    {
+
+        #region instance
+
+        private static TeamPBO instance = new TeamPBO();
+
+        public static TeamPBO GetInstance()
+        {
+            return instance;
+        }
+
+        #endregion
+
+        #region IPokemonDataIO
+
+        public PokemonCollection Read(string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Write(IEnumerable<IPokemonData> pds, string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string ExportString(IEnumerable<IPokemonData> pds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PokemonCollection ImportString(string body)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
     }
 }
