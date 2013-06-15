@@ -15,12 +15,12 @@ namespace PokemonBattleOnline.Data
         /// <summary>
         /// 输出队伍
         /// </summary>
-        void Write(IEnumerable<IPokemonData> pds, string path);
+        void Write(IEnumerable<PokemonData> pds, string path);
 
         /// <summary>
         /// 输出字符串
         /// </summary>
-        string ExportString(IEnumerable<IPokemonData> pds);
+        string ExportString(IEnumerable<PokemonData> pds);
 
         /// <summary>
         /// 加载字符串

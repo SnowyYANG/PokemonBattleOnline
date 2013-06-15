@@ -12,6 +12,7 @@ namespace PokemonBattleOnline.Data
     /// </summary>
     public class Team0791 : ITeamIO
     {
+
         #region tool
 
         #region Decrypt
@@ -223,6 +224,8 @@ namespace PokemonBattleOnline.Data
 
         #region instance
 
+        private Team0791() { }
+
         private static Team0791 instance = new Team0791();
 
         public static Team0791 GetInstance()
@@ -245,26 +248,28 @@ namespace PokemonBattleOnline.Data
             return pms;
         }
 
-        public void Write(IEnumerable<IPokemonData> pds, string path)
+        public void Write(IEnumerable<PokemonData> pds, string path)
         {
             throw new NotImplementedException();
         }
 
-        public string ExportString(IEnumerable<IPokemonData> pds)
+        public string ExportString(IEnumerable<PokemonData> pds)
         {
-            throw new NotImplementedException();
+            return Helper.Export(pds);
         }
 
         public PokemonCollection ImportString(string body)
         {
-            throw new NotImplementedException();
+            return Helper.Import(body, 6);
         }
 
         #endregion
+
     }
 
     public class TeamPO : ITeamIO
     {
+
         #region import from po (*.tp)
 
         private static PokemonCollection LoadFromPo(string path)
@@ -349,6 +354,8 @@ namespace PokemonBattleOnline.Data
 
         #region instance
 
+        private TeamPO() { }
+
         private static TeamPO instance = new TeamPO();
 
         public static TeamPO GetInstance()
@@ -365,28 +372,31 @@ namespace PokemonBattleOnline.Data
             return LoadFromPo(path);
         }
 
-        public void Write(IEnumerable<IPokemonData> pds, string path)
+        public void Write(IEnumerable<PokemonData> pds, string path)
         {
             throw new NotImplementedException();
         }
 
-        public string ExportString(IEnumerable<IPokemonData> pds)
+        public string ExportString(IEnumerable<PokemonData> pds)
         {
-            throw new NotImplementedException();
+            return Helper.Export(pds);
         }
 
         public PokemonCollection ImportString(string body)
         {
-            throw new NotImplementedException();
+            return Helper.Import(body, 6);
         }
 
         #endregion
+
     }
 
     public class TeamPBO : ITeamIO
     {
 
         #region instance
+
+        private TeamPBO() { }
 
         private static TeamPBO instance = new TeamPBO();
 
@@ -404,19 +414,19 @@ namespace PokemonBattleOnline.Data
             throw new NotImplementedException();
         }
 
-        public void Write(IEnumerable<IPokemonData> pds, string path)
+        public void Write(IEnumerable<PokemonData> pds, string path)
         {
             throw new NotImplementedException();
         }
 
-        public string ExportString(IEnumerable<IPokemonData> pds)
+        public string ExportString(IEnumerable<PokemonData> pds)
         {
-            throw new NotImplementedException();
+            return Helper.Export(pds);
         }
 
         public PokemonCollection ImportString(string body)
         {
-            throw new NotImplementedException();
+            return Helper.Import(body, 6);
         }
 
         #endregion

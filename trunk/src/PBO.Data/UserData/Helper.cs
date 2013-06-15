@@ -207,7 +207,7 @@ namespace PokemonBattleOnline.Data
                 sb.AppendLine();
                 sb.AppendLine();
             }
-            return sb.ToString();
+            return sb.ToString().Trim(new char[] { '\r', '\n' });
         }
 
         private static PokemonGender GetGender(string s)
@@ -234,7 +234,6 @@ namespace PokemonBattleOnline.Data
             int i = 0;
             int.TryParse(s, out i);
             return i;
-            //return Convert.ToInt32(s);
         }
     }
 }

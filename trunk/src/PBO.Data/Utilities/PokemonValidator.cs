@@ -11,23 +11,14 @@ namespace PokemonBattleOnline.Data
 
         #region 6D
 
-        public static bool ValidateValue(this I6D value, int min, int max)
-        {
-            foreach (var v in value)
-            {
-                if (v < min || v > max) return false;
-            }
-            return true;
-        }
-
         public static bool ValidateIv(this I6D iv)
         {
-            return iv.ValidateValue(0, 31);
+            return !iv.Any((p) => p < 0 && p > 31);
         }
 
         public static bool ValidateEv(this I6D ev)
         {
-            return ev.ValidateValue(0, 255) && ev.Sum() <= 510;
+            return !ev.Any((p) => p < 0 && p > 255) && ev.Sum() <= 510;
         }
 
         #endregion
