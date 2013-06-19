@@ -4,6 +4,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace PokemonBattleOnline.Data
 {
@@ -49,7 +50,7 @@ namespace PokemonBattleOnline.Data
 
         #region Read
 
-        private static PokemonCollection From0791(FileStream stream)
+        private static PokemonBT From0791(FileStream stream)
         {
             PokemonBT data = new PokemonBT();
             using (MemoryStream ms = Decrypt(stream))
@@ -60,6 +61,11 @@ namespace PokemonBattleOnline.Data
                 //data.CustomInfo.DataHash = reader.ReadString();
                 string name = reader.ReadString();
                 string hash = reader.ReadString();
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    data.Name = name;
+                }
+
                 for (int i = 0; i < 6; i++)
                 {
                     var pm = ReadData(reader);
@@ -120,6 +126,13 @@ namespace PokemonBattleOnline.Data
             }
             return pm;
         }
+
+        #endregion
+
+        #region Write
+
+
+
 
         #endregion
 
@@ -237,28 +250,28 @@ namespace PokemonBattleOnline.Data
 
         #region IPokemonDataIO
 
-        public PokemonCollection Read(string path)
+        public PokemonBT Read(string path)
         {
-            PokemonCollection pms = null;
+            PokemonBT bt = null;
             using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                pms = From0791(fs);
+                bt = From0791(fs);
                 fs.Close();
             }
-            return pms;
+            return bt;
         }
 
-        public void Write(IEnumerable<PokemonData> pds, string path)
+        public void Write(PokemonBT pds, string path)
         {
             throw new NotImplementedException();
         }
 
-        public string ExportString(IEnumerable<PokemonData> pds)
+        public string ExportString(PokemonBT pds)
         {
             return Helper.Export(pds);
         }
 
-        public PokemonCollection ImportString(string body)
+        public PokemonBT ImportString(string body)
         {
             return Helper.Import(body, 6);
         }
@@ -272,7 +285,7 @@ namespace PokemonBattleOnline.Data
 
         #region import from po (*.tp)
 
-        private static PokemonCollection LoadFromPo(string path)
+        private static PokemonBT LoadFromPo(string path)
         {
             string body = "";
             using (var sr = new StreamReader(path, Encoding.UTF8))
@@ -288,8 +301,6 @@ namespace PokemonBattleOnline.Data
                 data.Add(MatchPOPokemon(ms[i].Value));
             }
             return data;
-
-
         }
 
         private static PokemonData MatchPOPokemon(string s)
@@ -300,6 +311,8 @@ namespace PokemonBattleOnline.Data
             if (m.Success) num = m.Groups[1].Value.ToInt();
             m = MatchCell(s, "Forme");
             if (m.Success) form = m.Groups[1].Value.ToInt();
+            if (num == 0) return null;
+
             PokemonData pm = new PokemonData(num, form);
 
             m = MatchCell(s, "Happiness");
@@ -367,22 +380,151 @@ namespace PokemonBattleOnline.Data
 
         #region IPokemonDataIO
 
-        public PokemonCollection Read(string path)
+        public PokemonBT Read(string path)
         {
             return LoadFromPo(path);
         }
 
-        public void Write(IEnumerable<PokemonData> pds, string path)
+        public void Write(PokemonBT pds, string path)
         {
-            throw new NotImplementedException();
+            using (var sw = new StreamWriter(path, false, Encoding.UTF8))
+            {
+                foreach (var pm in pds)
+                {
+
+                }
+                sw.Flush();
+                sw.Close();
+            }
         }
 
-        public string ExportString(IEnumerable<PokemonData> pds)
+        public string ExportString(PokemonBT pds)
         {
-            return Helper.Export(pds);
+            var ret = new StringBuilder();
+
+            foreach (var pm in pds)
+            {
+                if (pm == null) continue;
+
+                ret.Append(pm.Name);
+
+                if (pm.Name != pm.Form.Type.GetLocalizedName())
+                {
+                    ret.AppendFormat(" ({0})", pm.Form.Type.GetLocalizedName());
+                }
+
+                if (pm.Gender != PokemonGender.None)
+                {
+                    ret.AppendFormat(" ({0})", pm.Gender == PokemonGender.Male ? "M" : "F");
+                }
+
+                if (pm.Item != null)
+                {
+                    ret.Append(" @ " + pm.Item.Name);
+                }
+                ret.AppendLine();//使用crlf
+
+                ret.AppendLine("Trait: " + pm.Ability.Name);
+                ret.Append("EVs: " + pm.Ability.Name);
+                string[] stats = { "HP", "Atk", "Def", "SAtk", "SDef", "Spd" };
+                int i = 0; bool started = false;
+                foreach (int ev in pm.Ev)
+                {
+                    if (ev != 0)
+                    {
+                        if (started) ret.Append(" / ");
+                        started = true;
+                        ret.Append(ev + " " + stats[i]);
+                    }
+                    i++;
+                }
+                ret.AppendLine();
+                ret.Append(pm.Nature.ToString() + " Nature");
+                //Nature + -
+                ret.AppendLine();
+
+                foreach (var move in pm.Moves.Select((m) => m.Move))
+                {
+                    ret.Append("- " + move.Name);
+                    if (move.EnglishName == "Hidden Power")
+                    {
+                        //Hidden Power
+                    }
+                    ret.AppendLine();
+                }
+                ret.AppendLine();
+            }
+
+            #region po
+            //for (int i = 0; i < 6; i++) {
+            //    if (this->poke(i).num() == Pokemon::NoPoke)
+            //        continue;
+
+            //    const PokeTeam &p = this->poke(i);
+
+            //    ret += p.nickname();
+
+            //    if (p.nickname() != PokemonInfo::Name(p.num())) {
+            //        ret += " (" + PokemonInfo::Name(p.num()) + ")";
+            //    }
+
+            //    if (p.gender() != Pokemon::Neutral) {
+            //        ret += QString(" (") + (p.gender() == Pokemon::Male ? "M" : "F") + ")";
+            //    }
+
+            //    ret += " @ " + ItemInfo::Name(p.item()) + "\n";
+
+            //    if (p.gen() >= 3) {
+            //        ret += "Trait: " + AbilityInfo::Name(p.ability()) + "\n";
+
+            //        ret += "EVs: ";
+
+            //        QString stats[] = {"HP", "Atk", "Def", "SAtk", "SDef", "Spd"};
+
+            //        bool started = false;
+            //        for (int i = 0; i < 6; i++) {
+            //            if (p.EV(i) != 0) {
+            //                if (started) {
+            //                    ret += " / ";
+            //                }
+            //                started = true;
+
+            //                ret += QString ("%1 %2").arg(p.EV(i)).arg(stats[i]);
+            //            }
+            //        }
+
+            //        ret += "\n";
+
+            //        ret += NatureInfo::Name(p.nature()) + " Nature";
+
+            //        int up = NatureInfo::StatBoosted(p.nature());
+
+            //        if (up != 0) {
+            //            int down = NatureInfo::StatHindered(p.nature());
+            //            ret += " (+" + stats[up] + ", -" + stats[down] + ")";
+            //        }
+            //        ret += "\n";
+            //    }
+
+            //    for (int i = 0; i < 4; i++) {
+            //        if (p.move(i) != 0) {
+            //            ret += "- " + MoveInfo::Name(p.move(i)) ;
+            //            if (p.move(i) == Move::HiddenPower) {
+            //                ret += " [" + TypeInfo::Name(HiddenPowerInfo::Type(p.gen().num, p.DV(0), p.DV(1), p.DV(2), p.DV(3), p.DV(4), p.DV(5))) + "]";
+            //            }
+            //            ret += "\n";
+            //        }
+            //    }
+
+            //    ret += "\n";
+            //}
+            //return ret.trimmed();
+            #endregion
+
+            return ret.ToString();
         }
 
-        public PokemonCollection ImportString(string body)
+        public PokemonBT ImportString(string body)
         {
             return Helper.Import(body, 6);
         }
@@ -409,22 +551,22 @@ namespace PokemonBattleOnline.Data
 
         #region IPokemonDataIO
 
-        public PokemonCollection Read(string path)
+        public PokemonBT Read(string path)
         {
             throw new NotImplementedException();
         }
 
-        public void Write(IEnumerable<PokemonData> pds, string path)
+        public void Write(PokemonBT pds, string path)
         {
             throw new NotImplementedException();
         }
 
-        public string ExportString(IEnumerable<PokemonData> pds)
+        public string ExportString(PokemonBT pds)
         {
             return Helper.Export(pds);
         }
 
-        public PokemonCollection ImportString(string body)
+        public PokemonBT ImportString(string body)
         {
             return Helper.Import(body, 6);
         }
