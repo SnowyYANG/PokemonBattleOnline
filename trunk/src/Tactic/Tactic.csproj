@@ -16,7 +16,8 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,6 +53,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -72,6 +74,7 @@
     <Compile Include="Globalization\StringService.cs" />
     <Compile Include="DataModels\ObservableObject.cs" />
     <Compile Include="Network\Factory.cs" />
+    <Compile Include="Network\WebUtils.cs" />
     <Compile Include="PBOMarks.cs" />
     <Compile Include="Network\PackHelper.cs" />
     <Compile Include="Network\NullPackReceivedListener.cs" />
