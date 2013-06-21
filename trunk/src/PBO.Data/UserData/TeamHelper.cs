@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Linq;
+using System.Xml;
 
 namespace PokemonBattleOnline.Data
 {
-    /// <summary>
-    /// *.ptd
-    /// </summary>
     public class Team0791 : ITeamIO
     {
 
@@ -109,10 +105,7 @@ namespace PokemonBattleOnline.Data
                 pm.Nature = (PokemonNature)reader.ReadInt32();
                 //pm.Item = (Item)reader.ReadInt32();
                 int itemId = GetItemId(reader.ReadInt32());
-                if (itemId != 0)
-                {
-                    pm.Item = GameDataService.Rom.GetItem(itemId);
-                }
+                if (itemId > 0) pm.Item = GameDataService.Rom.GetItem(itemId);
 
                 for (int i = 0; i < 4; i++)
                 {
@@ -166,6 +159,8 @@ namespace PokemonBattleOnline.Data
 
         private static PokemonData GetById(int identity)
         {
+            int[,] indexes = { { 387, 386, 1 }, { 388, 386, 2 }, { 389, 386, 3 }, { 497, 492, 1 }, { 498, 487, 1 }, { 500, 479, 2 }, { 501, 479, 3 }, { 502, 479, 4 }, { 503, 479, 5 } };
+
             int number = identity, form = 0;
             if (identity >= 390 && identity <= 496)
             {
@@ -173,58 +168,14 @@ namespace PokemonBattleOnline.Data
             }
             else
             {
-                switch (identity)
+                for (int i = 0; i < indexes.GetLength(0); i++)
                 {
-                    //迪奥西斯
-                    //攻击
-                    case 387:
-                        number = 386;
-                        form = 1;
+                    if (indexes[i, 0] == identity)
+                    {
+                        number = indexes[i, 1];
+                        form = indexes[i, 2];
                         break;
-                    //防御
-                    case 388:
-                        number = 386;
-                        form = 2;
-                        break;
-                    //速度
-                    case 389:
-                        number = 386;
-                        form = 3;
-                        break;
-                    //飞刺猬
-                    case 497:
-                        number = 492;
-                        form = 1;
-                        break;
-                    //鬼龙SP
-                    case 498:
-                        number = 487;
-                        break;
-                    //微波炉
-                    case 499:
-                        number = 479;
-                        form = 1;
-                        break;
-                    //洗衣机
-                    case 500:
-                        number = 479;
-                        form = 2;
-                        break;
-                    //冰箱
-                    case 501:
-                        number = 479;
-                        form = 3;
-                        break;
-                    //电扇
-                    case 502:
-                        number = 479;
-                        form = 4;
-                        break;
-                    //割草机
-                    case 503:
-                        number = 479;
-                        form = 5;
-                        break;
+                    }
                 }
             }
 
@@ -283,84 +234,125 @@ namespace PokemonBattleOnline.Data
     public class TeamPO : ITeamIO
     {
 
-        #region import from po (*.tp)
+        #region  po (*.tp)
 
-        private static PokemonBT LoadFromPo(string path)
+        private static PokemonBT LoadXmlTeam(XmlDocument doc)
         {
-            string body = "";
-            using (var sr = new StreamReader(path, Encoding.UTF8))
-            {
-                body = sr.ReadToEnd();
-                sr.Close();
-            }
-            var ms = Regex.Matches(body, "<Pokemon.*?</Pokemon>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            var data = new PokemonBT();
+            var team = doc.DocumentElement;
+            //string gen = team.GetAttribute("gen");
+            //string subgen = team.GetAttribute("subgen");
+            //string defaultTier = team.GetAttribute("defaultTier");
+            //string version = team.GetAttribute("version");
 
-            PokemonBT data = new PokemonBT();
-            for (int i = 0; i < ms.Count && i < 7; i++)
+            foreach (XmlNode pm in team.ChildNodes)
             {
-                data.Add(MatchPOPokemon(ms[i].Value));
+                try
+                {
+                    var pd = LoadXmlData(pm);
+                    if (pd != null) data.Add(pd);
+                }
+                catch { }
             }
             return data;
         }
 
-        private static PokemonData MatchPOPokemon(string s)
+        private static PokemonData LoadXmlData(XmlNode pm)
         {
-            Match m;
-            int num = 1, form = 0;
-            m = MatchCell(s, "Num");
-            if (m.Success) num = m.Groups[1].Value.ToInt();
-            m = MatchCell(s, "Forme");
-            if (m.Success) form = m.Groups[1].Value.ToInt();
+            int num = pm.Attributes.GetNamedItem("Num").Value.ToInt();
+            int forme = pm.Attributes.GetNamedItem("Forme").Value.ToInt();
             if (num == 0) return null;
+            var pd = new PokemonData(num, forme);
 
-            PokemonData pm = new PokemonData(num, form);
+            int itemId = pm.Attributes.GetNamedItem("Item").Value.ToInt();
+            int abilityId = pm.Attributes.GetNamedItem("Ability").Value.ToInt();
 
-            m = MatchCell(s, "Happiness");
-            if (m.Success) pm.Happiness = m.Groups[1].Value.ToInt();
-            m = MatchCell(s, "Item");
-            if (m.Success) pm.Item = GameDataService.Rom.GetItem(m.Groups[1].Value.ToInt());
-            m = MatchCell(s, "Nickname");
-            if (m.Success) pm.Name = m.Groups[1].Value;
-            m = MatchCell(s, "Nature");
-            if (m.Success) pm.Nature = (PokemonNature)m.Groups[1].Value.ToInt();
-            m = MatchCell(s, "Lvl");
-            if (m.Success) pm.Lv = m.Groups[1].Value.ToInt();
-            m = MatchCell(s, "Ability");
-            if (m.Success) pm.Ability = GameDataService.Rom.GetAbility(m.Groups[1].Value.ToInt());
+            pd.Name = pm.Attributes.GetNamedItem("Nickname").Value;
+            pd.Lv = pm.Attributes.GetNamedItem("Lvl").Value.ToInt();
+            pd.Happiness = pm.Attributes.GetNamedItem("Happiness").Value.ToInt();
+            pd.Nature = (PokemonNature)pm.Attributes.GetNamedItem("Nature").Value.ToInt();
+            pd.Gender = (PokemonGender)pm.Attributes.GetNamedItem("Gender").Value.ToInt();
 
-            Match6D(pm.Iv, s, "DV");
-            Match6D(pm.Ev, s, "EV");
+            if (itemId > 0) pd.Item = GameDataService.Rom.GetItem(itemId);
+            if (abilityId > 0) pd.Ability = GameDataService.Rom.GetAbility(abilityId);
 
-            foreach (var move in MatchMoves(s))
+            var moves = (from XmlNode node in pm.ChildNodes where node.Name == "Move" select node.InnerText.ToInt()).ToArray();
+            var dvs = (from XmlNode node in pm.ChildNodes where node.Name == "DV" select node.InnerText.ToInt()).ToArray();
+            var evs = (from XmlNode node in pm.ChildNodes where node.Name == "EV" select node.InnerText.ToInt()).ToArray();
+
+            for (int i = 0; i < 4 && i < moves.Length; i++)
             {
-                pm.AddMove(move);
+                if (moves[i] > 0)
+                {
+                    var move = GameDataService.Rom.GetMoveType(moves[i]);
+                    pd.AddMove(move);
+                }
             }
-            return pm;
+
+            for (int i = 0; i < 6 && i < dvs.Length; i++)
+            {
+                pd.Iv.SetByIndex(i, dvs[i]);
+            }
+
+            for (int i = 0; i < 6 && i < evs.Length; i++)
+            {
+                pd.Iv.SetByIndex(i, evs[i]);
+            }
+
+            return pd;
         }
 
-        private static Match MatchCell(string input, string key)
+        private static XmlDocument TeamToXml(PokemonBT bt)
         {
-            return Regex.Match(input, key + @"=""([^""]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            var doc = new XmlDocument();
+            var team = doc.CreateElement("Team");
+            foreach (var pm in bt)
+            {
+                var pe = DataToXml(pm, doc);
+                team.AppendChild(pe);
+            }
+            doc.AppendChild(team);
+            return doc;
         }
 
-        private static void Match6D(Observable6D o6d, string input, string key)
+        private static XmlElement DataToXml(PokemonData pm, XmlDocument doc)
         {
-            var ms = Regex.Matches(input, "<" + key + @">(\d+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            for (int i = 0; i < ms.Count && i < 7; i++)
-            {
-                o6d.SetByIndex(i, ms[i].Groups[1].Value.ToInt());
-            }
-        }
+            var pe = doc.CreateElement("Pokemon");
+            pe.SetAttribute("Gender", pm.Gender.ToString("d"));
+            pe.SetAttribute("Item", pm.Item != null ? pm.Item.Id.ToString() : "0");
+            pe.SetAttribute("Nickname", pm.Name);
+            pe.SetAttribute("SubGen", "1");
+            pe.SetAttribute("Lvl", pm.Lv.ToString());
+            pe.SetAttribute("Nature", pm.Nature.ToString("d"));
+            pe.SetAttribute("Num", pm.Form.Type.Number.ToString());
+            pe.SetAttribute("Forme", pm.Form.Index.ToString());
+            pe.SetAttribute("Happiness", pm.Happiness.ToString());
+            pe.SetAttribute("Gen", "5");
+            pe.SetAttribute("Ability", pm.Ability.Id.ToString());
+            pe.SetAttribute("Shiny", "0");
 
-        private static List<MoveType> MatchMoves(string input)
-        {
-            var moves = new List<MoveType>();
-            var ms = Regex.Matches(input, @"<Move>(\d+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            for (int i = 0; i < ms.Count && i < 5; i++)
+            foreach (var move in pm.Moves.Select((lm) => lm.Move.Id.ToString()))
             {
-                moves.Add(GameDataService.Rom.GetMoveType(ms[i].Groups[1].Value.ToInt()));
+                var key = doc.CreateElement("Move");
+                key.InnerText = move;
+                pe.AppendChild(key);
             }
-            return moves;
+
+            foreach (var iv in pm.Iv)
+            {
+                var key = doc.CreateElement("DV");
+                key.InnerText = iv.ToString();
+                pe.AppendChild(key);
+            }
+
+            foreach (var ev in pm.Ev)
+            {
+                var key = doc.CreateElement("EV");
+                key.InnerText = ev.ToString();
+                pe.AppendChild(key);
+            }
+
+            return pe;
         }
 
         #endregion
@@ -382,20 +374,15 @@ namespace PokemonBattleOnline.Data
 
         public PokemonBT Read(string path)
         {
-            return LoadFromPo(path);
+            var doc = new XmlDocument();
+            doc.Load(path);
+            return LoadXmlTeam(doc);
         }
 
         public void Write(PokemonBT pds, string path)
         {
-            using (var sw = new StreamWriter(path, false, Encoding.UTF8))
-            {
-                foreach (var pm in pds)
-                {
-
-                }
-                sw.Flush();
-                sw.Close();
-            }
+            var doc = TeamToXml(pds);
+            doc.Save(path);
         }
 
         public string ExportString(PokemonBT pds)

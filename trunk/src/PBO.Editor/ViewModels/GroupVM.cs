@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows;
 using Microsoft.Win32;
@@ -86,8 +82,6 @@ namespace PokemonBattleOnline.PBO.Editor
             else if (!Model.Import("剪贴板", str)) UIElements.ShowMessageBox.FolderImportFail("剪贴板文本中没有包含可识别的精灵信息。");
         }
 
-        #region teamIO
-
         public void Import(ITeamIO tm, string filter)
         {
             var dialog = new OpenFileDialog();
@@ -109,11 +103,8 @@ namespace PokemonBattleOnline.PBO.Editor
                     }
                     catch { }
                 }
-                UIElements.ShowMessageBox.FolderImportFail(string.Format("共成功导入 {0} 个队伍!", Model.Count - count));
+                MessageBox.Show(string.Format("共成功导入 {0} 个队伍!", Model.Count - count));
             }
         }
-
-        #endregion
-
     }
 }
