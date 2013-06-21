@@ -296,7 +296,7 @@ namespace PokemonBattleOnline.Data
 
             for (int i = 0; i < 6 && i < evs.Length; i++)
             {
-                pd.Iv.SetByIndex(i, evs[i]);
+                pd.Ev.SetByIndex(i, evs[i]);
             }
 
             return pd;
