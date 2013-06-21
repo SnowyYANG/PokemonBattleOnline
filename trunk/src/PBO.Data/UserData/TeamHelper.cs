@@ -264,7 +264,7 @@ namespace PokemonBattleOnline.Data
             if (num == 0) return null;
             var pd = new PokemonData(num, forme);
 
-            int itemId = pm.Attributes.GetNamedItem("Item").Value.ToInt();
+            int itemId = Item2PBO(pm.Attributes.GetNamedItem("Item").Value.ToInt());
             int abilityId = pm.Attributes.GetNamedItem("Ability").Value.ToInt();
 
             pd.Name = pm.Attributes.GetNamedItem("Nickname").Value;
@@ -319,7 +319,7 @@ namespace PokemonBattleOnline.Data
         {
             var pe = doc.CreateElement("Pokemon");
             pe.SetAttribute("Gender", pm.Gender.ToString("d"));
-            pe.SetAttribute("Item", pm.Item != null ? pm.Item.Id.ToString() : "0");
+            pe.SetAttribute("Item", pm.Item != null ? Item2PO(pm.Item.Id).ToString() : "0");
             pe.SetAttribute("Nickname", pm.Name);
             pe.SetAttribute("SubGen", "1");
             pe.SetAttribute("Lvl", pm.Lv.ToString());
@@ -353,6 +353,23 @@ namespace PokemonBattleOnline.Data
             }
 
             return pe;
+        }
+
+        private static readonly int[] PO_ITEMS = { 213, 159, 162, 3, 37, 163, 180, 17, 4, 87, 32, 131, 184, 60, 9, 125, 101, 15, 92, 34, 206, 103, 51, 48, 95, 106, 158, 166, 107, 132, 142, 57, 165, 31, 126, 29, 14, 156, 18, 200, 164, 38, 19, 39, 8, 93, 91, 22, 141, 71, 24, 10, 41, 102, 212, 13, 7, 50, 155, 33, 161, 160, 190, 5, 183, 170, 169, 171, 168, 167, 172, 30, 1, 6, 189, 197, 202, 194, 191, 188, 201, 187, 196, 195, 192, 199, 198, 185, 186, 193, 20, 27, 11, 36, 28, 181, 118, 227, 228, 229, 230, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 8000, 8001, 8002, 8003, 8004, 8005, 8006, 8007, 8008, 8009, 8010, 8011, 8012, 8013, 8014, 8015, 8016, 8017, 8018, 8019, 8020, 8021, 8022, 8023, 8024, 8025, 8026, 8027, 8028, 8029, 8030, 8031, 8032, 8033, 8034, 8035, 8036, 8037, 8038, 8039, 8040, 8041, 8042, 8043, 8044, 8045, 8046, 8047, 8048, 8049, 8050, 8051, 8052, 8053, 8054, 8055, 8056, 8057, 8058, 8059, 8060, 8061, 8062, 8063, 214, 45 };
+
+        private static int Item2PO(int itemId)
+        {
+            if (itemId > 0 && itemId <= PO_ITEMS.Length) return PO_ITEMS[itemId - 1];
+            return 0;
+        }
+
+        private static int Item2PBO(int itemId)
+        {
+            for (int i = 0; i < PO_ITEMS.Length; i++)
+            {
+                if (PO_ITEMS[i] == itemId) return i + 1;
+            }
+            return 0;
         }
 
         #endregion
