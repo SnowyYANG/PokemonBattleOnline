@@ -108,6 +108,15 @@
     <Compile Include="UserData\PokemonBT.cs" />
     <Compile Include="UserData\PokemonCollection.cs" />
     <Compile Include="UserData\PokemonRecycler.cs" />
+    <Compile Include="UserData\TeamIO\ITeamIO.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserData\TeamIO\Team0791.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserData\TeamIO\TeamPO.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Utilities\IPokemonData.cs" />
     <Compile Include="Utilities\StatType.cs" />
     <Compile Include="UserData\UserData.cs" />
