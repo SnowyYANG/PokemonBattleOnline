@@ -209,7 +209,7 @@ namespace LightStudio.PokemonBattle.Data
                 ret.AppendLine();//使用crlf
 
                 ret.AppendLine("Trait: " + pm.Ability.Name);
-                ret.Append("EVs: " + pm.Ability.Name);
+                ret.Append("EVs: ");
                 string[] stats = { "HP", "Atk", "Def", "SAtk", "SDef", "Spd" };
                 int i = 0; bool started = false;
                 foreach (int ev in pm.Ev)
@@ -247,7 +247,7 @@ namespace LightStudio.PokemonBattle.Data
                 }
                 ret.AppendLine();
             }
-            return ret.ToString();
+            return ret.ToString().Trim(new char[] { '\r', '\n' });
         }
 
         #endregion
