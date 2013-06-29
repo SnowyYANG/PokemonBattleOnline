@@ -1,7 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
+using System.Xml.Serialization;
+using LightStudio.PokemonBattle.Data.PokemonOnline;
 
 namespace LightStudio.PokemonBattle.Data
 {
@@ -11,7 +15,6 @@ namespace LightStudio.PokemonBattle.Data
     /// </summary>
     public class TeamPO : ITeamIO
     {
-
         #region  po (*.tp)
 
         private static PokemonBT LoadXmlTeam(XmlDocument doc)
@@ -63,7 +66,7 @@ namespace LightStudio.PokemonBattle.Data
                 if (moves[i] > 0)
                 {
                     var move = GameDataService.Rom.GetMoveType(moves[i]);
-                    pd.AddMove(move);
+                    if (move != null) pd.AddMove(move);
                 }
             }
 
@@ -154,32 +157,81 @@ namespace LightStudio.PokemonBattle.Data
 
         #region Text
 
-        private static PokemonBT ImportFromTxt(string str)
+        public static PokemonBT ImportFromTxt(string str, int size)
         {
-            PokemonBT bt = null;
+            PokemonBT bt = new PokemonBT() { Size = size };
             str = str.Replace("---", "");
             str = str.Replace("\r\n", "\n"); // for windows
-            var pokes = str.Split(new string[] { "\n\n" }, 6, StringSplitOptions.RemoveEmptyEntries);
+            var pokes = str.Split(new string[] { "\n\n" }, size, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < bt.Size; i++)
             {
-                var pokeDetail = pokes[i].Split(new char[] { '\n' }, 5, StringSplitOptions.RemoveEmptyEntries);
-                if (pokeDetail.Length < 5) continue;
-                var first = pokeDetail[0].Split('@');
-                bt.RemoveAt(i);
-                //coding
+                var pm = ImportPO(pokes[i]);
+                if (pm != null) bt.Add(pm);
             }
-
             bt.Name = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             return bt;
         }
 
+        public static PokemonGender ToGender(string s)
+        {
+            if (s.ToUpper().Any(c => c == 'M' || c == '♂')) return PokemonGender.Male;
+            if (s.ToUpper().Any(c => c == 'F' || c == '♀')) return PokemonGender.Female;
+            return PokemonGender.None;
+        }
+
         private static PokemonData ImportPO(string str)
         {
-            var pokeDetail = str.Split(new char[] { '\n' }, 5, StringSplitOptions.RemoveEmptyEntries);
+            var pokeDetail = str.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToArray();
             if (pokeDetail.Length < 5) return null;
-            var first = pokeDetail[0].Split('@');
-            //coding
-            return null;
+            var match = Regex.Match(pokeDetail[0].Trim(), @"([^ ]+) (?:\((\w{2,})\) )?(\([FM]\) )?@ ([^\n]+)", RegexOptions.IgnoreCase);
+            if (!match.Success) return null;
+            string pokestring, nickname;
+            nickname = match.Groups[1].Value.Trim();
+            pokestring = match.Groups[2].Value.Length > 0 ? match.Groups[2].Value : nickname;
+
+            int num = GameDataService.Rom.GetPokemonType(pokestring).Number;
+            var pm = new PokemonData(num, 0);
+
+            pm.Gender = ToGender(match.Groups[3].Value);
+            pm.Item = GameDataService.Rom.GetItem(match.Groups[4].Value);
+
+            //Trait: 
+
+            //取EV
+            string[] evSort = { "hp", "atk", "def", "satk", "sdef", "spd" };
+            var EvRegex = new Regex(@"(\d+) ((?:hp|atk|def|spd|satk|sdef))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+            var evs = from Match m in EvRegex.Matches(pokeDetail.FirstOrDefault(l => l.StartsWith("EVs:")))
+                      select new
+                      {
+                          Name = m.Groups[2].Value.ToLower(),
+                          Value = m.Groups[1].Value.ToInt()
+                      };
+            foreach (var ev in evs)
+            {
+                for (int i = 0; i < evSort.Length; i++)
+                {
+                    if (ev.Name == evSort[i])
+                    {
+                        SetByIndex(pm.Ev, i, ev.Value % 255);
+                        break;
+                    }
+                }
+            }
+
+            //取Move
+            var moves = (from line in pokeDetail
+                         where line.StartsWith("- ")
+                         select Regex.Replace(line.Substring(2), @"\[[^\]]{0,}\]", string.Empty).Trim()
+                         ).ToArray();
+
+            for (int i = 0; i < 4 && i < moves.Length; i++)
+            {
+                var move = GameDataService.Rom.GetMoveType(moves[i]);
+                if (move != null) pm.AddMove(move);
+            }
+
+            return pm;
         }
 
         private static string ToPOTxt(PokemonBT bt)
@@ -269,9 +321,22 @@ namespace LightStudio.PokemonBattle.Data
 
         public PokemonBT Read(string path)
         {
-            var doc = new XmlDocument();
-            doc.Load(path);
-            return LoadXmlTeam(doc);
+            PokemonBT bt = null;
+            try
+            {
+                using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    var xs = new XmlSerializer(typeof(Team));
+                    var team = (Team)xs.Deserialize(fs);
+                    bt = team.ToPokemonBT();
+                    fs.Close();
+                }
+            }
+            catch { }
+            return bt;
+            //var doc = new XmlDocument();
+            //doc.Load(path);
+            //return LoadXmlTeam(doc);
         }
 
         public void Write(PokemonBT bt, string path)

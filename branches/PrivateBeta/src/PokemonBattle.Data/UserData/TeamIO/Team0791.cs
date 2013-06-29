@@ -109,10 +109,10 @@ namespace LightStudio.PokemonBattle.Data
                 for (int i = 0; i < 4; i++)
                 {
                     int moveId = GetMoveId(reader.ReadString());
-                    if (moveId != 0)
+                    if (moveId > 0)
                     {
                         MoveType move = GameDataService.Rom.GetMoveType(moveId);
-                        pm.AddMove(move);
+                        if (move != null) pm.AddMove(move);
                     }
                 }
             }
@@ -155,7 +155,7 @@ namespace LightStudio.PokemonBattle.Data
 
         private static PokemonData GetById(int identity)
         {
-            int[,] indexes = { { 387, 386, 1 }, { 388, 386, 2 }, { 389, 386, 3 }, { 497, 492, 1 }, { 498, 487, 1 }, { 499, 479, 1 }, { 500, 479, 2 }, { 501, 479, 3 }, { 502, 479, 4 }, { 503, 479, 5 } };
+            int[,] indexes = { { 387, 386, 1 }, { 388, 386, 2 }, { 389, 386, 3 }, { 497, 492, 1 }, { 498, 487, 1 }, { 499, 479, 1 }, { 500, 479, 3 }, { 501, 479, 4 }, { 502, 479, 2 }, { 503, 479, 5 } };
 
             int number = identity, form = 0;
             if (identity >= 390 && identity <= 496)

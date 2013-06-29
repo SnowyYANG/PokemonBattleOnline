@@ -111,6 +111,8 @@
     <Compile Include="UserData\TeamIO\ITeamIO.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UserData\TeamIO\Pokemon.cs" />
+    <Compile Include="UserData\TeamIO\Team.cs" />
     <Compile Include="UserData\TeamIO\Team0791.cs">
       <SubType>Code</SubType>
     </Compile>
