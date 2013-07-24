@@ -324,15 +324,14 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (atk.Move.Range == MoveRange.Single)
       {
-        const int LIGHTNINGROD = 31, STORM_DRAIN = 114;
         int ab = 0;
-        if (atk.Type == BattleType.Electric) ab = LIGHTNINGROD;
-        else if (atk.Type == BattleType.Water) ab = STORM_DRAIN;
+        if (atk.Type == BattleType.Electric) ab = As.LIGHTNINGROD;
+        else if (atk.Type == BattleType.Water) ab = As.STORM_DRAIN;
         if (ab != 0)
           foreach (var pm in atk.Controller.Board.Pokemons)
             if (pm.Ability == ab)
             {
-              if (pm != atk.Target.Defender)
+              if (pm != atk.Attacker && pm != atk.Target.Defender)
               {
                 pm.RaiseAbility();
                 pm.AddReportPm("ReTarget");
