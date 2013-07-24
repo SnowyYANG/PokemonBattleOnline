@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Game.Host.Sp;
+using LightStudio.PokemonBattle.Game.Host.Triggers;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
@@ -38,7 +38,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         ActingPokemons[j] = temp;
       }
       foreach (var p in Board.Pokemons)
-        if (p.Action != PokemonAction.WillSwitch) p.ItemSpeedValue = p.Item.CompareValue(p);
+        if (p.Action != PokemonAction.WillSwitch) p.ItemSpeedValue = STs.ItemSpeedValue(p);
       ActingPokemons = ActingPokemons.OrderBy((pm) => pm, comparer).ToList();
     }
     private void SortTiles()
@@ -124,7 +124,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     private void CheckFocusPunch()
     {
       foreach (PokemonProxy p in ActingPokemons)
-        if (p.Action == PokemonAction.MoveAttached && Sp.Moves.FocusPunch(p.SelectedMove)) p.AddReportPm("EnFocusPunch");
+        if (p.Action == PokemonAction.MoveAttached && p.SelectedMove.Type.Id == Ms.FOCUS_PUNCH) p.AddReportPm("EnFocusPunch");
     }
     private void Move()
     {
@@ -145,7 +145,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (Controller.TurnNumber != 0)
       {
         SortTiles();
-        EffectsService.EndTurn.Execute(Controller);
+        EndTurn.Execute(Controller);
         ReportBuilder.AddHorizontalLine();
       }
     }
@@ -173,7 +173,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         foreach (Tile t in Tiles)
           if (t.WillSendoutPokemonIndex != Tile.NOPM_INDEX) Controller.Sendout(t, false);
       SortTiles();
-      Abilities.AttachUnnerve(Controller);
+      As.AttachUnnerve(Controller);
       var debut = new List<PokemonProxy>();
       foreach (Tile t in Tiles)
         if (t.Pokemon != null && t.Pokemon.Action == PokemonAction.Debuting)
@@ -181,13 +181,13 @@ namespace LightStudio.PokemonBattle.Game.Host
           t.Pokemon.Debut();
           debut.Add(t.Pokemon);
         }
-      foreach (var p in debut) Abilities.AttachWeatherObserver(p);
-      Abilities.WeatherChanged(Controller);
+      foreach (var p in debut) As.AttachWeatherObserver(p);
+      As.WeatherChanged(Controller);
       if (ReportBuilder.TurnNumber != 0) current -= 2;
     }
     private void NextTurn()
     {
-      Sp.Abilities.SlowStart(Controller);
+      As.SlowStart(Controller);
       Board.ClearTurnCondition();
       foreach (var f in Board.Fields) f.ClearTurnCondition();
       foreach (var t in Tiles)

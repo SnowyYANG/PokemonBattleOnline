@@ -8,7 +8,7 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
-  public class MoveProxy
+  internal class MoveProxy
   {
     public readonly Move Move;
     public readonly PokemonProxy Owner;
@@ -51,11 +51,11 @@ namespace LightStudio.PokemonBattle.Game.Host
     /// <returns>key, null if no problem</returns>
     internal SelectMoveFail IfSelected()
     {
-      if (Type.Id != Moves.STRUGGLE)
+      if (Type.Id != Ms.STRUGGLE)
       {
         var op = Owner.OnboardPokemon;
         //专爱
-        if (Owner.Item.ChoiceItem())
+        if (Is.ChoiceItem(Owner.Item))
         {
           var o = op.GetCondition<MoveType>("ChoiceItem");
           if (o != null && o != Type) return new SelectMoveFail("ChoiceItem", o.Id);
@@ -87,11 +87,11 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     internal void Execute()
     {
-      if (Owner.Item.ChoiceItem()) Owner.OnboardPokemon.AddCondition("ChoiceItem", Type);
+      if (Is.ChoiceItem(Owner.Item)) Owner.OnboardPokemon.AddCondition("ChoiceItem", Type);
 
       UseMove um = null;
       int pp = 0;
-      if (Type.Id == Moves.STRUGGLE) Owner.AddReportPm("UseMove", Moves.STRUGGLE);
+      if (Type.Id == Ms.STRUGGLE) Owner.AddReportPm("UseMove", Ms.STRUGGLE);
       else
       {
         um = new UseMove(Owner, Type);
@@ -108,7 +108,7 @@ namespace LightStudio.PokemonBattle.Game.Host
 
     internal bool CanExecute()
     {
-      if (Type.Id != Moves.STRUGGLE)
+      if (Type.Id != Ms.STRUGGLE)
       {
         if (PP == 0)
         {

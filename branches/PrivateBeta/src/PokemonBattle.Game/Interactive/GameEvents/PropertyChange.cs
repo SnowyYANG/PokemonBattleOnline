@@ -22,7 +22,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember(Name = "e", EmitDefaultValue = false)]
     public bool Item;
     
-    public StateChange(PokemonProxy pm, string log = null, int arg1 = 0)
+    internal StateChange(PokemonProxy pm, string log = null, int arg1 = 0)
     {
       Pm = pm.Id;
       State = pm.Pokemon.State;
@@ -85,7 +85,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember(Name = "g", EmitDefaultValue = false)]
     protected int Arg2;
 
-    public HpChange(PokemonProxy pm, string logKey, int arg1 = 0, int arg2 = 0)
+    internal HpChange(PokemonProxy pm, string logKey, int arg1 = 0, int arg2 = 0)
     {
       Pm = pm.Id;
       Hp = pm.Hp;
@@ -122,11 +122,11 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   [DataContract(Namespace = Namespaces.PBO)]
   public class PositionChange : SimpleEvent
   {
-    public static PositionChange Reset(string gameLogKey, PokemonProxy pm, object arg1 = null, object arg2 = null)
+    internal static PositionChange Reset(string gameLogKey, PokemonProxy pm, object arg1 = null, object arg2 = null)
     {
       return new PositionChange(gameLogKey, pm, arg1, arg2);
     }
-    public static PositionChange Leap(string gameLogKey, PokemonProxy pm, CoordY y)
+    internal static PositionChange Leap(string gameLogKey, PokemonProxy pm, CoordY y)
     {
       return new PositionChange(gameLogKey, pm, null, null) { Y = y };
     }
@@ -166,7 +166,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember(EmitDefaultValue = false)]
     string S2;
 
-    public RemoveItem(string logKey, PokemonProxy pm, ValueType arg1 = null, ValueType arg2 = null)
+    internal RemoveItem(string logKey, PokemonProxy pm, ValueType arg1 = null, ValueType arg2 = null)
     {
       Key = logKey;
       Pm = pm.Id;
@@ -193,17 +193,17 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   [DataContract(Name = "eo", Namespace = Namespaces.PBO)]
   public class OutwardChange : GameEvent
   {
-    public static OutwardChange Transform(PokemonProxy pm, PokemonProxy target)
+    internal static OutwardChange Transform(PokemonProxy pm, PokemonProxy target)
     {
       var o = pm.GetOutward();
       return new OutwardChange("Transform", o.Id, target.Id) { Number = o.Form.Type.Number, Form = o.Form.Index, Moves = pm.Moves.Select((m) => m.Type.Id).ToArray() };
     }
-    public static OutwardChange DeIllusion(string log, PokemonProxy pm, int arg = 0)
+    internal static OutwardChange DeIllusion(string log, PokemonProxy pm, int arg = 0)
     {
       var o = pm.GetOutward();
       return new OutwardChange(log, o.Id, arg) { Number = o.Form.Type.Number, Form = o.Form.Index, Name = o.Name, Gender = o.Gender, Arg = arg };
     }
-    public static OutwardChange ChangeForm(PokemonProxy pm)
+    internal static OutwardChange ChangeForm(PokemonProxy pm)
     {
       return new OutwardChange(null, pm.Id, 0) { Form = pm.OnboardPokemon.Form.Index, Forever = pm.Pokemon.Form.Type.Number == 492 && pm.OnboardPokemon.Form == pm.Pokemon.Form };
     }

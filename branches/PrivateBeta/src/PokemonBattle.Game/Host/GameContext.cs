@@ -6,7 +6,7 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
-  public class GameContext : IGame
+  internal class GameContext : IGame
   {
     public readonly Board Board;
     private readonly Controller controller;

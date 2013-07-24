@@ -32,9 +32,6 @@ namespace LightStudio.PokemonBattle.PBO
       GameDataService.Load("..\\res\\Data");
       Data.TempLearnSet.Load("..\\res\\Data\\learnset\\temp.xml");
       DataService.LoadUserData();
-
-      Game.Host.Effects.EffectsRegister.Register();
-      Tactic.Scripting.ExecuteAll("..\\src\\PokemonBattle.EffectsP");
     }
     
     protected override void OnStartup(StartupEventArgs e)

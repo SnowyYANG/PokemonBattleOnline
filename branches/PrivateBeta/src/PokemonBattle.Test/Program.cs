@@ -16,8 +16,6 @@ namespace LightStudio.PokemonBattle.Test
       DataService.Load(new StringService() { Language = "Chinese" });
       DataService.String.DefaultLanguage = "Chinese";
       DataService.DataString.DefaultLanguage = "Chinese";
-      Game.Host.Effects.EffectsRegister.Register();
-      Tactic.Scripting.ExecuteAll("..\\src\\PokemonBattle.EffectsP");
     }
     
     static void Main(string[] args)

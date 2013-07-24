@@ -26,8 +26,8 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         int aP = a.SelectedMove.Priority;
         int bP = b.SelectedMove.Priority;
-        if (a.SelectedMove.Type.Category == Data.MoveCategory.Status && a.Ability.Prankster()) aP++;
-        if (a.SelectedMove.Type.Category == Data.MoveCategory.Status && b.Ability.Prankster()) bP++;
+        if (a.SelectedMove.Type.Category == Data.MoveCategory.Status && a.Ability == As.PRANKSTER) aP++;
+        if (a.SelectedMove.Type.Category == Data.MoveCategory.Status && b.Ability == As.PRANKSTER) bP++;
         if (aP != bP)
           return bP - aP;
       }
@@ -40,8 +40,8 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
 
       {
-        bool aIsStall = a.Ability.Stall();
-        bool bIsStall = b.Ability.Stall();
+        bool aIsStall = a.Ability == As.STALL;
+        bool bIsStall = b.Ability == As.STALL;
         if (aIsStall == bIsStall) goto SPEED;
         if (aIsStall) return 1;
         if (bIsStall) return -1;

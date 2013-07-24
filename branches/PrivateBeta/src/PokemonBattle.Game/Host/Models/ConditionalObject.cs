@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
-  public abstract class ConditionalObject : Tactic.DataModels.ConditionalObject
+  internal abstract class ConditionalObject : Tactic.DataModels.ConditionalObject
   {
     private readonly HashSet<string> turnConditions;
 

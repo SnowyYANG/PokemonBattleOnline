@@ -70,11 +70,6 @@
       <Name>PokemonBattle.Data</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\PokemonBattle.EffectsC\PokemonBattle.EffectsC.csproj">
-      <Project>{9A556367-584D-4A0E-803D-591486FB28DB}</Project>
-      <Name>PokemonBattle.EffectsC</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\PokemonBattle.Game\PokemonBattle.Game.csproj">
       <Project>{5F1D7698-AD1E-462A-AEED-063BCB80DF89}</Project>
       <Name>PokemonBattle.Game</Name>

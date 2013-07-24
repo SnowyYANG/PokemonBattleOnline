@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
 {
-  static class Substitute
+  internal static class Substitute
   {
     private static int Generic(DefContext def)
     {
@@ -30,6 +30,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
         if (def.EffectRevise > 0) c.ReportBuilder.Add("SuperHurt0");
         else if (def.EffectRevise < 0) c.ReportBuilder.Add("WeakHurt0");
         if (def.IsCt) c.ReportBuilder.Add("CT0");
+        Is.AirBalloon(def);
         if (hp == 0) Disappear(def.Defender);
         else def.Defender.OnboardPokemon.SetCondition("Substitute", hp);
         return true;

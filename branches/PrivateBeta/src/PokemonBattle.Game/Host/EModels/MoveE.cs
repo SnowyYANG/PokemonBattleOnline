@@ -4,13 +4,29 @@ using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
 using LightStudio.PokemonBattle.Game.GameEvents;
-using LightStudio.PokemonBattle.Game.Host.Sp;
+using LightStudio.PokemonBattle.Game.Host.Triggers;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
-  public abstract class MoveE
+  internal static class MoveE
   {
-    protected static IEnumerable<Tile> GetRangeTiles(AtkContext atk, MoveRange range, Tile select)
+    public static void MagicCoat(AtkContext atk)
+    {
+      var list = atk.GetCondition<List<PokemonProxy>>("MagicCoat");
+      if (list != null)
+      {
+        atk.RemoveCondition("MagicCoat");
+        foreach (var d in list)
+        {
+          var a = new AtkContext(d);
+          a.SetCondition("IgnoreMagicCoat");
+          a.StartExecute(atk.Move, atk.Attacker.Tile, d.RaiseAbility(As.MAGIC_BOUNCE) ? "MagicBounce" : "MagicCoat");
+          if (atk.Target == null) break;
+        }
+      }
+    }
+    
+    public static IEnumerable<Tile> GetRangeTiles(AtkContext atk, MoveRange range, Tile select)
     {
       var aer = atk.Attacker;
       IEnumerable<Tile> targets = null;
@@ -94,11 +110,11 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
       return targets;
     }
-    internal static bool CanForceSwitch(PokemonProxy pm, bool abilityAvailable)
+    public static bool CanForceSwitch(PokemonProxy pm, bool abilityAvailable)
     {
-      return !(pm.Hp == 0 || !pm.Controller.CanWithdraw(pm) || abilityAvailable && pm.Ability.SuctionCups() || pm.OnboardPokemon.HasCondition("Ingrain"));
+      return !(pm.Hp == 0 || !pm.Controller.CanWithdraw(pm) || abilityAvailable && pm.Ability == As.SUCTION_CUPS || pm.OnboardPokemon.HasCondition("Ingrain"));
     }
-    internal static void ForceSwitchImplement(PokemonProxy pm, string log = "ForceWithdraw")
+    public static void ForceSwitchImplement(PokemonProxy pm, string log = "ForceWithdraw")
     {
       var c = pm.Controller;
       var sendouts = new List<int>();
@@ -112,84 +128,87 @@ namespace LightStudio.PokemonBattle.Game.Host
       tile.WillSendoutPokemonIndex = sendouts[c.GetRandomInt(0, sendouts.Count - 1)];
       c.Sendout(tile, true, "ForceSendout");
     }
-    protected static bool ForceSwitch(DefContext def)
+    public static bool ForceSwitch(DefContext def)
     {
-      if (def.AtkContext.Attacker.Tile != null && CanForceSwitch(def.Defender, def.AtkContext.Attacker.Ability.IgnoreDefenderAbility()))
+      if (def.AtkContext.Attacker.Tile != null && CanForceSwitch(def.Defender, As.IgnoreDefenderAbility(def.AtkContext.Attacker.Ability)))
       {
         ForceSwitchImplement(def.Defender);
         return true;
       }
       return false;
     }
-    
-    public readonly MoveType Move;
 
-    protected MoveE(int moveId)
+    public static void BuildDefContext(AtkContext atk, Tile select)
     {
-      Move = GameDataService.GetMove(moveId);
-    }
-
-    protected abstract void Act(AtkContext atk);
-    public virtual void InitAtkContext(AtkContext atk)
-    {
-    }
-    protected internal virtual void BuildDefContext(AtkContext atk, Tile select)
-    {
-      IEnumerable<Tile> ts = GetRangeTiles(atk, Moves.GetRange(atk.Attacker, atk.Move), select);
-      if (ts != null)
+      switch (atk.Move.Id)
       {
-        var targets = new List<DefContext>();
-        foreach (Tile t in ts)
-          if (t.Pokemon != null) targets.Add(new DefContext(atk, t.Pokemon));
-        atk.SetTargets(targets);
+        case 68:
+          Counter(atk, "PhysicalDamage");
+          break;
+        case 243:
+          Counter(atk, "SpecialDamage");
+          break;
+        case 368:
+          Counter(atk, "Damage");
+          break;
+        case Ms.BIDE:
+          if (atk.GetCondition("MultiTurn").Turn == 1)
+          {
+            var o = atk.GetCondition("Bide");
+            var targets = new List<DefContext>();
+            if (o.By != null)
+            {
+              var t = GetRangeTiles(atk, Data.MoveRange.Single, o.By.Tile).FirstOrDefault();
+              if (t != null && t.Pokemon != null) targets.Add(new DefContext(atk, t.Pokemon));
+            }
+            if (!targets.Any()) atk.Attacker.AddReportPm("UseMove", Ms.BIDE); //奇葩的战报
+            atk.SetTargets(targets);
+          }
+          break;
+        default:
+          IEnumerable<Tile> ts = GetRangeTiles(atk, Ms.GetRange(atk.Attacker, atk.Move), select);
+          if (ts != null)
+          {
+            var targets = new List<DefContext>();
+            foreach (Tile t in ts)
+              if (t.Pokemon != null) targets.Add(new DefContext(atk, t.Pokemon));
+            atk.SetTargets(targets);
+          }
+          break;
       }
     }
-    public virtual void Execute(AtkContext atk)
+    private static void Counter(AtkContext atk, string condition)
     {
-      if (NotFail(atk))
+      var o = atk.Attacker.OnboardPokemon.GetCondition(condition);
+      if (o != null)
       {
-        CalculateType(atk);
-        FilterDefContext(atk);
-        if (atk.Targets == null || atk.Target != null)
+        var pm = o.By;
+        if (pm.Tile != null && pm.Pokemon.TeamId != atk.Attacker.Pokemon.TeamId)
         {
-          atk.ImplementPressure();
-          Act(atk);
-          MoveEnding(atk);
+          atk.SetTargets(new DefContext[] { new DefContext(atk, pm) });
+          return;
         }
-        else atk.FailAll(null);
       }
-      else atk.FailAll();
-      if (Move.Id == 99 && atk.Attacker != null) atk.Attacker.OnboardPokemon.SetCondition("Rage");
-    }
-
-    protected virtual bool PrepareOneTurn(AtkContext atk)
-    {
-      if (Move.Flags.PrepareOneTurn && atk.Attacker.Action == PokemonAction.MoveAttached)
-      {
-        atk.Attacker.AddReportPm("Prepare" + Move.Id.ToString());
-        atk.SetAttackerAction(PokemonAction.Moving);
-        return true;
-      }
-      return false;
+      atk.SetTargets(new DefContext[0]);
     }
 
     #region CalculateTargets
-    protected virtual bool NotFail(AtkContext atk)
+    public static void FilterDefContext(AtkContext atk)
     {
-      return atk.Targets == null || atk.Target != null;
-    }
-    protected internal virtual void FilterDefContext(AtkContext atk)
-    {
+      if ((atk.Move.Id == Ms.FUTURE_SIGHT || atk.Move.Id == Ms.DOOM_DESIRE) && !atk.HasCondition("FSDD")) return;
       if (atk.Targets == null) return;
-      Abilities.ReTarget(atk);
+      As.ReTarget(atk);
       List<DefContext> targets = atk.Targets.ToList();
+      var move = atk.Move;
+
+
       #region Check CoordY
       {
         var count = 0;
         foreach (DefContext def in targets.ToArray())
         {
           ++count;
-          if (!(IsYInRange(def) || def.NoGuard))
+          if (!(def.Defender.OnboardPokemon.CoordY == CoordY.Plate || def.NoGuard))
           {
             def.Defender.AddReportPm("Miss");
             targets.Remove(def);
@@ -200,21 +219,21 @@ namespace LightStudio.PokemonBattle.Game.Host
       #endregion
       #region Attack Move and Thunder Wave: Check for Immunity (or Levitate) on the Ally side, position 1, then position 3. Then check Opponent side, position 1, then 2, then 3,
       foreach (DefContext def in targets.ToArray())
-        if (!HasEffect(def))
+        if (!HasEffect.Execute(def))
         {
           targets.Remove(def);
           def.Defender.AddReportPm("NoEffect");
         }
       #endregion
       #region Check for Wide Guard in same way
-      if (Move.Range == MoveRange.Adjacent || Move.Range == MoveRange.AdjacentEnemies)
+      if (move.Range == MoveRange.Adjacent || move.Range == MoveRange.AdjacentEnemies)
         foreach (var def in targets.ToArray())
           if (def.Defender.Tile.Field.HasCondition("WideGuard"))
           {
             def.Defender.AddReportPm("WideGuard");
             targets.Remove(def);
           }
-      if (Move.Priority > 0)
+      if (move.Priority > 0)
         foreach (var def in targets.ToArray())
           if (def.Defender.Tile.Field.HasCondition("QuickGuard"))
           {
@@ -223,7 +242,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           }
       #endregion
       #region Check for Protect
-      if (Move.Flags.Protectable)
+      if (move.Flags.Protectable)
       {
         foreach (DefContext d in targets.ToArray())
           if (d.Defender.OnboardPokemon.HasCondition("Protect"))
@@ -235,19 +254,33 @@ namespace LightStudio.PokemonBattle.Game.Host
       #endregion
       #region Check for Telepathy (and possibly other abilities)
       {
-        var mc = Move.Flags.MagicCoat && !atk.HasCondition("IgnoreMagicCoat");
-        var ab = !atk.Attacker.Ability.IgnoreDefenderAbility();
+        var mc = move.Flags.MagicCoat && !atk.HasCondition("IgnoreMagicCoat");
+        var ab = !As.IgnoreDefenderAbility(atk.Attacker.Ability);
         foreach (DefContext def in targets.ToArray())
-          if (def.Defender != atk.Attacker && (mc && Triggers.MagicCoat(atk, def.Defender) || ab && !def.Defender.Ability.CanImplement(def))) targets.Remove(def);
+          if (def.Defender != atk.Attacker && (mc && STs.MagicCoat(atk, def.Defender) || ab && !CanImplement.Execute(def))) targets.Remove(def);
       }
       #endregion
+      if (move.Category == MoveCategory.Special && !move.Flags.IgnoreSubstitute)
+        foreach (DefContext d in targets.ToArray())
+          if (d.Defender != atk.Attacker && d.Defender.OnboardPokemon.HasCondition("Substitute"))
+          {
+            d.Fail();
+            targets.Remove(d);
+          }
+      if (move.Class == MoveInnerClass.ForceToSwitch)
+        foreach (DefContext d in targets.ToArray())
+          if (d.Defender.OnboardPokemon.HasCondition("Ingrain"))
+          {
+            d.Defender.AddReportPm("IngrainCantMove");
+            targets.Remove(d);
+          }
       #region Check for misses
-      if (!atk.Attacker.Ability.NoGuard() && GetAccuracyBase(atk) != 0x65)
+      if (atk.Attacker.Ability != As.NO_GUARD && GetAccuracyBase(atk) != 0x65)
       {
-        if (Move.Class != MoveInnerClass.OHKO)
+        if (move.Class != MoveInnerClass.OHKO)
         {
-          if (Items.MicleBerry(atk)) goto DONE;
-          atk.AccuracyModifier = Abilities.AccuracyModifier(atk) * Items.WideLens(atk);
+          if (Is.MicleBerry(atk)) goto DONE;
+          atk.AccuracyModifier = STs.AccuracyModifier(atk);
         }
         foreach (DefContext def in targets.ToArray())
           if (!(def.NoGuard || CanHit(def)))//心眼锁定、无防御
@@ -260,99 +293,98 @@ namespace LightStudio.PokemonBattle.Game.Host
     DONE:
       atk.SetTargets(targets);
     }
-    protected bool CanHit(DefContext def)
+    private static bool IsYInRange(DefContext def)
+    {
+      var y = def.Defender.OnboardPokemon.CoordY;
+      var m = def.AtkContext.Move.Id;
+      return
+        y == CoordY.Plate ||
+        y == CoordY.Water && (m == Ms.SURF || m == Ms.WHIRLPOOL) ||
+        y == CoordY.Underground && (m == Ms.EARTHQUAKE || m == Ms.FISSURE) ||
+        y == CoordY.Air && (m == Ms.GUST || m == Ms.TWISTER || m == Ms.THUNDER || m == Ms.HURRICANE || m == Ms.SKY_UPPERCUT);
+    }
+    public static bool CanHit(DefContext def)
     {
       AtkContext atk = def.AtkContext;
       Controller controller = atk.Controller;
       int acc;
-      if (Move.Class == MoveInnerClass.OHKO) //等级原因的“完全没有效果”已经判断过了
+      if (atk.Move.Class == MoveInnerClass.OHKO) //等级原因的“完全没有效果”已经判断过了
         acc = GetAccuracyBase(atk) + atk.Attacker.Pokemon.Lv - def.Defender.Pokemon.Lv;
       else
       {
         int lv;
-        if (def.Ability.Unaware()) lv = 0;
+        if (def.Ability == As.UNAWARE) lv = 0;
         else lv = def.AtkContext.Attacker.OnboardPokemon.AccuracyLv;
         //如果攻击方是天然特性，防御方的回避等级按0计算。 
         //循序渐进无视防御方回避等级。
         //将攻击方的命中等级减去防御方的回避等级。 
-        if (!(atk.Attacker.Ability.Unaware() || Move.IgnoreDefenderLv7D()))
-          lv -= def.Defender.OnboardPokemon.EvasionLv;
+        if (!(atk.Attacker.Ability == As.UNAWARE || atk.Move.IgnoreDefenderLv7D())) lv -= def.Defender.OnboardPokemon.EvasionLv;
         if (lv < -6) lv = -6;
         else if (lv > 6) lv = 6;
         //用技能基础命中乘以命中等级修正，向下取整。
         int numerator = 3, denominator = 3;
         if (lv > 0) numerator += lv;
         else denominator -= lv;
-        acc = (int)(GetAccuracyBase(atk) * numerator / denominator);
-
-        Modifier m = def.Ability.AccuracyModifier(def);
-        m *= atk.AccuracyModifier;
-        m *= Items.AccuracyModifier(def);
-        m *= Items.ZoomLens(def);
-        if (controller.Board.HasCondition("Gravity")) m *= 0x1AAA;//如果场上存在重力，命中×5/3。
-
-        acc *= m;
+        acc = (GetAccuracyBase(atk) * numerator / denominator) * AccuracyModifier.Execute(def);
       }
       //产生1～100的随机数，如果小于等于命中，判定为命中，否则判定为失误。
       return controller.RandomHappen(acc);
     }
-    public virtual int GetAccuracyBase(AtkContext def)
-    { return Move.Accuracy; }
-    #endregion
-    #region CalculateType
-    protected virtual void CalculateType(AtkContext atk)
+    public static int GetAccuracyBase(AtkContext atk)
     {
-      atk.Type = atk.Attacker.Ability.Normalize() ? BattleType.Normal : Move.Type;
-    }
-    private bool HasEffect_Ground(DefContext def)
-    {
-      return EffectsService.IsGroundAffectable.Execute(def.Defender, !def.AtkContext.Attacker.Ability.IgnoreDefenderAbility(), true);
-    }
-    private bool HasEffect_NonGround(DefContext def)
-    {
-      var type = def.AtkContext.Type.NoEffect();
-      return type == BattleType.Invalid || type == BattleType.Ghost && def.AtkContext.Attacker.Ability.Scrappy() || !def.Defender.OnboardPokemon.HasType(type);
-    }
-    protected virtual bool HasEffect(DefContext def)
-    {
-      if (Move.Category == MoveCategory.Status && !Move.ThunderWave()) return true;
-      if (Move.Class == MoveInnerClass.OHKO && (def.Defender.Pokemon.Lv > def.AtkContext.Attacker.Pokemon.Lv || def.Defender.RaiseAbility(Abilities.STURDY))) return false;
-      BattleType canAtk;
-      {
-        var o = def.Defender.OnboardPokemon.GetCondition("CanAttack");
-        canAtk = o == null ? BattleType.Invalid : o.BattleType;
-      }
-      return
-        (
-        canAtk != BattleType.Invalid && def.Defender.OnboardPokemon.HasType(canAtk) ||
-        def.Defender.Item.RingTarget() ||
-        def.AtkContext.Type == BattleType.Ground ? HasEffect_Ground(def) : HasEffect_NonGround(def));
-    }
-    protected virtual bool IsYInRange(DefContext def)
-    {
-      return def.Defender.OnboardPokemon.CoordY == CoordY.Plate;
+      var m = atk.Move.Id;
+      var w = atk.Controller.Weather;
+      bool thunder = m == Ms.THUNDER || m == Ms.HURRICANE;
+      return w == Weather.HeavyRain && thunder || w == Weather.Hailstorm && m == Ms.BLIZZARD ? 0x65 : w == Weather.IntenseSunlight && thunder ? 50 : atk.Move.Accuracy;
     }
     #endregion
 
-    protected void Fail(DefContext def)
+    public static void MoveEnding(AtkContext atk)
     {
-      Fail(def.Defender);
-    }
-    protected void Fail(PokemonProxy der)
-    {
-      if (der.Controller.Game.Settings.Mode.NeedTarget()) der.AddReportPm("Fail");
-      else der.Controller.ReportBuilder.Add("Fail0");
-    }
-    protected virtual void MoveEnding(AtkContext atk)
-    {
-      atk.SetAttackerAction(Move.Flags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done);
+      var aer = atk.Attacker;
+
+      if (atk.Move.Id == Ms.SPIT_UP || atk.Move.Id == Ms.SWALLOW)
+      {
+        int i = aer.OnboardPokemon.GetCondition<int>("Stockpile");
+        aer.ChangeLv7D(atk.Attacker, false, 0, -i, 0, -i);
+        aer.OnboardPokemon.RemoveCondition("Stockpile");
+        aer.AddReportPm("DeStockpile");
+      }
+
+      MagicCoat(atk);
+      
+      atk.SetAttackerAction(atk.Move.Flags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done);
       if (atk.Targets != null)
         foreach (var d in atk.Targets)
         {
-          d.Defender.Item.Attach(d.Defender);
-          Abilities.RecoverAfterMoldBreaker(d.Defender);
+          STs.ItemAttach(d.Defender);
+          As.RecoverAfterMoldBreaker(d.Defender);
         }
-      atk.Attacker.Item.Attach(atk.Attacker); //先树果汁后PP果
+      STs.ItemAttach(atk.Attacker); //先树果汁后PP果
+
+      var c = aer.Controller;
+      {
+        var o = atk.GetCondition("MultiTurn");
+        if (o != null)
+        {
+          o.Turn--;
+          if (o.Turn != 0) atk.SetAttackerAction(PokemonAction.Moving);
+          else if (o.Bool) aer.AddState(aer, AttachedState.Confuse, false, 0, "EnConfuse2");
+        }
+      }
+      {
+        var o = atk.GetCondition<Tile>("EjectButton");
+        if (o != null)
+        {
+          c.PauseForSendoutInput(o);
+          return;
+        }
+      }
+      if (atk.Move.AttackSwitch() && aer.Tile != null)
+      {
+        c.Withdraw(aer, "SelfWithdraw", true);
+        c.PauseForSendoutInput(aer.Tile);
+      }
     }
   }
 }

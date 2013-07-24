@@ -20,7 +20,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember(EmitDefaultValue = false)]
     public bool Item;
 
-    public PPChange(string log, Host.MoveProxy move, int formerPP)
+    internal PPChange(string log, Host.MoveProxy move, int formerPP)
     {
       Log = log;
       Pm = move.Owner.Id;

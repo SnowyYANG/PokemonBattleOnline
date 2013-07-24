@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game.Host.Sp;
+using LightStudio.PokemonBattle.Game.Host.Triggers;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
-  public class AtkContext : ConditionalObject
+  internal class AtkContext : ConditionalObject
   {
     public readonly PokemonProxy Attacker;
     public readonly MoveProxy MoveProxy; //压力、诅咒身躯，针对一开始选的技能
@@ -19,7 +19,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     public bool Fail;
     public bool IgnoreSwitchItem;
 
-    internal AtkContext(MoveProxy mp)
+    public AtkContext(MoveProxy mp)
     {
       MoveProxy = mp;
       Attacker = mp.Owner;
@@ -48,26 +48,25 @@ namespace LightStudio.PokemonBattle.Game.Host
     public void StartExecute(MoveType move, Tile selectTile = null, string log = "UseMove")
     {
       Move = move;
-      if (Triggers.CanExecuteMove(Attacker, move))
+      if (STs.CanExecuteMove(Attacker, move))
       {
         if (log != null) Attacker.AddReportPm(log, move.Id);
-        var e = EffectsService.GetMove(move.Id);
-        e.InitAtkContext(this);
+        MoveInitAtkContext.Execute(this);
         BuildDefContext(selectTile);
-        e.Execute(this);
+        MoveExecute.Execute(this);
       }
       else FailAll(null);
     }
-    internal void BuildDefContext(Tile selectTile)
-    {
-      EffectsService.GetMove(Move.Id).BuildDefContext(this, selectTile);
-      if (MoveProxy != null) Abilities.Pressure(this, Moves.GetRange(Attacker, Move));
-    }
-    internal void ContinueExecute(Tile selectTile)
+    public void ContinueExecute(Tile selectTile)
     {
       TotalDamage = 0;
       BuildDefContext(selectTile);
-      EffectsService.GetMove(Move.Id).Execute(this);
+      MoveExecute.Execute(this);
+    }
+    private void BuildDefContext(Tile selectTile)
+    {
+      MoveE.BuildDefContext(this, selectTile);
+      if (MoveProxy != null) As.Pressure(this, Ms.GetRange(Attacker, Move));
     }
     public void SetTargets(IEnumerable<DefContext> targets)
     {
@@ -86,7 +85,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       if (percentage == 0) return true;
       var a = Attacker.Ability;
-      return !a.SheerForce() && Controller.RandomHappen(a.SereneGrace() ? percentage *= 3 : percentage);
+      return a != As.SHEER_FORCE && Controller.RandomHappen(a == As.SERENE_GRACE ? percentage *= 3 : percentage);
     }
     public void FailAll(string log = "Fail0", int arg0 = 0, int arg1 = 0)
     {
@@ -96,7 +95,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (log != null) Controller.ReportBuilder.Add(log, arg0, arg1);
     }
   }
-  public class DefContext : ConditionalObject
+  internal class DefContext : ConditionalObject
   {
     public readonly AtkContext AtkContext;
     public readonly PokemonProxy Defender;
@@ -121,18 +120,18 @@ namespace LightStudio.PokemonBattle.Game.Host
     public bool NoGuard
     { 
       get
-      { 
-        if (AtkContext.Attacker.Ability.NoGuard() || Defender.Ability.NoGuard()) return true;
+      {
+        if (AtkContext.Attacker.Ability == As.NO_GUARD || Defender.Ability == As.NO_GUARD) return true;
         Condition c = Defender.OnboardPokemon.GetCondition("NoGuard");
         return c != null && c.By == AtkContext.Attacker && c.Turn == Defender.Controller.TurnNumber; 
       }
     }
 
-    public AbilityE Ability
-    { get { return AtkContext.Attacker.Ability.IgnoreDefenderAbility() ? EffectsService.NULL_ABILITY : Defender.Ability; } }
+    public int Ability
+    { get { return As.IgnoreDefenderAbility(AtkContext.Attacker.Ability) ? 0 : Defender.Ability; } }
     public bool RandomHappen(int percentage)
     {
-      return percentage == 0 || !Ability.ShieldDust() && AtkContext.RandomHappen(percentage);
+      return percentage == 0 || Ability != As.SHIELD_DUST && AtkContext.RandomHappen(percentage);
     }
     public bool HasInfiltratableCondition(string condition)
     {
@@ -140,11 +139,15 @@ namespace LightStudio.PokemonBattle.Game.Host
       return
         !IsCt &&
         Defender.Tile.Field.HasCondition(condition) &&
-        (Defender.Tile.Team == a.Tile.Team || !AtkContext.Attacker.Ability.Infiltrator());
+        (Defender.Tile.Team == a.Tile.Team || AtkContext.Attacker.Ability != As.INFILTRATOR);
     }
     public void ModifyDamage(Modifier modifier)
     {
       Damage *= modifier;
+    }
+    public void Fail()
+    {
+      Defender.AddReportPm("Fail");
     }
   }
 }

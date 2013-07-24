@@ -10,7 +10,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
   [DataContract(Namespace = Namespaces.PBO)]
   public class Substitute : GameEvent
   {
-    public static Substitute EnSubstitute(PokemonProxy pm)
+    internal static Substitute EnSubstitute(PokemonProxy pm)
     {
       return new Substitute() { Pm = pm.Id };
     }

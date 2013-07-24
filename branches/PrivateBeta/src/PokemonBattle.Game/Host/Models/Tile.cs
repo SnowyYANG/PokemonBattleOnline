@@ -5,7 +5,7 @@ using System.Text;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
-  public sealed class Tile : ConditionalObject
+  internal sealed class Tile : ConditionalObject
   {
     public const int NOPM_INDEX = -1;
 

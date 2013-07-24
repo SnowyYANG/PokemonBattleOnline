@@ -6,7 +6,7 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
-  public class Condition
+  internal class Condition
   {
     public PokemonProxy By;
     public PokemonProxy Pm;

@@ -18,7 +18,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember(Name = "c", EmitDefaultValue = false)]
     public int PP;
 
-    public UseMove(PokemonProxy pm, MoveType move)
+    internal UseMove(PokemonProxy pm, MoveType move)
     {
       Pm = pm.Id;
       Move = move.Id;
@@ -28,7 +28,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     {
       var pm = Game.GetPokemon(Pm);
       pm.ChangePosition(pm.Position.X, CoordY.Plate);
-      if (Move == Host.Sp.Moves.STRUGGLE) AppendGameLog("Struggle", Pm);
+      if (Move == Host.Ms.STRUGGLE) AppendGameLog("Struggle", Pm);
       AppendGameLog("UseMove", Pm, Move);
     }
     public override void Update(SimGame game)

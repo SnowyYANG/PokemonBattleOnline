@@ -19,7 +19,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember(EmitDefaultValue = false)]
     int Loster;
 
-    public GetItem(PokemonProxy pm, string key, PokemonProxy formerOwner)
+    internal GetItem(PokemonProxy pm, string key, PokemonProxy formerOwner)
     {
       Pm = pm.Id;
       Item = pm.Pokemon.Item.Id;

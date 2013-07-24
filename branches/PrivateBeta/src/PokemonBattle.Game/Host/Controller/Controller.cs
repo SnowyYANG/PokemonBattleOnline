@@ -6,7 +6,7 @@ using LightStudio.PokemonBattle.Game.Host.Sp;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
-  public class Controller
+  internal class Controller
   {
     internal event Action<ReportFragment, IDictionary<int, InputRequest>> ReportUpdated;
 
@@ -84,7 +84,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public Weather Weather
     {
-      get { return Abilities.IgnoreWeather(this) ? Weather.Normal : Board.Weather; }
+      get { return As.IgnoreWeather(this) ? Weather.Normal : Board.Weather; }
       set
       {
         if (Board.Weather != value)
@@ -92,7 +92,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           Board.RemoveCondition("Weather");
           Board.Weather = value;
           ReportBuilder.Add(new GameEvents.WeatherChange(value));
-          if (!Abilities.IgnoreWeather(this)) Abilities.WeatherChanged(this);
+          if (!As.IgnoreWeather(this)) As.WeatherChanged(this);
         }
       }
     }

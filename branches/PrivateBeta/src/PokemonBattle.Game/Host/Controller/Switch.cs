@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Game.GameEvents;
-using LightStudio.PokemonBattle.Game.Host.Sp;
+using LightStudio.PokemonBattle.Game.Host.Triggers;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
@@ -36,16 +36,16 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (CanWithdraw(pm))
       {
         if (log != null) pm.AddReportPm(log);
-        Triggers.Withdrawing(pm, canPursuit);
+        STs.Withdrawing(pm, canPursuit);
         if (pm.Tile != null)
         {
           ReportBuilder.Add(new GameEvents.Withdraw(pm));
-          var ability = pm.Ability.Id;
+          var ability = pm.Ability;
           pm.Action = PokemonAction.InBall;
           pm.Tile.Pokemon = null;
           pm.OnboardPokemon = pm.NullOnboardPokemon;
           Controller.ActingPokemons.Remove(pm);
-          Abilities.Withdrawn(pm, ability);
+          As.Withdrawn(pm, ability);
           return true;
         }
       }
@@ -58,7 +58,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       tile.Pokemon = pm;
       tile.WillSendoutPokemonIndex = Tile.NOPM_INDEX;
       pm.OnboardPokemon = new OnboardPokemon(pm.Pokemon, tile.X);
-      Triggers.SendingOut(pm);
+      STs.SendingOut(pm);
       Controller.ActingPokemons.Insert(0, pm);
       return pm;
     }
@@ -76,13 +76,13 @@ namespace LightStudio.PokemonBattle.Game.Host
         var pm = SendoutImplement(tile);
         p.SwitchPokemon(origin, sendout);
         ReportBuilder.Add(new SendOut(pm, sendout, log));
-        Abilities.Trace(pm);
+        As.Trace(pm);
         if (debut)
         {
-          Abilities.AttachUnnerve(Controller);
+          As.AttachUnnerve(Controller);
           pm.Debut();
-          Abilities.AttachWeatherObserver(pm);
-          Abilities.WeatherChanged(Controller);
+          As.AttachWeatherObserver(pm);
+          As.WeatherChanged(Controller);
         }
         return true;
       }

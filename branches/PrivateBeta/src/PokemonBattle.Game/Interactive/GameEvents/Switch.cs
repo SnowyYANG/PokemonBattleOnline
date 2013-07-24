@@ -91,8 +91,8 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     public Withdraw(PokemonProxy pm)
     {
       Pm = pm.Id;
-      Ab = pm.Ability.Id;
-      if (Ab != Host.Sp.Abilities.REGENERATOR && Ab != Host.Sp.Abilities.NATURAL_CURE) Ab = 0;
+      Ab = pm.Ability;
+      if (Ab != Host.As.REGENERATOR && Ab != Host.As.NATURAL_CURE) Ab = 0;
     }
 
     int team, x;
@@ -105,7 +105,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       else
       {
         pm.Withdraw();
-        if (Ab == Host.Sp.Abilities.NATURAL_CURE) pm.State = PokemonState.Normal;//for TeamOutward
+        if (Ab == Host.As.NATURAL_CURE) pm.State = PokemonState.Normal;//for TeamOutward
       }
       Game.Board[team, x] = null;
     }
@@ -119,8 +119,8 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
         if (pm.Hp.Value == 0) pm.State = PokemonState.Faint;
         else
         {
-          if (Ab == Host.Sp.Abilities.REGENERATOR) pm.SetHp(pm.Hp.Value + pm.Hp.Origin / 3);
-          else if (Ab == Host.Sp.Abilities.NATURAL_CURE) pm.State = PokemonState.Normal;
+          if (Ab == Host.As.REGENERATOR) pm.SetHp(pm.Hp.Value + pm.Hp.Origin / 3);
+          else if (Ab == Host.As.NATURAL_CURE) pm.State = PokemonState.Normal;
         }
       }
     }

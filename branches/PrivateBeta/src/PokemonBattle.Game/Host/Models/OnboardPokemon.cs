@@ -10,7 +10,7 @@ namespace LightStudio.PokemonBattle.Game.Host
   /// <summary>
   /// 在场pm数据副本，不一定正在对战，比如“转盘”
   /// </summary>
-  public class OnboardPokemon : ConditionalObject
+  internal class OnboardPokemon : ConditionalObject
   {
     public static int Get5D(int val, int lv)
     {

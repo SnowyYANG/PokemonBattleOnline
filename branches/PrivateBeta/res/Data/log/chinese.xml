@@ -254,7 +254,7 @@
 <a:KeyValueOfstringanyType><a:Key>StealthRock</a:Key><a:Value i:type="LogText"><text>{0:p}被尖锐的岩石扎伤了！</text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>EnTrickRoom</a:Key><a:Value i:type="LogText"><text>{0:p}扭曲了时空！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>PerishSong</a:Key><a:Value i:type="LogText"><text>{0:p}的毁灭的倒计时还剩下{1}！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CantSelectWithdraw</a:Key><a:Value i:type="LogText"><text>{0:p}已经逃不掉了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnCantSelectWithdraw</a:Key><a:Value i:type="LogText"><text>{0:p}已经逃不掉了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnHealBlock</a:Key><a:Value i:type="LogText"><text>{0:p}的回复动作被封印了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeHealBlock</a:Key><a:Value i:type="LogText"><text>{0:p}的回复封印解除了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HealBlock</a:Key><a:Value i:type="LogText"><text>{0:p}因为回复封印无法回复!
@@ -275,9 +275,9 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ItemDeBRN</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}治愈了烧伤状态！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ItemDeConfuse</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}治愈了混乱状态！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ItemDeAttract</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}治愈了着迷状态！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Item7DUp1</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}使{2:e}提升！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Item7DUp2</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}使{2:e}大幅提升！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Item7DUp3</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}使{2:e}疯狂提升！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Item7DUp1</a:Key><a:Value i:type="LogText"><text>{0:p}使用{2:i}使{1:e}提升！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Item7DUp2</a:Key><a:Value i:type="LogText"><text>{0:p}使用{2:i}使{1:e}大幅提升！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Item7DUp3</a:Key><a:Value i:type="LogText"><text>{0:p}使用{2:i}使{1:e}疯狂提升！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ItemEnFocusEnergy</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}后，充满了干劲！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>FocusItem</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}撑了下来！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>WhiteHerb</a:Key><a:Value i:type="LogText"><text>{0:p}使用了{1:i}复原了所有能力值！

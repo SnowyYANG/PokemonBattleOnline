@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
-using LightStudio.PokemonBattle.Game.Host.Sp;
+using LightStudio.PokemonBattle.Game.Host.Triggers;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
-  public class Field : ConditionalObject
+  internal class Field : ConditionalObject
   {
     private readonly List<EntryHazards> hazards;
 
@@ -78,9 +78,9 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         switch (move.Id)
         {
-          case Moves.SPIKES:
+          case Ms.SPIKES:
             return new Spikes();
-          case Moves.TOXIC_SPIKES:
+          case Ms.TOXIC_SPIKES:
             return new ToxicSpikes();
           default:
             return new StealthRock();
@@ -101,7 +101,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         int n;
         public Spikes()
-          : base(Moves.SPIKES)
+          : base(Ms.SPIKES)
         {
           n = 8;
         }
@@ -118,7 +118,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         }
         public override void Debut(PokemonProxy pm)
         {
-          if (pm.CanEffectHurt && EffectsService.IsGroundAffectable.Execute(pm, true, false))
+          if (pm.CanEffectHurt && HasEffect.IsGroundAffectable(pm, true, false))
             pm.EffectHurtByOneNth(n, "Spikes");
         }
       }
@@ -126,7 +126,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         bool badly;
         public ToxicSpikes()
-          : base(Moves.TOXIC_SPIKES)
+          : base(Ms.TOXIC_SPIKES)
         {
         }
         public override bool En()
@@ -141,7 +141,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         }
         public override void Debut(PokemonProxy pm)
         {
-          if (EffectsService.IsGroundAffectable.Execute(pm, true, false))
+          if (HasEffect.IsGroundAffectable(pm, true, false))
           {
             if (pm.OnboardPokemon.HasType(BattleType.Poison)) De(pm.Controller.ReportBuilder, pm.Pokemon.TeamId);
             else if (pm.CanAddState(pm, AttachedState.PSN, false)) pm.AddState(pm, AttachedState.PSN, false, badly ? 15 : 0);
@@ -151,7 +151,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       private class StealthRock : EntryHazards
       {
         public StealthRock()
-          : base(Moves.STEALTH_ROCK)
+          : base(Ms.STEALTH_ROCK)
         {
         }
         public override bool En()

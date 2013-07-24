@@ -28,17 +28,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\res\Data\string\data\chinese.xml = ..\res\Data\string\data\chinese.xml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonBattle.EffectsC", "PokemonBattle.EffectsC\PokemonBattle.EffectsC.csproj", "{9A556367-584D-4A0E-803D-591486FB28DB}"
-EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PokemonBattle.EffectsP", "PokemonBattle.EffectsP\PokemonBattle.EffectsP.pyproj", "{938534E7-0605-4746-9115-B5BBF236D00B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonBattle.Test", "PokemonBattle.Test\PokemonBattle.Test.csproj", "{CA8FC057-3DD7-4F64-9965-AD4BA3FF5EE6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonBattle.Data.Editor", "PokemonBattle.Data.Editor\PokemonBattle.Data.Editor.csproj", "{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 15
+		SccNumberOfProjects = 13
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs30
 		SccLocalPath0 = .
@@ -66,24 +62,18 @@ Global
 		SccProjectUniqueName8 = PokemonBattle.Game\\PokemonBattle.Game.csproj
 		SccProjectName8 = PokemonBattle.Game
 		SccLocalPath8 = PokemonBattle.Game
-		SccProjectUniqueName9 = PokemonBattle.EffectsC\\PokemonBattle.EffectsC.csproj
-		SccProjectName9 = PokemonBattle.EffectsC
-		SccLocalPath9 = PokemonBattle.EffectsC
-		SccProjectUniqueName10 = PokemonBattle.EffectsP\\PokemonBattle.EffectsP.pyproj
-		SccProjectName10 = PokemonBattle.EffectsP
-		SccLocalPath10 = PokemonBattle.EffectsP
-		SccProjectUniqueName11 = PBOServer\\PBOServer.csproj
-		SccProjectName11 = PBOServer
-		SccLocalPath11 = PBOServer
-		SccProjectUniqueName12 = PokemonBattle.Messaging\\PokemonBattle.Messaging.csproj
-		SccProjectName12 = PokemonBattle.Messaging
-		SccLocalPath12 = PokemonBattle.Messaging
-		SccProjectUniqueName13 = PokemonBattle.Test\\PokemonBattle.Test.csproj
-		SccProjectName13 = PokemonBattle.Test
-		SccLocalPath13 = PokemonBattle.Test
-		SccProjectUniqueName14 = PokemonBattle.Data.Editor\\PokemonBattle.Data.Editor.csproj
-		SccProjectName14 = PokemonBattle.Data.Editor
-		SccLocalPath14 = PokemonBattle.Data.Editor
+		SccProjectUniqueName9 = PBOServer\\PBOServer.csproj
+		SccProjectName9 = PBOServer
+		SccLocalPath9 = PBOServer
+		SccProjectUniqueName10 = PokemonBattle.Messaging\\PokemonBattle.Messaging.csproj
+		SccProjectName10 = PokemonBattle.Messaging
+		SccLocalPath10 = PokemonBattle.Messaging
+		SccProjectUniqueName11 = PokemonBattle.Test\\PokemonBattle.Test.csproj
+		SccProjectName11 = PokemonBattle.Test
+		SccLocalPath11 = PokemonBattle.Test
+		SccProjectUniqueName12 = PokemonBattle.Data.Editor\\PokemonBattle.Data.Editor.csproj
+		SccProjectName12 = PokemonBattle.Data.Editor
+		SccLocalPath12 = PokemonBattle.Data.Editor
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -164,18 +154,6 @@ Global
 		{5F1D7698-AD1E-462A-AEED-063BCB80DF89}.ETV|Any CPU.Build.0 = ETV|Any CPU
 		{5F1D7698-AD1E-462A-AEED-063BCB80DF89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F1D7698-AD1E-462A-AEED-063BCB80DF89}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9A556367-584D-4A0E-803D-591486FB28DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9A556367-584D-4A0E-803D-591486FB28DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9A556367-584D-4A0E-803D-591486FB28DB}.EDITING|Any CPU.ActiveCfg = Release|Any CPU
-		{9A556367-584D-4A0E-803D-591486FB28DB}.ETV|Any CPU.ActiveCfg = Release|Any CPU
-		{9A556367-584D-4A0E-803D-591486FB28DB}.ETV|Any CPU.Build.0 = Release|Any CPU
-		{9A556367-584D-4A0E-803D-591486FB28DB}.ETV|Any CPU.Deploy.0 = Release|Any CPU
-		{9A556367-584D-4A0E-803D-591486FB28DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9A556367-584D-4A0E-803D-591486FB28DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{938534E7-0605-4746-9115-B5BBF236D00B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{938534E7-0605-4746-9115-B5BBF236D00B}.EDITING|Any CPU.ActiveCfg = Release|Any CPU
-		{938534E7-0605-4746-9115-B5BBF236D00B}.ETV|Any CPU.ActiveCfg = Release|Any CPU
-		{938534E7-0605-4746-9115-B5BBF236D00B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA8FC057-3DD7-4F64-9965-AD4BA3FF5EE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CA8FC057-3DD7-4F64-9965-AD4BA3FF5EE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA8FC057-3DD7-4F64-9965-AD4BA3FF5EE6}.EDITING|Any CPU.ActiveCfg = ETV|Any CPU

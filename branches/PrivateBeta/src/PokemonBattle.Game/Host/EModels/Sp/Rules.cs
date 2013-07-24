@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Data;
 
-namespace LightStudio.PokemonBattle.Game.Host.Sp
+namespace LightStudio.PokemonBattle.Game.Host
 {
-  public static class Rules
+  internal static class Rules
   {
     public static bool CanAddState(PokemonProxy pm, AttachedState state, PokemonProxy by, bool showFail)
     {

@@ -56,7 +56,7 @@ namespace LightStudio.PokemonBattle.Game
         {
           Block = null;
           Only = null;
-          OnlyMove = Host.Sp.Moves.STRUGGLE;
+          OnlyMove = Host.Ms.STRUGGLE;
         }
       }
       {
@@ -97,7 +97,7 @@ namespace LightStudio.PokemonBattle.Game
     }
     public bool Fight()
     {
-      return OnlyMove == PokemonBattle.Game.Host.Sp.Moves.STRUGGLE;
+      return OnlyMove == PokemonBattle.Game.Host.Ms.STRUGGLE;
     }
     /// <summary>
     /// 不判断PP数及技能是否存在

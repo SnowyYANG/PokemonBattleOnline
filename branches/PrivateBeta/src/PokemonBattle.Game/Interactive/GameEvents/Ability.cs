@@ -26,12 +26,12 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember(EmitDefaultValue = false)]
     public int Arg3;
 
-    public AbilityEvent(PokemonProxy pm)
+    internal AbilityEvent(PokemonProxy pm)
     {
       Pm = pm.Id;
       Ab = pm.OnboardPokemon.Ability;
     }
-    public AbilityEvent(PokemonProxy pm, string log, int fromId, int toId)
+    internal AbilityEvent(PokemonProxy pm, string log, int fromId, int toId)
     {
       Pm = pm.Id;
       Log = log == "SetAbility" ? null : log;

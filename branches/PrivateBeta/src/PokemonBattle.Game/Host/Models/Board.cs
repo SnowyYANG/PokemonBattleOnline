@@ -8,7 +8,7 @@ using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
-  public class Board : ConditionalObject
+  internal class Board : ConditionalObject
   {
     private readonly Field[] fields;
     private readonly Tile[] tiles;
