@@ -352,7 +352,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
 
       MagicCoat(atk);
-      
+
       atk.SetAttackerAction(atk.Move.Flags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done);
       if (atk.Targets != null)
         foreach (var d in atk.Targets)
@@ -380,10 +380,14 @@ namespace LightStudio.PokemonBattle.Game.Host
           return;
         }
       }
-      if (atk.Move.AttackSwitch() && aer.Tile != null)
       {
-        c.Withdraw(aer, "SelfWithdraw", true);
-        c.PauseForSendoutInput(aer.Tile);
+        var tile = aer.Tile;
+        if (atk.Move.AttackSwitch() && tile != null)
+        {
+
+          c.Withdraw(aer, "SelfWithdraw", true);
+          c.PauseForSendoutInput(tile);
+        }
       }
     }
   }
