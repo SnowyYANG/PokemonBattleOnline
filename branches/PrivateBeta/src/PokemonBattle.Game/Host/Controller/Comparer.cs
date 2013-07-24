@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Game.Host.Sp;
+using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {
@@ -26,8 +26,8 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         int aP = a.SelectedMove.Priority;
         int bP = b.SelectedMove.Priority;
-        if (a.SelectedMove.Type.Category == Data.MoveCategory.Status && a.Ability == As.PRANKSTER) aP++;
-        if (a.SelectedMove.Type.Category == Data.MoveCategory.Status && b.Ability == As.PRANKSTER) bP++;
+        if (a.SelectedMove.Type.Category == MoveCategory.Status && a.Ability == As.PRANKSTER) aP++;
+        if (b.SelectedMove.Type.Category == MoveCategory.Status && b.Ability == As.PRANKSTER) bP++;
         if (aP != bP)
           return bP - aP;
       }
