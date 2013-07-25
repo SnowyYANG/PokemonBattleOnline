@@ -24,7 +24,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
         aer.Controller.ReportBuilder.Add(new PPChange("Grudge", mp, mp.PP));
         mp.PP = 0;
       }
-      if (aer.CanChangeLv7D(aer, StatType.Atk, 1, false) != 0 && aer.RaiseAbility(As.MOXIE)) aer.ChangeLv7D(aer, false, 1);
+      if (aer.CanChangeLv7D(aer, StatType.Atk, 1, false) != 0 && aer.RaiseAbility(As.MOXIE)) aer.ChangeLv7D(aer, StatType.Atk, 1, false);
     }
     public static void WillAct(PokemonProxy pm)
     {

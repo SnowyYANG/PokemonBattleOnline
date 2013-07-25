@@ -228,7 +228,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
             aer.AddReportPm("Prepare" + m.ToString());
             break;
         }
-        if (m == Ms.SKULL_BASH) aer.ChangeLv7D(atk.Attacker, false, 0, 1);
+        if (m == Ms.SKULL_BASH) aer.ChangeLv7D(atk.Attacker, StatType.Def, 1, false);
         atk.SetAttackerAction(PokemonAction.Moving);
         return !(m == Ms.SOLARBEAM && aer.Controller.Weather == Weather.IntenseSunlight || Is.PowerHerb(aer));
       }

@@ -145,7 +145,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       if (pm.OnboardPokemon.HasCondition("Flinch"))
       {
         AddResetYReport(pm, "Flinch");
-        if (pm.RaiseAbility(As.STEADFAST)) pm.ChangeLv7D(pm, false, 0, 0, 0, 0, 1);
+        if (pm.RaiseAbility(As.STEADFAST)) pm.ChangeLv7D(pm, StatType.Speed, 1, false);
         return false;
       }
       return true;

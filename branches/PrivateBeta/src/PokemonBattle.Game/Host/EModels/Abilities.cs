@@ -247,7 +247,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public static void Defiant(PokemonProxy pm)
     {
-      if (pm.CanChangeLv7D(pm, StatType.Atk, 2, false) != 0 && pm.RaiseAbility(DEFIANT)) pm.ChangeLv7D(pm, false, 2);
+      if (pm.CanChangeLv7D(pm, StatType.Atk, 2, false) != 0 && pm.RaiseAbility(DEFIANT)) pm.ChangeLv7D(pm, StatType.Atk, 2, false);
     }
     public static void Illusion(PokemonProxy pm)
     {
