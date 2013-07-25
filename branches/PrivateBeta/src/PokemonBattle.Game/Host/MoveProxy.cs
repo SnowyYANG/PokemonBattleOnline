@@ -31,7 +31,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         var pp = (PairValue)Move.PP;
         if (value < 0) pp.Value = 0;
-        else if (value > Move.PP.Origin) pp.Value = Move.PP.Origin;
+        else if (value > pp.Origin) pp.Value = pp.Origin;
         else pp.Value = value;
       }
     }

@@ -1066,7 +1066,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
           {
             var fp = m.PP;
             m.PP -= 4;
-            atk.Controller.ReportBuilder.Add(new GameEvents.PPChange("Spite", m, fp));
+            atk.Controller.ReportBuilder.Add(new GameEvents.PPChange("Spite", m) { Arg2 = fp - m.PP });
             return;
           }
           break;

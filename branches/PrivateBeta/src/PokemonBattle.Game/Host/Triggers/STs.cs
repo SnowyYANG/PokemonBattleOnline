@@ -21,8 +21,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       var mp = def.AtkContext.MoveProxy;
       if (o.HasCondition("Grudge") && mp != null && mp.PP != 0)
       {
-        aer.Controller.ReportBuilder.Add(new PPChange("Grudge", mp, mp.PP));
         mp.PP = 0;
+        aer.Controller.ReportBuilder.Add(new PPChange("Grudge", mp));
       }
       if (aer.CanChangeLv7D(aer, StatType.Atk, 1, false) != 0 && aer.RaiseAbility(As.MOXIE)) aer.ChangeLv7D(aer, StatType.Atk, 1, false);
     }
@@ -233,7 +233,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
           {
             m.PP += 10;
             pm.ConsumeItem();
-            pm.Controller.ReportBuilder.Add(new GameEvents.PPChange("ItemPPRecover", m, 0) { Item = true });
+            pm.Controller.ReportBuilder.Add(new GameEvents.PPChange("ItemPPRecover", m) { Arg2 = Is.LEPPA_BERRY, Item = true });
             return;
           }
       }

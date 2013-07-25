@@ -369,14 +369,14 @@ namespace LightStudio.PokemonBattle.Game.Host
             if (m.PP == 0)
             {
               m.PP += 10;
-              pm.Controller.ReportBuilder.Add(new GameEvents.PPChange("ItemPPRecover", m, 0));
+              pm.Controller.ReportBuilder.Add(new GameEvents.PPChange("ItemPPRecover", m) { Arg2 = 134 });
               return;
             }
           foreach (var m in pm.Moves)
             if (m.PP != m.Move.PP.Origin)
             {
               m.PP += 10;
-              pm.Controller.ReportBuilder.Add(new GameEvents.PPChange("ItemPPRecover", m, 0));
+              pm.Controller.ReportBuilder.Add(new GameEvents.PPChange("ItemPPRecover", m) { Arg2 = 134 });
               return;
             }
           break;

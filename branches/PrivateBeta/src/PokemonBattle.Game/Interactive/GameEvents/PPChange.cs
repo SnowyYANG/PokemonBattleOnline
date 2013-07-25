@@ -14,23 +14,25 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     [DataMember(EmitDefaultValue = false)]
     int Move;
     [DataMember(EmitDefaultValue = false)]
-    int Change;
+    int PP;
     [DataMember(EmitDefaultValue = false)]
     string Log;
     [DataMember(EmitDefaultValue = false)]
+    public int Arg2;
+    [DataMember(EmitDefaultValue = false)]
     public bool Item;
 
-    internal PPChange(string log, Host.MoveProxy move, int formerPP)
+    internal PPChange(string log, Host.MoveProxy move)
     {
       Log = log;
       Pm = move.Owner.Id;
       Move = move.Type.Id;
-      Change = move.PP - formerPP;
+      PP = move.PP;
     }
 
     protected override void Update()
     {
-      AppendGameLog(Log, Pm, Move, Math.Abs(Change));
+      AppendGameLog(Log, Pm, Move, Arg2);
     }
     public override void Update(SimGame game)
     {
@@ -38,9 +40,9 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       if (pm != null)
       {
         foreach (var m in pm.Moves)
-          if (m.Type.Id == Move)
+          if (m != null && m.Type.Id == Move)
           {
-            m.PP.Value += Change;
+            m.PP.Value = PP;
             break;
           }
         if (Item) pm.Pokemon.Item = null;

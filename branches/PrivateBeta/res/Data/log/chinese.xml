@@ -266,7 +266,7 @@
 <a:KeyValueOfstringanyType><a:Key>FailSelfHurt</a:Key><a:Value i:type="LogText"><text>因为势头太猛，{0:p}撞到了地上！</text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>FailSp</a:Key><a:Value i:type="LogText"><text>{0:p}不能使用{1:m}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ItemRecover</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}回复了体力！</text></a:Value></a:KeyValueOfstringanyType>
-<a:KeyValueOfstringanyType><a:Key>ItemPPRecover</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}回复了{2:m}的PP！
+<a:KeyValueOfstringanyType><a:Key>ItemPPRecover</a:Key><a:Value i:type="LogText"><text>{0:p}使用{2:i}回复了{1:m}的PP！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ItemRecover2</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}回复了一点！</text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>ItemDePSN</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}解了毒！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ItemDePAR</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}治愈了麻痹状态！
