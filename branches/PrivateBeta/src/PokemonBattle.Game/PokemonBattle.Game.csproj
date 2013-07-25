@@ -70,7 +70,7 @@
     <Compile Include="Host\GameEvents\Rest.cs" />
     <Compile Include="Host\Triggers\AbilityAttach.cs" />
     <Compile Include="Host\Triggers\AbilityDetach.cs" />
-    <Compile Include="Host\EModels\Sp\Rules.cs" />
+    <Compile Include="Host\EModels\Rules.cs" />
     <Compile Include="Host\Triggers\AccuracyModifier.cs" />
     <Compile Include="Host\Triggers\AModifier.cs" />
     <Compile Include="Host\Triggers\HasEffect.cs" />
@@ -109,7 +109,7 @@
     <Compile Include="Interactive\InputType.cs" />
     <Compile Include="Host\EModels\Modifier.cs" />
     <Compile Include="Host\IGameSettings.cs" />
-    <Compile Include="Host\EModels\Sp\Substitute.cs" />
+    <Compile Include="Host\EModels\Substitute.cs" />
     <Compile Include="Interactive\GameEvents\Substitute.cs" />
     <Compile Include="Interactive\GameEvents\UseMove.cs" />
     <Compile Include="Interactive\GameEvents\WeatherChange.cs" />
@@ -171,7 +171,9 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Host\EModels\Sp\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
