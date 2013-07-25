@@ -293,7 +293,7 @@ namespace LightStudio.PokemonBattle.Data
         {
             for (int i = 0; i < _moves.Count; i++)
             {
-                if ((value & (1 << i)) != 0) _moves[i].PPUp = 2;
+                if ((value & (1 << i)) != 0) _moves[i].PPUp = x;
             }
         }
         [DataMember]

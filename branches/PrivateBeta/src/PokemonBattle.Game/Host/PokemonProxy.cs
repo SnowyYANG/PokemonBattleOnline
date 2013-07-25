@@ -378,13 +378,11 @@ namespace LightStudio.PokemonBattle.Game.Host
         {
           var o = OnboardPokemon.GetCondition<MoveType>("ChoiceItem");
           if (o != null)
+          {
             foreach (var m in Moves)
-              if (m.Type == o)
-              {
-                if (m.PP == 0) break;
-                goto DONE2;
-              }
-          OnboardPokemon.RemoveCondition("ChoiceItem");
+              if (m.Type == o) goto DONE2;
+            OnboardPokemon.RemoveCondition("ChoiceItem");
+          }
         }
       DONE2:
         Action = PokemonAction.WaitingForInput;
