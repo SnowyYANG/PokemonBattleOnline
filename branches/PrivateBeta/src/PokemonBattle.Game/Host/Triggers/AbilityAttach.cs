@@ -89,7 +89,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
         case As.INTIMIDATE:
           pm.RaiseAbility();
           foreach (var p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1))
-            p.ChangeLv7D(pm, StatType.Atk, -1, true);
+            if (p.OnboardPokemon.HasCondition("Substitute")) p.AddReportPm("NoEffect");
+            else p.ChangeLv7D(pm, StatType.Atk, -1, true);
           break;
         case As.TRACE:
           Trace(pm);
