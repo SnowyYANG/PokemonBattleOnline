@@ -105,6 +105,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
         case Is.ROCKY_HELMET: //104
           if (touch) aer.EffectHurtByOneNth(6, "RockyHelmet", 0, 0);
           break;
+        case Is.AIR_BALLOON: //105
+          Is.AirBalloon(def);
+          break;
         case Is.ABSORB_BULB: //109
           AttackedUpItem(def, BattleType.Water, StatType.SpAtk);
           break;
@@ -119,9 +122,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
           break;
         case Is.ROWAP_BERRY: //192
           ReHurtBerry(def, MoveCategory.Special);
-          break;
-        default:
-          Is.AirBalloon(def); //embargo?
           break;
       }
       if (der.OnboardPokemon.HasCondition("Rage")) der.ChangeLv7D(der, StatType.Atk, 1, false, "Rage");

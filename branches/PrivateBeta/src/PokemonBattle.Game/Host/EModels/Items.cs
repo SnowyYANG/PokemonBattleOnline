@@ -466,11 +466,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public static void AirBalloon(DefContext def)
     {
-      if (def.Defender.Pokemon.Item.Id == AIR_BALLOON)
-      {
-        def.Defender.RemoveItem();
-        def.Defender.AddReportPm("DeBalloon");
-      }
+      def.Defender.RemoveItem();
+      def.Defender.AddReportPm("DeBalloon");
     }
     public static void AttackPostEffect(AtkContext atk)
     {
