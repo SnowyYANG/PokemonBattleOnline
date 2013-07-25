@@ -62,12 +62,12 @@
     <Compile Include="Client\SimOnboardPokemon.cs" />
     <Compile Include="GameService.cs" />
     <Compile Include="Host\Controller\Input.cs" />
-    <Compile Include="Host\GameEvents\HealBell.cs" />
-    <Compile Include="Host\GameEvents\MentalHerb.cs" />
-    <Compile Include="Host\GameEvents\Mimic.cs" />
-    <Compile Include="Host\GameEvents\PainSplit.cs" />
-    <Compile Include="Host\GameEvents\ReHurtBerry.cs" />
-    <Compile Include="Host\GameEvents\Rest.cs" />
+    <Compile Include="Interactive\GameEvents\HealBell.cs" />
+    <Compile Include="Interactive\GameEvents\MentalHerb.cs" />
+    <Compile Include="Interactive\GameEvents\Mimic.cs" />
+    <Compile Include="Interactive\GameEvents\PainSplit.cs" />
+    <Compile Include="Interactive\GameEvents\ReHurtBerry.cs" />
+    <Compile Include="Interactive\GameEvents\Rest.cs" />
     <Compile Include="Host\Triggers\AbilityAttach.cs" />
     <Compile Include="Host\Triggers\AbilityDetach.cs" />
     <Compile Include="Host\EModels\Rules.cs" />
@@ -171,7 +171,9 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Host\GameEvents\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

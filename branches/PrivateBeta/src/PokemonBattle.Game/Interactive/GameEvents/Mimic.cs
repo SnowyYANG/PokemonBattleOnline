@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using LightStudio.PokemonBattle.Game.Host;
 
-namespace LightStudio.PokemonBattle.Game.Host
+namespace LightStudio.PokemonBattle.Game.GameEvents
 {
   [DataContract(Namespace = Namespaces.PBO)]
-  class MimicEvent : GameEvent
+  class Mimic : GameEvent
   {
     [DataMember]
     int Pm;
     [DataMember]
     int Move;
 
-    public MimicEvent(PokemonProxy pm, Data.MoveType move)
+    public Mimic(PokemonProxy pm, Data.MoveType move)
     {
       Pm = pm.Id;
       Move = move.Id;

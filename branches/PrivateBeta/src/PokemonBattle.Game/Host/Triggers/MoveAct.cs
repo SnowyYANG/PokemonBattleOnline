@@ -854,7 +854,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       if (aer.Hp == aer.Pokemon.Hp.Origin) atk.FailAll();
       else if (CanAddState.Execute(aer, aer, AttachedState.SLP, true))
       {
-        aer.Controller.ReportBuilder.Add(new RestGameEvent(aer));
+        aer.Controller.ReportBuilder.Add(new GameEvents.RestGame(aer));
         aer.Pokemon.SetHp(aer.Pokemon.Hp.Origin);
         aer.Pokemon.State = PokemonState.SLP;
         aer.OnboardPokemon.SetCondition("SLP", 3);
@@ -882,12 +882,12 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       int hp = (atk.Attacker.Hp + atk.Target.Defender.Hp) >> 1;
       atk.Attacker.Pokemon.SetHp(hp);
       atk.Target.Defender.Pokemon.SetHp(hp);
-      atk.Controller.ReportBuilder.Add(new PainSplitEvent(atk));
+      atk.Controller.ReportBuilder.Add(new GameEvents.PainSplit(atk));
     }
     private static void HealBell(AtkContext atk, string log)
     {
       var aer = atk.Attacker;
-      aer.Controller.ReportBuilder.Add(new HealBellEvent(aer, log));
+      aer.Controller.ReportBuilder.Add(new GameEvents.HealBell(aer, log));
       foreach (var pm in aer.Tile.Field.Pokemons)
         if (pm.State != PokemonState.Normal) pm.Pokemon.State = PokemonState.Normal;
       foreach (var pm in aer.Pokemon.Owner.Pokemons)
@@ -1052,7 +1052,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       {
         var move = last;
         aer.ChangeMove(atk.Move, move);
-        aer.Controller.ReportBuilder.Add(new MimicEvent(aer, move));
+        aer.Controller.ReportBuilder.Add(new GameEvents.Mimic(aer, move));
       }
     }
     private static void Spite(AtkContext atk)

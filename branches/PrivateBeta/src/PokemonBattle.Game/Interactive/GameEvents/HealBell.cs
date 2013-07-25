@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using LightStudio.PokemonBattle.Game.Host;
 
-namespace LightStudio.PokemonBattle.Game.Host
+namespace LightStudio.PokemonBattle.Game.GameEvents
 {
   [DataContract(Namespace = Namespaces.PBO)]
-  class HealBellEvent : GameEvent
+  class HealBell : GameEvent
   {
     [DataMember(EmitDefaultValue = false)]
     int Pm;
@@ -15,7 +16,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     [DataMember(EmitDefaultValue = false)]
     string Key;
 
-    public HealBellEvent(PokemonProxy pm, string key)
+    public HealBell(PokemonProxy pm, string key)
     {
       Pm = pm.Id;
       Key = key == "HealBell" ? null : key;

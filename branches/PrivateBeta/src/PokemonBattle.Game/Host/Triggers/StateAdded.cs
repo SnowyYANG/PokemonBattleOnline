@@ -59,7 +59,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       if (i || e || ta || to || d)
       {
         pm.ConsumeItem();
-        pm.Controller.ReportBuilder.Add(new MentalHerbEvent(pm, i, e, ta, to, d));
+        pm.Controller.ReportBuilder.Add(new GameEvents.MentalHerb(pm, i, e, ta, to, d));
       }
     }
   }

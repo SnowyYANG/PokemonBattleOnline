@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using LightStudio.PokemonBattle.Data;
+using LightStudio.PokemonBattle.Game.Host;
 
-namespace LightStudio.PokemonBattle.Game.Host
+namespace LightStudio.PokemonBattle.Game.GameEvents
 {
   [DataContract(Namespace = Namespaces.PBO)]
-  internal class ReHurtBerryEvent : GameEvent
+  internal class ReHurtBerry : GameEvent
   {
     [DataMember]
     int A;
@@ -22,7 +23,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     [DataMember(EmitDefaultValue = false)]
     int Item;
     
-    public ReHurtBerryEvent(PokemonProxy attacker, PokemonProxy defender)
+    public ReHurtBerry(PokemonProxy attacker, PokemonProxy defender)
     {
       A = attacker.Id;
       Hp = attacker.Hp;

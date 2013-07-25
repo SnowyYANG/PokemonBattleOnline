@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using LightStudio.PokemonBattle.Game.Host;
 
-namespace LightStudio.PokemonBattle.Game.Host
+namespace LightStudio.PokemonBattle.Game.GameEvents
 {
   [DataContract(Namespace = Namespaces.PBO)]
-  internal class PainSplitEvent : GameEvent
+  internal class PainSplit : GameEvent
   {
     [DataMember]
     int A;
     [DataMember]
     int D;
 
-    public PainSplitEvent(AtkContext atk)
+    public PainSplit(AtkContext atk)
     {
       A = atk.Attacker.Id;
       D = atk.Target.Defender.Id;

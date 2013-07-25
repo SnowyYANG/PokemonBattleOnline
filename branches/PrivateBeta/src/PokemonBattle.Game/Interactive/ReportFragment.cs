@@ -12,7 +12,7 @@ namespace LightStudio.PokemonBattle.Game
   [DataContract(Namespace = Namespaces.PBO)]
   public class ReportFragment
   {
-    static HashSet<Type> knownGameEvents = new HashSet<Type>() { typeof(AbilityEvent), typeof(BeginTurn), typeof(EndTurn), typeof(GameStartSendOut), typeof(GetItem), typeof(HLLD), typeof(HorizontalLine), typeof(HpChange), typeof(MoveHurt), typeof(OutwardChange), typeof(PPChange), typeof(PositionChange), typeof(SelectMoveFail), typeof(SendOut), typeof(SimpleEvent), typeof(StateChange), typeof(Substitute), typeof(RemoveItem), typeof(UseMove), typeof(WeatherChange), typeof(Withdraw) };
+    static HashSet<Type> knownGameEvents = new HashSet<Type>() { typeof(AbilityEvent), typeof(BeginTurn), typeof(EndTurn), typeof(GameStartSendOut), typeof(GetItem), typeof(HealBell), typeof(HLLD), typeof(HorizontalLine), typeof(HpChange), typeof(MentalHerb), typeof(Mimic), typeof(MoveHurt), typeof(OutwardChange), typeof(PainSplit), typeof(PPChange), typeof(PositionChange), typeof(SelectMoveFail), typeof(SendOut), typeof(SimpleEvent), typeof(StateChange), typeof(Substitute), typeof(ReHurtBerry), typeof(RemoveItem), typeof(RestGame), typeof(UseMove), typeof(WeatherChange), typeof(Withdraw) };
     static IEnumerable<Type> KnownEvents()
     {
       return knownGameEvents;

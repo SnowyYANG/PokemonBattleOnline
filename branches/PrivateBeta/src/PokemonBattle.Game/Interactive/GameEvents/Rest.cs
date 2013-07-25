@@ -4,16 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using LightStudio.PokemonBattle.Data;
+using LightStudio.PokemonBattle.Game.Host;
 
-namespace LightStudio.PokemonBattle.Game.Host
+namespace LightStudio.PokemonBattle.Game.GameEvents
 {
   [DataContract(Name = "eer", Namespace = Namespaces.PBO)]
-  internal class RestGameEvent : GameEvent
+  internal class RestGame : GameEvent
   {
     [DataMember(Name = "a")]
     int Pm;
 
-    public RestGameEvent(PokemonProxy pm)
+    public RestGame(PokemonProxy pm)
     {
       Pm = pm.Id;
     }

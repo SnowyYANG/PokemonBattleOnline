@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using LightStudio.PokemonBattle.Game.Host;
 
-namespace LightStudio.PokemonBattle.Game.Host
+namespace LightStudio.PokemonBattle.Game.GameEvents
 {
   [DataContract(Namespace = Namespaces.PBO)]
-  internal class MentalHerbEvent : GameEvent
+  internal class MentalHerb : GameEvent
   {
     [DataMember(EmitDefaultValue = false)]
     int Pm;
@@ -22,7 +23,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     [DataMember(EmitDefaultValue = false)]
     bool Disable;
 
-    public MentalHerbEvent(PokemonProxy pm, bool i, bool e, bool ta, bool to, bool d)
+    public MentalHerb(PokemonProxy pm, bool i, bool e, bool ta, bool to, bool d)
     {
       Pm = pm.Id;
       Attract = i;

@@ -43,7 +43,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
               atk.FailAll("FullHp", aer.Id);
               return false;
             }
-            if (CanAddState.Execute(aer, aer, AttachedState.SLP, true))
+            if (!aer.CanAddState(aer, AttachedState.SLP, true))
             {
               atk.FailAll(null);
               return false;

@@ -186,7 +186,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
         int hp = aer.Pokemon.Hp.Origin >> 3;
         if (hp == 0) hp = 1;
         aer.Pokemon.SetHp(aer.Hp - hp);
-        aer.Controller.ReportBuilder.Add(new ReHurtBerryEvent(aer, def.Defender));
+        aer.Controller.ReportBuilder.Add(new GameEvents.ReHurtBerry(aer, def.Defender));
       }
     }
     private static void AttackedUpItem(DefContext def, BattleType type, StatType stat)
