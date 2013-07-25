@@ -46,7 +46,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
     private static bool FlashFire(DefContext def)
     {
       var der = def.Defender;
-      if (def.AtkContext.Type == BattleType.Fire)
+      if (def.AtkContext.Move.Category != MoveCategory.Status && def.AtkContext.Type == BattleType.Fire)
       {
         der.OnboardPokemon.SetCondition("FlashFire");
         der.RaiseAbility();
@@ -67,7 +67,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
     }
     private static bool NoEffectWithAbsorb(DefContext def, BattleType type)
     {
-      if (def.AtkContext.Type == type)
+      if (def.AtkContext.Move.Category != MoveCategory.Status && def.AtkContext.Type == type)
       {
         var der = def.Defender;
         der.RaiseAbility();
@@ -91,7 +91,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
     {
      var type = def.AtkContext.Type;
       var der = def.Defender;
-      if (def.AtkContext.Move.Category == MoveCategory.Status && def.AtkContext.Move.Id == Ms.THUNDER_WAVE || BattleTypeHelper.EffectRevise(type, der.OnboardPokemon.Type1, der.OnboardPokemon.Type2) > 0) return true;
+      if (def.AtkContext.Move.Category == MoveCategory.Status && def.AtkContext.Move.Id != Ms.THUNDER_WAVE || BattleTypeHelper.EffectRevise(type, der.OnboardPokemon.Type1, der.OnboardPokemon.Type2) > 0) return true;
       der.RaiseAbility();
       der.AddReportPm("NoEffect");
       return false;
