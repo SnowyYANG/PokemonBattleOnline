@@ -276,13 +276,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
           PowerTrick(atk);
           break;
         case Ms.POWER_SWAP: //384
-          StatSwap(atk, "PowerSwap", POWER_STATS);
+          SwapLv7D(atk, "PowerSwap", POWER_STATS);
           break;
         case Ms.GUARD_SWAP: //385
-          StatSwap(atk, "GuardSwap", GUARD_STATS);
+          SwapLv7D(atk, "GuardSwap", GUARD_STATS);
           break;
         case Ms.HEART_SWAP: //391
-          StatSwap(atk, "HeartSwap", ALL_STATS);
+          SwapLv7D(atk, "HeartSwap", ALL_STATS);
           break;
         case Ms.WORRY_SEED: //388
           SetAbility(atk, As.INSOMNIA);
@@ -310,10 +310,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
           TeamProtect(atk, "QuickGuard");
           break;
         case Ms.GUARD_SPLIT: //470
-          StatSplit(atk, "GuardSplit", GUARD_STATS);
+          Split5D(atk, "GuardSplit", GUARD_STATS);
           break;
         case Ms.POWER_SPLIT: //471
-          StatSplit(atk, "PowerSplit", POWER_STATS);
+          Split5D(atk, "PowerSplit", POWER_STATS);
           break;
         case Ms.WONDER_ROOM: //472
           WonderRoom(atk);
@@ -702,19 +702,19 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
     private static readonly IEnumerable<StatType> POWER_STATS = new StatType[] { StatType.Atk, StatType.SpAtk };
     private static readonly IEnumerable<StatType> GUARD_STATS = new StatType[] { StatType.Def, StatType.SpDef };
     private static readonly IEnumerable<StatType> ALL_STATS = new StatType[] { StatType.Atk, StatType.Def, StatType.SpAtk, StatType.SpDef, StatType.Speed, StatType.Accuracy, StatType.Evasion };
-    private static void StatSwap(AtkContext atk, string log, IEnumerable<StatType> stats)
+    private static void SwapLv7D(AtkContext atk, string log, IEnumerable<StatType> stats)
     {
       var aer = atk.Attacker;
       var der = atk.Target.Defender;
       foreach(var s in stats)
       {
-        var t = der.OnboardPokemon.Lv5D.GetStat(s);
-        der.OnboardPokemon.SetLv7D(s, aer.OnboardPokemon.Lv5D.GetStat(s));
+        var t = der.OnboardPokemon.GetLv7D(s);
+        der.OnboardPokemon.SetLv7D(s, aer.OnboardPokemon.GetLv7D(s));
         aer.OnboardPokemon.SetLv7D(s, t);
       }
       aer.Controller.ReportBuilder.Add(log, aer, der);
     }
-    private static void StatSplit(AtkContext atk, string log, IEnumerable<StatType> stats)
+    private static void Split5D(AtkContext atk, string log, IEnumerable<StatType> stats)
     {
       var aer = atk.Attacker;
       var der = atk.Target.Defender;
@@ -724,7 +724,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
         aer.OnboardPokemon.FiveD.SetStat(s, v);
         der.OnboardPokemon.FiveD.SetStat(s, v);
       }
-      aer.Controller.ReportBuilder.Add(log, aer, atk.Target.Defender);
+      aer.Controller.ReportBuilder.Add(log, aer, der);
     }
     private static void Defog(AtkContext atk)
     {

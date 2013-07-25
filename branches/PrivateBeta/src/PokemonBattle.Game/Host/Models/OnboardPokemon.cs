@@ -126,6 +126,10 @@ namespace LightStudio.PokemonBattle.Game.Host
         lv5D.SetStat(stat, lv);
       }
     }
+    public int GetLv7D(StatType stat)
+    {
+      return stat == StatType.Accuracy ? AccuracyLv : stat == StatType.Evasion ? EvasionLv : lv5D.GetStat(stat);
+    }
     private int FilterLv7D(int? lv, int formerLv)
     {
       if (lv.HasValue)
@@ -157,7 +161,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     
     private int Get5D(StatType type)
     {
-      return PokemonStatHelper.Get5D(type, Pokemon.Nature, Form.Data.Base.GetStat(type), (byte)Pokemon.Iv.GetStat(type), (byte)Pokemon.Ev.GetStat(type), (byte)Pokemon.Lv);
+      return PokemonStatHelper.Get5D(type, Pokemon.Nature, Form.Data.Base.GetStat(type), Pokemon.Iv.GetStat(type), Pokemon.Ev.GetStat(type), Pokemon.Lv);
     }
     public void ChangeForm(PokemonForm form)
     {
