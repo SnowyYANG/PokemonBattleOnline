@@ -89,7 +89,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
           p.AddReportPm("Truant");
           return false;
         }
-        p.OnboardPokemon.AddCondition("Truant", p.Controller.TurnNumber + 1);
+        p.OnboardPokemon.SetCondition("Truant", p.Controller.TurnNumber + 1);
       }
       return true;
     }
