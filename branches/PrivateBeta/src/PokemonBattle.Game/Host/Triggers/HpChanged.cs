@@ -13,10 +13,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       switch (pm.Item)
       {
         case Is.ORAN_BERRY: //135
-          OrganBerry(pm, 10);
+          RecoverBerry(pm, 10);
           break;
         case Is.BERRY_JUICE: //194
-          OrganBerry(pm, 20);
+          RecoverBerry(pm, 20);
           break;
         case Is.SITRUS_BERRY: //138
           if (pm.Hp << 1 < pm.Pokemon.Hp.Origin) pm.HpRecoverByOneNth(4, false, "ItemRecover", 138, true);
@@ -73,9 +73,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
         if (n != 0) Is.ChangeLv5D(pm, ss[pm.Controller.GetRandomInt(0, n - 1)], 2);
       }
     }
-    private static void OrganBerry(PokemonProxy pm, int hp)
+    private static void RecoverBerry(PokemonProxy pm, int hp)
     {
-      if (pm.Hp << 1 < pm.Pokemon.Hp.Origin) pm.HpRecover(hp, false, "ItemRecover", 135, true);
+      if (pm.Hp << 1 <= pm.Pokemon.Hp.Origin) pm.HpRecover(hp, false, "ItemRecover", pm.Pokemon.Item.Id, true);
     }
     private static void TastyBerry(PokemonProxy pm)
     {

@@ -300,7 +300,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public static bool Gluttony(PokemonProxy pm)
     {
-      return pm.Hp << 2 < pm.Pokemon.Hp.Origin || (pm.Ability == GLUTTONY && pm.Hp << 1 < pm.Pokemon.Hp.Origin);
+      return pm.Hp << 2 <= pm.Pokemon.Hp.Origin || (pm.Ability == GLUTTONY && pm.Hp << 1 <= pm.Pokemon.Hp.Origin);
     }
 
     internal static void SlowStart(Controller Controller)
