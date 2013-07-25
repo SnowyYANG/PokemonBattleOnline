@@ -9,7 +9,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
   {
     public static int Execute(PokemonProxy pm, int speed)
     {
-      if (pm.State == PokemonState.PAR) speed >>= 1;
+      if (pm.State == PokemonState.PAR) speed >>= 2;
       switch (pm.Ability)
       {
         case As.CHLOROPHYLL:
