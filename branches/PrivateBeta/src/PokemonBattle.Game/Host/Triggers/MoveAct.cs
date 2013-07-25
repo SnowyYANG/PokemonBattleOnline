@@ -483,7 +483,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       var der = def.Defender;
       Attacked.Execute(def);
       def.AtkContext.Attacker.CheckFaint();
-      if (der.CheckFaint()) STs.KOed(def, der.OnboardPokemon);
+      var op = der.OnboardPokemon; //the state before withdraw
+      if (der.CheckFaint()) STs.KOed(def, op);
       else if (def.AtkContext.Move.MaxTimes > 1) HpChanged.Execute(der);
     }
     private static void FinalEffect(AtkContext atk)
