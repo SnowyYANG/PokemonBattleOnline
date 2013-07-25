@@ -38,6 +38,12 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
         case Ms.MIST: //54
           AddTeamCondition(atk, "Mist");
           break;
+        case Ms.LIGHT_SCREEN: //113
+          AddTeamCondition(atk, "LightScreen", aer.Item == Is.LIGHT_CLAY ? 8 : 5);
+          break;
+        case Ms.REFLECT: //115
+          AddTeamCondition(atk, "Reflect", aer.Item == Is.LIGHT_CLAY ? 8 : 5);
+          break;
         case Ms.SAFEGUARD: //219
           AddTeamCondition(atk, "Safeguard");
           break;
@@ -65,12 +71,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
           break;
         case Ms.AQUA_RING: //392
           AddCondition(atk, "AquaRing");
-          break;
-        case Ms.LIGHT_SCREEN: //113
-          Add5or8TurnTeamCondition(atk, "LightScreen");
-          break;
-        case Ms.REFLECT: //115
-          Add5or8TurnTeamCondition(atk, "Reflect");
           break;
         case Ms.HAZE: //114
           foreach(var pm in atk.Controller.Board.Pokemons) pm.OnboardPokemon.SetLv7D(0, 0, 0, 0, 0, 0, 0);
@@ -600,12 +600,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
     {
       var team = 1 - atk.Attacker.Pokemon.TeamId;
       if (atk.Controller.Board[team].EnEntryHazards(atk.Move)) atk.Controller.ReportBuilder.Add(log, team);
-      else atk.FailAll();
-    }
-    private static void Add5or8TurnTeamCondition(AtkContext atk, string condition)
-    {
-      var team = atk.Attacker.Pokemon.TeamId;
-      if (atk.Controller.Board[team].AddCondition(condition, atk.Controller.TurnNumber + atk.Attacker.Item == Is.LIGHT_CLAY ? 7 : 4)) atk.Controller.ReportBuilder.Add("En" + condition, team);
       else atk.FailAll();
     }
     private static void LockOn(AtkContext atk)
