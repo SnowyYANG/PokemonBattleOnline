@@ -124,7 +124,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       atk.SetAttackerAction(PokemonAction.Done);
     }
 
-    private static readonly int[] ASSIST_BLOCK = { 166, 274, 118, 165, 271, 415, 214, 382, 448, 68, 243, 194, 182, 197, 203, 364, 264, 266, 476, 270, 383, 119, 289, 525, 509, 144 };
+    private static readonly int[] ASSIST_BLOCK = { 166, 274, 118, 165, 271, 415, 214, 382, 448, 68, 243, 194, 182, 197, 203, 364, 264, 266, 476, 270, 383, 119, 289, 525, 509, 144, Ms.NATURE_POWER };
     private static void Assist(AtkContext atk)
     {
       var aer = atk.Attacker;
