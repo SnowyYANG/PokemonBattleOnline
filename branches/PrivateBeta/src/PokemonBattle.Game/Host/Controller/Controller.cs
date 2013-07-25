@@ -87,13 +87,9 @@ namespace LightStudio.PokemonBattle.Game.Host
       get { return As.IgnoreWeather(this) ? Weather.Normal : Board.Weather; }
       set
       {
-        if (Board.Weather != value)
-        {
-          Board.RemoveCondition("Weather");
-          Board.Weather = value;
-          ReportBuilder.Add(new GameEvents.WeatherChange(value));
-          if (!As.IgnoreWeather(this)) As.WeatherChanged(this);
-        }
+        Board.Weather = value;
+        ReportBuilder.Add(new GameEvents.WeatherChange(value));
+        if (!As.IgnoreWeather(this)) As.WeatherChanged(this);
       }
     }
     /// <summary>

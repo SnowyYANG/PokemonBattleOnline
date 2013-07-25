@@ -28,8 +28,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
     //1.0 weather ends, Sandstorm/Hail damage, Rain Dish/Dry Skin/Ice Body/SolarPower
     private static void Weather(Controller c)
     {
-      int turn = c.Board.GetCondition<int>("Weather");
-      if (turn == c.TurnNumber) c.Weather = Game.Weather.Normal;
+      if (c.Board.GetCondition<int>("Weather") == c.TurnNumber)
+      {
+        c.Weather = Game.Weather.Normal;
+        c.Board.RemoveCondition("Weather");
+      }
       else
       {
         if (c.Board.Weather == Game.Weather.Sandstorm) c.ReportBuilder.Add("Sandstorm");

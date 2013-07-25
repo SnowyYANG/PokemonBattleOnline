@@ -185,7 +185,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
     }
     private static void WeatherAbility(PokemonProxy pm, Weather weather)
     {
-      if (pm.Controller.Weather != weather)
+      if (pm.Controller.Weather != weather || pm.Controller.Board.RemoveCondition("Weather"))
       {
         pm.RaiseAbility();
         pm.Controller.Weather = weather;
