@@ -243,7 +243,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public static void Synchronize(PokemonProxy pm, PokemonProxy by, AttachedState state, int turn)
     {
-      if (pm.RaiseAbility(SYNCHRONIZE)) by.AddState(pm, state, true, turn);
+      if (pm != by && pm.RaiseAbility(SYNCHRONIZE)) by.AddState(pm, state, true, turn);
     }
     public static void Defiant(PokemonProxy pm)
     {
