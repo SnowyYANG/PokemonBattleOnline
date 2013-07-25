@@ -48,14 +48,12 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
     {
       var aer = def.AtkContext.Attacker;
       aer.Tile.Field.DeEntryHazards(aer.Controller.ReportBuilder);
-      if (aer.OnboardPokemon.HasCondition("LeechSeed")) aer.OnboardPokemon.RemoveCondition("LeechSeed");
+      aer.OnboardPokemon.RemoveCondition("LeechSeed");
+      var trap = aer.OnboardPokemon.GetCondition("Trap");
+      if (trap != null)
       {
-        var trap = aer.OnboardPokemon.GetCondition("Trap");
-        if (trap != null)
-        {
-          aer.OnboardPokemon.RemoveCondition("Trap");
-          aer.AddReportPm("TrapFree", trap.Move.Id);
-        }
+        aer.OnboardPokemon.RemoveCondition("Trap");
+        aer.AddReportPm("TrapFree", trap.Move.Id);
       }
     }
 
