@@ -36,16 +36,16 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       switch (move.Id)
       {
         case Ms.MIST: //54
-          Add5TurnTeamCondition(atk, "Mist");
+          AddTeamCondition(atk, "Mist");
           break;
         case Ms.SAFEGUARD: //219
-          Add5TurnTeamCondition(atk, "Safeguard");
+          AddTeamCondition(atk, "Safeguard");
           break;
         case Ms.TAILWIND: //366
-          Add5TurnTeamCondition(atk, "Tailwind");
+          AddTeamCondition(atk, "Tailwind", 4);
           break;
         case Ms.LUCKY_CHANT: //381
-          Add5TurnTeamCondition(atk, "LuckyChant");
+          AddTeamCondition(atk, "LuckyChant");
           break;
         case Ms.GROWTH: //74
           {
@@ -590,10 +590,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
         c.ReportBuilder.Add("De" + condition);
       }
     }
-    private static void Add5TurnTeamCondition(AtkContext atk, string condition)
+    private static void AddTeamCondition(AtkContext atk, string condition, int turn = 5)
     {
       var team = atk.Attacker.Pokemon.TeamId;
-      if (atk.Controller.Board[team].AddCondition(condition, atk.Controller.TurnNumber + 4)) atk.Controller.ReportBuilder.Add("En" + condition, team);
+      if (atk.Controller.Board[team].AddCondition(condition, atk.Controller.TurnNumber + turn - 1)) atk.Controller.ReportBuilder.Add("En" + condition, team);
       else atk.FailAll();
     }
     private static void EntryHazards(AtkContext atk, string log)
