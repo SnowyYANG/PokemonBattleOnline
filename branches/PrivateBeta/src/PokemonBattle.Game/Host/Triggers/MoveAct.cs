@@ -679,6 +679,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
             return;
         }
         atk.Target.Defender.AddState(aer, a, true);
+        atk.Attacker.DeAbnormalState();
       }
     }
     private static void PowerTrick(AtkContext atk)
