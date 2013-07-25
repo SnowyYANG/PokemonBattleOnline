@@ -132,6 +132,5 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
         }
       }
     }
-
   }
 }

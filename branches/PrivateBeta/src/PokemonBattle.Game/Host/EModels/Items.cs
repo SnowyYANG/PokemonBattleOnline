@@ -457,7 +457,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public static bool AirBalloon(PokemonProxy pm) //气球的提示信息不是Attach而是Debut，是唯一会Debut的道具
     {
-      if (pm.Item == AIR_BALLOON)
+      if (pm.Item == AIR_BALLOON) //batonpass embargo
       {
         pm.AddReportPm("EnBalloon");
         return true;
@@ -466,8 +466,11 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public static void AirBalloon(DefContext def)
     {
-      def.Defender.RemoveItem();
-      def.Defender.AddReportPm("DeBalloon");
+      if (def.Defender.Pokemon.Item.Id == AIR_BALLOON)
+      {
+        def.Defender.RemoveItem();
+        def.Defender.AddReportPm("DeBalloon");
+      }
     }
     public static void AttackPostEffect(AtkContext atk)
     {

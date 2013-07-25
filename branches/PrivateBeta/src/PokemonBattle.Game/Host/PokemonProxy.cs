@@ -590,13 +590,13 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       Action = PokemonAction.Done;
     }
+    /// <summary>
+    /// Item should not be null, or Unburden effect will be wrong
+    /// </summary>
     public void RemoveItem()
     {
-      if (Pokemon.Item != null)
-      {
-        Pokemon.Item = null;
-        if (Ability == As.UNBURDEN) OnboardPokemon.SetCondition("Unburden");
-      }
+      Pokemon.Item = null;
+      if (Ability == As.UNBURDEN) OnboardPokemon.SetCondition("Unburden");
     }
     public void ConsumeItem()
     {

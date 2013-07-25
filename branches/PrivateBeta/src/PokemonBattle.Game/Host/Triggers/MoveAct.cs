@@ -824,8 +824,8 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       else
       {
         aer.AddReportPm("Trick");
-        aer.RemoveItem();
-        der.RemoveItem();
+        if (ai != null) aer.RemoveItem();
+        if (di != null) der.RemoveItem();
         if (ai != null) der.SetItem(ai.Id, "GetItem", aer, false);
         if (di != null) aer.SetItem(di.Id, "GetItem", der, false);
       }
