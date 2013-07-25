@@ -91,7 +91,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       {
         var i = def.Defender.Pokemon.Item.Id;
         def.Defender.RemoveItem();
-        aer.ChangeItem(i, "Thief", def.Defender, false); //先铁棘再果子
+        aer.SetItem(i, "Thief", def.Defender, false); //先铁棘再果子
       }
     }
 

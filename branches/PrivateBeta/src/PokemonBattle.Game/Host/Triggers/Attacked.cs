@@ -99,7 +99,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
           if (touch && aer.Pokemon.Item == null && der.Controller.RandomHappen(10))
           {
             der.RemoveItem();
-            aer.ChangeItem(65, null, aer);
+            aer.SetItem(65, null, aer);
           }
           break;
         case Is.ROCKY_HELMET: //104
@@ -165,7 +165,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
         var i = aer.Pokemon.Item.Id;
         aer.RemoveItem();
         der.RaiseAbility();
-        der.ChangeItem(i, "Pickpocket", aer);
+        der.SetItem(i, "Pickpocket", aer);
       }
     }
     private static void Rattled(DefContext d)

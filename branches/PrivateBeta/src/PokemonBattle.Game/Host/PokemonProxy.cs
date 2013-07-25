@@ -118,7 +118,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       OnboardPokemon.Ability = ab;
       AbilityAttach.Execute(this);
     }
-    public void ChangeItem(int item, string log, PokemonProxy formerOwner = null, bool attach = true) //lost and found
+    public void SetItem(int item, string log, PokemonProxy formerOwner = null, bool attach = true) //lost and found
     {
       Pokemon.Item = GameDataService.GetItem(item);
       Controller.ReportBuilder.Add(new GetItem(this, log, formerOwner));
@@ -592,8 +592,11 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public void RemoveItem()
     {
-      Pokemon.Item = null;
-      if (Ability == As.UNBURDEN) OnboardPokemon.SetCondition("Unburden");
+      if (Pokemon.Item != null)
+      {
+        Pokemon.Item = null;
+        if (Ability == As.UNBURDEN) OnboardPokemon.SetCondition("Unburden");
+      }
     }
     public void ConsumeItem()
     {

@@ -470,7 +470,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
               if (i != null && c.Weather == Game.Weather.IntenseSunlight || c.RandomHappen(50))
               {
                 pm.RaiseAbility();
-                pm.ChangeItem(i.Id, "Harvest");
+                pm.SetItem(i.Id, "Harvest");
               }
             }
             break;
@@ -525,7 +525,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
             var i = c.GetRandomInt(0, items.Count - 1);
             owners[i].RemoveCondition("UsedItem");
             pm.RaiseAbility();
-            pm.ChangeItem(items[i].Id, "Pickup");
+            pm.SetItem(items[i].Id, "Pickup");
           }
         }
         pm.CheckFaint();

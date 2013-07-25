@@ -774,7 +774,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       {
         var i = aer.Pokemon.Item.Id;
         aer.Pokemon.Item = null;
-        atk.Target.Defender.ChangeItem(i, "Bestow", aer);
+        atk.Target.Defender.SetItem(i, "Bestow", aer);
       }
       else atk.FailAll();
     }
@@ -823,22 +823,16 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
     {
       var aer = atk.Attacker;
       var der = atk.Target.Defender;
-      var di = der.Pokemon.Item;
       var ai = aer.Pokemon.Item;
+      var di = der.Pokemon.Item;
       if ((di == null && ai == null) || Is.CantLostItem(aer.Pokemon) || Is.CantLostItem(der.Pokemon)) atk.FailAll();
       else
       {
         aer.AddReportPm("Trick");
-        if (ai != null)
-        {
-          aer.RemoveItem();
-          der.ChangeItem(ai.Id, "GetItem", aer, false);
-        }
-        if (di != null)
-        {
-          der.RemoveItem();
-          aer.ChangeItem(di.Id, "GetItem", der, false);
-        }
+        aer.RemoveItem();
+        der.RemoveItem();
+        if (ai != null) der.SetItem(ai.Id, "GetItem", aer, false);
+        if (di != null) aer.SetItem(di.Id, "GetItem", der, false);
       }
     }
     private static void WonderRoom(AtkContext atk)
@@ -881,7 +875,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
         if (item == null) atk.FailAll();
         else
         {
-          aer.ChangeItem(item.Id, "Recycle");
+          aer.SetItem(item.Id, "Recycle");
           aer.Tile.Field.RemoveCondition("UsedItem" + aer.Id);
         }
       }
