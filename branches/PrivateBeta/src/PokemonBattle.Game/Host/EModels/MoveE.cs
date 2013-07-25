@@ -260,7 +260,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           if (def.Defender != atk.Attacker && (mc && STs.MagicCoat(atk, def.Defender) || ab && !CanImplement.Execute(def))) targets.Remove(def);
       }
       #endregion
-      if (move.Category == MoveCategory.Special && !move.Flags.IgnoreSubstitute)
+      if (move.Category == MoveCategory.Status && !move.Flags.IgnoreSubstitute)
         foreach (DefContext d in targets.ToArray())
           if (d.Defender != atk.Attacker && d.Defender.OnboardPokemon.HasCondition("Substitute"))
           {

@@ -82,6 +82,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
 
       return m;
     }
+    public static Modifier Hustle(AtkContext atk)
+    {
+      return (Modifier)(atk.Attacker.Ability == As.HUSTLE && atk.Move.Category == MoveCategory.Physical ? 0x1800 : 0x1000);
+    }
     private static Modifier ThickFat(DefContext def)
     {
       BattleType type = def.AtkContext.Move.Type;

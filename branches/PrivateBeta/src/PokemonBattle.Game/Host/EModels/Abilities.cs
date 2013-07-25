@@ -274,10 +274,6 @@ namespace LightStudio.PokemonBattle.Game.Host
         def.Defender.AddReportPm("TypeChange", type);
       }
     }
-    public static Modifier Hustle(AtkContext atk)
-    {
-      return (Modifier)(atk.Attacker.Ability == HUSTLE && atk.Move.Category == MoveCategory.Physical ? 0x1800 : 0x1000);
-    }
     public static double WeightModifier(PokemonProxy pm)
     {
       double m;

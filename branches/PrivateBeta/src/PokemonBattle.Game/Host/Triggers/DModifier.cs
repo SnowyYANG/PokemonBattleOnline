@@ -38,5 +38,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       }
       return m;
     }
+
+    public static Modifier Sandstorm(DefContext def)
+    {
+      return (Modifier)(def.AtkContext.Move.Category == MoveCategory.Special && def.Defender.Controller.Weather == Weather.Sandstorm && def.Defender.OnboardPokemon.HasType(BattleType.Rock) ? 0x1800 : 0x1000);
+    }
   }
 }

@@ -148,20 +148,20 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
             if (!(def.IsCt && atkLv < 0)) a = OnboardPokemon.Get5D(a, atkLv);
           }
         }
-        a *= As.Hustle(atk);
+        a *= AModifier.Hustle(atk);
         def.Damage *= a * AModifier.Execute(def);
       }
       {
         StatType st = move.Category == MoveCategory.Physical || move.UsePhysicalDef() ? StatType.Def : StatType.SpDef;
-        int defRaw = def.Defender.OnboardPokemon.FiveD.GetStat(st);
+        int d = def.Defender.OnboardPokemon.FiveD.GetStat(st);
         int defLv;
         if (aer.Ability == As.UNAWARE || move.IgnoreDefenderLv7D()) defLv = 0;
         else
         {
           defLv = def.Defender.OnboardPokemon.Lv5D.GetStat(st);
-          if (def.IsCt && defLv > 0) defLv = 0;
+          if (!(def.IsCt && defLv > 0)) d = OnboardPokemon.Get5D(d, defLv);
         }
-        int d = OnboardPokemon.Get5D(defRaw, defLv);
+        d *= DModifier.Sandstorm(def);
         def.Damage /= d * DModifier.Execute(def);
       }
       def.Damage /= 50;
