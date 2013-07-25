@@ -254,18 +254,23 @@ namespace LightStudio.PokemonBattle.Game.Host
       return item == CHOICE_BAND || item == CHOICE_SCARF || item == CHOICE_SPECS;
     }
 
+    /// <summary>
+    /// pm.Item should not be null
+    /// </summary>
+    /// <param name="pm"></param>
+    /// <returns></returns>
     public static bool CantLostItem(Pokemon pm)
     {
+      var i = pm.Item.Id;
       return
-        pm.Item != null &&
-        (pm.Item.Id == 193 ||
-        pm.Form.Type.Number == 487 && pm.Item.Id == 1 || //giratina
+        i == RSVP_MAIL ||
+        pm.Form.Type.Number == 487 && i == GRISEOUS_ORB || //giratina
         PlatedArceus(pm) ||
-        pm.Form.Type.Number == 649 && pm.Item.Id > 97 && pm.Item.Id < 102); //genesect
+        pm.Form.Type.Number == 649 && DOUSE_DRIVE <= i && i <= CHILL_DRIVE; //genesect
     }
     public static bool PlatedArceus(Pokemon pm)
     {
-      return pm.Form.Type.Number == 493 && pm.Item.Id > 74 && pm.Item.Id < 91;
+      return pm.Item != null && pm.Form.Type.Number == 493 && FLAME_PLATE <= pm.Item.Id && pm.Item.Id <= IRON_PLATE;
     }
     public static bool Berry(int id)
     {
