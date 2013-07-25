@@ -83,8 +83,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
             def.EffectRevise = a == BattleType.Ground && der.Item == Is.IRON_BALL && der.OnboardPokemon.HasType(BattleType.Flying) ? 0 : a.EffectRevise(der.OnboardPokemon.Type1, der.OnboardPokemon.Type2);
           }
           break;
-        case 120:
-        case 153:
+        case Ms.SELFDESTRUCT: //120
+        case Ms.EXPLOSION: //153
+        case Ms.FINAL_GAMBIT: //515
           atk.Attacker.Faint();
           break;
         case Ms.BRICK_BREAK: //280
