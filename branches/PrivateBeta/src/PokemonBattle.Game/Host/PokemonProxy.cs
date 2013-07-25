@@ -427,7 +427,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (Action == PokemonAction.Debuting)
       {
         Tile.Debut();
-        Tile.Field.Debut(this);
+        if (!OnboardPokemon.HasCondition("Substitute")) Tile.Field.Debut(this);
         if (!CheckFaint())
         {
           if (OnboardPokemon.Ability != As.FLOWER_GIFT && OnboardPokemon.Ability != As.FORECAST) AbilityAttach.Execute(this);
