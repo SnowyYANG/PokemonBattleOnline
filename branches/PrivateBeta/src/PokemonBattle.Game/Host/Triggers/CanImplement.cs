@@ -132,7 +132,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
     {
       var atk = def.AtkContext;
       var der = def.Defender;
-      if ((atk.Move.Category != MoveCategory.Status || atk.Move.Id == Ms.THUNDER_WAVE && atk.Attacker.Pokemon.TeamId == der.Pokemon.TeamId))
+      if ((atk.Move.Category != MoveCategory.Status || atk.Move.Id == Ms.THUNDER_WAVE) && atk.Attacker.Pokemon.TeamId == der.Pokemon.TeamId)
       {
           der.RaiseAbility();
           der.AddReportPm("NoEffect");
