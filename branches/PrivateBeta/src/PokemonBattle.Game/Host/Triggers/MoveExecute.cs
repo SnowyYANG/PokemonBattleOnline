@@ -94,7 +94,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
 
       if (move.Flags.MagicCoat && atk.Targets == null)
       {
-        var pm = aer.Controller.GetOnboardPokemons(1 - aer.Pokemon.TeamId).First((p) => STs.MagicCoat(atk, p));
+        var pm = aer.Controller.GetOnboardPokemons(1 - aer.Pokemon.TeamId).FirstOrDefault((p) => STs.MagicCoat(atk, p));
         if (pm != null)
         {
           atk.SetCondition("MagicCoat", new List<PokemonProxy>() { pm });
