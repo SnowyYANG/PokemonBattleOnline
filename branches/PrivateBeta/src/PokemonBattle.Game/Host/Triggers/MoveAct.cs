@@ -821,14 +821,22 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       var der = atk.Target.Defender;
       var ai = aer.Pokemon.Item;
       var di = der.Pokemon.Item;
-      if ((di == null && ai == null) || Is.CantLostItem(aer.Pokemon) || Is.CantLostItem(der.Pokemon)) atk.FailAll();
+      if (di == null && ai == null || ai != null && Is.CantLostItem(aer.Pokemon) || di != null && Is.CantLostItem(der.Pokemon)) atk.FailAll();
       else
       {
         aer.AddReportPm("Trick");
-        if (ai != null) aer.RemoveItem();
-        if (di != null) der.RemoveItem();
-        if (ai != null) der.SetItem(ai.Id, "GetItem", aer, false);
-        if (di != null) aer.SetItem(di.Id, "GetItem", der, false);
+        if (ai != null)
+        {
+          aer.RemoveItem();
+          aer.Controller.ReportBuilder.Add(new GameEvents.RemoveItem(null, aer));
+        }
+        if (di != null)
+        {
+          der.RemoveItem();
+          aer.Controller.ReportBuilder.Add(new GameEvents.RemoveItem(null, der));
+        }
+        if (ai != null) der.SetItem(ai.Id, "GetItem", null, false);
+        if (di != null) aer.SetItem(di.Id, "GetItem", null, false);
       }
     }
     private static void WonderRoom(AtkContext atk)
