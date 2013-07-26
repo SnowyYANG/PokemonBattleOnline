@@ -61,7 +61,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           if (o != null && o != Type) return new SelectMoveFail("ChoiceItem", o.Id);
         }
         //寻衅
-        if (op.HasCondition("Torment") && Owner.LastMove == Type) return new SelectMoveFail("TormentCantUseMove", Owner.AtkContext.MoveProxy.Type.Id);
+        if (op.HasCondition("Torment") && Owner.LastMove == Type) return new SelectMoveFail("Torment", Owner.AtkContext.MoveProxy.Type.Id);
         //鼓掌
         {
           var o = op.GetCondition("Encore");
