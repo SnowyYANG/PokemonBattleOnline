@@ -476,7 +476,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       if (!atk.IgnoreSwitchItem)
       {
         bool e = true, r = MoveE.CanForceSwitch(aer, true);
-        foreach (var d in atk.Targets.Where((d) => d.Defender.Tile != null).OrderBy((d) => d.Defender.Speed).ToArray())
+        foreach (var d in atk.Targets.Where((d) => !d.HitSubstitute && d.Defender.Tile != null).OrderBy((d) => d.Defender.Speed).ToArray())
         {
           var der = d.Defender;
           var i = der.Item;
