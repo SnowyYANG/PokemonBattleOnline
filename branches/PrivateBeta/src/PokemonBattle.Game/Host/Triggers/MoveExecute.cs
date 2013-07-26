@@ -34,7 +34,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
           case Ms.SLEEP_TALK: //214
             SleepTalk(atk);
             break;
-          case Ms.EARTHQUAKE: //267
+          case Ms.NATURE_POWER: //267
             NaturePower(atk);
             break;
           case Ms.ASSIST: //274

@@ -65,5 +65,10 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       controller.RealTime.AddText(text, 0xffff8000);
       AutoScroll();
     }
+
+    public void Save(string fileName)
+    {
+      controller.Save();
+    }
   }
 }

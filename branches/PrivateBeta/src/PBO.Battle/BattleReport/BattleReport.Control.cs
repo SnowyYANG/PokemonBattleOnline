@@ -67,6 +67,11 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       void IGameOutwardEvents.GameEnd()
       {
         Nest.reportViewer.Document = Nest.Final;
+        Save();
+      }
+
+      public void Save()
+      {
         try
         {
           var path = "..\\MyPBO\\Logs\\" + PlayerName;
