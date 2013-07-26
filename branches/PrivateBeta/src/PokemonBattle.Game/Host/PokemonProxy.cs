@@ -787,7 +787,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         case AttachedState.CanAttack:
           {
             var o = new Condition();
-            o.BattleType = by.AtkContext.Move.Id == 357 ? BattleType.Dark : BattleType.Ghost;
+            o.BattleType = by.AtkContext.Move.Id == Ms.MIRACLE_EYE ? BattleType.Dark : BattleType.Ghost;
             o.By = by;
             OnboardPokemon.SetCondition("CanAttack", o);
             AddReportPm("CanAttack");

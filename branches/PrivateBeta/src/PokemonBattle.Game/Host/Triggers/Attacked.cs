@@ -14,6 +14,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       var atk = def.AtkContext;
       var aer = atk.Attacker;
       var touch = atk.Move.Flags.NeedTouch;
+      var realHurt = def.Damage != 0;
 
       if (aer.Ability == As.POISON_TOUCH && touch && der.Controller.RandomHappen(30) && der.CanAddState(aer, AttachedState.PSN, false))
       {
@@ -42,7 +43,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
           if (touch) RoughSkin(def);
           break;
         case As.EFFECT_SPORE:
-          if (touch) EffectSpore(def);
+          if (touch && realHurt) EffectSpore(def);
           break;
         case As.ANGER_POINT:
           if (def.IsCt && der.OnboardPokemon.Lv5D.Atk != 6)
