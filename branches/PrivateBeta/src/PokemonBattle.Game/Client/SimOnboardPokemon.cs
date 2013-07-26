@@ -31,10 +31,9 @@ namespace LightStudio.PokemonBattle.Game
 
     internal void ChangeMoves(int[] moves)
     {
-      Moves = new SimMove[moves.Length];
       int i = -1;
       while (++i < moves.Length) Moves[i] = new SimMove(GameDataService.GetMove(moves[i]));
-      while (++i < 4) Moves[i] = null;
+      while (i < 4) Moves[i++] = null;
     }
 
     public void ChangeMove(int from, int to)
