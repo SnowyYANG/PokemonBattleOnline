@@ -164,7 +164,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       }
     }
     public bool CanUseItem
-    { get { return !(OnboardPokemon.HasCondition("Detain") || Controller.Board.HasCondition("MagicRoom") || Ability == As.KLUTZ); } }
+    { get { return !(OnboardPokemon.HasCondition("Embargo") || Controller.Board.HasCondition("MagicRoom") || Ability == As.KLUTZ); } }
     private bool CanExecute()
     {
       OnboardPokemon.CoordY = CoordY.Plate;
