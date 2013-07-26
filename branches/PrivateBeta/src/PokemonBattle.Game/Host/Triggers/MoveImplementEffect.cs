@@ -115,8 +115,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
 
     private static void EatDefenderBerry(DefContext def)
     {
-      var i = Is.BerryNumber(def.Defender.Item);
-      if (i != 0) def.SetCondition("EatenBerry", i);
+      if (def.Defender.CanLostItem)
+      {
+        var i = def.Defender.Pokemon.Item.Id;
+        if (Is.BerryNumber(i) != 0) def.SetCondition("EatenBerry", i);
+      }
     }
 
     private static void RemoveItem(DefContext def, bool berry, string log)

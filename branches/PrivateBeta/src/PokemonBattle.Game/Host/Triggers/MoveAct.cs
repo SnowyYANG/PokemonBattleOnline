@@ -822,7 +822,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       var der = atk.Target.Defender;
       var ai = aer.Pokemon.Item;
       var di = der.Pokemon.Item;
-      if (di == null && ai == null || ai != null && Is.CantLostItem(aer.Pokemon) || di != null && Is.CantLostItem(der.Pokemon)) atk.FailAll();
+      if (di == null && ai == null || ai != null && Is.CantLostItem(aer.Pokemon) || !der.CanLostItem) atk.FailAll();
       else
       {
         aer.AddReportPm("Trick");

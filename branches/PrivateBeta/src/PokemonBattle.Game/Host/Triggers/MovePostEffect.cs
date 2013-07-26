@@ -59,10 +59,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
 
     private static void EatDefenderBerry(DefContext def)
     {
-      var b = def.GetCondition<int>("EatenBerry");
-      if (b != 0)
+      var i = def.GetCondition<int>("EatenBerry");
+      if (i != 0)
       {
-        var i = Is.BerryNumberToItemId(b);
         var aer = def.AtkContext.Attacker;
         def.AtkContext.Attacker.AddReportPm("EatDefenderBerry", i);
         Is.RaiseItemByMove(aer, i, aer);
