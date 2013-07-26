@@ -52,7 +52,8 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         if (log != null) Attacker.AddReportPm(log, move.Id);
         MoveInitAtkContext.Execute(this);
-        BuildDefContext(selectTile);
+        MoveE.BuildDefContext(this, selectTile);
+        if (MoveProxy != null) As.Pressure(this, Ms.GetRange(Attacker, Move));
         MoveExecute.Execute(this);
       }
       else FailAll(null);
@@ -60,13 +61,8 @@ namespace LightStudio.PokemonBattle.Game.Host
     public void ContinueExecute(Tile selectTile)
     {
       TotalDamage = 0;
-      BuildDefContext(selectTile);
-      MoveExecute.Execute(this);
-    }
-    private void BuildDefContext(Tile selectTile)
-    {
       MoveE.BuildDefContext(this, selectTile);
-      if (MoveProxy != null) As.Pressure(this, Ms.GetRange(Attacker, Move));
+      MoveExecute.Execute(this);
     }
     public void SetTargets(IEnumerable<DefContext> targets)
     {
@@ -89,7 +85,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public void FailAll(string log = "Fail0", int arg0 = 0, int arg1 = 0)
     {
-      ImplementPressure();
       Fail = true;
       SetAttackerAction(PokemonAction.Done);
       if (log != null) Controller.ReportBuilder.Add(log, arg0, arg1);

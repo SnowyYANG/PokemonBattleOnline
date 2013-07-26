@@ -224,7 +224,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public static void Pressure(AtkContext atk, MoveRange range)
     {
-      const int PRESSURE = 46;
       var ts =
         atk.Move.Range == MoveRange.Field || atk.Move.Range == MoveRange.EnemyField ?
         atk.Attacker.Controller.Board[1 - atk.Attacker.Pokemon.TeamId].Pokemons :

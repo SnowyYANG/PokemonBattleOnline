@@ -47,6 +47,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
             Copycat(atk);
             break;
           default:
+            atk.ImplementPressure();
             Generic(atk);
             if (atk.Fail)
               switch (move)
@@ -67,6 +68,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
               }
             break;
         }
+      else atk.ImplementPressure();
       if (atk.Move.Id == Ms.RAGE && aer != null) aer.OnboardPokemon.SetCondition("Rage");
     }
 
@@ -109,7 +111,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       if (atk.Targets != null && atk.Target == null) atk.FailAll(null);
       else
       {
-        atk.ImplementPressure();
         MoveAct.Execute(atk);
         MoveE.MoveEnding(atk);
       }
