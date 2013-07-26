@@ -68,7 +68,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           if (o != null && o.Move != Type) return new SelectMoveFail("Encore", Owner.AtkContext.MoveProxy.Type.Id);
         }
         //封印
-        foreach (var pm in Owner.Controller.Board[1 - Owner.Pokemon.TeamId].Pokemons)
+        foreach (var pm in Owner.Controller.Board[1 - Owner.Pokemon.TeamId].GetPokemons(Owner.OnboardPokemon.X - 1, Owner.OnboardPokemon.X + 1))
           if (pm.OnboardPokemon.HasCondition("Imprison"))
             foreach (var m in pm.Moves)
               if (m.Type == Type) return new SelectMoveFail("Imprison", Type.Id);
