@@ -11,7 +11,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
   {
     public static void Execute(PokemonProxy pm)
     {
-      switch (pm.Ability)
+      Execute(pm, pm.Ability);
+    }
+    public static void Execute(PokemonProxy pm, int ability)
+    {
+      switch (ability)
       {
         case As.ZEN_MODE:
           if (pm.CanChangeForm(555, 0)) pm.ChangeForm(0);

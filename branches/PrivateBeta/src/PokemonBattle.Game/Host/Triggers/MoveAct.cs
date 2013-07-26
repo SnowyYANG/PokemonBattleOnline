@@ -693,10 +693,11 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
     private static void GastroAcid(AtkContext atk)
     {
       var der = atk.Target.Defender;
-      if (der.Ability != As.MULTITYPE && der.OnboardPokemon.AddCondition("GastroAcid"))
+      var ab = der.Ability;
+      if (ab != As.MULTITYPE && der.OnboardPokemon.AddCondition("GastroAcid"))
       {
         der.AddReportPm("EnGastroAcid");
-        AbilityDetach.Execute(der);
+        AbilityDetach.Execute(der, ab);
       }
       else atk.FailAll();
     }
