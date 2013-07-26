@@ -67,7 +67,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         return
           OnboardPokemon == NullOnboardPokemon ||
           Pokemon.Item == null ||
-          !CanUseItem ||
+          !Is.CanUseItem(this) ||
           Is.Berry(Pokemon.Item.Id) && Controller.Board[1 - Pokemon.TeamId].Pokemons.Any(As.Unnerve) ?
         0 : Pokemon.Item.Id;
       }
@@ -150,21 +150,6 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       get { return !(OnboardPokemon == NullOnboardPokemon || Hp == 0 || Ability == As.MAGIC_GUARD); }
     }
-    public bool CanLostItem
-    { 
-      get
-      {
-        Item i = Pokemon.Item;
-        return !
-          (
-          i == null ||
-          Is.CantLostItem(Pokemon) ||
-          Ability == As.STICKY_HOLD
-          );
-      }
-    }
-    public bool CanUseItem
-    { get { return !(OnboardPokemon.HasCondition("Embargo") || Controller.Board.HasCondition("MagicRoom") || Ability == As.KLUTZ); } }
     private bool CanExecute()
     {
       OnboardPokemon.CoordY = CoordY.Plate;

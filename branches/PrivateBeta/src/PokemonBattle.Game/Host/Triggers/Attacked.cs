@@ -161,7 +161,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
     {
       var der = d.Defender;
       var aer = d.AtkContext.Attacker;
-      if (der.Pokemon.Item == null && aer.CanLostItem)
+      if (der.Pokemon.Item == null && Is.CanLostItem(aer))
       {
         var i = aer.Pokemon.Item.Id;
         aer.RemoveItem();

@@ -57,16 +57,16 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
             if (!aer.Moves.Any((m) => m.HasUsed)) return true;
             break;
           case Ms.NATURAL_GIFT: //363
-            if (aer.CanLostItem && aer.CanUseItem && Is.Berry(aer.Pokemon.Item.Id)) return true;
+            if (Is.CanLostItem(aer) && Is.CanUseItem(aer) && Is.Berry(aer.Pokemon.Item.Id)) return true;
             break;
           case Ms.FLING: //374
-            if (aer.CanLostItem && aer.CanUseItem && !Is.Gem(aer.Pokemon.Item.Id)) return true;
+            if (Is.CanLostItem(aer) && Is.CanUseItem(aer) && !Is.Gem(aer.Pokemon.Item.Id)) return true;
             break;
           case Ms.LAST_RESORT: //387
             if (aer.Moves.All((m) => m.HasUsed || m.Type.Id == Ms.LAST_RESORT)) return true;
             break;
           case Ms.BESTOW: //516
-            if (aer.Pokemon.Item == null || Is.CantLostItem(aer.Pokemon)) return true;
+            if (aer.Pokemon.Item == null || Is.NeverLostItem(aer.Pokemon)) return true;
             break;
           case Ms.ME_FIRST: //382
           case Ms.SUCKER_PUNCH: //389

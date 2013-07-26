@@ -259,7 +259,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     /// </summary>
     /// <param name="pm"></param>
     /// <returns></returns>
-    public static bool CantLostItem(Pokemon pm)
+    public static bool NeverLostItem(Pokemon pm)
     {
       var i = pm.Item.Id;
       return
@@ -268,6 +268,18 @@ namespace LightStudio.PokemonBattle.Game.Host
         PlatedArceus(pm) ||
         pm.Form.Type.Number == 649 && DOUSE_DRIVE <= i && i <= CHILL_DRIVE; //genesect
     }
+    public static bool CanLostItem(PokemonProxy pm)
+    {
+      Item i = pm.Pokemon.Item;
+      return !
+        (
+        i == null ||
+        NeverLostItem(pm.Pokemon) ||
+        pm.Ability == As.STICKY_HOLD
+        );
+    }
+    public static bool CanUseItem(PokemonProxy pm)
+    { return !(pm.OnboardPokemon.HasCondition("Embargo") || pm.Controller.Board.HasCondition("MagicRoom") || pm.Ability == As.KLUTZ); }
     public static bool PlatedArceus(Pokemon pm)
     {
       return pm.Item != null && pm.Form.Type.Number == 493 && FLAME_PLATE <= pm.Item.Id && pm.Item.Id <= IRON_PLATE;

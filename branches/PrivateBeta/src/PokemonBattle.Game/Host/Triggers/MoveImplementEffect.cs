@@ -87,7 +87,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
     private static void Thief(DefContext def)
     {
       var aer = def.AtkContext.Attacker;
-      if (def.AtkContext.HasCondition("Thief") && def.Defender.CanLostItem)
+      if (def.AtkContext.HasCondition("Thief") && Is.CanLostItem(def.Defender))
       {
         var i = def.Defender.Pokemon.Item.Id;
         def.Defender.RemoveItem();
@@ -115,7 +115,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
 
     private static void EatDefenderBerry(DefContext def)
     {
-      if (def.Defender.CanLostItem)
+      if (Is.CanLostItem(def.Defender))
       {
         var i = def.Defender.Pokemon.Item.Id;
         if (Is.BerryNumber(i) != 0) def.SetCondition("EatenBerry", i);
@@ -125,7 +125,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
     private static void RemoveItem(DefContext def, bool berry, string log)
     {
       var der = def.Defender;
-      if (der.CanLostItem)
+      if (Is.CanLostItem(der))
       {
         var i = der.Pokemon.Item.Id;
         if (!berry || Is.BerryNumber(i) != 0)
