@@ -64,10 +64,9 @@ namespace LightStudio.PokemonBattle.PBO.Battle
           beginTurn = false;
         }
       }
-      void IGameOutwardEvents.GameEnd()
+      public void GameEnd()
       {
         Nest.reportViewer.Document = Nest.Final;
-        Save();
       }
 
       public void Save()

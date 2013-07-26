@@ -14,7 +14,6 @@ namespace LightStudio.PokemonBattle.Game
   {
     void TurnEnd();
     void GameLogAppend(IText t);
-    void GameEnd();
   }
   public class GameOutward : IFormatProvider, ICustomFormatter
   {
@@ -22,6 +21,7 @@ namespace LightStudio.PokemonBattle.Game
     /// game start, or an observer
     /// </summary>
     public event Action LeapTurn;
+    public event Action GameEnd;
     public readonly IGameSettings Settings;
     public readonly BoardOutward Board;
     public readonly TeamOutward[] Teams;
@@ -114,10 +114,6 @@ namespace LightStudio.PokemonBattle.Game
     public void EndTurn()
     {
       foreach (var l in listeners) l.TurnEnd();
-    }
-    public void GameEnd()
-    {
-      foreach (var l in listeners) l.GameEnd();
     }
     public void AddListner(IGameOutwardEvents listener)
     {

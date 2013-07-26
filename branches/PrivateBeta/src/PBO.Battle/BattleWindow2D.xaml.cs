@@ -55,6 +55,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
         var result = UIElements.ShowMessageBox.ClosingInBattle(this);
         e.Cancel = result != MessageBoxResult.Yes;
       }
+      br.Save();
     }
 
     protected override void OnClosed(EventArgs e)

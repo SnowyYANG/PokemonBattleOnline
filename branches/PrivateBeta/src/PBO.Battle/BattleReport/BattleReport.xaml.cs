@@ -41,6 +41,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
     {
       controller = new Control(this, title, playerName);
       game.AddListner(controller);
+      game.GameEnd += controller.GameEnd;
     }
 
     private LinkedListNode<TextElement> nowTurn;
@@ -66,7 +67,7 @@ namespace LightStudio.PokemonBattle.PBO.Battle
       AutoScroll();
     }
 
-    public void Save(string fileName)
+    public void Save()
     {
       controller.Save();
     }

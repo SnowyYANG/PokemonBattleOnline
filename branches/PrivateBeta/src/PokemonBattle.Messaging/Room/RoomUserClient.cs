@@ -140,6 +140,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
           if (teams[p.Team] == null) teams[p.Team] = name;
         }
         game = new GameOutward(Settings, ps, teams);
+        game.GameEnd += EndGame;
         Listener.GameStart();
       }
       game.Update(fragment);
