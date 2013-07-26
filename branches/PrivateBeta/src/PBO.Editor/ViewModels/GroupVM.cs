@@ -41,10 +41,10 @@ namespace LightStudio.PokemonBattle.PBO.Editor
             Commands.Add(NewCollectionCommand);
             Commands.Add(ImportCommand);
 
-            Commands.Add(new MenuCommand("Import0791", () => Import(Team0791.GetInstance(), "PBO队伍文件(*.ptd)|*.ptd")));
-            Commands.Add(new MenuCommand("ImportPO", () => Import(TeamPO.GetInstance(), "PO File(*.tp)|*.tp")));
-
             Commands.Add(ImportFromClipboardCommand);
+
+            Commands.Add(new MenuCommand("导入0791文件", () => Import(Team0791.GetInstance(), "PBO队伍文件(*.ptd)|*.ptd")));
+            Commands.Add(new MenuCommand("导入PO文件", () => Import(TeamPO.GetInstance(), "PO File(*.tp)|*.tp")));
         }
 
         public void NewCollection()

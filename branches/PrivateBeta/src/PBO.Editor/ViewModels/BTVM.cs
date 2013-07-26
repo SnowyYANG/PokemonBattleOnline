@@ -64,10 +64,11 @@ namespace LightStudio.PokemonBattle.PBO.Editor
             FolderCommands.Add(RenameCommand);
             FolderCommands.Add(ExportCommand);
 
-            FolderCommands.Add(new MenuCommand("ExportPOFile", () => Export(TeamPO.GetInstance(), "PO File(*.tp)|*.tp")));
-            FolderCommands.Add(new MenuCommand("导出到粘贴板PO", () => Clipboard.SetText(TeamPO.GetInstance().ExportString((PokemonBT)Model))));
-
             FolderCommands.Add(ExportToClipboardCommand);
+
+            FolderCommands.Add(new MenuCommand("导出为PO文件", () => Export(TeamPO.GetInstance(), "PO File(*.tp)|*.tp")));
+            //FolderCommands.Add(new MenuCommand("复制到粘贴板(PO)", () => Clipboard.SetText(TeamPO.GetInstance().ExportString((PokemonBT)Model))));
+
             FolderCommands.Add(RemoveFolderCommand);
 
             NewPokemonCommand = new MenuCommand("NewPokemon", AddNewPokemon);
