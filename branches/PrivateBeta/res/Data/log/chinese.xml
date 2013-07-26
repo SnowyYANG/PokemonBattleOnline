@@ -292,8 +292,8 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>PsychUp</a:Key><a:Value i:type="LogText"><text>{0:p}复制了{1:p}的能力变化！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>KnockOff</a:Key><a:Value i:type="LogText"><text>{2:p}把{0:p}的{1:i}打掉了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Thief</a:Key><a:Value i:type="LogText"><text>{0:p}从{2:p}那里夺走了{1:i}！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnCurse</a:Key><a:Value i:type="LogText"><text>{0:p}消减了自己的体力，向{1:i}下了诅咒！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Curse</a:Key><a:Value i:type="LogText"><text>{0:p}被诅咒了！</text></a:Value></a:KeyValueOfstringanyType>
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnCurse</a:Key><a:Value i:type="LogText"><text>{0:p}消减了自己的体力，向{1:i}下了诅咒！</text></a:Value></a:KeyValueOfstringanyType>
+<a:KeyValueOfstringanyType><a:Key>Curse</a:Key><a:Value i:type="LogText"><text>{0:p}被诅咒了！</text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>EnFSDD248</a:Key><a:Value i:type="LogText"><text>{0:p}预知了未来的攻击！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnFSDD353</a:Key><a:Value i:type="LogText"><text>{0:p}将破灭之愿托付给了未来！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>FSDD</a:Key><a:Value i:type="LogText"><text>{0:p}受到了{1:m}的攻击！
