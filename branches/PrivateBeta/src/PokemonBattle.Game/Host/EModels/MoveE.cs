@@ -225,7 +225,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           def.Defender.AddReportPm("NoEffect");
         }
       #endregion
-      #region Check for Wide Guard in same way
+      #region Check for Wide Guard and Quick Guard in same way
       if (move.Range == MoveRange.Adjacent || move.Range == MoveRange.AdjacentEnemies)
         foreach (var def in targets.ToArray())
           if (def.Defender.Tile.Field.HasCondition("WideGuard"))
@@ -233,7 +233,7 @@ namespace LightStudio.PokemonBattle.Game.Host
             def.Defender.AddReportPm("WideGuard");
             targets.Remove(def);
           }
-      if (move.Priority > 0)
+      if (move.Priority > 0 && move.Id != Ms.FEINT)
         foreach (var def in targets.ToArray())
           if (def.Defender.Tile.Field.HasCondition("QuickGuard"))
           {
