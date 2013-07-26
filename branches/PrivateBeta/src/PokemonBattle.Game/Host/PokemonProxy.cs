@@ -226,7 +226,7 @@ namespace LightStudio.PokemonBattle.Game.Host
           goto STATE;
         case AttachedState.Confuse:
           if (OnboardPokemon.HasCondition("Confuse")) goto BEENSTATE;
-          if (Tile.Field.HasCondition("Safeguard")) goto SAFEGUARD;
+          if (Tile.Field.HasCondition("Safeguard") && this != by && by.Ability == As.INFILTRATOR) goto SAFEGUARD;
           goto GENERIC;
         case AttachedState.Attract:
           if (OnboardPokemon.Gender == PokemonGender.None || by.OnboardPokemon.Gender == PokemonGender.None || OnboardPokemon.Gender == by.OnboardPokemon.Gender) goto NOEFFECT;
@@ -259,7 +259,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       return false;
     STATE:
       if (State != PokemonState.Normal) goto FAIL;
-      if (Tile.Field.HasCondition("Safeguard") && by.Ability != As.INFILTRATOR) goto SAFEGUARD;
+      if (Tile.Field.HasCondition("Safeguard") && this != by && by.Ability != As.INFILTRATOR) goto SAFEGUARD;
       goto GENERIC;
     CONDITION:
       if (OnboardPokemon.HasCondition(state.ToString())) goto FAIL;

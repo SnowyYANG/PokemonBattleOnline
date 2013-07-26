@@ -134,7 +134,7 @@ namespace LightStudio.PokemonBattle.Game.Host
       return
         !IsCt &&
         Defender.Tile.Field.HasCondition(condition) &&
-        (Defender.Tile.Team == a.Tile.Team || AtkContext.Attacker.Ability != As.INFILTRATOR);
+        (Defender.Tile.Team == a.Tile.Team || a.Ability != As.INFILTRATOR);
     }
     public void ModifyDamage(Modifier modifier)
     {
