@@ -1007,7 +1007,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
         (
         a == d ||
         a == As.FORECAST || a == As.ILLUSION || a == As.ZEN_MODE || a == As.FLOWER_GIFT ||
-        d == As.TRUANT || d == As.MULTITYPE
+        d == As.TRUANT || d == As.MULTITYPE || d == As.FLOWER_GIFT
         )
         atk.FailAll();
       else atk.Target.Defender.ChangeAbility(a, "SetAbility");
