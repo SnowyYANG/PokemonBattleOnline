@@ -36,7 +36,11 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       var pm = game.OnboardPokemons.FirstOrDefault((p) => p != null && p.Id == Pm);
       if (pm != null)
         foreach (var m in pm.Moves)
-          if (m != null && m.Type.Id == Move) m.PP.Value -= 1 + PP;
+          if (m != null && m.Type.Id == Move)
+          {
+            m.PP.Value -= 1 + PP;
+            break;
+          }
     }
   }
 }

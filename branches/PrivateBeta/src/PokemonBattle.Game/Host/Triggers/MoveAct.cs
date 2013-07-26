@@ -1054,13 +1054,12 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
     private static void Mimic(AtkContext atk)
     {
       var aer = atk.Attacker;
-      var last = aer.LastMove;
-      if (last == null || last == atk.Move) atk.FailAll();
+      var last = atk.Target.Defender.LastMove;
+      if (last == null || aer.Moves.Any((m) => m.Type == last)) atk.FailAll();
       else
       {
-        var move = last;
-        aer.ChangeMove(atk.Move, move);
-        aer.Controller.ReportBuilder.Add(new GameEvents.Mimic(aer, move));
+        aer.ChangeMove(atk.Move, last);
+        aer.Controller.ReportBuilder.Add(new GameEvents.Mimic(aer, last));
       }
     }
     private static void Spite(AtkContext atk)
