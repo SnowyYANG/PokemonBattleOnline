@@ -226,7 +226,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         }
       #endregion
       #region Check for Wide Guard and Quick Guard in same way
-      if (move.Range == MoveRange.Adjacent || move.Range == MoveRange.AdjacentEnemies)
+      if (move.Category != MoveCategory.Status && move.Range != MoveRange.Single)
         foreach (var def in targets.ToArray())
           if (def.Defender.Tile.Field.HasCondition("WideGuard"))
           {
