@@ -196,6 +196,9 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
         case Ms.DOOM_DESIRE: //353
           FSDD(atk);
           break;
+        case Ms.BEAT_UP: //251
+          BeatUp(atk);
+          break;
         case Ms.STOCKPILE://255
           StockPile(atk);
           break;
