@@ -255,7 +255,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
       }
       else if (Moves != null)
       {
-        var pm = game.OnboardPokemons.FirstOrDefault((p) => p.Id == Pm);
+        var pm = GetOnboardPokemon(game, Pm);
         if (pm != null && pm.Pokemon.Owner == game.Player) pm.ChangeMoves(Moves);
       }
     }

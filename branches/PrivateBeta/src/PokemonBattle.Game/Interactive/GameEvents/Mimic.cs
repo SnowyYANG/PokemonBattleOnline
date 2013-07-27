@@ -26,8 +26,8 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
     public override void Update(SimGame game)
     {
-      foreach (var pm in game.OnboardPokemons)
-        if (pm.Id == Pm && pm.Pokemon.Owner == game.Player) pm.ChangeMove(Ms.MIMIC, Move);
+      var pm = GetOnboardPokemon(game, Pm);
+      if (pm != null && pm.Pokemon.Owner == game.Player) pm.ChangeMove(Ms.MIMIC, Move);
     }
   }
 }

@@ -36,7 +36,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
     public override void Update(SimGame game)
     {
-      var pm = game.OnboardPokemons.FirstOrDefault((p) => p.Id == Pm);
+      var pm = GetOnboardPokemon(game, Pm);
       if (pm != null)
       {
         foreach (var m in pm.Moves)

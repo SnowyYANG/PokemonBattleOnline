@@ -51,6 +51,10 @@ namespace LightStudio.PokemonBattle.Game
     {
       return game.Pokemons.ValueOrDefault(id);
     }
+    protected SimOnboardPokemon GetOnboardPokemon(SimGame game, int id)
+    {
+      return game.OnboardPokemons.FirstOrDefault((p) => p != null && p.Id == id);
+    }
     protected virtual void Update()
     {
     }
