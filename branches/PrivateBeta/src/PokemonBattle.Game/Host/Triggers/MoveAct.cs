@@ -401,24 +401,15 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
 
       FinalEffect(atk);
     }
-    private static void DamagePercentage(DefContext def, int percentage)
-    {
-      var aer = def.AtkContext.Attacker;
-      var ability = aer.Ability;
-      int v = def.Damage * percentage / 100;
-      if (percentage > 0)
-      {
-        if (aer.Item == Is.BIG_ROOT) v = (int)(v * 1.3);
-        if (ability != As.MAGIC_GUARD && def.Defender.RaiseAbility(As.LIQUID_OOZE)) aer.EffectHurt(v);
-        else aer.HpRecover(v, false);
-      }
-      else if (ability != As.ROCK_HEAD) aer.EffectHurt(-v, "ReHurt");
-    }
     private static void Implement(IEnumerable<DefContext> defs)
     {
       DefContext def = defs.FirstOrDefault();
+
       if (def == null) return;
+      var atk = def.AtkContext;
+      var aer = atk.Attacker;
       var move = def.AtkContext.Move;
+
       if (move.Class == MoveInnerClass.OHKO)
       {
         if (!Sp.Conditions.Substitute.OHKO(def))
@@ -434,8 +425,6 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       }
       else
       {
-        AtkContext atk = def.AtkContext;
-        PokemonProxy a = atk.Attacker;
         bool allSub = true;
         if (!move.Flags.IgnoreSubstitute)
           foreach (DefContext d in defs) allSub &= Sp.Conditions.Substitute.Hurt(d);
@@ -444,7 +433,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
           foreach (DefContext d in defs)
             if (d.RemoveCondition("Antiberry")) d.Defender.RaiseItem("Antiberry");
           var e = new GameEvents.MoveHurt();
-          a.Controller.ReportBuilder.Add(e);
+          aer.Controller.ReportBuilder.Add(e);
           foreach (DefContext d in defs)
           {
             d.Defender.MoveHurt(d);
@@ -453,29 +442,24 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
           e.SetHurt(defs, atk.Move.MinTimes == 0);
         }
 
-        if (move.HurtPercentage > 0) DamagePercentage(def, move.HurtPercentage);
-        if (move.Class == MoveInnerClass.AttackWithSelfLv7DChange && atk.RandomHappen(move.Lv7DChanges.First().Probability)) a.ChangeLv7D(atk.Attacker, move);
+        if (move.HurtPercentage > 0)
+        {
+          int v = def.Damage * move.HurtPercentage / 100;
+          if (aer.Item == Is.BIG_ROOT) v *= (Modifier)0x14cc;
+          if (aer.Ability != As.MAGIC_GUARD && def.Defender.RaiseAbility(As.LIQUID_OOZE)) aer.EffectHurt(v);
+          else aer.HpRecover(v, false);
+        }
+        if (move.Class == MoveInnerClass.AttackWithSelfLv7DChange && atk.RandomHappen(move.Lv7DChanges.First().Probability)) aer.ChangeLv7D(atk.Attacker, move);
 
         foreach (DefContext d in defs)
           if (!d.HitSubstitute)
           {
             MoveImplementEffect.Execute(d);
             PassiveEffect(d);
-            if (a.Hp != 0 && d.Defender.Hp != 0) MovePostEffect.Execute(d);
           }
 
-        if (a.Hp > 0)
-        {
-          if (move.HurtPercentage < 0) DamagePercentage(def, move.HurtPercentage);
-          else if (move.MaxHpPercentage < 0) //拼命专用
-          {
-            var change = a.Pokemon.Hp.Origin * move.MaxHpPercentage / 100;
-            a.Pokemon.SetHp(a.Hp + (change == 0 ? -1 : change));
-            a.OnboardPokemon.SetTurnCondition("Assurance");
-            a.Controller.ReportBuilder.Add(new GameEvents.HpChange(a, "ReHurt"));
-          }
-          a.CheckFaint();
-        }
+        if (aer.Hp != 0) MovePostEffect.Execute(def);
+        aer.CheckFaint();
       }// OHKO else
     }
     private static void PassiveEffect(DefContext def)

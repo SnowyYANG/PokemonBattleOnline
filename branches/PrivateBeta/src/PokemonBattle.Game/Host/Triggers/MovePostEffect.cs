@@ -10,9 +10,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
   {
     public static void Execute(DefContext def)
     {
-      var der = def.Defender;
-      var atk = def.AtkContext;
-      var move = atk.Move;
+      var move = def.AtkContext.Move;
 
       switch (move.Id)
       {
@@ -36,12 +34,25 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
         case Ms.DRAGON_TAIL: //525
           MoveE.ForceSwitch(def);
           break;
+        default:
+          {
+            var aer = def.AtkContext.Attacker;
+            if (move.HurtPercentage < 0 && aer.Ability != As.ROCK_HEAD) aer.EffectHurt(def.Damage * move.HurtPercentage / 100, "ReHurt");
+            else if (move.MaxHpPercentage < 0) //拼命专用
+            {
+              var change = aer.Pokemon.Hp.Origin * move.MaxHpPercentage / 100;
+              aer.Pokemon.SetHp(aer.Hp + (change == 0 ? -1 : change));
+              aer.OnboardPokemon.SetTurnCondition("Assurance");
+              aer.Controller.ReportBuilder.Add(new GameEvents.HpChange(aer, "ReHurt"));
+            }
+          }
+          break;
       }
     }
 
     private static void DeAbnormalState(DefContext def, PokemonState state)
     {
-      if (def.Defender.State == state) def.Defender.DeAbnormalState();
+      if (def.Defender.Hp != 0 && def.Defender.State == state) def.Defender.DeAbnormalState();
     }
 
     private static void RapidSpin(DefContext def)
@@ -71,7 +82,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
     private static void SmackDown(DefContext def)
     {
       var der = def.Defender;
-      if (der.OnboardPokemon.HasType(BattleType.Flying) || der.Ability == As.LEVITATE)
+      if (der.Hp != 0 && (der.OnboardPokemon.HasType(BattleType.Flying) || der.Ability == As.LEVITATE))
       {
         der.OnboardPokemon.SetCondition("SmackDown");
         der.AddReportPm("EnSmackDown");

@@ -130,7 +130,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     public static bool ForceSwitch(DefContext def)
     {
-      if (def.AtkContext.Attacker.Tile != null && CanForceSwitch(def.Defender, As.IgnoreDefenderAbility(def.AtkContext.Attacker.Ability)))
+      if (CanForceSwitch(def.Defender, As.IgnoreDefenderAbility(def.AtkContext.Attacker.Ability)))
       {
         ForceSwitchImplement(def.Defender);
         return true;
