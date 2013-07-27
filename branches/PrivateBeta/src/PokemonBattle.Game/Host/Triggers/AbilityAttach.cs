@@ -218,8 +218,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
         var stats = new List<StatType>();
         foreach (var p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1))
           if (p.OnboardPokemon.FiveD.Def > p.OnboardPokemon.FiveD.SpDef)
+          {
             if (sa) stats.Add(StatType.SpAtk);
-            else if (a) stats.Add(StatType.Atk);
+          }
+          else if (a) stats.Add(StatType.Atk);
         var n = stats.Count;
         if (n != 0)
         {
