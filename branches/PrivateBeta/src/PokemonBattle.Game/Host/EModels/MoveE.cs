@@ -142,13 +142,13 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       switch (atk.Move.Id)
       {
-        case 68:
+        case Ms.COUNTER: //68
           Counter(atk, "PhysicalDamage");
           break;
-        case 243:
+        case Ms.MIRROR_COAT: //243
           Counter(atk, "SpecialDamage");
           break;
-        case 368:
+        case Ms.METAL_BURST: //368
           Counter(atk, "Damage");
           break;
         case Ms.BIDE:

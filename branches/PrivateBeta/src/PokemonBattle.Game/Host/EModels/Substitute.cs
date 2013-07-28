@@ -10,7 +10,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Sp.Conditions
     private static int Generic(DefContext def)
     {
       int hp = def.Defender.OnboardPokemon.GetCondition<int>("Substitute");
-      if (hp > 0) def.HitSubstitute = true;
+      def.HitSubstitute = hp > 0;
       return hp;
     }
     private static void Disappear(PokemonProxy pm)
