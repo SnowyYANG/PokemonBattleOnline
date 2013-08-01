@@ -254,4 +254,145 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       return m;
     }
   }
+  internal static class SubstituteTriggers
+  {
+    private static int Generic(DefContext def)
+    {
+      int hp = def.Defender.OnboardPokemon.GetCondition<int>("Substitute");
+      def.HitSubstitute = hp > 0;
+      return hp;
+    }
+    private static void Disappear(PokemonProxy pm)
+    {
+      pm.Controller.ReportBuilder.Add(GameEvents.Substitute.DeSubstitute(pm));
+      pm.OnboardPokemon.RemoveCondition("Substitute");
+    }
+    public static bool Hurt(DefContext def)
+    {
+      int hp = Generic(def);
+      if (hp > 0)
+      {
+        Controller c = def.Defender.Controller;
+        if (def.Damage > hp) def.Damage = hp;
+        hp -= def.Damage;
+        def.Defender.AddReportPm("HurtSubstitute");
+        if (def.EffectRevise > 0) c.ReportBuilder.Add("SuperHurt0");
+        else if (def.EffectRevise < 0) c.ReportBuilder.Add("WeakHurt0");
+        if (def.IsCt) c.ReportBuilder.Add("CT0");
+        if (def.Defender.Item == Is.AIR_BALLOON) Is.AirBalloon(def);
+        if (hp == 0) Disappear(def.Defender);
+        else def.Defender.OnboardPokemon.SetCondition("Substitute", hp);
+        return true;
+      }
+      return false;
+    }
+    public static bool OHKO(DefContext def)
+    {
+      int hp = Generic(def);
+      if (hp > 0)
+      {
+        def.Damage = hp;
+        Disappear(def.Defender);
+        return true;
+      }
+      return false;
+    }
+  }
+  internal static class EHTs
+  {
+    private const string HAZARDS = "Hazards";
+
+    private static List<Condition> GetHazards(Field field)
+    {
+      return field.GetCondition<List<Condition>>(HAZARDS);
+    }
+    public static bool En(Field field, MoveType move)
+    {
+      var hazards = GetHazards(field);
+      if (hazards == null)
+      {
+        hazards = new List<Condition>();
+        field.AddCondition(HAZARDS, hazards);
+      }
+      foreach (var eh in hazards)
+        if (eh.Move == move) return En(eh);
+      var newh = new Condition() { Move = move };
+      if (move.Id == Ms.SPIKES) newh.Int = 8;
+      hazards.Add(newh);
+      return true;
+    }
+    private static bool En(Condition hazard)
+    {
+      switch (hazard.Move.Id)
+      {
+        case Ms.SPIKES:
+          if (hazard.Int == 4) return false;
+          hazard.Int = hazard.Int == 8 ? 6 : 4;
+          return true;
+        case Ms.TOXIC_SPIKES:
+          if (hazard.Bool) return false;
+          hazard.Bool = true;
+          return true;
+        default:
+          return false;
+      }
+    }
+    public static void De(ReportBuilder report, Field field)
+    {
+      var hazards = GetHazards(field);
+      if (hazards != null)
+      {
+        foreach (var eh in hazards.ToArray()) DeReport(report, eh, field);
+        hazards.Clear();
+      }
+    }
+    public static void De(ReportBuilder report, Field field, MoveType move)
+    {
+      var hazards = GetHazards(field);
+      if (hazards != null)
+        foreach (var eh in hazards)
+          if (eh.Move == move)
+          {
+            hazards.Remove(eh);
+            DeReport(report, eh, field);
+            break;
+          }
+    }
+    private static void DeReport(ReportBuilder report, Condition hazard, Field field)
+    {
+      var m = hazard.Move.Id;
+      report.Add(m == Ms.SPIKES ? "DeSpikes" : m == Ms.TOXIC_SPIKES ? "DeToxicSpikes" : "DeStealthRock", field.Team);
+    }
+    public static bool Debut(PokemonProxy pm) //欢迎登场，口耐的精灵们（笑
+    {
+      var hazards = GetHazards(pm.Tile.Field);
+      if (hazards != null)
+        foreach (var eh in hazards.ToArray())
+        {
+          Debut(eh, pm);
+          if (pm.CheckFaint()) return false;
+        }
+      return true;
+    }
+    private static void Debut(Condition hazard, PokemonProxy pm)
+    {
+      switch (hazard.Move.Id)
+      {
+        case Ms.SPIKES:
+          if (pm.CanEffectHurt && HasEffect.IsGroundAffectable(pm, true, false))
+            pm.EffectHurtByOneNth(hazard.Int, "Spikes");
+          break;
+        case Ms.TOXIC_SPIKES:
+          if (HasEffect.IsGroundAffectable(pm, true, false))
+            if (pm.OnboardPokemon.HasType(BattleType.Poison)) De(pm.Controller.ReportBuilder, pm.Tile.Field, hazard.Move);
+            else if (pm.CanAddState(pm, AttachedState.PSN, false)) pm.AddState(pm, AttachedState.PSN, false, hazard.Bool ? 15 : 0);
+          break;
+        case Ms.STEALTH_ROCK:
+          int revise = BattleType.Rock.EffectRevise(pm.OnboardPokemon.Type1) + BattleType.Rock.EffectRevise(pm.OnboardPokemon.Type2);//羽栖有效无效都无所谓
+          int hp = (revise > 0 ? pm.Pokemon.Hp.Origin << revise : pm.Pokemon.Hp.Origin >> -revise) >> 3;
+          if (pm.CanEffectHurt) pm.EffectHurt(hp, "StealthRock");
+          break;
+      }
+    }
+  }
 }

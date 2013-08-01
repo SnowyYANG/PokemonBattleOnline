@@ -58,7 +58,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
     private static void RapidSpin(DefContext def)
     {
       var aer = def.AtkContext.Attacker;
-      aer.Tile.Field.DeEntryHazards(aer.Controller.ReportBuilder);
+      EHTs.De(aer.Controller.ReportBuilder, aer.Tile.Field);
       aer.OnboardPokemon.RemoveCondition("LeechSeed");
       var trap = aer.OnboardPokemon.GetCondition("Trap");
       if (trap != null)

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LightStudio.PokemonBattle.Game.Host.Sp;
 
 namespace LightStudio.PokemonBattle.Game.Host
 {

@@ -135,13 +135,13 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
           BellyDrum(atk);
           break;
         case Ms.SPIKES: //191
-          EntryHazards(atk, "EnSpikes");
+          EntryHazards(atk, move, "EnSpikes");
           break;
         case Ms.TOXIC_SPIKES: //390
-          EntryHazards(atk, "EnToxicSpikes");
+          EntryHazards(atk, move, "EnToxicSpikes");
           break;
         case Ms.STEALTH_ROCK: //446
-          EntryHazards(atk, "EnStealthRock");
+          EntryHazards(atk, move, "EnStealthRock");
           break;
         case Ms.DESTINY_BOND: //194
           KOedCondition(atk, "DestinyBond");
@@ -415,7 +415,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
 
       if (move.Class == MoveInnerClass.OHKO)
       {
-        if (!Sp.Conditions.Substitute.OHKO(def))
+        if (!SubstituteTriggers.OHKO(def))
         {
           def.Defender.Controller.ReportBuilder.Add("OHKO");
           def.Damage = def.Defender.Hp;
@@ -430,7 +430,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       {
         bool allSub = true;
         if (!move.Flags.IgnoreSubstitute)
-          foreach (DefContext d in defs) allSub &= Sp.Conditions.Substitute.Hurt(d);
+          foreach (DefContext d in defs) allSub &= SubstituteTriggers.Hurt(d);
         if (!allSub)
         {
           foreach (DefContext d in defs)
@@ -584,10 +584,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       if (atk.Controller.Board[team].AddCondition(condition, atk.Controller.TurnNumber + turn - 1)) atk.Controller.ReportBuilder.Add("En" + condition, team);
       else atk.FailAll();
     }
-    private static void EntryHazards(AtkContext atk, string log)
+    private static void EntryHazards(AtkContext atk, MoveType move, string log)
     {
       var team = 1 - atk.Attacker.Pokemon.TeamId;
-      if (atk.Controller.Board[team].EnEntryHazards(atk.Move)) atk.Controller.ReportBuilder.Add(log, team);
+      if (EHTs.En(atk.Controller.Board[team], move)) atk.Controller.ReportBuilder.Add(log, team);
       else atk.FailAll();
     }
     private static void LockOn(AtkContext atk)
@@ -721,7 +721,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       atk.Target.Defender.ChangeLv7D(atk.Attacker, StatType.Evasion, -1, true);
       var t = atk.Target.Defender.Pokemon.TeamId;
       var f = atk.Controller.Board[t];
-      f.DeEntryHazards(r);
+      EHTs.De(r, f);
       if (f.RemoveCondition("Reflect")) r.Add("DeReflect", t);
       if (f.RemoveCondition("LightScreen")) r.Add("DeLightScreen", t);
       if (f.RemoveCondition("Mist")) r.Add("DeMist", t);

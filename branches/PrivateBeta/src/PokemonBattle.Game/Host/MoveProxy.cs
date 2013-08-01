@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LightStudio.PokemonBattle.Game.GameEvents;
-using LightStudio.PokemonBattle.Game.Host.Sp;
 using LightStudio.PokemonBattle.Data;
 
 namespace LightStudio.PokemonBattle.Game.Host

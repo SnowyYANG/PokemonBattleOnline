@@ -109,7 +109,6 @@
     <Compile Include="Interactive\InputType.cs" />
     <Compile Include="Host\EModels\Modifier.cs" />
     <Compile Include="Host\IGameSettings.cs" />
-    <Compile Include="Host\EModels\Substitute.cs" />
     <Compile Include="Interactive\GameEvents\Substitute.cs" />
     <Compile Include="Interactive\GameEvents\UseMove.cs" />
     <Compile Include="Interactive\GameEvents\WeatherChange.cs" />
