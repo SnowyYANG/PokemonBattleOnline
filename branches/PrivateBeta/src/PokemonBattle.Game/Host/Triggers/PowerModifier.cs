@@ -187,12 +187,20 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
       switch (atk.Move.Id)
       {
         case Ms.FUSION_FLARE: //558
-          der.Controller.Board.SetTurnCondition("FusionFlare");
-          if (der.Controller.Board.HasCondition("FusionBolt")) m = 0x2000;
+          {
+            var b = der.Controller.Board;
+            b.SetTurnCondition("FusionFlare");
+            var o = b.GetCondition("LastMove");
+            if (o != null && o.Move.Id == Ms.FUSION_BOLT && b.HasCondition("FusionBolt")) m = 0x2000;
+          }
           break;
         case Ms.FUSION_BOLT: //559
-          der.Controller.Board.SetTurnCondition("FusionBolt");
-          if (der.Controller.Board.HasCondition("FusionFlare")) m = 0x2000;
+          {
+            var b = der.Controller.Board;
+            b.SetTurnCondition("FusionBolt");
+            var o = b.GetCondition("LastMove");
+            if (o != null && o.Move.Id == Ms.FUSION_FLARE && b.HasCondition("FusionFlare")) m = 0x2000;
+          }
           break;
         case Ms.FACADE: //263
           if (atk.Attacker.State != PokemonState.Normal && atk.Attacker.State != PokemonState.FRZ) m = 0x2000;
