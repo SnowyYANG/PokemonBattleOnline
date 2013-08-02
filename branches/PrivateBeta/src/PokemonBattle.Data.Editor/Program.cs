@@ -89,13 +89,18 @@ namespace LightStudio.PokemonBattle.Data.Editor
     }
     static void Main(string[] args)
     {
-      RomData r = RomData.Load("Data\\rom.dat");
-      using(StreamWriter sw = new StreamWriter(Desktop + "forms.txt", false, Encoding.Default))
-        foreach (var pm in r.Pokemons)
+      RomData r = RomData.Load("..\\res\\Data\\rom.dat");
+      using (StreamReader sr = new StreamReader(Desktop + "evo.txt"))
+      {
+        r.evolutions = new Evolution[320];
+        for (int i = 0; i < 320; ++i)
         {
-          foreach (var f in pm.Forms)
-            if (f.EnglishName != null) sw.WriteLine(f.EnglishName);
+          var l = sr.ReadLine();
+          var nums = l.Split(',');
+          r.evolutions[i] = new Evolution(Convert.ToInt32(nums[0]), Convert.ToInt32(nums[1]));
         }
+      }
+      r.SaveDat("..\\res\\Data\\rom.dat");
     }
   }
 }

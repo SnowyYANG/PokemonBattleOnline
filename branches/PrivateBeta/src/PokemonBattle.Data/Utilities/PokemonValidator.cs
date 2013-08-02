@@ -27,8 +27,7 @@ namespace LightStudio.PokemonBattle.Data
 
         public static bool ValidateName(string name)
         {
-            return Regex.IsMatch(name, @"^\w{1,20}$", RegexOptions.Compiled);
-            //return name == null || name.Length < 11 && !name.Any((c) => c == '\n' || c == '\r' || c == '\t');
+            return name == null || name.Length < 11 && !name.Any((c) => Char.IsWhiteSpace(c));
         }
 
         public static bool Shiney(IPokemonData pm, int random)

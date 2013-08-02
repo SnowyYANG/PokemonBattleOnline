@@ -77,7 +77,7 @@ namespace LightStudio.PokemonBattle.Data
             // 10: Items
             // 11: Moves
             var pm = new PokemonData(GameDataService.Rom.GetPokemonType(m.Groups[2].Value).Number, 0);
-            pm.Name = m.Groups[1].Value;
+            if (pm.Name != pm.Form.Type.Name) pm.Name = m.Groups[1].Value;
             pm.Lv = ToInt(m.Groups[3].Value);
             pm.Gender = GetGender(m.Groups[4].Value);
             pm.Ability = GameDataService.Rom.GetAbility(m.Groups[5].Value);
