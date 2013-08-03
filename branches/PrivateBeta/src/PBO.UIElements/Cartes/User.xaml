@@ -11,7 +11,7 @@
                 <ContextMenu ItemsSource="{Binding Commands}" ItemContainerStyle="{x:Static ui:Controls.CommandMenu}"/>
             </Grid.ContextMenu>
             <Image Source="{Binding Avatar,Converter={x:Static c:IdAvatar.C}}" Height="32" Width="32" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Image Name="state" Height="11" Width="11" Margin="29,29,0,0"/>
+            <Image Name="state" Height="11" Width="11" Margin="21,21,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBlock Name="name" Text="{Binding Name}" Margin="45,2,0,0" VerticalAlignment="Top"/>
         </Grid>
         <DataTemplate.Triggers>
