@@ -77,8 +77,6 @@
     <Compile Include="Room\RoomInformer.cs" />
     <Compile Include="Room\RoomManager.cs" />
     <Compile Include="Room\RoomState.cs" />
-    <Compile Include="Room\SpectatorClient.cs" />
-    <Compile Include="Room\PlayerClient.cs" />
     <Compile Include="Room\Host.cs" />
     <Compile Include="Room\RoomUserClient.cs" />
   </ItemGroup>

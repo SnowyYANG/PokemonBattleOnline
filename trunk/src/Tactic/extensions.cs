@@ -40,6 +40,13 @@ namespace PokemonBattleOnline
     {
       return SubArray(array, offset, array.Length - offset);
     }
+    public static bool ArrayEquals(this Array x, Array y)
+    {
+      if (y == null || x.Length != y.Length) return false;
+      for (int i = 0; i < x.Length; ++i)
+        if (!x.GetValue(i).Equals(y.GetValue(i))) return false;
+      return true;
+    }
     public static void Append(this StringBuilder sb, params object[] args)
     {
       foreach (var o in args) sb.Append(o);

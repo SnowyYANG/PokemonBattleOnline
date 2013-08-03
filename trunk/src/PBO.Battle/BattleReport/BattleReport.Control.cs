@@ -64,9 +64,13 @@ namespace PokemonBattleOnline.PBO.Battle
           beginTurn = false;
         }
       }
-      void IGameOutwardEvents.GameEnd()
+      public void GameEnd()
       {
         Nest.reportViewer.Document = Nest.Final;
+      }
+
+      public void Save()
+      {
         try
         {
           var path = "..\\MyPBO\\Logs\\" + PlayerName;
@@ -111,26 +115,26 @@ namespace PokemonBattleOnline.PBO.Battle
       private Alignment lastAlignment = Alignment.Left;
       public override void AddText(string text, uint foreground, Alignment alignment, uint background, double size, bool bold, bool italic, bool underline)
       {
-          if (current == null || alignment != lastAlignment || lastBg != background)
+        if (current == null || alignment != lastAlignment || lastBg != background)
+        {
+          lastAlignment = alignment;
+          lastBg = background;
+          if (current != null)
           {
-            lastAlignment = alignment;
-            lastBg = background;
-            if (current != null)
-            {
-              var run = current.Inlines.LastOrDefault() as Run;
-              if (run != null) run.Text = run.Text.TrimEnd();
-            }
-            current = new Paragraph() { TextAlignment = GetAlignment(alignment), Background = Helper.NewBrush(background) };
-            Document.Blocks.Add(current);
+            var run = current.Inlines.LastOrDefault() as Run;
+            if (run != null) run.Text = run.Text.TrimEnd();
           }
-          current.Inlines.Add(new Run(text)
-            {
-              Foreground = Helper.NewBrush(foreground),
-              FontSize = BattleReport.DEFAULT_FONTSIZE + size,
-              FontWeight = bold ? FontWeights.Bold : FontWeights.Normal,
-              FontStyle = italic ? FontStyles.Italic : FontStyles.Normal,
-              TextDecorations = underline ? TextDecorations.Underline : null
-            });
+          current = new Paragraph() { TextAlignment = GetAlignment(alignment), Background = Helper.NewBrush(background) };
+          Document.Blocks.Add(current);
+        }
+        current.Inlines.Add(new Run(text)
+        {
+          Foreground = Helper.NewBrush(foreground),
+          FontSize = BattleReport.DEFAULT_FONTSIZE + size,
+          FontWeight = bold ? FontWeights.Bold : FontWeights.Normal,
+          FontStyle = italic ? FontStyles.Italic : FontStyles.Normal,
+          TextDecorations = underline ? TextDecorations.Underline : null
+        });
       }
       protected override bool Visible(IText text)
       {
