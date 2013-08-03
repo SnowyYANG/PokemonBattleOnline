@@ -8,7 +8,7 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Name = "em", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "em", Namespace = PBOMarks.PBO)]
   public class UseMove : GameEvent
   {
     [DataMember(Name = "a")]

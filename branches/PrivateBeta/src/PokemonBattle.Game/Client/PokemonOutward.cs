@@ -26,7 +26,7 @@ namespace LightStudio.PokemonBattle.Game
   }
 
   [KnownType(typeof(PairValue))]
-  [DataContract(Name = "pm", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "pm", Namespace = PBOMarks.PBO)]
   public class PokemonOutward : ObservableObject
   {
     private static readonly PropertyChangedEventArgs NAME = new PropertyChangedEventArgs("Name");

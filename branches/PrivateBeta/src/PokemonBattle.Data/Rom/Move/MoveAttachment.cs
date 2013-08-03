@@ -57,7 +57,7 @@ namespace LightStudio.PokemonBattle.Data
     Trap //强韧之爪
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   public class MoveAttachment
   {
     [DataMember]

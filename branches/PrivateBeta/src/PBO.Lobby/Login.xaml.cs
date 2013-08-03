@@ -22,8 +22,6 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
   /// </summary>
   public partial class Login : UserControl
   {
-    const int PORT = 9898;
-
     public event Action LoginComplete = delegate { };
 
     public Login()
@@ -39,7 +37,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
         UIDispatcher.Invoke(() =>
           {
             LoginComplete();
-            button.IsEnabled = true;
+            IsEnabled = true;
           });
       }
     }
@@ -49,7 +47,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
       {
         UIDispatcher.Invoke(() =>
           {
-            MessageBox.Show("Login Failed");
+            MessageBox.Show("登陆失败。");
             IsEnabled = true;
           });
       }
@@ -76,7 +74,17 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
       {
         lock (this)
         {
-          PBOClient.Prepare4Login(ip, PORT);
+          PBOClient.Prepare4Login(ip, PBOMarks.PORT);
+          PBOClient.Client.Disconnected += (_s, _e) => UIDispatcher.Invoke(() =>
+            {
+              System.Windows.MessageBox.Show("连接与服务器中断");
+              IsEnabled = true;
+            });
+          PBOClient.Client.ConnectFailed += (_s, _e) => UIDispatcher.Invoke(() =>
+            {
+              System.Windows.MessageBox.Show("连接到服务器失败");
+              IsEnabled = true;
+            });
           PBOClient.Client.LoginFailed += client_LoginFailed;
           PBOClient.Client.LoginCompleted += client_LoginComplete;
           PBOClient.Client.Login(name.Text.Trim(), (int)avs.SelectedItem);//"http://tb.himg.baidu.com/sys/portrait/item/f543c7aec9f1b2bbcac76c6f6c69bfd85603"

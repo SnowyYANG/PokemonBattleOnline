@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 namespace LightStudio
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   public abstract class ObservableObject : INotifyPropertyChanged
   {
     private static readonly PropertyChangedEventArgs ALL = new PropertyChangedEventArgs(null);

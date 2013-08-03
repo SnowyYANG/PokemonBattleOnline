@@ -7,7 +7,7 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   public class Substitute : GameEvent
   {
     internal static Substitute EnSubstitute(PokemonProxy pm)

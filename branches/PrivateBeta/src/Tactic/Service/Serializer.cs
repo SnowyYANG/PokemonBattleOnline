@@ -50,8 +50,8 @@ namespace LightStudio.Tactic
     {
       var serializer = GetSerializer(obj.GetType());
       serializer.WriteStartObject(writer, obj);
-      writer.WriteAttributeString("xmlns", Namespaces.MS, null, Namespaces.STANDARD);
-      writer.WriteAttributeString("xmlns", Namespaces.A, null, Namespaces.ARRAY);
+      writer.WriteAttributeString("xmlns", PBOMarks.MS, null, PBOMarks.STANDARD);
+      writer.WriteAttributeString("xmlns", PBOMarks.A, null, PBOMarks.ARRAY);
       serializer.WriteObjectContent(writer, obj);
       serializer.WriteEndObject(writer);
       writer.Flush();

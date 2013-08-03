@@ -43,7 +43,7 @@ namespace LightStudio.PokemonBattle.PBO.Server
     }
     private void StartServer()
     {
-      server = PBOServer.NewTcpServer(9898);
+      server = PBOServer.NewTcpServer(PBOMarks.PORT);
       server.UserChanged += model_UserChanged;
       server.MessageBroadcast += model_MessageBroadcast;
       try

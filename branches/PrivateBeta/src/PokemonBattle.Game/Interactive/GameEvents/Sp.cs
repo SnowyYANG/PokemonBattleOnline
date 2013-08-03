@@ -8,7 +8,7 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Name = "e0", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "e0", Namespace = PBOMarks.PBO)]
   internal class BeginTurn : GameEvent
   {
     protected override void Update()
@@ -23,7 +23,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Name = "e1", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "e1", Namespace = PBOMarks.PBO)]
   internal class EndTurn : GameEvent
   {
     protected override void Update()
@@ -46,7 +46,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
   
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   internal class SelectMoveFail : GameEvent
   {
     [DataMember]
@@ -70,7 +70,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Name = "l", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "l", Namespace = PBOMarks.PBO)]
   internal class HorizontalLine : GameEvent
   {
     protected override void Update()

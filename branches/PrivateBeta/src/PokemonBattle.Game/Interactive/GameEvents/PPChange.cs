@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   public class PPChange : GameEvent
   {
     [DataMember(EmitDefaultValue = false)]

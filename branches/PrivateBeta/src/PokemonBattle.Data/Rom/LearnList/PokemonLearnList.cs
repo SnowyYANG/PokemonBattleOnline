@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace LightStudio.PokemonBattle.Data
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   public class PokemonLearnList
   {
     [DataMember]

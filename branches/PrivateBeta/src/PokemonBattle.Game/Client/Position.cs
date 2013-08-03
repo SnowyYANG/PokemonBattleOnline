@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Game
   /// <summary>
   /// reference type, dont share among pokemons
   /// </summary>
-  [DataContract(Name = "p", Namespace=Namespaces.PBO)]
+  [DataContract(Name = "p", Namespace=PBOMarks.PBO)]
   public class Position : IPosition
   {
     [DataMember(EmitDefaultValue = false)]

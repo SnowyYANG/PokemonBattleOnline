@@ -27,7 +27,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     public UserEditor()
     {
       InitializeComponent();
-      sign.EndEditCommand = new SimpleCommand(RefreshState);
+      //sign.EndEditCommand = new SimpleCommand(RefreshState);
     }
 
     internal void Init(LobbyVM lobby)
@@ -46,11 +46,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
 
     void RefreshState(UserState state)
     {
-      if (vm != null) PBOClient.Client.ChangeUserState(state, sign.Text);
-    }
-    void RefreshState()
-    {
-      RefreshState(vm.User.State);
+      if (vm != null) PBOClient.Client.ChangeUserState(state);
     }
 
     private void normal_Click(object sender, RoutedEventArgs e)
@@ -65,9 +61,13 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     {
       RefreshState(UserState.Aggressive);
     }
-    private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+    private void exit_Click(object sender, RoutedEventArgs e)
     {
-      sign.IsEditing = true;
+      vm.Exit();
     }
+    //private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+    //{
+    //  sign.IsEditing = true;
+    //}
   }
 }

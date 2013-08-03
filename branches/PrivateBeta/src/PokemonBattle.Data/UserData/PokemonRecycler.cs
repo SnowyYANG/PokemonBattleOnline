@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace LightStudio.PokemonBattle.Data
 {
-  [CollectionDataContract(Namespace = Namespaces.PBO, ItemName = "PokemonData")]
+  [CollectionDataContract(Namespace = PBOMarks.PBO, ItemName = "PokemonData")]
   public class PokemonRecycler : PokemonCollection
   {
     internal PokemonRecycler()

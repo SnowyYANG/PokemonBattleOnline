@@ -20,7 +20,7 @@ namespace LightStudio.PokemonBattle.Data
         int GetStat(StatType type);
     }
 
-    [DataContract(Namespace = Namespaces.PBO)]
+    [DataContract(Namespace = PBOMarks.PBO)]
     public struct ReadOnly6D : I6D
     {
         public ReadOnly6D(int h, int a, int d, int sa, int sd, int s)
@@ -143,7 +143,7 @@ namespace LightStudio.PokemonBattle.Data
 
     }
 
-    [DataContract(Namespace = Namespaces.PBO)]
+    [DataContract(Namespace = PBOMarks.PBO)]
     public class Observable6D : ObservableObject, I6D
     {
         private static readonly PropertyChangedEventArgs HP = new PropertyChangedEventArgs("Hp");

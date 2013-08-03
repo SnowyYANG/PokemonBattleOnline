@@ -4,17 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements;assembly=PBO.UIElements"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Height="64" Background="#80c0c0c0">
+             Background="#80c0c0c0">
     <Grid>
-        <ContentPresenter Content="{Binding Avatar}" ContentTemplate="{x:Static ui:Cartes.Avatar}" Width="60" Height="60" HorizontalAlignment="Left"/>
-        <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="Bold" Margin="64,0,0,0" VerticalAlignment="Top"/>
-        <TextBlock Text="{Binding Sign}" Cursor="IBeam" Margin="65,21,0,0" Background="Transparent" MouseDown="TextBlock_MouseDown"/>
-        <ui:UITextBox x:Name="sign" Margin="64,20,0,0" MaxLength="50" TextWrapping="Wrap"/>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-            <Button Content="普通" FontSize="12" Style="{x:Static ui:Controls.XButton}" Click="normal_Click" Margin="1"/>
-            <Button Content="离开" FontSize="12" Style="{x:Static ui:Controls.XButton}" Click="afk_Click" Margin="1"/>
-            <Button Content="求战" FontSize="12" Style="{x:Static ui:Controls.XButton}" Click="aggressive_Click" Margin="1"/>
+        <Grid.Resources>
+            <Style TargetType="Button" BasedOn="{x:Static ui:Controls.XButton}">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Margin" Value="1"/>
+                <Setter Property="Padding" Value="0"/>
+            </Style>
+        </Grid.Resources>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="普通" Click="normal_Click"/>
+            <Button Content="离开" Click="afk_Click"/>
+            <Button Content="求战" Click="aggressive_Click"/>
         </StackPanel>
+        <Button Content="退出" Click="exit_Click" HorizontalAlignment="Right"/>
     </Grid>
 </UserControl>

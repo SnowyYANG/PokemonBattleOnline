@@ -7,7 +7,7 @@ using LightStudio.Tactic.DataModels;
 
 namespace LightStudio.PokemonBattle.PBO.UIElements
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   public class Config : SimpleData
   {
     private static readonly Config Current;

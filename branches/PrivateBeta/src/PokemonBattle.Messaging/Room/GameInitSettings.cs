@@ -9,7 +9,7 @@ using LightStudio.PokemonBattle.Game;
 
 namespace LightStudio.PokemonBattle.Messaging.Room
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   public class GameInitSettings : IGameSettings, IMessagable
   {
     private bool isLocked;

@@ -8,7 +8,7 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Name = "est", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "est", Namespace = PBOMarks.PBO)]
   public class StateChange : GameEvent
   {
     [DataMember(Name = "a")]
@@ -67,7 +67,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Name = "eh", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "eh", Namespace = PBOMarks.PBO)]
   public class HpChange : GameEvent
   {
     [DataMember(Name = "a")]
@@ -119,7 +119,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   public class PositionChange : SimpleEvent
   {
     internal static PositionChange Reset(string gameLogKey, PokemonProxy pm, object arg1 = null, object arg2 = null)
@@ -150,7 +150,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   public class RemoveItem : GameEvent
   {
     [DataMember(EmitDefaultValue = false)]
@@ -190,7 +190,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Name = "eo", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "eo", Namespace = PBOMarks.PBO)]
   public class OutwardChange : GameEvent
   {
     internal static OutwardChange Transform(PokemonProxy pm, PokemonProxy target)

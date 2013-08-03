@@ -8,7 +8,7 @@ using LightStudio.Tactic.DataModels;
 
 namespace LightStudio.PokemonBattle.Data
 {
-  [DataContract(Namespace=Namespaces.PBO)]
+  [DataContract(Namespace=PBOMarks.PBO)]
   public class PokemonForm
   {
 #if DEBUG

@@ -16,7 +16,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
   }
 
   [KnownType(typeof(Data.PokemonData))]
-  [DataContract(Name = "jc", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "jc", Namespace = PBOMarks.PBO)]
   class JoinGameCommand : IHostCommand
   {
     [DataMember(Name = "a")]
@@ -37,7 +37,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   class SpectateGameCommand : IHostCommand
   {
     void IHostCommand.Execute(IHost host, int userId)
@@ -46,7 +46,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   class QuitCommand : IHostCommand
   {
     void IHostCommand.Execute(IHost host, int userId)

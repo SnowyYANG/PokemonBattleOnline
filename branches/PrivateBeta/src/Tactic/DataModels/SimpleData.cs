@@ -10,7 +10,7 @@ using LightStudio.Tactic;
 
 namespace LightStudio.Tactic.DataModels
 {
-  [DataContract(Namespace=Namespaces.PBO)]
+  [DataContract(Namespace=PBOMarks.PBO)]
   public abstract class SimpleData
   {
 #if EDITING

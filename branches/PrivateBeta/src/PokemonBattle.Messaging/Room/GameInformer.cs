@@ -32,7 +32,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     void InformTieRejected();
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   class PlayerInfo : IUserInformation
   {
     [DataMember(EmitDefaultValue = false)]
@@ -53,7 +53,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   class GameEndInfo : IUserInformation
   {
     public static GameEndInfo GameTie()
@@ -87,7 +87,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Name = "w", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "w", Namespace = PBOMarks.PBO)]
   class WaitingForInputInfo : IUserInformation
   {
     [DataMember(Name = "a")]
@@ -104,7 +104,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Name = "l", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "l", Namespace = PBOMarks.PBO)]
   class ReportUpdateInfo : IUserInformation
   {
     [DataMember(Name = "a")]
@@ -120,7 +120,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Name = "r", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "r", Namespace = PBOMarks.PBO)]
   class RequireInputInfo : IUserInformation
   {
     [DataMember(Name = "a")]
@@ -140,7 +140,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
   
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   class RequestTieInfo : IUserInformation
   {
     void IUserInformation.Execute(IRoomUser user)
@@ -149,7 +149,7 @@ namespace LightStudio.PokemonBattle.Messaging.Room
     }
   }
 
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   class RejectTieInfo : IUserInformation
   {
     void IUserInformation.Execute(IRoomUser user)

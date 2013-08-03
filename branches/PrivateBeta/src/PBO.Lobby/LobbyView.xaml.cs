@@ -40,6 +40,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
               new StartBattle(user, settings, true).Show());
           };
         chat.Init();
+        editor.Init(lobby);
       }
       else //uninit
       {

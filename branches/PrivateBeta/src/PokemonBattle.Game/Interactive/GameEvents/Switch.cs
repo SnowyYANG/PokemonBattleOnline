@@ -9,7 +9,7 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Name = "es2", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "es2", Namespace = PBOMarks.PBO)]
   internal class GameStartSendOut : GameEvent
   {
     [DataMember(Name = "a")]
@@ -43,7 +43,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Name = "es", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "es", Namespace = PBOMarks.PBO)]
   internal class SendOut : GameEvent
   {
     [DataMember(Name = "a")]
@@ -79,7 +79,7 @@ namespace LightStudio.PokemonBattle.Game.GameEvents
     }
   }
 
-  [DataContract(Name = "ew", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "ew", Namespace = PBOMarks.PBO)]
   internal class Withdraw : GameEvent
   {
     [DataMember(Name = "a", EmitDefaultValue = false)]

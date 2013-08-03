@@ -17,10 +17,6 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
 
     public LobbyVM()
     {
-      PBOClient.Client.Disconnected += (sender, e) =>
-        {
-          System.Windows.MessageBox.Show("连接与服务器中断");
-        };
       PBOClient.Client.UserChanged += model_UserChanged;
       //if it's possible to relogin, better Disconnected+=()=>Model.Dispose();
 

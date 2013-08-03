@@ -7,7 +7,7 @@ using LightStudio.Tactic.DataModels;
 
 namespace LightStudio.PokemonBattle.Data
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   public class UserData : SimpleData
   {
     public static UserData Load(string fileName)

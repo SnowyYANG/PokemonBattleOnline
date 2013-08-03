@@ -9,7 +9,7 @@ using LightStudio.Tactic;
 
 namespace LightStudio.PokemonBattle.Data
 {
-  [CollectionDataContract(Namespace = Namespaces.PBO, ItemName="PokemonData")]
+  [CollectionDataContract(Namespace = PBOMarks.PBO, ItemName="PokemonData")]
   public class PokemonBT : PokemonCollection, INotifyPropertyChanged
   {
     private static readonly PropertyChangedEventArgs NAME = new PropertyChangedEventArgs("Name");

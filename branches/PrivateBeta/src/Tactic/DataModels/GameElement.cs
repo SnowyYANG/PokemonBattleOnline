@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace LightStudio.Tactic.DataModels
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   public abstract class GameElement
   {
     [DataMember]

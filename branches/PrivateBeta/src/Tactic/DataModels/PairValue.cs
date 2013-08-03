@@ -19,7 +19,7 @@ namespace LightStudio
     #endregion
   }
 
-  [DataContract(Name = "pv", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "pv", Namespace = PBOMarks.PBO)]
   public class PairValue : ObservableObject, IPairValue
   {
     public PairValue(int origin, int value)

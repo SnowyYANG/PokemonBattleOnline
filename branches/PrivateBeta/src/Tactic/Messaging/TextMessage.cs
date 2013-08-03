@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 namespace LightStudio.Tactic.Messaging
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   public class TextMessage : IMessage
   {
     private string content;
@@ -19,13 +19,8 @@ namespace LightStudio.Tactic.Messaging
     [DataMember]
     public string Content
     {
-      get { return content; }
-      set { content = value ?? string.Empty; }
-    }
-
-    public TextMessage()
-    {
-      content = string.Empty;
+      get { return content ?? string.Empty; }
+      set { content = value; }
     }
 
     public TextMessage(string header, string content)

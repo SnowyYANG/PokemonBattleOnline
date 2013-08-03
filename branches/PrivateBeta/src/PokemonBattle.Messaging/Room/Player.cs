@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 namespace LightStudio.PokemonBattle.Messaging.Room
 {
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   public class Player
   {
     [DataMember]

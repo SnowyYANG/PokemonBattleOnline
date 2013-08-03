@@ -8,7 +8,7 @@ using LightStudio.Tactic;
 
 namespace LightStudio.PokemonBattle.Data
 {
-  [CollectionDataContract(Namespace = Namespaces.PBO, ItemName="PokemonBT")]
+  [CollectionDataContract(Namespace = PBOMarks.PBO, ItemName="PokemonBT")]
   public class CollectionGroup : ObservableCollection<PokemonBT>
   {
     internal CollectionGroup()

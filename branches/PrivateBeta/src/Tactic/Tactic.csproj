@@ -119,7 +119,7 @@
     <Compile Include="Messaging\Utilities\DataContractResolver.cs" />
     <Compile Include="Messaging\Utilities\IMessageResolver.cs" />
     <Compile Include="Messaging\Utilities\MessageResolverFacade.cs" />
-    <Compile Include="Namespaces.cs" />
+    <Compile Include="PBOMarks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Serializer.cs" />
     <Compile Include="Threading\Dispatcher.cs" />

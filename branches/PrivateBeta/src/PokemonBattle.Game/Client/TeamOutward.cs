@@ -15,7 +15,7 @@ namespace LightStudio.PokemonBattle.Game
     Abnormal,
     Faint
   }
-  [DataContract(Namespace = Namespaces.PBO)]
+  [DataContract(Namespace = PBOMarks.PBO)]
   public class TeamOutward : ObservableObject
   {
     [DataMember]

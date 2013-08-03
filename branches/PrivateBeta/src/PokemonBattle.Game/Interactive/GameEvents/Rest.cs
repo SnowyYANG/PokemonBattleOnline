@@ -8,7 +8,7 @@ using LightStudio.PokemonBattle.Game.Host;
 
 namespace LightStudio.PokemonBattle.Game.GameEvents
 {
-  [DataContract(Name = "eer", Namespace = Namespaces.PBO)]
+  [DataContract(Name = "eer", Namespace = PBOMarks.PBO)]
   internal class RestGame : GameEvent
   {
     [DataMember(Name = "a")]
