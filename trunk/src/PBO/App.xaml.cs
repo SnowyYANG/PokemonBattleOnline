@@ -32,13 +32,6 @@ namespace PokemonBattleOnline.PBO
       GameDataService.Load("..\\res\\Data");
       Data.TempLearnSet.Load("..\\res\\Data\\learnset\\temp.xml");
       DataService.LoadUserData();
-
-      Game.Host.Effects.EffectsRegister.Register();
-#if RELEASE
-      throw new NotImplementedException();
-#else
-      Tactic.Scripting.ExecuteAll("..\\src\\PBO.Game.EffectsP");
-#endif
     }
     
     protected override void OnStartup(StartupEventArgs e)

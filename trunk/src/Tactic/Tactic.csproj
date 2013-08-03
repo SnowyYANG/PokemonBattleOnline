@@ -84,7 +84,6 @@
     <Compile Include="Network\UserBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Serializer.cs" />
-    <Compile Include="Service\Scripting.cs" />
     <Compile Include="Threading\Dispatcher.cs" />
     <Compile Include="Threading\UIDispatcher.cs" />
     <Compile Include="WeakReference.cs" />
