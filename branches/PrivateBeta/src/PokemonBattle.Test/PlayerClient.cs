@@ -125,9 +125,6 @@ namespace LightStudio.PokemonBattle.Test
     void IGameOutwardEvents.TurnEnd()
     {
     }
-    void IGameOutwardEvents.GameEnd()
-    {
-    }
     #endregion
 
     public void Dispose()
