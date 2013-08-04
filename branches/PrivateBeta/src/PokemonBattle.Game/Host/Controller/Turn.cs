@@ -179,7 +179,7 @@ namespace LightStudio.PokemonBattle.Game.Host
         if (t.Pokemon != null && t.Pokemon.Action == PokemonAction.Debuting)
         {
           t.Pokemon.Debut();
-          debut.Add(t.Pokemon);
+          if (t.Pokemon != null) debut.Add(t.Pokemon);
         }
       foreach (var p in debut) As.AttachWeatherObserver(p);
       As.WeatherChanged(Controller);

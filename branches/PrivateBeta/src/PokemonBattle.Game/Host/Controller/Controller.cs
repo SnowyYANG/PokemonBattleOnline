@@ -124,7 +124,16 @@ namespace LightStudio.PokemonBattle.Game.Host
     }
     internal void TryContinueGameLoop()
     {
-      if (!InputController.NeedInput) TurnController.StartGameLoop();
+      if (!InputController.NeedInput)
+      {
+        if (SingleSendout != null)
+        {
+          Sendout(SingleSendout);
+          ReportBuilder.AddHorizontalLine();
+          SingleSendout = null;
+        }
+        TurnController.StartGameLoop();
+      }
     }
     #endregion
 
@@ -133,9 +142,14 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       return InputController.CheckInputSucceed(player);
     }
+    private Tile SingleSendout;
     public void PauseForSendoutInput(Tile tile) //逃生按钮、追击死亡
     {
-      if (InputController.PauseForSendoutInput(tile)) PauseForInput();
+      if (InputController.PauseForSendoutInput(tile))
+      {
+        SingleSendout = tile;
+        PauseForInput();
+      }
     }
     internal void PauseForTurnInput()
     {
