@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ui="clr-namespace:LightStudio.PokemonBattle.PBO.UIElements;assembly=PBO.UIElements"
-             Background="#80c0c0c0">
+             Background="#80ffffff">
     <Grid>
         <Grid.Resources>
             <Style TargetType="Button" BasedOn="{x:Static ui:Controls.XButton}">
@@ -14,9 +14,9 @@
             </Style>
         </Grid.Resources>
         <StackPanel Orientation="Horizontal">
-            <Button Content="普通" Click="normal_Click"/>
-            <Button Content="离开" Click="afk_Click"/>
-            <Button Content="求战" Click="aggressive_Click"/>
+            <Button Content="普通" Foreground="#333333" Background="#202020" BorderBrush="#000000" Click="normal_Click"/>
+            <Button Content="离开" Foreground="#6699cc" Background="#336699" BorderBrush="#003366" Click="afk_Click"/>
+            <Button Content="求战" Foreground="#ff8080" Background="#804040" BorderBrush="#800000" Click="aggressive_Click"/>
         </StackPanel>
         <Button Content="退出" Click="exit_Click" HorizontalAlignment="Right"/>
     </Grid>
