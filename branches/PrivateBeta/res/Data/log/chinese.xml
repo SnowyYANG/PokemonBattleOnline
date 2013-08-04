@@ -5,7 +5,11 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>notfound</a:Key><a:Value i:type="LogText"><foreground>16711680</foreground><text>无法匹配主机传送过来的战报，战报关键字为{0}。
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>unfinish</a:Key><a:Value i:type="LogText"><foreground>16711680</foreground><text>{0:p}使用的技能{1:m}尚未制作。
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>bad</a:Key><a:Value i:type="LogText"><foreground>16711680</foreground><text>{0:p}使用的技能{1:m}暂不制作，原因请见http://pbo.codeplex.com/。
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>----</a:Key><a:Value i:type="LogText"><text>---------------------------------
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>timeticks</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>({0}")</text></a:Value></a:KeyValueOfstringanyType>
+<a:KeyValueOfstringanyType><a:Key>timetickm</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>({0}')</text></a:Value></a:KeyValueOfstringanyType>
+<a:KeyValueOfstringanyType><a:Key>timetickms</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>({0}'{1}")</text></a:Value></a:KeyValueOfstringanyType>
+<a:KeyValueOfstringanyType><a:Key>----</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>---------------------------------
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>br</a:Key><a:Value i:type="LogText"><text>
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameMode</a:Key><a:Value i:type="LogText"><text>对战模式：{0:e}
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameRule</a:Key><a:Value i:type="LogText"><text>对战规则：{0}
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameStart</a:Key><a:Value i:type="LogText"><text>战斗开始！
@@ -15,8 +19,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameResult</a:Key><a:Value i:type="LogText"><Alignment>Center</Alignment><IsBold>true</IsBold><text>
 对战结束了，{0:t}取得了胜利！
 {1}  :  {2}
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>BeginTurn</a:Key><a:Value i:type="LogText"><text>
-第{0}回合开始
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>BeginTurn</a:Key><a:Value i:type="LogText"><text>第{0}回合开始
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EndTurn</a:Key><a:Value i:type="LogText"><Alignment>Right</Alignment><text>第{0}回合结束
 </text><HiddenInBattle>true</HiddenInBattle></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EndTurnNormalPm</a:Key><a:Value i:type="LogText"><Alignment>Right</Alignment><text>{0:p}（{0:pm.Type}）：{1}HP
 </text><HiddenInBattle>true</HiddenInBattle></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EndTurnAbnormalPm</a:Key><a:Value i:type="LogText"><Alignment>Right</Alignment><text>{0:p}（{0:pm.Type}）：{1}HP（{2:e}）

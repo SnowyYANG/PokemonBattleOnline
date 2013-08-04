@@ -67,7 +67,7 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
     }
     private static bool NoEffectWithAbsorb(DefContext def, BattleType type)
     {
-      if (def.AtkContext.Move.Category != MoveCategory.Status && def.AtkContext.Type == type)
+      if ((def.AtkContext.Move.Category != MoveCategory.Status || def.AtkContext.Move.Id == Ms.THUNDER_WAVE) && def.AtkContext.Type == type)
       {
         var der = def.Defender;
         der.RaiseAbility();

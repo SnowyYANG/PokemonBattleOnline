@@ -300,12 +300,13 @@ namespace LightStudio.PokemonBattle.Game.Host
     #endregion
 
     #region internal
-    internal void ResetMoves()
+    internal void Reset()
     {
       _atkContext = null;
       SelectedMove = null;
       SelectedTarget = null;
       moves = Pokemon.Moves.Select((m) => new MoveProxy(m, this)).ToArray();
+      LastMoveTurn = 0;
     }
     internal void BuildAtkContext(MoveProxy move)
     {

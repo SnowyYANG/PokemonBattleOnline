@@ -63,7 +63,7 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     }
     private void exit_Click(object sender, RoutedEventArgs e)
     {
-      vm.Exit();
+      if (ShowMessageBox.ExitLobby() != MessageBoxResult.No) vm.Exit();
     }
     //private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
     //{

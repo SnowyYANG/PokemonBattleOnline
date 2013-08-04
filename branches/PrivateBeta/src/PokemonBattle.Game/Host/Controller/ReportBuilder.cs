@@ -10,6 +10,7 @@ namespace LightStudio.PokemonBattle.Game.Host
   public class ReportBuilder
   {
     private readonly Controller Controller;
+    private readonly DateTime Begin;
     private ReportFragment lastLeapFragment;
     private ReportFragment lastFragment;
     private ReportFragment current;
@@ -18,6 +19,7 @@ namespace LightStudio.PokemonBattle.Game.Host
     {
       Controller = controller;
       TurnNumber = -1;
+      Begin = DateTime.Now;
     }
 
     public int TurnNumber
@@ -38,6 +40,8 @@ namespace LightStudio.PokemonBattle.Game.Host
       {
         foreach (PokemonProxy p in Controller.ActingPokemons) pms.Add(p.GetOutward());
         current = new ReportFragment(Controller.TurnNumber, t, pms.ToArray(), Controller.Board.Weather);
+        var s = (int)((DateTime.Now - Begin).TotalSeconds);
+        if (s != 0) Add(new TimeTick(s));
       }
     }
     internal ReportFragment GetFragment()

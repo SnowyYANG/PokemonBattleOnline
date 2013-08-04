@@ -34,12 +34,18 @@ namespace LightStudio.PokemonBattle.PBO.Server
       TaskbarIconService.Init(this);
     }
 
+    private void TimeTick()
+    {
+      chat.AppendText(DateTime.Now.ToString("\n(hh:mm:ss) "));
+    }
+
     private void AddUser(User u)
     {
       UserVM uvm = new UserVM(u);
       usersDictionary.Add(u.Id, uvm);
       users.Add(uvm);
-      chat.AppendText("\n<SYSTEM> " + u.Name + " logs in, ID. " + u.Id);
+      TimeTick();
+      chat.AppendText(string.Format("<SYSTEM> {0}  logs in, ID {1}.", u.Name, u.Id));
     }
     private void StartServer()
     {
@@ -90,7 +96,8 @@ namespace LightStudio.PokemonBattle.PBO.Server
           {
             usersDictionary.Remove(userId);
             users.Remove(uvm);
-            string x = "\n<SYSTEM> User"+ userId;
+            TimeTick();
+            string x = "<SYSTEM> User"+ userId;
             if (uvm != null) x += " " + uvm.Name;
             chat.AppendText(x + " exits.");
           }
@@ -106,8 +113,9 @@ namespace LightStudio.PokemonBattle.PBO.Server
       User u = server.GetUser(userId);
       WpfDispatcher.Invoke(() =>
         {
-          if (u != null) chat.AppendText("\n" + u.Name + ": " + content);
-          else chat.AppendText("\n" + "[" + userId + "]" + ": " + content);
+          TimeTick();
+          if (u != null) chat.AppendText(u.Name + ": " + content);
+          else chat.AppendText("[" + userId + "]" + ": " + content);
         });
     }
 
