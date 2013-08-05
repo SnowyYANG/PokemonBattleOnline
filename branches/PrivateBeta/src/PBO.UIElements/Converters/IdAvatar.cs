@@ -9,6 +9,7 @@ namespace LightStudio.PokemonBattle.PBO.Converters
   public class IdAvatar : Converter<int>
   {
     public static readonly IdAvatar C = new IdAvatar();
+    public static readonly int RandomAvatar;
     private static readonly Dictionary<int, BitmapImage> _avatars;
 
     static IdAvatar()
@@ -20,6 +21,7 @@ namespace LightStudio.PokemonBattle.PBO.Converters
         var av = Data.GameDataService.GetAvatar(i);
         _avatars.Add(i, av);
       }
+      
     }
 
     public static IEnumerable<int> Avatars

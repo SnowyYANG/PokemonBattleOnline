@@ -17,10 +17,14 @@
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding State}" Value="Afk">
                 <Setter TargetName="state" Property="Source" Value="/PBO.UIElements;component/images/Avatars/afk.png"/>
+                <Setter TargetName="name" Property="Foreground" Value="#666666"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding State}" Value="Aggressive">
                 <Setter TargetName="state" Property="Source" Value="/PBO.UIElements;component/images/Avatars/aggressive.png"/>
                 <Setter TargetName="name" Property="Foreground" Value="{x:Static ui:Brushes.MagentaM}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding State}" Value="Battling">
+                <Setter TargetName="name" Property="Foreground" Value="#336699"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Commands.Count}" Value="0">
                 <Setter TargetName="grid" Property="ContextMenu" Value="{x:Null}"/>

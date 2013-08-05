@@ -14,8 +14,8 @@
             </Style>
         </Grid.Resources>
         <StackPanel Orientation="Horizontal">
-            <Button Content="普通" Foreground="#333333" Background="#202020" BorderBrush="#000000" Click="normal_Click"/>
-            <Button Content="离开" Foreground="#6699cc" Background="#336699" BorderBrush="#003366" Click="afk_Click"/>
+            <Button Content="普通" Foreground="#336699" Background="#003366" BorderBrush="#000033" Click="normal_Click"/>
+            <Button Content="离开" Foreground="#808080" Background="#666666" BorderBrush="#333333" Click="afk_Click"/>
             <Button Content="求战" Foreground="#ff8080" Background="#804040" BorderBrush="#800000" Click="aggressive_Click"/>
         </StackPanel>
         <Button Content="退出" Click="exit_Click" HorizontalAlignment="Right"/>

@@ -27,7 +27,9 @@ namespace LightStudio.PokemonBattle.PBO.Lobby
     public Login()
     {
       InitializeComponent();
-      avatar.Content = 821;
+      var r = new Random().Next(651, 868);
+      if (r == 790 || r == 856 || r == 857 || r == 858) r = 821;
+      avatar.Content = r;
     }
 
     private void client_LoginComplete() //not in UI thread
