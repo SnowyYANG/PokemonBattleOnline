@@ -25,10 +25,10 @@ namespace LightStudio.PokemonBattle.Game.Host.Triggers
           Thief(def);
           break;
         case Ms.KNOCK_OFF: //282
-          RemoveItem(def, true, "KnockOff");
+          RemoveItem(def, false, "KnockOff");
           break;
         case Ms.INCINERATE: //510
-          RemoveItem(def, false, "Incinerate");
+          RemoveItem(def, true, "Incinerate");
           break;
         case Ms.SECRET_POWER: //290
           SecretPower(def);
