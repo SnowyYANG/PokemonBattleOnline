@@ -25,19 +25,31 @@ namespace LightStudio.PokemonBattle.Data
     { get; internal set; }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly byte _index;
+    private
+#if !EDITING
+      readonly
+#endif
+      byte _index;
     public int Index
     { get { return _index; } }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly string _name;
+    private
+#if !EDITING
+      readonly
+#endif
+      string _name;
     public string EnglishName
     { get { return _name; } }
     public string Name
     { get { return _name == null ? null : DataService.DataString[_name]; } }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly byte _data;
+    private
+#if !EDITING
+      readonly
+#endif
+      byte _data;
     public PokemonFormData Data
     { get { return Type.GetData(_data); } }
 

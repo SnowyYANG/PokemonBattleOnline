@@ -90,16 +90,6 @@ namespace LightStudio.PokemonBattle.Data.Editor
     static void Main(string[] args)
     {
       RomData r = RomData.Load("..\\res\\Data\\rom.dat");
-      using (StreamReader sr = new StreamReader(Desktop + "evo.txt"))
-      {
-        r.evolutions = new Evolution[320];
-        for (int i = 0; i < 320; ++i)
-        {
-          var l = sr.ReadLine();
-          var nums = l.Split(',');
-          r.evolutions[i] = new Evolution(Convert.ToInt32(nums[0]), Convert.ToInt32(nums[1]));
-        }
-      }
       r.SaveDat("..\\res\\Data\\rom.dat");
     }
   }
