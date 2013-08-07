@@ -35,8 +35,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             break;
           case Ms.SELFDESTRUCT: //120
           case Ms.EXPLOSION: //153
-            if (aer.Controller.Board.Pokemons.Any((p) => p.RaiseAbility(As.DAMP))) atk.FailAll("FailSp", atk.Attacker.Id, atk.Move.Id);
-            break;
+            if (aer.Controller.Board.Pokemons.Any((p) => p.RaiseAbility(As.DAMP)))
+            {
+              atk.FailAll("FailSp", atk.Attacker.Id, atk.Move.Id);
+              return false;
+            }
+            return true;
           case Ms.REST: //156
             if (aer.Hp == aer.Pokemon.Hp.Origin)
             {

@@ -105,7 +105,7 @@ namespace PokemonBattleOnline.Data
                 pm.Nature = (PokemonNature)reader.ReadInt32();
                 //pm.Item = (Item)reader.ReadInt32();
                 int itemId = GetItemId(reader.ReadInt32());
-                if (itemId > 0 && (pm.Item == null || pm.Item.Id == 0)) pm.Item = GameDataService.Rom.GetItem(itemId);
+                if (itemId > 0) pm.Item = GameDataService.Rom.GetItem(itemId);
 
                 for (int i = 0; i < 4; i++)
                 {
@@ -149,14 +149,17 @@ namespace PokemonBattleOnline.Data
         {
             for (int i = 0; i < MOVE_STRING.Length; i++)
             {
-                if (move == MOVE_STRING[i]) return i + 1;
+                if (move == MOVE_STRING[i])
+                {
+                    return i + 1;
+                }
             }
             return 0;
         }
 
         private static PokemonData GetById(int identity)
         {
-            int[,] indexes = { { 387, 386, 1 }, { 388, 386, 2 }, { 389, 386, 3 }, { 497, 492, 1 }, { 498, 487, 1 }, { 499, 479, 1 }, { 500, 479, 2 }, { 501, 479, 3 }, { 502, 479, 4 }, { 503, 479, 5 } };
+            int[,] indexes = { { 387, 386, 1 }, { 388, 386, 2 }, { 389, 386, 3 }, { 497, 492, 1 }, { 498, 487, 1 }, { 500, 479, 2 }, { 501, 479, 3 }, { 502, 479, 4 }, { 503, 479, 5 } };
 
             int number = identity, form = 0;
             if (identity >= 390 && identity <= 496)

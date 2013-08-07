@@ -73,11 +73,6 @@ namespace PokemonBattleOnline.Game.Host
       if (tile.Pokemon == null && Controller.CanSendout(tile) && Controller.CanSendout(Controller.GetPlayer(tile).GetPokemon(sendoutIndex)))
       {
         tile.WillSendoutPokemonIndex = sendoutIndex;
-        if (singleSendout)
-        {
-          Controller.Sendout(tile, true);
-          ReportBuilder.AddHorizontalLine();
-        }
         return true;
       }
       else return Switch(tile.Pokemon, sendoutIndex);

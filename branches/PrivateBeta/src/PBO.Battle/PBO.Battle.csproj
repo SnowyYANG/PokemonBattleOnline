@@ -41,7 +41,7 @@
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ETV|AnyCPU'">
-    <OutputPath>bin\ETV\</OutputPath>
+    <OutputPath>..\..\build\dll\</OutputPath>
     <DefineConstants>
     </DefineConstants>
     <Optimize>true</Optimize>

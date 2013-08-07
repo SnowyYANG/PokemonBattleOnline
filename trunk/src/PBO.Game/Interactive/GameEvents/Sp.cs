@@ -42,6 +42,7 @@ namespace PokemonBattleOnline.Game.GameEvents
             }
           }
       }
+      AppendGameLog("br");
       Game.EndTurn();
     }
   }
@@ -76,6 +77,25 @@ namespace PokemonBattleOnline.Game.GameEvents
     protected override void Update()
     {
       AppendGameLog("----");
+    }
+  }
+
+  [DataContract(Name = "tt", Namespace = PBOMarks.PBO)]
+  internal class TimeTick : GameEvent
+  {
+    [DataMember]
+    int Seconds;
+
+    public TimeTick(int seconds)
+    {
+      Seconds = seconds;
+    }
+
+    protected override void Update()
+    {
+      if (Seconds < 60) AppendGameLog("timeticks", Seconds);
+      else if (Seconds % 60 == 0)  AppendGameLog("timetickm", Seconds);
+      else AppendGameLog("timetickms", Seconds / 60, Seconds % 60);
     }
   }
 }

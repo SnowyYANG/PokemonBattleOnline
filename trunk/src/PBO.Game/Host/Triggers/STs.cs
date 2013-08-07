@@ -38,7 +38,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     public static void SendingOut(PokemonProxy pm)
     {
-      pm.ResetMoves();
+      pm.Reset();
       var o = pm.OnboardPokemon;
       if (pm.State == PokemonState.SLP) o.SetCondition("SLP", pm.Tile.Field.HasCondition("Rest" + pm.Id) ? 3 : pm.Controller.GetRandomInt(2, 4));
       else

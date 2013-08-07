@@ -12,7 +12,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (state != AttachedState.SLP || !pm.Controller.GameSettings.SleepRule || pm.Pokemon.TeamId == by.Pokemon.TeamId) goto TRUE;
       var p = pm.Tile.Field.GetCondition<PokemonProxy>("RULE_SLP");
-      if (p == null || p.State != PokemonState.SLP && !p.OnboardPokemon.HasCondition("Yawn")) goto PREPARE;
+      if (p == null || p == pm || p.State != PokemonState.SLP && !p.OnboardPokemon.HasCondition("Yawn")) goto PREPARE;
       pm.AddReportPm("RULE_SLP");
       return false;
     PREPARE:

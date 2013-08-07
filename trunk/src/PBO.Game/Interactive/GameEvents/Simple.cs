@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using PokemonBattleOnline.Data;
 using PokemonBattleOnline.Game.Host;
 
 namespace PokemonBattleOnline.Game.GameEvents
@@ -16,7 +15,7 @@ namespace PokemonBattleOnline.Game.GameEvents
       if (o != null)
       {
         if (o is PokemonProxy) i = ((PokemonProxy)o).Id;
-        else if (o is GameElement) i = ((GameElement)o).Id;
+        else if (o is Data.GameElement) i = ((Data.GameElement)o).Id;
         else if (o is int) i = (int)o;
 #if DEBUG
         else if (o is Enum) s = o.ToString();

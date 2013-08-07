@@ -37,7 +37,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ETV|AnyCPU'">
-    <OutputPath>bin\ETV\</OutputPath>
+    <OutputPath>..\..\build\dll\</OutputPath>
     <DefineConstants>ETV</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>

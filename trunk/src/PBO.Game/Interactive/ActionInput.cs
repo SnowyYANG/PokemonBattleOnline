@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using PokemonBattleOnline.Tactic.DataModels;
 using PokemonBattleOnline.Game.Host;
 
 namespace PokemonBattleOnline.Game

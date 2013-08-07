@@ -50,7 +50,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ETV|AnyCPU'">
-    <OutputPath>bin\ETV\</OutputPath>
+    <OutputPath>..\..\build\</OutputPath>
     <DefineConstants>ETV</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>

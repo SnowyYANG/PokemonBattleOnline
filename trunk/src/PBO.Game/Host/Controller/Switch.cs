@@ -81,7 +81,7 @@ namespace PokemonBattleOnline.Game.Host
         {
           As.AttachUnnerve(Controller);
           pm.Debut();
-          As.AttachWeatherObserver(pm);
+          if (pm.Hp != 0) As.AttachWeatherObserver(pm);
           As.WeatherChanged(Controller);
         }
         return true;
