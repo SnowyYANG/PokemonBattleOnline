@@ -13,12 +13,12 @@ namespace PokemonBattleOnline.Data
 
         public static bool ValidateIv(this I6D iv)
         {
-            return !iv.Any((p) => p < 0 && p > 31);
+            return !iv.Any(p => p < 0 || p > 31);
         }
 
         public static bool ValidateEv(this I6D ev)
         {
-            return !ev.Any((p) => p < 0 && p > 255) && ev.Sum() <= 510;
+            return !ev.Any(p => p < 0 || p > 255) && ev.Sum() <= 510;
         }
 
         #endregion
@@ -78,7 +78,7 @@ namespace PokemonBattleOnline.Data
               a.Form == b.Form &&
               a.Gender == b.Gender &&
               a.Happiness == b.Happiness &&
-              a.ItemId == b.ItemId && 
+              a.ItemId == b.ItemId &&
               a.Lv == b.Lv &&
               a.Moves.SequenceEqual(b.Moves) &&
               a.Nature == b.Nature;
