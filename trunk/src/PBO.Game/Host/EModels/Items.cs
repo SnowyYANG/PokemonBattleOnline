@@ -432,7 +432,7 @@ namespace PokemonBattleOnline.Game.Host
                     break;
                 case STARF_BERRY:
                     {
-                        var ss = from StatType stat in StatTypeHelper.Type5D
+                        var ss = from StatType stat in StatTypeHelper.Type7D
                                  where pm.CanChangeLv7D(@by, stat, 2, false) != 0
                                  select stat;
                         int n = ss.Count();
