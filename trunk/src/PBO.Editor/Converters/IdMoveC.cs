@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Data;
 using System.Globalization;
-using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.PBO.Editor
 {

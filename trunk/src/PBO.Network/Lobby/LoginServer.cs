@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Collections.Concurrent;
 using System.Threading;
-using PokemonBattleOnline.Tactic.Network;
 
 namespace PokemonBattleOnline.Network.Lobby
 {
@@ -15,7 +14,7 @@ namespace PokemonBattleOnline.Network.Lobby
     private readonly Dictionary<string, LoginUser> NamedUsers;
     private volatile bool isDisposed;
 
-    public LoginServer(INetworkServer network, Server server)
+    public LoginServer(TcpServer network, Server server)
     {
       network.NewComingUser += OnNewUser;
       Server = server;
@@ -23,12 +22,12 @@ namespace PokemonBattleOnline.Network.Lobby
       Users = new ConcurrentDictionary<int, LoginUser>();
     }
 
-    private INetworkServer Network
+    private TcpServer Network
     { get { return Server.Network; } }
     private object UserLocker
     { get { return Server.UserLocker; } }
     
-    private void OnNewUser(INetworkUser user)
+    private void OnNewUser(TcpUser user)
     {
       if (isDisposed || !Users.TryAdd(user.Id, new LoginUser(user, this))) user.Dispose();
     }

@@ -54,6 +54,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\PlayerOutward.cs" />
@@ -61,117 +62,83 @@
     <Compile Include="Client\SimPokemon.cs" />
     <Compile Include="Client\Position.cs" />
     <Compile Include="Client\SimOnboardPokemon.cs" />
-    <Compile Include="GameService.cs" />
-    <Compile Include="Host\Controller\Input.cs" />
-    <Compile Include="Interactive\GameEvents\HealBell.cs" />
-    <Compile Include="Interactive\GameEvents\MentalHerb.cs" />
+    <Compile Include="Data\IDs.cs" />
+    <Compile Include="Data\Rom\BattleType.cs" />
+    <Compile Include="Data\Rom\GiftPokemon.cs" />
+    <Compile Include="Data\Rom\Item.cs" />
+    <Compile Include="Data\Rom\LearnList\LearnList.cs" />
+    <Compile Include="Data\Rom\LearnList\PokemonLearnList.cs" />
+    <Compile Include="Data\Rom\Move\MoveCategory.cs" />
+    <Compile Include="Data\Rom\Move\MoveInnerClass.cs" />
+    <Compile Include="Data\Rom\Move\MoveLv7DChange.cs" />
+    <Compile Include="Data\Rom\Move\MoveRange.cs" />
+    <Compile Include="Data\Rom\Move\MoveType.cs" />
+    <Compile Include="Data\Rom\Move\MoveTypeAdvancedFlags.cs" />
+    <Compile Include="Data\Rom\Pokemon\EggGroup.cs" />
+    <Compile Include="Data\Rom\Pokemon\PokemonForm.cs" />
+    <Compile Include="Data\Rom\Pokemon\PokemonFormData.cs" />
+    <Compile Include="Data\Rom\Pokemon\PokemonGender.cs" />
+    <Compile Include="Data\Rom\Pokemon\PokemonNature.cs" />
+    <Compile Include="Data\Rom\Pokemon\PokemonType.cs" />
+    <Compile Include="Data\Rom\RomData.cs" />
+    <Compile Include="Data\UserData\CollectionGroup.cs" />
+    <Compile Include="Data\UserData\Helper.cs" />
+    <Compile Include="Data\UserData\ITeamIO.cs" />
+    <Compile Include="Data\UserData\PokemonBT.cs" />
+    <Compile Include="Data\UserData\PokemonCollection.cs" />
+    <Compile Include="Data\UserData\PokemonData.cs" />
+    <Compile Include="Data\UserData\PokemonRecycler.cs" />
+    <Compile Include="Data\UserData\TeamHelper.cs" />
+    <Compile Include="Data\Utilities\IPokemonData.cs" />
+    <Compile Include="Data\Utilities\PokemonStatHelper.cs" />
+    <Compile Include="Data\Utilities\PokemonValidator.cs" />
+    <Compile Include="Data\Utilities\StatType.cs" />
+    <Compile Include="IGameSettings.cs" />
     <Compile Include="Interactive\GameEvents\Mimic.cs" />
-    <Compile Include="Interactive\GameEvents\PainSplit.cs" />
-    <Compile Include="Interactive\GameEvents\ReHurtBerry.cs" />
-    <Compile Include="Interactive\GameEvents\Rest.cs" />
-    <Compile Include="Host\Triggers\AbilityAttach.cs" />
-    <Compile Include="Host\Triggers\AbilityDetach.cs" />
-    <Compile Include="Host\EModels\Rules.cs" />
-    <Compile Include="Host\Triggers\AccuracyModifier.cs" />
-    <Compile Include="Host\Triggers\AModifier.cs" />
-    <Compile Include="Host\Triggers\HasEffect.cs" />
-    <Compile Include="Host\Triggers\MoveAct.cs" />
-    <Compile Include="Host\Triggers\MoveCalculateDamages.cs" />
-    <Compile Include="Host\Triggers\MoveCalculateType.cs" />
-    <Compile Include="Host\Triggers\CanAddState.cs" />
-    <Compile Include="Host\Triggers\CanImplement.cs" />
-    <Compile Include="Host\Triggers\Attacked.cs" />
-    <Compile Include="Host\Triggers\DamageModifier.cs" />
-    <Compile Include="Host\Triggers\DModifier.cs" />
-    <Compile Include="Host\Triggers\HpChanged.cs" />
-    <Compile Include="Host\Triggers\Lv7DChanging.cs" />
-    <Compile Include="Host\Triggers\MoveBasePower.cs" />
-    <Compile Include="Host\Triggers\MoveExecute.cs" />
-    <Compile Include="Host\Triggers\MoveImplementEffect.cs" />
-    <Compile Include="Host\Triggers\MoveInitAtkContext.cs" />
-    <Compile Include="Host\Triggers\MoveNotFail.cs" />
-    <Compile Include="Host\Triggers\MovePostEffect.cs" />
-    <Compile Include="Host\Triggers\PowerModifier.cs" />
-    <Compile Include="Host\Triggers\SpeedRevise.cs" />
-    <Compile Include="Host\Triggers\StateAdded.cs" />
-    <Compile Include="Host\Triggers\STs.cs" />
-    <Compile Include="Host\Triggers\CanExecute.cs" />
-    <Compile Include="Host\Triggers\EndTurn.cs" />
-    <Compile Include="Host\GameContext.cs" />
-    <Compile Include="Host\InitingGame.cs" />
-    <Compile Include="Host\Models\Player.cs" />
-    <Compile Include="Host\Models\Pokemon.cs" />
-    <Compile Include="Host\Models\Team.cs" />
-    <Compile Include="Interactive\GameEvents\GetItem.cs" />
-    <Compile Include="Interactive\GameEvents\HLLD.cs" />
+    <Compile Include="Interactive\GameEvents\SetItem.cs" />
     <Compile Include="Interactive\GameEvents\MoveHurt.cs" />
-    <Compile Include="Interactive\GameEvents\PPChange.cs" />
+    <Compile Include="Interactive\GameEvents\SetPP.cs" />
     <Compile Include="Interactive\GameEvents\Sp.cs" />
-    <Compile Include="Interactive\InputType.cs" />
-    <Compile Include="Host\EModels\Modifier.cs" />
-    <Compile Include="Host\IGameSettings.cs" />
     <Compile Include="Interactive\GameEvents\Substitute.cs" />
-    <Compile Include="Interactive\GameEvents\UseMove.cs" />
-    <Compile Include="Interactive\GameEvents\WeatherChange.cs" />
-    <Compile Include="Host\Models\Condition.cs" />
-    <Compile Include="Host\EModels\BattleContext.cs" />
-    <Compile Include="Host\EModels\MoveE.cs" />
-    <Compile Include="Host\EModels\Abilities.cs" />
-    <Compile Include="Host\EModels\Items.cs" />
-    <Compile Include="Host\EModels\Moves.cs" />
-    <Compile Include="Host\Controller\ControllerComponent.cs" />
-    <Compile Include="Host\Controller\Turn.cs" />
-    <Compile Include="Host\PokemonAction.cs" />
-    <Compile Include="Host\Controller\Controller.cs" />
-    <Compile Include="Host\MoveProxy.cs" />
-    <Compile Include="Host\Controller\Comparer.cs" />
-    <Compile Include="Host\PokemonProxy.cs" />
-    <Compile Include="Host\Controller\Switch.cs" />
+    <Compile Include="Interactive\GameEvents\ShowWeather.cs" />
     <Compile Include="GameMode.cs" />
-    <Compile Include="Host\IGame.cs" />
     <Compile Include="Interactive\GameEvent.cs" />
-    <Compile Include="Interactive\GameEvents\Ability.cs" />
     <Compile Include="Interactive\GameEvents\PropertyChange.cs" />
-    <Compile Include="Interactive\GameEvents\Simple.cs" />
+    <Compile Include="Interactive\GameEvents\ShowLog.cs" />
     <Compile Include="Interactive\GameEvents\Switch.cs" />
-    <Compile Include="Interactive\GameLogs.cs" />
-    <Compile Include="Interactive\GameLogText.cs" />
-    <Compile Include="Host\Controller\ReportBuilder.cs" />
-    <Compile Include="Interactive\ReportFragment.cs" />
+    <Compile Include="GameLogs.cs" />
+    <Compile Include="GameLogText.cs" />
+    <Compile Include="ReportFragment.cs" />
     <Compile Include="Client\SimGame.cs" />
     <Compile Include="Interactive\ActionInput.cs" />
     <Compile Include="Client\SimMove.cs" />
-    <Compile Include="Host\Models\Board.cs" />
     <Compile Include="Interactive\InputRequest.cs" />
     <Compile Include="Client\IPlayerController.cs" />
-    <Compile Include="Host\Models\ConditionalObject.cs" />
     <Compile Include="Models\CoordY.cs" />
-    <Compile Include="Host\Models\Field.cs" />
     <Compile Include="Models\Move.cs" />
-    <Compile Include="Host\Models\OnboardPokemon.cs" />
     <Compile Include="Models\PokemonState.cs" />
     <Compile Include="Models\Terrain.cs" />
-    <Compile Include="Host\Models\Tile.cs" />
     <Compile Include="Client\BoardOutward.cs" />
     <Compile Include="Client\GameOutward.cs" />
     <Compile Include="Client\TeamOutward.cs" />
     <Compile Include="Client\PokemonOutward.cs" />
     <Compile Include="Models\Weather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\Simple6D.cs" />
+    <Compile Include="Data\GameString.cs" />
+    <Compile Include="Data\Rom\ZipData.cs" />
+    <Compile Include="Data\Rom\LearnList\GenLearnList.cs" />
+    <Compile Include="Data\Rom\Move\MoveAttachment.cs" />
+    <Compile Include="Data\Rom\Pokemon\Evolution.cs" />
+    <Compile Include="Data\UserData\UserData.cs" />
+    <Compile Include="Data\Utilities\6D.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PBO.Data\PBO.Data.csproj">
-      <Project>{2bd81d18-43cb-420a-b293-469e110473cc}</Project>
-      <Name>PBO.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tactic\Tactic.csproj">
-      <Project>{EE2C451E-A61E-4634-B382-5298982E060C}</Project>
-      <Name>Tactic</Name>
+    <ProjectReference Include="..\PokemonBattleOnline\PokemonBattleOnline.csproj">
+      <Project>{ee2c451e-a61e-4634-b382-5298982e060c}</Project>
+      <Name>PokemonBattleOnline</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

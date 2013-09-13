@@ -41,18 +41,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\build\dll\Microsoft.Expression.Interactions.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\build\dll\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -94,19 +86,7 @@
     <Compile Include="Helper.cs" />
     <Compile Include="Controls\LocalizedProperty.cs" />
     <Compile Include="Controls\SelectAllWhenVisible.cs" />
-    <Compile Include="Interactivity\AdornerBehavior.cs" />
-    <Compile Include="Interactivity\AdornerProxy.cs" />
-    <Compile Include="Interactivity\BringToFrontAction.cs" />
-    <Compile Include="Interactivity\DisableWhenNoItem.cs" />
-    <Compile Include="Interactivity\DragAdorner.cs" />
-    <Compile Include="Interactivity\DragDropState.cs" />
-    <Compile Include="Interactivity\DropHighlightAdorner.cs" />
-    <Compile Include="Interactivity\DropInsertionAdorner.cs" />
-    <Compile Include="Interactivity\FloatingBehavior.cs" />
-    <Compile Include="Interactivity\ResetValueOnBindingError.cs" />
-    <Compile Include="Interactivity\SortOnHeaderClick.cs" />
-    <Compile Include="Interactivity\SyncSelectionAction.cs" />
-    <Compile Include="Interactivity\UIElementAdorner.cs" />
+    <Compile Include="ImageService.cs" />
     <Compile Include="Labels\Labels.cs" />
     <Compile Include="ShowMessageBox.cs" />
     <Compile Include="Controls\ClearableComboBox.cs" />
@@ -158,10 +138,6 @@
     <Page Include="Labels\MultipliedValue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Buttons\Colorful.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -293,11 +269,6 @@
     <Resource Include="images\Labels\bPSN.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PBO.Data\PBO.Data.csproj">
-      <Project>{2BD81D18-43CB-420A-B293-469E110473CC}</Project>
-      <Name>PBO.Data</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\PBO.Game\PBO.Game.csproj">
       <Project>{5F1D7698-AD1E-462A-AEED-063BCB80DF89}</Project>
       <Name>PBO.Game</Name>
@@ -308,9 +279,9 @@
       <Name>PBO.Network</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Tactic\Tactic.csproj">
+    <ProjectReference Include="..\PokemonBattleOnline\PokemonBattleOnline.csproj">
       <Project>{EE2C451E-A61E-4634-B382-5298982E060C}</Project>
-      <Name>Tactic</Name>
+      <Name>PokemonBattleOnline</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>

@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
-using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.PBO.Editor
 {

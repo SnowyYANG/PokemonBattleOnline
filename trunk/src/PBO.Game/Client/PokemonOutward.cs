@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using System.ComponentModel;
-using PokemonBattleOnline.Data;
-using PokemonBattleOnline.Game.Host;
 
 namespace PokemonBattleOnline.Game
 {
@@ -14,11 +12,6 @@ namespace PokemonBattleOnline.Game
     void Faint();
     void Hurt();
     void PositionChanged();
-    void UseItem(); //褐色光圈
-    void UseMove(int moveType);
-    void HpRecovered(); //绿色光上升
-    void Lv5DUp(); //绿色上升
-    void Lv5DDown(); //下降
     void SubstituteAppear();
     void SubstituteDisappear();
     void ImageChanged(); //幻影 变身
@@ -39,41 +32,6 @@ namespace PokemonBattleOnline.Game
     public readonly string Chatter;
     [DataMember(Name = "a")]
     internal readonly int Id;
-    [DataMember(Name = "b")]
-    private int number;
-    [DataMember(EmitDefaultValue = false)]
-    private int form;
-
-    #region Host
-    internal PokemonOutward(PokemonProxy pm)
-    {
-      ownerId = pm.Pokemon.Owner.Id;
-      Id = pm.Id;
-      _position = new Position(pm.Pokemon.TeamId, pm.OnboardPokemon.X, pm.OnboardPokemon.CoordY);
-      State = pm.State;
-      IsSubstitute = pm.OnboardPokemon.HasCondition("Substitute");
-      Hp = new PairValue(pm.Pokemon.Hp.Origin, pm.Pokemon.Hp.Value);
-      Lv = pm.Pokemon.Lv;
-
-      Pokemon o = pm.OnboardPokemon.GetCondition<Pokemon>("Illusion");
-      if (o == null)
-      {
-        Name = pm.Pokemon.Name;
-        Form = pm.OnboardPokemon.Form;
-        Gender = pm.Pokemon.Gender;//即使对战画面中不显示性别，实际性别也与变身对象一致，可以被着迷。 
-        Chatter = pm.Pokemon.Chatter;
-        Shiny = pm.Pokemon.Shiny;
-      }
-      else
-      {
-        Name = o.Name;
-        Form = o.Form;
-        Gender = o.Gender;
-        Chatter = o.Chatter;
-        Shiny = o.Shiny;
-      }
-    }
-    #endregion
 
     [DataMember(Name = "c")]
     private int ownerId;
@@ -95,12 +53,16 @@ namespace PokemonBattleOnline.Game
       }
     }
 
+    [DataMember(Name = "b")]
+    private int number;
+    [DataMember(EmitDefaultValue = false)]
+    private int form;
     public PokemonForm Form
     {
-      get { return GameDataService.GetPokemon(number, form); }
-      private set
+      get { return RomData.GetPokemon(number, form); }
+      set
       {
-        number = value.Type.Number;
+        number = value.Species.Number;
         form = value.Index;
       }
     }
@@ -110,7 +72,7 @@ namespace PokemonBattleOnline.Game
     public PokemonGender Gender
     {
       get { return _gender; }
-      internal set
+      set
       {
         if (_gender != value)
         {
@@ -139,7 +101,7 @@ namespace PokemonBattleOnline.Game
     
     [DataMember(EmitDefaultValue = false)]
     public bool IsSubstitute
-    { get; internal set; }
+    { get; set; }
     
     [DataMember]
     public PairValue Hp
@@ -150,7 +112,7 @@ namespace PokemonBattleOnline.Game
     public int Lv
     {
       get { return 100 - _lv; }
-      private set { _lv = 100 - value; }
+      set { _lv = 100 - value; }
     }
     
     [DataMember]
@@ -194,42 +156,6 @@ namespace PokemonBattleOnline.Game
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
-    public void UseItem()
-    {
-      listener.UseItem();
-    }
-    /// <summary>
-    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
-    /// </summary>
-    public void UseMove(int moveType)
-    {
-      listener.UseMove(moveType);
-    }
-    /// <summary>
-    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
-    /// </summary>
-    public void RecoverHp(int currentHp)
-    {
-      Hp.Value = currentHp;
-      listener.HpRecovered();
-    }
-    /// <summary>
-    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
-    /// </summary>
-    public void IncreaseLv5D()
-    {
-      listener.Lv5DUp();
-    }
-    /// <summary>
-    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
-    /// </summary>
-    public void DecreaseLv5D()
-    {
-      listener.Lv5DDown();
-    }
-    /// <summary>
-    /// PokemonOutward是可以序列化的，主机端不要调用这些方法
-    /// </summary>
     public void ShowSubstitute()
     {
       listener.SubstituteAppear();
@@ -259,32 +185,32 @@ namespace PokemonBattleOnline.Game
     }
     #endregion
 
-    public string GetProperty(string propertyName)
-    {
-      string r = null;
-      switch (propertyName)
-      {
-        case "Name":
-          r = Name;
-          break;
-        case "Lv":
-          r = Lv.ToString();
-          break;
-        case "Type":
-          r = Form.Type.GetLocalizedName();
-          break;
-        case "State":
-          r = State.GetLocalizedName();
-          break;
-        case "Owner.Name":
-          r = Owner.Name;
-          break;
-        case "Chatter":
-          r = Chatter;
-          break;
-      }
-      return r;
-    }
+    //public string GetProperty(string propertyName)
+    //{
+    //  string r = null;
+    //  switch (propertyName)
+    //  {
+    //    case "Name":
+    //      r = Name;
+    //      break;
+    //    case "Lv":
+    //      r = Lv.ToString();
+    //      break;
+    //    case "Type":
+    //      r = Form.Species.GetLocalizedName();
+    //      break;
+    //    case "State":
+    //      r = State.GetLocalizedName();
+    //      break;
+    //    case "Owner.Name":
+    //      r = Owner.Name;
+    //      break;
+    //    case "Chatter":
+    //      r = Chatter;
+    //      break;
+    //  }
+    //  return r;
+    //}
     public void Init(GameOutward game)
     {
       team = game.Teams[Position.Team];
@@ -307,9 +233,9 @@ namespace PokemonBattleOnline.Game
     }
     #endregion
 
-    public override string ToString()
-    {
-      return string.Format("{0}(Lv.{1} {2})", Name, Lv, Form.Type.GetLocalizedName());
-    }
+    //public override string ToString()
+    //{
+    //  return string.Format("{0}(Lv.{1} {2})", Name, Lv, Form.Species.GetLocalizedName());
+    //}
   }
 }

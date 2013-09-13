@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using System.Globalization;
-using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.PBO.Converters
 {

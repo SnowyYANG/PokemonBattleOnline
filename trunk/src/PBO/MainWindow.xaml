@@ -1,7 +1,7 @@
 ﻿<Window x:Class="PokemonBattleOnline.PBO.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:pm="clr-namespace:PokemonBattleOnline.Data;assembly=PBO.Data"
+        xmlns:pm="clr-namespace:PokemonBattleOnline.Game;assembly=PBO.Data"
         xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.UIElements;assembly=PBO.UIElements"
         xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor;assembly=PBO.Editor"
         xmlns:l="clr-namespace:PokemonBattleOnline.PBO.Lobby;assembly=PBO.Lobby"

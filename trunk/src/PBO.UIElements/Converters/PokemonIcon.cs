@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.PBO.Converters
@@ -25,11 +25,11 @@ namespace PokemonBattleOnline.PBO.Converters
       return GameDataService.GetPokemonIcon(value.Form, value.Gender);
     }
   }
-  public class PokemonTypeIcon : Converter<PokemonType>
+  public class PokemonTypeIcon : Converter<PokemonSpecies>
   {
     public static readonly PokemonTypeIcon C = new PokemonTypeIcon();
     
-    protected override object Convert(PokemonType value)
+    protected override object Convert(PokemonSpecies value)
     {
       return GameDataService.GetPokemonIcon(value.GetForm(0), value.Genders.First());
     }
@@ -40,7 +40,7 @@ namespace PokemonBattleOnline.PBO.Converters
 
     protected override object Convert(PokemonForm value)
     {
-      return GameDataService.GetPokemonIcon(value, value.Type.Genders.First());
+      return GameDataService.GetPokemonIcon(value, value.Species.Genders.First());
     }
   }
 }

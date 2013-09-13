@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Test
@@ -123,9 +123,6 @@ namespace PokemonBattleOnline.Test
       if (ShowLog) AddText(t);
     }
     void IGameOutwardEvents.TurnEnd()
-    {
-    }
-    void IGameOutwardEvents.GameEnd()
     {
     }
     #endregion

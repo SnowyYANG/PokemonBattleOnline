@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using PokemonBattleOnline.Data;
-using PokemonBattleOnline.Game.Host;
 
 namespace PokemonBattleOnline.Game.GameEvents
 {
   [DataContract(Name = "e0", Namespace = PBOMarks.PBO)]
-  internal class BeginTurn : GameEvent
+  public class BeginTurn : GameEvent
   {
     protected override void Update()
     {
@@ -24,7 +22,7 @@ namespace PokemonBattleOnline.Game.GameEvents
   }
 
   [DataContract(Name = "e1", Namespace = PBOMarks.PBO)]
-  internal class EndTurn : GameEvent
+  public class EndTurn : GameEvent
   {
     protected override void Update()
     {
@@ -47,32 +45,8 @@ namespace PokemonBattleOnline.Game.GameEvents
     }
   }
   
-  [DataContract(Namespace = PBOMarks.PBO)]
-  internal class SelectMoveFail : GameEvent
-  {
-    [DataMember]
-    public readonly string Key;
-
-    [DataMember(EmitDefaultValue = false)]
-    public readonly int Move; //知道怎么区分Block和Only了吧...
-
-    public SelectMoveFail(string key, int move)
-    {
-      Key = key;
-      Move = move;
-    }
-
-    protected override void Update()
-    {
-      var log = GetGameLog(Key);
-      ((LogText)log).HiddenAfterBattle = true;
-      log.SetData(Move);
-      Game.AppendGameLog(log);
-    }
-  }
-
   [DataContract(Name = "l", Namespace = PBOMarks.PBO)]
-  internal class HorizontalLine : GameEvent
+  public class HorizontalLine : GameEvent
   {
     protected override void Update()
     {
@@ -81,7 +55,7 @@ namespace PokemonBattleOnline.Game.GameEvents
   }
 
   [DataContract(Name = "tt", Namespace = PBOMarks.PBO)]
-  internal class TimeTick : GameEvent
+  public class TimeTick : GameEvent
   {
     [DataMember]
     int Seconds;

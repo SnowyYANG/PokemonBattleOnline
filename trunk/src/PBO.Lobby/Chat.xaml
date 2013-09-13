@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="PokemonBattleOnline.PBO.Lobby.Chat"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:pm="clr-namespace:PokemonBattleOnline.Data;assembly=PBO.Data"
+             xmlns:pm="clr-namespace:PokemonBattleOnline.Game;assembly=PBO.Data"
              xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.UIElements;assembly=PBO.UIElements">
     <Grid>
         <TabControl x:Name="whom" Margin="0,0,0,22" Padding="0">

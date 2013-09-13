@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using PokemonBattleOnline.PBO.UIElements.Interactivity;
-using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.PBO.Editor
 {

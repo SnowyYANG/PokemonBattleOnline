@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using PokemonBattleOnline.Data;
 
 namespace PokemonBattleOnline.Game
 {
@@ -12,8 +11,6 @@ namespace PokemonBattleOnline.Game
   {
     void PokemonSentout(int team, int x);
     void WeatherChanged();
-    void ShowAbility(PokemonOutward pm, Ability ability); //粉色条
-    void AbilityChanged(PokemonOutward pm, Ability from, Ability to); //粉色条
   }
 
   public class BoardOutward
@@ -79,14 +76,6 @@ namespace PokemonBattleOnline.Game
     public void WeatherChanged()
     {
       listener.WeatherChanged();
-    }
-    public void ShowAbility(PokemonOutward pokemon, Ability ability)
-    {
-      listener.ShowAbility(pokemon, ability);
-    }
-    public void AbilityChanged(PokemonOutward pokemon, Ability from, Ability to)
-    {
-      listener.AbilityChanged(pokemon, from, to);
     }
     #endregion
   }

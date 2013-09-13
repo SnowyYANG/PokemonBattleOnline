@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.PBO.UIElements
 {

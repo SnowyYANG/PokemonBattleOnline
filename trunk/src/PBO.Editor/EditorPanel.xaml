@@ -5,7 +5,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              xmlns:li="clr-namespace:PokemonBattleOnline.PBO.UIElements.Interactivity;assembly=PBO.UIElements"
-             xmlns:pm="clr-namespace:PokemonBattleOnline.Data;assembly=PBO.Data"
+             xmlns:pm="clr-namespace:PokemonBattleOnline.Game;assembly=PBO.Data"
 		     xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.UIElements;assembly=PBO.UIElements"
              xmlns:local="clr-namespace:PokemonBattleOnline.PBO.Editor"
              MinHeight="400" MinWidth="900" Background="#FF282828">

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net;
-using PokemonBattleOnline.Tactic.Network;
 using PokemonBattleOnline.Network.Lobby;
 
 namespace PokemonBattleOnline.Network

@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Markup;
 using System.Globalization;
 using PokemonBattleOnline.Tactic.Globalization;
-using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 using PokemonBattleOnline.Network;
 
 namespace PokemonBattleOnline.PBO

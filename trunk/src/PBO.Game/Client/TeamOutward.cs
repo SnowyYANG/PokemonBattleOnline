@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using System.ComponentModel;
-using PokemonBattleOnline.Game.Host;
 
 namespace PokemonBattleOnline.Game
 {
@@ -21,16 +20,9 @@ namespace PokemonBattleOnline.Game
     [DataMember]
     private readonly byte[] balls;
 
-    internal TeamOutward(IEnumerable<Player> players, int pokemonsPerPlayer)
+    public TeamOutward(int players, int pokemonsPerPlayer)
     {
-      balls = new byte[pokemonsPerPlayer * players.Count()];
-      int baseI = 0;
-      foreach (var p in players)
-      {
-        int i = baseI;
-        foreach (var pm in p.Pokemons) this[i++] = pm.Hp.Value == 0 ? BallState.Faint : pm.State == PokemonState.Normal ? BallState.Normal : BallState.Abnormal;
-        baseI += pokemonsPerPlayer;
-      }
+      balls = new byte[players * pokemonsPerPlayer];
     }
 
     public BallState this[int index]

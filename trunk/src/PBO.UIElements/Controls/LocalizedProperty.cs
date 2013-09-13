@@ -7,7 +7,7 @@ using System.Windows.Data;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 using System.ComponentModel;
-using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 using PokemonBattleOnline.Tactic.Globalization;
 
 namespace PokemonBattleOnline.PBO.UIElements

@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:pm="clr-namespace:PokemonBattleOnline.Data;assembly=PBO.Data">
+                    xmlns:pm="clr-namespace:PokemonBattleOnline.Game;assembly=PBO.Data">
     <Style x:Key="XButton" TargetType="Button">
         <Setter Property="Content" Value="×"/>
         <Setter Property="Background" Value="Red"/>

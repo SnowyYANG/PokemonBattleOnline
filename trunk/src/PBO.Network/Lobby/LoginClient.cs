@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using PokemonBattleOnline.Tactic.Network;
 
 namespace PokemonBattleOnline.Network.Lobby
 {
@@ -43,8 +42,8 @@ namespace PokemonBattleOnline.Network.Lobby
       else ClientFactory.TryTcpConnect(Server, Port, TcpConnectCallback);
     }
     
-    private INetworkClient Network;
-    private void TcpConnectCallback(INetworkClient client)
+    private TcpClient Network;
+    private void TcpConnectCallback(TcpClient client)
     {
       if (client == null) OnLoginFailed(Disconnected);
       else
@@ -52,7 +51,7 @@ namespace PokemonBattleOnline.Network.Lobby
         TimeBomb.Change(PBOMarks.TIMEOUT, Timeout.Infinite);
         Network = client;
         Network.Listener = this;
-        Network.Send(PBOMarks.VERSION);
+        Network.Send(PBOMarks.VERSION.ToPack());
       }
     }
     private void OnLoginFailed(Action raiseEvent)
@@ -71,7 +70,7 @@ namespace PokemonBattleOnline.Network.Lobby
           if (pack.IsEmpty())
           {
             state = 1;
-            Network.Send(Name);
+            Network.Send(Name.ToPack());
           }
           else if (pack.ToByte() == 'f') OnLoginFailed(Full); //实际上这条消息在version发送前就会收到
           else OnLoginFailed(BadVersion);
@@ -80,7 +79,7 @@ namespace PokemonBattleOnline.Network.Lobby
           if (pack.IsEmpty())
           {
             state = 2;
-            Network.Send(Avatar);
+            Network.Send(Avatar.ToPack());
           }
           else OnLoginFailed(BadName);
           break;

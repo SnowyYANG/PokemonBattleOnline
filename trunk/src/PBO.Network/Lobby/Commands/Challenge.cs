@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 using GameInitSettings = PokemonBattleOnline.Network.Room.GameInitSettings;
 
 namespace PokemonBattleOnline.Network.Lobby.Commands

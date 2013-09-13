@@ -6,7 +6,6 @@ using System.Threading;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.IO.Compression;
-using PokemonBattleOnline.Tactic.Network;
 using PokemonBattleOnline.Network.Lobby;
 using PokemonBattleOnline.Network.Room;
 
@@ -24,14 +23,14 @@ namespace PokemonBattleOnline.Network
   {
     private static void OnKeepAlive(object state)
     {
-      ((INetworkClient)state).SendEmpty();
+      ((TcpClient)state).Send(PackHelper.EMPTYPACK);
     }
 
-    protected readonly INetworkClient Network;
+    protected readonly TcpClient Network;
     private readonly ConcurrentDictionary<int, User> Users;
     private readonly Timer KeepAlive;
     
-    internal Client(INetworkClient network, ClientInitInfo init)
+    internal Client(TcpClient network, ClientInitInfo init)
     {
       Network = network;
       network.Listener = this;

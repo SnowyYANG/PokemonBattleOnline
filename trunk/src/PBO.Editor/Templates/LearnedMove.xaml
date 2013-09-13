@@ -3,7 +3,7 @@
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
 					xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.UIElements;assembly=PBO.UIElements"
-                    xmlns:pm="clr-namespace:PokemonBattleOnline.Data;assembly=PBO.Data"
+                    xmlns:pm="clr-namespace:PokemonBattleOnline.Game;assembly=PBO.Data"
 					xmlns:local="clr-namespace:PokemonBattleOnline.PBO.Editor">
     <DataTemplate x:Key="LearnedMove">
         <Grid Name="grid" Width="136" Height="34" ToolTip="{Binding Move.Description}">

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.Threading;
-using PokemonBattleOnline.Tactic.Network;
 
 namespace PokemonBattleOnline.Network.Lobby
 {

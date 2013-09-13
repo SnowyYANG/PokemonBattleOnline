@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using System.Threading;
 using System.IO;
 using PokemonBattleOnline.Tactic.DataModels;
-using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.PBO.Battle

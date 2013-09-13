@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Windows.Threading;
 using PokemonBattleOnline.Tactic.Network;
-using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 using PokemonBattleOnline.Game;
 using PokemonBattleOnline.Network;
 using PokemonBattleOnline.Network.Room;

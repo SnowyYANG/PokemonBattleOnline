@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
-using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Game
 {
@@ -13,7 +13,7 @@ namespace PokemonBattleOnline.Game
   public interface IGameOutwardEvents
   {
     void TurnEnd();
-    void GameLogAppend(IText t);
+    void GameLogAppend(LogText t);
   }
   public class GameOutward : IFormatProvider, ICustomFormatter
   {
@@ -57,57 +57,55 @@ namespace PokemonBattleOnline.Game
     }
     public void Update(ReportFragment fragment)
     {
-      if (fragment.Teams != null)
-        UIDispatcher.Invoke(() =>
-          {
-            {
-              AppendGameLog(GameHeader.I);
-              var t = GameService.Logs["GameMode"].Clone(this);
-              t.SetData(GameMode.Single);
-              AppendGameLog(t);
-              t = GameService.Logs["GameRule"].Clone(this);
-              t.SetData("催眠条款");
-              AppendGameLog(t);
-            }
-            if (fragment.TurnNumber >= 0) AppendGameLog(GameService.Logs["GameContinue"]);
-            TurnNumber = fragment.TurnNumber;
-            for (int t = 0; t < Settings.Mode.TeamCount(); t++)
-            {
-              Teams[t] = fragment.Teams[t];
-              for (int x = 0; x < Settings.Mode.XBound(); x++) Board[t, x] = fragment[t, x];
-              Board.Weather = fragment.Weather;
-            }
-            LeapTurn();
-          });
-      foreach (GameEvent e in fragment.Events)
-      {
-        UIDispatcher.Invoke((Action<GameOutward>)e.Update, this);
-        System.Threading.Thread.Sleep(e.Sleep);
-      }
-      int team0 = Teams[0].AliveCount;
-      int team1 = Teams[1].AliveCount;
-      if (team0 == 0 || team1 == 0)
-      {
-        IText text;
-        if (team0 == 0 && team1 == 0)
-        {
-          text = GameService.Logs["GameResultTie"].Clone(this);
-          text.SetData(0, 1);
-        }
-        else
-        {
-          text = GameService.Logs["GameResult"].Clone(this);
-          int winer = team0 == 0 ? 1 : 0;
-          text.SetData(winer, team0, team1);
-        }
-        UIDispatcher.Invoke(() =>
-          {
-            AppendGameLog(text);
-            GameEnd();
-          });
-      }
+      throw new NotImplementedException();
+      //if (fragment.Teams != null)
+      //  UIDispatcher.Invoke(() =>
+      //    {
+      //      {
+      //        AppendGameLog(GameHeader.I);
+      //        var t = GameService.Logs["GameMode"].Clone(this);
+      //        t.SetData(GameMode.Single);
+      //        AppendGameLog(t);
+      //        t = GameService.Logs["GameRule"].Clone(this);
+      //        t.SetData("催眠条款");
+      //        AppendGameLog(t);
+      //      }
+      //      if (fragment.TurnNumber >= 0) AppendGameLog(GameService.Logs["GameContinue"]);
+      //      TurnNumber = fragment.TurnNumber;
+      //      for (int t = 0; t < Settings.Mode.TeamCount(); t++)
+      //      {
+      //        Teams[t] = fragment.Teams[t];
+      //        for (int x = 0; x < Settings.Mode.XBound(); x++) Board[t, x] = fragment[t, x];
+      //        Board.Weather = fragment.Weather;
+      //      }
+      //      LeapTurn();
+      //    });
+      //foreach (GameEvent e in fragment.Events)
+      //  UIDispatcher.Invoke((Action<GameOutward>)e.Update, this);
+      //int team0 = Teams[0].AliveCount;
+      //int team1 = Teams[1].AliveCount;
+      //if (team0 == 0 || team1 == 0)
+      //{
+      //  LogText text;
+      //  if (team0 == 0 && team1 == 0)
+      //  {
+      //    text = GameService.Logs["GameResultTie"].Clone(this);
+      //    text.SetData(0, 1);
+      //  }
+      //  else
+      //  {
+      //    text = GameService.Logs["GameResult"].Clone(this);
+      //    int winer = team0 == 0 ? 1 : 0;
+      //    text.SetData(winer, team0, team1);
+      //  }
+      //  UIDispatcher.Invoke(() =>
+      //    {
+      //      AppendGameLog(text);
+      //      GameEnd();
+      //    });
+      //}
     }
-    public void AppendGameLog(IText text)
+    public void AppendGameLog(LogText text)
     {
       foreach (var l in listeners) l.GameLogAppend(text);
     }
@@ -128,43 +126,43 @@ namespace PokemonBattleOnline.Game
     string ICustomFormatter.Format(string format, object arg, IFormatProvider formatProvider)
     {
       string r = null;
-      if (arg != null)
-      {
-        if (format == "e") r = DataService.String[arg.ToString()];
-        else if (arg is int)
-        {
-          int id = (int)arg;
-          switch (format)
-          {
-            case "p":
-              {
-                var pm = GetPokemon(id);
-                if (pm != null) r = string.Format(this, DataService.String["{0}'s {1}"], pm.Owner.Name, pm.Name);
-              }
-              break;
-            case "m":
-              r = GameDataService.GetMove(id).GetLocalizedName();
-              break;
-            case "a":
-              r = GameDataService.GetAbility(id).GetLocalizedName();
-              break;
-            case "i":
-              r = GameDataService.GetItem(id).GetLocalizedName();
-              break;
-            case "t":
-              r = teams[id];
-              break;
-            default:
-              if (format != null && format.StartsWith("pm."))
-              {
-                var pm = GetPokemon(id);
-                r = pm == null ? DataService.String["<error>"] : pm.GetProperty(format.Substring(3));
-              }
-              break;
-          }//switch
-        }
-        if (r == null) r = arg.ToString();
-      }// if (arg != null
+      //if (arg != null)
+      //{
+      //  if (format == "e") r = DataService.String[arg.ToString()];
+      //  else if (arg is int)
+      //  {
+      //    int id = (int)arg;
+      //    switch (format)
+      //    {
+      //      case "p":
+      //        {
+      //          var pm = GetPokemon(id);
+      //          if (pm != null) r = string.Format(this, DataService.String["{0}'s {1}"], pm.Owner.Name, pm.Name);
+      //        }
+      //        break;
+      //      case "m":
+      //        r = GameDataService.GetMove(id).GetLocalizedName();
+      //        break;
+      //      case "a":
+      //        r = GameDataService.GetAbility(id).GetLocalizedName();
+      //        break;
+      //      case "i":
+      //        r = GameDataService.GetItem(id).GetLocalizedName();
+      //        break;
+      //      case "t":
+      //        r = teams[id];
+      //        break;
+      //      default:
+      //        if (format != null && format.StartsWith("pm."))
+      //        {
+      //          var pm = GetPokemon(id);
+      //          r = pm == null ? DataService.String["<error>"] : pm.GetProperty(format.Substring(3));
+      //        }
+      //        break;
+      //    }//switch
+      //  }
+      //  if (r == null) r = arg.ToString();
+      //}// if (arg != null
       return r;
     }
 

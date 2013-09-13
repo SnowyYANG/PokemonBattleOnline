@@ -10,7 +10,7 @@ using System.Runtime.Serialization;
 using PokemonBattleOnline.Tactic.DataModels;
 using PokemonBattleOnline.Tactic;
 
-namespace PokemonBattleOnline.Data.Editor
+namespace PokemonBattleOnline.Game.Editor
 {
   class Program
   {

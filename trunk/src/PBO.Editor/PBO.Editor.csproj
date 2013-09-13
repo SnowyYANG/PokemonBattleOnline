@@ -165,11 +165,6 @@
       <Name>PBO.UIElements</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\PBO.Data\PBO.Data.csproj">
-      <Project>{2BD81D18-43CB-420A-B293-469E110473CC}</Project>
-      <Name>PBO.Data</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\Tactic\Tactic.csproj">
       <Project>{EE2C451E-A61E-4634-B382-5298982E060C}</Project>
       <Name>Tactic</Name>

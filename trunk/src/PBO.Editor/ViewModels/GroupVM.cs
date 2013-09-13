@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using Microsoft.Win32;
-using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 using PokemonBattleOnline.PBO.UIElements;
 
 namespace PokemonBattleOnline.PBO.Editor

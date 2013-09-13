@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Game
 {
@@ -32,7 +32,7 @@ namespace PokemonBattleOnline.Game
     internal void ChangeMoves(int[] moves)
     {
       int i = -1;
-      while (++i < moves.Length) Moves[i] = new SimMove(GameDataService.GetMove(moves[i]));
+      while (++i < moves.Length) Moves[i] = new SimMove(RomData.GetMove(moves[i]));
       while (i < 4) Moves[i++] = null;
     }
 
@@ -41,7 +41,7 @@ namespace PokemonBattleOnline.Game
       for (int i = 0; i < 4; ++i)
         if (Moves[i] != null && Moves[i].Type.Id == from)
         {
-          Moves[i] = new SimMove(Data.GameDataService.GetMove(to));
+          Moves[i] = new SimMove(RomData.GetMove(to));
           break;
         }
     }

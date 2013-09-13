@@ -4,7 +4,7 @@
              xmlns:pbo="clr-namespace:PokemonBattleOnline.PBO;assembly=PBO.UIElements"
              xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.UIElements;assembly=PBO.UIElements"
              xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters;assembly=PBO.UIElements"
-             xmlns:pm="clr-namespace:PokemonBattleOnline.Data;assembly=PBO.Data"
+             xmlns:pm="clr-namespace:PokemonBattleOnline.Game;assembly=PBO.Data"
              xmlns:lobby="clr-namespace:PokemonBattleOnline.PBO.Lobby"
              UseLayoutRounding="True" SnapsToDevicePixels="True">
     <Grid>

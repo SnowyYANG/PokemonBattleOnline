@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.Concurrent;
-using PokemonBattleOnline.Tactic.Network;
 using PokemonBattleOnline.Network.Lobby;
 using PokemonBattleOnline.Network.Room;
 
@@ -13,14 +12,14 @@ namespace PokemonBattleOnline.Network
   {
     public event Action<User> UsersUpdate;
     
-    internal readonly INetworkServer Network;
+    internal readonly TcpServer Network;
     internal readonly object UserLocker;
     internal readonly object StateLocker;
     private readonly LoginServer LoginServer;
     private readonly Dictionary<string, ServerUser> Users;
     private readonly ConcurrentDictionary<int, ServerUser> users;
 
-    internal Server(INetworkServer network)
+    internal Server(TcpServer network)
     {
       Network = network;
       UserLocker = new object();

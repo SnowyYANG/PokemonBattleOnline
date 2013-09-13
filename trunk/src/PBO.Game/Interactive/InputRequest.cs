@@ -3,66 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using PokemonBattleOnline.Game.Host;
-using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Game
 {
+  [Flags]
+  public enum InputType
+  {
+    Struggle = 1,
+    UseMove = 2,
+    Sendout = 4,
+  }
+  internal class SelectMoveFail
+  {
+    public readonly string Key;
+    public readonly int Move; //知道怎么区分Block和Only了吧...
+
+    public SelectMoveFail(string key, int move)
+    {
+      Key = key;
+      Move = move;
+    }
+  }
   [DataContract(Namespace = PBOMarks.PBO)]
   public class PmInputRequest
   {
-    internal static PmInputRequest Origin(SimPokemon pm)
-    {
-      throw new NotImplementedException();
-    }
+    [DataMember(EmitDefaultValue = false)]
+    public int OnlyMove;
 
     [DataMember(EmitDefaultValue = false)]
-    int OnlyMove;
+    public string Only; //choice/encore
 
     [DataMember(EmitDefaultValue = false)]
-    string Only; //choice/encore
+    public string[] Block; //封印挑拨寻衅回复封印残废
 
     [DataMember(EmitDefaultValue = false)]
-    string[] Block; //封印挑拨寻衅回复封印残废
+    public bool CantWithdraw;
 
-    [DataMember(EmitDefaultValue = false)]
-    bool CantWithdraw;
-
-    internal PmInputRequest(PokemonProxy pm)
-    {
-      {
-        int i = 0;
-        bool struggle = true;
-        foreach (var move in pm.Moves)
-        {
-          if (move.PP != 0)
-          {
-            var f = move.IfSelected();
-            if (f == null) struggle = false;
-            else
-            {
-              if (Block == null) Block = new string[pm.Moves.Count()];
-              if (f.Move == move.Type.Id) Block[i] = f.Key;
-              else if (Only == null)
-              {
-                Only = f.Key;
-                OnlyMove = f.Move;
-              }
-            }
-          }
-          i++;
-        }
-        if (struggle)
-        {
-          Block = null;
-          Only = null;
-          OnlyMove = Host.Ms.STRUGGLE;
-        }
-      }
-      {
-        CantWithdraw = !pm.CanSelectWithdraw;
-      }
-    }
     public override bool Equals(object obj)
     {
       PmInputRequest i = obj as PmInputRequest;
@@ -91,9 +68,10 @@ namespace PokemonBattleOnline.Game
     }
     private void SetErrorMessage(string key, string arg1, string arg2)
     {
-      var text = GameService.Logs["subtitle_" + key].Clone(null);
-      text.SetData(Pm.Pokemon.Name, arg1, arg2);
-      error = text.Text;
+      throw new NotImplementedException();
+      //var text = GameService.Logs["subtitle_" + key].Clone(null);
+      //text.SetData(Pm.Pokemon.Name, arg1, arg2);
+      //error = text.Text;
     }
     public bool Fight()
     {
@@ -106,22 +84,21 @@ namespace PokemonBattleOnline.Game
     /// <returns></returns>
     public bool Move(SimMove move)
     {
-      if (OnlyMove != 0 && OnlyMove != move.Type.Id) SetErrorMessage(Only, GameDataService.GetMove(OnlyMove).GetLocalizedName(), Pm.Pokemon.Item == null ? null : Pm.Pokemon.Item.GetLocalizedName());
-      else
-        if (Block != null)
-          for (int i = 0; i < Pm.Moves.Length; ++i)
-            if (move == Pm.Moves[i])
-            {
-              if (Block[i] != null) SetErrorMessage(Block[i], move.Type.GetLocalizedName(), null);
-              break;
-            }
-      return error == null;
+      throw new NotImplementedException();
+      //if (OnlyMove != 0 && OnlyMove != move.Type.Id) SetErrorMessage(Only, RomData.GetMove(OnlyMove).GetLocalizedName(), Pm.Pokemon.Item == null ? null : Pm.Pokemon.Item.GetLocalizedName());
+      //else
+      //  if (Block != null)
+      //    for (int i = 0; i < Pm.Moves.Length; ++i)
+      //      if (move == Pm.Moves[i])
+      //      {
+      //        if (Block[i] != null) SetErrorMessage(Block[i], move.Type.GetLocalizedName(), null);
+      //        break;
+      //      }
+      //return error == null;
     }
     public void Target(PokemonOutward target = null)
     {
-#if DEBUG
       throw new NotImplementedException();
-#endif
     }
     /// <summary>
     /// 判断pokemon是否在场和Hp
@@ -130,22 +107,23 @@ namespace PokemonBattleOnline.Game
     /// <returns></returns>
     public bool Pokemon(SimPokemon pokemon)
     {
-      if (pokemon.Hp.Value == 0)
-      {
-        error = string.Format(DataService.String["{0} has no strength to fight!"], pokemon.Name);
-        return false;
-      }
-      if (pokemon.IndexInOwner < Game.Settings.Mode.OnboardPokemonsPerPlayer())
-      {
-        error = string.Format(DataService.String["{0} is already fighting."], pokemon.Name);
-        return false;
-      }
-      if (CantWithdraw)
-      {
-        error = string.Format(DataService.String["Can't withdraw {0}!"], Pm.Pokemon.Name);
-        return false;
-      }
-      return true;
+      throw new NotImplementedException();
+      //if (pokemon.Hp.Value == 0)
+      //{
+      //  error = string.Format(DataService.String["{0} has no strength to fight!"], pokemon.Name);
+      //  return false;
+      //}
+      //if (pokemon.IndexInOwner < Game.Settings.Mode.OnboardPokemonsPerPlayer())
+      //{
+      //  error = string.Format(DataService.String["{0} is already fighting."], pokemon.Name);
+      //  return false;
+      //}
+      //if (CantWithdraw)
+      //{
+      //  error = string.Format(DataService.String["Can't withdraw {0}!"], Pm.Pokemon.Name);
+      //  return false;
+      //}
+      //return true;
     }
     #endregion
   }
@@ -153,32 +131,11 @@ namespace PokemonBattleOnline.Game
   [DataContract(Namespace = PBOMarks.PBO)]
   public class InputRequest
   {
-    internal static InputRequest Origin()
-    {
-      throw new NotImplementedException();
-    }
+    [DataMember(EmitDefaultValue = false)]
+    public PmInputRequest[] Pms;
 
     [DataMember(EmitDefaultValue = false)]
-#if DEBUG
-    public
-#endif
-    PmInputRequest[] Pms;
-
-    [DataMember(EmitDefaultValue = false)]
-#if DEBUG
-    public
-#endif
-    int[] Xs;
-
-    internal InputRequest(IEnumerable<PokemonProxy> pokemons = null)
-    {
-      if (pokemons != null)
-        Pms = pokemons.Select((p) => new PmInputRequest(p)).ToArray();
-    }
-    internal InputRequest(params Tile[] tiles)
-    {
-      Xs = tiles.Select((t)=>t.X).ToArray();
-    }
+    public int[] Xs;
 
     public override bool Equals(object obj)
     {
@@ -263,19 +220,20 @@ namespace PokemonBattleOnline.Game
     }
     public bool Pokemon(SimPokemon pokemon, int x)
     {
-      if (pokemon.Hp.Value == 0)
-      {
-        error = string.Format(DataService.String["{0} has no strength to fight!"], pokemon.Name);
-        return false;
-      }
-      if (pokemon.IndexInOwner < game.Settings.Mode.OnboardPokemonsPerPlayer())
-      {
-        error = string.Format(DataService.String["{0} is already fighting."], pokemon.Name);
-        return false;
-      }
-      input.Sendout(x, pokemon);
-      CheckSendoutFinished();
-      return true;
+      throw new NotImplementedException();
+      //if (pokemon.Hp.Value == 0)
+      //{
+      //  error = string.Format(DataService.String["{0} has no strength to fight!"], pokemon.Name);
+      //  return false;
+      //}
+      //if (pokemon.IndexInOwner < game.Settings.Mode.OnboardPokemonsPerPlayer())
+      //{
+      //  error = string.Format(DataService.String["{0} is already fighting."], pokemon.Name);
+      //  return false;
+      //}
+      //input.Sendout(x, pokemon);
+      //CheckSendoutFinished();
+      //return true;
     }
     public bool Pokemon(SimPokemon pokemon)
     {
@@ -290,9 +248,7 @@ namespace PokemonBattleOnline.Game
     }
     public void Undo()
     {
-#if DEBUG
       throw new NotImplementedException();
-#endif
     }
     //void TurnLeft();
     //void TurnRight();

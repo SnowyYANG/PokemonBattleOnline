@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
-using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Game
 {
@@ -32,7 +32,7 @@ namespace PokemonBattleOnline.Game
       nature = custom.Nature;
       abilityIndex = custom.AbilityIndex;
       Moves = custom.Moves.Select((m) => new Move(m.Move, m.PP)).ToArray();
-      Item = GameDataService.GetItem(custom.ItemId);
+      Item = RomData.GetItem(custom.ItemId);
       iv = new ReadOnly6D(custom.Iv);
       ev = new ReadOnly6D(custom.Ev);
       _hp = new PairValue(PokemonStatHelper.GetHp(custom.Form.Data.Base.Hp, (byte)iv.Hp, (byte)ev.Hp, (byte)Lv));
@@ -64,7 +64,7 @@ namespace PokemonBattleOnline.Game
     { get; private set; }
     public int Lv
     { get; private set; }
-    public Ability Ability
+    public int Ability
     { get { return Form.Data.GetAbility(abilityIndex); } }
     public Move[] Moves
     { get; private set; }
@@ -113,7 +113,7 @@ namespace PokemonBattleOnline.Game
     
     public void ChangeForm(int form, bool forever)
     {
-      Form = Form.Type.GetForm(form);
+      Form = Form.Species.GetForm(form);
       if (forever) originForm = Form;
     }
     public void ResetForm()

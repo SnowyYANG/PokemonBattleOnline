@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.ComponentModel;
 using System.Globalization;
 using System.Collections.Specialized;
-using PokemonBattleOnline.Data;
+using PokemonBattleOnline.Game;
 using PokemonBattleOnline.PBO;
 using PokemonBattleOnline.PBO.UIElements;
 

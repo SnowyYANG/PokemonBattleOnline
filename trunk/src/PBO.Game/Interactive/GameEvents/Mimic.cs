@@ -3,23 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using PokemonBattleOnline.Game.Host;
 
 namespace PokemonBattleOnline.Game.GameEvents
 {
   [DataContract(Namespace = PBOMarks.PBO)]
-  class Mimic : GameEvent
+  public class Mimic : GameEvent
   {
     [DataMember]
-    int Pm;
+    public int Pm;
     [DataMember]
-    int Move;
+    public int Move;
 
-    public Mimic(PokemonProxy pm, Data.MoveType move)
-    {
-      Pm = pm.Id;
-      Move = move.Id;
-    }
     protected override void Update()
     {
       AppendGameLog("Mimic", Pm, Move);

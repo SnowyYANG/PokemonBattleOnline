@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using PokemonBattleOnline.Tactic.Network;
 
 namespace PokemonBattleOnline.Network.Lobby
 {
@@ -11,7 +10,7 @@ namespace PokemonBattleOnline.Network.Lobby
   {
     private readonly LoginServer Server;
     
-    public LoginUser(INetworkUser network, LoginServer server)
+    public LoginUser(TcpUser network, LoginServer server)
       : base(network)
     {
       Server = server;
