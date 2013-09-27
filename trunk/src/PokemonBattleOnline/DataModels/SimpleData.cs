@@ -22,6 +22,15 @@ namespace PokemonBattleOnline
       using (FileStream f = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
         return (T)Serializer.Deserialize(typeof(T), f);
     }
+#if EDITING
+    public
+#else
+    protected
+#endif
+      static T LoadFromXml<T>(Stream stream) where T : SimpleData
+    {
+      return (T)Serializer.Deserialize(typeof(T), stream);
+    }
     protected static T LoadFromDat<T>(string fileName) where T : SimpleData
     {
       using (FileStream f = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))

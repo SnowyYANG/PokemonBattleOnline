@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using System.IO;
 using System.IO.Compression;
-using System.Xml;
+using System.IO.Packaging;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 
@@ -85,21 +86,34 @@ namespace PokemonBattleOnline.Game.DataEditor
         default: return id;
       }
     }
+    static void Depress(string input, string output)
+    {
+      using (var ifs = new FileStream(input, FileMode.Open, FileAccess.Read))
+      using (var ds = new DeflateStream(ifs, CompressionMode.Decompress))
+      using (var ofs = new FileStream(output, FileMode.Create))
+        ds.CopyTo(ofs);
+    }
+    static void CreatEmptyZip(string path)
+    {
+      using (var zip = ZipPackage.Open(path, FileMode.Create))
+      {
+        zip.CreatePart(new Uri("/test.txt", UriKind.Relative), System.Net.Mime.MediaTypeNames.Text.Plain);
+        zip.CreatePart(new Uri("/test.csv", UriKind.Relative), System.Net.Mime.MediaTypeNames.Text.Plain);
+        zip.CreatePart(new Uri("/test.xml", UriKind.Relative), System.Net.Mime.MediaTypeNames.Text.Xml);
+      }
+    }
     static void Main(string[] args)
     {
-      using (var pack = new ZipData(Desktop + "test.zip"))
+      using (var pack = new ZipData(Desktop + "rom.zip"))
       {
-        LearnList.Load(pack, "learnset");
+        LearnList.Load(pack, "/learnset");
+        RomData.Load(pack, "/rom.xml");
         System.Diagnostics.Debugger.Break();
       }
-      //using (var sr = new StreamReader(Desktop + "Egg DPPt.txt"))
-      //{
-      //  var l = sr.ReadLine();
-      //  Console.WriteLine(l);
-      //  Console.WriteLine(l[0]);
-      //  Console.WriteLine(l.Length);
-      //  Console.WriteLine(sr.ReadLine());
-      //}
+
+      //CreatEmptyZip(Desktop + "test.zip");
+      //Depress(Desktop + "rom.dat", Desktop + "rom.xml");
+      
       Console.ReadKey();
     }
   }

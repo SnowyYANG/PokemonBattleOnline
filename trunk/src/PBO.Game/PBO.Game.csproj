@@ -64,7 +64,7 @@
     <Compile Include="Client\SimOnboardPokemon.cs" />
     <Compile Include="Data\IDs.cs" />
     <Compile Include="Data\Rom\BattleType.cs" />
-    <Compile Include="Data\Rom\GiftPokemon.cs" />
+    <Compile Include="Data\Rom\Pokemon\GiftPokemon.cs" />
     <Compile Include="Data\Rom\Item.cs" />
     <Compile Include="Data\Rom\LearnList\LearnList.cs" />
     <Compile Include="Data\Rom\LearnList\PokemonLearnList.cs" />
@@ -79,7 +79,7 @@
     <Compile Include="Data\Rom\Pokemon\PokemonFormData.cs" />
     <Compile Include="Data\Rom\Pokemon\PokemonGender.cs" />
     <Compile Include="Data\Rom\Pokemon\PokemonNature.cs" />
-    <Compile Include="Data\Rom\Pokemon\PokemonType.cs" />
+    <Compile Include="Data\Rom\Pokemon\PokemonSpecies.cs" />
     <Compile Include="Data\Rom\RomData.cs" />
     <Compile Include="Data\UserData\CollectionGroup.cs" />
     <Compile Include="Data\UserData\Helper.cs" />

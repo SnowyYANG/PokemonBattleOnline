@@ -10,14 +10,10 @@ namespace PokemonBattleOnline.Game
   public sealed class RomData : SimpleData
   {
     private static RomData current;
-#if EDITING
-    public
-#else
-    internal
-#endif
-     static void Load(string path)
+    public static void Load(ZipData zip, string path)
     {
-      current = LoadFromDat<RomData>(path);
+      using (var stream = zip.GetStream(path))
+        current = LoadFromXml<RomData>(stream);
       foreach (var pm in Pokemons)
         foreach (var form in pm.Forms) form.Species = pm;
     }
