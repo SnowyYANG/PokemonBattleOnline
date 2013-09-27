@@ -49,7 +49,7 @@ namespace PokemonBattleOnline.Game
     }
     public string Item(int item)
     {
-      return Items[item - 1];
+      return Items.ValueOrDefault(item);
     }
     public string Nature(PokemonNature nature)
     {
@@ -96,14 +96,14 @@ namespace PokemonBattleOnline.Game
       var gs = GetLanguage(name);
       var i = gs == null ? 0 : gs.Items.KeyOf(name);
       if (i == 0 && gs == Current && Backup != null) i = Backup.Items.KeyOf(name);
-      return RomData.GetItem(i);
+      return i == 0 ? null : RomData.GetItem(i);
     }
     public static MoveType Move(string name)
     {
       var gs = GetLanguage(name);
       var i = gs == null ? -1 : gs.Moves.IndexOf(name);
       if (i == -1 && gs == Current && Backup != null) i = Backup.Moves.IndexOf(name);
-      return RomData.GetMove(i + 1);
+      return i == -1 ? null : RomData.GetMove(i + 1);
     }
   }
 }

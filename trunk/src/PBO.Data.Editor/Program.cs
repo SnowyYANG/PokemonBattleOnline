@@ -7,10 +7,8 @@ using System.IO.Compression;
 using System.Xml;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
-using PokemonBattleOnline.Tactic.DataModels;
-using PokemonBattleOnline.Tactic;
 
-namespace PokemonBattleOnline.Game.Editor
+namespace PokemonBattleOnline.Game.DataEditor
 {
   class Program
   {
@@ -89,13 +87,20 @@ namespace PokemonBattleOnline.Game.Editor
     }
     static void Main(string[] args)
     {
-      RomData r = RomData.Load("Data\\rom.dat");
-      using(StreamWriter sw = new StreamWriter(Desktop + "forms.txt", false, Encoding.Default))
-        foreach (var pm in r.Pokemons)
-        {
-          foreach (var f in pm.Forms)
-            if (f.EnglishName != null) sw.WriteLine(f.EnglishName);
-        }
+      using (var pack = new ZipData(Desktop + "test.zip"))
+      {
+        LearnList.Load(pack, "learnset");
+        System.Diagnostics.Debugger.Break();
+      }
+      //using (var sr = new StreamReader(Desktop + "Egg DPPt.txt"))
+      //{
+      //  var l = sr.ReadLine();
+      //  Console.WriteLine(l);
+      //  Console.WriteLine(l[0]);
+      //  Console.WriteLine(l.Length);
+      //  Console.WriteLine(sr.ReadLine());
+      //}
+      Console.ReadKey();
     }
   }
 }

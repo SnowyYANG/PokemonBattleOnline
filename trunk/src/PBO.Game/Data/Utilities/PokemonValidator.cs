@@ -27,8 +27,8 @@ namespace PokemonBattleOnline.Game
 
         public static bool ValidateName(string name)
         {
-            return Regex.IsMatch(name, @"^\w{1,20}$", RegexOptions.Compiled);
-            //return name == null || name.Length < 11 && !name.Any((c) => c == '\n' || c == '\r' || c == '\t');
+            //return Regex.IsMatch(name, @"^\w{1,20}$", RegexOptions.Compiled);
+            return name == null || name.Length < 11 && !name.Any((c) => c == '\n' || c == '\r' || c == '\t');
         }
 
         public static bool Shiney(IPokemonData pm, int random)

@@ -8,15 +8,14 @@ using System.IO.Packaging;
 
 namespace PokemonBattleOnline.Game
 {
-  public class ImageService : IDisposable
+  public class ImageService : ZipData
   {
-    private readonly Package Pack;
     private BitmapImage[] icons;
 
     public ImageService(string pack)
+      : base(pack)
     {
-      icons = new BitmapImage[GameDataService.Pokemons.Count() + 1];
-      Pack = ZipPackage.Open(new FileStream(pack, FileMode.Open, FileAccess.Read, FileShare.Read));
+      icons = new BitmapImage[RomData.Pokemons.Count() + 1];
     }
 
     private BitmapImage GetImage(string path, string id)
@@ -25,7 +24,7 @@ namespace PokemonBattleOnline.Game
       {
         var image = new BitmapImage();
         image.BeginInit();
-        image.StreamSource = Pack.GetPart(new Uri(string.Format("/{0}/{1}.png", path, id), UriKind.Relative)).GetStream(FileMode.Open, FileAccess.Read);
+        image.StreamSource = GetStream(string.Format("/{0}/{1}.png", path, id));
         image.EndInit();
         return image;
       }
@@ -85,11 +84,6 @@ namespace PokemonBattleOnline.Game
     public BitmapImage GetAvatar(int id)
     {
       return GetImage("avatar", id.ToString());
-    }
-
-    public void Dispose()
-    {
-      ((IDisposable)Pack).Dispose();
     }
   }
 }

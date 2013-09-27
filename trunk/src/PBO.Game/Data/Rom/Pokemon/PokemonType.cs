@@ -19,7 +19,7 @@ namespace PokemonBattleOnline.Game
     {
     }
 #else
-    private PokemonType()
+    private PokemonSpecies()
     {
     }
 #endif

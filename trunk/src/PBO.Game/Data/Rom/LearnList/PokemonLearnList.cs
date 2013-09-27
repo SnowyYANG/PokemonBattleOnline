@@ -6,20 +6,64 @@ using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Game
 {
-  [DataContract(Namespace = PBOMarks.PBO)]
-  public class PokemonLearnList
+  public class LvLearnList
   {
-    [DataMember]
-    public SortedDictionary<int, int> Lvs;
-    [DataMember]
-    public HashSet<int> TM;
-    [DataMember]
-    public HashSet<int> HM; //非第五代可空
-    [DataMember]
-    public HashSet<int> Tutor; //区分教学和技能机是为了显示
-    [DataMember]
-    public HashSet<int> Breed;
-    [DataMember]
-    public HashSet<int> Sp; //仅第三代用 XD
+    public readonly KeyValuePair<int, int>[][] Lvs;
+    public readonly Dictionary<int, KeyValuePair<int, int>[]> Forms;
+
+    public LvLearnList(int pokemons)
+    {
+      Lvs = new KeyValuePair<int, int>[pokemons][]; //怎么想都是件不可思议的事..
+      Forms = new Dictionary<int, KeyValuePair<int, int>[]>();
+    }
+
+    internal void Set(int number, int form, KeyValuePair<int, int>[] moves)
+    {
+      if (form == 0) Lvs[number - 1] = moves;
+      else Forms[number * 100 + form] = moves;
+    }
+    public IEnumerable<KeyValuePair<int, int>> Get(int number, int form)
+    {
+      return form == 0 ? Lvs.ValueOrDefault(number - 1) : Forms.ValueOrDefault(number * 100 + form);
+    }
+  }
+  public class EggLearnList
+  {
+    private readonly Dictionary<int, int[]> Eggs;
+
+    public EggLearnList()
+    {
+      Eggs = new Dictionary<int, int[]>();
+    }
+
+    internal void Set(int number, int[] moves)
+    {
+      Eggs[number - 1] = moves;
+    }
+    public IEnumerable<int> Get(int number)
+    {
+      return Eggs.ValueOrDefault(number + 1);
+    }
+  }
+  public class TMHMTutorLearnList
+  {
+    public int[][] Raw;
+    public readonly Dictionary<int, int[]> Forms;
+
+    public TMHMTutorLearnList(int pokemons)
+    {
+      Raw = new int[pokemons][];
+      Forms = new Dictionary<int,int[]>();
+    }
+
+    internal void Set(int number, int form, int[] moves)
+    {
+      if (form == 0) Raw[number - 1] = moves;
+      else Forms[number * 100 + form] = moves;
+    }
+    public IEnumerable<int> Get(int number, int form)
+    {
+      return form == 0 ? Raw.ValueOrDefault(number - 1) : Forms.ValueOrDefault(number * 100 + form);
+    }
   }
 }

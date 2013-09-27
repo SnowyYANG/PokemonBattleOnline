@@ -16,6 +16,12 @@ namespace PokemonBattleOnline.Game
       Pack = ZipPackage.Open(new FileStream(pack, FileMode.Open, FileAccess.Read, FileShare.Read));
     }
 
+    public Stream GetStream(string path)
+    {
+      if (!string.IsNullOrEmpty(path) && path[0] != '/') path = "/" + path;
+      return Pack.GetPart(new Uri(path, UriKind.Relative)).GetStream(FileMode.Open, FileAccess.Read);
+    }
+
     public void Dispose()
     {
       ((IDisposable)Pack).Dispose();

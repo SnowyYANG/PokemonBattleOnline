@@ -28,9 +28,39 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.Game.Test", "PBO.Game.Test\PBO.Game.Test.csproj", "{CA8FC057-3DD7-4F64-9965-AD4BA3FF5EE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.Data.Editor", "PBO.Data.Editor\PBO.Data.Editor.csproj", "{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.DataEditor", "PBO.Data.Editor\PBO.DataEditor.csproj", "{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.Game.Host", "PBO.Game.Host\PBO.Game.Host.csproj", "{666D492B-2C1F-46DC-8B6C-F59D7F0C40D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Learnset", "Learnset", "{FB0AF92B-3BC9-471E-8DB9-1448635FDEA6}"
+	ProjectSection(SolutionItems) = preProject
+		..\doc\Learnset\Egg_DPPt.txt = ..\doc\Learnset\Egg_DPPt.txt
+		..\doc\Learnset\Egg_G3.txt = ..\doc\Learnset\Egg_G3.txt
+		..\doc\Learnset\Egg_G5.txt = ..\doc\Learnset\Egg_G5.txt
+		..\doc\Learnset\Egg_HGSS.txt = ..\doc\Learnset\Egg_HGSS.txt
+		..\doc\Learnset\Form exclusive.txt = ..\doc\Learnset\Form exclusive.txt
+		..\doc\Learnset\index.txt = ..\doc\Learnset\index.txt
+		..\doc\Learnset\Level_B2W2.txt = ..\doc\Learnset\Level_B2W2.txt
+		..\doc\Learnset\Level_BW.txt = ..\doc\Learnset\Level_BW.txt
+		..\doc\Learnset\Level_DP.txt = ..\doc\Learnset\Level_DP.txt
+		..\doc\Learnset\Level_FRLG.txt = ..\doc\Learnset\Level_FRLG.txt
+		..\doc\Learnset\Level_HGSS.txt = ..\doc\Learnset\Level_HGSS.txt
+		..\doc\Learnset\Level_Pt.txt = ..\doc\Learnset\Level_Pt.txt
+		..\doc\Learnset\Level_RSE.txt = ..\doc\Learnset\Level_RSE.txt
+		..\doc\Learnset\TMHM_B2W2.txt = ..\doc\Learnset\TMHM_B2W2.txt
+		..\doc\Learnset\TMHM_BW.txt = ..\doc\Learnset\TMHM_BW.txt
+		..\doc\Learnset\TMHM_DPPt.txt = ..\doc\Learnset\TMHM_DPPt.txt
+		..\doc\Learnset\TMHM_G3.txt = ..\doc\Learnset\TMHM_G3.txt
+		..\doc\Learnset\TMHM_HGSS.txt = ..\doc\Learnset\TMHM_HGSS.txt
+		..\doc\Learnset\Tutor_B2W2.txt = ..\doc\Learnset\Tutor_B2W2.txt
+		..\doc\Learnset\Tutor_BW.txt = ..\doc\Learnset\Tutor_BW.txt
+		..\doc\Learnset\Tutor_DP.txt = ..\doc\Learnset\Tutor_DP.txt
+		..\doc\Learnset\Tutor_Em.txt = ..\doc\Learnset\Tutor_Em.txt
+		..\doc\Learnset\Tutor_FRLG.txt = ..\doc\Learnset\Tutor_FRLG.txt
+		..\doc\Learnset\Tutor_HGSS.txt = ..\doc\Learnset\Tutor_HGSS.txt
+		..\doc\Learnset\Tutor_Pt.txt = ..\doc\Learnset\Tutor_Pt.txt
+		..\doc\Learnset\Tutor_XD.txt = ..\doc\Learnset\Tutor_XD.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
@@ -56,24 +86,24 @@ Global
 		SccProjectUniqueName6 = PBOServer\\PBOServer.csproj
 		SccProjectName6 = PBOServer
 		SccLocalPath6 = PBOServer
-		SccProjectUniqueName7 = PBO.Data.Editor\\PBO.Data.Editor.csproj
-		SccProjectName7 = PBO.Data.Editor
-		SccLocalPath7 = PBO.Data.Editor
-		SccProjectUniqueName8 = PBO.Game.Test\\PBO.Game.Test.csproj
-		SccProjectName8 = PBO.Game.Test
-		SccLocalPath8 = PBO.Game.Test
-		SccProjectUniqueName9 = PBO.Network\\PBO.Network.csproj
-		SccProjectName9 = PBO.Network
-		SccLocalPath9 = PBO.Network
-		SccProjectUniqueName10 = PBO.Game\\PBO.Game.csproj
-		SccProjectName10 = PBO.Game
-		SccLocalPath10 = PBO.Game
-		SccProjectUniqueName11 = PBO.Game.Host\\PBO.Game.Host.csproj
-		SccProjectName11 = PBO.Game.Host
-		SccLocalPath11 = PBO.Game.Host
-		SccProjectUniqueName12 = PokemonBattleOnline\\PokemonBattleOnline.csproj
-		SccProjectName12 = PokemonBattleOnline
-		SccLocalPath12 = PokemonBattleOnline
+		SccProjectUniqueName7 = PBO.Game.Test\\PBO.Game.Test.csproj
+		SccProjectName7 = PBO.Game.Test
+		SccLocalPath7 = PBO.Game.Test
+		SccProjectUniqueName8 = PBO.Network\\PBO.Network.csproj
+		SccProjectName8 = PBO.Network
+		SccLocalPath8 = PBO.Network
+		SccProjectUniqueName9 = PBO.Game\\PBO.Game.csproj
+		SccProjectName9 = PBO.Game
+		SccLocalPath9 = PBO.Game
+		SccProjectUniqueName10 = PBO.Game.Host\\PBO.Game.Host.csproj
+		SccProjectName10 = PBO.Game.Host
+		SccLocalPath10 = PBO.Game.Host
+		SccProjectUniqueName11 = PokemonBattleOnline\\PokemonBattleOnline.csproj
+		SccProjectName11 = PokemonBattleOnline
+		SccLocalPath11 = PokemonBattleOnline
+		SccProjectUniqueName12 = PBO.Data.Editor\\PBO.DataEditor.csproj
+		SccProjectName12 = PBO.Data.Editor
+		SccLocalPath12 = PBO.Data.Editor
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -167,5 +197,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FB0AF92B-3BC9-471E-8DB9-1448635FDEA6} = {F6EA4F9B-5305-4043-B103-764944ED7E3D}
 	EndGlobalSection
 EndGlobal
