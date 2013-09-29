@@ -58,7 +58,7 @@ namespace PokemonBattleOnline.Game
                   lv = lvs.ValueOrDefault(table);
                   if (lv == null)
                   {
-                    lv = new LvLearnList(PBOMarks.POKEMONS);
+                    lv = new LvLearnList();
                     LoadLevel(GetStream(zip, path, table), lv);
                     lvs.Add(table, lv);
                   }
@@ -83,8 +83,8 @@ namespace PokemonBattleOnline.Game
                   tm = tmhmts.ValueOrDefault(tmk);
                   if (tm == null)
                   {
-                    tm = new TMHMTutorLearnList(PBOMarks.POKEMONS);
-                    if (needHM) hm = new TMHMTutorLearnList(PBOMarks.POKEMONS);
+                    tm = new TMHMTutorLearnList();
+                    if (needHM) hm = new TMHMTutorLearnList();
                     LoadTMHM(GetStream(zip, path, table), tm, hm);
                     tmhmts.Add(tmk, tm);
                     if (needHM) tmhmts.Add("HM_" + g, hm);
@@ -97,7 +97,7 @@ namespace PokemonBattleOnline.Game
                   tutor = tmhmts.ValueOrDefault(table);
                   if (tutor == null)
                   {
-                    tutor = new TMHMTutorLearnList(PBOMarks.POKEMONS);
+                    tutor = new TMHMTutorLearnList();
                     LoadTutor(GetStream(zip, path, table), tutor);
                     tmhmts.Add(table, tutor);
                   }

@@ -11,9 +11,9 @@ namespace PokemonBattleOnline.Game
     public readonly KeyValuePair<int, int>[][] Lvs;
     public readonly Dictionary<int, KeyValuePair<int, int>[]> Forms;
 
-    public LvLearnList(int pokemons)
+    public LvLearnList()
     {
-      Lvs = new KeyValuePair<int, int>[pokemons][]; //怎么想都是件不可思议的事..
+      Lvs = new KeyValuePair<int, int>[RomData.Pokemons.Count()][]; //怎么想都是件不可思议的事..
       Forms = new Dictionary<int, KeyValuePair<int, int>[]>();
     }
 
@@ -50,9 +50,9 @@ namespace PokemonBattleOnline.Game
     public int[][] Raw;
     public readonly Dictionary<int, int[]> Forms;
 
-    public TMHMTutorLearnList(int pokemons)
+    public TMHMTutorLearnList()
     {
-      Raw = new int[pokemons][];
+      Raw = new int[RomData.Pokemons.Count()][];
       Forms = new Dictionary<int,int[]>();
     }
 

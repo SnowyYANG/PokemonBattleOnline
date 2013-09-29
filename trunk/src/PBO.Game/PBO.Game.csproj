@@ -67,7 +67,7 @@
     <Compile Include="Data\Rom\Pokemon\GiftPokemon.cs" />
     <Compile Include="Data\Rom\Item.cs" />
     <Compile Include="Data\Rom\LearnList\LearnList.cs" />
-    <Compile Include="Data\Rom\LearnList\PokemonLearnList.cs" />
+    <Compile Include="Data\Rom\LearnList\SPLearnList.cs" />
     <Compile Include="Data\Rom\Move\MoveCategory.cs" />
     <Compile Include="Data\Rom\Move\MoveInnerClass.cs" />
     <Compile Include="Data\Rom\Move\MoveLv7DChange.cs" />

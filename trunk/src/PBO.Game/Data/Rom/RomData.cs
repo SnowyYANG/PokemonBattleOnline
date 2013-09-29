@@ -54,12 +54,20 @@ namespace PokemonBattleOnline.Game
     {
     }
 
-    public static IEnumerable<Item> Items
-    { get { return current.items.Values; } }
     public static IEnumerable<PokemonSpecies> Pokemons
     { get { return current.pokemons; } }
     public static IEnumerable<MoveType> Moves
     { get { return current.moves; } }
+    public static int Abilities
+    { get { return 164; } }
+    public static IEnumerable<Item> Items
+    { get { return current.items.Values; } }
+    public static int BattleTypes
+    { get { return 17; } }
+    public static int MoveCategories
+    { get { return 3; } }
+    public static int Natures
+    { get { return 25; } }
 
     public static PokemonSpecies GetPokemon(int number)
     {
