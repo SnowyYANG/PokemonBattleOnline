@@ -9,17 +9,13 @@ namespace PokemonBattleOnline.Game.Host
 {
   internal static class ITs
   {
-    public static void RaiseItem(this PokemonProxy pm, string key)
+    public static void RaiseItem(this PokemonProxy pm, string log, bool consume)
     {
       var item = pm.Pokemon.Item;
       if (item != null)
       {
-        if (item.Type == ItemType.Normal) pm.AddReportPm(key, item.Id);
-        else
-        {
-          pm.ConsumeItem();
-          pm.Controller.ReportBuilder.Add(new GameEvents.RemoveItem(key, pm, item.Id));
-        }
+        if (consume) pm.ConsumeItem();
+        pm.AddReportPm(log, item.Id);
       }
     }
 
@@ -49,7 +45,7 @@ namespace PokemonBattleOnline.Game.Host
       }
       pm.OnboardPokemon.ChangeLv7D(stat, change);
       pm.ConsumeItem();
-      pm.Controller.ReportBuilder.Add(new GameEvents.RemoveItem(log, pm, stat, change > 0 ? i : 0));
+      pm.AddReportPm(log, stat, change > 0 ? i : 0);
     }
 
     public static bool ChoiceItem(int item)
@@ -144,7 +140,7 @@ namespace PokemonBattleOnline.Game.Host
           }
           break;
         case Is.MENTAL_HERB:
-          if (op.RemoveCondition("Attract")) pm.AddReportPm("ItemDeAttract", 8);
+          if (op.RemoveCondition("Attract")) pm.AddReportPm("ItemDeAttract", Is.MENTAL_HERB);
           break;
         case Is.KINGS_ROCK:
           op.AddTurnCondition("Flinch");
@@ -156,7 +152,7 @@ namespace PokemonBattleOnline.Game.Host
           pm.AddState(by, AttachedState.PSN, false);
           break;
         case Is.TOXIC_ORB:
-          pm.AddState(by, AttachedState.PSN, false, 15);//战报待验证
+          pm.AddState(by, AttachedState.PSN, false, Is.TOXIC_ORB);//战报待验证
           break;
         case Is.FLAME_ORB:
           pm.AddState(by, AttachedState.BRN, false);//战报
@@ -184,19 +180,19 @@ namespace PokemonBattleOnline.Game.Host
             if (m.PP == 0)
             {
               m.PP += 10;
-              pm.Controller.ReportBuilder.Add(new GameEvents.SetPP("ItemPPRecover", m) { Arg2 = 134 });
+              pm.AddReportPm("ItemPPRecover", Is.LEPPA_BERRY, m.Type.Id);
               return;
             }
           foreach (var m in pm.Moves)
             if (m.PP != m.Move.PP.Origin)
             {
               m.PP += 10;
-              pm.Controller.ReportBuilder.Add(new GameEvents.SetPP("ItemPPRecover", m) { Arg2 = 134 });
+              pm.AddReportPm("ItemPPRecover", Is.LEPPA_BERRY, m.Type.Id);
               return;
             }
           break;
         case Is.ORAN_BERRY:
-          pm.HpRecover(10, false, "ItemHpRecover", 135);
+          pm.HpRecover(10, false, "ItemHpRecover", Is.ORAN_BERRY);
           break;
         case Is.PERSIM_BERRY:
           if (op.RemoveCondition("Confuse")) pm.AddReportPm("DeConfuse");
@@ -205,7 +201,7 @@ namespace PokemonBattleOnline.Game.Host
           if (pm.State != PokemonState.Normal) pm.DeAbnormalState();
           break;
         case Is.SITRUS_BERRY:
-          pm.HpRecoverByOneNth(3, false, "ItemHpRecover", 138);
+          pm.HpRecoverByOneNth(3, false, "ItemHpRecover", Is.SITRUS_BERRY);
           break;
         case Is.FIGY_BERRY:
         case Is.WIKI_BERRY:
@@ -264,7 +260,7 @@ namespace PokemonBattleOnline.Game.Host
         if (lvs.Speed < 0) { lvs.Speed = 0; raise = true; }
         if (pm.OnboardPokemon.AccuracyLv < 0) { pm.OnboardPokemon.AccuracyLv = 0; raise = true; }
         if (pm.OnboardPokemon.EvasionLv < 0) { pm.OnboardPokemon.EvasionLv = 0; raise = true; }
-        if (raise) RaiseItem(pm, "WhiteHerb");
+        if (raise) RaiseItem(pm, "WhiteHerb", true);
       }
     }
     public static bool AirBalloon(PokemonProxy pm) //气球的提示信息不是Attach而是Debut，是唯一会Debut的道具
@@ -296,7 +292,6 @@ namespace PokemonBattleOnline.Game.Host
           {
             atk.SetCondition("EjectButton", der.Tile);
             der.ConsumeItem();
-            c.ReportBuilder.Add(new GameEvents.RemoveItem(null, der));
             c.Withdraw(der, "EjectButton");
             if (r == false) break;
             e = false;
@@ -304,7 +299,7 @@ namespace PokemonBattleOnline.Game.Host
           else if (r && i == Is.RED_CARD)
           {
             der.ConsumeItem();
-            c.ReportBuilder.Add(new GameEvents.RemoveItem("RedCard", der, aer.Id));
+            der.AddReportPm("RedCard", aer.Id);
             MoveE.ForceSwitchImplement(aer, null);
             if (e == false) return;
             r = false;
@@ -314,7 +309,7 @@ namespace PokemonBattleOnline.Game.Host
       if (aer.Item == Is.SHELL_BELL)
       {
         if (atk.TotalDamage != 0)
-          aer.HpRecoverByOneNth(atk.TotalDamage >> 3, false, "ItemRecover", SHELL_BELL);
+          aer.HpRecoverByOneNth(atk.TotalDamage >> 3, false, "ItemRecover", Is.SHELL_BELL);
       }
       else if (aer.Item == Is.LIFE_ORB)
       {
@@ -331,8 +326,8 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (pm.Item == Is.POWER_HERB)
       {
-        RaiseItem(pm, "PowerHerb");
-        pm.OnboardPokemon.CoordY = CoordY.Plate;
+        RaiseItem(pm, "PowerHerb", true);
+        pm.CoordY = CoordY.Plate;
         return true;
       }
       return false;
@@ -348,8 +343,8 @@ namespace PokemonBattleOnline.Game.Host
       if (Gem(i) && BattleTypeHelper.GetItemType(i, 112, false) == atk.Type)
       {
         atk.SetTurnCondition("Gem");
-        atk.Controller.ReportBuilder.Add(new GameEvents.RemoveItem("Gem", atk.Attacker, i, atk.Move.Id));
         atk.Attacker.ConsumeItem();
+        atk.Controller.ReportBuilder.ShowLog("Gem", i, atk.Move.Id);
       }
     }
     public static void DestinyKnot(PokemonProxy pm, PokemonProxy by)

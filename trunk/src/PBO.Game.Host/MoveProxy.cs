@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PokemonBattleOnline.Game.GameEvents;
-using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Game.Host
 {
@@ -19,7 +18,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     internal MoveProxy(MoveType move, PokemonProxy owner)
     {
-      Move = new Move(move);
+      Move = new Move(move, 5);
       Owner = owner;
     }
 
@@ -29,9 +28,13 @@ namespace PokemonBattleOnline.Game.Host
       set
       {
         var pp = (PairValue)Move.PP;
-        if (value < 0) pp.Value = 0;
-        else if (value > pp.Origin) pp.Value = pp.Origin;
-        else pp.Value = value;
+        if (value < 0) value = 0;
+        else if (value > pp.Origin) value = pp.Origin;
+        if (pp.Value != value)
+        {
+          pp.Value = value;
+          Owner.Controller.ReportBuilder.SetPP(this);
+        }
       }
     }
     public bool HasUsed
@@ -54,7 +57,7 @@ namespace PokemonBattleOnline.Game.Host
       {
         var op = Owner.OnboardPokemon;
         //专爱
-        if (Is.ChoiceItem(Owner.Item))
+        if (ITs.ChoiceItem(Owner.Item))
         {
           var o = op.GetCondition<MoveType>("ChoiceItem");
           if (o != null && o != Type) return new SelectMoveFail("ChoiceItem", o.Id);
@@ -88,22 +91,10 @@ namespace PokemonBattleOnline.Game.Host
 
     internal void Execute()
     {
-      if (Is.ChoiceItem(Owner.Item)) Owner.OnboardPokemon.AddCondition("ChoiceItem", Type);
-
-      UseMove um = null;
-      int pp = 0;
-      if (Type.Id == Ms.STRUGGLE) Owner.AddReportPm("UseMove", Ms.STRUGGLE);
-      else
-      {
-        um = new UseMove(Owner, Type);
-        Owner.Controller.ReportBuilder.Add(um);
-        pp = PP;
-      }
-      
+      if (ITs.ChoiceItem(Owner.Item)) Owner.OnboardPokemon.AddCondition("ChoiceItem", Type);
+      Owner.AddReportPm("UseMove", Type.Id);
       Owner.BuildAtkContext(this);
       Owner.AtkContext.StartExecute(Type, Owner.SelectedTarget, null);
-      
-      if (um != null) um.PP = pp - PP;
       HasUsed = true;
     }
 
@@ -113,7 +104,7 @@ namespace PokemonBattleOnline.Game.Host
       {
         if (PP == 0)
         {
-          Owner.Controller.ReportBuilder.Add("NoPP");
+          Owner.Controller.ReportBuilder.ShowLog("NoPP");
           return false;
         }
         PP--;

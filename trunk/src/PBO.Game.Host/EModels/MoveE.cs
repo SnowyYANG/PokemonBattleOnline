@@ -158,7 +158,7 @@ namespace PokemonBattleOnline.Game.Host
             var targets = new List<DefContext>();
             if (o.By != null)
             {
-              var t = GetRangeTiles(atk, Data.MoveRange.Single, o.By.Tile).FirstOrDefault();
+              var t = GetRangeTiles(atk, MoveRange.Single, o.By.Tile).FirstOrDefault();
               if (t != null && t.Pokemon != null) targets.Add(new DefContext(atk, t.Pokemon));
             }
             if (!targets.Any()) atk.Attacker.AddReportPm("UseMove", Ms.BIDE); //奇葩的战报
@@ -166,7 +166,7 @@ namespace PokemonBattleOnline.Game.Host
           }
           break;
         default:
-          IEnumerable<Tile> ts = GetRangeTiles(atk, Ms.GetRange(atk.Attacker, atk.Move), select);
+          IEnumerable<Tile> ts = GetRangeTiles(atk, MTs.GetRange(atk.Attacker, atk.Move), select);
           if (ts != null)
           {
             var targets = new List<DefContext>();
@@ -208,7 +208,7 @@ namespace PokemonBattleOnline.Game.Host
         foreach (DefContext def in targets.ToArray())
         {
           ++count;
-          if (!(def.Defender.OnboardPokemon.CoordY == CoordY.Plate || def.NoGuard))
+          if (!(def.Defender.CoordY == CoordY.Plate || def.NoGuard))
           {
             def.Defender.AddReportPm("Miss");
             targets.Remove(def);
@@ -255,7 +255,7 @@ namespace PokemonBattleOnline.Game.Host
       #region Check for Telepathy (and possibly other abilities)
       {
         var mc = move.Flags.MagicCoat && !atk.HasCondition("IgnoreMagicCoat");
-        var ab = !As.IgnoreDefenderAbility(atk.Attacker.Ability);
+        var ab = !ATs.IgnoreDefenderAbility(atk.Attacker.Ability);
         foreach (DefContext def in targets.ToArray())
           if (def.Defender != atk.Attacker && (mc && STs.MagicCoat(atk, def.Defender) || ab && !CanImplement.Execute(def))) targets.Remove(def);
       }
@@ -291,7 +291,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     private static bool IsYInRange(DefContext def)
     {
-      var y = def.Defender.OnboardPokemon.CoordY;
+      var y = def.Defender.CoordY;
       var m = def.AtkContext.Move.Id;
       return
         y == CoordY.Plate ||

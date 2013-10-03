@@ -44,7 +44,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           {
             var i = aer.Pokemon.Item.Id;
             aer.ConsumeItem();
-            Is.RaiseItemByMove(def.Defender, i, aer);
+            ITs.RaiseItemByMove(def.Defender, i, aer);
           }
           break;
         case Ms.CHATTER: //448
@@ -62,7 +62,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           {
             if (move.Class == MoveInnerClass.AttackWithTargetLv7DChange) der.ChangeLv7D(def);
             else if (move.Class == MoveInnerClass.AttackWithState) der.AddState(def);
-            if (def.Ability != As.INNER_FOCUS && (move.FlinchProbability != 0 && def.RandomHappen(move.FlinchProbability) || As.Stench(def) || Is.CanAttackFlinch(def))) der.OnboardPokemon.SetTurnCondition("Flinch");
+            if (def.Ability != As.INNER_FOCUS && (move.FlinchProbability != 0 && def.RandomHappen(move.FlinchProbability) || ATs.Stench(def) || ITs.CanAttackFlinch(def))) der.OnboardPokemon.SetTurnCondition("Flinch");
           }
           break;
       }
@@ -102,7 +102,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         switch (def.Defender.Controller.GameSettings.Terrain)
         {
           case Terrain.Path:
-            def.Defender.AddState(def.AtkContext.Attacker, Data.AttachedState.PAR, false);
+            def.Defender.AddState(def.AtkContext.Attacker, AttachedState.PAR, false);
             break;
         }
     }
@@ -111,28 +111,28 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       var chatter = def.AtkContext.Attacker.Pokemon.Chatter;
       if (chatter != null && Math.Abs(chatter.GetHashCode()) % 3 != 1 && def.RandomHappen(10))
-        def.Defender.AddState(def.AtkContext.Attacker, Data.AttachedState.Confuse, false);
+        def.Defender.AddState(def.AtkContext.Attacker, AttachedState.Confuse, false);
     }
 
     private static void EatDefenderBerry(DefContext def)
     {
-      if (Is.CanLostItem(def.Defender))
+      if (ITs.CanLostItem(def.Defender))
       {
         var i = def.Defender.Pokemon.Item.Id;
-        if (Is.BerryNumber(i) != 0) def.SetCondition("EatenBerry", i);
+        if (ITs.BerryNumber(i) != 0) def.SetCondition("EatenBerry", i);
       }
     }
 
     private static void RemoveItem(DefContext def, bool berry, string log)
     {
       var der = def.Defender;
-      if (Is.CanLostItem(der))
+      if (ITs.CanLostItem(der))
       {
         var i = der.Pokemon.Item.Id;
-        if (!berry || Is.BerryNumber(i) != 0)
+        if (!berry || ITs.BerryNumber(i) != 0)
         {
           der.RemoveItem();
-          if (log != null) der.Controller.ReportBuilder.Add(new GameEvents.RemoveItem(log, der, i, berry ? null : (ValueType)def.AtkContext.Attacker.Id));
+          der.AddReportPm(log, i, berry ? 0 : def.AtkContext.Attacker.Id);
         }
       }
     }

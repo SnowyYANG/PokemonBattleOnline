@@ -18,7 +18,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         case Ms.GUST: //16
         case Ms.TWISTER: //239
-          def.BasePower = def.Defender.OnboardPokemon.CoordY == CoordY.Air ? 80 : 40;
+          def.BasePower = def.Defender.CoordY == CoordY.Air ? 80 : 40;
           break;
         case Ms.TRIPLE_KICK: //167
           break;
@@ -54,7 +54,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.NATURAL_GIFT: //363
           {
-            var i = Is.BerryNumber(def.AtkContext.Attacker.Pokemon.Item.Id);
+            var i = ITs.BerryNumber(def.AtkContext.Attacker.Pokemon.Item.Id);
             def.BasePower = i < 17 ? 60 : i < 33 ? 70 : i < 36 ? 80 : i < 53 ? 60 : 80;
           }
           break;

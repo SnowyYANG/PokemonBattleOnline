@@ -11,6 +11,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       switch (pm.Item)
       {
+        case Is.MENTAL_HERB:
+          MentalHerb(pm);
+          break;
         case Is.CHERI_BERRY:
           DeStateBerry(pm, PokemonState.PAR);
           break;
@@ -24,43 +27,50 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           DeStateBerry(pm, PokemonState.FRZ);
           break;
         case Is.PECHA_BERRY:
-          if (pm.State == PokemonState.PSN || pm.State == PokemonState.BadlyPSN) pm.DeAbnormalState(true);
-          break;
-        case Is.PERSIM_BERRY:
-          if (pm.OnboardPokemon.RemoveCondition("Confuse"))
+          if (pm.State == PokemonState.PSN || pm.State == PokemonState.BadlyPSN)
           {
-            pm.ConsumeItem();
-            pm.RaiseItem("ItemDeConfuse");
+            var s = pm.State.ToString();
+            pm.DeAbnormalState();
+            pm.RaiseItem("ItemDePSN", true);
           }
           break;
+        case Is.PERSIM_BERRY:
+          if (pm.OnboardPokemon.RemoveCondition("Confuse")) pm.RaiseItem("ItemDeConfuse", true);
+          break;
         case Is.LUM_BERRY:
-          if (pm.State != PokemonState.Normal) pm.DeAbnormalState(true);
+          if (pm.State != PokemonState.Normal)
+          {
+            var s = pm.State.ToString();
+            pm.DeAbnormalState();
+            pm.RaiseItem("ItemDe" + s, true);
+          }
           break;
       }
     }
 
     private static void DeStateBerry(PokemonProxy pm, PokemonState state)
     {
-      if (pm.State == state) pm.DeAbnormalState(true);
+      if (pm.State == state)
+      {
+        pm.DeAbnormalState();
+        pm.RaiseItem("ItemDe" + state.ToString(), true);
+      }
     }
 
-    private static bool Act(OnboardPokemon pm, string condition)
+    private static bool MentalHerb(PokemonProxy pm, string condition)
     {
-      return pm.RemoveCondition(condition);
-    }
-    private static void Act(PokemonProxy pm)
-    {
-      var op = pm.OnboardPokemon;
-      bool i = Act(op, "Attract");
-      bool e = Act(op, "Encore");
-      bool ta = Act(op, "Taunt");
-      bool to = Act(op, "Torment");
-      bool d = Act(op, "Disable");
-      if (i || e || ta || to || d)
+      if (pm.OnboardPokemon.RemoveCondition(condition))
       {
-        pm.ConsumeItem();
-        pm.Controller.ReportBuilder.Add(new GameEvents.MentalHerb(pm, i, e, ta, to, d));
+        pm.AddReportPm("De" + condition);
+        return true;
       }
+      return false;
+    }
+    private static void MentalHerb(PokemonProxy pm)
+    {
+      var a = pm.OnboardPokemon.RemoveCondition("Attract");
+      if (a) pm.AddReportPm("ItemDeAttract", pm.Pokemon.Item.Id);
+      if (a | MentalHerb(pm, "Encore") | MentalHerb(pm, "Taunt") | MentalHerb(pm, "Torment") | MentalHerb(pm, "Disable")) pm.ConsumeItem();
     }
   }
 }

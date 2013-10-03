@@ -18,7 +18,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       switch (def.Defender.Ability)
       {
         case As.WONDER_SKIN:
-          if (atk.Move.Category == Data.MoveCategory.Status) m *= 0x999;
+          if (atk.Move.Category == MoveCategory.Status) m *= 0x999;
           break;
         case As.SAND_VEIL:
           if (aer.Controller.Weather == Weather.Sandstorm) m *= 0xccc;

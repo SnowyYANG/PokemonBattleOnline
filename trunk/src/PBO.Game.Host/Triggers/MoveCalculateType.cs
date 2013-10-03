@@ -20,7 +20,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.NATURAL_GIFT: //363
           {
-            var i = Is.BerryNumber(atk.Attacker.Pokemon.Item.Id);
+            var i = ITs.BerryNumber(atk.Attacker.Pokemon.Item.Id);
             atk.Type = i < 36 ? BattleTypeHelper.GetItemType(i, 1) : i < 53 ? BattleTypeHelper.GetItemType(i, 36, false) : BattleTypeHelper.GetItemType(i, 50);
           }
           break;

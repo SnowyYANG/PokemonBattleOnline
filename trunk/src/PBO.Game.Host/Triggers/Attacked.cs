@@ -24,7 +24,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       switch (def.Defender.Ability) //此时破格不能无视
       {
         case As.ILLUSION:
-          As.DeIllusion(def.Defender);
+          ATs.DeIllusion(def.Defender);
           break;
         case As.STATIC:
           if (touch) AddState(def, AttachedState.PAR);
@@ -80,7 +80,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (touch && aer.Ability != As.MULTITYPE && aer.Ability != As.MUMMY)
           {
             der.RaiseAbility();
-            aer.ChangeAbility(As.MUMMY, "SetAbility");
+            var fa = aer.OnboardPokemon.Ability;
+            aer.ChangeAbility(As.MUMMY);
+            aer.AddReportPm("SetAbility", As.MUMMY, fa);
           }
           break;
         case As.JUSTIFIED:
@@ -188,12 +190,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         int hp = aer.Pokemon.Hp.Origin >> 3;
         if (hp == 0) hp = 1;
         aer.Pokemon.SetHp(aer.Hp - hp);
-        aer.Controller.ReportBuilder.Add(new GameEvents.ReHurtBerry(aer, def.Defender));
+        aer.AddReportPm("ReHurtItem", def.Defender, def.Defender.Pokemon.Item.Id);
+        aer.Controller.ReportBuilder.ShowHp(aer);
       }
     }
     private static void AttackedUpItem(DefContext def, BattleType type, StatType stat)
     {
-      if (def.AtkContext.Type == type) Is.ChangeLv5D(def.Defender, stat, 1);
+      if (def.AtkContext.Type == type) ITs.ChangeLv5D(def.Defender, stat, 1);
     }
   }
 }

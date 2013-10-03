@@ -43,7 +43,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
               var change = aer.Pokemon.Hp.Origin * move.MaxHpPercentage / 100;
               aer.Pokemon.SetHp(aer.Hp + (change == 0 ? -1 : change));
               aer.OnboardPokemon.SetTurnCondition("Assurance");
-              aer.Controller.ReportBuilder.Add(new GameEvents.HpChange(aer, "ReHurt"));
+              aer.AddReportPm("ReHurt");
+              aer.Controller.ReportBuilder.ShowHp(aer);
             }
           }
           break;
@@ -75,7 +76,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         var aer = def.AtkContext.Attacker;
         def.AtkContext.Attacker.AddReportPm("EatDefenderBerry", i);
-        Is.RaiseItemByMove(aer, i, aer);
+        ITs.RaiseItemByMove(aer, i, aer);
       }
     }
 

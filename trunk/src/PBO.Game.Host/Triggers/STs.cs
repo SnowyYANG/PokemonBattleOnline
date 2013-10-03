@@ -22,7 +22,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (o.HasCondition("Grudge") && mp != null && mp.PP != 0)
       {
         mp.PP = 0;
-        aer.Controller.ReportBuilder.Add(new SetPP("Grudge", mp));
+        aer.AddReportPm("Grudge");
       }
       if (aer.CanChangeLv7D(aer, StatType.Atk, 1, false) != 0 && aer.RaiseAbility(As.MOXIE)) aer.ChangeLv7D(aer, StatType.Atk, 1, false);
     }
@@ -85,7 +85,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         c = pass.GetCondition<object>("PerishSong");
         if (c != null) o.SetCondition("PerishSong", c);
       }
-      As.Illusion(pm);//幻影特性以交换前的队伍顺序决定
+      ATs.Illusion(pm);//幻影特性以交换前的队伍顺序决定
     }
     public static void Withdrawing(PokemonProxy pm, bool canPursuit)
     {
@@ -142,7 +142,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
       if ((pm.Item == Is.FOCUS_BAND && pm.Controller.OneNth(10)) || (pm.Item == Is.FOCUS_SASH && pm.Hp == pm.Pokemon.Hp.Origin))
       {
-        pm.RaiseItem("FocusItem");
+        pm.RaiseItem("FocusItem", pm.Pokemon.Item.Id == Is.FOCUS_SASH);
         return true;
       }
       return false;
@@ -150,7 +150,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     public static bool MagicCoat(AtkContext atk, PokemonProxy der)
     {
       //atk.Move.AdvancedFlags.MagicCoat is already checked
-      if (der.OnboardPokemon.HasCondition("MagicCoat") || !As.IgnoreDefenderAbility(atk.Attacker.Ability) && der.Ability == As.MAGIC_BOUNCE)
+      if (der.OnboardPokemon.HasCondition("MagicCoat") || !ATs.IgnoreDefenderAbility(atk.Attacker.Ability) && der.Ability == As.MAGIC_BOUNCE)
       {
         var o = atk.GetCondition<List<PokemonProxy>>("MagicCoat");
         if (o == null)
@@ -210,14 +210,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Is.QUICK_CLAW:
           if (pm.Controller.RandomHappen(20))
           {
-            pm.RaiseItem("QuickItem");
+            pm.RaiseItem("QuickItem", false);
             r = 1;
           }
           break;
         case Is.CUSTAP_BERRY:
-          if (As.Gluttony(pm))
+          if (ATs.Gluttony(pm))
           {
-            pm.RaiseItem("QuickItem");
+            pm.RaiseItem("QuickItem", true);
             r = 1;
           }
           break;
@@ -233,7 +233,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           {
             m.PP += 10;
             pm.ConsumeItem();
-            pm.Controller.ReportBuilder.Add(new GameEvents.SetPP("ItemPPRecover", m) { Arg2 = Is.LEPPA_BERRY, Item = true });
+            pm.AddReportPm("ItemPPRecover", Is.LEPPA_BERRY, m.Type.Id);
             return;
           }
       }
@@ -265,7 +265,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static void Disappear(PokemonProxy pm)
     {
-      pm.Controller.ReportBuilder.Add(GameEvents.Substitute.DeSubstitute(pm));
+      pm.Controller.ReportBuilder.DeSubstitute(pm);
       pm.OnboardPokemon.RemoveCondition("Substitute");
     }
     public static bool Hurt(DefContext def)
@@ -277,10 +277,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (def.Damage > hp) def.Damage = hp;
         hp -= def.Damage;
         def.Defender.AddReportPm("HurtSubstitute");
-        if (def.EffectRevise > 0) c.ReportBuilder.Add("SuperHurt0");
-        else if (def.EffectRevise < 0) c.ReportBuilder.Add("WeakHurt0");
-        if (def.IsCt) c.ReportBuilder.Add("CT0");
-        if (def.Defender.Item == Is.AIR_BALLOON) Is.AirBalloon(def);
+        if (def.EffectRevise > 0) c.ReportBuilder.ShowLog("SuperHurt0");
+        else if (def.EffectRevise < 0) c.ReportBuilder.ShowLog("WeakHurt0");
+        if (def.IsCt) c.ReportBuilder.ShowLog("CT0");
+        if (def.Defender.Item == Is.AIR_BALLOON) ITs.AirBalloon(def);
         if (hp == 0) Disappear(def.Defender);
         else def.Defender.OnboardPokemon.SetCondition("Substitute", hp);
         return true;
@@ -362,7 +362,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void DeReport(ReportBuilder report, Condition hazard, Field field)
     {
       var m = hazard.Move.Id;
-      report.Add(m == Ms.SPIKES ? "DeSpikes" : m == Ms.TOXIC_SPIKES ? "DeToxicSpikes" : "DeStealthRock", field.Team);
+      report.ShowLog(m == Ms.SPIKES ? "DeSpikes" : m == Ms.TOXIC_SPIKES ? "DeToxicSpikes" : "DeStealthRock", field.Team);
     }
     public static bool Debut(PokemonProxy pm) //欢迎登场，口耐的精灵们（笑
     {

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PokemonBattleOnline.Game.GameEvents;
-using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Game.Host
 {
-  public class ReportBuilder
+  internal class ReportBuilder
   {
     private readonly Controller Controller;
     private readonly DateTime Begin;
@@ -82,7 +81,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public void ShowLog(string key, object arg0 = null, object arg1 = null, object arg2 = null)
     {
-      Add(new ShowLog(key, arg0, arg1, arg2));
+      Add(new ShowLog(key, Filter(arg0), Filter(arg1), Filter(arg2)));
     }
     public void AddHorizontalLine()
     {
@@ -100,9 +99,9 @@ namespace PokemonBattleOnline.Game.Host
     {
       Add(new SetItem() { Pm = pm.Id, Item = pm.Pokemon.Item.Id });
     }
-    public void SetHp(PokemonProxy pm)
+    public void SetHp(Pokemon pm)
     {
-      Add(new SetHp() { Pm = pm.Id, Hp = pm.Hp });
+      Add(new SetHp() { Pm = pm.Id, Hp = pm.Hp.Value });
     }
     public void ShowHp(PokemonProxy pm)
     {
@@ -141,6 +140,18 @@ namespace PokemonBattleOnline.Game.Host
     public void Withdraw(PokemonProxy pm)
     {
       Add(new Withdraw() { Pm = pm.Id });
+    }
+    public void ShowWeather(Controller controller)
+    {
+      Add(new ShowWeather(controller.Board.Weather));
+    }
+    public void SetY(PokemonProxy pm)
+    {
+      Add(new SetY() { Pm = pm.Id, Y = pm.CoordY });
+    }
+    public void SetX(PokemonProxy pm)
+    {
+      Add(new SetX() { Pm = pm.Id, X = pm.OnboardPokemon.X });
     }
   }
 }

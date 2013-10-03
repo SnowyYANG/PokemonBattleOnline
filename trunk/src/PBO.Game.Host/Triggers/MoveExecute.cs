@@ -63,7 +63,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                 case Ms.NATURAL_GIFT: //363
                 case Ms.FLING:
                   aer.ConsumeItem();
-                  aer.Controller.ReportBuilder.Add(new GameEvents.RemoveItem(null, aer));
                   break;
               }
             break;
@@ -143,14 +142,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
 
     private static void NaturePower(AtkContext atk)
     {
-      Data.MoveType m;
+      MoveType m;
       switch (atk.Controller.GameSettings.Terrain)
       {
         case Terrain.Path:
-          m = Data.GameDataService.GetMove(Ms.EARTHQUAKE);
+          m = RomData.GetMove(Ms.EARTHQUAKE);
           break;
         default:
-          atk.Controller.ReportBuilder.Add("error");
+          atk.Controller.ReportBuilder.ShowLog("error");
           return;
       }
       atk.StartExecute(m, null, "NaturePower");
@@ -172,7 +171,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void Metronome(AtkContext atk)
     {
     LOOP:
-      var m = GameDataService.GetMove(atk.Controller.GetRandomInt(1, GameDataService.Moves.Count()));
+      var m = RomData.GetMove(atk.Controller.GetRandomInt(1, RomData.Moves.Count()));
       if (METRONOME_BLOCK.Contains(m.Id)) goto LOOP;
       atk.StartExecute(m, null, "Metronome");
     }
@@ -231,14 +230,15 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         }
         if (m == Ms.SKULL_BASH) aer.ChangeLv7D(atk.Attacker, StatType.Def, 1, false);
         atk.SetAttackerAction(PokemonAction.Moving);
-        return !(m == Ms.SOLARBEAM && aer.Controller.Weather == Weather.IntenseSunlight || Is.PowerHerb(aer));
+        return !(m == Ms.SOLARBEAM && aer.Controller.Weather == Weather.IntenseSunlight || ITs.PowerHerb(aer));
       }
       return false;
     }
     private static void PrepareOneTurn(AtkContext atk, CoordY y)
     {
-      atk.Attacker.Controller.ReportBuilder.Add(GameEvents.PositionChange.Leap("Prepare" + atk.Move.Id.ToString(), atk.Attacker, y));
-      atk.Attacker.OnboardPokemon.CoordY = y;
+      var aer = atk.Attacker;
+      aer.CoordY = y;
+      aer.AddReportPm("Prepare" + atk.Move.Id.ToString());
     }
   }
 }

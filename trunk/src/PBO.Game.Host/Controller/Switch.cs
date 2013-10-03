@@ -39,13 +39,13 @@ namespace PokemonBattleOnline.Game.Host
         STs.Withdrawing(pm, canPursuit);
         if (pm.Tile != null)
         {
-          ReportBuilder.Add(new GameEvents.Withdraw(pm));
+          ReportBuilder.Withdraw(pm);
           var ability = pm.Ability;
           pm.Action = PokemonAction.InBall;
           pm.Tile.Pokemon = null;
           pm.OnboardPokemon = pm.NullOnboardPokemon;
           Controller.ActingPokemons.Remove(pm);
-          As.Withdrawn(pm, ability);
+          ATs.Withdrawn(pm, ability);
           return true;
         }
       }
@@ -64,7 +64,8 @@ namespace PokemonBattleOnline.Game.Host
     }
     public void GameStartSendout(IEnumerable<Tile> tiles)
     {
-      ReportBuilder.Add(new GameStartSendOut(tiles.Select((t) => SendoutImplement(t))));
+      var pms = tiles.Select((t) => SendoutImplement(t)).ToArray();
+      ReportBuilder.ShowLog("Sendout" + pms.Length, pms.ValueOrDefault(0), pms.ValueOrDefault(1), pms.ValueOrDefault(2));
     }
     public bool Sendout(Tile tile, bool debut, string log)
     {
@@ -75,14 +76,15 @@ namespace PokemonBattleOnline.Game.Host
       {
         var pm = SendoutImplement(tile);
         p.SwitchPokemon(origin, sendout);
-        ReportBuilder.Add(new SendOut(pm, sendout, log));
-        As.Trace(pm);
+        ReportBuilder.SendOut(pm, sendout);
+        pm.AddReportPm(log);
+        ATs.Trace(pm);
         if (debut)
         {
-          As.AttachUnnerve(Controller);
+          ATs.AttachUnnerve(Controller);
           pm.Debut();
-          if (pm.Hp != 0) As.AttachWeatherObserver(pm);
-          As.WeatherChanged(Controller);
+          if (pm.Hp != 0) ATs.AttachWeatherObserver(pm);
+          ATs.WeatherChanged(Controller);
         }
         return true;
       }

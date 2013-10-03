@@ -123,7 +123,11 @@ namespace PokemonBattleOnline.Game.Host
       int ab = sendout.OnboardPokemon.Ability;
       if (Trace(ab))
         foreach (var pm in sendout.Controller.Board[1 - sendout.Pokemon.TeamId].GetPokemons(sendout.OnboardPokemon.X - 1, sendout.OnboardPokemon.X + 1))
-          if (pm.RaiseAbility(As.TRACE)) pm.ChangeAbility(sendout.OnboardPokemon.Ability, "Trace", sendout.Id);
+          if (pm.RaiseAbility(As.TRACE))
+          {
+            pm.ChangeAbility(sendout.OnboardPokemon.Ability);
+            pm.Controller.ReportBuilder.ShowLog("Trace", sendout.Id, sendout.OnboardPokemon.Ability);
+          }
     }
     public static bool Gluttony(PokemonProxy pm)
     {
@@ -181,7 +185,7 @@ namespace PokemonBattleOnline.Game.Host
         {
           pm.OnboardPokemon.SetCondition("Unnerve");
           pm.RaiseAbility();
-          pm.Controller.ReportBuilder.Add("Unnerve", 1 - pm.Pokemon.TeamId);
+          pm.Controller.ReportBuilder.ShowLog("Unnerve", 1 - pm.Pokemon.TeamId);
         }
     }
     internal static void AttachWeatherObserver(PokemonProxy pm)
@@ -201,7 +205,11 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static void DeIllusion(PokemonProxy pm)
     {
-      if (pm.OnboardPokemon.RemoveCondition("Illusion")) pm.Controller.ReportBuilder.Add(GameEvents.SetOutward.DeIllusion("DeIllusion", pm));
+      if (pm.OnboardPokemon.RemoveCondition("Illusion"))
+      {
+        pm.Controller.ReportBuilder.DeIllusion(pm);
+        pm.AddReportPm("DeIllusion");
+      }
     }
   }
 }

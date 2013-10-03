@@ -34,7 +34,8 @@ namespace PokemonBattleOnline.Game.Host
 
     public TeamOutward GetOutward()
     {
-      return new TeamOutward(_players, Settings.Mode.PokemonsPerPlayer());
+      throw new NotImplementedException();
+      //return new TeamOutward(_players, Settings.Mode.PokemonsPerPlayer());
     }
   }
 }

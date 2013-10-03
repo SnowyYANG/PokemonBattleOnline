@@ -24,7 +24,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       switch (der.Item)
       {
         case Is.EVIOLITE:
-          if (Data.GameDataService.GetEvolutions(der.Pokemon.Form.Species.Number).Any()) m = 0x1800;
+          if (RomData.GetEvolutions(der.Pokemon.Form.Species.Number).Any()) m = 0x1800;
           break;
         case Is.SOUL_DEW:
           if (cat == MoveCategory.Special && (n == 380 || n == 381)) m *= 0x1800;

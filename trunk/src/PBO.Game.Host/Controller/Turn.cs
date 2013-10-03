@@ -173,7 +173,7 @@ namespace PokemonBattleOnline.Game.Host
         foreach (Tile t in Tiles)
           if (t.WillSendoutPokemonIndex != Tile.NOPM_INDEX) Controller.Sendout(t, false);
       SortTiles();
-      As.AttachUnnerve(Controller);
+      ATs.AttachUnnerve(Controller);
       var debut = new List<PokemonProxy>();
       foreach (Tile t in Tiles)
         if (t.Pokemon != null && t.Pokemon.Action == PokemonAction.Debuting)
@@ -181,13 +181,13 @@ namespace PokemonBattleOnline.Game.Host
           t.Pokemon.Debut();
           if (t.Pokemon != null) debut.Add(t.Pokemon);
         }
-      foreach (var p in debut) As.AttachWeatherObserver(p);
-      As.WeatherChanged(Controller);
+      foreach (var p in debut) ATs.AttachWeatherObserver(p);
+      ATs.WeatherChanged(Controller);
       if (ReportBuilder.TurnNumber != 0) current -= 2;
     }
     private void NextTurn()
     {
-      As.SlowStart(Controller);
+      ATs.SlowStart(Controller);
       Board.ClearTurnCondition();
       foreach (var f in Board.Fields) f.ClearTurnCondition();
       foreach (var t in Tiles)

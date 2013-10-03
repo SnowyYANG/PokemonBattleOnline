@@ -83,12 +83,12 @@ namespace PokemonBattleOnline.Game.Host
     }
     public Weather Weather
     {
-      get { return As.IgnoreWeather(this) ? Weather.Normal : Board.Weather; }
+      get { return ATs.IgnoreWeather(this) ? Weather.Normal : Board.Weather; }
       set
       {
         Board.Weather = value;
-        ReportBuilder.Add(new GameEvents.WeatherChange(value));
-        if (!As.IgnoreWeather(this)) As.WeatherChanged(this);
+        ReportBuilder.ShowWeather(this);
+        if (!ATs.IgnoreWeather(this)) ATs.WeatherChanged(this);
       }
     }
     /// <summary>
@@ -163,7 +163,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (InputController.NeedInput)
       {
-#if DEBUG
+#if ETV
         random = new Random(randomSeeds.Next());
 #else
         random = new Random();

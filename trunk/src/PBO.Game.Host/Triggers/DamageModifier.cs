@@ -81,11 +81,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case 57:
         case Ms.WHIRLPOOL:
-          if (der.OnboardPokemon.CoordY == CoordY.Water) m *= 0x2000;
+          if (der.CoordY == CoordY.Water) m *= 0x2000;
           break;
         case Ms.EARTH_POWER: //89
         case Ms.MAGNITUDE: //222
-          if (der.OnboardPokemon.CoordY == CoordY.Underground) m *= 0x2000;
+          if (der.CoordY == CoordY.Underground) m *= 0x2000;
           break;
       }
 

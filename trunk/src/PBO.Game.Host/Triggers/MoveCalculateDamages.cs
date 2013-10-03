@@ -89,8 +89,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           atk.Attacker.Faint();
           break;
         case Ms.BRICK_BREAK: //280
-          if (ls) atk.Controller.ReportBuilder.Add("DeLightScreen", der.Tile.Field.Team);
-          if (r) atk.Controller.ReportBuilder.Add("DeReflect", der.Tile.Field.Team);
+          if (ls) atk.Controller.ReportBuilder.ShowLog("DeLightScreen", der.Tile.Field.Team);
+          if (r) atk.Controller.ReportBuilder.ShowLog("DeReflect", der.Tile.Field.Team);
           break;
         case Ms.FEINT: //364
           if (feint) der.AddReportPm("Feint");
@@ -102,7 +102,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (atk.Move.Class != MoveInnerClass.OHKO)
       {
         var aer = atk.Attacker;
-        Is.CheckGem(atk);
+        ITs.CheckGem(atk);
         atk.CTLv = atk.Move.CtLv;
         if (atk.CTLv < 5)
         {
@@ -126,7 +126,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var c = aer.Controller;
       var move = atk.Move;
 
-      if (!(def.Defender.Tile.Field.HasCondition("LuckyChant") || As.CannotBeCted(def.Ability)))
+      if (!(def.Defender.Tile.Field.HasCondition("LuckyChant") || ATs.CannotBeCted(def.Ability)))
         if (move.CtLv > 5) def.IsCt = true;
         else def.IsCt = c.OneNth(LV_CT[atk.CTLv]);
 
@@ -206,7 +206,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
 
     private static void Counter(AtkContext atk, string condition, Modifier modifier)
     {
-      Is.CheckGem(atk);
+      ITs.CheckGem(atk);
       atk.Target.Damage = atk.Attacker.OnboardPokemon.GetCondition(condition).Damage;
       atk.Target.ModifyDamage(modifier);
     }

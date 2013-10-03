@@ -14,7 +14,7 @@ namespace PokemonBattleOnline.Game
     UseMove = 2,
     Sendout = 4,
   }
-  internal class SelectMoveFail
+  public class SelectMoveFail
   {
     public readonly string Key;
     public readonly int Move; //知道怎么区分Block和Only了吧...

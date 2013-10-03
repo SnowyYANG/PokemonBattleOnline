@@ -37,7 +37,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (pm.State == PokemonState.PSN || pm.State == PokemonState.BadlyPSN)
           {
             pm.RaiseAbility();
-            pm.DeAbnormalState(false);
+            pm.DeAbnormalState();
           }
           break;
         case As.OWN_TEMPO: //20
@@ -70,8 +70,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case As.AIR_LOCK:
           pm.RaiseAbility();
-          pm.Controller.ReportBuilder.Add("AirLock");
-          if (pm.Controller.Board.Weather != Weather.Normal) As.WeatherChanged(pm.Controller);
+          pm.Controller.ReportBuilder.ShowLog("AirLock");
+          if (pm.Controller.Board.Weather != Weather.Normal) ATs.WeatherChanged(pm.Controller);
           break;
         case As.DRIZZLE:
           WeatherAbility(pm, Weather.HeavyRain);
@@ -137,7 +137,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (items.Count == 0) return;
       int i = pm.Controller.GetRandomInt(0, items.Count - 1);
       pm.RaiseAbility();
-      pm.Controller.ReportBuilder.Add("Frisk", pm, items[i]);
+      pm.Controller.ReportBuilder.ShowLog("Frisk", pm, items[i]);
     }
     private static void WeatherObserver(PokemonProxy pm, int number, int form)
     {
@@ -179,7 +179,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         KeyValuePair<PokemonProxy, MoveType> pair = moves[pm.Controller.GetRandomInt(0, moves.Count - 1)];
         pm.RaiseAbility();
-        pm.Controller.ReportBuilder.Add("ReadMove", pair.Key, pair.Value);
+        pm.Controller.ReportBuilder.ShowLog("ReadMove", pair.Key, pair.Value);
       }
     }
     private static void WeatherAbility(PokemonProxy pm, Weather weather)
@@ -194,13 +194,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       var pms = new List<PokemonProxy>();
       foreach (var p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1))
-        if (As.Trace(p.OnboardPokemon.Ability)) pms.Add(p);
+        if (ATs.Trace(p.OnboardPokemon.Ability)) pms.Add(p);
       var n = pms.Count;
       if (n != 0)
       {
         pm.RaiseAbility();
         var target = pms[pm.Controller.GetRandomInt(0, n - 1)];
-        pm.ChangeAbility(target.OnboardPokemon.Ability, "Trace", target.Id);
+        pm.ChangeAbility(target.OnboardPokemon.Ability);
+        pm.Controller.ReportBuilder.ShowLog("Trace", target.Id, target.OnboardPokemon.Ability);
       }
     }
     private static void SimpleAttachRaise(PokemonProxy pm, string log)

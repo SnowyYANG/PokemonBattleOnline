@@ -103,7 +103,7 @@
     <Compile Include="Interactive\GameEvents\ShowWeather.cs" />
     <Compile Include="GameMode.cs" />
     <Compile Include="Interactive\GameEvent.cs" />
-    <Compile Include="Interactive\GameEvents\PropertyChange.cs" />
+    <Compile Include="Interactive\GameEvents\SetProperties.cs" />
     <Compile Include="Interactive\GameEvents\ShowLog.cs" />
     <Compile Include="Interactive\GameEvents\Switch.cs" />
     <Compile Include="GameLogs.cs" />

@@ -169,7 +169,7 @@ namespace PokemonBattleOnline.Game.Host
       _weight = form.Species.Weight;
       _type1 = form.Type1;
       _type2 = form.Type2;
-      Ability = form.Data.GetAbility(Pokemon.AbilityIndex).Id;
+      Ability = form.Data.GetAbility(Pokemon.AbilityIndex);
       FiveD.Atk = Get5D(StatType.Atk);
       FiveD.SpAtk = Get5D(StatType.SpAtk);
       FiveD.Speed = Get5D(StatType.Speed);

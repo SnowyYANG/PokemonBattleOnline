@@ -53,13 +53,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (random >= 95)
       {
         atk.SetCondition("Magnitude", 7);
-        atk.Controller.ReportBuilder.Add("Magnitude", 10);
+        atk.Controller.ReportBuilder.ShowLog("Magnitude", 10);
       }
       else
       {
         var a = random < 5 ? 0 : random < 16 ? 1 : random < 35 ? 2 : random < 65 ? 3 : random < 85 ? 4 : 5;
         atk.SetCondition("Magnitude", a);
-        atk.Controller.ReportBuilder.Add("Magnitude", 4 + a);
+        atk.Controller.ReportBuilder.ShowLog("Magnitude", 4 + a);
       }
     }
     private static void MultiTurn(AtkContext atk, int turn, bool isRandom = false)

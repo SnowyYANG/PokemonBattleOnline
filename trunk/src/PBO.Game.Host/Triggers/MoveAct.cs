@@ -462,7 +462,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (!allSub)
         {
           foreach (DefContext d in defs)
-            if (d.RemoveCondition("Antiberry")) d.Defender.RaiseItem("Antiberry");
+            if (d.RemoveCondition("Antiberry")) d.Defender.RaiseItem("Antiberry", true);
           var e = new GameEvents.MoveHurt();
           aer.Controller.ReportBuilder.Add(e);
           foreach (DefContext d in defs)
@@ -520,7 +520,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case MoveInnerClass.AddState:
           foreach (var d in atk.Targets) notAllFail |= d.Defender.AddState(d);
           if (atk.Move.Attachment.State == AttachedState.PerishSong)
-            if (notAllFail) atk.Controller.ReportBuilder.Add("EnPerishSong");
+            if (notAllFail) atk.Controller.ReportBuilder.ShowLog("EnPerishSong");
             else atk.FailAll();
           break;
         case MoveInnerClass.Lv7DChange:
@@ -550,7 +550,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (atk.Target.Defender.OnboardPokemon.AddCondition("Curse"))
         {
           aer.Pokemon.SetHp(aer.Hp - (aer.Pokemon.Hp.Origin >> 1));
-          atk.Controller.ReportBuilder.Add(new GameEvents.HpChange(aer, "EnCurse", atk.Target.Defender.Id));
+          aer.AddReportPm("EnCurse", atk.Target.Defender.Id);
+          aer.Controller.ReportBuilder.ShowHp(aer);
           aer.CheckFaint();
         }
         else atk.FailAll();
@@ -609,13 +610,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void AddTeamCondition(AtkContext atk, string condition, int turn = 5)
     {
       var team = atk.Attacker.Pokemon.TeamId;
-      if (atk.Controller.Board[team].AddCondition(condition, atk.Controller.TurnNumber + turn - 1)) atk.Controller.ReportBuilder.Add("En" + condition, team);
+      if (atk.Controller.Board[team].AddCondition(condition, atk.Controller.TurnNumber + turn - 1)) atk.Controller.ReportBuilder.ShowLog("En" + condition, team);
       else atk.FailAll();
     }
     private static void EntryHazards(AtkContext atk, MoveType move, string log)
     {
       var team = 1 - atk.Attacker.Pokemon.TeamId;
-      if (EHTs.En(atk.Controller.Board[team], move)) atk.Controller.ReportBuilder.Add(log, team);
+      if (EHTs.En(atk.Controller.Board[team], move)) atk.Controller.ReportBuilder.ShowLog(log, team);
       else atk.FailAll();
     }
     private static void LockOn(AtkContext atk)
@@ -632,7 +633,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         aer.Pokemon.SetHp(aer.Hp - (aer.Pokemon.Hp.Origin >> 1));
         aer.OnboardPokemon.ChangeLv7D(StatType.Atk, 12);
-        aer.Controller.ReportBuilder.Add(new GameEvents.HpChange(aer, "BellyDrum", 0, 0));
+        aer.AddReportPm("BellyDrum");
+        aer.Controller.ReportBuilder.ShowHp(aer);
       }
       else atk.FailAll();
     }
@@ -729,7 +731,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         der.OnboardPokemon.SetLv7D(s, aer.OnboardPokemon.GetLv7D(s));
         aer.OnboardPokemon.SetLv7D(s, t);
       }
-      aer.Controller.ReportBuilder.Add(log, aer, der);
+      aer.Controller.ReportBuilder.ShowLog(log, aer, der);
     }
     private static void Split5D(AtkContext atk, string log, IEnumerable<StatType> stats)
     {
@@ -741,7 +743,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         aer.OnboardPokemon.FiveD.SetStat(s, v);
         der.OnboardPokemon.FiveD.SetStat(s, v);
       }
-      aer.Controller.ReportBuilder.Add(log, aer, der);
+      aer.Controller.ReportBuilder.ShowLog(log, aer, der);
     }
     private static void Defog(AtkContext atk)
     {
@@ -750,15 +752,15 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var t = atk.Target.Defender.Pokemon.TeamId;
       var f = atk.Controller.Board[t];
       EHTs.De(r, f);
-      if (f.RemoveCondition("Reflect")) r.Add("DeReflect", t);
-      if (f.RemoveCondition("LightScreen")) r.Add("DeLightScreen", t);
-      if (f.RemoveCondition("Mist")) r.Add("DeMist", t);
-      if (f.RemoveCondition("Safeguard")) r.Add("DeSafeguard", t);
+      if (f.RemoveCondition("Reflect")) r.ShowLog("DeReflect", t);
+      if (f.RemoveCondition("LightScreen")) r.ShowLog("DeLightScreen", t);
+      if (f.RemoveCondition("Mist")) r.ShowLog("DeMist", t);
+      if (f.RemoveCondition("Safeguard")) r.ShowLog("DeSafeguard", t);
     }
     private static void Soak(AtkContext atk)
     {
       var der = atk.Target.Defender;
-      if (Is.PlatedArceus(der.Pokemon) || (der.OnboardPokemon.Type1 == BattleType.Water && der.OnboardPokemon.Type2 == BattleType.Invalid)) atk.FailAll();
+      if (ITs.PlatedArceus(der.Pokemon) || (der.OnboardPokemon.Type1 == BattleType.Water && der.OnboardPokemon.Type2 == BattleType.Invalid)) atk.FailAll();
       else
       {
         der.OnboardPokemon.Type1 = BattleType.Water;
@@ -801,7 +803,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       var team = atk.Attacker.Pokemon.TeamId;
       atk.Controller.Board[team].SetTurnCondition(condition);
-      atk.Controller.ReportBuilder.Add("En" + condition, team);
+      atk.Controller.ReportBuilder.ShowLog("En" + condition, team);
     }
     private static void Moonlight(AtkContext atk)
     {
@@ -828,7 +830,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           int hp = aer.Pokemon.Hp.Origin >> 2;
           aer.OnboardPokemon.SetCondition("Substitute", hp);
           aer.Pokemon.SetHp(aer.Hp - hp);
-          aer.Controller.ReportBuilder.Add(GameEvents.Substitute.EnSubstitute(aer));
+          aer.Controller.ReportBuilder.EnSubstitute(aer);
         }
       }
       else atk.FailAll();
@@ -867,11 +869,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         stats.Def = stats.SpDef;
         stats.SpDef = d;
       }
-      if (c.Board.AddCondition("WonderRoom", c.TurnNumber + 4)) c.ReportBuilder.Add("EnWonderRoom");
+      if (c.Board.AddCondition("WonderRoom", c.TurnNumber + 4)) c.ReportBuilder.ShowLog("EnWonderRoom");
       else
       {
         c.Board.RemoveCondition("WonderRoom");
-        c.ReportBuilder.Add("DeWonderRoom");
+        c.ReportBuilder.ShowLog("DeWonderRoom");
       }
     }
     private static void Rest(AtkContext atk)
@@ -880,11 +882,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (aer.Hp == aer.Pokemon.Hp.Origin) atk.FailAll();
       else if (CanAddState.Execute(aer, aer, AttachedState.SLP, true))
       {
-        aer.Controller.ReportBuilder.Add(new GameEvents.RestGame(aer));
         aer.Pokemon.SetHp(aer.Pokemon.Hp.Origin);
+        aer.Controller.ReportBuilder.SetHp(aer.Pokemon);
         aer.Pokemon.State = PokemonState.SLP;
         aer.OnboardPokemon.SetCondition("SLP", 3);
+        aer.Controller.ReportBuilder.SetState(aer.Pokemon);
         aer.Tile.Field.SetCondition("Rest" + aer.Id);
+        aer.AddReportPm("Rest");
         StateAdded.Execute(aer);
       }
     }
@@ -911,7 +915,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       int hp = (aer.Hp + der.Hp) >> 1;
       aer.Pokemon.SetHp(hp);
       der.Pokemon.SetHp(hp);
-      atk.Controller.ReportBuilder.Add("PainSplit", aer, der);
+      atk.Controller.ReportBuilder.ShowLog("PainSplit", aer, der);
     }
     private static void HealBell(AtkContext atk, string log)
     {
@@ -920,22 +924,23 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (pm.State != PokemonState.Normal) pm.Pokemon.State = PokemonState.Normal;
       foreach (var pm in aer.Pokemon.Owner.Pokemons)
         if (pm.Hp.Value > 0 && pm.State != PokemonState.Normal) pm.State = PokemonState.Normal;
-      aer.Controller.ReportBuilder.Add(log);
+      aer.Controller.ReportBuilder.ShowLog(log);
     }
     private static void Gravity(AtkContext atk)
     {
       var c = atk.Controller;
       if (c.Board.AddCondition("Gravity", c.TurnNumber + 4))
       {
-        c.ReportBuilder.Add("EnGravity");
+        c.ReportBuilder.ShowLog("EnGravity");
         foreach (var pm in c.Board.Pokemons)
         {
-          if (pm.OnboardPokemon.CoordY == CoordY.Air)
+          if (pm.CoordY == CoordY.Air)
           {
-            pm.OnboardPokemon.CoordY = CoordY.Plate;
-            pm.CancelMove();
+            pm.CoordY = CoordY.Plate;
+            pm.Action = PokemonAction.Done;
             pm.OnboardPokemon.RemoveCondition("SkyDrop");
-            c.ReportBuilder.Add(GameEvents.PositionChange.Reset("Gravity", pm));
+            c.ReportBuilder.SetY(pm);
+            pm.AddReportPm("Gravity");
           }
           else if (!HasEffect.IsGroundAffectable(pm, true, false, false)) pm.AddReportPm("Gravity");
         }
@@ -955,7 +960,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         var type = ms[aer.Controller.GetRandomInt(0, ms.Length - 1)];
         aer.OnboardPokemon.Type1 = type;
-        aer.OnboardPokemon.Type2 = Data.BattleType.Invalid;
+        aer.OnboardPokemon.Type2 = BattleType.Invalid;
         aer.AddReportPm("TypeChange", type);
       }
     }
@@ -986,7 +991,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         var aer = atk.Attacker;
         var der = atk.Target.Defender;
-        aer.Controller.ReportBuilder.Add("SkillSwap");
+        aer.Controller.ReportBuilder.ShowLog("SkillSwap");
         if (aer.Pokemon.TeamId != der.Pokemon.TeamId)
         {
           aer.AddReportPm("SkillSwapDetail", d);
@@ -1002,9 +1007,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static void SetAbility(AtkContext atk, int ability)
     {
-      var former = atk.Target.Defender.Ability;
-      if (former == As.TRUANT || former == As.MULTITYPE) atk.FailAll();
-      else atk.Target.Defender.ChangeAbility(ability, "SetAbility");
+      var fa = atk.Target.Defender.Ability;
+      if (fa == As.TRUANT || fa == As.MULTITYPE) atk.FailAll();
+      else
+      {
+        atk.Target.Defender.ChangeAbility(ability);
+        atk.Target.Defender.AddReportPm("SetAbility", ability, fa);
+      }
     }
     private static void RolePlay(AtkContext atk)
     {
@@ -1017,7 +1026,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         d == As.WONDER_GUARD || d == As.FORECAST || d == As.MULTITYPE || d == As.ILLUSION || d == As.ZEN_MODE
         )
         atk.FailAll();
-      else atk.Attacker.ChangeAbility(d, "SetAbility");
+      else
+      {
+        atk.Attacker.ChangeAbility(d);
+        atk.Attacker.AddReportPm("SetAbility", d, a);
+      }
     }
     private static void Entrainment(AtkContext atk)
     {
@@ -1030,7 +1043,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         d == As.TRUANT || d == As.MULTITYPE || d == As.FLOWER_GIFT
         )
         atk.FailAll();
-      else atk.Target.Defender.ChangeAbility(a, "SetAbility");
+      else
+      {
+        atk.Target.Defender.ChangeAbility(a);
+        atk.Target.Defender.AddReportPm("SetAbility", a, d);
+      }
     }
     private static void Conversion2(AtkContext atk)
     {
@@ -1094,7 +1111,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           {
             var fp = m.PP;
             m.PP -= 4;
-            atk.Controller.ReportBuilder.Add(new GameEvents.SetPP("Spite", m) { Arg2 = fp - m.PP });
+            der.AddReportPm("Spite", m.Type.Id, fp - m.PP);
             return;
           }
           break;
@@ -1134,7 +1151,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           Implement(atk.Targets);
           if (atk.Target.Defender.Hp == 0 || aer.Hp == 0 || aer.State == PokemonState.FRZ || aer.State == PokemonState.SLP) break;
         }
-      atk.Controller.ReportBuilder.Add("Hits", hits);
+      atk.Controller.ReportBuilder.ShowLog("Hits", hits);
 
       FinalEffect(atk);
     }
@@ -1157,7 +1174,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
       while (atk.Target != null && hits < times && atk.Target.Defender.Hp != 0 && aer.Hp != 0 && aer.State != PokemonState.FRZ && aer.State != PokemonState.SLP);
 
-      atk.Controller.ReportBuilder.Add("Hits", hits);
+      atk.Controller.ReportBuilder.ShowLog("Hits", hits);
 
       FinalEffect(atk);
     }

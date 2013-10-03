@@ -53,7 +53,7 @@ namespace PokemonBattleOnline.Game.Host
         if (log != null) Attacker.AddReportPm(log, move.Id);
         MoveInitAtkContext.Execute(this);
         MoveE.BuildDefContext(this, selectTile);
-        if (MoveProxy != null) As.Pressure(this, Ms.GetRange(Attacker, Move));
+        if (MoveProxy != null) ATs.Pressure(this, MTs.GetRange(Attacker, Move));
         MoveExecute.Execute(this);
       }
       else FailAll(null);
@@ -87,7 +87,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       Fail = true;
       SetAttackerAction(PokemonAction.Done);
-      if (log != null) Controller.ReportBuilder.Add(log, arg0, arg1);
+      if (log != null) Controller.ReportBuilder.ShowLog(log, arg0, arg1);
     }
   }
   internal class DefContext : ConditionalObject
@@ -123,7 +123,7 @@ namespace PokemonBattleOnline.Game.Host
     }
 
     public int Ability
-    { get { return As.IgnoreDefenderAbility(AtkContext.Attacker.Ability) ? 0 : Defender.Ability; } }
+    { get { return ATs.IgnoreDefenderAbility(AtkContext.Attacker.Ability) ? 0 : Defender.Ability; } }
     public bool RandomHappen(int percentage)
     {
       return percentage == 0 || Ability != As.SHIELD_DUST && AtkContext.RandomHappen(percentage);

@@ -35,8 +35,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
       else
       {
-        if (c.Board.Weather == Game.Weather.Sandstorm) c.ReportBuilder.Add("Sandstorm");
-        else if (c.Board.Weather == Game.Weather.Hailstorm) c.ReportBuilder.Add("Hailstorm");
+        if (c.Board.Weather == Game.Weather.Sandstorm) c.ReportBuilder.ShowLog("Sandstorm");
+        else if (c.Board.Weather == Game.Weather.Hailstorm) c.ReportBuilder.ShowLog("Hailstorm");
         switch (c.Weather)
         {
           case Game.Weather.Sandstorm:
@@ -383,7 +383,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (f.GetCondition<int>(condition) == c.TurnNumber)
       {
         f.RemoveCondition(condition);
-        c.ReportBuilder.Add("De" + condition, f.Team);
+        c.ReportBuilder.ShowLog("De" + condition, f.Team);
       }
     }
     //22.0 Gravity ends
@@ -397,12 +397,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (board.GetCondition<int>("Gravity") == turn)
       {
         board.RemoveCondition("Gravity");
-        c.ReportBuilder.Add("DeGravity");
+        c.ReportBuilder.ShowLog("DeGravity");
       }
       if (board.GetCondition<int>("TrickRoom") == turn)
       {
         board.RemoveCondition("TrickRoom");
-        c.ReportBuilder.Add("DeTrickRoom");
+        c.ReportBuilder.ShowLog("DeTrickRoom");
       }
       if (board.GetCondition<int>("WonderRoom") == turn)
       {
@@ -414,12 +414,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           stats.SpDef = d;
         }
         board.RemoveCondition("WonderRoom");
-        c.ReportBuilder.Add("DeWonderRoom");
+        c.ReportBuilder.ShowLog("DeWonderRoom");
       }
       if (board.GetCondition<int>("MagicRoom") == turn)
       {
         board.RemoveCondition("MagicRoom");
-        c.ReportBuilder.Add("DeMagicRoom");
+        c.ReportBuilder.ShowLog("DeMagicRoom");
         foreach (var pm in c.OnboardPokemons) STs.ItemAttach(pm);
       }
     }

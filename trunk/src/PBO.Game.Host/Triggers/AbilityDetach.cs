@@ -21,7 +21,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (pm.CanChangeForm(555, 0)) pm.ChangeForm(0);
           break;
         case As.ILLUSION:
-          As.DeIllusion(pm);
+          ATs.DeIllusion(pm);
           break;
         case As.FLOWER_GIFT:
           WeatherObserver(pm, 421);

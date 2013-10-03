@@ -104,7 +104,7 @@
 <a:KeyValueOfstringanyType><a:Key>TrapFree</a:Key><a:Value i:type="LogText"><text>{0:p}被从{1:m}中解放了！
 </text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>ReHurt</a:Key><a:Value i:type="LogText"><text>{0:p}因为反作用受到了伤害</text></a:Value></a:KeyValueOfstringanyType>
-<a:KeyValueOfstringanyType><a:Key>Trace</a:Key><a:Value i:type="LogText"><text>特性变成了{3:p}的{1:a}！
+<a:KeyValueOfstringanyType><a:Key>Trace</a:Key><a:Value i:type="LogText"><text>特性变成了{0:p}的{1:a}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT1</a:Key><a:Value i:type="LogText"><text>命中了{0:p}的要害！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT2</a:Key><a:Value i:type="LogText"><text>命中了{0:p}和{1:p}的要害！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>CT3</a:Key><a:Value i:type="LogText"><text>命中了{0:p}、{1:p}和{2:p}的要害！
@@ -386,7 +386,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeWonderRoom</a:Key><a:Value i:type="LogText"><text>奇迹空间被解除，防御与特防恢复了原样！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnMagicRoom</a:Key><a:Value i:type="LogText"><text>制造出了使持有的道具消失的空间！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeMagicRoom</a:Key><a:Value i:type="LogText"><text>魔法空间被解除，道具的效果恢复了原样！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Gem</a:Key><a:Value i:type="LogText"><text>{1:i}提升了{2:m}的威力！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Gem</a:Key><a:Value i:type="LogText"><text>{0:i}提升了{1:m}的威力！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EnZenMode</a:Key><a:Value i:type="LogText"><text>{0:p}的不倒翁模式发动！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>DeZenMode</a:Key><a:Value i:type="LogText"><text>{0:p}的不倒翁模式解除！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ForceWithdraw</a:Key><a:Value i:type="LogText"><foreground>8421504</foreground><text>（{0:p}强制下场）

@@ -107,10 +107,12 @@
     <ProjectReference Include="..\PBO.Game\PBO.Game.csproj">
       <Project>{5f1d7698-ad1e-462a-aeed-063bcb80df89}</Project>
       <Name>PBO.Game</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PokemonBattleOnline\PokemonBattleOnline.csproj">
       <Project>{ee2c451e-a61e-4634-b382-5298982e060c}</Project>
       <Name>PokemonBattleOnline</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

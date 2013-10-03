@@ -26,10 +26,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         Paralyzed(pm) &&
         FocusPunch(pm);
     }
-    private static void AddResetYReport(PokemonProxy p, string key, int arg1 = 0)
-    {
-      p.Controller.ReportBuilder.Add(PositionChange.Reset(key, p, arg1));
-    }
     private static bool Sleeping(PokemonProxy pm)
     {
       if (pm.State == PokemonState.SLP)
@@ -45,7 +41,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         else
         {
           pm.OnboardPokemon.SetCondition("SLP", count);
-          AddResetYReport(pm, "SLP");
+          pm.AddReportPm("SLP");
           return pm.SelectedMove.AvailableEvenSleeping();
         }
       }
@@ -58,12 +54,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (p.SelectedMove.Type.Flags.AvailableEvenFrozen)
         {
           p.Pokemon.State = PokemonState.Normal;
-          p.Controller.ReportBuilder.Add(new StateChange(p, "DeFRZ2", p.SelectedMove.Type.Id));
+          p.Controller.ReportBuilder.SetState(p.Pokemon);
+          p.AddReportPm("DeFRZ2", p.SelectedMove.Type.Id);
         }
         else if (p.Controller.GetRandomInt(0, 3) == 0) p.DeAbnormalState();
         else
         {
-          AddResetYReport(p, "FRZ");
+          p.AddReportPm("FRZ");
           return false;
         }
       }
@@ -74,7 +71,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var c = p.OnboardPokemon.GetCondition("Disable");
       if (c != null && p.SelectedMove.Type == c.Move) 
       {
-        AddResetYReport(p, "Disable", p.SelectedMove.Type.Id);
+        p.AddReportPm("Disable", p.SelectedMove.Type.Id);
         return false;
       }
       return true;
@@ -101,7 +98,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           foreach (MoveProxy m in pm.Moves)
             if (m.Type == move)
             {
-              AddResetYReport(p, "Imprison", move.Id);
+              p.AddReportPm("Imprison", move.Id);
               return false;
             }
       return true;
@@ -110,7 +107,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       if (pm.SelectedMove.Move.Type.Flags.IsHeal && pm.OnboardPokemon.HasCondition("HealBlock"))
       {
-        AddResetYReport(pm, "HealBlockCantUseMove", pm.SelectedMove.Move.Type.Id);
+        pm.AddReportPm("HealBlockCantUseMove", pm.SelectedMove.Move.Type.Id);
         return false;
       }
       return true;
@@ -125,7 +122,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           pm.OnboardPokemon.SetCondition("Confuse", count);
           if (pm.Controller.OneNth(2))
           {
-            var e = new GameEvents.HpChange(pm, "ConfuseWork") { ResetY = true };
+            pm.AddReportPm("ConfuseWork");
+            var e = new GameEvents.ShowHp();
             pm.Controller.ReportBuilder.Add(e);
             pm.MoveHurt((pm.Pokemon.Lv * 2 / 5 + 2) * 40 * OnboardPokemon.Get5D(pm.OnboardPokemon.FiveD.Atk, pm.OnboardPokemon.Lv5D.Atk) / OnboardPokemon.Get5D(pm.OnboardPokemon.FiveD.Def, pm.OnboardPokemon.Lv5D.Def) / 50 + 2);
             e.Hp = pm.Hp;
@@ -145,7 +143,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       if (pm.OnboardPokemon.HasCondition("Flinch"))
       {
-        AddResetYReport(pm, "Flinch");
+        pm.AddReportPm("Flinch");
         if (pm.RaiseAbility(As.STEADFAST)) pm.ChangeLv7D(pm, StatType.Speed, 1, false);
         return false;
       }
@@ -155,7 +153,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       if (p.SelectedMove.Type.Category == MoveCategory.Status && p.OnboardPokemon.HasCondition("Taunt"))
       {
-        AddResetYReport(p, "Taunt", p.SelectedMove.Type.Id);
+        p.AddReportPm("Taunt", p.SelectedMove.Type.Id);
         return false;
       }
       return true;
@@ -164,7 +162,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       if (p.SelectedMove.Type.Flags.UnavailableWithGravity && p.Controller.Board.HasCondition("Gravity"))
       {
-        AddResetYReport(p, "GravityCantUseMove", p.SelectedMove.Type.Id);
+        p.AddReportPm("GravityCantUseMove", p.SelectedMove.Type.Id);
         return false;
       }
       return true;
@@ -187,7 +185,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       if (p.State == PokemonState.PAR && p.Controller.OneNth(4))
       {
-        AddResetYReport(p, "PARWork");
+        p.AddReportPm("PARWork");
         return false;
       }
       return true;

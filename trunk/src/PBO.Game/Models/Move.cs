@@ -10,14 +10,10 @@ namespace PokemonBattleOnline.Game
     public MoveType Type { get; private set; }
     public IPairValue PP { get; private set; }
 
-    internal Move(MoveType move, int pp)
+    public Move(MoveType move, int pp)
     {
       Type = move;
       PP = new PairValue(pp);
-    }
-    internal Move(MoveType move)
-      : this(move, 5)
-    {
     }
   }
 }

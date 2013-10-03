@@ -18,24 +18,20 @@ namespace PokemonBattleOnline.Game.Host
       Controller = controller;
       Pokemon = pokemon;
       NullOnboardPokemon = new OnboardPokemon(pokemon, -1);
-      StruggleMove = new MoveProxy(new Move(GameDataService.GetMove(Ms.STRUGGLE), 1), this);
+      StruggleMove = new MoveProxy(new Move(RomData.GetMove(Ms.STRUGGLE), 1), this);
     }
 
     internal readonly OnboardPokemon NullOnboardPokemon;
     public OnboardPokemon OnboardPokemon
     { get; internal set; }
 
-    private void AddReport(GameEvent e)
-    {
-      Controller.ReportBuilder.Add(e);
-    }
     private void AddReport(string key)
     {
-      Controller.ReportBuilder.Add(key);
+      Controller.ReportBuilder.ShowLog(key);
     }
     public void AddReportPm(string key, object arg1 = null, object arg2 = null)
     {
-      Controller.ReportBuilder.Add(key, this, arg1, arg2);
+      Controller.ReportBuilder.ShowLog(key, this, arg1, arg2);
     }
 
     #region Data
@@ -89,10 +85,22 @@ namespace PokemonBattleOnline.Game.Host
         return w;
       }
     }
+    public CoordY CoordY
+    {
+      get { return OnboardPokemon.CoordY; }
+      set
+      {
+        if (OnboardPokemon.CoordY != value)
+        {
+          OnboardPokemon.CoordY = value;
+          Controller.ReportBuilder.SetY(this);
+        }
+      }
+    }
     public void ChangeForm(int form)
     {
       OnboardPokemon.ChangeForm(OnboardPokemon.Form.Species.GetForm(form));
-      Controller.ReportBuilder.Add(SetOutward.ChangeForm(this));
+      Controller.ReportBuilder.ChangeForm(this);
     }
     public void Transform(PokemonProxy target)
     {
@@ -100,7 +108,7 @@ namespace PokemonBattleOnline.Game.Host
       OnboardPokemon.Transform(target.OnboardPokemon);
       moves = new MoveProxy[target.moves.Length];
       for (int i = 0; i < moves.Length; ++i) moves[i] = new MoveProxy(target.moves[i].Type, this);
-      Controller.ReportBuilder.Add(SetOutward.Transform(this, target));
+      Controller.ReportBuilder.Transform(this);
     }
     public void ChangeMove(MoveType from, MoveType to)
     {
@@ -117,10 +125,10 @@ namespace PokemonBattleOnline.Game.Host
       OnboardPokemon.Ability = ab;
       AbilityAttach.Execute(this);
     }
-    public void SetItem(int item) //lost and found
+    public void SetItem(int item)
     {
-      Pokemon.Item = GameDataService.GetItem(item);
-      Controller.ReportBuilder.Add(new SetItem(this));
+      Pokemon.Item = RomData.GetItem(item);
+      Controller.ReportBuilder.SetItem(this);
       OnboardPokemon.RemoveCondition("Unburden");
       OnboardPokemon.RemoveCondition("ChoiceItem");
     }
@@ -150,7 +158,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     private bool CanExecute()
     {
-      OnboardPokemon.CoordY = CoordY.Plate;
+      CoordY = CoordY.Plate;
       return Triggers.CanExecute.Execute(this);
     }
     public void DeAbnormalState()
@@ -159,7 +167,7 @@ namespace PokemonBattleOnline.Game.Host
       {
         if (Pokemon.State == PokemonState.SLP) Tile.Field.RemoveCondition("Rest" + Id);
         Pokemon.State = PokemonState.Normal;
-        AddReport(new StateChange(this));
+        Controller.ReportBuilder.SetState(Pokemon);
       }
     }
     private bool CanAddState(PokemonProxy by, int ability, AttachedState state, bool showFail)
@@ -222,7 +230,7 @@ namespace PokemonBattleOnline.Game.Host
           goto CONDITION;
       }
     FAIL:
-      if (showFail) AddReport(fail);
+      if (showFail) Controller.ReportBuilder.ShowLog(fail);
       return false;
     NOEFFECT:
       if (showFail) AddReportPm("NoEffect");
@@ -351,7 +359,7 @@ namespace PokemonBattleOnline.Game.Host
           }
         }
       DONE1:
-        if (Is.ChoiceItem(Item))
+        if (ITs.ChoiceItem(Item))
         {
           var o = OnboardPokemon.GetCondition<MoveType>("ChoiceItem");
           if (o != null)
@@ -408,7 +416,7 @@ namespace PokemonBattleOnline.Game.Host
         if (!CheckFaint())
         {
           if (OnboardPokemon.Ability != As.FLOWER_GIFT && OnboardPokemon.Ability != As.FORECAST) AbilityAttach.Execute(this);
-          if (!Is.AirBalloon(this)) STs.ItemAttach(this);
+          if (!ITs.AirBalloon(this)) STs.ItemAttach(this);
         }
         Action = PokemonAction.Done;
       }
@@ -442,7 +450,7 @@ namespace PokemonBattleOnline.Game.Host
         case PokemonAction.Moving:
           if (CanExecute())
           {
-            if (AtkContext.Move.Id != Ms.BIDE) Controller.ReportBuilder.Add(PositionChange.Reset("UseMove", this, AtkContext.Move.Id));
+            if (AtkContext.Move.Id != Ms.BIDE) AddReportPm("UseMove", AtkContext.Move.Id);
             AtkContext.ContinueExecute(SelectedTarget);
           }
           else Action = PokemonAction.Done;
@@ -482,31 +490,32 @@ namespace PokemonBattleOnline.Game.Host
     }
     internal PokemonOutward GetOutward()
     {
-      var po = new PokemonOutward(Id, Pokemon.Owner.Id);
-      _position = new Position(Pokemon.TeamId, OnboardPokemon.X, OnboardPokemon.CoordY);
-      po.State = State;
-      po.IsSubstitute = OnboardPokemon.HasCondition("Substitute");
-      Hp = new PairValue(Pokemon.Hp.Origin, Pokemon.Hp.Value);
-      po.Lv = Pokemon.Lv;
+      throw new NotImplementedException();
+      //var po = new PokemonOutward(Id, Pokemon.Owner.Id);
+      //_position = new Position(Pokemon.TeamId, OnboardPokemon.X, OnboardPokemon.CoordY);
+      //po.State = State;
+      //po.IsSubstitute = OnboardPokemon.HasCondition("Substitute");
+      //po.Hp = new PairValue(Pokemon.Hp.Origin, Pokemon.Hp.Value);
+      //po.Lv = Pokemon.Lv;
 
-      Pokemon o = OnboardPokemon.GetCondition<Pokemon>("Illusion");
-      if (o == null)
-      {
-        Name = Pokemon.Name;
-        Form = OnboardPokemon.Form;
-        Gender = Pokemon.Gender;//即使对战画面中不显示性别，实际性别也与变身对象一致，可以被着迷。 
-        Chatter = Pokemon.Chatter;
-        Shiny = Pokemon.Shiny;
-      }
-      else
-      {
-        Name = o.Name;
-        Form = o.Form;
-        Gender = o.Gender;
-        Chatter = o.Chatter;
-        Shiny = o.Shiny;
-      }
-      return po;
+      //Pokemon o = OnboardPokemon.GetCondition<Pokemon>("Illusion");
+      //if (o == null)
+      //{
+      //  Name = Pokemon.Name;
+      //  Form = OnboardPokemon.Form;
+      //  Gender = Pokemon.Gender;//即使对战画面中不显示性别，实际性别也与变身对象一致，可以被着迷。 
+      //  Chatter = Pokemon.Chatter;
+      //  Shiny = Pokemon.Shiny;
+      //}
+      //else
+      //{
+      //  Name = o.Name;
+      //  Form = o.Form;
+      //  Gender = o.Gender;
+      //  Chatter = o.Chatter;
+      //  Shiny = o.Shiny;
+      //}
+      //return po;
     }
     #endregion
     #endregion
@@ -515,7 +524,7 @@ namespace PokemonBattleOnline.Game.Host
     public void Faint()
     {
       Pokemon.SetHp(0);
-      Controller.ReportBuilder.Add(new GameEvents.HpChange(this, null));
+      Controller.ReportBuilder.SetHp(Pokemon);
       CheckFaint();
     }
     public int MoveHurt(int damage)
@@ -552,20 +561,21 @@ namespace PokemonBattleOnline.Game.Host
         o.Damage += def.Damage;
       }
     }
-    public void HpRecover(int changeHp, bool showFail = false, string logKey = "HpRecover", int arg1 = 0, bool consumeItem = false)
+    public void HpRecover(int changeHp, bool showFail = false, string log = "HpRecover", int arg1 = 0, bool consumeItem = false)
     {
       if (CanHpRecover(showFail))
       {
         if (consumeItem) ConsumeItem();
         if (changeHp == 0) changeHp = 1;
         Pokemon.SetHp(Hp + changeHp);
-        Controller.ReportBuilder.Add(new GameEvents.HpChange(this, logKey, arg1) { ConsumeItem = consumeItem });
+        AddReportPm(log, arg1);
+        Controller.ReportBuilder.ShowHp(this);
       }
     }
-    public void HpRecoverByOneNth(int n, bool showFail = false, string logKey = "HpRecover", int arg1 = 0, bool consumeItem = false)
+    public void HpRecoverByOneNth(int n, bool showFail = false, string log = "HpRecover", int arg1 = 0, bool consumeItem = false)
     {
       int hp = Pokemon.Hp.Origin / n;
-      HpRecover(hp, showFail, logKey, arg1, consumeItem);
+      HpRecover(hp, showFail, log, arg1, consumeItem);
     }
     public void EffectHurt(int changeHp, string logKey = "Hurt", int arg1 = 0, int arg2 = 0)
     {
@@ -573,9 +583,10 @@ namespace PokemonBattleOnline.Game.Host
       {
         if (changeHp == 0) changeHp = 1;
         Pokemon.SetHp(Hp - changeHp);
+        AddReportPm(logKey, arg1, arg2);
+        Controller.ReportBuilder.ShowHp(this);
         HpChanged.Execute(this);
         OnboardPokemon.SetTurnCondition("Assurance");
-        Controller.ReportBuilder.Add(new GameEvents.HpChange(this, logKey, arg1, arg2));
       }
     }
     public void EffectHurtByOneNth(int n, string logKey = "Hurt", int arg1 = 0, int arg2 = 0)
@@ -585,10 +596,6 @@ namespace PokemonBattleOnline.Game.Host
     }
     #endregion
 
-    public void CancelMove()
-    {
-      Action = PokemonAction.Done;
-    }
     /// <summary>
     /// Item should not be null, or Unburden effect will be wrong
     /// </summary>
@@ -645,7 +652,7 @@ namespace PokemonBattleOnline.Game.Host
               break;
           }
         AddReportPm(log, stat);
-        if (by.Pokemon.TeamId != Pokemon.TeamId && change < 0) As.Defiant(this);
+        if (by.Pokemon.TeamId != Pokemon.TeamId && change < 0) ATs.Defiant(this);
         return true;
       }
       return false;
@@ -654,7 +661,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (ChangeLv7DImplement(by, stat, change, showFail, log))
       {
-        Is.WhiteHerb(this);
+        ITs.WhiteHerb(this);
         return true;
       }
       return false;
@@ -669,7 +676,7 @@ namespace PokemonBattleOnline.Game.Host
       r |= ChangeLv7DImplement(by, StatType.Speed, s, showFail, null);
       r |= ChangeLv7DImplement(by, StatType.Accuracy, ac, showFail, null);
       r |= ChangeLv7DImplement(by, StatType.Evasion, e, showFail, null);
-      if (r) Is.WhiteHerb(this);
+      if (r) ITs.WhiteHerb(this);
       return r;
     }
     public bool ChangeLv7D(PokemonProxy by, MoveType move)
@@ -690,7 +697,7 @@ namespace PokemonBattleOnline.Game.Host
             }
             else r |= ChangeLv7DImplement(by, c.Type, c.Change, showFail, null);
           }
-        Is.WhiteHerb(this);
+        ITs.WhiteHerb(this);
       }
       return r;
     }
@@ -708,7 +715,8 @@ namespace PokemonBattleOnline.Game.Host
           goto POKEMON_STATE;
         case AttachedState.FRZ:
           Pokemon.State = PokemonState.FRZ;
-          Controller.ReportBuilder.Add(new StateChange(this, log, arg1));
+          Controller.ReportBuilder.SetState(Pokemon);
+          AddReportPm(log, arg1);
           if (CanChangeForm(492, 0))
           {
             ChangeForm(0);
@@ -737,7 +745,7 @@ namespace PokemonBattleOnline.Game.Host
         case AttachedState.Attract:
           OnboardPokemon.SetCondition("Attract", by);
           AddReportPm(log ?? "EnAttract", arg1);
-          Is.DestinyKnot(this, by);
+          ITs.DestinyKnot(this, by);
           goto DONE;
         case AttachedState.Trap:
           {
@@ -817,8 +825,9 @@ namespace PokemonBattleOnline.Game.Host
 #endif
       }
     POKEMON_STATE:
-      Controller.ReportBuilder.Add(new StateChange(this, log, arg1));
-      if (state != AttachedState.FRZ && state != AttachedState.SLP) As.Synchronize(this, by, state, turn);
+      Controller.ReportBuilder.SetState(Pokemon);
+      AddReportPm(log, arg1);
+      if (state != AttachedState.FRZ && state != AttachedState.SLP) ATs.Synchronize(this, by, state, turn);
     DONE:  
       StateAdded.Execute(this);
     }
