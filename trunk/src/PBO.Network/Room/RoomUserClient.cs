@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using PokemonBattleOnline.Game;
-using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Network.Room
 {
@@ -58,11 +57,11 @@ namespace PokemonBattleOnline.Network.Room
     {
       UIDispatcher.Invoke((Action<IRoomUser>)(info.Execute), this);
     }
-    void IRoomInformer.InformUserSpectateGame(int userId)
+    void IRoomUser.InformUserSpectateGame(int userId)
     {
       spectators.Add(userId);
     }
-    void IRoomInformer.InformUserJoinGame(int userId, int teamId)
+    void IRoomUser.InformUserJoinGame(int userId, int teamId)
     {
       players.Add(new Player(userId, teamId));
     }
@@ -78,39 +77,30 @@ namespace PokemonBattleOnline.Network.Room
           }
       }
     }
-    void IRoomInformer.InformUserQuit(int userId)
+    void IRoomUser.InformUserQuit(int userId)
     {
       RemoveUser(userId);
     }
-    void IRoomInformer.InformUserKicked(int userId)
-    {
-      RemoveUser(userId);
-    }
-    void IRoomInformer.InformEnterFailed(string message)
+    void IRoomUser.InformEnterFailed(string message)
     {
       EnterFailed(message);
     }
-    void IRoomInformer.InformEnterSucceed(GameInitSettings settings, Player[] players, int[] spectators)
+    void IRoomUser.InformEnterSucceed(GameInitSettings settings, Player[] players, int[] spectators)
     {
       InformEnterSucceed(settings, players, spectators);
       EnterSucceed();
     }
-    void IGameInformer.InformGameStop(GameStopReason reason, int player)
+    void IRoomUser.InformGameStop(GameStopReason reason, int player)
     {
       EndGame();
       Listener.GameStop(reason, player);
     }
-    void IGameInformer.InformGameTie()
-    {
-      EndGame();
-      Listener.GameTie();
-    }
-    void IGameInformer.InformTimeUp(IEnumerable<KeyValuePair<int, int>> remainingTime)
+    void IRoomUser.InformTimeUp(IEnumerable<KeyValuePair<int, int>> remainingTime)
     {
       EndGame();
       Listener.TimeUp(remainingTime);
     }
-    void IGameInformer.InformWaitingForInput(int[] players)
+    void IRoomUser.InformWaitingForInput(int[] players)
     {
       Listener.TimeReminder(players);
     }
@@ -127,7 +117,7 @@ namespace PokemonBattleOnline.Network.Room
     {
       if (game == null)
       {
-        RoomState = RoomState.GameStarted;
+        RoomState = RoomState.Battling;
         Dictionary<int, string> ps = new Dictionary<int,string>();
         string[] teams = new string[2];
         foreach(Player p in players)
@@ -141,31 +131,21 @@ namespace PokemonBattleOnline.Network.Room
       }
       game.Update(fragment);
     }
-    void IGameInformer.InformReportUpdate(ReportFragment fragment)
+    void IRoomUser.InformReportUpdate(ReportFragment fragment)
     {
       gameEventsDispatcher.BeginInvoke((Action<ReportFragment>)InformReportUpdate, fragment);
     }
 
     #region Player Only
-    protected abstract void InformPlayerInfo(int teamIndex, IPokemonData[] parner);
-    void IGameInformer.InformPlayerInfo(int teamIndex, IPokemonData[] parner)
+    protected abstract void InformPlayerInfo(int teamIndex, PokemonData[] parner);
+    void IRoomUser.InformPlayerInfo(int teamIndex, PokemonData[] parner)
     {
       InformPlayerInfo(teamIndex, parner);
     }
     protected abstract void InformRequireInput(InputRequest pminfo, int spentTime);
-    void IGameInformer.InformRequireInput(InputRequest pminfo, int spentTime)
+    void IRoomUser.InformRequireInput(InputRequest pminfo, int spentTime)
     {
       InformRequireInput(pminfo, spentTime);
-    }
-    protected abstract void InformRequestTie();
-    void IGameInformer.InformRequestTie()
-    {
-      InformRequestTie();
-    }
-    protected abstract void InformTieRejected();
-    void IGameInformer.InformTieRejected()
-    {
-      InformTieRejected();
     }
     #endregion
     #endregion

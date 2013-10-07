@@ -4,10 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using PokemonBattleOnline.Tactic;
 using PokemonBattleOnline.Game;
-using PokemonBattleOnline.Game;
-using PokemonBattleOnline.Game.Host;
 
 namespace PokemonBattleOnline.Network.Room
 {

@@ -1,22 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{61056B34-A2A8-485B-8A36-DF633E47C7F2}</ProjectGuid>
+    <ProjectGuid>{F46386CC-6DE1-41A0-89D2-B3511224714F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PokemonBattleOnline.Network</RootNamespace>
-    <AssemblyName>PBO.Network</AssemblyName>
+    <RootNamespace>PokemonBattleOnline.Network.Server</RootNamespace>
+    <AssemblyName>PBO.Network.Server</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,18 +26,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\bin\dll\</OutputPath>
-    <DefineConstants>
-    </DefineConstants>
-    <ErrorReport>none</ErrorReport>
+    <OutputPath>..\..\build\dll\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,50 +43,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Lobby\Client.cs" />
-    <Compile Include="Lobby\ClientInitInfo.cs" />
-    <Compile Include="Lobby\Command.cs" />
-    <Compile Include="Lobby\Commands\Battle.cs" />
-    <Compile Include="Lobby\Commands\Challenge.cs" />
-    <Compile Include="Lobby\Commands\Chat.cs" />
-    <Compile Include="Lobby\Commands\GameRoom.cs" />
-    <Compile Include="Lobby\Commands\Hosts.cs" />
-    <Compile Include="Lobby\Commands\PackHeaders.cs" />
-    <Compile Include="Lobby\Commands\UserChanged.cs" />
-    <Compile Include="Lobby\LoginClient.cs" />
-    <Compile Include="Lobby\RemoveUserReason.cs" />
-    <Compile Include="Lobby\User.cs" />
-    <Compile Include="Network\IPackReceivedListener.cs" />
-    <Compile Include="Network\PackHelper.cs" />
-    <Compile Include="Network\TcpClient.cs" />
-    <Compile Include="Network\TcpPack.cs" />
-    <Compile Include="Room\GoTimer.cs" />
-    <Compile Include="Room\Player.cs" />
-    <Compile Include="PBOClient.cs" />
-    <Compile Include="Room\GameInitSettings.cs" />
+    <Compile Include="IdsPool.cs" />
+    <Compile Include="LoginServer.cs" />
+    <Compile Include="LoginUser.cs" />
+    <Compile Include="PBOServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Room\GameInformer.cs" />
-    <Compile Include="Room\GameManager.cs" />
-    <Compile Include="Room\Interfaces.cs" />
-    <Compile Include="Room\IRoom.cs" />
-    <Compile Include="Room\RoomInformer.cs" />
-    <Compile Include="Room\RoomManager.cs" />
-    <Compile Include="Room\RoomState.cs" />
-    <Compile Include="Room\RoomUserClient.cs" />
+    <Compile Include="Server.cs" />
+    <Compile Include="ServerUser.cs" />
+    <Compile Include="TcpServer.cs" />
+    <Compile Include="TcpUser.cs" />
+    <Compile Include="UserBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PBO.Game.Host\PBO.Game.Host.csproj">
+      <Project>{666d492b-2c1f-46dc-8b6c-f59d7f0c40d7}</Project>
+      <Name>PBO.Game.Host</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\PBO.Game\PBO.Game.csproj">
-      <Project>{5F1D7698-AD1E-462A-AEED-063BCB80DF89}</Project>
+      <Project>{5f1d7698-ad1e-462a-aeed-063bcb80df89}</Project>
       <Name>PBO.Game</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\PBO.Network\PBO.Network.csproj">
+      <Project>{61056b34-a2a8-485b-8a36-df633e47c7f2}</Project>
+      <Name>PBO.Network</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\PokemonBattleOnline\PokemonBattleOnline.csproj">
-      <Project>{EE2C451E-A61E-4634-B382-5298982E060C}</Project>
+      <Project>{ee2c451e-a61e-4634-b382-5298982e060c}</Project>
       <Name>PokemonBattleOnline</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

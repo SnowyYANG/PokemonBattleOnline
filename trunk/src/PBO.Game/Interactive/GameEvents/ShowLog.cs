@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Game.GameEvents
 {
-  [DataContract(Name = "e", Namespace = PBOMarks.PBO)]
+  [DataContract(Name = "e", Namespace = PBOMarks.JSON)]
   public class ShowLog : GameEvent
   {
     protected static object Filter(int i, string s)

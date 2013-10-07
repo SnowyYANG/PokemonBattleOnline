@@ -108,7 +108,7 @@
     <Compile Include="Interactive\GameEvents\Switch.cs" />
     <Compile Include="GameLogs.cs" />
     <Compile Include="GameLogText.cs" />
-    <Compile Include="ReportFragment.cs" />
+    <Compile Include="Interactive\ReportFragment.cs" />
     <Compile Include="Client\SimGame.cs" />
     <Compile Include="Interactive\ActionInput.cs" />
     <Compile Include="Client\SimMove.cs" />

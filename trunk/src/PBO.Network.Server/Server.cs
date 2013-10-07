@@ -47,7 +47,7 @@ namespace PokemonBattleOnline.Network
     {
       lock (StateLocker)
       {
-        return new ClientInitInfo(this, user);
+        return new ClientInitInfo(user);
       }
     }
 

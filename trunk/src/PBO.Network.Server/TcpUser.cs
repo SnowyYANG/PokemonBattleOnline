@@ -11,7 +11,7 @@ namespace PokemonBattleOnline.Network
   {
     public readonly TcpServer Server;
     private readonly Socket Socket;
-    private readonly TcpPackSender Sender;
+    public readonly TcpPackSender Sender;
     private readonly TcpPackReceiver Receiver;
     private readonly object Locker;
 

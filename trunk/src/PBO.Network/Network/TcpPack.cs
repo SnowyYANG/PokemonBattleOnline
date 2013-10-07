@@ -8,7 +8,7 @@ using System.Net.Sockets;
 
 namespace PokemonBattleOnline.Network
 {
-  internal class TcpPackSender
+  public class TcpPackSender
   {
     private static void Completed(object sender, SocketAsyncEventArgs e)
     {
@@ -77,7 +77,7 @@ namespace PokemonBattleOnline.Network
     }
   }
   
-  internal class TcpPackReceiver
+  public class TcpPackReceiver
   {
     private static void Completed(object sender, SocketAsyncEventArgs e)
     {

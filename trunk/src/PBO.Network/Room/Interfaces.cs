@@ -29,7 +29,7 @@ namespace PokemonBattleOnline.Network.Room
     void StartGame();
     void CloseRoom();
     void Input(int userId, ActionInput action);
-    void JoinGame(int userId, Data.IPokemonData[] pokemons, int teamId);//成为玩家
+    void JoinGame(int userId, PokemonData[] pokemons, int teamId);//成为玩家
     void SpectateGame(int userId);//不成为玩家
     void Enter(int userId);
     void Quit(int userId);
@@ -54,7 +54,7 @@ namespace PokemonBattleOnline.Network.Room
     /// </summary>
     /// <param name="teamIndex"></param>
     /// <param name="pokemons"></param>
-    void InformPlayerInfo(int userId, Data.IPokemonData[] pokemons);
+    void InformPlayerInfo(int userId, PokemonData[] pokemons);
     void InformReportUpdate(ReportFragment fragment);
     void InformRequireInput(InputRequest pms, int time);
   }

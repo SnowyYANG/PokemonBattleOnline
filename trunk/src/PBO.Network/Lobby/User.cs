@@ -17,7 +17,7 @@ namespace PokemonBattleOnline.Network
   [DataContract(Namespace = PBOMarks.JSON)]
   public class User
   {
-    internal User(int id, string name, ushort avatar)
+    public User(int id, string name, ushort avatar)
     {
       _id = id;
       _name = name;
@@ -41,7 +41,7 @@ namespace PokemonBattleOnline.Network
     public UserState State
     {
       get { return _state; }
-      internal set { if (_state != UserState.Quited) _state = value; }
+      set { if (_state != UserState.Quited) _state = value; }
     }
     [DataMember(Name = "d", EmitDefaultValue = false)]
     private UserState s

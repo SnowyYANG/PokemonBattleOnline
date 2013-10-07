@@ -128,7 +128,7 @@ namespace PokemonBattleOnline.Game
     #endregion
   }
   
-  [DataContract(Namespace = PBOMarks.PBO)]
+  [DataContract(Namespace = PBOMarks.JSON)]
   public class InputRequest
   {
     [DataMember(EmitDefaultValue = false)]

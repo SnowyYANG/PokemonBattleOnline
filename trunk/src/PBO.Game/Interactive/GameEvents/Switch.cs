@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Game.GameEvents
 {
-  [DataContract(Name = "es", Namespace = PBOMarks.PBO)]
+  [DataContract(Name = "es", Namespace = PBOMarks.JSON)]
   public class SendOut : GameEvent
   {
     [DataMember(Name = "a")]
@@ -32,7 +32,7 @@ namespace PokemonBattleOnline.Game.GameEvents
     }
   }
 
-  [DataContract(Name = "ew", Namespace = PBOMarks.PBO)]
+  [DataContract(Name = "ew", Namespace = PBOMarks.JSON)]
   public class Withdraw : GameEvent
   {
     [DataMember(Name = "a", EmitDefaultValue = false)]

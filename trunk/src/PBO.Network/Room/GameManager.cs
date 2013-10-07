@@ -5,7 +5,6 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using PokemonBattleOnline.Game;
-using PokemonBattleOnline.Game.Host;
 
 namespace PokemonBattleOnline.Network.Room
 {

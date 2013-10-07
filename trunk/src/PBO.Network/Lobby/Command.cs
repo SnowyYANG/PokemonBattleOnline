@@ -19,6 +19,5 @@ namespace PokemonBattleOnline.Network.Lobby
   [DataContract(Namespace = PBOMarks.JSON)]
   public abstract class UserCommand
   {
-    public abstract void Execute(ServerUser server);
   }
 }

@@ -10,7 +10,7 @@ namespace PokemonBattleOnline.Network
   {
     void OnPackReceived(byte[] pack);
   }
-  internal class NullPackReceivedListener : IPackReceivedListener
+  public class NullPackReceivedListener : IPackReceivedListener
   {
     public static readonly IPackReceivedListener I = new NullPackReceivedListener();
 

@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Game.GameEvents
 {
-  [DataContract(Name = "est", Namespace = PBOMarks.PBO)]
+  [DataContract(Name = "est", Namespace = PBOMarks.JSON)]
   public class SetState : GameEvent
   {
     [DataMember(Name = "a")]
@@ -26,7 +26,7 @@ namespace PokemonBattleOnline.Game.GameEvents
     }
   }
 
-  [DataContract(Name = "eh", Namespace = PBOMarks.PBO)]
+  [DataContract(Name = "eh", Namespace = PBOMarks.JSON)]
   public class ShowHp : GameEvent
   {
     [DataMember(Name = "a")]
@@ -47,6 +47,7 @@ namespace PokemonBattleOnline.Game.GameEvents
       if (pm != null) pm.SetHp(Hp);
     }
   }
+  [DataContract(Namespace = PBOMarks.JSON)]
   public class SetHp : GameEvent
   {
     [DataMember(Name = "a")]
@@ -66,7 +67,7 @@ namespace PokemonBattleOnline.Game.GameEvents
     }
   }
 
-  [DataContract(Namespace = PBOMarks.PBO)]
+  [DataContract(Namespace = PBOMarks.JSON)]
   public class SetY : GameEvent
   {
     [DataMember]
@@ -81,7 +82,7 @@ namespace PokemonBattleOnline.Game.GameEvents
     }
   }
 
-  [DataContract(Namespace = PBOMarks.PBO)]
+  [DataContract(Namespace = PBOMarks.JSON)]
   public class SetX : GameEvent
   {
     [DataMember]
@@ -96,7 +97,7 @@ namespace PokemonBattleOnline.Game.GameEvents
     }
   }
 
-  [DataContract(Name = "eo", Namespace = PBOMarks.PBO)]
+  [DataContract(Name = "eo", Namespace = PBOMarks.JSON)]
   public class SetOutward : GameEvent
   {
     [DataMember(Name = "a")]

@@ -22,9 +22,9 @@ namespace PokemonBattleOnline.Network.Room
     int TeamIndex;
 
     [DataMember(EmitDefaultValue = false)]
-    Data.IPokemonData[] Parner;
+    PokemonData[] Parner;
 
-    public PlayerInfo(int teamIndex, Data.IPokemonData[] parner)
+    public PlayerInfo(int teamIndex, PokemonData[] parner)
     {
       TeamIndex = teamIndex;
       Parner = parner;
@@ -32,7 +32,8 @@ namespace PokemonBattleOnline.Network.Room
 
     public override void Execute(IRoomUser user)
     {
-      user.InformPlayerInfo(TeamIndex, Parner);
+      throw new NotImplementedException();
+      //user.InformPlayerInfo(TeamIndex, Parner);
     }
   }
 

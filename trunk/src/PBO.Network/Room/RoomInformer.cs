@@ -83,14 +83,16 @@ namespace PokemonBattleOnline.Network.Room
   [DataContract(Name = "js", Namespace = PBOMarks.JSON)]
   class EnterSucceedInfo : UserInformation
   {
-    public static EnterSucceedInfo Player(Host host)
+    public static EnterSucceedInfo Player()
     {
-      return new EnterSucceedInfo(host.GameSettings, host.Players, host.Spectators);
+      throw new NotImplementedException();
+      //return new EnterSucceedInfo(host.GameSettings, host.Players, host.Spectators);
     }
     /// <param name="leapTurn">it can be null</param>
-    public static EnterSucceedInfo Spectator(Host host, Game.ReportFragment leapTurn)
+    public static EnterSucceedInfo Spectator()
     {
-      return new EnterSucceedInfo(host.GameSettings, host.Players, host.Spectators) { Leap = leapTurn };
+      throw new NotImplementedException();
+      //return new EnterSucceedInfo(host.GameSettings, host.Players, host.Spectators) { Leap = leapTurn };
     }
     
     [DataMember(Name = "a")]

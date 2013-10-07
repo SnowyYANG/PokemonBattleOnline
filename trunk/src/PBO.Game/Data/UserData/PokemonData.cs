@@ -9,7 +9,7 @@ using System.Diagnostics.Contracts;
 
 namespace PokemonBattleOnline.Game
 {
-  [DataContract(Name = "pd", Namespace = PBOMarks.PBO)]
+  [DataContract(Name = "pd", Namespace = PBOMarks.JSON)]
   public class PokemonData : ObservableObject, ICloneable, IPokemonData
   {
     #region const

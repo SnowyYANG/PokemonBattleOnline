@@ -9,14 +9,11 @@ namespace PokemonBattleOnline.Network
   [DataContract(Namespace = PBOMarks.JSON)]
   public class ClientInitInfo
   {
-    [DataMember(EmitDefaultValue = false)]
-    public readonly string Welcome;
     [DataMember]
     public readonly int User;
 
-    public ClientInitInfo(Server server, int user)
+    public ClientInitInfo(int user)
     {
-      Welcome = server.Welcome;
       User = user;
     }
 

@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Game.GameEvents
 {
-  [DataContract(Name = "e0", Namespace = PBOMarks.PBO)]
+  [DataContract(Name = "e0", Namespace = PBOMarks.JSON)]
   public class BeginTurn : GameEvent
   {
     protected override void Update()
@@ -21,7 +21,7 @@ namespace PokemonBattleOnline.Game.GameEvents
     }
   }
 
-  [DataContract(Name = "e1", Namespace = PBOMarks.PBO)]
+  [DataContract(Name = "e1", Namespace = PBOMarks.JSON)]
   public class EndTurn : GameEvent
   {
     protected override void Update()
@@ -45,7 +45,7 @@ namespace PokemonBattleOnline.Game.GameEvents
     }
   }
   
-  [DataContract(Name = "l", Namespace = PBOMarks.PBO)]
+  [DataContract(Name = "l", Namespace = PBOMarks.JSON)]
   public class HorizontalLine : GameEvent
   {
     protected override void Update()
@@ -54,7 +54,7 @@ namespace PokemonBattleOnline.Game.GameEvents
     }
   }
 
-  [DataContract(Name = "tt", Namespace = PBOMarks.PBO)]
+  [DataContract(Name = "tt", Namespace = PBOMarks.JSON)]
   public class TimeTick : GameEvent
   {
     [DataMember]

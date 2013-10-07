@@ -70,7 +70,7 @@ namespace PokemonBattleOnline.Network
 
     public event Action Disconnect;
     private readonly Socket Socket;
-    private readonly TcpPackSender Sender;
+    public readonly TcpPackSender Sender;
     private readonly TcpPackReceiver Receiver;
 
     private TcpClient(Socket socket)

@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Game
 {
-  [DataContract(Namespace = PBOMarks.PBO)]
+  [DataContract(Namespace = PBOMarks.JSON)]
   public class XActionInput
   {
     public static XActionInput UseMove(SimMove move, int targetTeam, int targetX)

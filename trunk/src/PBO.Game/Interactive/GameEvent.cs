@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Game
 {
-  [DataContract(Namespace = PBOMarks.PBO)]
+  [DataContract(Namespace = PBOMarks.JSON)]
   public abstract class GameEvent
   {
     protected GameOutward Game

@@ -8,17 +8,16 @@ using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Network.Room
 {
-  [KnownType(typeof(Data.PokemonData))]
   [DataContract(Name = "jc", Namespace = PBOMarks.JSON)]
   class JoinGameCommand : HostCommand
   {
     [DataMember(Name = "a")]
-    readonly Data.IPokemonData[] Pokemons;
+    readonly PokemonData[] Pokemons;
     
     [DataMember(Name = "b", EmitDefaultValue = false)]
     readonly int TeamId;
 
-    public JoinGameCommand(Data.IPokemonData[] pokemons, int teamId)
+    public JoinGameCommand(PokemonData[] pokemons, int teamId)
     {
       Pokemons = pokemons;
       TeamId = teamId;
@@ -26,7 +25,8 @@ namespace PokemonBattleOnline.Network.Room
 
     public override void Execute(IHost host, int userId)
     {
-      host.JoinGame(userId, Pokemons, TeamId);
+      throw new NotImplementedException();
+      //host.JoinGame(userId, Pokemons, TeamId);
     }
   }
 

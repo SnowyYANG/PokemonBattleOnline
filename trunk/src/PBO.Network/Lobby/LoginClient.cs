@@ -37,9 +37,10 @@ namespace PokemonBattleOnline.Network.Lobby
 
     public void BeginLogin()
     {
-      System.Net.IPAddress ip;
-      if (System.Net.IPAddress.TryParse(Server, out ip)) ClientFactory.TryTcpConnect(ip, Port, TcpConnectCallback);
-      else ClientFactory.TryTcpConnect(Server, Port, TcpConnectCallback);
+      throw new NotImplementedException();
+      //System.Net.IPAddress ip;
+      //if (System.Net.IPAddress.TryParse(Server, out ip)) ClientFactory.TryTcpConnect(ip, Port, TcpConnectCallback);
+      //else ClientFactory.TryTcpConnect(Server, Port, TcpConnectCallback);
     }
     
     private TcpClient Network;

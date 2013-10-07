@@ -6,7 +6,7 @@ using System.Net;
 
 namespace PokemonBattleOnline.Network
 {
-  public abstract class UserBase : IPackReceivedListener, IDisposable
+  internal abstract class UserBase : IPackReceivedListener, IDisposable
   {
     internal readonly TcpUser Network;
 

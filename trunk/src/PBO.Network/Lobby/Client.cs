@@ -26,7 +26,7 @@ namespace PokemonBattleOnline.Network
       ((TcpClient)state).Send(PackHelper.EMPTYPACK);
     }
 
-    protected readonly TcpClient Network;
+    internal readonly TcpClient Network;
     private readonly ConcurrentDictionary<int, User> Users;
     private readonly Timer KeepAlive;
     
@@ -128,7 +128,7 @@ namespace PokemonBattleOnline.Network
 
     private void SendKeepAlive()
     {
-      Network.SendEmpty();
+      Network.Sender.SendEmpty();
     }
     #region clientcommand
     internal void AddUser(User user)
