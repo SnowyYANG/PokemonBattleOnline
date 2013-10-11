@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using PokemonBattleOnline.Game;
 
-namespace PokemonBattleOnline.Network.Room
+namespace PokemonBattleOnline.Network
 {
   [DataContract(Namespace = PBOMarks.JSON)]
   public class GameInitSettings : IGameSettings

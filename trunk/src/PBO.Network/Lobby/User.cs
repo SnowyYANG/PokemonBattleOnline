@@ -7,13 +7,6 @@ using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Network
 {
-  public enum UserState
-  {
-    Normal,
-    Battling,
-    Afk,
-    Quited
-  }
   [DataContract(Namespace = PBOMarks.JSON)]
   public class User
   {
@@ -37,33 +30,9 @@ namespace PokemonBattleOnline.Network
     public ushort Avatar
     { get { return _avatar; } }
 
-    private UserState _state;
-    public UserState State
-    {
-      get { return _state; }
-      set { if (_state != UserState.Quited) _state = value; }
-    }
-    [DataMember(Name = "d", EmitDefaultValue = false)]
-    private UserState s
-    {
-      get { return State == UserState.Battling ? default(UserState) : State; }
-      set { State = value; }
-    }
-
     public int RoomId
     { get; internal set; }
-    [DataMember(EmitDefaultValue = false, Order = 0)]
-    private int r
-    {
-      get { return State == UserState.Battling ? RoomId : 0; }
-      set
-      {
-        if (value != 0)
-        {
-          State = UserState.Battling;
-          RoomId = value;
-        }
-      }
-    }
+    public Seat Seat
+    { get; internal set; }
   }
 }

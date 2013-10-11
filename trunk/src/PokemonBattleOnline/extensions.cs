@@ -18,8 +18,7 @@ namespace PokemonBattleOnline
     public static TValue ValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue defaultValue)
     {
       TValue r;
-      if (key == null || !dict.TryGetValue(key, out r)) r = defaultValue;
-      return r;
+      return key == null || !dict.TryGetValue(key, out r) ? defaultValue : r;
     }
     public static TValue ValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key)
     {
@@ -33,13 +32,11 @@ namespace PokemonBattleOnline
     }
     public static T ValueOrDefault<T>(this IList<T> list, int index)
     {
-      if (0 <= index && index < list.Count) return list[index];
-      return default(T);
+      return 0 <= index && index < list.Count ? list[index] : default(T);
     }
     public static T ValueOrDefault<T>(this T[] array, int index)
     {
-      if (0 <= index && index < array.Length) return array[index];
-      return default(T);
+      return 0 <= index && index < array.Length ? array[index] : default(T);
     }
     public static T[] SubArray<T>(this T[] array, int offset, int count)
     {

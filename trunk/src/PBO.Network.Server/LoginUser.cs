@@ -25,39 +25,38 @@ namespace PokemonBattleOnline.Network.Lobby
     private byte state;
     protected override void OnPackReceived(byte[] pack)
     {
-      throw new NotImplementedException();
-      ////当前版本失败一律直接结束，不给重试
-      //switch (state)
-      //{
-      //  case 0: //version
-      //    if (pack.ToUInt16() == null) OnLoginFailed();
-      //    else
-      //    {
-      //      state = 1;
-      //      Network.Sender.SendEmpty();
-      //    }
-      //    break;
-      //  case 1: //Name
-      //    var name = pack.ToUnicodeString();
-      //    if (Server.RegisterUserName(this, name))
-      //    {
-      //      state = 2;
-      //      Name = name;
-      //      Network.Sender.SendEmpty();
-      //    }
-      //    else OnLoginFailed();
-      //    break;
-      //  case 2: //Avatar
-      //    var av = pack.ToUInt16();
-      //    if (av.HasValue)
-      //    {
-      //      Avatar = av.Value;
-      //      Network.Sender.Send(Server.GetClientInitInfo(Network.Id));
-      //      Server.LoginComplete(this);
-      //    }
-      //    else OnLoginFailed();
-      //    break;
-      //}
+      //当前版本失败一律直接结束，不给重试
+      switch (state)
+      {
+        case 0: //version
+          if (pack.ToUInt16() == null) OnLoginFailed();
+          else
+          {
+            state = 1;
+            Network.Sender.SendEmpty();
+          }
+          break;
+        case 1: //Name
+          var name = pack.ToUnicodeString();
+          if (Server.RegisterUserName(this, name))
+          {
+            state = 2;
+            Name = name;
+            Network.Sender.SendEmpty();
+          }
+          else OnLoginFailed();
+          break;
+        case 2: //Avatar
+          var av = pack.ToUInt16();
+          if (av.HasValue)
+          {
+            Avatar = av.Value;
+            Network.Sender.Send(Server.GetClientInitInfo(Network.Id).ToPack());
+            Server.LoginComplete(this);
+          }
+          else OnLoginFailed();
+          break;
+      }
     }
     private void OnLoginFailed()
     {

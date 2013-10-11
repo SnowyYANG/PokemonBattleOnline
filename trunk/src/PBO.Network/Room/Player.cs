@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace PokemonBattleOnline.Network.Room
+namespace PokemonBattleOnline.Network
 {
   [DataContract(Namespace = PBOMarks.JSON)]
   public class Player

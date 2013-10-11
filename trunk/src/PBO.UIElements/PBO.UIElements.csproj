@@ -90,7 +90,7 @@
     <Compile Include="Labels\Labels.cs" />
     <Compile Include="ShowMessageBox.cs" />
     <Compile Include="Controls\ClearableComboBox.cs" />
-    <Compile Include="WpfDispatcher.cs" />
+    <Compile Include="UIDispatcher.cs" />
     <Page Include="Cartes\User.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

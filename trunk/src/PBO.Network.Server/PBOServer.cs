@@ -39,8 +39,7 @@ namespace PokemonBattleOnline.Network
     
     public static void NewTcpServer(int port)
     {
-      throw new NotImplementedException();
-      //Current = new Server(Network.ServerFactory.NewTcpServer(port));
+      Current = new Server(port);
     }
   }
 }

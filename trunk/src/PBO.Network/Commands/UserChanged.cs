@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
-namespace PokemonBattleOnline.Network.Lobby.Commands
+namespace PokemonBattleOnline.Network.Commands
 {
   [DataContract(Namespace = PBOMarks.JSON)]
-  public class UserChanged : ClientCommand
+  public class UserChanged : S2C
   {
     public static UserChanged AddUser(int id, string name, ushort avatar)
     {
@@ -31,11 +31,11 @@ namespace PokemonBattleOnline.Network.Lobby.Commands
 
     public override void Execute(Client client)
     {
-      if (Name == null) client.RemoveUser(Id);
+      if (Name == null) client.State.RemoveUser(Id);
       else
       {
         var u = new User(Id, Name, Avatar);
-        client.AddUser(u);
+        client.State.AddUser(u);
       }
     }
   }

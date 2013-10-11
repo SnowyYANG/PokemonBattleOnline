@@ -1,15 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EE2C451E-A61E-4634-B382-5298982E060C}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{82656BDD-4D7F-4B7A-83C9-8DB4591B7232}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PokemonBattleOnline</RootNamespace>
-    <AssemblyName>PokemonBattleOnline</AssemblyName>
+    <RootNamespace>PokemonBattleOnline.Network.Test</RootNamespace>
+    <AssemblyName>PBO.Network.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -19,39 +18,27 @@
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\build\dll\</OutputPath>
+    <OutputPath>..\..\build\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\..\bin\dll\</OutputPath>
-    <DefineConstants>
-    </DefineConstants>
-    <ErrorReport>none</ErrorReport>
-    <WarningLevel>0</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'EDITING|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\build\dll\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;EDITING</DefineConstants>
-    <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IronPython, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Scripting, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,20 +46,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataModels\DisposableObject.cs" />
-    <Compile Include="DataModels\MultiObjects.cs" />
-    <Compile Include="DataModels\PairValue.cs" />
-    <Compile Include="DataModels\SimpleData.cs" />
-    <Compile Include="extensions.cs" />
-    <Compile Include="DataModels\ObservableObject.cs" />
-    <Compile Include="PBOMarks.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serializer.cs" />
-    <Compile Include="Dispatcher.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Service\" />
-    <Folder Include="Threading\" />
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PBO.Game.Host\PBO.Game.Host.csproj">
+      <Project>{666d492b-2c1f-46dc-8b6c-f59d7f0c40d7}</Project>
+      <Name>PBO.Game.Host</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PBO.Game\PBO.Game.csproj">
+      <Project>{5f1d7698-ad1e-462a-aeed-063bcb80df89}</Project>
+      <Name>PBO.Game</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PBO.Network.Server\PBO.Network.Server.csproj">
+      <Project>{f46386cc-6de1-41a0-89d2-b3511224714f}</Project>
+      <Name>PBO.Network.Server</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PBO.Network\PBO.Network.csproj">
+      <Project>{61056b34-a2a8-485b-8a36-df633e47c7f2}</Project>
+      <Name>PBO.Network</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

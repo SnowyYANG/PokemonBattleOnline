@@ -5,10 +5,12 @@ using System.Text;
 
 namespace PokemonBattleOnline.Network
 {
-  public enum RoomState
+  public enum Seat
   {
-    Available,
-    Battling,
-    Disposed
+    Player00,
+    Player01,
+    Player10,
+    Player11,
+    Spectator
   }
 }

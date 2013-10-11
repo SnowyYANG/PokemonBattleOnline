@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PokemonBattleOnline.Game;
-using PokemonBattleOnline.Network.Room;
 
-namespace PokemonBattleOnline.Network.Lobby.Commands
+namespace PokemonBattleOnline.Network.Commands
 {
   //public class BattleClient : ClientService
   //{

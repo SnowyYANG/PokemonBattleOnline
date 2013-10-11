@@ -48,23 +48,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Lobby\Client.cs" />
-    <Compile Include="Lobby\ClientInitInfo.cs" />
-    <Compile Include="Lobby\Command.cs" />
-    <Compile Include="Lobby\Commands\Battle.cs" />
-    <Compile Include="Lobby\Commands\Challenge.cs" />
-    <Compile Include="Lobby\Commands\Chat.cs" />
-    <Compile Include="Lobby\Commands\GameRoom.cs" />
-    <Compile Include="Lobby\Commands\Hosts.cs" />
-    <Compile Include="Lobby\Commands\PackHeaders.cs" />
-    <Compile Include="Lobby\Commands\UserChanged.cs" />
+    <Compile Include="ClientInitInfo.cs" />
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\Battle.cs" />
+    <Compile Include="Commands\Challenge.cs" />
+    <Compile Include="Commands\Chat.cs" />
+    <Compile Include="Commands\GameRoom.cs" />
+    <Compile Include="Commands\Hosts.cs" />
+    <Compile Include="Commands\UserChanged.cs" />
+    <Compile Include="Lobby\ClientState.cs" />
+    <Compile Include="Lobby\IClientEventsListener.cs" />
     <Compile Include="Lobby\LoginClient.cs" />
     <Compile Include="Lobby\RemoveUserReason.cs" />
+    <Compile Include="Lobby\Room.cs" />
+    <Compile Include="Lobby\Seat.cs" />
     <Compile Include="Lobby\User.cs" />
     <Compile Include="Network\IPackReceivedListener.cs" />
     <Compile Include="Network\PackHelper.cs" />
     <Compile Include="Network\TcpClient.cs" />
     <Compile Include="Network\TcpPack.cs" />
-    <Compile Include="Room\GoTimer.cs" />
     <Compile Include="Room\Player.cs" />
     <Compile Include="PBOClient.cs" />
     <Compile Include="Room\GameInitSettings.cs" />

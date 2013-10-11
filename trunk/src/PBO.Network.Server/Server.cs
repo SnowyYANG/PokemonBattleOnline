@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Collections.Concurrent;
 using PokemonBattleOnline.Network.Lobby;
-using PokemonBattleOnline.Network.Room;
 
 namespace PokemonBattleOnline.Network
 {
@@ -19,12 +18,12 @@ namespace PokemonBattleOnline.Network
     private readonly Dictionary<string, ServerUser> Users;
     private readonly ConcurrentDictionary<int, ServerUser> users;
 
-    internal Server(TcpServer network)
+    internal Server(int port)
     {
-      Network = network;
+      Network = new TcpServer(port);
       UserLocker = new object();
       StateLocker = new object();
-      LoginServer = new LoginServer(network, this);
+      LoginServer = new LoginServer(Network, this);
       Users = new Dictionary<string, ServerUser>();
       users = new ConcurrentDictionary<int, ServerUser>();
     }
@@ -74,15 +73,6 @@ namespace PokemonBattleOnline.Network
         user.User.State = UserState.Quited;
         UsersUpdate(user.User);
       }
-    }
-
-    internal void SendP2PPack(ServerUser serverUser, byte[] arraySegment, params int[] to)
-    {
-      throw new NotImplementedException();
-    }
-    internal void PublicChat(ServerUser serverUser, string p)
-    {
-      throw new NotImplementedException();
     }
 
     public void Start()

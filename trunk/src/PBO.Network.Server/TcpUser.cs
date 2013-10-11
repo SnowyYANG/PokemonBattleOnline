@@ -54,10 +54,6 @@ namespace PokemonBattleOnline.Network
     internal DateTime LastPack
     { get { return Receiver.LastPack; } }
 
-    public void Send(byte[] pack)
-    {
-      Sender.Send(pack);
-    }
     private bool _isDisposed;
     public void Dispose()
     {

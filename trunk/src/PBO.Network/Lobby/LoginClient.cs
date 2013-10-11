@@ -4,26 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace PokemonBattleOnline.Network.Lobby
+namespace PokemonBattleOnline.Network
 {
   internal class LoginClient : IPackReceivedListener
   {
     private static void OnLoginTimeout(object state)
     {
       var c = (LoginClient)state;
-      c.OnLoginFailed(c.Disconnected);
+      c.OnLoginFailed(Disconnected);
     }
     
-    public event Action<Client> LoginSucceed;
-    public event Action Disconnected;
-    public event Action BadVersion;
-    public event Action BadName;
-    public event Action Full;
+    public static event Action<Client> LoginSucceed;
+    public static event Action Disconnected;
+    public static event Action BadVersion;
+    public static event Action BadName;
+    public static event Action Full;
 
-    private readonly string Server;
-    private readonly int Port;
-    private readonly string Name;
-    private readonly ushort Avatar;
+    internal readonly string Server;
+    internal readonly int Port;
+    internal readonly string Name;
+    internal readonly ushort Avatar;
     private readonly Timer TimeBomb;
 
     public LoginClient(string server, int port, string name, ushort avatar)
@@ -37,10 +37,9 @@ namespace PokemonBattleOnline.Network.Lobby
 
     public void BeginLogin()
     {
-      throw new NotImplementedException();
-      //System.Net.IPAddress ip;
-      //if (System.Net.IPAddress.TryParse(Server, out ip)) ClientFactory.TryTcpConnect(ip, Port, TcpConnectCallback);
-      //else ClientFactory.TryTcpConnect(Server, Port, TcpConnectCallback);
+      System.Net.IPAddress ip;
+      if (System.Net.IPAddress.TryParse(Server, out ip)) TcpClient.BeginConnect(ip, Port, TcpConnectCallback);
+      else TcpClient.BeginConnect(Server, Port, TcpConnectCallback);
     }
     
     private TcpClient Network;
@@ -52,7 +51,7 @@ namespace PokemonBattleOnline.Network.Lobby
         TimeBomb.Change(PBOMarks.TIMEOUT, Timeout.Infinite);
         Network = client;
         Network.Listener = this;
-        Network.Send(PBOMarks.VERSION.ToPack());
+        Network.Sender.Send(PBOMarks.VERSION.ToPack());
       }
     }
     private void OnLoginFailed(Action raiseEvent)
@@ -71,16 +70,16 @@ namespace PokemonBattleOnline.Network.Lobby
           if (pack.IsEmpty())
           {
             state = 1;
-            Network.Send(Name.ToPack());
+            Network.Sender.Send(Name.ToPack());
           }
           else if (pack.ToByte() == 'f') OnLoginFailed(Full); //实际上这条消息在version发送前就会收到
           else OnLoginFailed(BadVersion);
           break;
-        case 1: //Name，失败可重试，错误直接结束
+        case 1:
           if (pack.IsEmpty())
           {
             state = 2;
-            Network.Send(Avatar.ToPack());
+            Network.Sender.Send(Avatar.ToPack());
           }
           else OnLoginFailed(BadName);
           break;
@@ -90,7 +89,7 @@ namespace PokemonBattleOnline.Network.Lobby
           else
           {
             TimeBomb.Dispose();
-            LoginSucceed(new Client(Network, init));
+            LoginSucceed(new Client(Network, this, init));
           }
           break;
       }

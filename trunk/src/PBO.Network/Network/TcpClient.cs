@@ -89,11 +89,6 @@ namespace PokemonBattleOnline.Network
       set { Receiver.Listener = value; }
     }
 
-    public void Send(byte[] pack)
-    {
-      Sender.Send(pack);
-    }
-
     public void Dispose()
     {
       Socket.Close();

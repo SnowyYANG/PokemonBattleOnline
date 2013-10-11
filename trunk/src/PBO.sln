@@ -66,9 +66,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Learnset", "Learnset", "{FB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.Network.Server", "PBO.Network.Server\PBO.Network.Server.csproj", "{F46386CC-6DE1-41A0-89D2-B3511224714F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.Network.Test", "PBO.Network.Test\PBO.Network.Test.csproj", "{82656BDD-4D7F-4B7A-83C9-8DB4591B7232}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 14
+		SccNumberOfProjects = 15
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs30
 		SccLocalPath0 = .
@@ -111,6 +113,9 @@ Global
 		SccProjectUniqueName13 = PBO.Network.Server\\PBO.Network.Server.csproj
 		SccProjectName13 = PBO.Network.Server
 		SccLocalPath13 = PBO.Network.Server
+		SccProjectUniqueName14 = PBO.Network.Test\\PBO.Network.Test.csproj
+		SccProjectName14 = PBO.Network.Test
+		SccLocalPath14 = PBO.Network.Test
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -209,6 +214,14 @@ Global
 		{F46386CC-6DE1-41A0-89D2-B3511224714F}.ETV|Any CPU.Build.0 = Release|Any CPU
 		{F46386CC-6DE1-41A0-89D2-B3511224714F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F46386CC-6DE1-41A0-89D2-B3511224714F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82656BDD-4D7F-4B7A-83C9-8DB4591B7232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82656BDD-4D7F-4B7A-83C9-8DB4591B7232}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82656BDD-4D7F-4B7A-83C9-8DB4591B7232}.EDITING|Any CPU.ActiveCfg = Release|Any CPU
+		{82656BDD-4D7F-4B7A-83C9-8DB4591B7232}.EDITING|Any CPU.Build.0 = Release|Any CPU
+		{82656BDD-4D7F-4B7A-83C9-8DB4591B7232}.ETV|Any CPU.ActiveCfg = Release|Any CPU
+		{82656BDD-4D7F-4B7A-83C9-8DB4591B7232}.ETV|Any CPU.Build.0 = Release|Any CPU
+		{82656BDD-4D7F-4B7A-83C9-8DB4591B7232}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82656BDD-4D7F-4B7A-83C9-8DB4591B7232}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
