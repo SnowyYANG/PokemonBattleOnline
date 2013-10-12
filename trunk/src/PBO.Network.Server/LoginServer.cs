@@ -5,27 +5,27 @@ using System.Text;
 using System.Collections.Concurrent;
 using System.Threading;
 
-namespace PokemonBattleOnline.Network.Lobby
+namespace PokemonBattleOnline.Network
 {
   internal class LoginServer : IDisposable
   {
     private readonly Server Server;
     private readonly ConcurrentDictionary<int, LoginUser> Users;
-    private readonly Dictionary<string, LoginUser> NamedUsers;
+    private readonly Dictionary<string, object> Names;
+    private readonly object UserLocker;
     private volatile bool isDisposed;
 
     public LoginServer(TcpServer network, Server server)
     {
       network.NewComingUser += OnNewUser;
       Server = server;
-      NamedUsers = new Dictionary<string, LoginUser>();
+      Names = new Dictionary<string, object>();
       Users = new ConcurrentDictionary<int, LoginUser>();
+      UserLocker = new object();
     }
 
     private TcpServer Network
     { get { return Server.Network; } }
-    private object UserLocker
-    { get { return Server.UserLocker; } }
     
     private void OnNewUser(TcpUser user)
     {
@@ -34,15 +34,22 @@ namespace PokemonBattleOnline.Network.Lobby
 
     public ClientInitInfo GetClientInitInfo(int id)
     {
-      return  Server.GetClientInitInfo(id);
+      return Server.State.GetClientInitInfo(id);
     }
 
+    internal void RemoveName(string name)
+    {
+      lock (UserLocker)
+      {
+        Names.Remove(name);
+      }
+    }
     public bool RegisterUserName(LoginUser user, string name)
     {
       lock (UserLocker)
       {
-        if (Server.HasUser(name) || NamedUsers.ContainsKey(name)) return false;
-        NamedUsers.Add(name, user);
+        if (Names.ContainsKey(name)) return false;
+        Names.Add(name, user);
         return true;
       }
     }
@@ -51,13 +58,7 @@ namespace PokemonBattleOnline.Network.Lobby
       LoginUser u;
       if (Users.TryRemove(user.Network.Id, out u))
       {
-        if (user.Name != null)
-        {
-          lock (UserLocker)
-          {
-            NamedUsers.Remove(user.Name);
-          }
-        }
+        if (user.Name != null) RemoveName(user.Name);
         u.Dispose();
       }
     }
@@ -67,11 +68,9 @@ namespace PokemonBattleOnline.Network.Lobby
       Users.TryRemove(user.Network.Id, out u);
       if (user == u)
       {
-        lock (UserLocker)
-        {
-          NamedUsers.Remove(user.Name);
-          Server.AddUser(new ServerUser(user, Server));
-        }
+        var su = new ServerUser(user, Server);
+
+        Server.State.AddUser(su);
       }
       else u.Dispose();
     }

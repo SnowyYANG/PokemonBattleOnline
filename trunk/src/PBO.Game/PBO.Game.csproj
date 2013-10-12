@@ -106,8 +106,8 @@
     <Compile Include="Interactive\GameEvents\SetProperties.cs" />
     <Compile Include="Interactive\GameEvents\ShowLog.cs" />
     <Compile Include="Interactive\GameEvents\Switch.cs" />
-    <Compile Include="GameLogs.cs" />
-    <Compile Include="GameLogText.cs" />
+    <Compile Include="Data\GameLogs.cs" />
+    <Compile Include="Data\GameLogText.cs" />
     <Compile Include="Interactive\ReportFragment.cs" />
     <Compile Include="Client\SimGame.cs" />
     <Compile Include="Interactive\ActionInput.cs" />
@@ -125,7 +125,6 @@
     <Compile Include="Models\Weather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\GameString.cs" />
-    <Compile Include="Data\Rom\ZipData.cs" />
     <Compile Include="Data\Rom\LearnList\GenLearnList.cs" />
     <Compile Include="Data\Rom\Move\MoveAttachment.cs" />
     <Compile Include="Data\Rom\Pokemon\Evolution.cs" />

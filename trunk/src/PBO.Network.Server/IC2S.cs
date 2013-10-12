@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Net;
 
 namespace PokemonBattleOnline.Network
 {
-  internal enum RemoveUserReason
+  internal interface IC2S
   {
-    Admin,
-    BadPack,
-    Disconnect
+    void Execute(Server server);
   }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.IO.Packaging;
 
-namespace PokemonBattleOnline.Game
+namespace PokemonBattleOnline
 {
   public class ZipData : IDisposable
   {

@@ -3,76 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.Concurrent;
-using PokemonBattleOnline.Network.Lobby;
+using System.Runtime.Serialization.Json;
+using PokemonBattleOnline.Network.C2Ss;
 
 namespace PokemonBattleOnline.Network
 {
   public class Server : IDisposable
   {
+    private static readonly DataContractJsonSerializer C2SSerializer;
+    private static readonly DataContractJsonSerializer S2CSerializer;
+    static Server()
+    {
+      C2SSerializer = new DataContractJsonSerializer(typeof(IC2S), new Type[] { typeof(ChatC2S), typeof(SetSeat) });
+      S2CSerializer = new DataContractJsonSerializer(typeof(S2C));
+    }
+
     public event Action<User> UsersUpdate;
     
     internal readonly TcpServer Network;
     internal readonly object UserLocker;
-    internal readonly object StateLocker;
-    private readonly LoginServer LoginServer;
-    private readonly Dictionary<string, ServerUser> Users;
+    private readonly LoginServer Login;
+    public readonly ServerState State;
     private readonly ConcurrentDictionary<int, ServerUser> users;
 
     internal Server(int port)
     {
       Network = new TcpServer(port);
       UserLocker = new object();
-      StateLocker = new object();
-      LoginServer = new LoginServer(Network, this);
-      Users = new Dictionary<string, ServerUser>();
+      Login = new LoginServer(Network, this);
       users = new ConcurrentDictionary<int, ServerUser>();
-    }
-
-    private string _welcome;
-    public string Welcome
-    {
-      get { return _welcome; }
-      set
-      {
-        if (_welcome != value)
-        {
-          _welcome = value;
-          //通知客户端
-        }
-      }
-    }
-
-    internal ClientInitInfo GetClientInitInfo(int user)
-    {
-      lock (StateLocker)
-      {
-        return new ClientInitInfo(user);
-      }
-    }
-
-    internal bool HasUser(string name)
-    {
-      lock(UserLocker)
-      {
-        return Users.ContainsKey(name);
-      }
-    }
-    internal void AddUser(ServerUser user) //处于UserLocker中
-    {
-      Users.Add(user.User.Name, user);
-      users[user.Network.Id] = user;
-      UsersUpdate(user.User);
-    }
-    internal void RemoveUser(ServerUser user)
-    {
-      lock (UserLocker) //其实我觉得不lock也行...
-      {
-        Users.Remove(user.User.Name);
-        ServerUser u;
-        users.TryRemove(user.Network.Id, out u);
-        user.User.State = UserState.Quited;
-        UsersUpdate(user.User);
-      }
     }
 
     public void Start()
@@ -83,7 +42,7 @@ namespace PokemonBattleOnline.Network
     public void Dispose()
     {
       Network.Dispose();
-      LoginServer.Dispose();
+      Login.Dispose();
     }
   }
 }

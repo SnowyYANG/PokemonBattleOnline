@@ -5,7 +5,7 @@ using System.Text;
 using System.Net;
 using System.Threading;
 
-namespace PokemonBattleOnline.Network.Lobby
+namespace PokemonBattleOnline.Network
 {
   internal class ServerUser : UserBase
   {
@@ -28,18 +28,19 @@ namespace PokemonBattleOnline.Network.Lobby
 
     private void RemoveUser()
     {
-      Server.RemoveUser(this);
-      LastPack = DateTime.Now;
+      throw new NotImplementedException();
+      //Server.RemoveUser(this);
+      //LastPack = DateTime.Now;
     }
     protected override void OnPackReceived(byte[] pack)
     {
-      throw new NotImplementedException();
       //if (!pack.IsEmpty())
+      //  Serializer.DeserializeFromCompressedJson<UserCommand>(pack).Execute(this);
       //{
       //  switch (pack[0])
       //  {
       //    case 0:
-      //      Serializer.DeserializeFromCompressedJson<UserCommand>(pack, 1).Execute(this);
+      //      ;
       //      break;
       //    case 1: //p2p
       //      {

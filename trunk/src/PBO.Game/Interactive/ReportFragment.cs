@@ -12,7 +12,7 @@ namespace PokemonBattleOnline.Game
   [DataContract(Namespace = PBOMarks.PBO)]
   public class ReportFragment
   {
-    static HashSet<Type> knownGameEvents = new HashSet<Type>() { typeof(BeginTurn), typeof(EndTurn), typeof(HorizontalLine), typeof(Mimic), typeof(MoveHurt), typeof(SendOut), typeof(SetHp), typeof(SetItem), typeof(SetOutward), typeof(SetPP), typeof(SetX), typeof(SetY), typeof(ShowHp), typeof(ShowLog), typeof(ShowWeather), typeof(Substitute), typeof(TimeTick), typeof(Withdraw) };
+    static Type[] knownGameEvents = new Type[] { typeof(BeginTurn), typeof(EndTurn), typeof(HorizontalLine), typeof(Mimic), typeof(MoveHurt), typeof(SendOut), typeof(SetHp), typeof(SetItem), typeof(SetOutward), typeof(SetPP), typeof(SetX), typeof(SetY), typeof(ShowHp), typeof(ShowLog), typeof(ShowWeather), typeof(Substitute), typeof(TimeTick), typeof(Withdraw) };
     static IEnumerable<Type> KnownEvents()
     {
       return knownGameEvents;

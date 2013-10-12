@@ -32,11 +32,7 @@ namespace PokemonBattleOnline.Network.Commands
     public override void Execute(Client client)
     {
       if (Name == null) client.State.RemoveUser(Id);
-      else
-      {
-        var u = new User(Id, Name, Avatar);
-        client.State.AddUser(u);
-      }
+      else client.State.AddUser(new User(Id, Name, Avatar));
     }
   }
 }

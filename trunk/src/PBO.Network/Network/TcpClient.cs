@@ -22,7 +22,7 @@ namespace PokemonBattleOnline.Network
       {
         socket.Blocking = true;
         socket.LingerState = new LingerOption(true, 5);
-        socket.BeginConnect(address, port, OnConnectCompleted, new MultiObjects(socket, callback));
+        socket.BeginConnect(address, port, OnConnectCompleted, new object [] { socket, callback });
       }
       catch (Exception e)
       {
@@ -43,7 +43,7 @@ namespace PokemonBattleOnline.Network
       {
         socket.Blocking = true;
         socket.LingerState = new LingerOption(true, 5);
-        socket.BeginConnect(address, port, OnConnectCompleted, new MultiObjects(socket, callback));
+        socket.BeginConnect(address, port, OnConnectCompleted, new object[] { socket, callback });
       }
       catch (Exception e)
       {
@@ -53,9 +53,9 @@ namespace PokemonBattleOnline.Network
     }
     private static void OnConnectCompleted(IAsyncResult ar)
     {
-      var mo = (MultiObjects)ar.AsyncState;
-      var s = (Socket)mo.First;
-      var cb = (Action<TcpClient>)mo.Second;
+      var mo = (object[])ar.AsyncState;
+      var s = (Socket)mo[0];
+      var cb = (Action<TcpClient>)mo[1];
       try
       {
         s.EndConnect(ar);

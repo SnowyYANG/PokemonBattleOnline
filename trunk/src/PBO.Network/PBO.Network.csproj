@@ -49,17 +49,14 @@
   <ItemGroup>
     <Compile Include="Lobby\Client.cs" />
     <Compile Include="ClientInitInfo.cs" />
-    <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\Battle.cs" />
-    <Compile Include="Commands\Challenge.cs" />
+    <Compile Include="Command.cs" />
     <Compile Include="Commands\Chat.cs" />
-    <Compile Include="Commands\GameRoom.cs" />
-    <Compile Include="Commands\Hosts.cs" />
+    <Compile Include="Commands\Seat.cs" />
     <Compile Include="Commands\UserChanged.cs" />
+    <Compile Include="Lobby\ClientController.cs" />
     <Compile Include="Lobby\ClientState.cs" />
     <Compile Include="Lobby\IClientEventsListener.cs" />
-    <Compile Include="Lobby\LoginClient.cs" />
-    <Compile Include="Lobby\RemoveUserReason.cs" />
+    <Compile Include="LoginClient.cs" />
     <Compile Include="Lobby\Room.cs" />
     <Compile Include="Lobby\Seat.cs" />
     <Compile Include="Lobby\User.cs" />

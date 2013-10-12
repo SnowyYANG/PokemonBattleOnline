@@ -45,19 +45,15 @@ namespace PokemonBattleOnline.Network
       return pack.Length > offset + 1 ? (UInt16?)((pack[offset] << 8) | pack[offset + 1]) : null;
     }
 
-    public static byte[] ToPack(this string s, int packOffset)
+    public static byte[] ToPack(this string s)
     {
       var pack = new byte[Encoding.Unicode.GetByteCount(s) + 1];
-      Encoding.Unicode.GetBytes(s, 0, s.Length, pack, packOffset);
+      Encoding.Unicode.GetBytes(s, 0, s.Length, pack, 0);
       return pack;
     }
     public static string ToUnicodeString(this byte[] pack)
     {
       return Encoding.Unicode.GetString(pack);
-    }
-    public static string ToUnicodeString(this byte[] pack, int offset)
-    {
-      return Encoding.Unicode.GetString(pack, offset, pack.Length - offset);
     }
 
     public static byte[] ToPack<T>(this T obj)

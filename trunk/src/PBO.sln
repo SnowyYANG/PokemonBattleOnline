@@ -30,7 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.Game.Test", "PBO.Game.Test\PBO.Game.Test.csproj", "{CA8FC057-3DD7-4F64-9965-AD4BA3FF5EE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.DataEditor", "PBO.Data.Editor\PBO.DataEditor.csproj", "{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.Game.DataEditor", "PBO.Data.Editor\PBO.Game.DataEditor.csproj", "{2B46BCA2-88AD-4ECD-A4BC-EC235396011E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.Game.Host", "PBO.Game.Host\PBO.Game.Host.csproj", "{666D492B-2C1F-46DC-8B6C-F59D7F0C40D7}"
 EndProject
@@ -107,15 +107,15 @@ Global
 		SccProjectUniqueName11 = PokemonBattleOnline\\PokemonBattleOnline.csproj
 		SccProjectName11 = PokemonBattleOnline
 		SccLocalPath11 = PokemonBattleOnline
-		SccProjectUniqueName12 = PBO.Data.Editor\\PBO.DataEditor.csproj
-		SccProjectName12 = PBO.Data.Editor
-		SccLocalPath12 = PBO.Data.Editor
-		SccProjectUniqueName13 = PBO.Network.Server\\PBO.Network.Server.csproj
-		SccProjectName13 = PBO.Network.Server
-		SccLocalPath13 = PBO.Network.Server
-		SccProjectUniqueName14 = PBO.Network.Test\\PBO.Network.Test.csproj
-		SccProjectName14 = PBO.Network.Test
-		SccLocalPath14 = PBO.Network.Test
+		SccProjectUniqueName12 = PBO.Network.Server\\PBO.Network.Server.csproj
+		SccProjectName12 = PBO.Network.Server
+		SccLocalPath12 = PBO.Network.Server
+		SccProjectUniqueName13 = PBO.Network.Test\\PBO.Network.Test.csproj
+		SccProjectName13 = PBO.Network.Test
+		SccLocalPath13 = PBO.Network.Test
+		SccProjectUniqueName14 = PBO.Data.Editor\\PBO.Game.DataEditor.csproj
+		SccProjectName14 = PBO.Data.Editor
+		SccLocalPath14 = PBO.Data.Editor
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

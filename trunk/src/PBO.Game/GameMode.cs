@@ -9,8 +9,11 @@ namespace PokemonBattleOnline.Game
   {
     Single,
     Double,
+    Tag,
     Triple,
-    //TODO more
+    Rotation,
+    Sky,
+    Inverse
   }
   public static class GameModeExtensions
   {

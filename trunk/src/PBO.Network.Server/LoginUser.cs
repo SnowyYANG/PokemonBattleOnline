@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace PokemonBattleOnline.Network.Lobby
+namespace PokemonBattleOnline.Network
 {
   internal class LoginUser : UserBase
   {

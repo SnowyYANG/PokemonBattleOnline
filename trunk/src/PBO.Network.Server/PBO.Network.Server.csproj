@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,16 +45,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IdsPool.cs" />
+    <Compile Include="C2Ss\ChatC2S.cs" />
+    <Compile Include="C2Ss\SetSeat.cs" />
+    <Compile Include="IC2S.cs" />
+    <Compile Include="Network\IdsPool.cs" />
     <Compile Include="LoginServer.cs" />
     <Compile Include="LoginUser.cs" />
     <Compile Include="PBOServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="ServerState.cs" />
     <Compile Include="ServerUser.cs" />
-    <Compile Include="TcpServer.cs" />
-    <Compile Include="TcpUser.cs" />
-    <Compile Include="UserBase.cs" />
+    <Compile Include="Network\TcpServer.cs" />
+    <Compile Include="Network\TcpUser.cs" />
+    <Compile Include="Network\UserBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PBO.Game.Host\PBO.Game.Host.csproj">

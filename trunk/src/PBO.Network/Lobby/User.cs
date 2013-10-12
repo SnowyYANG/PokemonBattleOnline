@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace PokemonBattleOnline.Network
 {
   [DataContract(Namespace = PBOMarks.JSON)]
-  public class User
+  public class User : ObservableObject
   {
     public User(int id, string name, ushort avatar)
     {
@@ -30,7 +30,9 @@ namespace PokemonBattleOnline.Network
     public ushort Avatar
     { get { return _avatar; } }
 
-    public int RoomId
+    public Client Client
+    { get; internal set; }
+    public Room Room
     { get; internal set; }
     public Seat Seat
     { get; internal set; }
