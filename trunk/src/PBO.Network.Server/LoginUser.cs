@@ -14,7 +14,7 @@ namespace PokemonBattleOnline.Network
       : base(network)
     {
       Server = server;
-      network.Disconnect += OnLoginFailed;
+      network.Disconnected += OnLoginFailed;
     }
 
     public string Name
@@ -38,7 +38,7 @@ namespace PokemonBattleOnline.Network
           break;
         case 1: //Name
           var name = pack.ToUnicodeString();
-          if (Server.RegisterUserName(this, name))
+          if (Server.RegisterName(this, name))
           {
             state = 2;
             Name = name;

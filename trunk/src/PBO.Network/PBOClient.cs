@@ -32,11 +32,11 @@ namespace PokemonBattleOnline.Network
       add { LoginClient.BadVersion += value; }
       remove { LoginClient.BadVersion -= value; }
     }
-    private static readonly object Locker;
+    private static readonly object Locker = new object();
 
     static PBOClient()
     {
-      Locker = new object();
+      LoginClient.LoginSucceed += LoginSucceed;
     }
 
     private static Client _current;
@@ -61,6 +61,7 @@ namespace PokemonBattleOnline.Network
 
     private static void LoginSucceed(Client obj)
     {
+      currentLogin = null;
       Current = obj;
     }
 
@@ -85,8 +86,14 @@ namespace PokemonBattleOnline.Network
 
     public static void Dispose()
     {
-      Current.Dispose();
-      Current = null;
+      lock (Locker)
+      {
+        if (Current != null)
+        {
+          Current.Dispose();
+          _current = null;
+        }
+      }
     }
   }
 }

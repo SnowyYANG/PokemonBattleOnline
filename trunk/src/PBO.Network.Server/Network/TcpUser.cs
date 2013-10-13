@@ -7,8 +7,10 @@ using System.Net.Sockets;
 
 namespace PokemonBattleOnline.Network
 {
-  internal class TcpUser
+  internal class TcpUser : IDisposable
   {
+    public event Action Disconnected;
+
     public readonly TcpServer Server;
     private readonly Socket Socket;
     public readonly TcpPackSender Sender;
@@ -23,24 +25,10 @@ namespace PokemonBattleOnline.Network
       Receiver = new TcpPackReceiver(socket);
       Locker = new object();
       _id = server.IdsPool.GetId();
+      Sender.Disconnect += OnDisconnect;
+      Receiver.Disconnect += OnDisconnect;
     }
 
-    /// <summary>
-    /// 妥妥的执行两次
-    /// </summary>
-    public event Action Disconnect
-    {
-      add
-      { 
-        Sender.Disconnect += value;
-        Receiver.Disconnect += value;
-      }
-      remove
-      {
-        Sender.Disconnect -= value;
-        Receiver.Disconnect -= value;
-      }
-    }
     private readonly int _id;
     public int Id
     { get { return _id; } }
@@ -54,6 +42,29 @@ namespace PokemonBattleOnline.Network
     internal DateTime LastPack
     { get { return Receiver.LastPack; } }
 
+    private bool _isDisconnected;
+    internal void OnDisconnect()
+    {
+      lock (Locker)
+      {
+        if (!_isDisconnected)
+        {
+          try
+          {
+            Socket.Close(5);
+            Socket.Dispose();
+            Sender.Disconnect += delegate { };
+            Sender.Disconnect -= OnDisconnect;
+            Receiver.Disconnect += delegate { };
+            Receiver.Disconnect -= OnDisconnect;
+            _isDisconnected = true;
+            if (Disconnected != null) Disconnected();
+          }
+          catch { }
+        }
+      }
+    }
+
     private bool _isDisposed;
     public void Dispose()
     {
@@ -61,14 +72,9 @@ namespace PokemonBattleOnline.Network
       {
         if (!_isDisposed)
         {
-          _isDisposed = true;
+          OnDisconnect();
           Server.Remove(this);
-          try
-          {
-            Socket.Close(5);
-            Socket.Dispose();
-          }
-          catch { }
+          _isDisposed = true;
         }
       }
     }

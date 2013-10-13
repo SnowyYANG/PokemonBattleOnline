@@ -16,16 +16,37 @@ namespace PokemonBattleOnline
 
     public static void Invoke(Action action)
     {
+#if DEBUG
+      if (wpf == null)
+      {
+        action();
+        return;
+      }
+#endif
       if (wpf.CheckAccess()) action();
       else wpf.Invoke(action);
     }
     public static void Invoke(Delegate method, params object[] args)
     {
+#if DEBUG
+      if (wpf == null)
+      {
+        method.DynamicInvoke(args);
+        return;
+      }
+#endif
       if (wpf.CheckAccess()) method.DynamicInvoke(args);
       else wpf.Invoke(method, args);
     }
     public static void BeginInvoke(Delegate method, params object[] args)
     {
+#if DEBUG
+      if (wpf == null)
+      {
+        method.DynamicInvoke(args);
+        return;
+      }
+#endif
       wpf.BeginInvoke(method, args);
     }
   }

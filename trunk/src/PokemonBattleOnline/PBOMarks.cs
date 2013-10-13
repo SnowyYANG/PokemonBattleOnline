@@ -15,7 +15,7 @@ namespace PokemonBattleOnline
     public const string A = "a";
     public const int DEFAULT_PORT = 9705;
     public const ushort VERSION = 0;
-    public const int TIMEOUT = 300000;
+    public const int TIMEOUT = 30000;
     public const int GEN = 5;
   }
 }

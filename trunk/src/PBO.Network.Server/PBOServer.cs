@@ -36,9 +36,10 @@ namespace PokemonBattleOnline.Network
       }
     }
     
-    public static void NewTcpServer(int port)
+    public static void NewServer(int port = PBOMarks.DEFAULT_PORT)
     {
       Current = new Server(port);
+      Current.Start();
     }
   }
 }

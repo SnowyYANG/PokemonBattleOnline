@@ -3,25 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.Concurrent;
-using System.Runtime.Serialization.Json;
-using PokemonBattleOnline.Network.C2Ss;
 
 namespace PokemonBattleOnline.Network
 {
   public class Server : IDisposable
   {
-    private static readonly DataContractJsonSerializer C2SSerializer;
-    private static readonly DataContractJsonSerializer S2CSerializer;
-    static Server()
-    {
-      C2SSerializer = new DataContractJsonSerializer(typeof(IC2S), new Type[] { typeof(ChatC2S), typeof(SetSeat) });
-      S2CSerializer = new DataContractJsonSerializer(typeof(S2C));
-    }
-
-    public event Action<User> UsersUpdate;
-    
     internal readonly TcpServer Network;
-    internal readonly object UserLocker;
     private readonly LoginServer Login;
     public readonly ServerState State;
     private readonly ConcurrentDictionary<int, ServerUser> users;
@@ -29,14 +16,47 @@ namespace PokemonBattleOnline.Network
     internal Server(int port)
     {
       Network = new TcpServer(port);
-      UserLocker = new object();
       Login = new LoginServer(Network, this);
+      State = new ServerState(this);
       users = new ConcurrentDictionary<int, ServerUser>();
     }
 
     public void Start()
     {
       Network.IsListening = true;
+    }
+    internal void AddUser(ServerUser user)
+    {
+      lock (State.StateLocker)
+      {
+        if (users.TryAdd(user.Network.Id, user))
+        {
+          State.Users.Add(user.User);
+          Send(Commands.UserChanged.AddUser(user.Network.Id, user.User.Name, user.User.Avatar));
+        }
+#if DEBUG
+        else System.Diagnostics.Debugger.Break();
+#endif
+      }
+    }
+    internal void RemoveUser(ServerUser user)
+    {
+      lock (State.StateLocker)
+      {
+        ServerUser r;
+        if (!users.TryRemove(user.Network.Id, out r))
+#if DEBUG
+          System.Diagnostics.Debugger.Break()
+#endif
+          ;
+        State.Users.Remove(user.User);
+        Send(Commands.UserChanged.RemoveUser(user.Network.Id));
+      }
+      Login.RemoveName(user.User.Name);
+    }
+    internal void Send(S2C s2c)
+    {
+      foreach (var u in users.Values) u.Send(s2c);
     }
 
     public void Dispose()

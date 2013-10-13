@@ -3,18 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net;
+using System.IO;
+using System.IO.Compression;
 using System.Threading;
+using System.Runtime.Serialization.Json;
+using PokemonBattleOnline.Network.C2Ss;
 
 namespace PokemonBattleOnline.Network
 {
   internal class ServerUser : UserBase
   {
+    private static readonly DataContractJsonSerializer C2SSerializer;
+    private static readonly DataContractJsonSerializer S2CSerializer;
+    static ServerUser()
+    {
+      C2SSerializer = new DataContractJsonSerializer(typeof(IC2S), new Type[] { typeof(ChatC2S), typeof(SetSeat) });
+      S2CSerializer = new DataContractJsonSerializer(typeof(S2C));
+    }
+
     private readonly Server Server;
 
-    internal ServerUser(LoginUser user, Server server)
+    public ServerUser(LoginUser user, Server server)
       : base(user.Network)
     {
-      Network.Disconnect += RemoveUser;
+      Network.Disconnected += Dispose;
       _user = new User(user.Network.Id, user.Name, user.Avatar);
       Server = server;
       LastPack = DateTime.Now;
@@ -26,50 +38,35 @@ namespace PokemonBattleOnline.Network
     internal DateTime LastPack
     { get; private set; }
 
-    private void RemoveUser()
-    {
-      throw new NotImplementedException();
-      //Server.RemoveUser(this);
-      //LastPack = DateTime.Now;
-    }
     protected override void OnPackReceived(byte[] pack)
     {
-      //if (!pack.IsEmpty())
-      //  Serializer.DeserializeFromCompressedJson<UserCommand>(pack).Execute(this);
-      //{
-      //  switch (pack[0])
-      //  {
-      //    case 0:
-      //      ;
-      //      break;
-      //    case 1: //p2p
-      //      {
-      //        var n = pack[1];
-      //        var receivers = new int[n]; //n == 0 means all
-      //        var offset = 2;
-      //        for (int i = 0; i < n; ++i)
-      //        {
-      //          receivers[i] = pack.ToUInt16(offset).Value;
-      //          offset += 2;
-      //        }
-      //        Server.SendP2PPack(this, pack.SubArray(offset), receivers);
-      //      }
-      //      break;
-      //    case 10: //群聊专用
-      //      try
-      //      {
-      //        Server.PublicChat(this, pack.ToUnicodeString(1));
-      //      }
-      //      catch
-      //      {
-      //        goto default;
-      //      }
-      //      break;
-      //    default:
-      //      //超过一定额度 close
-      //      break;
-      //  }
-      //}
+      LastPack = DateTime.Now;
+      try
+      {
+        if (!pack.IsEmpty())
+          using (var ms = new MemoryStream(pack, false))
+          using (var ds = new DeflateStream(ms, CompressionMode.Decompress))
+            ((IC2S)C2SSerializer.ReadObject(ds)).Execute(this);
+      }
+      catch
+      {
+        Dispose();
+      }
+    }
+    public void Send(S2C s2c)
+    {
+      using (var ms = new MemoryStream())
+      using (var ds = new DeflateStream(ms, CompressionMode.Compress))
+      {
+        S2CSerializer.WriteObject(ds, s2c);
+        Network.Sender.Send(ms.ToArray());
+      }
+    }
+
+    public override void Dispose()
+    {
+      Server.RemoveUser(this);
+      base.Dispose();
     }
   }
 }

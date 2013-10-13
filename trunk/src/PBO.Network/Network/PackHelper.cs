@@ -47,7 +47,7 @@ namespace PokemonBattleOnline.Network
 
     public static byte[] ToPack(this string s)
     {
-      var pack = new byte[Encoding.Unicode.GetByteCount(s) + 1];
+      var pack = new byte[Encoding.Unicode.GetByteCount(s)];
       Encoding.Unicode.GetBytes(s, 0, s.Length, pack, 0);
       return pack;
     }

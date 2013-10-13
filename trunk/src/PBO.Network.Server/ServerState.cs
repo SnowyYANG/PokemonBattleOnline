@@ -13,7 +13,12 @@ namespace PokemonBattleOnline.Network
     public ServerState(Server server)
     {
       StateLocker = new object();
+      _users = new ObservableList<User>();
     }
+
+    private readonly ObservableList<User> _users;
+    public ObservableList<User> Users
+    { get { return _users; } }
 
     internal ClientInitInfo GetClientInitInfo(int user)
     {
@@ -21,21 +26,6 @@ namespace PokemonBattleOnline.Network
       {
         return new ClientInitInfo(user);
       }
-    }
-    internal void AddUser(ServerUser user)
-    {
-      //Users.Add(user.User.Name, user);
-      //users[user.Network.Id] = user;
-      //UsersUpdate(user.User);
-    }
-    internal void RemoveUser(ServerUser user)
-    {
-      //Users.Remove(user.User.Name);
-      //ServerUser u;
-      //users.TryRemove(user.Network.Id, out u);
-      //user.User.State = UserState.Quited;
-      //UsersUpdate(user.User);
-      //users.Remove(user.User.Name);
     }
   }
 }

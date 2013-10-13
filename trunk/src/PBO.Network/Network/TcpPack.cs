@@ -46,14 +46,21 @@ namespace PokemonBattleOnline.Network
       {
         E.BufferList = Buffer;
         Buffer = null;
-        if (!Socket.SendAsync(E)) Completed(E);
-        else isSending = true;
+        try
+        {
+          if (!Socket.SendAsync(E)) Completed(E);
+          else isSending = true;
+        }
+        catch
+        {
+          Disconnect();
+        }
       }
     }
     private void Completed(SocketAsyncEventArgs e)
     {
       //already locked
-      if (e.SocketError == SocketError.Success)
+      if (e.BytesTransferred > 0 && e.SocketError == SocketError.Success)
       {
         if (Buffer == null) isSending = false;
         else SendAsync();
@@ -140,7 +147,7 @@ namespace PokemonBattleOnline.Network
     private void Completed(SocketAsyncEventArgs e)
     {
       var done = e.Count == 0 ? 0 : e.BytesTransferred;
-      if (e.SocketError == SocketError.Success)
+      if (e.BytesTransferred > 0 && e.SocketError == SocketError.Success)
       {
         switch (step)
         {

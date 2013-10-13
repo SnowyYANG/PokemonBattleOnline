@@ -16,7 +16,7 @@ namespace PokemonBattleOnline.Network
       var users = (List<TcpUser>)state;
       var lastPack = DateTime.Now.AddMilliseconds(-2d * PBOMarks.TIMEOUT);
       foreach (var u in users.ToArray())
-        if (u.LastPack < lastPack) u.Dispose();
+        if (u.LastPack < lastPack) u.OnDisconnect();
     }
     
     public event Action<TcpUser> NewComingUser;

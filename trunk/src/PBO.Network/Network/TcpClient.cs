@@ -7,7 +7,7 @@ using System.Net.Sockets;
 
 namespace PokemonBattleOnline.Network
 {
-  internal class TcpClient
+  internal class TcpClient : IDisposable
   {
     /// <summary>
     /// block
@@ -68,7 +68,7 @@ namespace PokemonBattleOnline.Network
       }
     }
 
-    public event Action Disconnect;
+    public event Action Disconnected;
     private readonly Socket Socket;
     public readonly TcpPackSender Sender;
     private readonly TcpPackReceiver Receiver;
@@ -77,8 +77,9 @@ namespace PokemonBattleOnline.Network
     {
       Socket = socket;
       Sender = new TcpPackSender(socket);
-
+      Sender.Disconnect += OnDisconnect;
       Receiver = new TcpPackReceiver(socket);
+      Receiver.Disconnect += OnDisconnect;
     }
 
     public IPEndPoint Server
@@ -89,10 +90,33 @@ namespace PokemonBattleOnline.Network
       set { Receiver.Listener = value; }
     }
 
+    private readonly object Locker = new object();
+    private bool _isDisconnected;
+    private void OnDisconnect()
+    {
+      lock (Locker)
+      {
+        if (!_isDisconnected)
+        {
+          try
+          {
+            Socket.Close(5);
+            Socket.Dispose();
+            _isDisconnected = true;
+            Sender.Disconnect += delegate { };
+            Sender.Disconnect -= OnDisconnect;
+            Receiver.Disconnect += delegate { };
+            Receiver.Disconnect -= OnDisconnect;
+            Disconnected();
+          }
+          catch { }
+        }
+      }
+    }
+
     public void Dispose()
     {
-      Socket.Close();
-      Socket.Dispose();
+      OnDisconnect();
     }
   }
 }

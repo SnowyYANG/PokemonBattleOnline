@@ -44,7 +44,7 @@ namespace PokemonBattleOnline.Network
         Names.Remove(name);
       }
     }
-    public bool RegisterUserName(LoginUser user, string name)
+    public bool RegisterName(LoginUser user, string name)
     {
       lock (UserLocker)
       {
@@ -66,12 +66,7 @@ namespace PokemonBattleOnline.Network
     {
       LoginUser u;
       Users.TryRemove(user.Network.Id, out u);
-      if (user == u)
-      {
-        var su = new ServerUser(user, Server);
-
-        Server.State.AddUser(su);
-      }
+      if (user == u) Server.AddUser(new ServerUser(user, Server));
       else u.Dispose();
     }
 

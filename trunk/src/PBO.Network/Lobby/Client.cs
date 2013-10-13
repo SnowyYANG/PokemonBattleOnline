@@ -23,25 +23,25 @@ namespace PokemonBattleOnline.Network
 
     private static void OnKeepAlive(object state)
     {
-      ((TcpClient)state).Sender.Send(PackHelper.EMPTYPACK);
+      ((TcpClient)state).Sender.SendEmpty();
     }
 
     public event Action Disconnected = delegate { };
     internal readonly TcpClient Network;
     public readonly ClientController Controller;
-    internal readonly ClientState State;
+    public readonly ClientState State;
     private readonly Timer KeepAlive;
     
     internal Client(TcpClient network, LoginClient login, ClientInitInfo cii)
     {
       Network = network;
       network.Listener = this;
-      network.Disconnect += () =>
+      network.Disconnected += () =>
         {
           if (!isDisposed)
           {
-            Disconnected();
             Dispose();
+            Disconnected();
           }
         };
       Controller = new ClientController(this);
@@ -54,12 +54,13 @@ namespace PokemonBattleOnline.Network
 
     void IPackReceivedListener.OnPackReceived(byte[] pack)
     {
-      using (var ms = new MemoryStream(pack, false))
-      using (var ds = new DeflateStream(ms, CompressionMode.Decompress))
-      {
-        var s2c = (S2C)S2CSerializer.ReadObject(ds);
-        s2c.Execute(this);
-      }
+      if (!pack.IsEmpty())
+        using (var ms = new MemoryStream(pack, false))
+        using (var ds = new DeflateStream(ms, CompressionMode.Decompress))
+        {
+          var s2c = (S2C)S2CSerializer.ReadObject(ds);
+          s2c.Execute(this);
+        }
     }
     public void SendC2S(IC2S command)
     {
@@ -71,18 +72,14 @@ namespace PokemonBattleOnline.Network
       }
     }
 
-    private void SendKeepAlive()
-    {
-      Network.Sender.SendEmpty();
-    }
-
     private volatile bool isDisposed;
     public void Dispose()
     {
       if (!isDisposed)
       {
-        isDisposed = true;
+        KeepAlive.Dispose();
         Network.Dispose();
+        isDisposed = true;
       }
     }
   }
