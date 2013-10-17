@@ -79,13 +79,13 @@ namespace PokemonBattleOnline.Network.Commands
         switch (Mode)
         {
           case ChatMode.Public:
-            client.Listener.PublicChat(Chat, user);
+            ClientController.OnPublicChat(Chat, user);
             break;
           case ChatMode.Room:
-            client.Listener.RoomChat(Chat, user);
+            ClientController.OnRoomChat(Chat, user);
             break;
           case ChatMode.Private:
-            client.Listener.PrivateChat(Chat, user);
+            ClientController.OnPrivateChat(Chat, user);
             break;
         }
     }

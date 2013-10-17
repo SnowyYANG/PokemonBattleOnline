@@ -55,7 +55,6 @@
     <Compile Include="Commands\UserChanged.cs" />
     <Compile Include="Lobby\ClientController.cs" />
     <Compile Include="Lobby\ClientState.cs" />
-    <Compile Include="Lobby\IClientEventsListener.cs" />
     <Compile Include="LoginClient.cs" />
     <Compile Include="Lobby\Room.cs" />
     <Compile Include="Lobby\Seat.cs" />

@@ -26,12 +26,16 @@ namespace PokemonBattleOnline.Network.Test
     static void Main(string[] args)
     {
       PBOServer.NewServer();
-      PBOServer.Current.State.Users.CollectionChanged += (sender, e) => Print();
       PBOClient.CurrentChanged += () =>
         {
-          PBOClient.Current.State.Users.CollectionChanged += delegate { };
+          PBOClient.Current.State.Users.CollectionChanged += (sender, e) => Print();
+          ClientController.PublicChat += (s, u) => Console.WriteLine(u.Name + ": " + s);
         };
       PBOClient.Login("127.0.0.1", "t1", 408);
+
+      Console.ReadKey();
+      
+      PBOClient.Current.Controller.ChatPublic("hello");
 
       Console.ReadKey();
 

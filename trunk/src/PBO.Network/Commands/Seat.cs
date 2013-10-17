@@ -8,36 +8,38 @@ using PokemonBattleOnline.Game;
 namespace PokemonBattleOnline.Network.Commands
 {
   [DataContract(Namespace = PBOMarks.JSON)]
-  public class SetSeat : IC2S
+  public class SetSeatC2S : IC2S
   {
     [DataMember(Name = "a", EmitDefaultValue = false)]
     public readonly int RoomId;
     [DataMember(Name = "b", EmitDefaultValue = false)]
     public readonly Seat Seat;
 
-    public SetSeat(int room, Seat seat)
+    public SetSeatC2S(int room, Seat seat)
     {
       RoomId = room;
       Seat = seat;
     }
+    protected SetSeatC2S()
+    {
+    }
   }
   [DataContract(Namespace = PBOMarks.JSON)]
-  public class SetUserSeat : S2C
+  public class SetSeatS2C : S2C
   {
-    public static SetUserSeat NewRoom(int user, int room, GameInitSettings settings)
+    public static SetSeatS2C NewRoom(int user, int room, GameInitSettings settings)
     {
-      return new SetUserSeat(user, room, Seat.Player00, settings);
+      return new SetSeatS2C(user, room, Seat.Player00, settings);
     }
-    public static SetUserSeat ChangeSeat(int user, int room, Seat seat)
+    public static SetSeatS2C ChangeSeat(int user, int room, Seat seat)
     {
-      return new SetUserSeat(user, room, seat, null);
+      return new SetSeatS2C(user, room, seat, null);
     }
-    public static SetUserSeat LeaveRoom(int user)
+    public static SetSeatS2C LeaveRoom(int user)
     {
-      return new SetUserSeat(user, 0, 0, null);
+      return new SetSeatS2C(user, 0, 0, null);
     }
 
-    
     [DataMember(Name = "a")]
     private readonly int User;
     [DataMember(Name = "b", EmitDefaultValue = false)]
@@ -47,7 +49,7 @@ namespace PokemonBattleOnline.Network.Commands
     [DataMember(Name = "d", EmitDefaultValue = false)]
     private readonly GameInitSettings GameSettings;
 
-    private SetUserSeat(int u, int r, Seat s, GameInitSettings settings)
+    private SetSeatS2C(int u, int r, Seat s, GameInitSettings settings)
     {
       User = u;
       Room = r;
@@ -82,9 +84,10 @@ namespace PokemonBattleOnline.Network.Commands
         }
         else
         {
-          var room = new Room(Room, GameSettings, user);
+          var room = new Room(Room, GameSettings);
+          room[Seat] = user;
           user.Room = room;
-          user.Seat = Seat.Player00;
+          user.Seat = Seat;
         }
       }
     }

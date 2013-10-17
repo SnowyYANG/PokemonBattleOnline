@@ -11,7 +11,7 @@ namespace PokemonBattleOnline.Network
   [DataContract(Namespace = PBOMarks.JSON)]
   public abstract class S2C
   {
-    static Type[] knownTypes = new Type[] { typeof(ChatS2C), typeof(SetUserSeat), typeof(UserChanged) };
+    static Type[] knownTypes = new Type[] { typeof(ChatS2C), typeof(SetSeatS2C), typeof(UserChanged) };
     static IEnumerable<Type> KnownTypes()
     {
       return knownTypes;

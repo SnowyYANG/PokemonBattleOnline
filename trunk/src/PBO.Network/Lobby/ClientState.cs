@@ -17,8 +17,19 @@ namespace PokemonBattleOnline.Network
       users = new Dictionary<int, User>();
       rooms = new Dictionary<int, Room>();
       _user = new User(cii.User, login.Name, login.Avatar);
-      _users = new ObservableList<User>();
-      _rooms = new ObservableList<Room>();
+      _users = new ObservableList<User>(cii.LobbyUsers);
+      _rooms = new ObservableList<Room>(cii.Rooms);
+      
+      foreach (var u in cii.LobbyUsers) users.Add(u.Id, u);
+      foreach (var r in cii.Rooms)
+      {
+        rooms.Add(r.Id, r);
+        foreach (var u in r.Players) AddUser(u);
+        foreach (var u in r.Spectators) AddUser(u);
+      }
+
+      users.Add(_user.Id, _user);
+      _users.Add(_user);
     }
 
     private readonly User _user;
@@ -55,7 +66,6 @@ namespace PokemonBattleOnline.Network
     }
     internal void AddUser(User u)
     {
-      u.Client = Client;
       users[u.Id] = u;
       Users.Add(u);
     }

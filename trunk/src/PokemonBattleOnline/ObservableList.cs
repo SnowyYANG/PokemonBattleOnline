@@ -19,6 +19,12 @@ namespace PokemonBattleOnline
       BaseOnCollectionChanged = base.OnCollectionChanged;
       BaseOnPropertyChanged = base.OnPropertyChanged;
     }
+    public ObservableList(IEnumerable<T> list)
+      : base(list)
+    {
+      BaseOnCollectionChanged = base.OnCollectionChanged;
+      BaseOnPropertyChanged = base.OnPropertyChanged;
+    }
     
     protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
     {

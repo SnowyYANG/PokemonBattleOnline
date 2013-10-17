@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Collections.Concurrent;
 
 namespace PokemonBattleOnline.Network
 {
@@ -11,14 +10,16 @@ namespace PokemonBattleOnline.Network
     internal readonly TcpServer Network;
     private readonly LoginServer Login;
     public readonly ServerState State;
-    private readonly ConcurrentDictionary<int, ServerUser> users;
+    internal readonly ServerController Controller;
+    private readonly Dictionary<int, ServerUser> users;
 
     internal Server(int port)
     {
       Network = new TcpServer(port);
       Login = new LoginServer(Network, this);
       State = new ServerState(this);
-      users = new ConcurrentDictionary<int, ServerUser>();
+      Controller = new ServerController(this);
+      users = new Dictionary<int, ServerUser>();
     }
 
     public void Start()
@@ -29,34 +30,31 @@ namespace PokemonBattleOnline.Network
     {
       lock (State.StateLocker)
       {
-        if (users.TryAdd(user.Network.Id, user))
-        {
-          State.Users.Add(user.User);
-          Send(Commands.UserChanged.AddUser(user.Network.Id, user.User.Name, user.User.Avatar));
-        }
-#if DEBUG
-        else System.Diagnostics.Debugger.Break();
-#endif
+        user.Network.Sender.Send(State.GetClientInitInfo(user.Network.Id).ToPack());
+        SendAll(Commands.UserChanged.AddUser(user.Network.Id, user.User.Name, user.User.Avatar));
+        users.Add(user.Network.Id, user);
+        State.Users.Add(user.User);
       }
     }
     internal void RemoveUser(ServerUser user)
     {
       lock (State.StateLocker)
       {
-        ServerUser r;
-        if (!users.TryRemove(user.Network.Id, out r))
-#if DEBUG
-          System.Diagnostics.Debugger.Break()
-#endif
-          ;
+        users.Remove(user.Network.Id);
         State.Users.Remove(user.User);
-        Send(Commands.UserChanged.RemoveUser(user.Network.Id));
+        SendAll(Commands.UserChanged.RemoveUser(user.Network.Id));
       }
       Login.RemoveName(user.User.Name);
     }
-    internal void Send(S2C s2c)
+    internal void SendAll(S2C s2c)
     {
       foreach (var u in users.Values) u.Send(s2c);
+    }
+    internal void SendRoom(S2C s2c)
+    {
+    }
+    internal void Send(S2C s2c)
+    {
     }
 
     public void Dispose()

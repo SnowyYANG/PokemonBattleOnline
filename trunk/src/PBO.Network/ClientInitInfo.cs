@@ -6,39 +6,27 @@ using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Network
 {
-  [DataContract(Namespace = PBOMarks.JSON)]
+  [DataContract(Name = "cii", Namespace = PBOMarks.JSON)]
   public class ClientInitInfo
   {
-    [DataMember]
+    [DataMember(Name = "a")]
     public readonly int User;
 
-    public ClientInitInfo(int user)
+    public ClientInitInfo(int user, IEnumerable<User> users, IEnumerable<Room> rooms)
     {
       User = user;
+      _lobbyUsers = users.Where((u) => u.Room == null).ToArray();
+      _rooms = rooms.ToArray();
     }
 
-    [DataMember]
-    private readonly int[] _ids;
-    [DataMember]
-    private readonly string[] _names;
-    [DataMember]
-    private readonly ushort[] _avatars;
+    [DataMember(Name = "b_")]
+    private readonly User[] _lobbyUsers;
+    public IEnumerable<User> LobbyUsers
+    { get { return _lobbyUsers; } }
 
-    public IEnumerable<User> Users
-    { 
-      get
-      {
-        var us = new User[_ids.Length];
-        for (int i = 0; i < us.Length; ++i) us[i] = new User(_ids[i], _names[i], _avatars[i]);
-        return us;
-      }
-    }
+    [DataMember(Name = "c_")]
+    private readonly Room[] _rooms;
     public IEnumerable<Room> Rooms
-    { 
-      get
-      {
-        throw new NotImplementedException();
-      }
-    }
+    { get { return _rooms; } }
   }
 }

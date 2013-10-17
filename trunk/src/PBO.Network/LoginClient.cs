@@ -48,6 +48,7 @@ namespace PokemonBattleOnline.Network
       if (client == null) OnLoginFailed(Disconnected);
       else
       {
+        client.Disconnected += () => OnLoginFailed(Disconnected);
         TimeBomb.Change(PBOMarks.TIMEOUT, Timeout.Infinite);
         Network = client;
         Network.Listener = this;

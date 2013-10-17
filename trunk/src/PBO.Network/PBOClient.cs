@@ -13,8 +13,16 @@ namespace PokemonBattleOnline.Network
   {
     public static event Action Disconnected
     {
-      add { LoginClient.Disconnected += value; }
-      remove { LoginClient.Disconnected -= value; }
+      add
+      { 
+        LoginClient.Disconnected += value;
+        ClientController.Disconnected += value;
+      }
+      remove
+      {
+        LoginClient.Disconnected -= value;
+        ClientController.Disconnected -= value;
+      }
     }
     public static event Action CurrentChanged;
     public static event Action LoginFailed_Full

@@ -32,11 +32,6 @@ namespace PokemonBattleOnline.Network
       if (isDisposed || !Users.TryAdd(user.Id, new LoginUser(user, this))) user.Dispose();
     }
 
-    public ClientInitInfo GetClientInitInfo(int id)
-    {
-      return Server.State.GetClientInitInfo(id);
-    }
-
     internal void RemoveName(string name)
     {
       lock (UserLocker)

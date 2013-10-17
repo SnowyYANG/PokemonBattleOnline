@@ -8,7 +8,7 @@ using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Network
 {
-  [DataContract(Namespace = PBOMarks.JSON)]
+  [DataContract(Name = "gs", Namespace = PBOMarks.JSON)]
   public class GameInitSettings : IGameSettings
   {
     private bool isLocked;
@@ -25,21 +25,21 @@ namespace PokemonBattleOnline.Network
       SleepRule = sleepRule;
     }
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "a", EmitDefaultValue = false)]
     private GameMode _mode;
     public GameMode Mode
     {
       get { return _mode; }
       set { if (!isLocked) _mode = value; }
     }
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "b", EmitDefaultValue = false)]
     private Terrain _terrain;
     public Terrain Terrain
     {
       get { return _terrain; }
       set { if (!isLocked) _terrain = value; }
     }
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "c", EmitDefaultValue = false)]
     private bool _noSR;
     public bool SleepRule
     {

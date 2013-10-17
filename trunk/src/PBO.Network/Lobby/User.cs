@@ -30,10 +30,23 @@ namespace PokemonBattleOnline.Network
     public ushort Avatar
     { get { return _avatar; } }
 
-    public Client Client
-    { get; internal set; }
+    [DataMember(Name = "d")]
+    internal int RoomId;
+    
+    private Room _room;
     public Room Room
-    { get; internal set; }
+    {
+      get { return _room; }
+      internal set
+      {
+        if (_room != value)
+        {
+          _room = value;
+          RoomId = _room.Id;
+        }
+      }
+    }
+
     public Seat Seat
     { get; internal set; }
   }

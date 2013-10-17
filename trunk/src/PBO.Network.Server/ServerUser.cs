@@ -17,11 +17,11 @@ namespace PokemonBattleOnline.Network
     private static readonly DataContractJsonSerializer S2CSerializer;
     static ServerUser()
     {
-      C2SSerializer = new DataContractJsonSerializer(typeof(IC2S), new Type[] { typeof(ChatC2S), typeof(SetSeat) });
+      C2SSerializer = new DataContractJsonSerializer(typeof(IC2S), new Type[] { typeof(ChatC2S), typeof(SetSeatC2S) });
       S2CSerializer = new DataContractJsonSerializer(typeof(S2C));
     }
 
-    private readonly Server Server;
+    public readonly Server Server;
 
     public ServerUser(LoginUser user, Server server)
       : base(user.Network)
@@ -56,9 +56,9 @@ namespace PokemonBattleOnline.Network
     public void Send(S2C s2c)
     {
       using (var ms = new MemoryStream())
-      using (var ds = new DeflateStream(ms, CompressionMode.Compress))
       {
-        S2CSerializer.WriteObject(ds, s2c);
+        using (var ds = new DeflateStream(ms, CompressionMode.Compress))
+          S2CSerializer.WriteObject(ds, s2c);
         Network.Sender.Send(ms.ToArray());
       }
     }

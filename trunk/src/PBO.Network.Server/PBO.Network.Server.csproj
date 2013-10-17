@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="C2Ss\ChatC2S.cs" />
+    <Compile Include="C2Ss\Chat.cs" />
     <Compile Include="C2Ss\SetSeat.cs" />
     <Compile Include="IC2S.cs" />
     <Compile Include="Network\IdsPool.cs" />
@@ -54,6 +54,7 @@
     <Compile Include="PBOServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="ServerController.cs" />
     <Compile Include="ServerState.cs" />
     <Compile Include="ServerUser.cs" />
     <Compile Include="Network\TcpServer.cs" />

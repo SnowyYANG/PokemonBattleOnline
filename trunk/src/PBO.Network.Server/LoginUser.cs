@@ -51,7 +51,6 @@ namespace PokemonBattleOnline.Network
           if (av.HasValue)
           {
             Avatar = av.Value;
-            Network.Sender.Send(Server.GetClientInitInfo(Network.Id).ToPack());
             Server.LoginComplete(this);
           }
           else OnLoginFailed();
