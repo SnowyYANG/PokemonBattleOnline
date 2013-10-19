@@ -6,63 +6,57 @@ using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Game.Host
 {
-  internal class GameContext : IGame
+  public class GameContext : IDisposable
   {
-    public readonly Board Board;
-    private readonly Controller controller;
+    private readonly Controller Controller;
     private bool gaming;
 
     internal GameContext(IGameSettings settings, Team[] teams)
     {
       _settings = settings;
       _teams = teams;
-      Board = new Board(this);
-      controller = new Controller(this);
+      Controller = new Controller(settings, teams);
+    }
+
+    public event Action<ReportFragment, IDictionary<int, InputRequest>> GameUpdated
+    {
+      add { Controller.GameUpdated += value; }
+      remove { Controller.GameUpdated -= value; }
+    }
+    public event Action<IEnumerable<KeyValuePair<int, int>>> TimeUp
+    {
+      add { Controller.Timer.TimeUp += value; }
+      remove { Controller.Timer.TimeUp -= value; }
+    }
+    public event Action<IEnumerable<int>> WaitingNotify
+    {
+      add { Controller.Timer.WaitingNotify += value; }
+      remove { Controller.Timer.WaitingNotify -= value; }
     }
 
     private readonly Team[] _teams;
-    public Team[] Teams
-    { get { return _teams; } }
-    IEnumerable<Team> IGame.Teams
+    public IEnumerable<Team> Teams
     { get { return _teams; } }
     private readonly IGameSettings _settings;
     public IGameSettings Settings
     { get { return _settings; } }
-    public int Turn
-    { get { return controller.TurnNumber; } }
 
-    public bool CheckGameEnd()
-    {
-      if (Teams.Any((t) => t.Players.All((p) => p.PmsAlive == 0)))
-      {
-        gaming = false;
-        return true;
-      }
-      return false;
-    }
     public Player GetPlayer(int id)
     {
-      foreach (Team t in Teams)
+      foreach (Team t in _teams)
         foreach (Player p in t.Players)
           if (p.Id == id) return p;
       return null;
     }
 
-    #region IGame Only
-    event Action<ReportFragment, IDictionary<int, InputRequest>> IGame.ReportUpdated
-    {
-      add { controller.ReportUpdated += value; }
-      remove { controller.ReportUpdated -= value; }
-    }
-
-    void IGame.Start()
+    public void Start()
     {
       gaming = true;
-      controller.StartGameLoop(); //想用异步...
+      Controller.StartGameLoop(); //想用异步...
     }
-    void IGame.TryContinue()
+    public void TryContinue()
     {
-      controller.TryContinueGameLoop();
+      Controller.TryContinueGameLoop();
     }
     private bool Input(XActionInput input, Controller controller, Tile tile)
     {
@@ -85,7 +79,7 @@ namespace PokemonBattleOnline.Game.Host
       }
       return r;
     }
-    bool IGame.InputAction(int playerId, ActionInput action)
+    public bool InputAction(int playerId, ActionInput action)
     {
       if (gaming)
       {
@@ -95,17 +89,21 @@ namespace PokemonBattleOnline.Game.Host
         for (int x = 0; x < inputs.Length; ++x)
           if (inputs[x] != null)
           {
-            if (controller.Game.Settings.Mode.GetPlayerIndex(x) != controller.Game.Teams[player.TeamId].GetPlayerIndex(player.Id)) return false;
-            if (!Input(inputs[x], controller, controller.Board[player.TeamId][x])) return false;
+            if (Controller.GameSettings.Mode.GetPlayerIndex(x) != Controller.Teams[player.TeamId].GetPlayerIndex(player.Id)) return false;
+            if (!Input(inputs[x], Controller, Controller.Board[player.TeamId][x])) return false;
           }
-        return controller.CheckInputSucceed(player);
+        return Controller.CheckInputSucceed(player);
       }
       return false;
     }
-    ReportFragment IGame.GetLastLeapFragment() // for spectator
+    public ReportFragment GetLastLeapFragment() // for spectator
     {
-      return controller.ReportBuilder.GetLeapFragment(); //is null possible?
+      return Controller.ReportBuilder.GetLeapFragment(); //is null possible?
     }
-    #endregion
+
+    public void Dispose()
+    {
+      Controller.Dispose();
+    }
   }
 }

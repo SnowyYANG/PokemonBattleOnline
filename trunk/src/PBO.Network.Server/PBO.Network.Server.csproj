@@ -47,7 +47,8 @@
   <ItemGroup>
     <Compile Include="C2Ss\Chat.cs" />
     <Compile Include="C2Ss\SetSeat.cs" />
-    <Compile Include="IC2S.cs" />
+    <Compile Include="RoomController.cs" />
+    <Compile Include="IC2SE.cs" />
     <Compile Include="Network\IdsPool.cs" />
     <Compile Include="LoginServer.cs" />
     <Compile Include="LoginUser.cs" />

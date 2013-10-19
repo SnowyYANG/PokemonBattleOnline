@@ -5,10 +5,8 @@ using System.Text;
 
 namespace PokemonBattleOnline.Network
 {
-  public enum RoomState
+  internal interface IC2SE
   {
-    Available,
-    Battling,
-    Disposed
+    void Execute(ServerUser user);
   }
 }

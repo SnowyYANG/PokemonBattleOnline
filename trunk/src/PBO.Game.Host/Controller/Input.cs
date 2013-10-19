@@ -33,6 +33,7 @@ namespace PokemonBattleOnline.Game.Host
           {
             if (t.WillSendoutPokemonIndex < GameSettings.Mode.OnboardPokemonsPerPlayer() && Controller.CanSendout(t)) return false;
           }
+      Controller.Timer.Pause(player.Id);
       requirements.Remove(player.Id);
       return true;
     }
@@ -80,24 +81,28 @@ namespace PokemonBattleOnline.Game.Host
                    where p.Action == PokemonAction.WaitingForInput
                    group p by p.Pokemon.Owner.Id into playerPms
                    select playerPms;
-      foreach (var g in groups) requirements.Add(g.Key, new InputRequest() { Pms = g.Select((p) => NewInputRequest(p)).ToArray() });
+      foreach (var g in groups) requirements.Add(g.Key, new InputRequest() { Pms = g.Select((p) => NewInputRequest(p)).ToArray(), Time = Controller.Timer.GetState(g.Key) });
       return true;
     }
     public bool PauseForEndTurnInput()
     {
       if (requirements.Any()) return false;
-      var groups = from t in Controller.Game.Board.Tiles
+      var groups = from t in Controller.Board.Tiles
                    where Controller.CanSendout(t)
                    group t by Controller.GetPlayer(t).Id into playerTiles
                    select playerTiles;
-      foreach (var g in groups) requirements[g.Key] = new InputRequest();
+      foreach (var g in groups) requirements[g.Key] = new InputRequest() { Time = Controller.Timer.GetState(g.Key) };
       singleSendout = false;
       return true;
     }
     public bool PauseForSendoutInput(Tile tile)
     {
       if (requirements.Any()) return false;
-      if (Controller.CanSendout(tile)) requirements.Add(Controller.GetPlayer(tile).Id, new InputRequest() { Xs = new int[] { tile.X } });
+      if (Controller.CanSendout(tile))
+      {
+        var player = Controller.GetPlayer(tile).Id;
+        requirements.Add(player, new InputRequest() { Xs = new int[] { tile.X }, Time = Controller.Timer.GetState(player) });
+      }
       singleSendout = true;
       return true;
     }

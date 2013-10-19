@@ -31,7 +31,7 @@ namespace PokemonBattleOnline.Game.Host
       }
     }
 
-    public IGame Complete()
+    public GameContext Complete()
     {
       if (CanComplete)
       {
@@ -55,23 +55,28 @@ namespace PokemonBattleOnline.Game.Host
     {
       return pokemons != null && pokemons.Any() && pokemons.Length <= 6 && pokemons.All(CheckPokemon); //TODO: more
     }
-    public bool SetPlayer(int teamId, int userId, IPokemonData[] pokemons)
+    public bool Prepare(int userId, int teamId, int teamIndex, IPokemonData[] pms)
     {
-      if (CheckPokemons(pokemons) && 0 <= teamId && teamId < Settings.Mode.TeamCount())
+      if (
+        playerIds[teamId, teamIndex] == 0 &&
+        CheckPokemons(pms) &&
+        0 <= teamId && teamId < Settings.Mode.TeamCount() &&
+        0 <= teamIndex && teamIndex < Settings.Mode.PlayersPerTeam()
+         )
       {
-        for(int i = 0; i < Settings.Mode.PlayersPerTeam(); ++i)
-          if (playerIds[teamId, i] == 0)
-          {
-            playerIds[teamId, i] = userId;
-            this.pokemons[teamId, i] = pokemons;
-            return true;
-          }
+        playerIds[teamId, teamIndex] = userId;
+        pokemons[teamId, teamIndex] = pms;
+        return true;
       }
       return false;
     }
+    public void UnPrepare(int teamId, int teamIndex)
+    {
+      playerIds[teamId, teamIndex] = 0;
+    }
     public IPokemonData[] GetPokemons(int teamId, int teamIndex)
     {
-      return pokemons[teamId, teamIndex];
+      return playerIds[teamId, teamIndex] == 0 ? null : pokemons[teamId, teamIndex];
     }
   }
 }

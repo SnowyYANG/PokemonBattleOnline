@@ -17,10 +17,8 @@ namespace PokemonBattleOnline.Game.Host
     protected ReportBuilder ReportBuilder
     { get { return Controller.ReportBuilder; } }
     protected IGameSettings GameSettings
-    { get { return Controller.Game.Settings; } }
-    protected GameContext Game
-    { get { return Controller.Game; } }
+    { get { return Controller.GameSettings; } }
     protected Board Board
-    { get { return Controller.Game.Board; } }
+    { get { return Controller.Board; } }
   }
 }

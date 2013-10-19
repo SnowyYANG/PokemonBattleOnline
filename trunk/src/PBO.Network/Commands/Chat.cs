@@ -51,7 +51,7 @@ namespace PokemonBattleOnline.Network.Commands
     }
   }
   [DataContract(Namespace = PBOMarks.JSON)]
-  public class ChatS2C : S2C
+  public class ChatS2C : IS2C
   {
     [DataMember(Name = "c", EmitDefaultValue = false)]
     private readonly ChatMode Mode;
@@ -72,7 +72,7 @@ namespace PokemonBattleOnline.Network.Commands
       Chat = chat;
     }
 
-    public override void Execute(Client client)
+    void IS2C.Execute(Client client)
     {
       var user = client.State.GetUser(From);
       if (user != null)

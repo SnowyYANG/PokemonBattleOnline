@@ -11,7 +11,10 @@ namespace PokemonBattleOnline.Network
     private readonly LoginServer Login;
     public readonly ServerState State;
     internal readonly ServerController Controller;
-    private readonly Dictionary<int, ServerUser> users;
+    private readonly Dictionary<int, ServerUser> Users;
+    private readonly IdsPool RoomIds;
+    private readonly Dictionary<int, RoomController> Rooms;
+    internal readonly object Locker;
 
     internal Server(int port)
     {
@@ -19,42 +22,70 @@ namespace PokemonBattleOnline.Network
       Login = new LoginServer(Network, this);
       State = new ServerState(this);
       Controller = new ServerController(this);
-      users = new Dictionary<int, ServerUser>();
+      Users = new Dictionary<int, ServerUser>();
+      RoomIds = new IdsPool();
+      Rooms = new Dictionary<int, RoomController>();
     }
 
     public void Start()
     {
       Network.IsListening = true;
     }
+    /// <summary>
+    /// non-lock
+    /// </summary>
+    internal ServerUser GetUser(int id)
+    {
+      return Users.ValueOrDefault(id);
+    }
     internal void AddUser(ServerUser user)
     {
-      lock (State.StateLocker)
+      lock (Locker)
       {
         user.Network.Sender.Send(State.GetClientInitInfo(user.Network.Id).ToPack());
-        SendAll(Commands.UserChanged.AddUser(user.Network.Id, user.User.Name, user.User.Avatar));
-        users.Add(user.Network.Id, user);
-        State.Users.Add(user.User);
+        Send(Commands.UserS2C.AddUser(user.Network.Id, user.User.Name, user.User.Avatar));
+        Users.Add(user.Network.Id, user);
+        State.UserList.Add(user.User);
       }
     }
     internal void RemoveUser(ServerUser user)
     {
-      lock (State.StateLocker)
+      lock (Locker)
       {
-        users.Remove(user.Network.Id);
-        State.Users.Remove(user.User);
-        SendAll(Commands.UserChanged.RemoveUser(user.Network.Id));
+        Users.Remove(user.Network.Id);
+        State.UserList.Remove(user.User);
+        Send(Commands.UserS2C.RemoveUser(user.Network.Id));
       }
       Login.RemoveName(user.User.Name);
     }
-    internal void SendAll(S2C s2c)
+    internal RoomController GetRoom(int id)
     {
-      foreach (var u in users.Values) u.Send(s2c);
+      return Rooms.ValueOrDefault(id);
     }
-    internal void SendRoom(S2C s2c)
+    internal RoomController AddRoom(GameSettings settings)
     {
+      var id = RoomIds.GetId();
+      var rc = new RoomController(this, id, settings);
+      Rooms.Add(id, rc);
+      State.RoomList.Add(rc.Room);
+      Send(Commands.RoomS2C.NewRoom(id, settings));
+      return rc;
     }
-    internal void Send(S2C s2c)
+    internal void RemoveRoom(RoomController rc)
     {
+      var room = rc.Room;
+      if (Rooms.Remove(room.Id))
+      {
+        rc.Dispose();
+        State.RoomList.Remove(room);
+        room.RemoveUsers();
+        Send(Commands.RoomS2C.RemoveRoom(room.Id));
+      }
+    }
+
+    internal void Send(IS2C s2c)
+    {
+      foreach (var u in Users.Values) u.Send(s2c);
     }
 
     public void Dispose()

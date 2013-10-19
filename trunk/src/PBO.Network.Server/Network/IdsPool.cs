@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading;
 using System.Collections.Concurrent;
 
-namespace PokemonBattleOnline.Network
+namespace PokemonBattleOnline
 {
-  internal class IdsPool
+  public class IdsPool
   {
     private readonly ConcurrentStack<int> Pool;
     private int max;

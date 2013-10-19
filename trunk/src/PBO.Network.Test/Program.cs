@@ -28,7 +28,7 @@ namespace PokemonBattleOnline.Network.Test
       PBOServer.NewServer();
       PBOClient.CurrentChanged += () =>
         {
-          PBOClient.Current.State.Users.CollectionChanged += (sender, e) => Print();
+          ((ObservableList<User>)PBOClient.Current.State.Users).CollectionChanged += (sender, e) => Print();
           ClientController.PublicChat += (s, u) => Console.WriteLine(u.Name + ": " + s);
         };
       PBOClient.Login("127.0.0.1", "t1", 408);

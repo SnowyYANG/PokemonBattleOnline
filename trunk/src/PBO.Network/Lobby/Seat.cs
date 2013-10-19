@@ -13,4 +13,15 @@ namespace PokemonBattleOnline.Network
     Player11,
     Spectator
   }
+  public static class SeatExtensions
+  {
+    public static int TeamId(this Seat seat)
+    {
+      return (int)seat >> 1;
+    }
+    public static int TeamIndex(this Seat seat)
+    {
+      return (int)seat % 2;
+    }
+  }
 }

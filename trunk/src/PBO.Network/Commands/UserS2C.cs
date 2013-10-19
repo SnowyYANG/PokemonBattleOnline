@@ -7,18 +7,18 @@ using System.Runtime.Serialization;
 namespace PokemonBattleOnline.Network.Commands
 {
   [DataContract(Namespace = PBOMarks.JSON)]
-  public class UserChanged : S2C
+  public class UserS2C : IS2C
   {
-    public static UserChanged AddUser(int id, string name, ushort avatar)
+    public static UserS2C AddUser(int id, string name, ushort avatar)
     {
-      return new UserChanged() { Id = id, Name = name, Avatar = avatar };
+      return new UserS2C() { Id = id, Name = name, Avatar = avatar };
     }
-    public static UserChanged RemoveUser(int id)
+    public static UserS2C RemoveUser(int id)
     {
-      return new UserChanged() { Id = id };
+      return new UserS2C() { Id = id };
     }
 
-    private UserChanged()
+    private UserS2C()
     {
     }
 
@@ -29,7 +29,7 @@ namespace PokemonBattleOnline.Network.Commands
     [DataMember(Name = "c", EmitDefaultValue = false)]
     ushort Avatar;
 
-    public override void Execute(Client client)
+    void IS2C.Execute(Client client)
     {
       if (Name == null) client.State.RemoveUser(Id);
       else client.State.AddUser(new User(Id, Name, Avatar));

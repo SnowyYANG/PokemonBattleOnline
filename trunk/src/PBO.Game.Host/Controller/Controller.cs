@@ -5,12 +5,15 @@ using System.Text;
 
 namespace PokemonBattleOnline.Game.Host
 {
-  internal class Controller
+  internal class Controller : IDisposable
   {
-    internal event Action<ReportFragment, IDictionary<int, InputRequest>> ReportUpdated;
+    public event Action<ReportFragment, IDictionary<int, InputRequest>> GameUpdated;
 
     public readonly ReportBuilder ReportBuilder;
-    internal readonly GameContext Game;
+    public readonly IGameSettings GameSettings;
+    public readonly Team[] Teams;
+    public readonly Board Board;
+    public readonly GoTimer Timer;
     private readonly SwitchController SwitchController;
     private readonly InputController InputController;
     private readonly TurnController TurnController;
@@ -21,11 +24,13 @@ namespace PokemonBattleOnline.Game.Host
     private Random randomSeeds;
 #endif
 
-    internal Controller(GameContext game)
+    internal Controller(IGameSettings gameSettings, Team[] teams)
     {
-      Game = game;
+      Teams = teams;
+      GameSettings = gameSettings;
+      Board = new Board(GameSettings);
       pokemons = new Dictionary<int, PokemonProxy>();
-      foreach (Team t in game.Teams)
+      foreach (Team t in teams)
         foreach(var pl in t.Players)
           foreach (Pokemon p in pl.Pokemons) pokemons.Add(p.Id, new PokemonProxy(this, p));
 
@@ -39,12 +44,10 @@ namespace PokemonBattleOnline.Game.Host
 #else
       random = new Random();
 #endif
+      Timer = new GoTimer(teams[0].Players.Concat(teams[1].Players).Select((p) => p.Id));
+      Timer.Start();
     }
 
-    public IGameSettings GameSettings
-    { get { return Game.Settings; } }
-    public Board Board
-    { get { return Game.Board; } }
     /// <summary>
     /// sorted by action speed
     /// </summary>
@@ -63,7 +66,7 @@ namespace PokemonBattleOnline.Game.Host
     #region Access
     internal Player GetPlayer(Tile tile)
     {
-      return Game.Teams[tile.Team].GetPlayer(Game.Settings.Mode.GetPlayerIndex(tile.X));
+      return Teams[tile.Team].GetPlayer(GameSettings.Mode.GetPlayerIndex(tile.X));
     }
     internal PokemonProxy GetPokemon(Pokemon pokemon)
     {
@@ -101,17 +104,25 @@ namespace PokemonBattleOnline.Game.Host
     #endregion
 
     #region Turn Loop
-    private bool gameEnd;
+    private bool _isGameEnd;
+    public bool IsGameEnd
+    {
+      get
+      {
+        if (_isGameEnd) return true;
+        _isGameEnd = Teams.Any((t) => t.Players.All((p) => p.PmsAlive == 0));
+        return _isGameEnd;
+      }
+    }
     public bool CanContinue
     { 
       get
       {
-        if (InputController.NeedInput || gameEnd) return false;
-        if (Game.CheckGameEnd())
+        if (InputController.NeedInput || _isGameEnd) return false;
+        if (IsGameEnd)
         {
-          gameEnd = true;
           ReportBuilder.NewFragment();
-          ReportUpdated(ReportBuilder.GetFragment(), null);
+          GameUpdated(ReportBuilder.GetFragment(), null);
           return false;
         }
         return true;
@@ -169,7 +180,8 @@ namespace PokemonBattleOnline.Game.Host
         random = new Random();
 #endif
         ReportBuilder.NewFragment();
-        ReportUpdated(ReportBuilder.GetFragment(), InputController.InputRequirements);
+        GameUpdated(ReportBuilder.GetFragment(), InputController.InputRequirements);
+        Timer.Resume(InputController.InputRequirements.Keys);
       }
     }
     internal bool InputSendout(Tile tile, int sendoutIndex)
@@ -222,5 +234,10 @@ namespace PokemonBattleOnline.Game.Host
       return false;
     }
     #endregion
+
+    public void Dispose()
+    {
+      Timer.Dispose();
+    }
   }
 }

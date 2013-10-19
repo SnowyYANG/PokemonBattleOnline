@@ -70,5 +70,10 @@ namespace PokemonBattleOnline
       Append(sb, args);
       sb.AppendLine();
     }
+    public static IEnumerable<Type> SubClasses(this Type type)
+    {
+      var types = type.Assembly.GetTypes();
+      return type.IsInterface ? types.Where((t) => t.GetInterfaces().Contains(type)) : types.Where((t) => t.IsSubclassOf(type));
+    }
   }
 }

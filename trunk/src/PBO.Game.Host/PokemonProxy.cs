@@ -173,7 +173,7 @@ namespace PokemonBattleOnline.Game.Host
     private bool CanAddState(PokemonProxy by, int ability, AttachedState state, bool showFail)
     {
       if (OnboardPokemon == NullOnboardPokemon || Hp == 0) return false;
-      string fail = Controller.Game.Settings.Mode.NeedTarget() ? "Fail" : "Fail0";
+      string fail = Controller.GameSettings.Mode.NeedTarget() ? "Fail" : "Fail0";
       switch (state)
       {
         case AttachedState.BRN:

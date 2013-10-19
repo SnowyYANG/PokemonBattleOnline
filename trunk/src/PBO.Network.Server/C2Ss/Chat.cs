@@ -8,14 +8,14 @@ using PokemonBattleOnline.Network.Commands;
 namespace PokemonBattleOnline.Network.C2Ss
 {
   [DataContract(Namespace = PBOMarks.JSON)]
-  internal class ChatC2S : Commands.ChatC2S, IC2S
+  internal class ChatC2S : Commands.ChatC2S, IC2SE
   {
     public void Execute(ServerUser user)
     {
       switch (Mode)
       {
         case ChatMode.Public:
-          user.Server.SendAll(new ChatS2C(Mode, user.User.Id, Chat));
+          user.Server.Send(new ChatS2C(Mode, user.User.Id, Chat));
           break;
         case ChatMode.Room:
           throw new NotImplementedException();

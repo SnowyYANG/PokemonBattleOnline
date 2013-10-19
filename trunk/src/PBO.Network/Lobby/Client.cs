@@ -17,8 +17,10 @@ namespace PokemonBattleOnline.Network
 
     static Client()
     {
-      C2SSerializer = new DataContractJsonSerializer(typeof(IC2S), new Type[] { typeof(ChatC2S), typeof(SetSeatC2S) });
-      S2CSerializer = new DataContractJsonSerializer(typeof(S2C));
+      var c2s = typeof(IC2S);
+      C2SSerializer = new DataContractJsonSerializer(c2s, c2s.SubClasses().ToArray());
+      var s2c = typeof(IS2C);
+      S2CSerializer = new DataContractJsonSerializer(s2c, s2c.SubClasses().ToArray());
     }
 
     private static void OnKeepAlive(object state)
@@ -55,7 +57,7 @@ namespace PokemonBattleOnline.Network
         using (var ms = new MemoryStream(pack, false))
         using (var ds = new DeflateStream(ms, CompressionMode.Decompress))
         {
-          var s2c = (S2C)S2CSerializer.ReadObject(ds);
+          var s2c = (IS2C)S2CSerializer.ReadObject(ds);
           UIDispatcher.Invoke((Action<Client>)s2c.Execute, this);
         }
     }

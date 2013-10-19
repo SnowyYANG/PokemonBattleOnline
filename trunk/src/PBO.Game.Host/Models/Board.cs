@@ -16,9 +16,8 @@ namespace PokemonBattleOnline.Game.Host
     public readonly int XBound;
     public Weather Weather;
 
-    internal Board(GameContext game)
+    internal Board(IGameSettings settings)
     {
-      IGameSettings settings = game.Settings;
       GameMode mode = settings.Mode;
       TeamCount = mode.TeamCount();
       XBound = mode.XBound();

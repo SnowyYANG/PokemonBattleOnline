@@ -36,10 +36,10 @@ namespace PokemonBattleOnline.Network
     public User User
     { get { return _user; } }
     private readonly ObservableList<User> _users;
-    public ObservableList<User> Users
+    public IEnumerable<User> Users
     { get { return _users; } }
     private readonly ObservableList<Room> _rooms;
-    public ObservableList<Room> Rooms
+    public IEnumerable<Room> Rooms
     { get { return _rooms; } }
 
     public User GetUser(int id)
@@ -50,6 +50,7 @@ namespace PokemonBattleOnline.Network
     {
       return rooms.ValueOrDefault(id);
     }
+
     internal bool RemoveUser(int id)
     {
       if (users.Remove(id))
@@ -57,7 +58,7 @@ namespace PokemonBattleOnline.Network
         foreach (var u in Users)
           if (u.Id == id)
           {
-            Users.Remove(u);
+            _users.Remove(u);
             break;
           }
         return true;
@@ -67,7 +68,25 @@ namespace PokemonBattleOnline.Network
     internal void AddUser(User u)
     {
       users[u.Id] = u;
-      Users.Add(u);
+      _users.Add(u);
+    }
+
+    internal void AddRoom(Room room)
+    {
+      rooms.Add(room.Id, room);
+      _rooms.Add(room);
+    }
+    internal void RemoveRoom(int id)
+    {
+      if (rooms.Remove(id))
+        foreach(var r in _rooms)
+          if (r.Id == id)
+          {
+            foreach (var u in r.Players) u.Room = null;
+            foreach (var u in r.Spectators) u.Room = null;
+            _rooms.Remove(r);
+            break;
+          }
     }
   }
 }

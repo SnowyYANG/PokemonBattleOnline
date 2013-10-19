@@ -9,7 +9,7 @@ using PokemonBattleOnline.Game;
 namespace PokemonBattleOnline.Network
 {
   [DataContract(Name = "gs", Namespace = PBOMarks.JSON)]
-  public class GameInitSettings : IGameSettings
+  public class GameSettings : IGameSettings
   {
     private bool isLocked;
 
@@ -18,7 +18,7 @@ namespace PokemonBattleOnline.Network
     /// </summary>
     /// <param name="mode"></param>
     /// <param name="terrain"></param>
-    public GameInitSettings(GameMode mode, Terrain terrain = Terrain.Path, bool sleepRule = true)
+    public GameSettings(GameMode mode, Terrain terrain = Terrain.Path, bool sleepRule = true)
     {
       Mode = mode;
       Terrain = terrain;

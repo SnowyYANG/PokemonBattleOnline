@@ -34,6 +34,9 @@ namespace PokemonBattleOnline.Network
     internal int RoomId;
     
     private Room _room;
+    /// <summary>
+    /// setter is only for Room class
+    /// </summary>
     public Room Room
     {
       get { return _room; }
@@ -46,7 +49,9 @@ namespace PokemonBattleOnline.Network
         }
       }
     }
-
+    /// <summary>
+    /// setter is only for Room class
+    /// </summary>
     public Seat Seat
     { get; internal set; }
   }

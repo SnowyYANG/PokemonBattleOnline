@@ -70,7 +70,7 @@ namespace PokemonBattleOnline.Game.Host
     public bool Sendout(Tile tile, bool debut, string log)
     {
       Player p = Controller.GetPlayer(tile);
-      int origin = Game.Settings.Mode.GetPokemonIndex(tile.X);
+      int origin = GameSettings.Mode.GetPokemonIndex(tile.X);
       int sendout = tile.WillSendoutPokemonIndex;
       if (CanSendout(tile) && CanSendout(p.GetPokemon(sendout)))
       {

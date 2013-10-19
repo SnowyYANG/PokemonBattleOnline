@@ -7,23 +7,6 @@
 
 //namespace PokemonBattleOnline.Network.Commands
 //{
-//  [DataContract(Namespace = PBOMarks.JSON)]
-//  class UserSpectateGameInfo : UserInformation
-//  {
-//    [DataMember(EmitDefaultValue = false)]
-//    public int UserId
-//    { get; private set; }
-
-//    public UserSpectateGameInfo(int userId)
-//    {
-//      this.UserId = userId;
-//    }
-//    public override void Execute(IRoomUser user)
-//    {
-//      user.InformUserSpectateGame(UserId);
-//    }
-//  }
-
 //  [DataContract(Name = "ji", Namespace = PBOMarks.JSON)]
 //  class UserJoinGameInfo : UserInformation
 //  {
@@ -60,23 +43,6 @@
 //    public override void Execute(IRoomUser user)
 //    {
 //      user.InformUserQuit(UserId);
-//    }
-//  }
-
-//  [DataContract(Namespace = PBOMarks.JSON)]
-//  class EnterFailedInfo : UserInformation
-//  {
-//    [DataMember(EmitDefaultValue = false)]
-//    public string Message
-//    { get; private set; }
-
-//    public EnterFailedInfo(string message)
-//    {
-//      this.Message = message;
-//    }
-//    public override void Execute(IRoomUser user)
-//    {
-//      user.InformEnterFailed(Message);
 //    }
 //  }
 

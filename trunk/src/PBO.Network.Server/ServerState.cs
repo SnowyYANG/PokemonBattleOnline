@@ -8,28 +8,26 @@ namespace PokemonBattleOnline.Network
   public class ServerState
   {
     private readonly Server Server;
-    internal readonly object StateLocker;
 
     public ServerState(Server server)
     {
-      StateLocker = new object();
-      _users = new ObservableList<User>();
-      _rooms = new ObservableList<Room>();
+      UserList = new ObservableList<User>();
+      RoomList = new ObservableList<Room>();
     }
 
-    private readonly ObservableList<User> _users;
-    public ObservableList<User> Users
-    { get { return _users; } }
-    private readonly ObservableList<Room> _rooms;
-    public ObservableList<Room> Rooms
-    { get { return _rooms; } }
+    internal readonly ObservableList<User> UserList;
+    public IEnumerable<User> Users
+    { get { return UserList; } }
+    internal readonly ObservableList<Room> RoomList;
+    /// <summary>
+    /// for binding only
+    /// </summary>
+    public IEnumerable<Room> Rooms
+    { get { return RoomList; } }
 
     internal ClientInitInfo GetClientInitInfo(int user)
     {
-      lock (StateLocker)
-      {
-        return new ClientInitInfo(user, _users, _rooms);
-      }
+      return new ClientInitInfo(user, UserList, RoomList);
     }
   }
 }

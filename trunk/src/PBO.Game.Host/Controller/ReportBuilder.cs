@@ -30,11 +30,11 @@ namespace PokemonBattleOnline.Game.Host
       {
         lastLeapFragment = current;
         if (lastFragment == null) lastFragment = lastLeapFragment;
-        else lastFragment = new ReportFragment(lastLeapFragment);
+        else lastFragment = lastLeapFragment.NonLeap();
       }
 
       TeamOutward[] t = new TeamOutward[Controller.Board.TeamCount];
-      for (int i = 0; i < t.Length; i++) t[i] = Controller.Game.Teams[i].GetOutward();
+      for (int i = 0; i < t.Length; i++) t[i] = Controller.Teams[i].GetOutward();
       List<PokemonOutward> pms = new List<PokemonOutward>();
       {
         foreach (PokemonProxy p in Controller.ActingPokemons) pms.Add(p.GetOutward());
@@ -85,7 +85,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public void AddHorizontalLine()
     {
-      if (!(current.LastEvent is HorizontalLine)) current.AddEvent(new HorizontalLine());
+      if (!(current.Events.LastOrDefault() is HorizontalLine)) current.AddEvent(new HorizontalLine());
     }
     public void Mimic(PokemonProxy pm, MoveType move)
     {

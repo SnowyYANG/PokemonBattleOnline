@@ -17,8 +17,10 @@ namespace PokemonBattleOnline.Network
     private static readonly DataContractJsonSerializer S2CSerializer;
     static ServerUser()
     {
-      C2SSerializer = new DataContractJsonSerializer(typeof(IC2S), new Type[] { typeof(ChatC2S), typeof(SetSeatC2S) });
-      S2CSerializer = new DataContractJsonSerializer(typeof(S2C));
+      var c2s = typeof(IC2SE);
+      C2SSerializer = new DataContractJsonSerializer(c2s, c2s.SubClasses().ToArray());
+      var s2c = typeof(IS2C);
+      S2CSerializer = new DataContractJsonSerializer(s2c, s2c.SubClasses().ToArray());
     }
 
     public readonly Server Server;
@@ -46,14 +48,14 @@ namespace PokemonBattleOnline.Network
         if (!pack.IsEmpty())
           using (var ms = new MemoryStream(pack, false))
           using (var ds = new DeflateStream(ms, CompressionMode.Decompress))
-            ((IC2S)C2SSerializer.ReadObject(ds)).Execute(this);
+            ((IC2SE)C2SSerializer.ReadObject(ds)).Execute(this);
       }
       catch
       {
         Dispose();
       }
     }
-    public void Send(S2C s2c)
+    public void Send(IS2C s2c)
     {
       using (var ms = new MemoryStream())
       {
@@ -61,6 +63,11 @@ namespace PokemonBattleOnline.Network
           S2CSerializer.WriteObject(ds, s2c);
         Network.Sender.Send(ms.ToArray());
       }
+    }
+
+    public void Error()
+    {
+      System.Diagnostics.Debugger.Break();
     }
 
     public override void Dispose()

@@ -8,22 +8,6 @@
 //namespace PokemonBattleOnline.Network
 //{
 //  /// <summary>
-//  /// user to host
-//  /// </summary>
-//  internal interface IHost : IDisposable
-//  {
-//    event Action Closed;
-//    void ExecuteCommand(HostCommand command, int userId);
-//    void StartGame();
-//    void CloseRoom();
-//    void Input(int userId, ActionInput action);
-//    void JoinGame(int userId, PokemonData[] pokemons, int teamId);//成为玩家
-//    void SpectateGame(int userId);//不成为玩家
-//    void Enter(int userId);
-//    void Quit(int userId);
-//  }
-
-//  /// <summary>
 //  /// isn't it sth from host to user?
 //  /// </summary>
 //  internal interface IRoomUser : IDisposable

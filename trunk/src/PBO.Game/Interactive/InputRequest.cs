@@ -137,6 +137,19 @@ namespace PokemonBattleOnline.Game
     [DataMember(EmitDefaultValue = false)]
     public int[] Xs;
 
+    [DataMember(Name = "c")]
+    public int Time;
+
+    public InputRequest()
+    {
+    }
+    protected InputRequest(InputRequest ir)
+    {
+      Pms = ir.Pms;
+      Xs = ir.Xs;
+      Time = ir.Time;
+    }
+
     public override bool Equals(object obj)
     {
       InputRequest ri = obj as InputRequest;

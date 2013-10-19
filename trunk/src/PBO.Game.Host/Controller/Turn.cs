@@ -15,7 +15,7 @@ namespace PokemonBattleOnline.Game.Host
     public TurnController(Controller controller)
       : base(controller)
     {
-      comparer = new Comparer(Game.Board);
+      comparer = new Comparer(controller.Board);
       Tiles = tiles = Board.Tiles.ToArray(); //this is a copy
       ActingPokemons = new List<PokemonProxy>();
     }
@@ -105,6 +105,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     private void Prepare()
     {
+      Controller.Timer.NewTurn();
       ReportBuilder.NewTurn();
       SortTiles();
       SortActingPokemons();
