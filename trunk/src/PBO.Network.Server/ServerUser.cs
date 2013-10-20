@@ -7,7 +7,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Threading;
 using System.Runtime.Serialization.Json;
-using PokemonBattleOnline.Network.C2Ss;
+using PokemonBattleOnline.Network.C2SEs;
 
 namespace PokemonBattleOnline.Network
 {
@@ -31,27 +31,32 @@ namespace PokemonBattleOnline.Network
       Network.Disconnected += Dispose;
       _user = new User(user.Network.Id, user.Name, user.Avatar);
       Server = server;
-      LastPack = DateTime.Now;
     }
 
     private readonly User _user;
     public User User
     { get { return _user; } }
-    internal DateTime LastPack
-    { get; private set; }
+    public RoomController Room
+    { get { return User.Room == null ? null : Server.GetRoom(User.Room.Id); } }
 
     protected override void OnPackReceived(byte[] pack)
     {
-      LastPack = DateTime.Now;
       try
       {
         if (!pack.IsEmpty())
           using (var ms = new MemoryStream(pack, false))
           using (var ds = new DeflateStream(ms, CompressionMode.Decompress))
-            ((IC2SE)C2SSerializer.ReadObject(ds)).Execute(this);
+          {
+            var c2s = (IC2SE)C2SSerializer.ReadObject(ds);
+            lock (Server.Locker)
+            {
+              c2s.Execute(this);
+            }
+          }
       }
       catch
       {
+        System.Diagnostics.Debugger.Break();
         Dispose();
       }
     }

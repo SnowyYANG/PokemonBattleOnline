@@ -6,6 +6,9 @@ using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Game.Host
 {
+  /// <summary>
+  /// thread unsafe, do not access properties or methods concurrently
+  /// </summary>
   public class InitingGame
   {
     private readonly int[,] playerIds;

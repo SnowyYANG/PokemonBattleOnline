@@ -18,14 +18,14 @@ namespace PokemonBattleOnline.Network
     private InitingGame initingGame;
     private GameContext game;
     
-    public RoomController(Server server, int id, GameSettings settings)
+    public RoomController(Server server, int id, string name, GameSettings settings)
     {
       Server = server;
-      Room = new Room(id, settings);
+      Room = new Room(id, name, settings);
       Users = new Dictionary<int, ServerUser>();
     }
 
-    private void Send(IS2C s2c)
+    public void Send(IS2C s2c)
     {
       foreach(var su in Users.Values) su.Send(s2c);
     }
@@ -88,11 +88,40 @@ namespace PokemonBattleOnline.Network
     {
       return initingGame != null && initingGame.GetPokemons(seat.TeamId(), seat.TeamIndex()) != null;
     }
+    public void Prepare(ServerUser su, IPokemonData[] pokemons)
+    {
+      if (game == null)
+      {
+        if (initingGame == null) initingGame = new InitingGame(Room.Settings);
+        var seat = su.User.Seat;
+        if (initingGame.Prepare(su.User.Id, seat.TeamId(), seat.TeamIndex(), pokemons))
+        {
+          Send(new SetPrepare(seat, true));
+          TryStartGame();
+        }
+      }
+    }
+    public void UnPrepare(ServerUser su)
+    {
+      if (game == null)
+      {
+        var seat = su.User.Seat;
+        if (IsPrepared(seat))
+        {
+          initingGame.UnPrepare(seat.TeamId(), su.User.Seat.TeamIndex());
+          Send(new SetPrepare(seat, false));
+        }
+      }
+    }
 
-    internal void AddUser(ServerUser su, Seat seat)
+    public void AddUser(ServerUser su, Seat seat)
     {
       var user = su.User;
-      if (seat == Seat.Spectator) Room.AddSpectator(user);
+      if (seat == Seat.Spectator)
+      {
+        Room.AddSpectator(user);
+        if (game != null) su.Send(new GameUpdateS2C(game.GetLastLeapFragment()));
+      }
       else if (Room[seat] == null) Room[seat] = user;
       else return;
       Users.Add(user.Id, su);
@@ -102,27 +131,24 @@ namespace PokemonBattleOnline.Network
       if (IsPrepared(Seat.Player10)) su.Send(new SetPrepare(Seat.Player10, true));
       if (IsPrepared(Seat.Player11)) su.Send(new SetPrepare(Seat.Player11, true));
     }
-    internal void RemoveUser(ServerUser su)
+    public void RemoveUser(ServerUser su)
     {
+      var id = su.User.Id;
       var seat = su.User.Seat;
       if (seat == Seat.Spectator)
       {
-        Users.Remove(su.User.Id);
+        Users.Remove(id);
         Room.RemoveSpectator(su.User);
-        Server.Send(SetSeatS2C.LeaveRoom(su.User.Id));
+        Server.Send(SetSeatS2C.LeaveRoom(id));
       }
+      else if (Room.Players.Count() == 1) Server.RemoveRoom(this);
       else
       {
-        if (game != null) OnGameStop(su.User.Id, GameStopReason.PlayerGiveUp);
-        else if (IsPrepared(seat)) UnPrepare(su);
-        Users.Remove(su.User.Id);
+        if (game != null) OnGameStop(id, GameStopReason.PlayerGiveUp);
+        else UnPrepare(su);
+        Users.Remove(id);
         Room[seat] = null;
-        if (Room.Players.Any()) Server.Send(SetSeatS2C.LeaveRoom(su.User.Id));
-        else
-        {
-          EndGame();
-          Server.RemoveRoom(this);
-        }
+        Server.Send(SetSeatS2C.LeaveRoom(id));
       }
     }
     public void ChangeSeat(ServerUser su, Seat seat)
@@ -132,25 +158,13 @@ namespace PokemonBattleOnline.Network
       //no one can change seat while room is battling
       throw new NotImplementedException();
     }
-    public void Prepare(ServerUser su, IPokemonData[] pokemons)
+
+    public void Input(ServerUser su, ActionInput action)
     {
-      if (initingGame == null) initingGame = new InitingGame(Room.Settings);
-      var user = su.User;
-      if (initingGame.Prepare(user.Id, user.Seat.TeamId(), user.Seat.TeamIndex(), pokemons))
-      {
-        Send(new SetPrepare(user.Seat, true));
-        TryStartGame();
-      }
-    }
-    public void UnPrepare(ServerUser su)
-    {
-      throw new NotImplementedException();
-    }
-    public void Input(int userId, ActionInput action)
-    {
+      var id = su.User.Id;
       if (game != null)
-        if (game.GetPlayer(userId) != null && game.InputAction(userId, action)) game.TryContinue();
-        else OnGameStop(userId, GameStopReason.InvalidInput);
+        if (game.GetPlayer(id) != null && game.InputAction(id, action)) game.TryContinue();
+        else OnGameStop(id, GameStopReason.InvalidInput);
     }
 
     public void Dispose()

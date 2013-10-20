@@ -50,7 +50,7 @@ namespace PokemonBattleOnline.Network.Commands
     {
     }
   }
-  [DataContract(Namespace = PBOMarks.JSON)]
+  [DataContract(Name = "ch", Namespace = PBOMarks.JSON)]
   public class ChatS2C : IS2C
   {
     [DataMember(Name = "c", EmitDefaultValue = false)]

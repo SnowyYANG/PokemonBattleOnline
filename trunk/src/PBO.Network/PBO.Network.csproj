@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\GameS2Cs.cs" />
+    <Compile Include="Commands\GameC2Ss.cs" />
     <Compile Include="Commands\RoomS2C.cs" />
     <Compile Include="Lobby\Client.cs" />
     <Compile Include="ClientInitInfo.cs" />
@@ -67,14 +68,10 @@
     <Compile Include="Network\TcpPack.cs" />
     <Compile Include="Room\Player.cs" />
     <Compile Include="PBOClient.cs" />
-    <Compile Include="Room\GameInitSettings.cs" />
+    <Compile Include="Room\GameSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Room\GameStopReason.cs" />
-    <Compile Include="Room\GameManager.cs" />
-    <Compile Include="Room\Interfaces.cs" />
     <Compile Include="Room\IRoom.cs" />
-    <Compile Include="Room\RoomInformer.cs" />
-    <Compile Include="Room\RoomManager.cs" />
     <Compile Include="Room\RoomUserClient.cs" />
   </ItemGroup>
   <ItemGroup>

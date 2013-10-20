@@ -56,6 +56,13 @@ namespace PokemonBattleOnline.Game
     {
       Inputs = new XActionInput[maxX];
     }
+    protected ActionInput(ActionInput action)
+    {
+      Inputs = action.Inputs;
+    }
+    protected ActionInput()
+    {
+    }
 
     public void UseMove(int x, SimMove move, int targetTeam, int targetX)
     {

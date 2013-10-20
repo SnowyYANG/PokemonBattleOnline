@@ -24,9 +24,11 @@ namespace PokemonBattleOnline.Network.Commands
     
     [DataMember(Name = "a")]
     private int Id;
-    [DataMember(Name = "b_", EmitDefaultValue = false)]
+    [DataMember(Name = "b", EmitDefaultValue = false)]
+    private string Name;
+    [DataMember(Name = "c_", EmitDefaultValue = false)]
     private GameSettings Settings;
-    [DataMember(Name = "c", EmitDefaultValue = false)]
+    [DataMember(Name = "d", EmitDefaultValue = false)]
     private bool Battling;
 
     private RoomS2C()
@@ -41,7 +43,7 @@ namespace PokemonBattleOnline.Network.Commands
         room.Battling = !room.Battling;
       }
       else if (Settings == null) client.State.RemoveRoom(Id);
-      else client.State.AddRoom(new Room(Id, Settings));
+      else client.State.AddRoom(new Room(Id, Name, Settings));
     }
   }
 }

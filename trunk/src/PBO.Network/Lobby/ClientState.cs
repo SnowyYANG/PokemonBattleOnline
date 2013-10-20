@@ -82,8 +82,7 @@ namespace PokemonBattleOnline.Network
         foreach(var r in _rooms)
           if (r.Id == id)
           {
-            foreach (var u in r.Players) u.Room = null;
-            foreach (var u in r.Spectators) u.Room = null;
+            r.RemoveUsers();
             _rooms.Remove(r);
             break;
           }

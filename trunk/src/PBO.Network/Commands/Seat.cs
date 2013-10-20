@@ -10,21 +10,21 @@ namespace PokemonBattleOnline.Network.Commands
   [DataContract(Namespace = PBOMarks.JSON)]
   public class SetSeatC2S : IC2S
   {
-    public static SetSeatC2S NewRoom(GameSettings settings, Seat seat)
+    public static SetSeatC2S NewRoom(string name, GameSettings settings, Seat seat)
     {
-      return new SetSeatC2S(0, seat, settings);
+      return new SetSeatC2S(0, seat, name, settings);
     }
     public static SetSeatC2S EnterRoom(int room, Seat seat)
     {
-      return new SetSeatC2S(room, seat, null);
+      return new SetSeatC2S(room, seat, null, null);
     }
     public static SetSeatC2S ChangeSeat(int room, Seat seat)
     {
-      return new SetSeatC2S(-1, seat, null);
+      return new SetSeatC2S(-1, seat, null, null);
     }
     public static SetSeatC2S LeaveRoom()
     {
-      return new SetSeatC2S(0, 0, null);
+      return new SetSeatC2S(0, 0, null, null);
     }
 
     [DataMember(Name = "a", EmitDefaultValue = false)]
@@ -32,12 +32,15 @@ namespace PokemonBattleOnline.Network.Commands
     [DataMember(Name = "b", EmitDefaultValue = false)]
     public readonly Seat Seat;
     [DataMember(Name = "c", EmitDefaultValue = false)]
+    public readonly string Name;
+    [DataMember(Name = "d", EmitDefaultValue = false)]
     public readonly GameSettings GameSettings;
 
-    private SetSeatC2S(int room, Seat seat, GameSettings settings)
+    private SetSeatC2S(int room, Seat seat, string name, GameSettings settings)
     {
       Room = room;
       Seat = seat;
+      Name = name;
       GameSettings = settings;
     }
     protected SetSeatC2S()

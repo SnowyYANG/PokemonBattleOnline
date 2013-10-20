@@ -5,23 +5,28 @@ using System.Text;
 using System.Runtime.Serialization;
 using PokemonBattleOnline.Network.Commands;
 
-namespace PokemonBattleOnline.Network.C2Ss
+namespace PokemonBattleOnline.Network.C2SEs
 {
   [DataContract(Namespace = PBOMarks.JSON)]
   internal class ChatC2S : Commands.ChatC2S, IC2SE
   {
-    public void Execute(ServerUser user)
+    public void Execute(ServerUser su)
     {
+      var id = su.User.Id;
+      var server = su.Server;
+      var s2c = new ChatS2C(Mode, id, Chat);
       switch (Mode)
       {
         case ChatMode.Public:
-          user.Server.Send(new ChatS2C(Mode, user.User.Id, Chat));
+          server.Send(s2c);
           break;
         case ChatMode.Room:
-          throw new NotImplementedException();
+          var room = su.Room;
+          if (room != null) room.Send(s2c);
           break;
         case ChatMode.Private:
-          throw new NotImplementedException();
+          var to = server.GetUser(To);
+          if (to != null) to.Send(s2c);
           break;
       }
     }

@@ -12,24 +12,30 @@ namespace PokemonBattleOnline.Network
   public class Room : ObservableObject
   {
     [DataMember(Name = "a")]
-    public int Id;
+    public readonly int Id;
     private User[] players;
 
-    public Room(int id, GameSettings settings)
+    public Room(int id, string name, GameSettings settings)
     {
       Id = id;
-      settings = _settings;
+      _name = name;
+      _settings = settings;
       players = new User[4];
       _spectators = new ObservableList<User>();
     }
 
-    [DataMember(Name = "b")]
+    [DataMember(Name = "b", EmitDefaultValue = false)]
+    private string _name;
+    private string Name
+    { get { return _name; } }
+    
+    [DataMember(Name = "c")]
     private readonly GameSettings _settings;
     public GameSettings Settings
     { get { return _settings; } }
 
     private static PropertyChangedEventArgs BATTLING = new PropertyChangedEventArgs("Battling");
-    [DataMember(Name = "c", EmitDefaultValue = false)]
+    [DataMember(Name = "d", EmitDefaultValue = false)]
     private bool _battling;
     public bool Battling
     {
@@ -51,17 +57,13 @@ namespace PokemonBattleOnline.Network
       {
         if (0 <= index && index < 4)
         {
-          var former = players[index];
-          if (former != value)
+          if (value == null) players[index].Room = null;
+          else
           {
-            if (former != null) former.Room = null;
-            if (value != null)
-            {
-              value.Room = this;
-              value.Seat = (Seat)index;
-            }
-            players[index] = value;
+            value.Room = this;
+            value.Seat = (Seat)index;
           }
+          players[index] = value;
         }
       }
     }
@@ -153,7 +155,7 @@ namespace PokemonBattleOnline.Network
 
     public void RemoveUsers()
     {
-      foreach (var u in players) if (u != null) u.Room = null;
+      for (int i = 0; i < 4; ++i) if (players[i] != null) players[i] = null;
       foreach (var u in _spectators) u.Room = null;
       _spectators.Clear();
     }

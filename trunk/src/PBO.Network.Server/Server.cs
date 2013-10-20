@@ -7,21 +7,20 @@ namespace PokemonBattleOnline.Network
 {
   public class Server : IDisposable
   {
+    internal readonly object Locker;
     internal readonly TcpServer Network;
     private readonly LoginServer Login;
     public readonly ServerState State;
-    internal readonly ServerController Controller;
     private readonly Dictionary<int, ServerUser> Users;
     private readonly IdsPool RoomIds;
     private readonly Dictionary<int, RoomController> Rooms;
-    internal readonly object Locker;
 
     internal Server(int port)
     {
+      Locker = new object();
       Network = new TcpServer(port);
       Login = new LoginServer(Network, this);
       State = new ServerState(this);
-      Controller = new ServerController(this);
       Users = new Dictionary<int, ServerUser>();
       RoomIds = new IdsPool();
       Rooms = new Dictionary<int, RoomController>();
@@ -52,6 +51,7 @@ namespace PokemonBattleOnline.Network
     {
       lock (Locker)
       {
+        if (user.Room != null) user.Room.RemoveUser(user);
         Users.Remove(user.Network.Id);
         State.UserList.Remove(user.User);
         Send(Commands.UserS2C.RemoveUser(user.Network.Id));
@@ -62,10 +62,10 @@ namespace PokemonBattleOnline.Network
     {
       return Rooms.ValueOrDefault(id);
     }
-    internal RoomController AddRoom(GameSettings settings)
+    internal RoomController AddRoom(string name, GameSettings settings)
     {
       var id = RoomIds.GetId();
-      var rc = new RoomController(this, id, settings);
+      var rc = new RoomController(this, id, name, settings);
       Rooms.Add(id, rc);
       State.RoomList.Add(rc.Room);
       Send(Commands.RoomS2C.NewRoom(id, settings));
