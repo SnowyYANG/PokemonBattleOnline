@@ -31,7 +31,6 @@ namespace PokemonBattleOnline.Network
     public event Action Disconnected = delegate { };
     internal readonly TcpClient Network;
     public readonly ClientController Controller;
-    public readonly ClientState State;
     private readonly Timer KeepAlive;
     
     internal Client(TcpClient network, LoginClient login, ClientInitInfo cii)
@@ -46,8 +45,7 @@ namespace PokemonBattleOnline.Network
             Disconnected();
           }
         };
-      Controller = new ClientController(this);
-      State = new ClientState(this, login, cii);
+      Controller = new ClientController(this, login, cii);
       KeepAlive = new Timer(OnKeepAlive, network, PBOMarks.TIMEOUT, PBOMarks.TIMEOUT);
     }
 
@@ -61,7 +59,7 @@ namespace PokemonBattleOnline.Network
           UIDispatcher.Invoke((Action<Client>)s2c.Execute, this);
         }
     }
-    public void SendC2S(IC2S command)
+    public void Send(IC2S command)
     {
       using (var ms = new MemoryStream())
       {

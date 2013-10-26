@@ -6,7 +6,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>unfinish</a:Key><a:Value i:type="LogText"><foreground>16711680</foreground><text>{0:p}使用的技能{1:m}尚未制作。
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>bad</a:Key><a:Value i:type="LogText"><foreground>16711680</foreground><text>{0:p}使用的技能{1:m}暂不制作，原因请见http://pbo.codeplex.com/。
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>----</a:Key><a:Value i:type="LogText"><text>---------------------------------
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameMode</a:Key><a:Value i:type="LogText"><text>对战模式：{0:e}
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameMode</a:Key><a:Value i:type="LogText"><text>对战模式：{0}
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameRule</a:Key><a:Value i:type="LogText"><text>对战规则：{0}
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameStart</a:Key><a:Value i:type="LogText"><text>战斗开始！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>GameContinue</a:Key><a:Value i:type="LogText"><text>战斗进行中...
@@ -19,7 +19,7 @@
 第{0}回合开始
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EndTurn</a:Key><a:Value i:type="LogText"><Alignment>Right</Alignment><text>第{0}回合结束
 </text><HiddenInBattle>true</HiddenInBattle></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EndTurnNormalPm</a:Key><a:Value i:type="LogText"><Alignment>Right</Alignment><text>{0:p}（{0:pm.Type}）：{1}HP
-</text><HiddenInBattle>true</HiddenInBattle></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EndTurnAbnormalPm</a:Key><a:Value i:type="LogText"><Alignment>Right</Alignment><text>{0:p}（{0:pm.Type}）：{1}HP（{2:e}）
+</text><HiddenInBattle>true</HiddenInBattle></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>EndTurnAbnormalPm</a:Key><a:Value i:type="LogText"><Alignment>Right</Alignment><text>{0:p}（{0:pm.Type}）：{1}HP（{2}）
 </text><HiddenInBattle>true</HiddenInBattle></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>UseMove</a:Key><a:Value i:type="LogText"><text>{0:p}使用了{1:m}！
 </text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>SendOut1</a:Key><a:Value i:type="LogText"><Contents><a:anyType i:type="LogText"><text>{0:pm.Owner.Name}放出了{0:pm.Name}</text></a:anyType><a:anyType i:type="LogText"><text>（Lv.{0:pm.Lv} {0:pm.Type}）</text><HiddenInBattle>true</HiddenInBattle></a:anyType><a:anyType i:type="LogText"><text>！
@@ -37,17 +37,17 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>WeakHurt2</a:Key><a:Value i:type="LogText"><text>对{0:p}和{1:p}没有什么效果。
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>WeakHurt3</a:Key><a:Value i:type="LogText"><text>对{0:p}、{1:p}和{2:p}没有什么效果。
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Fail</a:Key><a:Value i:type="LogText"><text>但是对{0:p}没能成功！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DUp1</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:e}提升了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DUp2</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:e}大幅提升！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DUp3</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:e}疯狂提升！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DDown1</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:e}下降了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DDown2</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:e}大幅下降！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DDown3</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:e}疯狂下降！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DMax</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:e}不能再提升了！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DMin</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:e}不能再下降了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DUp1</a:Key><a:Value i:type="LogText"><text>{0:p}的{1}提升了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DUp2</a:Key><a:Value i:type="LogText"><text>{0:p}的{1}大幅提升！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DUp3</a:Key><a:Value i:type="LogText"><text>{0:p}的{1}疯狂提升！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DDown1</a:Key><a:Value i:type="LogText"><text>{0:p}的{1}下降了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DDown2</a:Key><a:Value i:type="LogText"><text>{0:p}的{1}大幅下降！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DDown3</a:Key><a:Value i:type="LogText"><text>{0:p}的{1}疯狂下降！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DMax</a:Key><a:Value i:type="LogText"><text>{0:p}的{1}不能再提升了！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DMin</a:Key><a:Value i:type="LogText"><text>{0:p}的{1}不能再下降了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DReset</a:Key><a:Value i:type="LogText"><text>{0:p}的能力值恢复正常了！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DLockAll</a:Key><a:Value i:type="LogText"><text>{0:p}的能力不能下降！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DLock</a:Key><a:Value i:type="LogText"><text>{0:p}的{1:e}不能下降！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>7DLock</a:Key><a:Value i:type="LogText"><text>{0:p}的{1}不能下降！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>NoEffect</a:Key><a:Value i:type="LogText"><text>对{0:p}完全没有效果...
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Miss</a:Key><a:Value i:type="LogText"><text>没有打中{0:p}！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Antiberry</a:Key><a:Value i:type="LogText"><text>{1:i}下降了给予{0:p}的伤害！
@@ -261,7 +261,7 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HealBlockCantUseMove</a:Key><a:Value i:type="LogText"><text>{0:p}因为回复封印无法使用{1:m}!
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>subtitle_HealBlockCantUseMove</a:Key><a:Value i:type="LogText"><text>{0}因为回复封印无法使用{1}!
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>FullHp</a:Key><a:Value i:type="LogText"><text>但是{0:p}体力充沛!
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>TypeChange</a:Key><a:Value i:type="LogText"><text>{0:p}变成了{1:e}属性！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>TypeChange</a:Key><a:Value i:type="LogText"><text>{0:p}变成了{1}属性！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>HpAbosorb</a:Key><a:Value i:type="LogText"><text>从{0:p}那里吸取了体力！</text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>FailSelfHurt</a:Key><a:Value i:type="LogText"><text>因为势头太猛，{0:p}撞到了地上！</text></a:Value></a:KeyValueOfstringanyType>
 <a:KeyValueOfstringanyType><a:Key>FailSp</a:Key><a:Value i:type="LogText"><text>{0:p}不能使用{1:m}！
@@ -275,9 +275,9 @@
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ItemDeBRN</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}治愈了烧伤状态！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ItemDeConfuse</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}治愈了混乱状态！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ItemDeAttract</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}治愈了着迷状态！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Item7DUp1</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}使{2:e}提升！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Item7DUp2</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}使{2:e}大幅提升！
-</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Item7DUp3</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}使{2:e}疯狂提升！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Item7DUp1</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}使{2}提升！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Item7DUp2</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}使{2}大幅提升！
+</text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>Item7DUp3</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}使{2}疯狂提升！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>ItemEnFocusEnergy</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}后，充满了干劲！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>FocusItem</a:Key><a:Value i:type="LogText"><text>{0:p}使用{1:i}撑了下来！
 </text></a:Value></a:KeyValueOfstringanyType><a:KeyValueOfstringanyType><a:Key>WhiteHerb</a:Key><a:Value i:type="LogText"><text>{0:p}使用了{1:i}复原了所有能力值！

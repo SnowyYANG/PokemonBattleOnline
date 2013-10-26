@@ -10,12 +10,21 @@ namespace PokemonBattleOnline.Network.Commands
   [DataContract(Namespace = PBOMarks.JSON)]
   public class PrepareC2S : IC2S
   {
-    [DataMember]
-    PokemonData[] a_;
-
-    public PrepareC2S(IPokemonData[] pms)
+    public static PrepareC2S Prepare(PokemonData[] pms)
     {
-      a_ = pms.Select((p) => (PokemonData)p).ToArray();
+      return new PrepareC2S(pms);
+    }
+    public static PrepareC2S UnPrepare()
+    {
+      return new PrepareC2S(null);
+    }
+    
+    [DataMember(Name = "a_", EmitDefaultValue = false)]
+    protected readonly PokemonData[] Pms;
+
+    private PrepareC2S(PokemonData[] pms)
+    {
+      Pms = pms;
     }
     protected PrepareC2S()
     {

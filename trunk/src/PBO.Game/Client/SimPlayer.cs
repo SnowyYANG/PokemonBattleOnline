@@ -14,12 +14,15 @@ namespace PokemonBattleOnline.Game
     {
       Id = userId;
       Team = team;
+      TeamIndex = indexInTeam;
       _pokemons = new SimPokemon[pokemons.Length];
       for (int i = 0; i < pokemons.Length; i++)
         _pokemons[i] = new SimPokemon(team * 50 + indexInTeam * 10 + i, this, pokemons[i]);
     }
 
     public int Team
+    { get; private set; }
+    public int TeamIndex
     { get; private set; }
     private readonly SimPokemon[] _pokemons;
     public IEnumerable<SimPokemon> Pokemons

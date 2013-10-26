@@ -14,15 +14,14 @@ namespace PokemonBattleOnline.Game
 
     protected LogText GetGameLog(string key)
     {
-      throw new NotImplementedException();
-      //var t = GameService.Logs[key ?? "nokey"];
-      //if (t == null)
-      //{
-      //  t = GameService.Logs["notfound"].Clone(Game);
-      //  t.SetData(key);
-      //  return t;
-      //}
-      //return t.Clone(Game);
+      var t = GameLogs.Log(key ?? "nokey");
+      if (t == null)
+      {
+        t = GameLogs.Log("notfound").Clone(Game);
+        t.SetData(key);
+        return t;
+      }
+      return t.Clone(Game);
     }
     protected void AppendGameLog(string key, object arg0 = null, object arg1 = null, object arg2 = null, object arg3 = null)
     {

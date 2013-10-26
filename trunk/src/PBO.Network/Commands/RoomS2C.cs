@@ -39,11 +39,11 @@ namespace PokemonBattleOnline.Network.Commands
     {
       if (Battling)
       {
-        var room = client.State.GetRoom(Id);
+        var room = client.Controller.GetRoom(Id);
         room.Battling = !room.Battling;
       }
-      else if (Settings == null) client.State.RemoveRoom(Id);
-      else client.State.AddRoom(new Room(Id, Name, Settings));
+      else if (Settings == null) client.Controller.RemoveRoom(Id);
+      else client.Controller.AddRoom(new Room(Id, Name, Settings));
     }
   }
 }

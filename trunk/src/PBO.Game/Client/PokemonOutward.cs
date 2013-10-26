@@ -185,32 +185,32 @@ namespace PokemonBattleOnline.Game
     }
     #endregion
 
-    //public string GetProperty(string propertyName)
-    //{
-    //  string r = null;
-    //  switch (propertyName)
-    //  {
-    //    case "Name":
-    //      r = Name;
-    //      break;
-    //    case "Lv":
-    //      r = Lv.ToString();
-    //      break;
-    //    case "Type":
-    //      r = Form.Species.GetLocalizedName();
-    //      break;
-    //    case "State":
-    //      r = State.GetLocalizedName();
-    //      break;
-    //    case "Owner.Name":
-    //      r = Owner.Name;
-    //      break;
-    //    case "Chatter":
-    //      r = Chatter;
-    //      break;
-    //  }
-    //  return r;
-    //}
+    public string GetProperty(string propertyName)
+    {
+      string r = null;
+      switch (propertyName)
+      {
+        case "Name":
+          r = Name;
+          break;
+        case "Lv":
+          r = Lv.ToString();
+          break;
+        case "Type":
+          r = GameString.Current.Pokemon(Form);
+          break;
+        case "State":
+          r = GameString.Current.BattleLog(State.ToString());
+          break;
+        case "Owner.Name":
+          r = Owner.Name;
+          break;
+        case "Chatter":
+          r = Chatter;
+          break;
+      }
+      return r;
+    }
     public void Init(GameOutward game)
     {
       team = game.Teams[Position.Team];
@@ -232,10 +232,5 @@ namespace PokemonBattleOnline.Game
       this.listener = null;
     }
     #endregion
-
-    //public override string ToString()
-    //{
-    //  return string.Format("{0}(Lv.{1} {2})", Name, Lv, Form.Species.GetLocalizedName());
-    //}
   }
 }

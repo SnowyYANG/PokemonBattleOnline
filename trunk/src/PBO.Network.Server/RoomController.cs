@@ -46,7 +46,7 @@ namespace PokemonBattleOnline.Network
           foreach (var p in t.Players)
           {
             var su = Server.GetUser(p.Id);
-            su.Send(new ParnerInfoS2C(initingGame.GetPokemons(t.Id, 1 - p.IndexInTeam)));
+            su.Send(new PartnerInfoS2C(initingGame.GetPokemons(t.Id, 1 - p.IndexInTeam)));
           }
         game.Start();
       }
@@ -117,19 +117,19 @@ namespace PokemonBattleOnline.Network
     public void AddUser(ServerUser su, Seat seat)
     {
       var user = su.User;
-      if (seat == Seat.Spectator)
-      {
-        Room.AddSpectator(user);
-        if (game != null) su.Send(new GameUpdateS2C(game.GetLastLeapFragment()));
-      }
+      if (seat == Seat.Spectator) Room.AddSpectator(user);
       else if (Room[seat] == null) Room[seat] = user;
       else return;
       Users.Add(user.Id, su);
       Server.Send(SetSeatS2C.EnterRoom(user.Id, Room.Id, seat));
-      if (IsPrepared(Seat.Player00)) su.Send(new SetPrepare(Seat.Player00, true));
-      if (IsPrepared(Seat.Player01)) su.Send(new SetPrepare(Seat.Player01, true));
-      if (IsPrepared(Seat.Player10)) su.Send(new SetPrepare(Seat.Player10, true));
-      if (IsPrepared(Seat.Player11)) su.Send(new SetPrepare(Seat.Player11, true));
+      if (game != null) su.Send(new GameUpdateS2C(game.GetLastLeapFragment()));
+      else if (initingGame != null)
+      {
+        if (IsPrepared(Seat.Player00)) su.Send(new SetPrepare(Seat.Player00, true));
+        if (IsPrepared(Seat.Player01)) su.Send(new SetPrepare(Seat.Player01, true));
+        if (IsPrepared(Seat.Player10)) su.Send(new SetPrepare(Seat.Player10, true));
+        if (IsPrepared(Seat.Player11)) su.Send(new SetPrepare(Seat.Player11, true));
+      }
     }
     public void RemoveUser(ServerUser su)
     {

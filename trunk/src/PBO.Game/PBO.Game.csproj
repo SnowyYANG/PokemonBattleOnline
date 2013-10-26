@@ -113,7 +113,6 @@
     <Compile Include="Interactive\ActionInput.cs" />
     <Compile Include="Client\SimMove.cs" />
     <Compile Include="Interactive\InputRequest.cs" />
-    <Compile Include="Client\IPlayerController.cs" />
     <Compile Include="Models\CoordY.cs" />
     <Compile Include="Models\Move.cs" />
     <Compile Include="Models\PokemonState.cs" />

@@ -68,10 +68,9 @@ namespace PokemonBattleOnline.Game
     }
     private void SetErrorMessage(string key, string arg1, string arg2)
     {
-      throw new NotImplementedException();
-      //var text = GameService.Logs["subtitle_" + key].Clone(null);
-      //text.SetData(Pm.Pokemon.Name, arg1, arg2);
-      //error = text.Text;
+      var text = GameLogs.Log("subtitle_" + key).Clone(null);
+      text.SetData(Pm.Pokemon.Name, arg1, arg2);
+      error = text.Text;
     }
     public bool Fight()
     {
@@ -84,17 +83,16 @@ namespace PokemonBattleOnline.Game
     /// <returns></returns>
     public bool Move(SimMove move)
     {
-      throw new NotImplementedException();
-      //if (OnlyMove != 0 && OnlyMove != move.Type.Id) SetErrorMessage(Only, RomData.GetMove(OnlyMove).GetLocalizedName(), Pm.Pokemon.Item == null ? null : Pm.Pokemon.Item.GetLocalizedName());
-      //else
-      //  if (Block != null)
-      //    for (int i = 0; i < Pm.Moves.Length; ++i)
-      //      if (move == Pm.Moves[i])
-      //      {
-      //        if (Block[i] != null) SetErrorMessage(Block[i], move.Type.GetLocalizedName(), null);
-      //        break;
-      //      }
-      //return error == null;
+      if (OnlyMove != 0 && OnlyMove != move.Type.Id) SetErrorMessage(Only, GameString.Current.Move(RomData.GetMove(OnlyMove).Id), Pm.Pokemon.Item == null ? null : GameString.Current.Item(Pm.Pokemon.Item.Id));
+      else
+        if (Block != null)
+          for (int i = 0; i < Pm.Moves.Length; ++i)
+            if (move == Pm.Moves[i])
+            {
+              if (Block[i] != null) SetErrorMessage(Block[i], GameString.Current.Move(move.Type.Id), null);
+              break;
+            }
+      return error == null;
     }
     public void Target(PokemonOutward target = null)
     {
@@ -107,23 +105,22 @@ namespace PokemonBattleOnline.Game
     /// <returns></returns>
     public bool Pokemon(SimPokemon pokemon)
     {
-      throw new NotImplementedException();
-      //if (pokemon.Hp.Value == 0)
-      //{
-      //  error = string.Format(DataService.String["{0} has no strength to fight!"], pokemon.Name);
-      //  return false;
-      //}
-      //if (pokemon.IndexInOwner < Game.Settings.Mode.OnboardPokemonsPerPlayer())
-      //{
-      //  error = string.Format(DataService.String["{0} is already fighting."], pokemon.Name);
-      //  return false;
-      //}
-      //if (CantWithdraw)
-      //{
-      //  error = string.Format(DataService.String["Can't withdraw {0}!"], Pm.Pokemon.Name);
-      //  return false;
-      //}
-      //return true;
+      if (pokemon.Hp.Value == 0)
+      {
+        error = string.Format(GameString.Current.BattleLog("PokemonFainted"), pokemon.Name);
+        return false;
+      }
+      if (pokemon.IndexInOwner < Game.Settings.Mode.OnboardPokemonsPerPlayer())
+      {
+        error = string.Format(GameString.Current.BattleLog("PokemonFighting"), pokemon.Name);
+        return false;
+      }
+      if (CantWithdraw)
+      {
+        error = string.Format(GameString.Current.BattleLog("PokemonCannotWithdraw"), Pm.Pokemon.Name);
+        return false;
+      }
+      return true;
     }
     #endregion
   }
@@ -233,20 +230,19 @@ namespace PokemonBattleOnline.Game
     }
     public bool Pokemon(SimPokemon pokemon, int x)
     {
-      throw new NotImplementedException();
-      //if (pokemon.Hp.Value == 0)
-      //{
-      //  error = string.Format(DataService.String["{0} has no strength to fight!"], pokemon.Name);
-      //  return false;
-      //}
-      //if (pokemon.IndexInOwner < game.Settings.Mode.OnboardPokemonsPerPlayer())
-      //{
-      //  error = string.Format(DataService.String["{0} is already fighting."], pokemon.Name);
-      //  return false;
-      //}
-      //input.Sendout(x, pokemon);
-      //CheckSendoutFinished();
-      //return true;
+      if (pokemon.Hp.Value == 0)
+      {
+        error = string.Format(GameString.Current.BattleLog("PokemonFainted"), pokemon.Name);
+        return false;
+      }
+      if (pokemon.IndexInOwner < game.Settings.Mode.OnboardPokemonsPerPlayer())
+      {
+        error = string.Format(GameString.Current.BattleLog("PokemonFighting"), pokemon.Name);
+        return false;
+      }
+      input.Sendout(x, pokemon);
+      CheckSendoutFinished();
+      return true;
     }
     public bool Pokemon(SimPokemon pokemon)
     {

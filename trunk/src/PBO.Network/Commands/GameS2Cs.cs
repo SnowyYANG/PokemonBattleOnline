@@ -23,24 +23,39 @@ namespace PokemonBattleOnline.Network.Commands
 
     void IS2C.Execute(Client client)
     {
-      throw new NotImplementedException();
+      var room = client.Controller.Room;
+      switch (Seat)
+      {
+        case Seat.Player00:
+          room.Prepare00 = Prepare;
+          break;
+        case Seat.Player01:
+          room.Prepare01 = Prepare;
+          break;
+        case Seat.Player10:
+          room.Prepare10 = Prepare;
+          break;
+        case Seat.Player11:
+          room.Prepare11 = Prepare;
+          break;
+      }
     }
   }
   
   [DataContract(Name = "pi", Namespace = PBOMarks.JSON)]
-  public class ParnerInfoS2C : IS2C
+  public class PartnerInfoS2C : IS2C
   {
     [DataMember]
     PokemonData[] a_;
 
-    public ParnerInfoS2C(IPokemonData[] pms)
+    public PartnerInfoS2C(IPokemonData[] pms)
     {
       a_ = pms.Select((p) => (PokemonData)p).ToArray();
     }
 
     void IS2C.Execute(Client client)
     {
-      throw new NotImplementedException();
+      client.Controller.Room.Partner = a_;
     }
   }
 
@@ -54,7 +69,7 @@ namespace PokemonBattleOnline.Network.Commands
 
     void IS2C.Execute(Client client)
     {
-      throw new NotImplementedException();
+      client.Controller.Room.InputRequest = this;
     }
   }
 
@@ -71,8 +86,7 @@ namespace PokemonBattleOnline.Network.Commands
 
     void IS2C.Execute(Client client)
     {
-      throw new NotImplementedException();
-      //user.InformWaitingForInput(Players);
+      RoomController.OnTimeReminder(Players);
     }
   }
 
@@ -86,17 +100,20 @@ namespace PokemonBattleOnline.Network.Commands
 
     void IS2C.Execute(Client client)
     {
-      throw new NotImplementedException();
+      var room = client.Controller.Room;
+      if (room.Game == null) room.GameStart(this);
+      room.Game.Update(this.Events);
+      if (room.InputRequest != null)
+      {
+        room.PlayerController.OnRequireInput(room.InputRequest);
+        room.InputRequest = null;
+      }
     }
   }
 
   [DataContract(Name = "ge", Namespace = PBOMarks.JSON)]
   public class GameEndS2C : IS2C
   {
-    //public static GameEndInfo GameTie()
-    //{
-    //  return new GameEndInfo();
-    //}
     public static GameEndS2C GameStop(int player, GameStopReason reason)
     {
       return new GameEndS2C() { Player = player, Reason = reason };
@@ -118,9 +135,9 @@ namespace PokemonBattleOnline.Network.Commands
     }
     void IS2C.Execute(Client client)
     {
-      throw new NotImplementedException();
-      //      if (Player != 0) user.InformGameStop(Reason, Player);
-      //      else if (Time != null) user.InformTimeUp(Time);
+      if (Player != 0) RoomController.OnGameStop(Reason, Player);
+      else if (Time != null) RoomController.OnTimeUp(Time);
+      client.Controller.Room.Reset();
     }
   }
 }

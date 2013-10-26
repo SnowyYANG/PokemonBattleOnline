@@ -17,8 +17,8 @@ namespace PokemonBattleOnline.Network.Test
       if (PBOClient.Current == null) Console.WriteLine("null");
       else
       {
-        Console.WriteLine(PBOClient.Current.State.User.Name);
-        foreach (var u in PBOClient.Current.State.Users) Console.WriteLine("{0} {1}", u.Id, u.Name);
+        Console.WriteLine(PBOClient.Current.Controller.User.Name);
+        foreach (var u in PBOClient.Current.Controller.Users) Console.WriteLine("{0} {1}", u.Id, u.Name);
       }
       Console.WriteLine("---");
     }
@@ -28,7 +28,7 @@ namespace PokemonBattleOnline.Network.Test
       PBOServer.NewServer();
       PBOClient.CurrentChanged += () =>
         {
-          ((ObservableList<User>)PBOClient.Current.State.Users).CollectionChanged += (sender, e) => Print();
+          ((ObservableList<User>)PBOClient.Current.Controller.Users).CollectionChanged += (sender, e) => Print();
           ClientController.PublicChat += (s, u) => Console.WriteLine(u.Name + ": " + s);
         };
       PBOClient.Login("127.0.0.1", "t1", 408);

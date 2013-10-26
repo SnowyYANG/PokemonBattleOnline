@@ -98,7 +98,7 @@ namespace PokemonBattleOnline.Game
       }
     }
 
-    public int IndexInOwner
+    internal int IndexInOwner
     { get { return Owner.GetPokemonIndex(Id); } }
     private int Get5D(StatType type)
     {

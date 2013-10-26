@@ -74,7 +74,7 @@ namespace PokemonBattleOnline.Network.Commands
 
     void IS2C.Execute(Client client)
     {
-      var user = client.State.GetUser(From);
+      var user = client.Controller.GetUser(From);
       if (user != null)
         switch (Mode)
         {
@@ -82,7 +82,7 @@ namespace PokemonBattleOnline.Network.Commands
             ClientController.OnPublicChat(Chat, user);
             break;
           case ChatMode.Room:
-            ClientController.OnRoomChat(Chat, user);
+            RoomController.OnRoomChat(Chat, user);
             break;
           case ChatMode.Private:
             ClientController.OnPrivateChat(Chat, user);

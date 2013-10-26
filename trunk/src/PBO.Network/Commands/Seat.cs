@@ -79,20 +79,22 @@ namespace PokemonBattleOnline.Network.Commands
 
     void IS2C.Execute(Client client)
     {
-      var user = client.State.GetUser(User);
-      if (user != null)
+      var u = client.Controller.GetUser(User);
+      var isUser = u == client.Controller.User;
+      if (u != null)
         if (Room == 0)
         {
-          var room = user.Room;
-          var seat = user.Seat;
-          if (seat == Seat.Spectator) room.RemoveSpectator(user);
+          var room = u.Room;
+          var seat = u.Seat;
+          if (seat == Seat.Spectator) room.RemoveSpectator(u);
           else room[seat] = null;
+          if (isUser) client.Controller.Room.Reset();
         }
         else
         {
-          var room = client.State.GetRoom(Room);
-          if (Seat == Seat.Spectator) room.AddSpectator(user);
-          else room[Seat] = user;
+          var room = client.Controller.GetRoom(Room);
+          if (Seat == Seat.Spectator) room.AddSpectator(u);
+          else room[Seat] = u;
         }
     }
   }

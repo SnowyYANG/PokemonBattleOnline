@@ -19,7 +19,11 @@ namespace PokemonBattleOnline.Game
       OnboardPokemons = new SimOnboardPokemon[Settings.Mode.XBound()];
       Pokemons = new Dictionary<int, SimPokemon>();
       foreach (var pm in player.Pokemons) Pokemons.Add(pm.Id, pm);
-      //讨厌的parner等做4p再说
+      for (int i = 0; i < parner.Length; i++)
+      {
+        var id = player.Team * 50 + (1 - player.TeamIndex) * 10 + i;
+        Pokemons.Add(id, new SimPokemon(id, null, parner[i]));
+      }
     }
 
     public Dictionary<int, SimPokemon> Pokemons

@@ -56,8 +56,9 @@
     <Compile Include="Commands\Chat.cs" />
     <Compile Include="Commands\Seat.cs" />
     <Compile Include="Commands\UserS2C.cs" />
+    <Compile Include="Room\PlayerController.cs" />
+    <Compile Include="Lobby\RoomController.cs" />
     <Compile Include="Lobby\ClientController.cs" />
-    <Compile Include="Lobby\ClientState.cs" />
     <Compile Include="LoginClient.cs" />
     <Compile Include="Lobby\Room.cs" />
     <Compile Include="Lobby\Seat.cs" />
@@ -66,13 +67,11 @@
     <Compile Include="Network\PackHelper.cs" />
     <Compile Include="Network\TcpClient.cs" />
     <Compile Include="Network\TcpPack.cs" />
-    <Compile Include="Room\Player.cs" />
     <Compile Include="PBOClient.cs" />
     <Compile Include="Room\GameSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Room\GameStopReason.cs" />
     <Compile Include="Room\IRoom.cs" />
-    <Compile Include="Room\RoomUserClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PBO.Game\PBO.Game.csproj">

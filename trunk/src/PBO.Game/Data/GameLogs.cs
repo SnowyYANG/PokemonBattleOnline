@@ -9,7 +9,9 @@ namespace PokemonBattleOnline.Game
   [DataContract(Namespace = PBOMarks.PBO)]
   public class GameLogs : SimpleData
   {
-    public static GameLogs Load(string path, string language)
+    private static GameLogs Current;
+    
+    private static GameLogs LoadImplementation(string path, string language)
     {
       GameLogs i = LoadFromXml<GameLogs>(path + "\\" + language + ".xml");
 #if DEBUG
@@ -24,6 +26,10 @@ namespace PokemonBattleOnline.Game
 #endif
       return i;
     }
+    public static void Load(string path, string language)
+    {
+      Current = LoadImplementation(path, language);
+    }
     
     [DataMember]
     private Dictionary<string, LogText> logs;
@@ -33,7 +39,9 @@ namespace PokemonBattleOnline.Game
       logs = new Dictionary<string, LogText>();
     }
 
-    public LogText this[string key]
-    { get { return logs.ValueOrDefault(key); } }
+    public static LogText Log(string key)
+    {
+      return Current.logs.ValueOrDefault(key);
+    }
   }
 }

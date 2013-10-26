@@ -31,8 +31,8 @@ namespace PokemonBattleOnline.Network.Commands
 
     void IS2C.Execute(Client client)
     {
-      if (Name == null) client.State.RemoveUser(Id);
-      else client.State.AddUser(new User(Id, Name, Avatar));
+      if (Name == null) client.Controller.RemoveUser(Id);
+      else client.Controller.AddUser(new User(Id, Name, Avatar));
     }
   }
 }

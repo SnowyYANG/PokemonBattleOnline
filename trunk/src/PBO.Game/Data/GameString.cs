@@ -53,6 +53,8 @@ namespace PokemonBattleOnline.Game
     private string[] BattleTypes;
     private string[] MoveCategories;
 
+    private readonly Dictionary<string, string> BattleLogs;
+
     private GameString(string path, string language)
     {
       Language = language;
@@ -64,56 +66,62 @@ namespace PokemonBattleOnline.Game
       using (var sr = new StreamReader(path))
         for (string line = sr.ReadLine(); !string.IsNullOrWhiteSpace(line); line = sr.ReadLine())
         {
-          int num;
           string str;
+          var comma = line.IndexOf(':');
+          str = line.Substring(comma + 1);
+          if (char.IsDigit(line[1]))
           {
-            var c = line[4] == ':' ? 4 : line[6] == ':' ? 6 : line[3] == ':' ? 3 : 2;
-            num = Convert.ToInt32(line.Substring(1, c - 1));
-            str = line.Substring(c + 1);
+            var num = Convert.ToInt32(line.Substring(1, comma - 1));
             if (str[0] < MinFirstChar) MinFirstChar = str[0];
             else if (str[0] > MaxFirstChar) MaxFirstChar = str[0];
+            switch (line[0])
+            {
+              case 'p':
+                if (line[4] == ':') Pokemons[num - 1] = str;
+                else Forms[num] = str;
+                break;
+              case 'm':
+                Moves[num - 1] = str;
+                break;
+              case 'a':
+                Abilities[num - 1] = str;
+                break;
+              case 'i':
+                Items[num] = str;
+                break;
+              case 'M':
+                if (MovesD == null) MovesD = new string[Moves.Length];
+                MovesD[num - 1] = str;
+                break;
+              case 'A':
+                if (AbilitiesD == null) AbilitiesD = new string[Abilities.Length];
+                AbilitiesD[num - 1] = str;
+                break;
+              case 'I':
+                if (ItemsD == null) ItemsD = new Dictionary<int, string>();
+                ItemsD[num] = str;
+                break;
+              case 'n':
+                if (Natures == null) Natures = new string[RomData.Natures];
+                Natures[num] = str;
+                break;
+              case 'b':
+                if (BattleTypes == null) BattleTypes = new string[RomData.BattleTypes];
+                BattleTypes[num] = str;
+                break;
+              case 'c':
+                if (MoveCategories == null) MoveCategories = new string[RomData.MoveCategories];
+                MoveCategories[num] = str;
+                break;
+            }
           }
-          switch (line[0])
+          else
           {
-            case 'p':
-              if (line[4] == ':') Pokemons[num - 1] = str;
-              else Forms[num] = str;
-              break;
-            case 'm':
-              Moves[num - 1] = str;
-              break;
-            case 'a':
-              Abilities[num - 1] = str;
-              break;
-            case 'i':
-              Items[num] = str;
-              break;
-            case 'M':
-              if (MovesD == null) MovesD = new string[Moves.Length];
-              MovesD[num - 1] = str;
-              break;
-            case 'A':
-              if (AbilitiesD == null) AbilitiesD = new string[Abilities.Length];
-              AbilitiesD[num - 1] = str;
-              break;
-            case 'I':
-              if (ItemsD == null) ItemsD = new Dictionary<int, string>();
-              ItemsD[num] = str;
-              break;
-            case 'n':
-              if (Natures == null) Natures = new string[RomData.Natures];
-              Natures[num] = str;
-              break;
-            case 'b':
-              if (BattleTypes == null) BattleTypes = new string[RomData.BattleTypes];
-              BattleTypes[num] = str;
-              break;
-            case 'c':
-              if (MoveCategories == null) MoveCategories = new string[RomData.MoveCategories];
-              MoveCategories[num] = str;
-              break;
+            var key = line.Substring(0, comma);
+            if (BattleLogs == null) BattleLogs = new Dictionary<string, string>();
+            BattleLogs[key] = str;
           }
-        }
+        }//for (string line
     }
 
     public string Pokemon(int number)
@@ -124,7 +132,15 @@ namespace PokemonBattleOnline.Game
     public string Pokemon(int number, int form)
     {
       var i = number * 100 + form;
-      return Forms.ValueOrDefault(i) ?? InnerBackup.Forms.ValueOrDefault(i);
+      return Forms.ValueOrDefault(i) ?? InnerBackup.Forms.ValueOrDefault(i) ?? Pokemon(number);
+    }
+    public string Pokemon(PokemonSpecies pokemon)
+    {
+      return Pokemon(pokemon.Number);
+    }
+    public string Pokemon(PokemonForm form)
+    {
+      return Pokemon(form.Species.Number, form.Index);
     }
     public string Move(int move)
     {
@@ -175,6 +191,10 @@ namespace PokemonBattleOnline.Game
       var i = (int)category;
       var backup = InnerBackup.MoveCategories;
       return MoveCategories == null ? backup == null ? null : backup[i] : MoveCategories[i];
+    }
+    public string BattleLog(string key)
+    {
+      return BattleLogs.ValueOrDefault(key) ?? InnerBackup.BattleLogs.ValueOrDefault(key) ?? key;
     }
 
     private static GameString GetLanguage(string str)

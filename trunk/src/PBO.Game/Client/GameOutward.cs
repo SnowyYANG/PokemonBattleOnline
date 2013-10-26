@@ -20,7 +20,7 @@ namespace PokemonBattleOnline.Game
     /// <summary>
     /// game start, or an observer
     /// </summary>
-    public event Action LeapTurn;
+    public event Action GameStart;
     public event Action GameEnd;
     public readonly IGameSettings Settings;
     public readonly BoardOutward Board;
@@ -55,55 +55,54 @@ namespace PokemonBattleOnline.Game
           if (pm != null && pm.Id == id) return pm;
       return null;
     }
-    public void Update(ReportFragment fragment)
+    public void Start(ReportFragment fragment)
     {
-      throw new NotImplementedException();
-      //if (fragment.Teams != null)
-      //  UIDispatcher.Invoke(() =>
-      //    {
-      //      {
-      //        AppendGameLog(GameHeader.I);
-      //        var t = GameService.Logs["GameMode"].Clone(this);
-      //        t.SetData(GameMode.Single);
-      //        AppendGameLog(t);
-      //        t = GameService.Logs["GameRule"].Clone(this);
-      //        t.SetData("催眠条款");
-      //        AppendGameLog(t);
-      //      }
-      //      if (fragment.TurnNumber >= 0) AppendGameLog(GameService.Logs["GameContinue"]);
-      //      TurnNumber = fragment.TurnNumber;
-      //      for (int t = 0; t < Settings.Mode.TeamCount(); t++)
-      //      {
-      //        Teams[t] = fragment.Teams[t];
-      //        for (int x = 0; x < Settings.Mode.XBound(); x++) Board[t, x] = fragment[t, x];
-      //        Board.Weather = fragment.Weather;
-      //      }
-      //      LeapTurn();
-      //    });
-      //foreach (GameEvent e in fragment.Events)
-      //  UIDispatcher.Invoke((Action<GameOutward>)e.Update, this);
-      //int team0 = Teams[0].AliveCount;
-      //int team1 = Teams[1].AliveCount;
-      //if (team0 == 0 || team1 == 0)
-      //{
-      //  LogText text;
-      //  if (team0 == 0 && team1 == 0)
-      //  {
-      //    text = GameService.Logs["GameResultTie"].Clone(this);
-      //    text.SetData(0, 1);
-      //  }
-      //  else
-      //  {
-      //    text = GameService.Logs["GameResult"].Clone(this);
-      //    int winer = team0 == 0 ? 1 : 0;
-      //    text.SetData(winer, team0, team1);
-      //  }
-      //  UIDispatcher.Invoke(() =>
-      //    {
-      //      AppendGameLog(text);
-      //      GameEnd();
-      //    });
-      //}
+      {
+        AppendGameLog(GameHeader.I);
+        var t = GameLogs.Log("GameMode").Clone(this);
+        t.SetData(Settings.Mode == GameMode.Single ? "单打" : Settings.Mode == GameMode.Tag ? "合作" : Settings.Mode.ToString());
+        AppendGameLog(t);
+        t = GameLogs.Log("GameRule").Clone(this);
+        t.SetData("催眠条款");
+        AppendGameLog(t);
+      }
+      if (fragment.TurnNumber >= 0) AppendGameLog(GameLogs.Log("GameContinue"));
+      TurnNumber = fragment.TurnNumber;
+      for (int t = 0; t < Settings.Mode.TeamCount(); t++)
+      {
+        Teams[t] = fragment.Teams[t];
+        for (int x = 0; x < Settings.Mode.XBound(); x++) Board[t, x] = fragment[t, x];
+        Board.Weather = fragment.Weather;
+      }
+      GameStart();
+    }
+    public void Update(IEnumerable<GameEvent> events)
+    {
+      foreach (GameEvent e in events)
+        UIDispatcher.Invoke((Action<GameOutward>)e.Update, this);
+      //check game over
+      int team0 = Teams[0].AliveCount;
+      int team1 = Teams[1].AliveCount;
+      if (team0 == 0 || team1 == 0)
+      {
+        LogText text;
+        if (team0 == 0 && team1 == 0)
+        {
+          text = GameLogs.Log("GameResultTie").Clone(this);
+          text.SetData(0, 1);
+        }
+        else
+        {
+          text = GameLogs.Log("GameResult").Clone(this);
+          int winer = team0 == 0 ? 1 : 0;
+          text.SetData(winer, team0, team1);
+        }
+        UIDispatcher.Invoke(() =>
+          {
+            AppendGameLog(text);
+            GameEnd();
+          });
+      }
     }
     public void AppendGameLog(LogText text)
     {
@@ -126,43 +125,44 @@ namespace PokemonBattleOnline.Game
     string ICustomFormatter.Format(string format, object arg, IFormatProvider formatProvider)
     {
       string r = null;
-      //if (arg != null)
-      //{
-      //  if (format == "e") r = DataService.String[arg.ToString()];
-      //  else if (arg is int)
-      //  {
-      //    int id = (int)arg;
-      //    switch (format)
-      //    {
-      //      case "p":
-      //        {
-      //          var pm = GetPokemon(id);
-      //          if (pm != null) r = string.Format(this, DataService.String["{0}'s {1}"], pm.Owner.Name, pm.Name);
-      //        }
-      //        break;
-      //      case "m":
-      //        r = GameDataService.GetMove(id).GetLocalizedName();
-      //        break;
-      //      case "a":
-      //        r = GameDataService.GetAbility(id).GetLocalizedName();
-      //        break;
-      //      case "i":
-      //        r = GameDataService.GetItem(id).GetLocalizedName();
-      //        break;
-      //      case "t":
-      //        r = teams[id];
-      //        break;
-      //      default:
-      //        if (format != null && format.StartsWith("pm."))
-      //        {
-      //          var pm = GetPokemon(id);
-      //          r = pm == null ? DataService.String["<error>"] : pm.GetProperty(format.Substring(3));
-      //        }
-      //        break;
-      //    }//switch
-      //  }
-      //  if (r == null) r = arg.ToString();
-      //}// if (arg != null
+      if (arg != null)
+      {
+        var type = arg.GetType();
+        if (type == typeof(BattleType)) r = GameString.Current.BattleType((BattleType)arg);
+        else if (type == typeof(int))
+        {
+          int id = (int)arg;
+          switch (format)
+          {
+            case "p":
+              {
+                var pm = GetPokemon(id);
+                if (pm != null) r = string.Format(GameString.Current.BattleLog("OwnersPokemon"), pm.Owner.Name, pm.Name);
+              }
+              break;
+            case "m":
+              r = GameString.Current.Move(id);
+              break;
+            case "a":
+              r = GameString.Current.Ability(id);
+              break;
+            case "i":
+              r = GameString.Current.Item(id);
+              break;
+            case "t":
+              r = teams[id];
+              break;
+            default:
+              if (format != null && format.StartsWith("pm."))
+              {
+                var pm = GetPokemon(id);
+                r = pm == null ? "<error>" : pm.GetProperty(format.Substring(3));
+              }
+              break;
+          }//switch
+        }
+        else r = GameString.Current.BattleLog(arg.ToString());
+      }// if (arg != null
       return r;
     }
 
