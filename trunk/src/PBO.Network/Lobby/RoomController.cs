@@ -130,7 +130,7 @@ namespace PokemonBattleOnline.Network
     {
       Client.Send(ChatC2S.RoomChat(chat));
     }
-    public void QuitRoom()
+    public void Quit()
     {
       Client.Send(SetSeatC2S.LeaveRoom());
     }

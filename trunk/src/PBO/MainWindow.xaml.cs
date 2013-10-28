@@ -11,10 +11,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Net;
-using PokemonBattleOnline.Tactic.Globalization;
-using PokemonBattleOnline.PBO.Lobby;
-using PokemonBattleOnline.PBO.Battle;
-using PokemonBattleOnline.PBO.Editor;
 
 namespace PokemonBattleOnline.PBO
 {

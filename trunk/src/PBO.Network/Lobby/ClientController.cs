@@ -11,17 +11,17 @@ namespace PokemonBattleOnline.Network
     public static event Action Disconnected;
     internal static void OnDisconnected()
     {
-      if (Disconnected != null) Disconnected();
+      if (Disconnected != null) UIDispatcher.Invoke(Disconnected);
     }
     public static event Action<string, User> PublicChat;
     internal static void OnPublicChat(string chat, User user)
     {
-      if (PublicChat != null) PublicChat(chat, user);
+      if (PublicChat != null) UIDispatcher.Invoke(PublicChat, chat, user);
     }
     public static event Action<string, User> PrivateChat;
     internal static void OnPrivateChat(string chat, User user)
     {
-      PrivateChat(chat, user);
+      UIDispatcher.Invoke(PrivateChat, chat, user);
     }
 
     private readonly Client Client;

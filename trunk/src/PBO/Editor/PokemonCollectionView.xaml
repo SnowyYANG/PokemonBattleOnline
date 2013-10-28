@@ -1,0 +1,109 @@
+﻿<ItemsControl x:Class="PokemonBattleOnline.PBO.Editor.PokemonCollectionView"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
+              xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters"
+              xmlns:local="clr-namespace:PokemonBattleOnline.PBO.Editor" 
+              ItemsSource="{Binding Model}" VerticalContentAlignment="Top" AllowDrop="True">
+    <!--<ItemsControl.ItemTemplate>
+		<DataTemplate>
+            <ContentPresenter Content="{Binding Converter={x:Static local:PokemonBTC.C}}" ContentTemplate="{x:Static local:Resources.Collection}" HorizontalAlignment="Left" SnapsToDevicePixels="True"/>
+		</DataTemplate>
+    </ItemsControl.ItemTemplate>
+    <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+            <StackPanel Orientation="Vertical" CanHorizontallyScroll="False"/>
+        </ItemsPanelTemplate>
+    </ItemsControl.ItemsPanel>
+    <ItemsControl.Template>
+        <ControlTemplate TargetType="ItemsControl">
+		    <ScrollViewer Focusable="false" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+			    <ScrollViewer.Template>
+				    <ControlTemplate TargetType="{x:Type ScrollViewer}">
+					    <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+						    <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Margin="3,25,0,5" CanContentScroll="false" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"/>
+                            <ScrollBar x:Name="PART_VerticalScrollBar" BorderBrush="{TemplateBinding BorderBrush}" Margin="1,25,0,5" MinWidth="0" Width="7" Stylus.IsPressAndHoldEnabled="False" Stylus.IsFlicksEnabled="False" HorizontalAlignment="Left" Minimum="0" Maximum="{TemplateBinding ScrollableHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}">
+                                <ScrollBar.Background>
+                                    <SolidColorBrush Color="{Binding BorderBrush.Color,RelativeSource={RelativeSource TemplatedParent}}" Opacity="0.5"/>
+                                </ScrollBar.Background>
+                                <ScrollBar.Template>
+								    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                                        <ControlTemplate.Resources>
+										    <Style x:Key="InnerButton" TargetType="RepeatButton">
+											    <Setter Property="Focusable" Value="false"/>
+											    <Setter Property="IsTabStop" Value="false"/>
+                                                <Setter Property="Background" Value="{Binding Background,RelativeSource={RelativeSource AncestorType=ScrollBar}}"/>
+                                                <Setter Property="BorderBrush" Value="{Binding BorderBrush,RelativeSource={RelativeSource AncestorType=ScrollBar}}"/>
+											    <Setter Property="Template">
+												    <Setter.Value>
+													    <ControlTemplate TargetType="RepeatButton">
+                                                            <Border Background="Transparent">
+														        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" Margin="0,-1" BorderThickness="1,0" Height="{TemplateBinding Height}" Width="3"/>
+                                                            </Border>
+													    </ControlTemplate>
+												    </Setter.Value>
+											    </Setter>
+										    </Style>
+                                        </ControlTemplate.Resources>
+                                        <Track x:Name="PART_Track" Width="{TemplateBinding Width}" IsDirectionReversed="true" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Row="1">
+                                            <Track.DecreaseRepeatButton>
+                                                <RepeatButton Command="{x:Static ScrollBar.LineUpCommand}" Background="{Binding Background,RelativeSource={RelativeSource AncestorType=ScrollBar}}" BorderBrush="{Binding BorderBrush,RelativeSource={RelativeSource  AncestorType=ScrollBar}}" Style="{StaticResource InnerButton}"/>
+                                            </Track.DecreaseRepeatButton>
+                                            <Track.IncreaseRepeatButton>
+                                                <RepeatButton Command="{x:Static ScrollBar.LineDownCommand}" Background="{Binding Background,RelativeSource={RelativeSource AncestorType=ScrollBar}}" BorderBrush="{Binding BorderBrush,RelativeSource={RelativeSource  AncestorType=ScrollBar}}" Style="{StaticResource InnerButton}"/>
+                                            </Track.IncreaseRepeatButton>
+                                            <Track.Thumb>
+                                                <Thumb IsTabStop="False" Focusable="False" Background="{Binding Background,RelativeSource={RelativeSource AncestorType=ScrollBar}}" BorderBrush="{Binding BorderBrush,RelativeSource={RelativeSource  AncestorType=ScrollBar}}">
+                                                    <Thumb.Template>
+                                                        <ControlTemplate>
+                                                            <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" Width="7" BorderThickness="1" SnapsToDevicePixels="True">
+                                                                <Rectangle Fill="{TemplateBinding BorderBrush}" Margin="1" SnapsToDevicePixels="True"/>
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Thumb.Template>
+                                                </Thumb>
+                                            </Track.Thumb>
+                                        </Track>
+                                    </ControlTemplate>
+							    </ScrollBar.Template>
+						    </ScrollBar>
+						    <ScrollBar x:Name="PART_HorizontalScrollBar" Visibility="Collapsed"/>
+					    </Grid>
+				    </ControlTemplate>
+			    </ScrollViewer.Template>
+                <DockPanel VerticalAlignment="{TemplateBinding VerticalContentAlignment}" LastChildFill="True">
+                    <Button x:Name="button" DataContext="{Binding DataContext,RelativeSource={RelativeSource TemplatedParent}}" Command="{Binding NewCollectionCommand}" BorderBrush="{TemplateBinding BorderBrush}" DockPanel.Dock="Bottom" Cursor="Hand" Height="30" HorizontalAlignment="Left">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Canvas DataContext="{TemplateBinding Command}">
+                                    <Path Name="bg" Stroke="{TemplateBinding BorderBrush}" Fill="{x:Static ui:SBrushes.GrayB1}" Data="M0,6 L151,6 145,29 0,29" StrokeThickness="0" Stretch="None" Canvas.Top="1" SnapsToDevicePixels="True"/>
+                                    <Image Source="{Binding Icon}" Height="29" Width="24" Canvas.Left="2" Canvas.Top="1"/>
+                                    <TextBlock Name="title" Text="{Binding Header,Converter={x:Static c:LocalizedText.C}}" Foreground="{TemplateBinding BorderBrush}" VerticalAlignment="Bottom" Canvas.Left="30" Canvas.Top="10" SnapsToDevicePixels="True"/>
+                                </Canvas>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="False">
+                                        <Setter Property="Opacity" Value="0.8"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="bg" Property="StrokeThickness" Value="2"/>
+                                        <Setter TargetName="title" Property="FontWeight" Value="Bold"/>
+                                        <Setter TargetName="title" Property="Foreground" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <ItemsPresenter SnapsToDevicePixels="True"/>
+                </DockPanel>
+		    </ScrollViewer>
+            <ControlTemplate.Triggers>
+                <Trigger Property="VerticalContentAlignment" Value="Bottom">
+                    <Setter TargetName="button" Property="DockPanel.Dock" Value="Top"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </ItemsControl.Template>
+    <ItemsControl.ContextMenu>
+	    <ContextMenu ItemsSource="{Binding Commands}" ItemContainerStyle="{x:Static ui:Controls.CommandMenu}"/>
+    </ItemsControl.ContextMenu>-->
+</ItemsControl>

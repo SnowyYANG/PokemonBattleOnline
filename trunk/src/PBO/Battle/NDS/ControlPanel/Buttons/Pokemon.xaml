@@ -1,0 +1,123 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:pm="clr-namespace:PokemonBattleOnline.Game;assembly=PBO.Game"
+                    xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
+                    xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters"
+                    xmlns:b="clr-namespace:PokemonBattleOnline.PBO.Battle">
+    <Style x:Key="PokemonButton" TargetType="Button">
+        <Setter Property="Template" Value="{x:Static b:Buttons.GameButton}"/>
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Canvas UseLayoutRounding="True" IsHitTestVisible="False">
+                        <Canvas.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontSize" Value="11"/>
+                                <Setter Property="Foreground" Value="#e8e8e8"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="TextOptions.TextRenderingMode" Value="Aliased"/>
+                            </Style>
+                        </Canvas.Resources>
+                        <Line Canvas.Left="88" Canvas.Top="32" X1="6" Y2="6" Stroke="#B0B0B0"/>
+                        <TextBlock Name="level" Canvas.Left="7" Canvas.Bottom="4" Visibility="Hidden">
+                            Lv.<TextBlock Text="{Binding Lv}"/>
+                        </TextBlock>
+                        <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="12" Canvas.Top="31"/>
+                        <Image Source="{Binding Converter={x:Static c:PokemonIcon.C}}" Width="32" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Right="-1"/>
+                        <Image Name="item" Stretch="Uniform" Source="/PBO.UIElements;component/Images/item.png" Width="6" Height="8" Canvas.Left="16" Canvas.Top="23" SnapsToDevicePixels="True" />
+                        <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" Width="75" Canvas.Left="30" Canvas.Top="5"/>
+                        <ContentPresenter Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Right="8" Canvas.Top="3"/>
+                        <b:LifeBarSimplified DataContext="{Binding Hp}" Canvas.Left="48" Canvas.Top="24"/>
+                        <TextBlock Text="{Binding Hp.Origin}" Canvas.Left="95" Canvas.Bottom="4"/>
+                        <TextBlock Text="{Binding Hp.Value}" Canvas.Right="40" Canvas.Bottom="4"/>
+                    </Canvas>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding State}" Value="Normal">
+                            <Setter TargetName="level" Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Item}" Value="{x:Null}">
+                            <Setter TargetName="item" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Width" Value="126"/>
+        <Setter Property="Height" Value="46"/>
+        <Setter Property="Background" Value="#383838"/>
+        <Setter Property="OpacityMask">
+            <Setter.Value>
+                <DrawingBrush>
+                    <DrawingBrush.Drawing>
+                        <DrawingGroup>
+                            <GeometryDrawing Brush="Black" Geometry="F1 M 120,45.5L 125.5,34.5L 125.5,23.5L 119.5,0.5L 6.0,0.5L 0.5,23.5L 0.5,34.5L 6,45.5Z">
+                                <GeometryDrawing.Pen>
+                                    <Pen Brush="Black" Thickness="1"/>
+                                </GeometryDrawing.Pen>
+                            </GeometryDrawing>
+                            <ImageDrawing Rect="-1,-1,32,32" ImageSource="{Binding Content,Converter={x:Static c:PokemonIcon.C}}"/>
+                        </DrawingGroup>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <DrawingBrush Stretch="None">
+                    <DrawingBrush.Drawing>
+                        <DrawingGroup>
+                            <GeometryDrawing Brush="#C8C8C8" Geometry="M3,24.5 L123,24.5 L123,29.5 L3,29.5">
+                                <GeometryDrawing.Pen>
+                                    <Pen Brush="#808080"/>
+                                </GeometryDrawing.Pen>
+                            </GeometryDrawing>
+                            <GeometryDrawing Geometry="F1 M 118.25,43.5L 124,33.5L 124,23.5L 118,2L 8,2L 2,23.5L 2,33.5L 7.75,43.5Z">
+                                <GeometryDrawing.Pen>
+                                    <Pen Brush="#88D018" Thickness="4"/>
+                                </GeometryDrawing.Pen>
+                            </GeometryDrawing>
+                            <GeometryDrawing Brush="{x:Static b:Buttons.Luster}" Geometry="F1 M 120,45.5L 125.5,34.5L 125.5,23.5L 119.5,0.5L 6.0,0.5L 0.5,23.5L 0.5,34.5L 6,45.5Z">
+                                <GeometryDrawing.Pen>
+                                    <Pen Brush="Black"/>
+                                </GeometryDrawing.Pen>
+                            </GeometryDrawing>
+                        </DrawingGroup>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="HasContent" Value="False">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </Trigger>
+            <DataTrigger Binding="{Binding Content.Hp.Value,RelativeSource={RelativeSource Self}}" Value="0">
+                <Setter Property="Background" Value="#582028"/>
+                <Setter Property="BorderBrush">
+                    <Setter.Value>
+                        <DrawingBrush Stretch="None">
+                            <DrawingBrush.Drawing>
+                                <DrawingGroup>
+                                    <GeometryDrawing Brush="#d08080" Geometry="M3,24.5 L123,24.5 L123,29.5 L3,29.5">
+                                        <GeometryDrawing.Pen>
+                                            <Pen Brush="#a05050"/>
+                                        </GeometryDrawing.Pen>
+                                    </GeometryDrawing>
+                                    <GeometryDrawing Geometry="F1 M 118.25,43.5L 124,33.5L 124,23.5L 118,2L 8,2L 2,23.5L 2,33.5L 7.75,43.5Z">
+                                        <GeometryDrawing.Pen>
+                                            <Pen Brush="#e03038" Thickness="4"/>
+                                        </GeometryDrawing.Pen>
+                                    </GeometryDrawing>
+                                    <GeometryDrawing Brush="{x:Static b:Buttons.Luster}" Geometry="F1 M 120,45.5L 125.5,34.5L 125.5,23.5L 119.5,0.5L 6.0,0.5L 0.5,23.5L 0.5,34.5L 6,45.5Z">
+                                        <GeometryDrawing.Pen>
+                                            <Pen Brush="Black"/>
+                                        </GeometryDrawing.Pen>
+                                    </GeometryDrawing>
+                                </DrawingGroup>
+                            </DrawingBrush.Drawing>
+                        </DrawingBrush>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

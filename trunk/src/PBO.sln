@@ -5,14 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO", "PBO\PBO.csproj", "{3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBOServer", "PBOServer\PBOServer.csproj", "{480C2C92-A2D7-4D44-96A6-030FFC3E6ACD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.Battle", "PBO.Battle\PBO.Battle.csproj", "{95BB8D97-6B3B-419C-82BC-C2846C3A2DE4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.Editor", "PBO.Editor\PBO.Editor.csproj", "{56AFF630-B134-4D70-9E77-DB87A598E805}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.Lobby", "PBO.Lobby\PBO.Lobby.csproj", "{4C482289-194B-4E55-AD2F-EF8C7843052D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.UIElements", "PBO.UIElements\PBO.UIElements.csproj", "{82A9B9C3-6FAF-48F2-89B7-CBCF7F2DE191}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonBattleOnline", "PokemonBattleOnline\PokemonBattleOnline.csproj", "{EE2C451E-A61E-4634-B382-5298982E060C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.Network", "PBO.Network\PBO.Network.csproj", "{61056B34-A2A8-485B-8A36-DF633E47C7F2}"
@@ -22,10 +14,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F6EA4F9B-5305-4043-B103-764944ED7E3D}"
 	ProjectSection(SolutionItems) = preProject
 		..\res\Data\log\chinese.xml = ..\res\Data\log\chinese.xml
-		..\res\Data\string\en = ..\res\Data\string\en
-		..\res\Data\string\jp = ..\res\Data\string\jp
+		..\res\string\en = ..\res\string\en
+		..\res\string\jp = ..\res\string\jp
 		..\res\Data\rom.zip = ..\res\Data\rom.zip
-		..\res\Data\string\zh = ..\res\Data\string\zh
+		..\res\string\zh = ..\res\string\zh
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.Game.Test", "PBO.Game.Test\PBO.Game.Test.csproj", "{CA8FC057-3DD7-4F64-9965-AD4BA3FF5EE6}"
@@ -70,52 +62,40 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.Network.Test", "PBO.Net
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 15
+		SccNumberOfProjects = 11
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs30
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = PBO\\PBO.csproj
 		SccProjectName1 = PBO
 		SccLocalPath1 = PBO
-		SccProjectUniqueName2 = PBO.Battle\\PBO.Battle.csproj
-		SccProjectName2 = PBO.Battle
-		SccLocalPath2 = PBO.Battle
-		SccProjectUniqueName3 = PBO.Editor\\PBO.Editor.csproj
-		SccProjectName3 = PBO.Editor
-		SccLocalPath3 = PBO.Editor
-		SccProjectUniqueName4 = PBO.Lobby\\PBO.Lobby.csproj
-		SccProjectName4 = PBO.Lobby
-		SccLocalPath4 = PBO.Lobby
-		SccProjectUniqueName5 = PBO.UIElements\\PBO.UIElements.csproj
-		SccProjectName5 = PBO.UIElements
-		SccLocalPath5 = PBO.UIElements
-		SccProjectUniqueName6 = PBOServer\\PBOServer.csproj
-		SccProjectName6 = PBOServer
-		SccLocalPath6 = PBOServer
-		SccProjectUniqueName7 = PBO.Game.Test\\PBO.Game.Test.csproj
-		SccProjectName7 = PBO.Game.Test
-		SccLocalPath7 = PBO.Game.Test
-		SccProjectUniqueName8 = PBO.Network\\PBO.Network.csproj
-		SccProjectName8 = PBO.Network
-		SccLocalPath8 = PBO.Network
-		SccProjectUniqueName9 = PBO.Game\\PBO.Game.csproj
-		SccProjectName9 = PBO.Game
-		SccLocalPath9 = PBO.Game
-		SccProjectUniqueName10 = PBO.Game.Host\\PBO.Game.Host.csproj
-		SccProjectName10 = PBO.Game.Host
-		SccLocalPath10 = PBO.Game.Host
-		SccProjectUniqueName11 = PokemonBattleOnline\\PokemonBattleOnline.csproj
-		SccProjectName11 = PokemonBattleOnline
-		SccLocalPath11 = PokemonBattleOnline
-		SccProjectUniqueName12 = PBO.Network.Server\\PBO.Network.Server.csproj
-		SccProjectName12 = PBO.Network.Server
-		SccLocalPath12 = PBO.Network.Server
-		SccProjectUniqueName13 = PBO.Network.Test\\PBO.Network.Test.csproj
-		SccProjectName13 = PBO.Network.Test
-		SccLocalPath13 = PBO.Network.Test
-		SccProjectUniqueName14 = PBO.Data.Editor\\PBO.Game.DataEditor.csproj
-		SccProjectName14 = PBO.Data.Editor
-		SccLocalPath14 = PBO.Data.Editor
+		SccProjectUniqueName2 = PBOServer\\PBOServer.csproj
+		SccProjectName2 = PBOServer
+		SccLocalPath2 = PBOServer
+		SccProjectUniqueName3 = PBO.Game.Test\\PBO.Game.Test.csproj
+		SccProjectName3 = PBO.Game.Test
+		SccLocalPath3 = PBO.Game.Test
+		SccProjectUniqueName4 = PBO.Network\\PBO.Network.csproj
+		SccProjectName4 = PBO.Network
+		SccLocalPath4 = PBO.Network
+		SccProjectUniqueName5 = PBO.Game\\PBO.Game.csproj
+		SccProjectName5 = PBO.Game
+		SccLocalPath5 = PBO.Game
+		SccProjectUniqueName6 = PBO.Game.Host\\PBO.Game.Host.csproj
+		SccProjectName6 = PBO.Game.Host
+		SccLocalPath6 = PBO.Game.Host
+		SccProjectUniqueName7 = PokemonBattleOnline\\PokemonBattleOnline.csproj
+		SccProjectName7 = PokemonBattleOnline
+		SccLocalPath7 = PokemonBattleOnline
+		SccProjectUniqueName8 = PBO.Network.Server\\PBO.Network.Server.csproj
+		SccProjectName8 = PBO.Network.Server
+		SccLocalPath8 = PBO.Network.Server
+		SccProjectUniqueName9 = PBO.Network.Test\\PBO.Network.Test.csproj
+		SccProjectName9 = PBO.Network.Test
+		SccLocalPath9 = PBO.Network.Test
+		SccProjectUniqueName10 = PBO.Data.Editor\\PBO.Game.DataEditor.csproj
+		SccProjectName10 = PBO.Data.Editor
+		SccLocalPath10 = PBO.Data.Editor
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -138,34 +118,6 @@ Global
 		{480C2C92-A2D7-4D44-96A6-030FFC3E6ACD}.ETV|Any CPU.Build.0 = Release|Any CPU
 		{480C2C92-A2D7-4D44-96A6-030FFC3E6ACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{480C2C92-A2D7-4D44-96A6-030FFC3E6ACD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{95BB8D97-6B3B-419C-82BC-C2846C3A2DE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{95BB8D97-6B3B-419C-82BC-C2846C3A2DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{95BB8D97-6B3B-419C-82BC-C2846C3A2DE4}.EDITING|Any CPU.ActiveCfg = ETV|Any CPU
-		{95BB8D97-6B3B-419C-82BC-C2846C3A2DE4}.ETV|Any CPU.ActiveCfg = ETV|Any CPU
-		{95BB8D97-6B3B-419C-82BC-C2846C3A2DE4}.ETV|Any CPU.Build.0 = ETV|Any CPU
-		{95BB8D97-6B3B-419C-82BC-C2846C3A2DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{95BB8D97-6B3B-419C-82BC-C2846C3A2DE4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{56AFF630-B134-4D70-9E77-DB87A598E805}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{56AFF630-B134-4D70-9E77-DB87A598E805}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{56AFF630-B134-4D70-9E77-DB87A598E805}.EDITING|Any CPU.ActiveCfg = Release|Any CPU
-		{56AFF630-B134-4D70-9E77-DB87A598E805}.ETV|Any CPU.ActiveCfg = Release|Any CPU
-		{56AFF630-B134-4D70-9E77-DB87A598E805}.ETV|Any CPU.Build.0 = Release|Any CPU
-		{56AFF630-B134-4D70-9E77-DB87A598E805}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{56AFF630-B134-4D70-9E77-DB87A598E805}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4C482289-194B-4E55-AD2F-EF8C7843052D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C482289-194B-4E55-AD2F-EF8C7843052D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C482289-194B-4E55-AD2F-EF8C7843052D}.EDITING|Any CPU.ActiveCfg = Release|Any CPU
-		{4C482289-194B-4E55-AD2F-EF8C7843052D}.ETV|Any CPU.ActiveCfg = Release|Any CPU
-		{4C482289-194B-4E55-AD2F-EF8C7843052D}.ETV|Any CPU.Build.0 = Release|Any CPU
-		{4C482289-194B-4E55-AD2F-EF8C7843052D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C482289-194B-4E55-AD2F-EF8C7843052D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{82A9B9C3-6FAF-48F2-89B7-CBCF7F2DE191}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82A9B9C3-6FAF-48F2-89B7-CBCF7F2DE191}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82A9B9C3-6FAF-48F2-89B7-CBCF7F2DE191}.EDITING|Any CPU.ActiveCfg = Release|Any CPU
-		{82A9B9C3-6FAF-48F2-89B7-CBCF7F2DE191}.ETV|Any CPU.ActiveCfg = Release|Any CPU
-		{82A9B9C3-6FAF-48F2-89B7-CBCF7F2DE191}.ETV|Any CPU.Build.0 = Release|Any CPU
-		{82A9B9C3-6FAF-48F2-89B7-CBCF7F2DE191}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82A9B9C3-6FAF-48F2-89B7-CBCF7F2DE191}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EE2C451E-A61E-4634-B382-5298982E060C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EE2C451E-A61E-4634-B382-5298982E060C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE2C451E-A61E-4634-B382-5298982E060C}.EDITING|Any CPU.ActiveCfg = EDITING|Any CPU

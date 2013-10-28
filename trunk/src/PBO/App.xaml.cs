@@ -10,7 +10,6 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Markup;
 using System.Globalization;
-using PokemonBattleOnline.Tactic.Globalization;
 using PokemonBattleOnline.Game;
 using PokemonBattleOnline.Network;
 
@@ -23,15 +22,16 @@ namespace PokemonBattleOnline.PBO
   {
     private void Init()
     {
-      DataService.Load(new StringService() { Language = "Chinese" });
-      DataService.String.DefaultLanguage = "Chinese";
-      DataService.DataString.DefaultLanguage = "Chinese";
-      DataService.String.ReturnKeyOnFallback = true;
-      DataService.DataString.ReturnKeyOnFallback = true;
-      
-      GameDataService.Load("..\\res\\Data");
-      Data.TempLearnSet.Load("..\\res\\Data\\learnset\\temp.xml");
-      DataService.LoadUserData();
+      using (var pack = new ZipData("..\\res\\rom.zip"))
+      {
+        RomData.Load(pack, "/rom.xml");
+        LearnList.Load(pack, "/learnset");
+      }
+      ImageService.Load("..\\res\\image.zip");
+      GameString.Load("..\\res\\string", "zh", "en");
+      GameLogs.Load("..\\res\\string", "chinese");
+      UserData.Load("..\\MyPBO\\user.dat");
+      Config.Load("..\\MyPBO\\config.xml");
     }
     
     protected override void OnStartup(StartupEventArgs e)
@@ -42,7 +42,7 @@ namespace PokemonBattleOnline.PBO
       var font = new FontFamily("Microsoft YaHei");
       TextBlock.FontFamilyProperty.OverrideMetadata(typeof(TextBlock), new FrameworkPropertyMetadata(font));
       TextElement.FontFamilyProperty.OverrideMetadata(typeof(TextElement), new FrameworkPropertyMetadata(font));
-      UIDispatcher.Init(new WpfDispatcher(Application.Current.Dispatcher));
+      UIDispatcher.Init(Application.Current.Dispatcher);
       new MainWindow().Show();
       base.OnStartup(e);
     }
@@ -50,7 +50,6 @@ namespace PokemonBattleOnline.PBO
     {
       base.OnExit(e);
       PBOClient.Dispose();
-      GameDataService.Unload();
     }
   }
 }

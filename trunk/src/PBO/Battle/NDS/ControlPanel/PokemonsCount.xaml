@@ -1,0 +1,69 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DataTemplate x:Key="OBall">
+        <Image x:Name="img" Width="14" Height="14"/>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding}" Value="None">
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Balls/ONone.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Normal">
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Balls/ONormal.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Abnormal">
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Balls/OAbnormal.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Faint">
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Balls/OFaint.png"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+    <DataTemplate x:Key="RBall">
+        <Image x:Name="img" Width="7" Height="7"/>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding}" Value="None">
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Balls/RNone.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Normal">
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Balls/RNormal.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Abnormal">
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Balls/RAbnormal.png"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Faint">
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Balls/RFaint.png"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+    <DataTemplate x:Key="OBalls">
+        <StackPanel Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="ContentControl">
+                    <Setter Property="ContentTemplate" Value="{StaticResource OBall}"/>
+                    <Setter Property="Margin" Value="0,0,2,0"/>
+                </Style>
+            </StackPanel.Resources>
+            <ContentControl Content="{Binding [0]}"/>
+            <ContentControl Content="{Binding [1]}"/>
+            <ContentControl Content="{Binding [2]}"/>
+            <ContentControl Content="{Binding [3]}"/>
+            <ContentControl Content="{Binding [4]}"/>
+            <ContentControl Content="{Binding [5]}"/>
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="RBalls">
+        <StackPanel Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="ContentControl">
+                    <Setter Property="ContentTemplate" Value="{StaticResource RBall}"/>
+                    <Setter Property="Margin" Value="1,0,0,0"/>
+                </Style>
+            </StackPanel.Resources>
+            <ContentControl Content="{Binding [5]}"/>
+            <ContentControl Content="{Binding [4]}"/>
+            <ContentControl Content="{Binding [3]}"/>
+            <ContentControl Content="{Binding [2]}"/>
+            <ContentControl Content="{Binding [1]}"/>
+            <ContentControl Content="{Binding [0]}"/>
+        </StackPanel>
+    </DataTemplate>
+</ResourceDictionary>

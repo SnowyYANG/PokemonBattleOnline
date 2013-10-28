@@ -609,7 +609,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       OnboardPokemon.SetTurnCondition("UsedItem", Pokemon.Item);
       Tile.Field.SetCondition("UsedItem" + Id, Pokemon.Item);
-      if (Pokemon.Item.Type == ItemType.Berry) Tile.Field.SetCondition("UsedBerry" + Id, Pokemon.Item);
+      if (ITs.Berry(Pokemon.Item.Id)) Tile.Field.SetCondition("UsedBerry" + Id, Pokemon.Item);
       RemoveItem();
     }
     public bool CheckFaint()

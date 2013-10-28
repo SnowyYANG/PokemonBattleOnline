@@ -1,0 +1,9 @@
+﻿<Canvas x:Class="PokemonBattleOnline.PBO.Battle.LifeBarSimplified"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        IsHitTestVisible="False">
+    <Image Source="/PBO;component/images/LifeBar.png" Height="6" Width="64"/>
+    <Line X2="48" Canvas.Top="3" Canvas.Left="15" Stroke="Black" StrokeThickness="2" SnapsToDevicePixels="True"/>
+    <Line Name="u" Y1="2.5" Y2="2.5" StrokeThickness="1" Canvas.Left="15" SnapsToDevicePixels="True"/>
+    <Line Name="d" Y1="3.5" Y2="3.5" StrokeThickness="1" Canvas.Left="15" SnapsToDevicePixels="True"/>
+</Canvas>

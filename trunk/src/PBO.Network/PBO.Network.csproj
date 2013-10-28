@@ -71,7 +71,6 @@
     <Compile Include="Room\GameSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Room\GameStopReason.cs" />
-    <Compile Include="Room\IRoom.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PBO.Game\PBO.Game.csproj">

@@ -59,8 +59,14 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\build\dll\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -82,6 +88,30 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Editor\PokemonBank\PokemonIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Editor\PokemonBank\TeamView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LobbyPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Lobby\Chat.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Lobby\LobbyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Lobby\Login.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -93,6 +123,25 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Editor\PokemonBank\PokemonIcon.xaml.cs">
+      <DependentUpon>PokemonIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Editor\PokemonBank\TeamView.xaml.cs">
+      <DependentUpon>TeamView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LobbyPanel.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>LobbyPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Lobby\Chat.xaml.cs">
+      <DependentUpon>Chat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Lobby\LobbyView.xaml.cs">
+      <DependentUpon>LobbyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Lobby\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -102,26 +151,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PBO.Battle\PBO.Battle.csproj">
-      <Project>{95BB8D97-6B3B-419C-82BC-C2846C3A2DE4}</Project>
-      <Name>PBO.Battle</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\PBO.Editor\PBO.Editor.csproj">
-      <Project>{56AFF630-B134-4D70-9E77-DB87A598E805}</Project>
-      <Name>PBO.Editor</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\PBO.Lobby\PBO.Lobby.csproj">
-      <Project>{4C482289-194B-4E55-AD2F-EF8C7843052D}</Project>
-      <Name>PBO.Lobby</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\PBO.UIElements\PBO.UIElements.csproj">
-      <Project>{82A9B9C3-6FAF-48F2-89B7-CBCF7F2DE191}</Project>
-      <Name>PBO.UIElements</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\PBO.Game\PBO.Game.csproj">
       <Project>{5F1D7698-AD1E-462A-AEED-063BCB80DF89}</Project>
       <Name>PBO.Game</Name>
@@ -143,6 +172,325 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="client.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Elements\SBrushes.cs" />
+    <Compile Include="Battle\NDS\ControlPanel\Buttons\Buttons.cs" />
+    <Compile Include="Elements\Cartes\Cartes.cs" />
+    <Compile Include="Elements\Cartes\UserVM.cs" />
+    <Compile Include="Config.cs" />
+    <Compile Include="Elements\Controls\Controls.cs" />
+    <Compile Include="Elements\Controls\Command.cs" />
+    <Compile Include="Battle\NDS\LifeBars\LifeBarHelper.cs" />
+    <Compile Include="Battle\NDS\LifeBars\LifeBarWithText.xaml.cs">
+      <DependentUpon>LifeBarWithText.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Battle\NDS\LifeBars\LifeBarSimplified.xaml.cs">
+      <DependentUpon>LifeBarSimplified.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Elements\Controls\NumericUpdown.cs" />
+    <Compile Include="Elements\Controls\UIButton.cs" />
+    <Compile Include="Elements\Controls\UITextBox.cs" />
+    <Compile Include="Converters\BattleType.cs" />
+    <Compile Include="Converters\Converter.cs" />
+    <Compile Include="Converters\IntString.cs" />
+    <Compile Include="Converters\IdAvatar.cs" />
+    <Compile Include="Converters\PokemonIcon.cs" />
+    <Compile Include="Converters\MoveCategory.cs" />
+    <Compile Include="Converters\PP.cs" />
+    <Compile Include="Helper.cs" />
+    <Compile Include="ImageService.cs" />
+    <Compile Include="Elements\Labels\Labels.cs" />
+    <Compile Include="Elements\ShowMessageBox.cs" />
+    <Compile Include="Elements\Controls\ClearableComboBox.cs" />
+    <Page Include="Elements\Cartes\User.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Battle\NDS\LifeBars\LifeBarWithText.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Battle\NDS\LifeBars\LifeBarSimplified.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Elements\Controls\UITextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Elements\Controls\NumericUpdown.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Elements\Controls\ClearableComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Elements\Controls\Controls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Elements\Controls\UIButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Elements\Labels\Gender.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Elements\Labels\MultipliedValue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Battle\NDS\ControlPanel\Buttons\Colorful.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Battle\NDS\ControlPanel\Buttons\GameButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Battle\NDS\ControlPanel\Buttons\Move.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Battle\NDS\ControlPanel\Buttons\Pokemon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Battle\NDS\ControlPanel\Buttons\Text.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Elements\Cartes\Pokemon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Elements\Labels\Ability.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Elements\Labels\BattleType.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Elements\Labels\Item.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Elements\Labels\MoveCategory.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Elements\Labels\PokemonState.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Elements\Labels\Weather.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Battle\NDS\LifeBars\LifeBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="Battle\NDS\LifeBars\LifeBar.xaml.cs">
+      <DependentUpon>LifeBar.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Battle\BattleReport\BattleReport.Control.cs" />
+    <Compile Include="Battle\BattleReport\BattleReport.xaml.cs">
+      <DependentUpon>BattleReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Battle\BattleReport\BattleReportImplement.cs" />
+    <Compile Include="BattleWindow2D.xaml.cs">
+      <DependentUpon>BattleWindow2D.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Battle\NDS\Board2D\BattleField2D.xaml.cs">
+      <DependentUpon>BattleField2D.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Battle\NDS\Board2D\OPokemon2D.cs" />
+    <Compile Include="Battle\NDS\Board2D\Pokemon2DBase.cs" />
+    <Compile Include="Battle\NDS\Board2D\RPokemon2D.cs" />
+    <Compile Include="Battle\NDS\ControlPanel\BGBall.xaml.cs">
+      <DependentUpon>BGBall.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Battle\NDS\ControlPanel\ControlPanel.xaml.cs">
+      <DependentUpon>ControlPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Battle\NDS\NDS.xaml.cs">
+      <DependentUpon>NDS.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Battle\NDS\Board2D\Subtitle.Control.cs" />
+    <Compile Include="Battle\NDS\Board2D\Subtitle.xaml.cs">
+      <DependentUpon>Subtitle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Battle\BattleReport\StringBattleReport.cs" />
+    <Compile Include="Battle\NDS\ControlPanel\IControlPanel.cs" />
+    <Compile Include="Battle\NDS\ControlPanel\Singles.cs" />
+    <Compile Include="Battle\NDS\ControlPanel\TargetPanel.cs" />
+    <Page Include="Battle\BattleReport\BattleReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BattleWindow2D.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Battle\NDS\Board2D\BattleField2D.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Battle\NDS\ControlPanel\BGBall.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Battle\NDS\ControlPanel\ControlPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Battle\NDS\ControlPanel\Buttons\GameButtonResource.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Battle\NDS\NDS.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Battle\NDS\ControlPanel\PokemonsCount.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Battle\NDS\Board2D\StateBars.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Battle\NDS\Board2D\Subtitle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Editor\PokemonBank\ModelVMC.cs" />
+    <Compile Include="Editor\R.cs" />
+    <Compile Include="Editor\PokemonEditor\LearnMethod.cs" />
+    <Compile Include="Editor\PokemonBank\TeamVM.cs" />
+    <Page Include="EditorPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="Converters\IdMoveC.cs" />
+    <Compile Include="Editor\PokemonBank\BoxVM.cs" />
+    <Compile Include="Editor\PokemonEditor\PokemonEditorVM.cs" />
+    <Compile Include="Editor\PokemonEditor\PokemonEditorView.xaml.cs">
+      <DependentUpon>PokemonEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Editor\EditorVM.cs" />
+    <Compile Include="Editor\PokemonBank\CollectionVM.cs" />
+    <Compile Include="Editor\PokemonEditor\LearnVM.cs" />
+    <Compile Include="Editor\PokemonBank\RecyclerVM.cs" />
+    <Compile Include="Editor\PokemonBank\PokemonVM.cs" />
+    <Compile Include="EditorPanel.xaml.cs">
+      <DependentUpon>EditorPanel.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Editor\PokemonEditor\PokemonEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Editor\PokemonCollectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Editor\R.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Editor\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Editor\PokemonBank\BTVM.cs" />
+    <Compile Include="Editor\PokemonCollectionView.xaml.cs">
+      <DependentUpon>PokemonCollectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Editor\PokemonBank\GroupVM.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Lobby\R.cs" />
+    <Compile Include="Lobby\LobbyVM.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\item.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Weather\BG.png" />
+    <Resource Include="images\Weather\Border.png" />
+    <Resource Include="images\Weather\hailB.png" />
+    <Resource Include="images\Weather\hailF.png" />
+    <Resource Include="images\Weather\rainB.png" />
+    <Resource Include="images\Weather\rainF.png" />
+    <Resource Include="images\Weather\sand1.png" />
+    <Resource Include="images\Weather\sand2.png" />
+    <Resource Include="images\Weather\sunB.png" />
+    <Resource Include="images\Weather\sunF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\LifeBar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Labels\BRN.png" />
+    <Resource Include="images\Labels\female.png" />
+    <Resource Include="images\Labels\FRZ.png" />
+    <Resource Include="images\Labels\male.png" />
+    <Resource Include="images\Labels\Status.png" />
+    <Resource Include="images\Labels\PAR.png" />
+    <Resource Include="images\Labels\Physical.png" />
+    <Resource Include="images\Labels\PSN.png" />
+    <Resource Include="images\Labels\SLP.png" />
+    <Resource Include="images\Labels\Special.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\UI\ButtonBG.png" />
+    <Resource Include="images\UI\CarteBG.png" />
+    <Resource Include="images\UI\Settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Balls\CherishL15.png" />
+    <Resource Include="images\Balls\CherishOpen.png" />
+    <Resource Include="images\Balls\Dive.png" />
+    <Resource Include="images\Balls\DiveOpen.png" />
+    <Resource Include="images\Balls\Net.png" />
+    <Resource Include="images\Balls\NetOpen.png" />
+    <Resource Include="images\Balls\Normal.png" />
+    <Resource Include="images\Balls\NormalOpen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Labels\FNT.png" />
+    <Resource Include="images\Labels\bPSN.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Battle\OStateBar.png" />
+    <Resource Include="images\Battle\RStateBar.png" />
+    <Resource Include="images\Battle\path.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Battle\Balls\OAbnormal.png" />
+    <Resource Include="images\Battle\Balls\OFaint.png" />
+    <Resource Include="images\Battle\Balls\ONormal.png" />
+    <Resource Include="images\Battle\Balls\RAbnormal.png" />
+    <Resource Include="images\Battle\Balls\RFaint.png" />
+    <Resource Include="images\Battle\Balls\RNormal.png" />
+    <Resource Include="images\Battle\Balls\ONone.png" />
+    <Resource Include="images\Battle\Balls\RNone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Battle\VM\" />
+    <Folder Include="Editor\Converters\" />
+    <Folder Include="Lobby\VM\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
