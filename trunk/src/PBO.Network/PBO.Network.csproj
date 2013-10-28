@@ -57,7 +57,7 @@
     <Compile Include="Commands\Seat.cs" />
     <Compile Include="Commands\UserS2C.cs" />
     <Compile Include="Room\PlayerController.cs" />
-    <Compile Include="Lobby\RoomController.cs" />
+    <Compile Include="Room\RoomController.cs" />
     <Compile Include="Lobby\ClientController.cs" />
     <Compile Include="LoginClient.cs" />
     <Compile Include="Lobby\Room.cs" />

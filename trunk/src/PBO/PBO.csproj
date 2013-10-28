@@ -487,11 +487,7 @@
     <Resource Include="images\Battle\Balls\ONone.png" />
     <Resource Include="images\Battle\Balls\RNone.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Battle\VM\" />
-    <Folder Include="Editor\Converters\" />
-    <Folder Include="Lobby\VM\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
