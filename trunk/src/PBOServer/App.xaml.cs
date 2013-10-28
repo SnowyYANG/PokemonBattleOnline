@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Windows;
+using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.PBO.Server
 {
@@ -14,7 +15,12 @@ namespace PokemonBattleOnline.PBO.Server
   {
     protected override void OnStartup(StartupEventArgs e)
     {
-      UIDispatcher.Init(new WpfDispatcher(Application.Current.Dispatcher));
+      using (var pack = new ZipData("..\\res\\rom.zip"))
+      {
+        RomData.Load(pack, "/rom.xml");
+        LearnList.Load(pack, "/learnset");
+      }
+      UIDispatcher.Init(Application.Current.Dispatcher);
       base.OnStartup(e);
     }
   }

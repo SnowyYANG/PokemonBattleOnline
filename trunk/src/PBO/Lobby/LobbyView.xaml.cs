@@ -21,8 +21,6 @@ namespace PokemonBattleOnline.PBO.Lobby
   /// </summary>
   public partial class LobbyView : UserControl
   {
-    private LobbyVM vm;
-    
     public LobbyView()
     {
       InitializeComponent();
@@ -31,29 +29,28 @@ namespace PokemonBattleOnline.PBO.Lobby
 
     internal void Init(LobbyVM lobby)
     {
-      //if (lobby != null)
-      //{
-      //  vm = lobby;
-      //  DataContext = vm;
-      //  //PBOClient.Current.Challenged += (user, settings) =>
-      //  //  {
-      //  //    UIDispatcher.Invoke(()=>
-      //  //      new StartBattle(user, settings, true).Show());
-      //  //  };
-      //  chat.Init();
-      //}
-      //else //uninit
-      //{
-      //  vm = null;
-      //  DataContext = null;
-      //}
+      if (lobby != null)
+      {
+        vm = lobby;
+        DataContext = vm;
+        chat.Init();
+      }
+      else //uninit
+      {
+        vm = null;
+      }
     }
 
     private void PBOClient_CurrentChanged()
     {
       //already in lock
-      if (PBOClient.Current == null) MessageBox.Show("CurrentChanged.null");
-      else MessageBox.Show("CurrentChanged");
+      DataContext = null;
+      if (PBOClient.Current == null)
+      {
+      }
+      else
+      {
+      }
     }
 
     private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)

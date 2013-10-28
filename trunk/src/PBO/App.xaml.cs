@@ -50,6 +50,7 @@ namespace PokemonBattleOnline.PBO
     {
       base.OnExit(e);
       PBOClient.Dispose();
+      Config.Current.Save();
     }
   }
 }

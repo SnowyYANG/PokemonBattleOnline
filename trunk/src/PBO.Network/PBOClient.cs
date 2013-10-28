@@ -61,7 +61,7 @@ namespace PokemonBattleOnline.Network
           if (_current == null)
           {
             _current = value;
-            if (value != null) CurrentChanged();
+            if (value != null) UIDispatcher.Invoke(CurrentChanged);
           }
         }
       }

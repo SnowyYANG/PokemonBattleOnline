@@ -58,7 +58,7 @@ namespace PokemonBattleOnline.Network
     private void OnLoginFailed(Action raiseEvent)
     {
       TimeBomb.Dispose();
-      raiseEvent();
+      UIDispatcher.Invoke(raiseEvent);
       if (Network != null) Network.Dispose();
     }
 

@@ -12,7 +12,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
-using PokemonBattleOnline.Tactic.Network;
 using PokemonBattleOnline.Network;
 
 namespace PokemonBattleOnline.PBO.Server
@@ -23,7 +22,6 @@ namespace PokemonBattleOnline.PBO.Server
   public partial class MainWindow : Window
   {
     Network.Server server;
-    ObservableCollection<UserVM> users;
 
     public MainWindow()
     {
@@ -36,10 +34,8 @@ namespace PokemonBattleOnline.PBO.Server
     {
       try
       {
-        PBOServer.NewTcpServer(PBOMarks.DEFAULT_PORT);
+        PBOServer.NewServer(PBOMarks.DEFAULT_PORT);
         server = PBOServer.Current;
-        server.UsersUpdate += model_UserChanged;
-        //server.MessageBroadcast += model_MessageBroadcast;
         server.Start();
       }
       catch (Exception e)
@@ -48,8 +44,7 @@ namespace PokemonBattleOnline.PBO.Server
         return;
       }
       mask.Visibility = System.Windows.Visibility.Hidden;
-      users = new ObservableCollection<UserVM>();
-      usersView.ItemsSource = users;
+      usersView.ItemsSource = PBOServer.Current.State.Users;
     }
     private void StopServer()
     {
@@ -67,35 +62,35 @@ namespace PokemonBattleOnline.PBO.Server
       //mask.Visibility = System.Windows.Visibility.Visible;
     }
 
-    void model_UserChanged(User user)
-    {
-      ////thread
-      UIDispatcher.Invoke(() =>
-        {
-          if (user.State == UserState.Quited)
-          {
-            //users.Remove(user);
-            string x = "\n<SYSTEM> User" + user.Id;
-            if (user.Name != null) x += " " + user.Name;
-            chat.AppendText(x + " exits.");
-          }
-          else
-          {
-            UserVM uvm = new UserVM(user, true);
-            users.Add(uvm);
-            chat.AppendText("\n<SYSTEM> " + user.Name + " logs in, ID. " + user.Id);
-          }
-        });
-    }
-    void model_MessageBroadcast(int userId, string content)
-    {
-      //User u = server.GetUser(userId);
-      //WpfDispatcher.Invoke(() =>
-      //  {
-      //    if (u != null) chat.AppendText("\n" + u.Name + ": " + content);
-      //    else chat.AppendText("\n" + "[" + userId + "]" + ": " + content);
-      //  });
-    }
+    //void model_UserChanged(User user)
+    //{
+    //  ////thread
+    //  UIDispatcher.Invoke(() =>
+    //    {
+    //      if (user.State == UserState.Quited)
+    //      {
+    //        //users.Remove(user);
+    //        string x = "\n<SYSTEM> User" + user.Id;
+    //        if (user.Name != null) x += " " + user.Name;
+    //        chat.AppendText(x + " exits.");
+    //      }
+    //      else
+    //      {
+    //        UserVM uvm = new UserVM(user, true);
+    //        users.Add(uvm);
+    //        chat.AppendText("\n<SYSTEM> " + user.Name + " logs in, ID. " + user.Id);
+    //      }
+    //    });
+    //}
+    //void model_MessageBroadcast(int userId, string content)
+    //{
+    //  //User u = server.GetUser(userId);
+    //  //WpfDispatcher.Invoke(() =>
+    //  //  {
+    //  //    if (u != null) chat.AppendText("\n" + u.Name + ": " + content);
+    //  //    else chat.AppendText("\n" + "[" + userId + "]" + ": " + content);
+    //  //  });
+    //}
 
     protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
     {

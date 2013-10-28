@@ -177,7 +177,6 @@
     <Compile Include="Elements\SBrushes.cs" />
     <Compile Include="Battle\NDS\ControlPanel\Buttons\Buttons.cs" />
     <Compile Include="Elements\Cartes\Cartes.cs" />
-    <Compile Include="Elements\Cartes\UserVM.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Elements\Controls\Controls.cs" />
     <Compile Include="Elements\Controls\Command.cs" />
@@ -421,7 +420,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Lobby\R.cs" />
-    <Compile Include="Lobby\LobbyVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\item.png" />

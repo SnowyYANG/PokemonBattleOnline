@@ -44,14 +44,31 @@ namespace PokemonBattleOnline.PBO
       }
       set { _pokemonNumber = value; }
     }
+    
     [DataMember(EmitDefaultValue = false)]
     public int PokemonForm;
+    
     [DataMember(EmitDefaultValue = false)]
     public string Server;
+
     [DataMember(EmitDefaultValue = false)]
     public string Name;
+
+    private int _avatar;
     [DataMember(EmitDefaultValue = false)]
-    public int Avatar;
+    public int Avatar
+    {
+      get
+      {
+        if (_avatar == 0)
+        {
+          _avatar = new Random().Next(651, 868);
+          if (_avatar == 790 || _avatar == 856 || _avatar == 857 || _avatar == 858) _avatar = 821;
+        }
+        return _avatar;
+      }
+      set { _avatar = value; }
+    }
 
     private Config()
     {

@@ -21,12 +21,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="71"/>
                     <RowDefinition Height="40"/>
-                    <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
                 <ContentPresenter x:Name="avatar" MouseDown="avatar_MouseDown" ToolTip="点击选择头像..." Cursor="Hand" ContentTemplate="{x:Static ui:Cartes.Avatar}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,2,0,0"/>
                 <TextBox Name="name" VerticalAlignment="Top" Margin="70,24,3,0" BorderThickness="0,0,0,1" FontSize="16" Background="{x:Null}" HorizontalContentAlignment="Center"/>
                 <TextBlock Text="{x:Static l:R.Username}" IsHitTestVisible="False" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="70,24,3,0" Foreground="Gray">
@@ -45,17 +40,6 @@
                 <ComboBox Name="servers" Grid.Row="1" Margin="50,0,0,0" IsEditable="True" FontFamily="Microsoft YaHei" HorizontalAlignment="Right" VerticalContentAlignment="Center" BorderThickness="0" Background="{x:Null}">
                     <ComboBoxItem Content="127.0.0.1" IsSelected="True"/>
                 </ComboBox>
-                <Grid Grid.Row="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Button Content="等待私连"/>
-                    <Button Content="私连至" Grid.Column="1" HorizontalContentAlignment="Left"/>
-                    <ComboBox Name="hosts" Grid.Column="1" Margin="50,0,0,0" IsEditable="True" FontFamily="Microsoft YaHei" HorizontalAlignment="Right" VerticalContentAlignment="Center" BorderThickness="0" Background="{x:Null}">
-                        <ComboBoxItem Content="127.0.0.1" IsSelected="True"/>
-                    </ComboBox>
-                </Grid>
             </Grid>
         </Border>
         <ListBox x:Name="avs" Visibility="Collapsed" SelectionChanged="avs_SelectionChanged" Background="{x:Null}" BorderThickness="0" SelectedItem="{Binding ElementName=avatar,Path=Content}" ItemsSource="{x:Static c:IdAvatar.Avatars}" ItemTemplate="{x:Static ui:Cartes.Avatar}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
