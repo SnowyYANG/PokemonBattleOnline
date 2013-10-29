@@ -24,11 +24,11 @@ namespace PokemonBattleOnline.Game.Host
       Player p = Controller.GetPlayer(tile);
       return tile.Pokemon == null &&
         (p.PmsAlive > GameSettings.Mode.OnboardPokemonsPerPlayer() ||
-        (p.PmsAlive == GameSettings.Mode.OnboardPokemonsPerPlayer() && p.GetPokemon(GameSettings.Mode.GetPokemonIndex(tile.X)).Hp.Value == 0));
+        (p.PmsAlive == GameSettings.Mode.OnboardPokemonsPerPlayer() && p.GetPokemon(GameSettings.Mode.GetPokemonIndex(tile.X)).Hp == 0));
     }
     public bool CanSendout(Pokemon pokemon)
     {
-      return pokemon != null && pokemon.Hp.Value > 0 && pokemon.IndexInOwner >= GameSettings.Mode.OnboardPokemonsPerPlayer();
+      return pokemon != null && pokemon.Hp > 0 && pokemon.IndexInOwner >= GameSettings.Mode.OnboardPokemonsPerPlayer();
     }
 
     public bool Withdraw(PokemonProxy pm, string log, bool canPursuit)

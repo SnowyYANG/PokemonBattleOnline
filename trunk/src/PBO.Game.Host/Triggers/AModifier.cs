@@ -49,7 +49,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (aer.Controller.Weather == Weather.IntenseSunlight && cat == MoveCategory.Special) m *= 0x1800;
           break;
         case As.DEFEATIST:
-          if (aer.Hp * 2 < aer.Pokemon.Hp.Origin) m *= 0x800;
+          if (aer.Hp * 2 < aer.Pokemon.MaxHp) m *= 0x800;
           break;
       }
       
@@ -104,7 +104,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static Modifier One3rdHp(AtkContext atk, BattleType type)
     {
-      return (Modifier)(atk.Type == type && atk.Attacker.Hp * 3 <= atk.Attacker.Pokemon.Hp.Origin ? 0x1800 : 0x1000);
+      return (Modifier)(atk.Type == type && atk.Attacker.Hp * 3 <= atk.Attacker.Pokemon.MaxHp ? 0x1800 : 0x1000);
     }
   }
 }

@@ -14,7 +14,7 @@ namespace PokemonBattleOnline.Network
     internal PlayerController(RoomController room, IPokemonData[] pokemons, IPokemonData[] parner)
     {
       Client = room.Client;
-      _game = new SimGame(room.Room.Settings, new SimPlayer(room.User.Id, room.User.Seat.TeamId(), room.User.Seat.TeamIndex(), pokemons), parner);
+      _game = new SimGame(room.Room.Settings, new SimPlayer(room.User.Seat.TeamId(), room.User.Seat.TeamIndex(), pokemons), parner);
     }
 
     public SimPlayer Player

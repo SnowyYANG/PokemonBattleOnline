@@ -135,12 +135,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         pm.AddReportPm("Endure");
         return true;
       }
-      if (pm.Hp == pm.Pokemon.Hp.Origin && pm.RaiseAbility(As.STURDY))
+      if (pm.Hp == pm.Pokemon.MaxHp && pm.RaiseAbility(As.STURDY))
       {
         pm.AddReportPm("Endure");
         return true;
       }
-      if ((pm.Item == Is.FOCUS_BAND && pm.Controller.OneNth(10)) || (pm.Item == Is.FOCUS_SASH && pm.Hp == pm.Pokemon.Hp.Origin))
+      if ((pm.Item == Is.FOCUS_BAND && pm.Controller.OneNth(10)) || (pm.Item == Is.FOCUS_SASH && pm.Hp == pm.Pokemon.MaxHp))
       {
         pm.RaiseItem("FocusItem", pm.Pokemon.Item.Id == Is.FOCUS_SASH);
         return true;
@@ -390,7 +390,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.STEALTH_ROCK:
           int revise = BattleType.Rock.EffectRevise(pm.OnboardPokemon.Type1) + BattleType.Rock.EffectRevise(pm.OnboardPokemon.Type2);//羽栖有效无效都无所谓
-          int hp = (revise > 0 ? pm.Pokemon.Hp.Origin << revise : pm.Pokemon.Hp.Origin >> -revise) >> 3;
+          int hp = (revise > 0 ? pm.Pokemon.MaxHp << revise : pm.Pokemon.MaxHp >> -revise) >> 3;
           if (pm.CanEffectHurt) pm.EffectHurt(hp, "StealthRock");
           break;
       }

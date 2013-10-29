@@ -47,7 +47,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.ERUPTION: //284
         case Ms.WATER_SPOUT: //323
-          def.BasePower = 150 * aer.Hp / aer.Pokemon.Hp.Origin;
+          def.BasePower = 150 * aer.Hp / aer.Pokemon.MaxHp;
           break;
         case Ms.WEATHER_BALL: //311
           def.BasePower = der.Controller.Weather == Weather.Normal ? 50 : 100;
@@ -72,7 +72,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.WRING_OUT: //378
         case Ms.CRUSH_GRIP: //462
-          def.BasePower = 120 * der.Hp / der.Pokemon.Hp.Origin;
+          def.BasePower = 120 * der.Hp / der.Pokemon.MaxHp;
           break;
         case Ms.PUNISHMENT: //386
           SLevel(def, 60);
@@ -190,7 +190,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
 
     private static void Flail(DefContext def)
     {
-      int pwd = def.AtkContext.Attacker.Hp * 48 / def.AtkContext.Attacker.Pokemon.Hp.Origin;
+      int pwd = def.AtkContext.Attacker.Hp * 48 / def.AtkContext.Attacker.Pokemon.MaxHp;
 
       if (pwd == 1) def.BasePower = 200;
       else if (pwd <= 4) def.BasePower = 150;

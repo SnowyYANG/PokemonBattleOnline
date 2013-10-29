@@ -71,7 +71,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         var der = def.Defender;
         der.RaiseAbility();
-        if (der.Hp == der.Pokemon.Hp.Origin) der.AddReportPm("NoEffect");
+        if (der.Hp == der.Pokemon.MaxHp) der.AddReportPm("NoEffect");
         else der.HpRecoverByOneNth(4);
         return false;
       }

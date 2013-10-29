@@ -7,7 +7,7 @@ namespace PokemonBattleOnline.Game.Host
 {
   internal class Controller : IDisposable
   {
-    public event Action<ReportFragment, IDictionary<int, InputRequest>> GameUpdated;
+    public event Action<ReportFragment, InputRequest[,]> GameUpdated;
 
     public readonly ReportBuilder ReportBuilder;
     public readonly IGameSettings GameSettings;
@@ -24,15 +24,24 @@ namespace PokemonBattleOnline.Game.Host
     private Random randomSeeds;
 #endif
 
-    internal Controller(IGameSettings gameSettings, Team[] teams)
+    internal Controller(IGameSettings settings, IPokemonData[,][] pms)
     {
-      Teams = teams;
-      GameSettings = gameSettings;
+      GameSettings = settings;
       Board = new Board(GameSettings);
       pokemons = new Dictionary<int, PokemonProxy>();
-      foreach (Team t in teams)
-        foreach(var pl in t.Players)
-          foreach (Pokemon p in pl.Pokemons) pokemons.Add(p.Id, new PokemonProxy(this, p));
+
+      Teams = new Team[settings.Mode.TeamCount()];
+      for (int t = 0; t < Teams.Length; ++t)
+      {
+        var players = new Player[settings.Mode.PlayersPerTeam()];
+        for (int p = 0; p < settings.Mode.PlayersPerTeam(); ++p)
+        {
+          var pl = new Player(this, t, p, pms[t, p]);
+          players[p] = pl;
+          foreach (Pokemon pm in pl.Pokemons) pokemons.Add(pm.Id, new PokemonProxy(this, pm));
+        }
+        Teams[t] = new Team(t, players, settings);
+      }
 
       ReportBuilder = new ReportBuilder(this);
       SwitchController = new SwitchController(this);
@@ -44,7 +53,7 @@ namespace PokemonBattleOnline.Game.Host
 #else
       random = new Random();
 #endif
-      Timer = new GoTimer(teams[0].Players.Concat(teams[1].Players).Select((p) => p.Id));
+      Timer = new GoTimer(Teams[0].Players.Concat(Teams[1].Players).ToArray());
       Timer.Start();
     }
 
@@ -149,9 +158,9 @@ namespace PokemonBattleOnline.Game.Host
     #endregion
 
     #region Input
-    internal bool CheckInputSucceed(Player player)
+    internal bool CheckInputSucceed(int teamId, int teamIndex)
     {
-      return InputController.CheckInputSucceed(player);
+      return InputController.CheckInputSucceed(Teams[teamId].GetPlayer(teamIndex));
     }
     private Tile SingleSendout;
     public void PauseForSendoutInput(Tile tile) //逃生按钮、追击死亡
@@ -180,8 +189,14 @@ namespace PokemonBattleOnline.Game.Host
         random = new Random();
 #endif
         ReportBuilder.NewFragment();
-        GameUpdated(ReportBuilder.GetFragment(), InputController.InputRequirements);
-        Timer.Resume(InputController.InputRequirements.Keys);
+        var r = InputController.InputRequirements;
+        GameUpdated(ReportBuilder.GetFragment(), r);
+        var players = new List<Player>();
+        if (r[0, 0] != null) players.Add(Teams[0].GetPlayer(0));
+        if (r[0, 1] != null) players.Add(Teams[0].GetPlayer(1));
+        if (r[1, 0] != null) players.Add(Teams[1].GetPlayer(0));
+        if (r[1, 1] != null) players.Add(Teams[1].GetPlayer(1));
+        Timer.Resume(players);
       }
     }
     internal bool InputSendout(Tile tile, int sendoutIndex)

@@ -11,13 +11,11 @@ namespace PokemonBattleOnline.Game.Host
   /// </summary>
   public class InitingGame
   {
-    private readonly int[,] playerIds;
     private readonly IPokemonData[,][] pokemons;
 
     public InitingGame(IGameSettings settings)
     {
       _settings = settings;
-      playerIds = new int[settings.Mode.TeamCount(), settings.Mode.PlayersPerTeam()];
       pokemons = new IPokemonData[settings.Mode.TeamCount(), settings.Mode.PlayersPerTeam()][];
     }
 
@@ -28,8 +26,8 @@ namespace PokemonBattleOnline.Game.Host
     { 
       get
       { 
-        foreach (var i in playerIds)
-          if (i == 0) return false;
+        foreach (var p in pokemons)
+          if (p == null) return false;
         return true;
       }
     }
@@ -38,14 +36,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (CanComplete)
       {
-        var teams = new Team[Settings.Mode.TeamCount()];
-        for (int t = 0; t < teams.Length; ++t)
-        {
-          var players = new Player[Settings.Mode.PlayersPerTeam()];
-          for (int p = 0; p < Settings.Mode.PlayersPerTeam(); ++p) players[p] = new Player(playerIds[t, p], t, p, pokemons[t, p]);
-          teams[t] = new Team(t, players, Settings);
-        }
-        var game = new GameContext(Settings, teams);
+        var game = new GameContext(Settings, pokemons);
         return game;
       }
       return null;
@@ -58,16 +49,14 @@ namespace PokemonBattleOnline.Game.Host
     {
       return pokemons != null && pokemons.Any() && pokemons.Length <= 6 && pokemons.All(CheckPokemon); //TODO: more
     }
-    public bool Prepare(int userId, int teamId, int teamIndex, IPokemonData[] pms)
+    public bool Prepare(int teamId, int teamIndex, IPokemonData[] pms)
     {
       if (
-        playerIds[teamId, teamIndex] == 0 &&
         CheckPokemons(pms) &&
         0 <= teamId && teamId < Settings.Mode.TeamCount() &&
         0 <= teamIndex && teamIndex < Settings.Mode.PlayersPerTeam()
          )
       {
-        playerIds[teamId, teamIndex] = userId;
         pokemons[teamId, teamIndex] = pms;
         return true;
       }
@@ -75,11 +64,11 @@ namespace PokemonBattleOnline.Game.Host
     }
     public void UnPrepare(int teamId, int teamIndex)
     {
-      playerIds[teamId, teamIndex] = 0;
+      pokemons[teamId, teamIndex] = null;
     }
     public IPokemonData[] GetPokemons(int teamId, int teamIndex)
     {
-      return playerIds[teamId, teamIndex] == 0 ? null : pokemons[teamId, teamIndex];
+      return pokemons[teamId, teamIndex];
     }
   }
 }

@@ -187,9 +187,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var aer = def.AtkContext.Attacker;
       if (def.AtkContext.Move.Category == category && aer.CanEffectHurt)
       {
-        int hp = aer.Pokemon.Hp.Origin >> 3;
+        int hp = aer.Pokemon.MaxHp >> 3;
         if (hp == 0) hp = 1;
-        aer.Pokemon.SetHp(aer.Hp - hp);
+        aer.Pokemon.Hp -= hp;
         aer.AddReportPm("ReHurtItem", def.Defender, def.Defender.Pokemon.Item.Id);
         aer.Controller.ReportBuilder.ShowHp(aer);
       }

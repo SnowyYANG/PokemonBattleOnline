@@ -25,28 +25,23 @@ namespace PokemonBattleOnline.Game
     public readonly IGameSettings Settings;
     public readonly BoardOutward Board;
     public readonly TeamOutward[] Teams;
-    private readonly Dictionary<int, PlayerOutward> players;
-    private readonly string[] teams;
+    private readonly string[, ] Players;
     private readonly Collection<IGameOutwardEvents> listeners;
 
-    public GameOutward(IGameSettings settings, IDictionary<int, string> players, string[] teams)
+    public GameOutward(IGameSettings settings, string[,] players)
     {
       Settings = settings;
       Board = new BoardOutward(Settings);
       Teams = new TeamOutward[Settings.Mode.TeamCount()];
-      {
-        this.players = new Dictionary<int, PlayerOutward>();
-        foreach (var p in players) this.players.Add(p.Key, new PlayerOutward(p.Key, p.Value));
-      }
-      this.teams = teams;
+      Players = players;
       listeners = new Collection<IGameOutwardEvents>();
     }
     public int TurnNumber
     { get; set; }
 
-    public PlayerOutward GetPlayer(int id)
+    public string GetPlayerName(int team, int index)
     {
-      return players.ValueOrDefault(id);
+      return Players[team, index];
     }
     public PokemonOutward GetPokemon(int id)
     {
@@ -70,7 +65,7 @@ namespace PokemonBattleOnline.Game
       TurnNumber = fragment.TurnNumber;
       for (int t = 0; t < Settings.Mode.TeamCount(); t++)
       {
-        Teams[t] = fragment.Teams[t];
+        Teams[t] = new TeamOutward(Players[t, 0], fragment.Teams[t]);
         for (int x = 0; x < Settings.Mode.XBound(); x++) Board[t, x] = fragment[t, x];
         Board.Weather = fragment.Weather;
       }
@@ -137,7 +132,7 @@ namespace PokemonBattleOnline.Game
             case "p":
               {
                 var pm = GetPokemon(id);
-                if (pm != null) r = string.Format(GameString.Current.BattleLog("OwnersPokemon"), pm.Owner.Name, pm.Name);
+                if (pm != null) r = string.Format(GameString.Current.BattleLog("OwnersPokemon"), pm.Owner, pm.Name);
               }
               break;
             case "m":
@@ -150,7 +145,7 @@ namespace PokemonBattleOnline.Game
               r = GameString.Current.Item(id);
               break;
             case "t":
-              r = teams[id];
+              r = Teams[id].Name;
               break;
             default:
               if (format != null && format.StartsWith("pm."))

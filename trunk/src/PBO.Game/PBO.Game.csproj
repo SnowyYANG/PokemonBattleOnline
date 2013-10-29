@@ -57,7 +57,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client\PlayerOutward.cs" />
     <Compile Include="Client\SimPlayer.cs" />
     <Compile Include="Client\SimPokemon.cs" />
     <Compile Include="Client\Position.cs" />

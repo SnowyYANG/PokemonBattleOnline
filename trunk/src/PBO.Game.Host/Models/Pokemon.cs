@@ -7,14 +7,16 @@ using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Game.Host
 {
-  public class Pokemon
+  internal class Pokemon
   {
+    public readonly Controller Controller;
     public readonly int Id;
     public readonly Player Owner;
     public readonly int TeamId;
 
     #region data
-    internal readonly int AbilityIndex;
+    public readonly int MaxHp;
+    public readonly int AbilityIndex;
     public readonly I6D Iv;
     public readonly I6D Ev;
     public readonly string Chatter;
@@ -27,8 +29,9 @@ namespace PokemonBattleOnline.Game.Host
     public readonly PokemonNature Nature;
     #endregion
 
-    internal Pokemon(int id, Player owner, IPokemonData custom)
+    internal Pokemon(Controller controller, int id, Player owner, IPokemonData custom)
     {
+      Controller = controller;
       Id = id;
       Owner = owner;
       TeamId = owner.TeamId;
@@ -47,31 +50,50 @@ namespace PokemonBattleOnline.Game.Host
       Chatter = custom.Chatter;
       {
         int h = PokemonStatHelper.GetHp(custom.Form.Data.Base.Hp, (byte)Iv.Hp, (byte)Ev.Hp, (byte)Lv);
-        _hp = new PairValue(h);
+        MaxHp = h;
+        Hp = h;
       }
     }
 
     public PokemonForm Form; //shaymi
     public Item Item;
-    public PokemonState State;
+    private PokemonState _state;
+    public PokemonState State
+    {
+      get { return _state; }
+      set
+      {
+        if (_state != value)
+        {
+          _state = value;
+          if (value != PokemonState.Faint) Controller.ReportBuilder.SetState(this);
+        }
+      }
+    }
     public bool Shiny
     { get; internal set; }
 
     public int IndexInOwner
     { get { return Owner.GetPokemonIndex(Id); } }
-    private PairValue _hp;
-    public IPairValue Hp
-    { get { return _hp; } }
+    private int _hp;
+    public int Hp
+    { 
+      get { return _hp; }
+      set
+      {
+        if (_hp != value)
+        {
+          if (value < 0) value = 0;
+          else if (value > MaxHp) value = MaxHp;
+          _hp = value;
+          Controller.ReportBuilder.SetHp(this);
+        }
+      }
+    }
 
     private int Get5D(StatType type)
     {
       return PokemonStatHelper.Get5D(type, Nature, Form.Data.Base.GetStat(type), (byte)Iv.GetStat(type), (byte)Ev.GetStat(type), (byte)Lv);
-    }
-    public void SetHp(int value)
-    {
-      if (value < 0) value = 0;
-      else if (value > Hp.Origin) value = Hp.Origin;
-      _hp.Value = value;
     }
   }
 }

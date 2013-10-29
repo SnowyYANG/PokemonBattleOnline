@@ -6,27 +6,27 @@ using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Game.Host
 {
-  public class Player
+  internal class Player
   {
-    public readonly int Id;
     public readonly int TeamId;
-    public readonly int IndexInTeam;
+    public readonly int TeamIndex;
 
-    internal Player(int userId, int team, int indexInTeam, IPokemonData[] pokemons)
+    public Player(Controller controller, int teamId, int teamIndex, IPokemonData[] pokemons)
     {
-      Id = userId;
-      TeamId = team;
-      IndexInTeam = indexInTeam;
+      TeamId = teamId;
+      TeamIndex = teamIndex;
       _pokemons = new Pokemon[pokemons.Length];
       for (int i = 0; i < pokemons.Length; i++)
-        _pokemons[i] = new Pokemon(team * 50 + indexInTeam * 10 + i, this, pokemons[i]);
+        _pokemons[i] = new Pokemon(controller, teamId * 50 + teamIndex * 10 + i, this, pokemons[i]);
     }
 
     private readonly Pokemon[] _pokemons;
     public IEnumerable<Pokemon> Pokemons
     { get { return _pokemons; } }
     public int PmsAlive
-    { get { return _pokemons.Count((pm) => pm.Hp.Value > 0); } }
+    { get { return _pokemons.Count((pm) => pm.Hp > 0); } }
+    public bool Timing;
+    public int SpentTime;
 
     public Pokemon GetPokemon(int pmIndex)
     {

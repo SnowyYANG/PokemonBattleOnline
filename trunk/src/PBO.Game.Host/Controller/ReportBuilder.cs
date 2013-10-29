@@ -33,7 +33,7 @@ namespace PokemonBattleOnline.Game.Host
         else lastFragment = lastLeapFragment.NonLeap();
       }
 
-      TeamOutward[] t = new TeamOutward[Controller.Board.TeamCount];
+      BallState[][] t = new BallState[Controller.Board.TeamCount][];
       for (int i = 0; i < t.Length; i++) t[i] = Controller.Teams[i].GetOutward();
       List<PokemonOutward> pms = new List<PokemonOutward>();
       {
@@ -101,7 +101,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public void SetHp(Pokemon pm)
     {
-      Add(new SetHp() { Pm = pm.Id, Hp = pm.Hp.Value });
+      Add(new SetHp() { Pm = pm.Id, Hp = pm.Hp });
     }
     public void ShowHp(PokemonProxy pm)
     {

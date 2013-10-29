@@ -42,7 +42,7 @@ namespace PokemonBattleOnline.Game.Host
     public int Id
     { get { return Pokemon.Id; } }
     public int Hp
-    { get { return Pokemon.Hp.Value; } }
+    { get { return Pokemon.Hp; } }
     public PokemonState State
     { get { return Pokemon.State; } }
     public MoveProxy SelectedMove //先取
@@ -140,7 +140,7 @@ namespace PokemonBattleOnline.Game.Host
     public bool CanHpRecover(bool showFail = false)
     {
       if (OnboardPokemon == NullOnboardPokemon || Hp == 0) return false;
-      if (Hp == Pokemon.Hp.Origin)
+      if (Hp == Pokemon.MaxHp)
       {
         if (showFail) AddReportPm("FullHp");
         return false;
@@ -488,34 +488,24 @@ namespace PokemonBattleOnline.Game.Host
           break;
       } //switch(Action)
     }
+    private PokemonOutward outward;
     internal PokemonOutward GetOutward()
     {
-      throw new NotImplementedException();
-      //var po = new PokemonOutward(Id, Pokemon.Owner.Id);
-      //_position = new Position(Pokemon.TeamId, OnboardPokemon.X, OnboardPokemon.CoordY);
-      //po.State = State;
-      //po.IsSubstitute = OnboardPokemon.HasCondition("Substitute");
-      //po.Hp = new PairValue(Pokemon.Hp.Origin, Pokemon.Hp.Value);
-      //po.Lv = Pokemon.Lv;
-
-      //Pokemon o = OnboardPokemon.GetCondition<Pokemon>("Illusion");
-      //if (o == null)
-      //{
-      //  Name = Pokemon.Name;
-      //  Form = OnboardPokemon.Form;
-      //  Gender = Pokemon.Gender;//即使对战画面中不显示性别，实际性别也与变身对象一致，可以被着迷。 
-      //  Chatter = Pokemon.Chatter;
-      //  Shiny = Pokemon.Shiny;
-      //}
-      //else
-      //{
-      //  Name = o.Name;
-      //  Form = o.Form;
-      //  Gender = o.Gender;
-      //  Chatter = o.Chatter;
-      //  Shiny = o.Shiny;
-      //}
-      //return po;
+      if (outward == null) outward = new PokemonOutward(Id, Pokemon.TeamId, Pokemon.MaxHp);
+      Pokemon o = OnboardPokemon.GetCondition<Pokemon>("Illusion");
+      var form = o == null ? OnboardPokemon.Form : o.Form;
+      if (o == null) o = Pokemon;
+      var name = o.Name;
+      var gender = o.Gender;//即使对战画面中不显示性别，实际性别也与变身对象一致，可以被着迷。
+      var lv = Pokemon.Lv;
+      var chatter = o.Chatter;
+      var shiny = o.Shiny;
+      var position = new Position(Pokemon.TeamId, OnboardPokemon.X, OnboardPokemon.CoordY);
+      var substitute = OnboardPokemon.HasCondition("Substitute");
+      var hp = Pokemon.Hp;
+      var state = State;
+      outward.SetAll(name, form, gender, lv, position, substitute, hp, state, shiny, chatter);
+      return outward;
     }
     #endregion
     #endregion
@@ -523,8 +513,7 @@ namespace PokemonBattleOnline.Game.Host
     #region ChangeHp
     public void Faint()
     {
-      Pokemon.SetHp(0);
-      Controller.ReportBuilder.SetHp(Pokemon);
+      Pokemon.Hp = 0;
       CheckFaint();
     }
     public int MoveHurt(int damage)
@@ -535,11 +524,11 @@ namespace PokemonBattleOnline.Game.Host
         if (STs.Remaining1HP(this))
         {
           damage--;
-          Pokemon.SetHp(1);
+          Pokemon.Hp = 1;
         }
-        else Pokemon.SetHp(0);
+        else Pokemon.Hp = 0;
       }
-      else Pokemon.SetHp(Hp - damage);
+      else Pokemon.Hp -= damage;
       if (damage != 0) OnboardPokemon.SetTurnCondition("Assurance");
       return damage;
     }
@@ -567,14 +556,14 @@ namespace PokemonBattleOnline.Game.Host
       {
         if (consumeItem) ConsumeItem();
         if (changeHp == 0) changeHp = 1;
-        Pokemon.SetHp(Hp + changeHp);
+        Pokemon.Hp += changeHp;
         AddReportPm(log, arg1);
         Controller.ReportBuilder.ShowHp(this);
       }
     }
     public void HpRecoverByOneNth(int n, bool showFail = false, string log = "HpRecover", int arg1 = 0, bool consumeItem = false)
     {
-      int hp = Pokemon.Hp.Origin / n;
+      int hp = Pokemon.MaxHp / n;
       HpRecover(hp, showFail, log, arg1, consumeItem);
     }
     public void EffectHurt(int changeHp, string logKey = "Hurt", int arg1 = 0, int arg2 = 0)
@@ -582,7 +571,7 @@ namespace PokemonBattleOnline.Game.Host
       if (CanEffectHurt)
       {
         if (changeHp == 0) changeHp = 1;
-        Pokemon.SetHp(Hp - changeHp);
+        Pokemon.Hp -= changeHp;
         AddReportPm(logKey, arg1, arg2);
         Controller.ReportBuilder.ShowHp(this);
         HpChanged.Execute(this);
@@ -591,7 +580,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public void EffectHurtByOneNth(int n, string logKey = "Hurt", int arg1 = 0, int arg2 = 0)
     {
-      int hp = Pokemon.Hp.Origin / n;
+      int hp = Pokemon.MaxHp / n;
       EffectHurt(hp, logKey, arg1, arg2);
     }
     #endregion

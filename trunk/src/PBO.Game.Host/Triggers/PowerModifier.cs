@@ -206,7 +206,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (atk.Attacker.State != PokemonState.Normal && atk.Attacker.State != PokemonState.FRZ) m = 0x2000;
           break;
         case Ms.BRINE: //362
-          if (der.Hp << 1 <= der.Pokemon.Hp.Origin) m = 0x2000;
+          if (der.Hp << 1 <= der.Pokemon.MaxHp) m = 0x2000;
           break;
         case Ms.VENOSHOCK: //474
           if (atk.Attacker.State == PokemonState.PSN && atk.Attacker.State == PokemonState.BadlyPSN) m = 0x2000;

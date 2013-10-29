@@ -42,7 +42,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             }
             return true;
           case Ms.REST: //156
-            if (aer.Hp == aer.Pokemon.Hp.Origin)
+            if (aer.Hp == aer.Pokemon.MaxHp)
             {
               atk.FailAll("FullHp", aer.Id);
               return false;

@@ -27,7 +27,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         //multiscale tinedlens friendguard sniper filter solidrock
         int aa = def.AtkContext.Attacker.Ability, da = def.Ability;
         //If the target's ability is Multiscale and the target is at full health.
-        m *= (Modifier)(da == As.MULTISCALE && der.Hp == der.Pokemon.Hp.Origin ? 0x800 : 0x1000);
+        m *= (Modifier)(da == As.MULTISCALE && der.Hp == der.Pokemon.MaxHp ? 0x800 : 0x1000);
         //If the user's ability is Tinted Lens and the move wasn't very effective.
         if (def.EffectRevise < 0 && aa == As.TINTED_LENS) m *= 0x2000;
         //If one of the target's allies' ability is Friend Guard.

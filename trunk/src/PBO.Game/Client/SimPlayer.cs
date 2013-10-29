@@ -8,11 +8,8 @@ namespace PokemonBattleOnline.Game
 {
   public class SimPlayer
   {
-    public readonly int Id;
-
-    public SimPlayer(int userId, int team, int indexInTeam, IPokemonData[] pokemons)
+    public SimPlayer(int team, int indexInTeam, IPokemonData[] pokemons)
     {
-      Id = userId;
       Team = team;
       TeamIndex = indexInTeam;
       _pokemons = new SimPokemon[pokemons.Length];

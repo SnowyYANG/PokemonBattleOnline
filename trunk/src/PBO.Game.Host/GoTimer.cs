@@ -6,54 +6,46 @@ using System.Threading;
 
 namespace PokemonBattleOnline.Game.Host
 {
-  public class GoTimer : IDisposable
+  internal class GoTimer : IDisposable
   {
-    public event Action<IEnumerable<KeyValuePair<int, int>>> TimeUp;
-    public event Action<IEnumerable<int>> WaitingNotify;
+    public event Action<int[,]> TimeUp;
+    public event Action<bool[,]> WaitingNotify;
     private readonly Timer timer;
-    private readonly Dictionary<int, Player> players;
+    private readonly IEnumerable<Player> Players;
     private readonly object Locker;
 
-    internal GoTimer(IEnumerable<int> players)
+    internal GoTimer(IEnumerable<Player> players)
     {
       Locker = new object();
       timer = new Timer(TimeTick, null, Timeout.Infinite, 1000);
-      this.players = new Dictionary<int, Player>();
-      foreach (int p in players) this.players.Add(p, new Player());
+      Players = players;
     }
 
     public void Start()
     {
       timer.Change(0, 1000);
     }
-    public int GetState(int player)
-    {
-      lock (Locker)
-      {
-        return players[player].SpentTime;
-      }
-    }
 
     private int require;
     private int done;
     private int reminderCount;
-    public void Resume(IEnumerable<int> players)
+    public void Resume(IEnumerable<Player> players)
     {
       lock (Locker)
       {
         require = players.Count();
         done = 0;
         reminderCount = require == 1 ? 30 : 0;
-        foreach (int p in players) this.players[p].Timing = true;
+        foreach (var p in players) p.Timing = true;
       }
     }
-    public void Pause(int player)
+    public void Pause(Player player)
     {
       lock (Locker)
       {
-        if (players[player].Timing)
+        if (player.Timing)
         {
-          players[player].Timing = false;
+          player.Timing = false;
           done++;
           reminderCount = require == done ? 0 : 30;
         }
@@ -63,7 +55,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       lock (Locker)
       {
-        foreach (Player p in players.Values) p.SpentTime -= 30;
+        foreach (Player p in Players) p.SpentTime -= 30;
       }
     }
     private void TimeTick(object state)
@@ -71,7 +63,7 @@ namespace PokemonBattleOnline.Game.Host
       lock (Locker)
       {
         bool timeup = false;
-        foreach (Player p in players.Values)
+        foreach (Player p in Players)
           if (p.Timing)
           {
             p.SpentTime++;
@@ -80,12 +72,16 @@ namespace PokemonBattleOnline.Game.Host
         if (timeup)
         {
           timer.Change(Timeout.Infinite, 0);
-          TimeUp(from p in players select new KeyValuePair<int, int>(p.Key, p.Value.SpentTime));
+          var tu = new int[2, 2];
+          foreach (var p in Players) tu[p.TeamId, p.TeamIndex] = p.SpentTime;
+          TimeUp(tu);
         }
         else if (reminderCount > 0)
         {
           reminderCount--;
-          if (reminderCount == 0) WaitingNotify(from p in players where p.Value.Timing select p.Key);
+          var r = new bool[2, 2];
+          foreach (var p in Players) r[p.TeamId, p.TeamIndex] = p.Timing;
+          if (reminderCount == 0) WaitingNotify(r);
         }
       }
     }
@@ -93,12 +89,6 @@ namespace PokemonBattleOnline.Game.Host
     public void Dispose()
     {
       timer.Dispose();
-    }
-
-    private class Player
-    {
-      public bool Timing;
-      public int SpentTime;
     }
   }
 }

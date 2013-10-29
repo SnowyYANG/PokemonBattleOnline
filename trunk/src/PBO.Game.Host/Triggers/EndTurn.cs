@@ -171,7 +171,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       foreach (var pm in c.OnboardPokemons)
         if (pm.OnboardPokemon.HasCondition("AquaRing"))
         {
-          int hp = pm.Pokemon.Hp.Origin;
+          int hp = pm.Pokemon.MaxHp;
           if (pm.Item == Is.BIG_ROOT) hp = (int)(hp * 1.3);
           hp /= 16;
           pm.HpRecover(hp, false, "AquaRing");
@@ -179,7 +179,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       foreach (var pm in c.OnboardPokemons)
         if (pm.OnboardPokemon.HasCondition("Ingrain"))
         {
-          int hp = pm.Pokemon.Hp.Origin;
+          int hp = pm.Pokemon.MaxHp;
           if (pm.Item == Is.BIG_ROOT) hp = (int)(hp * 1.3);
           hp /= 16;
           pm.HpRecover(hp, false, "Ingrain");
@@ -229,7 +229,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             else if (pm.State == PokemonState.BadlyPSN)
             {
               int turn = 1 + c.TurnNumber - pm.OnboardPokemon.GetCondition<int>("PSN");
-              int hp = pm.Pokemon.Hp.Origin * (turn > 15 ? 15 : turn) / 16;
+              int hp = pm.Pokemon.MaxHp * (turn > 15 ? 15 : turn) / 16;
               pm.EffectHurt(hp, "PSN");
             }
             else pm.EffectHurtByOneNth(8, "PSN");
@@ -543,7 +543,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       foreach (var pm in c.OnboardPokemons)
       {
-        var form = pm.Hp << 1 <= pm.Pokemon.Hp.Origin ? 1 : 0;
+        var form = pm.Hp << 1 <= pm.Pokemon.MaxHp ? 1 : 0;
         if (pm.CanChangeForm(555, form) && pm.RaiseAbility(As.ZEN_MODE)) pm.ChangeForm(form);
       }
     }

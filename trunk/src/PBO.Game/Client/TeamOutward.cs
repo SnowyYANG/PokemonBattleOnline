@@ -14,24 +14,24 @@ namespace PokemonBattleOnline.Game
     Abnormal,
     Faint
   }
-  [DataContract(Namespace = PBOMarks.PBO)]
   public class TeamOutward : ObservableObject
   {
-    [DataMember]
-    private readonly byte[] balls;
+    public string Name;
+    private BallState[] balls;
 
-    public TeamOutward(int players, int pokemonsPerPlayer)
+    public TeamOutward(string name, BallState[] state)
     {
-      balls = new byte[players * pokemonsPerPlayer];
+      Name = name;
+      balls = state;
     }
 
     public BallState this[int index]
     {
-      get { return (BallState)balls.ValueOrDefault(index); }
-      set { if (0 <= index && index < balls.Length) balls[index] = (byte)value; }
+      get { return balls.ValueOrDefault(index); }
+      private set { if (0 <= index && index < balls.Length) balls[index] = value; }
     }
     public int AliveCount
-    { get { return balls.Count((b) => b == (byte)BallState.Normal || b == (byte)BallState.Abnormal); } }
+    { get { return balls.Count((b) => b == BallState.Normal || b == BallState.Abnormal); } }
 
     internal void StateChanged(PokemonOutward pm)
     {
@@ -43,12 +43,6 @@ namespace PokemonBattleOnline.Game
       var t = this[a];
       this[a] = this[b];
       this[b] = t;
-      OnPropertyChanged();
-    }
-    public void HealBell()
-    {
-      for (int i = 0; i < balls.Length; ++i)
-        if (this[i] == BallState.Abnormal) this[i] = BallState.Normal;
       OnPropertyChanged();
     }
   }

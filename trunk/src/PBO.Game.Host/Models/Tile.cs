@@ -40,34 +40,18 @@ namespace PokemonBattleOnline.Game.Host
     internal void Debut()
     {
       var pm = Pokemon;
-      var h = pm.Hp != pm.Pokemon.Hp.Origin;
+      var h = pm.Hp != pm.Pokemon.MaxHp;
       var s = pm.State != PokemonState.Normal;
       if ((h || s) && HasCondition("HealingWish"))
       {
-        if (h)
-        {
-          pm.Pokemon.SetHp(pm.Pokemon.Hp.Origin);
-          pm.Controller.ReportBuilder.SetHp(pm.Pokemon);
-        }
-        if (s)
-        {
-          pm.Pokemon.State = PokemonState.Normal;
-          pm.Controller.ReportBuilder.SetState(pm.Pokemon);
-        }
+        if (h) pm.Pokemon.Hp = pm.Pokemon.MaxHp;
+        if (s) pm.Pokemon.State = PokemonState.Normal;
         pm.AddReportPm("HealingWish");
       }
       else if ((h || s || pm.Pokemon.Moves.Any((m) => m.PP.Origin != m.PP.Value)) && HasCondition("LunarDance"))
       {
-        if (h)
-        {
-          pm.Pokemon.SetHp(pm.Pokemon.Hp.Origin);
-          pm.Controller.ReportBuilder.SetHp(pm.Pokemon);
-        }
-        if (s)
-        {
-          pm.Pokemon.State = PokemonState.Normal;
-          pm.Controller.ReportBuilder.SetState(pm.Pokemon);
-        }
+        if (h) pm.Pokemon.Hp = pm.Pokemon.MaxHp;
+        if (s) pm.Pokemon.State = PokemonState.Normal;
         foreach (var m in pm.Moves) m.PP = m.Move.PP.Origin;
         pm.AddReportPm("LunarDance");
       }

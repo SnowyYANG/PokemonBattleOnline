@@ -36,18 +36,18 @@ namespace PokemonBattleOnline.Network
       {
         Room.Battling = true;
         Server.Send(RoomS2C.ChangeBattling(Room.Id));
+        if (Room.Settings.Mode.PlayersPerTeam() == 2)
+        {
+          Server.GetUser(Room[0, 0].Id).Send(new PartnerInfoS2C(initingGame.GetPokemons(0, 1)));
+          Server.GetUser(Room[0, 1].Id).Send(new PartnerInfoS2C(initingGame.GetPokemons(0, 0)));
+          Server.GetUser(Room[1, 0].Id).Send(new PartnerInfoS2C(initingGame.GetPokemons(1, 1)));
+          Server.GetUser(Room[1, 1].Id).Send(new PartnerInfoS2C(initingGame.GetPokemons(1, 0)));
+        }
         game = initingGame.Complete();
         initingGame = null;
         game.GameUpdated += OnGameUpdate;
         game.TimeUp += OnTimeUp;
         game.WaitingNotify += OnWaitingForInput;
-        if (Room.Settings.Mode.PlayersPerTeam() == 2)
-        foreach (var t in game.Teams)
-          foreach (var p in t.Players)
-          {
-            var su = Server.GetUser(p.Id);
-            su.Send(new PartnerInfoS2C(initingGame.GetPokemons(t.Id, 1 - p.IndexInTeam)));
-          }
         game.Start();
       }
     }
@@ -64,23 +64,25 @@ namespace PokemonBattleOnline.Network
       EndGame();
       Send(GameEndS2C.GameStop(userId, reason));
     }
-    private void OnTimeUp(IEnumerable<KeyValuePair<int, int>> time)
+    private void OnTimeUp(int[,] time)
     {
       EndGame();
-      Send(GameEndS2C.TimeUp(time));
+      Send(GameEndS2C.TimeUp(Room.Players.Select((p) => new KeyValuePair<int, int>(p.Id, time[p.Seat.TeamId(), p.Seat.TeamIndex()]))));
     }
-    private void OnWaitingForInput(IEnumerable<int> players)
+    private void OnWaitingForInput(bool[,] players)
     {
-      Send(new WaitingForInputS2C(players));
+      Send(new WaitingForInputS2C(Room.Players.Where((p) => players[p.Seat.TeamId(), p.Seat.TeamIndex()]).Select((p) => p.Id).ToArray()));
     }
-    private void OnGameUpdate(ReportFragment fragment, IDictionary<int, InputRequest> requirements)
+    private void OnGameUpdate(ReportFragment fragment, InputRequest[,] requirements)
     {
       if (requirements != null)
-        foreach (var pair in requirements)
+      {
+        foreach(var p in Room.Players)
         {
-          var us = Server.GetUser(pair.Key);
-          us.Send(new RequireInputS2C(pair.Value));
+          var r = requirements[p.Seat.TeamId(), p.Seat.TeamIndex()];
+          if (r != null) Server.GetUser(p.Id).Send(new RequireInputS2C(r));
         }
+      }
       Send(new GameUpdateS2C(fragment));
     }
 
@@ -94,7 +96,7 @@ namespace PokemonBattleOnline.Network
       {
         if (initingGame == null) initingGame = new InitingGame(Room.Settings);
         var seat = su.User.Seat;
-        if (initingGame.Prepare(su.User.Id, seat.TeamId(), seat.TeamIndex(), pokemons))
+        if (initingGame.Prepare(seat.TeamId(), seat.TeamIndex(), pokemons))
         {
           Send(new SetPrepare(seat, true));
           TryStartGame();
@@ -161,10 +163,10 @@ namespace PokemonBattleOnline.Network
 
     public void Input(ServerUser su, ActionInput action)
     {
-      var id = su.User.Id;
+      var seat = su.User.Seat;
       if (game != null)
-        if (game.GetPlayer(id) != null && game.InputAction(id, action)) game.TryContinue();
-        else OnGameStop(id, GameStopReason.InvalidInput);
+        if (game.InputAction(seat.TeamId(), seat.TeamIndex(), action)) game.TryContinue();
+        else OnGameStop(su.User.Id, GameStopReason.InvalidInput);
     }
 
     public void Dispose()

@@ -79,9 +79,9 @@ namespace PokemonBattleOnline.Network.Commands
     [DataMember(Name = "a")]
     int[] Players;
 
-    public WaitingForInputS2C(IEnumerable<int> players)
+    public WaitingForInputS2C(int[] players)
     {
-      Players = players.ToArray();
+      Players = players;
     }
 
     void IS2C.Execute(Client client)

@@ -40,8 +40,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             if (move.HurtPercentage < 0 && aer.Ability != As.ROCK_HEAD) aer.EffectHurt(-def.Damage * move.HurtPercentage / 100, "ReHurt");
             else if (move.MaxHpPercentage < 0) //拼命专用
             {
-              var change = aer.Pokemon.Hp.Origin * move.MaxHpPercentage / 100;
-              aer.Pokemon.SetHp(aer.Hp + (change == 0 ? -1 : change));
+              var change = aer.Pokemon.MaxHp * move.MaxHpPercentage / 100;
+              aer.Pokemon.Hp += (change == 0 ? -1 : change);
               aer.OnboardPokemon.SetTurnCondition("Assurance");
               aer.AddReportPm("ReHurt");
               aer.Controller.ReportBuilder.ShowHp(aer);

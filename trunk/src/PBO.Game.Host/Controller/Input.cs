@@ -7,19 +7,19 @@ namespace PokemonBattleOnline.Game.Host
 {
   internal class InputController : ControllerComponent
   {
-    private Dictionary<int, InputRequest> requirements;
     private bool singleSendout;
 
     public InputController(Controller controller)
       : base(controller)
     {
-      requirements = new Dictionary<int, InputRequest>();
+      _requirements = new InputRequest[2, 2];
     }
 
     public bool NeedInput
-    { get { return requirements.Count > 0; } }
-    public IDictionary<int, InputRequest> InputRequirements
-    { get { return requirements; } }
+    { get { return !(_requirements[0,0] == null && _requirements[0,1] == null && _requirements[1, 0] == null &&_requirements[1,1] == null); } }
+    private InputRequest[,] _requirements;
+    public InputRequest[,] InputRequirements
+    { get { return _requirements; } }
 
     public bool CheckInputSucceed(Player player)
     {
@@ -33,8 +33,8 @@ namespace PokemonBattleOnline.Game.Host
           {
             if (t.WillSendoutPokemonIndex < GameSettings.Mode.OnboardPokemonsPerPlayer() && Controller.CanSendout(t)) return false;
           }
-      Controller.Timer.Pause(player.Id);
-      requirements.Remove(player.Id);
+      Controller.Timer.Pause(player);
+      _requirements[player.TeamId, player.TeamIndex] = null;
       return true;
     }
     private PmInputRequest NewInputRequest(PokemonProxy pm)
@@ -76,32 +76,47 @@ namespace PokemonBattleOnline.Game.Host
     }
     public bool PauseForTurnInput()
     {
-      if (requirements.Any()) return false;
-      var groups = from p in Controller.ActingPokemons
-                   where p.Action == PokemonAction.WaitingForInput
-                   group p by p.Pokemon.Owner.Id into playerPms
-                   select playerPms;
-      foreach (var g in groups) requirements.Add(g.Key, new InputRequest() { Pms = g.Select((p) => NewInputRequest(p)).ToArray(), Time = Controller.Timer.GetState(g.Key) });
+      if (NeedInput) return false;
+      List<PmInputRequest>[, ] pms = new List<PmInputRequest>[2, 2];
+      int[,] time = new int[2, 2];
+      foreach (var p in Controller.ActingPokemons)
+        if (p.Action == PokemonAction.WaitingForInput)
+        {
+          var player = p.Pokemon.Owner;
+          var id = player.TeamId;
+          var index = player.TeamIndex;
+          if (pms[id, index] == null)
+          {
+            pms[id, index] = new List<PmInputRequest>();
+            time[id, index] = player.SpentTime;
+          }
+          pms[player.TeamId, player.TeamIndex].Add(NewInputRequest(p));
+        }
+      if (pms[0, 0] != null) _requirements[0, 0] = new InputRequest() { Pms = pms[0, 0].ToArray(), Time = time[0, 0] };
+      if (pms[0, 1] != null) _requirements[0, 1] = new InputRequest() { Pms = pms[0, 1].ToArray(), Time = time[0, 1] };
+      if (pms[1, 0] != null) _requirements[1, 0] = new InputRequest() { Pms = pms[1, 0].ToArray(), Time = time[1, 0] };
+      if (pms[1, 1] != null) _requirements[1, 1] = new InputRequest() { Pms = pms[1, 1].ToArray(), Time = time[1, 1] };
       return true;
     }
     public bool PauseForEndTurnInput()
     {
-      if (requirements.Any()) return false;
-      var groups = from t in Controller.Board.Tiles
-                   where Controller.CanSendout(t)
-                   group t by Controller.GetPlayer(t).Id into playerTiles
-                   select playerTiles;
-      foreach (var g in groups) requirements[g.Key] = new InputRequest() { Time = Controller.Timer.GetState(g.Key) };
+      if (NeedInput) return false;
+      foreach (var t in Controller.Board.Tiles)
+        if (Controller.CanSendout(t))
+        {
+          var player = Controller.GetPlayer(t);
+          if (_requirements[player.TeamId, player.TeamIndex] == null) _requirements[player.TeamId, player.TeamIndex] = new InputRequest() { Time = player.SpentTime };
+        }
       singleSendout = false;
       return true;
     }
     public bool PauseForSendoutInput(Tile tile)
     {
-      if (requirements.Any()) return false;
+      if (NeedInput) return false;
       if (Controller.CanSendout(tile))
       {
-        var player = Controller.GetPlayer(tile).Id;
-        requirements.Add(player, new InputRequest() { Xs = new int[] { tile.X }, Time = Controller.Timer.GetState(player) });
+        var player = Controller.GetPlayer(tile);
+        _requirements[player.TeamId, player.TeamIndex] = new InputRequest() { Xs = new int[] { tile.X }, Time = player.SpentTime };
       }
       singleSendout = true;
       return true;

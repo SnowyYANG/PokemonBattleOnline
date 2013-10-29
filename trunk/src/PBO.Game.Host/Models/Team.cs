@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PokemonBattleOnline.Game.Host
 {
-  public class Team
+  internal class Team
   {
     public readonly int Id;
     private readonly IGameSettings Settings;
@@ -21,21 +21,24 @@ namespace PokemonBattleOnline.Game.Host
     public IEnumerable<Player> Players
     { get { return _players; } }
 
-    public int GetPlayerIndex(int id)
-    {
-      for (int i = 0; i < _players.Length; ++i)
-        if (_players[i].Id == id) return i;
-      return -1;
-    }
     public Player GetPlayer(int index)
     {
       return _players.ValueOrDefault(index);
     }
 
-    public TeamOutward GetOutward()
+    private BallState[] outward;
+    public BallState[] GetOutward()
     {
-      throw new NotImplementedException();
-      //return new TeamOutward(_players, Settings.Mode.PokemonsPerPlayer());
+      var ppp = Settings.Mode.PokemonsPerPlayer();
+      if (outward == null) outward = new BallState[ppp * _players.Length];
+      int baseI = 0;
+      foreach (var p in _players)
+      {
+        int i = baseI;
+        foreach (var pm in p.Pokemons) outward[i++] = pm.Hp == 0 ? BallState.Faint : pm.State == PokemonState.Normal ? BallState.Normal : BallState.Abnormal;
+        baseI += ppp;
+      }
+      return outward;
     }
   }
 }

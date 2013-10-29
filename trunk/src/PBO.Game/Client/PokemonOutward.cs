@@ -18,24 +18,45 @@ namespace PokemonBattleOnline.Game
     void Withdrawn();
   }
 
-  [KnownType(typeof(PairValue))]
-  [DataContract(Name = "pm", Namespace = PBOMarks.PBO)]
+  [DataContract(Name = "pm", Namespace = PBOMarks.JSON)]
   public class PokemonOutward : ObservableObject
   {
     private static readonly PropertyChangedEventArgs NAME = new PropertyChangedEventArgs("Name");
     private static readonly PropertyChangedEventArgs GENDER = new PropertyChangedEventArgs("Gender");
     private static readonly PropertyChangedEventArgs STATE = new PropertyChangedEventArgs("State");
 
-    [DataMember(EmitDefaultValue = false)]
-    public readonly bool Shiny;
-    [DataMember(EmitDefaultValue = false)]
-    public readonly string Chatter;
     [DataMember(Name = "a")]
     internal readonly int Id;
+    [DataMember(EmitDefaultValue = false)]
+    public bool Shiny;
+    [DataMember(EmitDefaultValue = false)]
+    public string Chatter;
 
-    [DataMember(Name = "c")]
-    private int ownerId;
-    public PlayerOutward Owner
+    public PokemonOutward(int id, int teamId, int maxHp)
+    {
+      Id = id;
+      _position = new Position(teamId, 0);
+      Hp = new PairValue(maxHp);
+    }
+    /// <summary>
+    /// will not notify property changes
+    /// </summary>
+    public void SetAll(string name, PokemonForm form, PokemonGender gender, int lv, Position position, bool substitute, int hp, PokemonState state, bool shiny, string chatter)
+    {
+      Name = name;
+      Form = form;
+      _gender = gender;
+      _lv = lv;
+      _position.X = position.X;
+      _position.Y = position.Y;
+      IsSubstitute = substitute;
+      Hp.Value = hp;
+      _state = state;
+      Shiny = shiny;
+      Chatter = chatter;
+    }
+
+    public string Owner
     { get; private set; }
 
     [DataMember(EmitDefaultValue = false)]
@@ -203,7 +224,7 @@ namespace PokemonBattleOnline.Game
           r = GameString.Current.BattleLog(State.ToString());
           break;
         case "Owner.Name":
-          r = Owner.Name;
+          r = Owner;
           break;
         case "Chatter":
           r = Chatter;
@@ -215,7 +236,7 @@ namespace PokemonBattleOnline.Game
     {
       team = game.Teams[Position.Team];
       TeamIndex = game.Settings.Mode.GetPokemonIndexInTeam(Position.X);
-      Owner = game.GetPlayer(ownerId);
+      Owner = game.GetPlayerName(Position.Team, TeamIndex);
     }
     public void AddListener(IPokemonOutwardEvents listener)
     {

@@ -63,7 +63,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static void Withdrawn(PokemonProxy pm, int ability)
     {
-      if (ability == As.REGENERATOR) pm.Pokemon.SetHp(pm.Hp + pm.Pokemon.Hp.Origin / 3);
+      if (ability == As.REGENERATOR) pm.Pokemon.Hp += pm.Pokemon.MaxHp / 3;
       else if (ability == As.NATURAL_CURE) pm.Pokemon.State = PokemonState.Normal;
       else if (ability == As.UNNERVE)
         foreach (var p in pm.Controller.GetOnboardPokemons(1 - pm.Pokemon.TeamId)) STs.ItemAttach(p);
@@ -82,7 +82,7 @@ namespace PokemonBattleOnline.Game.Host
       {
         Pokemon o = pm.Pokemon;
         foreach (Pokemon p in pm.Pokemon.Owner.Pokemons)
-          if (p.Hp.Value > 0) o = p;
+          if (p.Hp > 0) o = p;
         if (o != pm.Pokemon) pm.OnboardPokemon.SetCondition("Illusion", o);
       }
     }
@@ -131,7 +131,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static bool Gluttony(PokemonProxy pm)
     {
-      return pm.Hp << 2 <= pm.Pokemon.Hp.Origin || (pm.Ability == As.GLUTTONY && pm.Hp << 1 <= pm.Pokemon.Hp.Origin);
+      return pm.Hp << 2 <= pm.Pokemon.MaxHp || (pm.Ability == As.GLUTTONY && pm.Hp << 1 <= pm.Pokemon.MaxHp);
     }
 
     internal static void SlowStart(Controller Controller)

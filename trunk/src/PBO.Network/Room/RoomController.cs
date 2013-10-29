@@ -159,14 +159,12 @@ namespace PokemonBattleOnline.Network
     internal void GameStart(ReportFragment gameUpdateS2C)
     {
       Dictionary<int, string> ps = new Dictionary<int, string>();
-      string[] teams = new string[2];
-      foreach (var p in Room.Players)
-      {
-        string name = p.Name;
-        ps.Add(p.Id, name);
-        if (teams[p.Seat.TeamId()] == null) teams[p.Seat.TeamId()] = name;
-      }
-      Game = new GameOutward(Room.Settings, ps, teams);
+      string[, ] players = new string[2, 2];
+      players[0, 0] = Room[0, 0].Name;
+      players[0, 1] = Room[0, 1].Name;
+      players[1, 0] = Room[1, 0].Name;
+      players[1, 1] = Room[1, 1].Name;
+      Game = new GameOutward(Room.Settings, players);
       if (User.Seat != Seat.Spectator) PlayerController = new PlayerController(this, Self, Partner);
     }
   }

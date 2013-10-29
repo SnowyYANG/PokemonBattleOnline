@@ -228,7 +228,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           RolePlay(atk);
           break;
         case Ms.WISH: //273
-          if (!aer.Tile.AddCondition("Wish", new Condition() { Turn = aer.Controller.TurnNumber + 1, Int = aer.Pokemon.Hp.Origin >> 1 })) atk.FailAll();
+          if (!aer.Tile.AddCondition("Wish", new Condition() { Turn = aer.Controller.TurnNumber + 1, Int = aer.Pokemon.MaxHp >> 1 })) atk.FailAll();
           break;
         case Ms.MAGIC_COAT: //277
           aer.OnboardPokemon.SetTurnCondition("MagicCoat");
@@ -529,7 +529,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case MoveInnerClass.HpRecover:
           foreach (var d in atk.Targets)
-            d.Defender.HpRecover(d.Defender.Pokemon.Hp.Origin * atk.Move.MaxHpPercentage / 100, true);
+            d.Defender.HpRecover(d.Defender.Pokemon.MaxHp * atk.Move.MaxHpPercentage / 100, true);
           break;
         case MoveInnerClass.ConfusionWithLv7DChange:
           atk.Target.Defender.AddState(atk.Target);
@@ -549,7 +549,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         if (atk.Target.Defender.OnboardPokemon.AddCondition("Curse"))
         {
-          aer.Pokemon.SetHp(aer.Hp - (aer.Pokemon.Hp.Origin >> 1));
+          aer.Pokemon.Hp -= (aer.Pokemon.MaxHp >> 1);
           aer.AddReportPm("EnCurse", atk.Target.Defender.Id);
           aer.Controller.ReportBuilder.ShowHp(aer);
           aer.CheckFaint();
@@ -629,9 +629,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void BellyDrum(AtkContext atk)
     {
       var aer = atk.Attacker;
-      if (aer.OnboardPokemon.Lv5D.Atk != 6 && aer.Hp > aer.Pokemon.Hp.Origin >> 1)
+      if (aer.OnboardPokemon.Lv5D.Atk != 6 && aer.Hp > aer.Pokemon.MaxHp >> 1)
       {
-        aer.Pokemon.SetHp(aer.Hp - (aer.Pokemon.Hp.Origin >> 1));
+        aer.Pokemon.Hp -= (aer.Pokemon.MaxHp >> 1);
         aer.OnboardPokemon.ChangeLv7D(StatType.Atk, 12);
         aer.AddReportPm("BellyDrum");
         aer.Controller.ReportBuilder.ShowHp(aer);
@@ -810,7 +810,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var aer = atk.Attacker;
       if (aer.CanHpRecover(true))
       {
-        var hp = aer.Pokemon.Hp.Origin;
+        var hp = aer.Pokemon.MaxHp;
         var w = aer.Controller.Weather;
         if (w == Weather.IntenseSunlight) hp = hp * 2 / 3;
         else if (w == Weather.Normal) hp >>= 1;
@@ -822,14 +822,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void Substitute(AtkContext atk)
     {
       var aer = atk.Attacker;
-      if (atk.Attacker.Hp > 1 && atk.Attacker.Hp > atk.Attacker.Pokemon.Hp.Origin >> 2)
+      if (atk.Attacker.Hp > 1 && atk.Attacker.Hp > atk.Attacker.Pokemon.MaxHp >> 2)
       {
         if (aer.OnboardPokemon.HasCondition("Substitute")) aer.AddReportPm("HasSubstitute");
         else
         {
-          int hp = aer.Pokemon.Hp.Origin >> 2;
+          int hp = aer.Pokemon.MaxHp >> 2;
           aer.OnboardPokemon.SetCondition("Substitute", hp);
-          aer.Pokemon.SetHp(aer.Hp - hp);
+          aer.Pokemon.Hp -= hp;
           aer.Controller.ReportBuilder.EnSubstitute(aer);
         }
       }
@@ -879,10 +879,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void Rest(AtkContext atk)
     {
       var aer = atk.Attacker;
-      if (aer.Hp == aer.Pokemon.Hp.Origin) atk.FailAll();
+      if (aer.Hp == aer.Pokemon.MaxHp) atk.FailAll();
       else if (CanAddState.Execute(aer, aer, AttachedState.SLP, true))
       {
-        aer.Pokemon.SetHp(aer.Pokemon.Hp.Origin);
+        aer.Pokemon.Hp = aer.Pokemon.MaxHp;
         aer.Controller.ReportBuilder.SetHp(aer.Pokemon);
         aer.Pokemon.State = PokemonState.SLP;
         aer.OnboardPokemon.SetCondition("SLP", 3);
@@ -913,8 +913,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var aer = atk.Attacker;
       var der = atk.Target.Defender;
       int hp = (aer.Hp + der.Hp) >> 1;
-      aer.Pokemon.SetHp(hp);
-      der.Pokemon.SetHp(hp);
+      aer.Pokemon.Hp = hp;
+      der.Pokemon.Hp = hp;
       atk.Controller.ReportBuilder.ShowLog("PainSplit", aer, der);
     }
     private static void HealBell(AtkContext atk, string log)
@@ -923,7 +923,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       foreach (var pm in aer.Tile.Field.Pokemons)
         if (pm.State != PokemonState.Normal) pm.Pokemon.State = PokemonState.Normal;
       foreach (var pm in aer.Pokemon.Owner.Pokemons)
-        if (pm.Hp.Value > 0 && pm.State != PokemonState.Normal) pm.State = PokemonState.Normal;
+        if (pm.Hp > 0 && pm.State != PokemonState.Normal) pm.State = PokemonState.Normal;
       aer.Controller.ReportBuilder.ShowLog(log);
     }
     private static void Gravity(AtkContext atk)

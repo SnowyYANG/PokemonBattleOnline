@@ -27,14 +27,14 @@ namespace PokemonBattleOnline.Game
     }
 
     [DataMember(Name = "c_", EmitDefaultValue = false)]
-    public readonly TeamOutward[] Teams;
+    public readonly BallState[][] Teams;
     [DataMember(Name = "e", EmitDefaultValue = false)]
     public readonly Weather Weather;
     
     /// <summary>
     /// 为了节约流量，只在用户第一次进入房间的时候给出teams/pms/weather信息
     /// </summary>
-    public ReportFragment(int turnNumber, TeamOutward[] teams, PokemonOutward[] pms, Weather weather)
+    public ReportFragment(int turnNumber, BallState[][] teams, PokemonOutward[] pms, Weather weather)
     {
       TurnNumber = turnNumber;
       Teams = teams;
