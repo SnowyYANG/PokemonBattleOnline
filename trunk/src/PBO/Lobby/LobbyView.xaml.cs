@@ -24,33 +24,12 @@ namespace PokemonBattleOnline.PBO.Lobby
     public LobbyView()
     {
       InitializeComponent();
-      PBOClient.CurrentChanged += PBOClient_CurrentChanged;
     }
 
-    internal void Init(LobbyVM lobby)
+    internal void Init()
     {
-      if (lobby != null)
-      {
-        vm = lobby;
-        DataContext = vm;
-        chat.Init();
-      }
-      else //uninit
-      {
-        vm = null;
-      }
-    }
-
-    private void PBOClient_CurrentChanged()
-    {
-      //already in lock
       DataContext = null;
-      if (PBOClient.Current == null)
-      {
-      }
-      else
-      {
-      }
+      chat.Init();
     }
 
     private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)

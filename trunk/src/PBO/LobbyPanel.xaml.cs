@@ -23,16 +23,27 @@ namespace PokemonBattleOnline.PBO
     {
       InitializeComponent();
       gridbg.Fill = PBO.Elements.SBrushes.GetGridTileBrush(16, SBrushes.NewBrush(0xffffffff));
-      //login.LoginComplete += () =>
-      //  {
-      //    PBOClient.Client.Disconnected += (sender, e) => UIDispatcher.Invoke(() =>
-      //      {
-      //        lobby.Init(null);
-      //        login.Visibility = Visibility.Visible;
-      //      });
-      //    login.Visibility = Visibility.Hidden;
-      //    lobby.Init(new LobbyVM());
-      //  };
+      PBOClient.Disconnected += PBOClient_CurrentChanged;
+      PBOClient.CurrentChanged += PBOClient_CurrentChanged;
+      PBOClient_CurrentChanged();
+    }
+
+    private void PBOClient_CurrentChanged()
+    {
+      //already in lock
+      if (PBOClient.Current == null)
+      {
+        lobby.IsEnabled = false;
+        lobby.Visibility = Visibility.Collapsed;
+        login.Visibility = Visibility.Visible;
+      }
+      else
+      {
+        login.Visibility = Visibility.Collapsed;
+        lobby.Init();
+        lobby.IsEnabled = true;
+        lobby.Visibility = Visibility.Visible;
+      }
     }
     
     public void SetGridBg(double x, double y)

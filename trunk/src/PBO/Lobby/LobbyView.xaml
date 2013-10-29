@@ -39,13 +39,4 @@
             </GridSplitter.Style>
         </GridSplitter>
     </Grid>
-    <UserControl.Style>
-        <Style TargetType="UserControl">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding}" Value="{x:Null}">
-                    <Setter Property="Visibility" Value="Hidden"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-    </UserControl.Style>
 </UserControl>

@@ -39,7 +39,6 @@ namespace PokemonBattleOnline.PBO.Lobby
     }
 
     ScrollViewer scroll;
-    string userName;
 
     public Chat()
     {
@@ -50,6 +49,8 @@ namespace PokemonBattleOnline.PBO.Lobby
             ((TabItem)whom.SelectedItem).Foreground = System.Windows.Media.Brushes.Black;
         };
       Current = this;
+      ClientController.PublicChat += OnPublicChat;
+      ClientController.PrivateChat += OnPrivateChat;
     }
 
     ScrollViewer Scroll
@@ -72,7 +73,7 @@ namespace PokemonBattleOnline.PBO.Lobby
         {
           var ti = (TabItem)whom.SelectedItem;
           PBOClient.Current.Controller.ChatPrivate((User)ti.Header, speaking.Text);
-          ((TextBox)ti.Content).AppendText(userName + ": " + speaking.Text + "\n");
+          ((TextBox)ti.Content).AppendText(PBOClient.Current.Controller.User.Name + ": " + speaking.Text + "\n");
         }
         else PBOClient.Current.Controller.ChatPublic(speaking.Text);
         speaking.Clear();
@@ -88,18 +89,10 @@ namespace PokemonBattleOnline.PBO.Lobby
     }
     internal void Init()
     {
-      if (PBOClient.Current != null)
-      {
-        speaking.Clear();
-        chat.Inlines.Clear();
-        userName = PBOClient.Current.Controller.User.Name;
-        ClientController.PublicChat += OnPublicChat;
-        ClientController.PrivateChat += OnPrivateChat;
-      }
-      else
-      {
-        IsEnabled = false;
-      }
+      speaking.Clear();
+      chat.Inlines.Clear();
+      whom.Items.MoveCurrentToFirst();
+      for (int i = whom.Items.Count - 1; i != 0; i--) whom.Items.RemoveAt(i);
     }
     internal void NewChat(User user)
     {
@@ -109,7 +102,7 @@ namespace PokemonBattleOnline.PBO.Lobby
     void OnPublicChat(string content, User user)
     {
       Run r = new Run(user.Name + ": " + content + "\n");
-      r.Foreground = UserVM.GetChatBrush(user.Name);
+      r.Foreground = Cartes.GetChatBrush(user.Name);
       if (Scroll.ScrollableHeight - Scroll.ExtentHeight < 5)
       {
         chat.Inlines.Add(r);

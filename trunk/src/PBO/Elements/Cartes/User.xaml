@@ -2,6 +2,16 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
                     xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters">
+    <SolidColorBrush x:Key="Red" Color="#d03000"/>
+    <SolidColorBrush x:Key="Blue" Color="#4890c0"/>
+    <SolidColorBrush x:Key="Yellow" Color="#e8b800"/>
+    <SolidColorBrush x:Key="Green" Color="#70A830"/>
+    <SolidColorBrush x:Key="Black" Color="#403838"/>
+    <SolidColorBrush x:Key="Brown" Color="#907030"/>
+    <SolidColorBrush x:Key="Purple" Color="#b860b8"/>
+    <SolidColorBrush x:Key="Gray" Color="#807878"/>
+    <SolidColorBrush x:Key="White" Color="#c0c0c0"/>
+    <SolidColorBrush x:Key="Pink" Color="#f07070"/>
     <DataTemplate x:Key="Avatar">
         <Image Source="{Binding Converter={x:Static c:IdAvatar.C}}" Height="64" Width="64"/>
     </DataTemplate>

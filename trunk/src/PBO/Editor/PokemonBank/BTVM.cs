@@ -80,7 +80,17 @@ namespace PokemonBattleOnline.PBO.Editor
     }
     public void AddNewPokemon()
     {
-      if (Model.CanAdd) Model.Add(new PokemonData(Config.Current.PokemonNumber, Config.Current.PokemonForm));
+      if (Model.CanAdd)
+      {
+        var pm = Config.Current.PokemonNumber;
+        if (pm < 1) pm = 1;
+        else
+        {
+          var max = RomData.Pokemons.Count();
+          if (pm > max) pm = max;
+        }
+        Model.Add(new PokemonData(pm, Config.Current.PokemonForm));
+      }
     }
     public void Export()
     {

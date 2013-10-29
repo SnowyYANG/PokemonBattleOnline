@@ -142,7 +142,14 @@ namespace PokemonBattleOnline.Network
     private void ReceivePackAsync(int offset, int count)
     {
       E.SetBuffer(buffer, offset, count);
-      if (count == 0 || !Socket.ReceiveAsync(E)) Completed(E);
+      try
+      {
+        if (count == 0 || !Socket.ReceiveAsync(E)) Completed(E);
+      }
+      catch
+      {
+        Disconnect();
+      }
     }
     private void Completed(SocketAsyncEventArgs e)
     {

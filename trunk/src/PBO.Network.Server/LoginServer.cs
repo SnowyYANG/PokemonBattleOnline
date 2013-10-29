@@ -11,17 +11,17 @@ namespace PokemonBattleOnline.Network
   {
     private readonly Server Server;
     private readonly ConcurrentDictionary<int, LoginUser> Users;
-    private readonly Dictionary<string, object> Names;
-    private readonly object UserLocker;
+    private readonly HashSet<string> Names;
+    private readonly object NameLocker;
     private volatile bool isDisposed;
 
     public LoginServer(TcpServer network, Server server)
     {
       network.NewComingUser += OnNewUser;
       Server = server;
-      Names = new Dictionary<string, object>();
+      Names = new HashSet<string>();
       Users = new ConcurrentDictionary<int, LoginUser>();
-      UserLocker = new object();
+      NameLocker = new object();
     }
 
     private TcpServer Network
@@ -34,28 +34,23 @@ namespace PokemonBattleOnline.Network
 
     internal void RemoveName(string name)
     {
-      lock (UserLocker)
+      lock (NameLocker)
       {
         Names.Remove(name);
       }
     }
     public bool RegisterName(LoginUser user, string name)
     {
-      lock (UserLocker)
+      lock (NameLocker)
       {
-        if (Names.ContainsKey(name)) return false;
-        Names.Add(name, user);
-        return true;
+        return Names.Add(name);
       }
     }
     public void BadLogin(LoginUser user)
     {
       LoginUser u;
       if (Users.TryRemove(user.Network.Id, out u))
-      {
         if (user.Name != null) RemoveName(user.Name);
-        u.Dispose();
-      }
     }
     public void LoginComplete(LoginUser user)
     {

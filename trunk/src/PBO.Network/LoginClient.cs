@@ -11,11 +11,11 @@ namespace PokemonBattleOnline.Network
     private static void OnLoginTimeout(object state)
     {
       var c = (LoginClient)state;
-      c.OnLoginFailed(Disconnected);
+      c.OnLoginFailed(Disconnect);
     }
     
     public static event Action<Client> LoginSucceed;
-    public static event Action Disconnected;
+    public static event Action Disconnect;
     public static event Action BadVersion;
     public static event Action BadName;
     public static event Action Full;
@@ -45,21 +45,31 @@ namespace PokemonBattleOnline.Network
     private TcpClient Network;
     private void TcpConnectCallback(TcpClient client)
     {
-      if (client == null) OnLoginFailed(Disconnected);
+      if (client == null) OnLoginFailed(Disconnect);
       else
       {
-        client.Disconnected += () => OnLoginFailed(Disconnected);
+        client.Disconnected += OnLoginFailed;
         TimeBomb.Change(PBOMarks.TIMEOUT, Timeout.Infinite);
         Network = client;
         Network.Listener = this;
         Network.Sender.Send(PBOMarks.VERSION.ToPack());
       }
     }
+
+    private bool isFailed;
     private void OnLoginFailed(Action raiseEvent)
     {
-      TimeBomb.Dispose();
-      UIDispatcher.Invoke(raiseEvent);
-      if (Network != null) Network.Dispose();
+      if (!isFailed)
+      {
+        TimeBomb.Dispose();
+        UIDispatcher.Invoke(raiseEvent);
+        if (Network != null) Network.Dispose();
+        isFailed = true;
+      }
+    }
+    private void OnLoginFailed()
+    {
+      OnLoginFailed(state == 1 ? BadName : BadVersion);
     }
 
     private byte state;
@@ -86,7 +96,7 @@ namespace PokemonBattleOnline.Network
           break;
         case 2: //ClientStartUpInfo
           var init = pack.ToObject<ClientInitInfo>();
-          if (init == null) OnLoginFailed(Disconnected);
+          if (init == null) OnLoginFailed(Disconnect);
           else
           {
             TimeBomb.Dispose();

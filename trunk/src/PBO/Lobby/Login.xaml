@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="PokemonBattleOnline.PBO.Lobby.Login"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:pbo="clr-namespace:PokemonBattleOnline.PBO"
              xmlns:pm="clr-namespace:PokemonBattleOnline.Game;assembly=PBO.Game"
              xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
              xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters"

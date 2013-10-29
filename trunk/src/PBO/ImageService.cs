@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 using System.IO.Packaging;
 using PokemonBattleOnline.Game;
 
-namespace PokemonBattleOnline
+namespace PokemonBattleOnline.PBO
 {
   public class ImageService : ZipData
   {

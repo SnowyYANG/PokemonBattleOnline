@@ -13,16 +13,8 @@ namespace PokemonBattleOnline.Network
   {
     public static event Action Disconnected
     {
-      add
-      { 
-        LoginClient.Disconnected += value;
-        ClientController.Disconnected += value;
-      }
-      remove
-      {
-        LoginClient.Disconnected -= value;
-        ClientController.Disconnected -= value;
-      }
+      add { ClientController.Disconnected += value; }
+      remove { ClientController.Disconnected -= value; }
     }
     public static event Action CurrentChanged;
     public static event Action LoginFailed_Full
@@ -40,12 +32,23 @@ namespace PokemonBattleOnline.Network
       add { LoginClient.BadVersion += value; }
       remove { LoginClient.BadVersion -= value; }
     }
+    public static event Action LoginFailed_Disconnect
+    {
+      add { LoginClient.Disconnect += value; }
+      remove { LoginClient.Disconnect -= value; }
+    }
     private static readonly object Locker = new object();
 
     static PBOClient()
     {
       LoginClient.LoginSucceed += LoginSucceed;
+      LoginClient.BadName += LoginFailed;
+      LoginClient.BadVersion += LoginFailed;
+      LoginClient.Disconnect += LoginFailed;
+      LoginClient.Full += LoginFailed;
+      ClientController.Disconnected += DisposeCurrent;
     }
+
 
     private static Client _current;
     /// <summary>
@@ -58,11 +61,8 @@ namespace PokemonBattleOnline.Network
       {
         lock (Locker)
         {
-          if (_current == null)
-          {
-            _current = value;
-            if (value != null) UIDispatcher.Invoke(CurrentChanged);
-          }
+          _current = value;
+          UIDispatcher.Invoke(CurrentChanged);
         }
       }
     }
@@ -71,6 +71,10 @@ namespace PokemonBattleOnline.Network
     {
       currentLogin = null;
       Current = obj;
+    }
+    private static void LoginFailed()
+    {
+      currentLogin = null;
     }
 
     private static LoginClient currentLogin;
@@ -92,14 +96,14 @@ namespace PokemonBattleOnline.Network
       }
     }
 
-    public static void Dispose()
+    public static void DisposeCurrent()
     {
       lock (Locker)
       {
         if (Current != null)
         {
           Current.Dispose();
-          _current = null;
+          Current = null;
         }
       }
     }

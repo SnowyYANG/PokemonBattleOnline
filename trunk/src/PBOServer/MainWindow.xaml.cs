@@ -44,7 +44,7 @@ namespace PokemonBattleOnline.PBO.Server
         return;
       }
       mask.Visibility = System.Windows.Visibility.Hidden;
-      usersView.ItemsSource = PBOServer.Current.State.Users;
+      DataContext = PBOServer.Current.State;
     }
     private void StopServer()
     {

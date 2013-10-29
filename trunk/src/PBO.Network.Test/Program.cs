@@ -39,13 +39,13 @@ namespace PokemonBattleOnline.Network.Test
 
       Console.ReadKey();
 
-      PBOClient.Dispose();
+      PBOClient.DisposeCurrent();
 
       PBOClient.Login("127.0.0.1", "t2", 408);
 
       Console.ReadKey();
 
-      PBOClient.Dispose();
+      PBOClient.DisposeCurrent();
 
       Console.ReadKey();
     }

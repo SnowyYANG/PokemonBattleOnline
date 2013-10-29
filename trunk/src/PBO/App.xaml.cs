@@ -49,7 +49,7 @@ namespace PokemonBattleOnline.PBO
     protected override void OnExit(ExitEventArgs e)
     {
       base.OnExit(e);
-      PBOClient.Dispose();
+      PBOClient.DisposeCurrent();
       Config.Current.Save();
     }
   }
