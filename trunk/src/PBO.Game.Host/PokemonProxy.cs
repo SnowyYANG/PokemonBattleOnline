@@ -42,7 +42,19 @@ namespace PokemonBattleOnline.Game.Host
     public int Id
     { get { return Pokemon.Id; } }
     public int Hp
-    { get { return Pokemon.Hp; } }
+    { 
+      get { return Pokemon.Hp; }
+      set
+      {
+        if (value < 0) value = 0;
+        else if (value > Pokemon.MaxHp) value = Pokemon.MaxHp;
+        if (Pokemon._hp != value)
+        {
+          Pokemon._hp = value;
+          Controller.ReportBuilder.ShowHp(this);
+        }
+      }
+    }
     public PokemonState State
     { get { return Pokemon.State; } }
     public MoveProxy SelectedMove //先取
@@ -167,7 +179,6 @@ namespace PokemonBattleOnline.Game.Host
       {
         if (Pokemon.State == PokemonState.SLP) Tile.Field.RemoveCondition("Rest" + Id);
         Pokemon.State = PokemonState.Normal;
-        Controller.ReportBuilder.SetState(Pokemon);
       }
     }
     private bool CanAddState(PokemonProxy by, int ability, AttachedState state, bool showFail)
@@ -524,31 +535,13 @@ namespace PokemonBattleOnline.Game.Host
         if (STs.Remaining1HP(this))
         {
           damage--;
-          Pokemon.Hp = 1;
+          Pokemon.SetHp(1);
         }
-        else Pokemon.Hp = 0;
+        else Pokemon.SetHp(0);
       }
-      else Pokemon.Hp -= damage;
+      else Pokemon.SetHp(Hp - damage);
       if (damage != 0) OnboardPokemon.SetTurnCondition("Assurance");
       return damage;
-    }
-    public void MoveHurt(DefContext def)
-    {
-      def.Damage = MoveHurt(def.Damage);
-      {
-        var o = new Condition();
-        o.Damage = def.Damage;
-        o.By = def.AtkContext.Attacker;
-        string c = def.AtkContext.Move.Category == MoveCategory.Physical ? "PhysicalDamage" : "SpecialDamage";
-        OnboardPokemon.SetTurnCondition(c, o);
-        OnboardPokemon.SetTurnCondition("Damage", o);
-      }
-      if (Action == PokemonAction.Moving && AtkContext.Move.Id == Ms.BIDE)
-      {
-        var o = AtkContext.GetCondition("Bide");
-        o.By = def.AtkContext.Attacker;
-        o.Damage += def.Damage;
-      }
     }
     public void HpRecover(int changeHp, bool showFail = false, string log = "HpRecover", int arg1 = 0, bool consumeItem = false)
     {
@@ -556,9 +549,8 @@ namespace PokemonBattleOnline.Game.Host
       {
         if (consumeItem) ConsumeItem();
         if (changeHp == 0) changeHp = 1;
-        Pokemon.Hp += changeHp;
         AddReportPm(log, arg1);
-        Controller.ReportBuilder.ShowHp(this);
+        Hp += changeHp;
       }
     }
     public void HpRecoverByOneNth(int n, bool showFail = false, string log = "HpRecover", int arg1 = 0, bool consumeItem = false)
@@ -571,9 +563,8 @@ namespace PokemonBattleOnline.Game.Host
       if (CanEffectHurt)
       {
         if (changeHp == 0) changeHp = 1;
-        Pokemon.Hp -= changeHp;
         AddReportPm(logKey, arg1, arg2);
-        Controller.ReportBuilder.ShowHp(this);
+        Hp -= changeHp;
         HpChanged.Execute(this);
         OnboardPokemon.SetTurnCondition("Assurance");
       }
@@ -704,7 +695,6 @@ namespace PokemonBattleOnline.Game.Host
           goto POKEMON_STATE;
         case AttachedState.FRZ:
           Pokemon.State = PokemonState.FRZ;
-          Controller.ReportBuilder.SetState(Pokemon);
           AddReportPm(log, arg1);
           if (CanChangeForm(492, 0))
           {
@@ -814,7 +804,6 @@ namespace PokemonBattleOnline.Game.Host
 #endif
       }
     POKEMON_STATE:
-      Controller.ReportBuilder.SetState(Pokemon);
       AddReportPm(log, arg1);
       if (state != AttachedState.FRZ && state != AttachedState.SLP) ATs.Synchronize(this, by, state, turn);
     DONE:  

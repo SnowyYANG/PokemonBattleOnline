@@ -75,16 +75,19 @@ namespace PokemonBattleOnline.Game.Host
 
     public int IndexInOwner
     { get { return Owner.GetPokemonIndex(Id); } }
-    private int _hp;
+    /// <summary>
+    /// for PokemonProxy only
+    /// </summary>
+    public int _hp;
     public int Hp
     { 
       get { return _hp; }
       set
       {
+        if (value < 0) value = 0;
+        else if (value > MaxHp) value = MaxHp;
         if (_hp != value)
         {
-          if (value < 0) value = 0;
-          else if (value > MaxHp) value = MaxHp;
           _hp = value;
           Controller.ReportBuilder.SetHp(this);
         }
@@ -94,6 +97,16 @@ namespace PokemonBattleOnline.Game.Host
     private int Get5D(StatType type)
     {
       return PokemonStatHelper.Get5D(type, Nature, Form.Data.Base.GetStat(type), (byte)Iv.GetStat(type), (byte)Ev.GetStat(type), (byte)Lv);
+    }
+
+    /// <summary>
+    /// battle report delay
+    /// </summary>
+    public void SetHp(int value)
+    {
+      if (value < 0) value = 0;
+      else if (value > MaxHp) value = MaxHp;
+      if (_hp != value) _hp = value;
     }
   }
 }

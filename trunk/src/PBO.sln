@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.Game", "PBO.Game\PBO.Ga
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F6EA4F9B-5305-4043-B103-764944ED7E3D}"
 	ProjectSection(SolutionItems) = preProject
-		..\res\Data\log\chinese.xml = ..\res\Data\log\chinese.xml
+		..\res\string\chinese.xml = ..\res\string\chinese.xml
 		..\res\string\en = ..\res\string\en
 		..\res\string\jp = ..\res\string\jp
 		..\res\Data\rom.zip = ..\res\Data\rom.zip

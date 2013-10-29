@@ -449,7 +449,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           def.Damage = def.Defender.Hp;
           var e = new GameEvents.MoveHurt();
           def.Defender.Controller.ReportBuilder.Add(e);
-          def.Defender.MoveHurt(def);
+          def.MoveHurt();
           SetHurt(e, defs, true);
           PassiveEffect(def);
         }
@@ -467,7 +467,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           aer.Controller.ReportBuilder.Add(e);
           foreach (DefContext d in defs)
           {
-            d.Defender.MoveHurt(d);
+            d.MoveHurt();
             atk.TotalDamage += d.Damage;
           }
           SetHurt(e, defs, atk.Move.MinTimes == 0);
@@ -549,9 +549,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         if (atk.Target.Defender.OnboardPokemon.AddCondition("Curse"))
         {
-          aer.Pokemon.Hp -= (aer.Pokemon.MaxHp >> 1);
           aer.AddReportPm("EnCurse", atk.Target.Defender.Id);
-          aer.Controller.ReportBuilder.ShowHp(aer);
+          aer.Hp -= (aer.Pokemon.MaxHp >> 1);
           aer.CheckFaint();
         }
         else atk.FailAll();
@@ -631,10 +630,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var aer = atk.Attacker;
       if (aer.OnboardPokemon.Lv5D.Atk != 6 && aer.Hp > aer.Pokemon.MaxHp >> 1)
       {
-        aer.Pokemon.Hp -= (aer.Pokemon.MaxHp >> 1);
         aer.OnboardPokemon.ChangeLv7D(StatType.Atk, 12);
         aer.AddReportPm("BellyDrum");
-        aer.Controller.ReportBuilder.ShowHp(aer);
+        aer.Hp -= (aer.Pokemon.MaxHp >> 1);
       }
       else atk.FailAll();
     }
@@ -886,7 +884,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         aer.Controller.ReportBuilder.SetHp(aer.Pokemon);
         aer.Pokemon.State = PokemonState.SLP;
         aer.OnboardPokemon.SetCondition("SLP", 3);
-        aer.Controller.ReportBuilder.SetState(aer.Pokemon);
         aer.Tile.Field.SetCondition("Rest" + aer.Id);
         aer.AddReportPm("Rest");
         StateAdded.Execute(aer);

@@ -189,9 +189,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         int hp = aer.Pokemon.MaxHp >> 3;
         if (hp == 0) hp = 1;
-        aer.Pokemon.Hp -= hp;
         aer.AddReportPm("ReHurtItem", def.Defender, def.Defender.Pokemon.Item.Id);
-        aer.Controller.ReportBuilder.ShowHp(aer);
+        aer.Hp -= hp;
       }
     }
     private static void AttackedUpItem(DefContext def, BattleType type, StatType stat)

@@ -124,6 +124,7 @@ namespace PokemonBattleOnline.Game.Host
 
     public int Ability
     { get { return ATs.IgnoreDefenderAbility(AtkContext.Attacker.Ability) ? 0 : Defender.Ability; } }
+    
     public bool RandomHappen(int percentage)
     {
       return percentage == 0 || Ability != As.SHIELD_DUST && AtkContext.RandomHappen(percentage);
@@ -135,6 +136,24 @@ namespace PokemonBattleOnline.Game.Host
         !IsCt &&
         Defender.Tile.Field.HasCondition(condition) &&
         (Defender.Tile.Team == a.Tile.Team || a.Ability != As.INFILTRATOR);
+    }
+    public void MoveHurt()
+    {
+      Damage = Defender.MoveHurt(Damage);
+      {
+        var o = new Condition();
+        o.Damage = Damage;
+        o.By = AtkContext.Attacker;
+        string c = AtkContext.Move.Category == MoveCategory.Physical ? "PhysicalDamage" : "SpecialDamage";
+        Defender.OnboardPokemon.SetTurnCondition(c, o);
+        Defender.OnboardPokemon.SetTurnCondition("Damage", o);
+      }
+      if (Defender.Action == PokemonAction.Moving && AtkContext.Move.Id == Ms.BIDE)
+      {
+        var o = AtkContext.GetCondition("Bide");
+        o.By = AtkContext.Attacker;
+        o.Damage += Damage;
+      }
     }
     public void ModifyDamage(Modifier modifier)
     {

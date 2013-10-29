@@ -41,10 +41,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             else if (move.MaxHpPercentage < 0) //拼命专用
             {
               var change = aer.Pokemon.MaxHp * move.MaxHpPercentage / 100;
-              aer.Pokemon.Hp += (change == 0 ? -1 : change);
               aer.OnboardPokemon.SetTurnCondition("Assurance");
               aer.AddReportPm("ReHurt");
-              aer.Controller.ReportBuilder.ShowHp(aer);
+              aer.Hp += (change == 0 ? -1 : change);
             }
           }
           break;
