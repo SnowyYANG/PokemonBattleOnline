@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\res\string\chinese.xml = ..\res\string\chinese.xml
 		..\res\string\en = ..\res\string\en
 		..\res\string\jp = ..\res\string\jp
-		..\res\Data\rom.zip = ..\res\Data\rom.zip
+		..\res\rom.zip = ..\res\rom.zip
 		..\res\string\zh = ..\res\string\zh
 	EndProjectSection
 EndProject

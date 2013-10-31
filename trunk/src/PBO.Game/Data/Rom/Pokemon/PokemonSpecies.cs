@@ -26,7 +26,7 @@ namespace PokemonBattleOnline.Game
 
     [DataMember]
     private readonly short _number;
-    public short Number
+    public int Number
     { get { return _number; } }
 
     [DataMember]

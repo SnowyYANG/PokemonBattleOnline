@@ -9,8 +9,10 @@ namespace PokemonBattleOnline.Game
   [DataContract(Namespace = PBOMarks.PBO)]
   public class MoveType
   {
-    [DataMember]
-    public readonly int Id;
+    [DataMember(Name = "Id")]
+    private readonly int _id;
+    public int Id
+    { get { return _id; } }
 
 #if EDITING
     public
@@ -19,7 +21,7 @@ namespace PokemonBattleOnline.Game
 #endif
      MoveType(int id)
     {
-      Id = id;
+      _id = id;
     }
 
     [DataMember(EmitDefaultValue = false)]

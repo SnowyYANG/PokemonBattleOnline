@@ -4,8 +4,8 @@
     <ItemsPanelTemplate x:Key="WrapPanelTemplate">
         <WrapPanel Background="Transparent" Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"/>
     </ItemsPanelTemplate>
-    <ItemsPanelTemplate x:Key="HorizontalWrapPanelTemplate">
-        <WrapPanel Background="Transparent" Height="{Binding (FrameworkElement.ActualHeight), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"/>
+    <ItemsPanelTemplate x:Key="VerticalWrapPanelTemplate">
+        <WrapPanel Background="{x:Null}" Orientation="Vertical" Height="{Binding (FrameworkElement.ActualHeight), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"/>
     </ItemsPanelTemplate>
     <Style x:Key="XButton" TargetType="Button">
         <Setter Property="Content" Value="×"/>

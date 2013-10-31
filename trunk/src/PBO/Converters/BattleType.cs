@@ -123,12 +123,4 @@ namespace PokemonBattleOnline.PBO.Converters
       return null;
     }
   }
-  public class BattleTypeString : Converter<BattleType>
-  {
-    public static readonly BattleTypeString C = new BattleTypeString();
-    protected override object Convert(BattleType value)
-    {
-      return GameString.Current.BattleType(value);
-    }
-  }
 }

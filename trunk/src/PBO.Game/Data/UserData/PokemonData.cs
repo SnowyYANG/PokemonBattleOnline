@@ -22,12 +22,6 @@ namespace PokemonBattleOnline.Game
     private const int GENESECT = 649;
     private const int KYUREM = 646;
     private const int KELDEO = 647;
-    private const int SECRET_SWORD = 548;
-    private const int GRISEOUS_ORB = 1;
-    private const int PLATE_MINID = 75;
-    private const int PLATE_MAXID = 90;
-    private const int DRIVE_MINID = 98;
-    private const int DRIVE_MAXID = 101;
     #endregion
 
     private static bool CanChangeIv(I6D sender, int oldValue, int newValue)
@@ -41,9 +35,9 @@ namespace PokemonBattleOnline.Game
     }
 
     [DataMember(Name = "n")]
-    private short number;
+    private int number;
     [DataMember(Name = "f", EmitDefaultValue = false)]
-    private byte form;
+    private int form;
 
     public PokemonData(int number, int form)
     {
@@ -57,7 +51,7 @@ namespace PokemonBattleOnline.Game
     private string _name;
     public string Name
     {
-      get { return _name; }
+      get { return _name ?? GameString.Current.Pokemon(number); }
       set
       {
         if (string.IsNullOrWhiteSpace(value)) value = null;
@@ -72,7 +66,7 @@ namespace PokemonBattleOnline.Game
 
     private static readonly int[] CAN_CHOOSE_FORM = { 201, 386, 412, 413, 422, 423, 479, 492, 641, 642, 645, 646 };
     public bool CanChooseForm
-    { get { return CAN_CHOOSE_FORM.Contains(number) || number == KELDEO && HasMove(SECRET_SWORD); } }
+    { get { return CAN_CHOOSE_FORM.Contains(number) || number == KELDEO && HasMove(Ms.SECRET_SWORD); } }
 
     private PokemonForm _form;
     public PokemonForm Form
@@ -107,7 +101,7 @@ namespace PokemonBattleOnline.Game
             _nature = default(PokemonNature);
             Iv.SetStat(StatType.All, 31);
             _happiness = 0;
-            _itemId = 0;
+            _item = 0;
           }
           else if (number == 413 || number == 479 || number == 646) _moves.Clear();
           _abilityIndex = 0;
@@ -209,17 +203,15 @@ namespace PokemonBattleOnline.Game
     }
 
     [DataMember(Name = "i", EmitDefaultValue = false)]
-    private short _itemId;
-    int IPokemonData.ItemId
-    { get { return _itemId; } }
-    public Item Item
+    private int _item;
+    public int Item
     {
-      get { return RomData.GetItem(_itemId); }
+      get { return _item; }
       set
       {
         if (Item != value)
         {
-          _itemId = (short)(value == null ? 0 : value.Id);
+          _item = value;
           if (CheckSpForm()) OnPropertyChanged();
           else OnPropertyChanged("Item");
         }
@@ -326,39 +318,25 @@ namespace PokemonBattleOnline.Game
     { get { return _moves; } }
     #endregion
 
-    private PokemonCollection _container;
-    public PokemonCollection Container
-    {
-      get { return _container; }
-      internal set
-      {
-        if (_container != value)
-        {
-          _container = value;
-          OnPropertyChanged("Container");
-        }
-      }
-    }
-
     private bool CheckSpForm()
     {
       switch (number)
       {
         case DEERLING:
         case SAWSBUCK:
-          form = (byte)((DateTime.Now.Month - 1) & 3);
+          form = (DateTime.Now.Month - 1) & 3;
           break;
         case ARCEUS:
-          form = (byte)(PLATE_MINID <= _itemId && _itemId <= PLATE_MAXID ? _itemId - PLATE_MINID + 1 : 0);
+          form = Is.FLAME_PLATE <= _item && _item <= Is.IRON_PLATE ? _item - Is.FLAME_PLATE + 1 : 0;
           break;
         case GIRATINA:
-          form = (byte)(_itemId == GRISEOUS_ORB ? 1 : 0);
+          form = _item == Is.GRISEOUS_ORB ? 1 : 0;
           break;
         case GENESECT:
-          form = (byte)(DRIVE_MINID <= _itemId && _itemId <= DRIVE_MAXID ? _itemId - DRIVE_MINID + 1 : 0);
+          form = Is.DOUSE_DRIVE <= _item && _item <= Is.CHILL_DRIVE ? _item - Is.DOUSE_DRIVE + 1 : 0;
           break;
         case KELDEO:
-          if (!HasMove(SECRET_SWORD)) form = 0;
+          if (!HasMove(Ms.SECRET_SWORD)) form = 0;
           break;
       }
       if (_form != null && _form.Index != form) _form = null;
@@ -375,7 +353,7 @@ namespace PokemonBattleOnline.Game
       if (_moves.Count < 4 && !HasMove(move.Id))
       {
         _moves.Add(new LearnedMove(move));
-        if (number == KELDEO && move.Id == SECRET_SWORD) OnPropertyChanged("CanChooseForm");
+        if (number == KELDEO && move.Id == Ms.SECRET_SWORD) OnPropertyChanged("CanChooseForm");
         return true;
       }
       return false;
@@ -388,7 +366,7 @@ namespace PokemonBattleOnline.Game
         {
           _moves.Remove(m);
           if (CheckSpForm()) OnPropertyChanged();
-          if (number == KELDEO && move.Id == SECRET_SWORD) OnPropertyChanged("CanChooseForm");
+          if (number == KELDEO && move.Id == Ms.SECRET_SWORD) OnPropertyChanged("CanChooseForm");
           break;
         }
     }

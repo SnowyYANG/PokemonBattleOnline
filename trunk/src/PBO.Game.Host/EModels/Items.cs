@@ -11,11 +11,10 @@ namespace PokemonBattleOnline.Game.Host
   {
     public static void RaiseItem(this PokemonProxy pm, string log, bool consume)
     {
-      var item = pm.Pokemon.Item;
-      if (item != null)
+      if (pm.Pokemon.Item != 0)
       {
         if (consume) pm.ConsumeItem();
-        pm.AddReportPm(log, item.Id);
+        pm.AddReportPm(log, pm.Pokemon.Item);
       }
     }
 
@@ -23,7 +22,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       change = pm.CanChangeLv7D(pm, stat, change, false);
       if (change == 0) return;
-      var i = pm.Pokemon.Item.Id;
+      var i = pm.Pokemon.Item;
       string log;
       switch (change)
       {
@@ -60,7 +59,7 @@ namespace PokemonBattleOnline.Game.Host
     /// <returns></returns>
     public static bool NeverLostItem(Pokemon pm)
     {
-      var i = pm.Item.Id;
+      var i = pm.Item;
       return
         i == Is.RSVP_MAIL ||
         pm.Form.Species.Number == 487 && i == Is.GRISEOUS_ORB || //giratina
@@ -69,10 +68,9 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static bool CanLostItem(PokemonProxy pm)
     {
-      Item i = pm.Pokemon.Item;
       return !
         (
-        i == null ||
+        pm.Pokemon.Item == 0 ||
         NeverLostItem(pm.Pokemon) ||
         pm.Ability == As.STICKY_HOLD
         );
@@ -81,7 +79,7 @@ namespace PokemonBattleOnline.Game.Host
     { return !(pm.OnboardPokemon.HasCondition("Embargo") || pm.Controller.Board.HasCondition("MagicRoom") || pm.Ability == As.KLUTZ); }
     public static bool PlatedArceus(Pokemon pm)
     {
-      return pm.Item != null && pm.Form.Species.Number == 493 && Is.FLAME_PLATE <= pm.Item.Id && pm.Item.Id <= Is.IRON_PLATE;
+      return pm.Form.Species.Number == 493 && Is.FLAME_PLATE <= pm.Item && pm.Item <= Is.IRON_PLATE;
     }
     public static bool Berry(int id)
     {
@@ -91,34 +89,26 @@ namespace PokemonBattleOnline.Game.Host
     {
       return Is.CHERI_BERRY <= id && id <= Is.ROWAP_BERRY ? id - Is.CHERI_BERRY + 1 : 0;
     }
-    public static int BerryNumberToItemId(int number)
-    {
-      return 0 < number && number <= 64 ? Is.CHERI_BERRY - 1 + number : 0;
-    }
     public static bool Gem(int id)
     {
       return Is.FIRE_GEM <= id && id <= Is.NORMAL_GEM;
     }
-    public static StatType GetTaste(int berry)
+    public static StatType GetTaste(int item)
     {
-      switch (berry)
+      switch (item)
       {
-        case 11:
+        case Is.FIGY_BERRY:
           return StatType.Atk;
-        case 12:
+        case Is.WIKI_BERRY:
           return StatType.SpAtk;
-        case 13:
+        case Is.MAGO_BERRY:
           return StatType.Speed;
-        case 14:
+        case Is.AGUAV_BERRY:
           return StatType.SpDef;
-        case 15:
+        case Is.IAPAPA_BERRY:
           return StatType.Def;
       }
       return StatType.Invalid;
-    }
-    public static StatType GetTaste(Item item)
-    {
-      return GetTaste(BerryNumber(item.Id));
     }
     public static void RaiseItemByMove(PokemonProxy pm, int id, PokemonProxy by)
     {

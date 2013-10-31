@@ -63,10 +63,6 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\build\dll\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -88,6 +84,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Editor\PokemonBank\PokemonBank.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Editor\PokemonBank\PokemonIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -121,8 +121,16 @@
       <SubType>Designer</SubType>
       <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
     </Page>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\GameString.cs" />
+    <Compile Include="Editor\PokemonBank\PokemonBank.xaml.cs">
+      <DependentUpon>PokemonBank.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Editor\PokemonBank\PokemonIcon.xaml.cs">
       <DependentUpon>PokemonIcon.xaml</DependentUpon>
     </Compile>
@@ -372,7 +380,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Editor\PokemonBank\ModelVMC.cs" />
+    <Compile Include="Editor\Converters.cs" />
     <Compile Include="Editor\R.cs" />
     <Compile Include="Editor\PokemonEditor\LearnMethod.cs" />
     <Compile Include="Editor\PokemonBank\TeamVM.cs" />
@@ -381,15 +389,12 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="Converters\IdMoveC.cs" />
-    <Compile Include="Editor\PokemonBank\BoxVM.cs" />
     <Compile Include="Editor\PokemonEditor\PokemonEditorVM.cs" />
     <Compile Include="Editor\PokemonEditor\PokemonEditorView.xaml.cs">
       <DependentUpon>PokemonEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Editor\EditorVM.cs" />
-    <Compile Include="Editor\PokemonBank\CollectionVM.cs" />
     <Compile Include="Editor\PokemonEditor\LearnVM.cs" />
-    <Compile Include="Editor\PokemonBank\RecyclerVM.cs" />
     <Compile Include="Editor\PokemonBank\PokemonVM.cs" />
     <Compile Include="EditorPanel.xaml.cs">
       <DependentUpon>EditorPanel.xaml</DependentUpon>
@@ -485,7 +490,9 @@
     <Resource Include="images\Battle\Balls\ONone.png" />
     <Resource Include="images\Battle\Balls\RNone.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="images\00000.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

@@ -74,10 +74,10 @@ namespace PokemonBattleOnline.Game.Host
       {
         return
           OnboardPokemon == NullOnboardPokemon ||
-          Pokemon.Item == null ||
+          Pokemon.Item == 0 ||
           !ITs.CanUseItem(this) ||
-          ITs.Berry(Pokemon.Item.Id) && Controller.Board[1 - Pokemon.TeamId].Pokemons.Any(ATs.Unnerve) ?
-        0 : Pokemon.Item.Id;
+          ITs.Berry(Pokemon.Item) && Controller.Board[1 - Pokemon.TeamId].Pokemons.Any(ATs.Unnerve) ?
+        0 : Pokemon.Item;
       }
     }
     private MoveProxy[] moves;
@@ -139,8 +139,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public void SetItem(int item)
     {
-      Pokemon.Item = RomData.GetItem(item);
-      Controller.ReportBuilder.SetItem(this);
+      Pokemon.Item = item;
       OnboardPokemon.RemoveCondition("Unburden");
       OnboardPokemon.RemoveCondition("ChoiceItem");
     }
@@ -581,15 +580,14 @@ namespace PokemonBattleOnline.Game.Host
     /// </summary>
     public void RemoveItem()
     {
-      Pokemon.Item = null;
+      Pokemon.Item = 0;
       if (Ability == As.UNBURDEN) OnboardPokemon.SetCondition("Unburden");
-      Controller.ReportBuilder.SetItem(this);
     }
     public void ConsumeItem()
     {
       OnboardPokemon.SetTurnCondition("UsedItem", Pokemon.Item);
       Tile.Field.SetCondition("UsedItem" + Id, Pokemon.Item);
-      if (ITs.Berry(Pokemon.Item.Id)) Tile.Field.SetCondition("UsedBerry" + Id, Pokemon.Item);
+      if (ITs.Berry(Pokemon.Item)) Tile.Field.SetCondition("UsedBerry" + Id, Pokemon.Item);
       RemoveItem();
     }
     public bool CheckFaint()

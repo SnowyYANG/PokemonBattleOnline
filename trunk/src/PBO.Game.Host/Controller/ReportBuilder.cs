@@ -67,7 +67,6 @@ namespace PokemonBattleOnline.Game.Host
       if (o != null)
       {
         if (o is PokemonProxy) r = ((PokemonProxy)o).Id;
-        else if (o is Item) r = ((Item)o).Id;
         else if (o is int) r = (int)o;
 #if DEBUG
         else if (o is Enum) r = o.ToString();
@@ -95,9 +94,9 @@ namespace PokemonBattleOnline.Game.Host
     {
       Add(new SetPP() { Pm = move.Owner.Id, Move = move.Type.Id, PP = move.PP });
     }
-    public void SetItem(PokemonProxy pm)
+    public void SetItem(Pokemon pm)
     {
-      Add(new SetItem() { Pm = pm.Id, Item = pm.Pokemon.Item.Id });
+      Add(new SetItem() { Pm = pm.Id, Item = pm.Item });
     }
     public void SetHp(Pokemon pm)
     {

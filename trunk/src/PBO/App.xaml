@@ -2,16 +2,13 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" ShutdownMode="OnMainWindowClose">
     <Application.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/PBO;component/Elements/Controls/ClearableComboBox.xaml"/>
-                <ResourceDictionary Source="/PBO;component/Elements/Controls/NumericUpdown.xaml"/>
-                <ResourceDictionary Source="/PBO;component/Elements/Controls/UIButton.xaml"/>
-                <ResourceDictionary Source="/PBO;component/Elements/Controls/UITextBox.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="TextBox">
-                <Setter Property="FontFamily" Value="Microsoft YaHei"/>
-            </Style>
-        </ResourceDictionary>
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Microsoft YaHei"/>
+        </Style>
+        <Style TargetType="ToolTip">
+            <Setter Property="Background" Value="#c0ffffff"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="HasDropShadow" Value="False"/>
+        </Style>
     </Application.Resources>
 </Application>

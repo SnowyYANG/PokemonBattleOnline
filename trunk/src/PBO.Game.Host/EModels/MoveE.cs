@@ -286,7 +286,6 @@ namespace PokemonBattleOnline.Game.Host
           }
       }
       #endregion
-    DONE:
       atk.SetTargets(targets);
     }
     private static bool IsYInRange(DefContext def)

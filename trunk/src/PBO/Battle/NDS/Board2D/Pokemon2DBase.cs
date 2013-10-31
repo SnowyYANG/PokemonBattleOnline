@@ -11,7 +11,6 @@ using System.Windows.Shapes;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Animation;
 using PokemonBattleOnline.Game;
-using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.PBO.Battle
 {

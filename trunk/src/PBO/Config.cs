@@ -32,9 +32,6 @@ namespace PokemonBattleOnline.PBO
     public int PokemonNumber;
     
     [DataMember(EmitDefaultValue = false)]
-    public int PokemonForm;
-    
-    [DataMember(EmitDefaultValue = false)]
     public string Server;
 
     [DataMember(EmitDefaultValue = false)]

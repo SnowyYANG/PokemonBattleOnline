@@ -9,12 +9,11 @@ namespace PokemonBattleOnline.Game
 {
     public static class Helper
     {
-        public static PokemonBT Import(string source, int size)
+        public static void Import(string source, PokemonData[] target)
         {
             source = Regex.Replace(source, @"\r\n|\r", "\n") + "\n";
-            if (Regex.IsMatch(source, @".+?（.+?） *Lv\.\d+")) return ImportFromPBO(source, size);
-            else if (Regex.IsMatch(source, @".+?(\-\w){0,1} (\(.+?\) ){0,1}(\([FM]\) ){0,1}@ .+?\n", RegexOptions.IgnoreCase)) return ImportFromPO(source, size);
-            return null;
+            if (Regex.IsMatch(source, @".+?（.+?） *Lv\.\d+")) ImportFromPBO(source, target);
+            else if (Regex.IsMatch(source, @".+?(\-\w){0,1} (\(.+?\) ){0,1}(\([FM]\) ){0,1}@ .+?\n", RegexOptions.IgnoreCase)) ImportFromPO(source, target);
             //Gliscor (M) @ Flying Gem
             //Trait: Sand Veil
             //EVs: 4 HP / 252 Atk / 252 Spd
@@ -115,34 +114,32 @@ namespace PokemonBattleOnline.Game
             return pm;
         }
 
-        private static PokemonBT ImportFromPO(string source, int size)
+        private static void ImportFromPO(string source, PokemonData[] target)
         {
-            var pms = new PokemonBT();
+            int i = 0;
             foreach (Match m in Regex.Matches(source, @"(.+?)(\-\w){0,1} (?:\((.{2,}?)(?:\-\w){0,1}\) ){0,1}(?:\(([FM])\) ){0,1}@ (.+?)\nTrait: (.+?)\nEVs: (.+?)\n(.+?) Nature.*\n((?:\- .+?\n)+)"))
             {
                 try
                 {
-                    pms.Add(ImportFromPO(m));
+                    target[i++] = ImportFromPO(m);
                 }
                 catch { }
-                if (--size == 0) break;
+                if (i == target.Length) break;
             }
-            return pms;
         }
 
-        private static PokemonBT ImportFromPBO(string source, int size)
+        private static void ImportFromPBO(string source, PokemonData[] target)
         {
-            var pms = new PokemonBT();
+            int i = 0;  
             foreach (Match m in Regex.Matches(source, @"(.+?)（(.+?)） *Lv.(\d+)(?: *(.)){0,1}\n\* 特性：[ 　]*(.+?)\n\* 性格：[ 　]*(.+?)\n(?:\* 个体值{0,1}：[ 　]*(.+?)\n){0,1}\* 努力值{0,1}：[ 　]*(.+?)\n(?:\* 亲密度：[ 　]*(\d+?)\n){0,1}\* 道具：[ 　]*(.+?)\n\* 技能：[ 　]*(.+?)\n"))
             {
                 try
                 {
-                    pms.Add(ImportFromPBO(m));
+                    target[i++] = ImportFromPBO(m);
                 }
                 catch { }
-                if (--size == 0) break;
+                if (i == target.Length) break;
             }
-            return pms;
         }
 
         private static void Export(StringBuilder sb, PokemonData pm)
@@ -162,7 +159,7 @@ namespace PokemonBattleOnline.Game
                 sb.AppendLine("* 努力：", space, ss.Hp, "/", ss.Atk, "/", ss.Def, "/", ss.SpAtk, "/", ss.SpDef, "/", ss.Speed);
             }
             if (pm.Happiness < 255) sb.AppendLine("* 亲密度：", pm.Happiness);
-            sb.AppendLine("* 道具：", space, pm.Item == null ? "无" : GameString.Current.Item(pm.Item.Id));
+            sb.AppendLine("* 道具：", space, pm.Item == null ? "无" : GameString.Current.Item(pm.Item));
             sb.Append("* 技能：", space);
             if (pm.Moves.Count() == 0)
             {

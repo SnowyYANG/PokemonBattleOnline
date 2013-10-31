@@ -24,7 +24,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.THIEF: //168
         case Ms.COVET: //343
-          if (aer.Pokemon.Item == null) atk.SetCondition("Thief");
+          if (aer.Pokemon.Item == 0) atk.SetCondition("Thief");
           break;
         case Ms.ROLLOUT: //205
         case Ms.ICE_BALL:

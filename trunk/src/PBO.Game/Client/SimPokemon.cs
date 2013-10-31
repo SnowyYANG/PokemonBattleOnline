@@ -32,7 +32,7 @@ namespace PokemonBattleOnline.Game
       nature = custom.Nature;
       abilityIndex = custom.AbilityIndex;
       Moves = custom.Moves.Select((m) => new Move(m.Move, m.PP)).ToArray();
-      Item = RomData.GetItem(custom.ItemId);
+      Item = custom.Item;
       iv = new ReadOnly6D(custom.Iv);
       ev = new ReadOnly6D(custom.Ev);
       _hp = new PairValue(PokemonStatHelper.GetHp(custom.Form.Data.Base.Hp, (byte)iv.Hp, (byte)ev.Hp, (byte)Lv));
@@ -71,8 +71,8 @@ namespace PokemonBattleOnline.Game
     public ReadOnly6D FiveD
     { get; private set; }
 
-    private Item _item;
-    public Item Item
+    private int _item;
+    public int Item
     {
       get { return _item; }
       set

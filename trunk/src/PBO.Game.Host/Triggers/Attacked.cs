@@ -99,7 +99,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       switch (def.Defender.Item)
       {
         case Is.STICKY_BARB: //65
-          if (touch && aer.Pokemon.Item == null && der.Controller.RandomHappen(10))
+          if (touch && aer.Pokemon.Item == 0 && der.Controller.RandomHappen(10))
           {
             der.RemoveItem();
             aer.SetItem(Is.STICKY_BARB);
@@ -163,9 +163,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       var der = d.Defender;
       var aer = d.AtkContext.Attacker;
-      if (der.Pokemon.Item == null && ITs.CanLostItem(aer))
+      if (der.Pokemon.Item == 0 && ITs.CanLostItem(aer))
       {
-        var i = aer.Pokemon.Item.Id;
+        var i = aer.Pokemon.Item;
         aer.RemoveItem();
         der.RaiseAbility();
         der.SetItem(i);
@@ -189,7 +189,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         int hp = aer.Pokemon.MaxHp >> 3;
         if (hp == 0) hp = 1;
-        aer.AddReportPm("ReHurtItem", def.Defender, def.Defender.Pokemon.Item.Id);
+        aer.AddReportPm("ReHurtItem", def.Defender, def.Defender.Pokemon.Item);
         aer.Hp -= hp;
       }
     }

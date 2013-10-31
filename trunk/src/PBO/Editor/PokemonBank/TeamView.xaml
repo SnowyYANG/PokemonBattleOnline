@@ -3,16 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <e:PokemonIcon/>
-        <e:PokemonIcon/>
-        <e:PokemonIcon/>
-        <e:PokemonIcon/>
-        <e:PokemonIcon/>
-        <e:PokemonIcon/>
-        <TextBlock Width="192"/>
-    </Grid>
+             xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
+             xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor">
+    <UserControl.ContextMenu>
+        <ContextMenu>
+            <MenuItem/>
+            <Separator/>
+            <MenuItem Header="删除"/>
+        </ContextMenu>
+    </UserControl.ContextMenu>
+    <Canvas Height="32">
+        <Path Name="bg" Fill="{x:Static ui:SBrushes.GrayB1}" Stroke="{Binding BorderBrush}" Data="M0,6 L391,6 385,29 0,29" StrokeThickness="0" Stretch="None" VerticalAlignment="Bottom" SnapsToDevicePixels="True"/>
+        <e:PokemonIcon DataContext="{Binding [0]}"/>
+        <e:PokemonIcon DataContext="{Binding [1]}" Canvas.Left="32"/>
+        <e:PokemonIcon DataContext="{Binding [2]}" Canvas.Left="64"/>
+        <e:PokemonIcon DataContext="{Binding [3]}" Canvas.Left="96"/>
+        <e:PokemonIcon DataContext="{Binding [4]}" Canvas.Left="128"/>
+        <e:PokemonIcon DataContext="{Binding [5]}" Canvas.Left="160"/>
+        <TextBlock Text="{Binding Name}" Canvas.Left="192" Width="192"/>
+    </Canvas>
 </UserControl>

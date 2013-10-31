@@ -7,8 +7,6 @@ namespace PokemonBattleOnline.Game.Host
 {
   internal class InputController : ControllerComponent
   {
-    private bool singleSendout;
-
     public InputController(Controller controller)
       : base(controller)
     {
@@ -107,7 +105,6 @@ namespace PokemonBattleOnline.Game.Host
           var player = Controller.GetPlayer(t);
           if (_requirements[player.TeamId, player.TeamIndex] == null) _requirements[player.TeamId, player.TeamIndex] = new InputRequest() { Time = player.SpentTime };
         }
-      singleSendout = false;
       return true;
     }
     public bool PauseForSendoutInput(Tile tile)
@@ -118,7 +115,6 @@ namespace PokemonBattleOnline.Game.Host
         var player = Controller.GetPlayer(tile);
         _requirements[player.TeamId, player.TeamIndex] = new InputRequest() { Xs = new int[] { tile.X }, Time = player.SpentTime };
       }
-      singleSendout = true;
       return true;
     }
     private bool Switch(PokemonProxy withdraw, int sendoutIndex)

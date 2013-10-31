@@ -40,14 +40,6 @@ namespace PokemonBattleOnline.Game
 #else
     private readonly
 #endif
-     Dictionary<int, Item> items;
-
-    [DataMember]
-#if EDITING
-    public
-#else
-    private readonly
-#endif
      Evolution[] evolutions;
 
     private RomData()
@@ -60,8 +52,8 @@ namespace PokemonBattleOnline.Game
     { get { return current.moves; } }
     public static int Abilities
     { get { return 164; } }
-    public static IEnumerable<Item> Items
-    { get { return current.items.Values; } }
+    public static int Items
+    { get { return 195; } }
     public static int BattleTypes
     { get { return 17; } }
     public static int MoveCategories
@@ -81,10 +73,6 @@ namespace PokemonBattleOnline.Game
     public static MoveType GetMove(int moveId)
     {
       return current.moves.ValueOrDefault(moveId - 1);
-    }
-    public static Item GetItem(int itemId)
-    {
-      return current.items.ValueOrDefault(itemId);
     }
 
     public static int? GetPreEvolution(int number)

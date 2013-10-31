@@ -22,7 +22,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (pm.Controller.Weather == Weather.HeavyRain) speed <<= 1;
           break;
         case As.UNBURDEN:
-          if (pm.Pokemon.Item == null && pm.OnboardPokemon.HasCondition("HadItem")) speed <<= 1;
+          if (pm.Pokemon.Item == 0 && pm.OnboardPokemon.HasCondition("HadItem")) speed <<= 1;
           break;
         case As.QUICK_FEET:
           if (pm.State != PokemonState.Normal) speed += speed >> 1;

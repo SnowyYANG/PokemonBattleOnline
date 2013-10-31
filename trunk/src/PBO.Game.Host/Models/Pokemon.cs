@@ -44,7 +44,7 @@ namespace PokemonBattleOnline.Game.Host
       Nature = custom.Nature;
       AbilityIndex = custom.AbilityIndex;
       Moves = custom.Moves.Select((m) => new Move(m.Move, m.PP)).ToArray();
-      Item = RomData.GetItem(custom.ItemId);
+      Item = custom.Item;
       Iv = new ReadOnly6D(custom.Iv);
       Ev = new ReadOnly6D(custom.Ev);
       Chatter = custom.Chatter;
@@ -56,7 +56,19 @@ namespace PokemonBattleOnline.Game.Host
     }
 
     public PokemonForm Form; //shaymi
-    public Item Item;
+    private int _item;
+    public int Item
+    {
+      get { return _item; }
+      set
+      {
+        if (_item != value)
+        {
+          _item = value;
+          Controller.ReportBuilder.SetItem(this);
+        }
+      }
+    }
     private PokemonState _state;
     public PokemonState State
     {

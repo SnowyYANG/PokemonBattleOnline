@@ -131,9 +131,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void Frisk(PokemonProxy pm)
     {
       var pms = pm.Controller.GetOnboardPokemons(1 - pm.Pokemon.TeamId);
-      var items = new List<Item>();
+      var items = new List<int>();
       foreach (var p in pms)
-        if (p.Pokemon.Item != null) items.Add(p.Pokemon.Item);
+        if (p.Pokemon.Item != 0) items.Add(p.Pokemon.Item);
       if (items.Count == 0) return;
       int i = pm.Controller.GetRandomInt(0, items.Count - 1);
       pm.RaiseAbility();

@@ -82,13 +82,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static void RecoverBerry(PokemonProxy pm, int hp)
     {
-      if (pm.Hp << 1 <= pm.Pokemon.MaxHp) pm.HpRecover(hp, false, "ItemRecover", pm.Pokemon.Item.Id, true);
+      if (pm.Hp << 1 <= pm.Pokemon.MaxHp) pm.HpRecover(hp, false, "ItemRecover", pm.Pokemon.Item, true);
     }
     private static void TastyBerry(PokemonProxy pm)
     {
       if (ATs.Gluttony(pm) && pm.CanHpRecover(false))
       {
-        pm.HpRecoverByOneNth(8, false, "ItemRecover", pm.Pokemon.Item.Id, true);
+        pm.HpRecoverByOneNth(8, false, "ItemRecover", pm.Pokemon.Item, true);
         if (pm.Pokemon.Nature.DislikeTaste(ITs.GetTaste(pm.Pokemon.Item))) pm.AddState(pm, AttachedState.Confuse, false);
       }
     }

@@ -20,21 +20,19 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.NATURAL_GIFT: //363
           {
-            var i = ITs.BerryNumber(atk.Attacker.Pokemon.Item.Id);
+            var i = ITs.BerryNumber(atk.Attacker.Pokemon.Item);
             atk.Type = i < 36 ? BattleTypeHelper.GetItemType(i, 1) : i < 53 ? BattleTypeHelper.GetItemType(i, 36, false) : BattleTypeHelper.GetItemType(i, 50);
           }
           break;
         case Ms.JUDGMENT: //449
-          if (atk.Attacker.Pokemon.Item != null)
           {
-            var i = atk.Attacker.Pokemon.Item.Id;
+            var i = atk.Attacker.Pokemon.Item;
             atk.Type = Is.FLAME_PLATE <= i && i <= Is.IRON_PLATE ? BattleTypeHelper.GetItemType(i, Is.FLAME_PLATE) : BattleType.Normal;
           }
           break;
         case Ms.TECHNO_BLAST: //546
-          if (atk.Attacker.Pokemon.Item != null)
           {
-            var i = atk.Attacker.Pokemon.Item.Id;
+            var i = atk.Attacker.Pokemon.Item;
             atk.Type = i == Is.DOUSE_DRIVE ? BattleType.Water : i == Is.SHOCK_DRIVE ? BattleType.Electric : i == Is.BURN_DRIVE ? BattleType.Fire : i == Is.CHILL_DRIVE ? BattleType.Ice : BattleType.Normal;
           }
           break;

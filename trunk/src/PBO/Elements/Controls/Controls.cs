@@ -12,13 +12,13 @@ namespace PokemonBattleOnline.PBO.Elements
     public static readonly Style XButton;
     public static readonly Style CommandMenu;
     public static readonly ItemsPanelTemplate WrapPanel;
-    public static readonly ItemsPanelTemplate HorizontalWrapPanel;
+    public static readonly ItemsPanelTemplate VerticalWrapPanel;
 
     static Controls()
     {
       ResourceDictionary rd = Helper.GetDictionary("Elements/Controls", "Controls");
       WrapPanel = (ItemsPanelTemplate)rd["WrapPanelTemplate"];
-      HorizontalWrapPanel = (ItemsPanelTemplate)rd["HorizontalWrapPanelTemplate"];
+      VerticalWrapPanel = (ItemsPanelTemplate)rd["VerticalWrapPanelTemplate"];
       XButton = (Style)rd["XButton"];
     }
   }

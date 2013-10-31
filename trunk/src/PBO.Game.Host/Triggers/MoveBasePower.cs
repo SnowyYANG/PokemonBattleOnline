@@ -54,7 +54,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.NATURAL_GIFT: //363
           {
-            var i = ITs.BerryNumber(def.AtkContext.Attacker.Pokemon.Item.Id);
+            var i = ITs.BerryNumber(def.AtkContext.Attacker.Pokemon.Item);
             def.BasePower = i < 17 ? 60 : i < 33 ? 70 : i < 36 ? 80 : i < 53 ? 60 : 80;
           }
           break;
@@ -65,7 +65,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           def.BasePower = der.OnboardPokemon.HasCondition("Assurance") ? 100 : 50;
           break;
         case Ms.FLING: //374
-          def.BasePower = aer.Pokemon.Item.FlingPower;
+          def.BasePower = MTs.FlingPower(aer.Pokemon.Item);
           break;
         case Ms.TRUMP_CARD: //376
           TrumpCard(def);
@@ -115,7 +115,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           GyroBall(def);
           break;
         case Ms.ACROBATICS:
-          def.BasePower = aer.Pokemon.Item == null ? 110 : 55;
+          def.BasePower = aer.Pokemon.Item == 0 ? 110 : 55;
           break;
         case Ms.RETURN:
           def.BasePower = aer.Pokemon.Happiness * 4 / 10;

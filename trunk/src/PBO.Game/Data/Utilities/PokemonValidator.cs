@@ -63,22 +63,17 @@ namespace PokemonBattleOnline.Game
               ValidateMoves(pm);
         }
 
-        /// <summary>
-        /// all but Name
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
         public static bool ValueEquals(this IPokemonData a, IPokemonData b)
         {
             return
+              a.Name == b.Name &&
               a.AbilityIndex == b.AbilityIndex &&
               a.Ev.Equals(b.Ev) &&
               a.Iv.Equals(b.Iv) &&
               a.Form == b.Form &&
               a.Gender == b.Gender &&
               a.Happiness == b.Happiness &&
-              a.ItemId == b.ItemId &&
+              a.Item == b.Item &&
               a.Lv == b.Lv &&
               a.Moves.SequenceEqual(b.Moves) &&
               a.Nature == b.Nature;

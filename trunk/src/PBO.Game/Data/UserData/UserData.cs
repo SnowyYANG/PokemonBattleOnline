@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using System.Collections.ObjectModel;
 
 namespace PokemonBattleOnline.Game
 {
@@ -21,70 +22,48 @@ namespace PokemonBattleOnline.Game
         Current = new UserData();
       }
       Current.fileName = fileName;
-      PokemonBT.PokemonDeleted += Current.Recycler.Add;
     }
 
     private string fileName;
 
     private UserData()
     {
-      Boxes = new CollectionGroup();
-      Teams = new CollectionGroup();
-      Recycler = new PokemonRecycler();
+      _teams = new ObservableList<PokemonTeam>();
     }
 
-    private CollectionGroup _boxes;
-    [DataMember]
-    public CollectionGroup Boxes
+    private ObservableList<PokemonTeam> _teams;
+    public ObservableList<PokemonTeam> Teams
     { 
-      get { return _boxes; }
-      set
+      get
       {
-        _boxes = value;
-        _boxes.CollectionSize = 30;
+        if (_teams == null)
+        {
+          _teams = new ObservableList<PokemonTeam>();
+          _teams.Add(null);
+        }
+        return _teams;
       }
     }
     [DataMember]
-    private string[] BoxesNames
+    private PokemonTeam[] teams
     {
-      get { return Boxes.Select((b) => b.Name).ToArray(); }
+      get { return _teams.ToArray(); }
       set
       {
-        int i = 0;
-        foreach (var box in Boxes) box.Name = value[i++];
+        _teams = new ObservableList<PokemonTeam>(value);
+        if (_teams.FirstOrDefault() != null) _teams.Insert(0, null);
       }
     }
-    private CollectionGroup _teams;
-    [DataMember]
-    public CollectionGroup Teams
-    { 
-      get { return _teams; }
-      set
-      {
-        _teams = value;
-        _teams.CollectionSize = 6;
-      }
-    }
-    [DataMember]
-    private string[] TeamsNames
+
+    public void ImportTeam(string text)
     {
-      get { return Teams.Select((t) => t.Name).ToArray(); }
-      set
-      {
-        int i = 0;
-        foreach (var team in Teams) team.Name = value[i++];
-      }
+      var pms = new PokemonData[6];
+      Helper.Import(text, pms);
+      Teams.Add(new PokemonTeam(pms));
     }
-    private PokemonRecycler _recycler;
-    [DataMember]
-    public PokemonRecycler Recycler
-    { 
-      get { return _recycler; }
-      set
-      {
-        _recycler = value;
-        _recycler.Size = 100;
-      }
+    public void AddTeam()
+    {
+      Teams.Insert(1, new PokemonTeam());
     }
 
     public void Save(string fileName)

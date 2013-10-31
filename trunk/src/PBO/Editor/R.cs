@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Effects;
 
 namespace PokemonBattleOnline.PBO.Editor
@@ -14,6 +15,7 @@ namespace PokemonBattleOnline.PBO.Editor
     public static readonly DataTemplate PokemonSpecies;
     public static readonly DataTemplate PokemonForm;
     public static readonly DataTemplate SelectedMove;
+    public static readonly ImageSource P00000;
 
     static R()
     {
@@ -24,6 +26,7 @@ namespace PokemonBattleOnline.PBO.Editor
       PokemonSpecies = (DataTemplate)rd["PokemonSpecies"];
       PokemonForm = (DataTemplate)rd["PokemonForm"];
       SelectedMove = (DataTemplate)rd["LearnedMove"];
+      P00000 = Helper.GetImage(@"00000.png");
     }
 
     private static ResourceDictionary GetDictionary(string name)

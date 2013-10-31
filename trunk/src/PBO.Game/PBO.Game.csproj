@@ -64,7 +64,6 @@
     <Compile Include="Data\IDs.cs" />
     <Compile Include="Data\Rom\BattleType.cs" />
     <Compile Include="Data\Rom\Pokemon\GiftPokemon.cs" />
-    <Compile Include="Data\Rom\Item.cs" />
     <Compile Include="Data\Rom\LearnList\LearnList.cs" />
     <Compile Include="Data\Rom\LearnList\SPLearnList.cs" />
     <Compile Include="Data\Rom\Move\MoveCategory.cs" />
@@ -80,13 +79,9 @@
     <Compile Include="Data\Rom\Pokemon\PokemonNature.cs" />
     <Compile Include="Data\Rom\Pokemon\PokemonSpecies.cs" />
     <Compile Include="Data\Rom\RomData.cs" />
-    <Compile Include="Data\UserData\CollectionGroup.cs" />
     <Compile Include="Data\UserData\Helper.cs" />
-    <Compile Include="Data\UserData\ITeamIO.cs" />
-    <Compile Include="Data\UserData\PokemonBT.cs" />
-    <Compile Include="Data\UserData\PokemonCollection.cs" />
+    <Compile Include="Data\UserData\PokemonTeam.cs" />
     <Compile Include="Data\UserData\PokemonData.cs" />
-    <Compile Include="Data\UserData\PokemonRecycler.cs" />
     <Compile Include="Data\UserData\TeamHelper.cs" />
     <Compile Include="Data\Utilities\IPokemonData.cs" />
     <Compile Include="Data\Utilities\PokemonStatHelper.cs" />

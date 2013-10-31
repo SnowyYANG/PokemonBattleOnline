@@ -467,14 +467,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             }
             break;
           case As.HARVEST:
-            if (pm.Pokemon.Item == null)
+            if (pm.Pokemon.Item == 0)
             {
-              var i = pm.Tile.Field.GetCondition<Item>("UsedBerry" + pm.Id);
-              if (i != null && c.Weather == Game.Weather.IntenseSunlight || c.RandomHappen(50))
+              var i = pm.Tile.Field.GetCondition<int>("UsedBerry" + pm.Id);
+              if (i != 0 && c.Weather == Game.Weather.IntenseSunlight || c.RandomHappen(50))
               {
                 pm.RaiseAbility();
-                pm.SetItem(i.Id);
-                pm.AddReportPm("Harvest", i.Id);
+                pm.SetItem(i);
+                pm.AddReportPm("Harvest", i);
                 STs.ItemAttach(pm);
               }
             }
@@ -501,14 +501,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             pm.EffectHurtByOneNth(8, "ItemHurt", Is.STICKY_BARB);
             break;
         }
-        if (ab == As.PICKUP && pm.Pokemon.Item == null)
+        if (ab == As.PICKUP && pm.Pokemon.Item == 0)
         {
-          var items = new List<Item>();
+          var items = new List<int>();
           var owners = new List<OnboardPokemon>();
           foreach (var p in c.Board[1 - pm.Pokemon.TeamId].Pokemons)
           {
-            var i = p.OnboardPokemon.GetCondition<Item>("UsedItem");
-            if (i != null)
+            var i = p.OnboardPokemon.GetCondition<int>("UsedItem");
+            if (i != 0)
             {
               items.Add(i);
               owners.Add(p.OnboardPokemon);
@@ -518,8 +518,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             foreach (var p in pm.Tile.Field.Pokemons)
               if (p != pm)
               {
-                var i = p.OnboardPokemon.GetCondition<Item>("UsedItem");
-                if (i != null)
+                var i = p.OnboardPokemon.GetCondition<int>("UsedItem");
+                if (i != 0)
                 {
                   items.Add(i);
                   owners.Add(p.OnboardPokemon);
@@ -530,8 +530,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             var i = c.GetRandomInt(0, items.Count - 1);
             owners[i].RemoveCondition("UsedItem");
             pm.RaiseAbility();
-            pm.SetItem(items[i].Id);
-            pm.AddReportPm("Pickup", items[i].Id);
+            pm.SetItem(items[i]);
+            pm.AddReportPm("Pickup", items[i]);
             STs.ItemAttach(pm);
           }
         }

@@ -83,7 +83,7 @@ namespace PokemonBattleOnline.Game
     /// <returns></returns>
     public bool Move(SimMove move)
     {
-      if (OnlyMove != 0 && OnlyMove != move.Type.Id) SetErrorMessage(Only, GameString.Current.Move(RomData.GetMove(OnlyMove).Id), Pm.Pokemon.Item == null ? null : GameString.Current.Item(Pm.Pokemon.Item.Id));
+      if (OnlyMove != 0 && OnlyMove != move.Type.Id) SetErrorMessage(Only, GameString.Current.Move(RomData.GetMove(OnlyMove).Id), GameString.Current.Item(Pm.Pokemon.Item));
       else
         if (Block != null)
           for (int i = 0; i < Pm.Moves.Length; ++i)

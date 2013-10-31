@@ -17,7 +17,7 @@ namespace PokemonBattleOnline.Game.GameEvents
     public override void Update(SimGame game)
     {
       var pm = GetPokemon(game, Pm);
-      if (pm != null) pm.Item = Item == 0 ? null : RomData.GetItem(Item);
+      if (pm != null) pm.Item = Item;
     }
   }
 }

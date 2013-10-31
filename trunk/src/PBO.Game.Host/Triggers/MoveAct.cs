@@ -17,7 +17,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       switch (move.Id)
       {
         case Ms.FLING:
-          aer.AddReportPm("Fling", aer.Pokemon.Item.Id);
+          aer.AddReportPm("Fling", aer.Pokemon.Item);
           break;
         case Ms.UPROAR:
           if (atk.GetCondition("MultiTurn").Turn == 3)
@@ -783,9 +783,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       var aer = atk.Attacker;
       var der = atk.Target.Defender;
-      if (der.Pokemon.Item == null)
+      if (der.Pokemon.Item == 0)
       {
-        var i = aer.Pokemon.Item.Id;
+        var i = aer.Pokemon.Item;
         aer.RemoveItem();
         der.SetItem(i);
         der.AddReportPm("Bestow", i, aer);
@@ -839,21 +839,21 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var der = atk.Target.Defender;
       var ai = aer.Pokemon.Item;
       var di = der.Pokemon.Item;
-      if (di == null && ai == null || ai != null && ITs.NeverLostItem(aer.Pokemon) || di != null && !ITs.CanLostItem(der)) atk.FailAll();
+      if (di == 0 && ai == 0 || ai != 0 && ITs.NeverLostItem(aer.Pokemon) || di != 0 && !ITs.CanLostItem(der)) atk.FailAll();
       else
       {
         aer.AddReportPm("Trick");
-        if (ai != null) aer.RemoveItem();
-        if (di != null) der.RemoveItem();
-        if (ai != null)
+        if (ai != 0) aer.RemoveItem();
+        if (di != 0) der.RemoveItem();
+        if (ai != 0)
         {
-          der.SetItem(ai.Id);
-          der.AddReportPm("GetItem", ai.Id);
+          der.SetItem(ai);
+          der.AddReportPm("GetItem", ai);
         }
-        if (di != null)
+        if (di != 0)
         {
-          aer.SetItem(di.Id);
-          aer.AddReportPm("GetItem", di.Id);
+          aer.SetItem(di);
+          aer.AddReportPm("GetItem", di);
         }
       }
     }
@@ -892,14 +892,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void Recycle(AtkContext atk)
     {
       var aer = atk.Attacker;
-      if (aer.Pokemon.Item == null)
+      if (aer.Pokemon.Item == 0)
       {
-        var item = aer.Tile.Field.GetCondition<Item>("UsedItem" + aer.Id);
-        if (item == null) atk.FailAll();
+        var item = aer.Tile.Field.GetCondition<int>("UsedItem" + aer.Id);
+        if (item == 0) atk.FailAll();
         else
         {
-          aer.SetItem(item.Id);
-          aer.AddReportPm("Recycle", item.Id);
+          aer.SetItem(item);
+          aer.AddReportPm("Recycle", item);
           aer.Tile.Field.RemoveCondition("UsedItem" + aer.Id);
         }
       }

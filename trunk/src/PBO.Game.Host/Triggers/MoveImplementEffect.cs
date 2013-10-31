@@ -42,7 +42,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.FLING: //374
           {
-            var i = aer.Pokemon.Item.Id;
+            var i = aer.Pokemon.Item;
             aer.ConsumeItem();
             ITs.RaiseItemByMove(def.Defender, i, aer);
           }
@@ -89,7 +89,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var aer = def.AtkContext.Attacker;
       if (def.AtkContext.HasCondition("Thief") && ITs.CanLostItem(def.Defender))
       {
-        var i = def.Defender.Pokemon.Item.Id;
+        var i = def.Defender.Pokemon.Item;
         def.Defender.RemoveItem();
         aer.SetItem(i); //先铁棘再果子
         aer.AddReportPm("Thief", i, def.Defender);
@@ -118,7 +118,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       if (ITs.CanLostItem(def.Defender))
       {
-        var i = def.Defender.Pokemon.Item.Id;
+        var i = def.Defender.Pokemon.Item;
         if (ITs.BerryNumber(i) != 0) def.SetCondition("EatenBerry", i);
       }
     }
@@ -128,7 +128,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var der = def.Defender;
       if (ITs.CanLostItem(der))
       {
-        var i = der.Pokemon.Item.Id;
+        var i = der.Pokemon.Item;
         if (!berry || ITs.BerryNumber(i) != 0)
         {
           der.RemoveItem();

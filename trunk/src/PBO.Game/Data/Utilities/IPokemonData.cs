@@ -50,7 +50,7 @@ namespace PokemonBattleOnline.Game
     PokemonGender Gender { get; }
     PokemonNature Nature { get; }
     int AbilityIndex { get; }
-    int ItemId { get; }
+    int Item { get; }
     int Happiness { get; }
     I6D Iv { get; }
     I6D Ev { get; }

@@ -40,9 +40,26 @@ namespace PokemonBattleOnline.PBO.Editor
     {
       base.OnDrop(e);
     }
+
+    bool click;
     protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
     {
       base.OnMouseLeftButtonDown(e);
+      click = true;
+    }
+    protected override void OnMouseLeave(MouseEventArgs e)
+    {
+      base.OnMouseLeave(e);
+      click = false;
+    }
+    protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+    {
+      base.OnMouseLeftButtonUp(e);
+      if (click)
+      {
+        var pm = (PokemonVM)DataContext;
+        EditorVM.Current.EditPokemon(pm);
+      }
     }
   }
 }

@@ -145,12 +145,12 @@ namespace PokemonBattleOnline.Game
     public string Move(int move)
     {
       var i = move - 1;
-      return Moves[i] ?? InnerBackup.Moves[i];
+      return Moves.ValueOrDefault(i) ?? InnerBackup.Moves.ValueOrDefault(i);
     }
     public string Ability(int ability)
     {
       var i = ability - 1;
-      return Abilities[i] ?? InnerBackup.Abilities[i];
+      return Abilities.ValueOrDefault(i) ?? InnerBackup.Abilities.ValueOrDefault(i);
     }
     public string Item(int item)
     {
@@ -160,13 +160,13 @@ namespace PokemonBattleOnline.Game
     {
       var i = move - 1;
       var backup = InnerBackup.MovesD;
-      return MovesD == null ? backup == null ? null : backup[i] : MovesD[i];
+      return MovesD == null ? backup == null ? null : backup.ValueOrDefault(i) : MovesD.ValueOrDefault(i);
     }
     public string AbilityD(int ability)
     {
       var i = ability - 1;
       var backup = InnerBackup.AbilitiesD;
-      return AbilitiesD == null ? backup == null ? null : backup[i] : AbilitiesD[i];
+      return AbilitiesD == null ? backup == null ? null : backup.ValueOrDefault(i) : AbilitiesD.ValueOrDefault(i);
     }
     public string ItemD(int item)
     {
@@ -177,20 +177,20 @@ namespace PokemonBattleOnline.Game
     {
       var i = (int)nature;
       var backup = InnerBackup.Natures;
-      return Natures == null ? backup == null ? null : backup[i] : Natures[i];
+      return Natures == null ? backup == null ? null : backup.ValueOrDefault(i) : Natures.ValueOrDefault(i);
     }
     public string BattleType(BattleType type)
     {
       if (type == Game.BattleType.Invalid) return null;
       var i = (int)type - 1;
       var backup = InnerBackup.BattleTypes;
-      return BattleTypes == null ? backup == null ? null : backup[i] : BattleTypes[i];
+      return BattleTypes == null ? backup == null ? null : backup.ValueOrDefault(i) : BattleTypes.ValueOrDefault(i);
     }
     public string MoveCategory(MoveCategory category)
     {
       var i = (int)category;
       var backup = InnerBackup.MoveCategories;
-      return MoveCategories == null ? backup == null ? null : backup[i] : MoveCategories[i];
+      return MoveCategories == null ? backup == null ? null : backup.ValueOrDefault(i) : MoveCategories.ValueOrDefault(i);
     }
     public string BattleLog(string key)
     {
@@ -228,12 +228,12 @@ namespace PokemonBattleOnline.Game
       if (i == -1 && gs == Current && Backup != null) i = Backup.Abilities.IndexOf(name);
       return i == -1 ? null : (int?)(i + 1);
     }
-    public static Item Item(string name)
+    public static int Item(string name)
     {
       var gs = GetLanguage(name);
       var i = gs == null ? 0 : gs.Items.KeyOf(name);
       if (i == 0 && gs == Current && Backup != null) i = Backup.Items.KeyOf(name);
-      return i == 0 ? null : RomData.GetItem(i);
+      return i;
     }
     public static MoveType Move(string name)
     {

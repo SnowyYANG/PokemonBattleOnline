@@ -69,7 +69,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void MentalHerb(PokemonProxy pm)
     {
       var a = pm.OnboardPokemon.RemoveCondition("Attract");
-      if (a) pm.AddReportPm("ItemDeAttract", pm.Pokemon.Item.Id);
+      if (a) pm.AddReportPm("ItemDeAttract", pm.Pokemon.Item);
       if (a | MentalHerb(pm, "Encore") | MentalHerb(pm, "Taunt") | MentalHerb(pm, "Torment") | MentalHerb(pm, "Disable")) pm.ConsumeItem();
     }
   }

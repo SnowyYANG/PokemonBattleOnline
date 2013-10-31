@@ -7,23 +7,6 @@
                     xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor">
     <DropShadowEffect x:Key="MagentaShadow" ShadowDepth="1" Color="{Binding Color,Source={x:Static ui:SBrushes.MagentaM},Mode=OneTime}" BlurRadius="3" Opacity="1"/>
     <DropShadowEffect x:Key="OrangeShadow" ShadowDepth="1" Color="{Binding Color,Source={x:Static ui:SBrushes.OrangeM},Mode=OneTime}" BlurRadius="3" Opacity="1"/>
-    <DataTemplate x:Key="PokemonSpecies">
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-            <StackPanel.ToolTip>
-                <ToolTip>
-                    <ToolTip.Template>
-                        <ControlTemplate>
-                            <Border Background="#C0ffffff">
-                                <Image Height="32" Width="32" Source="{Binding Converter={x:Static c:PokemonSpeciesIcon.C}}"/>
-                            </Border>
-                        </ControlTemplate>
-                    </ToolTip.Template>
-                </ToolTip>
-            </StackPanel.ToolTip>
-            <TextBlock Text="{Binding Number, StringFormat=No.{0: 000}}" Margin="0,0,5,0"/>
-            <TextBlock Text="{Binding Name}"/>
-        </StackPanel>
-    </DataTemplate>
     <DataTemplate x:Key="PokemonForm">
         <Grid>
             <TextBlock Text="{Binding Name}" Foreground="White" IsHitTestVisible="False">

@@ -104,10 +104,11 @@ namespace PokemonBattleOnline.Game.DataEditor
     }
     static void Main(string[] args)
     {
-      using (var pack = new ZipData(Desktop + "rom.zip"))
+      using (var pack = new ZipData("..\\res\\rom.zip"))
       {
-        LearnList.Load(pack, "/learnset");
         RomData.Load(pack, "/rom.xml");
+        using (var sw = new StreamWriter(Desktop + "flingPower.txt"))
+          foreach (var i in RomData.Items) sw.WriteLine(i.FlingPower);
         System.Diagnostics.Debugger.Break();
       }
 

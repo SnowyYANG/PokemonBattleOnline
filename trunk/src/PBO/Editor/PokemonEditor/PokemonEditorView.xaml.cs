@@ -28,6 +28,10 @@ namespace PokemonBattleOnline.PBO.Editor
     {
       InitializeComponent();
       grid.Fill = SBrushes.GetHorizontalTileBrush(25, SBrushes.NewBrush(0x80ffffff));
+      Natures.ItemsSource = Enum.GetValues(typeof(PokemonNature));
+      var items = new int[RomData.Items];
+      for (int i = 0; i < items.Length; ++i) items[i] = i + 1;
+      Items.ItemsSource = items;
     }
 
     private PokemonEditorVM VM

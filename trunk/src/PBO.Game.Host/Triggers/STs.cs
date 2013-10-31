@@ -142,7 +142,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
       if ((pm.Item == Is.FOCUS_BAND && pm.Controller.OneNth(10)) || (pm.Item == Is.FOCUS_SASH && pm.Hp == pm.Pokemon.MaxHp))
       {
-        pm.RaiseItem("FocusItem", pm.Pokemon.Item.Id == Is.FOCUS_SASH);
+        pm.RaiseItem("FocusItem", pm.Pokemon.Item == Is.FOCUS_SASH);
         return true;
       }
       return false;
