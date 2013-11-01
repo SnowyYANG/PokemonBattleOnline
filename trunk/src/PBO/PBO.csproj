@@ -380,7 +380,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Editor\Converters.cs" />
     <Compile Include="Editor\R.cs" />
     <Compile Include="Editor\PokemonEditor\LearnMethod.cs" />
     <Compile Include="Editor\PokemonBank\TeamVM.cs" />
@@ -403,25 +402,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Editor\PokemonCollectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Editor\R.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Editor\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Editor\PokemonBank\BTVM.cs" />
-    <Compile Include="Editor\PokemonCollectionView.xaml.cs">
-      <DependentUpon>PokemonCollectionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Editor\PokemonBank\GroupVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Lobby\R.cs" />

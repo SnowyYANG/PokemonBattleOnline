@@ -24,6 +24,8 @@ namespace PokemonBattleOnline.PBO.Editor
       InitializeComponent();
     }
 
+    private TeamVM ViewModel;
+  
     protected override void OnDragEnter(DragEventArgs e)
     {
       base.OnDragEnter(e);
@@ -39,6 +41,39 @@ namespace PokemonBattleOnline.PBO.Editor
     protected override void OnDrop(DragEventArgs e)
     {
       base.OnDrop(e);
+    }
+
+    private void NameBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+      BeginEdit();
+    }
+    private void NameEditor_KeyDown(object sender, KeyEventArgs e)
+    {
+      if (e.Key == Key.Enter) EndEdit();
+    }
+    private void NameEditor_LostFocus(object sender, RoutedEventArgs e)
+    {
+      EndEdit();
+    }
+
+    private void BeginEdit()
+    {
+      NameEditor.Text = ((TeamVM)DataContext).Name;
+      NameBlock.Visibility = Visibility.Collapsed;
+      NameEditor.Visibility = Visibility.Visible;
+      NameEditor.Focus();
+    }
+    private void EndEdit()
+    {
+      ((TeamVM)DataContext).Name = NameEditor.Text;
+      NameEditor.Visibility = System.Windows.Visibility.Collapsed;
+      NameBlock.Visibility = System.Windows.Visibility.Visible;
+    }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+      ViewModel = DataContext as TeamVM;
+      if (TeamVM.New == ViewModel && ViewModel != null) BeginEdit();
     }
   }
 }

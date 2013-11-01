@@ -51,10 +51,11 @@ namespace PokemonBattleOnline.PBO.Editor
     
     public PokemonData Model
     {
-      get { return _container.Model.Pokemons[Index]; }
+      get { return _container.Model.Pokemons[_index]; }
       set
       {
-        _container.Model.Pokemons[Index] = value;
+        _container.Model.Pokemons[_index] = value;
+        if (_index < 5) _container[_index + 1].OnPropertyChanged();
         OnPropertyChanged();
       }
     }
@@ -75,7 +76,7 @@ namespace PokemonBattleOnline.PBO.Editor
     }
 
     public ImageSource Icon
-    { get { return Model == null ? Index == 0 || Container[Index - 1] == null ? R.P00000 : null : ImageService.GetPokemonIcon(Model.Form, Model.Gender); } }
+    { get { return Model == null ? Index == 0 || Container[Index - 1].Model != null ? R.P00000 : null : ImageService.GetPokemonIcon(Model.Form, Model.Gender); } }
 
     //public MenuCommand EditCommand
     //{ get; private set; }

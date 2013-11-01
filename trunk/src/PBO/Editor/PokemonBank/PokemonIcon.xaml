@@ -2,16 +2,23 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
+             xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters"
              xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor"
-             Cursor="Hand" AllowDrop="True">
+             Cursor="Hand" AllowDrop="True" Height="32" Width="32">
     <UserControl.ToolTip>
-        <StackPanel DataContext="{Binding Model}" Background="{x:Static ui:SBrushes.GrayF}">
-            <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
-            <TextBlock Text="{Binding Moves[0]}"/>
-            <TextBlock Text="{Binding Moves[1]}"/>
-            <TextBlock Text="{Binding Moves[2]}"/>
-            <TextBlock Text="{Binding Moves[3]}"/>
-        </StackPanel>
+        <ToolTip Content="{Binding Model}">
+            <ToolTip.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Moves[0].Move.Id, Converter={x:Static c:MoveString.C}}"/>
+                        <TextBlock Text="{Binding Moves[1].Move.Id, Converter={x:Static c:MoveString.C}}"/>
+                        <TextBlock Text="{Binding Moves[2].Move.Id, Converter={x:Static c:MoveString.C}}"/>
+                        <TextBlock Text="{Binding Moves[3].Move.Id, Converter={x:Static c:MoveString.C}}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ToolTip.ContentTemplate>
+        </ToolTip>
     </UserControl.ToolTip>
     <UserControl.ContextMenu>
         <ContextMenu>
@@ -20,7 +27,8 @@
             <MenuItem Header="删除"/>
         </ContextMenu>
     </UserControl.ContextMenu>
-    <Grid>
-        <Image Name="icon" Height="32" Width="32" Source="{Binding Icon}"/>
-    </Grid>
+    <Canvas>
+        <Polygon Name="Stroke" Stroke="#80808080" StrokeThickness="1" Fill="{x:Null}" Points="1.5,16 6.5,4.5 25.5,4.5 30.5,16 25.5,27.5 6.5,27.5"/>
+        <Image Name="icon" Source="{Binding Icon}" Height="32" Width="32" Canvas.Top="-4"/>
+    </Canvas>
 </UserControl>

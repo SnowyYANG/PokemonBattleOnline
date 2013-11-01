@@ -61,6 +61,7 @@ namespace PokemonBattleOnline.PBO.Editor
     private void Save_Click(object sender, RoutedEventArgs e)
     {
       VM.Save();
+      EditorVM.Current.Save();
     }
     private void Reset_Click(object sender, RoutedEventArgs e)
     {

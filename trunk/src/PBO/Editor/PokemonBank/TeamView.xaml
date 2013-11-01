@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
-             xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor">
+             xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor"
+             Loaded="OnLoaded">
     <UserControl.ContextMenu>
         <ContextMenu>
             <MenuItem/>
@@ -20,6 +21,7 @@
         <e:PokemonIcon DataContext="{Binding [3]}" Canvas.Left="96"/>
         <e:PokemonIcon DataContext="{Binding [4]}" Canvas.Left="128"/>
         <e:PokemonIcon DataContext="{Binding [5]}" Canvas.Left="160"/>
-        <TextBlock Text="{Binding Name}" Canvas.Left="192" Width="192"/>
+        <TextBlock x:Name="NameBlock" Text="{Binding Name}" MouseLeftButtonDown="NameBlock_MouseLeftButtonDown" Cursor="IBeam" TextTrimming="CharacterEllipsis" TextWrapping="WrapWithOverflow" Background="Transparent" Foreground="#d8d8d8" MinWidth="30" MaxWidth="190" Canvas.Left="195" Canvas.Bottom="7"/>
+        <TextBox x:Name="NameEditor" KeyDown="NameEditor_KeyDown" LostFocus="NameEditor_LostFocus" Visibility="Collapsed" MaxLength="30" Foreground="White" Padding="0" BorderThickness="0" BorderBrush="{x:Null}" SnapsToDevicePixels="True" Background="Black" Canvas.Left="195" Canvas.Bottom="7" Width="190"/>
     </Canvas>
 </UserControl>

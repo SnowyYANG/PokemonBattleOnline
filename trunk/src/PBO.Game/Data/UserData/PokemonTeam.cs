@@ -12,11 +12,11 @@ namespace PokemonBattleOnline.Game
     [DataMember]
     public readonly PokemonData[] Pokemons;
 
-    internal PokemonTeam()
+    public PokemonTeam()
     {
       Pokemons = new PokemonData[6];
     }
-    internal PokemonTeam(PokemonData[] pokemons)
+    public PokemonTeam(PokemonData[] pokemons)
     {
       Pokemons = pokemons.Length == 6 ? pokemons : new PokemonData[6];
     }
@@ -27,7 +27,7 @@ namespace PokemonBattleOnline.Game
 
     public string Export()
     {
-      return Helper.Export(Pokemons);
+      return UserData.Export(Pokemons);
     }
   }
 }

@@ -49,7 +49,7 @@ namespace PokemonBattleOnline.PBO
           if (r == MessageBoxResult.Cancel) cancel = true;
           else if (r == MessageBoxResult.Yes) pm.Save();
         }
-        if (!cancel) UserData.Current.Save();
+        if (!cancel) EditorVM.Current.Save();
       }
       catch { }
       return cancel;

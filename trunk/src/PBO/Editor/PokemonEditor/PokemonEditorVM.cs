@@ -310,7 +310,6 @@ namespace PokemonBattleOnline.PBO.Editor
       if (Origin != null)
       {
         Origin.Model = Model.Clone();
-        UserData.Current.Save();
         Config.Current.PokemonNumber = PokemonForm.Species.Number;
       }
     }

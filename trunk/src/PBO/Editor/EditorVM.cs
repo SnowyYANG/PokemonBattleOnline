@@ -18,15 +18,12 @@ namespace PokemonBattleOnline.PBO.Editor
       Current = new EditorVM(UserData.Current);
     }
 
-    private EditorVM(UserData model)
+    private EditorVM(IEnumerable<PokemonTeam> teams)
     {
-      _model = model;
+      _teams = new ObservableCollection<TeamVM>(teams.Select((t) => new TeamVM(t)));
+      _teams.Insert(0, null);
     }
 
-    private readonly UserData _model;
-    public UserData Model
-    { get { return _model; } }
-    
     private PokemonEditorVM _editingPokemon;
     public PokemonEditorVM EditingPokemon
     { 
@@ -37,7 +34,24 @@ namespace PokemonBattleOnline.PBO.Editor
         OnPropertyChanged("EditingPokemon");
       }
     }
-    
+
+    private readonly ObservableCollection<TeamVM> _teams;
+    public ObservableCollection<TeamVM> Teams
+    { get { return _teams; } }
+
+    public void NewTeam()
+    {
+      var t = new TeamVM(new PokemonTeam());
+      TeamVM.New = t;
+      _teams.Insert(1, t);
+    }
+    public void ImportTeam(string text)
+    {
+      var t = new TeamVM(UserData.ImportTeam(text));
+      TeamVM.New = t;
+      _teams.Insert(1, t);
+    }
+
     public void EditPokemon(PokemonVM pm)
     {
       if (EditingPokemon != null && EditingPokemon.Origin != pm)
@@ -57,6 +71,11 @@ namespace PokemonBattleOnline.PBO.Editor
         else if (r == MessageBoxResult.Cancel) return;
         EditingPokemon = null;
       }
+    }
+
+    public void Save()
+    {
+      UserData.Save(Teams.Where((t) => t != null).Select((t) => t.Model));
     }
   }
 }

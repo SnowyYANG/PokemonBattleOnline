@@ -8,10 +8,14 @@ namespace PokemonBattleOnline.Game
 {
   public class GameString
   {
-    public static GameString JP;
-    public static GameString EN;
-    public static GameString Current;
-    public static GameString Backup;
+    public static GameString JP
+    { get; private set; }
+    public static GameString EN
+    { get; private set; }
+    public static GameString Current
+    { get; private set; }
+    public static GameString Backup
+    { get; private set; }
     private static GameString InnerBackup;
 
     public static void Load(string path, string language, string backup)
@@ -71,7 +75,7 @@ namespace PokemonBattleOnline.Game
           str = line.Substring(comma + 1);
           if (char.IsDigit(line[1]))
           {
-            var num = Convert.ToInt32(line.Substring(1, comma - 1));
+            var num = line.Substring(1, comma - 1).ToInt();
             if (str[0] < MinFirstChar) MinFirstChar = str[0];
             else if (str[0] > MaxFirstChar) MaxFirstChar = str[0];
             switch (line[0])
@@ -221,12 +225,12 @@ namespace PokemonBattleOnline.Game
       if (i == -1 && gs == Current && Backup != null) i = Backup.Pokemons.IndexOf(name);
       return i == -1 ? null : RomData.GetPokemon(i + 1);
     }
-    public static int? Ability(string name)
+    public static int Ability(string name)
     {
       var gs = GetLanguage(name);
       var i = gs == null ? -1 : gs.Abilities.IndexOf(name);
       if (i == -1 && gs == Current && Backup != null) i = Backup.Abilities.IndexOf(name);
-      return i == -1 ? null : (int?)(i + 1);
+      return i + 1;
     }
     public static int Item(string name)
     {

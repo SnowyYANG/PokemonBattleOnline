@@ -20,7 +20,7 @@ namespace PokemonBattleOnline
       static T LoadFromXml<T>(string fileName) where T : SimpleData
     {
       using (FileStream f = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
-        return (T)Serializer.Deserialize(typeof(T), f);
+        return Serializer.Deserialize<T>(f);
     }
 #if EDITING
     public
@@ -29,15 +29,13 @@ namespace PokemonBattleOnline
 #endif
       static T LoadFromXml<T>(Stream stream) where T : SimpleData
     {
-      return (T)Serializer.Deserialize(typeof(T), stream);
+      return Serializer.Deserialize<T>(stream);
     }
     protected static T LoadFromDat<T>(string fileName) where T : SimpleData
     {
       using (FileStream f = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
       using (DeflateStream s = new DeflateStream(f, CompressionMode.Decompress))
-      {
-        return (T)Serializer.Deserialize<T>(s);
-      }
+        return Serializer.Deserialize<T>(s);
     }
 
     protected SimpleData()

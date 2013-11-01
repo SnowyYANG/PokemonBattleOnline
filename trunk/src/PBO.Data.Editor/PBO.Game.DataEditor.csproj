@@ -51,6 +51,7 @@
     <ProjectReference Include="..\PokemonBattleOnline\PokemonBattleOnline.csproj">
       <Project>{ee2c451e-a61e-4634-b382-5298982e060c}</Project>
       <Name>PokemonBattleOnline</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

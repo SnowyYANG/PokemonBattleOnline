@@ -25,7 +25,7 @@ namespace PokemonBattleOnline.Game
 #endif
 
     [DataMember]
-    private readonly short _number;
+    private readonly int _number;
     public int Number
     { get { return _number; } }
 
@@ -85,6 +85,11 @@ namespace PokemonBattleOnline.Game
     public PokemonForm GetForm(int index)
     {
       return forms.ValueOrDefault(index);
+    }
+
+    public override string ToString()
+    {
+      return _number.ToString();
     }
   }
 }

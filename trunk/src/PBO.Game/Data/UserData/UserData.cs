@@ -3,76 +3,71 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using System.Collections.ObjectModel;
+using System.IO;
 
 namespace PokemonBattleOnline.Game
 {
-  [DataContract(Namespace = PBOMarks.PBO)]
-  public class UserData : SimpleData
+  public static class UserData
   {
-    public static UserData Current { get; private set; }
+    private static string FileName;
+
     public static void Load(string fileName)
     {
+      FileName = fileName;
       try
       {
-        Current = LoadFromDat<UserData>(fileName);
+        using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+          Current = Serializer.Deserialize<PokemonTeam[]>(fs);
       }
       catch
       {
-        Current = new UserData();
-      }
-      Current.fileName = fileName;
-    }
-
-    private string fileName;
-
-    private UserData()
-    {
-      _teams = new ObservableList<PokemonTeam>();
-    }
-
-    private ObservableList<PokemonTeam> _teams;
-    public ObservableList<PokemonTeam> Teams
-    { 
-      get
-      {
-        if (_teams == null)
-        {
-          _teams = new ObservableList<PokemonTeam>();
-          _teams.Add(null);
-        }
-        return _teams;
-      }
-    }
-    [DataMember]
-    private PokemonTeam[] teams
-    {
-      get { return _teams.ToArray(); }
-      set
-      {
-        _teams = new ObservableList<PokemonTeam>(value);
-        if (_teams.FirstOrDefault() != null) _teams.Insert(0, null);
+        Current = Enumerable.Empty<PokemonTeam>();
       }
     }
 
-    public void ImportTeam(string text)
+    public static IEnumerable<PokemonTeam> Current
+    { get; private set; }
+
+    public static PokemonTeam ImportTeam(string source)
     {
       var pms = new PokemonData[6];
-      Helper.Import(text, pms);
-      Teams.Add(new PokemonTeam(pms));
+      Helper.Import(source, pms);
+      return new PokemonTeam(pms);
     }
-    public void AddTeam()
+    public static PokemonData ImportPokemon(string source)
     {
-      Teams.Insert(1, new PokemonTeam());
+      var target = new PokemonData[1];
+      Helper.Import(source, target);
+      return target[0];
+    }
+    public static string Export(PokemonData pm)
+    {
+      var sb = new StringBuilder();
+      Helper.Export(sb, pm);
+      return sb.ToString();
+    }
+    public static string Export(IEnumerable<PokemonData> pms)
+    {
+      var sb = new StringBuilder();
+      bool first = true;
+      foreach (var pm in pms)
+      {
+        if (first) first = false;
+        else
+        {
+          sb.AppendLine();
+          sb.AppendLine();
+        }
+        Helper.Export(sb, pm);
+      }
+      return sb.ToString();
     }
 
-    public void Save(string fileName)
+    public static void Save(IEnumerable<PokemonTeam> teams)
     {
-      SaveDat(fileName);
-    }
-    public void Save()
-    {
-      Save(fileName);
+      Current = teams.ToArray();
+      using (var f = new FileStream(FileName, FileMode.Create, FileAccess.Write))
+        Serializer.Serialize(Current, f);
     }
   }
 }

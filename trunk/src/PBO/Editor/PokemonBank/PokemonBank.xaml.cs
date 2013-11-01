@@ -27,7 +27,7 @@ namespace PokemonBattleOnline.PBO.Editor
 
     private void NewTeam_Click(object sender, RoutedEventArgs e)
     {
-      UserData.Current.AddTeam();
+      EditorVM.Current.NewTeam();
     }
   }
 }

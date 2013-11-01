@@ -9,13 +9,28 @@ namespace PokemonBattleOnline.PBO.Editor
 {
   class TeamVM : ObservableObject
   {
-    public readonly PokemonTeam Model;
+    public static TeamVM New;
     
+    public readonly PokemonTeam Model;
+
     public TeamVM(PokemonTeam model)
     {
       Model = model;
       raw = new PokemonVM[6];
       for (int i = 0; i < 6; ++i) raw[i] = new PokemonVM(this, i);
+    }
+
+    public string Name
+    {
+      get { return Model.Name; }
+      set
+      {
+        if (Model.Name != value)
+        {
+          Model.Name = value;
+          OnPropertyChanged("Name");
+        }
+      }
     }
 
     private readonly PokemonVM[] raw;

@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace PokemonBattleOnline.Game
 {
-    public static class Helper
+    internal static class Helper
     {
         public static void Import(string source, PokemonData[] target)
         {
@@ -46,8 +46,8 @@ namespace PokemonBattleOnline.Game
 
             pm.Gender = GetGender(m.Groups[4].Value);
             if (hasNickname) pm.Name = m.Groups[1].Value;
-            if (Item != null) pm.Item = Item;
-            if (Ability != null) pm.Ability = Ability.Value;
+            pm.Item = Item;
+            if (Ability != 0) pm.Ability = Ability;
             if (Nature != null) pm.Nature = Nature.Value;
             pm.Ev.Hp = TryMatch(m.Groups[7].Value, @"(\d+) HP", 1, 0);
             pm.Ev.Atk = TryMatch(m.Groups[7].Value, @"(\d+) Atk", 1, 0);
@@ -78,32 +78,32 @@ namespace PokemonBattleOnline.Game
             // 11: Moves
             var pm = new PokemonData(GameString.PokemonSpecies(m.Groups[2].Value).Number, 0);
             pm.Name = m.Groups[1].Value;
-            pm.Lv = ToInt(m.Groups[3].Value);
+            pm.Lv = m.Groups[3].Value.ToInt();
             pm.Gender = GetGender(m.Groups[4].Value);
             var ab = GameString.Ability(m.Groups[5].Value);
-            if (ab != null) pm.Ability = ab.Value;
+            if (ab != 0) pm.Ability = ab;
             pm.Nature = GameString.Nature(m.Groups[6].Value) ?? PokemonNature.Hardy;
-            if (m.Groups[9].Value.Length > 0) pm.Happiness = ToInt(m.Groups[9].Value);
+            if (m.Groups[9].Value.Length > 0) pm.Happiness = m.Groups[9].Value.ToInt();
             pm.Item = GameString.Item(m.Groups[10].Value);
 
             if (!string.IsNullOrEmpty(m.Groups[7].Value))
             {
                 var ivs = m.Groups[7].Value.Split('/');
-                pm.Iv.Hp = ToInt(ivs[0]);
-                pm.Iv.Atk = ToInt(ivs[1]);
-                pm.Iv.Def = ToInt(ivs[2]);
-                pm.Iv.SpAtk = ToInt(ivs[3]);
-                pm.Iv.SpDef = ToInt(ivs[4]);
-                pm.Iv.Speed = ToInt(ivs[5]);
+                pm.Iv.Hp = ivs[0].ToInt();
+                pm.Iv.Atk = ivs[1].ToInt();
+                pm.Iv.Def = ivs[2].ToInt();
+                pm.Iv.SpAtk = ivs[3].ToInt();
+                pm.Iv.SpDef = ivs[4].ToInt();
+                pm.Iv.Speed = ivs[5].ToInt();
             }
 
             var evs = m.Groups[8].Value.Split('/');
-            pm.Ev.Hp = ToInt(evs[0]);
-            pm.Ev.Atk = ToInt(evs[1]);
-            pm.Ev.Def = ToInt(evs[2]);
-            pm.Ev.SpAtk = ToInt(evs[3]);
-            pm.Ev.SpDef = ToInt(evs[4]);
-            pm.Ev.Speed = ToInt(evs[5]);
+            pm.Ev.Hp = evs[0].ToInt();
+            pm.Ev.Atk = evs[1].ToInt();
+            pm.Ev.Def = evs[2].ToInt();
+            pm.Ev.SpAtk = evs[3].ToInt();
+            pm.Ev.SpDef = evs[4].ToInt();
+            pm.Ev.Speed = evs[5].ToInt();
 
             foreach (var s in Regex.Replace(m.Groups[11].Value, @"\[.+?\]", "").Split('/'))
             {
@@ -142,7 +142,7 @@ namespace PokemonBattleOnline.Game
             }
         }
 
-        private static void Export(StringBuilder sb, PokemonData pm)
+        public static void Export(StringBuilder sb, PokemonData pm)
         {
             const string space = "";//"　";
             sb.Append(pm.Name, "（", GameString.Current.Pokemon(pm.Form.Species.Number), "）", " Lv.", pm.Lv);
@@ -159,7 +159,7 @@ namespace PokemonBattleOnline.Game
                 sb.AppendLine("* 努力：", space, ss.Hp, "/", ss.Atk, "/", ss.Def, "/", ss.SpAtk, "/", ss.SpDef, "/", ss.Speed);
             }
             if (pm.Happiness < 255) sb.AppendLine("* 亲密度：", pm.Happiness);
-            sb.AppendLine("* 道具：", space, pm.Item == null ? "无" : GameString.Current.Item(pm.Item));
+            sb.AppendLine("* 道具：", space, pm.Item == 0 ? "无" : GameString.Current.Item(pm.Item));
             sb.Append("* 技能：", space);
             if (pm.Moves.Count() == 0)
             {
@@ -189,25 +189,6 @@ namespace PokemonBattleOnline.Game
             }
         }
 
-        public static string Export(PokemonData pm)
-        {
-            var sb = new StringBuilder();
-            Export(sb, pm);
-            return sb.ToString();
-        }
-
-        public static string Export(IEnumerable<PokemonData> pms)
-        {
-            var sb = new StringBuilder();
-            foreach (var pm in pms)
-            {
-                Export(sb, pm);
-                sb.AppendLine();
-                sb.AppendLine();
-            }
-            return sb.ToString().Trim(new char[] { '\r', '\n' });
-        }
-
         private static PokemonGender GetGender(string s)
         {
             switch (s.ToUpper())
@@ -225,13 +206,6 @@ namespace PokemonBattleOnline.Game
             var m = Regex.Match(input, pattern, RegexOptions.IgnoreCase);
             if (m.Success) return m.Groups[group].Value.ToInt();
             else return defaultvalue;
-        }
-
-        public static int ToInt(this string s)
-        {
-            int i = 0;
-            int.TryParse(s, out i);
-            return i;
         }
     }
 }

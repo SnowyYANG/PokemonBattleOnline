@@ -48,6 +48,13 @@ namespace PokemonBattleOnline
     {
       return SubArray(array, offset, array.Length - offset);
     }
+    /// <summary>
+    /// returns -1 if not found
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="array"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public static int IndexOf<T>(this T[] array, T value)
     {
       for (int i = 0; i < array.Length; ++i)
@@ -74,6 +81,12 @@ namespace PokemonBattleOnline
     {
       var types = type.Assembly.GetTypes();
       return type.IsInterface ? types.Where((t) => t.GetInterfaces().Contains(type)) : types.Where((t) => t.IsSubclassOf(type));
+    }
+    public static int ToInt(this string s)
+    {
+      int i = 0;
+      int.TryParse(s, out i);
+      return i;
     }
   }
 }

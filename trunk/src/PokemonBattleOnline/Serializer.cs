@@ -100,14 +100,10 @@ namespace PokemonBattleOnline
       var serializer = GetSerializer(type);
       return serializer.ReadObject(reader);
     }
-    public static object Deserialize(Type type, Stream stream)
-    {
-      return Deserialize(type, GetXmlReader(stream));
-    }
 
     public static T Deserialize<T>(Stream stream)
     {
-      return (T)Deserialize(typeof(T), stream);
+      return (T)Deserialize(typeof(T), GetXmlReader(stream));
     }
 
     public static T DeserializeFromCompressedJson<T>(byte[] bytes)

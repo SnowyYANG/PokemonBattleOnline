@@ -6,9 +6,14 @@
             <Setter Property="FontFamily" Value="Microsoft YaHei"/>
         </Style>
         <Style TargetType="ToolTip">
-            <Setter Property="Background" Value="#c0ffffff"/>
+            <Setter Property="Background" Value="#f0ffffff"/>
             <Setter Property="BorderBrush" Value="{x:Null}"/>
             <Setter Property="HasDropShadow" Value="False"/>
+            <Style.Triggers>
+                <Trigger Property="Content" Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </Application.Resources>
 </Application>
