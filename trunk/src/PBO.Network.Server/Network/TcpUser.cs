@@ -9,7 +9,12 @@ namespace PokemonBattleOnline.Network
 {
   internal class TcpUser : IDisposable
   {
-    public event Action Disconnected;
+    private event Action _disconnected;
+    public event Action Disconnected
+    { 
+      add { _disconnected = value; }
+      remove { System.Diagnostics.Debugger.Break(); }
+    }
 
     public readonly TcpServer Server;
     private readonly Socket Socket;
@@ -58,7 +63,7 @@ namespace PokemonBattleOnline.Network
             Receiver.Disconnect += delegate { };
             Receiver.Disconnect -= OnDisconnect;
             _isDisconnected = true;
-            if (Disconnected != null) Disconnected();
+            _disconnected();
           }
           catch { }
         }

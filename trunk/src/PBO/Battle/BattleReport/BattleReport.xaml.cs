@@ -34,7 +34,7 @@ namespace PokemonBattleOnline.PBO.Battle
       Reset();
     }
 
-    public void Init(GameOutward game, string title, string playerName)
+    public void Init(GameOutward game)
     {
       game.AddListner(controller);
     }

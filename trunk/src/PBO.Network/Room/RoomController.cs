@@ -35,7 +35,7 @@ namespace PokemonBattleOnline.Network
       UIDispatcher.Invoke(Entered);
     }
     public static event Action Quited;
-    public static event Action GameStarted;
+    public static event Action GameInited;
 
     internal readonly Client _Client;
     internal RequireInputS2C InputRequest;
@@ -61,7 +61,7 @@ namespace PokemonBattleOnline.Network
         {
           _game = value;
           OnPropertyChanged("Game");
-          UIDispatcher.Invoke(GameStarted);
+          UIDispatcher.Invoke(GameInited);
         }
       }
     }
@@ -174,13 +174,12 @@ namespace PokemonBattleOnline.Network
     internal void GameStart(ReportFragment gameUpdateS2C)
     {
       Dictionary<int, string> ps = new Dictionary<int, string>();
-      string[, ] players = new string[2, 2];
-      players[0, 0] = Room[0, 0].Name;
-      players[0, 1] = Room[0, 1].Name;
-      players[1, 0] = Room[1, 0].Name;
-      players[1, 1] = Room[1, 1].Name;
-      Game = new GameOutward(Room.Settings, players);
+      var mi = Room.Settings.Mode.PlayersPerTeam();
+      string[, ] players = new string[2, mi];
+      for (int t = 0; t < 2; ++t)
+        for (int i = 0; i < mi; ++i) players[t, i] = Room[t, i].Name;
       if (User.Seat != Seat.Spectator) PlayerController = new PlayerController(this, Self, Partner);
+      Game = new GameOutward(Room.Settings, players);
       Game.Start(gameUpdateS2C);
     }
   }

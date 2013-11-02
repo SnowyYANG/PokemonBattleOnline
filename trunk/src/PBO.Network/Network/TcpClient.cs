@@ -68,7 +68,12 @@ namespace PokemonBattleOnline.Network
       }
     }
 
-    public event Action Disconnected;
+    private event Action _disconnected;
+    public event Action Disconnected
+    {
+      add { _disconnected = value; }
+      remove { System.Diagnostics.Debugger.Break(); }
+    }
     private readonly Socket Socket;
     public readonly TcpPackSender Sender;
     private readonly TcpPackReceiver Receiver;
@@ -107,7 +112,7 @@ namespace PokemonBattleOnline.Network
             Sender.Disconnect -= OnDisconnect;
             Receiver.Disconnect += delegate { };
             Receiver.Disconnect -= OnDisconnect;
-            Disconnected();
+            _disconnected();
           }
           catch { }
         }

@@ -48,11 +48,7 @@ namespace PokemonBattleOnline.Game.Host
       Iv = new ReadOnly6D(custom.Iv);
       Ev = new ReadOnly6D(custom.Ev);
       Chatter = custom.Chatter;
-      {
-        int h = PokemonStatHelper.GetHp(custom.Form.Data.Base.Hp, (byte)Iv.Hp, (byte)Ev.Hp, (byte)Lv);
-        MaxHp = h;
-        Hp = h;
-      }
+      _hp = MaxHp = PokemonStatHelper.GetHp(custom.Form.Data.Base.Hp, (byte)Iv.Hp, (byte)Ev.Hp, (byte)Lv);
     }
 
     public PokemonForm Form; //shaymi

@@ -58,7 +58,12 @@ namespace PokemonBattleOnline.Game
       : this(null, contents)
     {
     }
-    protected LogText(string text)
+#if EDITING
+    public
+#else
+    protected 
+#endif 
+      LogText(string text)
       : this(text, null)
     {
     }

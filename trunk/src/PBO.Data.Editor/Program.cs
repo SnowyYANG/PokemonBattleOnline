@@ -104,17 +104,21 @@ namespace PokemonBattleOnline.Game.DataEditor
     }
     static void Main(string[] args)
     {
-      using (var pack = new ZipData("..\\res\\rom.zip"))
-      {
-        RomData.Load(pack, "/rom.xml");
-        using (var sw = new StreamWriter(Desktop + "flingPower.txt"))
-          foreach (var i in RomData.Items) sw.WriteLine(i.FlingPower);
-        System.Diagnostics.Debugger.Break();
-      }
+      //using (var pack = new ZipData("..\\res\\rom.zip"))
+      //{
+      //  RomData.Load(pack, "/rom.xml");
+      //  using (var sw = new StreamWriter(Desktop + "flingPower.txt"))
+      //    foreach (var i in RomData.Items) sw.WriteLine(i.FlingPower);
+      //  System.Diagnostics.Debugger.Break();
+      //}
 
       //CreatEmptyZip(Desktop + "test.zip");
       //Depress(Desktop + "rom.dat", Desktop + "rom.xml");
-      
+
+      var gl = new GameLogs();
+      gl.logs.Add("test", new LogText("test"));
+      gl.SaveXml(Desktop + "logs.xml");
+
       Console.ReadKey();
     }
   }

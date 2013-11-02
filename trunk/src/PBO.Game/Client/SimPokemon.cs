@@ -26,7 +26,6 @@ namespace PokemonBattleOnline.Game
       Owner = owner;
       TeamId = owner.Team;
 
-      Name = custom.Name;
       Gender = custom.Gender;
       Lv = custom.Lv;
       nature = custom.Nature;
@@ -39,6 +38,7 @@ namespace PokemonBattleOnline.Game
 
       Form = custom.Form;
       originForm = Form;
+      Name = custom.Name ?? GameString.Current.Pokemon(_form.Species.Number);
     }
 
     public string Name

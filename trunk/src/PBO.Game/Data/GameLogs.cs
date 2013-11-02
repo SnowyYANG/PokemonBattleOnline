@@ -32,7 +32,12 @@ namespace PokemonBattleOnline.Game
     }
     
     [DataMember]
-    private Dictionary<string, LogText> logs;
+#if EDITING
+    public
+#else
+    private
+#endif
+    Dictionary<string, LogText> logs;
 
     public GameLogs()
     {

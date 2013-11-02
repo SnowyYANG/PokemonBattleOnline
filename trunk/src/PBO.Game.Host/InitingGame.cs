@@ -16,7 +16,7 @@ namespace PokemonBattleOnline.Game.Host
     public InitingGame(IGameSettings settings)
     {
       _settings = settings;
-      pokemons = new IPokemonData[settings.Mode.TeamCount(), settings.Mode.PlayersPerTeam()][];
+      pokemons = new IPokemonData[2, settings.Mode.PlayersPerTeam()][];
     }
 
     private readonly IGameSettings _settings;

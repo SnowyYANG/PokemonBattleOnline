@@ -49,6 +49,8 @@ namespace PokemonBattleOnline.Game
     #region properties
     [DataMember(Name = "nc", EmitDefaultValue = false)]
     private string _name;
+    string IPokemonData.Name
+    { get { return _name; } }
     public string Name
     {
       get { return _name ?? GameString.Current.Pokemon(number); }

@@ -198,7 +198,7 @@ namespace PokemonBattleOnline.Game
     }
     public string BattleLog(string key)
     {
-      return BattleLogs.ValueOrDefault(key) ?? InnerBackup.BattleLogs.ValueOrDefault(key) ?? key;
+      return BattleLogs.ValueOrDefault(key) ?? key;
     }
 
     private static GameString GetLanguage(string str)

@@ -102,9 +102,10 @@ namespace PokemonBattleOnline.Network
         foreach(var r in _rooms)
           if (r.Id == id)
           {
+            bool isUser = r == Room.Room;
             r.RemoveUsers();
             _rooms.Remove(r);
-            if (r == Room.Room) Room.Reset();
+            if (isUser) Room.Reset();
             break;
           }
     }

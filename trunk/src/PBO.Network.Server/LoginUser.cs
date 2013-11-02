@@ -51,7 +51,6 @@ namespace PokemonBattleOnline.Network
           {
             Avatar = av.Value;
             Server.LoginComplete(this);
-            Network.Disconnected -= Dispose;
           }
           else Dispose();
           break;

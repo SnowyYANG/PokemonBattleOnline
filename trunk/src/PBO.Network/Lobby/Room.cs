@@ -159,7 +159,12 @@ namespace PokemonBattleOnline.Network
 
     public void RemoveUsers()
     {
-      for (int i = 0; i < 4; ++i) if (players[i] != null) players[i] = null;
+      for (int i = 0; i < 4; ++i)
+        if (players[i] != null)
+        {
+          players[i].Room = null;
+          players[i] = null;
+        }
       foreach (var u in _spectators) u.Room = null;
       _spectators.Clear();
     }

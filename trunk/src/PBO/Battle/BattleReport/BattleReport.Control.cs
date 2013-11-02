@@ -139,5 +139,10 @@ namespace PokemonBattleOnline.PBO.Battle
         return !(text.HiddenInBattle && Battle || text.HiddenAfterBattle && Final);
       }
     }
+
+    internal void Save(string title, string player)
+    {
+      controller.Save(title, player);
+    }
   }
 }

@@ -39,11 +39,8 @@ namespace PokemonBattleOnline.Network
       network.Listener = this;
       network.Disconnected += () =>
         {
-          if (!isDisposed)
-          {
-            Dispose();
-            Disconnected();
-          }
+          Disconnected();
+          Dispose();
         };
       Controller = new ClientController(this, login, cii);
       KeepAlive = new Timer(OnKeepAlive, network, PBOMarks.TIMEOUT, PBOMarks.TIMEOUT);

@@ -40,6 +40,8 @@ namespace PokemonBattleOnline.Game
         case GameMode.Double:
         case GameMode.Triple:
           return 1;
+        case GameMode.Tag:
+          return 2;
       }
       return 0;
     }

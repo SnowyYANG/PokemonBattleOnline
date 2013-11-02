@@ -128,9 +128,12 @@ namespace PokemonBattleOnline.Network
       else if (initingGame != null)
       {
         if (IsPrepared(Seat.Player00)) su.Send(new SetPrepare(Seat.Player00, true));
-        if (IsPrepared(Seat.Player01)) su.Send(new SetPrepare(Seat.Player01, true));
         if (IsPrepared(Seat.Player10)) su.Send(new SetPrepare(Seat.Player10, true));
-        if (IsPrepared(Seat.Player11)) su.Send(new SetPrepare(Seat.Player11, true));
+        if (Room.Settings.Mode.PlayersPerTeam() == 2)
+        {
+          if (IsPrepared(Seat.Player01)) su.Send(new SetPrepare(Seat.Player01, true));
+          if (IsPrepared(Seat.Player11)) su.Send(new SetPrepare(Seat.Player11, true));
+        }
       }
     }
     public void RemoveUser(ServerUser su)
