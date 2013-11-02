@@ -21,13 +21,16 @@ namespace PokemonBattleOnline.PBO
   {
     readonly GridLength GL0;
     readonly GridLength GLMIN;
-    
+
+    static MainWindow()
+    {
+      RoomWindow.Init();
+    }
+
     public MainWindow()
     {
       InitializeComponent();
       Loaded += switchLobby_Click;
-      //Messaging.BattleClient.EnterSucceed += (user) =>
-      //  new BattleWindow(user).Show();
       GL0 = new GridLength(0);
       GLMIN = new GridLength(lobby.MinWidth);
       editor.Init();
@@ -82,8 +85,7 @@ namespace PokemonBattleOnline.PBO
     protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
     {
       base.OnClosing(e);
-      e.Cancel = BattleWindow.Window_Closing(this) || lobby.Window_Closing() || editor.Window_Closing();
+      e.Cancel = RoomWindow.Window_Closing(this) || lobby.Window_Closing() || editor.Window_Closing();
     }
-
   }
 }

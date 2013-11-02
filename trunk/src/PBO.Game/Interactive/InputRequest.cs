@@ -54,7 +54,6 @@ namespace PokemonBattleOnline.Game
     private SimGame Game;
     private SimOnboardPokemon Pm;
     private string error;
-    private bool showAbility;
     public void Init(SimGame game, SimOnboardPokemon pm)
     {
       Game = game;

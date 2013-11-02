@@ -59,7 +59,7 @@
                 </Canvas.Resources>
                 <Polygon Points="0,31 182,31 187,24 256,24 255,118 0,118">
                     <Polygon.Fill>
-                        <ImageBrush ImageSource="/PBO.UIElements;component/images/UI/CarteBG.png" Stretch="None" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,1,8" />
+                        <ImageBrush ImageSource="/PBO;component/images/UI/CarteBG.png" Stretch="None" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,1,8" />
                     </Polygon.Fill>
                 </Polygon>
                 <Polyline Points="0,30 181,30 186,23 256,23" Stroke="#505860"/>
@@ -81,7 +81,7 @@
 
                 <Label Content="{Binding Ability.Name}" Width="146" Canvas.Left="2" Canvas.Top="33"/>
                 <TextBlock Text="{Binding Ability.Description}" TextWrapping="Wrap" Canvas.Left="18" Canvas.Top="49" Height="32" Width="133"/>
-                <Image x:Name="itemImage" Source="/PBO.UIElements;component/images/item.png" Width="6" Height="9" Canvas.Left="13" Canvas.Top="95"/>
+                <Image x:Name="itemImage" Source="/PBO;component/images/item.png" Width="6" Height="9" Canvas.Left="13" Canvas.Top="95"/>
                 <TextBlock x:Name="itemText" Text="{Binding Item.Name}" Canvas.Left="36" Canvas.Top="89" />
                 <TextBlock Text="{Binding FiveD.Atk}" Canvas.Right="9" Canvas.Top="33"/>
                 <TextBlock Text="{Binding FiveD.Def}" Canvas.Right="9" Canvas.Top="49"/>

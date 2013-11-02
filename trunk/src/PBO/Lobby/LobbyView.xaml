@@ -13,16 +13,22 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <StackPanel x:Name="upper">
-            <ListBox ItemsSource="{Binding Users}" Margin="0,10,0,0" BorderThickness="0">
-                <ListBox.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                        <GradientStop Color="#00ffffff" Offset="1"/>
-                        <GradientStop Color="White" Offset="0"/>
-                    </LinearGradientBrush>
-                </ListBox.Background>
-            </ListBox>
-        </StackPanel>
+        <Grid x:Name="upper">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#00ffffff" Offset="1"/>
+                    <GradientStop Color="White" Offset="0"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Button Content="开启新房间" Click="NewRoom_Click" VerticalAlignment="Top"/>
+            <ItemsControl Name="Rooms" Background="{x:Null}" Margin="0,20,0,0" BorderThickness="0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <l:RoomView DataContext="{Binding}" Margin="3"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
         <l:Chat x:Name="chat"/>
         <GridSplitter x:Name="split" Background="Transparent" ShowsPreview="True">
             <GridSplitter.Style>

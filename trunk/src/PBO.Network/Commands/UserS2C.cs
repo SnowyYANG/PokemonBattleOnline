@@ -9,7 +9,7 @@ namespace PokemonBattleOnline.Network.Commands
   [DataContract(Namespace = PBOMarks.JSON)]
   public class UserS2C : IS2C
   {
-    public static UserS2C AddUser(int id, string name, ushort avatar)
+    public static UserS2C AddUser(int id, string name, int avatar)
     {
       return new UserS2C() { Id = id, Name = name, Avatar = avatar };
     }
@@ -27,7 +27,7 @@ namespace PokemonBattleOnline.Network.Commands
     [DataMember(Name = "b", EmitDefaultValue = false)]
     string Name;
     [DataMember(Name = "c", EmitDefaultValue = false)]
-    ushort Avatar;
+    int Avatar;
 
     void IS2C.Execute(Client client)
     {

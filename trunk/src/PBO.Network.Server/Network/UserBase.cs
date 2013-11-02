@@ -13,6 +13,7 @@ namespace PokemonBattleOnline.Network
     protected UserBase(TcpUser network)
     {
       Network = network;
+      network.Disconnected += Dispose;
       network.Listener = this;
     }
 

@@ -14,34 +14,43 @@ namespace PokemonBattleOnline.Network
     {
       UIDispatcher.Invoke(RoomChat, chat, user);
     }
-    public static event Action<GameStopReason, int> GameStop;
-    internal static void OnGameStop(GameStopReason reason, int player)
+    public static event Action<GameStopReason, User> GameStop;
+    internal static void OnGameStop(GameStopReason reason, User player)
     {
       UIDispatcher.Invoke(GameStop, player);
     }
-    public static event Action<int[]> TimeReminder;
-    internal static void OnTimeReminder(int[] waitForWhom)
+    public static event Action<User[]> TimeReminder;
+    internal static void OnTimeReminder(User[] waitForWhom)
     {
       UIDispatcher.Invoke(TimeReminder, waitForWhom);
     }
-    public static event Action<IEnumerable<KeyValuePair<int, int>>> TimeUp;
-    internal static void OnTimeUp(IEnumerable<KeyValuePair<int, int>> remainingTime)
+    public static event Action<KeyValuePair<User, int>[]> TimeUp;
+    internal static void OnTimeUp(KeyValuePair<User, int>[] remainingTime)
     {
       UIDispatcher.Invoke(TimeUp, remainingTime);
     }
+    public static event Action Entered;
+    internal static void OnEntered()
+    {
+      UIDispatcher.Invoke(Entered);
+    }
+    public static event Action Quited;
+    public static event Action GameStarted;
 
-    internal readonly Client Client;
+    internal readonly Client _Client;
     internal RequireInputS2C InputRequest;
     
     internal RoomController(Client client)
     {
-      Client = client;
+      _Client = client;
     }
 
+    public ClientController Client
+    { get { return _Client.Controller; } }
     public User User
-    { get { return Client.Controller.User; } }
+    { get { return _Client.Controller.User; } }
     public Room Room
-    { get { return Client.Controller.User.Room; } }
+    { get { return _Client.Controller.User.Room; } }
     private GameOutward _game;
     public GameOutward Game
     {
@@ -52,6 +61,7 @@ namespace PokemonBattleOnline.Network
         {
           _game = value;
           OnPropertyChanged("Game");
+          UIDispatcher.Invoke(GameStarted);
         }
       }
     }
@@ -128,11 +138,11 @@ namespace PokemonBattleOnline.Network
     }
     public void Chat(string chat)
     {
-      Client.Send(ChatC2S.RoomChat(chat));
+      _Client.Send(ChatC2S.RoomChat(chat));
     }
     public void Quit()
     {
-      Client.Send(SetSeatC2S.LeaveRoom());
+      _Client.Send(SetSeatC2S.LeaveRoom());
     }
 
     private PokemonData[] Self;
@@ -141,18 +151,23 @@ namespace PokemonBattleOnline.Network
       if (User.Seat != Seat.Spectator && !Room.Battling)
       {
         Self = team;
-        Client.Send(PrepareC2S.Prepare(team));
+        _Client.Send(PrepareC2S.Prepare(team));
       }
     }
     public void GameUnPrepare()
     {
-      if (User.Seat != Seat.Spectator && !Room.Battling) Client.Send(PrepareC2S.UnPrepare());
+      if (User.Seat != Seat.Spectator && !Room.Battling) _Client.Send(PrepareC2S.UnPrepare());
     }
 
     internal void Reset()
     {
-      Game = null;
-      PlayerController = null;
+      _game = null;
+      _playerController = null;
+      _prepare00 = false;
+      _prepare01 = false;
+      _prepare10 = false;
+      _prepare11 = false;
+      UIDispatcher.BeginInvoke(Quited);
     }
 
     internal PokemonData[] Partner;
@@ -166,6 +181,7 @@ namespace PokemonBattleOnline.Network
       players[1, 1] = Room[1, 1].Name;
       Game = new GameOutward(Room.Settings, players);
       if (User.Seat != Seat.Spectator) PlayerController = new PlayerController(this, Self, Partner);
+      Game.Start(gameUpdateS2C);
     }
   }
 }

@@ -70,11 +70,6 @@
       <Name>PBO.Game</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Tactic\Tactic.csproj">
-      <Project>{EE2C451E-A61E-4634-B382-5298982E060C}</Project>
-      <Name>Tactic</Name>
-      <Private>False</Private>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -7,10 +7,10 @@
         <Setter Property="Height" Value="10"/>
         <Style.Triggers>
             <DataTrigger Binding="{Binding}" Value="Male">
-                <Setter Property="Source" Value="/PBO.UIElements;component/Images/Labels/male.png"/>
+                <Setter Property="Source" Value="/PBO;component/images/Labels/male.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding}" Value="Female">
-                <Setter Property="Source" Value="/PBO.UIElements;component/Images/Labels/female.png"/>
+                <Setter Property="Source" Value="/PBO;component/images/Labels/female.png"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>
@@ -22,7 +22,7 @@
                 </Style>
             </Canvas.Resources>
             <Canvas.Background>
-                <ImageBrush ImageSource="/PBO.Battle;component/Images/OStateBar.png" />
+                <ImageBrush ImageSource="/PBO;component/images/Battle/OStateBar.png" />
             </Canvas.Background>
             <TextBlock Text="{Binding Name}" Canvas.Left="10" Width="50" Canvas.Top="-2" Foreground="Black">
                 <TextBlock.Effect>
@@ -62,7 +62,7 @@
     <DataTemplate x:Key="RStateBar">
         <Canvas Width="104" Height="23" SnapsToDevicePixels="True">
             <Canvas.Background>
-                <ImageBrush ImageSource="/PBO.Battle;component/Images/RStateBar.png" />
+                <ImageBrush ImageSource="/PBO;component/images/Battle/RStateBar.png" />
             </Canvas.Background>
             <Canvas.Resources>
                 <Style TargetType="TextBlock">

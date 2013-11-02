@@ -9,9 +9,6 @@ namespace PokemonBattleOnline.Game
 	[DataContract(Namespace = PBOMarks.PBO)]
   public class PokemonTeam
 	{
-    [DataMember]
-    public readonly PokemonData[] Pokemons;
-
     public PokemonTeam()
     {
       Pokemons = new PokemonData[6];
@@ -22,8 +19,15 @@ namespace PokemonBattleOnline.Game
     }
 
     [DataMember]
+    public PokemonData[] Pokemons
+    { get; private set; }
+
+    [DataMember]
     public string Name
     { get; set; }
+
+    [DataMember]
+    public bool CanBattle;
 
     public string Export()
     {

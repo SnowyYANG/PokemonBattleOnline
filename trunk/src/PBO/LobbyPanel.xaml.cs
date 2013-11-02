@@ -40,7 +40,7 @@ namespace PokemonBattleOnline.PBO
       else
       {
         login.Visibility = Visibility.Collapsed;
-        lobby.Init();
+        lobby.Init(PBOClient.Current.Controller);
         lobby.IsEnabled = true;
         lobby.Visibility = Visibility.Visible;
       }

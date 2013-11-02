@@ -21,15 +21,18 @@ namespace PokemonBattleOnline.PBO.Lobby
   /// </summary>
   public partial class LobbyView : UserControl
   {
+    private ClientController Controller;
+    
     public LobbyView()
     {
       InitializeComponent();
     }
 
-    internal void Init()
+    internal void Init(ClientController controller)
     {
-      DataContext = null;
-      chat.Init();
+      Controller = controller;
+      Rooms.ItemsSource = controller.Rooms;
+      chat.Init(controller);
     }
 
     private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -68,6 +71,11 @@ namespace PokemonBattleOnline.PBO.Lobby
     internal bool Window_Closing()
     {
       return PBOClient.Current != null && ShowMessageBox.ExitLobby() == MessageBoxResult.No;
+    }
+
+    private void NewRoom_Click(object sender, RoutedEventArgs e)
+    {
+      Controller.NewRoom(null, new GameSettings(Game.GameMode.Single), Seat.Player00);
     }
   }
 }

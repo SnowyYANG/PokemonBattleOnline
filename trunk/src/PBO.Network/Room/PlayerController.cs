@@ -13,7 +13,7 @@ namespace PokemonBattleOnline.Network
     private readonly Client Client;
     internal PlayerController(RoomController room, IPokemonData[] pokemons, IPokemonData[] parner)
     {
-      Client = room.Client;
+      Client = room._Client;
       _game = new SimGame(room.Room.Settings, new SimPlayer(room.User.Seat.TeamId(), room.User.Seat.TeamIndex(), pokemons), parner);
     }
 

@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PokemonBattleOnline.Game;
+using PokemonBattleOnline.Network;
 
 namespace PokemonBattleOnline.PBO.Battle
 {
@@ -22,25 +23,30 @@ namespace PokemonBattleOnline.PBO.Battle
   {
     internal const double DEFAULT_FONTSIZE = 15;
     
-    internal readonly FlowDocument RealTime, Final;
-    private readonly StringBuilder Text;
-    private readonly LinkedList<TextElement> turnsBookmark;
+    internal FlowDocument RealTime, Final;
+    private StringBuilder Text;
+    private LinkedList<TextElement> turnsBookmark;
     private Control controller;
     
     public BattleReport()
     {
       InitializeComponent();
+      Reset();
+    }
+
+    public void Init(GameOutward game, string title, string playerName)
+    {
+      game.AddListner(controller);
+    }
+
+    internal void Reset()
+    {
       turnsBookmark = new LinkedList<TextElement>();
       RealTime = new FlowDocument();
       Final = new FlowDocument();
       Text = new StringBuilder();
       reportViewer.Document = RealTime;
-    }
-
-    public void Init(GameOutward game, string title, string playerName)
-    {
-      controller = new Control(this, title, playerName);
-      game.AddListner(controller);
+      controller = new Control(this);
     }
 
     private LinkedListNode<TextElement> nowTurn;
@@ -64,6 +70,11 @@ namespace PokemonBattleOnline.PBO.Battle
     {
       controller.RealTime.AddText(text, 0xffff8000);
       AutoScroll();
+    }
+    public void AddChatText(string chat, User user)
+    {
+      var c = Elements.Cartes.GetChatBrush(user.Name).Color;
+      controller.RealTime.AddText((user.Name + "：" + chat).LineBreak(), (uint)((c.A << 24) | (c.R << 16) | (c.G << 8) | c.B));
     }
   }
 }

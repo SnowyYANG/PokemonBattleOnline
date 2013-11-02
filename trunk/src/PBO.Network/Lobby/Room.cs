@@ -11,8 +11,6 @@ namespace PokemonBattleOnline.Network
   [DataContract(Namespace = PBOMarks.JSON)]
   public class Room : ObservableObject
   {
-    [DataMember(Name = "a")]
-    public readonly int Id;
     private User[] players;
 
     public Room(int id, string name, GameSettings settings)
@@ -23,6 +21,10 @@ namespace PokemonBattleOnline.Network
       players = new User[4];
       _spectators = new ObservableList<User>();
     }
+
+    [DataMember(Name = "a")]
+    public int Id
+    { get; private set; }
 
     [DataMember(Name = "b", EmitDefaultValue = false)]
     private string _name;
@@ -50,10 +52,11 @@ namespace PokemonBattleOnline.Network
       }
     }
 
-    private User this[int index]
+    public User this[int index]
     {
-      get { return players.ValueOrDefault(index); }
-      set
+      get
+      { return players.ValueOrDefault(index); }
+      private set
       {
         if (0 <= index && index < 4)
         {
@@ -64,6 +67,7 @@ namespace PokemonBattleOnline.Network
             value.Seat = (Seat)index;
           }
           players[index] = value;
+          OnPropertyChanged();
         }
       }
     }

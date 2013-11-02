@@ -25,7 +25,7 @@ namespace PokemonBattleOnline.PBO
     #region Battle
     public static MessageBoxResult CantCloseMainWindow(Window window)
     {
-      return MessageBox.Show(window, "您正在对战或观战，无法退出，请关闭所有对战/观战窗口后再退出主程序。", PBO);
+      return MessageBox.Show(window, "您正在对战房间内，无法退出，请关闭对战房间窗口后再退出主程序。", PBO);
     }
     public static MessageBoxResult ClosingInBattle(Window window)
     {

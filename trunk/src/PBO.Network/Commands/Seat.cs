@@ -95,6 +95,7 @@ namespace PokemonBattleOnline.Network.Commands
           var room = client.Controller.GetRoom(Room);
           if (Seat == Seat.Spectator) room.AddSpectator(u);
           else room[Seat] = u;
+          if (isUser) RoomController.OnEntered();
         }
     }
   }

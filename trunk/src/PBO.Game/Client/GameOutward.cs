@@ -69,7 +69,7 @@ namespace PokemonBattleOnline.Game
         for (int x = 0; x < Settings.Mode.XBound(); x++) Board[t, x] = fragment[t, x];
         Board.Weather = fragment.Weather;
       }
-      GameStart();
+      UIDispatcher.Invoke(GameStart);
     }
     public void Update(IEnumerable<GameEvent> events)
     {
@@ -92,11 +92,8 @@ namespace PokemonBattleOnline.Game
           int winer = team0 == 0 ? 1 : 0;
           text.SetData(winer, team0, team1);
         }
-        UIDispatcher.Invoke(() =>
-          {
-            AppendGameLog(text);
-            GameEnd();
-          });
+        AppendGameLog(text);
+        UIDispatcher.Invoke(GameEnd);
       }
     }
     public void AppendGameLog(LogText text)

@@ -22,7 +22,6 @@ namespace PokemonBattleOnline.PBO.Lobby
   /// </summary>
   public partial class Chat : UserControl
   {
-    public static Chat Current { get; private set; }
     static readonly SoundPlayer sound;
     static Chat()
     {
@@ -39,6 +38,7 @@ namespace PokemonBattleOnline.PBO.Lobby
     }
 
     ScrollViewer scroll;
+    ClientController Controller;
 
     public Chat()
     {
@@ -48,9 +48,9 @@ namespace PokemonBattleOnline.PBO.Lobby
           if (whom.SelectedIndex > 0)
             ((TabItem)whom.SelectedItem).Foreground = System.Windows.Media.Brushes.Black;
         };
-      Current = this;
       ClientController.PublicChat += OnPublicChat;
       ClientController.PrivateChat += OnPrivateChat;
+      Speaking.Speak += OnSpeak;
     }
 
     ScrollViewer Scroll
@@ -65,19 +65,15 @@ namespace PokemonBattleOnline.PBO.Lobby
     /// <summary>
     /// it's ok to reinit.
     /// </summary>
-    private void Speak()
+    private void OnSpeak(string chat)
     {
-      if (!string.IsNullOrEmpty(speaking.Text))
+      if (whom.SelectedIndex > 0)
       {
-        if (whom.SelectedIndex > 0)
-        {
-          var ti = (TabItem)whom.SelectedItem;
-          PBOClient.Current.Controller.ChatPrivate((User)ti.Header, speaking.Text);
-          ((TextBox)ti.Content).AppendText(PBOClient.Current.Controller.User.Name + ": " + speaking.Text + "\n");
-        }
-        else PBOClient.Current.Controller.ChatPublic(speaking.Text);
-        speaking.Clear();
+        var ti = (TabItem)whom.SelectedItem;
+        Controller.ChatPrivate((User)ti.Header, chat);
+        ((TextBox)ti.Content).AppendText(PBOClient.Current.Controller.User.Name + ": " + chat + "\n");
       }
+      else Controller.ChatPublic(chat);
     }
     private TabItem GetChatTab(User user)
     {
@@ -87,9 +83,10 @@ namespace PokemonBattleOnline.PBO.Lobby
       whom.Items.Add(t);
       return t;
     }
-    internal void Init()
+    internal void Init(ClientController controller)
     {
-      speaking.Clear();
+      Controller = controller;
+      Speaking.Clear();
       chat.Inlines.Clear();
       whom.Items.MoveCurrentToFirst();
       for (int i = whom.Items.Count - 1; i != 0; i--) whom.Items.RemoveAt(i);
@@ -122,14 +119,6 @@ namespace PokemonBattleOnline.PBO.Lobby
       }
     }
 
-    private void Button_Click(object sender, RoutedEventArgs e)
-    {
-      Speak();
-    }
-    private void speaking_KeyDown(object sender, KeyEventArgs e)
-    {
-      if (e.Key == Key.Enter) Speak();
-    }
     private void close_Click(object sender, RoutedEventArgs e)
     {
       var ti = Helper.GetParent<TabItem>((DependencyObject)sender);

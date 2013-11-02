@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
              xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor"
-             Loaded="OnLoaded">
+             Loaded="OnLoaded" Height="32" Width="385">
     <UserControl.ContextMenu>
         <ContextMenu>
             <MenuItem/>
@@ -13,15 +13,16 @@
             <MenuItem Header="删除"/>
         </ContextMenu>
     </UserControl.ContextMenu>
-    <Canvas Height="32">
-        <Path Name="bg" Fill="{x:Static ui:SBrushes.GrayB1}" Stroke="{Binding BorderBrush}" Data="M0,6 L391,6 385,29 0,29" StrokeThickness="0" Stretch="None" VerticalAlignment="Bottom" SnapsToDevicePixels="True"/>
+    <Canvas>
+        <Path Name="bg" Fill="{x:Static ui:SBrushes.GrayB1}" Stroke="{Binding BorderBrush}" Data="M0,9 L391,9 385,32 0,32" StrokeThickness="0" Stretch="None" VerticalAlignment="Bottom" SnapsToDevicePixels="True"/>
         <e:PokemonIcon DataContext="{Binding [0]}"/>
         <e:PokemonIcon DataContext="{Binding [1]}" Canvas.Left="32"/>
         <e:PokemonIcon DataContext="{Binding [2]}" Canvas.Left="64"/>
         <e:PokemonIcon DataContext="{Binding [3]}" Canvas.Left="96"/>
         <e:PokemonIcon DataContext="{Binding [4]}" Canvas.Left="128"/>
         <e:PokemonIcon DataContext="{Binding [5]}" Canvas.Left="160"/>
-        <TextBlock x:Name="NameBlock" Text="{Binding Name}" MouseLeftButtonDown="NameBlock_MouseLeftButtonDown" Cursor="IBeam" TextTrimming="CharacterEllipsis" TextWrapping="WrapWithOverflow" Background="Transparent" Foreground="#d8d8d8" MinWidth="30" MaxWidth="190" Canvas.Left="195" Canvas.Bottom="7"/>
-        <TextBox x:Name="NameEditor" KeyDown="NameEditor_KeyDown" LostFocus="NameEditor_LostFocus" Visibility="Collapsed" MaxLength="30" Foreground="White" Padding="0" BorderThickness="0" BorderBrush="{x:Null}" SnapsToDevicePixels="True" Background="Black" Canvas.Left="195" Canvas.Bottom="7" Width="190"/>
+        <CheckBox IsChecked="{Binding CanBattle}" Canvas.Left="195" Canvas.Bottom="5"/>
+        <TextBlock x:Name="NameBlock" Text="{Binding Name}" MouseLeftButtonDown="NameBlock_MouseLeftButtonDown" Cursor="IBeam" TextTrimming="CharacterEllipsis" TextWrapping="WrapWithOverflow" Background="Transparent" Foreground="#d8d8d8" Width="170" Canvas.Left="212" Canvas.Bottom="4"/>
+        <TextBox x:Name="NameEditor" KeyDown="NameEditor_KeyDown" LostFocus="NameEditor_LostFocus" Visibility="Collapsed" MaxLength="30" Foreground="White" Padding="0" BorderThickness="0" BorderBrush="{x:Null}" SnapsToDevicePixels="True" Background="Black" Canvas.Left="212" Canvas.Bottom="4" Width="170"/>
     </Canvas>
 </UserControl>

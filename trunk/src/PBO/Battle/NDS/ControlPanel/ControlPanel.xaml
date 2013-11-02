@@ -7,8 +7,8 @@
     <Canvas.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/PBO.Battle;component/NDS/GameButtonResource.xaml"/>
-                <ResourceDictionary Source="/PBO.Battle;component/NDS/PokemonsCount.xaml"/>
+                <ResourceDictionary Source="/PBO;component/Battle/NDS/ControlPanel/Buttons/GameButtonResource.xaml"/>
+                <ResourceDictionary Source="/PBO;component/Battle/NDS/ControlPanel/PokemonsCount.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Canvas.Resources>

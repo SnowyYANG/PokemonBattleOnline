@@ -10,7 +10,7 @@ namespace PokemonBattleOnline.Network
   [DataContract(Namespace = PBOMarks.JSON)]
   public class User : ObservableObject
   {
-    public User(int id, string name, ushort avatar)
+    public User(int id, string name, int avatar)
     {
       _id = id;
       _name = name;
@@ -26,8 +26,8 @@ namespace PokemonBattleOnline.Network
     public string Name
     { get { return _name; } }
     [DataMember(Name = "c")]
-    private readonly ushort _avatar;
-    public ushort Avatar
+    private readonly int _avatar;
+    public int Avatar
     { get { return _avatar; } }
 
     [DataMember(Name = "d")]
@@ -45,7 +45,7 @@ namespace PokemonBattleOnline.Network
         if (_room != value)
         {
           _room = value;
-          RoomId = _room.Id;
+          RoomId = _room == null ? 0 : _room.Id;
         }
       }
     }

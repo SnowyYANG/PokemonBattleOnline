@@ -14,7 +14,6 @@ namespace PokemonBattleOnline.Network
       : base(network)
     {
       Server = server;
-      network.Disconnected += OnLoginFailed;
     }
 
     public string Name
@@ -29,7 +28,7 @@ namespace PokemonBattleOnline.Network
       switch (state)
       {
         case 0: //version
-          if (pack.ToUInt16() == null) OnLoginFailed();
+          if (pack.ToUInt16() == null) Dispose();
           else
           {
             state = 1;
@@ -44,7 +43,7 @@ namespace PokemonBattleOnline.Network
             Name = name;
             Network.Sender.SendEmpty();
           }
-          else OnLoginFailed();
+          else Dispose();
           break;
         case 2: //Avatar
           var av = pack.ToUInt16();
@@ -52,14 +51,11 @@ namespace PokemonBattleOnline.Network
           {
             Avatar = av.Value;
             Server.LoginComplete(this);
+            Network.Disconnected -= Dispose;
           }
-          else OnLoginFailed();
+          else Dispose();
           break;
       }
-    }
-    private void OnLoginFailed()
-    {
-      Dispose();
     }
 
     public override void Dispose()

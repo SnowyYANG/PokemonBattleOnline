@@ -11,26 +11,30 @@ namespace PokemonBattleOnline.PBO.Elements
   {
     public static readonly DataTemplate Avatar;
     public static readonly DataTemplate Pokemon;
-    public static readonly Brush[] Brushes;
+    public static readonly DataTemplate User;
+    public static readonly DataTemplate UserR;
+    public static readonly SolidColorBrush[] Brushes;
 
     static Cartes()
     {
       var rd = Helper.GetDictionary("Elements/Cartes", "User");
       Avatar = (DataTemplate)rd["Avatar"];
+      User = (DataTemplate)rd["User"];
+      UserR = (DataTemplate)rd["UserR"];
       Pokemon = Helper.GetObject<DataTemplate>("Elements/Cartes", "Pokemon");
-      Brushes = new Brush[9];
-      Brushes[0] = (Brush)rd["Red"];
-      Brushes[1] = (Brush)rd["Blue"];
-      Brushes[2] = (Brush)rd["Yellow"];
-      Brushes[3] = (Brush)rd["Green"];
-      Brushes[4] = (Brush)rd["Black"];
-      Brushes[5] = (Brush)rd["Brown"];
-      Brushes[6] = (Brush)rd["Purple"];
-      Brushes[7] = (Brush)rd["Gray"];
-      Brushes[8] = (Brush)rd["Pink"];
+      Brushes = new SolidColorBrush[9];
+      Brushes[0] = (SolidColorBrush)rd["Red"];
+      Brushes[1] = (SolidColorBrush)rd["Blue"];
+      Brushes[2] = (SolidColorBrush)rd["Yellow"];
+      Brushes[3] = (SolidColorBrush)rd["Green"];
+      Brushes[4] = (SolidColorBrush)rd["Black"];
+      Brushes[5] = (SolidColorBrush)rd["Brown"];
+      Brushes[6] = (SolidColorBrush)rd["Purple"];
+      Brushes[7] = (SolidColorBrush)rd["Gray"];
+      Brushes[8] = (SolidColorBrush)rd["Pink"];
     }
 
-    public static Brush GetChatBrush(string username)
+    public static SolidColorBrush GetChatBrush(string username)
     {
       return Brushes[username.GetHashCode() % 9];
     }

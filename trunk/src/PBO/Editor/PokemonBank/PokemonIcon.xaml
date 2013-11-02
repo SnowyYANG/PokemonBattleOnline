@@ -28,7 +28,7 @@
         </ContextMenu>
     </UserControl.ContextMenu>
     <Canvas>
-        <Polygon Name="Stroke" Stroke="#80808080" StrokeThickness="1" Fill="{x:Null}" Points="1.5,16 6.5,4.5 25.5,4.5 30.5,16 25.5,27.5 6.5,27.5"/>
-        <Image Name="icon" Source="{Binding Icon}" Height="32" Width="32" Canvas.Top="-4"/>
+        <Polygon Name="Stroke" Stroke="#80808080" StrokeThickness="1" Fill="{x:Null}" Canvas.Top="4" Points="1.5,16 6.5,4.5 25.5,4.5 30.5,16 25.5,27.5 6.5,27.5"/>
+        <Image Name="icon" Source="{Binding Icon}" Height="32" Width="32"/>
     </Canvas>
 </UserControl>

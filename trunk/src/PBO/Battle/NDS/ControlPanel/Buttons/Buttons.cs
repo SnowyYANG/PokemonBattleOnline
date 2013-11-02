@@ -35,7 +35,7 @@ namespace PokemonBattleOnline.PBO.Battle
 
     static ResourceDictionary GetDictionary(string filename)
     {
-      return Helper.GetDictionary("Buttons", filename);
+      return Helper.GetDictionary("Battle/NDS/ControlPanel/Buttons", filename);
     }
     static Style GetStyle(string name)
     {

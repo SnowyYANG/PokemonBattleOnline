@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:pm="clr-namespace:PokemonBattleOnline.Game;assembly=PBO.Game"
-             xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements">
+             xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
+             xmlns:l="clr-namespace:PokemonBattleOnline.PBO.Lobby">
     <Grid>
         <TabControl x:Name="whom" Margin="0,0,0,22" Padding="0">
             <TabControl.ItemContainerStyle>
@@ -32,7 +33,6 @@
                 </FlowDocumentScrollViewer>  
             </TabItem>
         </TabControl>
-        <Button VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="22" Width="22" Click="Button_Click" />
-        <TextBox x:Name="speaking" Background="{x:Null}" VerticalAlignment="Bottom" Height="22" Margin="0,0,22,0" KeyDown="speaking_KeyDown"/>
+        <l:ChatBox x:Name="Speaking" Height="22" VerticalAlignment="Bottom"/>
     </Grid>
 </UserControl>

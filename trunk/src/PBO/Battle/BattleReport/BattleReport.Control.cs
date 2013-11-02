@@ -30,10 +30,8 @@ namespace PokemonBattleOnline.PBO.Battle
       private readonly BattleReportImplement Final;
       private readonly BattleReportImplement TextReport;
       private readonly StringBuilder Text;
-      private readonly string Title;
-      private readonly string PlayerName;
 
-      public Control(BattleReport battlereport, string title, string player)
+      public Control(BattleReport battlereport)
       {
         Nest = battlereport;
         beginTurn = true;
@@ -41,8 +39,6 @@ namespace PokemonBattleOnline.PBO.Battle
         Final = new DocumentBattleReport(Nest.Final, false, false);
         Text = new StringBuilder();
         TextReport = new StringBattleReport(Text);
-        Title = title;
-        PlayerName = player;
       }
 
       bool beginTurn;
@@ -52,29 +48,32 @@ namespace PokemonBattleOnline.PBO.Battle
       }
       void IGameOutwardEvents.GameLogAppend(LogText text)
       {
-        RealTime.AddText(text);
-        Final.AddText(text);
         TextReport.AddText(text);
-        Nest.AutoScroll();
-        if (beginTurn)
-        {
-          //Nest.nowTurn = new LinkedListNode<TextElement>(currentRealTime.Inlines.Last());
-          //Nest.turnsBookmark.AddLast(Nest.nowTurn);
-          beginTurn = false;
-        }
+        UIDispatcher.Invoke(() =>
+          {
+            RealTime.AddText(text);
+            Final.AddText(text);
+            Nest.AutoScroll();
+            if (beginTurn)
+            {
+              //Nest.nowTurn = new LinkedListNode<TextElement>(currentRealTime.Inlines.Last());
+              //Nest.turnsBookmark.AddLast(Nest.nowTurn);
+              beginTurn = false;
+            }
+          });
       }
       public void GameEnd()
       {
         Nest.reportViewer.Document = Nest.Final;
       }
 
-      public void Save()
+      public void Save(string title, string player)
       {
         try
         {
-          var path = "..\\MyPBO\\Logs\\" + PlayerName;
+          var path = "..\\MyPBO\\Logs\\" + player;
           if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-          using (StreamWriter sw = new System.IO.StreamWriter(path + string.Format("\\[{0}] {1}", DateTime.Now.ToString("yyyy-MM-dd-HHmm"), Title) + ".txt", false, Encoding.Unicode))
+          using (StreamWriter sw = new System.IO.StreamWriter(path + string.Format("\\[{0}] {1}", DateTime.Now.ToString("yyyy-MM-dd-HHmm"), title) + ".txt", false, Encoding.Unicode))
             sw.Write(Text);
         }
         catch

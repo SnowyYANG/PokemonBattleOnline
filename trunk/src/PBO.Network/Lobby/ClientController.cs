@@ -119,11 +119,15 @@ namespace PokemonBattleOnline.Network
     }
     public void NewRoom(string name, GameSettings settings, Seat seat)
     {
-      if (Room == null) Client.Send(SetSeatC2S.NewRoom(name, settings, seat));
+      if (Room.Room == null) Client.Send(SetSeatC2S.NewRoom(name, settings, seat));
     }
     public void EnterRoom(Room room, Seat seat)
     {
-      if (Room == null && (seat == Seat.Spectator || room[seat] == null)) Client.Send(SetSeatC2S.EnterRoom(room.Id, seat));
+      if (Room.Room == null && (seat == Seat.Spectator || room[seat] == null)) Client.Send(SetSeatC2S.EnterRoom(room.Id, seat));
+    }
+    public void Exit()
+    {
+      PBOClient.DisposeCurrent();
     }
   }
 }

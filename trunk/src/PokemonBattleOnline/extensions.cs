@@ -88,5 +88,9 @@ namespace PokemonBattleOnline
       int.TryParse(s, out i);
       return i;
     }
+    public static string LineBreak(this string s)
+    {
+      return s + "\r\n";
+    }
   }
 }

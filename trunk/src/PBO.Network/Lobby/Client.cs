@@ -56,10 +56,10 @@ namespace PokemonBattleOnline.Network
         using (var ds = new DeflateStream(ms, CompressionMode.Decompress))
         {
           var s2c = (IS2C)S2CSerializer.ReadObject(ds);
-          UIDispatcher.Invoke((Action<Client>)s2c.Execute, this);
+          s2c.Execute(this);
         }
     }
-    public void Send(IC2S command)
+    internal void Send(IC2S command)
     {
       using (var ms = new MemoryStream())
       {

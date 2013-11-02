@@ -104,6 +104,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Lobby\ChatBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Lobby\LobbyView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -111,6 +115,10 @@
     <Page Include="Lobby\Login.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Lobby\RoomView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
@@ -144,11 +152,17 @@
     <Compile Include="Lobby\Chat.xaml.cs">
       <DependentUpon>Chat.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Lobby\ChatBox.xaml.cs">
+      <DependentUpon>ChatBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Lobby\LobbyView.xaml.cs">
       <DependentUpon>LobbyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Lobby\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Lobby\RoomView.xaml.cs">
+      <DependentUpon>RoomView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -312,8 +326,8 @@
       <DependentUpon>BattleReport.xaml</DependentUpon>
     </Compile>
     <Compile Include="Battle\BattleReport\BattleReportImplement.cs" />
-    <Compile Include="BattleWindow2D.xaml.cs">
-      <DependentUpon>BattleWindow2D.xaml</DependentUpon>
+    <Compile Include="RoomWindow.xaml.cs">
+      <DependentUpon>RoomWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Battle\NDS\Board2D\BattleField2D.xaml.cs">
       <DependentUpon>BattleField2D.xaml</DependentUpon>
@@ -342,7 +356,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="BattleWindow2D.xaml">
+    <Page Include="RoomWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -406,9 +420,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Editor\PokemonBank\BTVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Lobby\R.cs" />

@@ -28,7 +28,6 @@ namespace PokemonBattleOnline.Network
     public ServerUser(LoginUser user, Server server)
       : base(user.Network)
     {
-      Network.Disconnected += Dispose;
       _user = new User(user.Network.Id, user.Name, user.Avatar);
       Server = server;
     }
