@@ -54,7 +54,10 @@ namespace PokemonBattleOnline.PBO
 
     public bool Window_Closing()
     {
-      return lobby.Window_Closing();
+      if (PBOClient.Current != null)
+        if (ShowMessageBox.ExitLobby() == MessageBoxResult.Yes) PBOClient.Current.Controller.Exit();
+        else return true;
+      return false;
     }
   }
 }

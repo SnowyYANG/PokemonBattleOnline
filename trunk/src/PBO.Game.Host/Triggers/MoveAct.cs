@@ -567,7 +567,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static void CantSelectWithdraw(AtkContext atk)
     {
-      if (atk.Target.Defender.OnboardPokemon.AddCondition("CantSelectWithdraw", atk.Attacker)) atk.Target.Defender.AddReportPm("CantSelectWithdraw");
+      if (atk.Target.Defender.OnboardPokemon.AddCondition("EnCantSelectWithdraw", atk.Attacker)) atk.Target.Defender.AddReportPm("CantSelectWithdraw");
       else atk.FailAll();
     }
     private static void AddCondition(AtkContext atk, string condition)

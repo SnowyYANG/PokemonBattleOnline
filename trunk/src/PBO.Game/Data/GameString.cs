@@ -61,6 +61,7 @@ namespace PokemonBattleOnline.Game
 
     private GameString(string path, string language)
     {
+      MinFirstChar = char.MaxValue;
       Language = language;
       Pokemons = new string[RomData.Pokemons.Count()];
       Forms = new Dictionary<int, string>();
@@ -204,7 +205,7 @@ namespace PokemonBattleOnline.Game
     private static GameString GetLanguage(string str)
     {
       var c = str[0];
-      return EN != null && EN.MinFirstChar <= c && c <= EN.MaxFirstChar ? EN : JP != null && JP.MinFirstChar <= c && c <= JP.MaxFirstChar ? JP : Current;
+      return Current.MinFirstChar <= c && c <= Current.MaxFirstChar ? Current : EN != null && EN.MinFirstChar <= c && c <= EN.MaxFirstChar ? EN : JP;
     }
     public static BattleType BattleType(string name)
     {

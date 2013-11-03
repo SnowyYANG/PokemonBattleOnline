@@ -43,7 +43,7 @@
                     </LinearGradientBrush>
                 </Polygon.Stroke>
             </Polygon>
-            <ContentControl Name="name" Content="{Binding Move.Name}" Foreground="#f8f8f8" VerticalAlignment="Top" Style="{x:Null}" Margin="50,3,7,0"/>
+            <ContentControl Name="name" Content="{Binding Move.Id,Converter={x:Static c:MoveString.C}}" Foreground="#f8f8f8" VerticalAlignment="Top" Style="{x:Null}" Margin="50,3,7,0"/>
             <ContentPresenter Content="{Binding Move.Type}" ContentTemplate="{x:Static ui:Labels.BattleType}" Width="38" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,3,0,0"/>
             <Button Name="clear" Command="{x:Static e:PokemonEditorVM.RemoveMoveCommand}" CommandParameter="{Binding}" Style="{x:Static ui:Controls.XButton}" ToolTip="忘记技能" Foreground="#c068f0" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="16,0,0,1"/>
             <TextBlock Name="pp" Text="PP " Foreground="#f8f8f8" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="83,0,0,1"/>

@@ -101,7 +101,7 @@ namespace PokemonBattleOnline.Network
             bool isUser = r == Room.Room;
             r.RemoveUsers();
             _rooms.Remove(r);
-            if (isUser) Room.Reset();
+            if (isUser) Room.OnQuited();
             break;
           }
     }
@@ -116,11 +116,11 @@ namespace PokemonBattleOnline.Network
     }
     public void NewRoom(string name, GameSettings settings, Seat seat)
     {
-      if (Room.Room == null) Client.Send(SetSeatC2S.NewRoom(name, settings, seat));
+      if (User.Room == null) Client.Send(SetSeatC2S.NewRoom(name, settings, seat));
     }
     public void EnterRoom(Room room, Seat seat)
     {
-      if (Room.Room == null && (seat == Seat.Spectator || room[seat] == null)) Client.Send(SetSeatC2S.EnterRoom(room.Id, seat));
+      if (User.Room == null && (seat == Seat.Spectator || room[seat] == null)) Client.Send(SetSeatC2S.EnterRoom(room.Id, seat));
     }
     private bool disConnected;
     internal void OnDisconnected()
@@ -134,7 +134,7 @@ namespace PokemonBattleOnline.Network
     private bool exit;
     public void Exit()
     {
-      if (!exit)
+      if (/*User.Room == null && */!exit)
       {
         exit = true;
         disConnected = true;

@@ -97,6 +97,7 @@ namespace PokemonBattleOnline.PBO.Editor
 
     public PokemonVM Origin
     { get; private set; }
+
     private PokemonData _model;
     public PokemonData Model
     {

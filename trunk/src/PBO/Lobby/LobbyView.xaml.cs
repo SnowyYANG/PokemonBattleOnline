@@ -32,6 +32,7 @@ namespace PokemonBattleOnline.PBO.Lobby
     {
       Controller = controller;
       Rooms.ItemsSource = controller.Rooms;
+      Users.ItemsSource = controller.Users;
       chat.Init(controller);
     }
 
@@ -68,14 +69,15 @@ namespace PokemonBattleOnline.PBO.Lobby
         split.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
       }
     }
-    internal bool Window_Closing()
-    {
-      return PBOClient.Current != null && ShowMessageBox.ExitLobby() == MessageBoxResult.No;
-    }
 
     private void NewRoom_Click(object sender, RoutedEventArgs e)
     {
       Controller.NewRoom(null, new GameSettings(Game.GameMode.Single), Seat.Player00);
+    }
+
+    private void Exit_Click(object sender, RoutedEventArgs e)
+    {
+      Controller.Exit();
     }
   }
 }

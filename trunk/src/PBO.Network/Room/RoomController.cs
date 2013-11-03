@@ -17,7 +17,7 @@ namespace PokemonBattleOnline.Network
     public static event Action<GameStopReason, User> GameStop;
     internal static void OnGameStop(GameStopReason reason, User player)
     {
-      UIDispatcher.Invoke(GameStop, player);
+      UIDispatcher.Invoke(GameStop, reason, player);
     }
     public static event Action<User[]> TimeReminder;
     internal static void OnTimeReminder(User[] waitForWhom)
@@ -59,10 +59,16 @@ namespace PokemonBattleOnline.Network
         if (_game != value)
         {
           _game = value;
+          _game.GameEnd += Game_GameEnd;
           OnPropertyChanged("Game");
           UIDispatcher.Invoke(GameInited);
         }
       }
+    }
+
+    private void Game_GameEnd()
+    {
+      OnGameStop(GameStopReason.GameEnd, null);
     }
     private PlayerController _playerController;
     public PlayerController PlayerController
@@ -167,6 +173,11 @@ namespace PokemonBattleOnline.Network
       _prepare01 = false;
       _prepare10 = false;
       _prepare11 = false;
+    }
+
+    internal void OnQuited()
+    {
+      Reset();
       UIDispatcher.BeginInvoke(Quited);
     }
 

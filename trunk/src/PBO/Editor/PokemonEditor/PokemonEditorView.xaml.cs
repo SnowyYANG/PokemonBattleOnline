@@ -75,5 +75,40 @@ namespace PokemonBattleOnline.PBO.Editor
     {
       VM.Model.Happiness = VM.Model.Happiness == 255 ? 0 : 255;
     }
+
+    private void QuickText_KeyDown(object sender, KeyEventArgs e)
+    {
+      if (e.Key == Key.Enter)
+      {
+        var text = QuickText.Text.Trim();
+        if (!string.IsNullOrWhiteSpace(text))
+        {
+          var m = GameString.Move(text);
+          if (m != null) VM.AddMove(m);
+          else
+          {
+            var i = GameString.Item(text);
+            if (i != 0) VM.Model.Item = i;
+            else
+            {
+              var a = GameString.Ability(text);
+              if (a != 0) VM.Model.Ability = a;
+              else
+              {
+                var n = GameString.Nature(text);
+                if (n.HasValue) VM.Model.Nature = n.Value;
+                else
+                {
+                  var p = GameString.PokemonSpecies(text);
+                  if (p != null) VM.PokemonSpecies = p;
+                  else return;
+                }
+              }
+            }
+          }
+        } //if (!string.Is
+        QuickText.Clear();
+      }
+    }
   }
 }

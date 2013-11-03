@@ -21,11 +21,4 @@ namespace PokemonBattleOnline.Game
         All,
         Hp
     }
-
-    public static class StatTypeHelper
-    {
-        public readonly static StatType[] Type5D = { StatType.Atk, StatType.Def, StatType.Speed, StatType.SpAtk, StatType.SpDef };
-        public readonly static StatType[] Type6D = { StatType.Hp, StatType.Atk, StatType.Def, StatType.Speed, StatType.SpAtk, StatType.SpDef };
-        public readonly static StatType[] Type7D = { StatType.Atk, StatType.Def, StatType.Speed, StatType.SpAtk, StatType.SpDef, StatType.Accuracy, StatType.Evasion };
-    }
 }

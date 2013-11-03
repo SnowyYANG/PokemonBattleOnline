@@ -20,14 +20,24 @@
                     <GradientStop Color="White" Offset="0"/>
                 </LinearGradientBrush>
             </Grid.Background>
-            <Button Content="开启新房间" Click="NewRoom_Click" VerticalAlignment="Top"/>
-            <ItemsControl Name="Rooms" Background="{x:Null}" Margin="0,20,0,0" BorderThickness="0">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <l:RoomView DataContext="{Binding}" Margin="3"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <TabControl>
+                <TabItem Header="房间" Background="{x:Null}">
+                    <Grid>
+                        <Button Content="开启新房间" Click="NewRoom_Click" VerticalAlignment="Top"/>
+                        <ItemsControl Name="Rooms" Margin="0,20,0,0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <l:RoomView DataContext="{Binding}" Margin="3"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="用户" Background="{x:Null}">
+                    <ItemsControl Name="Users" ItemTemplate="{x:Static ui:Cartes.User}" ItemsPanel="{x:Static ui:Controls.WrapPanel}"/>
+                </TabItem>
+            </TabControl>
+            <Button Content="退出" Click="Exit_Click" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         </Grid>
         <l:Chat x:Name="chat"/>
         <GridSplitter x:Name="split" Background="Transparent" ShowsPreview="True">

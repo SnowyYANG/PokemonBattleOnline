@@ -46,11 +46,5 @@ namespace PokemonBattleOnline.PBO
       new MainWindow().Show();
       base.OnStartup(e);
     }
-    protected override void OnExit(ExitEventArgs e)
-    {
-      base.OnExit(e);
-      PBOClient.DisposeCurrent();
-      Config.Current.Save();
-    }
   }
 }

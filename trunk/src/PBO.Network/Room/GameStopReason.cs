@@ -12,6 +12,10 @@ namespace PokemonBattleOnline.Network
   {
     PlayerGiveUp,
     PlayerDisconnect,
-    InvalidInput
+    InvalidInput,
+    /// <summary>
+    /// only client check, no server job
+    /// </summary>
+    GameEnd
   }
 }

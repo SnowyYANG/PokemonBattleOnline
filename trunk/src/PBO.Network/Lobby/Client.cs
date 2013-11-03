@@ -75,6 +75,7 @@ namespace PokemonBattleOnline.Network
         KeepAlive.Dispose();
         Network.Dispose();
         isDisposed = true;
+        PBOClient.Current = null;
       }
     }
   }

@@ -448,5 +448,18 @@
         </ListView>
         <ui:UIButton Click="Save_Click" Content="保存" Margin="0,-18,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Background="#FF25110E"/>
         <ui:UIButton Click="Reset_Click" Content="重置" Margin="64,-18,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Background="#FF25110E"/>
+        <TextBox Name="QuickText" KeyDown="QuickText_KeyDown" ToolTip="输入精灵名、技能名、特性名、道具名、性格后回车。" Width="128" Margin="130,-18,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBlock Text="快速文本编辑" Margin="132,-16,0,0" IsHitTestVisible="False" Foreground="Gray" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text,ElementName=QuickText}" Value="">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
     </Grid>
 </UserControl>

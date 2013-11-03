@@ -16,7 +16,11 @@ namespace PokemonBattleOnline
 
     public static void Invoke(Action action)
     {
-      if (action != null)
+#if DEBUG
+      try
+      {
+#endif
+        if (action != null)
       {
 #if DEBUG
         if (wpf == null)
@@ -28,9 +32,20 @@ namespace PokemonBattleOnline
         if (wpf.CheckAccess()) action();
         else wpf.Invoke(action);
       }
+#if DEBUG
+      }
+      catch
+      {
+        System.Diagnostics.Debugger.Break();
+      }
+#endif
     }
     public static void Invoke(Delegate method, params object[] args)
     {
+#if DEBUG
+      try
+      {
+#endif
       if (method != null)
       {
 #if DEBUG
@@ -43,9 +58,20 @@ namespace PokemonBattleOnline
         if (wpf.CheckAccess()) method.DynamicInvoke(args);
         else wpf.Invoke(method, args);
       }
+#if DEBUG
+      }
+      catch
+      {
+        System.Diagnostics.Debugger.Break();
+      }
+#endif
     }
     public static void BeginInvoke(Delegate method, params object[] args)
     {
+#if DEBUG
+      try
+      {
+#endif
       if (method != null)
       {
 #if DEBUG
@@ -57,6 +83,13 @@ namespace PokemonBattleOnline
 #endif
         wpf.BeginInvoke(method, args);
       }
+#if DEBUG
+      }
+      catch
+      {
+        System.Diagnostics.Debugger.Break();
+      }
+#endif
     }
   }
 }

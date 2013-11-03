@@ -27,7 +27,7 @@ namespace PokemonBattleOnline.PBO
     public static void Init()
     {
       RoomController.Quited += RoomController_Quited;
-      RoomController.GameStop += RoomController_GameStop;
+      RoomController.GameStop += (r, p) => Current.OnGameStop(r, p);
       RoomController.RoomChat += RoomController_RoomChat;
       RoomController.TimeReminder += RoomController_TimeReminder;
       RoomController.TimeUp += RoomController_TimeUp;
@@ -79,23 +79,6 @@ namespace PokemonBattleOnline.PBO
     {
       var br = Current.br;
       br.AddChatText(arg1, arg2);
-    }
-    static void RoomController_GameStop(GameStopReason reason, User player)
-    {
-      string formatKey;
-      switch (reason)
-      {
-        case GameStopReason.InvalidInput:
-          formatKey = "{0}给精灵下达了错误的命令。游戏中止。";
-          break;
-        case GameStopReason.PlayerGiveUp:
-          formatKey = "{0}选择了投降。";
-          break;
-        default://case GameStopReason.PlayerDisconnect:
-          formatKey = "{0}断线了。游戏中止。";
-          break;
-      }
-      Current.br.AddLogText(string.Format(formatKey.LineBreak(), player.Name));
     }
     static void RoomController_Quited()
     {
@@ -151,6 +134,7 @@ namespace PokemonBattleOnline.PBO
         Prepare.Visibility = Visibility.Visible;
         Start.IsEnabled = true;
         Start.Content = "使用所选队伍开始对战！";
+        Title = "对战房间";
       }
       else
       {
@@ -185,14 +169,17 @@ namespace PokemonBattleOnline.PBO
       br.Reset();
       br.Init(Room.Game);
       Room.Game.GameStart += () => Prepare.Visibility = Visibility.Collapsed;
-      Room.Game.GameEnd += () =>
-        {
-          Teams.Visibility = System.Windows.Visibility.Visible;
-          Prepare.Visibility = System.Windows.Visibility.Visible;
-          Start.IsEnabled = true;
-          Start.Content = "使用所选队伍开始对战！";
-          if (Room.PlayerController != null) br.Save(title, Room.Client.User.Name);
-        };
+    }
+
+    private void OnGameStop(GameStopReason reason, User player)
+    {
+      if (reason != GameStopReason.GameEnd) Current.br.AddLogText(string.Format(GameString.Current.BattleLog(reason.ToString()).LineBreak(), player.Name));
+      if (Room.PlayerController != null) br.Save(Title, Room.Client.User.Name);
+      Teams.Visibility = Visibility.Visible;
+      Prepare.Visibility = Visibility.Visible;
+      Start.IsEnabled = true;
+      Start.Content = "使用所选队伍开始对战！";
+      Title = "对战房间";
     }
 
     protected override void OnClosing(System.ComponentModel.CancelEventArgs e)

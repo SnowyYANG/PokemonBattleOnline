@@ -88,7 +88,7 @@ namespace PokemonBattleOnline.Network.Commands
           var seat = u.Seat;
           if (seat == Seat.Spectator) room.RemoveSpectator(u);
           else room[seat] = null;
-          if (isUser) client.Controller.Room.Reset();
+          if (isUser) client.Controller.Room.OnQuited();
         }
         else
         {
