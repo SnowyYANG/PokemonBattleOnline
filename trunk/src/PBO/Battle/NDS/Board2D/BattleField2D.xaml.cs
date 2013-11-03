@@ -36,8 +36,8 @@ namespace PokemonBattleOnline.PBO.Battle
     }
     void IBoardOutwardEvents.PokemonSentout(int team, int x)
     {
-      if (team == observeTeam) opm.Sendout(board[team, x]);
-      else rpm.Sendout(board[team, x]);
+      if (team == observeTeam) opm.SendOut(board[team, x]);
+      else rpm.SendOut(board[team, x]);
     }
     void IBoardOutwardEvents.WeatherChanged()
     {

@@ -127,11 +127,16 @@ namespace PokemonBattleOnline.Game
       }
     }
 
+    bool dataset;
     public void SetData(params object[] data)
     {
-      Data = data;
-      if (Contents != null)
-        foreach (LogText t in Contents) t.SetData(data);
+      if (!dataset)
+      {
+        Data = data;
+        if (Contents != null)
+          foreach (LogText t in Contents) t.SetData(data);
+        dataset = true;
+      }
     }
 
     public LogText Clone(IFormatProvider formatter)

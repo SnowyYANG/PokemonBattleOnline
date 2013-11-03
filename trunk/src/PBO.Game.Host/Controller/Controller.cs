@@ -146,11 +146,11 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (!InputController.NeedInput)
       {
-        if (SingleSendout != null)
+        if (SingleSendOut != null)
         {
-          Sendout(SingleSendout);
+          SendOut(SingleSendOut);
           ReportBuilder.AddHorizontalLine();
-          SingleSendout = null;
+          SingleSendOut = null;
         }
         TurnController.StartGameLoop();
       }
@@ -162,12 +162,12 @@ namespace PokemonBattleOnline.Game.Host
     {
       return InputController.CheckInputSucceed(Teams[teamId].GetPlayer(teamIndex));
     }
-    private Tile SingleSendout;
-    public void PauseForSendoutInput(Tile tile) //逃生按钮、追击死亡
+    private Tile SingleSendOut;
+    public void PauseForSendOutInput(Tile tile) //逃生按钮、追击死亡
     {
-      if (InputController.PauseForSendoutInput(tile))
+      if (InputController.PauseForSendOutInput(tile))
       {
-        SingleSendout = tile;
+        SingleSendOut = tile;
         PauseForInput();
       }
     }
@@ -199,9 +199,9 @@ namespace PokemonBattleOnline.Game.Host
         Timer.Resume(players);
       }
     }
-    internal bool InputSendout(Tile tile, int sendoutIndex)
+    internal bool InputSendOut(Tile tile, int sendoutIndex)
     {
-      return InputController.Sendout(tile, sendoutIndex);
+      return InputController.SendOut(tile, sendoutIndex);
     }
     internal bool InputSelectMove(MoveProxy move, Tile position)
     {
@@ -213,14 +213,14 @@ namespace PokemonBattleOnline.Game.Host
     }
     #endregion
 
-    #region Switch or Sendout
-    public bool CanSendout(Tile tile)
+    #region switch or send out
+    public bool CanSendOut(Tile tile)
     {
-      return SwitchController.CanSendout(tile);
+      return SwitchController.CanSendOut(tile);
     }
-    public bool CanSendout(Pokemon pokemon)
+    public bool CanSendOut(Pokemon pokemon)
     {
-      return SwitchController.CanSendout(pokemon);
+      return SwitchController.CanSendOut(pokemon);
     }
     public bool CanWithdraw(PokemonProxy pm)
     {
@@ -235,13 +235,13 @@ namespace PokemonBattleOnline.Game.Host
       }
       return false;
     }
-    internal void GameStartSendout(IEnumerable<Tile> tiles)
+    internal void GameStartSendOut(IEnumerable<Tile> tiles)
     {
-      SwitchController.GameStartSendout(tiles);
+      SwitchController.GameStartSendOut(tiles);
     }
-    public bool Sendout(Tile position, bool debut = true, string log = "Sendout1")
+    public bool SendOut(Tile position, bool debut = true, string log = "SendOut1")
     {
-      if (SwitchController.Sendout(position, debut, log))
+      if (SwitchController.SendOut(position, debut, log))
       {
         Board.RefreshPokemons();
         return true;

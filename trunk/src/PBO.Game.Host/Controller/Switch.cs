@@ -19,14 +19,14 @@ namespace PokemonBattleOnline.Game.Host
       //黑眼神状态不能防止任何强制交换的技能或道具效果，阻止的是CanSelectSwitch
       return pm.Tile != null && (pm.Hp == 0 || pm.Pokemon.Owner.PmsAlive > GameSettings.Mode.OnboardPokemonsPerPlayer());
     }
-    public bool CanSendout(Tile tile)
+    public bool CanSendOut(Tile tile)
     {
       Player p = Controller.GetPlayer(tile);
       return tile.Pokemon == null &&
         (p.PmsAlive > GameSettings.Mode.OnboardPokemonsPerPlayer() ||
         (p.PmsAlive == GameSettings.Mode.OnboardPokemonsPerPlayer() && p.GetPokemon(GameSettings.Mode.GetPokemonIndex(tile.X)).Hp == 0));
     }
-    public bool CanSendout(Pokemon pokemon)
+    public bool CanSendOut(Pokemon pokemon)
     {
       return pokemon != null && pokemon.Hp > 0 && pokemon.IndexInOwner >= GameSettings.Mode.OnboardPokemonsPerPlayer();
     }
@@ -51,32 +51,33 @@ namespace PokemonBattleOnline.Game.Host
       }
       return false;
     }
-    private PokemonProxy SendoutImplement(Tile tile)
+    private PokemonProxy SendOutImplement(Tile tile)
     {
-      var pm = Controller.GetPokemon(Controller.GetPlayer(tile).GetPokemon(tile.WillSendoutPokemonIndex));
+      var origin = tile.WillSendOutPokemonIndex;
+      var pm = Controller.GetPokemon(Controller.GetPlayer(tile).GetPokemon(origin));
       pm.Action = PokemonAction.Debuting;
       tile.Pokemon = pm;
-      tile.WillSendoutPokemonIndex = Tile.NOPM_INDEX;
+      tile.WillSendOutPokemonIndex = Tile.NOPM_INDEX;
       pm.OnboardPokemon = new OnboardPokemon(pm.Pokemon, tile.X);
       STs.SendingOut(pm);
       Controller.ActingPokemons.Insert(0, pm);
+      ReportBuilder.SendOut(pm, origin);
       return pm;
     }
-    public void GameStartSendout(IEnumerable<Tile> tiles)
+    public void GameStartSendOut(IEnumerable<Tile> tiles)
     {
-      var pms = tiles.Select((t) => SendoutImplement(t)).ToArray();
-      ReportBuilder.ShowLog("Sendout" + pms.Length, pms.ValueOrDefault(0), pms.ValueOrDefault(1), pms.ValueOrDefault(2));
+      var pms = tiles.Select((t) => SendOutImplement(t)).ToArray();
+      ReportBuilder.ShowLog("SendOut" + pms.Length, pms.ValueOrDefault(0), pms.ValueOrDefault(1), pms.ValueOrDefault(2));
     }
-    public bool Sendout(Tile tile, bool debut, string log)
+    public bool SendOut(Tile tile, bool debut, string log)
     {
       Player p = Controller.GetPlayer(tile);
       int origin = GameSettings.Mode.GetPokemonIndex(tile.X);
-      int sendout = tile.WillSendoutPokemonIndex;
-      if (CanSendout(tile) && CanSendout(p.GetPokemon(sendout)))
+      int sendout = tile.WillSendOutPokemonIndex;
+      if (CanSendOut(tile) && CanSendOut(p.GetPokemon(sendout)))
       {
-        var pm = SendoutImplement(tile);
+        var pm = SendOutImplement(tile);
         p.SwitchPokemon(origin, sendout);
-        ReportBuilder.SendOut(pm, sendout);
         pm.AddReportPm(log);
         ATs.Trace(pm);
         if (debut)

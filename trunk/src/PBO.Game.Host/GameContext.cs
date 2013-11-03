@@ -50,7 +50,7 @@ namespace PokemonBattleOnline.Game.Host
     private bool Input(XActionInput input, Controller controller, Tile tile)
     {
       bool r = false;
-      if (input.SendoutIndex > 0) r = controller.InputSendout(tile, input.SendoutIndex);
+      if (input.SendOutIndex > 0) r = controller.InputSendOut(tile, input.SendOutIndex);
       else
       {
         var pm = tile.Pokemon;

@@ -45,7 +45,7 @@ namespace PokemonBattleOnline.Game
       get { return teams[team][x]; }
       set
       {
-        //不一定是PmSendout
+        //不一定是PmSendOut
         var old = this[team, x];
         if ((old == null && value == null) || ((old != null && value != null) && (old.Id == value.Id))) return;
         teams[team][x] = value;

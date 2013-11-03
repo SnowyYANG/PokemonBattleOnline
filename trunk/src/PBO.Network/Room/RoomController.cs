@@ -38,7 +38,6 @@ namespace PokemonBattleOnline.Network
     public static event Action GameInited;
 
     internal readonly Client _Client;
-    internal RequireInputS2C InputRequest;
     
     internal RoomController(Client client)
     {
@@ -163,6 +162,7 @@ namespace PokemonBattleOnline.Network
     {
       _game = null;
       _playerController = null;
+      InputRequest = null;
       _prepare00 = false;
       _prepare01 = false;
       _prepare10 = false;
@@ -182,5 +182,7 @@ namespace PokemonBattleOnline.Network
       Game = new GameOutward(Room.Settings, players);
       Game.Start(gameUpdateS2C);
     }
+
+    internal InputRequest InputRequest;
   }
 }

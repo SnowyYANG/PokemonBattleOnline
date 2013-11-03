@@ -74,7 +74,7 @@ namespace PokemonBattleOnline.PBO.Battle
     private InputRequest request;
     public void Pokemon_Click(SimPokemon pokemon)
     {
-      if (request.IsSendout)
+      if (request.IsSendOut)
       {
         if (!request.Pokemon(pokemon, 0)) InputFailed(request.GetErrorMessage());
       }
@@ -116,7 +116,7 @@ namespace PokemonBattleOnline.PBO.Battle
           controller.Input(i);
           timer.Stop();
         };
-      _selectedPanel = request.IsSendout ? ControlPanelIndex.POKEMONS : ControlPanelIndex.MAIN;
+      _selectedPanel = request.IsSendOut ? ControlPanelIndex.POKEMONS : ControlPanelIndex.MAIN;
       _time = 180 - request.Time;
       timer.Start();
       OnPropertyChanged();

@@ -5,7 +5,7 @@
              xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor"
              Background="{x:Null}">
     <Grid>
-        <ItemsControl ItemsSource="{Binding Teams}" ItemsPanel="{x:Static ui:Controls.VerticalWrapPanel}">
+        <ItemsControl ItemsSource="{Binding Teams}" HorizontalAlignment="Left">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <e:TeamView x:Name="main" DataContext="{Binding}"/>
@@ -23,5 +23,6 @@
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
         <Button Content="新建队伍" Click="NewTeam_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button Content="从剪贴板导入" Click="PasteTeam_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="196,0,0,0"/>
     </Grid>
 </UserControl>

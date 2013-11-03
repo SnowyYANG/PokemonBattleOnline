@@ -121,12 +121,12 @@ namespace PokemonBattleOnline.Game.Host
       {
         var pms = pm.Pokemon.Owner.Pokemons.ToArray();
         for (int i = pm.Controller.GameSettings.Mode.OnboardPokemonsPerPlayer(); i < pms.Length; ++i)
-          if (c.CanSendout(pms[i])) sendouts.Add(i);
+          if (c.CanSendOut(pms[i])) sendouts.Add(i);
       }
       var tile = pm.Tile;
       c.Withdraw(pm, log, false);
-      tile.WillSendoutPokemonIndex = sendouts[c.GetRandomInt(0, sendouts.Count - 1)];
-      c.Sendout(tile, true, "ForceSendout");
+      tile.WillSendOutPokemonIndex = sendouts[c.GetRandomInt(0, sendouts.Count - 1)];
+      c.SendOut(tile, true, "ForceSendOut");
     }
     public static bool ForceSwitch(DefContext def)
     {
@@ -371,7 +371,7 @@ namespace PokemonBattleOnline.Game.Host
         var o = atk.GetCondition<Tile>("EjectButton");
         if (o != null)
         {
-          c.PauseForSendoutInput(o);
+          c.PauseForSendOutInput(o);
           return;
         }
       }
@@ -381,7 +381,7 @@ namespace PokemonBattleOnline.Game.Host
         {
 
           c.Withdraw(aer, "SelfWithdraw", true);
-          c.PauseForSendoutInput(tile);
+          c.PauseForSendOutInput(tile);
         }
       }
     }

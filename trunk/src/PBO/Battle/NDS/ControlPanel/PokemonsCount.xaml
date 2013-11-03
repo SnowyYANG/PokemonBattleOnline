@@ -4,16 +4,16 @@
         <Image x:Name="img" Width="14" Height="14"/>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding}" Value="None">
-                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Battle/Balls/ONone.png"/>
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Game/StateBalls/ONone.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding}" Value="Normal">
-                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Battle/Balls/ONormal.png"/>
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Game/StateBalls/ONormal.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding}" Value="Abnormal">
-                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Battle/Balls/OAbnormal.png"/>
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Game/StateBalls/OAbnormal.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding}" Value="Faint">
-                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Battle/Balls/OFaint.png"/>
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Game/StateBalls/OFaint.png"/>
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
@@ -21,16 +21,16 @@
         <Image x:Name="img" Width="7" Height="7"/>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding}" Value="None">
-                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Battle/Balls/RNone.png"/>
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Game/StateBalls/RNone.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding}" Value="Normal">
-                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Battle/Balls/RNormal.png"/>
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Game/StateBalls/RNormal.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding}" Value="Abnormal">
-                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Battle/Balls/RAbnormal.png"/>
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Game/StateBalls/RAbnormal.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding}" Value="Faint">
-                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Battle/Balls/RFaint.png"/>
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Game/StateBalls/RFaint.png"/>
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>

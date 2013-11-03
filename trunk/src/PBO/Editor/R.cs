@@ -26,7 +26,7 @@ namespace PokemonBattleOnline.PBO.Editor
       PokemonSpecies = (DataTemplate)rd["PokemonSpecies"];
       PokemonForm = (DataTemplate)rd["PokemonForm"];
       SelectedMove = (DataTemplate)rd["LearnedMove"];
-      P00000 = Helper.GetImage(@"00000.png");
+      P00000 = Helper.GetImage(@"Game/00000.png");
     }
 
     private static ResourceDictionary GetDictionary(string name)

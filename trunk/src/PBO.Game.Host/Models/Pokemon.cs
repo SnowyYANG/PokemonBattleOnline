@@ -44,7 +44,7 @@ namespace PokemonBattleOnline.Game.Host
       Nature = custom.Nature;
       AbilityIndex = custom.AbilityIndex;
       Moves = custom.Moves.Select((m) => new Move(m.Move, m.PP)).ToArray();
-      Item = custom.Item;
+      _item = custom.Item;
       Iv = new ReadOnly6D(custom.Iv);
       Ev = new ReadOnly6D(custom.Ev);
       Chatter = custom.Chatter;

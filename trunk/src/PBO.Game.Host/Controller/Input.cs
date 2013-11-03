@@ -29,7 +29,7 @@ namespace PokemonBattleOnline.Game.Host
           }
           else
           {
-            if (t.WillSendoutPokemonIndex < GameSettings.Mode.OnboardPokemonsPerPlayer() && Controller.CanSendout(t)) return false;
+            if (t.WillSendOutPokemonIndex < GameSettings.Mode.OnboardPokemonsPerPlayer() && Controller.CanSendOut(t)) return false;
           }
       Controller.Timer.Pause(player);
       _requirements[player.TeamId, player.TeamIndex] = null;
@@ -100,17 +100,17 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (NeedInput) return false;
       foreach (var t in Controller.Board.Tiles)
-        if (Controller.CanSendout(t))
+        if (Controller.CanSendOut(t))
         {
           var player = Controller.GetPlayer(t);
           if (_requirements[player.TeamId, player.TeamIndex] == null) _requirements[player.TeamId, player.TeamIndex] = new InputRequest() { Time = player.SpentTime };
         }
       return true;
     }
-    public bool PauseForSendoutInput(Tile tile)
+    public bool PauseForSendOutInput(Tile tile)
     {
       if (NeedInput) return false;
-      if (Controller.CanSendout(tile))
+      if (Controller.CanSendOut(tile))
       {
         var player = Controller.GetPlayer(tile);
         _requirements[player.TeamId, player.TeamIndex] = new InputRequest() { Xs = new int[] { tile.X }, Time = player.SpentTime };
@@ -121,11 +121,11 @@ namespace PokemonBattleOnline.Game.Host
     {
       return withdraw.CanInput && withdraw.InputSwitch(sendoutIndex);
     }
-    public bool Sendout(Tile tile, int sendoutIndex)
+    public bool SendOut(Tile tile, int sendoutIndex)
     {
-      if (tile.Pokemon == null && Controller.CanSendout(tile) && Controller.CanSendout(Controller.GetPlayer(tile).GetPokemon(sendoutIndex)))
+      if (tile.Pokemon == null && Controller.CanSendOut(tile) && Controller.CanSendOut(Controller.GetPlayer(tile).GetPokemon(sendoutIndex)))
       {
-        tile.WillSendoutPokemonIndex = sendoutIndex;
+        tile.WillSendOutPokemonIndex = sendoutIndex;
         return true;
       }
       else return Switch(tile.Pokemon, sendoutIndex);

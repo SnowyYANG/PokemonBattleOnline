@@ -79,10 +79,10 @@
                     <Label Content="速度" Width="92" Canvas.Left="162" Canvas.Top="97"/>                    
                 </Canvas>
 
-                <Label Content="{Binding Ability.Name}" Width="146" Canvas.Left="2" Canvas.Top="33"/>
-                <TextBlock Text="{Binding Ability.Description}" TextWrapping="Wrap" Canvas.Left="18" Canvas.Top="49" Height="32" Width="133"/>
-                <Image x:Name="itemImage" Source="/PBO;component/images/item.png" Width="6" Height="9" Canvas.Left="13" Canvas.Top="95"/>
-                <TextBlock x:Name="itemText" Text="{Binding Item.Name}" Canvas.Left="36" Canvas.Top="89" />
+                <Label Content="{Binding Ability,Converter={x:Static c:AbilityString.C}}" Width="146" Canvas.Left="2" Canvas.Top="33"/>
+                <TextBlock Text="{Binding Ability,Converter={x:Static c:AbilityDString.C}}" TextWrapping="Wrap" Canvas.Left="18" Canvas.Top="49" Height="32" Width="133"/>
+                <Image x:Name="itemImage" Source="/PBO;component/images/Game/item.png" Width="6" Height="9" Canvas.Left="13" Canvas.Top="95"/>
+                <TextBlock x:Name="itemText" Text="{Binding Item,Converter={x:Static c:ItemString.C}}" Canvas.Left="36" Canvas.Top="89" />
                 <TextBlock Text="{Binding FiveD.Atk}" Canvas.Right="9" Canvas.Top="33"/>
                 <TextBlock Text="{Binding FiveD.Def}" Canvas.Right="9" Canvas.Top="49"/>
                 <TextBlock Text="{Binding FiveD.SpAtk}" Canvas.Right="9" Canvas.Top="65"/>

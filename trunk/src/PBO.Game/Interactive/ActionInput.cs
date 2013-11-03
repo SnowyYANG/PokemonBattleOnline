@@ -17,7 +17,7 @@ namespace PokemonBattleOnline.Game
     {
       return new XActionInput(move.Type.Id, 0, 0, 0);
     }
-    public static XActionInput Sendout(SimPokemon sendout)
+    public static XActionInput SendOut(SimPokemon sendout)
     {
       return new XActionInput(0, 0, 0, sendout.IndexInOwner);
     }
@@ -26,24 +26,24 @@ namespace PokemonBattleOnline.Game
       return new XActionInput(0, 0, 0, 0);
     }
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "a", EmitDefaultValue = false)]
     public readonly int Move;
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "c", EmitDefaultValue = false)]
     public readonly byte TargetTeam;
 
-    [DataMember(EmitDefaultValue = false)]
+    [DataMember(Name = "d", EmitDefaultValue = false)]
     public readonly byte TargetX;
 
-    [DataMember(EmitDefaultValue = false)]
-    public readonly byte SendoutIndex;
+    [DataMember(Name = "b", EmitDefaultValue = false)]
+    public readonly byte SendOutIndex;
 
     private XActionInput(int move, int targetTeam, int targetX, int sendout)
     {
       Move = move;
       TargetTeam = (byte)targetTeam;
       TargetX = (byte)targetX;
-      SendoutIndex = (byte)sendout;
+      SendOutIndex = (byte)sendout;
     }
   }
   [DataContract(Namespace = PBOMarks.PBO)]
@@ -74,11 +74,11 @@ namespace PokemonBattleOnline.Game
     }
     public void Switch(int x, SimPokemon sendout)
     {
-      Inputs[x] = XActionInput.Sendout(sendout);
+      Inputs[x] = XActionInput.SendOut(sendout);
     }
-    public void Sendout(int x, SimPokemon sendout)
+    public void SendOut(int x, SimPokemon sendout)
     {
-      Inputs[x] = XActionInput.Sendout(sendout);
+      Inputs[x] = XActionInput.SendOut(sendout);
     }
     public void Struggle(int x)
     {

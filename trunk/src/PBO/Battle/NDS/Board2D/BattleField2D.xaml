@@ -4,7 +4,7 @@
              xmlns:my="clr-namespace:PokemonBattleOnline.PBO.Battle"
              Height="192" Width="256" UseLayoutRounding="True" SnapsToDevicePixels="True" ClipToBounds="True" RenderOptions.BitmapScalingMode="NearestNeighbor">
     <Canvas>
-        <Image Source="/PBO.Battle;component/images/path.png" SnapsToDevicePixels="True" Width="256" Height="192"/>
+        <Image Source="/PBO;component/images/Game/Terrains/path.png" SnapsToDevicePixels="True" Width="256" Height="192"/>
         <my:RPokemon2D x:Name="rpm" Canvas.Left="187" Canvas.Top="67"/><!--187, 77-->
         <my:OPokemon2D x:Name="opm" Canvas.Left="68" Canvas.Top="127"/>
     </Canvas>

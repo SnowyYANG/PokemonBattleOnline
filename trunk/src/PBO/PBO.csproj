@@ -425,22 +425,22 @@
     <Compile Include="Lobby\R.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\item.png" />
+    <Resource Include="images\Game\item.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\Weather\BG.png" />
-    <Resource Include="images\Weather\Border.png" />
-    <Resource Include="images\Weather\hailB.png" />
-    <Resource Include="images\Weather\hailF.png" />
-    <Resource Include="images\Weather\rainB.png" />
-    <Resource Include="images\Weather\rainF.png" />
-    <Resource Include="images\Weather\sand1.png" />
-    <Resource Include="images\Weather\sand2.png" />
-    <Resource Include="images\Weather\sunB.png" />
-    <Resource Include="images\Weather\sunF.png" />
+    <Resource Include="images\Game\Weathers\BG.png" />
+    <Resource Include="images\Game\Weathers\Border.png" />
+    <Resource Include="images\Game\Weathers\hailB.png" />
+    <Resource Include="images\Game\Weathers\hailF.png" />
+    <Resource Include="images\Game\Weathers\rainB.png" />
+    <Resource Include="images\Game\Weathers\rainF.png" />
+    <Resource Include="images\Game\Weathers\sand1.png" />
+    <Resource Include="images\Game\Weathers\sand2.png" />
+    <Resource Include="images\Game\Weathers\sunB.png" />
+    <Resource Include="images\Game\Weathers\sunF.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\LifeBar.png" />
+    <Resource Include="images\Game\LifeBar.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\Labels\BRN.png" />
@@ -474,22 +474,22 @@
     <Resource Include="images\Labels\bPSN.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\Battle\OStateBar.png" />
-    <Resource Include="images\Battle\RStateBar.png" />
-    <Resource Include="images\Battle\path.png" />
+    <Resource Include="images\Game\OStateBar.png" />
+    <Resource Include="images\Game\RStateBar.png" />
+    <Resource Include="images\Game\Terrains\path.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\Battle\Balls\OAbnormal.png" />
-    <Resource Include="images\Battle\Balls\OFaint.png" />
-    <Resource Include="images\Battle\Balls\ONormal.png" />
-    <Resource Include="images\Battle\Balls\RAbnormal.png" />
-    <Resource Include="images\Battle\Balls\RFaint.png" />
-    <Resource Include="images\Battle\Balls\RNormal.png" />
-    <Resource Include="images\Battle\Balls\ONone.png" />
-    <Resource Include="images\Battle\Balls\RNone.png" />
+    <Resource Include="images\Game\StateBalls\OAbnormal.png" />
+    <Resource Include="images\Game\StateBalls\OFaint.png" />
+    <Resource Include="images\Game\StateBalls\ONormal.png" />
+    <Resource Include="images\Game\StateBalls\RAbnormal.png" />
+    <Resource Include="images\Game\StateBalls\RFaint.png" />
+    <Resource Include="images\Game\StateBalls\RNormal.png" />
+    <Resource Include="images\Game\StateBalls\ONone.png" />
+    <Resource Include="images\Game\StateBalls\RNone.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\00000.png" />
+    <Resource Include="images\Game\00000.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

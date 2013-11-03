@@ -1,11 +1,15 @@
 ﻿<GameLogs xmlns:ms="http://www.w3.org/2001/XMLSchema" xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://pbo.codeplex.com/"><logs>
-<a:KeyValueOfstringLogText2ZLxetEz><a:Key>__sample</a:Key><a:Value><Contents><a:anyType i:type="LogText"><foreground>16711680</foreground><text>Hello </text></a:anyType><a:anyType i:type="LogText"><text>World!</text></a:anyType></Contents></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
+<a:KeyValueOfstringLogText2ZLxetEz><a:Key>__sample</a:Key><a:Value><Contents><LogText><foreground>16711680</foreground><text>Hello </text></LogText><LogText><text>World!</text></LogText></Contents></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
 <a:KeyValueOfstringLogText2ZLxetEz><a:Key>error</a:Key><a:Value><text>主机发生了一个错误，数据包损坏或主机程序被篡改。
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>nokey</a:Key><a:Value><foreground>16711680</foreground><text>主机传送过来的战报信息错误，缺少战报关键字。
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>notfound</a:Key><a:Value><foreground>16711680</foreground><text>无法匹配主机传送过来的战报，战报关键字为{0}。
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>unfinish</a:Key><a:Value><foreground>16711680</foreground><text>{0:p}使用的技能{1:m}尚未制作。
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>bad</a:Key><a:Value><foreground>16711680</foreground><text>{0:p}使用的技能{1:m}暂不制作，原因请见http://pbo.codeplex.com/。
-</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>----</a:Key><a:Value><text>---------------------------------
+</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>timeticks</a:Key><a:Value><foreground>8421504</foreground><text>({0}")</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
+<a:KeyValueOfstringLogText2ZLxetEz><a:Key>timetickm</a:Key><a:Value><foreground>8421504</foreground><text>({0}')</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
+<a:KeyValueOfstringLogText2ZLxetEz><a:Key>timetickms</a:Key><a:Value><foreground>8421504</foreground><text>({0}'{1}")</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
+<a:KeyValueOfstringLogText2ZLxetEz><a:Key>----</a:Key><a:Value><foreground>8421504</foreground><text>---------------------------------
+</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>br</a:Key><a:Value><text>
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>GameMode</a:Key><a:Value><text>对战模式：{0}
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>GameRule</a:Key><a:Value><text>对战规则：{0}
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>GameStart</a:Key><a:Value><text>战斗开始！
@@ -15,15 +19,14 @@
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>GameResult</a:Key><a:Value><Alignment>Center</Alignment><IsBold>true</IsBold><text>
 对战结束了，{0:t}取得了胜利！
 {1}  :  {2}
-</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>BeginTurn</a:Key><a:Value><text>
-第{0}回合开始
+</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>BeginTurn</a:Key><a:Value><text>第{0}回合开始
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>EndTurn</a:Key><a:Value><Alignment>Right</Alignment><text>第{0}回合结束
 </text><HiddenInBattle>true</HiddenInBattle></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>EndTurnNormalPm</a:Key><a:Value><Alignment>Right</Alignment><text>{0:p}（{0:pm.Type}）：{1}HP
 </text><HiddenInBattle>true</HiddenInBattle></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>EndTurnAbnormalPm</a:Key><a:Value><Alignment>Right</Alignment><text>{0:p}（{0:pm.Type}）：{1}HP（{2}）
 </text><HiddenInBattle>true</HiddenInBattle></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>UseMove</a:Key><a:Value><text>{0:p}使用了{1:m}！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
-<a:KeyValueOfstringLogText2ZLxetEz><a:Key>SendOut1</a:Key><a:Value><Contents><a:anyType i:type="LogText"><text>{0:pm.Owner.Name}放出了{0:pm.Name}</text></a:anyType><a:anyType i:type="LogText"><text>（Lv.{0:pm.Lv} {0:pm.Type}）</text><HiddenInBattle>true</HiddenInBattle></a:anyType><a:anyType i:type="LogText"><text>！
-</text></a:anyType></Contents></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
+<a:KeyValueOfstringLogText2ZLxetEz><a:Key>SendOut1</a:Key><a:Value><Contents><LogText><text>{0:pm.Owner.Name}放出了{0:pm.Name}</text></LogText><LogText><text>（Lv.{0:pm.Lv} {0:pm.Type}）</text><HiddenInBattle>true</HiddenInBattle></LogText><LogText><text>！
+</text></LogText></Contents></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
 <a:KeyValueOfstringLogText2ZLxetEz><a:Key>SendOut2</a:Key><a:Value><text>{0:pm.Owner.Name}放出了{0:pm.Name}（Lv.{0:pm.Lv} {0:pm.Type}）和{1:pm.Name}（Lv.{1:pm.Lv} {1:pm.Type}）！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
 <a:KeyValueOfstringLogText2ZLxetEz><a:Key>SendOut3</a:Key><a:Value><text>{0:pm.Owner.Name}放出了{0:pm.Name}（Lv.{0:pm.Lv} {0:pm.Type}）、{1:pm.Name}（Lv.{1:pm.Lv} {1:pm.Type}）和{2:pm.Name}（Lv.{2:pm.Lv} {2:pm.Type}）！
@@ -113,8 +116,8 @@
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>AllPPRecover</a:Key><a:Value><text>{0:p}的全部技能的PP都被回复了！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>SandstormHurt</a:Key><a:Value><text>沙尘暴袭击了{0:p}！</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
 <a:KeyValueOfstringLogText2ZLxetEz><a:Key>HailstormHurt</a:Key><a:Value><text>冰雹袭击了{0:p}！</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
-<a:KeyValueOfstringLogText2ZLxetEz><a:Key>SetAbility</a:Key><a:Value><Contents><a:anyType i:type="LogText"><text>{0:p}的特性变成了{1:a}！</text></a:anyType><a:anyType i:type="LogText"><foreground>8421504</foreground><text>（原特性：{2:a}）
-</text></a:anyType></Contents></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>EnBalloon</a:Key><a:Value><text>{0:p}使用轻气球浮在空中！
+<a:KeyValueOfstringLogText2ZLxetEz><a:Key>SetAbility</a:Key><a:Value><Contents><LogText><text>{0:p}的特性变成了{1:a}！</text></LogText><LogText><foreground>8421504</foreground><text>（原特性：{2:a}）
+</text></LogText></Contents></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>EnBalloon</a:Key><a:Value><text>{0:p}使用轻气球浮在空中！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>DeBalloon</a:Key><a:Value><text>{0:p}的轻气球破了！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>EjectButton</a:Key><a:Value><text>{0:p}使用逃生按钮回去了！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>RedCard</a:Key><a:Value><text>{0:p}使用红牌将{1:p}罚下场！
@@ -167,17 +170,13 @@
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>EnGastroAcid</a:Key><a:Value><text>{0:p}的特性不起作用了！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>EnTaunt</a:Key><a:Value><text>{0:p}被挑拨了！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>Taunt</a:Key><a:Value><text>{0:p}被挑拨不能使用{1:m}！
-</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>subtitle_Taunt</a:Key><a:Value><text>{0}被挑拨不能使用{1}！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>DeTaunt</a:Key><a:Value><text>{0:p}的挑拨解除了！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>EnTorment</a:Key><a:Value><text>{0:p}被加上寻衅了！
-</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>subtitle_Torment</a:Key><a:Value><text>{0}被加上寻衅了！所以无法连续使出同样的招数！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>DeTorment</a:Key><a:Value><text>{0:p}的寻衅效果消失了！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>EnImprison</a:Key><a:Value><text>{0:p}封印了对手的技能！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>Imprison</a:Key><a:Value><text>{0:p}被封印无法使用{1:m}！
-</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>subtitle_Imprison</a:Key><a:Value><text>{0}被封印无法使用{1}！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>EnDisable</a:Key><a:Value><text>将{0:p}的{1:m}封印了！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>Disable</a:Key><a:Value><text>{0}因为被束缚，所以无法使出{1:m}！
-</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>subtitle_Disable</a:Key><a:Value><text>{0}因为被束缚，所以无法使出{1}！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>DeDisable</a:Key><a:Value><text>{0:p}的束缚解除了！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>EnAquaRing</a:Key><a:Value><text>水之环笼罩了{0:p}！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>AquaRing</a:Key><a:Value><text>水之环回复了{0:p}的体力！</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
@@ -248,18 +247,17 @@
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>Struggle</a:Key><a:Value><text>{0:p}没有能够使用的技能！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>Safeguard</a:Key><a:Value><text>{0:p}被神秘的纱幕保护住了！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>Mist</a:Key><a:Value><text>{0:p}被白雾保护住了！
-</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>ForceSendout</a:Key><a:Value><text>{0:pm.Owner.Name}的{0:pm.Name}（Lv.{0:pm.Lv} {0:pm.Type}）被拽出来战斗了！
+</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>ForceSendOut</a:Key><a:Value><text>{0:pm.Owner.Name}的{0:pm.Name}（Lv.{0:pm.Lv} {0:pm.Type}）被拽出来战斗了！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>Stiff</a:Key><a:Value><text>{0:p}因为攻击的反作用不能行动！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>Spikes</a:Key><a:Value><text>{0:p}受到了撒菱的伤害！</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
 <a:KeyValueOfstringLogText2ZLxetEz><a:Key>StealthRock</a:Key><a:Value><text>{0:p}被尖锐的岩石扎伤了！</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
 <a:KeyValueOfstringLogText2ZLxetEz><a:Key>EnTrickRoom</a:Key><a:Value><text>{0:p}扭曲了时空！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>PerishSong</a:Key><a:Value><text>{0:p}的毁灭的倒计时还剩下{1}！
-</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>CantSelectWithdraw</a:Key><a:Value><text>{0:p}已经逃不掉了！
+</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>EnCantSelectWithdraw</a:Key><a:Value><text>{0:p}已经逃不掉了！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>EnHealBlock</a:Key><a:Value><text>{0:p}的回复动作被封印了！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>DeHealBlock</a:Key><a:Value><text>{0:p}的回复封印解除了！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>HealBlock</a:Key><a:Value><text>{0:p}因为回复封印无法回复!
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>HealBlockCantUseMove</a:Key><a:Value><text>{0:p}因为回复封印无法使用{1:m}!
-</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>subtitle_HealBlockCantUseMove</a:Key><a:Value><text>{0}因为回复封印无法使用{1}!
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>FullHp</a:Key><a:Value><text>但是{0:p}体力充沛!
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>TypeChange</a:Key><a:Value><text>{0:p}变成了{1}属性！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>HpAbosorb</a:Key><a:Value><text>从{0:p}那里吸取了体力！</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
@@ -292,14 +290,13 @@
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>PsychUp</a:Key><a:Value><text>{0:p}复制了{1:p}的能力变化！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>KnockOff</a:Key><a:Value><text>{2:p}把{0:p}的{1:i}打掉了！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>Thief</a:Key><a:Value><text>{0:p}从{2:p}那里夺走了{1:i}！
-</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>EnCurse</a:Key><a:Value><text>{0:p}消减了自己的体力，向{1:p}下了诅咒！
-</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>Curse</a:Key><a:Value><text>{0:p}被诅咒了！</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
+</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>EnCurse</a:Key><a:Value><text>{0:p}消减了自己的体力，向{1:p}下了诅咒！</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
+<a:KeyValueOfstringLogText2ZLxetEz><a:Key>Curse</a:Key><a:Value><text>{0:p}被诅咒了！</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
 <a:KeyValueOfstringLogText2ZLxetEz><a:Key>EnFSDD248</a:Key><a:Value><text>{0:p}预知了未来的攻击！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>EnFSDD353</a:Key><a:Value><text>{0:p}将破灭之愿托付给了未来！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>FSDD</a:Key><a:Value><text>{0:p}受到了{1:m}的攻击！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>Gravity</a:Key><a:Value><text>{0:p}受到重力的影响，不能漂浮在空中了！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>GravityCantUseMove</a:Key><a:Value><text>{0:p}因为重力太强，使不出{1:m}！
-</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>subtitle_GravityCantUseMove</a:Key><a:Value><text>{0}因为重力太强，使不出{1}！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>ReflectType</a:Key><a:Value><text>{0:p}的属性变成和{1:p}一样的了！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>PowerSplit</a:Key><a:Value><text>{0:p}和{1:p}共享了力量！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>GuardSplit</a:Key><a:Value><text>{0:p}和{1:p}共享了防御！
@@ -334,13 +331,11 @@
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>Sandstorm</a:Key><a:Value><text>沙尘暴刮得很凶！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>Hailstorm</a:Key><a:Value><text>冰雹下得很凶！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>OHKO</a:Key><a:Value><text>一击必杀！
-</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>subtitle_ChoiceItem</a:Key><a:Value><text>因为{2}的效果只能使出{1}！
-</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>subtitle_Encore</a:Key><a:Value><text>{0}只能使出{1}！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>Haze</a:Key><a:Value><text>全部的能力值都复原了！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>Splash</a:Key><a:Value><text>但是什么都没有发生！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>Hurt</a:Key><a:Value><foreground>8421504</foreground><text>{0:p}受到了伤害</text></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
-<a:KeyValueOfstringLogText2ZLxetEz><a:Key>Hp</a:Key><a:Value><Contents><a:anyType i:type="LogText"><foreground>8421504</foreground><text>({0})</text><HiddenInBattle>true</HiddenInBattle></a:anyType><a:anyType i:type="LogText"><text>
-</text></a:anyType></Contents></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
+<a:KeyValueOfstringLogText2ZLxetEz><a:Key>Hp</a:Key><a:Value><Contents><LogText><foreground>8421504</foreground><text>({0})</text><HiddenInBattle>true</HiddenInBattle></LogText><LogText><text>
+</text></LogText></Contents></a:Value></a:KeyValueOfstringLogText2ZLxetEz>
 <a:KeyValueOfstringLogText2ZLxetEz><a:Key>Magnitude</a:Key><a:Value><text>震级{0}！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>HealBell</a:Key><a:Value><text>铃铛的声音响了起来！
 </text></a:Value></a:KeyValueOfstringLogText2ZLxetEz><a:KeyValueOfstringLogText2ZLxetEz><a:Key>Aromatherapy</a:Key><a:Value><text>清新的香气传播开来了！

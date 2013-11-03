@@ -969,7 +969,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (aer.Controller.Withdraw(aer, "SelfWithdraw", false))
       {
         t.SetCondition("BatonPass", o);
-        aer.Controller.PauseForSendoutInput(t);
+        aer.Controller.PauseForSendOutInput(t);
       }
       else atk.FailAll();
     }

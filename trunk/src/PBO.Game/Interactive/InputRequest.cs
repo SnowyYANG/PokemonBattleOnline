@@ -12,7 +12,7 @@ namespace PokemonBattleOnline.Game
   {
     Struggle = 1,
     UseMove = 2,
-    Sendout = 4,
+    SendOut = 4,
   }
   public class SelectMoveFail
   {
@@ -67,9 +67,8 @@ namespace PokemonBattleOnline.Game
     }
     private void SetErrorMessage(string key, string arg1, string arg2)
     {
-      var text = GameLogs.Log("subtitle_" + key).Clone(null);
-      text.SetData(Pm.Pokemon.Name, arg1, arg2);
-      error = text.Text;
+      var text = GameString.Current.BattleLog("subtitle_" + key);
+      error = string.Format(text, Pm.Pokemon.Name, arg1, arg2);
     }
     public bool Fight()
     {
@@ -158,7 +157,7 @@ namespace PokemonBattleOnline.Game
     private SimGame game;
     private string error;
 
-    public bool IsSendout
+    public bool IsSendOut
     { get { return Pms == null; } }
     public int CurrentX
     { get; private set; }
@@ -169,7 +168,7 @@ namespace PokemonBattleOnline.Game
         if (Pms[CurrentX++] != null) break;
       if (CurrentX == Pms.Length) InputFinished(input);
     }
-    private void CheckSendoutFinished()
+    private void CheckSendOutFinished()
     {
 #if MULTI
       if (Tiles.Length == 0)
@@ -239,8 +238,8 @@ namespace PokemonBattleOnline.Game
         error = string.Format(GameString.Current.BattleLog("PokemonFighting"), pokemon.Name);
         return false;
       }
-      input.Sendout(x, pokemon);
-      CheckSendoutFinished();
+      input.SendOut(x, pokemon);
+      CheckSendOutFinished();
       return true;
     }
     public bool Pokemon(SimPokemon pokemon)

@@ -43,10 +43,10 @@ namespace PokemonBattleOnline.Game
     /// </summary>
     public void SetAll(string name, PokemonForm form, PokemonGender gender, int lv, Position position, bool substitute, int hp, PokemonState state, bool shiny, string chatter)
     {
-      Name = name;
+      _name = name;
       Form = form;
       _gender = gender;
-      _lv = lv;
+      Lv = lv;
       _position.X = position.X;
       _position.Y = position.Y;
       IsSubstitute = substitute;
@@ -63,7 +63,7 @@ namespace PokemonBattleOnline.Game
     private string _name;
     public string Name
     {
-      get { return _name; }
+      get { return _name ?? GameString.Current.Pokemon(Form.Species.Number, Form.Index); }
       internal set
       {
         if (_name != value)

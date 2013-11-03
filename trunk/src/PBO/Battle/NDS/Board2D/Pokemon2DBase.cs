@@ -64,7 +64,7 @@ namespace PokemonBattleOnline.PBO.Battle
         main.Width = s.PixelWidth * Scale;
       }
     }
-    public void Sendout(PokemonOutward pm)
+    public void SendOut(PokemonOutward pm)
     {
       pokemon = pm;
       if (pokemon != null)

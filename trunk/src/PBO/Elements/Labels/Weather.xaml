@@ -3,11 +3,11 @@
     <DataTemplate x:Key="WeatherLabel">
         <Grid Width="70" Height="44" UseLayoutRounding="True">
             <Grid.Background>
-                <ImageBrush ImageSource="/PBO;component/images/Weather/Border.png" Stretch="Uniform"/>
+                <ImageBrush ImageSource="/PBO;component/images/Game/Weathers/Border.png" Stretch="Uniform"/>
             </Grid.Background>
             <Rectangle Name="bg" Margin="1,1,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="32" Width="69" SnapsToDevicePixels="True">
                 <Rectangle.OpacityMask>
-                    <ImageBrush ImageSource="/PBO;component/images/Weather/BG.png" Stretch="Uniform"/>
+                    <ImageBrush ImageSource="/PBO;component/images/Game/Weathers/BG.png" Stretch="Uniform"/>
                 </Rectangle.OpacityMask>
             </Rectangle>
             <Image Name="fg" Margin="1,1,0,0" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Top" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
@@ -19,10 +19,10 @@
             <DataTrigger Binding="{Binding}" Value="Hailstorm">
                 <Setter TargetName="bg" Property="Fill">
                     <Setter.Value>
-                        <ImageBrush ImageSource="/PBO;component/images/Weather/hailB.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,1,32"/>
+                        <ImageBrush ImageSource="/PBO;component/images/Game/Weathers/hailB.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,1,32"/>
                     </Setter.Value>
                 </Setter>
-                <Setter TargetName="fg" Property="Source" Value="/PBO;component/images/Weather/hailF.png"/>
+                <Setter TargetName="fg" Property="Source" Value="/PBO;component/images/Game/Weathers/hailF.png"/>
                 <Setter TargetName="fg" Property="Height" Value="15"/>
                 <Setter TargetName="fg" Property="Width" Value="41"/>
                 <Setter TargetName="fg" Property="Margin" Value="7,5,0,0"/>
@@ -41,10 +41,10 @@
             <DataTrigger Binding="{Binding}" Value="HeavyRain">
                 <Setter TargetName="bg" Property="Fill">
                     <Setter.Value>
-                        <ImageBrush ImageSource="/PBO;component/images/Weather/rainB.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,1,32"/>
+                        <ImageBrush ImageSource="/PBO;component/images/Game/Weathers/rainB.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,1,32"/>
                     </Setter.Value>
                 </Setter>
-                <Setter TargetName="fg" Property="Source" Value="/PBO;component/images/Weather/rainF.png"/>
+                <Setter TargetName="fg" Property="Source" Value="/PBO;component/images/Game/Weathers/rainF.png"/>
                 <Setter TargetName="fg" Property="Height" Value="21"/>
                 <Setter TargetName="fg" Property="Width" Value="46"/>
                 <Setter TargetName="fg" Property="Opacity" Value="0"/>
@@ -69,12 +69,12 @@
             <DataTrigger Binding="{Binding}" Value="Sandstorm">
                 <Setter TargetName="bg" Property="Fill">
                     <Setter.Value>
-                        <ImageBrush Stretch="Uniform" ImageSource="/PBO;component/images/Weather/sand1.png"/>
+                        <ImageBrush Stretch="Uniform" ImageSource="/PBO;component/images/Game/Weathers/sand1.png"/>
                     </Setter.Value>
                 </Setter>
                 <Setter TargetName="fg" Property="Height" Value="32"/>
                 <Setter TargetName="fg" Property="Width" Value="69"/>
-                <Setter TargetName="fg" Property="Source" Value="/PBO;component/images/Weather/sand2.png"/>
+                <Setter TargetName="fg" Property="Source" Value="/PBO;component/images/Game/Weathers/sand2.png"/>
                 <DataTrigger.EnterActions>
                     <BeginStoryboard Name="sandstorm">
                         <Storyboard RepeatBehavior="Forever" Duration="00:00:01">
@@ -92,10 +92,10 @@
             <DataTrigger Binding="{Binding}" Value="IntenseSunlight">
                 <Setter TargetName="bg" Property="Fill">
                     <Setter.Value>
-                        <ImageBrush ImageSource="/PBO;component/images/Weather/sunB.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,1,32"/>
+                        <ImageBrush ImageSource="/PBO;component/images/Game/Weathers/sunB.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,1,32"/>
                     </Setter.Value>
                 </Setter>
-                <Setter TargetName="fg" Property="Source" Value="/PBO;component/images/Weather/sunF.png"/>
+                <Setter TargetName="fg" Property="Source" Value="/PBO;component/images/Game/Weathers/sunF.png"/>
                 <Setter TargetName="fg" Property="Height" Value="21"/>
                 <Setter TargetName="fg" Property="Width" Value="40"/>
                 <Setter TargetName="fg" Property="Margin" Value="16,1,0,0"/>

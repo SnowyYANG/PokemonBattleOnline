@@ -80,7 +80,7 @@ namespace PokemonBattleOnline.Game.Host
           EndTurnCheckForInput();
           break;
         case 6:
-          EndTurnSendout();
+          EndTurnSendOut();
           break;
         case 7:
           NextTurn();
@@ -156,23 +156,23 @@ namespace PokemonBattleOnline.Game.Host
       {
         current++;
         foreach (Tile t in Tiles)
-          if (t.Pokemon == null && Controller.CanSendout(t))
+          if (t.Pokemon == null && Controller.CanSendOut(t))
           {
             Controller.PauseForEndTurnInput();
             return;
           }
       }
     }
-    private void EndTurnSendout()
+    private void EndTurnSendOut()
     {
       if (Controller.TurnNumber == 0)
       {
-        Controller.GameStartSendout(Board[0].Tiles);
-        Controller.GameStartSendout(Board[1].Tiles);
+        Controller.GameStartSendOut(Board[0].Tiles);
+        Controller.GameStartSendOut(Board[1].Tiles);
       }
       else
         foreach (Tile t in Tiles)
-          if (t.WillSendoutPokemonIndex != Tile.NOPM_INDEX) Controller.Sendout(t, false);
+          if (t.WillSendOutPokemonIndex != Tile.NOPM_INDEX) Controller.SendOut(t, false);
       SortTiles();
       ATs.AttachUnnerve(Controller);
       var debut = new List<PokemonProxy>();

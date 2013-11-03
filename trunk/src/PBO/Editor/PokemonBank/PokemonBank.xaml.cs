@@ -29,5 +29,10 @@ namespace PokemonBattleOnline.PBO.Editor
     {
       EditorVM.Current.NewTeam();
     }
+
+    private void PasteTeam_Click(object sender, RoutedEventArgs e)
+    {
+      EditorVM.Current.ImportTeam(Clipboard.GetText());
+    }
   }
 }

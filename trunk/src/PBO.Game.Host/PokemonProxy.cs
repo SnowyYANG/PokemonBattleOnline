@@ -387,10 +387,10 @@ namespace PokemonBattleOnline.Game.Host
     }
     internal bool InputSwitch(int sendoutIndex)
     {
-      if (Controller.CanWithdraw(this) && Controller.CanSendout(Pokemon.Owner.GetPokemon(sendoutIndex)))
+      if (Controller.CanWithdraw(this) && Controller.CanSendOut(Pokemon.Owner.GetPokemon(sendoutIndex)))
       {
         Action = PokemonAction.WillSwitch;
-        Tile.WillSendoutPokemonIndex = sendoutIndex;
+        Tile.WillSendOutPokemonIndex = sendoutIndex;
         return true;
       }
       return false;
@@ -443,7 +443,7 @@ namespace PokemonBattleOnline.Game.Host
         STs.WillAct(this);
         Action = PokemonAction.Switching;
         Tile tile = Tile;
-        if (Controller.Withdraw(this, "Withdraw")) Controller.Sendout(tile);
+        if (Controller.Withdraw(this, "Withdraw")) Controller.SendOut(tile);
         Action = PokemonAction.InBall;
       }
     }

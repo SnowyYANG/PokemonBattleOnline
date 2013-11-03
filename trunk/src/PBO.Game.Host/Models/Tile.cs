@@ -17,7 +17,7 @@ namespace PokemonBattleOnline.Game.Host
       Field = team;
       X = x;
       _speed = (Team << 3) + x;
-      WillSendoutPokemonIndex = gameSettings.Mode.GetPokemonIndex(x);
+      WillSendOutPokemonIndex = gameSettings.Mode.GetPokemonIndex(x);
     }
 
     public int Team
@@ -25,7 +25,7 @@ namespace PokemonBattleOnline.Game.Host
     public PokemonProxy Pokemon
     { get; internal set; }
 
-    public int WillSendoutPokemonIndex
+    public int WillSendOutPokemonIndex
     { get; internal set; }
     private int _speed;
     public int Speed
