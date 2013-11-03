@@ -23,7 +23,7 @@ namespace PokemonBattleOnline.PBO
     {
       InitializeComponent();
       gridbg.Fill = PBO.Elements.SBrushes.GetGridTileBrush(16, SBrushes.NewBrush(0xffffffff));
-      PBOClient.Disconnected += PBOClient_CurrentChanged;
+      PBOClient.Disconnected += () => MessageBox.Show("连接到服务器中断。");
       PBOClient.CurrentChanged += PBOClient_CurrentChanged;
       PBOClient_CurrentChanged();
     }
@@ -36,6 +36,7 @@ namespace PokemonBattleOnline.PBO
         lobby.IsEnabled = false;
         lobby.Visibility = Visibility.Collapsed;
         login.Visibility = Visibility.Visible;
+        login.IsEnabled = true;
       }
       else
       {

@@ -9,10 +9,6 @@ namespace PokemonBattleOnline.Network
   public class ClientController
   {
     public static event Action Disconnected;
-    internal static void OnDisconnected()
-    {
-      if (Disconnected != null) UIDispatcher.Invoke(Disconnected);
-    }
     public static event Action<string, User> PublicChat;
     internal static void OnPublicChat(string chat, User user)
     {
@@ -126,9 +122,24 @@ namespace PokemonBattleOnline.Network
     {
       if (Room.Room == null && (seat == Seat.Spectator || room[seat] == null)) Client.Send(SetSeatC2S.EnterRoom(room.Id, seat));
     }
+    private bool disConnected;
+    internal void OnDisconnected()
+    {
+      if (!disConnected && Disconnected != null)
+      {
+        disConnected = true;
+        Disconnected();
+      }
+    }
+    private bool exit;
     public void Exit()
     {
-      PBOClient.DisposeCurrent();
+      if (!exit)
+      {
+        exit = true;
+        disConnected = true;
+        Client.Dispose();
+      }
     }
   }
 }

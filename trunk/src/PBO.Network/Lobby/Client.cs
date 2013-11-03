@@ -71,6 +71,7 @@ namespace PokemonBattleOnline.Network
     {
       if (!isDisposed)
       {
+        Controller.OnDisconnected();
         KeepAlive.Dispose();
         Network.Dispose();
         isDisposed = true;

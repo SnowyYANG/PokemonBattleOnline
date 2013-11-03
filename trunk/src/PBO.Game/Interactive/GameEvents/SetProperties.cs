@@ -17,7 +17,7 @@ namespace PokemonBattleOnline.Game.GameEvents
     protected override void Update()
     {
       var pm = GetPokemon(Pm);
-      pm.State = State;
+      if (pm != null) pm.State = State;
     }
     public override void Update(SimGame game)
     {
@@ -58,7 +58,7 @@ namespace PokemonBattleOnline.Game.GameEvents
     protected override void Update()
     {
       var pm = GetPokemon(Pm);
-      pm.Hp.Value = Hp;
+      if (pm != null) pm.Hp.Value = Hp;
     }
     public override void Update(SimGame game)
     {

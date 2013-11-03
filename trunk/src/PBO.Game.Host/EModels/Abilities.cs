@@ -63,10 +63,18 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static void Withdrawn(PokemonProxy pm, int ability)
     {
-      if (ability == As.REGENERATOR) pm.Pokemon.Hp += pm.Pokemon.MaxHp / 3;
-      else if (ability == As.NATURAL_CURE) pm.Pokemon.State = PokemonState.Normal;
-      else if (ability == As.UNNERVE)
-        foreach (var p in pm.Controller.GetOnboardPokemons(1 - pm.Pokemon.TeamId)) STs.ItemAttach(p);
+      switch (ability)
+      {
+        case As.REGENERATOR:
+          if (pm.Hp != 0) pm.Pokemon.Hp += pm.Pokemon.MaxHp / 3;
+          break;
+        case As.NATURAL_CURE:
+          if (pm.Hp != 0) pm.Pokemon.State = PokemonState.Normal;
+          break;
+        case As.UNNERVE:
+          foreach (var p in pm.Controller.GetOnboardPokemons(1 - pm.Pokemon.TeamId)) STs.ItemAttach(p);
+          break;
+      }
     }
     public static void Synchronize(PokemonProxy pm, PokemonProxy by, AttachedState state, int turn)
     {

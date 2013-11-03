@@ -33,7 +33,13 @@ namespace PokemonBattleOnline.PBO
       RoomController.TimeUp += RoomController_TimeUp;
       RoomController.Entered += RoomController_Entered;
       RoomController.GameInited += RoomController_GameInited;
+      PBOClient.CurrentChanged += PBOClient_CurrentChanged;
       Current = new RoomWindow() { Visibility = Visibility.Collapsed };
+    }
+
+    static void PBOClient_CurrentChanged()
+    {
+      if (PBOClient.Current == null) Current.Reset(null);
     }
 
     static void RoomController_GameInited()
@@ -43,14 +49,7 @@ namespace PokemonBattleOnline.PBO
 
     static void RoomController_Entered()
     {
-      var room = PBOClient.Current.Controller.Room;
-      Current.Prepare.DataContext = Current.Room = room;
-      Current.PX1.Height = new GridLength(room.Room.Settings.Mode == GameMode.Tag ? 32 : 0);
-      Current.Visibility = Visibility.Visible;
-      Current.Teams.Visibility = Visibility.Visible;
-      Current.Prepare.Visibility = Visibility.Visible;
-      Current.Start.IsEnabled = true;
-      Current.Start.Content = "使用所选队伍开始对战！";
+      Current.Reset(PBOClient.Current.Controller.Room);
     }
 
     static void RoomController_TimeUp(IEnumerable<KeyValuePair<User, int>> spentTime)
@@ -100,7 +99,7 @@ namespace PokemonBattleOnline.PBO
     }
     static void RoomController_Quited()
     {
-      Current.Visibility = Visibility.Collapsed;
+      Current.Reset(null);
     }
 
     public static bool Window_Closing(Window mainWindow)
@@ -141,11 +140,25 @@ namespace PokemonBattleOnline.PBO
       }
     }
 
-    private void Reset()
+    private void Reset(RoomController room)
     {
-      br.Reset();
-      Prepare.DataContext = null;
-      Room.Quit();
+      if (room != null)
+      {
+        Prepare.DataContext = Current.Room = room;
+        PX1.Height = new GridLength(room.Room.Settings.Mode == GameMode.Tag ? 32 : 0);
+        Visibility = Visibility.Visible;
+        Teams.Visibility = Visibility.Visible;
+        Prepare.Visibility = Visibility.Visible;
+        Start.IsEnabled = true;
+        Start.Content = "使用所选队伍开始对战！";
+      }
+      else
+      {
+        Current.Visibility = Visibility.Collapsed;
+        br.Reset();
+        Prepare.DataContext = null;
+        Room = null;
+      }
     }
 
     private void OnGameInited()
@@ -186,7 +199,7 @@ namespace PokemonBattleOnline.PBO
     {
       base.OnClosing(e);
       e.Cancel = true;
-      if (Room == null || !Room.Room.Battling || ShowMessageBox.ClosingInBattle(this) == MessageBoxResult.Yes) Reset();
+      if (Room != null && (!Room.Room.Battling || ShowMessageBox.ClosingInBattle(this) == MessageBoxResult.Yes)) Room.Quit();
     }
   }
 }

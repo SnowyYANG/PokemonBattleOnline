@@ -87,5 +87,10 @@ namespace PokemonBattleOnline.PBO
       base.OnClosing(e);
       e.Cancel = RoomWindow.Window_Closing(this) || lobby.Window_Closing() || editor.Window_Closing();
     }
+    protected override void OnClosed(EventArgs e)
+    {
+      base.OnClosed(e);
+      Application.Current.Shutdown();
+    }
   }
 }

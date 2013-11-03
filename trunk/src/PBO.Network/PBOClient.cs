@@ -11,11 +11,7 @@ namespace PokemonBattleOnline.Network
   /// </summary>
   public static class PBOClient
   {
-    public static event Action Disconnected
-    {
-      add { ClientController.Disconnected += value; }
-      remove { ClientController.Disconnected -= value; }
-    }
+    public static event Action Disconnected;
     public static event Action CurrentChanged;
     public static event Action LoginFailed_Full
     {
@@ -46,7 +42,7 @@ namespace PokemonBattleOnline.Network
       LoginClient.BadVersion += LoginFailed;
       LoginClient.Disconnect += LoginFailed;
       LoginClient.Full += LoginFailed;
-      ClientController.Disconnected += DisposeCurrent;
+      ClientController.Disconnected += OnDisconnected;
     }
 
 
@@ -95,7 +91,11 @@ namespace PokemonBattleOnline.Network
         return false;
       }
     }
-
+    private static void OnDisconnected()
+    {
+      UIDispatcher.Invoke(Disconnected);
+      DisposeCurrent();
+    }
     public static void DisposeCurrent()
     {
       lock (Locker)

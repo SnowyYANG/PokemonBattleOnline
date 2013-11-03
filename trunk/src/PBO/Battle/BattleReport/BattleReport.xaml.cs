@@ -75,6 +75,7 @@ namespace PokemonBattleOnline.PBO.Battle
     {
       var c = Elements.Cartes.GetChatBrush(user.Name).Color;
       controller.RealTime.AddText((user.Name + "：" + chat).LineBreak(), (uint)((c.A << 24) | (c.R << 16) | (c.G << 8) | c.B));
+      AutoScroll();
     }
   }
 }

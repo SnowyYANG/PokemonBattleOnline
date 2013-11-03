@@ -141,7 +141,7 @@
                                         </Canvas.Resources>
                                         <Polygon DataContext="{Binding Type.Type}" Fill="{Binding Converter={x:Static c:BattleTypeBg.C}}" Stroke="{Binding Converter={x:Static c:BattleTypeBorder.C}}" StrokeThickness="1" Points="0,8 3,0 103,0 106,8 103,16 3,16"/>
                                         <TextBlock Text="/" Canvas.Left="83"/>
-                                        <TextBlock Text="{Binding Type.Name}" Canvas.Left="5"/>
+                                        <TextBlock Text="{Binding Type.Id,Converter={x:Static c:MoveString.C}}" Canvas.Left="5"/>
                                         <TextBlock Text="{Binding PP.Value}" Canvas.Right="23"/>
                                         <TextBlock Text="{Binding PP.Origin}" Canvas.Left="88"/>
                                     </Canvas>
