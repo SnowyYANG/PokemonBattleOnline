@@ -70,7 +70,8 @@ namespace PokemonBattleOnline.Game.Host
     }
     public void AddHorizontalLine()
     {
-      if (!(current.Events.LastOrDefault() is HorizontalLine)) current.AddEvent(new HorizontalLine());
+      var last = current.Events.LastOrDefault();
+      if (!(last is HorizontalLine || last is TimeTick)) current.AddEvent(new HorizontalLine());
     }
     public void Mimic(PokemonProxy pm, MoveType move)
     {

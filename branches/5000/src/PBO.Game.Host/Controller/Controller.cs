@@ -146,6 +146,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (!InputController.NeedInput)
       {
+        ReportBuilder.TimeTick();
         if (SingleSendOut != null)
         {
           SendOut(SingleSendOut);

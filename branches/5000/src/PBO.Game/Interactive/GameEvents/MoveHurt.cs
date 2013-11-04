@@ -6,6 +6,9 @@ using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Game.GameEvents
 {
+  /// <summary>
+  /// because damage can be zero, and also the flash animation, this cannot be replaced by several ShowHp
+  /// </summary>
   [DataContract(Name = "ed", Namespace = PBOMarks.JSON)]
   public class MoveHurt : GameEvent
   {
