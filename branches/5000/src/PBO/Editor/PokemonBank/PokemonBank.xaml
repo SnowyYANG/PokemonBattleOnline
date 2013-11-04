@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="PokemonBattleOnline.PBO.Editor.PokemonBank"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
+             xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor"
+             Background="{x:Null}">
+    <Grid>
+        <ItemsControl ItemsSource="{Binding Teams}" HorizontalAlignment="Left">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <e:TeamView x:Name="main" DataContext="{Binding}"/>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                            <Setter TargetName="main" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Height" Value="32"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+        <Button Content="新建队伍" Click="NewTeam_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button Content="从剪贴板导入" Click="PasteTeam_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="196,0,0,0"/>
+    </Grid>
+</UserControl>
