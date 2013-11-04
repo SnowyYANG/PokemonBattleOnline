@@ -27,6 +27,10 @@ namespace PokemonBattleOnline.Game.Host
     }
 
     private BallState[] outward;
+    /// <summary>
+    /// only once in a report fragment
+    /// </summary>
+    /// <returns></returns>
     public BallState[] GetOutward()
     {
       var ppp = Settings.Mode.PokemonsPerPlayer();

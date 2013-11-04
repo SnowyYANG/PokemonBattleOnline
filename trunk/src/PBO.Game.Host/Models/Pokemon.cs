@@ -108,13 +108,13 @@ namespace PokemonBattleOnline.Game.Host
     }
 
     /// <summary>
-    /// battle report delay
+    /// no battle report
     /// </summary>
     public void SetHp(int value)
     {
       if (value < 0) value = 0;
       else if (value > MaxHp) value = MaxHp;
-      if (_hp != value) _hp = value;
+      _hp = value;
     }
   }
 }

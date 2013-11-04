@@ -498,10 +498,13 @@ namespace PokemonBattleOnline.Game.Host
           break;
       } //switch(Action)
     }
-    private PokemonOutward outward;
+    /// <summary>
+    /// may multi referenced in one report fragment
+    /// </summary>
+    /// <returns></returns>
     internal PokemonOutward GetOutward()
     {
-      if (outward == null) outward = new PokemonOutward(Id, Pokemon.TeamId, Pokemon.MaxHp);
+      var outward = new PokemonOutward(Id, Pokemon.TeamId, Pokemon.MaxHp);
       Pokemon o = OnboardPokemon.GetCondition<Pokemon>("Illusion");
       var form = o == null ? OnboardPokemon.Form : o.Form;
       if (o == null) o = Pokemon;
