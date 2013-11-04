@@ -17,14 +17,6 @@ namespace PokemonBattleOnline.PBO.Editor
     {
       _container = container;
       _index = index;
-      //Commands = new ObservableCollection<MenuCommand>();
-      //if (Model.Container != UserData.Current.Recycler)
-      //{
-      //  EditCommand = new MenuCommand("Edit", () => EditorVM.Current.EditPokemon(Model));
-      //  Commands.Add(EditCommand);
-      //}
-      //RemoveCommand = new MenuCommand("Remove", () => Model.Container.Remove(Model));
-      //Commands.Add(RemoveCommand);
     }
 
     private TeamVM _container;
