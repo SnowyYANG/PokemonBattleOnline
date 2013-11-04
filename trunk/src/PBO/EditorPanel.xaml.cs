@@ -43,13 +43,7 @@ namespace PokemonBattleOnline.PBO
       try
       {
         var pm = EditorVM.Current.EditingPokemon;
-        if (pm != null)
-        {
-          MessageBoxResult r = pm.ChangedConfirm();
-          if (r == MessageBoxResult.Cancel) cancel = true;
-          else if (r == MessageBoxResult.Yes) pm.Save();
-        }
-        if (!cancel) EditorVM.Current.Save();
+        if (pm != null && pm.ChangedConfirm() != MessageBoxResult.Cancel) EditorVM.Current.Save();
       }
       catch { }
       return cancel;

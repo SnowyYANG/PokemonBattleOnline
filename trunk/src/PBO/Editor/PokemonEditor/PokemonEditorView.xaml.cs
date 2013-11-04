@@ -69,7 +69,7 @@ namespace PokemonBattleOnline.PBO.Editor
     }
     private void Close_Click(object sender, RoutedEventArgs e)
     {
-      EditorVM.Current.EndEditing();
+      if (EditorVM.Current.EditingPokemon != null && EditorVM.Current.EditingPokemon.Close()) EditorVM.Current.EditingPokemon = null;
     }
     private void Happiness_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
@@ -109,6 +109,11 @@ namespace PokemonBattleOnline.PBO.Editor
         } //if (!string.Is
         QuickText.Clear();
       }
+    }
+
+    private void Pokemon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+      ((PokemonVM)((ContentControl)sender).Content).Edit();
     }
   }
 }

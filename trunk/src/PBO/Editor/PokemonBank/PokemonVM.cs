@@ -54,9 +54,27 @@ namespace PokemonBattleOnline.PBO.Editor
       get { return _container.Model.Pokemons[_index]; }
       set
       {
-        _container.Model.Pokemons[_index] = value;
-        if (_index < 5) _container[_index + 1].OnPropertyChanged();
-        OnPropertyChanged();
+        if (value == null)//editing?
+        {
+          if (_index != 0 && EditorVM.Current.EditingPokemon != null && EditorVM.Current.EditingPokemon.Origin == this) EditorVM.Current.EditingPokemon.Origin = _container[_index - 1];
+          if (_container.Model.Pokemons.ValueOrDefault(_index + 1) == null)
+          {
+            _container.Model.Pokemons[_index] = null;
+            if (_index < 5) _container[_index + 1].OnPropertyChanged("Icon");
+            OnPropertyChanged();
+          }
+          else
+          {
+            _container.Model.Pokemons[_index] = _container[_index + 1].Model;
+            _container[_index + 1].Model = null;
+          }
+        }
+        else if (_index == 0 || _container.Model.Pokemons[_index - 1] != null)
+        {
+          _container.Model.Pokemons[_index] = value;
+          if (_index < 5) _container[_index + 1].OnPropertyChanged("Icon");
+          OnPropertyChanged();
+        }
       }
     }
 
@@ -78,6 +96,10 @@ namespace PokemonBattleOnline.PBO.Editor
     public ImageSource Icon
     { get { return Model == null ? Index == 0 || Container[Index - 1].Model != null ? R.P00000 : null : ImageService.GetPokemonIcon(Model.Form, Model.Gender); } }
 
+    public void Edit()
+    {
+      if (EditorVM.Current.EditingPokemon == null || EditorVM.Current.EditingPokemon.Origin != this && EditorVM.Current.EditingPokemon.Close()) EditorVM.Current.EditingPokemon = new PokemonEditorVM(this);
+    }
     //public MenuCommand EditCommand
     //{ get; private set; }
     //public MenuCommand RemoveCommand

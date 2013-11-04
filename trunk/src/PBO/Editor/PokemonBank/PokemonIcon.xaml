@@ -21,14 +21,26 @@
         </ToolTip>
     </UserControl.ToolTip>
     <UserControl.ContextMenu>
-        <ContextMenu>
-            <MenuItem Header="复制"/>
+        <ContextMenu ContextMenuOpening="ContextMenu_ContextMenuOpening">
+            <MenuItem Name="Copy" Click="Copy_Click" Header="复制"/>
+            <MenuItem Name="Paste" Click="Paste_Click" Header="粘贴"/>
             <Separator/>
-            <MenuItem Header="删除"/>
+            <MenuItem Name="Remove" Click="Remove_Click" Header="删除"/>
         </ContextMenu>
     </UserControl.ContextMenu>
     <Canvas>
-        <Polygon Name="Stroke" Stroke="#80808080" StrokeThickness="1" Fill="{x:Null}" Canvas.Top="4" Points="1.5,16 6.5,4.5 25.5,4.5 30.5,16 25.5,27.5 6.5,27.5"/>
+        <Polygon Name="Stroke" IsHitTestVisible="False" Stroke="#80808080" StrokeThickness="1" Fill="{x:Null}" Canvas.Top="4" Points="1.5,16 6.5,4.5 25.5,4.5 30.5,16 25.5,27.5 6.5,27.5">
+            <Polygon.Style>
+                <Style TargetType="Polygon">
+                    <Setter Property="StrokeThickness" Value="1"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                            <Setter Property="StrokeThickness" Value="3"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Polygon.Style>
+        </Polygon>
         <Image Name="icon" Source="{Binding Icon}" Height="32" Width="32"/>
     </Canvas>
 </UserControl>

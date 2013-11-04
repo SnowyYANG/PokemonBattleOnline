@@ -446,6 +446,37 @@
         		</GridView>
         	</ListView.View>
         </ListView>
+        <StackPanel DataContext="{Binding Origin.Container}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-32,-18,0,0">
+            <StackPanel.Resources>
+                <Style TargetType="ContentControl">
+                    <Setter Property="ContentTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <Canvas Height="32">
+                                    <Polygon Name="stroke" IsHitTestVisible="False" Stroke="#80808080" StrokeThickness="1" Fill="{x:Null}" Canvas.Top="4" Points="1.5,16 6.5,4.5 25.5,4.5 30.5,16 25.5,27.5 6.5,27.5"/>
+                                    <Image Name="icon" Cursor="Hand" Source="{Binding Icon}" Height="32" Width="32"/>
+                                </Canvas>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Icon}" Value="{x:Null}">
+                                        <Setter TargetName="stroke" Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                        <Setter TargetName="stroke" Property="StrokeThickness" Value="3"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <EventSetter Event="MouseLeftButtonDown" Handler="Pokemon_MouseLeftButtonDown"/>
+                </Style>
+            </StackPanel.Resources>
+            <ContentControl Content="{Binding [0]}"/>
+            <ContentControl Content="{Binding [1]}"/>
+            <ContentControl Content="{Binding [2]}"/>
+            <ContentControl Content="{Binding [3]}"/>
+            <ContentControl Content="{Binding [4]}"/>
+            <ContentControl Content="{Binding [5]}"/>
+        </StackPanel>
         <ui:UIButton Click="Save_Click" Content="保存" Margin="0,-18,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Background="#FF25110E"/>
         <ui:UIButton Click="Reset_Click" Content="重置" Margin="64,-18,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Background="#FF25110E"/>
         <TextBox Name="QuickText" KeyDown="QuickText_KeyDown" ToolTip="输入精灵名、技能名、特性名、道具名、性格后回车。" Width="128" Margin="130,-18,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>

@@ -95,8 +95,21 @@ namespace PokemonBattleOnline.PBO.Editor
       else Model = pm.Model.Clone();
     }
 
+    private PokemonVM _origin;
     public PokemonVM Origin
-    { get; private set; }
+    {
+      get { return _origin; }
+      set
+      {
+        if (_origin != value)
+        {
+          if (_origin != null) _origin.IsEditing = false;
+          _origin = value;
+          _origin.IsEditing = true;
+          OnPropertyChanged("Origin");
+        }
+      }
+    }
 
     private PokemonData _model;
     public PokemonData Model
@@ -305,7 +318,9 @@ namespace PokemonBattleOnline.PBO.Editor
 
     public MessageBoxResult ChangedConfirm()
     {
-      return Origin.Model.ValueEquals(Model) ? MessageBoxResult.None : ShowMessageBox.PokemonUnsaved();
+      var r = Origin.Model == null || Origin.Model.ValueEquals(Model) ? MessageBoxResult.None : ShowMessageBox.PokemonUnsaved();
+      if (r == MessageBoxResult.Yes) Save();
+      return r;
     }
     public void Save()
     {
@@ -317,12 +332,18 @@ namespace PokemonBattleOnline.PBO.Editor
     }
     public void ResetToLastSaved()
     {
-      if (!Origin.Model.ValueEquals(Model) && ShowMessageBox.PokemonResetToLastSaved())
+      if (Origin.Model != null && !Origin.Model.ValueEquals(Model) && ShowMessageBox.PokemonResetToLastSaved())
       {
         Model = Origin.Model.Clone();
         RefreshLearnset();
         OnPropertyChanged();
       }
+    }
+    public bool Close()
+    {
+      if (ChangedConfirm() == MessageBoxResult.Cancel) return false;
+      Origin.IsEditing = false;
+      return true;
     }
   }
 }

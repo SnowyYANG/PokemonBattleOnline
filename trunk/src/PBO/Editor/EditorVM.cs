@@ -57,27 +57,6 @@ namespace PokemonBattleOnline.PBO.Editor
       _teams.Insert(1, t);
     }
 
-    public void EditPokemon(PokemonVM pm)
-    {
-      if (EditingPokemon != null && EditingPokemon.Origin != pm)
-      {
-        MessageBoxResult r = EditingPokemon.ChangedConfirm();
-        if (r == MessageBoxResult.Yes) EditingPokemon.Save();
-        else if (r == MessageBoxResult.Cancel) return;
-      }
-      EditingPokemon = new PokemonEditorVM(pm);
-    }
-    public void EndEditing()
-    {
-      if (EditingPokemon != null)
-      {
-        MessageBoxResult r = EditingPokemon.ChangedConfirm();
-        if (r == MessageBoxResult.Yes) EditingPokemon.Save();
-        else if (r == MessageBoxResult.Cancel) return;
-        EditingPokemon = null;
-      }
-    }
-
     public void Save()
     {
       UserData.Save(Teams.Where((t) => t != null).Select((t) => t.Model));

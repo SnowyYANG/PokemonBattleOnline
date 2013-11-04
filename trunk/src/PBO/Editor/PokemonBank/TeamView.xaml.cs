@@ -42,6 +42,16 @@ namespace PokemonBattleOnline.PBO.Editor
     {
       base.OnDrop(e);
     }
+    protected override void OnMouseEnter(MouseEventArgs e)
+    {
+      base.OnMouseEnter(e);
+      Remove.Visibility = System.Windows.Visibility.Visible;
+    }
+    protected override void OnMouseLeave(MouseEventArgs e)
+    {
+      base.OnMouseLeave(e);
+      Remove.Visibility = System.Windows.Visibility.Collapsed;
+    }
 
     private void NameBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
@@ -58,14 +68,14 @@ namespace PokemonBattleOnline.PBO.Editor
 
     private void BeginEdit()
     {
-      NameEditor.Text = ((TeamVM)DataContext).Name;
+      NameEditor.Text = ViewModel.Name;
       NameBlock.Visibility = Visibility.Collapsed;
       NameEditor.Visibility = Visibility.Visible;
       NameEditor.Focus();
     }
     private void EndEdit()
     {
-      ((TeamVM)DataContext).Name = NameEditor.Text;
+      ViewModel.Name = NameEditor.Text;
       NameEditor.Visibility = System.Windows.Visibility.Collapsed;
       NameBlock.Visibility = System.Windows.Visibility.Visible;
     }
@@ -74,6 +84,16 @@ namespace PokemonBattleOnline.PBO.Editor
     {
       ViewModel = DataContext as TeamVM;
       if (TeamVM.New == ViewModel && ViewModel != null) BeginEdit();
+    }
+
+    private void Remove_Click(object sender, RoutedEventArgs e)
+    {
+      var editing = EditorVM.Current.EditingPokemon != null && EditorVM.Current.EditingPokemon.Origin.Container == ViewModel;
+      if (MessageBox.Show(editing ? "这个队伍里的精灵正在编辑，确实要删除么？" : "删除队伍？", "PBO", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+      {
+        if (editing) EditorVM.Current.EditingPokemon = null;
+        EditorVM.Current.Teams.Remove(ViewModel);
+      }
     }
   }
 }
