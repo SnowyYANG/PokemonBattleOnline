@@ -124,34 +124,40 @@ namespace PokemonBattleOnline.Game
         else if (type == typeof(int))
         {
           int id = (int)arg;
-          switch (format)
+          if (format == null) r = id.ToString();
+          else
           {
-            case "p":
-              {
-                var pm = GetPokemon(id);
-                if (pm != null) r = string.Format(GameString.Current.BattleLog("OwnersPokemon"), pm.Owner, pm.Name);
-              }
-              break;
-            case "m":
-              r = GameString.Current.Move(id);
-              break;
-            case "a":
-              r = GameString.Current.Ability(id);
-              break;
-            case "i":
-              r = GameString.Current.Item(id);
-              break;
-            case "t":
-              r = Teams[id].Name;
-              break;
-            default:
-              if (format != null && format.StartsWith("pm."))
-              {
-                var pm = GetPokemon(id);
-                r = pm == null ? "<error>" : pm.GetProperty(format.Substring(3));
-              }
-              break;
-          }//switch
+            switch (format)
+            {
+              case "p":
+                {
+                  var pm = GetPokemon(id);
+                  if (pm != null) r = string.Format(GameString.Current.BattleLog("OwnersPokemon"), pm.Owner, pm.Name);
+                }
+                break;
+              case "m":
+                r = GameString.Current.Move(id);
+                break;
+              case "a":
+                r = GameString.Current.Ability(id);
+                break;
+              case "i":
+                r = GameString.Current.Item(id);
+                break;
+              case "t":
+                var t = Teams.ValueOrDefault(id);
+                if (t != null) r = t.Name;
+                break;
+              default:
+                if (format.StartsWith("pm."))
+                {
+                  var pm = GetPokemon(id);
+                  if (pm != null) r = pm.GetProperty(format.Substring(3));
+                }
+                break;
+            }//switch
+            if (r == null) r = "<error>";
+          }
         }
         else r = GameString.Current.BattleLog(arg.ToString());
       }// if (arg != null

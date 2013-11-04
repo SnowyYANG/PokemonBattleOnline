@@ -57,6 +57,7 @@ namespace PokemonBattleOnline.Game.Host
     public void StartGameLoop()
     {
       if (!Controller.CanContinue) return;
+      ReportBuilder.TimeTick();
     LOOP:
       switch (current)
       {

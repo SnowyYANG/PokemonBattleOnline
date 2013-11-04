@@ -29,9 +29,9 @@ namespace PokemonBattleOnline.Game.Host
     {
       Controller.ReportBuilder.ShowLog(key);
     }
-    public void AddReportPm(string key, object arg1 = null, object arg2 = null)
+    public void AddReportPm(string key, ValueType arg1 = null, ValueType arg2 = null)
     {
-      Controller.ReportBuilder.ShowLog(key, this, arg1, arg2);
+      Controller.ReportBuilder.ShowLog(key, this.Id, arg1, arg2);
     }
 
     #region Data
@@ -426,7 +426,7 @@ namespace PokemonBattleOnline.Game.Host
         if (!CheckFaint())
         {
           if (OnboardPokemon.Ability != As.FLOWER_GIFT && OnboardPokemon.Ability != As.FORECAST) AbilityAttach.Execute(this);
-          if (!ITs.AirBalloon(this)) STs.ItemAttach(this);
+          if (!ITs.AirBalloon(this)) ITs.Attach(this);
         }
         Action = PokemonAction.Done;
       }
@@ -733,7 +733,7 @@ namespace PokemonBattleOnline.Game.Host
             c.Move = move;
             c.Bool = by.Item == Is.BINDING_BAND;
             OnboardPokemon.SetCondition("Trap", c);
-            AddReportPm("EnTrap" + move.Id.ToString(), by);
+            AddReportPm("EnTrap" + move.Id.ToString(), by.Id);
           }
           goto DONE;
         case AttachedState.Nightmare:

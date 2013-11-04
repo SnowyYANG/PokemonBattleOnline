@@ -22,12 +22,12 @@ namespace PokemonBattleOnline.Network
     public static event Action<User[]> TimeReminder;
     internal static void OnTimeReminder(User[] waitForWhom)
     {
-      UIDispatcher.Invoke(TimeReminder, waitForWhom);
+      UIDispatcher.Invoke(TimeReminder, new object[] { waitForWhom });
     }
     public static event Action<KeyValuePair<User, int>[]> TimeUp;
     internal static void OnTimeUp(KeyValuePair<User, int>[] remainingTime)
     {
-      UIDispatcher.Invoke(TimeUp, remainingTime);
+      UIDispatcher.Invoke(TimeUp, new object[] { remainingTime });
     }
     public static event Action Entered;
     internal static void OnEntered()

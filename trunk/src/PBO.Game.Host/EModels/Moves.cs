@@ -19,7 +19,7 @@ namespace PokemonBattleOnline.Game.Host
       int id = move.Id;
       return id == Ms.THRASH || id == Ms.PETAL_DANCE || id == Ms.OUTRAGE || id == Ms.ROLLOUT || id == Ms.ICE_BALL;
     }
-    public static bool AttackSwitch(this MoveType move)
+    public static bool Switch(this MoveType move)
     {
       return move.Id == Ms.UTURN || move.Id == Ms.VOLT_SWITCH;
     }

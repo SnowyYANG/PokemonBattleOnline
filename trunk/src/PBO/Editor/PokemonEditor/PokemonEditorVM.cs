@@ -167,6 +167,7 @@ namespace PokemonBattleOnline.PBO.Editor
             OnPropertyChanged("PokemonForm");
             if (form.Data != PokemonForm.Data) Stats.RefreshAll();
           }
+          OnPropertyChanged("HeldItem");
         }
       }
     }

@@ -189,7 +189,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         int hp = aer.Pokemon.MaxHp >> 3;
         if (hp == 0) hp = 1;
-        aer.AddReportPm("ReHurtItem", def.Defender, def.Defender.Pokemon.Item);
+        aer.AddReportPm("ReHurtItem", def.Defender.Id, def.Defender.Pokemon.Item);
         aer.Hp -= hp;
       }
     }

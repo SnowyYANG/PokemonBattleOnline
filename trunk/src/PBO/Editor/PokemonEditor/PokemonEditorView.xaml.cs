@@ -88,7 +88,7 @@ namespace PokemonBattleOnline.PBO.Editor
           else
           {
             var i = GameString.Item(text);
-            if (i != 0) VM.Model.Item = i;
+            if (i != 0) VM.HeldItem = i;
             else
             {
               var a = GameString.Ability(text);

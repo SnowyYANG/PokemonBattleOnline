@@ -189,7 +189,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           {
             var lv5d = atk.Target.Defender.OnboardPokemon.Lv5D;
             aer.OnboardPokemon.SetLv7D(lv5d.Atk, lv5d.SpAtk, lv5d.Def, lv5d.SpDef, lv5d.Speed, atk.Target.Defender.OnboardPokemon.AccuracyLv, atk.Target.Defender.OnboardPokemon.EvasionLv);
-            aer.AddReportPm("PsychUp", atk.Target.Defender);
+            aer.AddReportPm("PsychUp", atk.Target.Defender.Id);
           }
           break;
         case Ms.FUTURE_SIGHT: //248
@@ -599,7 +599,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void Room(AtkContext atk, string condition)
     {
       var c = atk.Controller;
-      if (c.Board.AddCondition(condition, c.TurnNumber + 4)) c.ReportBuilder.ShowLog("En" + condition, atk.Attacker);
+      if (c.Board.AddCondition(condition, c.TurnNumber + 4)) c.ReportBuilder.ShowLog("En" + condition, atk.Attacker.Id);
       else
       {
         c.Board.RemoveCondition(condition);
@@ -622,7 +622,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
      var der = atk.Target.Defender;
      var c = new Condition() { By = atk.Attacker, Turn = atk.Controller.TurnNumber + 1 };
-     if (der.OnboardPokemon.AddCondition("NoGuard", c)) atk.Attacker.AddReportPm("LockOn", der);
+     if (der.OnboardPokemon.AddCondition("NoGuard", c)) atk.Attacker.AddReportPm("LockOn", der.Id);
      else atk.FailAll();
     }
     private static void BellyDrum(AtkContext atk)
@@ -729,7 +729,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         der.OnboardPokemon.SetLv7D(s, aer.OnboardPokemon.GetLv7D(s));
         aer.OnboardPokemon.SetLv7D(s, t);
       }
-      aer.Controller.ReportBuilder.ShowLog(log, aer, der);
+      aer.Controller.ReportBuilder.ShowLog(log, aer.Id, der.Id);
     }
     private static void Split5D(AtkContext atk, string log, IEnumerable<StatType> stats)
     {
@@ -741,7 +741,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         aer.OnboardPokemon.FiveD.SetStat(s, v);
         der.OnboardPokemon.FiveD.SetStat(s, v);
       }
-      aer.Controller.ReportBuilder.ShowLog(log, aer, der);
+      aer.Controller.ReportBuilder.ShowLog(log, aer.Id, der.Id);
     }
     private static void Defog(AtkContext atk)
     {
@@ -776,7 +776,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         aer.Type1 = t1;
         aer.Type2 = t2;
-        atk.Attacker.AddReportPm("ReflectType", atk.Target.Defender);
+        atk.Attacker.AddReportPm("ReflectType", atk.Target.Defender.Id);
       }
     }
     private static void Bestow(AtkContext atk)
@@ -788,7 +788,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         var i = aer.Pokemon.Item;
         aer.RemoveItem();
         der.SetItem(i);
-        der.AddReportPm("Bestow", i, aer);
+        der.AddReportPm("Bestow", i, aer.Id);
       }
       else atk.FailAll();
     }
@@ -912,7 +912,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       int hp = (aer.Hp + der.Hp) >> 1;
       aer.Pokemon.Hp = hp;
       der.Pokemon.Hp = hp;
-      atk.Controller.ReportBuilder.ShowLog("PainSplit", aer, der);
+      atk.Controller.ReportBuilder.ShowLog("PainSplit", aer.Id, der.Id);
     }
     private static void HealBell(AtkContext atk, string log)
     {

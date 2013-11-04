@@ -224,25 +224,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
       return r;
     }
-    public static void ItemAttach(PokemonProxy pm)
-    {
-      if (pm.Item == Is.LEPPA_BERRY)
-      {
-        foreach (var m in pm.Moves)
-          if (m.PP == 0)
-          {
-            m.PP += 10;
-            pm.ConsumeItem();
-            pm.AddReportPm("ItemPPRecover", Is.LEPPA_BERRY, m.Type.Id);
-            return;
-          }
-      }
-      else
-      {
-        HpChanged.Execute(pm);
-        StateAdded.Execute(pm);
-      }
-    }
     public static Modifier AccuracyModifier(AtkContext atk)
     {
       var aer = atk.Attacker;

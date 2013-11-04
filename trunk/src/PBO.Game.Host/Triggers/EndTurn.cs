@@ -337,7 +337,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         {
           pm.OnboardPokemon.RemoveCondition("Embargo");
           pm.AddReportPm("DeEmbargo");
-          STs.ItemAttach(pm);
+          ITs.Attach(pm);
         }
       foreach (var pm in c.OnboardPokemons)
       {
@@ -420,7 +420,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         board.RemoveCondition("MagicRoom");
         c.ReportBuilder.ShowLog("DeMagicRoom");
-        foreach (var pm in c.OnboardPokemons) STs.ItemAttach(pm);
+        foreach (var pm in c.OnboardPokemons) ITs.Attach(pm);
       }
     }
     //26.0 Uproar message
@@ -475,7 +475,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                 pm.RaiseAbility();
                 pm.SetItem(i);
                 pm.AddReportPm("Harvest", i);
-                STs.ItemAttach(pm);
+                ITs.Attach(pm);
               }
             }
             break;
@@ -532,7 +532,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             pm.RaiseAbility();
             pm.SetItem(items[i]);
             pm.AddReportPm("Pickup", items[i]);
-            STs.ItemAttach(pm);
+            ITs.Attach(pm);
           }
         }
         pm.CheckFaint();

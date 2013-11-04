@@ -171,7 +171,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var pm = p.OnboardPokemon.GetCondition<PokemonProxy>("Attract");
       if (pm != null)
       {
-        p.AddReportPm("Attract", pm);
+        p.AddReportPm("Attract", pm.Id);
         if (p.Controller.RandomHappen(50))
         {
           p.AddReportPm("AttractWork");

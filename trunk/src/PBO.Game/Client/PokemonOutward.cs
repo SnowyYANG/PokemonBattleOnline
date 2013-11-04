@@ -235,7 +235,7 @@ namespace PokemonBattleOnline.Game
     public void Init(GameOutward game)
     {
       team = game.Teams[Position.Team];
-      TeamIndex = game.Settings.Mode.GetPokemonIndexInTeam(Position.X);
+      TeamIndex = game.Settings.Mode.GetPokemonIndex(Position.X);
       Owner = game.GetPlayerName(Position.Team, TeamIndex);
     }
     public void AddListener(IPokemonOutwardEvents listener)

@@ -39,8 +39,6 @@ namespace PokemonBattleOnline.Game.Host
       {
         foreach (PokemonProxy p in Controller.ActingPokemons) pms.Add(p.GetOutward());
         current = new ReportFragment(Controller.TurnNumber, t, pms.ToArray(), Controller.Board.Weather);
-        var s = (int)((DateTime.Now - Begin).TotalSeconds);
-        if (s != 0) Add(new TimeTick(s));
       }
     }
     internal ReportFragment GetFragment()
@@ -50,6 +48,11 @@ namespace PokemonBattleOnline.Game.Host
     internal ReportFragment GetLeapFragment()
     {
       return lastLeapFragment;
+    }
+    internal void TimeTick()
+    {
+      var s = (int)((DateTime.Now - Begin).TotalSeconds);
+      if (s != 0) Add(new TimeTick(s));
     }
     internal void NewTurn()
     {
@@ -61,26 +64,9 @@ namespace PokemonBattleOnline.Game.Host
     {
       current.AddEvent(e);
     }
-    private static object Filter(object o)
+    public void ShowLog(string key, ValueType arg0 = null, ValueType arg1 = null, ValueType arg2 = null)
     {
-      object r = null;
-      if (o != null)
-      {
-        if (o is PokemonProxy) r = ((PokemonProxy)o).Id;
-        else if (o is int) r = (int)o;
-#if DEBUG
-        else if (o is Enum) r = o.ToString();
-        else if (o is string) r = (string)o;
-        else throw new Exception("bad event arg");
-#else
-        else r = o.ToString();
-#endif
-      }
-      return r;
-    }
-    public void ShowLog(string key, object arg0 = null, object arg1 = null, object arg2 = null)
-    {
-      Add(new ShowLog(key, Filter(arg0), Filter(arg1), Filter(arg2)));
+      Add(new ShowLog(key, arg0, arg1, arg2));
     }
     public void AddHorizontalLine()
     {

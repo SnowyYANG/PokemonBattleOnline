@@ -92,7 +92,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         var i = def.Defender.Pokemon.Item;
         def.Defender.RemoveItem();
         aer.SetItem(i); //先铁棘再果子
-        aer.AddReportPm("Thief", i, def.Defender);
+        aer.AddReportPm("Thief", i, def.Defender.Id);
       }
     }
 

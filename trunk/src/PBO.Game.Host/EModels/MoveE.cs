@@ -352,10 +352,10 @@ namespace PokemonBattleOnline.Game.Host
       if (atk.Targets != null)
         foreach (var d in atk.Targets)
         {
-          STs.ItemAttach(d.Defender);
+          ITs.Attach(d.Defender);
           ATs.RecoverAfterMoldBreaker(d.Defender);
         }
-      STs.ItemAttach(atk.Attacker); //先树果汁后PP果
+      ITs.Attach(atk.Attacker); //先树果汁后PP果
 
       var c = aer.Controller;
       {
@@ -377,9 +377,8 @@ namespace PokemonBattleOnline.Game.Host
       }
       {
         var tile = aer.Tile;
-        if (atk.Move.AttackSwitch() && tile != null)
+        if (atk.Move.Switch() && tile != null)
         {
-
           c.Withdraw(aer, "SelfWithdraw", true);
           c.PauseForSendOutInput(tile);
         }

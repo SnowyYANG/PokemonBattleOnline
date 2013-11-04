@@ -9,15 +9,18 @@ namespace PokemonBattleOnline.Game.GameEvents
   [DataContract(Name = "e", Namespace = PBOMarks.JSON)]
   public class ShowLog : GameEvent
   {
-    protected static object Filter(int i, string s)
+    protected object Filter(int i)
     {
-      if (s == null) return i;
-      return s;
+      if (i != 0) return i;
+      if (S != StatType.Invalid) return S;
+      if (B != BattleType.Invalid) return B;
+      return 0;
     }
-    protected static void Filter(object o, ref int i, ref string s)
+    private void Filter(object o, ref int i)
     {
       if (o is int) i = (int)o;
-      else if (o is string) s = (string)o;
+      else if (o is StatType) S = (StatType)o;
+      else if (o is BattleType) B = (BattleType)o;
     }
     
     [DataMember(Name = "a")]
@@ -33,26 +36,23 @@ namespace PokemonBattleOnline.Game.GameEvents
     protected int I2;
 
     [DataMember(Name = "e", EmitDefaultValue = false)]
-    protected string S0;
+    protected StatType S;
 
     [DataMember(Name = "f", EmitDefaultValue = false)]
-    protected string S1;
-
-    [DataMember(Name = "g", EmitDefaultValue = false)]
-    protected string S2;
+    protected BattleType B;
 
     /// <param name="args">string and int is fine</param>
     public ShowLog(string gameLogKey, object arg0 = null, object arg1 = null, object arg2 = null)
     {
       Key = gameLogKey;
       List<object> _args = new List<object>();
-      Filter(arg0, ref I0, ref S0);
-      Filter(arg1, ref I1, ref S1);
-      Filter(arg2, ref I2, ref S2);
+      Filter(arg0, ref I0);
+      Filter(arg1, ref I1);
+      Filter(arg2, ref I2);
     }
     protected override void Update()
     {
-      AppendGameLog(Key, Filter(I0, S0), Filter(I1, S1), Filter(I2, S2));
+      AppendGameLog(Key, Filter(I0), Filter(I1), Filter(I2));
     }
   }
 }

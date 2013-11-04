@@ -137,7 +137,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (items.Count == 0) return;
       int i = pm.Controller.GetRandomInt(0, items.Count - 1);
       pm.RaiseAbility();
-      pm.Controller.ReportBuilder.ShowLog("Frisk", pm, items[i]);
+      pm.AddReportPm("Frisk", items[i]);
     }
     private static void WeatherObserver(PokemonProxy pm, int number, int form)
     {
@@ -179,7 +179,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         KeyValuePair<PokemonProxy, MoveType> pair = moves[pm.Controller.GetRandomInt(0, moves.Count - 1)];
         pm.RaiseAbility();
-        pm.Controller.ReportBuilder.ShowLog("ReadMove", pair.Key, pair.Value);
+        pm.Controller.ReportBuilder.ShowLog("ReadMove", pair.Key.Id, pair.Value.Id);
       }
     }
     private static void WeatherAbility(PokemonProxy pm, Weather weather)

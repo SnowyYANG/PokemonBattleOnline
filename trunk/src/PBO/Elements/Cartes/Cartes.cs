@@ -36,7 +36,15 @@ namespace PokemonBattleOnline.PBO.Elements
 
     public static SolidColorBrush GetChatBrush(string username)
     {
-      return Brushes[username.GetHashCode() % 9];
+      var flag = username;
+      if (username[0] == '[')
+      {
+        var r = username.IndexOf(']', 1);
+        if (r != -1) flag = username.Substring(1, r - 1);
+      }
+      var i = flag.GetHashCode() % 9;
+      if (i < 0) i += 9;
+      return Brushes[i];
     }
   }
 }

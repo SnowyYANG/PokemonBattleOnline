@@ -83,7 +83,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (pm.OnboardPokemon.HasCondition("Snatch"))
           {
             pm.OnboardPokemon.RemoveCondition("Snatch");
-            pm.AddReportPm("Snatch", aer);
+            pm.AddReportPm("Snatch", aer.Id);
             var s = new AtkContext(pm) { Move = move };
             MoveInitAtkContext.Execute(s);
             MoveE.BuildDefContext(s, null);

@@ -13,8 +13,29 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (pm.Pokemon.Item != 0)
       {
-        if (consume) pm.ConsumeItem();
         pm.AddReportPm(log, pm.Pokemon.Item);
+        if (consume) pm.ConsumeItem();
+      }
+    }
+    public static void Attach(PokemonProxy pm)
+    {
+      var item = pm.Item;
+      if (item == Is.LEPPA_BERRY)
+      {
+        foreach (var m in pm.Moves)
+          if (m.PP == 0)
+          {
+            m.PP += 10;
+            pm.ConsumeItem();
+            pm.AddReportPm("ItemPPRecover", Is.LEPPA_BERRY, m.Type.Id);
+            return;
+          }
+      }
+      else
+      {
+        WhiteHerb(pm);
+        HpChanged.Execute(pm);
+        StateAdded.Execute(pm);
       }
     }
 

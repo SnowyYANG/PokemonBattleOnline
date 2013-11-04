@@ -72,7 +72,7 @@ namespace PokemonBattleOnline.Game.Host
           if (pm.Hp != 0) pm.Pokemon.State = PokemonState.Normal;
           break;
         case As.UNNERVE:
-          foreach (var p in pm.Controller.GetOnboardPokemons(1 - pm.Pokemon.TeamId)) STs.ItemAttach(p);
+          foreach (var p in pm.Controller.GetOnboardPokemons(1 - pm.Pokemon.TeamId)) ITs.Attach(p);
           break;
       }
     }

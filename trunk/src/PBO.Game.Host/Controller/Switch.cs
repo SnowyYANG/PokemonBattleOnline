@@ -67,7 +67,9 @@ namespace PokemonBattleOnline.Game.Host
     public void GameStartSendOut(IEnumerable<Tile> tiles)
     {
       var pms = tiles.Select((t) => SendOutImplement(t)).ToArray();
-      ReportBuilder.ShowLog("SendOut" + pms.Length, pms.ValueOrDefault(0), pms.ValueOrDefault(1), pms.ValueOrDefault(2));
+      var pm1 = pms.ValueOrDefault(1);
+      var pm2 = pms.ValueOrDefault(2);
+      ReportBuilder.ShowLog("SendOut" + pms.Length, pms[0].Id, pm1 == null ? 0 : pm1.Id, pm2 == null ? 0 : pm2.Id);
     }
     public bool SendOut(Tile tile, bool debut, string log)
     {
