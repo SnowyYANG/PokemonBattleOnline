@@ -5,23 +5,8 @@
              xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters"
              xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor"
              Cursor="Hand" AllowDrop="True" Height="32" Width="32">
-    <UserControl.ToolTip>
-        <ToolTip Content="{Binding Model}">
-            <ToolTip.ContentTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding Moves[0].Move.Id, Converter={x:Static c:MoveString.C}}"/>
-                        <TextBlock Text="{Binding Moves[1].Move.Id, Converter={x:Static c:MoveString.C}}"/>
-                        <TextBlock Text="{Binding Moves[2].Move.Id, Converter={x:Static c:MoveString.C}}"/>
-                        <TextBlock Text="{Binding Moves[3].Move.Id, Converter={x:Static c:MoveString.C}}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ToolTip.ContentTemplate>
-        </ToolTip>
-    </UserControl.ToolTip>
     <UserControl.ContextMenu>
-        <ContextMenu ContextMenuOpening="ContextMenu_ContextMenuOpening">
+        <ContextMenu>
             <MenuItem Name="Copy" Click="Copy_Click" Header="复制"/>
             <MenuItem Name="Paste" Click="Paste_Click" Header="粘贴"/>
             <Separator/>
@@ -29,7 +14,7 @@
         </ContextMenu>
     </UserControl.ContextMenu>
     <Canvas>
-        <Polygon Name="Stroke" IsHitTestVisible="False" Stroke="#80808080" StrokeThickness="1" Fill="{x:Null}" Canvas.Top="4" Points="1.5,16 6.5,4.5 25.5,4.5 30.5,16 25.5,27.5 6.5,27.5">
+        <Polygon Name="Stroke" Stroke="#80808080" StrokeThickness="1" Fill="Transparent" Canvas.Top="4" Points="1.5,16 6.5,4.5 25.5,4.5 30.5,16 25.5,27.5 6.5,27.5">
             <Polygon.Style>
                 <Style TargetType="Polygon">
                     <Setter Property="StrokeThickness" Value="1"/>
@@ -41,6 +26,22 @@
                 </Style>
             </Polygon.Style>
         </Polygon>
-        <Image Name="icon" Source="{Binding Icon}" Height="32" Width="32"/>
+        <Image Name="icon" Source="{Binding Icon}" Height="32" Width="32">
+            <Image.ToolTip>
+                <ToolTip Content="{Binding Model}">
+                    <ToolTip.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding Moves[0].Move.Id, Converter={x:Static c:MoveString.C}}"/>
+                                <TextBlock Text="{Binding Moves[1].Move.Id, Converter={x:Static c:MoveString.C}}"/>
+                                <TextBlock Text="{Binding Moves[2].Move.Id, Converter={x:Static c:MoveString.C}}"/>
+                                <TextBlock Text="{Binding Moves[3].Move.Id, Converter={x:Static c:MoveString.C}}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ToolTip.ContentTemplate>
+                </ToolTip>
+            </Image.ToolTip>
+        </Image>
     </Canvas>
 </UserControl>

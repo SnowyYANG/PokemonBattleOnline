@@ -81,14 +81,15 @@ namespace PokemonBattleOnline.PBO.Editor
     }
     private void Paste_Click(object sender, RoutedEventArgs e)
     {
-      if (VM.Model == null || MessageBox.Show(VM.IsEditing ? "正在编辑的精灵，放弃编辑并覆盖？" : "覆盖原有精灵？", "PBO", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+      var t = VM.Actual;
+      if (t.Model == null || MessageBox.Show(t.IsEditing ? "正在编辑的精灵，放弃编辑并覆盖？" : "覆盖原有精灵？", "PBO", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
       {
         var pm = Game.UserData.ImportPokemon(Clipboard.GetText());
         if (pm == null) MessageBox.Show("不是合法的精灵。");
         else
         {
-          VM.Model = pm;
-          if (VM.IsEditing) EditorVM.Current.EditingPokemon = new PokemonEditorVM(VM);
+          t.Model = pm;
+          if (t.IsEditing) EditorVM.Current.EditingPokemon = new PokemonEditorVM(t);
         }
       }
     }
@@ -96,7 +97,7 @@ namespace PokemonBattleOnline.PBO.Editor
     {
       if (VM.Model != null) Clipboard.SetText(Game.UserData.Export(VM.Model));
     }
-    private void ContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+    protected override void OnContextMenuOpening(ContextMenuEventArgs e)
     {
       var model = VM.Model;
       Copy.IsEnabled = Remove.IsEnabled = model != null;

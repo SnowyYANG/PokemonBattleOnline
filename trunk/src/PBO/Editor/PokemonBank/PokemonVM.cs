@@ -31,6 +31,17 @@ namespace PokemonBattleOnline.PBO.Editor
     public TeamVM Container
     { get { return _container; } }
 
+    public PokemonVM Actual
+    { 
+      get
+      {
+        var pms = _container.Model.Pokemons;
+        for (int i = _index; i > 0; --i)
+          if (pms[i - 1] != null) return _container[i];
+        return this;
+      }
+    }
+
     private int _index;
     public int Index
     { get { return _index; } }
@@ -56,7 +67,7 @@ namespace PokemonBattleOnline.PBO.Editor
       {
         if (value == null)//editing?
         {
-          if (_index != 0 && EditorVM.Current.EditingPokemon != null && EditorVM.Current.EditingPokemon.Origin == this) EditorVM.Current.EditingPokemon.Origin = _container[_index - 1];
+          if (_index < 5 && EditorVM.Current.EditingPokemon != null && EditorVM.Current.EditingPokemon.Origin == _container[_index + 1]) EditorVM.Current.EditingPokemon.Origin = this;
           if (_container.Model.Pokemons.ValueOrDefault(_index + 1) == null)
           {
             _container.Model.Pokemons[_index] = null;
@@ -65,15 +76,16 @@ namespace PokemonBattleOnline.PBO.Editor
           }
           else
           {
-            _container.Model.Pokemons[_index] = _container[_index + 1].Model;
+            _container.Model.Pokemons[_index] = _container.Model.Pokemons[_index + 1];
             _container[_index + 1].Model = null;
           }
         }
-        else if (_index == 0 || _container.Model.Pokemons[_index - 1] != null)
+        else
         {
-          _container.Model.Pokemons[_index] = value;
-          if (_index < 5) _container[_index + 1].OnPropertyChanged("Icon");
-          OnPropertyChanged();
+          var i = Actual.Index;
+          _container.Model.Pokemons[i] = value;
+          if (i < 5) _container[i + 1].OnPropertyChanged("Icon");
+          Actual.OnPropertyChanged();
         }
       }
     }
@@ -98,7 +110,7 @@ namespace PokemonBattleOnline.PBO.Editor
 
     public void Edit()
     {
-      if (EditorVM.Current.EditingPokemon == null || EditorVM.Current.EditingPokemon.Origin != this && EditorVM.Current.EditingPokemon.Close()) EditorVM.Current.EditingPokemon = new PokemonEditorVM(this);
+      if (EditorVM.Current.EditingPokemon == null || EditorVM.Current.EditingPokemon.Origin != Actual && EditorVM.Current.EditingPokemon.Close()) EditorVM.Current.EditingPokemon = new PokemonEditorVM(Actual);
     }
     //public MenuCommand EditCommand
     //{ get; private set; }
