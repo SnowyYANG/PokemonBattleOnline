@@ -38,6 +38,80 @@ namespace PokemonBattleOnline.Game
         return null;
       }
     }
+    private static GameString GetLanguage(string str)
+    {
+      var c = str[0];
+      return Current.MinFirstChar <= c && c <= Current.MaxFirstChar ? Current : EN != null && EN.MinFirstChar <= c && c <= EN.MaxFirstChar ? EN : JP;
+    }
+    private static int IndexOf(string[] list, string name)
+    {
+      if (list != null)
+      {
+        int r;
+        for (r = 0; r < list.Length; ++r)
+          if (list[r].StartsWith(name, StringComparison.CurrentCultureIgnoreCase)) break;
+        if (r != list.Length)
+        {
+          for (int i = r; i < list.Length; ++i)
+            if (list[i].Equals(name, StringComparison.CurrentCultureIgnoreCase)) return i;
+          return r;
+        }
+      }
+      return -1;
+    }
+    public static BattleType BattleType(string name)
+    {
+      var gs = GetLanguage(name);
+      var i = gs == null ? -1 : IndexOf(gs.BattleTypes, name);
+      return i == -1 ? Game.BattleType.Invalid : (BattleType)(i + 1);
+    }
+    public static PokemonNature? Nature(string name)
+    {
+      var gs = GetLanguage(name);
+      var i = gs == null ? -1 : IndexOf(gs.Natures, name);
+      return i == -1 ? null : (PokemonNature?)(i);
+    }
+    public static PokemonSpecies PokemonSpecies(string name)
+    {
+      var gs = GetLanguage(name);
+      var i = gs == null ? -1 : IndexOf(gs.Pokemons, name);
+      if (i == -1 && gs == Current && Backup != null) i = IndexOf(Backup.Pokemons, name);
+      return i == -1 ? null : RomData.GetPokemon(i + 1);
+    }
+    public static int Ability(string name)
+    {
+      var gs = GetLanguage(name);
+      var i = gs == null ? -1 : IndexOf(gs.Abilities, name);
+      if (i == -1 && gs == Current && Backup != null) i = IndexOf(Backup.Abilities, name);
+      return i + 1;
+    }
+    private static int KeyOf(Dictionary<int, string> list, string name)
+    {
+      int sw = 0;
+      if (list != null)
+      {
+        foreach (var p in list)
+        {
+          if (sw == 0 && p.Value.StartsWith(name, StringComparison.CurrentCultureIgnoreCase)) sw = p.Key;
+          if (p.Value.Equals(name, StringComparison.CurrentCultureIgnoreCase)) return p.Key;
+        }
+      }
+      return sw;
+    }
+    public static int Item(string name)
+    {
+      var gs = GetLanguage(name);
+      var i = gs == null ? 0 : KeyOf(gs.Items, name);
+      if (i == 0 && gs == Current && Backup != null) i = KeyOf(Backup.Items, name);
+      return i;
+    }
+    public static MoveType Move(string name)
+    {
+      var gs = GetLanguage(name);
+      var i = gs == null ? -1 : IndexOf(gs.Moves, name);
+      if (i == -1 && gs == Current && Backup != null) i = IndexOf(Backup.Moves, name);
+      return i == -1 ? null : RomData.GetMove(i + 1);
+    }
 
     public readonly string Language;
     public readonly Char MinFirstChar;
@@ -200,52 +274,6 @@ namespace PokemonBattleOnline.Game
     public string BattleLog(string key)
     {
       return BattleLogs.ValueOrDefault(key) ?? key;
-    }
-
-    private static GameString GetLanguage(string str)
-    {
-      var c = str[0];
-      return Current.MinFirstChar <= c && c <= Current.MaxFirstChar ? Current : EN != null && EN.MinFirstChar <= c && c <= EN.MaxFirstChar ? EN : JP;
-    }
-    public static BattleType BattleType(string name)
-    {
-      var gs = GetLanguage(name);
-      var i = gs == null ? -1 : gs.BattleTypes.IndexOf(name);
-      return i == -1 ? Game.BattleType.Invalid : (BattleType)(i + 1);
-    }
-    public static PokemonNature? Nature(string name)
-    {
-      var gs = GetLanguage(name);
-      var i = gs == null ? -1 : gs.Natures.IndexOf(name);
-      return i == -1 ? null : (PokemonNature?)(i);
-    }
-    public static PokemonSpecies PokemonSpecies(string name)
-    {
-      var gs = GetLanguage(name);
-      var i = gs == null ? -1 : gs.Pokemons.IndexOf(name);
-      if (i == -1 && gs == Current && Backup != null) i = Backup.Pokemons.IndexOf(name);
-      return i == -1 ? null : RomData.GetPokemon(i + 1);
-    }
-    public static int Ability(string name)
-    {
-      var gs = GetLanguage(name);
-      var i = gs == null ? -1 : gs.Abilities.IndexOf(name);
-      if (i == -1 && gs == Current && Backup != null) i = Backup.Abilities.IndexOf(name);
-      return i + 1;
-    }
-    public static int Item(string name)
-    {
-      var gs = GetLanguage(name);
-      var i = gs == null ? 0 : gs.Items.KeyOf(name);
-      if (i == 0 && gs == Current && Backup != null) i = Backup.Items.KeyOf(name);
-      return i;
-    }
-    public static MoveType Move(string name)
-    {
-      var gs = GetLanguage(name);
-      var i = gs == null ? -1 : gs.Moves.IndexOf(name);
-      if (i == -1 && gs == Current && Backup != null) i = Backup.Moves.IndexOf(name);
-      return i == -1 ? null : RomData.GetMove(i + 1);
     }
   }
 }
