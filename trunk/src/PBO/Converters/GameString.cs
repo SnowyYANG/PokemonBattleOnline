@@ -30,6 +30,14 @@ namespace PokemonBattleOnline.PBO.Converters
       return GameString.Current.Pokemon(value);
     }
   }
+  class PokemonFormString : Converter<PokemonForm>
+  {
+    public static readonly PokemonFormString C = new PokemonFormString();
+    protected override object Convert(PokemonForm value)
+    {
+      return GameString.Current.Pokemon(value.Species.Number, value.Index);
+    }
+  }
   class MoveString : Converter<int>
   {
     public static MoveString C = new MoveString();

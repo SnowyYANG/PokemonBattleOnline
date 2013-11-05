@@ -12,18 +12,6 @@ namespace PokemonBattleOnline.Game
   [DataContract(Name = "pd", Namespace = PBOMarks.JSON)]
   public class PokemonData : ObservableObject, ICloneable, IPokemonData
   {
-    #region const
-    private const int WORMADAM = 413;
-    private const int ROTOM = 479;
-    private const int GIRATINA = 487;
-    private const int ARCEUS = 493;
-    private const int DEERLING = 585;
-    private const int SAWSBUCK = 586;
-    private const int GENESECT = 649;
-    private const int KYUREM = 646;
-    private const int KELDEO = 647;
-    #endregion
-
     private static bool CanChangeIv(I6D sender, int oldValue, int newValue)
     {
       return 0 <= newValue && newValue < 32;
@@ -66,7 +54,7 @@ namespace PokemonBattleOnline.Game
       }
     }
 
-    private static readonly int[] CAN_CHOOSE_FORM = { 201, 386, 412, 413, 422, 423, 479, 492, 641, 642, 645, 646 };
+    private static readonly int[] CAN_CHOOSE_FORM = { 201, 386, 412, 413, 422, 423, 479, 492, 641, 642, 645, 646, 710, 711 };
     public bool CanChooseForm
     { get { return CAN_CHOOSE_FORM.Contains(number) || number == KELDEO && HasMove(Ms.SECRET_SWORD); } }
 
@@ -138,7 +126,8 @@ namespace PokemonBattleOnline.Game
         if (_gender != value && Form.Species.Genders.Contains(value))
         {
           _gender = value;
-          OnPropertyChanged("Gender");
+          if (CheckSpForm()) OnPropertyChanged();
+          else OnPropertyChanged("Gender");
         }
       }
     }
@@ -320,6 +309,18 @@ namespace PokemonBattleOnline.Game
     { get { return _moves; } }
     #endregion
 
+    #region const
+    private const int WORMADAM = 413;
+    private const int ROTOM = 479;
+    private const int GIRATINA = 487;
+    private const int ARCEUS = 493;
+    private const int DEERLING = 585;
+    private const int SAWSBUCK = 586;
+    private const int GENESECT = 649;
+    private const int KYUREM = 646;
+    private const int KELDEO = 647;
+    private const int MEOWSTIC = 678;
+    #endregion
     private bool CheckSpForm()
     {
       switch (number)
@@ -339,6 +340,9 @@ namespace PokemonBattleOnline.Game
           break;
         case KELDEO:
           if (!HasMove(Ms.SECRET_SWORD)) form = 0;
+          break;
+        case MEOWSTIC:
+          form = _gender == PokemonGender.Female ? 1 : 0;
           break;
       }
       if (_form != null && _form.Index != form) _form = null;

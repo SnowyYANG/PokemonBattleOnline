@@ -24,12 +24,12 @@ namespace PokemonBattleOnline.Game
     { get; internal set; }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly byte _index;
+    private readonly int _index;
     public int Index
     { get { return _index; } }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly byte _data;
+    private readonly int _data;
     public PokemonFormData Data
     { get { return Species.GetData(_data); } }
 

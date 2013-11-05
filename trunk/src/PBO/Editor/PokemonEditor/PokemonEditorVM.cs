@@ -160,7 +160,13 @@ namespace PokemonBattleOnline.PBO.Editor
       {
         if (Model.Gender != value)
         {
+          var form = PokemonForm;
           Model.Gender = value;
+          if (form != PokemonForm)
+          {
+            OnPropertyChanged("PokemonForm");
+            if (form.Data != PokemonForm.Data) Stats.RefreshAll();
+          }
           RefreshImage();
         }
       }

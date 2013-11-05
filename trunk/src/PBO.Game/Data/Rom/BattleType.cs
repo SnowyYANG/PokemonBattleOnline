@@ -24,7 +24,8 @@ namespace PokemonBattleOnline.Game
     Psychic,
     Ice,
     Dragon,
-    Dark
+    Dark,
+    Fairy
   }
   public static class BattleTypeHelper
   {

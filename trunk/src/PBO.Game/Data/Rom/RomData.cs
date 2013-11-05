@@ -51,11 +51,11 @@ namespace PokemonBattleOnline.Game
     public static IEnumerable<MoveType> Moves
     { get { return current.moves; } }
     public static int Abilities
-    { get { return 164; } }
+    { get { return 188; } }
     public static int Items
     { get { return 195; } }
     public static int BattleTypes
-    { get { return 17; } }
+    { get { return 18; } }
     public static int MoveCategories
     { get { return 3; } }
     public static int Natures

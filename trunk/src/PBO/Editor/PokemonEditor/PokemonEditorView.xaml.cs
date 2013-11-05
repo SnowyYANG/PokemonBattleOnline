@@ -83,25 +83,30 @@ namespace PokemonBattleOnline.PBO.Editor
         var text = QuickText.Text.Trim();
         if (!string.IsNullOrWhiteSpace(text))
         {
-          var m = GameString.Move(text);
-          if (m != null) VM.AddMove(m);
+          var pn = text.ToInt();
+          if (1 <= pn && pn <= RomData.Pokemons.Count()) VM.PokemonSpecies = RomData.GetPokemon(pn);
           else
           {
-            var i = GameString.Item(text);
-            if (i != 0) VM.HeldItem = i;
+            var m = GameString.Move(text);
+            if (m != null) VM.AddMove(m);
             else
             {
-              var a = GameString.Ability(text);
-              if (a != 0) VM.Model.Ability = a;
+              var i = GameString.Item(text);
+              if (i != 0) VM.HeldItem = i;
               else
               {
-                var n = GameString.Nature(text);
-                if (n.HasValue) VM.Model.Nature = n.Value;
+                var a = GameString.Ability(text);
+                if (a != 0) VM.Model.Ability = a;
                 else
                 {
-                  var p = GameString.PokemonSpecies(text);
-                  if (p != null) VM.PokemonSpecies = p;
-                  else return;
+                  var n = GameString.Nature(text);
+                  if (n.HasValue) VM.Model.Nature = n.Value;
+                  else
+                  {
+                    var p = GameString.PokemonSpecies(text);
+                    if (p != null) VM.PokemonSpecies = p;
+                    else return;
+                  }
                 }
               }
             }

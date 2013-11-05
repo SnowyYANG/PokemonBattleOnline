@@ -13,7 +13,6 @@ namespace PokemonBattleOnline.PBO.Editor
     public static readonly DropShadowEffect MagentaShadow;
     public static readonly DropShadowEffect OrangeShadow;
     public static readonly DataTemplate PokemonSpecies;
-    public static readonly DataTemplate PokemonForm;
     public static readonly DataTemplate SelectedMove;
     public static readonly ImageSource P00000;
 
@@ -24,7 +23,6 @@ namespace PokemonBattleOnline.PBO.Editor
       MagentaShadow = (DropShadowEffect)rd["MagentaShadow"];
       OrangeShadow = (DropShadowEffect)rd["OrangeShadow"];
       PokemonSpecies = (DataTemplate)rd["PokemonSpecies"];
-      PokemonForm = (DataTemplate)rd["PokemonForm"];
       SelectedMove = (DataTemplate)rd["LearnedMove"];
       P00000 = Helper.GetImage(@"Game/00000.png");
     }

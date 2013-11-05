@@ -25,13 +25,13 @@ namespace PokemonBattleOnline.Game
       _to = (short)to;
     }
     
-    [DataMember]
-    private readonly short _from;  
+    [DataMember(Name = "F")]
+    private readonly int _from;  
     public int From
     { get { return _from; } }
     
-    [DataMember]
-    private readonly short _to;  
+    [DataMember(Name = "T")]
+    private readonly int _to;  
     public int To
     { get { return _to; } }
     

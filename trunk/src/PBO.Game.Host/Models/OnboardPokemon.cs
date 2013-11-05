@@ -166,7 +166,7 @@ namespace PokemonBattleOnline.Game.Host
     public void ChangeForm(PokemonForm form)
     {
       Form = form;
-      _weight = form.Species.Weight;
+      _weight = form.Data.Weight;
       _type1 = form.Type1;
       _type2 = form.Type2;
       Ability = form.Data.GetAbility(Pokemon.AbilityIndex);

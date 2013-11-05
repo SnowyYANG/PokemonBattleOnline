@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\res\string\chinese.xml = ..\res\string\chinese.xml
 		..\res\string\en = ..\res\string\en
 		..\res\string\jp = ..\res\string\jp
+		..\doc\rom.xml = ..\doc\rom.xml
 		..\res\rom.zip = ..\res\rom.zip
 		..\res\string\zh = ..\res\string\zh
 	EndProjectSection
@@ -136,6 +137,7 @@ Global
 		{5F1D7698-AD1E-462A-AEED-063BCB80DF89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5F1D7698-AD1E-462A-AEED-063BCB80DF89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F1D7698-AD1E-462A-AEED-063BCB80DF89}.EDITING|Any CPU.ActiveCfg = EDITING|Any CPU
+		{5F1D7698-AD1E-462A-AEED-063BCB80DF89}.EDITING|Any CPU.Build.0 = EDITING|Any CPU
 		{5F1D7698-AD1E-462A-AEED-063BCB80DF89}.ETV|Any CPU.ActiveCfg = ETV|Any CPU
 		{5F1D7698-AD1E-462A-AEED-063BCB80DF89}.ETV|Any CPU.Build.0 = ETV|Any CPU
 		{5F1D7698-AD1E-462A-AEED-063BCB80DF89}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -153,7 +155,6 @@ Global
 		{666D492B-2C1F-46DC-8B6C-F59D7F0C40D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{666D492B-2C1F-46DC-8B6C-F59D7F0C40D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{666D492B-2C1F-46DC-8B6C-F59D7F0C40D7}.EDITING|Any CPU.ActiveCfg = Release|Any CPU
-		{666D492B-2C1F-46DC-8B6C-F59D7F0C40D7}.EDITING|Any CPU.Build.0 = Release|Any CPU
 		{666D492B-2C1F-46DC-8B6C-F59D7F0C40D7}.ETV|Any CPU.ActiveCfg = Release|Any CPU
 		{666D492B-2C1F-46DC-8B6C-F59D7F0C40D7}.ETV|Any CPU.Build.0 = Release|Any CPU
 		{666D492B-2C1F-46DC-8B6C-F59D7F0C40D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -161,7 +162,6 @@ Global
 		{F46386CC-6DE1-41A0-89D2-B3511224714F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F46386CC-6DE1-41A0-89D2-B3511224714F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F46386CC-6DE1-41A0-89D2-B3511224714F}.EDITING|Any CPU.ActiveCfg = Release|Any CPU
-		{F46386CC-6DE1-41A0-89D2-B3511224714F}.EDITING|Any CPU.Build.0 = Release|Any CPU
 		{F46386CC-6DE1-41A0-89D2-B3511224714F}.ETV|Any CPU.ActiveCfg = Release|Any CPU
 		{F46386CC-6DE1-41A0-89D2-B3511224714F}.ETV|Any CPU.Build.0 = Release|Any CPU
 		{F46386CC-6DE1-41A0-89D2-B3511224714F}.Release|Any CPU.ActiveCfg = Release|Any CPU
