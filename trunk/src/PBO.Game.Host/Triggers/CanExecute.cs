@@ -51,11 +51,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       if (p.State == PokemonState.FRZ)
       {
-        if (p.SelectedMove.Type.Flags.AvailableEvenFrozen)
-        {
-          p.Pokemon.State = PokemonState.Normal;
-          p.AddReportPm("DeFRZ2", p.SelectedMove.Type.Id);
-        }
+        if (p.SelectedMove.Type.Flags.AvailableEvenFrozen) p.DeAbnormalState("DeFRZ2", p.SelectedMove.Type.Id);
         else if (p.Controller.GetRandomInt(0, 3) == 0) p.DeAbnormalState();
         else
         {

@@ -16,7 +16,7 @@ namespace PokemonBattleOnline.Game.GameEvents
       else
       {
         AppendGameLog("BeginTurn", Game.TurnNumber);
-        AppendGameLog("----", LogStyle.Detail);
+        AppendGameLog("----");
       }
     }
   }
