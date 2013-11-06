@@ -49,11 +49,11 @@ namespace PokemonBattleOnline.Game
       {
         int r;
         for (r = 0; r < list.Length; ++r)
-          if (list[r].StartsWith(name, StringComparison.CurrentCultureIgnoreCase)) break;
+          if (list[r] != null && list[r].StartsWith(name, StringComparison.CurrentCultureIgnoreCase)) break;
         if (r != list.Length)
         {
           for (int i = r; i < list.Length; ++i)
-            if (list[i].Equals(name, StringComparison.CurrentCultureIgnoreCase)) return i;
+            if (list[r] != null && list[i].Equals(name, StringComparison.CurrentCultureIgnoreCase)) return i;
           return r;
         }
       }
@@ -77,6 +77,10 @@ namespace PokemonBattleOnline.Game
       var i = gs == null ? -1 : IndexOf(gs.Pokemons, name);
       if (i == -1 && gs == Current && Backup != null) i = IndexOf(Backup.Pokemons, name);
       return i == -1 ? null : RomData.GetPokemon(i + 1);
+    }
+    internal static PokemonForm PokemonForm(string name)
+    {
+      throw new NotImplementedException();
     }
     public static int Ability(string name)
     {
@@ -130,6 +134,8 @@ namespace PokemonBattleOnline.Game
     private string[] Natures;
     private string[] BattleTypes;
     private string[] MoveCategories;
+    private string[] PokemonStates;
+    private string[] StatTypes;
 
     private readonly Dictionary<string, string> BattleLogs;
 
@@ -151,8 +157,9 @@ namespace PokemonBattleOnline.Game
           if (char.IsDigit(line[1]))
           {
             var num = line.Substring(1, comma - 1).ToInt();
-            if (str[0] < MinFirstChar) MinFirstChar = str[0];
-            else if (str[0] > MaxFirstChar) MaxFirstChar = str[0];
+            if (str[0] != '{')
+              if (str[0] < MinFirstChar) MinFirstChar = str[0];
+              else if (str[0] > MaxFirstChar) MaxFirstChar = str[0];
             switch (line[0])
             {
               case 'p':
@@ -192,6 +199,14 @@ namespace PokemonBattleOnline.Game
                 if (MoveCategories == null) MoveCategories = new string[RomData.MoveCategories];
                 MoveCategories[num] = str;
                 break;
+              case 'S':
+                if (PokemonStates == null) PokemonStates = new string[7];
+                PokemonStates[num] = str;
+                break;
+              case 's':
+                if (StatTypes == null) StatTypes = new string[8];
+                StatTypes[num] = str;
+                break;
             }
           }
           else
@@ -211,7 +226,12 @@ namespace PokemonBattleOnline.Game
     public string Pokemon(int number, int form)
     {
       var i = number * 100 + form;
-      return Forms.ValueOrDefault(i) ?? InnerBackup.Forms.ValueOrDefault(i) ?? Pokemon(number);
+      return string.Format(Forms.ValueOrDefault(i) ?? InnerBackup.Forms.ValueOrDefault(i) ?? Pokemon(number), Pokemon(number));
+    }
+    public string PokemonForm(int number, int form)
+    {
+      var i = number * 100 + form;
+      return string.Format(Forms.ValueOrDefault(i) ?? InnerBackup.Forms.ValueOrDefault(i) ?? Pokemon(number), string.Empty).Trim();
     }
     public string Pokemon(PokemonSpecies pokemon)
     {
@@ -220,6 +240,10 @@ namespace PokemonBattleOnline.Game
     public string Pokemon(PokemonForm form)
     {
       return Pokemon(form.Species.Number, form.Index);
+    }
+    public string PokemonForm(PokemonForm form)
+    {
+      return PokemonForm(form.Species.Number, form.Index);
     }
     public string Move(int move)
     {
@@ -271,9 +295,19 @@ namespace PokemonBattleOnline.Game
       var backup = InnerBackup.MoveCategories;
       return MoveCategories == null ? backup == null ? null : backup.ValueOrDefault(i) : MoveCategories.ValueOrDefault(i);
     }
+    public string StatType(StatType stat)
+    {
+      if (stat == Game.StatType.Invalid || stat == Game.StatType.All || StatTypes == null) return null;
+      return StatTypes.ValueOrDefault(stat == Game.StatType.Hp ? 7 : (int)stat - 1) ?? stat.ToString();
+    }
+    public string PokemonState(PokemonState state)
+    {
+      if (state == Game.PokemonState.Normal || PokemonStates == null) return null;
+      return PokemonStates.ValueOrDefault((int)state - 1) ?? state.ToString();
+    }
     public string BattleLog(string key)
     {
-      return BattleLogs.ValueOrDefault(key) ?? key;
+      return BattleLogs.ValueOrDefault(key);
     }
   }
 }

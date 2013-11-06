@@ -42,7 +42,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             {
               var change = aer.Pokemon.MaxHp * move.MaxHpPercentage / 100;
               aer.OnboardPokemon.SetTurnCondition("Assurance");
-              aer.AddReportPm("ReHurt");
+              aer.AddReportPm("m_ReHurt");
               aer.Hp += (change == 0 ? -1 : change);
             }
           }

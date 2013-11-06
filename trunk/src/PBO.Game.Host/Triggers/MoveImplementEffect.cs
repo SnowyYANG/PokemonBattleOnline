@@ -47,9 +47,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             ITs.RaiseItemByMove(def.Defender, i, aer);
           }
           break;
-        case Ms.CHATTER: //448
-          Chatter(def);
-          break;
         case Ms.SHADOW_FORCE: //467
           if (def.Defender.OnboardPokemon.RemoveCondition("Protect")) def.Defender.AddReportPm("DeProtect");
           break;
@@ -105,13 +102,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             def.Defender.AddState(def.AtkContext.Attacker, AttachedState.PAR, false);
             break;
         }
-    }
-
-    private static void Chatter(DefContext def)
-    {
-      var chatter = def.AtkContext.Attacker.Pokemon.Chatter;
-      if (chatter != null && Math.Abs(chatter.GetHashCode()) % 3 != 1 && def.RandomHappen(10))
-        def.Defender.AddState(def.AtkContext.Attacker, AttachedState.Confuse, false);
     }
 
     private static void EatDefenderBerry(DefContext def)

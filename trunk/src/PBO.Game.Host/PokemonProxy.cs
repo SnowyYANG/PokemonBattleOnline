@@ -29,7 +29,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       Controller.ReportBuilder.ShowLog(key);
     }
-    public void AddReportPm(string key, ValueType arg1 = null, ValueType arg2 = null)
+    public void AddReportPm(string key, int arg1 = 0, int arg2 = 0)
     {
       Controller.ReportBuilder.ShowLog(key, this.Id, arg1, arg2);
     }
@@ -278,12 +278,12 @@ namespace PokemonBattleOnline.Game.Host
         int oldValue = stat == StatType.Accuracy ? OnboardPokemon.AccuracyLv : stat == StatType.Evasion ? OnboardPokemon.EvasionLv : OnboardPokemon.Lv5D.GetStat(stat);
         if (oldValue == 6 && change > 0)
         {
-          if (showFail) AddReportPm("7DMax", stat);
+          if (showFail) AddReportPm("7DMax", (int)stat);
           return 0;
         }
         else if (oldValue == -6 && change < 0)
         {
-          if (showFail) AddReportPm("7DMin", stat);
+          if (showFail) AddReportPm("7DMin", (int)stat);
           return 0;
         }
         int value = oldValue + change;
@@ -511,13 +511,12 @@ namespace PokemonBattleOnline.Game.Host
       var name = o.Name;
       var gender = o.Gender;//即使对战画面中不显示性别，实际性别也与变身对象一致，可以被着迷。
       var lv = Pokemon.Lv;
-      var chatter = o.Chatter;
       var shiny = o.Shiny;
       var position = new Position(Pokemon.TeamId, OnboardPokemon.X, OnboardPokemon.CoordY);
       var substitute = OnboardPokemon.HasCondition("Substitute");
       var hp = Pokemon.Hp;
       var state = State;
-      outward.SetAll(name, form, gender, lv, position, substitute, hp, state, shiny, chatter);
+      outward.SetAll(name, form, gender, lv, position, substitute, hp, state, shiny);
       return outward;
     }
     #endregion
@@ -545,7 +544,7 @@ namespace PokemonBattleOnline.Game.Host
       if (damage != 0) OnboardPokemon.SetTurnCondition("Assurance");
       return damage;
     }
-    public void HpRecover(int changeHp, bool showFail = false, string log = "HpRecover", int arg1 = 0, bool consumeItem = false)
+    public void HpRecover(int changeHp, bool showFail = false, string log = "m_HpRecover", int arg1 = 0, bool consumeItem = false)
     {
       if (CanHpRecover(showFail))
       {
@@ -555,12 +554,12 @@ namespace PokemonBattleOnline.Game.Host
         Hp += changeHp;
       }
     }
-    public void HpRecoverByOneNth(int n, bool showFail = false, string log = "HpRecover", int arg1 = 0, bool consumeItem = false)
+    public void HpRecoverByOneNth(int n, bool showFail = false, string log = "m_HpRecover", int arg1 = 0, bool consumeItem = false)
     {
       int hp = Pokemon.MaxHp / n;
       HpRecover(hp, showFail, log, arg1, consumeItem);
     }
-    public void EffectHurt(int changeHp, string logKey = "Hurt", int arg1 = 0, int arg2 = 0)
+    public void EffectHurt(int changeHp, string logKey, int arg1 = 0, int arg2 = 0)
     {
       if (CanEffectHurt)
       {
@@ -571,7 +570,7 @@ namespace PokemonBattleOnline.Game.Host
         OnboardPokemon.SetTurnCondition("Assurance");
       }
     }
-    public void EffectHurtByOneNth(int n, string logKey = "Hurt", int arg1 = 0, int arg2 = 0)
+    public void EffectHurtByOneNth(int n, string logKey, int arg1 = 0, int arg2 = 0)
     {
       int hp = Pokemon.MaxHp / n;
       EffectHurt(hp, logKey, arg1, arg2);
@@ -632,7 +631,7 @@ namespace PokemonBattleOnline.Game.Host
               else log = "7DDown3";
               break;
           }
-        AddReportPm(log, stat);
+        AddReportPm(log, (int)stat);
         if (by.Pokemon.TeamId != Pokemon.TeamId && change < 0) ATs.Defiant(this);
         return true;
       }
@@ -696,7 +695,7 @@ namespace PokemonBattleOnline.Game.Host
           goto POKEMON_STATE;
         case AttachedState.FRZ:
           Pokemon.State = PokemonState.FRZ;
-          AddReportPm(log, arg1);
+          AddReportPm(log ?? "EnFRZ", arg1);
           if (CanChangeForm(492, 0))
           {
             ChangeForm(0);
@@ -805,7 +804,7 @@ namespace PokemonBattleOnline.Game.Host
 #endif
       }
     POKEMON_STATE:
-      AddReportPm(log, arg1);
+      AddReportPm(log ?? "En" + state.ToString(), arg1);
       if (state != AttachedState.FRZ && state != AttachedState.SLP) ATs.Synchronize(this, by, state, turn);
     DONE:  
       StateAdded.Execute(this);

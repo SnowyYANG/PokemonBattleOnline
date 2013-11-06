@@ -56,7 +56,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (touch && der.Hp == 0 && aer.CanEffectHurt && !aer.Controller.Board.Pokemons.Any((p) => p.Ability == As.DAMP))
           {
             der.RaiseAbility();
-            aer.EffectHurtByOneNth(4, "Hurt", 0, 0);
+            aer.EffectHurtByOneNth(4, "m_Hurt", 0, 0);
           }
           break;
         case As.PICKPOCKET:
@@ -82,7 +82,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             der.RaiseAbility();
             var fa = aer.OnboardPokemon.Ability;
             aer.ChangeAbility(As.MUMMY);
-            aer.AddReportPm("SetAbility", As.MUMMY, fa);
+            aer.AddReportPm("m_SetAbility", As.MUMMY);
+            aer.Controller.ReportBuilder.ShowLog("setability", fa);
           }
           break;
         case As.JUSTIFIED:
@@ -106,7 +107,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
           break;
         case Is.ROCKY_HELMET: //104
-          if (touch) aer.EffectHurtByOneNth(6, "RockyHelmet", 0, 0);
+          if (touch) aer.EffectHurtByOneNth(6, "m_RockyHelmet", 0, 0);
           break;
         case Is.AIR_BALLOON: //105
           ITs.AirBalloon(def);
@@ -118,7 +119,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           AttackedUpItem(def, BattleType.Electric, StatType.Atk);
           break;
         case Is.ENIGMA_BERRY: //188
-          if (def.EffectRevise > 0) der.HpRecoverByOneNth(4, false, "ItemRecover", 188, true);
+          if (def.EffectRevise > 0) der.HpRecoverByOneNth(4, false, "m_ItemRecover", 188, true);
           break;
         case Is.JABOCA_BERRY: //191
           ReHurtBerry(def, MoveCategory.Physical);
@@ -142,7 +143,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (def.AtkContext.Attacker.CanEffectHurt)
       {
         def.Defender.RaiseAbility();
-        def.AtkContext.Attacker.EffectHurtByOneNth(8, "Hurt", 0, 0);
+        def.AtkContext.Attacker.EffectHurtByOneNth(8, "m_Hurt", 0, 0);
       }
     }
     private static void EffectSpore(DefContext d)

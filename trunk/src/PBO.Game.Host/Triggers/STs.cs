@@ -362,7 +362,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         case Ms.SPIKES:
           if (pm.CanEffectHurt && HasEffect.IsGroundAffectable(pm, true, false))
-            pm.EffectHurtByOneNth(hazard.Int, "Spikes");
+            pm.EffectHurtByOneNth(hazard.Int, "m_Spikes");
           break;
         case Ms.TOXIC_SPIKES:
           if (HasEffect.IsGroundAffectable(pm, true, false))

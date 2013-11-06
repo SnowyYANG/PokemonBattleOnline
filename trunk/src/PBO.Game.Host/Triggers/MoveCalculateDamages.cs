@@ -80,7 +80,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.BEAT_UP:
           {
             BattleType a = def.AtkContext.Type;
-            def.EffectRevise = a == BattleType.Ground && der.Item == Is.IRON_BALL && der.OnboardPokemon.HasType(BattleType.Flying) ? 0 : a.EffectRevise(der.OnboardPokemon.Type1, der.OnboardPokemon.Type2);
+            def.EffectRevise = a == BattleType.Ground && der.Item == Is.IRON_BALL && der.OnboardPokemon.HasType(BattleType.Flying) ? 0 : a.EffectRevise(der.OnboardPokemon.Types);
           }
           break;
         case Ms.SELFDESTRUCT: //120
@@ -116,7 +116,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       BattleType a = def.AtkContext.Type;
       OnboardPokemon der = def.Defender.OnboardPokemon;
-      def.EffectRevise = a == BattleType.Ground && def.Defender.Item == Is.IRON_BALL && der.HasType(BattleType.Flying) ? 0 : a.EffectRevise(der.Type1, der.Type2);
+      def.EffectRevise = a == BattleType.Ground && def.Defender.Item == Is.IRON_BALL && der.HasType(BattleType.Flying) ? 0 : a.EffectRevise(der.Types);
     }
     private static readonly int[] LV_CT = { 16, 8, 4, 3, 2, 0 };
     private static void CalculateDamage(DefContext def)

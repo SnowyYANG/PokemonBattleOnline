@@ -63,7 +63,7 @@ namespace PokemonBattleOnline.PBO
     {
       int n = form.Species.Number, f = form.Index;
       BitmapImage r;
-      if (gender == PokemonGender.Female && (n == 521 || n == 592 || n == 593)) r = GetImage("icon/female", n, f);
+      if (gender == PokemonGender.Female && (n == 521 || n == 592 || n == 593 || n == 668)) r = GetImage("icon/female", n, f);
       else if (f == 0 || n == 493 || n == 649) //arceus and genesect
       {
         if (icons[n] == null) icons[n] = GetImage("icon", n, 0);

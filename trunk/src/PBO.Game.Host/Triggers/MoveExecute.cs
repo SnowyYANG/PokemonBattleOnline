@@ -54,7 +54,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
               {
                 case 26:
                 case 136:
-                  aer.EffectHurtByOneNth(2, "FailSelfHurt");
+                  aer.EffectHurtByOneNth(2, "m_FailSelfHurt");
                   break;
                 case 120:
                 case 153:

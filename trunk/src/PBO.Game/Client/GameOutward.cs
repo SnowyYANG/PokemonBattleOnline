@@ -13,7 +13,7 @@ namespace PokemonBattleOnline.Game
   public interface IGameOutwardEvents
   {
     void TurnEnd();
-    void GameLogAppend(LogText t);
+    void GameLogAppend(string t, LogStyle style);
   }
   public class GameOutward : IFormatProvider, ICustomFormatter
   {
@@ -53,15 +53,11 @@ namespace PokemonBattleOnline.Game
     public void Start(ReportFragment fragment)
     {
       {
-        AppendGameLog(GameHeader.I);
-        var t = GameLogs.Log("GameMode").Clone(this);
-        t.SetData(Settings.Mode == GameMode.Single ? "单打" : Settings.Mode == GameMode.Tag ? "合作" : Settings.Mode.ToString());
-        AppendGameLog(t);
-        t = GameLogs.Log("GameRule").Clone(this);
-        t.SetData("催眠条款");
-        AppendGameLog(t);
+        AppendGameLog(PBOMarks.TITLE, LogStyle.Bold);
+        AppendGameLogByKey("GameRule", LogStyle.Default, Settings.Mode == GameMode.Single ? "单打" : Settings.Mode == GameMode.Tag ? "合作" : Settings.Mode.ToString());
+        AppendGameLogByKey("GameMode", LogStyle.Default, "催眠条款");
       }
-      if (fragment.TurnNumber >= 0) AppendGameLog(GameLogs.Log("GameContinue"));
+      if (fragment.TurnNumber >= 0) AppendGameLogByKey("GameContinue", LogStyle.Default);
       TurnNumber = fragment.TurnNumber;
       for (int t = 0; t < Settings.Mode.TeamCount(); t++)
       {
@@ -80,25 +76,26 @@ namespace PokemonBattleOnline.Game
       int team1 = Teams[1].AliveCount;
       if (team0 == 0 || team1 == 0)
       {
-        LogText text;
-        if (team0 == 0 && team1 == 0)
-        {
-          text = GameLogs.Log("GameResultTie").Clone(this);
-          text.SetData(0, 1);
-        }
+        if (team0 == 0 && team1 == 0) AppendGameLogByKey("GameResultTie", LogStyle.Center | LogStyle.Bold,0,1);
         else
         {
-          text = GameLogs.Log("GameResult").Clone(this);
-          int winer = team0 == 0 ? 1 : 0;
-          text.SetData(winer, team0, team1);
+          AppendGameLog(string.Empty, LogStyle.Center | LogStyle.Bold);
+          AppendGameLogByKey("GameResult0", LogStyle.Center | LogStyle.Bold, team0 == 0 ? 1 : 0);
+          AppendGameLogByKey("GameResult1", LogStyle.Center | LogStyle.Bold, team0, team1);
         }
-        AppendGameLog(text);
         UIDispatcher.Invoke(GameEnd);
       }
     }
-    public void AppendGameLog(LogText text)
+
+    public void AppendGameLog(string text, LogStyle style)
     {
-      foreach (var l in listeners) l.GameLogAppend(text);
+      foreach (var l in listeners) l.GameLogAppend(text, style);
+    }
+    public void AppendGameLogByKey(string key, LogStyle style, object arg0 = null, object arg1 = null, object arg2 = null)
+    {
+      var log = GameString.Current.BattleLog(key);
+      if (log != null) AppendGameLog(string.Format(this, log, arg0, arg1, arg2), style);
+      else if (key != "SYS_nokey") AppendGameLogByKey("SYS_nokey", LogStyle.SYS, key);
     }
     public void EndTurn()
     {
@@ -144,6 +141,12 @@ namespace PokemonBattleOnline.Game
               case "i":
                 r = GameString.Current.Item(id);
                 break;
+              case "b":
+                r = GameString.Current.BattleType((BattleType)id);
+                break;
+              case "s":
+                r = GameString.Current.StatType((StatType)id);
+                break;
               case "t":
                 var t = Teams.ValueOrDefault(id);
                 if (t != null) r = t.Name;
@@ -162,17 +165,6 @@ namespace PokemonBattleOnline.Game
         else r = GameString.Current.BattleLog(arg.ToString());
       }// if (arg != null
       return r;
-    }
-
-    private class GameHeader : LogText
-    {
-      public static readonly GameHeader I = new GameHeader();
-      
-      private GameHeader()
-        : base("POKEMON BATTLE ONLINE v0.8 <ETV>\n")
-      {
-        IsBold = true;
-      }
     }
   }
 }

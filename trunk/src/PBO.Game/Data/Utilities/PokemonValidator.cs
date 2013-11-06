@@ -28,7 +28,7 @@ namespace PokemonBattleOnline.Game
     public static bool ValidateName(string name)
     {
       //return Regex.IsMatch(name, @"^\w{1,20}$", RegexOptions.Compiled);
-      return name == null || name.Length < 11 && !name.Any((c) => c == '\n' || c == '\r' || c == '\t');
+      return name == null || name.Length < 11 && !name.Any(char.IsWhiteSpace);
     }
 
     public static bool Shiney(IPokemonData pm, int random)
@@ -43,7 +43,7 @@ namespace PokemonBattleOnline.Game
 
     public static bool ValidateAbility(IPokemonData pm)
     {
-      return pm.Form.Data.GetAbility(pm.AbilityIndex) != null;
+      return pm.Form.Data.GetAbility(pm.AbilityIndex) != 0;
     }
 
     public static bool ValidateMoves(IPokemonData pm)
@@ -68,8 +68,8 @@ namespace PokemonBattleOnline.Game
       return
         a.Name == b.Name &&
         a.AbilityIndex == b.AbilityIndex &&
-        a.Ev.Equals(b.Ev) &&
-        a.Iv.Equals(b.Iv) &&
+        a.Ev.ValueEquals(b.Ev) &&
+        a.Iv.ValueEquals(b.Iv) &&
         a.Form == b.Form &&
         a.Gender == b.Gender &&
         a.Happiness == b.Happiness &&

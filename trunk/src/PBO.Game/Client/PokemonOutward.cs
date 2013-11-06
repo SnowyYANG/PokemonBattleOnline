@@ -29,8 +29,6 @@ namespace PokemonBattleOnline.Game
     internal readonly int Id;
     [DataMember(EmitDefaultValue = false)]
     public bool Shiny;
-    [DataMember(EmitDefaultValue = false)]
-    public string Chatter;
 
     public PokemonOutward(int id, int teamId, int maxHp)
     {
@@ -41,7 +39,7 @@ namespace PokemonBattleOnline.Game
     /// <summary>
     /// will not notify property changes
     /// </summary>
-    public void SetAll(string name, PokemonForm form, PokemonGender gender, int lv, Position position, bool substitute, int hp, PokemonState state, bool shiny, string chatter)
+    public void SetAll(string name, PokemonForm form, PokemonGender gender, int lv, Position position, bool substitute, int hp, PokemonState state, bool shiny)
     {
       _name = name;
       Form = form;
@@ -53,7 +51,6 @@ namespace PokemonBattleOnline.Game
       Hp.Value = hp;
       _state = state;
       Shiny = shiny;
-      Chatter = chatter;
     }
 
     public string Owner
@@ -217,17 +214,14 @@ namespace PokemonBattleOnline.Game
         case "Lv":
           r = Lv.ToString();
           break;
-        case "Type":
+        case "Form":
           r = GameString.Current.Pokemon(Form);
           break;
         case "State":
-          r = GameString.Current.BattleLog(State.ToString());
+          r = GameString.Current.PokemonState(State);
           break;
         case "Owner.Name":
           r = Owner;
-          break;
-        case "Chatter":
-          r = Chatter;
           break;
       }
       return r;

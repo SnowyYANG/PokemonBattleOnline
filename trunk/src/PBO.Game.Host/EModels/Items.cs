@@ -65,7 +65,7 @@ namespace PokemonBattleOnline.Game.Host
       }
       pm.OnboardPokemon.ChangeLv7D(stat, change);
       pm.ConsumeItem();
-      pm.AddReportPm(log, stat, change > 0 ? i : 0);
+      pm.AddReportPm(log, (int)stat, change > 0 ? i : 0);
     }
 
     public static bool ChoiceItem(int item)
@@ -212,14 +212,14 @@ namespace PokemonBattleOnline.Game.Host
           if (pm.State != PokemonState.Normal) pm.DeAbnormalState();
           break;
         case Is.SITRUS_BERRY:
-          pm.HpRecoverByOneNth(3, false, "ItemHpRecover", Is.SITRUS_BERRY);
+          pm.HpRecoverByOneNth(3, false, "m_ItemHpRecover", Is.SITRUS_BERRY);
           break;
         case Is.FIGY_BERRY:
         case Is.WIKI_BERRY:
         case Is.MAGO_BERRY:
         case Is.AGUAV_BERRY:
         case Is.IAPAPA_BERRY:
-          pm.HpRecoverByOneNth(8, false, "ItemRecover", id);
+          pm.HpRecoverByOneNth(8, false, "m_ItemRecover", id);
           if (pm.Pokemon.Nature.DislikeTaste(GetTaste(BerryNumber(id)))) pm.AddState(pm, AttachedState.Confuse, false);
           break;
         case Is.LIECHI_BERRY:
@@ -320,11 +320,11 @@ namespace PokemonBattleOnline.Game.Host
       if (aer.Item == Is.SHELL_BELL)
       {
         if (atk.TotalDamage != 0)
-          aer.HpRecoverByOneNth(atk.TotalDamage >> 3, false, "ItemRecover", Is.SHELL_BELL);
+          aer.HpRecoverByOneNth(atk.TotalDamage >> 3, false, "m_ItemRecover", Is.SHELL_BELL);
       }
       else if (aer.Item == Is.LIFE_ORB)
       {
-        aer.EffectHurtByOneNth(10, "LifeOrb");
+        aer.EffectHurtByOneNth(10, "m_LifeOrb");
         aer.CheckFaint();
       }
     }

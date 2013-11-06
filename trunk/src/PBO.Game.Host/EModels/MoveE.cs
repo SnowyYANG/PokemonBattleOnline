@@ -114,7 +114,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       return !(pm.Hp == 0 || !pm.Controller.CanWithdraw(pm) || abilityAvailable && pm.Ability == As.SUCTION_CUPS || pm.OnboardPokemon.HasCondition("Ingrain"));
     }
-    public static void ForceSwitchImplement(PokemonProxy pm, string log = "ForceWithdraw")
+    public static void ForceSwitchImplement(PokemonProxy pm, string log)
     {
       var c = pm.Controller;
       var sendouts = new List<int>();
@@ -132,7 +132,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (CanForceSwitch(def.Defender, ATs.IgnoreDefenderAbility(def.AtkContext.Attacker.Ability)))
       {
-        ForceSwitchImplement(def.Defender);
+        ForceSwitchImplement(def.Defender, "forcewithdraw");
         return true;
       }
       return false;

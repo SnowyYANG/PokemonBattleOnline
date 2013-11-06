@@ -40,26 +40,35 @@ namespace PokemonBattleOnline.Game.Host
       X = x; //CoordY 默认值
     }
 
+    public BattleType[] Types
+    { get { return new BattleType[] { Type1, Type2 }; } }
     private BattleType _type1;
     public BattleType Type1
     {
       get { return _type1 == BattleType.Flying && HasCondition("Roost") ? BattleType.Normal : _type1; }
-      set
-      {
-        _type1 = value;
-        RemoveCondition("Roost");
-      }
     }
     private BattleType _type2;
     public BattleType Type2
     {
       get { return _type2 == BattleType.Flying && HasCondition("Roost") ? BattleType.Invalid : _type2; }
-      set
-      {
-        _type2 = value;
-        RemoveCondition("Roost");
-      }
     }
+    public bool IsTypes(BattleType type1, BattleType type2 = BattleType.Invalid)
+    {
+      return HasCondition("Roost") ? false : _type1 == type1 && _type2 == type2;
+      
+    }
+    public bool SetTypes(BattleType type1, BattleType type2 = BattleType.Invalid)
+    {
+      if (IsTypes(type1, type2))
+      {
+        _type1 = type1;
+        _type2 = type2;
+        RemoveCondition("Roost");
+        return true;
+      }
+      return false;
+    }
+
     public I6D Lv5D
     { get { return lv5D; } }
     private int _accuracyLv;
@@ -154,9 +163,9 @@ namespace PokemonBattleOnline.Game.Host
     }
     public bool HasType(BattleType type)
     {
-      return 
-        type == BattleType.Flying || type == BattleType.Normal ?
-        Type1 == type || Type2 == type : _type1 == type || _type2 == type;
+      return Types.Contains(type);
+        //type == BattleType.Flying || type == BattleType.Normal ?
+        //Type1 == type || Type2 == type : _type1 == type || _type2 == type;
     }
     
     private int Get5D(StatType type)

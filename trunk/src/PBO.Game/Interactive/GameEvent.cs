@@ -12,28 +12,13 @@ namespace PokemonBattleOnline.Game
     protected GameOutward Game
     { get; private set; }
 
-    protected LogText GetGameLog(string key)
+    protected void AppendGameLog(string key, ValueType arg0 = null, ValueType arg1 = null, ValueType arg2 = null)
     {
-      var t = GameLogs.Log(key ?? "nokey");
-      if (t == null)
-      {
-        t = GameLogs.Log("notfound").Clone(Game);
-        t.SetData(key);
-        return t;
-      }
-      return t.Clone(Game);
+      AppendGameLog(key, LogStyle.Default, arg0, arg1, arg2);
     }
-    protected void AppendGameLog(string key, object arg0 = null, object arg1 = null, object arg2 = null, object arg3 = null)
+    protected void AppendGameLog(string key, LogStyle style, ValueType arg0 = null, ValueType arg1 = null, ValueType arg2 = null)
     {
-      var text = GetGameLog(key);
-      text.SetData(arg0, arg1, arg2, arg3);
-      Game.AppendGameLog(text);
-    }
-    protected void AppendGameLog(string key, params int[] data)
-    {
-      var text = GetGameLog(key);
-      text.SetData(data.ValueOrDefault(0), data.ValueOrDefault(1), data.ValueOrDefault(2), data.ValueOrDefault(3));
-      Game.AppendGameLog(text);
+      Game.AppendGameLogByKey(key, style, arg0, arg1, arg2);
     }
     protected PokemonOutward GetPokemon(int id)
     {

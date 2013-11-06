@@ -242,25 +242,6 @@ namespace PokemonBattleOnline.Game
       }
     }
 
-    private string _chatter;
-    [DataMember(Name = "chat", EmitDefaultValue = false, Order = 0)]
-    public string Chatter
-    {
-      get { return number != 441 || _chatter == null || _chatter.Length > 15 ? null : _chatter; }
-      set
-      {
-        if (number != 441 || string.IsNullOrWhiteSpace(value)) _chatter = null;
-        else
-        {
-          var ca = value.ToCharArray(0, value.Length < 15 ? value.Length : 15);
-          for (int i = 0; i < ca.Length; ++i)
-            if (Char.IsWhiteSpace(ca[i])) ca[i] = ' ';
-          _chatter = new String(ca);
-        }
-        OnPropertyChanged("Chatter");
-      }
-    }
-
     private byte GetMoveIds_PPx(int x)
     {
       byte r = 0;

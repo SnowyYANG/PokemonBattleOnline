@@ -19,7 +19,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           RecoverBerry(pm, 20);
           break;
         case Is.SITRUS_BERRY: //138
-          if (pm.Hp << 1 < pm.Pokemon.MaxHp) pm.HpRecoverByOneNth(4, false, "ItemRecover", 138, true);
+          if (pm.Hp << 1 < pm.Pokemon.MaxHp) pm.HpRecoverByOneNth(4, false, "m_ItemRecover", 138, true);
           break;
         case Is.FIGY_BERRY: //139
         case Is.WIKI_BERRY: //140

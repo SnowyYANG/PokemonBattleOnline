@@ -10181,6 +10181,16 @@
       <_pp>30</_pp>
       <_type>Fairy</_type>
     </MoveType>
+    <MoveType>
+      <Id>608</Id>
+      <_accuracy>101</_accuracy>
+      <_advancedFlags />
+      <_category>Special</_category>
+      <_lv7DChanges />
+      <_power>0</_power>
+      <_pp>30</_pp>
+      <_type>Normal</_type>
+    </MoveType>
   </moves>
   <pokemons>
     <PokemonSpecies>
@@ -30687,6 +30697,7 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
+          <T2>Dark</T2>
           <A>
             <a:int>89</a:int>
             <a:int>104</a:int>
@@ -30821,6 +30832,7 @@
       <FormData>
         <PokemonFormData>
           <T1>Steel</T1>
+          <T2>Ghost</T2>
           <A>
             <a:int>99</a:int>
             <a:int>0</a:int>
@@ -30849,6 +30861,7 @@
       <FormData>
         <PokemonFormData>
           <T1>Steel</T1>
+          <T2>Ghost</T2>
           <A>
             <a:int>99</a:int>
             <a:int>0</a:int>
@@ -30877,6 +30890,7 @@
       <FormData>
         <PokemonFormData>
           <T1>Steel</T1>
+          <T2>Ghost</T2>
           <A>
             <a:int>177</a:int>
             <a:int>0</a:int>
@@ -30895,6 +30909,7 @@
         </PokemonFormData>
         <PokemonFormData>
           <T1>Steel</T1>
+          <T2>Ghost</T2>
           <A>
             <a:int>177</a:int>
             <a:int>0</a:int>
@@ -31276,6 +31291,7 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
+          <T2>Normal</T2>
           <A>
             <a:int>87</a:int>
             <a:int>142</a:int>
@@ -31305,6 +31321,7 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
+          <T2>Normal</T2>
           <A>
             <a:int>87</a:int>
             <a:int>142</a:int>

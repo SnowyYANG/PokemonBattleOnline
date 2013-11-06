@@ -69,7 +69,7 @@ namespace PokemonBattleOnline.Game.Host
       var pms = tiles.Select((t) => SendOutImplement(t)).ToArray();
       var pm1 = pms.ValueOrDefault(1);
       var pm2 = pms.ValueOrDefault(2);
-      ReportBuilder.ShowLog("SendOut" + pms.Length, pms[0].Id, pm1 == null ? 0 : pm1.Id, pm2 == null ? 0 : pm2.Id);
+      ReportBuilder.ShowLog("rf_SendOut" + pms.Length, pms[0].Id, pm1 == null ? 0 : pm1.Id, pm2 == null ? 0 : pm2.Id);
     }
     public bool SendOut(Tile tile, bool debut, string log)
     {

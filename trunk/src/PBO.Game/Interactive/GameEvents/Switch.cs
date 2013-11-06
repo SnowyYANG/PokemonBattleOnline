@@ -20,7 +20,6 @@ namespace PokemonBattleOnline.Game.GameEvents
       Game.Board[Pm.Position.Team, Pm.Position.X] = Pm;
       Game.Board.PokemonSentout(Game, Pm.Position.Team, Pm.Position.X);
       Game.Teams[Pm.Position.Team].SwitchPokemon(FormerIndex, Game.Settings.Mode.GetPokemonIndex(Pm.Position.X));
-      if (Pm.Chatter != null) AppendGameLog("Chatter", Pm.Id);
     }
     public override void Update(SimGame game)
     {

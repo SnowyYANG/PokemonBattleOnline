@@ -76,7 +76,8 @@ namespace PokemonBattleOnline.Game
             // 9: Happiness
             // 10: Items
             // 11: Moves
-            var pm = new PokemonData(GameString.PokemonSpecies(m.Groups[2].Value).Number, 0);
+            var form = GameString.PokemonForm(m.Groups[2].Value);
+            var pm = new PokemonData(form.Species.Number, form.Index);
             pm.Name = m.Groups[1].Value;
             pm.Lv = m.Groups[3].Value.ToInt();
             pm.Gender = GetGender(m.Groups[4].Value);
@@ -145,7 +146,7 @@ namespace PokemonBattleOnline.Game
         public static void Export(StringBuilder sb, PokemonData pm)
         {
             const string space = "";//"　";
-            sb.Append(pm.Name, "（", GameString.Current.Pokemon(pm.Form.Species.Number), "）", " Lv.", pm.Lv);
+            sb.Append(pm.Name, "（", GameString.Current.Pokemon(pm.Form), "）", " Lv.", pm.Lv);
             if (pm.Gender == PokemonGender.Male) sb.Append(" ♂");
             else if (pm.Gender == PokemonGender.Female) sb.Append(" ♀");
             sb.AppendLine();

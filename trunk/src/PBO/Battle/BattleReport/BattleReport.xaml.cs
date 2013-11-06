@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PokemonBattleOnline.Game;
 using PokemonBattleOnline.Network;
+using PokemonBattleOnline.PBO.Elements;
 
 namespace PokemonBattleOnline.PBO.Battle
 {
@@ -37,6 +38,7 @@ namespace PokemonBattleOnline.PBO.Battle
     public void Init(GameOutward game)
     {
       game.AddListner(controller);
+      game.GameEnd += () => reportViewer.Document = Final;
     }
 
     internal void Reset()
@@ -68,14 +70,18 @@ namespace PokemonBattleOnline.PBO.Battle
     }
     public void AddLogText(string text)
     {
-      controller.RealTime.AddText(text, 0xffff8000);
+      controller.RealTime.AddText(text, Brushes.OrangeRed);
       AutoScroll();
     }
     public void AddChatText(string chat, User user)
     {
-      var c = Elements.Cartes.GetChatBrush(user.Name).Color;
-      controller.RealTime.AddText((user.Name + "：" + chat).LineBreak(), (uint)((c.A << 24) | (c.R << 16) | (c.G << 8) | c.B));
+      controller.RealTime.AddText((user.Name + "：" + chat).LineBreak(), Cartes.GetChatBrush(user.Name));
       AutoScroll();
+    }
+
+    internal void Save(string title, string player)
+    {
+      controller.Save(title, player);
     }
   }
 }

@@ -30,13 +30,15 @@ namespace PokemonBattleOnline.Game.GameEvents
       {
         PokemonOutward p = GetPokemon(Pms[i]);
         p.Hurt(Damages[i]);
-        AppendGameLog("Hurt", Pms[i]); AppendGameLog("Hp", -Damages[i]);
+        AppendGameLog("m_Hurt", LogStyle.Detail | LogStyle.NoBr, Pms[i]);
+        AppendGameLog("-hp", LogStyle.Detail | LogStyle.NoBr | LogStyle.HiddenInBattle, -Damages[i]);
+        AppendGameLog("br", LogStyle.Detail);
         if (Damages[i] > max) max = Damages[i];
       }
       //Sleep = 17 * max + 1000;
-      if (SH != null) AppendGameLog("SuperHurt" + SH.Length, SH);
-      if (WH != null) AppendGameLog("WeakHurt" + WH.Length, WH);
-      if (CT != null) AppendGameLog("CT" + CT.Length, CT);
+      if (SH != null) AppendGameLog("SuperHurt" + SH.Length, SH.ValueOrDefault(0), SH.ValueOrDefault(1), SH.ValueOrDefault(2));
+      if (WH != null) AppendGameLog("WeakHurt" + WH.Length, WH.ValueOrDefault(0), WH.ValueOrDefault(1), WH.ValueOrDefault(2));
+      if (CT != null) AppendGameLog("CT" + CT.Length, CT.ValueOrDefault(0), CT.ValueOrDefault(1), CT.ValueOrDefault(2));
     }
     public override void Update(SimGame game)
     {

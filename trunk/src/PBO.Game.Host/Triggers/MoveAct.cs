@@ -27,9 +27,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
               if (p.State == PokemonState.SLP) p.DeAbnormalState();
           }
           break;
-        case Ms.CHATTER:
-          if (aer.Pokemon.Chatter != null) aer.AddReportPm("Chatter");
-          break;
       }
       #endregion
       #region main
@@ -477,7 +474,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         {
           int v = def.Damage * move.HurtPercentage / 100;
           if (aer.Item == Is.BIG_ROOT) v *= (Modifier)0x14cc;
-          if (aer.Ability != As.MAGIC_GUARD && def.Defender.RaiseAbility(As.LIQUID_OOZE)) aer.EffectHurt(v);
+          if (aer.Ability != As.MAGIC_GUARD && def.Defender.RaiseAbility(As.LIQUID_OOZE)) aer.EffectHurt(v, "m_Hurt");
           else aer.HpRecover(v, false);
         }
         if (move.Class == MoveInnerClass.AttackWithSelfLv7DChange && atk.RandomHappen(move.Lv7DChanges.First().Probability)) aer.ChangeLv7D(atk.Attacker, move);
@@ -549,7 +546,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         if (atk.Target.Defender.OnboardPokemon.AddCondition("Curse"))
         {
-          aer.AddReportPm("EnCurse", atk.Target.Defender.Id);
+          aer.AddReportPm("m_EnCurse", atk.Target.Defender.Id);
           aer.Hp -= (aer.Pokemon.MaxHp >> 1);
           aer.CheckFaint();
         }
@@ -631,7 +628,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (aer.OnboardPokemon.Lv5D.Atk != 6 && aer.Hp > aer.Pokemon.MaxHp >> 1)
       {
         aer.OnboardPokemon.ChangeLv7D(StatType.Atk, 12);
-        aer.AddReportPm("BellyDrum");
+        aer.AddReportPm("m_BellyDrum");
         aer.Hp -= (aer.Pokemon.MaxHp >> 1);
       }
       else atk.FailAll();
@@ -645,13 +642,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       var aer = atk.Attacker;
       var t = aer.Controller.GameSettings.Terrain.GetBattleType();
-      if (aer.OnboardPokemon.Type1 == t && aer.OnboardPokemon.Type2 == BattleType.Invalid) atk.FailAll();
-      else
-      {
-        aer.OnboardPokemon.Type1 = t;
-        aer.OnboardPokemon.Type2 = BattleType.Invalid;
-        aer.AddReportPm("TypeChange", t);
-      }
+      if (aer.OnboardPokemon.SetTypes(t)) aer.AddReportPm("TypeChange", (int)t);
+      else atk.FailAll();
     }
     private static void HealingWish(AtkContext atk, string condition)
     {
@@ -758,26 +750,16 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void Soak(AtkContext atk)
     {
       var der = atk.Target.Defender;
-      if (ITs.PlatedArceus(der.Pokemon) || (der.OnboardPokemon.Type1 == BattleType.Water && der.OnboardPokemon.Type2 == BattleType.Invalid)) atk.FailAll();
-      else
-      {
-        der.OnboardPokemon.Type1 = BattleType.Water;
-        der.OnboardPokemon.Type2 = BattleType.Invalid;
-        der.AddReportPm("TypeChange", BattleType.Water);
-      }
+      if (!ITs.PlatedArceus(der.Pokemon) && der.OnboardPokemon.SetTypes(BattleType.Water)) der.AddReportPm("TypeChange", (int)BattleType.Water);
+      else atk.FailAll();
     }
     private static void ReflectType(AtkContext atk)
     {
-      var aer = atk.Attacker.OnboardPokemon;
+      var ao = atk.Attacker.OnboardPokemon;
       var t1 = atk.Target.Defender.OnboardPokemon.Type1;
       var t2 = atk.Target.Defender.OnboardPokemon.Type2;
-      if (aer.Type1 == t1 && aer.Type2 == t2) atk.FailAll();
-      else
-      {
-        aer.Type1 = t1;
-        aer.Type2 = t2;
-        atk.Attacker.AddReportPm("ReflectType", atk.Target.Defender.Id);
-      }
+      if (ao.SetTypes(t1, t2))  atk.Attacker.AddReportPm("ReflectType", atk.Target.Defender.Id);
+      else atk.FailAll();
     }
     private static void Bestow(AtkContext atk)
     {
@@ -826,7 +808,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         else
         {
           int hp = aer.Pokemon.MaxHp >> 2;
-          aer.OnboardPokemon.SetCondition("Substitute", hp);
+          aer.OnboardPokemon.SetCondition("m_Substitute", hp);
           aer.Pokemon.Hp -= hp;
           aer.Controller.ReportBuilder.EnSubstitute(aer);
         }
@@ -956,9 +938,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       else
       {
         var type = ms[aer.Controller.GetRandomInt(0, ms.Length - 1)];
-        aer.OnboardPokemon.Type1 = type;
-        aer.OnboardPokemon.Type2 = BattleType.Invalid;
-        aer.AddReportPm("TypeChange", type);
+        aer.OnboardPokemon.SetTypes(type);
+        aer.AddReportPm("TypeChange", (int)type);
       }
     }
     private static void BatonPass(AtkContext atk)
@@ -991,8 +972,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         aer.Controller.ReportBuilder.ShowLog("SkillSwap");
         if (aer.Pokemon.TeamId != der.Pokemon.TeamId)
         {
-          aer.AddReportPm("SkillSwapDetail", d);
-          der.AddReportPm("SkillSwapDetail", a);
+          aer.AddReportPm("skillswap", d);
+          der.AddReportPm("skillswap", a);
         }
         AbilityDetach.Execute(aer);
         AbilityDetach.Execute(der);
@@ -1009,7 +990,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       else
       {
         atk.Target.Defender.ChangeAbility(ability);
-        atk.Target.Defender.AddReportPm("SetAbility", ability, fa);
+        atk.Target.Defender.AddReportPm("m_SetAbility", ability);
+        atk.Controller.ReportBuilder.ShowLog("setability", fa);
       }
     }
     private static void RolePlay(AtkContext atk)
@@ -1026,7 +1008,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       else
       {
         atk.Attacker.ChangeAbility(d);
-        atk.Attacker.AddReportPm("SetAbility", d, a);
+        atk.Attacker.AddReportPm("m_SetAbility", d);
+        atk.Controller.ReportBuilder.ShowLog("setability", a);
       }
     }
     private static void Entrainment(AtkContext atk)
@@ -1043,7 +1026,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       else
       {
         atk.Target.Defender.ChangeAbility(a);
-        atk.Target.Defender.AddReportPm("SetAbility", a, d);
+        atk.Target.Defender.AddReportPm("m_SetAbility", a);
+        atk.Controller.ReportBuilder.ShowLog("setability", d);
       }
     }
     private static void Conversion2(AtkContext atk)
@@ -1062,9 +1046,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (n != 0)
         {
           var type = types[atk.Controller.GetRandomInt(0, n - 1)];
-          atk.Attacker.OnboardPokemon.Type1 = type;
-          atk.Attacker.OnboardPokemon.Type2 = BattleType.Invalid;
-          atk.Attacker.AddReportPm("TypeChange", type);
+          atk.Attacker.OnboardPokemon.SetTypes(type);
+          atk.Attacker.AddReportPm("TypeChange", (int)type);
         }
       }
     }

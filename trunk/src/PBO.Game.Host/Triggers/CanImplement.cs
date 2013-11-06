@@ -91,7 +91,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
      var type = def.AtkContext.Type;
       var der = def.Defender;
-      if (def.AtkContext.Move.Category == MoveCategory.Status && def.AtkContext.Move.Id != Ms.THUNDER_WAVE || BattleTypeHelper.EffectRevise(type, der.OnboardPokemon.Type1, der.OnboardPokemon.Type2) > 0) return true;
+      if (def.AtkContext.Move.Category == MoveCategory.Status && def.AtkContext.Move.Id != Ms.THUNDER_WAVE || type.EffectRevise(der.OnboardPokemon.Types) > 0) return true;
       der.RaiseAbility();
       der.AddReportPm("NoEffect");
       return false;
@@ -102,7 +102,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         var der = def.Defender;
         der.RaiseAbility();
-        if (!der.ChangeLv7D(der, stat, 1, false, null)) der.AddReportPm("NoEffect", null, null);
+        if (!der.ChangeLv7D(der, stat, 1, false, null)) der.AddReportPm("NoEffect");
         return false;
       }
       return true;

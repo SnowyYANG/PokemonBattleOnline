@@ -325,7 +325,6 @@
     <Compile Include="Battle\BattleReport\BattleReport.xaml.cs">
       <DependentUpon>BattleReport.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Battle\BattleReport\BattleReportImplement.cs" />
     <Compile Include="RoomWindow.xaml.cs">
       <DependentUpon>RoomWindow.xaml</DependentUpon>
     </Compile>
@@ -348,7 +347,7 @@
     <Compile Include="Battle\NDS\Board2D\Subtitle.xaml.cs">
       <DependentUpon>Subtitle.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Battle\BattleReport\StringBattleReport.cs" />
+    <Compile Include="Battle\BattleReport\DocumentBattleReport.cs" />
     <Compile Include="Battle\NDS\ControlPanel\IControlPanel.cs" />
     <Compile Include="Battle\NDS\ControlPanel\Singles.cs" />
     <Compile Include="Battle\NDS\ControlPanel\TargetPanel.cs" />

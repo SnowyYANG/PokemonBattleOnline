@@ -26,19 +26,17 @@ namespace PokemonBattleOnline.PBO.Battle
     private class Control : IGameOutwardEvents
     {
       private readonly BattleReport Nest;
-      public readonly BattleReportImplement RealTime;
-      private readonly BattleReportImplement Final;
-      private readonly BattleReportImplement TextReport;
-      private readonly StringBuilder Text;
+      public readonly DocumentBattleReport RealTime;
+      private readonly DocumentBattleReport Final;
+      private readonly StringBuilder TextReport;
 
       public Control(BattleReport battlereport)
       {
         Nest = battlereport;
         beginTurn = true;
-        RealTime = new DocumentBattleReport(Nest.RealTime, true, false);
-        Final = new DocumentBattleReport(Nest.Final, false, false);
-        Text = new StringBuilder();
-        TextReport = new StringBattleReport(Text);
+        RealTime = new DocumentBattleReport(Nest.RealTime);
+        Final = new DocumentBattleReport(Nest.Final);
+        TextReport = new StringBuilder();
       }
 
       bool beginTurn;
@@ -46,13 +44,21 @@ namespace PokemonBattleOnline.PBO.Battle
       {
         beginTurn = true;
       }
-      void IGameOutwardEvents.GameLogAppend(LogText text)
+      void IGameOutwardEvents.GameLogAppend(string text, LogStyle style)
       {
-        TextReport.AddText(text);
+        if (!style.HasFlag(LogStyle.HiddenAfterBattle))
+        {
+          if (style.HasFlag(LogStyle.NoBr)) TextReport.Append(text);
+          else TextReport.AppendLine(text);
+        }
         UIDispatcher.Invoke(() =>
           {
-            RealTime.AddText(text);
-            Final.AddText(text);
+            var align = style.HasFlag(LogStyle.Center) ? TextAlignment.Center : style.HasFlag(LogStyle.EndTurn) ? TextAlignment.Right : TextAlignment.Left;
+            var color = SBrushes.GetBrush(style);
+            var bold = style.HasFlag(LogStyle.Bold);
+            if (!style.HasFlag(LogStyle.NoBr)) text = text.LineBreak();
+            if (!style.HasFlag(LogStyle.HiddenInBattle)) RealTime.AddText(text, color, align, bold);
+            if (!style.HasFlag(LogStyle.HiddenAfterBattle)) Final.AddText(text, color, align, bold);
             Nest.AutoScroll();
             if (beginTurn)
             {
@@ -62,10 +68,6 @@ namespace PokemonBattleOnline.PBO.Battle
             }
           });
       }
-      public void GameEnd()
-      {
-        Nest.reportViewer.Document = Nest.Final;
-      }
 
       public void Save(string title, string player)
       {
@@ -74,75 +76,13 @@ namespace PokemonBattleOnline.PBO.Battle
           var path = "..\\MyPBO\\Logs\\" + player;
           if (!Directory.Exists(path)) Directory.CreateDirectory(path);
           using (StreamWriter sw = new System.IO.StreamWriter(path + string.Format("\\[{0}] {1}", DateTime.Now.ToString("yyyy-MM-dd-HHmm"), title) + ".txt", false, Encoding.Unicode))
-            sw.Write(Text);
+            sw.Write(TextReport);
         }
         catch
         {
           ShowMessageBox.SaveLogFail();
         }
       }
-    }
-
-    private class DocumentBattleReport : BattleReportImplement
-    {
-      private static TextAlignment GetAlignment(Alignment alignment)
-      {
-        switch (alignment)
-        {
-          case Alignment.Center:
-            return TextAlignment.Center;
-          case Alignment.Right:
-            return TextAlignment.Right;
-          default:
-            return TextAlignment.Left;
-        }
-      }
-
-      private readonly FlowDocument Document;
-      private readonly bool Battle, Final;
-
-      public DocumentBattleReport(FlowDocument doc, bool battle, bool final)
-      {
-        Document = doc;
-        Battle = battle;
-        Final = final;
-      }
-
-      private Paragraph current;
-      private uint lastBg = 0;
-      private Alignment lastAlignment = Alignment.Left;
-      public override void AddText(string text, uint foreground, Alignment alignment, uint background, double size, bool bold, bool italic, bool underline)
-      {
-        if (current == null || alignment != lastAlignment || lastBg != background)
-        {
-          lastAlignment = alignment;
-          lastBg = background;
-          if (current != null)
-          {
-            var run = current.Inlines.LastOrDefault() as Run;
-            if (run != null) run.Text = run.Text.TrimEnd();
-          }
-          current = new Paragraph() { TextAlignment = GetAlignment(alignment), Background = SBrushes.NewBrush(background) };
-          Document.Blocks.Add(current);
-        }
-        current.Inlines.Add(new Run(text)
-        {
-          Foreground = SBrushes.NewBrush(foreground),
-          FontSize = BattleReport.DEFAULT_FONTSIZE + size,
-          FontWeight = bold ? FontWeights.Bold : FontWeights.Normal,
-          FontStyle = italic ? FontStyles.Italic : FontStyles.Normal,
-          TextDecorations = underline ? TextDecorations.Underline : null
-        });
-      }
-      protected override bool Visible(LogText text)
-      {
-        return !(text.HiddenInBattle && Battle || text.HiddenAfterBattle && Final);
-      }
-    }
-
-    internal void Save(string title, string player)
-    {
-      controller.Save(title, player);
     }
   }
 }

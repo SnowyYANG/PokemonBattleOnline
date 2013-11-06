@@ -50,7 +50,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (showFail)
         {
           pm.RaiseAbility();
-          pm.AddReportPm("7DLock", stat);
+          pm.AddReportPm("7DLock", (int)stat);
         }
         change = 0;
       }

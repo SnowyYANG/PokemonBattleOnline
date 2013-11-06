@@ -16,7 +16,7 @@ namespace PokemonBattleOnline.Game.GameEvents
       else
       {
         AppendGameLog("BeginTurn", Game.TurnNumber);
-        AppendGameLog("----");
+        AppendGameLog("----", LogStyle.Detail);
       }
     }
   }
@@ -28,15 +28,15 @@ namespace PokemonBattleOnline.Game.GameEvents
     {
       if (Game.TurnNumber != 0)
       {
-        AppendGameLog("EndTurn", Game.TurnNumber);
+        AppendGameLog("EndTurn", LogStyle.EndTurn | LogStyle.HiddenInBattle, Game.TurnNumber);
         for (int t = 0; t < Game.Settings.Mode.TeamCount(); ++t)
           for (int x = 0; x < Game.Settings.Mode.XBound(); ++x)
           {
             var pm = Game.Board[t, x];
             if (pm != null)
             {
-              if (pm.State == PokemonState.Normal) AppendGameLog("EndTurnNormalPm", pm.Id, pm.Hp.Value);
-              else AppendGameLog("EndTurnAbnormalPm", pm.Id, pm.Hp.Value, pm.State);
+              if (pm.State == PokemonState.Normal) AppendGameLog("EndTurnNormalPm", LogStyle.EndTurn | LogStyle.HiddenInBattle, pm.Id, pm.Hp.Value);
+              else AppendGameLog("EndTurnAbnormalPm", LogStyle.EndTurn | LogStyle.HiddenInBattle, pm.Id, pm.Hp.Value);
             }
           }
       }
@@ -67,9 +67,10 @@ namespace PokemonBattleOnline.Game.GameEvents
 
     protected override void Update()
     {
-      if (Seconds < 60) AppendGameLog("timeticks", Seconds);
-      else if (Seconds % 60 == 0)  AppendGameLog("timetickm", Seconds);
-      else AppendGameLog("timetickms", Seconds / 60, Seconds % 60);
+      var style = LogStyle.Detail | LogStyle.NoBr;
+      if (Seconds < 60) AppendGameLog("timeticks", style, Seconds);
+      else if (Seconds % 60 == 0)  AppendGameLog("timetickm", style, Seconds / 60);
+      else AppendGameLog("timetickms", style, Seconds / 60, Seconds % 60);
     }
   }
 }

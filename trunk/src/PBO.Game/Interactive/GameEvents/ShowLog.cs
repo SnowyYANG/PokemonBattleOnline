@@ -9,20 +9,7 @@ namespace PokemonBattleOnline.Game.GameEvents
   [DataContract(Name = "e", Namespace = PBOMarks.JSON)]
   public class ShowLog : GameEvent
   {
-    protected object Filter(int i)
-    {
-      if (i != 0) return i;
-      if (S != StatType.Invalid) return S;
-      if (B != BattleType.Invalid) return B;
-      return 0;
-    }
-    private void Filter(object o, ref int i)
-    {
-      if (o is int) i = (int)o;
-      else if (o is StatType) S = (StatType)o;
-      else if (o is BattleType) B = (BattleType)o;
-    }
-    
+   
     [DataMember(Name = "a")]
     protected string Key;
 
@@ -35,24 +22,26 @@ namespace PokemonBattleOnline.Game.GameEvents
     [DataMember(Name = "d", EmitDefaultValue = false)]
     protected int I2;
 
-    [DataMember(Name = "e", EmitDefaultValue = false)]
-    protected StatType S;
-
-    [DataMember(Name = "f", EmitDefaultValue = false)]
-    protected BattleType B;
-
     /// <param name="args">string and int is fine</param>
-    public ShowLog(string gameLogKey, object arg0 = null, object arg1 = null, object arg2 = null)
+    public ShowLog(string gameLogKey, int arg0 = 0, int arg1 = 0, int arg2 = 0)
     {
       Key = gameLogKey;
-      List<object> _args = new List<object>();
-      Filter(arg0, ref I0);
-      Filter(arg1, ref I1);
-      Filter(arg2, ref I2);
+      I0 = arg0;
+      I1 = arg1;
+      I2 = arg2;
     }
     protected override void Update()
     {
-      AppendGameLog(Key, Filter(I0), Filter(I1), Filter(I2));
+      if (Key.StartsWith("rf_"))
+      {
+        AppendGameLog(Key + "_r", LogStyle.HiddenAfterBattle, I0, I1, I2);
+        AppendGameLog(Key + "_f", LogStyle.HiddenInBattle, I0, I1, I2);
+      }
+      else
+      {
+        var style = Key.StartsWith("m_") ? LogStyle.NoBr : Key.StartsWith("SYS_") ? LogStyle.SYS : char.IsLower(Key[0]) ? LogStyle.Detail : LogStyle.Default;
+        AppendGameLog(Key, style, I0, I1, I2);
+      }
     }
   }
 }

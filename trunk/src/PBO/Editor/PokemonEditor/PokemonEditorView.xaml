@@ -137,7 +137,11 @@
             <ui:ClearableComboBox SelectedItem="{Binding PokemonForm}" ItemsSource="{Binding PokemonSpecies.Forms}" CanClear="False" Grid.Row="7" MaxWidth="96" HorizontalAlignment="Right" Background="#a0ffffff" BorderBrush="{x:Null}">
                 <ui:ClearableComboBox.ItemTemplate>
                     <DataTemplate>
-                        <Image Source="{Binding Converter={x:Static c:PokemonFormIcon.C}}" Height="32" Width="32" ToolTip="{Binding Converter={x:Static c:PokemonFormString.C}}"/>
+                        <TextBlock Text="{Binding Converter={x:Static c:PokemonFormShortString.C}}">
+                            <TextBlock.ToolTip>
+                                <Image Source="{Binding Converter={x:Static c:PokemonFormIcon.C}}" Height="32" Width="32"/>
+                            </TextBlock.ToolTip>
+                        </TextBlock>
                     </DataTemplate>
                 </ui:ClearableComboBox.ItemTemplate>
                 <ui:ClearableComboBox.Style>
@@ -206,31 +210,6 @@
                 </Path>
                 <TextBox Text="{Binding Model.Happiness}" ToolTip="Happiness" TextAlignment="Center" Width="29" Padding="0" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Canvas.Right="0" Canvas.Bottom="5"/>
             </Canvas>
-            <Grid DataContext="{Binding Model}" Margin="0,0,19,0" Grid.Row="2" Grid.ColumnSpan="3">
-                <TextBox x:Name="chatterTextBox" Text="{Binding Chatter}" MaxLength="15"/>
-                <TextBlock Text="喋喋不休 X﹏X" Margin="5,0,0,0" IsHitTestVisible="False" Foreground="Gray" VerticalAlignment="Center">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Text,ElementName=chatterTextBox}" Value="">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-                <Grid.Style>
-                    <Style TargetType="Grid">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Form.Species.Number}" Value="441">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Style>
-            </Grid>
 
             <Label Content="性格"/>
             <StackPanel Margin="0,0,10,0" Grid.Row="1">

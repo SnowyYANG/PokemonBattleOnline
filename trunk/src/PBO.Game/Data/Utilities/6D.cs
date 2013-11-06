@@ -25,6 +25,10 @@ namespace PokemonBattleOnline.Game
     {
       return ev.Hp + ev.Atk + ev.Def + ev.SpAtk + ev.SpDef + ev.Speed;
     }
+    public static bool ValueEquals(this I6D a, I6D b)
+    {
+      return a.Hp == b.Hp && a.Atk == b.Atk && a.Def == b.Def && a.SpAtk == b.SpAtk && a.SpDef == b.SpDef && a.Speed == b.Speed;
+    }
   }
 
   [DataContract(Namespace = PBOMarks.PBO)]

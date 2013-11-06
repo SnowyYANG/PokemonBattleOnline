@@ -240,7 +240,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       SwitchController.GameStartSendOut(tiles);
     }
-    public bool SendOut(Tile position, bool debut = true, string log = "SendOut1")
+    public bool SendOut(Tile position, bool debut = true, string log = "rf_SendOut1")
     {
       if (SwitchController.SendOut(position, debut, log))
       {

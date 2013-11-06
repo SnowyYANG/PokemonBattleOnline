@@ -173,7 +173,7 @@ namespace PokemonBattleOnline.PBO
 
     private void OnGameStop(GameStopReason reason, User player)
     {
-      if (reason != GameStopReason.GameEnd) Current.br.AddLogText(string.Format(GameString.Current.BattleLog(reason.ToString()).LineBreak(), player.Name));
+      if (reason != GameStopReason.GameEnd) Current.br.AddLogText(string.Format(GameString.Current.BattleLog("SYS_" + reason.ToString()).LineBreak(), player.Name));
       if (Room.PlayerController != null) br.Save(Title, Room.Client.User.Name);
       Teams.Visibility = Visibility.Visible;
       Prepare.Visibility = Visibility.Visible;

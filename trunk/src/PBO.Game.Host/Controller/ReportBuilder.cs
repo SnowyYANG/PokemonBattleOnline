@@ -64,8 +64,11 @@ namespace PokemonBattleOnline.Game.Host
     {
       current.AddEvent(e);
     }
-    public void ShowLog(string key, ValueType arg0 = null, ValueType arg1 = null, ValueType arg2 = null)
+    public void ShowLog(string key, int arg0 = 0, int arg1 = 0, int arg2 = 0)
     {
+#if DEBUG
+      if (key == null) System.Diagnostics.Debugger.Break();
+#endif
       Add(new ShowLog(key, arg0, arg1, arg2));
     }
     public void AddHorizontalLine()

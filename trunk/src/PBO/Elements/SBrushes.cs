@@ -4,14 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
+using LogStyle = PokemonBattleOnline.Game.LogStyle;
 
 namespace PokemonBattleOnline.PBO.Elements
 {
-  /// <summary>
-  /// [ui] B:Background F:Foreground BHL:BackgroundHightlight FHL:ForegroundHighlight
-  /// [game] M:Main
-  /// </summary>
-  public static class SBrushes
+  static class SBrushes
   {
     public static readonly Brush BlueF;
     public static readonly Brush BlueFHL;
@@ -78,6 +75,13 @@ namespace PokemonBattleOnline.PBO.Elements
       b.ViewportUnits = BrushMappingMode.Absolute;
       b.TileMode = TileMode.Tile;
       return b;
+    }
+
+    public static Brush GetBrush(LogStyle style)
+    {
+      if (style.HasFlag(LogStyle.SYS)) return Brushes.OrangeRed;
+      else if (style.HasFlag(LogStyle.Detail)) return Brushes.Gray;
+      else return Brushes.Black;
     }
   }
 }

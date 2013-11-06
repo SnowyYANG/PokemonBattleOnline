@@ -33,7 +33,7 @@ namespace PokemonBattleOnline.Game
     /// <summary>
     /// [atk, def]
     /// </summary>
-    private static readonly sbyte[,] REVISE = new sbyte[18, 18] { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 1, 0, -1, -1, 0, 1, -1, 0, 1, 0, 0, 0, 0, -1, 1, 0, 1 }, { 0, 0, 1, 0, 0, 0, -1, 1, 0, -1, 0, 0, 1, -1, 0, 0, 0, 0 }, { 0, 0, 0, 0, -1, -1, -1, 0, -1, 0, 0, 0, 1, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 1, 0, 1, -1, 0, 1, 1, 0, -1, 1, 0, 0, 0, 0 }, { 0, 0, -1, 1, 0, -1, 0, 1, 0, -1, 1, 0, 0, 0, 0, 1, 0, 0 }, { 0, 0, -1, -1, -1, 0, 0, 0, -1, -1, -1, 0, 1, 0, 1, 0, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 1, 0, 0, -1 }, { 0, 0, 0, 0, 0, 0, 1, 0, 0, -1, -1, -1, 0, -1, 0, 1, 0, 0 }, { 0, 0, 0, 0, 0, 0, -1, 1, 0, 1, -1, -1, 1, 0, 0, 1, -1, 0 }, { 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, -1, -1, 0, 0, 0, -1, 0 }, { 0, 0, 0, -1, -1, 1, 1, -1, 0, -1, -1, 1, -1, 0, 0, 0, -1, 0 }, { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, -1, -1, 0, 0, -1, 0 }, { 0, 0, 1, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0 }, { 0, 0, 0, 1, 0, 1, 0, 0, 0, -1, -1, -1, 1, 0, 0, -1, 1, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 1, 0 }, { 0, 0, -1, 0, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 1, 0, 0, -1 } };
+    private static readonly int[,] REVISE = new int[19, 19] { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, -1, 0 }, { 0, 0, -1, -1, 1, 0, 1, 0, 0, 0, 0, 0, 1, -1, 0, -1, 0, 1, 0 }, { 0, 0, 1, -1, -1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0, 0, 0 }, { 0, 0, -1, 1, -1, 0, 0, 0, -1, 1, -1, 0, -1, 1, 0, -1, 0, -1, 0 }, { 0, 0, 0, 1, -1, -1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0 }, { 0, 0, -1, -1, 1, 0, -1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, -1, 0 }, { 0, 1, 0, 0, 0, 0, 1, 0, -1, 0, -1, -1, -1, 1, 0, 0, 1, 1, -1 }, { 0, 0, 0, 0, 1, 0, 0, 0, -1, -1, 0, 0, 0, -1, -1, 0, 0, 0, 1 }, { 0, 0, 1, 0, -1, 1, 0, 0, 1, 0, 0, 0, -1, 1, 0, 0, 0, 1, 0 }, { 0, 0, 0, 0, 1, -1, 0, 1, 0, 0, 0, 0, 1, -1, 0, 0, 0, -1, 0 }, { 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, -1, 0, 0, 0, 0, 0, -1, 0 }, { 0, 0, -1, 0, 1, 0, 0, -1, -1, 0, -1, 1, 0, 0, -1, 0, 1, -1, -1 }, { 0, 0, 1, 0, 0, 0, 1, -1, 0, -1, 1, 0, 1, 0, 0, 0, 0, -1, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, -1, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, -1, 0 }, { 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 1, 0, 0, 1, 0, -1, 0, -1 }, { 0, 0, -1, -1, 0, -1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, -1, 1 }, { 0, 0, -1, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, 0, 0, 1, 1, -1, 0 } };
     /// <summary>
     /// [atk]
     /// </summary>
@@ -41,13 +41,14 @@ namespace PokemonBattleOnline.Game
 
     static BattleTypeHelper()
     {
-      NO_EFFECT = new BattleType[18];
+      NO_EFFECT = new BattleType[RomData.BattleTypes + 1];
       NO_EFFECT[(int)BattleType.Normal] = NO_EFFECT[(int)BattleType.Fighting] = BattleType.Ghost;
       NO_EFFECT[(int)BattleType.Electric] = BattleType.Ground;
       NO_EFFECT[(int)BattleType.Poison] = BattleType.Steel;
       NO_EFFECT[(int)BattleType.Psychic] = BattleType.Dark;
       NO_EFFECT[(int)BattleType.Ghost] = BattleType.Normal;
       NO_EFFECT[(int)BattleType.Ground] = BattleType.Flying;
+      NO_EFFECT[(int)BattleType.Dragon] = BattleType.Fairy;
     }
 
     public static bool NoEffect(this BattleType a, BattleType d)
@@ -62,9 +63,11 @@ namespace PokemonBattleOnline.Game
     {
       return REVISE[(int)a, (int)d];
     }
-    public static int EffectRevise(this BattleType a, BattleType d1, BattleType d2)
+    public static int EffectRevise(this BattleType a, BattleType[] d)
     {
-      return EffectRevise(a, d1) + EffectRevise(a, d2);
+      var r = 0;
+      foreach(var t in d) r += EffectRevise(a, t);
+      return r;
     }
     public static BattleType GetItemType(int id, int beginId, bool ignoreNormal = true)
     {

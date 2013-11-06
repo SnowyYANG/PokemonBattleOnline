@@ -19,7 +19,6 @@ namespace PokemonBattleOnline.Game.Host
     public readonly int AbilityIndex;
     public readonly I6D Iv;
     public readonly I6D Ev;
-    public readonly string Chatter;
 
     public readonly string Name;
     public readonly PokemonGender Gender;
@@ -47,7 +46,6 @@ namespace PokemonBattleOnline.Game.Host
       _item = custom.Item;
       Iv = new ReadOnly6D(custom.Iv);
       Ev = new ReadOnly6D(custom.Ev);
-      Chatter = custom.Chatter;
       _hp = MaxHp = PokemonStatHelper.GetHp(custom.Form.Data.Base.Hp, (byte)Iv.Hp, (byte)Ev.Hp, (byte)Lv);
     }
 
