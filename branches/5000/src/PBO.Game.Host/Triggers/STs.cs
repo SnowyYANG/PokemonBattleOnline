@@ -142,7 +142,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
       if ((pm.Item == Is.FOCUS_BAND && pm.Controller.OneNth(10)) || (pm.Item == Is.FOCUS_SASH && pm.Hp == pm.Pokemon.MaxHp))
       {
-        pm.RaiseItem("FocusItem", pm.Pokemon.Item == Is.FOCUS_SASH);
+        pm.AddReportPm("FocusItem", pm.Pokemon.Item);
+        if (pm.Pokemon.Item == Is.FOCUS_SASH) pm.ConsumeItem();
         return true;
       }
       return false;
@@ -210,14 +211,15 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Is.QUICK_CLAW:
           if (pm.Controller.RandomHappen(20))
           {
-            pm.RaiseItem("QuickItem", false);
+            pm.AddReportPm("QuickItem", Is.QUICK_CLAW);
             r = 1;
           }
           break;
         case Is.CUSTAP_BERRY:
           if (ATs.Gluttony(pm))
           {
-            pm.RaiseItem("QuickItem", true);
+            pm.AddReportPm("QuickItem", Is.CUSTAP_BERRY);
+            pm.ConsumeItem();
             r = 1;
           }
           break;

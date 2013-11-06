@@ -9,14 +9,6 @@ namespace PokemonBattleOnline.Game.Host
 {
   internal static class ITs
   {
-    public static void RaiseItem(this PokemonProxy pm, string log, bool consume)
-    {
-      if (pm.Pokemon.Item != 0)
-      {
-        pm.AddReportPm(log, pm.Pokemon.Item);
-        if (consume) pm.ConsumeItem();
-      }
-    }
     public static void Attach(PokemonProxy pm)
     {
       var item = pm.Item;
@@ -163,7 +155,7 @@ namespace PokemonBattleOnline.Game.Host
           pm.AddState(by, AttachedState.PSN, false);
           break;
         case Is.TOXIC_ORB:
-          pm.AddState(by, AttachedState.PSN, false, Is.TOXIC_ORB);//战报待验证
+          pm.AddState(by, AttachedState.PSN, false, 15);//战报待验证
           break;
         case Is.FLAME_ORB:
           pm.AddState(by, AttachedState.BRN, false);//战报
@@ -271,7 +263,11 @@ namespace PokemonBattleOnline.Game.Host
         if (lvs.Speed < 0) { lvs.Speed = 0; raise = true; }
         if (pm.OnboardPokemon.AccuracyLv < 0) { pm.OnboardPokemon.AccuracyLv = 0; raise = true; }
         if (pm.OnboardPokemon.EvasionLv < 0) { pm.OnboardPokemon.EvasionLv = 0; raise = true; }
-        if (raise) RaiseItem(pm, "WhiteHerb", true);
+        if (raise)
+        {
+          pm.AddReportPm("WhiteHerb", pm.Pokemon.Item);
+          pm.ConsumeItem();
+        }
       }
     }
     public static bool AirBalloon(PokemonProxy pm) //气球的提示信息不是Attach而是Debut，是唯一会Debut的道具
@@ -337,7 +333,8 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (pm.Item == Is.POWER_HERB)
       {
-        RaiseItem(pm, "PowerHerb", true);
+        pm.AddReportPm("PowerHerb", Is.POWER_HERB);
+        pm.ConsumeItem();
         pm.CoordY = CoordY.Plate;
         return true;
       }
@@ -353,9 +350,9 @@ namespace PokemonBattleOnline.Game.Host
       var i = atk.Attacker.Item;
       if (Gem(i) && BattleTypeHelper.GetItemType(i, 112, false) == atk.Type)
       {
+        atk.Controller.ReportBuilder.ShowLog("Gem", i, atk.Move.Id);
         atk.SetTurnCondition("Gem");
         atk.Attacker.ConsumeItem();
-        atk.Controller.ReportBuilder.ShowLog("Gem", i, atk.Move.Id);
       }
     }
     public static void DestinyKnot(PokemonProxy pm, PokemonProxy by)

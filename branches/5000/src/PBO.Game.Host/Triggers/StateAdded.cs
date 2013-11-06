@@ -30,19 +30,22 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (pm.State == PokemonState.PSN || pm.State == PokemonState.BadlyPSN)
           {
             var s = pm.State.ToString();
-            pm.DeAbnormalState();
-            pm.RaiseItem("ItemDePSN", true);
+            pm.DeAbnormalState("ItemDePSN", Is.PECHA_BERRY);
+            pm.ConsumeItem();
           }
           break;
         case Is.PERSIM_BERRY:
-          if (pm.OnboardPokemon.RemoveCondition("Confuse")) pm.RaiseItem("ItemDeConfuse", true);
+          if (pm.OnboardPokemon.RemoveCondition("Confuse"))
+          {
+            pm.AddReportPm("ItemDeConfuse", Is.PERSIM_BERRY);
+            pm.ConsumeItem();
+          }
           break;
         case Is.LUM_BERRY:
           if (pm.State != PokemonState.Normal)
           {
-            var s = pm.State.ToString();
-            pm.DeAbnormalState();
-            pm.RaiseItem("ItemDe" + s, true);
+            pm.DeAbnormalState("ItemDe" + pm.State.ToString(), Is.LUM_BERRY);
+            pm.ConsumeItem();
           }
           break;
       }
@@ -52,8 +55,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       if (pm.State == state)
       {
-        pm.DeAbnormalState();
-        pm.RaiseItem("ItemDe" + state.ToString(), true);
+        pm.DeAbnormalState("ItemDe" + state.ToString(), pm.Pokemon.Item);
+        pm.ConsumeItem();
       }
     }
 

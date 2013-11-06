@@ -24,7 +24,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           {
             atk.Attacker.AddReportPm("EnUproar");
             foreach (var p in atk.Controller.Board.Pokemons)
-              if (p.State == PokemonState.SLP) p.DeAbnormalState();
+              if (p.State == PokemonState.SLP) p.DeAbnormalState("UproarDeSLP");
           }
           break;
         case Ms.CHATTER:
@@ -462,7 +462,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (!allSub)
         {
           foreach (DefContext d in defs)
-            if (d.RemoveCondition("Antiberry")) d.Defender.RaiseItem("Antiberry", true);
+            if (d.RemoveCondition("Antiberry"))
+            {
+              d.Defender.AddReportPm("Antiberry", d.Defender.Pokemon.Item);
+              d.Defender.ConsumeItem();
+            }
           var e = new GameEvents.MoveHurt();
           aer.Controller.ReportBuilder.Add(e);
           foreach (DefContext d in defs)
@@ -918,7 +922,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       var aer = atk.Attacker;
       foreach (var pm in aer.Tile.Field.Pokemons)
-        if (pm.State != PokemonState.Normal) pm.Pokemon.State = PokemonState.Normal;
+        if (pm.State != PokemonState.Normal)
+        {
+          if (pm.Pokemon.State == PokemonState.SLP) pm.Tile.Field.RemoveCondition("Rest" + pm.Id);
+          pm.Pokemon.State = PokemonState.Normal;
+        }
       foreach (var pm in aer.Pokemon.Owner.Pokemons)
         if (pm.Hp > 0 && pm.State != PokemonState.Normal) pm.State = PokemonState.Normal;
       aer.Controller.ReportBuilder.ShowLog(log);

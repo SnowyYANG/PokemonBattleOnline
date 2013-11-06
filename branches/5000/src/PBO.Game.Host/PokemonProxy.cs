@@ -172,11 +172,17 @@ namespace PokemonBattleOnline.Game.Host
       CoordY = CoordY.Plate;
       return Triggers.CanExecute.Execute(this);
     }
-    public void DeAbnormalState()
+    /// <summary>
+    /// null log to show default log
+    /// </summary>
+    /// <param name="log"></param>
+    /// <param name="arg1"></param>
+    public void DeAbnormalState(string log = null, int arg1 = 0)
     {
       if (State != PokemonState.Normal && Hp > 0)
       {
         if (Pokemon.State == PokemonState.SLP) Tile.Field.RemoveCondition("Rest" + Id);
+        AddReportPm(log ?? "De" + Pokemon.State.ToString(), arg1);
         Pokemon.State = PokemonState.Normal;
       }
     }
@@ -638,6 +644,15 @@ namespace PokemonBattleOnline.Game.Host
       }
       return false;
     }
+    /// <summary>
+    /// null log to show default log
+    /// </summary>
+    /// <param name="by"></param>
+    /// <param name="stat"></param>
+    /// <param name="change"></param>
+    /// <param name="showFail"></param>
+    /// <param name="log"></param>
+    /// <returns></returns>
     public bool ChangeLv7D(PokemonProxy by, StatType stat, int change, bool showFail, string log = null)
     {
       if (ChangeLv7DImplement(by, stat, change, showFail, log))
@@ -810,6 +825,16 @@ namespace PokemonBattleOnline.Game.Host
     DONE:  
       StateAdded.Execute(this);
     }
+    /// <summary>
+    /// null log to show default log
+    /// </summary>
+    /// <param name="by"></param>
+    /// <param name="state"></param>
+    /// <param name="showFail"></param>
+    /// <param name="turn"></param>
+    /// <param name="log"></param>
+    /// <param name="arg1"></param>
+    /// <returns></returns>
     public bool AddState(PokemonProxy by, AttachedState state, bool showFail, int turn = 0, string log = null, int arg1 = 0)
     {
       if (CanAddState(by, state, showFail))
