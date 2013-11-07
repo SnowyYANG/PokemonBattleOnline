@@ -50,12 +50,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static bool Sychronoise(DefContext def)
     {
-      var d1 = def.Defender.OnboardPokemon.Type1;
-      var d2 = def.Defender.OnboardPokemon.Type2;
-      var a = def.AtkContext.Attacker.OnboardPokemon.Type1;
-      if (a == d1 || a == d2) return true;
-      a = def.AtkContext.Attacker.OnboardPokemon.Type2;
-      return a != BattleType.Invalid && (a == d1 || a == d2);
+      var types = def.AtkContext.Attacker.OnboardPokemon.Types;
+      foreach (var t in types)
+        if (def.Defender.OnboardPokemon.HasType(t)) return true;
+      return false;
     }
     private static bool Captivate(DefContext def)
     {

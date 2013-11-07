@@ -98,10 +98,14 @@ namespace PokemonBattleOnline.Game.Host
     {
       var type = def.AtkContext.Type;
       if (type == BattleType.Invalid) type = BattleType.Normal;
-      if (!def.HitSubstitute && def.Defender.OnboardPokemon.IsTypes(type) && def.Defender.RaiseAbility(As.COLOR_CHANGE))
+      if (!def.HitSubstitute) // performance
       {
-        def.Defender.OnboardPokemon.SetTypes(type);
-        def.Defender.AddReportPm("TypeChange", (int)type);
+        var dt = def.Defender.OnboardPokemon.Types;
+        if (!(dt.First() == type && dt.Last() == type) && def.Defender.RaiseAbility(As.COLOR_CHANGE))
+        {
+          def.Defender.OnboardPokemon.SetTypes(type);
+          def.Defender.AddReportPm("TypeChange", (int)type);
+        }
       }
     }
     public static double WeightModifier(PokemonProxy pm)

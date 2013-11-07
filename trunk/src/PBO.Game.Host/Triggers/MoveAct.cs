@@ -759,10 +759,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static void ReflectType(AtkContext atk)
     {
+#warning 实机测试
       var ao = atk.Attacker.OnboardPokemon;
-      var t1 = atk.Target.Defender.OnboardPokemon.Type1;
-      var t2 = atk.Target.Defender.OnboardPokemon.Type2;
-      if (ao.SetTypes(t1, t2))  atk.Attacker.AddReportPm("ReflectType", atk.Target.Defender.Id);
+      var types = atk.Target.Defender.OnboardPokemon.Types.ToArray();
+      if (ao.SetTypes(types[0], types.ValueOrDefault(1))) atk.Attacker.AddReportPm("ReflectType", atk.Target.Defender.Id);
       else atk.FailAll();
     }
     private static void Bestow(AtkContext atk)
@@ -937,10 +937,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void Conversion(AtkContext atk)
     {
       var aer = atk.Attacker;
-      var type1 = aer.OnboardPokemon.Type1;
-      var type2 = aer.OnboardPokemon.Type2;
+      var types = aer.OnboardPokemon.Types;
       var ms = (from m in aer.Moves
-                where !(m.Type.Id == Ms.CONVERSION || m.Type.Type == type1 || m.Type.Type == type2)
+                where !(m.Type.Id == Ms.CONVERSION || types.Contains(m.Type.Type))
                 select m.Type.Type).ToArray();
       if (ms.Length == 0) atk.FailAll();
       else
@@ -1045,10 +1044,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         BattleType a = atk.Target.Defender.AtkContext.Type;
         if (a == BattleType.Invalid) a = BattleType.Normal;
-        BattleType type1 = atk.Attacker.OnboardPokemon.Type1;
-        BattleType type2 = atk.Attacker.OnboardPokemon.Type2;
+        var rawtypes = atk.Attacker.OnboardPokemon.Types; //避免反复调用HasType性能
         var types = (from t in (BattleType[])Enum.GetValues(typeof(BattleType))
-                     where !(t == type1 || t == type2) && (a.EffectRevise(t) < 0 || a.NoEffect(t)) //自动排除Invalid
+                     where !rawtypes.Contains(t) && (a.EffectRevise(t) < 0 || a.NoEffect(t)) //自动排除Invalid
                      select t).ToArray();
         var n = types.Length;
         if (n != 0)

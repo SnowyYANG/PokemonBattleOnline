@@ -32,6 +32,7 @@ namespace PokemonBattleOnline.Game.Host
 
     internal OnboardPokemon(Pokemon pokemon, int x)
     {
+      types = new List<BattleType>(3);
       Pokemon = pokemon;
       FiveD = new Simple6D();
       ChangeForm(pokemon.Form);
@@ -40,35 +41,36 @@ namespace PokemonBattleOnline.Game.Host
       X = x; //CoordY 默认值
     }
 
-    public BattleType[] Types
-    { get { return new BattleType[] { Type1, Type2 }; } }
-    private BattleType _type1;
-    public BattleType Type1
+    private List<BattleType> types;
+    private List<BattleType> ActualTypes
     {
-      get { return _type1 == BattleType.Flying && HasCondition("Roost") ? BattleType.Normal : _type1; }
+      get
+      {
+        var ts = new List<BattleType>(types);
+        if (HasCondition("Roost")) types.Remove(BattleType.Flying);
+        if (!types.Any()) types.Add(BattleType.Normal);
+        return ts;
+      }
     }
-    private BattleType _type2;
-    public BattleType Type2
-    {
-      get { return _type2 == BattleType.Flying && HasCondition("Roost") ? BattleType.Invalid : _type2; }
-    }
-    public bool IsTypes(BattleType type1, BattleType type2 = BattleType.Invalid)
-    {
-      return HasCondition("Roost") ? false : _type1 == type1 && _type2 == type2;
-      
-    }
+    public IEnumerable<BattleType> Types
+    { get { return ActualTypes; } }
     public bool SetTypes(BattleType type1, BattleType type2 = BattleType.Invalid)
     {
-      if (IsTypes(type1, type2))
+      var ts = ActualTypes;
+      if (ts.Remove(type1) && (type2 == BattleType.Invalid || ts.Remove(type2)) && !ts.Any())
       {
-        _type1 = type1;
-        _type2 = type2;
+        types.Clear();
+        types.Add(type1);
+        if (type2 != BattleType.Invalid) types.Add(type2);
         RemoveCondition("Roost");
         return true;
       }
       return false;
     }
-
+    public bool HasType(BattleType type)
+    {
+      return Types.Contains(type);
+    }
     public I6D Lv5D
     { get { return lv5D; } }
     private int _accuracyLv;
@@ -161,12 +163,6 @@ namespace PokemonBattleOnline.Game.Host
         FilterLv7D(sd, lv5D.SpDef),
         FilterLv7D(s, lv5D.Speed));
     }
-    public bool HasType(BattleType type)
-    {
-      return Types.Contains(type);
-        //type == BattleType.Flying || type == BattleType.Normal ?
-        //Type1 == type || Type2 == type : _type1 == type || _type2 == type;
-    }
     
     private int Get5D(StatType type)
     {
@@ -176,8 +172,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       Form = form;
       _weight = form.Data.Weight;
-      _type1 = form.Type1;
-      _type2 = form.Type2;
+      SetTypes(form.Type1, form.Type2);
       Ability = form.Data.GetAbility(Pokemon.AbilityIndex);
       FiveD.Atk = Get5D(StatType.Atk);
       FiveD.SpAtk = Get5D(StatType.SpAtk);
@@ -204,8 +199,7 @@ namespace PokemonBattleOnline.Game.Host
       Gender = op.Gender;
       _accuracyLv = op._accuracyLv;
       _evasionLv = op._evasionLv;
-      _type1 = op._type1;//无视羽休
-      _type2 = op._type2;
+      types = new List<BattleType>(op.types);//无视羽休
       Ability = op.Ability;
       _weight = op.Weight;
     }
