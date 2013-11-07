@@ -10,7 +10,7 @@ using PokemonBattleOnline.Network.Commands;
 
 namespace PokemonBattleOnline.Network
 {
-  internal class RoomController : IDisposable
+  internal class RoomHost : IDisposable
   {
     public readonly Server Server;
     public readonly Room Room;
@@ -18,7 +18,7 @@ namespace PokemonBattleOnline.Network
     private InitingGame initingGame;
     private GameContext game;
     
-    public RoomController(Server server, int id, string name, GameSettings settings)
+    public RoomHost(Server server, int id, string name, GameSettings settings)
     {
       Server = server;
       Room = new Room(id, name, settings);
@@ -46,6 +46,7 @@ namespace PokemonBattleOnline.Network
         game = initingGame.Complete();
         initingGame = null;
         game.GameUpdated += OnGameUpdate;
+        game.GameEnd += EndGame;
         game.TimeUp += OnTimeUp;
         game.WaitingNotify += OnWaitingForInput;
         game.Start();

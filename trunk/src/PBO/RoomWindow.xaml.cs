@@ -113,10 +113,12 @@ namespace PokemonBattleOnline.PBO
     }
     private void Start_Click(object sender, RoutedEventArgs e)
     {
-      var team = Teams.SelectedItem as PokemonTeam;
+      var team = Teams.SelectedItem as Editor.TeamVM;
       if (team != null)
       {
-        Room.GamePrepare(team.Pokemons.Where((p) => p != null).ToArray());
+        var pt = team.Model.Pokemons.Where((p) => p != null).ToArray();
+        Room.GamePrepare(pt);
+        PrepareTeam.DataContext = pt;
         Teams.Visibility = System.Windows.Visibility.Collapsed;
         Start.Content = "等待其他玩家开始对战...";
         Start.IsEnabled = false;
@@ -168,13 +170,22 @@ namespace PokemonBattleOnline.PBO
       nds.Init(Room);
       br.Reset();
       br.Init(Room.Game);
-      Room.Game.GameStart += () => Prepare.Visibility = Visibility.Collapsed;
+      Room.Game.GameStart += () =>
+        {
+          Current.br.FontSize = 14;
+          Prepare.Visibility = Visibility.Collapsed;
+        };
     }
 
     private void OnGameStop(GameStopReason reason, User player)
     {
-      if (reason != GameStopReason.GameEnd) Current.br.AddLogText(string.Format(GameString.Current.BattleLog("SYS_" + reason.ToString()).LineBreak(), player.Name));
+      if (reason != GameStopReason.GameEnd)
+      {
+        Current.br.FontSize = 12;
+        Current.br.AddLogText(string.Format(GameString.Current.BattleLog("SYS_" + reason.ToString()).LineBreak(), player.Name));
+      }
       if (Room.PlayerController != null) br.Save(Title, Room.Client.User.Name);
+      PrepareTeam.DataContext = null;
       Teams.Visibility = Visibility.Visible;
       Prepare.Visibility = Visibility.Visible;
       Start.IsEnabled = true;

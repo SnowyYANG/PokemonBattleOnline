@@ -15,8 +15,9 @@ namespace PokemonBattleOnline.PBO.Editor
     {
       NORMALBG = SBrushes.NewBrush(0xff808080);
     }
-    
-    public readonly PokemonTeam Model;
+
+    public PokemonTeam Model
+    { get; private set; }
 
     public TeamVM(PokemonTeam model)
     {
@@ -47,8 +48,8 @@ namespace PokemonBattleOnline.PBO.Editor
         if (Model.CanBattle != value)
         {
           Model.CanBattle = value;
-          if (value) EditorVM.Current.BattleTeams.Add(Model);
-          else EditorVM.Current.BattleTeams.Remove(Model);
+          if (value) EditorVM.Current.BattleTeams.Add(this);
+          else EditorVM.Current.BattleTeams.Remove(this);
           OnPropertyChanged("CanBattle");
         }
       }

@@ -26,16 +26,16 @@ namespace PokemonBattleOnline.PBO.Battle
     private class Control : IGameOutwardEvents
     {
       private readonly BattleReport Nest;
-      public readonly DocumentBattleReport RealTime;
-      private readonly DocumentBattleReport Final;
+      private readonly DocumentBattleReport RealTime;
+      private readonly DocumentBattleReport Full;
       private readonly StringBuilder TextReport;
 
       public Control(BattleReport battlereport)
       {
         Nest = battlereport;
         beginTurn = true;
-        RealTime = new DocumentBattleReport(Nest.RealTime);
-        Final = new DocumentBattleReport(Nest.Final);
+        RealTime = new DocumentBattleReport(Nest.Battling);
+        Full = new DocumentBattleReport(Nest.Full);
         TextReport = new StringBuilder();
       }
 
@@ -58,7 +58,7 @@ namespace PokemonBattleOnline.PBO.Battle
             var bold = style.HasFlag(LogStyle.Bold);
             if (!style.HasFlag(LogStyle.NoBr)) text = text.LineBreak();
             if (!style.HasFlag(LogStyle.HiddenInBattle)) RealTime.AddText(text, color, align, bold);
-            if (!style.HasFlag(LogStyle.HiddenAfterBattle)) Final.AddText(text, color, align, bold);
+            if (!style.HasFlag(LogStyle.HiddenAfterBattle)) Full.AddText(text, color, align, bold);
             Nest.AutoScroll();
             if (beginTurn)
             {
@@ -67,6 +67,12 @@ namespace PokemonBattleOnline.PBO.Battle
               beginTurn = false;
             }
           });
+      }
+
+      public void AddText(string text, Brush foreground, TextAlignment alignment = TextAlignment.Left, bool bold = false)
+      {
+        RealTime.AddText(text, foreground, alignment, bold);
+        Full.AddText(text, foreground, alignment, bold);
       }
 
       public void Save(string title, string player)

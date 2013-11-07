@@ -24,7 +24,7 @@ namespace PokemonBattleOnline.PBO.Battle
   {
     internal const double DEFAULT_FONTSIZE = 15;
     
-    internal FlowDocument RealTime, Final;
+    internal FlowDocument Battling, Full;
     private StringBuilder Text;
     private LinkedList<TextElement> turnsBookmark;
     private Control controller;
@@ -38,17 +38,18 @@ namespace PokemonBattleOnline.PBO.Battle
     public void Init(GameOutward game)
     {
       game.AddListner(controller);
-      game.GameEnd += () => reportViewer.Document = Final;
+      reportViewer.Document = Battling;
+      game.GameEnd += () => reportViewer.Document = Full;
     }
 
     internal void Reset()
     {
       turnsBookmark = new LinkedList<TextElement>();
-      RealTime = new FlowDocument();
-      Final = new FlowDocument();
+      Battling = new FlowDocument() { FontSize = 14 };
+      Full = new FlowDocument() { FontSize = 12 };
       Text = new StringBuilder();
-      reportViewer.Document = RealTime;
       controller = new Control(this);
+      reportViewer.Document = Full;
     }
 
     private LinkedListNode<TextElement> nowTurn;
@@ -70,12 +71,12 @@ namespace PokemonBattleOnline.PBO.Battle
     }
     public void AddLogText(string text)
     {
-      controller.RealTime.AddText(text, Brushes.OrangeRed);
+      controller.AddText(text, Brushes.OrangeRed);
       AutoScroll();
     }
     public void AddChatText(string chat, User user)
     {
-      controller.RealTime.AddText((user.Name + "：" + chat).LineBreak(), Cartes.GetChatBrush(user.Name));
+      controller.AddText((user.Name + "：" + chat).LineBreak(), Cartes.GetChatBrush(user.Name));
       AutoScroll();
     }
 

@@ -48,7 +48,7 @@
     <Compile Include="C2SEs\Chat.cs" />
     <Compile Include="C2SEs\Game.cs" />
     <Compile Include="C2SEs\SetSeat.cs" />
-    <Compile Include="RoomController.cs" />
+    <Compile Include="RoomHost.cs" />
     <Compile Include="IC2SE.cs" />
     <Compile Include="Network\IdsPool.cs" />
     <Compile Include="LoginServer.cs" />

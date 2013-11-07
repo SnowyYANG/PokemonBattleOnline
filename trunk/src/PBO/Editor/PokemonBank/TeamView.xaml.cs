@@ -92,6 +92,7 @@ namespace PokemonBattleOnline.PBO.Editor
       if (MessageBox.Show(editing ? "这个队伍里的精灵正在编辑，确实要删除么？" : "删除队伍？", "PBO", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
       {
         if (editing) EditorVM.Current.EditingPokemon = null;
+        if (ViewModel.CanBattle) EditorVM.Current.BattleTeams.Remove(ViewModel);
         EditorVM.Current.Teams.Remove(ViewModel);
       }
     }

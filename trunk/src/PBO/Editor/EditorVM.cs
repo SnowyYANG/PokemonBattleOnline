@@ -22,7 +22,7 @@ namespace PokemonBattleOnline.PBO.Editor
     {
       _teams = new ObservableCollection<TeamVM>(teams.Select((t) => new TeamVM(t)));
       _teams.Insert(0, null);
-      _battleTeams = new ObservableCollection<PokemonTeam>(teams.Where((t) => t.CanBattle));
+      _battleTeams = new ObservableCollection<TeamVM>(_teams.Where((t) => t != null && t.CanBattle));
     }
 
     private PokemonEditorVM _editingPokemon;
@@ -40,8 +40,8 @@ namespace PokemonBattleOnline.PBO.Editor
     public ObservableCollection<TeamVM> Teams
     { get { return _teams; } }
 
-    private readonly ObservableCollection<PokemonTeam> _battleTeams;
-    public ObservableCollection<PokemonTeam> BattleTeams
+    private readonly ObservableCollection<TeamVM> _battleTeams;
+    public ObservableCollection<TeamVM> BattleTeams
     { get { return _battleTeams; } }
 
     public void NewTeam()

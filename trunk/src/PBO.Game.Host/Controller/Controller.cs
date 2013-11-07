@@ -8,6 +8,7 @@ namespace PokemonBattleOnline.Game.Host
   internal class Controller : IDisposable
   {
     public event Action<ReportFragment, InputRequest[,]> GameUpdated;
+    public event Action GameEnd;
 
     public readonly ReportBuilder ReportBuilder;
     public readonly IGameSettings GameSettings;
@@ -132,6 +133,8 @@ namespace PokemonBattleOnline.Game.Host
         {
           ReportBuilder.NewFragment();
           GameUpdated(ReportBuilder.GetFragment(), null);
+          Dispose();
+          GameEnd();
           return false;
         }
         return true;

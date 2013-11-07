@@ -13,7 +13,7 @@ namespace PokemonBattleOnline.Network
     public readonly ServerState State;
     private readonly Dictionary<int, ServerUser> Users;
     private readonly IdsPool RoomIds;
-    private readonly Dictionary<int, RoomController> Rooms;
+    private readonly Dictionary<int, RoomHost> Rooms;
 
     internal Server(int port)
     {
@@ -23,7 +23,7 @@ namespace PokemonBattleOnline.Network
       State = new ServerState(this);
       Users = new Dictionary<int, ServerUser>();
       RoomIds = new IdsPool();
-      Rooms = new Dictionary<int, RoomController>();
+      Rooms = new Dictionary<int, RoomHost>();
     }
 
     public void Start()
@@ -58,20 +58,20 @@ namespace PokemonBattleOnline.Network
       }
       Login.RemoveName(user.User.Name);
     }
-    internal RoomController GetRoom(int id)
+    internal RoomHost GetRoom(int id)
     {
       return Rooms.ValueOrDefault(id);
     }
-    internal RoomController AddRoom(string name, GameSettings settings)
+    internal RoomHost AddRoom(string name, GameSettings settings)
     {
       var id = RoomIds.GetId();
-      var rc = new RoomController(this, id, name, settings);
+      var rc = new RoomHost(this, id, name, settings);
       Rooms.Add(id, rc);
       State.RoomList.Add(rc.Room);
       Send(Commands.RoomS2C.NewRoom(id, settings));
       return rc;
     }
-    internal void RemoveRoom(RoomController rc)
+    internal void RemoveRoom(RoomHost rc)
     {
       var room = rc.Room;
       if (Rooms.Remove(room.Id))

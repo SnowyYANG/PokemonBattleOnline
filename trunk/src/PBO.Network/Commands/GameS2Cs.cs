@@ -139,7 +139,7 @@ namespace PokemonBattleOnline.Network.Commands
     }
     void IS2C.Execute(Client client)
     {
-      if (Player != 0) RoomController.OnGameStop(Reason, client.Controller.GetUser(Player));
+      if (Player != 0) client.Controller.Room.OnGameStop(Reason, client.Controller.GetUser(Player));
       else if (Time != null) RoomController.OnTimeUp(Time.Select((p) => new KeyValuePair<User, int>(client.Controller.GetUser(p.Key), p.Value)).ToArray());
       client.Controller.Room.Reset();
     }

@@ -105,7 +105,6 @@ namespace PokemonBattleOnline.PBO.Battle
     }
     internal void Init(IControlPanel controlpanel)
     {
-      if (DataContext != null) throw new Exception("<Testbug>ControlPanel inits twice...");
       DataContext = vm = controlpanel;
     }
   }

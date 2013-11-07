@@ -35,7 +35,7 @@ namespace PokemonBattleOnline.Network
     private readonly User _user;
     public User User
     { get { return _user; } }
-    public RoomController Room
+    public RoomHost Room
     { get { return User.Room == null ? null : Server.GetRoom(User.Room.Id); } }
 
     protected override void OnPackReceived(byte[] pack)

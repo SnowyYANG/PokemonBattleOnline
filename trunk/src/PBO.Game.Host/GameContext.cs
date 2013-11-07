@@ -24,6 +24,11 @@ namespace PokemonBattleOnline.Game.Host
       add { Controller.GameUpdated += value; }
       remove { Controller.GameUpdated -= value; }
     }
+    public event Action GameEnd
+    {
+      add { Controller.GameEnd += value; }
+      remove { Controller.GameEnd -= value; }
+    }
     public event Action<int[,]> TimeUp
     {
       add { Controller.Timer.TimeUp += value; }
@@ -89,9 +94,14 @@ namespace PokemonBattleOnline.Game.Host
       return Controller.ReportBuilder.GetLeapFragment(); //is null possible?
     }
 
+    private bool _isDisposed;
     public void Dispose()
     {
-      Controller.Dispose();
+      if (!_isDisposed)
+      {
+        _isDisposed = true;
+        Controller.Dispose();
+      }
     }
   }
 }
