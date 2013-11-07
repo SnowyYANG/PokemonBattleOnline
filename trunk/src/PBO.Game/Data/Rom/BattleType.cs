@@ -63,7 +63,7 @@ namespace PokemonBattleOnline.Game
     {
       return REVISE[(int)a, (int)d];
     }
-    public static int EffectRevise(this BattleType a, BattleType[] d)
+    public static int EffectRevise(this BattleType a, IEnumerable<BattleType> d)
     {
       var r = 0;
       foreach(var t in d) r += EffectRevise(a, t);
