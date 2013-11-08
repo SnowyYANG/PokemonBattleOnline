@@ -336,6 +336,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.BESTOW: //516
           Bestow(atk);
           break;
+        case Ms.HEAL_PULSE:
+          HealPulse(atk);
+          break;
         default:
           if (move.Category == MoveCategory.Status) StatusMove(atk);
           else AttackMove(atk);
@@ -383,7 +386,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       do
       {
         hits++;
-        MoveCalculateDamages.Execute(atk);
+        CalculateDamages.Execute(atk);
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
       }
@@ -543,6 +546,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
     }
 
+    #region Gen5
     private static void Curse(AtkContext atk)
     {
       var aer = atk.Attacker;
@@ -1133,7 +1137,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         {
           hits++;
           atk.SetCondition("BeatUpAtk", pm == aer.Pokemon ? aer.OnboardPokemon.Form.Data.Base.Atk : pm.Form.Data.Base.Atk);
-          MoveCalculateDamages.Execute(atk);
+          CalculateDamages.Execute(atk);
           Implement(atk.Targets);
           if (atk.Target.Defender.Hp == 0 || aer.Hp == 0 || aer.State == PokemonState.FRZ || aer.State == PokemonState.SLP) break;
         }
@@ -1154,7 +1158,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         hits++;
         atk.Target.BasePower += 10;
-        MoveCalculateDamages.Execute(atk);
+        CalculateDamages.Execute(atk);
         Implement(atk.Targets);
         MoveE.FilterDefContext(atk);
       }
@@ -1163,6 +1167,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       atk.Controller.ReportBuilder.ShowLog("Hits", hits);
 
       FinalEffect(atk);
+    }
+    #endregion
+
+    private static void HealPulse(AtkContext atk)
+    {
+      atk.Target.Defender.HpRecover(atk.Target.Defender.Pokemon.MaxHp * (atk.Attacker.Ability == As.MEGA_LAUNCHER ? 75 : 50) / 100, true);
     }
   }
 }

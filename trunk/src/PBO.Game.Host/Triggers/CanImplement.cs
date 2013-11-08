@@ -10,61 +10,105 @@ namespace PokemonBattleOnline.Game.Host.Triggers
   {
     public static bool Execute(DefContext def)
     {
-      switch (def.Ability)
+      var der = def.Defender;
+      var move = def.AtkContext.Move;
+
+      switch (def.Defender.Ability)
       {
         case As.VOLT_ABSORB: //10
-          return NoEffectWithAbsorb(def, BattleType.Electric);
+          if (!NoEffectWithAbsorb(def, BattleType.Electric)) return false;
+          break;
         case As.WATER_ABSORB: //11
         case As.DRY_SKIN: //87
-          return NoEffectWithAbsorb(def, BattleType.Water);
+          if (!NoEffectWithAbsorb(def, BattleType.Water)) return false;
+          break;
         case As.OBLIVIOUS: //12
-          return Oblivious(def);
+          if (move.Id == Ms.CAPTIVATE)
+          {
+            der.RaiseAbility();
+            der.AddReportPm("NoEffect");
+            return false;
+          }
+          break;
         case As.FLASH_FIRE: //18
-          return FlashFire(def);
+          if (move.Category != MoveCategory.Status && def.AtkContext.Type == BattleType.Fire)
+          {
+            der.OnboardPokemon.SetCondition("FlashFire");
+            der.RaiseAbility();
+            der.AddReportPm("FlashFire");
+            return false;
+          }
+          break;
         case As.SUCTION_CUPS: //21
-          return SuctionCups(def);
+          if (move.Class == MoveInnerClass.ForceToSwitch)
+          {
+            der.RaiseAbility();
+            der.AddReportPm("SuctionCups");
+            return false;
+          }
+          break;
         case As.WONDER_GUARD: //25
-          return WonderGuard(def);
+          if ((move.Category != MoveCategory.Status || move.Id == Ms.THUNDER_WAVE) && def.AtkContext.Type.EffectRevise(der.OnboardPokemon.Types) <= 0)
+          {
+            der.RaiseAbility();
+            der.AddReportPm("NoEffect");
+            return false;
+          }
+          break;
         case As.LIGHTNINGROD: //31
-          return NoEffectWithLv7DUp(def, BattleType.Electric, StatType.SpAtk);
+          if (!NoEffectWithLv7DUp(def, BattleType.Electric, StatType.SpAtk)) return false;
+          break;
         case As.MOTOR_DRIVE: //78
-          return NoEffectWithLv7DUp(def, BattleType.Electric, StatType.Speed);
+          if (!NoEffectWithLv7DUp(def, BattleType.Electric, StatType.Speed)) return false;
+          break;
         case As.STORM_DRAIN: //114
-          return NoEffectWithLv7DUp(def, BattleType.Water, StatType.SpAtk);
+          if (!NoEffectWithLv7DUp(def, BattleType.Water, StatType.SpAtk)) return false;
+          break;
         case As.SAP_SIPPER: //157
-          return NoEffectWithLv7DUp(def, BattleType.Grass, StatType.Atk);
+          if (!NoEffectWithLv7DUp(def, BattleType.Grass, StatType.Atk)) return false;
+          break;
         case As.SOUNDPROOF: //43
-          return Soundproof(def);
+          if (move.Flags.IsSound)
+          {
+            der.RaiseAbility();
+            der.AddReportPm("NoEffect");
+            return false;
+          }
+          break;
         case As.STICKY_HOLD: //60
-          return StickyHold(def);
+          var m = move.Id;
+          if (m == Ms.THIEF || m == Ms.TRICK || m == Ms.COVET || m == Ms.SWITCHEROO)
+          {
+            der.RaiseAbility();
+            der.AddReportPm("NoEffect");
+            return false;
+          }
+          break;
         case As.TELEPATHY: //140
-          return Telepathy(def);
-        default:
-          return true;
+          if ((move.Category != MoveCategory.Status || move.Id == Ms.THUNDER_WAVE) && def.AtkContext.Attacker.Pokemon.TeamId == der.Pokemon.TeamId)
+          {
+            der.RaiseAbility();
+            der.AddReportPm("NoEffect");
+            return false;
+          }
+          break;
+        case As.BULLETPROOF:
+          if (move.Bulletproof())
+          {
+            der.RaiseAbility();
+            der.AddReportPm("NoEffect");
+            return false;
+          }
+          break;
       }
-    }
-    private static bool FlashFire(DefContext def)
-    {
-      var der = def.Defender;
-      if (def.AtkContext.Move.Category != MoveCategory.Status && def.AtkContext.Type == BattleType.Fire)
+      if (move.AromaVeil() && def.Defender.Tile.Field.Pokemons.Any((p) => p.RaiseAbility(As.AROMA_VEIL)))
       {
-        der.OnboardPokemon.SetCondition("FlashFire");
-        der.RaiseAbility();
-        der.AddReportPm("FlashFire");
-        return false;
-      }
-      return true;
-    }
-    private static bool Oblivious(DefContext def)
-    {
-      if (def.AtkContext.Move.Id == Ms.CAPTIVATE)
-      {
-        def.Defender.RaiseAbility();
         def.Defender.AddReportPm("NoEffect");
         return false;
       }
       return true;
     }
+
     private static bool NoEffectWithAbsorb(DefContext def, BattleType type)
     {
       if ((def.AtkContext.Move.Category != MoveCategory.Status || def.AtkContext.Move.Id == Ms.THUNDER_WAVE) && def.AtkContext.Type == type)
@@ -77,25 +121,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
       return true;
     }
-    private static bool SuctionCups(DefContext def)
-    {
-      if (def.AtkContext.Move.Class == MoveInnerClass.ForceToSwitch)
-      {
-        def.Defender.RaiseAbility();
-        def.Defender.AddReportPm("SuctionCups");
-        return false;
-      }
-      return true;
-    }
-    private static bool WonderGuard(DefContext def)
-    {
-     var type = def.AtkContext.Type;
-      var der = def.Defender;
-      if (def.AtkContext.Move.Category == MoveCategory.Status && def.AtkContext.Move.Id != Ms.THUNDER_WAVE || type.EffectRevise(der.OnboardPokemon.Types) > 0) return true;
-      der.RaiseAbility();
-      der.AddReportPm("NoEffect");
-      return false;
-    }
     private static bool NoEffectWithLv7DUp(DefContext def, BattleType type, StatType stat)
     {
       if (def.AtkContext.Type == type)
@@ -104,39 +129,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         der.RaiseAbility();
         if (!der.ChangeLv7D(der, stat, 1, false, null)) der.AddReportPm("NoEffect");
         return false;
-      }
-      return true;
-    }
-    private static bool Soundproof(DefContext def)
-    {
-      if (def.AtkContext.Move.Flags.IsSound)
-      {
-          def.Defender.RaiseAbility();
-          def.Defender.AddReportPm("NoEffect");
-          return false;
-      }
-      return true;
-    }
-    private static bool StickyHold(DefContext def)
-    {
-      var m = def.AtkContext.Move.Id;
-      if (m == 168 || m == 271 || m == 343 || m == 415)
-      {
-          def.Defender.RaiseAbility();
-          def.Defender.AddReportPm("NoEffect");
-          return false;
-      }
-      return true;
-    }
-    private static bool Telepathy(DefContext def)
-    {
-      var atk = def.AtkContext;
-      var der = def.Defender;
-      if ((atk.Move.Category != MoveCategory.Status || atk.Move.Id == Ms.THUNDER_WAVE) && atk.Attacker.Pokemon.TeamId == der.Pokemon.TeamId)
-      {
-          der.RaiseAbility();
-          der.AddReportPm("NoEffect");
-          return false;
       }
       return true;
     }

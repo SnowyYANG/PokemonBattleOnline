@@ -85,7 +85,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             pm.OnboardPokemon.RemoveCondition("Snatch");
             pm.AddReportPm("Snatch", aer.Id);
             var s = new AtkContext(pm) { Move = move };
-            MoveInitAtkContext.Execute(s);
+            InitAtkContext.Execute(s);
             MoveE.BuildDefContext(s, null);
             if (MoveNotFail.Execute(s)) MoveAct.Execute(s);
             else s.FailAll();
@@ -105,7 +105,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         }
       }
 
-      MoveCalculateType.Execute(atk);
+      CalculateType.Execute(atk);
       MoveE.FilterDefContext(atk);
       if (atk.Targets != null && atk.Target == null) atk.FailAll(null);
       else

@@ -15,9 +15,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var aer = atk.Attacker;
       var c = def.Defender.Controller;
 
-      Modifier m = AttackerAbility(def);
-
-      m *= DefenderAbility(def);
+      Modifier m = Abilities(def);
 
       m *= AttackerItem(atk);
 
@@ -34,61 +32,82 @@ namespace PokemonBattleOnline.Game.Host.Triggers
 
       return m;
     }
-    private static Modifier AttackerAbility(DefContext def)
+    private static Modifier Abilities(DefContext def)
     {
       var der = def.Defender;
-      var move = def.AtkContext.Move;
-      var aer = def.AtkContext.Attacker;
+      var atk = def.AtkContext;
+      var move = atk.Move;
+      var aer = atk.Attacker;
+      var type = atk.Type;
 
-      switch (aer.Ability)
-      {
-        case As.RIVALRY:
-          {
-            var u = aer.OnboardPokemon.Gender;
-            var t = der.OnboardPokemon.Gender;
-            return (Modifier)(u == PokemonGender.None || t == PokemonGender.None ? 0x1000 : u == t ? 0x1400 : 0xc00);
-          }
-        case As.IRON_FIST:
-          return (Modifier)(move.Flags.IsFist ? 0x1333 : 0x1000);
-        case As.TECHNICIAN:
-          return (Modifier)(def.BasePower <= 60 ? 0x1800 : 0x1000);
-        case As.RECKLESS:
-          return (Modifier)(move.HurtPercentage < 0 || move.Id == Ms.JUMP_KICK || move.Id == Ms.HI_JUMP_KICK ? 0x1333 : 0x1000);
-        case As.TOXIC_BOOST:
-          return (Modifier)((aer.State == PokemonState.PSN || aer.State == PokemonState.BadlyPSN) && move.Category == MoveCategory.Physical ? 0x1800 : 0x1000);
-        case As.FLARE_BOOST:
-          return (Modifier)(move.Category == MoveCategory.Special && aer.State == PokemonState.BRN ? 0x1800 : 0x1000);
-        case As.ANALYTIC:
-          {
-            var turn = aer.LastMoveTurn;
-            return (Modifier)(aer.Controller.ActingPokemons.All((p) => p.LastMoveTurn == turn) ? 0x14cd : 0x1000);
-          }
-        case As.SAND_FORCE:
-          {
-            var type = move.Type;
-            return (Modifier)((type == BattleType.Rock || type == BattleType.Ground || type == BattleType.Steel) && aer.Controller.Weather == Weather.Sandstorm ? 0x14cd : 0x1000);
-          }
-        default:
-          return 0x1000;
-      }
-    }
+      Modifier m = 0x1000;
 
-    private static Modifier DefenderAbility(DefContext def)
-    {
+      if (atk.HasCondition("Sukin")) m *= 0x14cd;
+      else
+        switch (aer.Ability)
+        {
+          case As.RIVALRY:
+            {
+              var u = aer.OnboardPokemon.Gender;
+              var t = der.OnboardPokemon.Gender;
+              if (u != PokemonGender.None && t != PokemonGender.None)
+                m *= (Modifier)(u == t ? 0x1400 : 0xc00);
+            }
+            break;
+          case As.IRON_FIST:
+            if (move.Flags.IsFist) m *= 0x1333;
+            break;
+          case As.TECHNICIAN:
+            if (def.BasePower <= 60) m *= 0x1800;
+            break;
+          case As.RECKLESS:
+            if (move.HurtPercentage < 0 || move.Id == Ms.JUMP_KICK || move.Id == Ms.HI_JUMP_KICK) m *= 0x1333;
+            break;
+          case As.TOXIC_BOOST:
+            if ((aer.State == PokemonState.PSN || aer.State == PokemonState.BadlyPSN) && move.Category == MoveCategory.Physical) m *= 0x1800;
+            break;
+          case As.FLARE_BOOST:
+            if (move.Category == MoveCategory.Special && aer.State == PokemonState.BRN) m *= 0x1800;
+            break;
+          case As.ANALYTIC:
+            {
+              var turn = aer.LastMoveTurn;
+              if (aer.Controller.ActingPokemons.All((p) => p.LastMoveTurn == turn)) m *= 0x14cd;
+            }
+            break;
+          case As.SHEER_FORCE:
+            if (atk.Move.HasProbabilitiedAdditonalEffects()) m *= 0x14cd;
+            break;
+          case As.SAND_FORCE:
+            if ((type == BattleType.Rock || type == BattleType.Ground || type == BattleType.Steel) && aer.Controller.Weather == Weather.Sandstorm) m *= 0x14cd;
+            break;
+          case As.STRONG_JAW:
+            if (move.StrongJaw()) m *= 0x1800;
+            break;
+          case As.TOUGH_CLAWS:
+            if (move.Flags.NeedTouch) m *= 0x14cd;
+            break;
+          case As.MEGA_LAUNCHER:
+            if (move.MegaLaucher()) m *= 0x1800;
+            break;
+        }
+
       //如果防御方是耐热特性，攻击方火属性技能威力×0.5。
       //如果防御方是干燥肌肤特性，攻击方火属性技能威力×1.25。 
-      AtkContext atk = def.AtkContext;
-
-      int id = def.Ability;
-      ushort d = 0x1000;
-      if (atk.Type == BattleType.Fire)
+      if (type == BattleType.Fire)
       {
-        if (id == As.HEATPROOF) d = 0x800;
-        else if (id == As.DRY_SKIN) d = 0x1800;
+        int id = def.Ability;
+        if (id == As.HEATPROOF) m *= 0x800;
+        else if (id == As.DRY_SKIN) m *= 0x1800;
       }
-      Modifier r = d;
-      if (atk.Move.HasProbabilitiedAdditonalEffects() && atk.Attacker.Ability == As.SHEER_FORCE) r *= 0x14cd;
-      return r;
+      
+      if (type == BattleType.Dark || type == BattleType.Fairy)
+      {
+        var a = type == BattleType.Dark ? As.DARK_AURA : As.FAIRY_AURA;
+        if (aer.Controller.OnboardPokemons.Any((p) => p.Ability == a)) m *= (Modifier)(aer.Controller.OnboardPokemons.Any((p) => p.Ability == As.AURA_BREAK) ? 0xc00 : 0x1555);
+      }
+
+      return m;
     }
     
     private static Modifier AttackerItem(AtkContext atk)

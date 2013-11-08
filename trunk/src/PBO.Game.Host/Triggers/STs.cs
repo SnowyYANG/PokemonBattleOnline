@@ -237,6 +237,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (aer.Item == Is.WIDE_LENS) m *= 0x1199;
       return m;
     }
+    public static void Lv7DDown(PokemonProxy pm)
+    {
+      if (pm.CanChangeLv7D(pm, StatType.Atk, 2, false) != 0 && pm.RaiseAbility(As.DEFIANT)) pm.ChangeLv7D(pm, StatType.Atk, 2, false);
+      else if (pm.CanChangeLv7D(pm, StatType.SpAtk, 2, false) != 0 && pm.RaiseAbility(As.COMPETITIVE)) pm.ChangeLv7D(pm, StatType.SpAtk, 2, false);
+    }
   }
   internal static class SubstituteTriggers
   {

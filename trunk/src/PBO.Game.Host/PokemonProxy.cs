@@ -638,7 +638,7 @@ namespace PokemonBattleOnline.Game.Host
               break;
           }
         AddReportPm(log, (int)stat);
-        if (by.Pokemon.TeamId != Pokemon.TeamId && change < 0) ATs.Defiant(this);
+        if (by.Pokemon.TeamId != Pokemon.TeamId && change < 0) STs.Lv7DDown(this);
         return true;
       }
       return false;

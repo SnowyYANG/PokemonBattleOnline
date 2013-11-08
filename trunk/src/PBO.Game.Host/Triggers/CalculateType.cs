@@ -6,7 +6,7 @@ using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Game.Host.Triggers
 {
-  internal static class MoveCalculateType
+  internal static class CalculateType
   {
     public static void Execute(AtkContext atk)
     {
@@ -37,7 +37,39 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
           break;
         default:
-          atk.Type = atk.Attacker.Ability == As.NORMALIZE ? BattleType.Normal : atk.Move.Type;
+          switch (atk.Attacker.Ability)
+          {
+            case As.NORMALIZE:
+              atk.Type = BattleType.Normal;
+              break;
+            case As.AERILATE:
+              if (atk.Move.Type == BattleType.Normal)
+              {
+                atk.Type = BattleType.Flying;
+                atk.SetCondition("Sukin");
+              }
+              else goto default;
+              break;
+            case As.PIXILATE:
+              if (atk.Move.Type == BattleType.Normal)
+              {
+                atk.Type = BattleType.Fairy;
+                atk.SetCondition("Sukin");
+              }
+              else goto default;
+              break;
+            case As.REFRIGERATE:
+              if (atk.Move.Type == BattleType.Ice)
+              {
+                atk.Type = BattleType.Ice;
+                atk.SetCondition("Sukin");
+              }
+              else goto default;
+              break;
+            default:
+              atk.Type = atk.Move.Type;
+              break;
+          }
           break;
       }
     }

@@ -24,12 +24,13 @@ namespace PokemonBattleOnline.Game.Host
       if (b.Action == PokemonAction.WillSwitch) return 1;
 
       {
-        int aP = a.SelectedMove.Priority;
-        int bP = b.SelectedMove.Priority;
-        if (a.SelectedMove.Type.Category == MoveCategory.Status && a.Ability == As.PRANKSTER) aP++;
-        if (b.SelectedMove.Type.Category == MoveCategory.Status && b.Ability == As.PRANKSTER) bP++;
-        if (aP != bP)
-          return bP - aP;
+        var am = a.SelectedMove.Type;
+        var bm = b.SelectedMove.Type;
+        int aP = am.Priority;
+        int bP = bm.Priority;
+        if (am.Category == MoveCategory.Status && a.Ability == As.PRANKSTER || am.Type == BattleType.Flying && a.Ability == As.GALE_WINGS) aP++;
+        if (bm.Category == MoveCategory.Status && b.Ability == As.PRANKSTER || bm.Type == BattleType.Flying && b.Ability == As.GALE_WINGS) bP++;
+        if (aP != bP) return bP - aP;
       }
 
       {//1=先制爪/先制果发动 0=无道具 -1=后攻尾/满腹香炉发动<--同时带这个慢的先出 只计算不发动

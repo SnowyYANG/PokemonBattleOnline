@@ -42,8 +42,6 @@ namespace PokemonBattleOnline.Game.Host
 
     public MoveType Type
     { get { return Move.Type; } }
-    public int Priority
-    { get { return Move.Type.Priority; } }
     public bool CanBeSelected
     { get { return PP > 0 && IfSelected() == null; } }
     

@@ -6,7 +6,7 @@ using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Game.Host.Triggers
 {
-  internal static class MoveCalculateDamages
+  internal static class CalculateDamages
   {
     public static void Execute(AtkContext atk)
     {
@@ -31,13 +31,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
       switch (atk.Move.Id)
       {
-        case 68:
+        case Ms.COUNTER:
           Counter(atk, "PhysicalDamage", 0x2000);
           break;
-        case 243:
+        case Ms.MIRROR_COAT:
           Counter(atk, "SpecialDamage", 0x2000);
           break;
-        case 368:
+        case Ms.METAL_BURST:
           Counter(atk, "Damage", 0x1800);
           break;
         case Ms.SONICBOOM: //49
@@ -69,7 +69,17 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           def.Damage = atk.Attacker.Hp;
           break;
         default:
-          CalculateDamages(atk);
+          if (move.Class != MoveInnerClass.OHKO)
+          {
+            ITs.CheckGem(atk);
+            atk.CTLv = move.CtLv;
+            if (atk.CTLv < 5)
+            {
+              atk.CTLv += STs.CtLvRevise(aer);
+              if (atk.CTLv > 4) atk.CTLv = 4;
+            }
+            foreach (DefContext d in atk.Targets) CalculateDamage(d);
+          }
           break;
       }
       switch (atk.Move.Id)
@@ -95,21 +105,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.FEINT: //364
           if (feint) der.AddReportPm("Feint");
           break;
-      }
-    }
-    private static void CalculateDamages(AtkContext atk)
-    {
-      if (atk.Move.Class != MoveInnerClass.OHKO)
-      {
-        var aer = atk.Attacker;
-        ITs.CheckGem(atk);
-        atk.CTLv = atk.Move.CtLv;
-        if (atk.CTLv < 5)
-        {
-          atk.CTLv += STs.CtLvRevise(atk.Attacker);
-          if (atk.CTLv > 4) atk.CTLv = 4;
-        }
-        foreach (DefContext d in atk.Targets) CalculateDamage(d);
       }
     }
     private static void CalculateEffectRevise(DefContext def)

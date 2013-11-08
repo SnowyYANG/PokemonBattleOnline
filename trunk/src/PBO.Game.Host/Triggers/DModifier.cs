@@ -17,10 +17,24 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var n = der.Pokemon.Form.Species.Number;
       
       Modifier m = 0x1000;
-      if (def.Ability == As.MARVEL_SCALE && der.State != PokemonState.Normal) m *= 0x1800;
+
+      switch (def.Ability)
+      {
+        case As.MARVEL_SCALE:
+          if (der.State != PokemonState.Normal) m *= 0x1800;
+          break;
+        case As.GRASS_PELT:
+          if (der.Controller.Board.GetCondition<int>("Terrain") == Ms.GRASSY_TERRAIN) m *= 0x1800;
+          break;
+        case As.FUR_COAT:
+          if (cat == MoveCategory.Physical) m *= 0x2000;
+          break;
+      }
+      
       if (cat == MoveCategory.Special && der.Controller.Weather == Weather.IntenseSunlight)
         foreach (PokemonProxy pm in der.Controller.GetOnboardPokemons(der.Pokemon.TeamId))
           if (pm.Pokemon.Form.Species.Number == 421 && pm.Ability == As.FLOWER_GIFT) m *= 0x1800;
+      
       switch (der.Item)
       {
         case Is.EVIOLITE:

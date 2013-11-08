@@ -16,7 +16,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var touch = atk.Move.Flags.NeedTouch;
       var realHurt = def.Damage != 0;
 
-      if (aer.Ability == As.POISON_TOUCH && touch && der.Controller.RandomHappen(30) && der.CanAddState(aer, AttachedState.PSN, false))
+      if (touch && aer.Ability == As.POISON_TOUCH && der.Controller.RandomHappen(30) && der.CanAddState(aer, AttachedState.PSN, false))
       {
         aer.RaiseAbility();
         der.AddState(aer, AttachedState.PSN, false);
@@ -77,7 +77,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
           break;
         case As.MUMMY:
-          if (touch && aer.Ability != As.MULTITYPE && aer.Ability != As.MUMMY)
+          var aa = aer.Ability;
+          if (touch && aa != As.MULTITYPE && aa != As.MUMMY)
           {
             der.RaiseAbility();
             var fa = aer.OnboardPokemon.Ability;
@@ -95,6 +96,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case As.RATTLED:
           Rattled(def);
+          break;
+        case As.GOOEY:
+          if (touch && aer.CanChangeLv7D(der, StatType.Speed, -1, false) != 0)
+          {
+            der.RaiseAbility();
+            aer.ChangeLv7D(der, StatType.Speed, -1, false);
+          }
           break;
       }
       switch (def.Defender.Item)

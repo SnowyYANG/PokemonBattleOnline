@@ -51,7 +51,7 @@ namespace PokemonBattleOnline.Game.Host
       if (STs.CanExecuteMove(Attacker, move))
       {
         if (log != null) Attacker.AddReportPm(log, move.Id);
-        MoveInitAtkContext.Execute(this);
+        InitAtkContext.Execute(this);
         MoveE.BuildDefContext(this, selectTile);
         if (MoveProxy != null) ATs.Pressure(this, MTs.GetRange(Attacker, Move));
         MoveExecute.Execute(this);

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PokemonBattleOnline.Game.Host.Triggers
 {
-  internal static class MoveInitAtkContext
+  internal static class InitAtkContext
   {
     public static void Execute(AtkContext atk)
     {

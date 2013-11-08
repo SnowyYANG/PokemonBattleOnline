@@ -30,6 +30,19 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case As.LEAF_GUARD: //102
           return LeafGuard(pm, by, state, showFail);
       }
+      if (state == AttachedState.SLP)
+      {
+        var pa = pm.Tile.Field.Pokemons.FirstOrDefault((p) => p.Ability == As.SWEET_VEIL);
+        if (pa != null)
+        {
+          if (showFail)
+          {
+            pa.RaiseAbility();
+            pm.AddReportPm("CantSLP");
+          }
+          return false;
+        }
+      }
       return true;
     }
 

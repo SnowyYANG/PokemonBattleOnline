@@ -54,8 +54,8 @@
     <Compile Include="Triggers\AModifier.cs" />
     <Compile Include="Triggers\HasEffect.cs" />
     <Compile Include="Triggers\MoveAct.cs" />
-    <Compile Include="Triggers\MoveCalculateDamages.cs" />
-    <Compile Include="Triggers\MoveCalculateType.cs" />
+    <Compile Include="Triggers\CalculateDamages.cs" />
+    <Compile Include="Triggers\CalculateType.cs" />
     <Compile Include="Triggers\CanAddState.cs" />
     <Compile Include="Triggers\CanImplement.cs" />
     <Compile Include="Triggers\Attacked.cs" />
@@ -66,7 +66,7 @@
     <Compile Include="Triggers\MoveBasePower.cs" />
     <Compile Include="Triggers\MoveExecute.cs" />
     <Compile Include="Triggers\MoveImplementEffect.cs" />
-    <Compile Include="Triggers\MoveInitAtkContext.cs" />
+    <Compile Include="Triggers\InitAtkContext.cs" />
     <Compile Include="Triggers\MoveNotFail.cs" />
     <Compile Include="Triggers\MovePostEffect.cs" />
     <Compile Include="Triggers\PowerModifier.cs" />

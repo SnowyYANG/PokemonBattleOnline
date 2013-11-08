@@ -64,8 +64,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         var item = der.Item;
         if (
-          item == 180 && atk.Type == BattleType.Normal ||
-          164 <= item && item <= 179 && atk.Type == BattleTypeHelper.GetItemType(item, 164) && def.EffectRevise > 0
+          item == Is.CHILAN_BERRY && atk.Type == BattleType.Normal ||
+          Is.OCCA_BERRY <= item && item <= Is.BABIRI_BERRY && atk.Type == BattleTypeHelper.GetItemType(item, Is.OCCA_BERRY) && def.EffectRevise > 0
           )
         {
           def.SetCondition("Antiberry");

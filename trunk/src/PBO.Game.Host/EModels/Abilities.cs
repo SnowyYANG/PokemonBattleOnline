@@ -80,10 +80,6 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (pm != by && pm.RaiseAbility(As.SYNCHRONIZE)) by.AddState(pm, state, true, turn);
     }
-    public static void Defiant(PokemonProxy pm)
-    {
-      if (pm.CanChangeLv7D(pm, StatType.Atk, 2, false) != 0 && pm.RaiseAbility(As.DEFIANT)) pm.ChangeLv7D(pm, StatType.Atk, 2, false);
-    }
     public static void Illusion(PokemonProxy pm)
     {
       if (pm.Ability == As.ILLUSION)

@@ -35,9 +35,27 @@ namespace PokemonBattleOnline.Game.Host
     {
       return move.Id == Ms.CURSE ? pm.OnboardPokemon.HasType(BattleType.Ghost) ? MoveRange.Single : MoveRange.User : move.Range;
     }
-    public static bool FSDD(AtkContext atk)
+
+    private static int[] AROMA_VEILS = new int[] { Ms.DISABLE, Ms.ATTRACT, Ms.ENCORE, Ms.TORMENT, Ms.TAUNT };
+    public static bool AromaVeil(this MoveType move)
     {
-      return atk.Move.Id == Ms.FUTURE_SIGHT || atk.Move.Id == Ms.DOOM_DESIRE;
+      return AROMA_VEILS.Contains(move.Id);
+    }
+
+    private static int[] STRONG_JAWS = new int[] { Ms.BITE, Ms.CRUNCH, Ms.FIRE_FANG, Ms.HYPER_FANG, Ms.HYPER_FANG, Ms.ICE_FANG, Ms.POISON_FANG, Ms.THUNDER_FANG };
+    public static bool StrongJaw(this MoveType move)
+    {
+      return STRONG_JAWS.Contains(move.Id);
+    }
+    private static int[] BULLETPROOFS = new int[] { Ms.ACID_SPRAY, Ms.AURA_SPHERE, Ms.BARRAGE, Ms.BULLET_SEED, Ms.EGG_BOMB, Ms.ELECTRO_BALL, Ms.ENERGY_BALL, Ms.FOCUS_BLAST, Ms.GYRO_BALL, Ms.ICE_BALL, Ms.MAGNET_BOMB, Ms.OCTAZOOKA, Ms.SEED_BOMB, Ms.SHADOW_BALL, Ms.SLUDGE_BOMB, Ms.WEATHER_BALL };
+    public static bool Bulletproof(this MoveType move)
+    {
+      return BULLETPROOFS.Contains(move.Id);
+    }
+    private static int[] MEGA_LAUNCHER = new int[] { Ms.AURA_SPHERE, Ms.DARK_PULSE, Ms.DRAGON_PULSE, Ms.WATER_PULSE };
+    public static bool MegaLaucher(this MoveType move)
+    {
+      return MEGA_LAUNCHER.Contains(move.Id);
     }
 
     #region consts

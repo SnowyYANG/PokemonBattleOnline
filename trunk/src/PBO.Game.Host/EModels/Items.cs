@@ -348,7 +348,7 @@ namespace PokemonBattleOnline.Game.Host
     public static void CheckGem(AtkContext atk)
     {
       var i = atk.Attacker.Item;
-      if (Gem(i) && BattleTypeHelper.GetItemType(i, 112, false) == atk.Type)
+      if (Gem(i) && BattleTypeHelper.GetItemType(i, Is.FIRE_GEM, false) == atk.Type)
       {
         atk.Controller.ReportBuilder.ShowLog("Gem", i, atk.Move.Id);
         atk.SetTurnCondition("Gem");
