@@ -445,11 +445,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         switch (ab)
         {
           case As.SPEED_BOOST:
-            if (pm.LastMoveTurn != 0 && pm.CanChangeLv7D(pm, StatType.Speed, 1, false) != 0)
-            {
-              pm.RaiseAbility();
-              pm.ChangeLv7D(pm, StatType.Speed, 1, false);
-            }
+            if (pm.LastMoveTurn != 0) pm.ChangeLv7D(pm, StatType.Speed, 1, false, true);
             break;
           case As.BAD_DREAMS:
             {

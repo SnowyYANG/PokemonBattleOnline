@@ -609,16 +609,15 @@ namespace PokemonBattleOnline.Game.Host
       }
       return false;
     }
-    private bool ChangeLv7DImplement(PokemonProxy by, StatType stat, int change, bool showFail, string log)
+    private void ChangeLv7DImplement(PokemonProxy by, StatType stat, int actualChange, string log)
     {
-      change = CanChangeLv7D(by, stat, change, showFail);
-      if (change != 0)
+      if (actualChange != 0)
       {
-        if (stat == StatType.Accuracy) OnboardPokemon.AccuracyLv += change;
-        else if (stat == StatType.Evasion) OnboardPokemon.EvasionLv += change;
-        else OnboardPokemon.ChangeLv7D(stat, change);
+        if (stat == StatType.Accuracy) OnboardPokemon.AccuracyLv += actualChange;
+        else if (stat == StatType.Evasion) OnboardPokemon.EvasionLv += actualChange;
+        else OnboardPokemon.ChangeLv7D(stat, actualChange);
         if (log == null)
-          switch (change)
+          switch (actualChange)
           {
             case 1:
               log = "7DUp1";
@@ -633,15 +632,13 @@ namespace PokemonBattleOnline.Game.Host
               log = "7DDown2";
               break;
             default:
-              if (change > 0) log = "7DUp3";
+              if (actualChange > 0) log = "7DUp3";
               else log = "7DDown3";
               break;
           }
         AddReportPm(log, (int)stat);
-        if (by.Pokemon.TeamId != Pokemon.TeamId && change < 0) STs.Lv7DDown(this);
-        return true;
+        if (by.Pokemon.TeamId != Pokemon.TeamId && actualChange < 0) STs.Lv7DDown(this);
       }
-      return false;
     }
     /// <summary>
     /// null log to show default log
@@ -652,47 +649,63 @@ namespace PokemonBattleOnline.Game.Host
     /// <param name="showFail"></param>
     /// <param name="log"></param>
     /// <returns></returns>
-    public bool ChangeLv7D(PokemonProxy by, StatType stat, int change, bool showFail, string log = null)
+    public bool ChangeLv7D(PokemonProxy by, StatType stat, int change, bool showFail, bool ability = false, string log = null)
     {
-      if (ChangeLv7DImplement(by, stat, change, showFail, log))
+      change = CanChangeLv7D(by, stat, change, showFail);
+      if (change != 0)
       {
+        if (ability) ATs.RaiseAbility(this);
+        ChangeLv7DImplement(by, stat, change, log);
         ITs.WhiteHerb(this);
         return true;
       }
       return false;
     }
-    public bool ChangeLv7D(PokemonProxy by, bool showFail, int a, int d = 0, int sa = 0, int sd = 0, int s = 0, int ac = 0, int e = 0)
+    public bool ChangeLv7D(PokemonProxy by, bool showFail, bool ability, int a, int d = 0, int sa = 0, int sd = 0, int s = 0, int ac = 0, int e = 0)
     {
-      bool r = false;
-      r |= ChangeLv7DImplement(by, StatType.Atk, a, showFail, null);
-      r |= ChangeLv7DImplement(by, StatType.Def, d, showFail, null);
-      r |= ChangeLv7DImplement(by, StatType.SpAtk, sa, showFail, null);
-      r |= ChangeLv7DImplement(by, StatType.SpDef, sd, showFail, null);
-      r |= ChangeLv7DImplement(by, StatType.Speed, s, showFail, null);
-      r |= ChangeLv7DImplement(by, StatType.Accuracy, ac, showFail, null);
-      r |= ChangeLv7DImplement(by, StatType.Evasion, e, showFail, null);
-      if (r) ITs.WhiteHerb(this);
-      return r;
+      a = CanChangeLv7D(by, StatType.Atk, a, false);
+      d = CanChangeLv7D(by, StatType.Def, d, false);
+      sa = CanChangeLv7D(by, StatType.SpAtk, sa, false);
+      sd = CanChangeLv7D(by, StatType.SpDef, sd, false);
+      s = CanChangeLv7D(by, StatType.Speed, s, false);
+      ac = CanChangeLv7D(by, StatType.Accuracy, ac, false);
+      e = CanChangeLv7D(by, StatType.Evasion, e, false);
+      if (a != 0 || d != 0 || sa != 0 || sd != 0 || s != 0 || ac != 0 || e != 0)
+      {
+        if (ability) ATs.RaiseAbility(this);
+        ChangeLv7DImplement(by, StatType.Atk, a, null);
+        ChangeLv7DImplement(by, StatType.SpAtk, sa, null);
+        ChangeLv7DImplement(by, StatType.Def, d, null);
+        ChangeLv7DImplement(by, StatType.SpDef, sd, null);
+        ChangeLv7DImplement(by, StatType.Speed, s, null);
+        ChangeLv7DImplement(by, StatType.Accuracy, ac, null);
+        ChangeLv7DImplement(by, StatType.Evasion, e, null);
+        ITs.WhiteHerb(this);
+        return true;
+      }
+      return false;
     }
     public bool ChangeLv7D(PokemonProxy by, MoveType move)
     {
       bool r = false;
-      if (move.Lv7DChanges.Any())
+      var c0 = move.Lv7DChanges.FirstOrDefault();
+      if (c0 != null)
       {
         bool showFail = move.Category == MoveCategory.Status;
-        foreach (MoveLv7DChange c in move.Lv7DChanges)
+        if (c0.Type == StatType.All) r = ChangeLv7D(by, showFail, false, c0.Change, c0.Change, c0.Change, c0.Change, c0.Change);
+        else
+        {
+          foreach (MoveLv7DChange c in move.Lv7DChanges)
           {
-            if (c.Type == StatType.All)
+            var ac = CanChangeLv7D(by, c.Type, c.Change, showFail);
+            if (ac != 0)
             {
-              r |= ChangeLv7DImplement(by, StatType.Atk, c.Change, showFail, null);
-              r |= ChangeLv7DImplement(by, StatType.Def, c.Change, showFail, null);
-              r |= ChangeLv7DImplement(by, StatType.SpAtk, c.Change, showFail, null);
-              r |= ChangeLv7DImplement(by, StatType.SpDef, c.Change, showFail, null);
-              r |= ChangeLv7DImplement(by, StatType.Speed, c.Change, showFail, null);
+              ChangeLv7DImplement(by, c.Type, ac, null);
+              r = true;
             }
-            else r |= ChangeLv7DImplement(by, c.Type, c.Change, showFail, null);
           }
-        ITs.WhiteHerb(this);
+          if (r) ITs.WhiteHerb(this);
+        }
       }
       return r;
     }

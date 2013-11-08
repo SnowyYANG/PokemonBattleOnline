@@ -12,7 +12,7 @@ namespace PokemonBattleOnline.Game.Host
   {
     public static void RaiseAbility(this PokemonProxy pm)
     {
-      pm.AddReportPm("Ability", pm.OnboardPokemon.Ability);
+      pm.AddReportPm("m_Ability", pm.OnboardPokemon.Ability);
     }
     public static bool RaiseAbility(this PokemonProxy pm, int abilityId)
     {

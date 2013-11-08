@@ -341,7 +341,7 @@ namespace PokemonBattleOnline.Game.Host
       if (atk.Move.Id == Ms.SPIT_UP || atk.Move.Id == Ms.SWALLOW)
       {
         int i = aer.OnboardPokemon.GetCondition<int>("Stockpile");
-        aer.ChangeLv7D(atk.Attacker, false, 0, -i, 0, -i);
+        aer.ChangeLv7D(atk.Attacker, false, false, 0, -i, 0, -i);
         aer.OnboardPokemon.RemoveCondition("Stockpile");
         aer.AddReportPm("DeStockpile");
       }

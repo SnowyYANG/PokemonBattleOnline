@@ -12,8 +12,8 @@ namespace PokemonBattleOnline.Game
     [DataMember]
     public StatType Type { get; private set; }
     [DataMember]
-    public sbyte Change { get; private set; }
+    public int Change { get; private set; }
     [DataMember]
-    public byte Probability { get; private set; }
+    public int Probability { get; private set; }
   }
 }

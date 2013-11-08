@@ -127,7 +127,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         var der = def.Defender;
         der.RaiseAbility();
-        if (!der.ChangeLv7D(der, stat, 1, false, null)) der.AddReportPm("NoEffect");
+        if (!der.ChangeLv7D(der, stat, 1, false)) der.AddReportPm("NoEffect");
         return false;
       }
       return true;

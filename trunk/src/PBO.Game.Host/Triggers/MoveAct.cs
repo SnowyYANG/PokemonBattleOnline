@@ -208,7 +208,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.MEMENTO: //262
           aer.Faint();
-          atk.Target.Defender.ChangeLv7D(aer, true, -2, 0, -2);
+          atk.Target.Defender.ChangeLv7D(aer, true, false, -2, 0, -2);
           break;
         case Ms.TAUNT: //269
           {
@@ -328,7 +328,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           Entrainment(atk);
           break;
         case Ms.SHELL_SMASH: //504
-          aer.ChangeLv7D(aer, true, 2, -1, 2, -1, 2);
+          aer.ChangeLv7D(aer, true, false, 2, -1, 2, -1, 2);
           break;
         case Ms.REFLECT_TYPE: //513
           ReflectType(atk);
@@ -560,7 +560,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         }
         else atk.FailAll();
       }
-      else aer.ChangeLv7D(aer, true, 1, 1, 0, 0, -1);
+      else aer.ChangeLv7D(aer, true, false, 1, 1, 0, 0, -1);
     }
     private static void StockPile(AtkContext atk)
     {
@@ -568,7 +568,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       int i = aer.OnboardPokemon.GetCondition<int>("Stockpile") + 1;
       aer.OnboardPokemon.SetCondition("Stockpile", i);
       aer.AddReportPm("EnStockpile", i);
-      aer.ChangeLv7D(aer, false, 0, 1, 0, 1);
+      aer.ChangeLv7D(aer, false, false, 0, 1, 0, 1);
     }
     private static void CantSelectWithdraw(AtkContext atk)
     {

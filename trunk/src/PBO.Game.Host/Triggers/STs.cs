@@ -24,7 +24,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         mp.PP = 0;
         aer.AddReportPm("Grudge");
       }
-      if (aer.CanChangeLv7D(aer, StatType.Atk, 1, false) != 0 && aer.RaiseAbility(As.MOXIE)) aer.ChangeLv7D(aer, StatType.Atk, 1, false);
+      if (aer.Ability == As.MOXIE) aer.ChangeLv7D(aer, StatType.Atk, 1, false, true);
     }
     public static void WillAct(PokemonProxy pm)
     {
@@ -239,8 +239,15 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     public static void Lv7DDown(PokemonProxy pm)
     {
-      if (pm.CanChangeLv7D(pm, StatType.Atk, 2, false) != 0 && pm.RaiseAbility(As.DEFIANT)) pm.ChangeLv7D(pm, StatType.Atk, 2, false);
-      else if (pm.CanChangeLv7D(pm, StatType.SpAtk, 2, false) != 0 && pm.RaiseAbility(As.COMPETITIVE)) pm.ChangeLv7D(pm, StatType.SpAtk, 2, false);
+      switch (pm.Ability)
+      {
+        case As.DEFIANT:
+          pm.ChangeLv7D(pm, StatType.Atk, 2, false, true);
+          break;
+        case As.COMPETITIVE:
+          pm.ChangeLv7D(pm, StatType.SpAtk, 2, false, true);
+          break;
+      }
     }
   }
   internal static class SubstituteTriggers

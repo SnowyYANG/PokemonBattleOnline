@@ -46,11 +46,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (touch && realHurt) EffectSpore(def);
           break;
         case As.ANGER_POINT:
-          if (def.IsCt && der.OnboardPokemon.Lv5D.Atk != 6)
-          {
-            der.RaiseAbility();
-            der.ChangeLv7D(der, StatType.Atk, 12, false, "AngerPoint");
-          }
+          if (def.IsCt) der.ChangeLv7D(der, StatType.Atk, 12, false, true, "AngerPoint");
           break;
         case As.AFTERMATH:
           if (touch && der.Hp == 0 && aer.CanEffectHurt && !aer.Controller.Board.Pokemons.Any((p) => p.Ability == As.DAMP))
@@ -70,11 +66,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
           break;
         case As.WEAK_ARMOR:
-          if (atk.Move.Category == MoveCategory.Physical && !(der.CanChangeLv7D(der, StatType.Speed, 1, false) == 0 && der.CanChangeLv7D(der, StatType.Def, -1, false) == 0))
-          {
-            der.RaiseAbility();
-            der.ChangeLv7D(der, false, 0, -1, 0, 0, 1);
-          }
+          if (atk.Move.Category == MoveCategory.Physical) der.ChangeLv7D(der, false, true, 0, -1, 0, 0, 1);
           break;
         case As.MUMMY:
           var aa = aer.Ability;
@@ -88,21 +80,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
           break;
         case As.JUSTIFIED:
-          if (atk.Move.Type == BattleType.Dark && der.CanChangeLv7D(der, StatType.Atk, 1, false) != 0)
-          {
-            der.RaiseAbility();
-            der.ChangeLv7D(der, StatType.Atk, 1, false);
-          }
+          if (atk.Type == BattleType.Dark) der.ChangeLv7D(der, StatType.Atk, 1, false, true);
           break;
         case As.RATTLED:
-          Rattled(def);
+          if (atk.Type == BattleType.Dark || atk.Type == BattleType.Ghost || atk.Type == BattleType.Bug) der.ChangeLv7D(der, StatType.Speed, 1, false, true);
           break;
         case As.GOOEY:
-          if (touch && aer.CanChangeLv7D(der, StatType.Speed, -1, false) != 0)
-          {
-            der.RaiseAbility();
-            aer.ChangeLv7D(der, StatType.Speed, -1, false);
-          }
+          if (touch) aer.ChangeLv7D(der, StatType.Speed, -1, false, true);
           break;
       }
       switch (def.Defender.Item)
@@ -136,7 +120,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           ReHurtBerry(def, MoveCategory.Special);
           break;
       }
-      if (der.OnboardPokemon.HasCondition("Rage")) der.ChangeLv7D(der, StatType.Atk, 1, false, "Rage");
+      if (der.OnboardPokemon.HasCondition("Rage")) der.ChangeLv7D(der, StatType.Atk, 1, false, false, "Rage");
     }
     private static void AddState(DefContext def, AttachedState state)
     {
@@ -179,16 +163,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         der.RaiseAbility();
         der.SetItem(i);
         der.AddReportPm("Pickpocket", i);
-      }
-    }
-    private static void Rattled(DefContext d)
-    {
-      var type = d.AtkContext.Move.Type;
-      var der = d.Defender;
-      if ((type == BattleType.Dark || type == BattleType.Ghost || type == BattleType.Bug) && der.CanChangeLv7D(der, StatType.Speed, 1, false) != 0)
-      {
-        der.RaiseAbility();
-        der.ChangeLv7D(der, StatType.Speed, 1, false);
       }
     }
     private static void ReHurtBerry(DefContext def, MoveCategory category)
