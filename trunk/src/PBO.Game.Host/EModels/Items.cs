@@ -65,7 +65,7 @@ namespace PokemonBattleOnline.Game.Host
     }
 
     /// <summary>
-    /// pm.Item should not be null
+    /// pm.Item should not be 0
     /// </summary>
     /// <param name="pm"></param>
     /// <returns></returns>
@@ -78,6 +78,11 @@ namespace PokemonBattleOnline.Game.Host
         PlatedArceus(pm) ||
         pm.Form.Species.Number == 649 && Is.DOUSE_DRIVE <= i && i <= Is.CHILL_DRIVE; //genesect
     }
+    /// <summary>
+    /// false if item is zero
+    /// </summary>
+    /// <param name="pm"></param>
+    /// <returns></returns>
     public static bool CanLostItem(PokemonProxy pm)
     {
       return !

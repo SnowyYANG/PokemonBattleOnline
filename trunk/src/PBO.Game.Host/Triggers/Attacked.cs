@@ -121,6 +121,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
       }
       if (der.OnboardPokemon.HasCondition("Rage")) der.ChangeLv7D(der, StatType.Atk, 1, false, false, "Rage");
+      if (aer.Pokemon.Item == 0 && ITs.CanLostItem(der) && aer.RaiseAbility(As.MAGICIAN))
+      {
+        var i = der.Pokemon.Item;
+        aer.SetItem(i);
+        der.RemoveItem();
+        der.ShowLogPm("Magician", i);
+      }
     }
     private static void AddState(DefContext def, AttachedState state)
     {
