@@ -313,7 +313,7 @@ namespace PokemonBattleOnline.Game.Host
             targets.Remove(d);
           }
       #region Check for misses
-      if (atk.Attacker.Ability != As.NO_GUARD && GetAccuracyBase(atk) != 0x65)
+      if (atk.Attacker.Ability != As.NO_GUARD && GetAccuracyBase(atk) != 0)
       {
         if (move.Class != MoveInnerClass.OHKO) atk.AccuracyModifier = STs.AccuracyModifier(atk);
         foreach (DefContext def in targets.ToArray())
@@ -368,7 +368,7 @@ namespace PokemonBattleOnline.Game.Host
       var m = atk.Move.Id;
       var w = atk.Controller.Weather;
       bool thunder = m == Ms.THUNDER || m == Ms.HURRICANE;
-      return w == Weather.HeavyRain && thunder || w == Weather.Hailstorm && m == Ms.BLIZZARD ? 0x65 : w == Weather.IntenseSunlight && thunder ? 50 : atk.Move.Accuracy;
+      return w == Weather.HeavyRain && thunder || w == Weather.Hailstorm && m == Ms.BLIZZARD ? 0 : w == Weather.IntenseSunlight && thunder ? 50 : atk.Move.Accuracy;
     }
     #endregion
 

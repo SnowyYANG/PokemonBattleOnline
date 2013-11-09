@@ -9,7 +9,12 @@ namespace PokemonBattleOnline.Game
   [DataContract(Namespace=PBOMarks.PBO)]
   public sealed class RomData : SimpleData
   {
-    private static RomData current;
+#if EDITING
+    public
+#else
+    private
+#endif
+      static RomData current;
     public static void Load(ZipData zip, string path)
     {
       using (var stream = zip.GetStream(path))

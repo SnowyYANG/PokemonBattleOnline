@@ -10,7 +10,12 @@ namespace PokemonBattleOnline.Game
   public class MoveType
   {
     [DataMember(Name = "Id")]
-    private readonly int _id;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+    int _id;
     public int Id
     { get { return _id; } }
 
@@ -25,52 +30,102 @@ namespace PokemonBattleOnline.Game
     }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly MoveInnerClass _class;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+    MoveInnerClass _class;
     public MoveInnerClass Class
     { get { return _class; } }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly int _accuracy;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+    int _accuracy;
     public int Accuracy
     { get { return _accuracy; } }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly MoveCategory _category;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+    MoveCategory _category;
     public MoveCategory Category
     { get { return _category; } }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly BattleType _type;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+    BattleType _type;
     public BattleType Type
     { get { return _type; } }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly int _power;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+    int _power;
     public int Power
     { get { return _power; } }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly int _pp;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+    int _pp;
     public int PP
     { get { return _pp; } }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly MoveRange _range;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+    MoveRange _range;
     public MoveRange Range
     { get { return _range; } }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly int _priority;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+    int _priority;
     public int Priority
     { get { return _priority; } }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly int _minTimes;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+    int _minTimes;
     public int MinTimes
     { get { return _minTimes; } }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly int _maxTimes;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+    int _maxTimes;
     public int MaxTimes
     { get { return _maxTimes; } }
 
@@ -80,22 +135,42 @@ namespace PokemonBattleOnline.Game
     { get { return _attachment; } }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly int _ctLv;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+    int _ctLv;
     public int CtLv
     { get { return _ctLv; } }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly int _flinchProbability;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+    int _flinchProbability;
     public int FlinchProbability
     { get { return _flinchProbability; } }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly int _hurtPercentage;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+    int _hurtPercentage;
     public int HurtPercentage
     { get { return _hurtPercentage; } }
 
     [DataMember(EmitDefaultValue = false)]
-    private readonly int _maxHpPercentage;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+    int _maxHpPercentage;
     public int MaxHpPercentage
     { get { return _maxHpPercentage; } }
 
