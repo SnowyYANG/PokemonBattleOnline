@@ -182,16 +182,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         pm.Controller.ReportBuilder.ShowLog("ReadMove", pair.Key.Id, pair.Value.Id);
       }
     }
-    private static void WeatherAbility(PokemonProxy pm, Weather weather)
-    {
-      var c = pm.Controller;
-      if (c.Board.Weather != weather)
-      {
-        pm.RaiseAbility();
-        c.Weather = weather;
-        c.Board.SetCondition("Weather", pm.Controller.TurnNumber + 4);
-      }
-    }
     private static void Trace(PokemonProxy pm)
     {
       var pms = new List<PokemonProxy>();
@@ -249,6 +239,16 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         pm.RaiseAbility();
         pm.DeAbnormalState();
+      }
+    }
+    private static void WeatherAbility(PokemonProxy pm, Weather weather)
+    {
+      var c = pm.Controller;
+      if (c.Board.Weather != weather)
+      {
+        pm.RaiseAbility();
+        c.Weather = weather;
+        c.Board.SetCondition("Weather", pm.Controller.TurnNumber + 4);
       }
     }
   }
