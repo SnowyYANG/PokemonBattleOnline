@@ -33,7 +33,7 @@ namespace PokemonBattleOnline.Game.Host
       return move.Id == Ms.CURSE ? pm.OnboardPokemon.HasType(BattleType.Ghost) ? MoveRange.Single : MoveRange.Self : move.Range;
     }
 
-    private static int[] CONTINUOUS_USE = new int[] { Ms.PROTECT, Ms.DETECT, Ms.ENDURE, Ms.QUICK_GUARD, Ms.WIDE_GUARD, Ms.CRAFTY_SHIELD, Ms.SPIKY_SHIELD };
+    private static int[] CONTINUOUS_USE = new int[] { Ms.PROTECT, Ms.DETECT, Ms.ENDURE, Ms.QUICK_GUARD, Ms.WIDE_GUARD, Ms.CRAFTY_SHIELD, Ms.SPIKY_SHIELD, Ms.KINGS_SHIELD };
     public static bool HardToUseContinuously(this MoveType move)
     {
       return CONTINUOUS_USE.Contains(move.Id);
