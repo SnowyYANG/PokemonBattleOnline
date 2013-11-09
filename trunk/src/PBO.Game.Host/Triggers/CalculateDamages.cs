@@ -193,7 +193,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         }
       }
       //3.In case of a critical hit, double the value
-      if (def.IsCt) def.Damage <<= 1;
+      if (def.IsCt) def.ModifyDamage(0x1800);
       //4.Alter with a random factor
       def.Damage *= aer.Controller.GetRandomInt(85, 100);
       def.Damage /= 100;
