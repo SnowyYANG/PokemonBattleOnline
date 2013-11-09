@@ -21,11 +21,21 @@ namespace PokemonBattleOnline.Game
 #endif
 
     [DataMember(Name = "T1", Order = 0)]
-    private readonly BattleType _type1;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+    BattleType _type1;
     internal BattleType Type1
     { get { return _type1; } }
     [DataMember(Name = "T2", Order = 1, EmitDefaultValue = false)]
-    private readonly BattleType _type2;
+#if EDITING
+    public
+#else
+    private readonly
+#endif
+    BattleType _type2;
     internal BattleType Type2
     { get { return _type2; } }
 

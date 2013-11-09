@@ -124,7 +124,29 @@ namespace PokemonBattleOnline.Game.DataEditor
     {
       var rom = RomData.current = RomData.LoadFromXml<RomData>("..\\doc\\rom.xml");
       GameString.Load("..\\res\\string", "zh", "en");
-      System.Diagnostics.Debugger.Break();
+      var pms = new string[] {"皮皮",
+"皮可西",
+"胖丁",
+"胖可丁",
+"吸盘魔偶",
+"皮宝宝",
+"宝宝丁",
+"波克比",
+"波克基古",
+"玛力露",
+"玛力露丽",
+"布卢",
+"布卢皇",
+"露力丽",
+"拉鲁拉丝",
+"奇鲁莉安",
+"沙奈朵",
+"大嘴娃",
+"魔尼尼",
+"波克基斯",
+"木棉球",
+"风妖精"};
+      foreach (var p in pms) GameString.PokemonSpecies(p).formData[0]._type2 = BattleType.Fairy;
       RomData.current.SaveXml("..\\doc\\rom.xml");
     }
   }
