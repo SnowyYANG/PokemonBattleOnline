@@ -313,7 +313,7 @@ namespace PokemonBattleOnline.Game.Host
             targets.Remove(d);
           }
       #region Check for misses
-      if (atk.Attacker.Ability != As.NO_GUARD && GetAccuracyBase(atk) != 0)
+      if (!(aer.Ability == As.NO_GUARD && MustHit(atk)))
       {
         if (move.Class != MoveInnerClass.OHKO) atk.AccuracyModifier = STs.AccuracyModifier(atk);
         foreach (DefContext def in targets.ToArray())
@@ -339,10 +339,10 @@ namespace PokemonBattleOnline.Game.Host
     public static bool CanHit(DefContext def)
     {
       AtkContext atk = def.AtkContext;
-      Controller controller = atk.Controller;
+      Controller c = atk.Controller;
+      var move = atk.Move;
       int acc;
-      if (atk.Move.Class == MoveInnerClass.OHKO) //等级原因的“完全没有效果”已经判断过了
-        acc = GetAccuracyBase(atk) + atk.Attacker.Pokemon.Lv - def.Defender.Pokemon.Lv;
+      if (move.Class == MoveInnerClass.OHKO) acc = move.Accuracy + atk.Attacker.Pokemon.Lv - def.Defender.Pokemon.Lv;
       else
       {
         int lv;
@@ -351,7 +351,7 @@ namespace PokemonBattleOnline.Game.Host
         //如果攻击方是天然特性，防御方的回避等级按0计算。 
         //循序渐进无视防御方回避等级。
         //将攻击方的命中等级减去防御方的回避等级。 
-        if (!atk.Move.IgnoreDefenderLv7D())
+        if (!move.IgnoreDefenderLv7D())
         {
           var aa = atk.Attacker.Ability;
           if (aa == As.UNAWARE || aa == As.KEEN_EYE) lv -= def.Defender.OnboardPokemon.EvasionLv;
@@ -362,17 +362,16 @@ namespace PokemonBattleOnline.Game.Host
         int numerator = 3, denominator = 3;
         if (lv > 0) numerator += lv;
         else denominator -= lv;
-        acc = (GetAccuracyBase(atk) * numerator / denominator) * AccuracyModifier.Execute(def);
+        acc = (c.Weather == Weather.IntenseSunlight && (move.Id == Ms.THUNDER || move.Id == Ms.HURRICANE) ? 50 : atk.Move.Accuracy) * numerator / denominator;
+        acc *= AccuracyModifier.Execute(def);
       }
       //产生1～100的随机数，如果小于等于命中，判定为命中，否则判定为失误。
-      return controller.RandomHappen(acc);
+      return c.RandomHappen(acc);
     }
-    public static int GetAccuracyBase(AtkContext atk)
+    public static bool MustHit(AtkContext atk)
     {
       var m = atk.Move.Id;
-      var w = atk.Controller.Weather;
-      bool thunder = m == Ms.THUNDER || m == Ms.HURRICANE;
-      return w == Weather.HeavyRain && thunder || w == Weather.Hailstorm && m == Ms.BLIZZARD ? 0 : w == Weather.IntenseSunlight && thunder ? 50 : atk.Move.Accuracy;
+      return atk.Move.Accuracy == 0 || (m == Ms.THUNDER || m == Ms.HURRICANE) && atk.Controller.Weather == Weather.HeavyRain || m == Ms.BLIZZARD && atk.Controller.Weather == Weather.Hailstorm || atk.Attacker.OnboardPokemon.HasType(BattleType.Poison) && m == Ms.TOXIC;
     }
     #endregion
 
