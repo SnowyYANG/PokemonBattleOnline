@@ -372,6 +372,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.TOPSYTURVY:
           TorsyTurvy(atk);
           break;
+        case Ms.SPIKY_SHIELD:
+          SelfProtect(atk, "SpikyShield");
+          break;
+        case Ms.KINGS_SHIELD:
+          SelfProtect(atk, "KingsShield");
+          break;
         default:
           if (move.Category == MoveCategory.Status) StatusMove(atk);
           else AttackMove(atk);
@@ -815,17 +821,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
       else atk.FailAll();
     }
-    private static void SelfProtect(AtkContext atk, string condition)
-    {
-      atk.Attacker.OnboardPokemon.SetTurnCondition(condition);
-      atk.Attacker.ShowLogPm("En" + condition);
-    }
-    private static void TeamProtect(AtkContext atk, string condition)
-    {
-      var team = atk.Attacker.Pokemon.TeamId;
-      atk.Controller.Board[team].SetTurnCondition(condition);
-      atk.Controller.ReportBuilder.ShowLog("En" + condition, team);
-    }
     private static void Moonlight(AtkContext atk)
     {
       var aer = atk.Attacker;
@@ -1232,6 +1227,17 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var op = atk.Target.Defender.OnboardPokemon;
       op.SetLv7D(0 - op.Lv5D.Atk, 0 - op.Lv5D.SpAtk, 0 - op.Lv5D.Def, 0 - op.Lv5D.SpDef, 0 - op.Lv5D.Speed, 0 - op.AccuracyLv, 0 - op.EvasionLv);
       atk.Target.Defender.ShowLogPm("TorsyTurvy");
+    }
+    private static void SelfProtect(AtkContext atk, string condition)
+    {
+      atk.Attacker.OnboardPokemon.SetTurnCondition(condition);
+      atk.Attacker.ShowLogPm("En" + condition);
+    }
+    private static void TeamProtect(AtkContext atk, string condition)
+    {
+      var team = atk.Attacker.Pokemon.TeamId;
+      atk.Controller.Board[team].SetTurnCondition(condition);
+      atk.Controller.ReportBuilder.ShowLog("En" + condition, team);
     }
   }
 }
