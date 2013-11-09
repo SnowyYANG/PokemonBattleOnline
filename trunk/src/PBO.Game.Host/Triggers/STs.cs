@@ -189,13 +189,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         case Is.SCOPE_LENS:
         case Is.RAZOR_CLAW:
-          r++;
+          r += 3;
           break;
         case Is.LUCKY_PUNCH:
-          if (pm.Pokemon.Form.Species.Number == 113) r += 2;
+          if (pm.Pokemon.Form.Species.Number == 113) r += 4;
           break;
         case Is.STICK:
-          if (pm.Pokemon.Form.Species.Number == 83) r += 2;
+          if (pm.Pokemon.Form.Species.Number == 83) r += 4;
           break;
       }
       return r;

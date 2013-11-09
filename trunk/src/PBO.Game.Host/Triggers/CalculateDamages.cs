@@ -73,11 +73,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           {
             ITs.CheckGem(atk);
             atk.CTLv = move.CtLv;
-            if (atk.CTLv < 5)
-            {
-              atk.CTLv += STs.CtLvRevise(aer);
-              if (atk.CTLv > 4) atk.CTLv = 4;
-            }
+            if (atk.CTLv < 5) atk.CTLv += STs.CtLvRevise(aer);
             foreach (DefContext d in atk.Targets) CalculateDamage(d);
           }
           break;
@@ -126,7 +122,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
       }
     }
-    private static readonly int[] LV_CT = { 16, 8, 4, 3, 2, 0 };
+    private static readonly int[] LV_CT = { 16, 8, 4, 3, 2 };
     private static void CalculateDamage(DefContext def)
     {
       var atk = def.AtkContext;
@@ -135,7 +131,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var move = atk.Move;
 
       if (!(def.Defender.Field.HasCondition("LuckyChant") || ATs.CannotBeCted(def.Ability)))
-        if (move.CtLv > 5) def.IsCt = true;
+        if (move.CtLv > 4) def.IsCt = true;
         else def.IsCt = c.OneNth(LV_CT[atk.CTLv]);
 
       def.Damage = aer.Pokemon.Lv * 2 / 5 + 2;
