@@ -11,8 +11,7 @@ namespace PokemonBattleOnline.Game.Host
   {
     public static void Attach(PokemonProxy pm)
     {
-      var item = pm.Item;
-      if (item == Is.LEPPA_BERRY)
+      if (pm.Item == Is.LEPPA_BERRY)
       {
         foreach (var m in pm.Moves)
           if (m.PP == 0)
@@ -212,7 +211,7 @@ namespace PokemonBattleOnline.Game.Host
         case Is.AGUAV_BERRY:
         case Is.IAPAPA_BERRY:
           pm.HpRecoverByOneNth(8, false, "m_ItemRecover", id);
-          if (pm.Pokemon.Nature.DislikeTaste(GetTaste(BerryNumber(id)))) pm.AddState(pm, AttachedState.Confuse, false);
+          if (pm.Pokemon.Nature.DislikeTaste(GetTaste(id))) pm.AddState(pm, AttachedState.Confuse, false);
           break;
         case Is.LIECHI_BERRY:
           pm.ChangeLv7D(by, StatType.Atk, 1, false);

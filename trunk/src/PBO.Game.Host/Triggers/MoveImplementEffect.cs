@@ -109,7 +109,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (ITs.CanLostItem(def.Defender))
       {
         var i = def.Defender.Pokemon.Item;
-        if (ITs.BerryNumber(i) != 0) def.SetCondition("EatenBerry", i);
+        if (ITs.Berry(i)) def.SetCondition("EatenBerry", i);
       }
     }
 
@@ -119,7 +119,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (ITs.CanLostItem(der))
       {
         var i = der.Pokemon.Item;
-        if (!berry || ITs.BerryNumber(i) != 0)
+        if (!berry || ITs.Berry(i))
         {
           der.RemoveItem();
           der.ShowLogPm(log, i, berry ? 0 : def.AtkContext.Attacker.Id);

@@ -77,9 +77,7 @@ namespace PokemonBattleOnline.PBO.Editor
 
     private static bool HasRandomMove(IEnumerable<LearnedMove> moves)
     {
-      const int METRONOME = 118, TRANSFORM = 144, ASSIST = 274, ME_FIRST = 382, COPYCAT = 383;
-      moves.FirstOrDefault();
-      return moves.Any((m) => m.Move.Id == METRONOME || m.Move.Id == TRANSFORM || m.Move.Id == ASSIST || m.Move.Id == ME_FIRST || m.Move.Id == COPYCAT);
+      return moves.Any((m) => m.Move.Id == Ms.METRONOME || m.Move.Id == Ms.TRANSFORM || m.Move.Id == Ms.ASSIST || m.Move.Id == Ms.ME_FIRST || m.Move.Id == Ms.COPYCAT);
     }
 
     public PokemonEditorVM(PokemonVM pm)
