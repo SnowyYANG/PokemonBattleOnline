@@ -184,10 +184,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static void WeatherAbility(PokemonProxy pm, Weather weather)
     {
-      if (pm.Controller.Weather != weather || pm.Controller.Board.RemoveCondition("Weather"))
+      var c = pm.Controller;
+      if (c.Board.Weather != weather)
       {
         pm.RaiseAbility();
-        pm.Controller.Weather = weather;
+        c.Weather = weather;
+        c.Board.SetCondition("Weather", pm.Controller.TurnNumber + 4);
       }
     }
     private static void Trace(PokemonProxy pm)

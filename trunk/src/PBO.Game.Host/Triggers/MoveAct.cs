@@ -626,15 +626,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       else if (der.AddCondition("Telekinesis", atk.Controller.TurnNumber + 2)) atk.Target.Defender.ShowLogPm("EnTelekinesis");
       else atk.FailAll();
     }
-    private static void WeatherMove(AtkContext atk, Weather weather, int item)
-    {
-      if (atk.Controller.Board.Weather == weather) atk.FailAll();
-      else
-      {
-        atk.Controller.Weather = weather;
-        atk.Controller.Board.SetCondition("Weather", atk.Controller.TurnNumber + atk.Attacker.Item == item ? 7 : 4);
-      }
-    }
     private static void Sport(AtkContext atk, string condition)
     {
       if (atk.Attacker.OnboardPokemon.AddCondition(condition)) atk.Controller.ReportBuilder.ShowLog(condition);
@@ -1238,6 +1229,16 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var team = atk.Attacker.Pokemon.TeamId;
       atk.Controller.Board[team].SetTurnCondition(condition);
       atk.Controller.ReportBuilder.ShowLog("En" + condition, team);
+    }
+    private static void WeatherMove(AtkContext atk, Weather weather, int item)
+    {
+      var c = atk.Controller;
+      if (c.Board.Weather == weather) atk.FailAll();
+      else
+      {
+        c.Weather = weather;
+        c.Board.SetCondition("Weather", c.TurnNumber + atk.Attacker.Item == item ? 9 : 4);
+      }
     }
   }
 }
