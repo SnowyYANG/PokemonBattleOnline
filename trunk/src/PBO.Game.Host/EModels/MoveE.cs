@@ -351,7 +351,11 @@ namespace PokemonBattleOnline.Game.Host
         //如果攻击方是天然特性，防御方的回避等级按0计算。 
         //循序渐进无视防御方回避等级。
         //将攻击方的命中等级减去防御方的回避等级。 
-        if (!(atk.Attacker.Ability == As.UNAWARE || atk.Move.IgnoreDefenderLv7D())) lv -= def.Defender.OnboardPokemon.EvasionLv;
+        if (!atk.Move.IgnoreDefenderLv7D())
+        {
+          var aa = atk.Attacker.Ability;
+          if (aa == As.UNAWARE || aa == As.KEEN_EYE) lv -= def.Defender.OnboardPokemon.EvasionLv;
+        }
         if (lv < -6) lv = -6;
         else if (lv > 6) lv = 6;
         //用技能基础命中乘以命中等级修正，向下取整。
