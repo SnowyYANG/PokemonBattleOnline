@@ -42,9 +42,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           case Game.Weather.Sandstorm:
             foreach (var pm in c.OnboardPokemons.ToArray())
             {
+              if (pm.OnboardPokemon.HasType(BattleType.Rock) || pm.OnboardPokemon.HasType(BattleType.Steel) || pm.OnboardPokemon.HasType(BattleType.Ground)) continue;
               int ab = pm.Ability;
-              if (pm.OnboardPokemon.HasType(BattleType.Rock) || pm.OnboardPokemon.HasType(BattleType.Steel) || pm.OnboardPokemon.HasType(BattleType.Ground) ||
-                ab == As.OVERCOAT || ab == As.SAND_VEIL || ab == As.SAND_RUSH || ab == As.SAND_FORCE) continue;
+              if (ab == As.OVERCOAT || ab == As.SAND_VEIL || ab == As.SAND_RUSH || ab == As.SAND_FORCE) continue;
               pm.EffectHurtByOneNth(16, "m_SandstormHurt");
               pm.CheckFaint();
             }
@@ -63,7 +63,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
               }
               else
               {
-                if (pm.OnboardPokemon.HasType(BattleType.Ice) || ab == As.OVERCOAT || ab == As.SNOW_CLOAK) continue;
+                if (ab == As.OVERCOAT || ab == As.SNOW_CLOAK || pm.OnboardPokemon.HasType(BattleType.Ice)) continue;
                 pm.EffectHurtByOneNth(16, "m_HailstormHurt");
                 pm.CheckFaint();
               }

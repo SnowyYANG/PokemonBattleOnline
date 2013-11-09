@@ -66,6 +66,11 @@ namespace PokemonBattleOnline.Game.Host
     {
       return POWDER.Contains(move.Id);
     }
+    private static int[] SPORE = new int[] { Ms.SPORE, Ms.COTTON_SPORE, Ms.STUN_SPORE };
+    public static bool Spore(this MoveType move)
+    {
+      return SPORE.Contains(move.Id);
+    }
 
     #region consts
     private static readonly int[] FLING_POWER = new int[] { 0,

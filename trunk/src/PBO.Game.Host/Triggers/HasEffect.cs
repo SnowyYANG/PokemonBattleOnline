@@ -32,7 +32,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             var ab = der.Ability;
             return ab == As.PLUS || ab == As.MINUS;
           }
+        case Ms.SPIDER_WEB: //169
+        case Ms.MEAN_LOOK: //212
+        case Ms.BLOCK: //335
+          return der.OnboardPokemon.HasType(BattleType.Ghost);
       }
+
+      if ((move.Powder() || move.Spore()) && der.OnboardPokemon.HasType(BattleType.Grass)) return false;
 
       if (move.Category == MoveCategory.Status && move.Id != Ms.THUNDER_WAVE) return true;
       if (move.Class == MoveInnerClass.OHKO && (der.Pokemon.Lv > atk.Attacker.Pokemon.Lv || der.RaiseAbility(As.STURDY))) return false;

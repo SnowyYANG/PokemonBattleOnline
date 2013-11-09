@@ -201,6 +201,7 @@ namespace PokemonBattleOnline.Game.Host
           goto STATE;
         case AttachedState.PAR:
           if (State == PokemonState.PAR) goto BEENSTATE;
+          if (OnboardPokemon.HasType(BattleType.Electric)) goto NOEFFECT;
           goto STATE;
         case AttachedState.PSN:
           if (State == PokemonState.PSN || State == PokemonState.BadlyPSN)
@@ -326,7 +327,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       get
       {
-        if (Item == Is.SHED_SHELL) return true;
+        if (OnboardPokemon.HasType(BattleType.Ghost) || Item == Is.SHED_SHELL) return true;
         if (OnboardPokemon.HasCondition("Trap") || OnboardPokemon.HasCondition("Ingrain") || OnboardPokemon.HasCondition("CantSelectWithdraw") || Controller.Board.GetCondition<int>("FairyLock") == Controller.TurnNumber) return false;
         bool arenaTrap = false, magnetPull = false, shadowTag = false;
         foreach (var pm in Controller.GetOnboardPokemons(1 - Pokemon.TeamId))
