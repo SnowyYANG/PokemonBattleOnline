@@ -299,15 +299,14 @@ namespace PokemonBattleOnline.Game.Host
           {
             atk.SetCondition("EjectButton", der.Tile);
             der.ConsumeItem();
-            c.Withdraw(der, "EjectButton");
+            c.Withdraw(der, "EjectButton", 0, true);
             if (r == false) break;
             e = false;
           }
           else if (r && i == Is.RED_CARD)
           {
             der.ConsumeItem();
-            der.ShowLogPm("RedCard", aer.Id);
-            MoveE.ForceSwitchImplement(aer, null);
+            MoveE.ForceSwitchImplement(aer, "RedCard", der.Id);
             if (e == false) return;
             r = false;
           }

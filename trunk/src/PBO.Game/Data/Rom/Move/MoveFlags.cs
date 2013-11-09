@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace PokemonBattleOnline.Game
 {
   [DataContract(Namespace = PBOMarks.PBO)]
-  public class MoveTypeAdvancedFlags
+  public class MoveFlags
   {
     [DataMember(EmitDefaultValue = false)]
     public bool IsFist { get; private set; }

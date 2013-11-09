@@ -30,6 +30,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         (atk.Type == BattleType.Electric && c.OnboardPokemons.Any((p) => p.OnboardPokemon.HasCondition("MudSport"))))
         m *= 0x800;
 
+      if ((atk.Type == BattleType.Electric && c.Board.HasCondition("ElectricTerrain") || atk.Type == BattleType.Grass && c.Board.HasCondition("GrassyTerrain")) && HasEffect.IsGroundAffectable(aer, true, false)) m *= 0x1800;
+      else if (atk.Type == BattleType.Dragon && c.Board.HasCondition("MistyTerrain") && HasEffect.IsGroundAffectable(der, true, false)) m *= 0x800;
+
       return m;
     }
     private static Modifier Abilities(DefContext def)

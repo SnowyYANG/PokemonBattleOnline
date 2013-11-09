@@ -356,6 +356,22 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.FORESTS_CURSE:
           AddType(atk, BattleType.Grass);
           break;
+        case Ms.GRASSY_TERRAIN:
+          Terrain(atk, "GrassyTerrain");
+          break;
+        case Ms.MISTY_TERRAIN:
+          Terrain(atk, "MistyTerrain");
+          break;
+        case Ms.ELECTRIC_TERRAIN:
+          Terrain(atk, "ElectricTerrain");
+          break;
+        case Ms.FAIRY_LOCK:
+          aer.Controller.Board.SetCondition("FairyLock", aer.Controller.TurnNumber + 1);
+          aer.Controller.ReportBuilder.ShowLog("EnFairyLock");
+          break;
+        case Ms.TOPSYTURVY:
+          TorsyTurvy(atk);
+          break;
         default:
           if (move.Category == MoveCategory.Status) StatusMove(atk);
           else AttackMove(atk);
@@ -498,7 +514,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         {
           int v = def.Damage * move.HurtPercentage / 100;
           if (aer.Item == Is.BIG_ROOT) v *= (Modifier)0x14cc;
-          if (aer.Ability != As.MAGIC_GUARD && def.Defender.RaiseAbility(As.LIQUID_OOZE)) aer.EffectHurt(v, "m_Hurt");
+          if (aer.Ability != As.MAGIC_GUARD && def.Defender.RaiseAbility(As.LIQUID_OOZE)) aer.EffectHurt(v);
           else aer.HpRecover(v, false);
         }
         if (move.Class == MoveInnerClass.AttackWithSelfLv7DChange && atk.RandomHappen(move.Lv7DChanges.First().Probability)) aer.ChangeLv7D(atk.Attacker, move);
@@ -975,7 +991,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var aer = atk.Attacker;
       var t = aer.Tile;
       var o = aer.OnboardPokemon;
-      if (aer.Controller.Withdraw(aer, "SelfWithdraw", false))
+      if (aer.Controller.Withdraw(aer, "SelfWithdraw", 0, false))
       {
         t.SetCondition("BatonPass", o);
         aer.Controller.PauseForSendOutInput(t);
@@ -1199,6 +1215,23 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         atk.Target.Defender.OnboardPokemon.SetCondition("Type3", type);
 #warning 战报
       }
+    }
+    private static void Terrain(AtkContext atk, string terrain)
+    {
+      var c = atk.Controller;
+      var b = c.Board;
+      if (b.AddCondition(terrain, c.TurnNumber + 4))
+      {
+        if (!(terrain != "GrassyTerrain" && b.RemoveCondition("GrassyTerrain") || terrain != "ElectricTerrain" && b.RemoveCondition("ElectricTerrain")) && terrain != "MistyTerrain") b.RemoveCondition("MistyTerrain");
+        c.ReportBuilder.ShowLog("En" + terrain);
+      }
+      else atk.FailAll();
+    }
+    private static void TorsyTurvy(AtkContext atk)
+    {
+      var op = atk.Target.Defender.OnboardPokemon;
+      op.SetLv7D(0 - op.Lv5D.Atk, 0 - op.Lv5D.SpAtk, 0 - op.Lv5D.Def, 0 - op.Lv5D.SpDef, 0 - op.Lv5D.Speed, 0 - op.AccuracyLv, 0 - op.EvasionLv);
+      atk.Target.Defender.ShowLogPm("TorsyTurvy");
     }
   }
 }

@@ -230,9 +230,9 @@ namespace PokemonBattleOnline.Game.Host
     {
       return SwitchController.CanWithdraw(pm);
     }
-    public bool Withdraw(PokemonProxy pm, string log, bool canPursuit = true)
+    public bool Withdraw(PokemonProxy pm, string log, int arg1 = 0, bool canPursuit = true)
     {
-      if (SwitchController.Withdraw(pm, log, canPursuit))
+      if (SwitchController.Withdraw(pm, log, arg1, canPursuit))
       {
         Board.RefreshPokemons();
         return true;

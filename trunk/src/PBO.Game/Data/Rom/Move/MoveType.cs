@@ -105,8 +105,8 @@ namespace PokemonBattleOnline.Game
     { get { return _lv7DChanges; } }
 
     [DataMember]
-    private readonly MoveTypeAdvancedFlags _advancedFlags;
-    public MoveTypeAdvancedFlags Flags
+    private readonly MoveFlags _advancedFlags;
+    public MoveFlags Flags
     { get { return _advancedFlags; } }
   }
 }

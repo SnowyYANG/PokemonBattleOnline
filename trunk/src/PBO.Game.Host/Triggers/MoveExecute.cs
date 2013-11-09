@@ -213,32 +213,25 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         {
           case Ms.FLY: //19
           case Ms.BOUNCE: //340
-            PrepareOneTurn(atk, CoordY.Air);
+            aer.CoordY = CoordY.Air;
             break;
           case Ms.DIG: //91
-            PrepareOneTurn(atk, CoordY.Underground);
+            aer.CoordY = CoordY.Underground;
             break;
           case Ms.DIVE: //291
-            PrepareOneTurn(atk, CoordY.Water);
+            aer.CoordY = CoordY.Water;
             break;
           case Ms.SHADOW_FORCE: //467
-            PrepareOneTurn(atk, CoordY.Another);
-            break;
-          default:
-            aer.ShowLogPm("Prepare" + m.ToString());
+          case Ms.PHANTOM_FORCE:
+            aer.CoordY = CoordY.Another;
             break;
         }
+        aer.ShowLogPm("Prepare" + m.ToString());
         if (m == Ms.SKULL_BASH) aer.ChangeLv7D(atk.Attacker, StatType.Def, 1, false);
         atk.SetAttackerAction(PokemonAction.Moving);
         return !(m == Ms.SOLARBEAM && aer.Controller.Weather == Weather.IntenseSunlight || ITs.PowerHerb(aer));
       }
       return false;
-    }
-    private static void PrepareOneTurn(AtkContext atk, CoordY y)
-    {
-      var aer = atk.Attacker;
-      aer.CoordY = y;
-      aer.ShowLogPm("Prepare" + atk.Move.Id.ToString());
     }
   }
 }

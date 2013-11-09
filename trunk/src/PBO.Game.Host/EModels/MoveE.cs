@@ -114,7 +114,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       return !(pm.Hp == 0 || !pm.Controller.CanWithdraw(pm) || abilityAvailable && pm.Ability == As.SUCTION_CUPS || pm.OnboardPokemon.HasCondition("Ingrain"));
     }
-    public static void ForceSwitchImplement(PokemonProxy pm, string log)
+    public static void ForceSwitchImplement(PokemonProxy pm, string log, int arg1 = 0)
     {
       var c = pm.Controller;
       var sendouts = new List<int>();
@@ -124,7 +124,7 @@ namespace PokemonBattleOnline.Game.Host
           if (c.CanSendOut(pms[i])) sendouts.Add(i);
       }
       var tile = pm.Tile;
-      c.Withdraw(pm, log, false);
+      c.Withdraw(pm, log, arg1, false);
       tile.WillSendOutPokemonIndex = sendouts[c.GetRandomInt(0, sendouts.Count - 1)];
       c.SendOut(tile, true, "ForceSendOut");
     }
@@ -225,7 +225,7 @@ namespace PokemonBattleOnline.Game.Host
           def.Defender.ShowLogPm("NoEffect");
         }
       #endregion
-      #region WideGuard QuickGuard MatBlock
+      #region WideGuard QuickGuard CraftyShield MatBlock
       if (move.Category != MoveCategory.Status && move.Range != MoveRange.Single)
         foreach (var def in targets.ToArray())
           if (def.Defender.Field.HasCondition("WideGuard"))
@@ -240,7 +240,16 @@ namespace PokemonBattleOnline.Game.Host
             def.Defender.ShowLogPm("QuickGuard");
             targets.Remove(def);
           }
-      if (move.Category != MoveCategory.Status)
+      if (move.Category == MoveCategory.Status)
+      {
+        foreach (var def in targets.ToArray())
+          if (def.Defender.Field.HasCondition("CraftyShield"))
+          {
+            def.Defender.ShowLogPm("CraftyShield");
+            targets.Remove(def);
+          }
+      }
+      else
       {
         var d0 = targets.FirstOrDefault();
         if (d0 != null && d0.Defender.Field.HasCondition("MatBlock"))
@@ -253,13 +262,30 @@ namespace PokemonBattleOnline.Game.Host
         }
       }
       #endregion
-      #region Check for Protect
+      #region Protect KingsShield SpikyShield
       if (move.Flags.Protectable)
       {
         foreach (DefContext d in targets.ToArray())
           if (d.Defender.OnboardPokemon.HasCondition("Protect"))
           {
             d.Defender.ShowLogPm("Protect");
+            targets.Remove(d);
+          }
+      }
+      if (move.Category != MoveCategory.Status)
+      {
+        foreach(var d in targets.ToArray())
+          if (d.Defender.OnboardPokemon.HasCondition("SpikyShield"))
+          {
+            d.Defender.ShowLogPm("SpikyShield");
+            if (move.Flags.NeedTouch) atk.Attacker.EffectHurtByOneNth(8);
+            targets.Remove(d);
+          }
+        foreach(var d in targets.ToArray())
+          if (d.Defender.OnboardPokemon.HasCondition("KingsShield"))
+          {
+            d.Defender.ShowLogPm("KingsShield");
+            if (move.Flags.NeedTouch) atk.Attacker.ChangeLv7D(d.Defender, StatType.Atk, -2, false);
             targets.Remove(d);
           }
       }
@@ -391,7 +417,7 @@ namespace PokemonBattleOnline.Game.Host
         var tile = aer.Tile;
         if (atk.Move.Switch() && tile != null)
         {
-          c.Withdraw(aer, "SelfWithdraw", true);
+          c.Withdraw(aer, "SelfWithdraw", 0, true);
           c.PauseForSendOutInput(tile);
         }
       }

@@ -26,13 +26,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           case Ms.SWALLOW:
             if (aer.OnboardPokemon.HasCondition("Stockpile")) return true;
             break;
-          case Ms.PROTECT:
-          case Ms.DETECT:
-          case Ms.ENDURE:
-          case Ms.QUICK_GUARD:
-          case Ms.WIDE_GUARD:
-            if (ContinuousUse(atk)) return true;
-            break;
           case Ms.SELFDESTRUCT: //120
           case Ms.EXPLOSION: //153
             if (aer.Controller.Board.Pokemons.Any((p) => p.RaiseAbility(As.DAMP)))
@@ -85,7 +78,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             if (aer.OnboardPokemon.HasCondition("Belch")) return true;
             break;
           default:
-            return true;
+            if (!atk.Move.HardToUseContinuously() || ContinuousUse(atk)) return true;
+            break;
         }
       atk.FailAll();
       return false;
@@ -101,8 +95,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var c = o.GetCondition("LastMove");
       if (c != null)
       {
-        var m = c.Move.Id;
-        if (m == Ms.PROTECT || m == Ms.DETECT || m == Ms.ENDURE || m == Ms.QUICK_GUARD || m == Ms.WIDE_GUARD)
+        if (c.Move.HardToUseContinuously())
         {
           var count = o.GetCondition<int>("ContinuousUse");
           if (atk.Controller.GetRandomInt(0, 0xffff - 1) < 0xffff >> count)

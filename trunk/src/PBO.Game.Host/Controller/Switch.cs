@@ -31,11 +31,11 @@ namespace PokemonBattleOnline.Game.Host
       return pokemon != null && pokemon.Hp > 0 && pokemon.IndexInOwner >= GameSettings.Mode.OnboardPokemonsPerPlayer();
     }
 
-    public bool Withdraw(PokemonProxy pm, string log, bool canPursuit)
+    public bool Withdraw(PokemonProxy pm, string log, int arg1, bool canPursuit)
     {
       if (CanWithdraw(pm))
       {
-        if (log != null) pm.ShowLogPm(log);
+        if (log != null) pm.ShowLogPm(log, arg1);
         STs.Withdrawing(pm, canPursuit);
         if (pm.Tile != null)
         {

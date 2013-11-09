@@ -80,7 +80,7 @@
     <Compile Include="Data\Rom\Move\MoveLv7DChange.cs" />
     <Compile Include="Data\Rom\Move\MoveRange.cs" />
     <Compile Include="Data\Rom\Move\MoveType.cs" />
-    <Compile Include="Data\Rom\Move\MoveTypeAdvancedFlags.cs" />
+    <Compile Include="Data\Rom\Move\MoveFlags.cs" />
     <Compile Include="Data\Rom\Pokemon\EggGroup.cs" />
     <Compile Include="Data\Rom\Pokemon\PokemonForm.cs" />
     <Compile Include="Data\Rom\Pokemon\PokemonFormData.cs" />

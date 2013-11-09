@@ -27,6 +27,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.FLOWER_SHIELD:
         case Ms.ROTOTILLER:
           return der.OnboardPokemon.HasType(BattleType.Grass);
+        case Ms.MAGNETIC_FLUX:
+          {
+            var ab = der.Ability;
+            return ab == As.PLUS || ab == As.MINUS;
+          }
       }
 
       if (move.Category == MoveCategory.Status && move.Id != Ms.THUNDER_WAVE) return true;
@@ -41,11 +46,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         der.Item == Is.RING_TARGET ||
         atk.Type == BattleType.Ground ? IsGroundAffectable(der, !ATs.IgnoreDefenderAbility(atk.Attacker.Ability), true) : NonGround(def));
     }
-    public static bool IsGroundAffectable(PokemonProxy pm, bool abilityAvailable, bool raiseAbility, bool ground = true)
+    public static bool IsGroundAffectable(PokemonProxy pm, bool abilityAvailable, bool raiseAbility, bool gravity = true)
     {
       var o = pm.OnboardPokemon;
       return
-        (o.HasCondition("SmackDown") || o.HasCondition("Ingrain") || ground && pm.Controller.Board.HasCondition("Gravity")) || pm.Item == Is.IRON_BALL ||
+        (o.HasCondition("SmackDown") || o.HasCondition("Ingrain") || gravity && pm.Controller.Board.HasCondition("Gravity")) || pm.Item == Is.IRON_BALL ||
         !
         (
           o.HasType(BattleType.Flying) ||

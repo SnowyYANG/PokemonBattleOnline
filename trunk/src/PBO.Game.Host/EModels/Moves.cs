@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PokemonBattleOnline.Game;
-using PokemonBattleOnline.Game.GameEvents;
-using PokemonBattleOnline.Game.Host.Triggers;
 
 namespace PokemonBattleOnline.Game.Host
 {
@@ -34,6 +31,12 @@ namespace PokemonBattleOnline.Game.Host
     public static MoveRange GetRange(PokemonProxy pm, MoveType move)
     {
       return move.Id == Ms.CURSE ? pm.OnboardPokemon.HasType(BattleType.Ghost) ? MoveRange.Single : MoveRange.Self : move.Range;
+    }
+
+    private static int[] CONTINUOUS_USE = new int[] { Ms.PROTECT, Ms.DETECT, Ms.ENDURE, Ms.QUICK_GUARD, Ms.WIDE_GUARD, Ms.CRAFTY_SHIELD, Ms.SPIKY_SHIELD };
+    public static bool HardToUseContinuously(this MoveType move)
+    {
+      return CONTINUOUS_USE.Contains(move.Id);
     }
 
     private static int[] AROMA_VEILS = new int[] { Ms.DISABLE, Ms.ATTRACT, Ms.ENCORE, Ms.TORMENT, Ms.TAUNT };

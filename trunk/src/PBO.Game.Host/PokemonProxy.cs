@@ -327,7 +327,7 @@ namespace PokemonBattleOnline.Game.Host
       get
       {
         if (Item == Is.SHED_SHELL) return true;
-        if (OnboardPokemon.HasCondition("Trap") || OnboardPokemon.HasCondition("Ingrain") || OnboardPokemon.HasCondition("CantSelectWithdraw")) return false;
+        if (OnboardPokemon.HasCondition("Trap") || OnboardPokemon.HasCondition("Ingrain") || OnboardPokemon.HasCondition("CantSelectWithdraw") || Controller.Board.GetCondition<int>("FairyLock") == Controller.TurnNumber) return false;
         bool arenaTrap = false, magnetPull = false, shadowTag = false;
         foreach (var pm in Controller.GetOnboardPokemons(1 - Pokemon.TeamId))
         {
@@ -446,7 +446,7 @@ namespace PokemonBattleOnline.Game.Host
         STs.WillAct(this);
         Action = PokemonAction.Switching;
         Tile tile = Tile;
-        if (Controller.Withdraw(this, "Withdraw")) Controller.SendOut(tile);
+        if (Controller.Withdraw(this, "Withdraw", 0, true)) Controller.SendOut(tile);
         Action = PokemonAction.InBall;
       }
     }
@@ -562,7 +562,7 @@ namespace PokemonBattleOnline.Game.Host
       int hp = Pokemon.MaxHp / n;
       HpRecover(hp, showFail, log, arg1, consumeItem);
     }
-    public void EffectHurt(int changeHp, string logKey, int arg1 = 0, int arg2 = 0)
+    public void EffectHurt(int changeHp, string logKey = "m_Hurt", int arg1 = 0, int arg2 = 0)
     {
       if (CanEffectHurt)
       {
@@ -573,7 +573,7 @@ namespace PokemonBattleOnline.Game.Host
         OnboardPokemon.SetTurnCondition("Assurance");
       }
     }
-    public void EffectHurtByOneNth(int n, string logKey, int arg1 = 0, int arg2 = 0)
+    public void EffectHurtByOneNth(int n, string logKey = "m_Hurt", int arg1 = 0, int arg2 = 0)
     {
       int hp = Pokemon.MaxHp / n;
       EffectHurt(hp, logKey, arg1, arg2);
@@ -605,7 +605,7 @@ namespace PokemonBattleOnline.Game.Host
       {
         Field.SetCondition("FaintTurn", Controller.TurnNumber);
         Pokemon.State = PokemonState.Faint;
-        Controller.Withdraw(this, "Faint", false);
+        Controller.Withdraw(this, "Faint", 0, false);
         return true;
       }
       return false;

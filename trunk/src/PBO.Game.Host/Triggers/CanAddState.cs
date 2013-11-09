@@ -30,17 +30,32 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case As.LEAF_GUARD: //102
           return LeafGuard(pm, by, state, showFail);
       }
+
+      if (pm.Controller.Board.HasCondition("MistyTerrain") && HasEffect.IsGroundAffectable(pm, true, false))
+      {
+        if (showFail) pm.ShowLogPm("MistyTerrain");
+        return false;
+      }
+      
       if (state == AttachedState.SLP)
       {
-        var pa = pm.Field.Pokemons.FirstOrDefault((p) => p.Ability == As.SWEET_VEIL);
-        if (pa != null)
+        if (pm.Controller.Board.HasCondition("ElectricTerrain") && HasEffect.IsGroundAffectable(pm, true, false))
         {
-          if (showFail)
-          {
-            pa.RaiseAbility();
-            pm.ShowLogPm("CantSLP");
-          }
+          if (showFail) pm.ShowLogPm("ElectricTerrain");
           return false;
+        }
+
+        {
+          var pa = pm.Field.Pokemons.FirstOrDefault((p) => p.Ability == As.SWEET_VEIL);
+          if (pa != null)
+          {
+            if (showFail)
+            {
+              pa.RaiseAbility();
+              pm.ShowLogPm("CantSLP");
+            }
+            return false;
+          }
         }
       }
       return true;

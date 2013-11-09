@@ -24,7 +24,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (der.State != PokemonState.Normal) m *= 0x1800;
           break;
         case As.GRASS_PELT:
-          if (der.Controller.Board.GetCondition<int>("Terrain") == Ms.GRASSY_TERRAIN) m *= 0x1800;
+          if (der.Controller.Board.HasCondition("GrassyTerrain")) m *= 0x1800;
           break;
         case As.FUR_COAT:
           if (cat == MoveCategory.Physical) m *= 0x2000;

@@ -9768,8 +9768,19 @@
       <Id>571</Id>
       <_accuracy>101</_accuracy>
       <_advancedFlags />
-      <_class>Special</_class>
-      <_lv7DChanges />
+      <_class>Lv7DChange</_class>
+      <_lv7DChanges>
+        <MoveLv7DChange>
+          <Change>1</Change>
+          <Probability>0</Probability>
+          <Type>Atk</Type>
+        </MoveLv7DChange>
+        <MoveLv7DChange>
+          <Change>1</Change>
+          <Probability>0</Probability>
+          <Type>SpAtk</Type>
+        </MoveLv7DChange>
+      </_lv7DChanges>
       <_pp>10</_pp>
       <_range>All</_range>
       <_type>Ground</_type>
@@ -9801,6 +9812,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
+      <_range>Adjacent</_range>
       <_type>Bug</_type>
     </MoveType>
     <MoveType>
@@ -9824,7 +9836,9 @@
     <MoveType>
       <Id>576</Id>
       <_accuracy>100</_accuracy>
-      <_advancedFlags />
+      <_advancedFlags>
+        <PrepareOneTurn>true</PrepareOneTurn>
+      </_advancedFlags>
       <_category>Physical</_category>
       <_lv7DChanges />
       <_power>90</_power>
@@ -9940,10 +9954,21 @@
       <Id>586</Id>
       <_accuracy>101</_accuracy>
       <_advancedFlags />
-      <_class>Special</_class>
-      <_lv7DChanges />
+      <_class>Lv7DChange</_class>
+      <_lv7DChanges>
+        <MoveLv7DChange>
+          <Change>1</Change>
+          <Probability>0</Probability>
+          <Type>Def</Type>
+        </MoveLv7DChange>
+        <MoveLv7DChange>
+          <Change>1</Change>
+          <Probability>0</Probability>
+          <Type>SpDef</Type>
+        </MoveLv7DChange>
+      </_lv7DChanges>
       <_pp>20</_pp>
-      <_range>All</_range>
+      <_range>SelfPokemons</_range>
       <_type>Electric</_type>
     </MoveType>
     <MoveType>
@@ -10052,8 +10077,14 @@
       <Id>595</Id>
       <_accuracy>100</_accuracy>
       <_advancedFlags />
-      <_class>Special</_class>
-      <_lv7DChanges />
+      <_class>Lv7DChange</_class>
+      <_lv7DChanges>
+        <MoveLv7DChange>
+          <Change>1</Change>
+          <Probability>0</Probability>
+          <Type>SpDef</Type>
+        </MoveLv7DChange>
+      </_lv7DChanges>
       <_pp>20</_pp>
       <_range>SelfPokemons</_range>
       <_type>Fairy</_type>
@@ -10061,7 +10092,9 @@
     <MoveType>
       <Id>596</Id>
       <_accuracy>101</_accuracy>
-      <_advancedFlags />
+      <_advancedFlags>
+        <PrepareOneTurn>true</PrepareOneTurn>
+      </_advancedFlags>
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
@@ -10140,15 +10173,21 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_range>All</_range>
+      <_range>Board</_range>
       <_type>Fairy</_type>
     </MoveType>
     <MoveType>
       <Id>603</Id>
       <_accuracy>101</_accuracy>
       <_advancedFlags />
-      <_class>Special</_class>
-      <_lv7DChanges />
+      <_class>Lv7DChange</_class>
+      <_lv7DChanges>
+        <MoveLv7DChange>
+          <Change>1</Change>
+          <Probability>0</Probability>
+          <Type>Def</Type>
+        </MoveLv7DChange>
+      </_lv7DChanges>
       <_pp>10</_pp>
       <_range>All</_range>
       <_type>Fairy</_type>

@@ -79,7 +79,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             foreach (var pm in c.OnboardPokemons.ToArray())
               if (pm.RaiseAbility(As.SOLAR_POWER) || pm.RaiseAbility(As.DRY_SKIN))
               {
-                pm.EffectHurtByOneNth(8, "m_Hurt");
+                pm.EffectHurtByOneNth(8);
                 pm.CheckFaint();
               }
             break;
@@ -198,7 +198,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             if (recover.Item == Is.BIG_ROOT) hp = (int)(hp * 1.3);
             if (recover.Ability != As.MAGIC_GUARD && pm.RaiseAbility(As.LIQUID_OOZE))
             {
-              recover.EffectHurt(hp, "m_Hurt");
+              recover.EffectHurt(hp);
               recover.CheckFaint();
             }
             else recover.HpRecover(hp);
@@ -421,6 +421,31 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         board.RemoveCondition("MagicRoom");
         c.ReportBuilder.ShowLog("DeMagicRoom");
         foreach (var pm in c.OnboardPokemons) ITs.Attach(pm);
+      }
+      var t = board.GetCondition<int>("GrassyTerrain");
+      if (t == turn)
+      {
+        board.RemoveCondition("GrassyTerrain");
+        c.ReportBuilder.ShowLog("DeGrassyTerrain");
+      }
+      else if (t != 0)
+      {
+        foreach (var pm in c.OnboardPokemons)
+          if (HasEffect.IsGroundAffectable(pm, true, false)) pm.HpRecoverByOneNth(16, false, "m_GrassyTerrain");
+      }
+      else
+      {
+        t = board.GetCondition<int>("ElectricTerrain");
+        if (t == turn)
+        {
+          board.RemoveCondition("ElectricTerrain");
+          c.ReportBuilder.ShowLog("DeElectricTerrain");
+        }
+        else if (t == 0 && board.GetCondition<int>("MistyTerrain") == turn)
+        {
+          board.RemoveCondition("MistyTerrain");
+          c.ReportBuilder.ShowLog("DeMistyTerrain");
+        }
       }
     }
     //26.0 Uproar message
