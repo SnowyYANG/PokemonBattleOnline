@@ -61,6 +61,12 @@ namespace PokemonBattleOnline.Game.Host
       return MEGA_LAUNCHER.Contains(move.Id);
     }
 
+    private static int[] POWDER = new int[] { Ms.POWDER, Ms.POWDER_SNOW, Ms.POISONPOWDER, Ms.RAGE_POWDER, Ms.SLEEP_POWDER };
+    public static bool Powder(this MoveType move)
+    {
+      return POWDER.Contains(move.Id);
+    }
+
     #region consts
     private static readonly int[] FLING_POWER = new int[] { 0,
 60,

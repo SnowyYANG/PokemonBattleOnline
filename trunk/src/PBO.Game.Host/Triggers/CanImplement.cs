@@ -100,6 +100,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             return false;
           }
           break;
+        case As.OVERCOAT:
+          if (move.Powder())
+          {
+            der.RaiseAbility();
+            der.ShowLogPm("NoEffect");
+            return false;
+          }
+          break;
       }
       if (move.AromaVeil() && def.Defender.Field.Pokemons.Any((p) => p.RaiseAbility(As.AROMA_VEIL)))
       {

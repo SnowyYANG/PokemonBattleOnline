@@ -421,7 +421,7 @@ namespace PokemonBattleOnline.Game.Host
       if (Action == PokemonAction.Debuting)
       {
         Tile.Debut();
-        if (!OnboardPokemon.HasCondition("Substitute"))
+        if (!(OnboardPokemon.HasCondition("Substitute") || Ability == As.OVERCOAT))
         {
           EHTs.Debut(this);
           if (Hp != 0 && Field.HasCondition("StickyWeb")) ChangeLv7D(null, StatType.Speed, -1, false, false, "StickyWeb");
