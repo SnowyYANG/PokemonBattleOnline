@@ -35,7 +35,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (CanWithdraw(pm))
       {
-        if (log != null) pm.AddReportPm(log);
+        if (log != null) pm.ShowLogPm(log);
         STs.Withdrawing(pm, canPursuit);
         if (pm.Tile != null)
         {
@@ -80,7 +80,7 @@ namespace PokemonBattleOnline.Game.Host
       {
         var pm = SendOutImplement(tile);
         p.SwitchPokemon(origin, sendout);
-        pm.AddReportPm(log);
+        pm.ShowLogPm(log);
         ATs.Trace(pm);
         if (debut)
         {

@@ -48,6 +48,8 @@ namespace PokemonBattleOnline.Game.Host
       {
         var ts = new List<BattleType>(types);
         if (HasCondition("Roost")) types.Remove(BattleType.Flying);
+        var t3 = GetCondition<BattleType>("Type3");
+        if (t3 != BattleType.Invalid) types.Add(t3);
         if (!types.Any()) types.Add(BattleType.Normal);
         return ts;
       }
@@ -63,6 +65,7 @@ namespace PokemonBattleOnline.Game.Host
         types.Add(type1);
         if (type2 != BattleType.Invalid) types.Add(type2);
         RemoveCondition("Roost");
+        RemoveCondition("Type3");
         return true;
       }
       return false;

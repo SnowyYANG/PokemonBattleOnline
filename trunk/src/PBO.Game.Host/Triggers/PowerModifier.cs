@@ -231,7 +231,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (atk.Attacker.State == PokemonState.PSN && atk.Attacker.State == PokemonState.BadlyPSN) m = 0x2000;
           break;
         case Ms.RETALIATE: //514
-          if (atk.Attacker.Tile.Field.GetCondition<int>("FaintTurn") == der.Controller.TurnNumber - 1) m = 0x2000;
+          if (atk.Attacker.Field.GetCondition<int>("FaintTurn") == der.Controller.TurnNumber - 1) m = 0x2000;
           break;
       }
       //If move was called using Me First.

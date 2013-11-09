@@ -25,18 +25,16 @@ namespace PokemonBattleOnline.Game.Host
     public OnboardPokemon OnboardPokemon
     { get; internal set; }
 
-    private void AddReport(string key)
+    public void ShowLogPm(string key, int arg1 = 0, int arg2 = 0)
     {
-      Controller.ReportBuilder.ShowLog(key);
-    }
-    public void AddReportPm(string key, int arg1 = 0, int arg2 = 0)
-    {
-      Controller.ReportBuilder.ShowLog(key, this.Id, arg1, arg2);
+      Controller.ReportBuilder.ShowLog(key, Id, arg1, arg2);
     }
 
     #region Data
     public PokemonAction Action
     { get; internal set; }
+    public Field Field
+    { get { return Controller.Board[Pokemon.TeamId]; } }
     public Tile Tile
     { get { return Controller.Board[Pokemon.TeamId][OnboardPokemon.X]; } }
     public int Id
@@ -153,12 +151,12 @@ namespace PokemonBattleOnline.Game.Host
       if (OnboardPokemon == NullOnboardPokemon || Hp == 0) return false;
       if (Hp == Pokemon.MaxHp)
       {
-        if (showFail) AddReportPm("FullHp");
+        if (showFail) ShowLogPm("FullHp");
         return false;
       }
       if (OnboardPokemon.HasCondition("HealBlock"))
       {
-        AddReportPm("HealBlock");
+        ShowLogPm("HealBlock");
         return false;
       }
       return true;
@@ -181,8 +179,8 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (State != PokemonState.Normal && Hp > 0)
       {
-        if (Pokemon.State == PokemonState.SLP) Tile.Field.RemoveCondition("Rest" + Id);
-        AddReportPm(log ?? "De" + Pokemon.State.ToString(), arg1);
+        if (Pokemon.State == PokemonState.SLP) Field.RemoveCondition("Rest" + Id);
+        ShowLogPm(log ?? "De" + Pokemon.State.ToString(), arg1);
         Pokemon.State = PokemonState.Normal;
       }
     }
@@ -207,7 +205,7 @@ namespace PokemonBattleOnline.Game.Host
         case AttachedState.PSN:
           if (State == PokemonState.PSN || State == PokemonState.BadlyPSN)
           {
-            if (showFail) AddReportPm("BeenPSN");
+            if (showFail) ShowLogPm("BeenPSN");
             return false;
           }
           if (OnboardPokemon.HasType(BattleType.Poison) || OnboardPokemon.HasType(BattleType.Steel)) goto NOEFFECT;
@@ -218,15 +216,15 @@ namespace PokemonBattleOnline.Game.Host
               if (pm.Action == PokemonAction.Moving && pm.AtkContext.Move.Id == Ms.UPROAR)
               {
                 if (showFail)
-                  if (pm == this) AddReportPm("UproarCantSLP2");
-                  else AddReportPm("UproarCantSLP");
+                  if (pm == this) ShowLogPm("UproarCantSLP2");
+                  else ShowLogPm("UproarCantSLP");
                 return false;
               }
           if (State == PokemonState.SLP) goto BEENSTATE;
           goto STATE;
         case AttachedState.Confuse:
           if (OnboardPokemon.HasCondition("Confuse")) goto BEENSTATE;
-          if (Tile.Field.HasCondition("Safeguard") && this != by && by.Ability == As.INFILTRATOR) goto SAFEGUARD;
+          if (Field.HasCondition("Safeguard") && this != by && by.Ability == As.INFILTRATOR) goto SAFEGUARD;
           goto GENERIC;
         case AttachedState.Attract:
           if (OnboardPokemon.Gender == PokemonGender.None || by.OnboardPokemon.Gender == PokemonGender.None || OnboardPokemon.Gender == by.OnboardPokemon.Gender) goto NOEFFECT;
@@ -249,17 +247,17 @@ namespace PokemonBattleOnline.Game.Host
       if (showFail) Controller.ReportBuilder.ShowLog(fail);
       return false;
     NOEFFECT:
-      if (showFail) AddReportPm("NoEffect");
+      if (showFail) ShowLogPm("NoEffect");
       return false;
     BEENSTATE:
-      if (showFail) AddReportPm("Been" + state);
+      if (showFail) ShowLogPm("Been" + state);
       return false;
     SAFEGUARD:
-      if (showFail) AddReportPm("Safeguard");
+      if (showFail) ShowLogPm("Safeguard");
       return false;
     STATE:
       if (State != PokemonState.Normal) goto FAIL;
-      if (Tile.Field.HasCondition("Safeguard") && this != by && by.Ability != As.INFILTRATOR) goto SAFEGUARD;
+      if (Field.HasCondition("Safeguard") && this != by && by.Ability != As.INFILTRATOR) goto SAFEGUARD;
       goto GENERIC;
     CONDITION:
       if (OnboardPokemon.HasCondition(state.ToString())) goto FAIL;
@@ -273,23 +271,18 @@ namespace PokemonBattleOnline.Game.Host
     public int CanChangeLv7D(PokemonProxy by, StatType stat, int change, bool showFail)
     {
       if (OnboardPokemon == NullOnboardPokemon || Hp == 0 || change == 0) return 0;
-      if (change < 0 && by != this && Tile.Field.HasCondition("Mist") && by.Ability != As.INFILTRATOR) //根据百科非技能似乎不该发动，但排除了一下这样写肯定是对的
-      {
-        if (showFail) AddReportPm("Mist");
-        return 0;
-      }
       change = Lv7DChanging.Execute(this, by, stat, change, showFail);
       if (change != 0)
       {
         int oldValue = stat == StatType.Accuracy ? OnboardPokemon.AccuracyLv : stat == StatType.Evasion ? OnboardPokemon.EvasionLv : OnboardPokemon.Lv5D.GetStat(stat);
         if (oldValue == 6 && change > 0)
         {
-          if (showFail) AddReportPm("7DMax", (int)stat);
+          if (showFail) ShowLogPm("7DMax", (int)stat);
           return 0;
         }
         else if (oldValue == -6 && change < 0)
         {
-          if (showFail) AddReportPm("7DMin", (int)stat);
+          if (showFail) ShowLogPm("7DMin", (int)stat);
           return 0;
         }
         int value = oldValue + change;
@@ -428,7 +421,11 @@ namespace PokemonBattleOnline.Game.Host
       if (Action == PokemonAction.Debuting)
       {
         Tile.Debut();
-        if (!OnboardPokemon.HasCondition("Substitute")) EHTs.Debut(this);
+        if (!OnboardPokemon.HasCondition("Substitute"))
+        {
+          EHTs.Debut(this);
+          if (Hp != 0 && Field.HasCondition("StickyWeb")) ChangeLv7D(null, StatType.Speed, -1, false, false, "StickyWeb");
+        }
         if (!CheckFaint())
         {
           if (OnboardPokemon.Ability != As.FLOWER_GIFT && OnboardPokemon.Ability != As.FORECAST) AbilityAttach.Execute(this);
@@ -460,13 +457,13 @@ namespace PokemonBattleOnline.Game.Host
       switch (Action)
       {
         case PokemonAction.Stiff:
-          AddReportPm("Stiff");
+          ShowLogPm("Stiff");
           Action = PokemonAction.Done;
           break;
         case PokemonAction.Moving:
           if (CanExecute())
           {
-            if (AtkContext.Move.Id != Ms.BIDE) AddReportPm("UseMove", AtkContext.Move.Id);
+            if (AtkContext.Move.Id != Ms.BIDE) ShowLogPm("UseMove", AtkContext.Move.Id);
             AtkContext.ContinueExecute(SelectedTarget);
           }
           else Action = PokemonAction.Done;
@@ -556,7 +553,7 @@ namespace PokemonBattleOnline.Game.Host
       {
         if (consumeItem) ConsumeItem();
         if (changeHp == 0) changeHp = 1;
-        AddReportPm(log, arg1);
+        ShowLogPm(log, arg1);
         Hp += changeHp;
       }
     }
@@ -570,7 +567,7 @@ namespace PokemonBattleOnline.Game.Host
       if (CanEffectHurt)
       {
         if (changeHp == 0) changeHp = 1;
-        AddReportPm(logKey, arg1, arg2);
+        ShowLogPm(logKey, arg1, arg2);
         Hp -= changeHp;
         HpChanged.Execute(this);
         OnboardPokemon.SetTurnCondition("Assurance");
@@ -594,15 +591,19 @@ namespace PokemonBattleOnline.Game.Host
     public void ConsumeItem()
     {
       OnboardPokemon.SetTurnCondition("UsedItem", Pokemon.Item);
-      Tile.Field.SetCondition("UsedItem" + Id, Pokemon.Item);
-      if (ITs.Berry(Pokemon.Item)) Tile.Field.SetCondition("UsedBerry" + Id, Pokemon.Item);
+      Field.SetCondition("UsedItem" + Id, Pokemon.Item);
+      if (ITs.Berry(Pokemon.Item))
+      {
+        OnboardPokemon.SetCondition("Belch");
+        Field.SetCondition("UsedBerry" + Id, Pokemon.Item);
+      }
       RemoveItem();
     }
     public bool CheckFaint()
     {
       if (Hp == 0 && OnboardPokemon != NullOnboardPokemon)
       {
-        Tile.Field.SetCondition("FaintTurn", Controller.TurnNumber);
+        Field.SetCondition("FaintTurn", Controller.TurnNumber);
         Pokemon.State = PokemonState.Faint;
         Controller.Withdraw(this, "Faint", false);
         return true;
@@ -636,7 +637,7 @@ namespace PokemonBattleOnline.Game.Host
               else log = "7DDown3";
               break;
           }
-        AddReportPm(log, (int)stat);
+        ShowLogPm(log, (int)stat);
         if (by.Pokemon.TeamId != Pokemon.TeamId && actualChange < 0) STs.Lv7DDown(this);
       }
     }
@@ -723,7 +724,7 @@ namespace PokemonBattleOnline.Game.Host
           goto POKEMON_STATE;
         case AttachedState.FRZ:
           Pokemon.State = PokemonState.FRZ;
-          AddReportPm(log ?? "EnFRZ", arg1);
+          ShowLogPm(log ?? "EnFRZ", arg1);
           if (CanChangeForm(492, 0))
           {
             ChangeForm(0);
@@ -747,11 +748,11 @@ namespace PokemonBattleOnline.Game.Host
           goto POKEMON_STATE;
         case AttachedState.Confuse:
           OnboardPokemon.SetCondition("Confuse", turn == 0 ? Controller.GetRandomInt(2, 5) : turn);
-          AddReportPm(log ?? "Confuse");
+          ShowLogPm(log ?? "Confuse");
           goto DONE;
         case AttachedState.Attract:
           OnboardPokemon.SetCondition("Attract", by);
-          AddReportPm(log ?? "EnAttract", arg1);
+          ShowLogPm(log ?? "EnAttract", arg1);
           ITs.DestinyKnot(this, by);
           goto DONE;
         case AttachedState.Trap:
@@ -763,16 +764,16 @@ namespace PokemonBattleOnline.Game.Host
             c.Move = move;
             c.Bool = by.Item == Is.BINDING_BAND;
             OnboardPokemon.SetCondition("Trap", c);
-            AddReportPm("EnTrap" + move.Id.ToString(), by.Id);
+            ShowLogPm("EnTrap" + move.Id.ToString(), by.Id);
           }
           goto DONE;
         case AttachedState.Nightmare:
           OnboardPokemon.SetCondition("Nightmare");
-          AddReportPm("EnNightmare");
+          ShowLogPm("EnNightmare");
           goto DONE;
         case AttachedState.Torment:
           OnboardPokemon.SetCondition("Torment", by);
-          AddReportPm("EnTorment");
+          ShowLogPm("EnTorment");
           goto DONE;
         case AttachedState.Disable:
           {
@@ -780,7 +781,7 @@ namespace PokemonBattleOnline.Game.Host
             c.Move = LastMove;
             c.Turn = Controller.TurnNumber + turn - 1;
             OnboardPokemon.SetCondition("Disable", c);
-            AddReportPm("EnDisable", c.Move.Id);
+            ShowLogPm("EnDisable", c.Move.Id);
           }
           goto DONE;
         case AttachedState.Yawn:
@@ -790,7 +791,7 @@ namespace PokemonBattleOnline.Game.Host
             o.By = by; //睡眠规则
             OnboardPokemon.AddCondition("Yawn", o);
           }
-          AddReportPm("EnYawn");
+          ShowLogPm("EnYawn");
           goto DONE;
         case AttachedState.HealBlock:
           {
@@ -799,7 +800,7 @@ namespace PokemonBattleOnline.Game.Host
             o.By = by;
             OnboardPokemon.SetCondition("HealBlock", o);
           }
-          AddReportPm("EnHealBlock");
+          ShowLogPm("EnHealBlock");
           goto DONE;
         case AttachedState.CanAttack:
           {
@@ -807,23 +808,23 @@ namespace PokemonBattleOnline.Game.Host
             o.BattleType = by.AtkContext.Move.Id == Ms.MIRACLE_EYE ? BattleType.Dark : BattleType.Ghost;
             o.By = by;
             OnboardPokemon.SetCondition("CanAttack", o);
-            AddReportPm("CanAttack");
+            ShowLogPm("CanAttack");
           }
           goto DONE;
         case AttachedState.LeechSeed:
           OnboardPokemon.SetCondition("LeechSeed", by.Tile);
-          AddReportPm("EnLeechSeed");
+          ShowLogPm("EnLeechSeed");
           goto DONE;
         case AttachedState.Embargo:
           OnboardPokemon.SetCondition("Embargo");
-          AddReportPm("EnEmbargo");
+          ShowLogPm("EnEmbargo");
           goto DONE;
         case AttachedState.PerishSong:
           OnboardPokemon.SetCondition("PerishSong", 3);
           goto DONE;
         case AttachedState.Ingrain:
           OnboardPokemon.SetCondition("Ingrain");
-          AddReportPm("EnIngrain");
+          ShowLogPm("EnIngrain");
           goto DONE;
 #if DEBUG
         default:
@@ -832,7 +833,7 @@ namespace PokemonBattleOnline.Game.Host
 #endif
       }
     POKEMON_STATE:
-      AddReportPm(log ?? "En" + state.ToString(), arg1);
+      ShowLogPm(log ?? "En" + state.ToString(), arg1);
       if (state != AttachedState.FRZ && state != AttachedState.SLP) ATs.Synchronize(this, by, state, turn);
     DONE:  
       StateAdded.Execute(this);

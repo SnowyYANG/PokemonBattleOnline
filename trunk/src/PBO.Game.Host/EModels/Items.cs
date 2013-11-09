@@ -19,7 +19,7 @@ namespace PokemonBattleOnline.Game.Host
           {
             m.PP += 10;
             pm.ConsumeItem();
-            pm.AddReportPm("ItemPPRecover", Is.LEPPA_BERRY, m.Type.Id);
+            pm.ShowLogPm("ItemPPRecover", Is.LEPPA_BERRY, m.Type.Id);
             return;
           }
       }
@@ -57,7 +57,7 @@ namespace PokemonBattleOnline.Game.Host
       }
       pm.OnboardPokemon.ChangeLv7D(stat, change);
       pm.ConsumeItem();
-      pm.AddReportPm(log, (int)stat, change > 0 ? i : 0);
+      pm.ShowLogPm(log, (int)stat, change > 0 ? i : 0);
     }
 
     public static bool ChoiceItem(int item)
@@ -139,11 +139,11 @@ namespace PokemonBattleOnline.Game.Host
             if (lvs.Speed < 0) { lvs.Speed = 0; raise = true; }
             if (op.AccuracyLv < 0) { op.AccuracyLv = 0; raise = true; }
             if (op.EvasionLv < 0) { op.EvasionLv = 0; raise = true; }
-            if (raise) pm.AddReportPm("WhiteHerb");
+            if (raise) pm.ShowLogPm("WhiteHerb");
           }
           break;
         case Is.MENTAL_HERB:
-          if (op.RemoveCondition("Attract")) pm.AddReportPm("ItemDeAttract", Is.MENTAL_HERB);
+          if (op.RemoveCondition("Attract")) pm.ShowLogPm("ItemDeAttract", Is.MENTAL_HERB);
           break;
         case Is.KINGS_ROCK:
           op.AddTurnCondition("Flinch");
@@ -183,14 +183,14 @@ namespace PokemonBattleOnline.Game.Host
             if (m.PP == 0)
             {
               m.PP += 10;
-              pm.AddReportPm("ItemPPRecover", Is.LEPPA_BERRY, m.Type.Id);
+              pm.ShowLogPm("ItemPPRecover", Is.LEPPA_BERRY, m.Type.Id);
               return;
             }
           foreach (var m in pm.Moves)
             if (m.PP != m.Move.PP.Origin)
             {
               m.PP += 10;
-              pm.AddReportPm("ItemPPRecover", Is.LEPPA_BERRY, m.Type.Id);
+              pm.ShowLogPm("ItemPPRecover", Is.LEPPA_BERRY, m.Type.Id);
               return;
             }
           break;
@@ -198,7 +198,7 @@ namespace PokemonBattleOnline.Game.Host
           pm.HpRecover(10, false, "ItemHpRecover", Is.ORAN_BERRY);
           break;
         case Is.PERSIM_BERRY:
-          if (op.RemoveCondition("Confuse")) pm.AddReportPm("DeConfuse");
+          if (op.RemoveCondition("Confuse")) pm.ShowLogPm("DeConfuse");
           break;
         case Is.LUM_BERRY:
           if (pm.State != PokemonState.Normal) pm.DeAbnormalState();
@@ -230,7 +230,7 @@ namespace PokemonBattleOnline.Game.Host
           pm.ChangeLv7D(by, StatType.SpDef, 1, false);
           break;
         case Is.LANSAT_BERRY:
-          if (pm.OnboardPokemon.AddCondition("FocusEnergy")) pm.AddReportPm("ItemEnFocusEnergy", Is.LANSAT_BERRY);
+          if (pm.OnboardPokemon.AddCondition("FocusEnergy")) pm.ShowLogPm("ItemEnFocusEnergy", Is.LANSAT_BERRY);
           break;
         case Is.STARF_BERRY:
           {
@@ -245,7 +245,7 @@ namespace PokemonBattleOnline.Game.Host
           }
           break;
         case Is.MICLE_BERRY:
-          if (pm.OnboardPokemon.AddCondition("MicleBerry")) pm.AddReportPm("MicleBerry", Is.MICLE_BERRY);
+          if (pm.OnboardPokemon.AddCondition("MicleBerry")) pm.ShowLogPm("MicleBerry", Is.MICLE_BERRY);
           break;
       }
     }
@@ -265,7 +265,7 @@ namespace PokemonBattleOnline.Game.Host
         if (pm.OnboardPokemon.EvasionLv < 0) { pm.OnboardPokemon.EvasionLv = 0; raise = true; }
         if (raise)
         {
-          pm.AddReportPm("WhiteHerb", pm.Pokemon.Item);
+          pm.ShowLogPm("WhiteHerb", pm.Pokemon.Item);
           pm.ConsumeItem();
         }
       }
@@ -274,7 +274,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (pm.Item == Is.AIR_BALLOON) //batonpass embargo
       {
-        pm.AddReportPm("EnBalloon");
+        pm.ShowLogPm("EnBalloon");
         return true;
       }
       return false;
@@ -282,7 +282,7 @@ namespace PokemonBattleOnline.Game.Host
     public static void AirBalloon(DefContext def)
     {
       def.Defender.RemoveItem();
-      def.Defender.AddReportPm("DeBalloon");
+      def.Defender.ShowLogPm("DeBalloon");
     }
     public static void AttackPostEffect(AtkContext atk)
     {
@@ -306,7 +306,7 @@ namespace PokemonBattleOnline.Game.Host
           else if (r && i == Is.RED_CARD)
           {
             der.ConsumeItem();
-            der.AddReportPm("RedCard", aer.Id);
+            der.ShowLogPm("RedCard", aer.Id);
             MoveE.ForceSwitchImplement(aer, null);
             if (e == false) return;
             r = false;
@@ -333,7 +333,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (pm.Item == Is.POWER_HERB)
       {
-        pm.AddReportPm("PowerHerb", Is.POWER_HERB);
+        pm.ShowLogPm("PowerHerb", Is.POWER_HERB);
         pm.ConsumeItem();
         pm.CoordY = CoordY.Plate;
         return true;

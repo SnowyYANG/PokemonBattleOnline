@@ -12,7 +12,7 @@ namespace PokemonBattleOnline.Game.Host
   {
     public static void RaiseAbility(this PokemonProxy pm)
     {
-      pm.AddReportPm("m_Ability", pm.OnboardPokemon.Ability);
+      pm.ShowLogPm("m_Ability", pm.OnboardPokemon.Ability);
     }
     public static bool RaiseAbility(this PokemonProxy pm, int abilityId)
     {
@@ -53,7 +53,7 @@ namespace PokemonBattleOnline.Game.Host
     public static void Pressure(AtkContext atk, MoveRange range)
     {
       var ts =
-        atk.Move.Range == MoveRange.Field || atk.Move.Range == MoveRange.EnemyField ?
+        atk.Move.Range == MoveRange.Board || atk.Move.Range == MoveRange.FoeField ?
         atk.Attacker.Controller.Board[1 - atk.Attacker.Pokemon.TeamId].Pokemons :
         atk.Targets == null ?
         Enumerable.Empty<PokemonProxy>() :
@@ -100,7 +100,7 @@ namespace PokemonBattleOnline.Game.Host
         if (!(dt.First() == type && dt.Last() == type) && def.Defender.RaiseAbility(As.COLOR_CHANGE))
         {
           def.Defender.OnboardPokemon.SetTypes(type);
-          def.Defender.AddReportPm("TypeChange", (int)type);
+          def.Defender.ShowLogPm("TypeChange", (int)type);
         }
       }
     }
@@ -146,7 +146,7 @@ namespace PokemonBattleOnline.Game.Host
           if (turn == Controller.TurnNumber)
           {
             pm.OnboardPokemon.RemoveCondition("SlowStart");
-            pm.AddReportPm("DeSlowStart");
+            pm.ShowLogPm("DeSlowStart");
           }
         }
     }
@@ -164,7 +164,7 @@ namespace PokemonBattleOnline.Game.Host
               if (pm != atk.Attacker && pm != atk.Target.Defender)
               {
                 pm.RaiseAbility();
-                pm.AddReportPm("ReTarget");
+                pm.ShowLogPm("ReTarget");
                 atk.SetTargets(new DefContext[] { new DefContext(atk, pm) });
               }
               return;
@@ -211,7 +211,7 @@ namespace PokemonBattleOnline.Game.Host
       if (pm.OnboardPokemon.RemoveCondition("Illusion"))
       {
         pm.Controller.ReportBuilder.DeIllusion(pm);
-        pm.AddReportPm("DeIllusion");
+        pm.ShowLogPm("DeIllusion");
       }
     }
   }

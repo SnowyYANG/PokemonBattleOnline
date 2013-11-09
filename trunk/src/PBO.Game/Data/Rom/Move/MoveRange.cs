@@ -14,15 +14,15 @@ namespace PokemonBattleOnline.Game
     /// <summary>
     /// 本方随机01
     /// </summary>
-    UserOrParner,
+    RandomSelfPokemon,
     /// <summary>
     /// 本方选择02
     /// </summary>
-    Partner,
+    SingleAlly,
     /// <summary>
-    /// 先取03
+    /// 对方选择03
     /// </summary>
-    SingleEnemy,
+    SingleFoe,
     /// <summary>
     /// 所有临近 自爆、冲浪04
     /// </summary>
@@ -30,15 +30,15 @@ namespace PokemonBattleOnline.Game
     /// <summary>
     /// 对方临近05
     /// </summary>
-    AdjacentEnemies,
+    FoePokemons,
     /// <summary>
     /// 自己队伍与场上队友06
     /// </summary>
-    UserParty,
+    SelfPokemons,
     /// <summary>
     /// 自己07
     /// </summary>
-    User,
+    Self,
     /// <summary>
     /// 所有精灵08
     /// </summary>
@@ -46,19 +46,19 @@ namespace PokemonBattleOnline.Game
     /// <summary>
     /// 对方随机09
     /// </summary>
-    RandomEnemy,
+    RandomFoePokemon,
     /// <summary>
     /// 全场0A
     /// </summary>
-    Field,
+    Board,
     /// <summary>
     /// 对方场地0B
     /// </summary>
-    EnemyField,
+    FoeField,
     /// <summary>
     /// 本方场地0C
     /// </summary>
-    UserField,
+    SelfField,
     /// <summary>
     /// 0D
     /// </summary>

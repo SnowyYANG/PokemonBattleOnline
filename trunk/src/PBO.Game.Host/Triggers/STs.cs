@@ -15,15 +15,16 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var aer = def.AtkContext.Attacker;
       if (o.HasCondition("DestinyBond"))
       {
-        der.AddReportPm("DestinyBond"); //战报顺序已测
+        der.ShowLogPm("DestinyBond"); //战报顺序已测
         aer.Faint();
       }
       var mp = def.AtkContext.MoveProxy;
       if (o.HasCondition("Grudge") && mp != null && mp.PP != 0)
       {
         mp.PP = 0;
-        aer.AddReportPm("Grudge");
+        aer.ShowLogPm("Grudge");
       }
+      if (def.AtkContext.Move.Id == Ms.FELL_STINGER) aer.ChangeLv7D(aer, StatType.Atk, 2, false);
       if (aer.Ability == As.MOXIE) aer.ChangeLv7D(aer, StatType.Atk, 1, false, true);
     }
     public static void WillAct(PokemonProxy pm)
@@ -40,10 +41,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       pm.Reset();
       var o = pm.OnboardPokemon;
-      if (pm.State == PokemonState.SLP) o.SetCondition("SLP", pm.Tile.Field.HasCondition("Rest" + pm.Id) ? 3 : pm.Controller.GetRandomInt(2, 4));
+      if (pm.State == PokemonState.SLP) o.SetCondition("SLP", pm.Field.HasCondition("Rest" + pm.Id) ? 3 : pm.Controller.GetRandomInt(2, 4));
       else
       {
-        pm.Tile.Field.RemoveCondition("Rest" + pm.Id);
+        pm.Field.RemoveCondition("Rest" + pm.Id);
         if (pm.State == PokemonState.BadlyPSN) o.SetCondition("PSN", pm.Controller.TurnNumber);
       }
       var pass = pm.Tile.GetCondition<OnboardPokemon>("BatonPass");
@@ -132,17 +133,17 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       if (pm.OnboardPokemon.HasCondition("Endure"))
       {
-        pm.AddReportPm("Endure");
+        pm.ShowLogPm("Endure");
         return true;
       }
       if (pm.Hp == pm.Pokemon.MaxHp && pm.RaiseAbility(As.STURDY))
       {
-        pm.AddReportPm("Endure");
+        pm.ShowLogPm("Endure");
         return true;
       }
       if ((pm.Item == Is.FOCUS_BAND && pm.Controller.OneNth(10)) || (pm.Item == Is.FOCUS_SASH && pm.Hp == pm.Pokemon.MaxHp))
       {
-        pm.AddReportPm("FocusItem", pm.Pokemon.Item);
+        pm.ShowLogPm("FocusItem", pm.Pokemon.Item);
         if (pm.Pokemon.Item == Is.FOCUS_SASH) pm.ConsumeItem();
         return true;
       }
@@ -169,13 +170,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       //重力
       if (move.Flags.UnavailableWithGravity && pm.Controller.Board.HasCondition("Gravity"))
       {
-        pm.AddReportPm("GravityCantUseMove", move.Id);
+        pm.ShowLogPm("GravityCantUseMove", move.Id);
         return false;
       }
       //回复封印
       if (move.Flags.IsHeal && pm.OnboardPokemon.HasCondition("HealBlock"))
       {
-        pm.AddReportPm("HealBlockCantUseMove", move.Id);
+        pm.ShowLogPm("HealBlockCantUseMove", move.Id);
         return false;
       }
       return true;
@@ -211,14 +212,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Is.QUICK_CLAW:
           if (pm.Controller.RandomHappen(20))
           {
-            pm.AddReportPm("QuickItem", Is.QUICK_CLAW);
+            pm.ShowLogPm("QuickItem", Is.QUICK_CLAW);
             r = 1;
           }
           break;
         case Is.CUSTAP_BERRY:
           if (ATs.Gluttony(pm))
           {
-            pm.AddReportPm("QuickItem", Is.CUSTAP_BERRY);
+            pm.ShowLogPm("QuickItem", Is.CUSTAP_BERRY);
             pm.ConsumeItem();
             r = 1;
           }
@@ -271,7 +272,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         Controller c = def.Defender.Controller;
         if (def.Damage > hp) def.Damage = hp;
         hp -= def.Damage;
-        def.Defender.AddReportPm("HurtSubstitute");
+        def.Defender.ShowLogPm("HurtSubstitute");
         if (def.EffectRevise > 0) c.ReportBuilder.ShowLog("SuperHurt0");
         else if (def.EffectRevise < 0) c.ReportBuilder.ShowLog("WeakHurt0");
         if (def.IsCt) c.ReportBuilder.ShowLog("CT0");
@@ -361,7 +362,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     public static bool Debut(PokemonProxy pm) //欢迎登场，口耐的精灵们（笑
     {
-      var hazards = GetHazards(pm.Tile.Field);
+      var hazards = GetHazards(pm.Field);
       if (hazards != null)
         foreach (var eh in hazards.ToArray())
         {
@@ -380,7 +381,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.TOXIC_SPIKES:
           if (HasEffect.IsGroundAffectable(pm, true, false))
-            if (pm.OnboardPokemon.HasType(BattleType.Poison)) De(pm.Controller.ReportBuilder, pm.Tile.Field, hazard.Move);
+            if (pm.OnboardPokemon.HasType(BattleType.Poison)) De(pm.Controller.ReportBuilder, pm.Field, hazard.Move);
             else if (pm.CanAddState(pm, AttachedState.PSN, false)) pm.AddState(pm, AttachedState.PSN, false, hazard.Bool ? 15 : 0);
           break;
         case Ms.STEALTH_ROCK:

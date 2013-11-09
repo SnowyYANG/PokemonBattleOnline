@@ -14,9 +14,20 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var atk = def.AtkContext;
       var move = atk.Move;
 
-      if (move.Id == Ms.DREAM_EATER && der.State != PokemonState.SLP) return false;
-      if (move.Id == Ms.SYNCHRONOISE) return Sychronoise(def);
-      if (move.Id == Ms.CAPTIVATE) return Captivate(def);
+      switch (move.Id)
+      {
+        case Ms.DREAM_EATER:
+          return der.State == PokemonState.SLP;
+        case Ms.SYNCHRONOISE:
+          return Sychronoise(def);
+        case Ms.CAPTIVATE:
+          return Captivate(def);
+        case Ms.VENOM_DRENCH:
+          return der.State == PokemonState.PSN || der.State == PokemonState.BadlyPSN;
+        case Ms.FLOWER_SHIELD:
+        case Ms.ROTOTILLER:
+          return der.OnboardPokemon.HasType(BattleType.Grass);
+      }
 
       if (move.Category == MoveCategory.Status && move.Id != Ms.THUNDER_WAVE) return true;
       if (move.Class == MoveInnerClass.OHKO && (der.Pokemon.Lv > atk.Attacker.Pokemon.Lv || der.RaiseAbility(As.STURDY))) return false;

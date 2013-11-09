@@ -42,7 +42,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             {
               var change = aer.Pokemon.MaxHp * move.MaxHpPercentage / 100;
               aer.OnboardPokemon.SetTurnCondition("Assurance");
-              aer.AddReportPm("m_ReHurt");
+              aer.ShowLogPm("m_ReHurt");
               aer.Hp += (change == 0 ? -1 : change);
             }
           }
@@ -58,13 +58,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void RapidSpin(DefContext def)
     {
       var aer = def.AtkContext.Attacker;
-      EHTs.De(aer.Controller.ReportBuilder, aer.Tile.Field);
+      EHTs.De(aer.Controller.ReportBuilder, aer.Field);
       aer.OnboardPokemon.RemoveCondition("LeechSeed");
       var trap = aer.OnboardPokemon.GetCondition("Trap");
       if (trap != null)
       {
         aer.OnboardPokemon.RemoveCondition("Trap");
-        aer.AddReportPm("TrapFree", trap.Move.Id);
+        aer.ShowLogPm("TrapFree", trap.Move.Id);
       }
     }
 
@@ -74,7 +74,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (i != 0)
       {
         var aer = def.AtkContext.Attacker;
-        def.AtkContext.Attacker.AddReportPm("EatDefenderBerry", i);
+        def.AtkContext.Attacker.ShowLogPm("EatDefenderBerry", i);
         ITs.RaiseItemByMove(aer, i, aer);
       }
     }
@@ -85,10 +85,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (der.Hp != 0 && (der.OnboardPokemon.HasType(BattleType.Flying) || der.Ability == As.LEVITATE))
       {
         der.OnboardPokemon.SetCondition("SmackDown");
-        der.AddReportPm("EnSmackDown");
+        der.ShowLogPm("EnSmackDown");
       }
-      if (der.OnboardPokemon.RemoveCondition("MagnetRise")) der.AddReportPm("DeMagnetRise");
-      if (der.OnboardPokemon.RemoveCondition("Telekinesis")) der.AddReportPm("DeTelekinesis");
+      if (der.OnboardPokemon.RemoveCondition("MagnetRise")) der.ShowLogPm("DeMagnetRise");
+      if (der.OnboardPokemon.RemoveCondition("Telekinesis")) der.ShowLogPm("DeTelekinesis");
     }
   }
 }

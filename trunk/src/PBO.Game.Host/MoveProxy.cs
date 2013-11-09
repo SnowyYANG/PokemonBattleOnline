@@ -90,7 +90,7 @@ namespace PokemonBattleOnline.Game.Host
     internal void Execute()
     {
       if (ITs.ChoiceItem(Owner.Item)) Owner.OnboardPokemon.AddCondition("ChoiceItem", Type);
-      Owner.AddReportPm("UseMove", Type.Id);
+      Owner.ShowLogPm("UseMove", Type.Id);
       Owner.BuildAtkContext(this);
       Owner.AtkContext.StartExecute(Type, Owner.SelectedTarget, null);
       HasUsed = true;

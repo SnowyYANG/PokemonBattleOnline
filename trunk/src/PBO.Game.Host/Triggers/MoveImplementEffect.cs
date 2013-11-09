@@ -48,11 +48,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
           break;
         case Ms.SHADOW_FORCE: //467
-          if (def.Defender.OnboardPokemon.RemoveCondition("Protect")) def.Defender.AddReportPm("DeProtect");
+          if (def.Defender.OnboardPokemon.RemoveCondition("Protect")) def.Defender.ShowLogPm("DeProtect");
           break;
         case Ms.CLEAR_SMOG: //499
           der.OnboardPokemon.SetLv7D(0, 0, 0, 0, 0, 0, 0);
-          der.AddReportPm("7DReset");
+          der.ShowLogPm("7DReset");
           break;
         default:
           if (der.Hp > 0)
@@ -89,7 +89,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         var i = def.Defender.Pokemon.Item;
         def.Defender.RemoveItem();
         aer.SetItem(i); //先铁棘再果子
-        aer.AddReportPm("Thief", i, def.Defender.Id);
+        aer.ShowLogPm("Thief", i, def.Defender.Id);
       }
     }
 
@@ -122,7 +122,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (!berry || ITs.BerryNumber(i) != 0)
         {
           der.RemoveItem();
-          der.AddReportPm(log, i, berry ? 0 : def.AtkContext.Attacker.Id);
+          der.ShowLogPm(log, i, berry ? 0 : def.AtkContext.Attacker.Id);
         }
       }
     }

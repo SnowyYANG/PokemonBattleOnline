@@ -855,7 +855,7 @@
       <_lv7DChanges />
       <_power>80</_power>
       <_pp>10</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -873,7 +873,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>30</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -1238,7 +1238,7 @@
       <_lv7DChanges />
       <_power>120</_power>
       <_pp>10</_pp>
-      <_range>RandomEnemy</_range>
+      <_range>RandomFoePokemon</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -1273,7 +1273,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>30</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -1348,7 +1348,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>30</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -1384,7 +1384,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>40</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -1494,7 +1494,7 @@
       </_lv7DChanges>
       <_power>40</_power>
       <_pp>30</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Poison</_type>
     </MoveType>
     <MoveType>
@@ -1544,7 +1544,7 @@
       <_class>AddTeamState</_class>
       <_lv7DChanges />
       <_pp>30</_pp>
-      <_range>UserField</_range>
+      <_range>SelfField</_range>
       <_type>Ice</_type>
     </MoveType>
     <MoveType>
@@ -1623,7 +1623,7 @@
       <_lv7DChanges />
       <_power>120</_power>
       <_pp>5</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Ice</_type>
     </MoveType>
     <MoveType>
@@ -1870,7 +1870,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>40</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -1885,7 +1885,7 @@
       <_lv7DChanges />
       <_power>55</_power>
       <_pp>25</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Grass</_type>
     </MoveType>
     <MoveType>
@@ -1967,7 +1967,7 @@
       <_lv7DChanges />
       <_power>120</_power>
       <_pp>10</_pp>
-      <_range>RandomEnemy</_range>
+      <_range>RandomFoePokemon</_range>
       <_type>Grass</_type>
     </MoveType>
     <MoveType>
@@ -1987,7 +1987,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>40</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Bug</_type>
     </MoveType>
     <MoveType>
@@ -2248,7 +2248,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>40</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -2266,7 +2266,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>30</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -2305,7 +2305,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -2368,7 +2368,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>15</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -2382,7 +2382,7 @@
       <_lv7DChanges />
       <_maxHpPercentage>50</_maxHpPercentage>
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -2400,7 +2400,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>30</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -2418,7 +2418,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -2474,7 +2474,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>40</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Water</_type>
     </MoveType>
     <MoveType>
@@ -2492,7 +2492,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>40</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -2510,7 +2510,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>30</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -2522,7 +2522,7 @@
       <_class>AddTeamState</_class>
       <_lv7DChanges />
       <_pp>30</_pp>
-      <_range>UserField</_range>
+      <_range>SelfField</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -2532,7 +2532,7 @@
       <_class>AddMapState</_class>
       <_lv7DChanges />
       <_pp>30</_pp>
-      <_range>Field</_range>
+      <_range>Board</_range>
       <_type>Ice</_type>
     </MoveType>
     <MoveType>
@@ -2544,7 +2544,7 @@
       <_class>AddTeamState</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
-      <_range>UserField</_range>
+      <_range>SelfField</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -2556,7 +2556,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>30</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -2571,7 +2571,7 @@
       <_power>1</_power>
       <_pp>10</_pp>
       <_priority>1</_priority>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -2581,7 +2581,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -2759,7 +2759,7 @@
       <_lv7DChanges />
       <_power>60</_power>
       <_pp>20</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -2828,7 +2828,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -2861,7 +2861,7 @@
       <_lv7DChanges />
       <_maxHpPercentage>50</_maxHpPercentage>
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -2926,7 +2926,7 @@
       <_class>AddState</_class>
       <_lv7DChanges />
       <_pp>40</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Poison</_type>
     </MoveType>
     <MoveType>
@@ -3023,7 +3023,7 @@
       </_lv7DChanges>
       <_power>20</_power>
       <_pp>30</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Water</_type>
     </MoveType>
     <MoveType>
@@ -3109,7 +3109,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>40</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -3127,7 +3127,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>40</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Poison</_type>
     </MoveType>
     <MoveType>
@@ -3200,7 +3200,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -3215,7 +3215,7 @@
       <_lv7DChanges />
       <_power>75</_power>
       <_pp>10</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Rock</_type>
     </MoveType>
     <MoveType>
@@ -3248,7 +3248,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>30</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -3260,7 +3260,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>30</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -3320,7 +3320,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -3571,7 +3571,7 @@
       <_lv7DChanges />
       <_power>40</_power>
       <_pp>25</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Ice</_type>
     </MoveType>
     <MoveType>
@@ -3582,7 +3582,7 @@
       <_lv7DChanges />
       <_pp>10</_pp>
       <_priority>4</_priority>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -3662,7 +3662,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -3733,7 +3733,7 @@
       <_class>AddTeamState</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
-      <_range>EnemyField</_range>
+      <_range>FoeField</_range>
       <_type>Ground</_type>
     </MoveType>
     <MoveType>
@@ -3782,7 +3782,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>5</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Ghost</_type>
     </MoveType>
     <MoveType>
@@ -3823,7 +3823,7 @@
       </_lv7DChanges>
       <_power>55</_power>
       <_pp>15</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Ice</_type>
     </MoveType>
     <MoveType>
@@ -3834,7 +3834,7 @@
       <_lv7DChanges />
       <_pp>5</_pp>
       <_priority>4</_priority>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Fighting</_type>
     </MoveType>
     <MoveType>
@@ -3876,7 +3876,7 @@
       <_lv7DChanges />
       <_power>120</_power>
       <_pp>10</_pp>
-      <_range>RandomEnemy</_range>
+      <_range>RandomFoePokemon</_range>
       <_type>Dragon</_type>
     </MoveType>
     <MoveType>
@@ -3886,7 +3886,7 @@
       <_class>AddMapState</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_range>Field</_range>
+      <_range>Board</_range>
       <_type>Rock</_type>
     </MoveType>
     <MoveType>
@@ -3912,7 +3912,7 @@
       <_lv7DChanges />
       <_pp>10</_pp>
       <_priority>4</_priority>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -3998,7 +3998,7 @@
       <_lv7DChanges />
       <_maxHpPercentage>50</_maxHpPercentage>
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -4094,7 +4094,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -4107,7 +4107,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>5</_pp>
-      <_range>UserParty</_range>
+      <_range>SelfPokemons</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -4160,7 +4160,7 @@
       <_class>AddTeamState</_class>
       <_lv7DChanges />
       <_pp>25</_pp>
-      <_range>UserField</_range>
+      <_range>SelfField</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -4272,7 +4272,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>40</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -4334,7 +4334,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>20</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -4405,7 +4405,7 @@
       <_lv7DChanges />
       <_maxHpPercentage>50</_maxHpPercentage>
       <_pp>5</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -4419,7 +4419,7 @@
       <_lv7DChanges />
       <_maxHpPercentage>50</_maxHpPercentage>
       <_pp>5</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Grass</_type>
     </MoveType>
     <MoveType>
@@ -4433,7 +4433,7 @@
       <_lv7DChanges />
       <_maxHpPercentage>50</_maxHpPercentage>
       <_pp>5</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -4476,7 +4476,7 @@
       <_lv7DChanges />
       <_power>40</_power>
       <_pp>20</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Dragon</_type>
     </MoveType>
     <MoveType>
@@ -4486,7 +4486,7 @@
       <_class>AddMapState</_class>
       <_lv7DChanges />
       <_pp>5</_pp>
-      <_range>Field</_range>
+      <_range>Board</_range>
       <_type>Water</_type>
     </MoveType>
     <MoveType>
@@ -4496,7 +4496,7 @@
       <_class>AddMapState</_class>
       <_lv7DChanges />
       <_pp>5</_pp>
-      <_range>Field</_range>
+      <_range>Board</_range>
       <_type>Fire</_type>
     </MoveType>
     <MoveType>
@@ -4696,7 +4696,7 @@
       <_lv7DChanges />
       <_power>90</_power>
       <_pp>10</_pp>
-      <_range>RandomEnemy</_range>
+      <_range>RandomFoePokemon</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -4708,7 +4708,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -4734,7 +4734,7 @@
       <_lv7DChanges />
       <_maxHpPercentage>25</_maxHpPercentage>
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -4754,7 +4754,7 @@
       <_lv7DChanges />
       <_power>100</_power>
       <_pp>10</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Fire</_type>
     </MoveType>
     <MoveType>
@@ -4764,7 +4764,7 @@
       <_class>AddMapState</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_range>Field</_range>
+      <_range>Board</_range>
       <_type>Ice</_type>
     </MoveType>
     <MoveType>
@@ -4890,7 +4890,7 @@
       <_lv7DChanges />
       <_pp>20</_pp>
       <_priority>3</_priority>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -4918,7 +4918,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Electric</_type>
     </MoveType>
     <MoveType>
@@ -4945,7 +4945,7 @@
       <_lv7DChanges />
       <_pp>20</_pp>
       <_priority>5</_priority>
-      <_range>Partner</_range>
+      <_range>SingleAlly</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -4981,7 +4981,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -4991,7 +4991,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -5007,7 +5007,7 @@
       <_class>AddState</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Grass</_type>
     </MoveType>
     <MoveType>
@@ -5044,7 +5044,7 @@
       <_lv7DChanges />
       <_pp>15</_pp>
       <_priority>4</_priority>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -5056,7 +5056,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -5146,7 +5146,7 @@
       <_lv7DChanges />
       <_power>150</_power>
       <_pp>5</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Fire</_type>
     </MoveType>
     <MoveType>
@@ -5172,7 +5172,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -5184,7 +5184,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -5196,7 +5196,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>5</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Ghost</_type>
     </MoveType>
     <MoveType>
@@ -5209,7 +5209,7 @@
       <_lv7DChanges />
       <_pp>10</_pp>
       <_priority>4</_priority>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Dark</_type>
     </MoveType>
     <MoveType>
@@ -5265,7 +5265,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -5283,7 +5283,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Bug</_type>
     </MoveType>
     <MoveType>
@@ -5392,7 +5392,7 @@
       <_class>AddMapState</_class>
       <_lv7DChanges />
       <_pp>15</_pp>
-      <_range>Field</_range>
+      <_range>Board</_range>
       <_type>Ground</_type>
     </MoveType>
     <MoveType>
@@ -5435,7 +5435,7 @@
       <_lv7DChanges />
       <_maxHpPercentage>50</_maxHpPercentage>
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -5450,7 +5450,7 @@
       <_lv7DChanges />
       <_power>90</_power>
       <_pp>10</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -5583,7 +5583,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>5</_pp>
-      <_range>UserParty</_range>
+      <_range>SelfPokemons</_range>
       <_type>Grass</_type>
     </MoveType>
     <MoveType>
@@ -5617,7 +5617,7 @@
       <_lv7DChanges />
       <_power>55</_power>
       <_pp>25</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Flying</_type>
     </MoveType>
     <MoveType>
@@ -5782,7 +5782,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -5796,7 +5796,7 @@
       <_lv7DChanges />
       <_power>150</_power>
       <_pp>5</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Water</_type>
     </MoveType>
     <MoveType>
@@ -5917,7 +5917,7 @@
       </_lv7DChanges>
       <_power>95</_power>
       <_pp>10</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Water</_type>
     </MoveType>
     <MoveType>
@@ -5980,7 +5980,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>15</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Steel</_type>
     </MoveType>
     <MoveType>
@@ -6011,7 +6011,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>40</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -6062,7 +6062,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Fighting</_type>
     </MoveType>
     <MoveType>
@@ -6184,7 +6184,7 @@
       <_class>AddMapState</_class>
       <_lv7DChanges />
       <_pp>15</_pp>
-      <_range>Field</_range>
+      <_range>Board</_range>
       <_type>Water</_type>
     </MoveType>
     <MoveType>
@@ -6207,7 +6207,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -6245,7 +6245,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Dragon</_type>
     </MoveType>
     <MoveType>
@@ -6340,7 +6340,7 @@
       <_lv7DChanges />
       <_maxHpPercentage>50</_maxHpPercentage>
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Flying</_type>
     </MoveType>
     <MoveType>
@@ -6350,7 +6350,7 @@
       <_class>AddMapState</_class>
       <_lv7DChanges />
       <_pp>5</_pp>
-      <_range>Field</_range>
+      <_range>Board</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -6431,7 +6431,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -6495,7 +6495,7 @@
       <_class>AddTeamState</_class>
       <_lv7DChanges />
       <_pp>30</_pp>
-      <_range>UserField</_range>
+      <_range>SelfField</_range>
       <_type>Flying</_type>
     </MoveType>
     <MoveType>
@@ -6505,7 +6505,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>30</_pp>
-      <_range>UserOrParner</_range>
+      <_range>RandomSelfPokemon</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -6665,7 +6665,7 @@
       <_class>AddState</_class>
       <_lv7DChanges />
       <_pp>15</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -6691,7 +6691,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -6716,7 +6716,7 @@
       <_class>AddTeamState</_class>
       <_lv7DChanges />
       <_pp>30</_pp>
-      <_range>UserField</_range>
+      <_range>SelfField</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -6729,7 +6729,7 @@
       <_lv7DChanges />
       <_power>1</_power>
       <_pp>20</_pp>
-      <_range>SingleEnemy</_range>
+      <_range>SingleFoe</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -6739,7 +6739,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -6833,7 +6833,7 @@
       <_class>AddTeamState</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
-      <_range>EnemyField</_range>
+      <_range>FoeField</_range>
       <_type>Poison</_type>
     </MoveType>
     <MoveType>
@@ -6858,7 +6858,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Water</_type>
     </MoveType>
     <MoveType>
@@ -6871,7 +6871,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Electric</_type>
     </MoveType>
     <MoveType>
@@ -6945,7 +6945,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Rock</_type>
     </MoveType>
     <MoveType>
@@ -7266,7 +7266,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Dark</_type>
     </MoveType>
     <MoveType>
@@ -7542,7 +7542,7 @@
       <_lv7DChanges />
       <_pp>5</_pp>
       <_priority>-7</_priority>
-      <_range>Field</_range>
+      <_range>Board</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -7752,7 +7752,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>20</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -7764,7 +7764,7 @@
       <_class>AddTeamState</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
-      <_range>EnemyField</_range>
+      <_range>FoeField</_range>
       <_type>Rock</_type>
     </MoveType>
     <MoveType>
@@ -7913,7 +7913,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Bug</_type>
     </MoveType>
     <MoveType>
@@ -7927,7 +7927,7 @@
       <_lv7DChanges />
       <_maxHpPercentage>50</_maxHpPercentage>
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Bug</_type>
     </MoveType>
     <MoveType>
@@ -7999,7 +7999,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -8054,7 +8054,7 @@
       <_class>AddState</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Dark</_type>
     </MoveType>
     <MoveType>
@@ -8131,7 +8131,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>15</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Dark</_type>
     </MoveType>
     <MoveType>
@@ -8144,7 +8144,7 @@
       <_lv7DChanges />
       <_pp>10</_pp>
       <_priority>3</_priority>
-      <_range>UserField</_range>
+      <_range>SelfField</_range>
       <_type>Rock</_type>
     </MoveType>
     <MoveType>
@@ -8179,7 +8179,7 @@
       <_lv7DChanges />
       <_pp>10</_pp>
       <_priority>-7</_priority>
-      <_range>Field</_range>
+      <_range>Board</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -8223,7 +8223,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>15</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Steel</_type>
     </MoveType>
     <MoveType>
@@ -8234,7 +8234,7 @@
       <_lv7DChanges />
       <_pp>20</_pp>
       <_priority>3</_priority>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Bug</_type>
     </MoveType>
     <MoveType>
@@ -8267,7 +8267,7 @@
       <_lv7DChanges />
       <_pp>10</_pp>
       <_priority>-7</_priority>
-      <_range>Field</_range>
+      <_range>Board</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -8361,7 +8361,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Bug</_type>
     </MoveType>
     <MoveType>
@@ -8464,7 +8464,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>20</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Poison</_type>
     </MoveType>
     <MoveType>
@@ -8637,7 +8637,7 @@
       <_lv7DChanges />
       <_pp>15</_pp>
       <_priority>3</_priority>
-      <_range>UserField</_range>
+      <_range>SelfField</_range>
       <_type>Fighting</_type>
     </MoveType>
     <MoveType>
@@ -8648,7 +8648,7 @@
       <_lv7DChanges />
       <_pp>15</_pp>
       <_priority>1</_priority>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Psychic</_type>
     </MoveType>
     <MoveType>
@@ -8680,7 +8680,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>15</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -8748,7 +8748,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Steel</_type>
     </MoveType>
     <MoveType>
@@ -8777,7 +8777,7 @@
       <_lv7DChanges />
       <_power>30</_power>
       <_pp>15</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Fire</_type>
     </MoveType>
     <MoveType>
@@ -8947,7 +8947,7 @@
       </_lv7DChanges>
       <_power>30</_power>
       <_pp>20</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Bug</_type>
     </MoveType>
     <MoveType>
@@ -9020,7 +9020,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>30</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -9041,7 +9041,7 @@
       </_lv7DChanges>
       <_power>55</_power>
       <_pp>15</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Electric</_type>
     </MoveType>
     <MoveType>
@@ -9220,7 +9220,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>10</_pp>
-      <_range>User</_range>
+      <_range>Self</_range>
       <_type>Grass</_type>
     </MoveType>
     <MoveType>
@@ -9378,7 +9378,7 @@
       <_lv7DChanges />
       <_power>75</_power>
       <_pp>10</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -9412,7 +9412,7 @@
       </_lv7DChanges>
       <_power>65</_power>
       <_pp>10</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Ice</_type>
     </MoveType>
     <MoveType>
@@ -9533,7 +9533,7 @@
       </_lv7DChanges>
       <_power>55</_power>
       <_pp>15</_pp>
-      <_range>AdjacentEnemies</_range>
+      <_range>FoePokemons</_range>
       <_type>Dark</_type>
     </MoveType>
     <MoveType>
@@ -9692,6 +9692,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>15</_pp>
+      <_range>SelfField</_range>
       <_type>Fighting</_type>
     </MoveType>
     <MoveType>
@@ -9749,6 +9750,7 @@
         </MoveLv7DChange>
       </_lv7DChanges>
       <_pp>20</_pp>
+      <_range>Adjacent</_range>
       <_type>Poison</_type>
     </MoveType>
     <MoveType>
@@ -9759,6 +9761,7 @@
       <_lv7DChanges />
       <_power>90</_power>
       <_pp>10</_pp>
+      <_range>FoePokemons</_range>
       <_type>Ground</_type>
     </MoveType>
     <MoveType>
@@ -9768,6 +9771,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
+      <_range>All</_range>
       <_type>Ground</_type>
     </MoveType>
     <MoveType>
@@ -9787,6 +9791,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
+      <_range>FoeField</_range>
       <_type>Bug</_type>
     </MoveType>
     <MoveType>
@@ -9842,6 +9847,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
+      <_range>Self</_range>
       <_type>Steel</_type>
     </MoveType>
     <MoveType>
@@ -9859,6 +9865,7 @@
       </_lv7DChanges>
       <_power>80</_power>
       <_pp>10</_pp>
+      <_range>Adjacent</_range>
       <_type>Fire</_type>
     </MoveType>
     <MoveType>
@@ -9881,6 +9888,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
+      <_range>Board</_range>
       <_type>Grass</_type>
     </MoveType>
     <MoveType>
@@ -9890,6 +9898,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
+      <_range>Self</_range>
       <_type>Grass</_type>
     </MoveType>
     <MoveType>
@@ -9900,6 +9909,7 @@
       <_lv7DChanges />
       <_power>90</_power>
       <_pp>15</_pp>
+      <_range>Adjacent</_range>
       <_type>Grass</_type>
     </MoveType>
     <MoveType>
@@ -9933,6 +9943,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
+      <_range>All</_range>
       <_type>Electric</_type>
     </MoveType>
     <MoveType>
@@ -9989,6 +10000,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
+      <_range>Board</_range>
       <_type>Electric</_type>
     </MoveType>
     <MoveType>
@@ -10043,6 +10055,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
+      <_range>SelfPokemons</_range>
       <_type>Fairy</_type>
     </MoveType>
     <MoveType>
@@ -10052,6 +10065,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
+      <_range>Self</_range>
       <_type>Fairy</_type>
     </MoveType>
     <MoveType>
@@ -10079,6 +10093,7 @@
       <_lv7DChanges />
       <_power>40</_power>
       <_pp>15</_pp>
+      <_range>FoePokemons</_range>
       <_type>Fairy</_type>
     </MoveType>
     <MoveType>
@@ -10104,6 +10119,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
+      <_range>SelfField</_range>
       <_type>Fairy</_type>
     </MoveType>
     <MoveType>
@@ -10124,6 +10140,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
+      <_range>All</_range>
       <_type>Fairy</_type>
     </MoveType>
     <MoveType>
@@ -10133,6 +10150,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
+      <_range>All</_range>
       <_type>Fairy</_type>
     </MoveType>
     <MoveType>
@@ -10143,6 +10161,7 @@
       <_lv7DChanges />
       <_power>80</_power>
       <_pp>10</_pp>
+      <_range>FoePokemons</_range>
       <_type>Fairy</_type>
     </MoveType>
     <MoveType>
@@ -10152,6 +10171,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
+      <_range>Board</_range>
       <_type>Fairy</_type>
     </MoveType>
     <MoveType>
@@ -31765,15 +31785,15 @@
             <a:int>15</a:int>
           </A>
           <Base>
-            <H>44</H>
+            <H>49</H>
             <A>66</A>
             <D>70</D>
             <SA>44</SA>
             <SD>55</SD>
-            <S>56</S>
+            <S>51</S>
           </Base>
-          <H>0.3</H>
-          <W>3.5</W>
+          <H>0.4</H>
+          <W>5</W>
         </PokemonFormData>
         <PokemonFormData>
           <T1>Ghost</T1>
@@ -31784,15 +31804,15 @@
             <a:int>15</a:int>
           </A>
           <Base>
-            <H>49</H>
+            <H>44</H>
             <A>66</A>
             <D>70</D>
             <SA>44</SA>
             <SD>55</SD>
-            <S>51</S>
+            <S>56</S>
           </Base>
-          <H>0.4</H>
-          <W>5</W>
+          <H>0.3</H>
+          <W>3.5</W>
         </PokemonFormData>
         <PokemonFormData>
           <T1>Ghost</T1>
@@ -31863,15 +31883,15 @@
             <a:int>15</a:int>
           </A>
           <Base>
-            <H>55</H>
-            <A>85</A>
+            <H>65</H>
+            <A>90</A>
             <D>122</D>
             <SA>58</SA>
             <SD>75</SD>
-            <S>99</S>
+            <S>84</S>
           </Base>
-          <H>0.7</H>
-          <W>9.5</W>
+          <H>0.9</H>
+          <W>12.5</W>
         </PokemonFormData>
         <PokemonFormData>
           <T1>Ghost</T1>
@@ -31882,15 +31902,15 @@
             <a:int>15</a:int>
           </A>
           <Base>
-            <H>65</H>
-            <A>90</A>
+            <H>55</H>
+            <A>85</A>
             <D>122</D>
             <SA>58</SA>
             <SD>75</SD>
-            <S>84</S>
+            <S>99</S>
           </Base>
-          <H>0.9</H>
-          <W>12.5</W>
+          <H>0.7</H>
+          <W>9.5</W>
         </PokemonFormData>
         <PokemonFormData>
           <T1>Ghost</T1>

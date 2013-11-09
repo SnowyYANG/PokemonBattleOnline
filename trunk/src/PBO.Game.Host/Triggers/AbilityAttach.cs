@@ -30,7 +30,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (pm.OnboardPokemon.RemoveCondition("Attract"))
           {
             pm.RaiseAbility();
-            pm.AddReportPm("DeAttract");
+            pm.ShowLogPm("DeAttract");
           }
           break;
         case As.IMMUNITY: //17
@@ -44,7 +44,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (pm.OnboardPokemon.RemoveCondition("Confuse"))
           {
             pm.RaiseAbility();
-            pm.AddReportPm("DeConfuse");
+            pm.ShowLogPm("DeConfuse");
           }
           break;
         case As.IMPOSTER:
@@ -88,7 +88,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case As.INTIMIDATE:
           pm.RaiseAbility();
           foreach (var p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1))
-            if (p.OnboardPokemon.HasCondition("Substitute")) p.AddReportPm("NoEffect");
+            if (p.OnboardPokemon.HasCondition("Substitute")) p.ShowLogPm("NoEffect");
             else p.ChangeLv7D(pm, StatType.Atk, -1, true);
           break;
         case As.TRACE:
@@ -115,7 +115,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case As.SLOW_START:
           pm.OnboardPokemon.SetCondition("SlowStart", pm.Controller.TurnNumber + 5);
           pm.RaiseAbility();
-          pm.AddReportPm("EnSlowStart");
+          pm.ShowLogPm("EnSlowStart");
           break;
       }
     }
@@ -137,7 +137,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (items.Count == 0) return;
       int i = pm.Controller.GetRandomInt(0, items.Count - 1);
       pm.RaiseAbility();
-      pm.AddReportPm("Frisk", items[i]);
+      pm.ShowLogPm("Frisk", items[i]);
     }
     private static void WeatherObserver(PokemonProxy pm, int number, int form)
     {
@@ -207,7 +207,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void SimpleAttachRaise(PokemonProxy pm, string log)
     {
       pm.RaiseAbility();
-      pm.AddReportPm(log);
+      pm.ShowLogPm(log);
     }
     private static void Download(PokemonProxy pm)
     {
@@ -237,7 +237,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (m.Type.Class == MoveInnerClass.OHKO || BattleTypeHelper.EffectRevise(m.Type.Type, pm.OnboardPokemon.Types) > 0)
           {
             pm.RaiseAbility();
-            pm.AddReportPm("Anticipation");
+            pm.ShowLogPm("Anticipation");
             return;
           }
     }

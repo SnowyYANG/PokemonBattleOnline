@@ -79,7 +79,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.STEAMROLLER: //537
           if (der.OnboardPokemon.HasCondition("Minimize")) m *= 0x2000;
           break;
-        case 57:
+        case Ms.SURF:
         case Ms.WHIRLPOOL:
           if (der.CoordY == CoordY.Water) m *= 0x2000;
           break;

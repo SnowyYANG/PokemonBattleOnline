@@ -21,12 +21,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.BRICK_BREAK: //280
           if (der.Pokemon.TeamId != aer.Pokemon.TeamId)
           {
-            ls = der.Tile.Field.RemoveCondition("LightScreen");
-            r = der.Tile.Field.RemoveCondition("Reflect");
+            ls = der.Field.RemoveCondition("LightScreen");
+            r = der.Field.RemoveCondition("Reflect");
           }
           break;
         case Ms.FEINT: //364
-          feint = der.OnboardPokemon.RemoveCondition("Protect") | (der.Pokemon.TeamId != atk.Attacker.Pokemon.TeamId && (der.Tile.Field.RemoveCondition("QuickGuard") | der.Tile.Field.RemoveCondition("WideGuard")));
+          feint = der.OnboardPokemon.RemoveCondition("Protect") | (der.Pokemon.TeamId != atk.Attacker.Pokemon.TeamId && (der.Field.RemoveCondition("QuickGuard") | der.Field.RemoveCondition("WideGuard")));
           break;
       }
       switch (atk.Move.Id)
@@ -88,7 +88,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (def.Damage >= def.Defender.Hp) def.Damage = def.Defender.Hp - 1;
           break;
         case Ms.BEAT_UP:
-          {
+          {//无视属性相克修正，但依然会显示“没有什么效果”“效果拔群”的战报。
             BattleType a = def.AtkContext.Type;
             def.EffectRevise = a == BattleType.Ground && der.Item == Is.IRON_BALL && der.OnboardPokemon.HasType(BattleType.Flying) ? 0 : a.EffectRevise(der.OnboardPokemon.Types);
           }
@@ -99,19 +99,32 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           atk.Attacker.Faint();
           break;
         case Ms.BRICK_BREAK: //280
-          if (ls) atk.Controller.ReportBuilder.ShowLog("DeLightScreen", der.Tile.Field.Team);
-          if (r) atk.Controller.ReportBuilder.ShowLog("DeReflect", der.Tile.Field.Team);
+          if (ls) atk.Controller.ReportBuilder.ShowLog("DeLightScreen", der.Field.Team);
+          if (r) atk.Controller.ReportBuilder.ShowLog("DeReflect", der.Field.Team);
           break;
         case Ms.FEINT: //364
-          if (feint) der.AddReportPm("Feint");
+          if (feint) der.ShowLogPm("Feint");
           break;
       }
     }
     private static void CalculateEffectRevise(DefContext def)
     {
-      BattleType a = def.AtkContext.Type;
-      OnboardPokemon der = def.Defender.OnboardPokemon;
-      def.EffectRevise = a == BattleType.Ground && def.Defender.Item == Is.IRON_BALL && der.HasType(BattleType.Flying) ? 0 : a.EffectRevise(der.Types);
+      var der = def.Defender;
+      var types = def.Defender.OnboardPokemon.Types;
+      switch (def.AtkContext.Move.Id)
+      {
+        case Ms.FLYING_PRESS:
+          def.EffectRevise = BattleType.Flying.EffectRevise(types) + BattleType.Fighting.EffectRevise(types);
+          break;
+        case Ms.FREEZEDRY:
+          def.EffectRevise = BattleType.Ice.EffectRevise(types);
+          if (types.Contains(BattleType.Water)) def.EffectRevise += 2;
+          break;
+        default:
+          BattleType a = def.AtkContext.Type;
+          def.EffectRevise = a == BattleType.Ground && der.Item == Is.IRON_BALL && der.OnboardPokemon.HasType(BattleType.Flying) ? 0 : a.EffectRevise(types);
+          break;
+      }
     }
     private static readonly int[] LV_CT = { 16, 8, 4, 3, 2, 0 };
     private static void CalculateDamage(DefContext def)
@@ -121,7 +134,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var c = aer.Controller;
       var move = atk.Move;
 
-      if (!(def.Defender.Tile.Field.HasCondition("LuckyChant") || ATs.CannotBeCted(def.Ability)))
+      if (!(def.Defender.Field.HasCondition("LuckyChant") || ATs.CannotBeCted(def.Ability)))
         if (move.CtLv > 5) def.IsCt = true;
         else def.IsCt = c.OneNth(LV_CT[atk.CTLv]);
 

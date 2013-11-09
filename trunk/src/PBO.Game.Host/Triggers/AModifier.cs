@@ -94,7 +94,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static Modifier PlusMinus(AtkContext atk)
     {
       if (atk.Move.Category == MoveCategory.Special)
-        foreach (var p in atk.Attacker.Tile.Field.Pokemons)
+        foreach (var p in atk.Attacker.Field.Pokemons)
           if (p != atk.Attacker)
           {
             var a = p.Ability;

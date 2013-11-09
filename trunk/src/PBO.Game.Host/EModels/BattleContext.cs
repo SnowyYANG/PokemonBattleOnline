@@ -50,7 +50,7 @@ namespace PokemonBattleOnline.Game.Host
       Move = move;
       if (STs.CanExecuteMove(Attacker, move))
       {
-        if (log != null) Attacker.AddReportPm(log, move.Id);
+        if (log != null) Attacker.ShowLogPm(log, move.Id);
         InitAtkContext.Execute(this);
         MoveE.BuildDefContext(this, selectTile);
         if (MoveProxy != null) ATs.Pressure(this, MTs.GetRange(Attacker, Move));
@@ -134,8 +134,8 @@ namespace PokemonBattleOnline.Game.Host
       PokemonProxy a = AtkContext.Attacker;
       return
         !IsCt &&
-        Defender.Tile.Field.HasCondition(condition) &&
-        (Defender.Tile.Team == a.Tile.Team || a.Ability != As.INFILTRATOR);
+        Defender.Field.HasCondition(condition) &&
+        (Defender.Pokemon.TeamId == a.Pokemon.TeamId || a.Ability != As.INFILTRATOR);
     }
     public void MoveHurt()
     {
@@ -161,7 +161,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public void Fail()
     {
-      Defender.AddReportPm("Fail");
+      Defender.ShowLogPm("Fail");
     }
   }
 }

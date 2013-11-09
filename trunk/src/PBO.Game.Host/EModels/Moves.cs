@@ -21,7 +21,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static bool Switch(this MoveType move)
     {
-      return move.Id == Ms.UTURN || move.Id == Ms.VOLT_SWITCH;
+      return move.Id == Ms.UTURN || move.Id == Ms.VOLT_SWITCH || move.Id == Ms.PARTING_SHOT;
     }
     public static bool IgnoreDefenderLv7D(this MoveType move)
     {
@@ -33,7 +33,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static MoveRange GetRange(PokemonProxy pm, MoveType move)
     {
-      return move.Id == Ms.CURSE ? pm.OnboardPokemon.HasType(BattleType.Ghost) ? MoveRange.Single : MoveRange.User : move.Range;
+      return move.Id == Ms.CURSE ? pm.OnboardPokemon.HasType(BattleType.Ghost) ? MoveRange.Single : MoveRange.Self : move.Range;
     }
 
     private static int[] AROMA_VEILS = new int[] { Ms.DISABLE, Ms.ATTRACT, Ms.ENCORE, Ms.TORMENT, Ms.TAUNT };

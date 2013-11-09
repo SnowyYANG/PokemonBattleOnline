@@ -125,7 +125,7 @@ namespace PokemonBattleOnline.Game.Host
     private void CheckFocusPunch()
     {
       foreach (PokemonProxy p in ActingPokemons)
-        if (p.Action == PokemonAction.MoveAttached && p.SelectedMove.Type.Id == Ms.FOCUS_PUNCH) p.AddReportPm("EnFocusPunch");
+        if (p.Action == PokemonAction.MoveAttached && p.SelectedMove.Type.Id == Ms.FOCUS_PUNCH) p.ShowLogPm("EnFocusPunch");
     }
     private void Move()
     {

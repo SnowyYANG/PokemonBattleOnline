@@ -12,62 +12,76 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       var a = pm.Ability;
 
-      if (pm.Pokemon.TeamId != by.Pokemon.TeamId)
+      if (change < 0 && by != pm)
       {
-        switch (a)
+        if (pm.Field.HasCondition("Mist")) //根据百科非技能似乎不该发动，但排除了一下这样写肯定是对的
         {
-          case As.CLEAR_BODY:
-          case As.WHITE_SMOKE:
-            if (change < 0 && pm.Pokemon.TeamId != by.Pokemon.TeamId)
-            {
+          if (showFail) pm.ShowLogPm("Mist");
+          return 0;
+        }
+        if (by == null || pm.Pokemon.TeamId != by.Pokemon.TeamId)
+        {
+          switch (a)
+          {
+            case As.CLEAR_BODY:
+            case As.WHITE_SMOKE:
               if (showFail)
               {
                 pm.RaiseAbility();
-                pm.AddReportPm("7DLockAll");
+                pm.ShowLogPm("7DLockAll");
               }
-              change = 0;
+              return 0;
+            case As.KEEN_EYE:
+              if (CantLvDown(pm, by, stat, change, showFail, StatType.Accuracy)) return 0;
+              break;
+            case As.HYPER_CUTTER:
+              if (CantLvDown(pm, by, stat, change, showFail, StatType.Atk)) return 0;
+              break;
+            case As.BIG_PECKS:
+              if (CantLvDown(pm, by, stat, change, showFail, StatType.Def)) return 0;
+              break;
+          }
+        }
+        if (pm.OnboardPokemon.HasType(BattleType.Grass))
+        {
+          var partner = pm.Field.Pokemons.FirstOrDefault((p) => p.Ability == As.FLOWER_VEIL);
+          if (partner != null)
+          {
+            if (showFail)
+            {
+              partner.RaiseAbility();
+              pm.ShowLogPm("7DLock", (int)stat);
             }
-            break;
-          case As.KEEN_EYE:
-            change = CantLvDown(pm, by, stat, change, showFail, StatType.Accuracy);
-            break;
-          case As.HYPER_CUTTER:
-            change = CantLvDown(pm, by, stat, change, showFail, StatType.Atk);
-            break;
-          case As.BIG_PECKS:
-            change = CantLvDown(pm, by, stat, change, showFail, StatType.Def);
-            break;
+            return 0;            
+          }
         }
       }
 
-      if (pm != by && pm.OnboardPokemon.HasType(BattleType.Grass) && pm.Tile.Field.Pokemons.Any((p) => p.RaiseAbility(As.FLOWER_VEIL))) change = 0;
-
-      if (change != 0)
-        switch (a)
-        {
-          case As.SIMPLE: //86
-            change <<= 1;
-            break;
-          case As.CONTRARY: //126
-            change = 0 - change;
-            break;
-        }
+      switch (a)
+      {
+        case As.SIMPLE: //86
+          change <<= 1;
+          break;
+        case As.CONTRARY: //126
+          change = 0 - change;
+          break;
+      }
 
       return change;
     }
 
-    private static int CantLvDown(PokemonProxy pm, PokemonProxy by, StatType stat, int change, bool showFail, StatType s0)
+    private static bool CantLvDown(PokemonProxy pm, PokemonProxy by, StatType stat, int change, bool showFail, StatType s0)
     {
-      if (change < 0 && stat == s0)
+      if (stat == s0)
       {
         if (showFail)
         {
           pm.RaiseAbility();
-          pm.AddReportPm("7DLock", (int)stat);
+          pm.ShowLogPm("7DLock", (int)stat);
         }
-        change = 0;
+        return true;
       }
-      return change;
+      return false;
     }
   }
 }

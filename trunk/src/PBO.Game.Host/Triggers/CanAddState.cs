@@ -32,13 +32,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
       if (state == AttachedState.SLP)
       {
-        var pa = pm.Tile.Field.Pokemons.FirstOrDefault((p) => p.Ability == As.SWEET_VEIL);
+        var pa = pm.Field.Pokemons.FirstOrDefault((p) => p.Ability == As.SWEET_VEIL);
         if (pa != null)
         {
           if (showFail)
           {
             pa.RaiseAbility();
-            pm.AddReportPm("CantSLP");
+            pm.ShowLogPm("CantSLP");
           }
           return false;
         }
@@ -53,7 +53,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (showFail)
         {
           pm.RaiseAbility();
-          pm.AddReportPm("Cant" + s0.ToString());
+          pm.ShowLogPm("Cant" + s0.ToString());
         }
         return false;
       }
@@ -67,7 +67,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (showFail)
         {
           pm.RaiseAbility();
-          pm.AddReportPm(log);
+          pm.ShowLogPm(log);
         }
         return false;
       }
@@ -81,7 +81,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (showFail)
         {
           pm.RaiseAbility();
-          pm.AddReportPm("Cant" + state.ToString());
+          pm.ShowLogPm("Cant" + state.ToString());
         }
         return false;
       }

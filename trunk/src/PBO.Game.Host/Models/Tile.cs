@@ -46,14 +46,14 @@ namespace PokemonBattleOnline.Game.Host
       {
         if (h) pm.Pokemon.Hp = pm.Pokemon.MaxHp;
         if (s) pm.Pokemon.State = PokemonState.Normal;
-        pm.AddReportPm("HealingWish");
+        pm.ShowLogPm("HealingWish");
       }
       else if ((h || s || pm.Pokemon.Moves.Any((m) => m.PP.Origin != m.PP.Value)) && HasCondition("LunarDance"))
       {
         if (h) pm.Pokemon.Hp = pm.Pokemon.MaxHp;
         if (s) pm.Pokemon.State = PokemonState.Normal;
         foreach (var m in pm.Moves) m.PP = m.Move.PP.Origin;
-        pm.AddReportPm("LunarDance");
+        pm.ShowLogPm("LunarDance");
       }
     }
   }

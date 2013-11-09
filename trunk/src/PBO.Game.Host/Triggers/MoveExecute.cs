@@ -52,12 +52,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             if (atk.Fail)
               switch (move)
               {
-                case 26:
-                case 136:
+                case Ms.JUMP_KICK:
+                case Ms.HI_JUMP_KICK:
                   aer.EffectHurtByOneNth(2, "m_FailSelfHurt");
                   break;
-                case 120:
-                case 153:
+                case Ms.SELFDESTRUCT:
+                case Ms.EXPLOSION:
                   aer.Faint();
                   break;
                 case Ms.NATURAL_GIFT: //363
@@ -83,7 +83,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (pm.OnboardPokemon.HasCondition("Snatch"))
           {
             pm.OnboardPokemon.RemoveCondition("Snatch");
-            pm.AddReportPm("Snatch", aer.Id);
+            pm.ShowLogPm("Snatch", aer.Id);
             var s = new AtkContext(pm) { Move = move };
             InitAtkContext.Execute(s);
             MoveE.BuildDefContext(s, null);
@@ -120,7 +120,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void Snatch(AtkContext atk)
     {
       atk.Attacker.OnboardPokemon.SetTurnCondition("Snatch");
-      atk.Attacker.AddReportPm("EnSnatch");
+      atk.Attacker.ShowLogPm("EnSnatch");
       atk.SetAttackerAction(PokemonAction.Done);
     }
 
@@ -129,7 +129,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       var aer = atk.Attacker;
       var moves = new List<MoveType>();
-      foreach (var pm in aer.Tile.Field.Pokemons)
+      foreach (var pm in aer.Field.Pokemons)
         if (pm != aer && pm.Pokemon.Owner == aer.Pokemon.Owner)
           foreach (var m in pm.Moves)
             if (!ASSIST_BLOCK.Contains(m.Type.Id)) moves.Add(m.Type);
@@ -225,7 +225,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             PrepareOneTurn(atk, CoordY.Another);
             break;
           default:
-            aer.AddReportPm("Prepare" + m.ToString());
+            aer.ShowLogPm("Prepare" + m.ToString());
             break;
         }
         if (m == Ms.SKULL_BASH) aer.ChangeLv7D(atk.Attacker, StatType.Def, 1, false);
@@ -238,7 +238,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       var aer = atk.Attacker;
       aer.CoordY = y;
-      aer.AddReportPm("Prepare" + atk.Move.Id.ToString());
+      aer.ShowLogPm("Prepare" + atk.Move.Id.ToString());
     }
   }
 }

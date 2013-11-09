@@ -58,6 +58,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             if (aer.State == PokemonState.SLP) return true;
             break;
           case Ms.FAKE_OUT: //252
+          case Ms.MAT_BLOCK:
             if (!aer.Moves.Any((m) => m.HasUsed)) return true;
             break;
           case Ms.NATURAL_GIFT: //363
@@ -79,6 +80,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
               var dm = der.SelectedMove;
               if (!(der.LastMoveTurn == der.Controller.TurnNumber || dm == null || dm.Move.Type.Category == MoveCategory.Status)) return true;
             }
+            break;
+          case Ms.BELCH:
+            if (aer.OnboardPokemon.HasCondition("Belch")) return true;
             break;
           default:
             return true;

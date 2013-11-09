@@ -75,7 +75,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             der.RaiseAbility();
             var fa = aer.OnboardPokemon.Ability;
             aer.ChangeAbility(As.MUMMY);
-            aer.AddReportPm("m_SetAbility", As.MUMMY);
+            aer.ShowLogPm("m_SetAbility", As.MUMMY);
             aer.Controller.ReportBuilder.ShowLog("setability", fa);
           }
           break;
@@ -162,7 +162,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         aer.RemoveItem();
         der.RaiseAbility();
         der.SetItem(i);
-        der.AddReportPm("Pickpocket", i);
+        der.ShowLogPm("Pickpocket", i);
       }
     }
     private static void ReHurtBerry(DefContext def, MoveCategory category)
@@ -172,7 +172,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         int hp = aer.Pokemon.MaxHp >> 3;
         if (hp == 0) hp = 1;
-        aer.AddReportPm("ReHurtItem", def.Defender.Id, def.Defender.Pokemon.Item);
+        aer.ShowLogPm("ReHurtItem", def.Defender.Id, def.Defender.Pokemon.Item);
         aer.Hp -= hp;
       }
     }

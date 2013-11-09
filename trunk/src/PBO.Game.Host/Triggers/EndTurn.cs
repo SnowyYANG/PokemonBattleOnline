@@ -138,7 +138,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             break;
           case As.HEALER:
             var ps = new List<PokemonProxy>();
-            foreach (var p in pm.Tile.Field.Pokemons)
+            foreach (var p in pm.Field.Pokemons)
               if (p != pm && p.State != Game.PokemonState.Normal) ps.Add(p);
             if (ps.Count != 0 && c.RandomHappen(30))
             {
@@ -264,7 +264,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (trap.Turn == c.TurnNumber)
           {
             pm.OnboardPokemon.RemoveCondition("Trap");
-            pm.AddReportPm("TrapFree", trap.Move.Id);
+            pm.ShowLogPm("TrapFree", trap.Move.Id);
           }
           else
           {
@@ -290,7 +290,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (turn == 0)
         {
           pm.OnboardPokemon.RemoveCondition("Taunt");
-          pm.AddReportPm("DeTaunt");
+          pm.ShowLogPm("DeTaunt");
         }
       }
       foreach (var pm in c.OnboardPokemons)
@@ -299,7 +299,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (o != null && o.Turn == 0)
         {
           pm.OnboardPokemon.RemoveCondition("Encore");
-          pm.AddReportPm("DeEncore");
+          pm.ShowLogPm("DeEncore");
         }
       }
       foreach (var pm in c.OnboardPokemons)
@@ -308,20 +308,20 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (o != null && o.Turn == c.TurnNumber)
         {
           pm.OnboardPokemon.RemoveCondition("Disable");
-          pm.AddReportPm("DeDisable");
+          pm.ShowLogPm("DeDisable");
         }
       }
       foreach (var pm in c.OnboardPokemons)
         if (pm.OnboardPokemon.GetCondition<int>("MagnetRise") == c.TurnNumber)
         {
           pm.OnboardPokemon.RemoveCondition("MagnetRise");
-          pm.AddReportPm("DeMagnetRise");
+          pm.ShowLogPm("DeMagnetRise");
         }
       foreach (var pm in c.OnboardPokemons)
         if (pm.OnboardPokemon.GetCondition<int>("Telekinesis") == c.TurnNumber)
         {
           pm.OnboardPokemon.RemoveCondition("Telekinesis");
-          pm.AddReportPm("DeTelekinesis");
+          pm.ShowLogPm("DeTelekinesis");
         }
       foreach (var pm in c.OnboardPokemons)
       {
@@ -329,14 +329,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (o != null && o.Turn == c.TurnNumber)
         {
           pm.OnboardPokemon.RemoveCondition("HealBlock");
-          pm.AddReportPm("DeHealBlock");
+          pm.ShowLogPm("DeHealBlock");
         }
       }
       foreach (var pm in c.OnboardPokemons)
         if (pm.OnboardPokemon.GetCondition<int>("Embargo") == c.TurnNumber)
         {
           pm.OnboardPokemon.RemoveCondition("Embargo");
-          pm.AddReportPm("DeEmbargo");
+          pm.ShowLogPm("DeEmbargo");
           ITs.Attach(pm);
         }
       foreach (var pm in c.OnboardPokemons)
@@ -353,7 +353,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         int turn = pm.OnboardPokemon.GetCondition<int>("PerishSong", -1);
         if (turn != -1)
         {
-          pm.AddReportPm("PerishSong", turn);
+          pm.ShowLogPm("PerishSong", turn);
           if (turn == 0) pm.Faint();
           else pm.OnboardPokemon.SetCondition("PerishSong", turn - 1);
         }
@@ -435,11 +435,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         int ab = pm.Ability;
         if (pm.AtkContext != null && pm.AtkContext.Move.Id == Ms.UPROAR)
         {
-          if (pm.Action == PokemonAction.Moving)  pm.AddReportPm("Uproar");
+          if (pm.Action == PokemonAction.Moving)  pm.ShowLogPm("Uproar");
           else if (pm.AtkContext.GetCondition("MultiTurn").Turn == 0)
           {
             pm.AtkContext.RemoveCondition("MultiTurn");
-            pm.AddReportPm("DeUproar");
+            pm.ShowLogPm("DeUproar");
           }
         }
         switch (ab)
@@ -465,12 +465,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           case As.HARVEST:
             if (pm.Pokemon.Item == 0)
             {
-              var i = pm.Tile.Field.GetCondition<int>("UsedBerry" + pm.Id);
+              var i = pm.Field.GetCondition<int>("UsedBerry" + pm.Id);
               if (i != 0 && c.Weather == Game.Weather.IntenseSunlight || c.RandomHappen(50))
               {
                 pm.RaiseAbility();
                 pm.SetItem(i);
-                pm.AddReportPm("Harvest", i);
+                pm.ShowLogPm("Harvest", i);
                 ITs.Attach(pm);
               }
             }
@@ -511,7 +511,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             }
           }
           if (!items.Any())
-            foreach (var p in pm.Tile.Field.Pokemons)
+            foreach (var p in pm.Field.Pokemons)
               if (p != pm)
               {
                 var i = p.OnboardPokemon.GetCondition<int>("UsedItem");
@@ -527,7 +527,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             owners[i].RemoveCondition("UsedItem");
             pm.RaiseAbility();
             pm.SetItem(items[i]);
-            pm.AddReportPm("Pickup", items[i]);
+            pm.ShowLogPm("Pickup", items[i]);
             ITs.Attach(pm);
           }
         }

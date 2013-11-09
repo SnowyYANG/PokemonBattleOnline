@@ -47,8 +47,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           speed += speed >> 1;
           break;
       }
-      if (pm.Tile.Field.HasCondition("Tailwind")) speed >>= 1;
-      if (pm.Tile.Field.HasCondition("Swamp")) speed = (speed + 1) >> 2; //小数点是0.5以下就舍去，如果是0.75就四舍五入
+      if (pm.Field.HasCondition("Tailwind")) speed >>= 1;
+      if (pm.Field.HasCondition("Swamp")) speed = (speed + 1) >> 2; //小数点是0.5以下就舍去，如果是0.75就四舍五入
       return speed;
     }
   }

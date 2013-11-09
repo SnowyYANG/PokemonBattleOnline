@@ -37,10 +37,10 @@ namespace PokemonBattleOnline.Game.Host
       int x = aer.OnboardPokemon.X;
       switch (range)
       {
-        case MoveRange.UserField: //do nothing
-        case MoveRange.EnemyField: //do nothing
-        case MoveRange.Field: //do nothing
-        case MoveRange.UserParty: //防音防不住治愈铃铛，所以这只是个摆设
+        case MoveRange.SelfField: //do nothing
+        case MoveRange.FoeField: //do nothing
+        case MoveRange.Board: //do nothing
+        case MoveRange.SelfPokemons: //防音防不住治愈铃铛，所以这只是个摆设
           break;
         case MoveRange.Adjacent:
           {
@@ -54,7 +54,7 @@ namespace PokemonBattleOnline.Game.Host
             targets = ts;
           }
           break;
-        case MoveRange.AdjacentEnemies:
+        case MoveRange.FoePokemons:
           {
             var ts = new List<Tile>();
             Tile t;
@@ -67,11 +67,11 @@ namespace PokemonBattleOnline.Game.Host
         case MoveRange.All:
           targets = b.Tiles;
           break;
-        case MoveRange.Partner:
-          if (select == null) goto case MoveRange.UserOrParner;
+        case MoveRange.SingleAlly:
+          if (select == null) goto case MoveRange.RandomSelfPokemon;
           else targets = new Tile[] { select };
           break;
-        case MoveRange.RandomEnemy:
+        case MoveRange.RandomFoePokemon:
           {
             int min = 0, max = b.XBound - 1;
             if (!remote)
@@ -87,16 +87,16 @@ namespace PokemonBattleOnline.Game.Host
           }
           break;
         case MoveRange.Single: 
-          goto case MoveRange.SingleEnemy;
-        case MoveRange.SingleEnemy:
+          goto case MoveRange.SingleFoe;
+        case MoveRange.SingleFoe:
           if (select == null || (!remote && (select.X < x - 1 || select.X > x + 1)))
-            goto case MoveRange.RandomEnemy; //非鬼系选诅咒后变诅咒随机对方一个精灵
+            goto case MoveRange.RandomFoePokemon; //非鬼系选诅咒后变诅咒随机对方一个精灵
           targets = new Tile[] { select };
           break;
-        case MoveRange.User: //done?
+        case MoveRange.Self: //done?
           targets = new Tile[] { aer.Tile };
           break;
-        case MoveRange.UserOrParner:
+        case MoveRange.RandomSelfPokemon:
           {
             int min = 0, max = b.XBound - 1;
             if (!remote)
@@ -161,7 +161,7 @@ namespace PokemonBattleOnline.Game.Host
               var t = GetRangeTiles(atk, MoveRange.Single, o.By.Tile).FirstOrDefault();
               if (t != null && t.Pokemon != null) targets.Add(new DefContext(atk, t.Pokemon));
             }
-            if (!targets.Any()) atk.Attacker.AddReportPm("UseMove", Ms.BIDE); //奇葩的战报
+            if (!targets.Any()) atk.Attacker.ShowLogPm("UseMove", Ms.BIDE); //奇葩的战报
             atk.SetTargets(targets);
           }
           break;
@@ -210,7 +210,7 @@ namespace PokemonBattleOnline.Game.Host
           ++count;
           if (!(def.Defender.CoordY == CoordY.Plate || def.NoGuard))
           {
-            def.Defender.AddReportPm("Miss");
+            def.Defender.ShowLogPm("Miss");
             targets.Remove(def);
           }
         }
@@ -222,24 +222,36 @@ namespace PokemonBattleOnline.Game.Host
         if (!HasEffect.Execute(def))
         {
           targets.Remove(def);
-          def.Defender.AddReportPm("NoEffect");
+          def.Defender.ShowLogPm("NoEffect");
         }
       #endregion
-      #region Check for Wide Guard and Quick Guard in same way
+      #region WideGuard QuickGuard MatBlock
       if (move.Category != MoveCategory.Status && move.Range != MoveRange.Single)
         foreach (var def in targets.ToArray())
-          if (def.Defender.Tile.Field.HasCondition("WideGuard"))
+          if (def.Defender.Field.HasCondition("WideGuard"))
           {
-            def.Defender.AddReportPm("WideGuard");
+            def.Defender.ShowLogPm("WideGuard");
             targets.Remove(def);
           }
       if (move.Priority > 0 && move.Id != Ms.FEINT)
         foreach (var def in targets.ToArray())
-          if (def.Defender.Tile.Field.HasCondition("QuickGuard"))
+          if (def.Defender.Field.HasCondition("QuickGuard"))
           {
-            def.Defender.AddReportPm("QuickGuard");
+            def.Defender.ShowLogPm("QuickGuard");
             targets.Remove(def);
           }
+      if (move.Category != MoveCategory.Status)
+      {
+        var d0 = targets.FirstOrDefault();
+        if (d0 != null && d0.Defender.Field.HasCondition("MatBlock"))
+        {
+          d0.Defender.Controller.ReportBuilder.ShowLog("MatBlock", move.Id);
+          var td = d0.Defender.Pokemon.TeamId;
+          targets.RemoveAll((d) => d.Defender.Pokemon.TeamId == td);
+          d0 = targets.FirstOrDefault();
+          if (d0 != null && d0.Defender.Field.HasCondition("MatBlock")) targets.Clear();
+        }
+      }
       #endregion
       #region Check for Protect
       if (move.Flags.Protectable)
@@ -247,7 +259,7 @@ namespace PokemonBattleOnline.Game.Host
         foreach (DefContext d in targets.ToArray())
           if (d.Defender.OnboardPokemon.HasCondition("Protect"))
           {
-            d.Defender.AddReportPm("Protect");
+            d.Defender.ShowLogPm("Protect");
             targets.Remove(d);
           }
       }
@@ -271,7 +283,7 @@ namespace PokemonBattleOnline.Game.Host
         foreach (DefContext d in targets.ToArray())
           if (d.Defender.OnboardPokemon.HasCondition("Ingrain"))
           {
-            d.Defender.AddReportPm("IngrainCantMove");
+            d.Defender.ShowLogPm("IngrainCantMove");
             targets.Remove(d);
           }
       #region Check for misses
@@ -282,7 +294,7 @@ namespace PokemonBattleOnline.Game.Host
           if (!(def.NoGuard || CanHit(def)))//心眼锁定、无防御
           {
             targets.Remove(def);
-            def.Defender.AddReportPm("Miss");
+            def.Defender.ShowLogPm("Miss");
           }
       }
       #endregion
@@ -343,7 +355,7 @@ namespace PokemonBattleOnline.Game.Host
         int i = aer.OnboardPokemon.GetCondition<int>("Stockpile");
         aer.ChangeLv7D(atk.Attacker, false, false, 0, -i, 0, -i);
         aer.OnboardPokemon.RemoveCondition("Stockpile");
-        aer.AddReportPm("DeStockpile");
+        aer.ShowLogPm("DeStockpile");
       }
 
       MagicCoat(atk);
