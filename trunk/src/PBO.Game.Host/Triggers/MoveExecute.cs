@@ -106,11 +106,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
 
       CalculateType.Execute(atk);
-      if (aer.Ability == As.PROTEAN && aer.OnboardPokemon.SetTypes(atk.Type))
-      {
-        aer.RaiseAbility();
-        aer.ShowLogPm("TypeChange", (int)atk.Type);
-      }
+      ATs.Protean(atk);
       MoveE.FilterDefContext(atk);
       if (atk.Targets != null && atk.Target == null) atk.FailAll(null);
       else

@@ -474,6 +474,7 @@ namespace PokemonBattleOnline.Game.Host
             var o = OnboardPokemon.GetCondition("Encore");
             if (o != null) SelectedMove = Moves.First((m) => m.Type == o.Move);
           }
+          ATs.StanceChange(this);
           if (CanExecute() && SelectedMove.CanExecute())
           {
             _atkContext = null;
