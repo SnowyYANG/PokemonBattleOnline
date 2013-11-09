@@ -200,7 +200,7 @@ namespace PokemonBattleOnline.Game.Host
       ATs.ReTarget(atk);
       List<DefContext> targets = atk.Targets.ToList();
       var move = atk.Move;
-
+      var aer = atk.Attacker;
 
       #region Check CoordY
       {
@@ -278,14 +278,14 @@ namespace PokemonBattleOnline.Game.Host
           if (d.Defender.OnboardPokemon.HasCondition("SpikyShield"))
           {
             d.Defender.ShowLogPm("SpikyShield");
-            if (move.Flags.NeedTouch) atk.Attacker.EffectHurtByOneNth(8);
+            if (move.Flags.NeedTouch) aer.EffectHurtByOneNth(8);
             targets.Remove(d);
           }
         foreach(var d in targets.ToArray())
           if (d.Defender.OnboardPokemon.HasCondition("KingsShield"))
           {
             d.Defender.ShowLogPm("KingsShield");
-            if (move.Flags.NeedTouch) atk.Attacker.ChangeLv7D(d.Defender, StatType.Atk, -2, false);
+            if (move.Flags.NeedTouch) aer.ChangeLv7D(d.Defender, StatType.Atk, -2, false);
             targets.Remove(d);
           }
       }
@@ -293,14 +293,14 @@ namespace PokemonBattleOnline.Game.Host
       #region Check for Telepathy (and possibly other abilities)
       {
         var mc = move.Flags.MagicCoat && !atk.HasCondition("IgnoreMagicCoat");
-        var ab = !ATs.IgnoreDefenderAbility(atk.Attacker.Ability);
+        var ab = !ATs.IgnoreDefenderAbility(aer.Ability);
         foreach (DefContext def in targets.ToArray())
           if (def.Defender != atk.Attacker && (mc && STs.MagicCoat(atk, def.Defender) || ab && !CanImplement.Execute(def))) targets.Remove(def);
       }
       #endregion
-      if (move.Category == MoveCategory.Status && !move.Flags.IgnoreSubstitute)
+      if (move.Category == MoveCategory.Status && !(move.Flags.IgnoreSubstitute || aer.Ability == As.INFILTRATOR))
         foreach (DefContext d in targets.ToArray())
-          if (d.Defender != atk.Attacker && d.Defender.OnboardPokemon.HasCondition("Substitute"))
+          if (d.Defender != aer && d.Defender.OnboardPokemon.HasCondition("Substitute"))
           {
             d.Fail();
             targets.Remove(d);
