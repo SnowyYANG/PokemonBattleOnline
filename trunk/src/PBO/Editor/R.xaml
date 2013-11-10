@@ -33,7 +33,7 @@
         </Grid>
     </DataTemplate>
     <DataTemplate x:Key="LearnedMove">
-        <Grid Name="grid" Width="136" Height="34" ToolTip="{Binding Move.Description}">
+        <Grid Name="grid" Width="136" Height="34" ToolTip="{Binding Move.Id,Converter={x:Static c:MoveDString.C}}">
             <Polygon Name="bg" Stroke="#202020" StrokeThickness="3" Points="1.5,17 9,0.5 127,0.5 134.5,17 127,33.5 9,33.5" Fill="#303030"/>
             <Polygon Name="shine" Points="1.5,17 9,1.5 127,1.5 134.5,17 127,32.5 9,32.5">
                 <Polygon.Stroke>

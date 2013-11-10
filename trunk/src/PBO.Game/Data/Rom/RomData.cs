@@ -45,6 +45,14 @@ namespace PokemonBattleOnline.Game
 #else
     private readonly
 #endif
+     HashSet<int> items;
+
+    [DataMember]
+#if EDITING
+    public
+#else
+    private readonly
+#endif
      Evolution[] evolutions;
 
     private RomData()
@@ -57,8 +65,8 @@ namespace PokemonBattleOnline.Game
     { get { return current.moves; } }
     public static int Abilities
     { get { return 188; } }
-    public static int Items
-    { get { return 195; } }
+    public static IEnumerable<int> Items
+    { get { return current.items; } }
     public static int BattleTypes
     { get { return 18; } }
     public static int MoveCategories

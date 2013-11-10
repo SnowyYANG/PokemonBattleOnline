@@ -311,13 +311,13 @@ namespace PokemonBattleOnline.Game
           form = (DateTime.Now.Month - 1) & 3;
           break;
         case ARCEUS:
-          form = Is.FLAME_PLATE <= _item && _item <= Is.IRON_PLATE ? _item - Is.FLAME_PLATE + 1 : 0;
+          form = _item / 1000 == Is.FLAME_PLATE / 1000 ? _item - Is.FLAME_PLATE + 1 : 0;
           break;
         case GIRATINA:
           form = _item == Is.GRISEOUS_ORB ? 1 : 0;
           break;
         case GENESECT:
-          form = Is.DOUSE_DRIVE <= _item && _item <= Is.CHILL_DRIVE ? _item - Is.DOUSE_DRIVE + 1 : 0;
+          form = _item / 100 == Is.DOUSE_DRIVE / 100 ? _item - Is.DOUSE_DRIVE + 1 : 0;
           break;
         case KELDEO:
           if (!HasMove(Ms.SECRET_SWORD)) form = 0;

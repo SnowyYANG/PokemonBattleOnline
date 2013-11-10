@@ -33,8 +33,9 @@ namespace PokemonBattleOnline.Game
     public PokemonFormData Data
     { get { return Species.GetData(_data); } }
 
+    private static readonly BattleType[] ARCEUS = new BattleType[] { BattleType.Normal, BattleType.Fire, BattleType.Water, BattleType.Electric, BattleType.Grass, BattleType.Ice, BattleType.Fighting, BattleType.Poison, BattleType.Ground, BattleType.Flying, BattleType.Psychic, BattleType.Bug, BattleType.Rock, BattleType.Ghost, BattleType.Dragon, BattleType.Dark, BattleType.Steel, BattleType.Fairy };
     public BattleType Type1
-    { get { return Species.Number == 493 && Index != 0 ? BattleTypeHelper.GetItemType(Index, 1) : Data.Type1; } }
+    { get { return Species.Number == 493 ? ARCEUS[_index] : Data.Type1; } }
     public BattleType Type2
     { 
       get

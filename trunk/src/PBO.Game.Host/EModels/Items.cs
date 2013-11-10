@@ -100,15 +100,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static bool Berry(int id)
     {
-      return BerryNumber(id) != 0;
-    }
-    public static int BerryNumber(int id)
-    {
-      return Is.CHERI_BERRY <= id && id <= Is.ROWAP_BERRY ? id - Is.CHERI_BERRY + 1 : 0;
-    }
-    public static bool Gem(int id)
-    {
-      return Is.FIRE_GEM <= id && id <= Is.NORMAL_GEM;
+      return id / 1000 == 8;
     }
     public static StatType GetTaste(int item)
     {
@@ -132,7 +124,7 @@ namespace PokemonBattleOnline.Game.Host
       var op = pm.OnboardPokemon;
       switch (id)
       {
-        case Is.WHITE_HERB: //5
+        case Is.WHITE_HERB:
           {
             bool raise = false;
             var lvs = (Simple6D)op.Lv5D;
@@ -350,8 +342,68 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static void CheckGem(AtkContext atk)
     {
-      var i = atk.Attacker.Item;
-      if (Gem(i) && BattleTypeHelper.GetItemType(i, Is.FIRE_GEM, false) == atk.Type)
+      int i = atk.Attacker.Item;
+      BattleType t;
+      switch (i)
+      {
+        case Is.FIRE_GEM:
+          t = BattleType.Fire;
+          break;
+        case Is.WATER_GEM:
+          t = BattleType.Water;
+          break;
+        case Is.ELECTRIC_GEM:
+          t = BattleType.Electric;
+          break;
+        case Is.GRASS_GEM:
+          t = BattleType.Grass;
+          break;
+        case Is.ICE_GEM:
+          t = BattleType.Ice;
+          break;
+        case Is.FIGHTING_GEM:
+          t = BattleType.Fighting;
+          break;
+        case Is.POISON_GEM:
+          t = BattleType.Poison;
+          break;
+        case Is.GROUND_GEM:
+          t = BattleType.Ground;
+          break;
+        case Is.FLYING_GEM:
+          t = BattleType.Flying;
+          break;
+        case Is.PSYCHIC_GEM:
+          t = BattleType.Psychic;
+          break;
+        case Is.BUG_GEM:
+          t = BattleType.Bug;
+          break;
+        case Is.ROCK_GEM:
+          t = BattleType.Rock;
+          break;
+        case Is.GHOST_GEM:
+          t = BattleType.Ghost;
+          break;
+        case Is.DRAGON_GEM:
+          t = BattleType.Dragon;
+          break;
+        case Is.DARK_GEM:
+          t = BattleType.Dark;
+          break;
+        case Is.STEEL_GEM:
+          t = BattleType.Steel;
+          break;
+        case Is.FAIRY_GEM:
+          t = BattleType.Fairy;
+          break;
+        case Is.NORMAL_GEM:
+          t = BattleType.Normal;
+          break;
+        default:
+          return;
+      }
+      if (atk.Type == t)
       {
         atk.Controller.ReportBuilder.ShowLog("Gem", i, atk.Move.Id);
         atk.SetTurnCondition("Gem");

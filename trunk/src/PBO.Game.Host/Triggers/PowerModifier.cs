@@ -177,6 +177,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Is.DRAGON_FANG:
         case Is.DRACO_PLATE:
           return TypeItem(atk, BattleType.Dragon);
+        case Is.PIXIE_PLATE:
+          return TypeItem(atk, BattleType.Fairy);
         case Is.SILK_SCARF:
           return TypeItem(atk, BattleType.Normal);
         case Is.MUSCLE_BAND:

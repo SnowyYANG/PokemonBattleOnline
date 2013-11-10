@@ -58,7 +58,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             if (ITs.CanLostItem(aer) && ITs.CanUseItem(aer) && ITs.Berry(aer.Pokemon.Item)) return true;
             break;
           case Ms.FLING: //374
-            if (ITs.CanLostItem(aer) && ITs.CanUseItem(aer) && !ITs.Gem(aer.Pokemon.Item)) return true;
+            if (ITs.CanLostItem(aer) && ITs.CanUseItem(aer) && MTs.FlingPower(aer.Pokemon.Item) != 0) return true;
             break;
           case Ms.LAST_RESORT: //387
             if (aer.Moves.All((m) => m.HasUsed || m.Type.Id == Ms.LAST_RESORT)) return true;

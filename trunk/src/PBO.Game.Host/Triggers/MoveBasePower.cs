@@ -53,10 +53,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           def.BasePower = der.Controller.Weather == Weather.Normal ? 50 : 100;
           break;
         case Ms.NATURAL_GIFT: //363
-          {
-            var i = ITs.BerryNumber(def.AtkContext.Attacker.Pokemon.Item);
-            def.BasePower = i < 17 ? 60 : i < 33 ? 70 : i < 36 ? 80 : i < 53 ? 60 : 80;
-          }
+          NaturalGift(def);
           break;
         case Ms.PAYBACK: //371
           def.BasePower = der.LastMoveTurn == der.Controller.TurnNumber ? 100 : 50;
@@ -134,6 +131,90 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
       }
       if (def.BasePower == 0) def.BasePower = 1;
+    }
+
+    private static void NaturalGift(DefContext def)
+    {
+      switch (def.AtkContext.Attacker.Pokemon.Item)
+      {
+        case Is.CHERI_BERRY:
+        case Is.CHESTO_BERRY:
+        case Is.PECHA_BERRY:
+        case Is.RAWST_BERRY:
+        case Is.ASPEAR_BERRY:
+        case Is.LEPPA_BERRY:
+        case Is.ORAN_BERRY:
+        case Is.PERSIM_BERRY:
+        case Is.LUM_BERRY:
+        case Is.SITRUS_BERRY:
+        case Is.FIGY_BERRY:
+        case Is.WIKI_BERRY:
+        case Is.MAGO_BERRY:
+        case Is.AGUAV_BERRY:
+        case Is.IAPAPA_BERRY:
+        case Is.RAZZ_BERRY:
+          def.BasePower = 60;
+          break;
+        case Is.BLUK_BERRY:
+        case Is.NANAB_BERRY:
+        case Is.WEPEAR_BERRY:
+        case Is.PINAP_BERRY:
+        case Is.POMEG_BERRY:
+        case Is.KELPSY_BERRY:
+        case Is.QUALOT_BERRY:
+        case Is.HONDEW_BERRY:
+        case Is.GREPA_BERRY:
+        case Is.TAMATO_BERRY:
+        case Is.CORNN_BERRY:
+        case Is.MAGOST_BERRY:
+        case Is.RABUTA_BERRY:
+        case Is.NOMEL_BERRY:
+        case Is.SPELON_BERRY:
+        case Is.PAMTRE_BERRY:
+          def.BasePower = 70;
+          break;
+        case Is.WATMEL_BERRY:
+        case Is.DURIN_BERRY:
+        case Is.BELUE_BERRY:
+          def.BasePower = 80;
+          break;
+        case Is.OCCA_BERRY:
+        case Is.PASSHO_BERRY:
+        case Is.WACAN_BERRY:
+        case Is.RINDO_BERRY:
+        case Is.YACHE_BERRY:
+        case Is.CHOPLE_BERRY:
+        case Is.KEBIA_BERRY:
+        case Is.SHUCA_BERRY:
+        case Is.COBA_BERRY:
+        case Is.PAYAPA_BERRY:
+        case Is.TANGA_BERRY:
+        case Is.CHARTI_BERRY:
+        case Is.KASIB_BERRY:
+        case Is.HABAN_BERRY:
+        case Is.COLBUR_BERRY:
+        case Is.BABIRI_BERRY:
+        case Is.ROSELI_BERRY:
+        case Is.CHILAN_BERRY:
+          def.BasePower = 60;
+          break;
+        case Is.LIECHI_BERRY:
+        case Is.GANLON_BERRY:
+        case Is.SALAC_BERRY:
+        case Is.PETAYA_BERRY:
+        case Is.APICOT_BERRY:
+        case Is.LANSAT_BERRY:
+        case Is.STARF_BERRY:
+        case Is.ENIGMA_BERRY:
+        case Is.MICLE_BERRY:
+        case Is.CUSTAP_BERRY:
+        case Is.JABOCA_BERRY:
+        case Is.ROWAP_BERRY:
+        case Is.KEE_BERRY:
+        case Is.MARANGA_BERRY:
+          def.BasePower = 80;
+          break;
+      }
     }
 
     private static void TrumpCard(DefContext def)

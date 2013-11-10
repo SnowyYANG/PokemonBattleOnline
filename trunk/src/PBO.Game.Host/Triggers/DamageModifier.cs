@@ -65,7 +65,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         var item = der.Item;
         if (
           item == Is.CHILAN_BERRY && atk.Type == BattleType.Normal ||
-          Is.OCCA_BERRY <= item && item <= Is.BABIRI_BERRY && atk.Type == BattleTypeHelper.GetItemType(item, Is.OCCA_BERRY) && def.EffectRevise > 0
+          atk.Type == AntiBerry(item) && def.EffectRevise > 0
           )
         {
           def.SetCondition("Antiberry");
@@ -90,6 +90,48 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
 
       return m;
+    }
+
+    private static BattleType AntiBerry(int item)
+    {
+      switch (item)
+      {
+        case Is.OCCA_BERRY:
+          return BattleType.Fire;
+        case Is.PASSHO_BERRY:
+          return BattleType.Water;
+        case Is.WACAN_BERRY:
+          return BattleType.Electric;
+        case Is.RINDO_BERRY:
+          return BattleType.Grass;
+        case Is.YACHE_BERRY:
+          return BattleType.Ice;
+        case Is.CHOPLE_BERRY:
+          return BattleType.Fighting;
+        case Is.KEBIA_BERRY:
+          return BattleType.Poison;
+        case Is.SHUCA_BERRY:
+          return BattleType.Ground;
+        case Is.COBA_BERRY:
+          return BattleType.Flying;
+        case Is.PAYAPA_BERRY:
+          return BattleType.Psychic;
+        case Is.TANGA_BERRY:
+          return BattleType.Bug;
+        case Is.CHARTI_BERRY:
+          return BattleType.Rock;
+        case Is.KASIB_BERRY:
+          return BattleType.Ghost;
+        case Is.HABAN_BERRY:
+          return BattleType.Dragon;
+        case Is.COLBUR_BERRY:
+          return BattleType.Dark;
+        case Is.BABIRI_BERRY:
+          return BattleType.Steel;
+        case Is.ROSELI_BERRY:
+          return BattleType.Fairy;
+      }
+      return BattleType.Invalid;
     }
   }
 }

@@ -84,7 +84,7 @@
         	<Image Source="{Binding Image}" Grid.Row="4" Grid.RowSpan="4" Height="96" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <Image.ToolTip>
                     <ToolTip BorderThickness="0">
-                        <Grid DataContext="{Binding PokemonForm}">
+                        <Grid DataContext="{Binding PokemonForm.Data}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
@@ -133,7 +133,7 @@
             <Label Content="特性" Grid.Row="4"/>
             <ui:ClearableComboBox SelectedItem="{Binding Model.Ability}" ItemsSource="{Binding PokemonForm.Data.Abilities}" ItemTemplate="{x:Static ui:Labels.Ability}" ItemContainerStyle="{x:Null}" ToolTip="{Binding Model.Ability,Converter={x:Static c:AbilityDString.C}}" Margin="5,0,102,0" Grid.Row="5"/>
         	<Label Content="道具" Grid.Row="6" VerticalAlignment="Top" Height="25"/>
-            <ui:ClearableComboBox x:Name="Items" SelectedItem="{Binding HeldItem}" ItemTemplate="{x:Static ui:Labels.Item}" ItemsPanel="{StaticResource VirtualPanel}" CanClear="True" Grid.Row="7" Margin="5,0,102,0"/>
+            <ui:ClearableComboBox SelectedItem="{Binding HeldItem}" ItemsSource="{x:Static pm:RomData.Items}" ItemTemplate="{x:Static ui:Labels.Item}" ItemsPanel="{StaticResource VirtualPanel}" ToolTip="{Binding HeldItem,Converter={x:Static c:ItemDString.C}}" CanClear="True" Grid.Row="7" Margin="5,0,102,0"/>
             <ui:ClearableComboBox SelectedItem="{Binding PokemonForm}" ItemsSource="{Binding PokemonSpecies.Forms}" CanClear="False" Grid.Row="7" MaxWidth="96" HorizontalAlignment="Right" Background="#a0ffffff" BorderBrush="{x:Null}">
                 <ui:ClearableComboBox.ItemTemplate>
                     <DataTemplate>

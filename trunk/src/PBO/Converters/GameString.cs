@@ -78,4 +78,12 @@ namespace PokemonBattleOnline.PBO.Converters
       return GameString.Current.Item(value);
     }
   }
+  class ItemDString : Converter<int>
+  {
+    public static ItemDString C = new ItemDString();
+    protected override object Convert(int value)
+    {
+      return GameString.Current.ItemD(value);
+    }
+  }
 }

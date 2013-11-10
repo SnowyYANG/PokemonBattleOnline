@@ -19,16 +19,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           HiddenPower(atk);
           break;
         case Ms.NATURAL_GIFT: //363
-          {
-            var i = ITs.BerryNumber(atk.Attacker.Pokemon.Item);
-            atk.Type = i < 36 ? BattleTypeHelper.GetItemType(i, 1) : i < 53 ? BattleTypeHelper.GetItemType(i, 36, false) : BattleTypeHelper.GetItemType(i, 50);
-          }
+          NatureGift(atk);
           break;
         case Ms.JUDGMENT: //449
-          {
-            var i = atk.Attacker.Pokemon.Item;
-            atk.Type = Is.FLAME_PLATE <= i && i <= Is.IRON_PLATE ? BattleTypeHelper.GetItemType(i, Is.FLAME_PLATE) : BattleType.Normal;
-          }
+          Judgement(atk);
           break;
         case Ms.TECHNO_BLAST: //546
           {
@@ -84,6 +78,177 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       pI |= (iv.SpAtk & 1) << 4;
       pI |= (iv.SpDef & 1) << 5;
       atk.Type = (BattleType)(pI * 15 / 63 + 2);
+    }
+
+    private static void NatureGift(AtkContext atk)
+    {
+      switch (atk.Attacker.Pokemon.Item)
+      {
+        case Is.CHERI_BERRY:
+        case Is.BLUK_BERRY:
+        case Is.WATMEL_BERRY:
+        case Is.OCCA_BERRY:
+          atk.Type = BattleType.Fire;
+          break;
+        case Is.CHESTO_BERRY:
+        case Is.NANAB_BERRY:
+        case Is.DURIN_BERRY:
+        case Is.PASSHO_BERRY:
+          atk.Type = BattleType.Water;
+          break;
+        case Is.PECHA_BERRY:
+        case Is.BELUE_BERRY:
+        case Is.WEPEAR_BERRY:
+        case Is.WACAN_BERRY:
+          atk.Type = BattleType.Electric;
+          break;
+        case Is.RAWST_BERRY:
+        case Is.PINAP_BERRY:
+        case Is.RINDO_BERRY:
+        case Is.LIECHI_BERRY:
+          atk.Type = BattleType.Grass;
+          break;
+        case Is.ASPEAR_BERRY:
+        case Is.POMEG_BERRY:
+        case Is.YACHE_BERRY:
+        case Is.GANLON_BERRY:
+          atk.Type = BattleType.Ice;
+          break;
+        case Is.LEPPA_BERRY:
+        case Is.KELPSY_BERRY:
+        case Is.CHOPLE_BERRY:
+        case Is.SALAC_BERRY:
+          atk.Type = BattleType.Fighting;
+          break;
+        case Is.ORAN_BERRY:
+        case Is.QUALOT_BERRY:
+        case Is.KEBIA_BERRY:
+        case Is.PETAYA_BERRY:
+          atk.Type = BattleType.Poison;
+          break;
+        case Is.PERSIM_BERRY:
+        case Is.HONDEW_BERRY:
+        case Is.SHUCA_BERRY:
+        case Is.APICOT_BERRY:
+          atk.Type = BattleType.Ground;
+          break;
+        case Is.LUM_BERRY:
+        case Is.GREPA_BERRY:
+        case Is.COBA_BERRY:
+        case Is.LANSAT_BERRY:
+          atk.Type = BattleType.Flying;
+          break;
+        case Is.SITRUS_BERRY:
+        case Is.TAMATO_BERRY:
+        case Is.PAYAPA_BERRY:
+        case Is.STARF_BERRY:
+          atk.Type = BattleType.Psychic;
+          break;
+        case Is.FIGY_BERRY:
+        case Is.CORNN_BERRY:
+        case Is.TANGA_BERRY:
+        case Is.ENIGMA_BERRY:
+          atk.Type = BattleType.Bug;
+          break;
+        case Is.WIKI_BERRY:
+        case Is.MAGOST_BERRY:
+        case Is.CHARTI_BERRY:
+        case Is.MICLE_BERRY:
+          atk.Type = BattleType.Rock;
+          break;
+        case Is.MAGO_BERRY:
+        case Is.RABUTA_BERRY:
+        case Is.KASIB_BERRY:
+        case Is.CUSTAP_BERRY:
+          atk.Type = BattleType.Ghost;
+          break;
+        case Is.AGUAV_BERRY:
+        case Is.NOMEL_BERRY:
+        case Is.HABAN_BERRY:
+        case Is.JABOCA_BERRY:
+          atk.Type = BattleType.Dragon;
+          break;
+        case Is.IAPAPA_BERRY:
+        case Is.SPELON_BERRY:
+        case Is.COLBUR_BERRY:
+        case Is.ROWAP_BERRY:
+          atk.Type = BattleType.Dark;
+          break;
+        case Is.RAZZ_BERRY:
+        case Is.PAMTRE_BERRY:
+        case Is.BABIRI_BERRY:
+          atk.Type = BattleType.Steel;
+          break;
+        case Is.ROSELI_BERRY:
+        case Is.KEE_BERRY:
+        case Is.MARANGA_BERRY:
+          atk.Type = BattleType.Fairy;
+          break;
+        case Is.CHILAN_BERRY:
+          atk.Type = BattleType.Normal;
+          break;
+      }
+    }
+
+    private static void Judgement(AtkContext atk)
+    {
+      switch (atk.Attacker.Pokemon.Item)
+      {
+        case Is.FLAME_PLATE:
+          atk.Type = BattleType.Fire;
+          break;
+        case Is.SPLASH_PLATE:
+          atk.Type = BattleType.Water;
+          break;
+        case Is.ZAP_PLATE:
+          atk.Type = BattleType.Electric;
+          break;
+        case Is.MEADOW_PLATE:
+          atk.Type = BattleType.Grass;
+          break;
+        case Is.ICICLE_PLATE:
+          atk.Type = BattleType.Ice;
+          break;
+        case Is.FIST_PLATE:
+          atk.Type = BattleType.Fighting;
+          break;
+        case Is.TOXIC_PLATE:
+          atk.Type = BattleType.Poison;
+          break;
+        case Is.EARTH_PLATE:
+          atk.Type = BattleType.Ground;
+          break;
+        case Is.SKY_PLATE:
+          atk.Type = BattleType.Flying;
+          break;
+        case Is.MIND_PLATE:
+          atk.Type = BattleType.Psychic;
+          break;
+        case Is.INSECT_PLATE:
+          atk.Type = BattleType.Bug;
+          break;
+        case Is.STONE_PLATE:
+          atk.Type = BattleType.Rock;
+          break;
+        case Is.SPOOKY_PLATE:
+          atk.Type = BattleType.Ghost;
+          break;
+        case Is.DRACO_PLATE:
+          atk.Type = BattleType.Dragon;
+          break;
+        case Is.DREAD_PLATE:
+          atk.Type = BattleType.Dark;
+          break;
+        case Is.IRON_PLATE:
+          atk.Type = BattleType.Steel;
+          break;
+        case Is.PIXIE_PLATE:
+          atk.Type = BattleType.Fairy;
+          break;
+        default:
+          atk.Type = BattleType.Normal;
+          break;
+      }
     }
   }
 }
