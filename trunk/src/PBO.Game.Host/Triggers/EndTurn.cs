@@ -42,7 +42,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           case Game.Weather.Sandstorm:
             foreach (var pm in c.OnboardPokemons.ToArray())
             {
-              if (pm.OnboardPokemon.HasType(BattleType.Rock) || pm.OnboardPokemon.HasType(BattleType.Steel) || pm.OnboardPokemon.HasType(BattleType.Ground)) continue;
+              var types = pm.OnboardPokemon.Types;
+              if (types.Contains(BattleType.Rock) || types.Contains(BattleType.Steel) || types.Contains(BattleType.Ground) || pm.Item == Is.SAFETY_GOGGLES) continue;
               int ab = pm.Ability;
               if (ab == As.OVERCOAT || ab == As.SAND_VEIL || ab == As.SAND_RUSH || ab == As.SAND_FORCE) continue;
               pm.EffectHurtByOneNth(16, "m_SandstormHurt");

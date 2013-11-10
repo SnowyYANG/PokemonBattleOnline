@@ -119,6 +119,24 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Is.ROWAP_BERRY: //192
           ReHurtBerry(def, MoveCategory.Special);
           break;
+        case Is.LUMINOUS_MOSS:
+          AttackedUpItem(def, BattleType.Water, StatType.SpDef);
+          break;
+        case Is.SNOWBALL:
+          AttackedUpItem(def, BattleType.Ice, StatType.Atk);
+          break;
+        case Is.WEAKNESS_POLICY:
+          if (def.EffectRevise > 0)
+          {
+            der.ChangeLv7D(der, false, false, 2, 0, 2);
+          }
+          break;
+        case Is.KEE_BERRY:
+          AttackedUpItem(def, MoveCategory.Physical, StatType.Def);
+          break;
+        case Is.MARANGA_BERRY:
+          AttackedUpItem(def, MoveCategory.Special, StatType.SpDef);
+          break;
       }
       if (der.OnboardPokemon.HasCondition("Rage")) der.ChangeLv7D(der, StatType.Atk, 1, false, false, "Rage");
       if (aer.Pokemon.Item == 0 && ITs.CanLostItem(der) && aer.RaiseAbility(As.MAGICIAN))
@@ -129,6 +147,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         der.ShowLogPm("Magician", i);
       }
     }
+    #region Gen5
     private static void AddState(DefContext def, AttachedState state)
     {
       if (def.AtkContext.Attacker.CanAddState(def.Defender, state, false) && def.AtkContext.Controller.RandomHappen(30))
@@ -183,9 +202,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         aer.Hp -= hp;
       }
     }
+    #endregion
     private static void AttackedUpItem(DefContext def, BattleType type, StatType stat)
     {
       if (def.AtkContext.Type == type) ITs.ChangeLv5D(def.Defender, stat, 1);
+    }
+    private static void AttackedUpItem(DefContext def, MoveCategory cat, StatType stat)
+    {
+      if (def.AtkContext.Move.Category == cat) ITs.ChangeLv5D(def.Defender, stat, 1);
     }
   }
 }

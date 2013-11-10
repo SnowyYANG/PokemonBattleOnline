@@ -30,6 +30,12 @@ namespace PokemonBattleOnline.Game.Host
       }
     }
 
+    /// <summary>
+    /// auto consume item
+    /// </summary>
+    /// <param name="pm"></param>
+    /// <param name="stat"></param>
+    /// <param name="change"></param>
     public static void ChangeLv5D(PokemonProxy pm, StatType stat, int change)
     {
       change = pm.CanChangeLv7D(pm, stat, change, false);

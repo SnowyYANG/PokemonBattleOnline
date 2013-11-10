@@ -55,10 +55,9 @@ namespace PokemonBattleOnline.Game.Host
       {
         var op = Owner.OnboardPokemon;
         //专爱
-        if (ITs.ChoiceItem(Owner.Item))
         {
           var o = op.GetCondition<MoveType>("ChoiceItem");
-          if (o != null && o != Type) return new SelectMoveFail("ChoiceItem", o.Id);
+          if (o != null && o != Type && ITs.ChoiceItem(Owner.Item)) return new SelectMoveFail("ChoiceItem", o.Id);
         }
         //寻衅
         if (op.HasCondition("Torment") && Owner.LastMove == Type) return new SelectMoveFail("Torment", Owner.AtkContext.MoveProxy.Type.Id);
@@ -83,6 +82,8 @@ namespace PokemonBattleOnline.Game.Host
         if (Type.Flags.IsHeal && op.HasCondition("HealBlock")) return new SelectMoveFail("HealBlockCantUseMove", Type.Id);
         //挑拨
         if (Type.Category == MoveCategory.Status && op.HasCondition("Taunt")) return new SelectMoveFail("Taunt", Type.Id);
+        //突击背心
+        if (Type.Category == MoveCategory.Status && Owner.Item == Is.ASSAULT_VEST) return new SelectMoveFail("AssaultVest", Type.Id);
       }
       return null;
     }

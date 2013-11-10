@@ -49,6 +49,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Is.METAL_POWDER:
           if (cat == MoveCategory.Physical && n == 132 && !der.OnboardPokemon.HasCondition("Transform")) m *= 0x2000;
           break;
+        case Is.ASSAULT_VEST:
+          if (cat == MoveCategory.Special) m *= 0x1800;
+          break;
       }
       return m;
     }
