@@ -277,14 +277,14 @@ namespace PokemonBattleOnline.Game.Host
         foreach(var d in targets.ToArray())
           if (d.Defender.OnboardPokemon.HasCondition("SpikyShield"))
           {
-            d.Defender.ShowLogPm("SpikyShield");
+            d.Defender.ShowLogPm("Protect");
             if (move.Flags.NeedTouch) aer.EffectHurtByOneNth(8);
             targets.Remove(d);
           }
         foreach(var d in targets.ToArray())
           if (d.Defender.OnboardPokemon.HasCondition("KingsShield"))
           {
-            d.Defender.ShowLogPm("KingsShield");
+            d.Defender.ShowLogPm("Protect");
             if (move.Flags.NeedTouch) aer.ChangeLv7D(d.Defender, StatType.Atk, -2, false);
             targets.Remove(d);
           }

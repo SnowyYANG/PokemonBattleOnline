@@ -566,7 +566,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       foreach (var pm in c.OnboardPokemons)
       {
         var form = pm.Hp << 1 <= pm.Pokemon.MaxHp ? 1 : 0;
-        if (pm.CanChangeForm(555, form) && pm.RaiseAbility(As.ZEN_MODE)) pm.ChangeForm(form);
+        if (pm.CanChangeForm(555, form) && pm.RaiseAbility(As.ZEN_MODE)) pm.ChangeForm(form, form == 0 ? "DnZenMode" : "EnZenMode");
       }
     }
   }

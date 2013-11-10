@@ -107,9 +107,10 @@ namespace PokemonBattleOnline.Game.Host
         }
       }
     }
-    public void ChangeForm(int form)
+    public void ChangeForm(int form, string log = "FormChange")
     {
       OnboardPokemon.ChangeForm(OnboardPokemon.Form.Species.GetForm(form));
+      ShowLogPm(log);
       Controller.ReportBuilder.ChangeForm(this);
     }
     public void Transform(PokemonProxy target)

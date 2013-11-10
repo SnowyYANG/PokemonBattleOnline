@@ -123,10 +123,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.PROTECT: //182
         case Ms.DETECT: //197
-          SelfProtect(atk, "Protect");
+          SelfProtect(atk, "Protect", "EnProtect");
           break;
         case Ms.ENDURE: //203
-          SelfProtect(atk, "Endure");
+          SelfProtect(atk, "Endure", "EnEndure");
           break;
         case Ms.BELLY_DRUM: //187
           BellyDrum(atk);
@@ -373,10 +373,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           TorsyTurvy(atk);
           break;
         case Ms.SPIKY_SHIELD:
-          SelfProtect(atk, "SpikyShield");
+          SelfProtect(atk, "SpikyShield", "EnProtect");
           break;
         case Ms.KINGS_SHIELD:
-          SelfProtect(atk, "KingsShield");
+          SelfProtect(atk, "KingsShield", "EnProtect");
           break;
         default:
           if (move.Category == MoveCategory.Status) StatusMove(atk);
@@ -1219,10 +1219,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       op.SetLv7D(0 - op.Lv5D.Atk, 0 - op.Lv5D.SpAtk, 0 - op.Lv5D.Def, 0 - op.Lv5D.SpDef, 0 - op.Lv5D.Speed, 0 - op.AccuracyLv, 0 - op.EvasionLv);
       atk.Target.Defender.ShowLogPm("TorsyTurvy");
     }
-    private static void SelfProtect(AtkContext atk, string condition)
+    private static void SelfProtect(AtkContext atk, string condition, string log)
     {
       atk.Attacker.OnboardPokemon.SetTurnCondition(condition);
-      atk.Attacker.ShowLogPm("En" + condition);
+      atk.Attacker.ShowLogPm(log);
     }
     private static void TeamProtect(AtkContext atk, string condition)
     {

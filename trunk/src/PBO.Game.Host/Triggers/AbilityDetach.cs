@@ -18,7 +18,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       switch (ability)
       {
         case As.ZEN_MODE:
-          if (pm.CanChangeForm(555, 0)) pm.ChangeForm(0);
+          if (pm.CanChangeForm(555, 0)) pm.ChangeForm(0, "DeZenMode");
           break;
         case As.ILLUSION:
           ATs.DeIllusion(pm);
