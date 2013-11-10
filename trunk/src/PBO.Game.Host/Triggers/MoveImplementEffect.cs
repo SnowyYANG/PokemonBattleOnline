@@ -34,7 +34,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           SecretPower(def);
           break;
         case Ms.NATURAL_GIFT: //363
-          def.AtkContext.Attacker.ConsumeItem();
+          def.AtkContext.Attacker.ConsumeItem(false);
           break;
         case Ms.PLUCK: //365
         case Ms.BUG_BITE: //450
@@ -43,7 +43,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.FLING: //374
           {
             var i = aer.Pokemon.Item;
-            aer.ConsumeItem();
+            aer.ConsumeItem(false);
             ITs.RaiseItemByMove(def.Defender, i, aer);
           }
           break;

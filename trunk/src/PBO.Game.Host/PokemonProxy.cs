@@ -591,7 +591,7 @@ namespace PokemonBattleOnline.Game.Host
       Pokemon.Item = 0;
       if (Ability == As.UNBURDEN) OnboardPokemon.SetCondition("Unburden");
     }
-    public void ConsumeItem()
+    public void ConsumeItem(bool cheekPouch = true)
     {
       OnboardPokemon.SetTurnCondition("UsedItem", Pokemon.Item);
       Field.SetCondition("UsedItem" + Id, Pokemon.Item);
@@ -599,6 +599,7 @@ namespace PokemonBattleOnline.Game.Host
       {
         OnboardPokemon.SetCondition("Belch");
         Field.SetCondition("UsedBerry" + Id, Pokemon.Item);
+        if (CanHpRecover() && ATs.RaiseAbility(this, As.CHEEK_POUCH)) HpRecoverByOneNth(3);
       }
       RemoveItem();
     }
