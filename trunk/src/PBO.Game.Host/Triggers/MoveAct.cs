@@ -1209,11 +1209,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static void AddType(AtkContext atk, BattleType type)
     {
-      if (atk.Target.Defender.OnboardPokemon.HasType(type)) atk.FailAll();
+      var der = atk.Target.Defender;
+      if (der.OnboardPokemon.HasType(type)) atk.FailAll();
       else
       {
-        atk.Target.Defender.OnboardPokemon.SetCondition("Type3", type);
-#warning 战报
+        der.OnboardPokemon.SetCondition("Type3", type);
+        der.ShowLogPm("AddType", (int)type);
       }
     }
     private static void Terrain(AtkContext atk, string terrain)
