@@ -40,7 +40,7 @@ namespace PokemonBattleOnline.Game
     }
     private static GameString GetLanguage(string str)
     {
-      var c = str[0];
+      var c = str.FirstOrDefault((ch) => !char.IsDigit(ch));
       return Current.MinFirstChar <= c && c <= Current.MaxFirstChar ? Current : EN != null && EN.MinFirstChar <= c && c <= EN.MaxFirstChar ? EN : JP;
     }
     private static int IndexOf(string[] list, string name)
@@ -157,10 +157,11 @@ namespace PokemonBattleOnline.Game
           if (char.IsDigit(line[1]))
           {
             var num = line.Substring(1, comma - 1).ToInt();
-            if (str[0] != '{')
+            var h = line[0];
+            if ((h == 'p' && line[4] == ':' || h == 'm' || h == 'a' || h == 'i' || h == 'n') && !char.IsDigit(str[0]))
               if (str[0] < MinFirstChar) MinFirstChar = str[0];
               else if (str[0] > MaxFirstChar) MaxFirstChar = str[0];
-            switch (line[0])
+            switch (h)
             {
               case 'p':
                 if (line[4] == ':') Pokemons[num - 1] = str;
