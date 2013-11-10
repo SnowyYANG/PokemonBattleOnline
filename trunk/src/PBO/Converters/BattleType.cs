@@ -36,7 +36,7 @@ namespace PokemonBattleOnline.PBO.Converters
       c[14] = SBrushes.NewBrush(0xff58c8e0);
       c[15] = SBrushes.NewBrush(0xff7860e0);
       c[16] = SBrushes.NewBrush(0xff705848);
-      c[17] = SBrushes.NewBrush(0xffff0080);
+      c[17] = SBrushes.NewBrush(0xfff1a7f9);
     }
 
     protected override object Convert(BattleType value)
@@ -69,7 +69,7 @@ namespace PokemonBattleOnline.PBO.Converters
       c[14] = SBrushes.NewBrush(0xff405090);
       c[15] = SBrushes.NewBrush(0xff483890);
       c[16] = SBrushes.NewBrush(0xff483830);
-      c[17] = SBrushes.NewBrush(0xffff0080);
+      c[17] = SBrushes.NewBrush(0xffdf39f1);
     }
 
     protected override object Convert(BattleType value)
