@@ -203,15 +203,6 @@ namespace PokemonBattleOnline.Game.Host
         pm.ShowLogPm("DeIllusion");
       }
     }
-    public static void Protean(AtkContext atk)
-    {
-      var aer = atk.Attacker;
-      if (aer.Ability == As.PROTEAN && aer.OnboardPokemon.SetTypes(atk.Type))
-      {
-        aer.RaiseAbility();
-        aer.ShowLogPm("TypeChange", (int)atk.Type);
-      }
-    }
     public static void StanceChange(PokemonProxy pm)
     {
       if (pm.SelectedMove.Type.Id == Ms.KINGS_SHIELD)

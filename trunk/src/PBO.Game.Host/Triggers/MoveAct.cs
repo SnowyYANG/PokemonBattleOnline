@@ -378,6 +378,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.KINGS_SHIELD:
           SelfProtect(atk, "KingsShield", "EnProtect");
           break;
+        case Ms.POWDER:
+          Powder(atk);
+          break;
         default:
           if (move.Category == MoveCategory.Status) StatusMove(atk);
           else AttackMove(atk);
@@ -1249,6 +1252,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         c.Weather = weather;
         c.Board.SetCondition("Weather", c.TurnNumber + atk.Attacker.Item == item ? 9 : 4);
+      }
+    }
+    private static void Powder(AtkContext atk)
+    {
+      foreach (var d in atk.Targets)
+      {
+        d.Defender.OnboardPokemon.SetTurnCondition("Powder");
+        d.Defender.ShowLogPm("EnPowder");
       }
     }
   }

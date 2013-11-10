@@ -9,6 +9,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
 {
   internal static class STs
   {
+    #region gen5
     public static void KOed(DefContext def, OnboardPokemon o)
     {
       var der = def.Defender;
@@ -181,25 +182,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
       return true;
     }
-    public static int CtLvRevise(PokemonProxy pm)
-    {
-      var r = pm.OnboardPokemon.HasCondition("FocusEnergy") ? 2 : 0;
-      if (pm.Ability == As.SUPER_LUCK) r++;
-      switch (pm.Item)
-      {
-        case Is.SCOPE_LENS:
-        case Is.RAZOR_CLAW:
-          r += 3;
-          break;
-        case Is.LUCKY_PUNCH:
-          if (pm.Pokemon.Form.Species.Number == 113) r += 4;
-          break;
-        case Is.STICK:
-          if (pm.Pokemon.Form.Species.Number == 83) r += 4;
-          break;
-      }
-      return r;
-    }
     public static int ItemSpeedValue(PokemonProxy pm)
     {
       int r = 0;
@@ -238,6 +220,26 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (aer.Item == Is.WIDE_LENS) m *= 0x1199;
       return m;
     }
+    #endregion
+    public static int CtLvRevise(PokemonProxy pm)
+    {
+      var r = pm.OnboardPokemon.HasCondition("FocusEnergy") ? 2 : 0;
+      if (pm.Ability == As.SUPER_LUCK) r++;
+      switch (pm.Item)
+      {
+        case Is.SCOPE_LENS:
+        case Is.RAZOR_CLAW:
+          r += 3;
+          break;
+        case Is.LUCKY_PUNCH:
+          if (pm.Pokemon.Form.Species.Number == 113) r += 4;
+          break;
+        case Is.STICK:
+          if (pm.Pokemon.Form.Species.Number == 83) r += 4;
+          break;
+      }
+      return r;
+    }
     public static void Lv7DDown(PokemonProxy pm)
     {
       switch (pm.Ability)
@@ -249,6 +251,21 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           pm.ChangeLv7D(pm, StatType.SpAtk, 2, false, true);
           break;
       }
+    }
+    public static bool TypeCalculated(AtkContext atk)
+    {
+      var aer = atk.Attacker;
+      if (atk.Type == BattleType.Fire && aer.OnboardPokemon.HasCondition("Powder") && !aer.Controller.OnboardPokemons.Any((p) => p.Ability == As.DAMP))
+      {
+        aer.EffectHurtByOneNth(4, "m_Powder");
+        return true;
+      }
+      if (aer.Ability == As.PROTEAN && aer.OnboardPokemon.SetTypes(atk.Type))
+      {
+        aer.RaiseAbility();
+        aer.ShowLogPm("TypeChange", (int)atk.Type);
+      }
+      return false;
     }
   }
   internal static class SubstituteTriggers

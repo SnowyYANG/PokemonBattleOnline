@@ -106,7 +106,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
 
       CalculateType.Execute(atk);
-      ATs.Protean(atk);
+
+      if (STs.TypeCalculated(atk))
+      {
+        atk.FailAll(null);
+        return;
+      }
+
       MoveE.FilterDefContext(atk);
       if (atk.Targets != null && atk.Target == null) atk.FailAll(null);
       else
