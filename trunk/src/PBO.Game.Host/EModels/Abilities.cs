@@ -20,17 +20,6 @@ namespace PokemonBattleOnline.Game.Host
       RaiseAbility(pm);
       return true;
     }
-    public static bool HasProbabilitiedAdditonalEffects(this MoveType move)
-    {
-      return
-        (
-        move.Class == MoveInnerClass.AttackWithState ||
-        move.Class == MoveInnerClass.AttackWithTargetLv7DChange ||
-        move.FlinchProbability > 0 ||
-        (move.Attachment != null && move.Attachment.Probability > 0) ||
-        (move.Class == MoveInnerClass.AttackWithSelfLv7DChange && move.Lv7DChanges.First().Change > 0)
-        );
-    }
 
     public static bool IgnoreDefenderAbility(int ability)
     {

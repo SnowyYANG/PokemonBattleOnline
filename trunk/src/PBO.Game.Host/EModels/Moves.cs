@@ -32,6 +32,17 @@ namespace PokemonBattleOnline.Game.Host
     {
       return move.Id == Ms.CURSE ? pm.OnboardPokemon.HasType(BattleType.Ghost) ? MoveRange.Single : MoveRange.Self : move.Range;
     }
+    public static bool HasProbabilitiedAdditonalEffects(this MoveType move)
+    {
+      return
+        (
+        move.Class == MoveInnerClass.AttackWithState ||
+        move.Class == MoveInnerClass.AttackWithTargetLv7DChange ||
+        move.FlinchProbability > 0 ||
+        (move.Attachment != null && move.Attachment.Probability > 0) ||
+        (move.Class == MoveInnerClass.AttackWithSelfLv7DChange && move.Lv7DChanges.First().Change > 0)
+        );
+    }
 
     private static int[] CONTINUOUS_USE = new int[] { Ms.PROTECT, Ms.DETECT, Ms.ENDURE, Ms.QUICK_GUARD, Ms.WIDE_GUARD, Ms.CRAFTY_SHIELD, Ms.SPIKY_SHIELD, Ms.KINGS_SHIELD };
     public static bool HardToUseContinuously(this MoveType move)

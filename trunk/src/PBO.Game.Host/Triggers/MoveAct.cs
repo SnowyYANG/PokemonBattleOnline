@@ -416,9 +416,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       var aer = atk.Attacker;
       var move = atk.Move;
+      var aa = aer.Ability;
 
       //生成攻击次数
-      int times = move.MinTimes == move.MaxTimes || atk.Attacker.Ability == As.SKILL_LINK ? move.MaxTimes : TIMES25[atk.Controller.GetRandomInt(0, 7)];
+      int times = move.MinTimes == move.MaxTimes || aa == As.SKILL_LINK ? move.MaxTimes : TIMES25[atk.Controller.GetRandomInt(0, 7)];
 
       int atkTeam = aer.Pokemon.TeamId;
       int hits = 0;
@@ -430,6 +431,16 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
       }
       while (hits < times && atk.Target.Defender.Hp != 0 && aer.Hp != 0 && aer.State != PokemonState.FRZ && aer.State != PokemonState.SLP);
+
+      if (move.MaxTimes == 0 && atk.Targets.Count() == 1 && atk.Target.Defender.Hp != 0 && aa == As.PARENTAL_BOND)
+      {
+        CalculateDamages.Execute(atk);
+        if (atk.Target.Damage > 1) //莽撞、OHKO会自动跳过
+        {
+          atk.Target.Damage >>= 1;
+          Implement(atk.Targets);
+        }
+      }
 
       if (move.MinTimes != 0)
       {
