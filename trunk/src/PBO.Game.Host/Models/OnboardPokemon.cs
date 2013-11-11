@@ -29,28 +29,30 @@ namespace PokemonBattleOnline.Game.Host
     public int Ability; //特性交换用，不可为0，未必是有效的特性
     public readonly Simple6D FiveD; //力量交换，包含性格修正，不包含等级修正
     private readonly Simple6D lv5D;
+    private BattleType Type1, Type2;
 
     internal OnboardPokemon(Pokemon pokemon, int x)
     {
-      types = new List<BattleType>(3);
       Pokemon = pokemon;
       FiveD = new Simple6D();
       ChangeForm(pokemon.Form);
       Gender = pokemon.Gender;
       lv5D = new Simple6D();
       X = x; //CoordY 默认值
+      Type1 = pokemon.Form.Type1;
+      Type2 = pokemon.Form.Type2;
     }
 
-    private List<BattleType> types;
     private List<BattleType> ActualTypes
     {
       get
       {
-        var ts = new List<BattleType>(types);
-        if (HasCondition("Roost")) types.Remove(BattleType.Flying);
+        var ts = new List<BattleType>() { Type1 };
+        if (Type2 != BattleType.Invalid) ts.Add(Type2);
+        if (HasCondition("Roost")) ts.Remove(BattleType.Flying);
         var t3 = GetCondition<BattleType>("Type3");
-        if (t3 != BattleType.Invalid) types.Add(t3);
-        if (!types.Any()) types.Add(BattleType.Normal);
+        if (t3 != BattleType.Invalid) ts.Add(t3);
+        if (!ts.Any()) ts.Add(BattleType.Normal);
         return ts;
       }
     }
@@ -61,9 +63,8 @@ namespace PokemonBattleOnline.Game.Host
       var ts = ActualTypes;
       if (ts.Remove(type1) && (type2 == BattleType.Invalid || ts.Remove(type2)) && !ts.Any())
       {
-        types.Clear();
-        types.Add(type1);
-        if (type2 != BattleType.Invalid) types.Add(type2);
+        Type1 = type1;
+        Type2 = type2;
         RemoveCondition("Roost");
         RemoveCondition("Type3");
         return true;
@@ -202,7 +203,8 @@ namespace PokemonBattleOnline.Game.Host
       Gender = op.Gender;
       _accuracyLv = op._accuracyLv;
       _evasionLv = op._evasionLv;
-      types = new List<BattleType>(op.types);//无视羽休
+      Type1 = op.Type1;//无视羽休
+      Type2 = op.Type2;
       Ability = op.Ability;
       _weight = op.Weight;
     }

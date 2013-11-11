@@ -422,34 +422,33 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var aa = aer.Ability;
 
       //生成攻击次数
-      int times = move.MinTimes == move.MaxTimes || aa == As.SKILL_LINK ? move.MaxTimes : TIMES25[atk.Controller.GetRandomInt(0, 7)];
+      if (move.MaxTimes == 0)
+        if (!atk.MultiTargets && aa == As.PARENTAL_BOND)
+        {
+          atk.Hits = 2;
+          atk.AddCondition("ParentalBond");
+        }
+        else atk.Hits = 1;
+      else if (move.MinTimes == move.MaxTimes || aa == As.SKILL_LINK) atk.Hits = move.MaxTimes;
+      else atk.Hits = TIMES25[atk.Controller.GetRandomInt(0, 7)];
 
       int atkTeam = aer.Pokemon.TeamId;
-      int hits = 0;
+      atk.Hit = 0;
       do
       {
-        hits++;
+        atk.Hit++;
         CalculateDamages.Execute(atk);
+        if (atk.Target.Damage == 0 && atk.Hit == 2 && atk.HasCondition("ParentalBond")) break;
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
         Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
       }
-      while (hits < times && atk.Target.Defender.Hp != 0 && aer.Hp != 0 && aer.State != PokemonState.FRZ && aer.State != PokemonState.SLP);
+      while (atk.Hit < atk.Hits && atk.Target.Defender.Hp != 0 && aer.Hp != 0 && aer.State != PokemonState.FRZ && aer.State != PokemonState.SLP);
 
-      if (move.MaxTimes == 0 && atk.Targets.Count() == 1 && atk.Target.Defender.Hp != 0 && aa == As.PARENTAL_BOND)
-      {
-        CalculateDamages.Execute(atk);
-        if (atk.Target.Damage > 1) //莽撞、OHKO会自动跳过
-        {
-          atk.Target.Damage >>= 1;
-          Implement(atk.Targets);
-        }
-      }
-
-      if (move.MinTimes != 0)
+      if (atk.Hits != 1)
       {
         if (atk.Target.EffectRevise > 0) aer.Controller.ReportBuilder.ShowLog("SuperHurt0");
         else if (atk.Target.EffectRevise < 0) aer.Controller.ReportBuilder.ShowLog("WeakHurt0");
-        aer.Controller.ReportBuilder.ShowLog("Hits", hits);
+        aer.Controller.ReportBuilder.ShowLog("Hits", atk.Hit);
       }
       if (atk.Type == BattleType.Fire)
         foreach (DefContext d in atk.Targets)
@@ -527,7 +526,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             d.MoveHurt();
             atk.TotalDamage += d.Damage;
           }
-          SetHurt(e, defs, atk.Move.MinTimes == 0);
+          SetHurt(e, defs, atk.Hits == 1);
         }
 
         if (move.HurtPercentage > 0)

@@ -126,9 +126,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           AttackedUpItem(def, BattleType.Ice, StatType.Atk);
           break;
         case Is.WEAKNESS_POLICY:
-          if (def.EffectRevise > 0)
+          if (def.EffectRevise > 0 && (der.CanChangeLv7D(der, StatType.Atk, 2, false) != 0 || der.CanChangeLv7D(der, StatType.SpAtk, 2, false) != 0))
           {
+            der.ShowLogPm("WeaknessPolicy");
             der.ChangeLv7D(der, false, false, 2, 0, 2);
+            der.ConsumeItem();
           }
           break;
         case Is.KEE_BERRY:

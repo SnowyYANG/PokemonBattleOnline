@@ -60,7 +60,7 @@ namespace PokemonBattleOnline.Game
     private string _name;
     public string Name
     {
-      get { return _name ?? GameString.Current.Pokemon(Form.Species.Number, Form.Index); }
+      get { return _name ?? GameString.Current.Pokemon(Form.Species.Number); }
       internal set
       {
         if (_name != value)

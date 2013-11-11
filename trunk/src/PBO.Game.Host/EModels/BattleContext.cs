@@ -18,6 +18,10 @@ namespace PokemonBattleOnline.Game.Host
     public int TotalDamage;
     public bool Fail;
     public bool IgnoreSwitchItem;
+    public MoveType Move;
+    public bool MultiTargets;
+    public int Hits;
+    public int Hit;
 
     public AtkContext(MoveProxy mp)
     {
@@ -29,16 +33,12 @@ namespace PokemonBattleOnline.Game.Host
       Attacker = pm;
     }
 
-    public MoveType Move
-    { get; internal set; }
     public Controller Controller
     { get { return Attacker.Controller; } }
     public IEnumerable<DefContext> Targets
     { get; private set; }
     public DefContext Target
     { get; private set; }
-    public bool MultiTargets
-    { get; internal set; }
 
     public void SetAttackerAction(PokemonAction action)
     {

@@ -37,6 +37,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (def.IsCt && aa == As.SNIPER) m *= 0x1800;
         //If the target's ability is Solid Rock or Filter and the move was super effective.
         if (def.EffectRevise > 0 && (da == As.FILTER || da == As.SOLID_ROCK)) m *= 0xC00;
+        if (atk.Hit == 2 && atk.HasCondition("ParentalBond")) m *= 0x800;
       }
 
       switch (aer.Item)

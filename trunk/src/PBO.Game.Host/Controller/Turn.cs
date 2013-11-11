@@ -135,8 +135,8 @@ namespace PokemonBattleOnline.Game.Host
       foreach(var p in ActingPokemons)
         if (p.Action == PokemonAction.MoveAttached && p.SelectMega)
         {
-          p.ChangeForm(ITs.MegaForm(p.Pokemon.Item), true, null);
-          p.ShowLogPm("Mega"); //mega战报显示必要延迟
+          p.ShowLogPm("MegaPre", p.Pokemon.Item);
+          p.ChangeForm(ITs.MegaForm(p.Pokemon.Item), true, "Mega");
           p.Pokemon.Mega = true;
         }
       ReportBuilder.AddHorizontalLine();
