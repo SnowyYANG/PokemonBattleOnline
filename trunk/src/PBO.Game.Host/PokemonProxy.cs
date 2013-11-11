@@ -59,6 +59,8 @@ namespace PokemonBattleOnline.Game.Host
     { get; private set; }
     public Tile SelectedTarget
     { get; private set; }
+    public bool SelectMega
+    { get; private set; }
     private AtkContext _atkContext;
     public AtkContext AtkContext
     { get { return _atkContext; } }
@@ -107,11 +109,12 @@ namespace PokemonBattleOnline.Game.Host
         }
       }
     }
-    public void ChangeForm(int form, string log = "FormChange")
+    public void ChangeForm(int form, bool forever = false, string log = "FormChange")
     {
       OnboardPokemon.ChangeForm(OnboardPokemon.Form.Species.GetForm(form));
-      ShowLogPm(log);
+      if (forever) Pokemon.Form = OnboardPokemon.Form;
       Controller.ReportBuilder.ChangeForm(this);
+      if (log != null) ShowLogPm(log);
     }
     public void Transform(PokemonProxy target)
     {
@@ -329,7 +332,7 @@ namespace PokemonBattleOnline.Game.Host
       get
       {
         if (OnboardPokemon.HasType(BattleType.Ghost) || Item == Is.SHED_SHELL) return true;
-        if (OnboardPokemon.HasCondition("Trap") || OnboardPokemon.HasCondition("Ingrain") || OnboardPokemon.HasCondition("CantSelectWithdraw") || Controller.Board.GetCondition<int>("FairyLock") == Controller.TurnNumber) return false;
+        if (OnboardPokemon.HasCondition("Trap") || OnboardPokemon.HasCondition("Ingrain") || OnboardPokemon.HasCondition("CantSelectWithdraw") || Controller.Board.GetCondition<int>("FairyLock", -1) == Controller.TurnNumber) return false;
         bool arenaTrap = false, magnetPull = false, shadowTag = false;
         foreach (var pm in Controller.GetOnboardPokemons(1 - Pokemon.TeamId))
         {
@@ -396,13 +399,14 @@ namespace PokemonBattleOnline.Game.Host
       }
       return false;
     }
-    internal bool SelectMove(MoveProxy move, Tile target)
+    internal bool SelectMove(MoveProxy move, Tile target, bool mega)
     {
-      if (Hp > 0 && move.CanBeSelected)
+      if (Hp > 0 && move.CanBeSelected && (!mega || CanMega))
       {
         Action = PokemonAction.WillMove;
         SelectedMove = move;
         SelectedTarget = target;
+        SelectMega = mega;
         return true;
       }
       return false;
@@ -411,13 +415,13 @@ namespace PokemonBattleOnline.Game.Host
     #region Turn
     internal int ItemSpeedValue;
     internal bool CanMove
-    {
-      get
-      {
-        return Hp != 0 && LastMoveTurn != Controller.TurnNumber &&
-          (Action == PokemonAction.MoveAttached || Action == PokemonAction.Stiff || Action == PokemonAction.Moving);
-      }
-    }
+    { get { return Hp != 0 && LastMoveTurn != Controller.TurnNumber && (Action == PokemonAction.MoveAttached || Action == PokemonAction.Stiff || Action == PokemonAction.Moving); } }
+    /// <summary>
+    /// 多打的情况还要考虑详细点，就算A和B都能MEGA也只能MEGA一只
+    /// </summary>
+    public bool CanMega
+    { get { return  !Pokemon.Owner.Pokemons.Any((p) => p.Mega) && CanChangeForm(ITs.MegaNumber(Pokemon.Item), ITs.MegaNumber(Pokemon.Item)); } }
+
     internal void Debut()
     {
       if (Action == PokemonAction.Debuting)
@@ -729,11 +733,7 @@ namespace PokemonBattleOnline.Game.Host
         case AttachedState.FRZ:
           Pokemon.State = PokemonState.FRZ;
           ShowLogPm(log ?? "EnFRZ", arg1);
-          if (CanChangeForm(492, 0))
-          {
-            ChangeForm(0);
-            Pokemon.Form = OnboardPokemon.Form;
-          }
+          if (CanChangeForm(492, 0)) ChangeForm(0, true);
           goto DONE;
         case AttachedState.PAR:
           Pokemon.State = PokemonState.PAR;

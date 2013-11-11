@@ -35,10 +35,10 @@ namespace PokemonBattleOnline.PBO.Battle
     }
     internal string Text { get; private set; }
 
-    internal void Init(IControlPanel controlPanel)
+    internal void Init(ControlPanelVM cp)
     {
-      controlPanel.PropertyChanged += control.ControlPanel_PropertyChanged;
-      controlPanel.InputFailed += control.ControlPanel_InputFailed;
+      cp.PropertyChanged += control.ControlPanel_PropertyChanged;
+      cp.InputFailed += control.ControlPanel_InputFailed;
     }
 
     void timer_Tick(object sender, EventArgs e)

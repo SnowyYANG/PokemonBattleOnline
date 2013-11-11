@@ -80,6 +80,7 @@ namespace PokemonBattleOnline.Game.Host
       var i = pm.Item;
       return
         i == Is.RSVP_MAIL ||
+        pm.Form.Species.Number == MegaNumber(i) ||
         pm.Form.Species.Number == 487 && i == Is.GRISEOUS_ORB || //giratina
         PlatedArceus(pm) ||
         pm.Form.Species.Number == 649 && Is.DOUSE_DRIVE <= i && i <= Is.CHILL_DRIVE; //genesect
@@ -419,6 +420,73 @@ namespace PokemonBattleOnline.Game.Host
     public static void DestinyKnot(PokemonProxy pm, PokemonProxy by)
     {
       if (pm.Item == Is.DESTINY_KNOT) by.AddState(pm, AttachedState.Attract, false, 0, "ItemEnAttract", Is.DESTINY_KNOT);
+    }
+
+    public static int MegaNumber(int item)
+    {
+      switch (item)
+      {
+        case Is.VENUSAURITE:
+          return 3;
+        case Is.CHARIZARDITE_X:
+        case Is.CHARIZARDITE_Y:
+          return 6;
+        case Is.BLASTOISINITE:
+          return 9;
+        case Is.ALAKAZITE:
+          return 65;
+        case Is.GENGARITE:
+          return 94;
+        case Is.KANGASKHANITE:
+          return 115;
+        case Is.PINSIRITE:
+          return 127;
+        case Is.GYARADOSITE:
+          return 130;
+        case Is.AERODACTYLITE:
+          return 142;
+        case Is.MEWTWONITE_X:
+        case Is.MEWTWONITE_Y:
+          return 150;
+        case Is.AMPHAROSITE:
+          return 181;
+        case Is.SCIZORITE:
+          return 212;
+        case Is.HERACRONITE:
+          return 214;
+        case Is.HOUNDOOMINITE:
+          return 229;
+        case Is.TYRANITARITE:
+          return 248;
+        case Is.BLAZIKENITE:
+          return 257;
+        case Is.GARDEVOIRITE:
+          return 282;
+        case Is.MAWILITE:
+          return 303;
+        case Is.AGGRONITE:
+          return 306;
+        case Is.MEDICHAMITE:
+          return 308;
+        case Is.MANECTITE:
+          return 310;
+        case Is.BANETTITE:
+          return 354;
+        case Is.ABSOLITE:
+          return 359;
+        case Is.GARCHOMPITE:
+          return 445;
+        case Is.LUCARIONITE:
+          return 448;
+        case Is.ABOMASITE:
+          return 460;
+        default:
+          return 0;
+      }
+    }
+    public static int MegaForm(int item)
+    {
+      return item == Is.CHARIZARDITE_Y || item == Is.MEWTWONITE_Y ? 2 : 1;
     }
   }
 }

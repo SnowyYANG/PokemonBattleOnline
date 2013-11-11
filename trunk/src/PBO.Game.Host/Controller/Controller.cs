@@ -207,9 +207,9 @@ namespace PokemonBattleOnline.Game.Host
     {
       return InputController.SendOut(tile, sendoutIndex);
     }
-    internal bool InputSelectMove(MoveProxy move, Tile position)
+    internal bool InputSelectMove(MoveProxy move, Tile target, bool mega)
     {
-      return InputController.SelectMove(move, position);
+      return InputController.SelectMove(move, target, mega);
     }
     internal bool InputStruggle(PokemonProxy pm)
     {

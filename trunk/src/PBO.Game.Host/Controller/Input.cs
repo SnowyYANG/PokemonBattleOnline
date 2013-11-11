@@ -66,6 +66,7 @@ namespace PokemonBattleOnline.Game.Host
           pir.Only = null;
           pir.OnlyMove = Ms.STRUGGLE;
         }
+        else pir.CanMega = pm.CanMega;
       }
       {
         pir.CantWithdraw = !pm.CanSelectWithdraw;
@@ -130,13 +131,13 @@ namespace PokemonBattleOnline.Game.Host
       }
       else return Switch(tile.Pokemon, sendoutIndex);
     }
-    public bool SelectMove(MoveProxy move, Tile target)
+    public bool SelectMove(MoveProxy move, Tile target, bool mega)
     {
-      return move.Owner.CanInput && move.Owner.SelectMove(move, target);
+      return move.Owner.CanInput && move.Owner.SelectMove(move, target, mega);
     }
     public bool Struggle(PokemonProxy pokemon)
     {
-      return pokemon.CanInput && pokemon.SelectMove(pokemon.StruggleMove, null);
+      return pokemon.CanInput && pokemon.SelectMove(pokemon.StruggleMove, null, false);
     }
   }
 }

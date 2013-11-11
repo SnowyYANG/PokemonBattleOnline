@@ -116,7 +116,7 @@ namespace PokemonBattleOnline.Game.GameEvents
     [DataMember(Name = "h", EmitDefaultValue = false)]
     public int Arg;
     [DataMember(Name = "i", EmitDefaultValue = false)]
-    public bool Forever; //shaymi，虽然会误判不过不影响
+    public bool Forever;
 
     protected override void Update()
     {

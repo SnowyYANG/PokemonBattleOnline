@@ -41,31 +41,10 @@ namespace PokemonBattleOnline.PBO.Battle
       else observerTeamId = 0;
       opms.ItemsSource = game.Board.Teams[observerTeamId];
       rpms.ItemsSource = game.Board.Teams[1 - observerTeamId];
-      IControlPanel controlPanel;
-      switch (game.Settings.Mode)
-      {
-        case GameMode.Single:
-          controlPanel = new Singles(userController);
-          break;
-        default:
-          System.Diagnostics.Debugger.Break();
-          controlPanel = null;
-          break;
-      }
+      var controlPanel = new ControlPanelVM(userController);
       cp.Init(controlPanel);
       subtitle.Init(controlPanel);
       board.Init(game.Board, observerTeamId);
-
-      controlPanel.PropertyChanged += (sender, e) =>
-        {
-          const string CP = "ControllingPokemon";
-          if (e.PropertyName == null || e.PropertyName == CP)
-          {
-            var p = (sender as IControlPanel).ControllingPokemon;
-            //if (p == null) opms.SelectedIndex = -1;
-            //else opms.SelectedIndex = p.X;
-          }
-        };
     }
   }
 }

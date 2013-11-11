@@ -14,7 +14,6 @@ namespace PokemonBattleOnline.Game.Host
     public readonly Player Owner;
     public readonly int TeamId;
 
-    #region data
     public readonly int MaxHp;
     public readonly int AbilityIndex;
     public readonly I6D Iv;
@@ -26,7 +25,8 @@ namespace PokemonBattleOnline.Game.Host
     public readonly Move[] Moves;
     public readonly int Happiness;
     public readonly PokemonNature Nature;
-    #endregion
+    
+    public bool Shiny;
 
     internal Pokemon(Controller controller, int id, Player owner, IPokemonData custom)
     {
@@ -76,8 +76,8 @@ namespace PokemonBattleOnline.Game.Host
         }
       }
     }
-    public bool Shiny
-    { get; internal set; }
+
+    public bool Mega;
 
     public int IndexInOwner
     { get { return Owner.GetPokemonIndex(Id); } }
@@ -102,7 +102,7 @@ namespace PokemonBattleOnline.Game.Host
 
     private int Get5D(StatType type)
     {
-      return PokemonStatHelper.Get5D(type, Nature, Form.Data.Base.GetStat(type), (byte)Iv.GetStat(type), (byte)Ev.GetStat(type), (byte)Lv);
+      return PokemonStatHelper.Get5D(type, Nature, Form.Data.Base.GetStat(type), Iv.GetStat(type), Ev.GetStat(type), Lv);
     }
 
     /// <summary>

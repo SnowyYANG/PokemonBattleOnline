@@ -21,7 +21,7 @@ namespace PokemonBattleOnline.PBO.Battle
   public partial class ControlPanel : Canvas
   {
     public event Action<SimPokemon> ReviewPokemon;
-    IControlPanel vm;
+    ControlPanelVM vm;
 
     public ControlPanel()
     {
@@ -44,16 +44,16 @@ namespace PokemonBattleOnline.PBO.Battle
       if (vm != null)
         switch (vm.SelectedPanel)
         {
-          case ControlPanelIndex.INACTIVE:
+          case ControlPanelVM.INACTIVE:
             bg.Waiting();
             break;
-          case ControlPanelIndex.MAIN:
+          case ControlPanelVM.MAIN:
             bg.Menu();
             break;
-          case ControlPanelIndex.POKEMONS:
+          case ControlPanelVM.POKEMONS:
             bg.Pokemons();
             break;
-          case ControlPanelIndex.STOP:
+          case ControlPanelVM.STOP:
             bg.Inner();
             break;
           default:
@@ -63,9 +63,9 @@ namespace PokemonBattleOnline.PBO.Battle
     }
     private void return_Click(object sender, RoutedEventArgs e)
     {
-      if (controlPanel.SelectedIndex == ControlPanelIndex.TARGET)
-        controlPanel.SelectedIndex = ControlPanelIndex.FIGHT;
-      controlPanel.SelectedIndex = ControlPanelIndex.MAIN;
+      if (controlPanel.SelectedIndex == ControlPanelVM.TARGET)
+        controlPanel.SelectedIndex = ControlPanelVM.FIGHT;
+      controlPanel.SelectedIndex = ControlPanelVM.MAIN;
       Current = null;
     }
     private void fight_Click(object sender, RoutedEventArgs e)
@@ -74,11 +74,11 @@ namespace PokemonBattleOnline.PBO.Battle
     }
     private void pokemons_Click(object sender, RoutedEventArgs e)
     {
-      controlPanel.SelectedIndex = ControlPanelIndex.POKEMONS;
+      controlPanel.SelectedIndex = ControlPanelVM.POKEMONS;
     }
     private void stop_Click(object sender, RoutedEventArgs e)
     {
-      controlPanel.SelectedIndex = ControlPanelIndex.STOP;
+      controlPanel.SelectedIndex = ControlPanelVM.STOP;
     }
     private void move_Click(object sender, RoutedEventArgs e)
     {
@@ -103,9 +103,9 @@ namespace PokemonBattleOnline.PBO.Battle
     {
       System.Windows.MessageBox.Show("请期待下一版本...");
     }
-    internal void Init(IControlPanel controlpanel)
+    internal void Init(ControlPanelVM cp)
     {
-      DataContext = vm = controlpanel;
+      DataContext = vm = cp;
     }
   }
 }

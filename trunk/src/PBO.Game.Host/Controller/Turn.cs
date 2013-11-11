@@ -71,18 +71,21 @@ namespace PokemonBattleOnline.Game.Host
           CheckFocusPunch();//暂定，实际上不在这
           break;
         case 3:
-          Move();
+          Mega();
           break;
         case 4:
-          EndTurnEffects();
+          Move();
           break;
         case 5:
-          EndTurnCheckForInput();
+          EndTurnEffects();
           break;
         case 6:
-          EndTurnSendOut();
+          EndTurnCheckForInput();
           break;
         case 7:
+          EndTurnSendOut();
+          break;
+        case 8:
           NextTurn();
           break;
         default:
@@ -126,6 +129,17 @@ namespace PokemonBattleOnline.Game.Host
     {
       foreach (PokemonProxy p in ActingPokemons)
         if (p.Action == PokemonAction.MoveAttached && p.SelectedMove.Type.Id == Ms.FOCUS_PUNCH) p.ShowLogPm("EnFocusPunch");
+    }
+    private void Mega()
+    {
+      foreach(var p in ActingPokemons)
+        if (p.Action == PokemonAction.MoveAttached && p.SelectMega)
+        {
+          p.ChangeForm(ITs.MegaForm(p.Pokemon.Item), true, null);
+          p.ShowLogPm("Mega"); //mega战报显示必要延迟
+          p.Pokemon.Mega = true;
+        }
+      ReportBuilder.AddHorizontalLine();
     }
     private void Move()
     {

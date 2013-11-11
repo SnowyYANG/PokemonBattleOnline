@@ -207,9 +207,9 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (pm.SelectedMove.Type.Id == Ms.KINGS_SHIELD)
       {
-        if (pm.CanChangeForm(681, 0) && RaiseAbility(pm, As.STANCE_CHANGE)) pm.ChangeForm(0, "StanceChangeShield");
+        if (pm.CanChangeForm(681, 0) && RaiseAbility(pm, As.STANCE_CHANGE)) pm.ChangeForm(0, false, "StanceChangeShield");
       }
-      else if (pm.SelectedMove.Type.Category != MoveCategory.Status && pm.CanChangeForm(681, 1) && ATs.RaiseAbility(pm, As.STANCE_CHANGE)) pm.ChangeForm(1, "StanceChangeSword");
+      else if (pm.SelectedMove.Type.Category != MoveCategory.Status && pm.CanChangeForm(681, 1) && ATs.RaiseAbility(pm, As.STANCE_CHANGE)) pm.ChangeForm(1, false, "StanceChangeSword");
     }
   }
 }

@@ -38,10 +38,10 @@
                         <Setter Property="Visibility" Value="Visible"/>
                         <Setter Property="Canvas.Top" Value="44"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding SelectedPanel}" Value="{x:Static b:ControlPanelIndex.TARGET}">
+                    <DataTrigger Binding="{Binding SelectedPanel}" Value="{x:Static b:ControlPanelVM.TARGET}">
                         <Setter Property="Visibility" Value="Visible"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding SelectedPanel}" Value="{x:Static b:ControlPanelIndex.FIGHT}">
+                    <DataTrigger Binding="{Binding SelectedPanel}" Value="{x:Static b:ControlPanelVM.FIGHT}">
                         <Setter Property="Visibility" Value="Visible"/>
                     </DataTrigger>
                 </Style.Triggers>
@@ -112,6 +112,8 @@
                 <Button Content="{Binding ControllingPokemon.Moves[1]}" Canvas.Top="32" Canvas.Right="1"/>
                 <Button Content="{Binding ControllingPokemon.Moves[2]}" Canvas.Top="80" Canvas.Left="1"/>
                 <Button Content="{Binding ControllingPokemon.Moves[3]}" Canvas.Top="80" Canvas.Right="1"/>
+                <ToggleButton IsChecked="{Binding Mega}" Width="16" Height="16" Visibility="{Binding MegaVisibility}" Canvas.Left="120" Canvas.Bottom="1">
+                </ToggleButton>
             </Canvas>
         </TabItem>
         <TabItem>

@@ -65,7 +65,7 @@ namespace PokemonBattleOnline.Game.Host
             if (m.Type.Id == input.Move)
             {
               Tile target = input.TargetTeam > 0 ? controller.Board[input.TargetTeam - 1][input.TargetX - 1] : null;
-              r = controller.InputSelectMove(m, target);
+              r = controller.InputSelectMove(m, target, input.Mega);
               break;
             }
         }

@@ -6,28 +6,31 @@ using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Game
 {
-  [DataContract(Namespace = PBOMarks.JSON)]
-  public class XActionInput
+  [DataContract(Name = "xai", Namespace = PBOMarks.JSON)]
+  public sealed class XActionInput
   {
     public static XActionInput UseMove(SimMove move, int targetTeam, int targetX)
     {
-      return new XActionInput(move.Type.Id, targetTeam + 1, targetX + 1, 0);
+      return new XActionInput(move.Type.Id, false, targetTeam + 1, targetX + 1, 0);
     }
-    public static XActionInput UseMove(SimMove move)
+    public static XActionInput UseMove(SimMove move, bool mega)
     {
-      return new XActionInput(move.Type.Id, 0, 0, 0);
+      return new XActionInput(move.Type.Id, mega, 0, 0, 0);
     }
     public static XActionInput SendOut(SimPokemon sendout)
     {
-      return new XActionInput(0, 0, 0, sendout.IndexInOwner);
+      return new XActionInput(0, false, 0, 0, sendout.IndexInOwner);
     }
     public static XActionInput Struggle()
     {
-      return new XActionInput(0, 0, 0, 0);
+      return new XActionInput(0, false, 0, 0, 0);
     }
 
     [DataMember(Name = "a", EmitDefaultValue = false)]
     public readonly int Move;
+
+    [DataMember(Name = "e", EmitDefaultValue = false)]
+    public readonly bool Mega;
 
     [DataMember(Name = "c", EmitDefaultValue = false)]
     public readonly byte TargetTeam;
@@ -38,9 +41,10 @@ namespace PokemonBattleOnline.Game
     [DataMember(Name = "b", EmitDefaultValue = false)]
     public readonly byte SendOutIndex;
 
-    private XActionInput(int move, int targetTeam, int targetX, int sendout)
+    private XActionInput(int move, bool mega, int targetTeam, int targetX, int sendout)
     {
       Move = move;
+      Mega = mega;
       TargetTeam = (byte)targetTeam;
       TargetX = (byte)targetX;
       SendOutIndex = (byte)sendout;
@@ -68,9 +72,9 @@ namespace PokemonBattleOnline.Game
     {
       Inputs[x] = XActionInput.UseMove(move, targetTeam, targetX);
     }
-    public void UseMove(int x, SimMove move)
+    public void UseMove(int x, SimMove move, bool mega)
     {
-      Inputs[x] = XActionInput.UseMove(move);
+      Inputs[x] = XActionInput.UseMove(move, mega);
     }
     public void Switch(int x, SimPokemon sendout)
     {

@@ -19,17 +19,17 @@ namespace PokemonBattleOnline.PBO.Battle
 
       public void ControlPanel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
       {
-        IControlPanel cp = sender as IControlPanel;
+        var cp = (ControlPanelVM)sender;
         if (e.PropertyName == null || e.PropertyName == "SelectedPanel")
           switch (cp.SelectedPanel)
           {
-            case ControlPanelIndex.POKEMONS:
+            case ControlPanelVM.POKEMONS:
               nest.SetText("要让哪只精灵出场？");
               break;
-            case ControlPanelIndex.INACTIVE:
+            case ControlPanelVM.INACTIVE:
               nest.SetText("通信待机中...");
               break;
-            case ControlPanelIndex.STOP:
+            case ControlPanelVM.STOP:
               nest.SetText("真的要中止战斗么？");
               break;
             default:
@@ -41,7 +41,7 @@ namespace PokemonBattleOnline.PBO.Battle
               catch { }
               break;
           }
-        else if (e.PropertyName == "ControllingPokemon" && (cp.SelectedPanel == ControlPanelIndex.MAIN || cp.SelectedPanel == ControlPanelIndex.FIGHT))
+        else if (e.PropertyName == "ControllingPokemon" && (cp.SelectedPanel == ControlPanelVM.MAIN || cp.SelectedPanel == ControlPanelVM.FIGHT))
           if (cp.ControllingPokemon != null && cp.ControllingPokemon.Pokemon.Hp.Value > 0)
             nest.SetTextForcibly(cp.ControllingPokemon.Pokemon.Name + "要做什么？");
       }

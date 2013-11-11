@@ -112,7 +112,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public void ChangeForm(PokemonProxy pm)
     {
-      Add(new SetOutward() { Pm = pm.Id, Form = pm.OnboardPokemon.Form.Index, Forever = pm.Pokemon.Form.Species.Number == 492 && pm.OnboardPokemon.Form == pm.Pokemon.Form });
+      Add(new SetOutward() { Pm = pm.Id, Form = pm.OnboardPokemon.Form.Index, Forever = pm.OnboardPokemon.Form == pm.Pokemon.Form });
     }
     public void EnSubstitute(PokemonProxy pm)
     {

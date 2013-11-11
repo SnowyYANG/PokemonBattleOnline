@@ -120,33 +120,48 @@ namespace PokemonBattleOnline.Game.DataEditor
       }
       return false;
     }
+    static bool SetForms(int number, int forms)
+    {
+      forms++;
+      var pm = RomData.GetPokemon(number);
+      if (pm.formData.Length == forms)
+      {
+        pm.forms = new PokemonForm[forms];
+        for (int i = 0; i < forms; ++i) pm.forms[i] = new PokemonForm() { _data = i, _index = i };
+        return true;
+      }
+      System.Diagnostics.Debugger.Break();
+      return false;
+    }
     static void Main(string[] args)
     {
       var rom = RomData.current = RomData.LoadFromXml<RomData>("..\\doc\\rom.xml");
-      GameString.Load("..\\res\\string", "zh", "en");
-      var pms = new string[] {"皮皮",
-"皮可西",
-"胖丁",
-"胖可丁",
-"吸盘魔偶",
-"皮宝宝",
-"宝宝丁",
-"波克比",
-"波克基古",
-"玛力露",
-"玛力露丽",
-"布卢",
-"布卢皇",
-"露力丽",
-"拉鲁拉丝",
-"奇鲁莉安",
-"沙奈朵",
-"大嘴娃",
-"魔尼尼",
-"波克基斯",
-"木棉球",
-"风妖精"};
-      foreach (var p in pms) GameString.PokemonSpecies(p).formData[0]._type2 = BattleType.Fairy;
+      SetForms(3, 1);
+      SetForms(6, 2);
+      SetForms(9, 1);
+      SetForms(65, 1);
+      SetForms(94, 1);
+      SetForms(115, 1);
+      SetForms(127, 1);
+      SetForms(130, 1);
+      SetForms(142, 1);
+      SetForms(150, 2);
+      SetForms(181, 1);
+      SetForms(212, 1);
+      SetForms(214, 1);
+      SetForms(229, 1);
+      SetForms(248, 1);
+      SetForms(257, 1);
+      SetForms(282, 1);
+      SetForms(303, 1);
+      SetForms(306, 1);
+      SetForms(308, 1);
+      SetForms(310, 1);
+      SetForms(354, 1);
+      SetForms(359, 1);
+      SetForms(445, 1);
+      SetForms(448, 1);
+      SetForms(460, 1);
       RomData.current.SaveXml("..\\doc\\rom.xml");
     }
   }

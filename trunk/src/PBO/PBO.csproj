@@ -348,8 +348,7 @@
       <DependentUpon>Subtitle.xaml</DependentUpon>
     </Compile>
     <Compile Include="Battle\BattleReport\DocumentBattleReport.cs" />
-    <Compile Include="Battle\NDS\ControlPanel\IControlPanel.cs" />
-    <Compile Include="Battle\NDS\ControlPanel\Singles.cs" />
+    <Compile Include="Battle\NDS\ControlPanel\ControlPanelVM.cs" />
     <Compile Include="Battle\NDS\ControlPanel\TargetPanel.cs" />
     <Page Include="Battle\BattleReport\BattleReport.xaml">
       <SubType>Designer</SubType>

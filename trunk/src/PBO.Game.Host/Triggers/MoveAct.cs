@@ -807,7 +807,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static void ReflectType(AtkContext atk)
     {
-#warning 实机测试
       var ao = atk.Attacker.OnboardPokemon;
       var types = atk.Target.Defender.OnboardPokemon.Types.ToArray();
       if (ao.SetTypes(types[0], types.ValueOrDefault(1))) atk.Attacker.ShowLogPm("ReflectType", atk.Target.Defender.Id);

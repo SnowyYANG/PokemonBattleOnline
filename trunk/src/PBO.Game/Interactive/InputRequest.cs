@@ -25,8 +25,8 @@ namespace PokemonBattleOnline.Game
       Move = move;
     }
   }
-  [DataContract(Namespace = PBOMarks.PBO)]
-  public class PmInputRequest
+  [DataContract(Name = "pir", Namespace = PBOMarks.PBO)]
+  public sealed class PmInputRequest
   {
     [DataMember(EmitDefaultValue = false)]
     public int OnlyMove;
@@ -39,6 +39,9 @@ namespace PokemonBattleOnline.Game
 
     [DataMember(EmitDefaultValue = false)]
     public bool CantWithdraw;
+
+    [DataMember(EmitDefaultValue = false)]
+    public bool CanMega;
 
     public override bool Equals(object obj)
     {
@@ -123,7 +126,7 @@ namespace PokemonBattleOnline.Game
     #endregion
   }
   
-  [DataContract(Namespace = PBOMarks.JSON)]
+  [DataContract(Name = "ir", Namespace = PBOMarks.JSON)]
   public class InputRequest
   {
     [DataMember(EmitDefaultValue = false)]
@@ -161,6 +164,8 @@ namespace PokemonBattleOnline.Game
     { get { return Pms == null; } }
     public int CurrentX
     { get; private set; }
+    public bool CanMega
+    { get { return Pms[CurrentX].CanMega; } }
 
     private void NextPm()
     {
@@ -208,13 +213,13 @@ namespace PokemonBattleOnline.Game
       error = Pms[CurrentX].GetErrorMessage();
       return false;
     }
-    public bool Move(SimMove move)
+    public bool Move(SimMove move, bool mega)
     {
       if (Pms[CurrentX].Move(move))
       {
         if (!game.Settings.Mode.NeedTarget())
         {
-          input.UseMove(CurrentX, move);
+          input.UseMove(CurrentX, move, mega);
           NextPm();
         }
         return true;

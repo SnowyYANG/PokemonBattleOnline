@@ -10402,9 +10402,32 @@
           <H>2</H>
           <W>100</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Grass</T1>
+          <T2>Poison</T2>
+          <A>
+            <a:int>47</a:int>
+            <a:int>0</a:int>
+            <a:int>47</a:int>
+          </A>
+          <Base>
+            <H>80</H>
+            <A>100</A>
+            <D>123</D>
+            <SA>122</SA>
+            <SD>120</SD>
+            <S>80</S>
+          </Base>
+          <H>2.4</H>
+          <W>155.5</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -10492,9 +10515,55 @@
           <H>1.7</H>
           <W>90.5</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Fire</T1>
+          <T2>Dragon</T2>
+          <A>
+            <a:int>168</a:int>
+            <a:int>0</a:int>
+            <a:int>168</a:int>
+          </A>
+          <Base>
+            <H>78</H>
+            <A>130</A>
+            <D>111</D>
+            <SA>130</SA>
+            <SD>85</SD>
+            <S>100</S>
+          </Base>
+          <H>1.7</H>
+          <W>110.5</W>
+        </PokemonFormData>
+        <PokemonFormData>
+          <T1>Fire</T1>
+          <T2>Flying</T2>
+          <A>
+            <a:int>70</a:int>
+            <a:int>0</a:int>
+            <a:int>70</a:int>
+          </A>
+          <Base>
+            <H>78</H>
+            <A>104</A>
+            <D>78</D>
+            <SA>159</SA>
+            <SD>115</SD>
+            <S>100</S>
+          </Base>
+          <H>1.7</H>
+          <W>100.5</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
+        <PokemonForm>
+          <_data>2</_data>
+          <_index>2</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -10582,9 +10651,31 @@
           <H>1.6</H>
           <W>85.5</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Water</T1>
+          <A>
+            <a:int>188</a:int>
+            <a:int>0</a:int>
+            <a:int>188</a:int>
+          </A>
+          <Base>
+            <H>79</H>
+            <A>103</A>
+            <D>120</D>
+            <SA>135</SA>
+            <SD>115</SD>
+            <S>78</S>
+          </Base>
+          <H>1.6</H>
+          <W>101.1</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -12218,9 +12309,31 @@
           <H>1.5</H>
           <W>48.1</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Psychic</T1>
+          <A>
+            <a:int>36</a:int>
+            <a:int>0</a:int>
+            <a:int>36</a:int>
+          </A>
+          <Base>
+            <H>55</H>
+            <A>50</A>
+            <D>65</D>
+            <SA>175</SA>
+            <SD>95</SD>
+            <S>150</S>
+          </Base>
+          <H>1.2</H>
+          <W>48</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -13064,9 +13177,32 @@
           <H>1.5</H>
           <W>40.5</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Ghost</T1>
+          <T2>Poison</T2>
+          <A>
+            <a:int>23</a:int>
+            <a:int>0</a:int>
+            <a:int>23</a:int>
+          </A>
+          <Base>
+            <H>60</H>
+            <A>65</A>
+            <D>80</D>
+            <SA>170</SA>
+            <SD>95</SD>
+            <S>130</S>
+          </Base>
+          <H>1.4</H>
+          <W>40.5</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -13675,9 +13811,31 @@
           <H>2.2</H>
           <W>80</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Normal</T1>
+          <A>
+            <a:int>167</a:int>
+            <a:int>0</a:int>
+            <a:int>167</a:int>
+          </A>
+          <Base>
+            <H>105</H>
+            <A>125</A>
+            <D>100</D>
+            <SA>60</SA>
+            <SD>100</SD>
+            <S>100</S>
+          </Base>
+          <H>2.2</H>
+          <W>100</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -14025,9 +14183,32 @@
           <H>1.5</H>
           <W>54.9</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Bug</T1>
+          <T2>Flying</T2>
+          <A>
+            <a:int>174</a:int>
+            <a:int>0</a:int>
+            <a:int>174</a:int>
+          </A>
+          <Base>
+            <H>65</H>
+            <A>155</A>
+            <D>120</D>
+            <SA>65</SA>
+            <SD>90</SD>
+            <S>105</S>
+          </Base>
+          <H>1.7</H>
+          <W>59</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -14114,9 +14295,32 @@
           <H>6.5</H>
           <W>235</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Water</T1>
+          <T2>Dark</T2>
+          <A>
+            <a:int>104</a:int>
+            <a:int>0</a:int>
+            <a:int>104</a:int>
+          </A>
+          <Base>
+            <H>95</H>
+            <A>155</A>
+            <D>109</D>
+            <SA>70</SA>
+            <SD>130</SD>
+            <S>81</S>
+          </Base>
+          <H>6.5</H>
+          <W>305</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -14467,9 +14671,32 @@
           <H>1.8</H>
           <W>59</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Rock</T1>
+          <T2>Flying</T2>
+          <A>
+            <a:int>168</a:int>
+            <a:int>0</a:int>
+            <a:int>168</a:int>
+          </A>
+          <Base>
+            <H>80</H>
+            <A>135</A>
+            <D>85</D>
+            <SA>70</SA>
+            <SD>95</SD>
+            <S>150</S>
+          </Base>
+          <H>2.1</H>
+          <W>79</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -14702,9 +14929,54 @@
           <H>2</H>
           <W>122</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Psychic</T1>
+          <T2>Fighting</T2>
+          <A>
+            <a:int>80</a:int>
+            <a:int>0</a:int>
+            <a:int>80</a:int>
+          </A>
+          <Base>
+            <H>106</H>
+            <A>190</A>
+            <D>100</D>
+            <SA>154</SA>
+            <SD>100</SD>
+            <S>130</S>
+          </Base>
+          <H>2.3</H>
+          <W>127</W>
+        </PokemonFormData>
+        <PokemonFormData>
+          <T1>Psychic</T1>
+          <A>
+            <a:int>15</a:int>
+            <a:int>0</a:int>
+            <a:int>15</a:int>
+          </A>
+          <Base>
+            <H>106</H>
+            <A>150</A>
+            <D>70</D>
+            <SA>194</SA>
+            <SD>120</SD>
+            <S>140</S>
+          </Base>
+          <H>1.5</H>
+          <W>33</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
+        <PokemonForm>
+          <_data>2</_data>
+          <_index>2</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -15611,9 +15883,32 @@
           <H>1.4</H>
           <W>61.5</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Electric</T1>
+          <T2>Dragon</T2>
+          <A>
+            <a:int>104</a:int>
+            <a:int>0</a:int>
+            <a:int>104</a:int>
+          </A>
+          <Base>
+            <H>90</H>
+            <A>95</A>
+            <D>105</D>
+            <SA>165</SA>
+            <SD>110</SD>
+            <S>45</S>
+          </Base>
+          <H>1.4</H>
+          <W>61.5</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -16601,9 +16896,32 @@
           <H>1.8</H>
           <W>118</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Bug</T1>
+          <T2>Steel</T2>
+          <A>
+            <a:int>101</a:int>
+            <a:int>0</a:int>
+            <a:int>101</a:int>
+          </A>
+          <Base>
+            <H>70</H>
+            <A>150</A>
+            <D>140</D>
+            <SA>65</SA>
+            <SD>100</SD>
+            <S>75</S>
+          </Base>
+          <H>2</H>
+          <W>125</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -16659,9 +16977,32 @@
           <H>1.5</H>
           <W>54.4</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Bug</T1>
+          <T2>Fighting</T2>
+          <A>
+            <a:int>92</a:int>
+            <a:int>0</a:int>
+            <a:int>92</a:int>
+          </A>
+          <Base>
+            <H>80</H>
+            <A>185</A>
+            <D>115</D>
+            <SA>40</SA>
+            <SD>105</SD>
+            <S>75</S>
+          </Base>
+          <H>1.7</H>
+          <W>62.5</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -17098,9 +17439,32 @@
           <H>1.4</H>
           <W>35</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Dark</T1>
+          <T2>Fire</T2>
+          <A>
+            <a:int>94</a:int>
+            <a:int>0</a:int>
+            <a:int>94</a:int>
+          </A>
+          <Base>
+            <H>75</H>
+            <A>90</A>
+            <D>90</D>
+            <SA>140</SA>
+            <SD>90</SD>
+            <S>115</S>
+          </Base>
+          <H>1.9</H>
+          <W>49.5</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -17650,9 +18014,32 @@
           <H>2</H>
           <W>202</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Rock</T1>
+          <T2>Dark</T2>
+          <A>
+            <a:int>45</a:int>
+            <a:int>0</a:int>
+            <a:int>45</a:int>
+          </A>
+          <Base>
+            <H>100</H>
+            <A>164</A>
+            <D>150</D>
+            <SA>95</SA>
+            <SD>120</SD>
+            <S>71</S>
+          </Base>
+          <H>2.5</H>
+          <W>255</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -17914,9 +18301,32 @@
           <H>1.9</H>
           <W>52</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Fire</T1>
+          <T2>Fighting</T2>
+          <A>
+            <a:int>3</a:int>
+            <a:int>0</a:int>
+            <a:int>3</a:int>
+          </A>
+          <Base>
+            <H>80</H>
+            <A>160</A>
+            <D>80</D>
+            <SA>130</SA>
+            <SD>80</SD>
+            <S>100</S>
+          </Base>
+          <H>1.9</H>
+          <W>52</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -18650,9 +19060,32 @@
           <H>1.6</H>
           <W>48.4</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Psychic</T1>
+          <T2>Fairy</T2>
+          <A>
+            <a:int>181</a:int>
+            <a:int>0</a:int>
+            <a:int>181</a:int>
+          </A>
+          <Base>
+            <H>68</H>
+            <A>85</A>
+            <D>65</D>
+            <SA>165</SA>
+            <SD>135</SD>
+            <S>100</S>
+          </Base>
+          <H>0</H>
+          <W>0</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -19269,9 +19702,32 @@
           <H>0.6</H>
           <W>11.5</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Steel</T1>
+          <T2>Fairy</T2>
+          <A>
+            <a:int>37</a:int>
+            <a:int>0</a:int>
+            <a:int>37</a:int>
+          </A>
+          <Base>
+            <H>50</H>
+            <A>105</A>
+            <D>125</D>
+            <SA>55</SA>
+            <SD>95</SD>
+            <S>50</S>
+          </Base>
+          <H>1</H>
+          <W>23.5</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -19356,9 +19812,31 @@
           <H>2.1</H>
           <W>360</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Steel</T1>
+          <A>
+            <a:int>111</a:int>
+            <a:int>0</a:int>
+            <a:int>111</a:int>
+          </A>
+          <Base>
+            <H>70</H>
+            <A>140</A>
+            <D>230</D>
+            <SA>60</SA>
+            <SD>80</SD>
+            <S>50</S>
+          </Base>
+          <H>2.2</H>
+          <W>395</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -19414,9 +19892,32 @@
           <H>1.3</H>
           <W>31.5</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Fighting</T1>
+          <T2>Psychic</T2>
+          <A>
+            <a:int>37</a:int>
+            <a:int>0</a:int>
+            <a:int>37</a:int>
+          </A>
+          <Base>
+            <H>60</H>
+            <A>100</A>
+            <D>85</D>
+            <SA>80</SA>
+            <SD>85</SD>
+            <S>100</S>
+          </Base>
+          <H>1.3</H>
+          <W>31.5</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -19472,9 +19973,31 @@
           <H>1.5</H>
           <W>40.2</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Electric</T1>
+          <A>
+            <a:int>22</a:int>
+            <a:int>0</a:int>
+            <a:int>22</a:int>
+          </A>
+          <Base>
+            <H>70</H>
+            <A>75</A>
+            <D>80</D>
+            <SA>135</SA>
+            <SD>80</SD>
+            <S>135</S>
+          </Base>
+          <H>1.8</H>
+          <W>44</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -20833,9 +21356,31 @@
           <H>1.1</H>
           <W>12.5</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Ghost</T1>
+          <A>
+            <a:int>158</a:int>
+            <a:int>0</a:int>
+            <a:int>158</a:int>
+          </A>
+          <Base>
+            <H>64</H>
+            <A>165</A>
+            <D>75</D>
+            <SA>93</SA>
+            <SD>83</SD>
+            <S>75</S>
+          </Base>
+          <H>1.2</H>
+          <W>13</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -20979,9 +21524,31 @@
           <H>1.2</H>
           <W>47</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Dark</T1>
+          <A>
+            <a:int>156</a:int>
+            <a:int>0</a:int>
+            <a:int>156</a:int>
+          </A>
+          <Base>
+            <H>65</H>
+            <A>150</A>
+            <D>60</D>
+            <SA>115</SA>
+            <SD>60</SD>
+            <S>115</S>
+          </Base>
+          <H>1.2</H>
+          <W>49</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -23633,9 +24200,32 @@
           <H>1.9</H>
           <W>95</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Dragon</T1>
+          <T2>Ground</T2>
+          <A>
+            <a:int>159</a:int>
+            <a:int>0</a:int>
+            <a:int>159</a:int>
+          </A>
+          <Base>
+            <H>108</H>
+            <A>170</A>
+            <D>115</D>
+            <SA>120</SA>
+            <SD>95</SD>
+            <S>92</S>
+          </Base>
+          <H>1.9</H>
+          <W>95</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -23721,9 +24311,32 @@
           <H>1.2</H>
           <W>54</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Fighting</T1>
+          <T2>Steel</T2>
+          <A>
+            <a:int>91</a:int>
+            <a:int>0</a:int>
+            <a:int>91</a:int>
+          </A>
+          <Base>
+            <H>70</H>
+            <A>145</A>
+            <D>88</D>
+            <SA>140</SA>
+            <SD>70</SD>
+            <S>112</S>
+          </Base>
+          <H>1.3</H>
+          <W>57.5</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -24073,9 +24686,32 @@
           <H>2.2</H>
           <W>135.5</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Grass</T1>
+          <T2>Ice</T2>
+          <A>
+            <a:int>117</a:int>
+            <a:int>0</a:int>
+            <a:int>117</a:int>
+          </A>
+          <Base>
+            <H>90</H>
+            <A>132</A>
+            <D>105</D>
+            <SA>132</SA>
+            <SD>105</SD>
+            <S>30</S>
+          </Base>
+          <H>2.7</H>
+          <W>185</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>1</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
@@ -31421,7 +32057,7 @@
           <T2>Normal</T2>
           <A>
             <a:int>87</a:int>
-            <a:int>142</a:int>
+            <a:int>8</a:int>
             <a:int>94</a:int>
           </A>
           <Base>
@@ -31451,7 +32087,7 @@
           <T2>Normal</T2>
           <A>
             <a:int>87</a:int>
-            <a:int>142</a:int>
+            <a:int>8</a:int>
             <a:int>94</a:int>
           </A>
           <Base>
