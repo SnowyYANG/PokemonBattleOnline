@@ -66,6 +66,8 @@ namespace PokemonBattleOnline.Game
     public static void Save(IEnumerable<PokemonTeam> teams)
     {
       Current = teams.ToArray();
+      var dir = Path.GetDirectoryName(FileName);
+      if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
       using (var f = new FileStream(FileName, FileMode.Create, FileAccess.Write))
         Serializer.Serialize(Current, f);
     }

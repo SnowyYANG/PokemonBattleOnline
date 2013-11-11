@@ -114,7 +114,7 @@ namespace PokemonBattleOnline.PBO
     private void Start_Click(object sender, RoutedEventArgs e)
     {
       var team = Teams.SelectedItem as Editor.TeamVM;
-      if (team != null)
+      if (team != null && team.Model.Pokemons[0] != null)
       {
         var pt = team.Model.Pokemons.Where((p) => p != null).ToArray();
         Room.GamePrepare(pt);

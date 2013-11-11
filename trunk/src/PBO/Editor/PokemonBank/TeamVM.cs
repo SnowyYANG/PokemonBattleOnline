@@ -25,6 +25,7 @@ namespace PokemonBattleOnline.PBO.Editor
       raw = new PokemonVM[6];
       for (int i = 0; i < 6; ++i) raw[i] = new PokemonVM(this, i);
       _background = NORMALBG;
+      if (model.CanBattle) EditorVM.Current.BattleTeams.Add(this);
     }
 
     public string Name

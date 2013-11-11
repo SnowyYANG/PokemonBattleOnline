@@ -11,18 +11,20 @@ namespace PokemonBattleOnline.PBO.Editor
 {
   internal class EditorVM : ObservableObject
   {
-    public static readonly EditorVM Current;
+    public static EditorVM Current
+    { get; private set; }
 
     static EditorVM()
     {
-      Current = new EditorVM(UserData.Current);
+      new EditorVM(UserData.Current);
     }
 
     private EditorVM(IEnumerable<PokemonTeam> teams)
     {
+      Current = this; //teamvm needs to access current
+      _battleTeams = new ObservableCollection<TeamVM>();
       _teams = new ObservableCollection<TeamVM>(teams.Select((t) => new TeamVM(t)));
       _teams.Insert(0, null);
-      _battleTeams = new ObservableCollection<TeamVM>(_teams.Where((t) => t != null && t.CanBattle));
     }
 
     private PokemonEditorVM _editingPokemon;

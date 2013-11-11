@@ -12,10 +12,12 @@ namespace PokemonBattleOnline.Game
     public PokemonTeam()
     {
       Pokemons = new PokemonData[6];
+      CanBattle = true;
     }
     public PokemonTeam(PokemonData[] pokemons)
     {
       Pokemons = pokemons.Length == 6 ? pokemons : new PokemonData[6];
+      CanBattle = true;
     }
 
     [DataMember]
@@ -27,7 +29,8 @@ namespace PokemonBattleOnline.Game
     { get; set; }
 
     [DataMember]
-    public bool CanBattle;
+    public bool CanBattle
+    { get; set; }
 
     public string Export()
     {
