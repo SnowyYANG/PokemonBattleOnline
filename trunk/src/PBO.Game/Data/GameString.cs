@@ -80,7 +80,15 @@ namespace PokemonBattleOnline.Game
     }
     internal static PokemonForm PokemonForm(string name)
     {
-      throw new NotImplementedException();
+      var gs = GetLanguage(name);
+      foreach (var pair in gs.Forms)
+      {
+        var n = pair.Key / 100;
+        var f = pair.Key % 100;
+        var str = string.Format(pair.Value, gs.Pokemon(n));
+        if (str == name) return RomData.GetPokemon(n).GetForm(f);
+      }
+      return PokemonSpecies(name).GetForm(0);
     }
     public static int Ability(string name)
     {

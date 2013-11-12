@@ -74,7 +74,7 @@ namespace PokemonBattleOnline.Game.Host
     public void AddHorizontalLine()
     {
       var last = current.Events.LastOrDefault();
-      if (!(last is HorizontalLine || last is TimeTick)) current.AddEvent(new HorizontalLine());
+      if (!(last is HorizontalLine || last is TimeTick || last is BeginTurn)) current.AddEvent(new HorizontalLine());
     }
     public void Mimic(PokemonProxy pm, MoveType move)
     {
@@ -112,7 +112,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public void ChangeForm(PokemonProxy pm)
     {
-      Add(new SetOutward() { Pm = pm.Id, Form = pm.OnboardPokemon.Form.Index, Forever = pm.OnboardPokemon.Form == pm.Pokemon.Form });
+      Add(new SetOutward() { Pm = pm.Id, Form = pm.OnboardPokemon.Form.Index, Forever = pm.OnboardPokemon.Form == pm.Pokemon.Form, Mega = pm.Pokemon.Mega });
     }
     public void EnSubstitute(PokemonProxy pm)
     {

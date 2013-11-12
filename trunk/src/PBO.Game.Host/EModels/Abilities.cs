@@ -73,10 +73,8 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (pm.Ability == As.ILLUSION)
       {
-        Pokemon o = pm.Pokemon;
-        foreach (Pokemon p in pm.Pokemon.Owner.Pokemons)
-          if (p.Hp > 0) o = p;
-        if (o != pm.Pokemon) pm.OnboardPokemon.SetCondition("Illusion", o);
+        var o = pm.Pokemon.Owner.Pokemons.LastOrDefault((p) => p.Hp > 0);
+        if (o != null) pm.OnboardPokemon.SetCondition("Illusion", o.Pokemon);
       }
     }
     public static void ColorChange(DefContext def)

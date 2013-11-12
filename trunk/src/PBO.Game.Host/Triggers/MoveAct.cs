@@ -945,7 +945,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           pm.Pokemon.State = PokemonState.Normal;
         }
       foreach (var pm in aer.Pokemon.Owner.Pokemons)
-        if (pm.Hp > 0 && pm.State != PokemonState.Normal) pm.State = PokemonState.Normal;
+        if (pm.Hp > 0 && pm.State != PokemonState.Normal) pm.Pokemon.State = PokemonState.Normal;
       aer.Controller.ReportBuilder.ShowLog(log);
     }
     private static void Gravity(AtkContext atk)
@@ -1164,10 +1164,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
 
       int hits = 0;
       foreach (var pm in aer.Pokemon.Owner.Pokemons)
-        if (pm == aer.Pokemon || pm.State == PokemonState.Normal)
+        if (pm == aer || pm.State == PokemonState.Normal)
         {
           hits++;
-          atk.SetCondition("BeatUpAtk", pm == aer.Pokemon ? aer.OnboardPokemon.Form.Data.Base.Atk : pm.Form.Data.Base.Atk);
+          atk.SetCondition("BeatUpAtk", pm.OnboardPokemon.Form.Data.Base.Atk);
           CalculateDamages.Execute(atk);
           Implement(atk.Targets);
           if (atk.Target.Defender.Hp == 0 || aer.Hp == 0 || aer.State == PokemonState.FRZ || aer.State == PokemonState.SLP) break;

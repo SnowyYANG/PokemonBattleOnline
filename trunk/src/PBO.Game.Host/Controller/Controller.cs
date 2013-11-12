@@ -18,7 +18,6 @@ namespace PokemonBattleOnline.Game.Host
     private readonly SwitchController SwitchController;
     private readonly InputController InputController;
     private readonly TurnController TurnController;
-    private readonly Dictionary<int, PokemonProxy> pokemons;
     
     private Random random;
 #if ETV
@@ -29,18 +28,12 @@ namespace PokemonBattleOnline.Game.Host
     {
       GameSettings = settings;
       Board = new Board(GameSettings);
-      pokemons = new Dictionary<int, PokemonProxy>();
 
       Teams = new Team[settings.Mode.TeamCount()];
       for (int t = 0; t < Teams.Length; ++t)
       {
         var players = new Player[settings.Mode.PlayersPerTeam()];
-        for (int p = 0; p < settings.Mode.PlayersPerTeam(); ++p)
-        {
-          var pl = new Player(this, t, p, pms[t, p]);
-          players[p] = pl;
-          foreach (Pokemon pm in pl.Pokemons) pokemons.Add(pm.Id, new PokemonProxy(this, pm));
-        }
+        for (int p = 0; p < settings.Mode.PlayersPerTeam(); ++p) players[p] = new Player(this, t, p, pms[t, p]);
         Teams[t] = new Team(t, players, settings);
       }
 
@@ -77,10 +70,6 @@ namespace PokemonBattleOnline.Game.Host
     internal Player GetPlayer(Tile tile)
     {
       return Teams[tile.Team].GetPlayer(GameSettings.Mode.GetPlayerIndex(tile.X));
-    }
-    internal PokemonProxy GetPokemon(Pokemon pokemon)
-    {
-      return pokemons[pokemon.Id];
     }
     public int GetRandomInt(int min, int max)
     {
@@ -222,7 +211,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       return SwitchController.CanSendOut(tile);
     }
-    public bool CanSendOut(Pokemon pokemon)
+    public bool CanSendOut(PokemonProxy pokemon)
     {
       return SwitchController.CanSendOut(pokemon);
     }

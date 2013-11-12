@@ -13,9 +13,9 @@ namespace PokemonBattleOnline.Game.Host
     public readonly Pokemon Pokemon;
     public readonly Controller Controller;
 
-    internal PokemonProxy(Controller controller, Pokemon pokemon)
+    internal PokemonProxy(Pokemon pokemon)
     {
-      Controller = controller;
+      Controller = pokemon.Controller;
       Pokemon = pokemon;
       NullOnboardPokemon = new OnboardPokemon(pokemon, -1);
       StruggleMove = new MoveProxy(new Move(RomData.GetMove(Ms.STRUGGLE), 1), this);
@@ -416,11 +416,8 @@ namespace PokemonBattleOnline.Game.Host
     internal int ItemSpeedValue;
     internal bool CanMove
     { get { return Hp != 0 && LastMoveTurn != Controller.TurnNumber && (Action == PokemonAction.MoveAttached || Action == PokemonAction.Stiff || Action == PokemonAction.Moving); } }
-    /// <summary>
-    /// 多打的情况还要考虑详细点，就算A和B都能MEGA也只能MEGA一只
-    /// </summary>
     public bool CanMega
-    { get { return  !Pokemon.Owner.Pokemons.Any((p) => p.Mega) && CanChangeForm(ITs.MegaNumber(Pokemon.Item), ITs.MegaNumber(Pokemon.Item)); } }
+    { get { return  Pokemon.Owner.Pokemons.All((p) => !(p.SelectMega || p.Pokemon.Mega)) && CanChangeForm(ITs.MegaNumber(Pokemon.Item), ITs.MegaNumber(Pokemon.Item)); } }
 
     internal void Debut()
     {
@@ -530,7 +527,8 @@ namespace PokemonBattleOnline.Game.Host
       var substitute = OnboardPokemon.HasCondition("Substitute");
       var hp = Pokemon.Hp;
       var state = State;
-      outward.SetAll(name, form, gender, lv, position, substitute, hp, state, shiny);
+      var mega = Pokemon.Mega;
+      outward.SetAll(name, form, gender, lv, position, substitute, hp, state, shiny, mega);
       return outward;
     }
     #endregion

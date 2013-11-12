@@ -26,9 +26,9 @@ namespace PokemonBattleOnline.Game.Host
         (p.PmsAlive > GameSettings.Mode.OnboardPokemonsPerPlayer() ||
         (p.PmsAlive == GameSettings.Mode.OnboardPokemonsPerPlayer() && p.GetPokemon(GameSettings.Mode.GetPokemonIndex(tile.X)).Hp == 0));
     }
-    public bool CanSendOut(Pokemon pokemon)
+    public bool CanSendOut(PokemonProxy pm)
     {
-      return pokemon != null && pokemon.Hp > 0 && pokemon.IndexInOwner >= GameSettings.Mode.OnboardPokemonsPerPlayer();
+      return pm != null && pm.Hp > 0 && pm.Pokemon.IndexInOwner >= GameSettings.Mode.OnboardPokemonsPerPlayer();
     }
 
     public bool Withdraw(PokemonProxy pm, string log, int arg1, bool canPursuit)
@@ -54,7 +54,7 @@ namespace PokemonBattleOnline.Game.Host
     private PokemonProxy SendOutImplement(Tile tile)
     {
       var origin = tile.WillSendOutPokemonIndex;
-      var pm = Controller.GetPokemon(Controller.GetPlayer(tile).GetPokemon(origin));
+      var pm = Controller.GetPlayer(tile).GetPokemon(origin);
       pm.Action = PokemonAction.Debuting;
       tile.Pokemon = pm;
       tile.WillSendOutPokemonIndex = Tile.NOPM_INDEX;

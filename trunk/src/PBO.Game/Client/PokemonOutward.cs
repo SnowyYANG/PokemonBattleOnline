@@ -39,7 +39,7 @@ namespace PokemonBattleOnline.Game
     /// <summary>
     /// will not notify property changes
     /// </summary>
-    public void SetAll(string name, PokemonForm form, PokemonGender gender, int lv, Position position, bool substitute, int hp, PokemonState state, bool shiny)
+    public void SetAll(string name, PokemonForm form, PokemonGender gender, int lv, Position position, bool substitute, int hp, PokemonState state, bool shiny, bool mega)
     {
       _name = name;
       Form = form;
@@ -51,6 +51,7 @@ namespace PokemonBattleOnline.Game
       Hp.Value = hp;
       _state = state;
       Shiny = shiny;
+      _mega = mega;
     }
 
     public string Owner
@@ -121,9 +122,36 @@ namespace PokemonBattleOnline.Game
     public bool IsSubstitute
     { get; set; }
     
-    [DataMember]
     public PairValue Hp
     { get; private set; }
+
+    [DataMember(Order = 0)]
+    private int hpo
+    { 
+      get { return Hp.Origin; }
+      set { Hp = new PairValue(value); }
+    }
+    [DataMember(Order = 1)]
+    private int hpv
+    {
+      get { return Hp.Value; }
+      set { Hp.Value = value; }
+    }
+
+    [DataMember(EmitDefaultValue = false)]
+    private bool _mega;
+    public bool Mega
+    {
+      get { return _mega; }
+      set
+      {
+        if (_mega != value)
+        {
+          _mega = value;
+          OnPropertyChanged("Mega");
+        }
+      }
+    }
 
     [DataMember(Name = "l", EmitDefaultValue = false)]
     private int _lv;

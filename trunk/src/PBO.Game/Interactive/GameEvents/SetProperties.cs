@@ -116,13 +116,30 @@ namespace PokemonBattleOnline.Game.GameEvents
     [DataMember(Name = "h", EmitDefaultValue = false)]
     public int Arg;
     [DataMember(Name = "i", EmitDefaultValue = false)]
-    public bool Forever;
+    private bool _forever;
+    public bool Forever
+    { 
+      get { return _forever || _mega; }
+      set { _forever = value; }
+    }
+    [DataMember(Name = "m", EmitDefaultValue = false)]
+    private bool _mega;
+    public bool Mega
+    {
+      get { return _mega; }
+      set
+      { 
+        _mega = value;
+        if (value) _forever = false;
+      }
+    }
 
     protected override void Update()
     {
       var pm = GetPokemon(Pm);
       if (Name != null) pm.Name = Name;
       if (Gender != null) pm.Gender = Gender.Value;
+      pm.Mega = Mega;
       pm.ChangeImage(Number == 0 ? pm.Form.Species.Number : Number, Form);
       //Sleep = 500;
     }

@@ -165,7 +165,7 @@ namespace PokemonBattleOnline.Game
     public int CurrentX
     { get; private set; }
     public bool CanMega
-    { get { return Pms[CurrentX].CanMega; } }
+    { get { return Pms != null && Pms[CurrentX].CanMega; } }
 
     private void NextPm()
     {

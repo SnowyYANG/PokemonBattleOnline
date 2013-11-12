@@ -77,7 +77,16 @@ namespace PokemonBattleOnline.Game.Host
       }
     }
 
-    public bool Mega;
+    private bool _mega;
+    public bool Mega
+    {
+      get { return _mega; }
+      set
+      {
+        _mega = value;
+        Owner.Mega = true;
+      }
+    }
 
     public int IndexInOwner
     { get { return Owner.GetPokemonIndex(Id); } }

@@ -66,7 +66,8 @@ namespace PokemonBattleOnline.Game
 
     public static int StatRevise(this PokemonNature nature, StatType stat)
     {
-      return REVISES[(int)nature, (int)stat - 1];
+      var s = (int)stat - 1;
+      return 0 <= s && s < 5 ? REVISES[(int)nature, s] : 10;
     }
     public static bool DislikeTaste(this PokemonNature nature, StatType stat)
     {

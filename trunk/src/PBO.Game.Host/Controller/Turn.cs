@@ -132,14 +132,16 @@ namespace PokemonBattleOnline.Game.Host
     }
     private void Mega()
     {
+      var m = false;
       foreach(var p in ActingPokemons)
         if (p.Action == PokemonAction.MoveAttached && p.SelectMega)
         {
           p.ShowLogPm("MegaPre", p.Pokemon.Item);
-          p.ChangeForm(ITs.MegaForm(p.Pokemon.Item), true, "Mega");
           p.Pokemon.Mega = true;
+          p.ChangeForm(ITs.MegaForm(p.Pokemon.Item), true, "Mega");
+          m = true;
         }
-      ReportBuilder.AddHorizontalLine();
+      if (m) ReportBuilder.AddHorizontalLine();
     }
     private void Move()
     {

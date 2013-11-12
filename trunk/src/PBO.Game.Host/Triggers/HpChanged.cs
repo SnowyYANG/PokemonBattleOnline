@@ -88,7 +88,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       if (ATs.Gluttony(pm) && pm.CanHpRecover(false))
       {
-        pm.HpRecoverByOneNth(8, false, "ItemRecover", pm.Pokemon.Item, true);
+        pm.HpRecoverByOneNth(8, false, "m_ItemRecover", pm.Pokemon.Item, true);
         if (pm.Pokemon.Nature.DislikeTaste(ITs.GetTaste(pm.Pokemon.Item))) pm.AddState(pm, AttachedState.Confuse, false);
       }
     }

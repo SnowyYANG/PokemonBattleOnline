@@ -48,6 +48,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
           break;
         case Ms.SHADOW_FORCE: //467
+        case Ms.PHANTOM_FORCE:
           if (def.Defender.OnboardPokemon.RemoveCondition("Protect")) def.Defender.ShowLogPm("DeProtect");
           break;
         case Ms.CLEAR_SMOG: //499
