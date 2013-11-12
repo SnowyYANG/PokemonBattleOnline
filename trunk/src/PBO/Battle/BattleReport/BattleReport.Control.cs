@@ -81,7 +81,7 @@ namespace PokemonBattleOnline.PBO.Battle
         {
           var path = "..\\MyPBO\\Logs\\" + player;
           if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-          using (StreamWriter sw = new System.IO.StreamWriter(path + string.Format("\\[{0}] {1}", DateTime.Now.ToString("yyyy-MM-dd-HHmm"), title) + ".txt", false, Encoding.Unicode))
+          using (StreamWriter sw = new System.IO.StreamWriter(path + string.Format("\\[{0}] {1}", DateTime.Now.ToString("yyyy-MM-dd-HHmmss"), title) + ".txt", false, Encoding.Unicode))
             sw.Write(TextReport);
         }
         catch

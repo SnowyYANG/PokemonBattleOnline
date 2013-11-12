@@ -104,21 +104,13 @@ namespace PokemonBattleOnline.Game.Host
 
     #region Turn Loop
     private bool _isGameEnd;
-    public bool IsGameEnd
-    {
-      get
-      {
-        if (_isGameEnd) return true;
-        _isGameEnd = Teams.Any((t) => t.Players.All((p) => p.PmsAlive == 0));
-        return _isGameEnd;
-      }
-    }
     public bool CanContinue
     { 
       get
       {
-        if (InputController.NeedInput || _isGameEnd) return false;
-        if (IsGameEnd)
+        if (_isGameEnd || InputController.NeedInput) return false;
+        _isGameEnd = Teams.Any((t) => t.Players.All((p) => p.PmsAlive == 0));
+        if (_isGameEnd)
         {
           ReportBuilder.NewFragment();
           GameUpdated(ReportBuilder.GetFragment(), null);

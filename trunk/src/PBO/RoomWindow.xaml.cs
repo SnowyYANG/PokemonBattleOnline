@@ -172,7 +172,7 @@ namespace PokemonBattleOnline.PBO
       br.Init(Room.Game);
       Room.Game.GameStart += () =>
         {
-          Current.br.FontSize = 14;
+          br.FontSize = 14;
           Prepare.Visibility = Visibility.Collapsed;
         };
     }
@@ -181,10 +181,10 @@ namespace PokemonBattleOnline.PBO
     {
       if (reason != GameStopReason.GameEnd)
       {
-        Current.br.FontSize = 12;
-        Current.br.AddLogText(string.Format(GameString.Current.BattleLog("SYS_" + reason.ToString()).LineBreak(), player.Name));
+        br.FontSize = 12;
+        br.AddLogText(string.Format(GameString.Current.BattleLog("SYS_" + reason.ToString()).LineBreak(), player.Name));
       }
-      if (Room.PlayerController != null) br.Save(Title, Room.Client.User.Name);
+      if (Room.User.Seat != Seat.Spectator) br.Save(Title, Room.Client.User.Name);
       PrepareTeam.DataContext = null;
       Teams.Visibility = Visibility.Visible;
       Prepare.Visibility = Visibility.Visible;

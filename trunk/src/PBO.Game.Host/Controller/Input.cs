@@ -75,7 +75,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public bool PauseForTurnInput()
     {
-      if (NeedInput) return false;
+      if (!Controller.CanContinue) return false;
       List<PmInputRequest>[, ] pms = new List<PmInputRequest>[2, 2];
       int[,] time = new int[2, 2];
       foreach (var p in Controller.ActingPokemons)
@@ -99,7 +99,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public bool PauseForEndTurnInput()
     {
-      if (NeedInput) return false;
+      if (!Controller.CanContinue) return false;
       foreach (var t in Controller.Board.Tiles)
         if (Controller.CanSendOut(t))
         {
@@ -110,7 +110,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public bool PauseForSendOutInput(Tile tile)
     {
-      if (NeedInput) return false;
+      if (!Controller.CanContinue) return false;
       if (Controller.CanSendOut(tile))
       {
         var player = Controller.GetPlayer(tile);
