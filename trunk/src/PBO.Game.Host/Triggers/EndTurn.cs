@@ -118,7 +118,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     //5.2 Leftovers, Black Sludge
     private static void PropertyChange(Controller c)
     {
-      bool hydration = c.Weather == Game.Weather.HeavyRain;
+      if (c.Board.HasCondition("GrassyTerrain"))
+      {
+        foreach (var pm in c.OnboardPokemons)
+          if (HasEffect.IsGroundAffectable(pm, true, false)) pm.HpRecoverByOneNth(16);
+      }
+      bool? hydration = null;
       foreach (var pm in c.OnboardPokemons.ToArray())
       {
         switch (pm.Ability)
@@ -131,10 +136,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             }
             break;
           case As.HYDRATION:
-            if (hydration && pm.State != Game.PokemonState.Normal)
+            if (pm.State != Game.PokemonState.Normal)
             {
-              pm.RaiseAbility();
-              pm.DeAbnormalState();
+              if (hydration == null) hydration = c.Weather == Game.Weather.HeavyRain;
+              if (hydration == true)
+              {
+                pm.RaiseAbility();
+                pm.DeAbnormalState();
+              }
             }
             break;
           case As.HEALER:
@@ -423,18 +432,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         c.ReportBuilder.ShowLog("DeMagicRoom");
         foreach (var pm in c.OnboardPokemons) ITs.Attach(pm);
       }
-      var t = board.GetCondition<int>("GrassyTerrain");
+      var t = board.GetCondition<int>("GrassyTerrain"); 
       if (t == turn)
       {
         board.RemoveCondition("GrassyTerrain");
         c.ReportBuilder.ShowLog("DeGrassyTerrain");
       }
-      else if (t != 0)
-      {
-        foreach (var pm in c.OnboardPokemons)
-          if (HasEffect.IsGroundAffectable(pm, true, false)) pm.HpRecoverByOneNth(16, false, "m_GrassyTerrain");
-      }
-      else
+      else if (t == 0)
       {
         t = board.GetCondition<int>("ElectricTerrain");
         if (t == turn)
