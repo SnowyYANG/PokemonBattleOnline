@@ -313,7 +313,7 @@ namespace PokemonBattleOnline.Game.Host
             targets.Remove(d);
           }
       #region Check for misses
-      if (!(aer.Ability == As.NO_GUARD && MustHit(atk)))
+      if (!(MustHit(atk) || aer.Ability == As.NO_GUARD))
       {
         if (move.Class != MoveInnerClass.OHKO) atk.AccuracyModifier = STs.AccuracyModifier(atk);
         foreach (DefContext def in targets.ToArray())

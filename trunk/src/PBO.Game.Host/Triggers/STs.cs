@@ -404,7 +404,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.STEALTH_ROCK:
           int revise = BattleType.Rock.EffectRevise(pm.OnboardPokemon.Types);//羽栖有效无效都无所谓
           int hp = (revise > 0 ? pm.Pokemon.MaxHp << revise : pm.Pokemon.MaxHp >> -revise) >> 3;
-          if (pm.CanEffectHurt) pm.EffectHurt(hp, "StealthRock");
+          if (pm.CanEffectHurt) pm.EffectHurt(hp, "m_StealthRock");
           break;
       }
     }

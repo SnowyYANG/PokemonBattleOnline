@@ -198,7 +198,7 @@ namespace PokemonBattleOnline.Game.Host
             }
           break;
         case Is.ORAN_BERRY:
-          pm.HpRecover(10, false, "ItemHpRecover", Is.ORAN_BERRY);
+          pm.HpRecover(10, false, "m_ItemHpRecover", Is.ORAN_BERRY);
           break;
         case Is.PERSIM_BERRY:
           if (op.RemoveCondition("Confuse")) pm.ShowLogPm("DeConfuse");

@@ -109,7 +109,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (o != null && o.Turn == c.TurnNumber)
         {
           t.RemoveCondition("Wish");
-          if (t.Pokemon != null) t.Pokemon.HpRecover(o.Int, false, "Wish");
+          if (t.Pokemon != null) t.Pokemon.HpRecover(o.Int, false, "m_Wish");
         }
       }
     }
@@ -184,7 +184,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           int hp = pm.Pokemon.MaxHp;
           if (pm.Item == Is.BIG_ROOT) hp = (int)(hp * 1.3);
           hp /= 16;
-          pm.HpRecover(hp, false, "AquaRing");
+          pm.HpRecover(hp, false, "m_AquaRing");
         }
       foreach (var pm in c.OnboardPokemons)
         if (pm.OnboardPokemon.HasCondition("Ingrain"))
@@ -192,7 +192,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           int hp = pm.Pokemon.MaxHp;
           if (pm.Item == Is.BIG_ROOT) hp = (int)(hp * 1.3);
           hp /= 16;
-          pm.HpRecover(hp, false, "Ingrain");
+          pm.HpRecover(hp, false, "m_Ingrain");
         }
       foreach (var pm in c.OnboardPokemons.ToArray())
       {

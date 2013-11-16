@@ -37,7 +37,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         default:
           {
             var aer = def.AtkContext.Attacker;
-            if (move.HurtPercentage < 0 && aer.Ability != As.ROCK_HEAD) aer.EffectHurt(-def.Damage * move.HurtPercentage / 100, "ReHurt");
+            if (move.HurtPercentage < 0 && aer.Ability != As.ROCK_HEAD) aer.EffectHurt(-def.Damage * move.HurtPercentage / 100, "m_ReHurt");
             else if (move.MaxHpPercentage < 0) //拼命专用
             {
               var change = aer.Pokemon.MaxHp * move.MaxHpPercentage / 100;
