@@ -10,73 +10,66 @@ namespace PokemonBattleOnline.Game
   public interface IBoardOutwardEvents
   {
     void PokemonSentout(int team, int x);
-    void WeatherChanged();
   }
 
   public class BoardOutward
   {
-    public readonly ReadOnlyObservableCollection<PokemonOutward>[] Teams;
+    public readonly ReadOnlyObservableCollection<PokemonOutward>[] Pokemons;
     public readonly Terrain Terrain;
 
-    private readonly ObservableCollection<PokemonOutward>[] teams;
-    private readonly IGameSettings settings;
-    private Weather weather;
+    private readonly ObservableCollection<PokemonOutward>[] pokemons;
+    private readonly IGameSettings Settings;
     
     private IBoardOutwardEvents listener;
 
     internal BoardOutward(IGameSettings settings)
     {
-      this.settings = settings;
-      teams = new ObservableCollection<PokemonOutward>[settings.Mode.TeamCount()];
-      Teams = new ReadOnlyObservableCollection<PokemonOutward>[settings.Mode.TeamCount()];
-      weather = Weather.Normal;
+      Settings = settings;
+      Teams = new TeamOutward[Settings.Mode.TeamCount()];
+      pokemons = new ObservableCollection<PokemonOutward>[settings.Mode.TeamCount()];
+      Pokemons = new ReadOnlyObservableCollection<PokemonOutward>[settings.Mode.TeamCount()];
+      _weather = Weather.Normal;
       Terrain = settings.Terrain;
 
       var empty = new PokemonOutward[settings.Mode.XBound()];
       for (int i = 0; i < settings.Mode.TeamCount(); i++)
       {
-        teams[i] = new ObservableCollection<PokemonOutward>(empty);
-        Teams[i] = new ReadOnlyObservableCollection<PokemonOutward>(teams[i]);
+        pokemons[i] = new ObservableCollection<PokemonOutward>(empty);
+        Pokemons[i] = new ReadOnlyObservableCollection<PokemonOutward>(pokemons[i]);
       }
     }
 
     public PokemonOutward this[int team, int x]
     {
-      get { return teams[team][x]; }
+      get { return pokemons[team][x]; }
       set
       {
         //不一定是PmSendOut
         var old = this[team, x];
         if ((old == null && value == null) || ((old != null && value != null) && (old.Id == value.Id))) return;
-        teams[team][x] = value;
+        pokemons[team][x] = value;
       }
     }
+    private Weather _weather;
     public Weather Weather
     {
-      get { return weather; }
+      get { return _weather; }
       internal set
       {
-        weather = value;
-        WeatherChanged();
+        _weather = value;
       }
     }
+    public TeamOutward[] Teams
+    { get; private set; }
 
-    #region Events
     public void AddListener(IBoardOutwardEvents listener)
     {
-#if DEBUG
       if (this.listener != null) System.Diagnostics.Debugger.Break();
-#endif
       this.listener = listener;
     }
     public void PokemonSentout(GameOutward game, int team, int x)
     {
       listener.PokemonSentout(team, x);
     }
-    public void WeatherChanged()
-    {
-      listener.WeatherChanged();
-    }
-    #endregion
   }
 }

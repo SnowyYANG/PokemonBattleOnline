@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements">
+                    xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
+                    xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters">
     <ItemsPanelTemplate x:Key="WrapPanelTemplate">
         <WrapPanel Background="Transparent" Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"/>
     </ItemsPanelTemplate>
@@ -29,6 +30,27 @@
                             <Setter TargetName="x" Property="Opacity" Value="0.5"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="STextBlock" TargetType="Label">
+        <Setter Property="FontFamily" Value="SimSun"/>
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Label">
+                    <Grid DataContext="{TemplateBinding Content,Converter={x:Static c:AllString.C}}" ClipToBounds="False" IsHitTestVisible="False" SnapsToDevicePixels="True">
+                        <TextBlock Margin="-1,0,0,0" Foreground="Black" TextOptions.TextRenderingMode="Aliased" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
+                        <TextBlock Margin="-1,-1,0,0" Foreground="Black" TextOptions.TextRenderingMode="Aliased" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
+                        <TextBlock Margin="0,-1,0,0" Foreground="Black" TextOptions.TextRenderingMode="Aliased" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
+                        <TextBlock Margin="1,-1,0,0" Foreground="Black" TextOptions.TextRenderingMode="Aliased" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
+                        <TextBlock Margin="1,0,0,0" Foreground="Black" TextOptions.TextRenderingMode="Aliased" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
+                        <TextBlock Margin="1,1,0,0" Foreground="Black" TextOptions.TextRenderingMode="Aliased" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
+                        <TextBlock Margin="0,1,0,0" Foreground="Black" TextOptions.TextRenderingMode="Aliased" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
+                        <TextBlock Margin="-1,1,0,0" Foreground="Black" TextOptions.TextRenderingMode="Aliased" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
+                        <TextBlock Foreground="White" TextOptions.TextRenderingMode="Aliased" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

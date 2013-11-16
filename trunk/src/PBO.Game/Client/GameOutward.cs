@@ -24,16 +24,16 @@ namespace PokemonBattleOnline.Game
     public event Action GameEnd;
     public readonly IGameSettings Settings;
     public readonly BoardOutward Board;
-    public readonly TeamOutward[] Teams;
     private readonly string[, ] Players;
     private readonly Collection<IGameOutwardEvents> listeners;
 
     public GameOutward(IGameSettings settings, string[,] players)
     {
       Settings = settings;
-      Board = new BoardOutward(Settings);
-      Teams = new TeamOutward[Settings.Mode.TeamCount()];
       Players = players;
+      Board = new BoardOutward(Settings);
+      Board.Teams[0] = new TeamOutward(players[0, 0]);
+      Board.Teams[1] = new TeamOutward(players[1, 0]);
       listeners = new Collection<IGameOutwardEvents>();
     }
     public int TurnNumber
@@ -45,7 +45,7 @@ namespace PokemonBattleOnline.Game
     }
     public PokemonOutward GetPokemon(int id)
     {
-      foreach (var team in Board.Teams)
+      foreach (var team in Board.Pokemons)
         foreach (var pm in team)
           if (pm != null && pm.Id == id) return pm;
       return null;
@@ -61,7 +61,7 @@ namespace PokemonBattleOnline.Game
       TurnNumber = fragment.TurnNumber;
       for (int t = 0; t < Settings.Mode.TeamCount(); t++)
       {
-        Teams[t] = new TeamOutward(Players[t, 0], fragment.Teams[t]);
+        Board.Teams[t].SetAll(fragment.Teams[t]);
         for (int x = 0; x < Settings.Mode.XBound(); x++) Board[t, x] = fragment[t, x];
         Board.Weather = fragment.Weather;
       }
@@ -72,8 +72,8 @@ namespace PokemonBattleOnline.Game
       foreach (GameEvent e in events)
         UIDispatcher.Invoke((Action<GameOutward>)e.Update, this);
       //check game over
-      int team0 = Teams[0].AliveCount;
-      int team1 = Teams[1].AliveCount;
+      int team0 = Board.Teams[0].AliveCount;
+      int team1 = Board.Teams[1].AliveCount;
       if (team0 == 0 || team1 == 0)
       {
         if (team0 == 0 && team1 == 0) AppendGameLogByKey("GameResultTie", LogStyle.Center | LogStyle.Bold,0,1);
@@ -148,7 +148,7 @@ namespace PokemonBattleOnline.Game
                 r = GameString.Current.StatType((StatType)id);
                 break;
               case "t":
-                var t = Teams.ValueOrDefault(id);
+                var t = Board.Teams.ValueOrDefault(id);
                 if (t != null) r = t.Name;
                 break;
               default:

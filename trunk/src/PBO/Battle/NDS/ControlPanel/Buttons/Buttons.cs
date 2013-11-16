@@ -15,22 +15,20 @@ namespace PokemonBattleOnline.PBO.Battle
     public static readonly Brush GrayBg;
     public static readonly Style Colorful;
     public static readonly Style Move;
-    public static readonly Style Struggle;
     public static readonly Style Pokemon;
     public static readonly Style Text;
 
     static Buttons()
     {
-      ResourceDictionary rd = GetDictionary("GameButton");
-      GameButton = rd["GameButton"] as ControlTemplate;
-      Luster = rd["Luster"] as Brush;
-      GrayBg = rd["GrayBG"] as Brush;
-      Colorful = GetStyle("Colorful");
-      Text = GetStyle("Text");
-      Pokemon = GetStyle("Pokemon");
-      rd = GetDictionary("Move");
-      Move = rd["MoveButton"] as Style;
-      Struggle = rd["StruggleButton"] as Style;
+      //ResourceDictionary rd = GetDictionary("GameButton");
+      //GameButton = rd["GameButton"] as ControlTemplate;
+      //Luster = rd["Luster"] as Brush;
+      //GrayBg = rd["GrayBG"] as Brush;
+      //Colorful = GetStyle("Colorful");
+      //Text = GetStyle("Text");
+      //Pokemon = GetStyle("Pokemon");
+      //rd = GetDictionary("Move");
+      //Move = rd["MoveButton"] as Style;
     }
 
     static ResourceDictionary GetDictionary(string filename)

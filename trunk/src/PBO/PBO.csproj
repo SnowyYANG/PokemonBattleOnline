@@ -84,6 +84,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Battle\NDS\LifeBars\LifeBarWithText.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Editor\PokemonBank\PokemonBank.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -135,6 +139,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Battle\NDS\LifeBars\LifeBarWithText.xaml.cs">
+      <DependentUpon>LifeBarWithText.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AllString.cs" />
     <Compile Include="Converters\GameString.cs" />
     <Compile Include="Editor\PokemonBank\PokemonBank.xaml.cs">
       <DependentUpon>PokemonBank.xaml</DependentUpon>
@@ -202,10 +210,6 @@
     <Compile Include="Config.cs" />
     <Compile Include="Elements\Controls\Controls.cs" />
     <Compile Include="Elements\Controls\Command.cs" />
-    <Compile Include="Battle\NDS\LifeBars\LifeBarHelper.cs" />
-    <Compile Include="Battle\NDS\LifeBars\LifeBarWithText.xaml.cs">
-      <DependentUpon>LifeBarWithText.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Battle\NDS\LifeBars\LifeBarSimplified.xaml.cs">
       <DependentUpon>LifeBarSimplified.xaml</DependentUpon>
     </Compile>
@@ -225,10 +229,6 @@
     <Compile Include="Elements\ShowMessageBox.cs" />
     <Compile Include="Elements\Controls\ClearableComboBox.cs" />
     <Page Include="Elements\Cartes\User.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Battle\NDS\LifeBars\LifeBarWithText.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -308,10 +308,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Elements\Labels\Weather.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Battle\NDS\LifeBars\LifeBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -334,9 +330,6 @@
     <Compile Include="Battle\NDS\Board2D\OPokemon2D.cs" />
     <Compile Include="Battle\NDS\Board2D\Pokemon2DBase.cs" />
     <Compile Include="Battle\NDS\Board2D\RPokemon2D.cs" />
-    <Compile Include="Battle\NDS\ControlPanel\BGBall.xaml.cs">
-      <DependentUpon>BGBall.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Battle\NDS\ControlPanel\ControlPanel.xaml.cs">
       <DependentUpon>ControlPanel.xaml</DependentUpon>
     </Compile>
@@ -362,10 +355,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Battle\NDS\ControlPanel\BGBall.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Battle\NDS\ControlPanel\ControlPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -375,14 +364,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Battle\NDS\NDS.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Battle\NDS\ControlPanel\PokemonsCount.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Battle\NDS\Board2D\StateBars.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -423,71 +404,95 @@
     <Compile Include="Lobby\R.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\Game\item.png" />
+    <Resource Include="images\Item.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\Game\Weathers\BG.png" />
-    <Resource Include="images\Game\Weathers\Border.png" />
-    <Resource Include="images\Game\Weathers\hailB.png" />
-    <Resource Include="images\Game\Weathers\hailF.png" />
-    <Resource Include="images\Game\Weathers\rainB.png" />
-    <Resource Include="images\Game\Weathers\rainF.png" />
-    <Resource Include="images\Game\Weathers\sand1.png" />
-    <Resource Include="images\Game\Weathers\sand2.png" />
-    <Resource Include="images\Game\Weathers\sunB.png" />
-    <Resource Include="images\Game\Weathers\sunF.png" />
+    <Resource Include="images\UpperScreen\Terrains\wifi.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\Game\LifeBar.png" />
+    <Resource Include="images\00000.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\Labels\BRN.png" />
-    <Resource Include="images\Labels\female.png" />
-    <Resource Include="images\Labels\FRZ.png" />
-    <Resource Include="images\Labels\male.png" />
-    <Resource Include="images\Labels\Status.png" />
-    <Resource Include="images\Labels\PAR.png" />
-    <Resource Include="images\Labels\Physical.png" />
-    <Resource Include="images\Labels\PSN.png" />
-    <Resource Include="images\Labels\SLP.png" />
-    <Resource Include="images\Labels\Special.png" />
+    <Resource Include="images\PokemonState\bPSN.png" />
+    <Resource Include="images\PokemonState\BRN.png" />
+    <Resource Include="images\PokemonState\FRZ.png" />
+    <Resource Include="images\PokemonState\PAR.png" />
+    <Resource Include="images\PokemonState\PSN.png" />
+    <Resource Include="images\PokemonState\SLP.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\UI\ButtonBG.png" />
-    <Resource Include="images\UI\CarteBG.png" />
-    <Resource Include="images\UI\Settings.png" />
+    <Resource Include="images\MoveCategory\Physical.png" />
+    <Resource Include="images\MoveCategory\Special.png" />
+    <Resource Include="images\MoveCategory\Status.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\Balls\CherishL15.png" />
-    <Resource Include="images\Balls\CherishOpen.png" />
-    <Resource Include="images\Balls\Dive.png" />
-    <Resource Include="images\Balls\DiveOpen.png" />
-    <Resource Include="images\Balls\Net.png" />
-    <Resource Include="images\Balls\NetOpen.png" />
-    <Resource Include="images\Balls\Normal.png" />
-    <Resource Include="images\Balls\NormalOpen.png" />
+    <Resource Include="images\UpperScreen\StateBar\Female.png" />
+    <Resource Include="images\UpperScreen\StateBar\Male.png" />
+    <Resource Include="images\UpperScreen\StateBar\Mega.png" />
+    <Resource Include="images\UpperScreen\StateBar\Pokemon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\Labels\FNT.png" />
-    <Resource Include="images\Labels\bPSN.png" />
+    <Resource Include="images\UpperScreen\StateBar\Abnormal.png" />
+    <Resource Include="images\UpperScreen\StateBar\Faint.png" />
+    <Resource Include="images\UpperScreen\StateBar\Normal.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\Game\OStateBar.png" />
-    <Resource Include="images\Game\RStateBar.png" />
-    <Resource Include="images\Game\Terrains\path.png" />
+    <Resource Include="images\UpperScreen\StateBar\Team.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\Game\StateBalls\OAbnormal.png" />
-    <Resource Include="images\Game\StateBalls\OFaint.png" />
-    <Resource Include="images\Game\StateBalls\ONormal.png" />
-    <Resource Include="images\Game\StateBalls\RAbnormal.png" />
-    <Resource Include="images\Game\StateBalls\RFaint.png" />
-    <Resource Include="images\Game\StateBalls\RNormal.png" />
-    <Resource Include="images\Game\StateBalls\ONone.png" />
-    <Resource Include="images\Game\StateBalls\RNone.png" />
+    <Resource Include="images\ControlPanel\Pokemon\Hp.png" />
+    <Resource Include="images\ControlPanel\Pokemon\Button.png" />
+    <Resource Include="images\ControlPanel\Return.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\Game\00000.png" />
+    <Resource Include="images\ControlPanel\Fight\Bug.png" />
+    <Resource Include="images\ControlPanel\Fight\Dark.png" />
+    <Resource Include="images\ControlPanel\Fight\Dragon.png" />
+    <Resource Include="images\ControlPanel\Fight\Electric.png" />
+    <Resource Include="images\ControlPanel\Fight\Fairy.png" />
+    <Resource Include="images\ControlPanel\Fight\Fighting.png" />
+    <Resource Include="images\ControlPanel\Fight\Fire.png" />
+    <Resource Include="images\ControlPanel\Fight\Flying.png" />
+    <Resource Include="images\ControlPanel\Fight\Ghost.png" />
+    <Resource Include="images\ControlPanel\Fight\Grass.png" />
+    <Resource Include="images\ControlPanel\Fight\Ground.png" />
+    <Resource Include="images\ControlPanel\Fight\Ice.png" />
+    <Resource Include="images\ControlPanel\Fight\Normal.png" />
+    <Resource Include="images\ControlPanel\Fight\Poison.png" />
+    <Resource Include="images\ControlPanel\Fight\Psychic.png" />
+    <Resource Include="images\ControlPanel\Fight\Rock.png" />
+    <Resource Include="images\ControlPanel\Fight\Steel.png" />
+    <Resource Include="images\ControlPanel\Fight\Water.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\ControlPanel\Fight\MegaF.png" />
+    <Resource Include="images\ControlPanel\Fight\MegaT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\ControlPanel\Fight\Upper.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\ControlPanel\Fight.png" />
+    <Resource Include="images\ControlPanel\MainMenu.png" />
+    <Resource Include="images\Subtitle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\UpperScreen\StateBar\HpGreen.png" />
+    <Resource Include="images\UpperScreen\StateBar\HpRed.png" />
+    <Resource Include="images\UpperScreen\StateBar\HpYellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\ControlPanel\Pokemon\HpGreen.png" />
+    <Resource Include="images\ControlPanel\Pokemon\HpYellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\ControlPanel\Pokemon\HpRed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\PokemonState\FNT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\ControlPanel\Pokemon\FaintButton.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

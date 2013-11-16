@@ -9,13 +9,13 @@
         </Image>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding}" Value="Status">
-                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Labels/Status.png"/>
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/MoveCategory/Status.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding}" Value="Physical">
-                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Labels/Physical.png"/>
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/MoveCategory/Physical.png"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding}" Value="Special">
-                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/Labels/Special.png"/>
+                <Setter TargetName="img" Property="Source" Value="/PBO;component/images/MoveCategory/Special.png"/>
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>

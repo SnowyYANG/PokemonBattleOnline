@@ -7,12 +7,12 @@ using System.Windows.Controls;
 
 namespace PokemonBattleOnline.PBO.Elements
 {
-  public static class Controls
+  static class Controls
   {
     public static readonly Style XButton;
-    public static readonly Style CommandMenu;
     public static readonly ItemsPanelTemplate WrapPanel;
     public static readonly ItemsPanelTemplate VerticalWrapPanel;
+    public static readonly Style STextBlock;
 
     static Controls()
     {
@@ -20,6 +20,7 @@ namespace PokemonBattleOnline.PBO.Elements
       WrapPanel = (ItemsPanelTemplate)rd["WrapPanelTemplate"];
       VerticalWrapPanel = (ItemsPanelTemplate)rd["VerticalWrapPanelTemplate"];
       XButton = (Style)rd["XButton"];
+      STextBlock = (Style)rd["STextBlock"];
     }
   }
 }

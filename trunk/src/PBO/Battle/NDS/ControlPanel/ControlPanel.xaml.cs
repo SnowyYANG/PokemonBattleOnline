@@ -41,25 +41,25 @@ namespace PokemonBattleOnline.PBO.Battle
 
     private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if (vm != null)
-        switch (vm.SelectedPanel)
-        {
-          case ControlPanelVM.INACTIVE:
-            bg.Waiting();
-            break;
-          case ControlPanelVM.MAIN:
-            bg.Menu();
-            break;
-          case ControlPanelVM.POKEMONS:
-            bg.Pokemons();
-            break;
-          case ControlPanelVM.STOP:
-            bg.Inner();
-            break;
-          default:
-            bg.Inner();
-            break;
-        }
+      //if (vm != null)
+      //  switch (vm.SelectedPanel)
+      //  {
+      //    case ControlPanelVM.INACTIVE:
+      //      bg.Waiting();
+      //      break;
+      //    case ControlPanelVM.MAIN:
+      //      bg.Menu();
+      //      break;
+      //    case ControlPanelVM.POKEMONS:
+      //      bg.Pokemons();
+      //      break;
+      //    case ControlPanelVM.STOP:
+      //      bg.Inner();
+      //      break;
+      //    default:
+      //      bg.Inner();
+      //      break;
+      //  }
     }
     private void return_Click(object sender, RoutedEventArgs e)
     {

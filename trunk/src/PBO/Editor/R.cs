@@ -24,7 +24,7 @@ namespace PokemonBattleOnline.PBO.Editor
       OrangeShadow = (DropShadowEffect)rd["OrangeShadow"];
       PokemonSpecies = (DataTemplate)rd["PokemonSpecies"];
       SelectedMove = (DataTemplate)rd["LearnedMove"];
-      P00000 = Helper.GetImage(@"Game/00000.png");
+      P00000 = Helper.GetImage(@"00000.png");
     }
 
     private static ResourceDictionary GetDictionary(string name)

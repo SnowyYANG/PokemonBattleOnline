@@ -18,28 +18,36 @@ using System.ComponentModel;
 namespace PokemonBattleOnline.PBO.Battle
 {
   /// <summary>
-  /// Interaction logic for LifeBarWithText.xaml
+  /// Interaction logic for LifeBar.xaml
   /// </summary>
   public partial class LifeBarWithText : Canvas
   {
     private const int PERIOD = 16;
-
+    public static double GetWidth(int hp, int maxHp)
+    {
+      int x2 = hp * 48 / maxHp;
+      return x2 == 0 && hp != 0 ? 1 : x2;
+    }
     private static void TimerCallback(object o)
     {
       ((LifeBarWithText)o).TimerCallback();
     }
 
-    private readonly Storyboard storyboard;
     private readonly Timer timer;
     private readonly Delegate RefreshAllDelegate;
     private readonly Delegate RefreshTextWidthDelegate;
     private readonly Delegate RefreshTextColorDelegate;
     private readonly Delegate RefreshTextDelegate;
+    private readonly Brush Green;
+    private readonly Brush Yellow;
+    private readonly Brush Red;
 
     public LifeBarWithText()
     {
       InitializeComponent();
-      storyboard = (Storyboard)Resources["Flash"];
+      Green = (Brush)Resources["Green"];
+      Yellow = (Brush)Resources["Yellow"];
+      Red = (Brush)Resources["Red"];
       timer = new Timer(TimerCallback, this, Timeout.Infinite, PERIOD);
       RefreshAllDelegate = new Action(RefreshAll);
       RefreshTextWidthDelegate = new Action(RefreshTextWidth);
@@ -55,29 +63,17 @@ namespace PokemonBattleOnline.PBO.Battle
     double currentWidth;
     private void RefreshText()
     {
-      Current.Text = current.ToString();
+      Current.Content = current.ToString();
     }
     private void _RefreshColor()
     {
-      if (currentColor == 0)
-      {
-        bar.Background = LifeBarHelper.RED;
-        bar.BorderBrush = LifeBarHelper.REDSHADOW;
-      }
-      else if (currentColor == 1)
-      {
-        bar.Background = LifeBarHelper.YELLOW;
-        bar.BorderBrush = LifeBarHelper.YELLOWSHADOW;
-      }
-      else
-      {
-        bar.Background = LifeBarHelper.GREEN;
-        bar.BorderBrush = LifeBarHelper.GREENSHADOW;
-      }
+      if (currentColor == 0) Bar.Fill = Red;
+      else if (currentColor == 1) Bar.Fill = Yellow;
+      else Bar.Fill = Green;
     }
     private void _RefreshWidth()
     {
-      bar.Width = currentWidth;
+      Bar.Width = currentWidth;
     }
     private void RefreshTextWidth()
     {
@@ -98,7 +94,7 @@ namespace PokemonBattleOnline.PBO.Battle
     private void CurrentChanged()
     {
       byte c;
-      double w = LifeBarHelper.GetWidth(current, maxHp);
+      double w = GetWidth(current, maxHp);
       c = (byte)(current <= redHp ? 0 : current <= yellowHp ? 1 : 2);
       Delegate d;
       if (w != currentWidth)
@@ -117,7 +113,7 @@ namespace PokemonBattleOnline.PBO.Battle
         d = RefreshTextColorDelegate;
       }
       else d = RefreshTextDelegate;
-      UIDispatcher.BeginInvoke(d);
+      Dispatcher.BeginInvoke(d);
     }
     #region timer
     bool animating;
@@ -139,11 +135,7 @@ namespace PokemonBattleOnline.PBO.Battle
     }
     private void TimerCallback()
     {
-      if (current == hp)
-      {
-        StopTimer();
-        UIDispatcher.Invoke((Action<Storyboard>)BeginStoryboard, storyboard);
-      }
+      if (current == hp) StopTimer();
       else
       {
         if (current < hp) ++current;
@@ -155,8 +147,7 @@ namespace PokemonBattleOnline.PBO.Battle
 
     private void LifeChanged(object sender, PropertyChangedEventArgs e)
     {
-      flash.Width = bar.Width;
-      hp =((PairValue)sender).Value;
+      hp = ((PairValue)sender).Value;
       if (!(animating || current == hp)) StartTimer();
     }
     private void LifeBar_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -170,15 +161,10 @@ namespace PokemonBattleOnline.PBO.Battle
         yellowHp = maxHp >> 1;
         redHp = maxHp / 5;
         current = hp = pair.Value;
-        Max.Text = maxHp.ToString();
-        Current.Text = current.ToString();
+        Max.Content = maxHp.ToString();
+        Current.Content = current.ToString();
         CurrentChanged();
-        flash.Width = LifeBarHelper.GetWidth(hp, maxHp);
       }
-    }
-    private void Storyboard_Completed(object sender, EventArgs e)
-    {
-      flash.Width = LifeBarHelper.GetWidth(hp, maxHp);
     }
   }
 }

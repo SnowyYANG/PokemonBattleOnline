@@ -95,12 +95,6 @@ namespace PokemonBattleOnline.PBO.Battle
     public bool IsFightEnabled
     { get { return ControllingPokemon != null; } }
     
-    public TeamOutward TeamPokemonsCount
-    { get { return Game.Teams[Controller.Player.Team]; } }
-    
-    public TeamOutward RivalTeamPokemonsCount
-    { get { return Game.Teams[1 - Controller.Player.Team]; } }
-    
     public IEnumerable<SimPokemon> Pokemons
     { get { return Controller.Player.Pokemons; } }
 

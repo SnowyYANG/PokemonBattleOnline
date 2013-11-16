@@ -20,8 +20,8 @@ namespace PokemonBattleOnline.PBO.Battle
   /// </summary>
   public partial class BattleField2D : UserControl, IBoardOutwardEvents
   {
-    BoardOutward board;
-    int observeTeam;
+    BoardOutward Board;
+    int ObserveTeam;
 
     public BattleField2D()
     {
@@ -30,17 +30,16 @@ namespace PokemonBattleOnline.PBO.Battle
 
     internal void Init(BoardOutward board, int observeTeam)
     {
-      this.board = board;
-      this.observeTeam = observeTeam;
+      Board = board;
+      ObserveTeam = observeTeam;
+      Team.DataContext = board.Teams[observeTeam];
+      FoeTeam.DataContext = board.Teams[1 - observeTeam];
       board.AddListener(this);
     }
     void IBoardOutwardEvents.PokemonSentout(int team, int x)
     {
-      if (team == observeTeam) opm.SendOut(board[team, x]);
-      else rpm.SendOut(board[team, x]);
-    }
-    void IBoardOutwardEvents.WeatherChanged()
-    {
+      if (team == ObserveTeam) opm.SendOut(Board[team, x]);
+      else rpm.SendOut(Board[team, x]);
     }
   }
 }

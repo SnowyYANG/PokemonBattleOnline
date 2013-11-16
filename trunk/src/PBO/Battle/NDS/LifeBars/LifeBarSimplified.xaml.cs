@@ -22,57 +22,35 @@ namespace PokemonBattleOnline.PBO.Battle
   /// </summary>
   public partial class LifeBarSimplified : Canvas
   {
+    public static double GetWidth(int hp, int maxHp)
+    {
+      int x2 = hp * 64 / maxHp;
+      return x2 == 0 && hp != 0 ? 1 : x2;
+    }
     private static void LifeBarSimplified_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
       ((LifeBarSimplified)sender).OnDataContextChanged(e);
     }
 
-    private static readonly SolidColorBrush GREEN;
-    private static readonly SolidColorBrush GREENSHADOW;
-    private static readonly SolidColorBrush YELLOW;
-    private static readonly SolidColorBrush YELLOWSHADOW;
-    private static readonly SolidColorBrush RED;
-    private static readonly SolidColorBrush REDSHADOW;
+    private readonly Brush Green;
+    private readonly Brush Yellow;
+    private readonly Brush Red;
     
-    static LifeBarSimplified()
-    {
-      GREEN = SBrushes.NewBrush(0xff60f860);
-      GREENSHADOW = SBrushes.NewBrush(0xff18c020);
-      YELLOW = SBrushes.NewBrush(0xfff8d800);
-      YELLOWSHADOW = SBrushes.NewBrush(0xffe8a800);
-      RED = SBrushes.NewBrush(0xfff87860);
-      REDSHADOW = SBrushes.NewBrush(0xffa83838);
-    }
-
     public LifeBarSimplified()
     {
       InitializeComponent();
       DataContextChanged += LifeBarSimplified_DataContextChanged;
+      Green = (Brush)Resources["Green"];
+      Yellow = (Brush)Resources["Yellow"];
+      Red = (Brush)Resources["Red"];
     }
 
     private void HpChanged(object sender, PropertyChangedEventArgs e)
     {
       var hp = ((PairValue)sender).Value;
       var max = ((PairValue)sender).Origin;
-      {
-        var x2 = LifeBarHelper.GetWidth(hp, max);
-        u.X2 = d.X2 = x2;
-      }
-      if (hp * 5 <= max)
-      {
-        u.Stroke = RED;
-        d.Stroke = REDSHADOW;
-      }
-      else if ((hp << 1) <= max)
-      {
-        u.Stroke = YELLOW;
-        d.Stroke = YELLOWSHADOW;
-      }
-      else
-      {
-        u.Stroke = GREEN;
-        d.Stroke = GREENSHADOW;
-      }
+      Bar.Width = GetWidth(hp, max);
+      Bar.Fill = hp * 5 <= max ? Red : (hp << 1) <= max ? Yellow : Green;
     }
 
     private void OnDataContextChanged(DependencyPropertyChangedEventArgs e)

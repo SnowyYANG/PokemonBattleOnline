@@ -18,8 +18,9 @@ namespace PokemonBattleOnline.PBO.Battle
   /// <summary>
   /// Interaction logic for Subtitle.xaml
   /// </summary>
-  public partial class Subtitle : Border
+  public partial class Subtitle : Canvas
   {
+    public event Action<Visibility> VisibilityChanged;
     DispatcherTimer timer;
     int maxLength;
     int nowLength;
@@ -41,11 +42,17 @@ namespace PokemonBattleOnline.PBO.Battle
       cp.InputFailed += control.ControlPanel_InputFailed;
     }
 
+    int count = 0;
     void timer_Tick(object sender, EventArgs e)
     {
-      if (nowLength < maxLength)
-        textblock.Text = Text.Substring(0, ++nowLength);
-      else control.EventFinished();
+      if (nowLength < maxLength) textblock.Text = Text.Substring(0, ++nowLength);
+      else if (count++ > 30) EventFinished();
+    }
+    void EventFinished()
+    {
+      Visibility = Visibility.Collapsed;
+      VisibilityChanged(Visibility.Collapsed);
+      timer.Stop();
     }
     void SetText(string text)
     {
@@ -62,6 +69,9 @@ namespace PokemonBattleOnline.PBO.Battle
       Text = text;
       nowLength = 0;
       maxLength = text.Length;
+      count = 0;
+      Visibility = Visibility.Visible;
+      VisibilityChanged(Visibility.Visible);
       timer.Start();
     }
   }

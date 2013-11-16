@@ -16,13 +16,15 @@ namespace PokemonBattleOnline.Game
   }
   public class TeamOutward : ObservableObject
   {
+    private static readonly BallState[] DEFAULT = new BallState[6];
+    
     public string Name;
     private BallState[] balls;
 
-    public TeamOutward(string name, BallState[] state)
+    public TeamOutward(string name)
     {
       Name = name;
-      balls = state;
+      balls = DEFAULT;
     }
 
     public BallState this[int index]
@@ -33,6 +35,11 @@ namespace PokemonBattleOnline.Game
     public int AliveCount
     { get { return balls.Count((b) => b == BallState.Normal || b == BallState.Abnormal); } }
 
+    public void SetAll(BallState[] state)
+    {
+      balls = state;
+      OnPropertyChanged();
+    }
     internal void StateChanged(PokemonOutward pm)
     {
       this[pm.TeamIndex] = pm.Hp.Value == 0 ? BallState.Faint : pm.State == PokemonState.Normal ? BallState.Normal : BallState.Abnormal;

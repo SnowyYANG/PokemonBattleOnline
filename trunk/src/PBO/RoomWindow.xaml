@@ -7,12 +7,12 @@
         xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor"
         xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters"
         ResizeMode="CanMinimize" SizeToContent="WidthAndHeight" Title="对战房间" Background="#f5f5f5">
-    <Grid Height="545" Width="750">
-        <Canvas Name="Game" Width="256" HorizontalAlignment="Left">
+    <Grid Height="545" Width="800">
+        <Canvas Name="Game" Width="400" HorizontalAlignment="Left">
             <b:NDS x:Name="nds" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <ContentControl x:Name="pmReview" ContentTemplate="{x:Static ui:Cartes.Pokemon}" Margin="0,384,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <!--<ContentControl x:Name="pmReview" ContentTemplate="{x:Static ui:Cartes.Pokemon}" Margin="0,384,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>-->
         </Canvas>
-        <Grid Name="Prepare" Background="#f5f5f5" Width="256" HorizontalAlignment="Left">
+        <Grid Name="Prepare" Background="#f5f5f5" Width="400" HorizontalAlignment="Left">
             <Grid.RowDefinitions>
                 <RowDefinition Height="32"/>
                 <RowDefinition Name="PX1" Height="0"/>
@@ -48,7 +48,7 @@
             </ListBox>
             <Button Name="Start" Click="Start_Click" Content="使用所选队伍开始对战！" Height="32" VerticalAlignment="Top" Grid.Row="2"/>
         </Grid>
-        <b:BattleReport x:Name="br" Margin="266,0,0,22" Background="White"/>
-        <l:ChatBox x:Name="Chat" Height="22" VerticalAlignment="Bottom" Margin="266,0,0,0"/>
+        <b:BattleReport x:Name="br" Margin="405,0,0,22" Background="White"/>
+        <l:ChatBox x:Name="Chat" Height="22" VerticalAlignment="Bottom" Margin="405,0,0,0"/>
     </Grid>
 </Window>

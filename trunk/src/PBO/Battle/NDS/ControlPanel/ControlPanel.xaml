@@ -3,16 +3,58 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
              xmlns:b="clr-namespace:PokemonBattleOnline.PBO.Battle"
-             Height="192" Width="256" SnapsToDevicePixels="True" UseLayoutRounding="True">
+             Height="240" Width="320" SnapsToDevicePixels="True" UseLayoutRounding="True">
     <Canvas.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/PBO;component/Battle/NDS/ControlPanel/Buttons/GameButtonResource.xaml"/>
-                <ResourceDictionary Source="/PBO;component/Battle/NDS/ControlPanel/PokemonsCount.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Canvas.Resources>
-    <b:BGBall x:Name="bg"/>
+    <!--<Canvas>
+        <Canvas.Resources>
+            <Style TargetType="Button" BasedOn="{x:Static b:Buttons.Colorful}"/>
+        </Canvas.Resources>
+        <Button Content="战斗!" IsEnabled="{Binding IsFightEnabled}" Click="fight_Click" Style="{x:Null}" Foreground="#c80038" Background="Transparent" FontWeight="Bold" FontSize="15" BorderThickness="0" Height="194" Width="258" Canvas.Left="-1" Canvas.Top="-1">
+            <Button.Effect>
+                <DropShadowEffect BlurRadius="3" ShadowDepth="0"/>
+            </Button.Effect>
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <Label Name="main" Content="{TemplateBinding Content}" Foreground="#c80038" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalContentAlignment="Center" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="Center"/>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="main" Property="Background" Value="#15FFFFFF"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="main" Property="Foreground" Value="#96002a"/>
+                            <Setter TargetName="main" Property="Background" Value="#40000000"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <ContentControl Name="weather" Content="{Binding Weather}" ContentTemplate="{x:Static ui:Labels.Weather}" Canvas.Right="0" Canvas.Top="19"/>
+        <Button Name="pokemons" Content="精灵" Click="pokemons_Click" Height="60" Width="78" Canvas.Right="0" Canvas.Bottom="0" OpacityMask="{StaticResource ResourceKey=RightMask}" BorderBrush="{StaticResource ResourceKey=Right}">
+            <Button.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#70f850" Offset="0" />
+                    <GradientStop Color="#50c828" Offset="1" />
+                </LinearGradientBrush>
+            </Button.Foreground>
+        </Button>
+        <Button Name="stop" Content="中止" Click="stop_Click" Height="44" Width="76" Canvas.Bottom="0" Canvas.Left="90" BorderBrush="{StaticResource ResourceKey=Bottom}" OpacityMask="{StaticResource ResourceKey=BottomMask}">
+            <Button.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#a0d8f8" Offset="0" />
+                    <GradientStop Color="#28b8f0" Offset="1" />
+                </LinearGradientBrush>
+            </Button.Foreground>
+        </Button>
+        <Button Name="undo" Visibility="{Binding UndoVisibility}" Height="44" Width="76" Canvas.Bottom="0" Canvas.Left="90" BorderBrush="{StaticResource ResourceKey=Bottom}" OpacityMask="{StaticResource ResourceKey=BottomMask}">
+            <Path Style="{StaticResource ReturnIcon}"/>
+        </Button>
+    </Canvas>-->
     <Button Click="return_Click" ToolTip="返回" OpacityMask="{StaticResource RightMask}" BorderBrush="{StaticResource Right}" Height="60" Width="78" Padding="0,5,5,0" Canvas.Bottom="0" Canvas.Right="0">
         <Path Style="{StaticResource ReturnIcon}"/>
         <Button.Style>
@@ -28,27 +70,6 @@
             </Style>
         </Button.Style>
     </Button>
-    <ContentControl Name="pms" Background="Black" Content="{Binding RivalTeamPokemonsCount}" ContentTemplate="{StaticResource RBalls}" Canvas.Right="105">
-        <ContentControl.Style>
-            <Style TargetType="ContentControl">
-                <Setter Property="Visibility" Value="Hidden"/>
-                <Setter Property="Canvas.Top" Value="20"/>
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding SelectedPanel}" Value="0">
-                        <Setter Property="Visibility" Value="Visible"/>
-                        <Setter Property="Canvas.Top" Value="44"/>
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding SelectedPanel}" Value="{x:Static b:ControlPanelVM.TARGET}">
-                        <Setter Property="Visibility" Value="Visible"/>
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding SelectedPanel}" Value="{x:Static b:ControlPanelVM.FIGHT}">
-                        <Setter Property="Visibility" Value="Visible"/>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </ContentControl.Style>
-    </ContentControl>
-    <ContentControl Background="Black" Content="{Binding TeamPokemonsCount}" Visibility="{Binding Visibility,ElementName=pms}" ContentTemplate="{StaticResource OBalls}" Canvas.Left="81" Canvas.Top="129"/>
     <TabControl Height="192" Width="256" SnapsToDevicePixels="True" UseLayoutRounding="True" Name="controlPanel" SelectedIndex="{Binding SelectedPanel,Mode=TwoWay}" Background="{x:Null}" Padding="0" TabStripPlacement="Bottom" Canvas.Bottom="-2" BorderThickness="0" SelectionChanged="TabControl_SelectionChanged">
         <TabControl.Resources>
             <Style TargetType="TabItem">
@@ -79,7 +100,6 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <ContentControl Name="weather" Content="{Binding Weather}" ContentTemplate="{x:Static ui:Labels.Weather}" Canvas.Right="0" Canvas.Top="19"/>
                 <Button Name="pokemons" Content="精灵" Click="pokemons_Click" Height="60" Width="78" Canvas.Right="0" Canvas.Bottom="0" OpacityMask="{StaticResource ResourceKey=RightMask}" BorderBrush="{StaticResource ResourceKey=Right}">
                     <Button.Foreground>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -151,27 +171,8 @@
         </TabItem>
         <TabItem></TabItem>
     </TabControl>
-    <Canvas DataContext="{Binding Time}" Canvas.Top="-60" Canvas.Left="5">
-        <StackPanel Orientation="Horizontal">
-            <StackPanel.Effect>
-                <BlurEffect Radius="5"/>
-            </StackPanel.Effect>
-            <TextBlock Text="剩余时间：" FontFamily="SimSun" TextOptions.TextRenderingMode="Aliased" Foreground="Black"/>
-            <TextBlock Text="{Binding}" FontFamily="SimSun" TextOptions.TextRenderingMode="Aliased" Foreground="Black"/>        
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <StackPanel.Effect>
-                <BlurEffect Radius="5"/>
-            </StackPanel.Effect>
-            <TextBlock Text="剩余时间：" FontFamily="SimSun" TextOptions.TextRenderingMode="Aliased" Foreground="Black"/>
-            <TextBlock Text="{Binding}" FontFamily="SimSun" TextOptions.TextRenderingMode="Aliased" Foreground="Black"/>        
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <StackPanel.Effect>
-                <DropShadowEffect BlurRadius="5" ShadowDepth="0"/>
-            </StackPanel.Effect>
-            <TextBlock Text="剩余时间：" FontFamily="SimSun" TextOptions.TextRenderingMode="Aliased" Foreground="#f8f8f8"/>
-            <TextBlock Text="{Binding}" FontFamily="SimSun" TextOptions.TextRenderingMode="Aliased" Foreground="#f8f8f8"/>        
-        </StackPanel>
-    </Canvas>
+    <StackPanel Orientation="Horizontal" Canvas.Top="-88" Canvas.Right="-35">
+        <Label Content="剩余时间：" Style="{x:Static ui:Controls.STextBlock}" FontSize="13"/>
+        <Label Content="{Binding Time}" Style="{x:Static ui:Controls.STextBlock}" FontSize="13"/>        
+    </StackPanel>
 </Canvas>

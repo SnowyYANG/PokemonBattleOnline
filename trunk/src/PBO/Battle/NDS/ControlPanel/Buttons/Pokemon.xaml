@@ -24,7 +24,7 @@
                         </TextBlock>
                         <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="12" Canvas.Top="31"/>
                         <Image Source="{Binding Converter={x:Static c:PokemonIcon.C}}" Width="32" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Right="-1"/>
-                        <Image Name="item" Stretch="Uniform" Source="/PBO;component/images/Game/item.png" Width="6" Height="8" Canvas.Left="16" Canvas.Top="23" SnapsToDevicePixels="True" />
+                        <Image Name="item" Stretch="Uniform" Source="/PBO;component/images/Item.png" Width="6" Height="8" Canvas.Left="16" Canvas.Top="23" SnapsToDevicePixels="True" />
                         <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" Width="75" Canvas.Left="30" Canvas.Top="5"/>
                         <ContentPresenter Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Right="8" Canvas.Top="3"/>
                         <b:LifeBarSimplified DataContext="{Binding Hp}" Canvas.Left="48" Canvas.Top="24"/>

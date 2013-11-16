@@ -1,9 +1,14 @@
 ﻿<Canvas x:Class="PokemonBattleOnline.PBO.Battle.LifeBarSimplified"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        IsHitTestVisible="False">
-    <Image Source="/PBO;component/images/Game/LifeBar.png" Height="6" Width="64"/>
-    <Line X2="48" Canvas.Top="3" Canvas.Left="15" Stroke="Black" StrokeThickness="2" SnapsToDevicePixels="True"/>
-    <Line Name="u" Y1="2.5" Y2="2.5" StrokeThickness="1" Canvas.Left="15" SnapsToDevicePixels="True"/>
-    <Line Name="d" Y1="3.5" Y2="3.5" StrokeThickness="1" Canvas.Left="15" SnapsToDevicePixels="True"/>
+        IsHitTestVisible="False" Width="80" Height="8">
+    <Canvas.Resources>
+        <ImageBrush x:Key="Green" TileMode="Tile" Viewport="0,0,1,4" ViewportUnits="Absolute" ImageSource="/PBO;component/images/ControlPanel/Pokemon/HpGreen.png"/>
+        <ImageBrush x:Key="Yellow" TileMode="Tile" Viewport="0,0,1,4" ViewportUnits="Absolute" ImageSource="/PBO;component/images/ControlPanel/Pokemon/HpYellow.png"/>
+        <ImageBrush x:Key="Red" TileMode="Tile" Viewport="0,0,1,4" ViewportUnits="Absolute" ImageSource="/PBO;component/images/ControlPanel/Pokemon/HpRed.png"/>
+    </Canvas.Resources>
+    <Canvas.Background>
+        <ImageBrush ImageSource="/PBO;component/images/ControlPanel/Pokemon/Hp.png"/>
+    </Canvas.Background>
+    <Rectangle Name="Bar" Canvas.Left="14" Canvas.Top="2" Height="4"/>
 </Canvas>

@@ -31,19 +31,20 @@ namespace PokemonBattleOnline.PBO.Battle
     public NDS()
     {
       InitializeComponent();
+      subtitle.VisibilityChanged += (v) => opms.Visibility = v == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
     }
 
     internal void Init(RoomController userController)
     {
       var game = userController.Game;
-      int observerTeamId;
-      if (userController.PlayerController != null) observerTeamId = userController.PlayerController.Player.Team;
-      else observerTeamId = 0;
-      opms.ItemsSource = game.Board.Teams[observerTeamId];
-      rpms.ItemsSource = game.Board.Teams[1 - observerTeamId];
       var controlPanel = new ControlPanelVM(userController);
       cp.Init(controlPanel);
       subtitle.Init(controlPanel);
+      int observerTeamId;
+      if (userController.PlayerController != null) observerTeamId = userController.PlayerController.Player.Team;
+      else observerTeamId = 0;
+      opms.ItemsSource = game.Board.Pokemons[observerTeamId];
+      rpms.ItemsSource = game.Board.Pokemons[1 - observerTeamId];
       board.Init(game.Board, observerTeamId);
     }
   }

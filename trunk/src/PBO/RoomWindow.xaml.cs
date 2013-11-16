@@ -102,7 +102,7 @@ namespace PokemonBattleOnline.PBO
     {
       Current = this;
       InitializeComponent();
-      nds.ReviewPokemon += (p) => pmReview.Content = p;
+      //nds.ReviewPokemon += (p) => pmReview.Content = p;
       Teams.ItemsSource = Editor.EditorVM.Current.BattleTeams;
       Chat.Speak += Chat_Speak;
     }

@@ -2,10 +2,68 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:my="clr-namespace:PokemonBattleOnline.PBO.Battle"
-             Height="192" Width="256" UseLayoutRounding="True" SnapsToDevicePixels="True" ClipToBounds="True" RenderOptions.BitmapScalingMode="NearestNeighbor">
+             Height="240" Width="400" UseLayoutRounding="True" SnapsToDevicePixels="True" ClipToBounds="True" RenderOptions.BitmapScalingMode="NearestNeighbor">
+    <UserControl.Background>
+        <ImageBrush ImageSource="/PBO;component/images/UpperScreen/Terrains/wifi.png"/>
+    </UserControl.Background>
+    <UserControl.Resources>
+        <DataTemplate x:Key="StateBall">
+            <Image x:Name="img" Width="14" Height="14"/>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding}" Value="Normal">
+                    <Setter TargetName="img" Property="Source" Value="/PBO;component/images/UpperScreen/StateBar/Normal.png"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding}" Value="Abnormal">
+                    <Setter TargetName="img" Property="Source" Value="/PBO;component/images/UpperScreen/StateBar/Abnormal.png"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding}" Value="Faint">
+                    <Setter TargetName="img" Property="Source" Value="/PBO;component/images/UpperScreen/StateBar/Faint.png"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </UserControl.Resources>
     <Canvas>
-        <Image Source="/PBO;component/images/Game/Terrains/path.png" SnapsToDevicePixels="True" Width="256" Height="192"/>
-        <my:RPokemon2D x:Name="rpm" Canvas.Left="187" Canvas.Top="67"/><!--187, 77-->
-        <my:OPokemon2D x:Name="opm" Canvas.Left="68" Canvas.Top="127"/>
+        <my:RPokemon2D x:Name="rpm" Canvas.Right="68" Canvas.Top="110"/><!--187, 77-->
+        <my:OPokemon2D x:Name="opm" Canvas.Left="68" Canvas.Top="200"/>
+        <StackPanel Name="Team" Orientation="Horizontal" Canvas.Top="169" Width="93">
+            <StackPanel.Resources>
+                <Style TargetType="ContentControl">
+                    <Setter Property="ContentTemplate" Value="{StaticResource StateBall}"/>
+                </Style>
+            </StackPanel.Resources>
+            <StackPanel.Background>
+                <ImageBrush ImageSource="/PBO;component/images/UpperScreen/StateBar/Team.png"/>
+            </StackPanel.Background>
+            <ContentControl Content="{Binding [0]}" Margin="2,0,0,0"/>
+            <ContentControl Content="{Binding [1]}"/>
+            <ContentControl Content="{Binding [2]}"/>
+            <ContentControl Content="{Binding [3]}"/>
+            <ContentControl Content="{Binding [4]}"/>
+            <ContentControl Content="{Binding [5]}"/>
+        </StackPanel>
+        <StackPanel Name="FoeTeam" Orientation="Horizontal" Width="93" Canvas.Right="0" Canvas.Top="30">
+            <StackPanel.Resources>
+                <Style TargetType="ContentControl">
+                    <Setter Property="ContentTemplate" Value="{StaticResource StateBall}"/>
+                </Style>
+            </StackPanel.Resources>
+            <StackPanel.Background>
+                <ImageBrush ImageSource="/PBO;component/images/UpperScreen/StateBar/Team.png">
+                    <ImageBrush.Transform>
+                        <MatrixTransform>
+                            <MatrixTransform.Matrix>
+                                <Matrix M11="-1" M22="1" OffsetX="93"/>
+                            </MatrixTransform.Matrix>
+                        </MatrixTransform>
+                    </ImageBrush.Transform>
+                </ImageBrush>
+            </StackPanel.Background>
+            <ContentControl Content="{Binding [0]}" Margin="7,0,0,0"/>
+            <ContentControl Content="{Binding [1]}"/>
+            <ContentControl Content="{Binding [2]}"/>
+            <ContentControl Content="{Binding [3]}"/>
+            <ContentControl Content="{Binding [4]}"/>
+            <ContentControl Content="{Binding [5]}"/>
+        </StackPanel>
     </Canvas>
 </UserControl>
