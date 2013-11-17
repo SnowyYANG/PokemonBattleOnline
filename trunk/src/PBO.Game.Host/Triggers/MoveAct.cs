@@ -509,7 +509,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       else
       {
         bool nonSub = false;
-        if (move.Flags.IgnoreSubstitute || aer.Ability == As.INFILTRATOR)
+        if (!(move.Flags.IgnoreSubstitute || aer.Ability == As.INFILTRATOR))
           foreach (DefContext d in defs) nonSub |= !SubstituteTriggers.Hurt(d);
         if (!nonSub)
         {
