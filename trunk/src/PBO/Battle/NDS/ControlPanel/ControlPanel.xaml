@@ -1,76 +1,16 @@
 ﻿<Canvas x:Class="PokemonBattleOnline.PBO.Battle.ControlPanel"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
-             xmlns:b="clr-namespace:PokemonBattleOnline.PBO.Battle"
-             Height="240" Width="320" SnapsToDevicePixels="True" UseLayoutRounding="True">
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
+        xmlns:b="clr-namespace:PokemonBattleOnline.PBO.Battle"
+        xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters"
+        Height="240" Width="320" SnapsToDevicePixels="True" UseLayoutRounding="True" TextOptions.TextRenderingMode="Aliased">
     <Canvas.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/PBO;component/Battle/NDS/ControlPanel/Buttons/GameButtonResource.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
     </Canvas.Resources>
-    <!--<Canvas>
-        <Canvas.Resources>
-            <Style TargetType="Button" BasedOn="{x:Static b:Buttons.Colorful}"/>
-        </Canvas.Resources>
-        <Button Content="战斗!" IsEnabled="{Binding IsFightEnabled}" Click="fight_Click" Style="{x:Null}" Foreground="#c80038" Background="Transparent" FontWeight="Bold" FontSize="15" BorderThickness="0" Height="194" Width="258" Canvas.Left="-1" Canvas.Top="-1">
-            <Button.Effect>
-                <DropShadowEffect BlurRadius="3" ShadowDepth="0"/>
-            </Button.Effect>
-            <Button.Template>
-                <ControlTemplate TargetType="{x:Type ButtonBase}">
-                    <Label Name="main" Content="{TemplateBinding Content}" Foreground="#c80038" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalContentAlignment="Center" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="Center"/>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="main" Property="Background" Value="#15FFFFFF"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="main" Property="Foreground" Value="#96002a"/>
-                            <Setter TargetName="main" Property="Background" Value="#40000000"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-        <ContentControl Name="weather" Content="{Binding Weather}" ContentTemplate="{x:Static ui:Labels.Weather}" Canvas.Right="0" Canvas.Top="19"/>
-        <Button Name="pokemons" Content="精灵" Click="pokemons_Click" Height="60" Width="78" Canvas.Right="0" Canvas.Bottom="0" OpacityMask="{StaticResource ResourceKey=RightMask}" BorderBrush="{StaticResource ResourceKey=Right}">
-            <Button.Foreground>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#70f850" Offset="0" />
-                    <GradientStop Color="#50c828" Offset="1" />
-                </LinearGradientBrush>
-            </Button.Foreground>
-        </Button>
-        <Button Name="stop" Content="中止" Click="stop_Click" Height="44" Width="76" Canvas.Bottom="0" Canvas.Left="90" BorderBrush="{StaticResource ResourceKey=Bottom}" OpacityMask="{StaticResource ResourceKey=BottomMask}">
-            <Button.Foreground>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#a0d8f8" Offset="0" />
-                    <GradientStop Color="#28b8f0" Offset="1" />
-                </LinearGradientBrush>
-            </Button.Foreground>
-        </Button>
-        <Button Name="undo" Visibility="{Binding UndoVisibility}" Height="44" Width="76" Canvas.Bottom="0" Canvas.Left="90" BorderBrush="{StaticResource ResourceKey=Bottom}" OpacityMask="{StaticResource ResourceKey=BottomMask}">
-            <Path Style="{StaticResource ReturnIcon}"/>
-        </Button>
-    </Canvas>-->
-    <Button Click="return_Click" ToolTip="返回" OpacityMask="{StaticResource RightMask}" BorderBrush="{StaticResource Right}" Height="60" Width="78" Padding="0,5,5,0" Canvas.Bottom="0" Canvas.Right="0">
-        <Path Style="{StaticResource ReturnIcon}"/>
-        <Button.Style>
-            <Style BasedOn="{x:Static b:Buttons.Colorful}" TargetType="Button">
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding SelectedPanel}" Value="-1">
-                        <Setter Property="Visibility" Value="Hidden"/>
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding ControllingPokemon}" Value="{x:Null}">
-                        <Setter Property="Visibility" Value="Hidden"/>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </Button.Style>
-    </Button>
-    <TabControl Height="192" Width="256" SnapsToDevicePixels="True" UseLayoutRounding="True" Name="controlPanel" SelectedIndex="{Binding SelectedPanel,Mode=TwoWay}" Background="{x:Null}" Padding="0" TabStripPlacement="Bottom" Canvas.Bottom="-2" BorderThickness="0" SelectionChanged="TabControl_SelectionChanged">
+    <Canvas.Background>
+        <ImageBrush ImageSource="/PBO;component/images/ControlPanel/Background.png"/>
+    </Canvas.Background>
+    <TabControl Height="240" Width="320" SnapsToDevicePixels="True" UseLayoutRounding="True" Name="controlPanel" SelectedIndex="{Binding SelectedPanel,Mode=TwoWay}" Background="{x:Null}" Padding="0,0,0,-2" TabStripPlacement="Bottom" BorderThickness="0" SelectionChanged="TabControl_SelectionChanged">
         <TabControl.Resources>
             <Style TargetType="TabItem">
                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -78,95 +18,260 @@
         </TabControl.Resources>
         <TabItem>
             <Canvas>
-                <Canvas.Resources>
-                    <Style TargetType="Button" BasedOn="{x:Static b:Buttons.Colorful}"/>
-                </Canvas.Resources>
-                <Button Content="战斗!" IsEnabled="{Binding IsFightEnabled}" Click="fight_Click" Style="{x:Null}" Foreground="#c80038" Background="Transparent" FontWeight="Bold" FontSize="15" BorderThickness="0" Height="194" Width="258" Canvas.Left="-1" Canvas.Top="-1">
-                    <Button.Effect>
-                        <DropShadowEffect BlurRadius="3" ShadowDepth="0"/>
-                    </Button.Effect>
-                    <Button.Template>
-                        <ControlTemplate TargetType="{x:Type ButtonBase}">
-                            <Label Name="main" Content="{TemplateBinding Content}" Foreground="#c80038" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalContentAlignment="Center" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="Center"/>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsPressed" Value="True">
-                                    <Setter TargetName="main" Property="Background" Value="#15FFFFFF"/>
-                                </Trigger>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter TargetName="main" Property="Foreground" Value="#96002a"/>
-                                    <Setter TargetName="main" Property="Background" Value="#40000000"/>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-                <Button Name="pokemons" Content="精灵" Click="pokemons_Click" Height="60" Width="78" Canvas.Right="0" Canvas.Bottom="0" OpacityMask="{StaticResource ResourceKey=RightMask}" BorderBrush="{StaticResource ResourceKey=Right}">
-                    <Button.Foreground>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#70f850" Offset="0" />
-                            <GradientStop Color="#50c828" Offset="1" />
-                        </LinearGradientBrush>
-                    </Button.Foreground>
-                </Button>
-                <Button Name="stop" Content="中止" Click="stop_Click" Height="44" Width="76" Canvas.Bottom="0" Canvas.Left="90" BorderBrush="{StaticResource ResourceKey=Bottom}" OpacityMask="{StaticResource ResourceKey=BottomMask}">
-                    <Button.Foreground>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#a0d8f8" Offset="0" />
-                            <GradientStop Color="#28b8f0" Offset="1" />
-                        </LinearGradientBrush>
-                    </Button.Foreground>
-                </Button>
-                <Button Name="undo" Visibility="{Binding UndoVisibility}" Height="44" Width="76" Canvas.Bottom="0" Canvas.Left="90" BorderBrush="{StaticResource ResourceKey=Bottom}" OpacityMask="{StaticResource ResourceKey=BottomMask}">
-                    <Path Style="{StaticResource ReturnIcon}"/>
-                </Button>
-            </Canvas>
-        </TabItem>
-        <TabItem>
-            <Canvas>
-                <Canvas.Resources>
-                    <Style TargetType="Button" BasedOn="{x:Static b:Buttons.Move}">
-                        <EventSetter Event="Click" Handler="move_Click"/>
-                    </Style>
-                </Canvas.Resources>
-                <Button Content="{Binding ControllingPokemon.Moves[0]}" Canvas.Top="32" Canvas.Left="1"/>
-                <Button Content="{Binding ControllingPokemon.Moves[1]}" Canvas.Top="32" Canvas.Right="1"/>
-                <Button Content="{Binding ControllingPokemon.Moves[2]}" Canvas.Top="80" Canvas.Left="1"/>
-                <Button Content="{Binding ControllingPokemon.Moves[3]}" Canvas.Top="80" Canvas.Right="1"/>
-                <ToggleButton IsChecked="{Binding Mega}" Width="16" Height="16" Visibility="{Binding MegaVisibility}" Canvas.Left="120" Canvas.Bottom="1">
-                </ToggleButton>
-            </Canvas>
-        </TabItem>
-        <TabItem>
-            <Canvas>
-                <Canvas.Resources>
-                    <Style TargetType="{x:Type Button}" BasedOn="{x:Static b:Buttons.Pokemon}">
-                        <EventSetter Event="Click" Handler="pokemon_Click"/>
-                        <Setter Property="SnapsToDevicePixels" Value="True"/>
-                    </Style>
-                </Canvas.Resources>
-                <Border BorderBrush="Black" BorderThickness="0,1,1,1" Canvas.Bottom="7">
-                    <Border BorderBrush="#505050" BorderThickness="0,2">
-                        <Label Content="点击一次预览 再次点击交换" Foreground="#585050" Padding="5,0,5,0" Background="#f8f8f8" BorderBrush="#c0c0c0" BorderThickness="1"/>
-                    </Border>
-                </Border>
-                <Button Content="{Binding Pokemons[0]}" Canvas.Left="1" Canvas.Top="9"/>
-                <Button Content="{Binding Pokemons[1]}" Canvas.Right="1" Canvas.Top="1"/>
-                <Button Content="{Binding Pokemons[2]}" Canvas.Left="1" Canvas.Top="57"/>
-                <Button Content="{Binding Pokemons[3]}" Canvas.Right="1" Canvas.Top="49"/>
-                <Button Content="{Binding Pokemons[4]}" Canvas.Left="1" Canvas.Top="105"/>
-                <Button Content="{Binding Pokemons[5]}" Canvas.Right="1" Canvas.Top="97"/>
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/PBO;component/images/ControlPanel/MainMenu.png"/>
+                </Canvas.Background>
+                <b:GameButton Click="Fight_Click" Padding="2,1" Shape="M113,0 A113,70 180 1 1 113,140 A113,70 180 1 1 113,0 Z" Image="/PBO;component/images/ControlPanel/Fight.png" Width="226" Height="140" Canvas.Left="47" Canvas.Top="34"/>
+                <b:GameButton Click="Pokemons_Click" Shape="M1,63 A58,58 120 0 1 90,11 V63 Z" Image="/PBO;component/images/ControlPanel/Pokemon.png" Padding="1,1,0,0" Width="90" Height="63" Canvas.Bottom="0" Canvas.Right="0"/>
+                <Button Visibility="Collapsed" Content="中止" Click="Stop_Click" Height="44" Width="76" Canvas.Bottom="0" Canvas.Left="110"/>
             </Canvas>
         </TabItem>
         <TabItem>
             <Grid>
                 <Grid.Resources>
-                    <Style TargetType="{x:Type Button}" BasedOn="{x:Static b:Buttons.Text}">
-                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Style x:Key="L" TargetType="b:GameButton">
+                        <EventSetter Event="Click" Handler="Move_Click"/>
+                        <Setter Property="Width" Value="158"/>
+                        <Setter Property="Height" Value="58"/>
+                        <Setter Property="HorizontalAlignment" Value="Left"/>
                         <Setter Property="VerticalAlignment" Value="Top"/>
+                        <Setter Property="Image" Value="{Binding Content.Type.Type,Converter={x:Static c:BattleTypeMoveButton.C},RelativeSource={RelativeSource Self}}"/>
+                        <Setter Property="Shape" Value="M0,0 H129 A29,29 180 1 1 129,58 H0 Z"/>
+                        <Setter Property="Padding" Value="0,1,1,1"/>
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Canvas>
+                                        <Canvas.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontSize" Value="15"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                                <Setter Property="Canvas.Top" Value="30"/>
+                                            </Style>
+                                        </Canvas.Resources>
+                                        <Border Canvas.Top="9" Width="140">
+                                            <TextBlock Text="{Binding Type.Id,Converter={x:Static c:MoveString.C}}" Foreground="Black" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                                        </Border>
+                                        <TextBlock Text="PP" Foreground="White" Canvas.Left="62"/>
+                                        <TextBlock Text="{Binding PP.Value}" Foreground="White" Canvas.Right="50"/>
+                                        <TextBlock Text="/" Foreground="White" Canvas.Left="113"/>
+                                        <TextBlock Text="{Binding PP.Origin}" Foreground="White" Canvas.Left="120"/>
+                                        <ContentControl Content="{Binding Type.Type}" ContentTemplate="{x:Static ui:Labels.BattleType}" Canvas.Left="1" Canvas.Top="31"/>
+                                    </Canvas>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="Content" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style x:Key="R" TargetType="b:GameButton">
+                        <EventSetter Event="Click" Handler="Move_Click"/>
+                        <Setter Property="Width" Value="158"/>
+                        <Setter Property="Height" Value="58"/>
+                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                        <Setter Property="VerticalAlignment" Value="Top"/>
+                        <Setter Property="Image" Value="{Binding Content.Type.Type,Converter={x:Static c:BattleTypeMoveButton.C},RelativeSource={RelativeSource Self}}"/>
+                        <Setter Property="Shape" Value="M0,0 H129 A29,29 180 1 1 129,58 H0 Z"/>
+                        <Setter Property="Padding" Value="1,1,0,1"/>
+                        <Setter Property="HorizontalFlip" Value="True"/>
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Canvas>
+                                        <Canvas.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontSize" Value="15"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                                <Setter Property="Canvas.Top" Value="30"/>
+                                            </Style>
+                                        </Canvas.Resources>
+                                        <Border Canvas.Top="9" Width="140" Canvas.Right="0">
+                                            <TextBlock Text="{Binding Type.Id,Converter={x:Static c:MoveString.C}}" Foreground="Black" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                                        </Border>
+                                        <TextBlock Text="PP" Canvas.Left="79"/>
+                                        <TextBlock Text="{Binding PP.Value}" Canvas.Right="34"/>
+                                        <TextBlock Text="/" Canvas.Left="129"/>
+                                        <TextBlock Text="{Binding PP.Origin}" Canvas.Left="138"/>
+                                        <ContentControl Content="{Binding Type.Type}" ContentTemplate="{x:Static ui:Labels.BattleType}" Canvas.Left="18" Canvas.Top="31"/>
+                                    </Canvas>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="Content" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+                        </Style.Triggers>
                     </Style>
                 </Grid.Resources>
-                <Button Content="申请平手" Margin="0,31,0,0" Click="draw_Click"/>
-                <Button Content="放弃对战" Margin="0,79,0,0" Click="giveup_Click"/>
+                <Image Source="/PBO;component/images/ControlPanel/Background.png" IsHitTestVisible="False">
+                    <Image.Effect>
+                        <BlurEffect Radius="20"/>
+                    </Image.Effect>
+                </Image>
+                <Rectangle IsHitTestVisible="False">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Setter Property="Fill" Value="#80ffffff"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Mega}" Value="True">
+                                    <Setter Property="Fill" Value="#30000000"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+                <Image Source="/PBO;component/images/ControlPanel/Fight/Upper.png" IsHitTestVisible="False" Height="30" VerticalAlignment="Top"/>
+                <b:GameButton Click="Return_Click" Style="{x:Null}" Shape="M3,47 A44,44 120 0 1 67,7 V47 Z" Padding="2,2,0,0" Width="67" Height="47" Image="/PBO;component/images/ControlPanel/Return.png" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                <b:GameButton Content="{Binding ControllingPokemon.Moves[0]}" Style="{StaticResource L}" Margin="0,41,0,0"/>
+                <b:GameButton Content="{Binding ControllingPokemon.Moves[1]}" Style="{StaticResource R}" Margin="0,41,0,0"/>
+                <b:GameButton Content="{Binding ControllingPokemon.Moves[2]}" Style="{StaticResource L}" Margin="0,101,0,0"/>
+                <b:GameButton Content="{Binding ControllingPokemon.Moves[3]}" Style="{StaticResource R}" Margin="0,101,0,0"/>
+                <ToggleButton IsChecked="{Binding Mega}" Width="142" Height="108" Visibility="{Binding MegaVisibility}" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Grid>
+                                <Image Name="main" IsHitTestVisible="False" Source="/PBO;component/images/ControlPanel/Fight/MegaF.png"/>
+                                <Ellipse Fill="Transparent" Margin="14,36,0,0" Width="114" Height="114" IsHitTestVisible="True"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="main" Property="Source" Value="/PBO;component/images/ControlPanel/Fight/MegaT.png"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+            </Grid>
+        </TabItem>
+        <TabItem>
+            <Canvas>
+                <Canvas.Resources>
+                    <Style x:Key="L" TargetType="b:GameButton">
+                        <EventSetter Event="Click" Handler="Pokemon_Click"/>
+                        <Setter Property="Width" Value="160"/>
+                        <Setter Property="Height" Value="54"/>
+                        <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Pokemon/Button.png"/>
+                        <Setter Property="Shape" Value="M0,0 H135 A25,25 180 1 1 135,50 H0 Z"/>
+                        <Setter Property="Padding" Value="0,1,1,1"/>
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Canvas UseLayoutRounding="True" IsHitTestVisible="False">
+                                        <Canvas.Resources>
+                                            <Style TargetType="Label" BasedOn="{x:Static ui:Controls.STextBlock}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                                <Setter Property="Canvas.Top" Value="36"/>
+                                            </Style>
+                                        </Canvas.Resources>
+                                        <Image Source="{Binding Converter={x:Static c:PokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Top="4"/>
+                                        <Image Name="item" Stretch="Uniform" Source="/PBO;component/images/Item.png" Width="8" Height="10" Canvas.Left="28" Canvas.Top="26" SnapsToDevicePixels="True" />
+                                        <TextBlock Text="{Binding Name}" Foreground="Black" FontSize="14" Width="54" Canvas.Left="39" Canvas.Top="9"/>
+                                        <b:LifeBarSimplified DataContext="{Binding Hp}" Canvas.Left="56" Canvas.Top="27"/>
+                                        <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="11" Canvas.Top="38"/>
+                                        <Label Name="lvt" Content="Lv." Visibility="Collapsed" Canvas.Left="10"/>
+                                        <Label Name="lv" Content="{Binding Lv}" Visibility="Collapsed" Canvas.Left="27"/>
+                                        <Label Content="{Binding Hp.Value}" Canvas.Right="67"/>
+                                        <Label Content="/" Canvas.Left="97"/>
+                                        <Label Content="{Binding Hp.Origin}" Canvas.Left="107"/>
+                                    </Canvas>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding State}" Value="Normal">
+                                            <Setter TargetName="lvt" Property="Visibility" Value="Visible"/>
+                                            <Setter TargetName="lv" Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Item}" Value="{x:Null}">
+                                            <Setter TargetName="item" Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Content.Hp.Value,RelativeSource={RelativeSource Self}}" Value="0">
+                                <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Pokemon/FaintButton.png"/>
+                            </DataTrigger>
+                            <Trigger Property="Content" Value="{x:Null}">
+                                <Setter Property="IsEnabled" Value="False"/>
+                                <Setter Property="ContentTemplate" Value="{x:Null}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style x:Key="R" TargetType="b:GameButton">
+                        <EventSetter Event="Click" Handler="Pokemon_Click"/>
+                        <Setter Property="Canvas.Right" Value="0"/>
+                        <Setter Property="Padding" Value="1,1,0,1"/>
+                        <Setter Property="Width" Value="160"/>
+                        <Setter Property="Height" Value="54"/>
+                        <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Pokemon/Button.png"/>
+                        <Setter Property="Shape" Value="M0,0 H135 A25,25 180 1 1 135,50 H0 Z"/>
+                        <Setter Property="HorizontalFlip" Value="True"/>
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Canvas Margin="8,0,0,0" UseLayoutRounding="True" IsHitTestVisible="False">
+                                        <Canvas.Resources>
+                                            <Style TargetType="Label" BasedOn="{x:Static ui:Controls.STextBlock}">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                                <Setter Property="Canvas.Top" Value="36"/>
+                                            </Style>
+                                        </Canvas.Resources>
+                                        <Image Source="{Binding Converter={x:Static c:PokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Top="4"/>
+                                        <Image Name="item" Stretch="Uniform" Source="/PBO;component/images/Item.png" Width="8" Height="10" Canvas.Left="28" Canvas.Top="26" SnapsToDevicePixels="True" />
+                                        <TextBlock Text="{Binding Name}" Foreground="Black" FontSize="14" Width="54" Canvas.Left="39" Canvas.Top="9"/>
+                                        <b:LifeBarSimplified DataContext="{Binding Hp}" Canvas.Left="56" Canvas.Top="27"/>
+                                        <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="11" Canvas.Top="38"/>
+                                        <Label Name="lvt" Content="Lv." Visibility="Collapsed" Canvas.Left="10"/>
+                                        <Label Name="lv" Content="{Binding Lv}" Visibility="Collapsed" Canvas.Left="27"/>
+                                        <Label Content="{Binding Hp.Value}" Canvas.Right="57"/>
+                                        <Label Content="/" Canvas.Left="97"/>
+                                        <Label Content="{Binding Hp.Origin}" Canvas.Left="107"/>
+                                    </Canvas>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding State}" Value="Normal">
+                                            <Setter TargetName="lvt" Property="Visibility" Value="Visible"/>
+                                            <Setter TargetName="lv" Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Item}" Value="{x:Null}">
+                                            <Setter TargetName="item" Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Content.Hp.Value,RelativeSource={RelativeSource Self}}" Value="0">
+                                <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Pokemon/FaintButton.png"/>
+                            </DataTrigger>
+                            <Trigger Property="Content" Value="{x:Null}">
+                                <Setter Property="IsEnabled" Value="False"/>
+                                <Setter Property="ContentTemplate" Value="{x:Null}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Canvas.Resources>
+                <Border Background="#80000000" BorderThickness="2" CornerRadius="12" Canvas.Left="-15" Canvas.Top="204" Width="272" Height="24">
+                    <Border.Effect>
+                        <BlurEffect/>
+                    </Border.Effect>
+                </Border>
+                <TextBlock Text="点击一次预览 再次点击交换" Foreground="#f8f8f8" Margin="5,208,0,0"/>
+                <b:GameButton Click="Return_Click" Style="{x:Null}" IsEnabled="{Binding IsReturnEnabled}" Shape="M3,47 A44,44 120 0 1 67,7 V47 Z" Padding="2,2,0,0" Width="67" Height="47" Image="/PBO;component/images/ControlPanel/Return.png" Canvas.Bottom="0" Canvas.Right="0"/>
+                <b:GameButton Content="{Binding Pokemons[0]}" Style="{StaticResource L}" Canvas.Top="3"/>
+                <b:GameButton Content="{Binding Pokemons[1]}" Style="{StaticResource R}" Canvas.Top="8"/>
+                <b:GameButton Content="{Binding Pokemons[2]}" Style="{StaticResource L}" Canvas.Top="63"/>
+                <b:GameButton Content="{Binding Pokemons[3]}" Style="{StaticResource R}" Canvas.Top="68"/>
+                <b:GameButton Content="{Binding Pokemons[4]}" Style="{StaticResource L}" Canvas.Top="123"/>
+                <b:GameButton Content="{Binding Pokemons[5]}" Style="{StaticResource R}" Canvas.Top="128"/>
+            </Canvas>
+        </TabItem>
+        <TabItem>
+            <Grid>
+                <Button Content="放弃战斗" Margin="0,31,0,0" Click="Giveup_Click"/>
+                <Button Content="继续战斗！" Margin="0,79,0,0" Click="Return_Click"/>
             </Grid>
         </TabItem>
         <TabItem></TabItem>

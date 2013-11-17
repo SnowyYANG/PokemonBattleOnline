@@ -92,7 +92,7 @@ namespace PokemonBattleOnline.PBO.Battle
     public Visibility UndoVisibility
     { get { return Visibility.Collapsed; } }
     
-    public bool IsFightEnabled
+    public bool IsReturnEnabled
     { get { return ControllingPokemon != null; } }
     
     public IEnumerable<SimPokemon> Pokemons

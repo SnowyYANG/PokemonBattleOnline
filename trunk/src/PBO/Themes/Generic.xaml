@@ -1,9 +1,55 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:b="clr-namespace:PokemonBattleOnline.PBO.Battle">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/PBO;component/Elements/Controls/ClearableComboBox.xaml"/>
         <ResourceDictionary Source="/PBO;component/Elements/Controls/NumericUpdown.xaml"/>
         <ResourceDictionary Source="/PBO;component/Elements/Controls/UIButton.xaml"/>
         <ResourceDictionary Source="/PBO;component/Elements/Controls/UITextBox.xaml"/>
     </ResourceDictionary.MergedDictionaries>
+    <Style TargetType="b:GameButton">
+        <Setter Property="BorderThickness" Value="3"/>
+        <Setter Property="Background" Value="#181818"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="b:GameButton">
+                    <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" UseLayoutRounding="True">
+                        <Path Name="mask" Data="{TemplateBinding Shape}" Stroke="{x:Null}" Fill="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="None" StrokeThickness="0" IsHitTestVisible="True"/>
+                        <Image Name="main" Source="{TemplateBinding Image}" Stretch="Fill" Margin="{TemplateBinding Padding}" IsHitTestVisible="False"/>
+                        <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HorizontalFlip" Value="True">
+                            <Setter TargetName="main" Property="LayoutTransform">
+                                <Setter.Value>
+                                    <MatrixTransform>
+                                        <MatrixTransform.Matrix>
+                                            <Matrix M11="-1" M22="1"/>
+                                        </MatrixTransform.Matrix>
+                                    </MatrixTransform>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="mask" Property="LayoutTransform">
+                                <Setter.Value>
+                                    <MatrixTransform>
+                                        <MatrixTransform.Matrix>
+                                            <Matrix M11="-1" M22="1"/>
+                                        </MatrixTransform.Matrix>
+                                    </MatrixTransform>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="False">
+                            <Setter TargetName="main" Property="Margin" Value="0"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="main" Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

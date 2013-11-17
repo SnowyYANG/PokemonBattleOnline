@@ -6,31 +6,25 @@
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding}" Value="Male">
                 <Setter TargetName="gender" Property="Text" Value="♂"/>
-                <Setter TargetName="gender" Property="Foreground" Value="#7090f8"/>
-                <Setter TargetName="gender" Property="Effect">
-                    <Setter.Value>
-                        <DropShadowEffect ShadowDepth="1" BlurRadius="1" Color="#0000f0"/>
-                    </Setter.Value>
-                </Setter>
+                <Setter TargetName="gender" Property="Foreground" Value="#00adff"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding}" Value="Female">
                 <Setter TargetName="gender" Property="Text" Value="♀"/>
-                <Setter TargetName="gender" Property="Foreground" Value="#f87070"/>
-                <Setter TargetName="gender" Property="Effect">
-                    <Setter.Value>
-                        <DropShadowEffect ShadowDepth="1" BlurRadius="1" Color="#e00000"/>
-                    </Setter.Value>
-                </Setter>
+                <Setter TargetName="gender" Property="Foreground" Value="#ff0000"/>
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
     <DataTemplate x:Key="GenderLabelShowNone">
-        <ContentPresenter Content="{Binding}">
-            <ContentPresenter.Style>
-                <Style TargetType="ContentPresenter">
-                    <Setter Property="ContentTemplate" Value="{StaticResource GenderLabel}"/>
-                </Style>
-            </ContentPresenter.Style>
-        </ContentPresenter>
+        <TextBlock Name="gender" Text="无" Foreground="Black"/>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding}" Value="Male">
+                <Setter TargetName="gender" Property="Text" Value="♂"/>
+                <Setter TargetName="gender" Property="Foreground" Value="#00adff"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Female">
+                <Setter TargetName="gender" Property="Text" Value="♀"/>
+                <Setter TargetName="gender" Property="Foreground" Value="#ff0000"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 </ResourceDictionary>

@@ -100,6 +100,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Elements\Controls\UIButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="LobbyPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -139,6 +143,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Battle\NDS\ControlPanel\GameButton.cs" />
     <Compile Include="Battle\NDS\LifeBars\LifeBarWithText.xaml.cs">
       <DependentUpon>LifeBarWithText.xaml</DependentUpon>
     </Compile>
@@ -153,6 +158,7 @@
     <Compile Include="Editor\PokemonBank\TeamView.xaml.cs">
       <DependentUpon>TeamView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Elements\Controls\UIButton.cs" />
     <Compile Include="LobbyPanel.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>LobbyPanel.xaml</DependentUpon>
@@ -205,7 +211,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Elements\SBrushes.cs" />
-    <Compile Include="Battle\NDS\ControlPanel\Buttons\Buttons.cs" />
     <Compile Include="Elements\Cartes\Cartes.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Elements\Controls\Controls.cs" />
@@ -214,7 +219,6 @@
       <DependentUpon>LifeBarSimplified.xaml</DependentUpon>
     </Compile>
     <Compile Include="Elements\Controls\NumericUpdown.cs" />
-    <Compile Include="Elements\Controls\UIButton.cs" />
     <Compile Include="Elements\Controls\UITextBox.cs" />
     <Compile Include="Converters\BattleType.cs" />
     <Compile Include="Converters\Converter.cs" />
@@ -252,10 +256,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Elements\Controls\UIButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Elements\Labels\Gender.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -263,26 +263,6 @@
     <Page Include="Elements\Labels\MultipliedValue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Battle\NDS\ControlPanel\Buttons\Colorful.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Battle\NDS\ControlPanel\Buttons\GameButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Battle\NDS\ControlPanel\Buttons\Move.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Battle\NDS\ControlPanel\Buttons\Pokemon.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Battle\NDS\ControlPanel\Buttons\Text.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Elements\Cartes\Pokemon.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -358,10 +338,6 @@
     <Page Include="Battle\NDS\ControlPanel\ControlPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Battle\NDS\ControlPanel\Buttons\GameButtonResource.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Battle\NDS\NDS.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -493,6 +469,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\ControlPanel\Pokemon\FaintButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\ControlPanel\Background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\ControlPanel\Pokemon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

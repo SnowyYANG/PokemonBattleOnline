@@ -20,7 +20,7 @@ namespace PokemonBattleOnline.PBO.Battle
   /// </summary>
   public partial class ControlPanel : Canvas
   {
-    public event Action<SimPokemon> ReviewPokemon;
+    public event Action<SimPokemon> ReviewPokemon = delegate { };
     ControlPanelVM vm;
 
     public ControlPanel()
@@ -61,32 +61,32 @@ namespace PokemonBattleOnline.PBO.Battle
       //      break;
       //  }
     }
-    private void return_Click(object sender, RoutedEventArgs e)
+    private void Return_Click(object sender, RoutedEventArgs e)
     {
       if (controlPanel.SelectedIndex == ControlPanelVM.TARGET)
         controlPanel.SelectedIndex = ControlPanelVM.FIGHT;
       controlPanel.SelectedIndex = ControlPanelVM.MAIN;
       Current = null;
     }
-    private void fight_Click(object sender, RoutedEventArgs e)
+    private void Fight_Click(object sender, RoutedEventArgs e)
     {
       vm.Fight_Click();
     }
-    private void pokemons_Click(object sender, RoutedEventArgs e)
+    private void Pokemons_Click(object sender, RoutedEventArgs e)
     {
       controlPanel.SelectedIndex = ControlPanelVM.POKEMONS;
     }
-    private void stop_Click(object sender, RoutedEventArgs e)
+    private void Stop_Click(object sender, RoutedEventArgs e)
     {
       controlPanel.SelectedIndex = ControlPanelVM.STOP;
     }
-    private void move_Click(object sender, RoutedEventArgs e)
+    private void Move_Click(object sender, RoutedEventArgs e)
     {
-      vm.Move_Click((SimMove)((Button)sender).Content);
+      vm.Move_Click((SimMove)((GameButton)sender).Content);
     }
-    private void pokemon_Click(object sender, RoutedEventArgs e)
+    private void Pokemon_Click(object sender, RoutedEventArgs e)
     {
-      SimPokemon pm = (SimPokemon)((Button)sender).Content;
+      SimPokemon pm = (SimPokemon)((GameButton)sender).Content;
       if (pm == Current)
       {
         vm.Pokemon_Click(pm);
@@ -94,14 +94,9 @@ namespace PokemonBattleOnline.PBO.Battle
       }
       else Current = pm;
     }
-    private void giveup_Click(object sender, RoutedEventArgs e)
+    private void Giveup_Click(object sender, RoutedEventArgs e)
     {
-      var result = ShowMessageBox.GiveUpBattle(Window.GetWindow(this));
-      if (result == MessageBoxResult.Yes) vm.GiveUp_Click();
-    }
-    private void draw_Click(object sender, RoutedEventArgs e)
-    {
-      System.Windows.MessageBox.Show("请期待下一版本...");
+      vm.GiveUp_Click();
     }
     internal void Init(ControlPanelVM cp)
     {
