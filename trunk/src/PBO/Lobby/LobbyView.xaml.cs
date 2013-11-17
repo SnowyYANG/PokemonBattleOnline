@@ -77,7 +77,7 @@ namespace PokemonBattleOnline.PBO.Lobby
 
     private void Exit_Click(object sender, RoutedEventArgs e)
     {
-      Controller.Exit();
+      if (MessageBox.Show("真的要退出么？", "PBO", MessageBoxButton.YesNo) == MessageBoxResult.Yes) Controller.Exit();
     }
   }
 }

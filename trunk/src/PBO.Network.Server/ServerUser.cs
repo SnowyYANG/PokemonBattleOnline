@@ -55,23 +55,24 @@ namespace PokemonBattleOnline.Network
       }
       catch
       {
-        System.Diagnostics.Debugger.Break();
         Dispose();
       }
     }
     public void Send(IS2C s2c)
     {
-      using (var ms = new MemoryStream())
+      try
       {
-        using (var ds = new DeflateStream(ms, CompressionMode.Compress))
-          S2CSerializer.WriteObject(ds, s2c);
-        Network.Sender.Send(ms.ToArray());
+        using (var ms = new MemoryStream())
+        {
+          using (var ds = new DeflateStream(ms, CompressionMode.Compress))
+            S2CSerializer.WriteObject(ds, s2c);
+          Network.Sender.Send(ms.ToArray());
+        }
       }
-    }
-
-    public void Error()
-    {
-      System.Diagnostics.Debugger.Break();
+      catch
+      {
+        Dispose();
+      }
     }
 
     public override void Dispose()

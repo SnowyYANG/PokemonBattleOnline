@@ -37,7 +37,7 @@
                     <ItemsControl Name="Users" ItemTemplate="{x:Static ui:Cartes.User}" ItemsPanel="{x:Static ui:Controls.WrapPanel}"/>
                 </TabItem>
             </TabControl>
-            <Button Content="退出" Click="Exit_Click" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+            <Button Content="退出" Width="70" Click="Exit_Click" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         </Grid>
         <l:Chat x:Name="chat"/>
         <GridSplitter x:Name="split" Background="Transparent" ShowsPreview="True">

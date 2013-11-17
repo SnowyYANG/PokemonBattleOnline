@@ -24,36 +24,43 @@ namespace PokemonBattleOnline.Network
     private byte state;
     protected override void OnPackReceived(byte[] pack)
     {
-      //当前版本失败一律直接结束，不给重试
-      switch (state)
+      try
       {
-        case 0: //version
-          if (pack.ToUInt16() == null) Dispose();
-          else
-          {
-            state = 1;
-            Network.Sender.SendEmpty();
-          }
-          break;
-        case 1: //Name
-          var name = pack.ToUnicodeString();
-          if (Server.RegisterName(this, name))
-          {
-            state = 2;
-            Name = name;
-            Network.Sender.SendEmpty();
-          }
-          else Dispose();
-          break;
-        case 2: //Avatar
-          var av = pack.ToUInt16();
-          if (av.HasValue)
-          {
-            Avatar = av.Value;
-            Server.LoginComplete(this);
-          }
-          else Dispose();
-          break;
+        //当前版本失败一律直接结束，不给重试
+        switch (state)
+        {
+          case 0: //version
+            if (pack.ToUInt16() == null) Dispose();
+            else
+            {
+              state = 1;
+              Network.Sender.SendEmpty();
+            }
+            break;
+          case 1: //Name
+            var name = pack.ToUnicodeString();
+            if (Server.RegisterName(this, name))
+            {
+              state = 2;
+              Name = name;
+              Network.Sender.SendEmpty();
+            }
+            else Dispose();
+            break;
+          case 2: //Avatar
+            var av = pack.ToUInt16();
+            if (av.HasValue)
+            {
+              Avatar = av.Value;
+              Server.LoginComplete(this);
+            }
+            else Dispose();
+            break;
+        }
+      }
+      catch
+      {
+        Dispose();
       }
     }
 
