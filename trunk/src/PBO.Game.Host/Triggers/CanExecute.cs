@@ -117,7 +117,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           pm.OnboardPokemon.SetCondition("Confuse", count);
           if (pm.Controller.OneNth(2))
           {
-            pm.ShowLogPm("ConfuseWork");
+            pm.ShowLogPm("m_ConfuseWork");
             var e = new GameEvents.ShowHp();
             pm.Controller.ReportBuilder.Add(e);
             pm.MoveHurt((pm.Pokemon.Lv * 2 / 5 + 2) * 40 * OnboardPokemon.Get5D(pm.OnboardPokemon.FiveD.Atk, pm.OnboardPokemon.Lv5D.Atk) / OnboardPokemon.Get5D(pm.OnboardPokemon.FiveD.Def, pm.OnboardPokemon.Lv5D.Def) / 50 + 2);
