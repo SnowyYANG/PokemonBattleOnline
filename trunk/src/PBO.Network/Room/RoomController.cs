@@ -67,6 +67,7 @@ namespace PokemonBattleOnline.Network
 
     internal void OnGameStop(GameStopReason reason, User player)
     {
+      _game.Dispose();
       _game = null;
       _playerController = null;
       OnPropertyChanged();
@@ -168,6 +169,7 @@ namespace PokemonBattleOnline.Network
 
     internal void Reset()
     {
+      if (_game != null) _game.Dispose();
       _game = null;
       _playerController = null;
       InputRequest = null;

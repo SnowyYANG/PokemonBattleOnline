@@ -11,6 +11,8 @@ namespace PokemonBattleOnline.Game
   {
     protected GameOutward Game
     { get; private set; }
+    public int Sleep
+    { get; protected set; }
 
     protected void AppendGameLog(string key, ValueType arg0 = null, ValueType arg1 = null, ValueType arg2 = null)
     {

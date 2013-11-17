@@ -67,24 +67,32 @@ namespace PokemonBattleOnline.Game
       }
       UIDispatcher.Invoke(GameStart);
     }
+    private Dispatcher dispatcher;
     public void Update(IEnumerable<GameEvent> events)
     {
-      foreach (GameEvent e in events)
-        UIDispatcher.Invoke((Action<GameOutward>)e.Update, this);
-      //check game over
-      int team0 = Board.Teams[0].AliveCount;
-      int team1 = Board.Teams[1].AliveCount;
-      if (team0 == 0 || team1 == 0)
-      {
-        if (team0 == 0 && team1 == 0) AppendGameLogByKey("GameResultTie", LogStyle.Center | LogStyle.Bold,0,1);
-        else
+      if (dispatcher == null) dispatcher = new Dispatcher("GameOutward", true);
+      dispatcher.BeginInvoke(() =>
         {
-          AppendGameLog(string.Empty, LogStyle.Center | LogStyle.Bold);
-          AppendGameLogByKey("GameResult0", LogStyle.Center | LogStyle.Bold, team0 == 0 ? 1 : 0);
-          AppendGameLogByKey("GameResult1", LogStyle.Center | LogStyle.Bold, team0, team1);
-        }
-        UIDispatcher.Invoke(GameEnd);
-      }
+          foreach (GameEvent e in events)
+          {
+            UIDispatcher.Invoke((Action<GameOutward>)e.Update, this);
+            System.Threading.Thread.Sleep(e.Sleep);
+          }
+          //check game over
+          int team0 = Board.Teams[0].AliveCount;
+          int team1 = Board.Teams[1].AliveCount;
+          if (team0 == 0 || team1 == 0)
+          {
+            if (team0 == 0 && team1 == 0) AppendGameLogByKey("GameResultTie", LogStyle.Center | LogStyle.Bold, 0, 1);
+            else
+            {
+              AppendGameLog(string.Empty, LogStyle.Center | LogStyle.Bold);
+              AppendGameLogByKey("GameResult0", LogStyle.Center | LogStyle.Bold, team0 == 0 ? 1 : 0);
+              AppendGameLogByKey("GameResult1", LogStyle.Center | LogStyle.Bold, team0, team1);
+            }
+            UIDispatcher.Invoke(GameEnd);
+          }
+        });
     }
 
     public void AppendGameLog(string text, LogStyle style)
@@ -165,6 +173,11 @@ namespace PokemonBattleOnline.Game
         else r = GameString.Current.BattleLog(arg.ToString());
       }// if (arg != null
       return r;
+    }
+
+    public void Dispose()
+    {
+      if (dispatcher != null) dispatcher.Dispose();
     }
   }
 }

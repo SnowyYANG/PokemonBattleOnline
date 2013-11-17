@@ -35,7 +35,7 @@ namespace PokemonBattleOnline.Game.GameEvents
         AppendGameLog("br", LogStyle.Detail);
         if (Damages[i] > max) max = Damages[i];
       }
-      //Sleep = 17 * max + 1000;
+      Sleep = 17 * max + 1000;
       if (SH != null) AppendGameLog("SuperHurt" + SH.Length, SH.ValueOrDefault(0), SH.ValueOrDefault(1), SH.ValueOrDefault(2));
       if (WH != null) AppendGameLog("WeakHurt" + WH.Length, WH.ValueOrDefault(0), WH.ValueOrDefault(1), WH.ValueOrDefault(2));
       if (CT != null) AppendGameLog("CT" + CT.Length, CT.ValueOrDefault(0), CT.ValueOrDefault(1), CT.ValueOrDefault(2));

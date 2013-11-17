@@ -41,6 +41,7 @@ namespace PokemonBattleOnline.Game.GameEvents
       pm.Hp.Value = Hp;
       AppendGameLog(h > 0 ? "+hp" : "-hp", LogStyle.Detail | LogStyle.NoBr | LogStyle.HiddenInBattle, h);
       AppendGameLog("br");
+      Sleep = 17 * Math.Abs(h) + 500;
     }
     public override void Update(SimGame game)
     {
@@ -59,7 +60,12 @@ namespace PokemonBattleOnline.Game.GameEvents
     protected override void Update()
     {
       var pm = GetPokemon(Pm);
-      if (pm != null) pm.Hp.Value = Hp;
+      if (pm != null)
+      {
+        var fh = pm.Hp.Value;
+        pm.Hp.Value = Hp;
+        Sleep = 17 * fh > Hp ? fh - Hp : Hp - fh + 500;
+      }
     }
     public override void Update(SimGame game)
     {
@@ -141,7 +147,7 @@ namespace PokemonBattleOnline.Game.GameEvents
       if (Gender != null) pm.Gender = Gender.Value;
       pm.Mega = Mega;
       pm.ChangeImage(Number == 0 ? pm.Form.Species.Number : Number, Form);
-      //Sleep = 500;
+      Sleep = 500;
     }
     public override void Update(SimGame game)
     {
