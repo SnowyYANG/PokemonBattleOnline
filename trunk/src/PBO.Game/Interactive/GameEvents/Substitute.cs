@@ -26,7 +26,7 @@ namespace PokemonBattleOnline.Game.GameEvents
       else
       {
         pm.ShowSubstitute();
-        AppendGameLog("EnSubstitute", Pm);
+        AppendGameLog("m_EnSubstitute", Pm);
       }
     }
   }

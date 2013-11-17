@@ -847,9 +847,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         else
         {
           int hp = aer.Pokemon.MaxHp >> 2;
-          aer.OnboardPokemon.SetCondition("m_Substitute", hp);
-          aer.Pokemon.Hp -= hp;
+          aer.OnboardPokemon.SetCondition("Substitute", hp);
           aer.Controller.ReportBuilder.EnSubstitute(aer);
+          aer.Pokemon.Hp -= hp;
         }
       }
       else atk.FailAll();
