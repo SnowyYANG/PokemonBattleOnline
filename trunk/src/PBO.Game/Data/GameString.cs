@@ -41,7 +41,9 @@ namespace PokemonBattleOnline.Game
     private static GameString GetLanguage(string str)
     {
       var c = str.FirstOrDefault((ch) => !char.IsDigit(ch));
-      return Current.MinFirstChar <= c && c <= Current.MaxFirstChar ? Current : EN != null && EN.MinFirstChar <= c && c <= EN.MaxFirstChar ? EN : JP;
+      if (char.IsLetter(c)) return EN;
+      if (0x3040 < c && c < 0x309f) return JP;
+      return Current;
     }
     private static int IndexOf(string[] list, string name)
     {
@@ -126,8 +128,6 @@ namespace PokemonBattleOnline.Game
     }
 
     public readonly string Language;
-    public readonly Char MinFirstChar;
-    public readonly Char MaxFirstChar;
 
     private string[] Pokemons;
     private Dictionary<int, string> Forms;
@@ -149,7 +149,6 @@ namespace PokemonBattleOnline.Game
 
     private GameString(string path, string language)
     {
-      MinFirstChar = char.MaxValue;
       Language = language;
       Pokemons = new string[RomData.Pokemons.Count()];
       Forms = new Dictionary<int, string>();
@@ -166,9 +165,6 @@ namespace PokemonBattleOnline.Game
           {
             var num = line.Substring(1, comma - 1).ToInt();
             var h = line[0];
-            if ((h == 'p' && line[4] == ':' || h == 'm' || h == 'a' || h == 'i' || h == 'n') && !char.IsDigit(str[0]))
-              if (str[0] < MinFirstChar) MinFirstChar = str[0];
-              else if (str[0] > MaxFirstChar) MaxFirstChar = str[0];
             switch (h)
             {
               case 'p':
