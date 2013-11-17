@@ -85,7 +85,8 @@ namespace PokemonBattleOnline.PBO.Editor
           else
           {
             var m = GameString.Move(text);
-            if (m != null) VM.AddMove(m);
+            if (m != null)
+              foreach(var l in VM.Learnset) if (l.Move == m) l.IsSelected = true;
             else
             {
               var i = GameString.Item(text);

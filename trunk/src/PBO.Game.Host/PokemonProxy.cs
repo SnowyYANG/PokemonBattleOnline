@@ -648,7 +648,7 @@ namespace PokemonBattleOnline.Game.Host
               break;
           }
         ShowLogPm(log, (int)stat);
-        if (by.Pokemon.TeamId != Pokemon.TeamId && actualChange < 0) STs.Lv7DDown(this);
+        if ((by == null || by.Pokemon.TeamId != Pokemon.TeamId) && actualChange < 0) STs.Lv7DDown(this);
       }
     }
     /// <summary>

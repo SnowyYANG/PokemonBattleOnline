@@ -3,7 +3,7 @@
                     xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters"
                     xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements">
     <DataTemplate x:Key="BattleTypeLabel">
-        <Border Background="{Binding Converter={x:Static c:BattleTypeBg.C}}" BorderBrush="#5c4e41" BorderThickness="1" CornerRadius="9" Height="18" MinWidth="50">
+        <Border Background="{Binding Converter={x:Static c:BattleTypeBg.C}}" BorderBrush="#5c4e41" BorderThickness="1" CornerRadius="9" Height="18" Width="50">
             <Border BorderBrush="#c0ffffff" BorderThickness="2" CornerRadius="8">
                 <TextBlock Text="{Binding Converter={x:Static c:BattleTypeString.C}}" Style="{x:Null}" FontSize="11" FontWeight="Bold" FontStyle="Normal" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-1,0,0">
                     <TextBlock.Effect>

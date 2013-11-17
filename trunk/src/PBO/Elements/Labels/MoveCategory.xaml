@@ -2,7 +2,7 @@
 	                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters">
     <DataTemplate x:Key="MoveCategoryLabel">
-        <Image Name="img" Width="28" Height="14" SnapsToDevicePixels="True" Stretch="Uniform">
+        <Image Name="img" Width="41" Height="18" SnapsToDevicePixels="True" Stretch="Uniform">
             <Image.ToolTip>
                 <Binding Converter="{x:Static c:MoveCategoryText.C}"/>
             </Image.ToolTip>

@@ -9956,7 +9956,7 @@
           <Type>SpAtk</Type>
         </MoveLv7DChange>
       </_lv7DChanges>
-      <_power>80</_power>
+      <_power>65</_power>
       <_pp>10</_pp>
       <_range>Adjacent</_range>
       <_type>Fire</_type>
@@ -32566,7 +32566,7 @@
             <a:int>15</a:int>
           </A>
           <Base>
-            <H>54</H>
+            <H>59</H>
             <A>66</A>
             <D>70</D>
             <SA>44</SA>
@@ -32585,7 +32585,7 @@
             <a:int>15</a:int>
           </A>
           <Base>
-            <H>59</H>
+            <H>64</H>
             <A>66</A>
             <D>70</D>
             <SA>44</SA>

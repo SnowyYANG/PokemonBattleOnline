@@ -63,7 +63,6 @@
                     <Setter Property="HorizontalAlignment" Value="Left"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                     <Setter Property="ContentTemplate" Value="{x:Static ui:Labels.BattleType}"/>
-                    <Setter Property="Width" Value="45"/>
                 </Style>
                 <Style TargetType="ui:NumericUpdown">
                     <Setter Property="BorderBrush" Value="#4C808080"/>
@@ -81,7 +80,7 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-        	<Image Source="{Binding Image}" Grid.Row="4" Grid.RowSpan="4" Height="96" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+        	<Image Source="{Binding Image}" Grid.Row="4" Grid.RowSpan="4" Height="{Binding Image.PixelHeight}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <Image.ToolTip>
                     <ToolTip BorderThickness="0">
                         <Grid DataContext="{Binding PokemonForm.Data}">
@@ -125,7 +124,7 @@
             </ui:ClearableComboBox>
             <Label Content="属性" Grid.Row="2" HorizontalAlignment="Left"/>
             <ContentPresenter Content="{Binding PokemonForm.Type1}" Margin="45,0,0,0"/>
-            <ContentPresenter Content="{Binding PokemonForm.Type2}" Margin="93,0,0,0"/>
+            <ContentPresenter Content="{Binding PokemonForm.Type2}" Margin="96,0,0,0"/>
         	<Label Content="Lv" Grid.Row="3"/>
             <ui:NumericUpdown Value="{Binding Model.Lv,Mode=TwoWay}" Minimum="1" Maximum="100" Grid.Row="3" LargeChange="50" Canvas.Left="45" Width="53" Margin="45,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
         	<Label Content="性别" Grid.Row="3" Canvas.Left="94" Canvas.Top="58" BorderThickness="0" HorizontalAlignment="Right" Margin="0,0,56,0"/>
@@ -237,23 +236,6 @@
                 <ui:NumericUpdown Value="{Binding SpAtk}"/>
                 <ui:NumericUpdown Value="{Binding SpDef}"/>
                 <ui:NumericUpdown Value="{Binding Speed}"/>
-            </StackPanel>
-
-            <StackPanel DataContext="{Binding PokemonForm.Data.Base}" Grid.Row="1" Grid.Column="4" Margin="3,0,5,0">
-                <StackPanel.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="TextAlignment" Value="Right"/>
-                        <Setter Property="Padding" Value="0,5"/>
-                        <Setter Property="ToolTip" Value="种族值"/>
-                        <Setter Property="Height" Value="25"/>
-                    </Style>
-                </StackPanel.Resources>
-                <TextBlock Text="{Binding Hp}"/>
-                <TextBlock Text="{Binding Atk}"/>
-                <TextBlock Text="{Binding Def}"/>
-                <TextBlock Text="{Binding SpAtk}"/>
-                <TextBlock Text="{Binding SpDef}"/>
-                <TextBlock Text="{Binding Speed}"/>
             </StackPanel>
             
             <TextBlock Visibility="{Binding RemainingEvVisibility}" Foreground="{x:Static ui:SBrushes.MagentaM}" Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Top" Height="25" Padding="0,5" HorizontalAlignment="Right">
@@ -412,14 +394,14 @@
         			<GridViewColumn Header="属性">
         				<GridViewColumn.CellTemplate>
         					<DataTemplate>
-        						<ContentPresenter Width="45" Content="{Binding Move.Type}" ContentTemplate="{x:Static ui:Labels.BattleType}"/>
+        						<ContentPresenter Content="{Binding Move.Type}" ContentTemplate="{x:Static ui:Labels.BattleType}"/>
         					</DataTemplate>
         				</GridViewColumn.CellTemplate>
         			</GridViewColumn>
         			<GridViewColumn Header="类别">
         				<GridViewColumn.CellTemplate>
         					<DataTemplate>
-        						<ContentPresenter Width="45" Content="{Binding Move.Category}" ContentTemplate="{x:Static ui:Labels.MoveCategory}"/>
+        						<ContentPresenter Content="{Binding Move.Category}" ContentTemplate="{x:Static ui:Labels.MoveCategory}"/>
         					</DataTemplate>
         				</GridViewColumn.CellTemplate>
         			</GridViewColumn>

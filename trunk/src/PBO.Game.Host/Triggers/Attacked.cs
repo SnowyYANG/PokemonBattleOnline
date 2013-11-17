@@ -21,7 +21,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         aer.RaiseAbility();
         der.AddState(aer, AttachedState.PSN, false);
       }
-      switch (def.Defender.Ability) //此时破格不能无视
+      switch (der.Ability) //此时破格不能无视
       {
         case As.ILLUSION:
           ATs.DeIllusion(def.Defender);
@@ -86,7 +86,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (atk.Type == BattleType.Dark || atk.Type == BattleType.Ghost || atk.Type == BattleType.Bug) der.ChangeLv7D(der, StatType.Speed, 1, false, true);
           break;
         case As.GOOEY:
-          if (touch) aer.ChangeLv7D(der, StatType.Speed, -1, false, true);
+          if (touch && aer.CanChangeLv7D(der, StatType.Speed, -1, false) != 0)
+          {
+            der.RaiseAbility();
+            aer.ChangeLv7D(der, StatType.Speed, -1, false);
+          }
           break;
       }
       switch (def.Defender.Item)
