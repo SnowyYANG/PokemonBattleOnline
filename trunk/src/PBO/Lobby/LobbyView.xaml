@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
              xmlns:l="clr-namespace:PokemonBattleOnline.PBO.Lobby"
-             MinHeight="300" MinWidth="230" SizeChanged="UserControl_SizeChanged">
+             MinHeight="300" MinWidth="260" SizeChanged="UserControl_SizeChanged">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -27,7 +27,7 @@
                         <ItemsControl Name="Rooms" Margin="0,20,0,0">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <l:RoomView DataContext="{Binding}" Margin="3"/>
+                                    <l:RoomView DataContext="{Binding}" Margin="0,3"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

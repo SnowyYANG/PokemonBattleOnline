@@ -22,7 +22,7 @@
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
-        <Button Content="新建队伍" Click="NewTeam_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Button Content="从剪贴板导入" Click="PasteTeam_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="196,0,0,0"/>
+        <ui:UIButton Content="新建队伍" Click="NewTeam_Click" Shape="M5.5,1.5 L100.5,1.5 104.5,10 100.5,18.5 5.5,18.5 1.5,10Z"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <ui:UIButton Content="从剪贴板导入" Click="PasteTeam_Click" Shape="M5.5,1.5 L100.5,1.5 104.5,10 100.5,18.5 5.5,18.5 1.5,10Z" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="196,0,0,0"/>
     </Grid>
 </UserControl>

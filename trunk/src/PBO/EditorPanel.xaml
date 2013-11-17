@@ -5,7 +5,7 @@
              xmlns:pm="clr-namespace:PokemonBattleOnline.Game;assembly=PBO.Game"
 		     xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
              xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor"
-             MinHeight="400" MinWidth="900" Background="#FF282828">
+             MinHeight="400" MinWidth="600" Background="#FF282828">
     <Grid>
         <Grid.Resources>
 		    <Style TargetType="Line">
@@ -29,7 +29,7 @@
         </Rectangle>
         <Line X2="{Binding ElementName=bar,Path=ActualWidth}" Stroke="Black" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,23.5"/>
         <e:PokemonBank DataContext="{Binding}"/>
-        <e:PokemonEditorView x:Name="pev" DataContext="{Binding EditingPokemon}" Margin="310,0,0,24" HorizontalAlignment="Right">
+        <e:PokemonEditorView x:Name="pev" DataContext="{Binding EditingPokemon}" HorizontalAlignment="Right">
             <e:PokemonEditorView.Style>
                 <Style TargetType="e:PokemonEditorView">
                     <Style.Triggers>
