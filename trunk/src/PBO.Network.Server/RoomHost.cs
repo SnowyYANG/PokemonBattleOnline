@@ -49,6 +49,7 @@ namespace PokemonBattleOnline.Network
         game.GameEnd += EndGame;
         game.TimeUp += OnTimeUp;
         game.WaitingNotify += OnWaitingForInput;
+        game.Error += OnError;
         game.Start();
       }
     }
@@ -59,6 +60,11 @@ namespace PokemonBattleOnline.Network
       game = null;
       Room.Battling = false;
       Server.Send(RoomS2C.ChangeBattling(Room.Id));
+    }
+    private void OnError()
+    {
+      EndGame();
+      Server.Send(GameEndS2C.GameStop(0, GameStopReason.Error));
     }
     private void OnGameStop(int userId, GameStopReason reason)
     {

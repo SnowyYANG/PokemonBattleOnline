@@ -12,8 +12,11 @@ namespace PokemonBattleOnline.Network
     public event Action<InputRequest> RequireInput;
 
     private readonly Client Client;
-    internal PlayerController(RoomController room, IPokemonData[] pokemons, IPokemonData[] parner)
+    private readonly Dispatcher Dispatcher;
+
+    internal PlayerController(Dispatcher dispatcher, RoomController room, IPokemonData[] pokemons, IPokemonData[] parner)
     {
+      Dispatcher = dispatcher;
       Client = room._Client;
       _game = new SimGame(room.Room.Settings, new SimPlayer(room.User.Seat.TeamId(), room.User.Seat.TeamIndex(), pokemons), parner);
     }
@@ -31,7 +34,7 @@ namespace PokemonBattleOnline.Network
 
     internal void OnRequireInput(InputRequest inputRequest)
     {
-      RequireInput(inputRequest);
+      Dispatcher.BeginInvoke(RequireInput, inputRequest);
     }
   }
 }

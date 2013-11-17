@@ -34,9 +34,11 @@ namespace PokemonBattleOnline.Network
     public static event Action GameInited;
 
     internal readonly Client _Client;
-    
+    internal readonly Dispatcher Dispatcher;
+
     internal RoomController(Client client)
     {
+      Dispatcher = new Dispatcher("RoomController", true);
       _Client = client;
     }
 
@@ -67,7 +69,6 @@ namespace PokemonBattleOnline.Network
 
     internal void OnGameStop(GameStopReason reason, User player)
     {
-      _game.Dispose();
       _game = null;
       _playerController = null;
       OnPropertyChanged();
@@ -169,7 +170,6 @@ namespace PokemonBattleOnline.Network
 
     internal void Reset()
     {
-      if (_game != null) _game.Dispose();
       _game = null;
       _playerController = null;
       InputRequest = null;
@@ -194,8 +194,8 @@ namespace PokemonBattleOnline.Network
       string[, ] players = new string[2, mi];
       for (int t = 0; t < 2; ++t)
         for (int i = 0; i < mi; ++i) players[t, i] = Room[t, i].Name;
-      if (User.Seat != Seat.Spectator) PlayerController = new PlayerController(this, Self, Partner);
-      Game = new GameOutward(Room.Settings, players);
+      if (User.Seat != Seat.Spectator) PlayerController = new PlayerController(Dispatcher, this, Self, Partner);
+      Game = new GameOutward(Dispatcher, Room.Settings, players);
       Game.Start(gameUpdateS2C);
     }
 

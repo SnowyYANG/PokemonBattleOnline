@@ -39,53 +39,82 @@ namespace PokemonBattleOnline.Game.Host
       add { Controller.Timer.WaitingNotify += value; }
       remove { Controller.Timer.WaitingNotify -= value; }
     }
+    public event Action Error;
 
     public IGameSettings Settings
     { get { return Controller.GameSettings; } }
 
     public void Start()
     {
-      gaming = true;
-      Controller.StartGameLoop(); //想用异步...
+      try
+      {
+        gaming = true;
+        Controller.StartGameLoop(); //想用异步...
+      }
+      catch
+      {
+        Error();
+      }
     }
     public void TryContinue()
     {
-      Controller.TryContinueGameLoop();
+      try
+      {
+        Controller.TryContinueGameLoop();
+      }
+      catch
+      {
+        Error();
+      }
     }
     private bool Input(XActionInput input, Controller controller, Tile tile)
     {
       bool r = false;
-      if (input.SendOutIndex > 0) r = controller.InputSendOut(tile, input.SendOutIndex);
-      else
+      try
       {
-        var pm = tile.Pokemon;
-        if (input.Move > 0)
+        if (input.SendOutIndex > 0) r = controller.InputSendOut(tile, input.SendOutIndex);
+        else
         {
-          foreach (MoveProxy m in pm.Moves)
-            if (m.Type.Id == input.Move)
-            {
-              Tile target = input.TargetTeam > 0 ? controller.Board[input.TargetTeam - 1][input.TargetX - 1] : null;
-              r = controller.InputSelectMove(m, target, input.Mega);
-              break;
-            }
+          var pm = tile.Pokemon;
+          if (input.Move > 0)
+          {
+            foreach (MoveProxy m in pm.Moves)
+              if (m.Type.Id == input.Move)
+              {
+                Tile target = input.TargetTeam > 0 ? controller.Board[input.TargetTeam - 1][input.TargetX - 1] : null;
+                r = controller.InputSelectMove(m, target, input.Mega);
+                break;
+              }
+          }
+          else r = controller.InputStruggle(pm);
         }
-        else r = controller.InputStruggle(pm);
+      }
+      catch
+      {
+        Error();
       }
       return r;
     }
     public bool InputAction(int teamId, int teamIndex, ActionInput action)
     {
-      if (gaming)
+      try
       {
-        //action.Input(controller, )
-        var inputs = action.Inputs;
-        for (int x = 0; x < inputs.Length; ++x)
-          if (inputs[x] != null)
-          {
-            if (Controller.GameSettings.Mode.GetPlayerIndex(x) != teamIndex) return false;
-            if (!Input(inputs[x], Controller, Controller.Board[teamId][x])) return false;
-          }
-        return Controller.CheckInputSucceed(teamId, teamIndex);
+        if (gaming)
+        {
+          //action.Input(controller, )
+          var inputs = action.Inputs;
+          for (int x = 0; x < inputs.Length; ++x)
+            if (inputs[x] != null)
+            {
+              if (Controller.GameSettings.Mode.GetPlayerIndex(x) != teamIndex) return false;
+              if (!Input(inputs[x], Controller, Controller.Board[teamId][x])) return false;
+            }
+          return Controller.CheckInputSucceed(teamId, teamIndex);
+        }
+      }
+      catch
+      {
+        Error();
       }
       return false;
     }

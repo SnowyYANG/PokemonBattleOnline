@@ -26,9 +26,11 @@ namespace PokemonBattleOnline.Game
     public readonly BoardOutward Board;
     private readonly string[, ] Players;
     private readonly Collection<IGameOutwardEvents> listeners;
+    private readonly Dispatcher Dispatcher;
 
-    public GameOutward(IGameSettings settings, string[,] players)
+    public GameOutward(Dispatcher dispatcher, IGameSettings settings, string[,] players)
     {
+      Dispatcher = dispatcher;
       Settings = settings;
       Players = players;
       Board = new BoardOutward(Settings);
@@ -67,11 +69,9 @@ namespace PokemonBattleOnline.Game
       }
       UIDispatcher.Invoke(GameStart);
     }
-    private Dispatcher dispatcher;
     public void Update(IEnumerable<GameEvent> events)
     {
-      if (dispatcher == null) dispatcher = new Dispatcher("GameOutward", true);
-      dispatcher.BeginInvoke(() =>
+      Dispatcher.BeginInvoke(() =>
         {
           foreach (GameEvent e in events)
           {
@@ -173,11 +173,6 @@ namespace PokemonBattleOnline.Game
         else r = GameString.Current.BattleLog(arg.ToString());
       }// if (arg != null
       return r;
-    }
-
-    public void Dispose()
-    {
-      if (dispatcher != null) dispatcher.Dispose();
     }
   }
 }

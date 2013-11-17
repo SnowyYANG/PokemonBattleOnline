@@ -16,6 +16,7 @@ namespace PokemonBattleOnline.Network
     /// <summary>
     /// only client check, no server job
     /// </summary>
-    GameEnd
+    GameEnd,
+    Error
   }
 }

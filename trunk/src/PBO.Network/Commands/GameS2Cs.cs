@@ -141,6 +141,7 @@ namespace PokemonBattleOnline.Network.Commands
     {
       if (Player != 0) client.Controller.Room.OnGameStop(Reason, client.Controller.GetUser(Player));
       else if (Time != null) RoomController.OnTimeUp(Time.Select((p) => new KeyValuePair<User, int>(client.Controller.GetUser(p.Key), p.Value)).ToArray());
+      else client.Controller.Room.OnGameStop(Reason, null);
       client.Controller.Room.Reset();
     }
   }
