@@ -22,19 +22,44 @@ namespace PokemonBattleOnline.Game
     public bool MagicCoat { get; private set; }
 
     [DataMember(EmitDefaultValue = false)]
-    public bool Protectable { get; private set; }
+    public bool Protectable
+#if EDITING
+;
+#else
+    { get; private set; }
+#endif
 
     [DataMember(EmitDefaultValue = false)]
-    public bool StiffOneTurn { get; private set; }
+    public bool StiffOneTurn
+#if EDITING
+;
+#else
+    { get; private set; }
+#endif
 
     [DataMember(EmitDefaultValue = false)]
-    public bool PrepareOneTurn { get; private set; }
+    public bool PrepareOneTurn
+#if EDITING
+;
+#else
+    { get; private set; }
+#endif
 
     [DataMember(EmitDefaultValue = false)]
-    public bool NeedTouch { get; private set; }
+    public bool NeedTouch
+#if EDITING
+;
+#else
+    { get; private set; }
+#endif
 
     [DataMember(EmitDefaultValue = false)]
-    public bool IgnoreSubstitute { get; private set; }
+    public bool IgnoreSubstitute
+#if EDITING
+;
+#else
+    { get; private set; }
+#endif
 
     [DataMember(EmitDefaultValue = false)]
     public bool IsHeal { get; private set; }

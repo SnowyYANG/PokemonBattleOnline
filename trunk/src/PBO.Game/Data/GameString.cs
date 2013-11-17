@@ -41,8 +41,8 @@ namespace PokemonBattleOnline.Game
     private static GameString GetLanguage(string str)
     {
       var c = str.FirstOrDefault((ch) => !char.IsDigit(ch));
-      if (char.IsLetter(c)) return EN;
-      if (0x3040 < c && c < 0x309f) return JP;
+      if ('a' <= c && c <= 'z' || 'A' <= c && c <= 'Z' && EN != null) return EN;
+      if (0x3040 < c && c < 0x309f && JP != null) return JP;
       return Current;
     }
     private static int IndexOf(string[] list, string name)

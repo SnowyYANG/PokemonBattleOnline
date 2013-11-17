@@ -51,7 +51,12 @@ namespace PokemonBattleOnline.Game
     }
 
     [DataMember(Name = "Base", Order = 3)]
-    private readonly ReadOnly6D _base;
+#if DEBUG
+    public
+#else
+    private readonly
+#endif
+     ReadOnly6D _base;
     public I6D Base
     { get { return _base; } }
 

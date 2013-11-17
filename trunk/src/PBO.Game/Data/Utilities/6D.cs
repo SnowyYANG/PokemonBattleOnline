@@ -138,6 +138,32 @@ namespace PokemonBattleOnline.Game
       }
       return value;
     }
+#if EDITING
+    public void SetStat(StatType type, int value)
+    {
+      switch (type)
+      {
+        case StatType.Hp:
+          _hp = value;
+          break;
+        case StatType.Atk:
+          _atk = value;
+          break;
+        case StatType.Def:
+          _def = value;
+          break;
+        case StatType.SpAtk:
+          _spAtk = value;
+          break;
+        case StatType.SpDef:
+          _spDef = value;
+          break;
+        case StatType.Speed:
+          _speed = value;
+          break;
+      }
+    }
+#endif
   }
 
   [DataContract(Namespace = PBOMarks.PBO)]

@@ -133,35 +133,49 @@ namespace PokemonBattleOnline.Game.DataEditor
       System.Diagnostics.Debugger.Break();
       return false;
     }
+    static bool ChangeBase(int number, StatType stat, int former, int value)
+    {
+      var pm = RomData.GetPokemon(number);
+      if (pm.formData[0]._base.GetStat(stat) != former)
+        return false;
+      pm.formData[0]._base.SetStat(stat, value);
+      return true;
+    }
     static void Main(string[] args)
     {
       var rom = RomData.current = RomData.LoadFromXml<RomData>("..\\doc\\rom.xml");
-      SetForms(3, 1);
-      SetForms(6, 2);
-      SetForms(9, 1);
-      SetForms(65, 1);
-      SetForms(94, 1);
-      SetForms(115, 1);
-      SetForms(127, 1);
-      SetForms(130, 1);
-      SetForms(142, 1);
-      SetForms(150, 2);
-      SetForms(181, 1);
-      SetForms(212, 1);
-      SetForms(214, 1);
-      SetForms(229, 1);
-      SetForms(248, 1);
-      SetForms(257, 1);
-      SetForms(282, 1);
-      SetForms(303, 1);
-      SetForms(306, 1);
-      SetForms(308, 1);
-      SetForms(310, 1);
-      SetForms(354, 1);
-      SetForms(359, 1);
-      SetForms(445, 1);
-      SetForms(448, 1);
-      SetForms(460, 1);
+      //GameString.Load("..\\res\\string", "zh", "en");
+ChangeBase(025, StatType.Def, 30, 40);
+ChangeBase(025, StatType.SpDef, 40, 50);
+ChangeBase(012, StatType.SpAtk, 80, 90);
+ChangeBase(015, StatType.Atk, 80, 90);
+ChangeBase(018, StatType.Speed, 91, 101);
+ChangeBase(026, StatType.Speed, 100, 110);
+ChangeBase(031, StatType.Atk, 82, 92);
+ChangeBase(034, StatType.Atk, 92, 102);
+ChangeBase(036, StatType.SpAtk, 85, 95);
+ChangeBase(040, StatType.SpAtk, 75, 85);
+ChangeBase(045, StatType.SpAtk, 100, 110);
+ChangeBase(062, StatType.Atk, 85, 95);
+ChangeBase(065, StatType.SpDef, 85, 95);
+ChangeBase(071, StatType.SpDef, 60, 70);
+ChangeBase(076, StatType.Atk, 110, 120);
+ChangeBase(181, StatType.Def, 75, 85);
+ChangeBase(182, StatType.Def, 85, 95);
+ChangeBase(184, StatType.SpAtk, 50, 60);
+ChangeBase(189, StatType.SpDef, 85, 95);
+ChangeBase(267, StatType.SpAtk, 90, 100);
+ChangeBase(295, StatType.SpDef, 63, 73);
+ChangeBase(398, StatType.SpDef, 50, 60);
+ChangeBase(407, StatType.Def, 55, 65);
+ChangeBase(508, StatType.Atk, 100, 110);
+ChangeBase(521, StatType.Atk, 105, 115);
+ChangeBase(526, StatType.SpDef, 70, 80);
+ChangeBase(537, StatType.Atk, 85, 95);
+ChangeBase(542, StatType.SpDef, 70, 80);
+ChangeBase(545, StatType.Atk, 90, 100);
+ChangeBase(553, StatType.Def, 70, 80);
+
       RomData.current.SaveXml("..\\doc\\rom.xml");
     }
   }
