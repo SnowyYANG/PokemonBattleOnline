@@ -74,10 +74,14 @@ namespace PokemonBattleOnline.PBO.Battle
       controller.AddText(text, Brushes.OrangeRed);
       AutoScroll();
     }
+    public void AddUserText(string text, User user)
+    {
+      controller.AddText(text.LineBreak(), Cartes.GetChatBrush(user.Name));
+      AutoScroll();
+    }
     public void AddChatText(string chat, User user)
     {
-      controller.AddText((user.Name + "：" + chat).LineBreak(), Cartes.GetChatBrush(user.Name));
-      AutoScroll();
+      AddUserText((user.Name + "：" + chat).LineBreak(), user);
     }
 
     internal void Save(string title, string player)

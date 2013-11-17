@@ -57,7 +57,7 @@ namespace PokemonBattleOnline.PBO
       var br = Current.br;
       br.AddLogText("Time Up\r\n");
       foreach (var pair in spentTime)
-        br.AddLogText(string.Format("{0}使用了{1}秒\r\n", pair.Key, pair.Value));
+        br.AddUserText(string.Format("{0}使用了{1}秒", pair.Key.Name, pair.Value), pair.Key);
     }
     static void RoomController_TimeReminder(User[] users)
     {
