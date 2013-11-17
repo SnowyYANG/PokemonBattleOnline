@@ -34,7 +34,7 @@ namespace PokemonBattleOnline.Network
     public static event Action GameInited;
 
     internal readonly Client _Client;
-    internal readonly Dispatcher Dispatcher;
+    private readonly Dispatcher Dispatcher;
 
     internal RoomController(Client client)
     {
@@ -194,11 +194,33 @@ namespace PokemonBattleOnline.Network
       string[, ] players = new string[2, mi];
       for (int t = 0; t < 2; ++t)
         for (int i = 0; i < mi; ++i) players[t, i] = Room[t, i].Name;
-      if (User.Seat != Seat.Spectator) PlayerController = new PlayerController(Dispatcher, this, Self, Partner);
-      Game = new GameOutward(Dispatcher, Room.Settings, players);
+      if (User.Seat != Seat.Spectator) PlayerController = new PlayerController(this, Self, Partner);
+      Game = new GameOutward(Room.Settings, players);
       Game.Start(gameUpdateS2C);
     }
 
     internal InputRequest InputRequest;
+
+    internal void Update(ReportFragment rf)
+    {
+      Dispatcher.BeginInvoke(()=>
+        {
+          Game.Update(rf.Events);
+          if (PlayerController != null)
+          {
+            PlayerController.Game.Update(rf);
+            if (InputRequest != null)
+            {
+              PlayerController.OnRequireInput(InputRequest);
+              InputRequest = null;
+            }
+          }
+        });
+    }
+
+    public void Dispose()
+    {
+      Dispatcher.Dispose();
+    }
   }
 }

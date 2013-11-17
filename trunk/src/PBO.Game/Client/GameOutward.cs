@@ -26,11 +26,9 @@ namespace PokemonBattleOnline.Game
     public readonly BoardOutward Board;
     private readonly string[, ] Players;
     private readonly Collection<IGameOutwardEvents> listeners;
-    private readonly Dispatcher Dispatcher;
 
-    public GameOutward(Dispatcher dispatcher, IGameSettings settings, string[,] players)
+    public GameOutward(IGameSettings settings, string[,] players)
     {
-      Dispatcher = dispatcher;
       Settings = settings;
       Players = players;
       Board = new BoardOutward(Settings);
@@ -71,28 +69,25 @@ namespace PokemonBattleOnline.Game
     }
     public void Update(IEnumerable<GameEvent> events)
     {
-      Dispatcher.BeginInvoke(() =>
+      foreach (GameEvent e in events)
+      {
+        UIDispatcher.Invoke((Action<GameOutward>)e.Update, this);
+        System.Threading.Thread.Sleep(e.Sleep);
+      }
+      //check game over
+      int team0 = Board.Teams[0].AliveCount;
+      int team1 = Board.Teams[1].AliveCount;
+      if (team0 == 0 || team1 == 0)
+      {
+        if (team0 == 0 && team1 == 0) AppendGameLogByKey("GameResultTie", LogStyle.Center | LogStyle.Bold, 0, 1);
+        else
         {
-          foreach (GameEvent e in events)
-          {
-            UIDispatcher.Invoke((Action<GameOutward>)e.Update, this);
-            System.Threading.Thread.Sleep(e.Sleep);
-          }
-          //check game over
-          int team0 = Board.Teams[0].AliveCount;
-          int team1 = Board.Teams[1].AliveCount;
-          if (team0 == 0 || team1 == 0)
-          {
-            if (team0 == 0 && team1 == 0) AppendGameLogByKey("GameResultTie", LogStyle.Center | LogStyle.Bold, 0, 1);
-            else
-            {
-              AppendGameLog(string.Empty, LogStyle.Center | LogStyle.Bold);
-              AppendGameLogByKey("GameResult0", LogStyle.Center | LogStyle.Bold, team0 == 0 ? 1 : 0);
-              AppendGameLogByKey("GameResult1", LogStyle.Center | LogStyle.Bold, team0, team1);
-            }
-            UIDispatcher.Invoke(GameEnd);
-          }
-        });
+          AppendGameLog(string.Empty, LogStyle.Center | LogStyle.Bold);
+          AppendGameLogByKey("GameResult0", LogStyle.Center | LogStyle.Bold, team0 == 0 ? 1 : 0);
+          AppendGameLogByKey("GameResult1", LogStyle.Center | LogStyle.Bold, team0, team1);
+        }
+        UIDispatcher.Invoke(GameEnd);
+      }
     }
 
     public void AppendGameLog(string text, LogStyle style)

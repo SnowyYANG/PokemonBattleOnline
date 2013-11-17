@@ -37,7 +37,7 @@ namespace PokemonBattleOnline.Game
     /// <returns>RequireInput</returns>
     public void Update(ReportFragment report)
     {
-      foreach(GameEvent e in report.Events) e.Update(this);
+      foreach (GameEvent e in report.Events) e.Update(this);
     }
   }
 }

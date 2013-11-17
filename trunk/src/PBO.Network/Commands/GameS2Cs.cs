@@ -102,16 +102,7 @@ namespace PokemonBattleOnline.Network.Commands
     {
       var room = client.Controller.Room;
       if (room.Game == null) room.GameStart(this);
-      room.Game.Update(Events);
-      if (room.PlayerController != null)
-      {
-        room.PlayerController.Game.Update(this);
-        if (room.InputRequest != null)
-        {
-          room.PlayerController.OnRequireInput(room.InputRequest);
-          room.InputRequest = null;
-        }
-      }
+      room.Update(this);
     }
   }
 
