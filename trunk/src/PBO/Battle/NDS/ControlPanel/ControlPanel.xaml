@@ -183,7 +183,7 @@
                                             <Setter TargetName="lvt" Property="Visibility" Value="Visible"/>
                                             <Setter TargetName="lv" Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding Item}" Value="{x:Null}">
+                                        <DataTrigger Binding="{Binding Item}" Value="0">
                                             <Setter TargetName="item" Property="Visibility" Value="Collapsed"/>
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
@@ -235,7 +235,7 @@
                                             <Setter TargetName="lvt" Property="Visibility" Value="Visible"/>
                                             <Setter TargetName="lv" Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding Item}" Value="{x:Null}">
+                                        <DataTrigger Binding="{Binding Item}" Value="0">
                                             <Setter TargetName="item" Property="Visibility" Value="Collapsed"/>
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
