@@ -116,7 +116,7 @@ namespace PokemonBattleOnline
       using (DeflateStream ds = new DeflateStream(ms, CompressionMode.Decompress))
       {
         var d = new DataContractJsonSerializer(typeof(T));
-        return (T)d.ReadObject(ms);
+        return (T)d.ReadObject(ds);
       }
     }
     public static byte[] SerializeToCompressedJson<T>(T obj)
@@ -132,7 +132,7 @@ namespace PokemonBattleOnline
       using (DeflateStream ds = new DeflateStream(stream, CompressionMode.Compress, true))
       {
         var s = new DataContractJsonSerializer(typeof(T));
-        s.WriteObject(stream, obj);
+        s.WriteObject(ds, obj);
       }
     }
   }
