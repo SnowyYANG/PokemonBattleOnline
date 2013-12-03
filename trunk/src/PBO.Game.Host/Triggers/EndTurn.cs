@@ -278,7 +278,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
           else
           {
-            pm.EffectHurtByOneNth((bool)trap.Bool ? 4 : 8, "m_TrapHurt", trap.Move.Id);
+            pm.EffectHurtByOneNth(trap.Bool ? 6 : 8, "m_TrapHurt", trap.Move.Id);
             pm.CheckFaint();
           }
       }
