@@ -7,9 +7,7 @@ namespace PokemonBattleOnline.Network
 {
   public class ServerState
   {
-    private readonly Server Server;
-
-    public ServerState(Server server)
+    public ServerState()
     {
       UserList = new ObservableList<User>();
       RoomList = new ObservableList<Room>();

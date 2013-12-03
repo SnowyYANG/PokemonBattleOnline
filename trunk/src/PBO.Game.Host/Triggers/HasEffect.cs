@@ -52,11 +52,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         der.Item == Is.RING_TARGET ||
         atk.Type == BattleType.Ground ? IsGroundAffectable(der, !ATs.IgnoreDefenderAbility(atk.Attacker.Ability), true) : NonGround(def));
     }
-    public static bool IsGroundAffectable(PokemonProxy pm, bool abilityAvailable, bool raiseAbility, bool gravity = true)
+    public static bool IsGroundAffectable(PokemonProxy pm, bool abilityAvailable, bool raiseAbility)
     {
       var o = pm.OnboardPokemon;
       return
-        (o.HasCondition("SmackDown") || o.HasCondition("Ingrain") || gravity && pm.Controller.Board.HasCondition("Gravity")) || pm.Item == Is.IRON_BALL ||
+        (o.HasCondition("SmackDown") || o.HasCondition("Ingrain") || pm.Controller.Board.HasCondition("Gravity")) || pm.Item == Is.IRON_BALL ||
         !
         (
           o.HasType(BattleType.Flying) ||

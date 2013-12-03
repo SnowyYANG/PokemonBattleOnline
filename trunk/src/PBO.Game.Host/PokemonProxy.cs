@@ -424,15 +424,7 @@ namespace PokemonBattleOnline.Game.Host
       if (Action == PokemonAction.Debuting)
       {
         Tile.Debut();
-        if (!(OnboardPokemon.HasCondition("Substitute") || Ability == As.OVERCOAT))
-        {
-          EHTs.Debut(this);
-          if (Hp != 0 && Field.HasCondition("StickyWeb"))
-          {
-            ShowLogPm("StickyWeb");
-            ChangeLv7D(null, StatType.Speed, -1, false, false);
-          }
-        }
+        if (!(OnboardPokemon.HasCondition("Substitute") || Ability == As.OVERCOAT)) EHTs.Debut(this);
         if (!CheckFaint())
         {
           if (OnboardPokemon.Ability != As.FLOWER_GIFT && OnboardPokemon.Ability != As.FORECAST) AbilityAttach.Execute(this);

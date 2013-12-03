@@ -314,11 +314,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
   }
   internal static class EHTs
   {
-    private const string HAZARDS = "Hazards";
-
     private static List<Condition> GetHazards(Field field)
     {
-      return field.GetCondition<List<Condition>>(HAZARDS);
+      return field.GetCondition<List<Condition>>("Hazards");
     }
     public static bool En(Field field, MoveType move)
     {
@@ -326,7 +324,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (hazards == null)
       {
         hazards = new List<Condition>();
-        field.AddCondition(HAZARDS, hazards);
+        field.AddCondition("Hazards", hazards);
       }
       foreach (var eh in hazards)
         if (eh.Move == move) return En(eh);
@@ -377,16 +375,20 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var m = hazard.Move.Id;
       report.ShowLog(m == Ms.SPIKES ? "DeSpikes" : m == Ms.TOXIC_SPIKES ? "DeToxicSpikes" : "DeStealthRock", field.Team);
     }
-    public static bool Debut(PokemonProxy pm) //欢迎登场，口耐的精灵们（笑
+    public static void Debut(PokemonProxy pm) //欢迎登场，口耐的精灵们（笑
     {
       var hazards = GetHazards(pm.Field);
       if (hazards != null)
         foreach (var eh in hazards.ToArray())
         {
           Debut(eh, pm);
-          if (pm.CheckFaint()) return false;
+          if (pm.CheckFaint()) return;
         }
-      return true;
+      if (pm.Field.HasCondition("StickyWeb") && HasEffect.IsGroundAffectable(pm, true, false))
+      {
+        pm.ShowLogPm("StickyWeb");
+        pm.ChangeLv7D(null, StatType.Speed, -1, false, false);
+      }
     }
     private static void Debut(Condition hazard, PokemonProxy pm)
     {

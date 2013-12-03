@@ -951,11 +951,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void Gravity(AtkContext atk)
     {
       var c = atk.Controller;
-      if (c.Board.AddCondition("Gravity", c.TurnNumber + 4))
+      if (c.Board.HasCondition("Gravity")) atk.FailAll();
+      else
       {
         c.ReportBuilder.ShowLog("EnGravity");
         foreach (var pm in c.Board.Pokemons)
-        {
           if (pm.CoordY == CoordY.Air)
           {
             pm.CoordY = CoordY.Plate;
@@ -964,10 +964,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             c.ReportBuilder.SetY(pm);
             pm.ShowLogPm("Gravity");
           }
-          else if (!HasEffect.IsGroundAffectable(pm, true, false, false)) pm.ShowLogPm("Gravity");
-        }
+          else if (!HasEffect.IsGroundAffectable(pm, true, false)) pm.ShowLogPm("Gravity");
+        c.Board.SetCondition("Gravity", c.TurnNumber + 4);
       }
-      else atk.FailAll();
     }
     private static void Conversion(AtkContext atk)
     {
