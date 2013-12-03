@@ -20,7 +20,7 @@ namespace PokemonBattleOnline.Network
       Locker = new object();
       Network = new TcpServer(port);
       Login = new LoginServer(Network, this);
-      State = new ServerState(this);
+      State = new ServerState();
       Users = new Dictionary<int, ServerUser>();
       RoomIds = new IdsPool();
       Rooms = new Dictionary<int, RoomHost>();

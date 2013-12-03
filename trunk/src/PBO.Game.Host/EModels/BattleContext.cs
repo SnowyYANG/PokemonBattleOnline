@@ -14,7 +14,6 @@ namespace PokemonBattleOnline.Game.Host
     public BattleType Type;
     public int Pressure;
     public Modifier AccuracyModifier;
-    public int CTLv;
     public int TotalDamage;
     public bool Fail;
     public bool IgnoreSwitchItem;

@@ -140,16 +140,6 @@ namespace PokemonBattleOnline.Game
 #else
     private readonly
 #endif
-    int _ctLv;
-    public int CtLv
-    { get { return _ctLv; } }
-
-    [DataMember(EmitDefaultValue = false)]
-#if EDITING
-    public
-#else
-    private readonly
-#endif
     int _flinchProbability;
     public int FlinchProbability
     { get { return _flinchProbability; } }

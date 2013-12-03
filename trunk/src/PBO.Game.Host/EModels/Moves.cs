@@ -82,6 +82,15 @@ namespace PokemonBattleOnline.Game.Host
     {
       return SPORE.Contains(move.Id);
     }
+    private static int[] CT1 = new int[] { Ms.KARATE_CHOP, Ms.RAZOR_WIND, Ms.RAZOR_LEAF, Ms.SKY_ATTACK, Ms.CRABHAMMER, Ms.SLASH, Ms.AEROBLAST, Ms.CROSS_CHOP, Ms.BLAZE_KICK, Ms.AIR_CUTTER, Ms.POISON_TAIL, Ms.LEAF_BLADE, Ms.NIGHT_SLASH, Ms.SHADOW_CLAW, Ms.PSYCHO_CUT, Ms.CROSS_POISON, Ms.STONE_EDGE, Ms.ATTACK_ORDER, Ms.SPACIAL_REND, Ms.DRILL_RUN };
+    public static bool Ct1(this MoveType move)
+    {
+      return CT1.Contains(move.Id);
+    }
+    public static bool MustCt(this MoveType move)
+    {
+      return move.Id == Ms.STORM_THROW || move.Id == Ms.FROST_BREATH;
+    }
 
     public static int FlingPower(int item)
     {

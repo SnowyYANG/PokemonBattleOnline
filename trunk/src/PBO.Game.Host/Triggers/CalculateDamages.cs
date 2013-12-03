@@ -72,8 +72,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (move.Class != MoveInnerClass.OHKO)
           {
             ITs.CheckGem(atk);
-            atk.CTLv = move.CtLv;
-            if (atk.CTLv < 5) atk.CTLv += STs.CtLvRevise(aer);
             foreach (DefContext d in atk.Targets) CalculateDamage(d);
           }
           break;
@@ -122,7 +120,36 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
       }
     }
-    private static readonly int[] LV_CT = { 16, 8, 4, 3, 2 };
+    private static readonly int[] LV_CT = { 16, 8, 2 };
+    private static void Ct(DefContext def)
+    {
+      if (!(def.Defender.Field.HasCondition("LuckyChant") || ATs.CannotBeCted(def.Ability)))
+      {
+        var atk = def.AtkContext;
+        if (MTs.MustCt(atk.Move)) def.IsCt = true;
+        else
+        {
+          var pm = atk.Attacker;
+          var ct = MTs.Ct1(atk.Move) ? 1 : 0;
+          if (pm.OnboardPokemon.HasCondition("FocusEnergy")) ct += 2;
+          if (pm.Ability == As.SUPER_LUCK) ct++;
+          switch (pm.Item)
+          {
+            case Is.SCOPE_LENS:
+            case Is.RAZOR_CLAW:
+              ct++;
+              break;
+            case Is.LUCKY_PUNCH:
+              if (pm.Pokemon.Form.Species.Number == 113) ct += 2;
+              break;
+            case Is.STICK:
+              if (pm.Pokemon.Form.Species.Number == 83) ct += 2;
+              break;
+          }
+          def.IsCt = ct > 2 || pm.Controller.OneNth(LV_CT[ct]);
+        }
+      }
+    }
     private static void CalculateDamage(DefContext def)
     {
       var atk = def.AtkContext;
@@ -130,9 +157,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var c = aer.Controller;
       var move = atk.Move;
 
-      if (!(def.Defender.Field.HasCondition("LuckyChant") || ATs.CannotBeCted(def.Ability)))
-        if (move.CtLv > 4) def.IsCt = true;
-        else def.IsCt = c.OneNth(LV_CT[atk.CTLv]);
+      Ct(def);
 
       def.Damage = aer.Pokemon.Lv * 2 / 5 + 2;
       {
@@ -195,7 +220,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       def.Damage /= 100;
       //5.Apply STAB modifier
       if (atk.Attacker.OnboardPokemon.HasType(atk.Type))
-        def.ModifyDamage((ushort)(atk.Attacker.Ability == As.ADAPTABILITY ? 0x2000 : 0x1800));
+        def.ModifyDamage((Modifier)(atk.Attacker.Ability == As.ADAPTABILITY ? 0x2000 : 0x1800));
       //6.Alter with type effectiveness
       CalculateEffectRevise(def);
       if (def.EffectRevise > 0) def.Damage <<= def.EffectRevise;
@@ -214,6 +239,5 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       atk.Target.Damage = atk.Attacker.OnboardPokemon.GetCondition(condition).Damage;
       atk.Target.ModifyDamage(modifier);
     }
-
   }
 }

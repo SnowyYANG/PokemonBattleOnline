@@ -221,25 +221,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       return m;
     }
     #endregion
-    public static int CtLvRevise(PokemonProxy pm)
-    {
-      var r = pm.OnboardPokemon.HasCondition("FocusEnergy") ? 2 : 0;
-      if (pm.Ability == As.SUPER_LUCK) r++;
-      switch (pm.Item)
-      {
-        case Is.SCOPE_LENS:
-        case Is.RAZOR_CLAW:
-          r += 3;
-          break;
-        case Is.LUCKY_PUNCH:
-          if (pm.Pokemon.Form.Species.Number == 113) r += 4;
-          break;
-        case Is.STICK:
-          if (pm.Pokemon.Form.Species.Number == 83) r += 4;
-          break;
-      }
-      return r;
-    }
     public static void Lv7DDown(PokemonProxy pm)
     {
       switch (pm.Ability)
