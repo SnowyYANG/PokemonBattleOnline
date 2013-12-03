@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PokemonBattleOnline.Tactic;
-using PokemonBattleOnline.Game;
 using PokemonBattleOnline.Game;
 using PokemonBattleOnline.Game.Host;
 
@@ -13,18 +11,19 @@ namespace PokemonBattleOnline.Test
   {
     public event Action GameEnd;
     public readonly GameSettings Settings;
-    private readonly IGame Game;
-    private readonly Dictionary<int, PlayerClient> Clients;
+    private readonly GameContext Game;
+    private readonly InitingGame Init;
+    private readonly Dictionary<int, TestClient> Clients;
 
     public Host()
     {
       Settings = new GameSettings();
-      Clients = new Dictionary<int, PlayerClient>(2);
+      Clients = new Dictionary<int, TestClient>(2);
       //Game = GameFactory.CreateGame(Settings, Settings.NextId);
       //Game.ReportUpdated += InformReportUpdate;
     }
 
-    public ITestClient AddPlayer(IPokemonData[] pokemons)
+    public TestClient AddPlayer(IPokemonData[] pokemons)
     {
       //int tid = Clients.Count;
       //int pid = tid + 1;
@@ -46,7 +45,7 @@ namespace PokemonBattleOnline.Test
     }
     public bool StartGame()
     {
-      //return Game.Start();
+      //Game.Start();
       throw new NotImplementedException();
     }
 
@@ -59,11 +58,11 @@ namespace PokemonBattleOnline.Test
       }
       foreach (var c in Clients.Values) c.InformReportUpdate(fragment);
     }
-    public bool Input(PlayerClient client, ActionInput input)
+    public bool Input(TestClient client, ActionInput input)
     {
       lock (this)
       {
-        if (Game.InputAction(client.PlayerId, input))
+        if (Game.InputAction(client.TeamId, 0, input))
         {
           Game.TryContinue();
           return true;

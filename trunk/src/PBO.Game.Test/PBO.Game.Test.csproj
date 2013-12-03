@@ -59,15 +59,24 @@
     <Compile Include="AIController.cs" />
     <Compile Include="GameSettings.cs" />
     <Compile Include="Host.cs" />
-    <Compile Include="PlayerClient.cs" />
+    <Compile Include="TestClient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestUIDispatcher.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PBO.Game.Host\PBO.Game.Host.csproj">
+      <Project>{666d492b-2c1f-46dc-8b6c-f59d7f0c40d7}</Project>
+      <Name>PBO.Game.Host</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\PBO.Game\PBO.Game.csproj">
       <Project>{5F1D7698-AD1E-462A-AEED-063BCB80DF89}</Project>
       <Name>PBO.Game</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PokemonBattleOnline\PokemonBattleOnline.csproj">
+      <Project>{ee2c451e-a61e-4634-b382-5298982e060c}</Project>
+      <Name>PokemonBattleOnline</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>

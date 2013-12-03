@@ -15,9 +15,9 @@ namespace PokemonBattleOnline.Test
       Console.Write(text);
     }
     
-    private static ITestClient p1;
-    private static ITestClient p2;
-    public static void TestBegin(ITestClient p1, ITestClient p2)
+    private static TestClient p1;
+    private static TestClient p2;
+    public static void TestBegin(TestClient p1, TestClient p2)
     {
       //TODO: more
       AIController.p1 = p1;
@@ -27,12 +27,12 @@ namespace PokemonBattleOnline.Test
     public static IPokemonData[] GetP1Team()
     {
       //TODO: remove the following line and write something else
-      return DataService.UserData.Teams.First().ToArray();
+      throw new NotImplementedException();
     }
     public static IPokemonData[] GetP2Team()
     {
       //TODO: remove the following line and write something else
-      return DataService.UserData.Teams.Last().ToArray();
+      throw new NotImplementedException();
     }
     
     public static void P1_RequireInput(InputRequest input)
