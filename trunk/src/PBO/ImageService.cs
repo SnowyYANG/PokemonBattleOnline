@@ -40,36 +40,30 @@ namespace PokemonBattleOnline.PBO
         return null;
       }
     }
-    private static BitmapImage GetImage(string path, int number, int form)
+    private static BitmapImage GetImage(string path, int number, int form, bool female)
     {
-      return GetImage(path, (number * 100 + form).ToString("00000"));
-    }
-    private static BitmapImage GetImage(string path, PokemonForm form)
-    {
-      return GetImage(path, form.Species.Number, form.Index);
-    }
-    private static BitmapImage GetFemaleImage(string path, PokemonForm form)
-    {
-      var i = GetImage(path + "/female", form);
-      if (i == null) i = GetImage(path, form);
+      var id = (number * 100 + form).ToString("00000");
+      BitmapImage i = null;
+      if (female) i = GetImage(path, id + "f");
+      if (i == null) i = GetImage(path, id);
       return i;
     }
     private static BitmapImage GetPokemonImage(string category, PokemonForm form, PokemonGender gender, bool shiny)
     {
       var path = shiny ? "shiny/" : "normal/" + category;
-      return gender == PokemonGender.Female ? GetFemaleImage(path, form) : GetImage(path, form);
+      return GetImage(path, form.Species.Number, form.Index, gender == PokemonGender.Female);
     }
     public static BitmapImage GetPokemonIcon(PokemonForm form, PokemonGender gender)
     {
       int n = form.Species.Number, f = form.Index;
       BitmapImage r;
-      if (gender == PokemonGender.Female && (n == 521 || n == 592 || n == 593 || n == 668)) r = GetImage("icon/female", n, f);
-      else if (f == 0 || n == 493 || n == 649) //arceus and genesect
+      if (gender == PokemonGender.Female && (n == 521 || n == 592 || n == 593 || n == 668)) r = GetImage("icon", n, f, true);
+      else if (f == 0 || n == 493 || n == 649 || n == 710 || n == 711) //arceus/genesect/pumpkaboo/gourgeist
       {
-        if (icons[n] == null) icons[n] = GetImage("icon", n, 0);
+        if (icons[n] == null) icons[n] = GetImage("icon", n, 0, false);
         r = icons[n];
       }
-      else r = GetImage("icon", n, f);
+      else r = GetImage("icon", n, f, false);
       return r;
     }
     public static BitmapImage GetPokemonFront(PokemonForm form, PokemonGender gender, bool shiny)
