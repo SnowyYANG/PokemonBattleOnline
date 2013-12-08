@@ -293,7 +293,7 @@ namespace PokemonBattleOnline.Game.Host
       var c = aer.Controller;
       if (!atk.IgnoreSwitchItem)
       {
-        bool e = true, r = MoveE.CanForceSwitch(aer, true);
+        bool e = true, r = aer.Hp != 0 && aer.Controller.CanWithdraw(aer);
         foreach (var d in atk.Targets.Where((d) => !d.HitSubstitute && d.Defender.Tile != null).OrderBy((d) => d.Defender.Speed).ToArray())
         {
           var der = d.Defender;
@@ -309,9 +309,9 @@ namespace PokemonBattleOnline.Game.Host
           else if (r && i == Is.RED_CARD)
           {
             der.ConsumeItem();
-            MoveE.ForceSwitchImplement(aer, "RedCard", der.Id);
+            der.ShowLogPm("RedCard", aer.Id);
+            r = !MoveE.ForceSwitchImplement(aer, true);
             if (e == false) return;
-            r = false;
           }
         }
       }

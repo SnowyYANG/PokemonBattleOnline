@@ -110,12 +110,26 @@ namespace PokemonBattleOnline.Game.Host
       }
       return targets;
     }
-    public static bool CanForceSwitch(PokemonProxy pm, bool abilityAvailable)
+    /// <summary>
+    /// check canwithdraw first, null log to show nothing
+    /// </summary>
+    /// <param name="pm"></param>
+    /// <param name="ability"></param>
+    /// <param name="log"></param>
+    /// <param name="arg1"></param>
+    /// <returns></returns>
+    public static bool ForceSwitchImplement(PokemonProxy pm, bool ability)
     {
-      return !(pm.Hp == 0 || !pm.Controller.CanWithdraw(pm) || abilityAvailable && pm.Ability == As.SUCTION_CUPS || pm.OnboardPokemon.HasCondition("Ingrain"));
-    }
-    public static void ForceSwitchImplement(PokemonProxy pm, string log, int arg1 = 0)
-    {
+      if (ability && pm.RaiseAbility(As.SUCTION_CUPS))
+      {
+        pm.ShowLogPm("SuctionCups");
+        return false;
+      }
+      if (pm.OnboardPokemon.HasCondition("Ingrain"))
+      {
+        pm.ShowLogPm("IngrainCantMove");
+        return false;
+      }
       var c = pm.Controller;
       var sendouts = new List<int>();
       {
@@ -124,18 +138,10 @@ namespace PokemonBattleOnline.Game.Host
           if (c.CanSendOut(pms[i])) sendouts.Add(i);
       }
       var tile = pm.Tile;
-      c.Withdraw(pm, log, arg1, false);
+      c.Withdraw(pm, "forcewithdraw", 0, false);
       tile.WillSendOutPokemonIndex = sendouts[c.GetRandomInt(0, sendouts.Count - 1)];
       c.SendOut(tile, true, "ForceSendOut");
-    }
-    public static bool ForceSwitch(DefContext def)
-    {
-      if (CanForceSwitch(def.Defender, ATs.IgnoreDefenderAbility(def.AtkContext.Attacker.Ability)))
-      {
-        ForceSwitchImplement(def.Defender, "forcewithdraw");
-        return true;
-      }
-      return false;
+      return true;
     }
 
     public static void BuildDefContext(AtkContext atk, Tile select)
@@ -303,13 +309,6 @@ namespace PokemonBattleOnline.Game.Host
           if (d.Defender != aer && d.Defender.OnboardPokemon.HasCondition("Substitute"))
           {
             d.Fail();
-            targets.Remove(d);
-          }
-      if (move.Class == MoveInnerClass.ForceToSwitch)
-        foreach (DefContext d in targets.ToArray())
-          if (d.Defender.OnboardPokemon.HasCondition("Ingrain"))
-          {
-            d.Defender.ShowLogPm("IngrainCantMove");
             targets.Remove(d);
           }
       #region Check for misses

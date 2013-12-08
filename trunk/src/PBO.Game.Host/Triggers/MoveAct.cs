@@ -571,11 +571,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       bool notAllFail = false;
       var move = atk.Move;
+      var def = atk.Target;
       switch (move.Class)
       {
         case MoveInnerClass.AddState:
           foreach (var d in atk.Targets) notAllFail |= d.Defender.AddState(d);
-          if (atk.Move.Attachment.State == AttachedState.PerishSong)
+          if (move.Attachment.State == AttachedState.PerishSong)
             if (notAllFail) atk.Controller.ReportBuilder.ShowLog("EnPerishSong");
             else atk.FailAll();
           break;
@@ -585,15 +586,16 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case MoveInnerClass.HpRecover:
           foreach (var d in atk.Targets)
-            d.Defender.HpRecover(d.Defender.Pokemon.MaxHp * atk.Move.MaxHpPercentage / 100, true);
+            d.Defender.HpRecover(d.Defender.Pokemon.MaxHp * move.MaxHpPercentage / 100, true);
           break;
         case MoveInnerClass.ConfusionWithLv7DChange:
-          atk.Target.Defender.AddState(atk.Target);
-          atk.Target.Defender.ChangeLv7D(atk.Target);
+          def.Defender.AddState(def);
+          def.Defender.ChangeLv7D(def);
           break;
         case MoveInnerClass.ForceToSwitch:
-          int aLv = atk.Attacker.Pokemon.Lv, dLv = atk.Target.Defender.Pokemon.Lv;
-          if ((aLv < dLv && (aLv + dLv) * atk.Controller.GetRandomInt(0, 255) < dLv >> 2) || !MoveE.ForceSwitch(atk.Target)) atk.FailAll();
+          int aLv = atk.Attacker.Pokemon.Lv, dLv = def.Defender.Pokemon.Lv;
+          if ((aLv < dLv && (aLv + dLv) * atk.Controller.GetRandomInt(0, 255) < dLv >> 2) || !def.Defender.Controller.CanWithdraw(def.Defender)) atk.FailAll();
+          else MoveE.ForceSwitchImplement(def.Defender, ATs.IgnoreDefenderAbility(atk.Attacker.Ability), "forcewithdraw");
           break;
       }
     }

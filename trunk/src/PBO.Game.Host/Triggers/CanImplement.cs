@@ -39,14 +39,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             return false;
           }
           break;
-        case As.SUCTION_CUPS: //21
-          if (move.Class == MoveInnerClass.ForceToSwitch)
-          {
-            der.RaiseAbility();
-            der.ShowLogPm("SuctionCups");
-            return false;
-          }
-          break;
         case As.WONDER_GUARD: //25
           if ((move.Category != MoveCategory.Status || move.Id == Ms.THUNDER_WAVE) && def.AtkContext.Type.EffectRevise(der.OnboardPokemon.Types) <= 0)
           {

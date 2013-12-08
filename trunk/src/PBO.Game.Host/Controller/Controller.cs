@@ -211,6 +211,14 @@ namespace PokemonBattleOnline.Game.Host
     {
       return SwitchController.CanWithdraw(pm);
     }
+    /// <summary>
+    /// null log to show nothing
+    /// </summary>
+    /// <param name="pm"></param>
+    /// <param name="log"></param>
+    /// <param name="arg1"></param>
+    /// <param name="canPursuit"></param>
+    /// <returns></returns>
     public bool Withdraw(PokemonProxy pm, string log, int arg1 = 0, bool canPursuit = true)
     {
       if (SwitchController.Withdraw(pm, log, arg1, canPursuit))
