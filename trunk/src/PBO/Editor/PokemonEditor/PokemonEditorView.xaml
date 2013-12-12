@@ -174,8 +174,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto" MinWidth="50"/>
                 <ColumnDefinition Width="*" MinWidth="92"/>
-                <ColumnDefinition Width="Auto" MinWidth="50"/>
-                <ColumnDefinition Width="Auto" MinWidth="40"/>
+                <ColumnDefinition Width="Auto" MinWidth="53"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
@@ -184,7 +183,7 @@
             </Grid.RowDefinitions>
 
             <ContentControl Visibility="{Binding HiddenPowerVisibility}" Content="{Binding HiddenPowerType}" ContentTemplate="{x:Static ui:Labels.BattleType}" ToolTip="觉醒力量" Margin="3,0,0,0" Grid.Column="3" Grid.Row="2"/>
-            <Canvas Visibility="{Binding HappinessVisibility}" ToolTip="Happiness" MouseLeftButtonDown="Happiness_MouseLeftButtonDown" Cursor="Hand" Background="Transparent" Width="29" HorizontalAlignment="Right" Grid.Column="4" Grid.Row="2">
+            <Canvas Visibility="{Binding HappinessVisibility}" ToolTip="Happiness" MouseLeftButtonDown="Happiness_MouseLeftButtonDown" Cursor="Hand" Background="Transparent" Width="29" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2">
                 <Path Canvas.Right="0" IsHitTestVisible="False" StrokeLineJoin="Round" Height="25.5" Width="29" Stretch="Uniform" Data="M343.94027,195.18266 C341.16391,190.67782 336.88841,191.48044 335.01251,192.38285 330.82134,194.39901 328.41787,199.18479 330.9993,204.96216 334.89117,213.50771 343.98761,216.27715 343.98761,216.27715 343.98761,216.27715 352.53953,214.02943 357.37982,204.48072 359.15438,199.18479 357.05787,194.29035 353.10437,192.36459 351.32944,191.48194 347.05351,190.75974 343.94027,195.18266 z">
                     <Path.Style>
                         <Style TargetType="Path">
@@ -238,7 +237,7 @@
                 <ui:NumericUpdown Value="{Binding Speed}"/>
             </StackPanel>
             
-            <TextBlock Visibility="{Binding RemainingEvVisibility}" Foreground="{x:Static ui:SBrushes.MagentaM}" Grid.Column="2" Grid.ColumnSpan="3" VerticalAlignment="Top" Height="25" Padding="0,5" HorizontalAlignment="Right">
+            <TextBlock Visibility="{Binding RemainingEvVisibility}" Foreground="{x:Static ui:SBrushes.MagentaM}" Grid.Column="2" VerticalAlignment="Top" Height="25" Padding="0,5" HorizontalAlignment="Right" Grid.Row="2">
                 <Run Text="剩余努力值"/>
                 <Run Text="{Binding RemainingEv, Mode=OneWay}"/>
             </TextBlock>

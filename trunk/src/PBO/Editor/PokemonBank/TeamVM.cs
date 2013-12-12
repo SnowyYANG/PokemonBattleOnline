@@ -10,11 +10,6 @@ namespace PokemonBattleOnline.PBO.Editor
   class TeamVM : ObservableObject
   {
     public static TeamVM New;
-    private static object NORMALBG;
-    static TeamVM()
-    {
-      NORMALBG = SBrushes.NewBrush(0xff808080);
-    }
 
     public PokemonTeam Model
     { get; private set; }
@@ -24,7 +19,6 @@ namespace PokemonBattleOnline.PBO.Editor
       Model = model;
       raw = new PokemonVM[6];
       for (int i = 0; i < 6; ++i) raw[i] = new PokemonVM(this, i);
-      _background = NORMALBG;
       if (model.CanBattle) EditorVM.Current.BattleTeams.Add(this);
     }
 
@@ -59,25 +53,5 @@ namespace PokemonBattleOnline.PBO.Editor
     private readonly PokemonVM[] raw;
     public PokemonVM this[int index]
     { get { return raw.ValueOrDefault(index); } }
-
-    public object BorderBrush
-    { get { return SBrushes.MagentaM; } }
-
-    private object _background;
-    public object Background
-    { 
-      get { return _background; }
-      set
-      {
-        if (_background != value)
-        {
-          _background = value;
-          OnPropertyChanged("Background");
-        }
-      }
-    }
-    
-    public object Effect
-    { get { return Model.Pokemons.Contains(null) ? R.MagentaShadow : null; } }
   }
 }

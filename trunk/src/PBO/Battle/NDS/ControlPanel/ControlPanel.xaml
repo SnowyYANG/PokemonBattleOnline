@@ -148,10 +148,9 @@
             </Grid>
         </TabItem>
         <TabItem>
-            <Canvas>
+            <Canvas Button.Click="Pokemon_Click">
                 <Canvas.Resources>
                     <Style x:Key="L" TargetType="b:GameButton">
-                        <EventSetter Event="Click" Handler="Pokemon_Click"/>
                         <Setter Property="Width" Value="160"/>
                         <Setter Property="Height" Value="54"/>
                         <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Pokemon/Button.png"/>
@@ -201,7 +200,6 @@
                         </Style.Triggers>
                     </Style>
                     <Style x:Key="R" TargetType="b:GameButton">
-                        <EventSetter Event="Click" Handler="Pokemon_Click"/>
                         <Setter Property="Canvas.Right" Value="0"/>
                         <Setter Property="Padding" Value="1,1,0,1"/>
                         <Setter Property="Width" Value="160"/>

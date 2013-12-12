@@ -20,11 +20,31 @@ namespace PokemonBattleOnline.PBO.Editor
   /// </summary>
   public partial class PokemonBank : UserControl
   {
+    public static PokemonBank Current
+    { get; private set; }
+
     public PokemonBank()
     {
+      Current = this;
       InitializeComponent();
     }
 
+    protected override void OnPreviewDragOver(DragEventArgs e)
+    {
+      base.OnPreviewDragOver(e);
+      var data = (PokemonIcon)e.Data.GetData(typeof(PokemonIcon));
+      if (data != null)
+      {
+        data.icon.Source = null;
+        var p = e.GetPosition(this);
+        Canvas.SetLeft(DragIcon, p.X - 16);
+        Canvas.SetTop(DragIcon, p.Y - 16);
+      }
+    }
+    protected override void OnGiveFeedback(GiveFeedbackEventArgs e)
+    {
+      e.Handled = true;
+    }
     private void NewTeam_Click(object sender, RoutedEventArgs e)
     {
       EditorVM.Current.NewTeam();

@@ -52,6 +52,33 @@ namespace PokemonBattleOnline.PBO.Editor
       }
     }
     
+    private bool _isDragging;
+    public bool IsDragging
+    {
+      get { return _isDragging; }
+      set
+      {
+        if (_isDragging != value)
+        {
+          _isDragging = value;
+          OnPropertyChanged("IsDragging");
+        }
+      }
+    }
+    private int _dropState;
+    public int DropState
+    {
+      get { return _dropState; }
+      set
+      {
+        if (_dropState != value)
+        {
+          _dropState = value;
+          OnPropertyChanged("DropState");
+        }
+      }
+    }
+ 
     public PokemonData Model
     {
       get { return _container.Model.Pokemons[_index]; }
@@ -82,33 +109,22 @@ namespace PokemonBattleOnline.PBO.Editor
       }
     }
 
-    public Effect Effect
+    public ImageSource Icon
+    { get { return Model == null ? Index == 0 || Container[Index - 1].Model != null ? R.P00000 : null : ImageService.GetPokemonIcon(Model.Form, Model.Gender); } }
+
+    public Brush Background
     {
       get
       {
-        if (Model == null) return null;
+        if (Model == null) return Brushes.Transparent;
         var ev = Model.Ev;
-        return
-          Model.Form.Species.Number != 132 && Model.Moves.Count() != 4 ?
-          R.MagentaShadow :
-          508 > ev.Sum() ?
-          R.OrangeShadow :
-          null;
+        return Model.Form.Species.Number != 132 && Model.Moves.Count() != 4 ? SBrushes.MagentaM : 508 > ev.Sum() ? SBrushes.OrangeM : Brushes.Transparent;
       }
     }
-
-    public ImageSource Icon
-    { get { return Model == null ? Index == 0 || Container[Index - 1].Model != null ? R.P00000 : null : ImageService.GetPokemonIcon(Model.Form, Model.Gender); } }
 
     public void Edit()
     {
       if (EditorVM.Current.EditingPokemon == null || EditorVM.Current.EditingPokemon.Origin != Actual && EditorVM.Current.EditingPokemon.Close()) EditorVM.Current.EditingPokemon = new PokemonEditorVM(Actual);
     }
-    //public MenuCommand EditCommand
-    //{ get; private set; }
-    //public MenuCommand RemoveCommand
-    //{ get; private set; }
-    //public ObservableCollection<MenuCommand> Commands
-    //{ get; private set; }
   }
 }

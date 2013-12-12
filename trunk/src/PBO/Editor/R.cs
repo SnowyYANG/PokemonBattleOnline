@@ -10,8 +10,6 @@ namespace PokemonBattleOnline.PBO.Editor
 {
   static class R
   {
-    public static readonly DropShadowEffect MagentaShadow;
-    public static readonly DropShadowEffect OrangeShadow;
     public static readonly DataTemplate PokemonSpecies;
     public static readonly DataTemplate SelectedMove;
     public static readonly ImageSource P00000;
@@ -20,8 +18,6 @@ namespace PokemonBattleOnline.PBO.Editor
     {
       ResourceDictionary rd;
       rd = GetDictionary("R");
-      MagentaShadow = (DropShadowEffect)rd["MagentaShadow"];
-      OrangeShadow = (DropShadowEffect)rd["OrangeShadow"];
       PokemonSpecies = (DataTemplate)rd["PokemonSpecies"];
       SelectedMove = (DataTemplate)rd["LearnedMove"];
       P00000 = Helper.GetImage(@"00000.png");

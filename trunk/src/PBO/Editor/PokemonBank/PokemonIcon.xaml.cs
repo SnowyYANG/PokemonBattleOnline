@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PokemonBattleOnline.PBO.Elements;
 
 namespace PokemonBattleOnline.PBO.Editor
 {
@@ -18,14 +19,14 @@ namespace PokemonBattleOnline.PBO.Editor
   /// Interaction logic for PokemonIcon.xaml
   /// </summary>
   public partial class PokemonIcon : UserControl
-  {  
+  {    
     public PokemonIcon()
     {
       InitializeComponent();
     }
 
     PokemonVM _vm;
-    PokemonVM VM
+    internal PokemonVM VM
     { 
       get
       {
@@ -34,21 +35,57 @@ namespace PokemonBattleOnline.PBO.Editor
       }
     }
 
-    protected override void OnDragEnter(DragEventArgs e)
+    bool drag;
+    protected override void OnPreviewDragOver(DragEventArgs e)
     {
-      base.OnDragEnter(e);
+      base.OnPreviewDragOver(e);
+      var data = (PokemonIcon)e.Data.GetData(typeof(PokemonIcon));
+      if (data != null && data != this)
+      {
+        var ctrl = e.KeyStates.HasFlag(DragDropKeyStates.ControlKey);
+        var va = VM.Actual;
+        if (ctrl)
+        {
+          data.icon.Source = data.VM.Icon;
+          va.DropState = va.Model != null ? 2 : 1;
+        }
+        else
+        {
+          data.icon.Source = va.Model == null ? null : va.Icon;
+          va.DropState = 1;
+        }
+        icon.Source = null;
+      }
     }
+
     protected override void OnDragLeave(DragEventArgs e)
     {
       base.OnDragLeave(e);
-    }
-    protected override void OnDragOver(DragEventArgs e)
-    {
-      base.OnDragOver(e);
+      var data = (PokemonIcon)e.Data.GetData(typeof(PokemonIcon));
+      if (data != null && data != this)
+      {
+        data.icon.ClearValue(Image.SourceProperty);
+        icon.ClearValue(Image.SourceProperty);
+        VM.Actual.DropState = 0;
+      }
     }
     protected override void OnDrop(DragEventArgs e)
     {
       base.OnDrop(e);
+      var data = (PokemonIcon)e.Data.GetData(typeof(PokemonIcon));
+      var va = VM.Actual;
+      if (e.KeyStates.HasFlag(DragDropKeyStates.ControlKey))
+      {
+        va.Model = data.VM.Model.Clone();
+      }
+      else
+      {
+        var t = data.VM.Model;
+        data.VM.Model = va.Model;
+        va.Model = t;
+      }
+      icon.ClearValue(Image.SourceProperty);
+      va.DropState = 0;
     }
 
     bool click;
@@ -62,11 +99,33 @@ namespace PokemonBattleOnline.PBO.Editor
       base.OnMouseEnter(e);
       Stroke.StrokeThickness = 3;
     }
+    protected override void OnMouseMove(MouseEventArgs e)
+    {
+      base.OnMouseMove(e);
+      if (click && e.LeftButton == MouseButtonState.Pressed)
+      {
+        click = false;
+        drag = true;
+        Stroke.Stroke = SBrushes.BlueM;
+        Stroke.StrokeThickness = 3;
+        PokemonBank.Current.DragIcon.Source = VM.Icon;
+        PokemonBank.Current.DragIcon.Visibility = Visibility.Visible;
+        Cursor = Cursors.None;
+        if (VM.Model != null) DragDrop.DoDragDrop(this, this, DragDropEffects.All);
+        Cursor = Cursors.Hand;
+        drag = false;
+        icon.ClearValue(Image.SourceProperty);
+        icon.Visibility = System.Windows.Visibility.Visible;
+        PokemonBank.Current.DragIcon.Visibility = Visibility.Collapsed;
+        Stroke.ClearValue(Polygon.StrokeProperty);
+        Stroke.ClearValue(Polygon.StrokeThicknessProperty);
+      }
+    }
     protected override void OnMouseLeave(MouseEventArgs e)
     {
       base.OnMouseLeave(e);
       click = false;
-      Stroke.ClearValue(Polygon.StrokeThicknessProperty);
+      if (!drag) Stroke.ClearValue(Polygon.StrokeThicknessProperty);
     }
     protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
     {

@@ -5,8 +5,6 @@
                     xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
                     xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters"
                     xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor">
-    <DropShadowEffect x:Key="MagentaShadow" ShadowDepth="1" Color="{Binding Color,Source={x:Static ui:SBrushes.MagentaM},Mode=OneTime}" BlurRadius="3" Opacity="1"/>
-    <DropShadowEffect x:Key="OrangeShadow" ShadowDepth="1" Color="{Binding Color,Source={x:Static ui:SBrushes.OrangeM},Mode=OneTime}" BlurRadius="3" Opacity="1"/>
     <DataTemplate x:Key="PokemonForm">
         <Grid>
             <TextBlock Text="{Binding Name}" Foreground="White" IsHitTestVisible="False">

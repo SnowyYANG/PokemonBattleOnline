@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
              xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor"
-             Background="{x:Null}">
+             Background="Transparent" AllowDrop="True">
     <Grid>
         <ItemsControl ItemsSource="{Binding Teams}" HorizontalAlignment="Left">
             <ItemsControl.ItemTemplate>
@@ -24,5 +24,8 @@
         </ItemsControl>
         <ui:UIButton Content="新建队伍" Click="NewTeam_Click" Shape="M5.5,1.5 L100.5,1.5 104.5,10 100.5,18.5 5.5,18.5 1.5,10Z"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <ui:UIButton Content="从剪贴板导入" Click="PasteTeam_Click" Shape="M5.5,1.5 L100.5,1.5 104.5,10 100.5,18.5 5.5,18.5 1.5,10Z" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="196,0,0,0"/>
+        <Canvas IsHitTestVisible="False">
+            <Image x:Name="DragIcon"/>
+        </Canvas>
     </Grid>
 </UserControl>

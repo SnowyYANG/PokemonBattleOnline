@@ -14,19 +14,32 @@
         </ContextMenu>
     </UserControl.ContextMenu>
     <Canvas>
-        <Polygon Name="Stroke" Stroke="#80808080" StrokeThickness="1" Fill="Transparent" Canvas.Top="4" Points="1.5,16 6.5,4.5 25.5,4.5 30.5,16 25.5,27.5 6.5,27.5">
+        <Polygon Name="Stroke" Fill="{Binding Background}" Canvas.Top="4" Points="1.5,16 6.5,4.5 25.5,4.5 30.5,16 25.5,27.5 6.5,27.5">
             <Polygon.Style>
                 <Style TargetType="Polygon">
+                    <Setter Property="Stroke" Value="#80808080"/>
                     <Setter Property="StrokeThickness" Value="1"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                            <Setter Property="StrokeThickness" Value="3"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsDragging}" Value="True">
+                            <Setter Property="Stroke" Value="{x:Static ui:SBrushes.BlueM}"/>
+                            <Setter Property="StrokeThickness" Value="3"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding DropState}" Value="1">
+                            <Setter Property="Stroke" Value="{x:Static ui:SBrushes.BlueM}"/>
+                            <Setter Property="StrokeThickness" Value="3"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding DropState}" Value="2">
+                            <Setter Property="Stroke" Value="{x:Static ui:SBrushes.MagentaM}"/>
                             <Setter Property="StrokeThickness" Value="3"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </Polygon.Style>
         </Polygon>
-        <Image Name="icon" Source="{Binding Icon}" Height="32" Width="32">
+        <Image Name="icon" IsHitTestVisible="False" Height="32" Width="32">
             <Image.ToolTip>
                 <ToolTip Content="{Binding Model}">
                     <ToolTip.ContentTemplate>
@@ -42,6 +55,11 @@
                     </ToolTip.ContentTemplate>
                 </ToolTip>
             </Image.ToolTip>
+            <Image.Style>
+                <Style TargetType="Image">
+                    <Setter Property="Source" Value="{Binding Icon}"/>
+                </Style>
+            </Image.Style>
         </Image>
     </Canvas>
 </UserControl>
