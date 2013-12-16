@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -22,13 +23,39 @@ namespace PokemonBattleOnline.PBO.Editor
   /// </summary>
   public partial class PokemonEditorView : UserControl
   {
+    static readonly Brush NATUREE;
+    static readonly Brush NATURED;
+    static PokemonEditorView()
+    {
+      NATUREE = SBrushes.NewBrush(0xffffcccc);
+      NATURED = SBrushes.NewBrush(0xff99ccff);
+    }
+    
     VirtualizingStackPanel panel;
 
     public PokemonEditorView()
     {
       InitializeComponent();
-      grid.Fill = SBrushes.GetHorizontalTileBrush(25, SBrushes.NewBrush(0x80ffffff));
       Natures.ItemsSource = Enum.GetValues(typeof(PokemonNature));
+      Natures.SelectionChanged += Natures_SelectionChanged;
+    }
+
+    void Natures_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+      if (VM.Model != null)
+      {
+        var n = VM.Model.Nature;
+        var r = n.StatRevise(StatType.Atk);
+        LabelA.Foreground = r == 10 ? Brushes.White : r > 10 ? NATUREE : NATURED;
+        r = n.StatRevise(StatType.Def);
+        LabelD.Foreground = r == 10 ? Brushes.White : r > 10 ? NATUREE : NATURED;
+        r = n.StatRevise(StatType.SpAtk);
+        LabelSA.Foreground = r == 10 ? Brushes.White : r > 10 ? NATUREE : NATURED;
+        r = n.StatRevise(StatType.SpDef);
+        LabelSD.Foreground = r == 10 ? Brushes.White : r > 10 ? NATUREE : NATURED;
+        r = n.StatRevise(StatType.Speed);
+        LabelS.Foreground = r == 10 ? Brushes.White : r > 10 ? NATUREE : NATURED;
+      }
     }
 
     private PokemonEditorVM VM
@@ -50,20 +77,6 @@ namespace PokemonBattleOnline.PBO.Editor
       }
     }
 
-    private void ResetEv_Click(object sender, RoutedEventArgs e)
-    {
-      VM.Model.Ev.SetStat(StatType.All, 0);
-    }
-
-    private void Save_Click(object sender, RoutedEventArgs e)
-    {
-      VM.Save();
-      EditorVM.Current.Save();
-    }
-    private void Reset_Click(object sender, RoutedEventArgs e)
-    {
-      VM.ResetToLastSaved();
-    }
     private void Close_Click(object sender, RoutedEventArgs e)
     {
       if (EditorVM.Current.EditingPokemon != null && EditorVM.Current.EditingPokemon.Close()) EditorVM.Current.EditingPokemon = null;
@@ -120,6 +133,11 @@ namespace PokemonBattleOnline.PBO.Editor
     private void Pokemon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
       ((PokemonVM)((ContentControl)sender).Content).Edit();
+    }
+
+    private void Gender_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+      VM.Gender = VM.Gender == PokemonGender.Male ? PokemonGender.Female : PokemonGender.Male;
     }
   }
 }

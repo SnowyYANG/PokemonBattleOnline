@@ -21,6 +21,7 @@ namespace PokemonBattleOnline.Game
         current = LoadFromXml<RomData>(stream);
       foreach (var pm in Pokemons)
         foreach (var form in pm.Forms) form.Species = pm;
+      current.items.Insert(0, 0);
     }
 
     [DataMember]
@@ -45,7 +46,7 @@ namespace PokemonBattleOnline.Game
 #else
     private readonly
 #endif
-     HashSet<int> items;
+     List<int> items;
 
     [DataMember]
 #if EDITING
@@ -65,6 +66,9 @@ namespace PokemonBattleOnline.Game
     { get { return current.moves; } }
     public static int Abilities
     { get { return 188; } }
+    /// <summary>
+    /// include 0
+    /// </summary>
     public static IEnumerable<int> Items
     { get { return current.items; } }
     public static int BattleTypes

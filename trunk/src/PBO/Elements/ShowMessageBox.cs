@@ -43,14 +43,6 @@ namespace PokemonBattleOnline.PBO
     #endregion
 
     #region Editor
-    public static MessageBoxResult PokemonUnsaved()
-    {
-      return Show("当前精灵的改动尚未保存，是否保存？", MessageBoxButton.YesNoCancel);
-    }
-    public static bool PokemonResetToLastSaved()
-    {
-      return Show("当前精灵已修改，确定放弃改动？", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
-    }
     public static void FolderExportFail(string reason)
     {
       MessageBox.Show("导出失败！" + "\n" + reason);

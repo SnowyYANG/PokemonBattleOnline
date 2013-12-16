@@ -595,7 +595,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case MoveInnerClass.ForceToSwitch:
           int aLv = atk.Attacker.Pokemon.Lv, dLv = def.Defender.Pokemon.Lv;
           if ((aLv < dLv && (aLv + dLv) * atk.Controller.GetRandomInt(0, 255) < dLv >> 2) || !def.Defender.Controller.CanWithdraw(def.Defender)) atk.FailAll();
-          else MoveE.ForceSwitchImplement(def.Defender, ATs.IgnoreDefenderAbility(atk.Attacker.Ability), "forcewithdraw");
+          else MoveE.ForceSwitchImplement(def.Defender, ATs.IgnoreDefenderAbility(atk.Attacker.Ability));
           break;
       }
     }

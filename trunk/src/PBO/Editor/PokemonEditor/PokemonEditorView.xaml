@@ -5,110 +5,174 @@
              xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters"
              xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
              xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor"
-             UseLayoutRounding="True" Background="#f5f5f5" MinWidth="560" MinHeight="365" Width="560">
+             UseLayoutRounding="True" Width="460" MinHeight="365">
+    <UserControl.Background>
+        <ImageBrush TileMode="Tile" Viewport="0,0,7,7" ViewportUnits="Absolute" ImageSource="/PBO;component/images/PokemonSummaryBackground.png"/>
+    </UserControl.Background>
     <UserControl.Resources>
-        <ResourceDictionary>
-            <SolidColorBrush x:Key="BGLight" Color="#e0e0e0"/>
-            <SolidColorBrush x:Key="BGDark" Color="#505060"/>
-        </ResourceDictionary>
+        <LinearGradientBrush x:Key="BgL" EndPoint="0.5,0" StartPoint="1,0">
+            <GradientStop Color="#996f5347" Offset="0.5"/>
+            <GradientStop Color="#666f5347" Offset="0.25"/>
+            <GradientStop Color="#336f5347" Offset="0.125"/>
+            <GradientStop Color="#006f5347" Offset="0"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="BgD" EndPoint="0.5,0.1" StartPoint="1,0">
+            <GradientStop Color="#cc462b1e" Offset="1"/>
+            <GradientStop Color="#99462b1e" Offset="0.5"/>
+            <GradientStop Color="#66462b1e" Offset="0.25"/>
+            <GradientStop Color="#33462b1e" Offset="0.125"/>
+            <GradientStop Color="#00462b1e" Offset="0"/>
+        </LinearGradientBrush>
+        <ItemsPanelTemplate x:Key="VirtualPanel">
+            <VirtualizingStackPanel/>
+        </ItemsPanelTemplate>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="6,0"/>
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="Margin" Value="0,0,0,1"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="40,0,0,1"/>
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Grid x:Name="MainGrid" UseLayoutRounding="True">
+                            <Popup x:Name="PART_Popup" AllowsTransparency="true" Focusable="False" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" Margin="1" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
+                                <Border x:Name="DropDownBorder" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{Binding ActualWidth, ElementName=MainGrid}" BorderBrush="Gray" BorderThickness="1" Background="#F8F8F8">
+                                    <ScrollViewer x:Name="DropDownScrollViewer" Foreground="Black">
+                                        <Grid RenderOptions.ClearTypeHint="Enabled">
+                                            <Canvas HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
+                                                <Rectangle x:Name="OpaqueRect" Fill="{Binding Background, ElementName=DropDownBorder}" Height="{Binding ActualHeight, ElementName=DropDownBorder}" Width="{Binding ActualWidth, ElementName=DropDownBorder}"/>
+                                            </Canvas>
+                                            <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" Margin="0,1,0,0"/>
+                                        </Grid>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                            <ToggleButton OverridesDefaultStyle="True" IsTabStop="False" Focusable="False" ClickMode="Press" BorderThickness="0" BorderBrush="{x:Null}" Background="Transparent" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" IsEnabled="{TemplateBinding IsEnabled}">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <Rectangle Name="border" Fill="Transparent"/>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="border" Property="Fill" Value="#20000000"/>
+                                            </Trigger>
+                                            <Trigger Property="IsChecked" Value="true">
+                                                <Setter TargetName="border" Property="Fill" Value="#20000000"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <ContentControl Foreground="White" ContentTemplate="{TemplateBinding ItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Content="{TemplateBinding SelectedItem}" ContentStringFormat="{TemplateBinding ItemStringFormat}" IsHitTestVisible="false" Margin="4,4,2,3" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="True"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasItems" Value="false">
+                                <Setter Property="Height" TargetName="DropDownBorder" Value="95"/>
+                            </Trigger>
+                            <Trigger Property="IsGrouping" Value="true">
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                            </Trigger>
+                            <Trigger Property="ScrollViewer.CanContentScroll" SourceName="DropDownScrollViewer" Value="false">
+                                <Setter Property="Canvas.Top" TargetName="OpaqueRect" Value="{Binding VerticalOffset, ElementName=DropDownScrollViewer}"/>
+                                <Setter Property="Canvas.Left" TargetName="OpaqueRect" Value="{Binding HorizontalOffset, ElementName=DropDownScrollViewer}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
-    <Grid Margin="0,18,0,0" HorizontalAlignment="Center" Width="560">
-        <Grid.Resources>
-        	<ItemsPanelTemplate x:Key="VirtualPanel">
-        		<VirtualizingStackPanel/>
-        	</ItemsPanelTemplate>
-        	<Style TargetType="ui:ClearableComboBox">
-        		<Setter Property="BorderBrush" Value="#4C808080"/>
-        		<Setter Property="CanClear" Value="False"/>
-        		<Setter Property="Background" Value="White"/>
-        	</Style>
-            <Style TargetType="TextBox">
-                <Setter Property="FontFamily" Value="Microsoft YaHei"/>
-                <Setter Property="BorderBrush" Value="#4C808080"/>
-                <Setter Property="Background" Value="White"/>
-            </Style>
-            <Style TargetType="Label">
-        		<Setter Property="Foreground" Value="#585050"/>
-        		<Setter Property="FontWeight" Value="Bold"/>
-        		<Setter Property="Padding" Value="4,0"/>
-                <Setter Property="Height" Value="25"/>
-        		<Setter Property="Template">
-        			<Setter.Value>
-        				<ControlTemplate TargetType="{x:Type Label}">
-        					<StackPanel Margin="{TemplateBinding Padding}" Orientation="Horizontal" VerticalAlignment="Center">
-        						<Rectangle Width="3" Height="3" Fill="{TemplateBinding Foreground}" Opacity="0.85">
-        							<Rectangle.Effect>
-        								<DropShadowEffect BlurRadius="1" ShadowDepth="1.5" Color="#a0a0a8" Direction="225"/>
-        							</Rectangle.Effect>
-        						</Rectangle>
-        						<ContentControl Content="{TemplateBinding Content}" Margin="3,0,0,0" Style="{x:Null}"/>
-        					</StackPanel>
-        				</ControlTemplate>
-        			</Setter.Value>
-        		</Setter>
-        	</Style>
-        </Grid.Resources>
-        <Border Margin="0,-18,0,0" Height="18" VerticalAlignment="Top" BorderThickness="0,1" BorderBrush="{x:Static ui:SBrushes.GrayB1}" Background="{x:Static ui:SBrushes.GrayB1}">
-            <Border Style="{x:Null}" BorderThickness="0,1" BorderBrush="#b0b0b0"/>
-        </Border>
-        <Button Click="Close_Click" ToolTip="关闭" Style="{x:Static ui:Controls.XButton}" Foreground="#b0b0b0" Background="White" BorderBrush="White" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,-22,3,0"/>
+    <Grid Margin="0,18,0,0">
+        <Rectangle Margin="0,-14,0,0" Height="7" VerticalAlignment="Top">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#ff6600"/>
+                    <GradientStop Color="#00ff6600" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Button Click="Close_Click" ToolTip="关闭" Style="{x:Static ui:Controls.XButton}" Foreground="#b0b0b0" Background="White" BorderBrush="White" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,-24,3,0"/>
         <Rectangle Name="grid" Margin="0,3,0,0"/>
-        <Grid Margin="15,15,15,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200">
-        	<Grid.Resources>
-        		<Style TargetType="RowDefinition">
-        			<Setter Property="Height" Value="25" />
-        		</Style>
-                <Style TargetType="ContentPresenter">
-                    <Setter Property="Grid.Row" Value="2"/>
-                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                    <Setter Property="VerticalAlignment" Value="Center"/>
-                    <Setter Property="ContentTemplate" Value="{x:Static ui:Labels.BattleType}"/>
+        <Image Source="{Binding Image}" Height="{Binding Image.PixelHeight}" Width="{Binding Image.PixelWidth}" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Image.ToolTip>
+                <ToolTip BorderThickness="0">
+                    <Grid DataContext="{Binding PokemonForm.Data}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="身高"/>
+                        <TextBlock Grid.Column="1" Margin="10,0,0,0">
+                            <TextBlock Text="{Binding Height}"/>m
+                        </TextBlock>
+                        <TextBlock Text="体重" Grid.Row="1"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="10,0,0,0">
+                            <TextBlock Text="{Binding Weight}"/>kg
+                        </TextBlock>
+                    </Grid>
+                </ToolTip>
+            </Image.ToolTip>
+            <Image.Style>
+                <Style TargetType="Image">
+                    <Setter Property="Margin" Value="0,0,100,0"/>
+                    <Style.Triggers>
+                        <Trigger Property="Height" Value="96">
+                            <Setter Property="Margin" Value="0,75,100,0"/>
+                        </Trigger>
+                    </Style.Triggers>
                 </Style>
-                <Style TargetType="ui:NumericUpdown">
-                    <Setter Property="BorderBrush" Value="#4C808080"/>
-                    <Setter Property="Foreground" Value="Gray"/>
-                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                </Style>
-            </Grid.Resources>
-        	<Grid.RowDefinitions>
-        		<RowDefinition/>
-        		<RowDefinition/>
-        		<RowDefinition/>
-        		<RowDefinition/>
+            </Image.Style>
+        </Image>
+        <Grid Margin="15,12,15,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-        	<Image Source="{Binding Image}" Grid.Row="4" Grid.RowSpan="4" Height="{Binding Image.PixelHeight}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <Image.ToolTip>
-                    <ToolTip BorderThickness="0">
-                        <Grid DataContext="{Binding PokemonForm.Data}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Text="身高"/>
-                            <TextBlock Grid.Column="1" Margin="10,0,0,0">
-                                <TextBlock Text="{Binding Height}"/>m
-                            </TextBlock>
-                            <TextBlock Text="体重" Grid.Row="1"/>
-                            <TextBlock Grid.Row="1" Grid.Column="1" Margin="10,0,0,0">
-                                <TextBlock Text="{Binding Weight}"/>kg
-                            </TextBlock>
-                        </Grid>
-                    </ToolTip>
-                </Image.ToolTip>
-        	</Image>
-            <Label Content="姓名"/>
-        	<TextBox Text="{Binding Model.Name}" Width="155" HorizontalAlignment="Right"/>
-        	<Label Content="精灵" Grid.Row="1"/>
-            <ui:ClearableComboBox SelectedItem="{Binding PokemonSpecies}" ItemsSource="{x:Static pm:RomData.Pokemons}" ItemsPanel="{StaticResource VirtualPanel}" Grid.Row="1" Margin="45,0,0,0" VirtualizingStackPanel.VirtualizationMode="Recycling">
-                <ui:ClearableComboBox.ItemTemplate>
+            <TextBox Text="{Binding Model.Name}" FontFamily="Microsoft YaHei" VerticalContentAlignment="Center" Height="24" Margin="0,0,0,1" Padding="5,0" Background="{StaticResource BgD}" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}"/>
+            <ContentControl MouseLeftButtonDown="Gender_MouseLeftButtonDown" Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Cursor="Hand" ToolTip="性别" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <Label Content="  Lv." Background="{StaticResource BgL}" Grid.Row="1"/>
+            <ui:NumericUpdown Value="{Binding Model.Lv,Mode=TwoWay}" Minimum="1" Median="50" Maximum="100" Width="50" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Grid.Row="1" Margin="35,0,0,1"/>
+            <Canvas Visibility="{Binding HappinessVisibility}" ToolTip="亲密度" MouseLeftButtonDown="Happiness_MouseLeftButtonDown" Cursor="Hand" Background="Transparent" Width="29" Height="25" HorizontalAlignment="Right" Grid.Row="1" Margin="10,0">
+                <Path x:Name="heart" Canvas.Right="0" IsHitTestVisible="False" StrokeLineJoin="Round" Height="25.5" Width="29" Stretch="Uniform" Data="M343.94027,195.18266 C341.16391,190.67782 336.88841,191.48044 335.01251,192.38285 330.82134,194.39901 328.41787,199.18479 330.9993,204.96216 334.89117,213.50771 343.98761,216.27715 343.98761,216.27715 343.98761,216.27715 352.53953,214.02943 357.37982,204.48072 359.15438,199.18479 357.05787,194.29035 353.10437,192.36459 351.32944,191.48194 347.05351,190.75974 343.94027,195.18266 z">
+                    <Path.Style>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeThickness" Value="2"/>
+                            <Setter Property="Stroke" Value="#ff0000"/>
+                            <Setter Property="Fill">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{Binding Stroke.Color,RelativeSource={RelativeSource AncestorType=Path}}" Opacity="0.2"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Model.Happiness}" Value="0">
+                                    <Setter Property="StrokeThickness" Value="1"/>
+                                    <Setter Property="Stroke" Value="#600038"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Model.Happiness}" Value="255">
+                                    <Setter Property="Stroke" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Path.Style>
+                </Path>
+                <TextBox Text="{Binding Model.Happiness}" Foreground="{Binding Stroke,ElementName=heart}" TextAlignment="Center" Width="29" Padding="0" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Canvas.Right="0" Canvas.Bottom="5"/>
+            </Canvas>
+            <Rectangle Fill="{StaticResource BgD}" Grid.Row="2" Margin="0,0,0,1"/>
+            <Label Content="精灵" Grid.Row="2" VerticalAlignment="Top"/>
+            <ComboBox SelectedItem="{Binding PokemonSpecies}" ItemsSource="{x:Static pm:RomData.Pokemons}" ItemsPanel="{StaticResource VirtualPanel}" Grid.Row="2" VirtualizingStackPanel.VirtualizationMode="Recycling" VerticalAlignment="Top">
+                <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
                             <StackPanel.ToolTip>
@@ -120,31 +184,11 @@
                             <TextBlock Text="{Binding Number, Converter={x:Static c:PokemonSpeciesString.C}}"/>
                         </StackPanel>
                     </DataTemplate>
-                </ui:ClearableComboBox.ItemTemplate>
-            </ui:ClearableComboBox>
-            <Label Content="属性" Grid.Row="2" HorizontalAlignment="Left"/>
-            <ContentPresenter Content="{Binding PokemonForm.Type1}" Margin="45,0,0,0"/>
-            <ContentPresenter Content="{Binding PokemonForm.Type2}" Margin="96,0,0,0"/>
-        	<Label Content="Lv" Grid.Row="3"/>
-            <ui:NumericUpdown Value="{Binding Model.Lv,Mode=TwoWay}" Minimum="1" Maximum="100" Grid.Row="3" LargeChange="50" Canvas.Left="45" Width="53" Margin="45,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-        	<Label Content="性别" Grid.Row="3" Canvas.Left="94" Canvas.Top="58" BorderThickness="0" HorizontalAlignment="Right" Margin="0,0,56,0"/>
-        	<ui:ClearableComboBox SelectedItem="{Binding Gender}" ItemsSource="{Binding PokemonSpecies.Genders}" ItemTemplate="{x:Static ui:Labels.GenderShowNone}" Grid.Row="3" Margin="150,0,0,0"/>
-            <Label Content="特性" Grid.Row="4"/>
-            <ui:ClearableComboBox SelectedItem="{Binding Model.Ability}" ItemsSource="{Binding PokemonForm.Data.Abilities}" ItemTemplate="{x:Static ui:Labels.Ability}" ItemContainerStyle="{x:Null}" ToolTip="{Binding Model.Ability,Converter={x:Static c:AbilityDString.C}}" Margin="5,0,102,0" Grid.Row="5"/>
-        	<Label Content="道具" Grid.Row="6" VerticalAlignment="Top" Height="25"/>
-            <ui:ClearableComboBox SelectedItem="{Binding HeldItem}" ItemsSource="{x:Static pm:RomData.Items}" ItemTemplate="{x:Static ui:Labels.Item}" ItemsPanel="{StaticResource VirtualPanel}" ToolTip="{Binding HeldItem,Converter={x:Static c:ItemDString.C}}" CanClear="True" Grid.Row="7" Margin="5,0,102,0"/>
-            <ui:ClearableComboBox SelectedItem="{Binding PokemonForm}" ItemsSource="{Binding PokemonSpecies.Forms}" CanClear="False" Grid.Row="7" MaxWidth="96" HorizontalAlignment="Right" Background="#a0ffffff" BorderBrush="{x:Null}">
-                <ui:ClearableComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Converter={x:Static c:PokemonFormShortString.C}}">
-                            <TextBlock.ToolTip>
-                                <Image Source="{Binding Converter={x:Static c:PokemonFormIcon.C}}" Height="32" Width="32"/>
-                            </TextBlock.ToolTip>
-                        </TextBlock>
-                    </DataTemplate>
-                </ui:ClearableComboBox.ItemTemplate>
-                <ui:ClearableComboBox.Style>
-                    <Style TargetType="ui:ClearableComboBox">
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Grid Margin="0,24,0,0" Grid.Row="2">
+                <Grid.Style>
+                    <Style TargetType="Grid">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Model.CanChooseForm}" Value="True">
@@ -152,115 +196,88 @@
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </ui:ClearableComboBox.Style>
-            </ui:ClearableComboBox>
+                </Grid.Style>
+                <Label Content="形态"/>
+                <ComboBox SelectedItem="{Binding PokemonForm}" ItemsSource="{Binding PokemonSpecies.Forms}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={x:Static c:PokemonFormShortString.C}}">
+                                <TextBlock.ToolTip>
+                                    <Image Source="{Binding Converter={x:Static c:PokemonFormIcon.C}}" Height="32" Width="32"/>
+                                </TextBlock.ToolTip>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+            <Label Content="属性" Background="{StaticResource BgL}" Grid.Row="3"/>
+            <ContentPresenter Content="{Binding PokemonForm.Type1}" ContentTemplate="{x:Static ui:Labels.BattleType}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="3" Margin="45,0,0,0"/>
+            <ContentPresenter Content="{Binding PokemonForm.Type2}" ContentTemplate="{x:Static ui:Labels.BattleType}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="3" Margin="94,0,0,0"/>
         </Grid>
-        <StackPanel DataContext="{Binding Model.Moves}" Margin="16,230,15,0" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
-        	<StackPanel.Resources>
-        		<Style TargetType="{x:Type ContentPresenter}">
-        			<Setter Property="ContentTemplate" Value="{x:Static e:R.SelectedMove}"/>
-        			<Setter Property="HorizontalAlignment" Value="Center"/>
-                    <Setter Property="Margin" Value="-2,0"/>
-        			<EventSetter Event="UIElement.MouseDown" Handler="SelectedMove_MouseDown"/>
-        		</Style>
-        	</StackPanel.Resources>
-        	<ContentPresenter Content="{Binding [0]}"/>
-            <ContentPresenter Content="{Binding [1]}"/>
-            <ContentPresenter Content="{Binding [2]}"/>
-            <ContentPresenter Content="{Binding [3]}"/>
-        </StackPanel>
-        <Grid VerticalAlignment="Top" Margin="230,15,15,0">
+        <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Width="250" Margin="0,5,15,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto" MinWidth="50"/>
-                <ColumnDefinition Width="*" MinWidth="92"/>
-                <ColumnDefinition Width="Auto" MinWidth="53"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="150"/>
+                <RowDefinition Height="155"/>
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
 
-            <ContentControl Visibility="{Binding HiddenPowerVisibility}" Content="{Binding HiddenPowerType}" ContentTemplate="{x:Static ui:Labels.BattleType}" ToolTip="觉醒力量" Margin="3,0,0,0" Grid.Column="3" Grid.Row="2"/>
-            <Canvas Visibility="{Binding HappinessVisibility}" ToolTip="Happiness" MouseLeftButtonDown="Happiness_MouseLeftButtonDown" Cursor="Hand" Background="Transparent" Width="29" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2">
-                <Path Canvas.Right="0" IsHitTestVisible="False" StrokeLineJoin="Round" Height="25.5" Width="29" Stretch="Uniform" Data="M343.94027,195.18266 C341.16391,190.67782 336.88841,191.48044 335.01251,192.38285 330.82134,194.39901 328.41787,199.18479 330.9993,204.96216 334.89117,213.50771 343.98761,216.27715 343.98761,216.27715 343.98761,216.27715 352.53953,214.02943 357.37982,204.48072 359.15438,199.18479 357.05787,194.29035 353.10437,192.36459 351.32944,191.48194 347.05351,190.75974 343.94027,195.18266 z">
-                    <Path.Style>
-                        <Style TargetType="Path">
-                            <Setter Property="StrokeThickness" Value="2"/>
-                            <Setter Property="Stroke" Value="{x:Static ui:SBrushes.OrangeM}"/>
-                            <Setter Property="Fill">
-                                <Setter.Value>
-                                    <SolidColorBrush Color="{Binding Stroke.Color,RelativeSource={RelativeSource AncestorType=Path}}" Opacity="0.2"/>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Model.Happiness}" Value="0">                                    
-                                    <Setter Property="StrokeThickness" Value="1"/>
-                                    <Setter Property="Stroke" Value="#600038"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Model.Happiness}" Value="255">
-                                    <Setter Property="Stroke" Value="{x:Static ui:SBrushes.MagentaM}"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Path.Style>
-                </Path>
-                <TextBox Text="{Binding Model.Happiness}" ToolTip="Happiness" TextAlignment="Center" Width="29" Padding="0" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Canvas.Right="0" Canvas.Bottom="5"/>
-            </Canvas>
-
-            <Label Content="性格"/>
-            <StackPanel Margin="0,0,10,0" Grid.Row="1">
-                <Label Content="Hp"/>
-                <Label Content="攻击"/>
-                <Label Content="防御"/>
-                <Label Content="特攻"/>
-                <Label Content="特防"/>
-                <Label Content="速度"/>
-            </StackPanel>
-
-            <StackPanel DataContext="{Binding Model.Iv}" Grid.Row="1" Grid.Column="3" Margin="3,0,0,0">
+            <StackPanel Width="4" HorizontalAlignment="Left">
                 <StackPanel.Resources>
-                    <Style TargetType="{x:Type ui:NumericUpdown}">
-                        <Setter Property="Height" Value="25"/>
-                        <Setter Property="Maximum" Value="31"/>
-                        <Setter Property="BorderBrush" Value="#4C808080"/>
-                        <Setter Property="Foreground" Value="Gray"/>
-                        <Setter Property="ToolTip" Value="个体值"/>
+                    <Style TargetType="Rectangle">
+                        <Setter Property="Height" Value="24"/>
+                        <Setter Property="Margin" Value="0,0,0,1"/>
                     </Style>
                 </StackPanel.Resources>
-                <ui:NumericUpdown Value="{Binding Hp}"/>
-                <ui:NumericUpdown Value="{Binding Atk}"/>
-                <ui:NumericUpdown Value="{Binding Def}"/>
-                <ui:NumericUpdown Value="{Binding SpAtk}"/>
-                <ui:NumericUpdown Value="{Binding SpDef}"/>
-                <ui:NumericUpdown Value="{Binding Speed}"/>
+                <Rectangle Fill="#77ff77" Margin="0,0,0,6"/>
+                <Rectangle Fill="#fcf9aa"/>
+                <Rectangle Fill="#ffbb77"/>
+                <Rectangle Fill="#99ffff"/>
+                <Rectangle Fill="#66aaff"/>
+                <Rectangle Fill="#ee99ff"/>
             </StackPanel>
-            
-            <TextBlock Visibility="{Binding RemainingEvVisibility}" Foreground="{x:Static ui:SBrushes.MagentaM}" Grid.Column="2" VerticalAlignment="Top" Height="25" Padding="0,5" HorizontalAlignment="Right" Grid.Row="2">
-                <Run Text="剩余努力值"/>
-                <Run Text="{Binding RemainingEv, Mode=OneWay}"/>
-            </TextBlock>
-            <Button Click="ResetEv_Click" Content="重置" Grid.Column="2" Width="86" FontSize="12" HorizontalContentAlignment="Right">
-                <Button.Effect>
-                    <DropShadowEffect BlurRadius="3" Color="White" ShadowDepth="0" Opacity="1"/>
-                </Button.Effect>
-                <Button.Style>
-                    <Style TargetType="Button" BasedOn="{x:Static ui:Controls.XButton}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding RemainingEv}" Value="510">
-                                <Setter Property="Visibility" Value="Hidden"/>
-                            </DataTrigger>
-                        </Style.Triggers>
+            <StackPanel Grid.ColumnSpan="3" Margin="4,0,0,0">
+                <Label Content="HP" Background="{StaticResource BgD}" Margin="0,0,0,6"/>
+                <Label Name="LabelA" Content="攻击" Background="{StaticResource BgL}"/>
+                <Label Name="LabelD" Content="防御" Background="{StaticResource BgD}"/>
+                <Label Name="LabelSA" Content="特攻" Background="{StaticResource BgL}"/>
+                <Label Name="LabelSD" Content="特防" Background="{StaticResource BgD}"/>
+                <Label Name="LabelS" Content="速度" Background="{StaticResource BgL}"/>
+            </StackPanel>
+            <Label Content="性格" Background="{StaticResource BgD}" Margin="4,0,0,1" Grid.Row="1" Grid.ColumnSpan="3"/>
+            <ComboBox x:Name="Natures" SelectedItem="{Binding Model.Nature}" Margin="50,0,0,1" Height="24" Width="45" Padding="5,0" Grid.Column="0" Grid.Row="1">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={x:Static c:NatureString.C}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <StackPanel DataContext="{Binding Stats}" Margin="0,0,20,0" HorizontalAlignment="Right">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Margin" Value="0,5,0,0"/>
+                        <Setter Property="Height" Value="20"/>
+                        <Setter Property="HorizontalAlignment" Value="Right"/>
                     </Style>
-                </Button.Style>
-            </Button>
-            <StackPanel DataContext="{Binding Model.Ev}" Grid.Row="1" Grid.Column="2" Margin="3,0,0,0">
+                </StackPanel.Resources>
+                <TextBlock Text="{Binding Hp}" Margin="0,5,0,6"/>
+                <TextBlock Text="{Binding Atk}"/>
+                <TextBlock Text="{Binding Def}"/>
+                <TextBlock Text="{Binding SpAtk}"/>
+                <TextBlock Text="{Binding SpDef}"/>
+                <TextBlock Text="{Binding Speed}"/>
+            </StackPanel>
+
+            <StackPanel DataContext="{Binding Model.Ev}" Grid.Column="1" Margin="3,0,0,0">
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type ui:NumericUpdown}">
                         <Setter Property="Width" Value="86"/>
                         <Setter Property="Height" Value="25"/>
-                        <Setter Property="DragScale" Value="0.25"/>
                         <Setter Property="Minimum" Value="0"/>
                         <Setter Property="Maximum" Value="255"/>
                         <Setter Property="SmallChange" Value="4"/>
@@ -278,53 +295,59 @@
                         <Setter Property="ToolTip" Value="努力值"/>
                     </Style>
                 </StackPanel.Resources>
-                <ui:NumericUpdown Value="{Binding Hp, Mode=TwoWay}"/>
+                <ui:NumericUpdown Value="{Binding Hp, Mode=TwoWay}" Margin="0,0,0,6"/>
                 <ui:NumericUpdown Value="{Binding Atk, Mode=TwoWay}"/>
                 <ui:NumericUpdown Value="{Binding Def, Mode=TwoWay}"/>
                 <ui:NumericUpdown Value="{Binding SpAtk, Mode=TwoWay}"/>
                 <ui:NumericUpdown Value="{Binding SpDef, Mode=TwoWay}"/>
                 <ui:NumericUpdown Value="{Binding Speed, Mode=TwoWay}"/>
             </StackPanel>
+            <TextBlock Visibility="{Binding RemainingEvVisibility}" Foreground="#ff8080" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Height="25" Padding="0,5" HorizontalAlignment="Center">
+                <Run Text="剩余努力"/>
+                <Run Text="{Binding RemainingEv, Mode=OneWay}"/>
+            </TextBlock>
 
-            <ui:ClearableComboBox x:Name="Natures" SelectedItem="{Binding Model.Nature}" Grid.Column="1" Height="25">
-                <ui:ClearableComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Converter={x:Static c:NatureString.C}}"/>
-                    </DataTemplate>
-                </ui:ClearableComboBox.ItemTemplate>
-            </ui:ClearableComboBox>
-            <StackPanel DataContext="{Binding Stats}" Grid.Column="1" Grid.Row="1" Margin="3,0,0,0">
+            <StackPanel DataContext="{Binding Model.Iv}" Grid.Column="2">
                 <StackPanel.Resources>
-                    <Style TargetType="{x:Type ContentControl}">
-                        <Setter Property="ContentTemplate" Value="{x:Static ui:Labels.MultipliedValue}"/>
-                        <Setter Property="Height" Value="25"/>
-                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Style TargetType="{x:Type ui:NumericUpdown}">
+                        <Setter Property="Height" Value="24"/>
+                        <Setter Property="Margin" Value="0,0,0,1"/>
+                        <Setter Property="Maximum" Value="31"/>
+                        <Setter Property="Median" Value="30"/>
+                        <Setter Property="ToolTip" Value="个体值"/>
                     </Style>
                 </StackPanel.Resources>
-                <TextBlock Text="{Binding Hp}" Padding="0,5" Height="25" HorizontalAlignment="Left">
-        		    <TextBlock.Effect>
-        			    <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="#a0a0a0" />
-        		    </TextBlock.Effect>
-                </TextBlock>
-                <ContentControl Content="{Binding Atk}"/>
-                <ContentControl Content="{Binding Def}"/>
-                <ContentControl Content="{Binding SpAtk}"/>
-                <ContentControl Content="{Binding SpDef}"/>
-                <ContentControl Content="{Binding Speed}"/>
+                <ui:NumericUpdown Value="{Binding Hp}" Margin="0,0,0,6"/>
+                <ui:NumericUpdown Value="{Binding Atk}"/>
+                <ui:NumericUpdown Value="{Binding Def}"/>
+                <ui:NumericUpdown Value="{Binding SpAtk}"/>
+                <ui:NumericUpdown Value="{Binding SpDef}"/>
+                <ui:NumericUpdown Value="{Binding Speed}"/>
             </StackPanel>
+            <ContentControl Visibility="{Binding HiddenPowerVisibility}" Content="{Binding HiddenPowerType}" ContentTemplate="{x:Static ui:Labels.BattleType}" Width="48" ToolTip="觉醒力量" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,0,8,0"/>
         </Grid>
-        <ListView x:Name="learnsetlist" ItemsSource="{Binding Learnset}" Margin="0,265,0,0" MinHeight="100" VirtualizingStackPanel.VirtualizationMode="Recycling" BorderThickness="0">
-        	<ListView.ItemContainerStyle>
-        		<Style TargetType="{x:Type ListViewItem}">
-        			<Setter Property="Margin" Value="0,0,0,1"/>
-        			<Setter Property="VerticalContentAlignment" Value="Center"/>
-        			<Setter Property="Foreground" Value="Black"/>
-        			<Setter Property="Template">
-        				<Setter.Value>
-        					<ControlTemplate TargetType="{x:Type ListViewItem}">
-        						<Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}" BorderThickness="0,3" SnapsToDevicePixels="true">
-        							<StackPanel Margin="5,1">
-        								<GridViewRowPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+        <Grid Margin="50,130,15,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Content="特性" Background="{StaticResource BgD}"/>
+            <ComboBox SelectedItem="{Binding Model.Ability}" ItemsSource="{Binding PokemonForm.Data.Abilities}" ItemTemplate="{x:Static ui:Labels.Ability}" ItemContainerStyle="{x:Null}" ToolTip="{Binding Model.Ability,Converter={x:Static c:AbilityDString.C}}"/>
+            <Label Content="道具" Grid.Row="1" Background="{StaticResource BgL}"/>
+            <ComboBox SelectedItem="{Binding HeldItem}" ItemsSource="{x:Static pm:RomData.Items}" ItemTemplate="{x:Static ui:Labels.Item}" ItemsPanel="{StaticResource VirtualPanel}" ToolTip="{Binding HeldItem,Converter={x:Static c:ItemDString.C}}" Grid.Row="1"/>
+        </Grid>
+        <ListView x:Name="learnsetlist" ItemsSource="{Binding Learnset}" Margin="0,200,0,0" MinHeight="100" VirtualizingStackPanel.VirtualizationMode="Recycling" BorderThickness="0">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Margin" Value="0,0,0,1"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}" BorderThickness="0,3" SnapsToDevicePixels="true">
+                                    <StackPanel Margin="5,1">
+                                        <GridViewRowPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                         <ContentPresenter x:Name="methods" Content="..." HorizontalAlignment="Stretch" Margin="30,1,0,0" Visibility="Collapsed">
                                             <ContentPresenter.Resources>
                                                 <Style TargetType="TextBlock">
@@ -333,91 +356,91 @@
                                             </ContentPresenter.Resources>
                                         </ContentPresenter>
                                     </StackPanel>
-        						</Border>
+                                </Border>
                                 <ControlTemplate.Triggers>
                                     <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                         <Setter Property="FontWeight" Value="Bold"/>
                                     </DataTrigger>
-        				            <Trigger Property="IsMouseOver" Value="true">
-        					            <Setter Property="Background" Value="#80a0a0a0"/>
-        				            </Trigger>
-        				            <Trigger Property="IsSelected" Value="true">
-        					            <Setter Property="Background" Value="{x:Static ui:SBrushes.SelectedItemBg}"/>
-        					            <Setter TargetName="methods" Property="Visibility" Value="Visible"/>
-        				            </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter Property="Background" Value="#80a0a0a0"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter Property="Background" Value="{x:Static ui:SBrushes.SelectedItemBg}"/>
+                                        <Setter TargetName="methods" Property="Visibility" Value="Visible"/>
+                                    </Trigger>
                                 </ControlTemplate.Triggers>
-        					</ControlTemplate>
-        				</Setter.Value>
-        			</Setter>
-        		</Style>
-        	</ListView.ItemContainerStyle>
-        	<ListView.View>
-        		<GridView>
-        			<GridView.ColumnHeaderContainerStyle>
-        				<Style TargetType="{x:Type GridViewColumnHeader}">
-        					<Setter Property="Width" Value="Auto"/>
-        					<Setter Property="MinWidth" Value="50"/>
-        					<Setter Property="FontWeight" Value="Bold"/>
-        					<Setter Property="Height" Value="23"/>
-        					<Setter Property="Background">
-        						<Setter.Value>
-        							<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-        								<GradientStop Color="White" Offset="0.4"/>
-        								<GradientStop Color="LightGray" Offset="1"/>
-        							</LinearGradientBrush>
-        						</Setter.Value>
-        					</Setter>
-        				</Style>
-        			</GridView.ColumnHeaderContainerStyle>
-        			<GridViewColumn Width="Auto">
-        				<GridViewColumn.HeaderContainerStyle>
-        					<Style TargetType="{x:Type GridViewColumnHeader}">
-        						<Setter Property="Background">
-        							<Setter.Value>
-        								<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-        									<GradientStop Color="White" Offset="0.4"/>
-        									<GradientStop Color="LightGray" Offset="1"/>
-        								</LinearGradientBrush>
-        							</Setter.Value>
-        						</Setter>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridView.ColumnHeaderContainerStyle>
+                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                            <Setter Property="Width" Value="Auto"/>
+                            <Setter Property="MinWidth" Value="50"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Height" Value="23"/>
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="White" Offset="0.4"/>
+                                        <GradientStop Color="LightGray" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GridView.ColumnHeaderContainerStyle>
+                    <GridViewColumn Width="Auto">
+                        <GridViewColumn.HeaderContainerStyle>
+                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Color="White" Offset="0.4"/>
+                                            <GradientStop Color="LightGray" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
                                 <Setter Property="MinWidth" Value="15"/>
-        					</Style>
-        				</GridViewColumn.HeaderContainerStyle>
-        				<GridViewColumn.CellTemplate>
-        					<DataTemplate>
-        						<CheckBox IsChecked="{Binding IsSelected}" Margin="15,0,0,0"/>
-        					</DataTemplate>
-        				</GridViewColumn.CellTemplate>
-        			</GridViewColumn>
-        			<GridViewColumn Header="名称" DisplayMemberBinding="{Binding Move.Id,Converter={x:Static c:MoveString.C}}"/>
-        			<GridViewColumn Header="属性">
-        				<GridViewColumn.CellTemplate>
-        					<DataTemplate>
-        						<ContentPresenter Content="{Binding Move.Type}" ContentTemplate="{x:Static ui:Labels.BattleType}"/>
-        					</DataTemplate>
-        				</GridViewColumn.CellTemplate>
-        			</GridViewColumn>
-        			<GridViewColumn Header="类别">
-        				<GridViewColumn.CellTemplate>
-        					<DataTemplate>
-        						<ContentPresenter Content="{Binding Move.Category}" ContentTemplate="{x:Static ui:Labels.MoveCategory}"/>
-        					</DataTemplate>
-        				</GridViewColumn.CellTemplate>
-        			</GridViewColumn>
-        			<GridViewColumn Header="威力" DisplayMemberBinding="{Binding Move.Power, Converter={x:Static c:PowerString.C}}"/>
-        			<GridViewColumn Header="命中" DisplayMemberBinding="{Binding Move.Accuracy, Converter={x:Static c:AccuracyString.C}}"/>
-        			<GridViewColumn Header="PP" DisplayMemberBinding="{Binding Move.PP}"/>
-        			<GridViewColumn Header="描述" DisplayMemberBinding="{Binding Move.Id, Converter={x:Static c:MoveDString.C}}"/>
-        		</GridView>
-        	</ListView.View>
+                            </Style>
+                        </GridViewColumn.HeaderContainerStyle>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsSelected}" Margin="15,0,0,0"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="名称" DisplayMemberBinding="{Binding Move.Id,Converter={x:Static c:MoveString.C}}"/>
+                    <GridViewColumn Header="属性">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ContentPresenter Content="{Binding Move.Type}" ContentTemplate="{x:Static ui:Labels.BattleType}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="类别">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ContentPresenter Content="{Binding Move.Category}" ContentTemplate="{x:Static ui:Labels.MoveCategory}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="威力" DisplayMemberBinding="{Binding Move.Power, Converter={x:Static c:PowerString.C}}"/>
+                    <GridViewColumn Header="命中" DisplayMemberBinding="{Binding Move.Accuracy, Converter={x:Static c:AccuracyString.C}}"/>
+                    <GridViewColumn Header="PP" DisplayMemberBinding="{Binding Move.PP}"/>
+                    <GridViewColumn Header="描述" DisplayMemberBinding="{Binding Move.Id, Converter={x:Static c:MoveDString.C}}"/>
+                </GridView>
+            </ListView.View>
         </ListView>
-        <StackPanel DataContext="{Binding Origin.Container}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-32,-18,0,0">
+        <StackPanel DataContext="{Binding Origin.Container}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-16,-18,0,0">
             <StackPanel.Resources>
                 <Style TargetType="ContentControl">
                     <Setter Property="ContentTemplate">
                         <Setter.Value>
                             <DataTemplate>
-                                <Canvas Height="32">
+                                <Canvas Height="32" Width="32">
                                     <Polygon Name="stroke" IsHitTestVisible="False" Stroke="#80808080" StrokeThickness="1" Fill="{x:Null}" Canvas.Top="4" Points="1.5,16 6.5,4.5 25.5,4.5 30.5,16 25.5,27.5 6.5,27.5"/>
                                     <Image Name="icon" Cursor="Hand" Source="{Binding Icon}" Height="32" Width="32"/>
                                 </Canvas>
@@ -442,8 +465,6 @@
             <ContentControl Content="{Binding [4]}"/>
             <ContentControl Content="{Binding [5]}"/>
         </StackPanel>
-        <ui:UIButton Click="Save_Click" Content="保存" Margin="0,-18,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Background="#FF25110E"/>
-        <ui:UIButton Click="Reset_Click" Content="重置" Margin="64,-18,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Background="#FF25110E"/>
         <TextBox Name="QuickText" KeyDown="QuickText_KeyDown" ToolTip="输入全国编号、精灵名、技能名、特性名、道具名、性格后回车。" Width="128" Margin="130,-18,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBlock Text="快速文本编辑" Margin="132,-16,0,0" IsHitTestVisible="False" Foreground="Gray" HorizontalAlignment="Left" VerticalAlignment="Top">
             <TextBlock.Style>

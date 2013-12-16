@@ -14,8 +14,6 @@ namespace PokemonBattleOnline.PBO.Elements
     public static readonly DataTemplate MoveCategory;
     public static readonly DataTemplate PokemonState;
     public static readonly DataTemplate Gender;
-    public static readonly DataTemplate GenderShowNone;
-    public static readonly DataTemplate MultipliedValue;
 
     static Labels()
     {
@@ -24,10 +22,7 @@ namespace PokemonBattleOnline.PBO.Elements
       Item = GetDataTemplate("Item");
       MoveCategory = GetDataTemplate("MoveCategory");
       PokemonState = GetDataTemplate("PokemonState");
-      MultipliedValue = GetDataTemplate("MultipliedValue");
-      ResourceDictionary rd = GetDictionary("Gender");
-      Gender = rd["GenderLabel"] as DataTemplate;
-      GenderShowNone = rd["GenderLabelShowNone"] as DataTemplate;
+      Gender = GetDataTemplate("Gender");
     }
 
     static ResourceDictionary GetDictionary(string filename)

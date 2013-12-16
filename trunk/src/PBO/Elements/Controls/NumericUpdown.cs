@@ -45,96 +45,34 @@ namespace PokemonBattleOnline.PBO.Elements
   
   [TemplatePart(Name = PART_IncreaseButton, Type = typeof(ButtonBase))]
   [TemplatePart(Name = PART_DecreaseButton, Type = typeof(ButtonBase))]
-  [TemplatePart(Name=PART_TextBox,Type=typeof(TextBox))]
-  [TemplatePart(Name=PART_Drag,Type=typeof(Thumb))]
+  [TemplatePart(Name = PART_TextBox,Type = typeof(TextBox))]
   public class NumericUpdown : RangeBase
   {
     const string PART_IncreaseButton = "PART_IncreaseButton";
     const string PART_DecreaseButton = "PART_DecreaseButton";
     const string PART_TextBox = "PART_TextBox";
-    const string PART_Drag = "PART_Drag";
     static NumericUpdown()
     {
       DefaultStyleKeyProperty.OverrideMetadata(typeof(NumericUpdown), new FrameworkPropertyMetadata(typeof(NumericUpdown)));
     }
 
-    #region DragScale
-    public static readonly DependencyProperty DragScaleProperty =
-      DependencyProperty.Register("DragScale", typeof(double), typeof(NumericUpdown));
-    public double DragScale
-    {
-      get { return (double)GetValue(DragScaleProperty); }
-      set { SetValue(DragScaleProperty, value); }
-    }
-    #endregion
-
-    #region DragMax
-    static readonly DependencyPropertyKey DragMaxPropertyKey =
-      DependencyProperty.RegisterReadOnly("DragMax", typeof(double), typeof(NumericUpdown), new PropertyMetadata());
-    public static readonly DependencyProperty DragMaxProperty = DragMaxPropertyKey.DependencyProperty;
-    public double DragMax
-    {
-      get { return (double)GetValue(DragMaxProperty); }
-      private set { SetValue(DragMaxPropertyKey, value); }
-    }
-    #endregion
-
-    #region DragMin
-    static readonly DependencyPropertyKey DragMinPropertyKey =
-      DependencyProperty.RegisterReadOnly("DragMin", typeof(double), typeof(NumericUpdown), new PropertyMetadata());
-    public static readonly DependencyProperty DragMinProperty = DragMinPropertyKey.DependencyProperty;
-    public double DragMin
-    {
-      get { return (double)GetValue(DragMinProperty); }
-      private set { SetValue(DragMinPropertyKey, value); }
-    }
-    #endregion
-
-    #region DragValue
-    static readonly DependencyPropertyKey DragValuePropertyKey =
-      DependencyProperty.RegisterReadOnly("DragValue",typeof(double), typeof(NumericUpdown), new PropertyMetadata());
-    public static readonly DependencyProperty DragValueProperty = DragValuePropertyKey.DependencyProperty;
-    public double DragValue
-    { get { return (double)GetValue(DragValueProperty); } }
-    #endregion
-
     TextBox textBox;
-    Thumb drag;
-    double dragStartedPosition;
     LimitedValueRule validationRule;
 
     public NumericUpdown()
     {
       validationRule = new LimitedValueRule(Minimum, Maximum);
-      ValueChanged += (sender, e) => ValueRefreshDrag();
-      MouseWheel += (sender, e) => {
-        if (e.Delta > 0)
-          if (Value + SmallChange < DragMax * LargeChange) Value += SmallChange;
-          else Value = DragMax * LargeChange;
-        else
-          if (Value - SmallChange > DragMin * LargeChange) Value -= SmallChange;
-          else Value = DragMin * LargeChange;
-      };
     }
-    private void ValueRefreshDrag()
-    {
-      if (drag != null && !drag.IsDragging)
-      {
-        double dv = Value * DragScale;
-        if (dv > DragMax) dv = DragMax;
-        else if (dv < DragMin) dv = DragMin;
-        SetValue(DragValuePropertyKey, dv);
-        Canvas.SetLeft(drag, DragValue - 3);
-      }
+
+    #region Median
+    static readonly DependencyProperty MidValueProperty = DependencyProperty.Register("Median", typeof(double), typeof(NumericUpdown));
+    public double Median
+    { 
+      get { return (double)GetValue(MidValueProperty); }
+      set { SetValue(MidValueProperty, value); }
     }
-    private void DragRefreshValue(double dragValue)
-    {
-      if (DragScale != 0 && dragValue >= DragMin && dragValue <= DragMax)
-      {
-        Value = dragValue / DragScale;
-        SetValue(DragValuePropertyKey, Value * DragScale);
-      }
-    }
+    #endregion
+    
     private void SetNearestValue(double value)
     {
       sbyte t = 60;
@@ -151,32 +89,20 @@ namespace PokemonBattleOnline.PBO.Elements
     {
       base.OnMinimumChanged(oldMinimum, newMinimum);
       validationRule.Min = newMinimum;
-      DragMin = Math.Ceiling(newMinimum * DragScale);
     }
     protected override void OnMaximumChanged(double oldMaximum, double newMaximum)
     {
       base.OnMaximumChanged(oldMaximum, newMaximum);
       validationRule.Max = newMaximum;
-      DragMax = Math.Floor(newMaximum * DragScale);
     }
 
     public override void OnApplyTemplate()
     {
       base.OnApplyTemplate();
-      var b = GetTemplateChild(PART_IncreaseButton) as ButtonBase;
-      if (b != null)
-        b.Click += (sender, e) =>
-        {
-          if (Value + LargeChange < Maximum) Value += LargeChange;
-          else Value = Maximum;
-        };
-      b = GetTemplateChild(PART_DecreaseButton) as ButtonBase;
-      if (b != null)
-        b.Click += (sender, e) =>
-        {
-          if (Value - LargeChange > Minimum) Value -= LargeChange;
-          else Value = Minimum;
-        };
+      var b = GetTemplateChild(PART_IncreaseButton) as Button;
+      if (b != null) b.Click += (sender, e) => Value = Value < Median ? Median : Maximum;
+      b = GetTemplateChild(PART_DecreaseButton) as Button;
+      if (b != null) b.Click += (sender, e) => Value = Value > Median ? Median : Minimum;
 
       textBox = GetTemplateChild(PART_TextBox) as TextBox;
       if (textBox != null)
@@ -193,25 +119,6 @@ namespace PokemonBattleOnline.PBO.Elements
             Application.Current.Dispatcher.BeginInvoke(new Action(binding.UpdateTarget));
           });
       }//if (textBox != null)
-
-      drag = GetTemplateChild(PART_Drag) as Thumb;
-      if (drag != null)
-      {
-        drag.DragStarted += (sender, e) =>
-          {
-            var v = Math.Floor(Canvas.GetLeft(drag) + 3);
-            if (!double.IsNaN(v)) dragStartedPosition = v;
-          };
-        drag.DragDelta += (sender, e) =>
-          {
-            double dv = dragStartedPosition + e.HorizontalChange;
-            if (dv < DragMin) dv = DragMin;
-            else if (dv > DragMax) dv = DragMax;
-            DragRefreshValue(dv);
-            if (DragValue != dv) SetNearestValue(dv / DragScale);
-          };
-        drag.DragCompleted += (sender, e) => Canvas.SetLeft(drag, DragValue - 3);
-      }//if (drag != null)
     }
   }
 }

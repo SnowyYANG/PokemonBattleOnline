@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:b="clr-namespace:PokemonBattleOnline.PBO.Battle">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/PBO;component/Elements/Controls/ClearableComboBox.xaml"/>
         <ResourceDictionary Source="/PBO;component/Elements/Controls/NumericUpdown.xaml"/>
         <ResourceDictionary Source="/PBO;component/Elements/Controls/UIButton.xaml"/>
         <ResourceDictionary Source="/PBO;component/Elements/Controls/UITextBox.xaml"/>

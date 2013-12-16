@@ -61,7 +61,13 @@ namespace PokemonBattleOnline.PBO.Editor
 
     public void Save()
     {
-      UserData.Save(Teams.Where((t) => t != null).Select((t) => t.Model));
+      try
+      {
+        UserData.Save(Teams.Where((t) => t != null).Select((t) => t.Model));
+      }
+      catch
+      {
+      }
     }
   }
 }

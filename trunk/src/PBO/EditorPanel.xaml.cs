@@ -39,14 +39,8 @@ namespace PokemonBattleOnline.PBO
 
     public bool Window_Closing()
     {
-      bool cancel = false;
-      try
-      {
-        var pm = EditorVM.Current.EditingPokemon;
-        if (pm != null && pm.ChangedConfirm() != MessageBoxResult.Cancel) EditorVM.Current.Save();
-      }
-      catch { }
-      return cancel;
+      EditorVM.Current.Save();
+      return false;
     }
   }
 }

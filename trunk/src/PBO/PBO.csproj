@@ -100,6 +100,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Editor\PokemonEditor\EvBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Elements\Controls\UIButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -158,6 +162,7 @@
     <Compile Include="Editor\PokemonBank\TeamView.xaml.cs">
       <DependentUpon>TeamView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Editor\PokemonEditor\EvBox.cs" />
     <Compile Include="Elements\Controls\UIButton.cs" />
     <Compile Include="LobbyPanel.xaml.cs">
       <SubType>Code</SubType>
@@ -231,7 +236,6 @@
     <Compile Include="ImageService.cs" />
     <Compile Include="Elements\Labels\Labels.cs" />
     <Compile Include="Elements\ShowMessageBox.cs" />
-    <Compile Include="Elements\Controls\ClearableComboBox.cs" />
     <Page Include="Elements\Cartes\User.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -248,19 +252,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Elements\Controls\ClearableComboBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Elements\Controls\Controls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Elements\Labels\Gender.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Elements\Labels\MultipliedValue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -475,6 +471,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\ControlPanel\Pokemon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\PokemonSummaryBackground.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

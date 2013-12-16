@@ -11,12 +11,6 @@ namespace PokemonBattleOnline
   {
     int Origin { get; }
     int Value { get; }
-    double Percentage { get; }
-    #region for binding
-    bool IsIncreased { get; }
-    bool IsDecreased { get; }
-    bool IsChanged { get; }
-    #endregion
   }
 
   [DataContract(Name = "pv", Namespace = PBOMarks.PBO)]
@@ -50,14 +44,6 @@ namespace PokemonBattleOnline
         }
       }
     }
-    public double Percentage
-    { get { return _origin == 0 ? 0 : _value / (double)_origin; } }
-    public bool IsIncreased
-    { get { return _value > _origin; } }
-    public bool IsDecreased
-    { get { return _value < _origin; } }
-    public bool IsChanged
-    { get { return _value != _origin; } }
 
     public override string ToString()
     {

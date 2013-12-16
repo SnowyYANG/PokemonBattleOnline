@@ -34,21 +34,19 @@ namespace PokemonBattleOnline.PBO.Editor
 
     public int Hp
     { get { return PokemonStatHelper.GetHp(Model.Form.Data.Base.Hp, Model.Iv.Hp, Model.Ev.Hp, Model.Lv); } }
-    public PairValue Atk
+    public int Atk
     { get { return GetStat(StatType.Atk); } }
-    public PairValue Def
+    public int Def
     { get { return GetStat(StatType.Def); } }
-    public PairValue SpAtk
+    public int SpAtk
     { get { return GetStat(StatType.SpAtk); } }
-    public PairValue SpDef
+    public int SpDef
     { get { return GetStat(StatType.SpDef); } }
-    public PairValue Speed
+    public int Speed
     { get { return GetStat(StatType.Speed); } }
-    private PairValue GetStat(StatType stat)
+    private int GetStat(StatType stat)
     {
-      return new PairValue(
-          PokemonStatHelper.Get5D(stat, PokemonNature.Serious, Model.Form.Data.Base.GetStat(stat), Model.Iv.GetStat(stat), Model.Ev.GetStat(stat), Model.Lv),
-          PokemonStatHelper.Get5D(stat, Model.Nature, Model.Form.Data.Base.GetStat(stat), Model.Iv.GetStat(stat), Model.Ev.GetStat(stat), Model.Lv));
+      return PokemonStatHelper.Get5D(stat, PokemonNature.Serious, Model.Form.Data.Base.GetStat(stat), Model.Iv.GetStat(stat), Model.Ev.GetStat(stat), Model.Lv);
     }
 
     public void RefreshAll()
@@ -132,7 +130,14 @@ namespace PokemonBattleOnline.PBO.Editor
     public PokemonSpecies PokemonSpecies
     {
       get { return Model.Form.Species; }
-      set { if (Model.Form.Species != value) PokemonForm = value.GetForm(0); }
+      set
+      {
+        if (Model.Form.Species != value)
+        {
+          PokemonForm = value.GetForm(0);
+          Config.Current.PokemonNumber = PokemonForm.Species.Number;
+        }
+      }
     }
     public PokemonForm PokemonForm
     {
@@ -165,19 +170,20 @@ namespace PokemonBattleOnline.PBO.Editor
             OnPropertyChanged("PokemonForm");
             if (form.Data != PokemonForm.Data) Stats.RefreshAll();
           }
+          OnPropertyChanged("Gender");
           RefreshImage();
         }
       }
     }
-    public int? HeldItem
+    public int HeldItem
     {
-      get { return Model.Item == 0 ? null : (int?)Model.Item; }
+      get { return Model.Item; }
       set
       {
         if (Model.Item != value)
         {
           var form = PokemonForm;
-          Model.Item = value ?? 0;
+          Model.Item = value;
           if (form != PokemonForm)
           {
             RefreshImage();
@@ -191,17 +197,7 @@ namespace PokemonBattleOnline.PBO.Editor
 
     private PokemonEditor6D _stats;
     public PokemonEditor6D Stats
-    {
-      get { return _stats; }
-      private set
-      {
-        if (_stats != value)
-        {
-          _stats = value;
-          OnPropertyChanged("Stats");
-        }
-      }
-    }
+    { get { return _stats; } }
     public int RemainingEv
     {
       get
@@ -233,7 +229,7 @@ namespace PokemonBattleOnline.PBO.Editor
       OnPropertyChanged("Learnset");
     }
 
-    private ImageSource _image;
+    private System.Windows.Media.Imaging.BitmapImage _image;
     public ImageSource Image
     { get { return _image; } }
     private void RefreshImage()
@@ -320,32 +316,8 @@ namespace PokemonBattleOnline.PBO.Editor
       if (m.Id == 548 && PokemonSpecies.Number == 647) RefreshImage();
     }
 
-    public MessageBoxResult ChangedConfirm()
-    {
-      var r = Origin.Model == null || Origin.Model.ValueEquals(Model) ? MessageBoxResult.None : ShowMessageBox.PokemonUnsaved();
-      if (r == MessageBoxResult.Yes) Save();
-      return r;
-    }
-    public void Save()
-    {
-      if (Origin != null)
-      {
-        Origin.Model = Model.Clone();
-        Config.Current.PokemonNumber = PokemonForm.Species.Number;
-      }
-    }
-    public void ResetToLastSaved()
-    {
-      if (Origin.Model != null && !Origin.Model.ValueEquals(Model) && ShowMessageBox.PokemonResetToLastSaved())
-      {
-        Model = Origin.Model.Clone();
-        RefreshLearnset();
-        OnPropertyChanged();
-      }
-    }
     public bool Close()
     {
-      if (ChangedConfirm() == MessageBoxResult.Cancel) return false;
       Origin.IsEditing = false;
       return true;
     }

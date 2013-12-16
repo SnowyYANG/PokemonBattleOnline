@@ -19,24 +19,24 @@ namespace PokemonBattleOnline.PBO.Converters
     static BattleTypeBg()
     {
       c = new SolidColorBrush[RomData.BattleTypes];
-      c[0] = SBrushes.NewBrush(0xffa8a090);
-      c[1] = SBrushes.NewBrush(0xffa05038);
-      c[2] = SBrushes.NewBrush(0xff98a8f0);
-      c[3] = SBrushes.NewBrush(0xffb058a0);
-      c[4] = SBrushes.NewBrush(0xffd0b058);
-      c[5] = SBrushes.NewBrush(0xffb8a058);
-      c[6] = SBrushes.NewBrush(0xffa8b820);
-      c[7] = SBrushes.NewBrush(0xff6060b0);
-      c[8] = SBrushes.NewBrush(0xffa8a8c0);
-      c[9] = SBrushes.NewBrush(0xfff05030);
-      c[10] = SBrushes.NewBrush(0xff3898f8);
-      c[11] = SBrushes.NewBrush(0xff78c850);
-      c[12] = SBrushes.NewBrush(0xfff8c030);
-      c[13] = SBrushes.NewBrush(0xfff870a0);
-      c[14] = SBrushes.NewBrush(0xff58c8e0);
-      c[15] = SBrushes.NewBrush(0xff7860e0);
-      c[16] = SBrushes.NewBrush(0xff705848);
-      c[17] = SBrushes.NewBrush(0xfff1a7f9);
+      c[0] = SBrushes.NewBrush(0xffdedecf);//normal
+      c[1] = SBrushes.NewBrush(0xffde6a52);//fight
+      c[2] = SBrushes.NewBrush(0xff7ebbff);//flying
+      c[3] = SBrushes.NewBrush(0xffd06abb);//poison
+      c[4] = SBrushes.NewBrush(0xfff4dc69);//ground
+      c[5] = SBrushes.NewBrush(0xffdccd7e);//rock
+      c[6] = SBrushes.NewBrush(0xffccdc2c);//bug
+      c[7] = SBrushes.NewBrush(0xff7f7fdb);//ghost
+      c[8] = SBrushes.NewBrush(0xffcdcddb);//steel
+      c[9] = SBrushes.NewBrush(0xffff552d);//fire
+      c[10] = SBrushes.NewBrush(0xff3fbbff);//water
+      c[11] = SBrushes.NewBrush(0xff94ea6c);//grass
+      c[12] = SBrushes.NewBrush(0xfff8c030);//electric
+      c[13] = SBrushes.NewBrush(0xffff6abb);//psychic
+      c[14] = SBrushes.NewBrush(0xff93f5ff);//ice
+      c[15] = SBrushes.NewBrush(0xff947efd);//dragon
+      c[16] = SBrushes.NewBrush(0xff946952);//dark
+      c[17] = SBrushes.NewBrush(0xffffcfff);//fairy
     }
 
     protected override object Convert(BattleType value)
@@ -44,7 +44,6 @@ namespace PokemonBattleOnline.PBO.Converters
       return value == BattleType.Invalid ? null : c[(int)(byte)value - 1];
     }
   }
-
   public class BattleTypeBorder : Converter<BattleType>
   {
     public static readonly BattleTypeBorder C = new BattleTypeBorder();
@@ -52,24 +51,24 @@ namespace PokemonBattleOnline.PBO.Converters
     static BattleTypeBorder()
     {
       c = new SolidColorBrush[RomData.BattleTypes];
-      c[0] = SBrushes.NewBrush(0xff505050);
-      c[1] = SBrushes.NewBrush(0xff483830);
-      c[2] = SBrushes.NewBrush(0xff405090);
-      c[3] = SBrushes.NewBrush(0xff483850);
-      c[4] = SBrushes.NewBrush(0xff705018);
-      c[5] = SBrushes.NewBrush(0xff705018);
-      c[6] = SBrushes.NewBrush(0xff406838);
-      c[7] = SBrushes.NewBrush(0xff483850);
-      c[8] = SBrushes.NewBrush(0xff505050);
-      c[9] = SBrushes.NewBrush(0xff702008);
-      c[10] = SBrushes.NewBrush(0xff405090);
-      c[11] = SBrushes.NewBrush(0xff406838);
-      c[12] = SBrushes.NewBrush(0xff705018);
-      c[13] = SBrushes.NewBrush(0xff683838);
-      c[14] = SBrushes.NewBrush(0xff405090);
-      c[15] = SBrushes.NewBrush(0xff483890);
-      c[16] = SBrushes.NewBrush(0xff483830);
-      c[17] = SBrushes.NewBrush(0xffdf39f1);
+      c[0] = SBrushes.NewBrush(0x80555553);//normal
+      c[1] = SBrushes.NewBrush(0x80562c2d);//fight
+      c[2] = SBrushes.NewBrush(0x802a3f7e);//flying
+      c[3] = SBrushes.NewBrush(0x80552b40);//poison
+      c[4] = SBrushes.NewBrush(0x8054542c);//ground
+      c[5] = SBrushes.NewBrush(0x80543f2c);//rock
+      c[6] = SBrushes.NewBrush(0x80545400);//bug
+      c[7] = SBrushes.NewBrush(0x802b2b53);//ghost
+      c[8] = SBrushes.NewBrush(0x803f3f52);//steel
+      c[9] = SBrushes.NewBrush(0x807f1500);//fire
+      c[10] = SBrushes.NewBrush(0x802a3f69);//water
+      c[11] = SBrushes.NewBrush(0x8040552d);//grass
+      c[12] = SBrushes.NewBrush(0x80695413);//electric
+      c[13] = SBrushes.NewBrush(0x806b2c41);//psychic
+      c[14] = SBrushes.NewBrush(0x803f5469);//ice
+      c[15] = SBrushes.NewBrush(0x803f2a69);//dragon
+      c[16] = SBrushes.NewBrush(0x802a2a13);//dark
+      c[17] = SBrushes.NewBrush(0x807f556c);//fairy
     }
 
     protected override object Convert(BattleType value)

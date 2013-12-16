@@ -37,19 +37,20 @@
     <Style x:Key="STextBlock" TargetType="Label">
         <Setter Property="FontFamily" Value="SimSun"/>
         <Setter Property="FontSize" Value="11"/>
+        <Setter Property="Background" Value="Black"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Label">
                     <Grid DataContext="{TemplateBinding Content,Converter={x:Static c:AllString.C}}" ClipToBounds="False" IsHitTestVisible="False" SnapsToDevicePixels="True">
-                        <TextBlock Margin="-1,0,0,0" Foreground="Black" TextOptions.TextRenderingMode="Aliased" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
-                        <TextBlock Margin="-1,-1,0,0" Foreground="Black" TextOptions.TextRenderingMode="Aliased" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
-                        <TextBlock Margin="0,-1,0,0" Foreground="Black" TextOptions.TextRenderingMode="Aliased" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
-                        <TextBlock Margin="1,-1,0,0" Foreground="Black" TextOptions.TextRenderingMode="Aliased" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
-                        <TextBlock Margin="1,0,0,0" Foreground="Black" TextOptions.TextRenderingMode="Aliased" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
-                        <TextBlock Margin="1,1,0,0" Foreground="Black" TextOptions.TextRenderingMode="Aliased" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
-                        <TextBlock Margin="0,1,0,0" Foreground="Black" TextOptions.TextRenderingMode="Aliased" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
-                        <TextBlock Margin="-1,1,0,0" Foreground="Black" TextOptions.TextRenderingMode="Aliased" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
-                        <TextBlock Foreground="White" TextOptions.TextRenderingMode="Aliased" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
+                        <TextBlock Margin="-1,0,0,0" Foreground="{TemplateBinding Background}"  Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
+                        <TextBlock Margin="-1,-1,0,0" Foreground="{TemplateBinding Background}" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
+                        <TextBlock Margin="0,-1,0,0" Foreground="{TemplateBinding Background}" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
+                        <TextBlock Margin="1,-1,0,0" Foreground="{TemplateBinding Background}" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
+                        <TextBlock Margin="1,0,0,0" Foreground="{TemplateBinding Background}" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
+                        <TextBlock Margin="1,1,0,0" Foreground="{TemplateBinding Background}" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
+                        <TextBlock Margin="0,1,0,0" Foreground="{TemplateBinding Background}" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
+                        <TextBlock Margin="-1,1,0,0" Foreground="{TemplateBinding Background}" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
+                        <TextBlock Foreground="White" Text="{Binding}" FontWeight="{TemplateBinding FontWeight}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

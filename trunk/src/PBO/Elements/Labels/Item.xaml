@@ -4,11 +4,5 @@
                     xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters">
     <DataTemplate x:Key="ItemLabel">
         <TextBlock Text="{Binding Converter={x:Static c:ItemString.C}}" ToolTip="{Binding Converter={x:Static c:ItemDString.C}}"/>
-        <!--<TextBlock Name="nothing" Foreground="Black" Text="无" Visibility="Hidden"/>
-        <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding}" Value="{x:Null}">
-                <Setter TargetName="nothing" Property="Visibility" Value="Visible"/>
-            </DataTrigger>
-        </DataTemplate.Triggers>-->
     </DataTemplate>
 </ResourceDictionary>
