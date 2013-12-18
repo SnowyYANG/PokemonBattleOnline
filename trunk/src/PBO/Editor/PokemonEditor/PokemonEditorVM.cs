@@ -78,17 +78,8 @@ namespace PokemonBattleOnline.PBO.Editor
       return moves.Any((m) => m.Move.Id == Ms.METRONOME || m.Move.Id == Ms.TRANSFORM || m.Move.Id == Ms.ASSIST || m.Move.Id == Ms.ME_FIRST || m.Move.Id == Ms.COPYCAT);
     }
 
-    public PokemonEditorVM(PokemonVM pm)
+    public PokemonEditorVM()
     {
-      Origin = pm;
-      if (pm.Model == null)
-      {
-        var number = Config.Current.PokemonNumber;
-        var sp = RomData.GetPokemon(number);
-        if (sp == null) number = 1;
-        Model = new PokemonData(number, 0);
-      }
-      else Model = pm.Model.Clone();
     }
 
     private PokemonVM _origin;
@@ -99,34 +90,45 @@ namespace PokemonBattleOnline.PBO.Editor
       {
         if (_origin != value)
         {
-          if (_origin != null) _origin.IsEditing = false;
+          PokemonData m;
+          if (_origin != null)
+          {
+            _origin.OnIsEditingChanged();
+            m = _origin.Model;
+          }
+          else m = null;
           _origin = value;
-          _origin.IsEditing = true;
+          if (_origin != null)
+          {
+            _origin.OnIsEditingChanged();
+            if (_origin.Model == null)
+            {
+              //var number = Config.Current.PokemonNumber;
+              //var sp = RomData.GetPokemon(number);
+              //if (sp == null) number = 1;
+              _origin.Model = new PokemonData(Helper.Random.Next(1, 719), 0);
+            }
+            if (m != _origin.Model)
+            {
+              m = _origin.Model;
+              _stats = new PokemonEditor6D(m);
+              m.Iv.PropertyChanged += (sender, e) => OnPropertyChanged("HiddenPowerType");
+              m.Ev.PropertyChanged += (sender, e) => RefreshRemainingEv();
+              RefreshImage();
+              RefreshLearnset();
+              RefreshOptionalVisibility();
+              RefreshRemainingEv();
+              OnPropertyChanged();
+              return;
+            }
+          }
           OnPropertyChanged("Origin");
         }
       }
     }
 
-    private PokemonData _model;
     public PokemonData Model
-    {
-      get { return _model; }
-      set
-      {
-        if (_model != value)
-        {
-          _model = value;
-          _stats = new PokemonEditor6D(_model);
-          _model.Iv.PropertyChanged += (sender, e) => OnPropertyChanged("HiddenPowerType");
-          _model.Ev.PropertyChanged += (sender, e) => RefreshRemainingEv();
-          RefreshImage();
-          RefreshLearnset();
-          RefreshOptionalVisibility();
-          RefreshRemainingEv();
-          OnPropertyChanged();
-        }
-      }
-    }
+    { get { return Origin == null ? null : Origin.Model; } }
     public PokemonSpecies PokemonSpecies
     {
       get { return Model.Form.Species; }
@@ -135,7 +137,7 @@ namespace PokemonBattleOnline.PBO.Editor
         if (Model.Form.Species != value)
         {
           PokemonForm = value.GetForm(0);
-          Config.Current.PokemonNumber = PokemonForm.Species.Number;
+          //Config.Current.PokemonNumber = PokemonForm.Species.Number;
         }
       }
     }
@@ -316,10 +318,9 @@ namespace PokemonBattleOnline.PBO.Editor
       if (m.Id == 548 && PokemonSpecies.Number == 647) RefreshImage();
     }
 
-    public bool Close()
+    public void Close()
     {
-      Origin.IsEditing = false;
-      return true;
+      Origin = null;
     }
   }
 }

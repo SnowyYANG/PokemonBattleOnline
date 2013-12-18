@@ -23,6 +23,18 @@
             <GradientStop Color="#33462b1e" Offset="0.125"/>
             <GradientStop Color="#00462b1e" Offset="0"/>
         </LinearGradientBrush>
+        <LinearGradientBrush x:Key="BgW0" EndPoint="0.5,0" StartPoint="1,0">
+            <GradientStop Color="#66ffffff" Offset="0.25"/>
+            <GradientStop Color="#33ffffff" Offset="0.125"/>
+            <GradientStop Color="#00ffffff" Offset="0"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="BgW" EndPoint="0.5,0" StartPoint="1,0">
+            <GradientStop Color="#ccffffff" Offset="1"/>
+            <GradientStop Color="#99ffffff" Offset="0.5"/>
+            <GradientStop Color="#66ffffff" Offset="0.25"/>
+            <GradientStop Color="#33ffffff" Offset="0.125"/>
+            <GradientStop Color="#00ffffff" Offset="0"/>
+        </LinearGradientBrush>
         <ItemsPanelTemplate x:Key="VirtualPanel">
             <VirtualizingStackPanel/>
         </ItemsPanelTemplate>
@@ -97,7 +109,7 @@
             </Rectangle.Fill>
         </Rectangle>
         <Button Click="Close_Click" ToolTip="关闭" Style="{x:Static ui:Controls.XButton}" Foreground="#b0b0b0" Background="White" BorderBrush="White" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,-24,3,0"/>
-        <!--<Image Source="{Binding Image}" Height="{Binding Image.PixelHeight}" Width="{Binding Image.PixelWidth}" HorizontalAlignment="Center" VerticalAlignment="Top">
+        <Image Opacity="0.3" Source="{Binding Image}" Height="{Binding Image.PixelHeight}" Width="{Binding Image.PixelWidth}" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Image.ToolTip>
                 <ToolTip BorderThickness="0">
                     <Grid DataContext="{Binding PokemonForm.Data}">
@@ -130,7 +142,7 @@
                     </Style.Triggers>
                 </Style>
             </Image.Style>
-        </Image>-->
+        </Image>
         <Grid Margin="15,12,15,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160">
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -437,8 +449,22 @@
             <ContentControl Content="{Binding [4]}"/>
             <ContentControl Content="{Binding [5]}"/>
         </StackPanel>
-        <TextBox Name="QuickText" KeyDown="QuickText_KeyDown" ToolTip="输入全国编号、精灵名、技能名、特性名、道具名、性格后回车。" Width="128" Margin="130,-18,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBlock Text="快速文本编辑" Margin="132,-16,0,0" IsHitTestVisible="False" Foreground="Gray" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <TextBox Name="QuickText" KeyDown="QuickText_KeyDown" BorderBrush="{x:Null}" BorderThickness="0" Height="20" Width="250" ToolTip="输入全国编号、精灵名、技能名、特性名、道具名、性格后回车，多个项目以空格分割。" Margin="195,-18,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Background" Value="{StaticResource BgW0}"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource BgW}"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="Background" Value="{StaticResource BgW}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <TextBlock Text="快速文本编辑" Margin="197,-16,0,0" IsHitTestVisible="False" Foreground="#80808080" HorizontalAlignment="Left" VerticalAlignment="Top">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Setter Property="Visibility" Value="Collapsed"/>

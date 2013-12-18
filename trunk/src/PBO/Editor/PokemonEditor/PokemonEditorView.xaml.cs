@@ -42,7 +42,7 @@ namespace PokemonBattleOnline.PBO.Editor
 
     void Natures_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if (VM.Model != null)
+      if (VM != null && VM.Model != null)
       {
         var n = VM.Model.Nature;
         var r = n.StatRevise(StatType.Atk);
@@ -79,7 +79,7 @@ namespace PokemonBattleOnline.PBO.Editor
 
     private void Close_Click(object sender, RoutedEventArgs e)
     {
-      if (EditorVM.Current.EditingPokemon != null && EditorVM.Current.EditingPokemon.Close()) EditorVM.Current.EditingPokemon = null;
+      EditorVM.Current.EditingPokemon.Origin = null;
     }
     private void Happiness_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {

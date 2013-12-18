@@ -25,18 +25,12 @@ namespace PokemonBattleOnline.PBO.Editor
       _battleTeams = new ObservableCollection<TeamVM>();
       _teams = new ObservableCollection<TeamVM>(teams.Select((t) => new TeamVM(t)));
       _teams.Insert(0, null);
+      _editingPokemon = new PokemonEditorVM();
     }
 
-    private PokemonEditorVM _editingPokemon;
+    private readonly PokemonEditorVM _editingPokemon;
     public PokemonEditorVM EditingPokemon
-    { 
-      get { return _editingPokemon; }
-      set
-      {
-        _editingPokemon = value;
-        OnPropertyChanged("EditingPokemon");
-      }
-    }
+    { get { return _editingPokemon; } }
 
     private readonly ObservableCollection<TeamVM> _teams;
     public ObservableCollection<TeamVM> Teams

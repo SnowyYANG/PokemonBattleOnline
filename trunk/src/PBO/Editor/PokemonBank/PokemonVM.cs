@@ -38,19 +38,8 @@ namespace PokemonBattleOnline.PBO.Editor
     public int Index
     { get { return _index; } }
 
-    private bool _isEditing;
     public bool IsEditing
-    {
-      get { return _isEditing; }
-      set
-      {
-        if (_isEditing != value)
-        {
-          _isEditing = value;
-          OnPropertyChanged("IsEditing");
-        }
-      }
-    }
+    { get { return EditorVM.Current.EditingPokemon.Origin == this; } }
     
     private bool _isDragging;
     public bool IsDragging
@@ -99,11 +88,10 @@ namespace PokemonBattleOnline.PBO.Editor
             _container[_index + 1].Model = null;
           }
         }
-        else
+        else if (Actual == this)
         {
-          var i = Actual.Index;
-          _container.Model.Pokemons[i] = value;
-          if (i < 5) _container[i + 1].OnPropertyChanged("Icon");
+          _container.Model.Pokemons[_index] = value;
+          if (_index < 5) _container[_index + 1].OnPropertyChanged("Icon");
           Actual.OnPropertyChanged();
         }
       }
@@ -112,19 +100,24 @@ namespace PokemonBattleOnline.PBO.Editor
     public ImageSource Icon
     { get { return Model == null ? Index == 0 || Container[Index - 1].Model != null ? R.P00000 : null : ImageService.GetPokemonIcon(Model.Form, Model.Gender); } }
 
-    public Brush Background
+    public bool IsRare
     {
       get
       {
-        if (Model == null) return Brushes.Transparent;
+        if (Model == null) return false;
         var ev = Model.Ev;
-        return Model.Form.Species.Number != 132 && Model.Moves.Count() != 4 ? SBrushes.MagentaM : 508 > ev.Sum() ? SBrushes.OrangeM : Brushes.Transparent;
+        return Model.Form.Species.Number != 132 && Model.Moves.Count() != 4 || 508 > ev.Sum();
       }
     }
 
     public void Edit()
     {
-      if (EditorVM.Current.EditingPokemon == null || EditorVM.Current.EditingPokemon.Origin != Actual && EditorVM.Current.EditingPokemon.Close()) EditorVM.Current.EditingPokemon = new PokemonEditorVM(Actual);
+      EditorVM.Current.EditingPokemon.Origin = Actual;
+    }
+
+    internal void OnIsEditingChanged()
+    {
+      OnPropertyChanged("IsEditing");
     }
   }
 }

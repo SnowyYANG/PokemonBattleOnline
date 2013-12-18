@@ -35,6 +35,20 @@ namespace PokemonBattleOnline.PBO.Editor
       }
     }
 
+    private void Overwrite(Game.PokemonData pm)
+    {
+      var va = VM.Actual;
+      if (va.Model == null || MessageBox.Show(va.IsEditing ? "正在编辑的精灵，放弃编辑并覆盖？" : "覆盖原有精灵？", "PBO", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+      {
+        va.Model = pm;
+        if (va.IsEditing)
+        {
+          EditorVM.Current.EditingPokemon.Origin = null;
+          EditorVM.Current.EditingPokemon.Origin = va;
+        }
+      }
+    }
+
     bool drag;
     protected override void OnPreviewDragOver(DragEventArgs e)
     {
@@ -74,15 +88,14 @@ namespace PokemonBattleOnline.PBO.Editor
       base.OnDrop(e);
       var data = (PokemonIcon)e.Data.GetData(typeof(PokemonIcon));
       var va = VM.Actual;
-      if (e.KeyStates.HasFlag(DragDropKeyStates.ControlKey))
-      {
-        va.Model = data.VM.Model.Clone();
-      }
+      if (e.KeyStates.HasFlag(DragDropKeyStates.ControlKey)) Overwrite(data.VM.Model.Clone());
       else
       {
         var t = data.VM.Model;
         data.VM.Model = va.Model;
         va.Model = t;
+        if (va.IsEditing) EditorVM.Current.EditingPokemon.Origin = data.VM;
+        else if (data.VM.IsEditing) EditorVM.Current.EditingPokemon.Origin = va;
       }
       icon.ClearValue(Image.SourceProperty);
       va.DropState = 0;
@@ -140,17 +153,9 @@ namespace PokemonBattleOnline.PBO.Editor
     }
     private void Paste_Click(object sender, RoutedEventArgs e)
     {
-      var t = VM.Actual;
-      if (t.Model == null || MessageBox.Show(t.IsEditing ? "正在编辑的精灵，放弃编辑并覆盖？" : "覆盖原有精灵？", "PBO", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-      {
-        var pm = Game.UserData.ImportPokemon(Clipboard.GetText());
-        if (pm == null) MessageBox.Show("不是合法的精灵。");
-        else
-        {
-          t.Model = pm;
-          if (t.IsEditing) EditorVM.Current.EditingPokemon = new PokemonEditorVM(t);
-        }
-      }
+      var pm = Game.UserData.ImportPokemon(Clipboard.GetText());
+      if (pm == null) MessageBox.Show("不是合法的精灵。");
+      else Overwrite(pm);
     }
     private void Copy_Click(object sender, RoutedEventArgs e)
     {

@@ -33,7 +33,7 @@
             <e:PokemonEditorView.Style>
                 <Style TargetType="e:PokemonEditorView">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                        <DataTrigger Binding="{Binding Origin}" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
                     </Style.Triggers>
