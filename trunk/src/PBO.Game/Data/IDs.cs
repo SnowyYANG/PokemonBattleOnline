@@ -7,7 +7,6 @@ namespace PokemonBattleOnline.Game
 {
   public static class As
   {
-    #region certain
     public const int STENCH = 1;
     public const int DRIZZLE = 2;
     public const int SPEED_BOOST = 3;
@@ -172,31 +171,30 @@ namespace PokemonBattleOnline.Game
     public const int VICTORY_STAR = 162;
     public const int TURBOBLAZE = 163;
     public const int TERAVOLT = 164;
-    #endregion
     public const int AROMA_VEIL = 165;
-    public const int AURA_BREAK = 166;
-    public const int PARENTAL_BOND = 167;
-    public const int TOUGH_CLAWS = 168;
-    public const int COMPETITIVE = 169;
-    public const int STRONG_JAW = 170;
-    public const int SYMBIOSIS = 171;
-    public const int GRASS_PELT = 172;
-    public const int SWEET_VEIL = 173;
-    public const int AERILATE = 174;
-    public const int DARK_AURA = 175;
-    public const int GOOEY = 176;
-    public const int STANCE_CHANGE = 177;
-    public const int GALE_WINGS = 178;
-    public const int FUR_COAT = 179;
-    public const int FAIRY_AURA = 180;
-    public const int PIXILATE = 181;
-    public const int FLOWER_VEIL = 182;
-    public const int REFRIGERATE = 183;
-    public const int PROTEAN = 184;
-    public const int BULLETPROOF = 185;
-    public const int CHEEK_POUCH = 186;
-    public const int MAGICIAN = 187;
-    public const int MEGA_LAUNCHER = 188;
+    public const int FLOWER_VEIL = 166;
+    public const int CHEEK_POUCH = 167;
+    public const int PROTEAN = 168;
+    public const int FUR_COAT = 169;
+    public const int MAGICIAN = 170;
+    public const int BULLETPROOF = 171;
+    public const int COMPETITIVE = 172;
+    public const int STRONG_JAW = 173;
+    public const int REFRIGERATE = 174;
+    public const int SWEET_VEIL = 175;
+    public const int STANCE_CHANGE = 176;
+    public const int GALE_WINGS = 177;
+    public const int MEGA_LAUNCHER = 178;
+    public const int GRASS_PELT = 179;
+    public const int SYMBIOSIS = 180;
+    public const int TOUGH_CLAWS = 181;
+    public const int PIXILATE = 182;
+    public const int GOOEY = 183; //
+    public const int PARENTAL_BOND = 184; //
+    public const int AERILATE = 185;
+    public const int DARK_AURA = 186;
+    public const int FAIRY_AURA = 187;
+    public const int AURA_BREAK = 188;
   }
   public static class Is
   {
@@ -436,7 +434,6 @@ namespace PokemonBattleOnline.Game
   }
   public static class Ms
   {
-    #region certain
     public const int POUND = 1;
     public const int KARATE_CHOP = 2;
     public const int DOUBLESLAP = 3;
@@ -996,54 +993,62 @@ namespace PokemonBattleOnline.Game
     public const int VCREATE = 557;
     public const int FUSION_FLARE = 558;
     public const int FUSION_BOLT = 559;
-    #endregion
-    public const int NOBLE_ROAR = 560;
-    public const int CONFIDE = 561;
-    public const int PLAY_NICE = 562;
-    public const int BOOMBURST = 563;
-    public const int POWERUP_PUNCH = 564;
-    public const int MAT_BLOCK = 565;
-    public const int FLYING_PRESS = 566;
-    public const int OBLIVION_WING = 567;
-    public const int BELCH = 568;
-    public const int VENOM_DRENCH = 569;
-    public const int LANDS_WRATH = 570;
-    public const int ROTOTILLER = 571;
-    public const int FELL_STINGER = 572;
-    public const int STICKY_WEB = 573;
-    public const int POWDER = 574;
-    public const int INFESTATION = 575;
-    public const int PHANTOM_FORCE = 576;
-    public const int TRICKORTREAT = 577;
-    public const int KINGS_SHIELD = 578;
-    public const int MYSTICAL_FIRE = 579;
-    public const int WATER_SHURIKEN = 580;
-    public const int GRASSY_TERRAIN = 581;
-    public const int SPIKY_SHIELD = 582;
-    public const int PETAL_BLIZZARD = 583;
-    public const int FORESTS_CURSE = 584;
-    public const int EERIE_IMPULSE = 585;
-    public const int MAGNETIC_FLUX = 586;
-    public const int ELECTRIFY = 587;
-    public const int PARABOLIC_CHARGE = 588;
-    public const int ION_DELUGE = 589;
-    public const int NUZZLE = 590;
-    public const int ELECTRIC_TERRAIN = 591;
-    public const int FREEZEDRY = 592;
-    public const int PARTING_SHOT = 593;
-    public const int TOPSYTURVY = 594;
-    public const int AROMATIC_MIST = 595;
-    public const int GEOMANCY = 596;
-    public const int PLAY_ROUGH = 597;
-    public const int DISARMING_VOICE = 598;
-    public const int BABYDOLL_EYES = 599;
-    public const int CRAFTY_SHIELD = 600;
-    public const int DRAINING_KISS = 601;
-    public const int FAIRY_LOCK = 602;
-    public const int FLOWER_SHIELD = 603;
-    public const int DAZZLING_GLEAM = 604;
-    public const int MISTY_TERRAIN = 605;
-    public const int MOONBLAST = 606;
-    public const int FAIRY_WIND = 607;
+    public const int FLYING_PRESS = 560;
+    public const int MAT_BLOCK = 561;
+    public const int BELCH = 562;
+    public const int ROTOTILLER = 563;
+    public const int STICKY_WEB = 564;
+    public const int FELL_STINGER = 565;
+    public const int PHANTOM_FORCE = 566;
+    public const int TRICKORTREAT = 567;
+    public const int NOBLE_ROAR = 568;
+    public const int ION_DELUGE = 569;
+    public const int PARABOLIC_CHARGE = 570;
+    public const int FORESTS_CURSE = 571;
+    public const int PETAL_BLIZZARD = 572;
+    public const int FREEZEDRY = 573;
+    public const int DISARMING_VOICE = 574;
+    public const int PARTING_SHOT = 575;
+    public const int TOPSYTURVY = 576;
+    public const int DRAINING_KISS = 577;
+    public const int CRAFTY_SHIELD = 578;
+    public const int FLOWER_SHIELD = 579;
+    public const int GRASSY_TERRAIN = 580;
+    public const int MISTY_TERRAIN = 581;
+    public const int ELECTRIFY = 582;
+    public const int PLAY_ROUGH = 583;
+    public const int FAIRY_WIND = 584;
+    public const int MOONBLAST = 585;
+    public const int BOOMBURST = 586;
+    public const int FAIRY_LOCK = 587;
+    public const int KINGS_SHIELD = 588;
+    public const int PLAY_NICE = 589;
+    public const int CONFIDE = 590;
+    public const int HAPPY_HOUR = 591;
+    public const int CELEBRATE = 592;
+    public const int MOVE593 = 593;
+    public const int WATER_SHURIKEN = 594;
+    public const int MYSTICAL_FIRE = 595;
+    public const int SPIKY_SHIELD = 596;
+    public const int AROMATIC_MIST = 597;
+    public const int EERIE_IMPULSE = 598;
+    public const int VENOM_DRENCH = 599;
+    public const int POWDER = 600;
+    public const int GEOMANCY = 601;
+    public const int MAGNETIC_FLUX = 602;
+    public const int MOVE603 = 603;
+    public const int ELECTRIC_TERRAIN = 604;
+    public const int DAZZLING_GLEAM = 605;
+    public const int MOVE606 = 606;
+    public const int MOVE607 = 607;
+    public const int BABYDOLL_EYES = 608;
+    public const int NUZZLE = 609;
+    public const int MOVE610 = 610;
+    public const int INFESTATION = 611;
+    public const int POWERUP_PUNCH = 612;
+    public const int OBLIVION_WING = 613;
+    public const int MOVE614 = 614;
+    public const int MOVE615 = 615;
+    public const int LANDS_WRATH = 616;
   }
 }

@@ -9673,100 +9673,6 @@
     </MoveType>
     <MoveType>
       <Id>560</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_class>Lv7DChange</_class>
-      <_lv7DChanges>
-        <MoveLv7DChange>
-          <Change>-1</Change>
-          <Probability>0</Probability>
-          <Type>Atk</Type>
-        </MoveLv7DChange>
-        <MoveLv7DChange>
-          <Change>-1</Change>
-          <Probability>0</Probability>
-          <Type>SpAtk</Type>
-        </MoveLv7DChange>
-      </_lv7DChanges>
-      <_pp>30</_pp>
-      <_type>Normal</_type>
-    </MoveType>
-    <MoveType>
-      <Id>561</Id>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_class>Lv7DChange</_class>
-      <_lv7DChanges>
-        <MoveLv7DChange>
-          <Change>-1</Change>
-          <Probability>0</Probability>
-          <Type>SpAtk</Type>
-        </MoveLv7DChange>
-      </_lv7DChanges>
-      <_pp>20</_pp>
-      <_type>Normal</_type>
-    </MoveType>
-    <MoveType>
-      <Id>562</Id>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_class>Lv7DChange</_class>
-      <_lv7DChanges>
-        <MoveLv7DChange>
-          <Change>-1</Change>
-          <Probability>0</Probability>
-          <Type>Atk</Type>
-        </MoveLv7DChange>
-      </_lv7DChanges>
-      <_pp>20</_pp>
-      <_type>Normal</_type>
-    </MoveType>
-    <MoveType>
-      <Id>563</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_category>Special</_category>
-      <_lv7DChanges />
-      <_power>140</_power>
-      <_pp>10</_pp>
-      <_type>Normal</_type>
-    </MoveType>
-    <MoveType>
-      <Id>564</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_category>Physical</_category>
-      <_class>AttackWithSelfLv7DChange</_class>
-      <_lv7DChanges>
-        <MoveLv7DChange>
-          <Change>1</Change>
-          <Probability>0</Probability>
-          <Type>Atk</Type>
-        </MoveLv7DChange>
-      </_lv7DChanges>
-      <_power>40</_power>
-      <_pp>30</_pp>
-      <_type>Fighting</_type>
-    </MoveType>
-    <MoveType>
-      <Id>565</Id>
-      <_advancedFlags />
-      <_class>Special</_class>
-      <_lv7DChanges />
-      <_pp>15</_pp>
-      <_range>SelfField</_range>
-      <_type>Fighting</_type>
-    </MoveType>
-    <MoveType>
-      <Id>566</Id>
       <_accuracy>95</_accuracy>
       <_advancedFlags>
         <Protectable>true</Protectable>
@@ -9778,21 +9684,16 @@
       <_type>Fighting</_type>
     </MoveType>
     <MoveType>
-      <Id>567</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_category>Special</_category>
-      <_class>AttackAndAbsorb</_class>
-      <_hurtPercentage>75</_hurtPercentage>
+      <Id>561</Id>
+      <_advancedFlags />
+      <_class>Special</_class>
       <_lv7DChanges />
-      <_power>80</_power>
-      <_pp>10</_pp>
-      <_type>Flying</_type>
+      <_pp>15</_pp>
+      <_range>SelfField</_range>
+      <_type>Fighting</_type>
     </MoveType>
     <MoveType>
-      <Id>568</Id>
+      <Id>562</Id>
       <_accuracy>90</_accuracy>
       <_advancedFlags>
         <Protectable>true</Protectable>
@@ -9804,7 +9705,479 @@
       <_type>Poison</_type>
     </MoveType>
     <MoveType>
+      <Id>563</Id>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_class>Lv7DChange</_class>
+      <_lv7DChanges>
+        <MoveLv7DChange>
+          <Change>1</Change>
+          <Probability>0</Probability>
+          <Type>Atk</Type>
+        </MoveLv7DChange>
+        <MoveLv7DChange>
+          <Change>1</Change>
+          <Probability>0</Probability>
+          <Type>SpAtk</Type>
+        </MoveLv7DChange>
+      </_lv7DChanges>
+      <_pp>10</_pp>
+      <_range>All</_range>
+      <_type>Ground</_type>
+    </MoveType>
+    <MoveType>
+      <Id>564</Id>
+      <_advancedFlags />
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>20</_pp>
+      <_range>FoeField</_range>
+      <_type>Bug</_type>
+    </MoveType>
+    <MoveType>
+      <Id>565</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_category>Physical</_category>
+      <_lv7DChanges />
+      <_power>30</_power>
+      <_pp>25</_pp>
+      <_type>Bug</_type>
+    </MoveType>
+    <MoveType>
+      <Id>566</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags>
+        <PrepareOneTurn>true</PrepareOneTurn>
+      </_advancedFlags>
+      <_category>Physical</_category>
+      <_lv7DChanges />
+      <_power>90</_power>
+      <_pp>10</_pp>
+      <_type>Ghost</_type>
+    </MoveType>
+    <MoveType>
+      <Id>567</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags />
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>20</_pp>
+      <_type>Ghost</_type>
+    </MoveType>
+    <MoveType>
+      <Id>568</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_class>Lv7DChange</_class>
+      <_lv7DChanges>
+        <MoveLv7DChange>
+          <Change>-1</Change>
+          <Probability>0</Probability>
+          <Type>Atk</Type>
+        </MoveLv7DChange>
+        <MoveLv7DChange>
+          <Change>-1</Change>
+          <Probability>0</Probability>
+          <Type>SpAtk</Type>
+        </MoveLv7DChange>
+      </_lv7DChanges>
+      <_pp>30</_pp>
+      <_type>Normal</_type>
+    </MoveType>
+    <MoveType>
       <Id>569</Id>
+      <_advancedFlags />
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>25</_pp>
+      <_type>Electric</_type>
+    </MoveType>
+    <MoveType>
+      <Id>570</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_category>Special</_category>
+      <_class>AttackAndAbsorb</_class>
+      <_hurtPercentage>50</_hurtPercentage>
+      <_lv7DChanges />
+      <_power>50</_power>
+      <_pp>20</_pp>
+      <_range>Adjacent</_range>
+      <_type>Electric</_type>
+    </MoveType>
+    <MoveType>
+      <Id>571</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags />
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>20</_pp>
+      <_type>Grass</_type>
+    </MoveType>
+    <MoveType>
+      <Id>572</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_category>Physical</_category>
+      <_lv7DChanges />
+      <_power>90</_power>
+      <_pp>15</_pp>
+      <_range>Adjacent</_range>
+      <_type>Grass</_type>
+    </MoveType>
+    <MoveType>
+      <Id>573</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_attachment>
+        <Category>Forever</Category>
+        <Probability>100</Probability>
+        <State>FRZ</State>
+      </_attachment>
+      <_category>Special</_category>
+      <_class>AttackWithState</_class>
+      <_lv7DChanges />
+      <_power>70</_power>
+      <_pp>20</_pp>
+      <_type>Ice</_type>
+    </MoveType>
+    <MoveType>
+      <Id>574</Id>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_category>Special</_category>
+      <_lv7DChanges />
+      <_power>40</_power>
+      <_pp>15</_pp>
+      <_range>FoePokemons</_range>
+      <_type>Fairy</_type>
+    </MoveType>
+    <MoveType>
+      <Id>575</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_class>Lv7DChange</_class>
+      <_lv7DChanges>
+        <MoveLv7DChange>
+          <Change>-1</Change>
+          <Probability>0</Probability>
+          <Type>Atk</Type>
+        </MoveLv7DChange>
+        <MoveLv7DChange>
+          <Change>-1</Change>
+          <Probability>0</Probability>
+          <Type>SpAtk</Type>
+        </MoveLv7DChange>
+      </_lv7DChanges>
+      <_pp>20</_pp>
+      <_type>Dark</_type>
+    </MoveType>
+    <MoveType>
+      <Id>576</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags />
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>20</_pp>
+      <_type>Dark</_type>
+    </MoveType>
+    <MoveType>
+      <Id>577</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_category>Special</_category>
+      <_class>AttackAndAbsorb</_class>
+      <_lv7DChanges />
+      <_power>50</_power>
+      <_pp>20</_pp>
+      <_type>Fairy</_type>
+    </MoveType>
+    <MoveType>
+      <Id>578</Id>
+      <_advancedFlags />
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>10</_pp>
+      <_range>SelfField</_range>
+      <_type>Fairy</_type>
+    </MoveType>
+    <MoveType>
+      <Id>579</Id>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_class>Lv7DChange</_class>
+      <_lv7DChanges>
+        <MoveLv7DChange>
+          <Change>1</Change>
+          <Probability>0</Probability>
+          <Type>Def</Type>
+        </MoveLv7DChange>
+      </_lv7DChanges>
+      <_pp>10</_pp>
+      <_range>All</_range>
+      <_type>Fairy</_type>
+    </MoveType>
+    <MoveType>
+      <Id>580</Id>
+      <_advancedFlags />
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>10</_pp>
+      <_range>Board</_range>
+      <_type>Grass</_type>
+    </MoveType>
+    <MoveType>
+      <Id>581</Id>
+      <_advancedFlags />
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>10</_pp>
+      <_range>Board</_range>
+      <_type>Fairy</_type>
+    </MoveType>
+    <MoveType>
+      <Id>582</Id>
+      <_advancedFlags />
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>20</_pp>
+      <_type>Electric</_type>
+    </MoveType>
+    <MoveType>
+      <Id>583</Id>
+      <_accuracy>90</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_category>Physical</_category>
+      <_class>AttackWithTargetLv7DChange</_class>
+      <_lv7DChanges>
+        <MoveLv7DChange>
+          <Change>-1</Change>
+          <Probability>10</Probability>
+          <Type>Atk</Type>
+        </MoveLv7DChange>
+      </_lv7DChanges>
+      <_power>90</_power>
+      <_pp>10</_pp>
+      <_type>Fairy</_type>
+    </MoveType>
+    <MoveType>
+      <Id>584</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_category>Special</_category>
+      <_lv7DChanges />
+      <_power>40</_power>
+      <_pp>30</_pp>
+      <_type>Fairy</_type>
+    </MoveType>
+    <MoveType>
+      <Id>585</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_category>Special</_category>
+      <_class>AttackWithTargetLv7DChange</_class>
+      <_lv7DChanges>
+        <MoveLv7DChange>
+          <Change>-1</Change>
+          <Probability>20</Probability>
+          <Type>SpAtk</Type>
+        </MoveLv7DChange>
+      </_lv7DChanges>
+      <_power>95</_power>
+      <_pp>15</_pp>
+      <_type>Fairy</_type>
+    </MoveType>
+    <MoveType>
+      <Id>586</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_category>Special</_category>
+      <_lv7DChanges />
+      <_power>140</_power>
+      <_pp>10</_pp>
+      <_type>Normal</_type>
+    </MoveType>
+    <MoveType>
+      <Id>587</Id>
+      <_advancedFlags />
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>10</_pp>
+      <_range>Board</_range>
+      <_type>Fairy</_type>
+    </MoveType>
+    <MoveType>
+      <Id>588</Id>
+      <_advancedFlags />
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>10</_pp>
+      <_range>Self</_range>
+      <_type>Steel</_type>
+    </MoveType>
+    <MoveType>
+      <Id>589</Id>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_class>Lv7DChange</_class>
+      <_lv7DChanges>
+        <MoveLv7DChange>
+          <Change>-1</Change>
+          <Probability>0</Probability>
+          <Type>Atk</Type>
+        </MoveLv7DChange>
+      </_lv7DChanges>
+      <_pp>20</_pp>
+      <_type>Normal</_type>
+    </MoveType>
+    <MoveType>
+      <Id>590</Id>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_class>Lv7DChange</_class>
+      <_lv7DChanges>
+        <MoveLv7DChange>
+          <Change>-1</Change>
+          <Probability>0</Probability>
+          <Type>SpAtk</Type>
+        </MoveLv7DChange>
+      </_lv7DChanges>
+      <_pp>20</_pp>
+      <_type>Normal</_type>
+    </MoveType>
+    <MoveType>
+      <Id>591</Id>
+      <_advancedFlags/>
+      <_category>Special</_category>
+      <_lv7DChanges />
+      <_pp>30</_pp>
+      <_range>SelfPokemons</_range>
+      <_type>Normal</_type>
+    </MoveType>
+    <MoveType>
+      <Id>592</Id>
+      <_advancedFlags/>
+      <_category>Special</_category>
+      <_lv7DChanges />
+      <_pp>40</_pp>
+      <_range>Self</_range>
+      <_type>Normal</_type>
+    </MoveType>
+    <MoveType>
+      <Id>593</Id>
+      <_advancedFlags/>
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>10</_pp>
+      <_type>Normal</_type>
+    </MoveType>
+    <MoveType>
+      <Id>594</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_category>Physical</_category>
+      <_lv7DChanges />
+      <_maxTimes>5</_maxTimes>
+      <_minTimes>2</_minTimes>
+      <_power>15</_power>
+      <_pp>20</_pp>
+      <_priority>1</_priority>
+      <_type>Water</_type>
+    </MoveType>
+    <MoveType>
+      <Id>595</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_category>Special</_category>
+      <_class>AttackWithTargetLv7DChange</_class>
+      <_lv7DChanges>
+        <MoveLv7DChange>
+          <Change>-1</Change>
+          <Probability>0</Probability>
+          <Type>SpAtk</Type>
+        </MoveLv7DChange>
+      </_lv7DChanges>
+      <_power>65</_power>
+      <_pp>10</_pp>
+      <_range>Adjacent</_range>
+      <_type>Fire</_type>
+    </MoveType>
+    <MoveType>
+      <Id>596</Id>
+      <_advancedFlags />
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>20</_pp>
+      <_range>Self</_range>
+      <_type>Grass</_type>
+    </MoveType>
+    <MoveType>
+      <Id>597</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags />
+      <_class>Lv7DChange</_class>
+      <_lv7DChanges>
+        <MoveLv7DChange>
+          <Change>1</Change>
+          <Probability>0</Probability>
+          <Type>SpDef</Type>
+        </MoveLv7DChange>
+      </_lv7DChanges>
+      <_pp>20</_pp>
+      <_range>SelfPokemons</_range>
+      <_type>Fairy</_type>
+    </MoveType>
+    <MoveType>
+      <Id>598</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_class>Lv7DChange</_class>
+      <_lv7DChanges>
+        <MoveLv7DChange>
+          <Change>-2</Change>
+          <Probability>0</Probability>
+          <Type>SpAtk</Type>
+        </MoveLv7DChange>
+      </_lv7DChanges>
+      <_pp>15</_pp>
+      <_type>Electric</_type>
+    </MoveType>
+    <MoveType>
+      <Id>599</Id>
       <_accuracy>100</_accuracy>
       <_advancedFlags>
         <Protectable>true</Protectable>
@@ -9832,63 +10205,7 @@
       <_type>Poison</_type>
     </MoveType>
     <MoveType>
-      <Id>570</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_category>Physical</_category>
-      <_lv7DChanges />
-      <_power>90</_power>
-      <_pp>10</_pp>
-      <_range>FoePokemons</_range>
-      <_type>Ground</_type>
-    </MoveType>
-    <MoveType>
-      <Id>571</Id>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_class>Lv7DChange</_class>
-      <_lv7DChanges>
-        <MoveLv7DChange>
-          <Change>1</Change>
-          <Probability>0</Probability>
-          <Type>Atk</Type>
-        </MoveLv7DChange>
-        <MoveLv7DChange>
-          <Change>1</Change>
-          <Probability>0</Probability>
-          <Type>SpAtk</Type>
-        </MoveLv7DChange>
-      </_lv7DChanges>
-      <_pp>10</_pp>
-      <_range>All</_range>
-      <_type>Ground</_type>
-    </MoveType>
-    <MoveType>
-      <Id>572</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_category>Physical</_category>
-      <_lv7DChanges />
-      <_power>30</_power>
-      <_pp>25</_pp>
-      <_type>Bug</_type>
-    </MoveType>
-    <MoveType>
-      <Id>573</Id>
-      <_advancedFlags />
-      <_class>Special</_class>
-      <_lv7DChanges />
-      <_pp>20</_pp>
-      <_range>FoeField</_range>
-      <_type>Bug</_type>
-    </MoveType>
-    <MoveType>
-      <Id>574</Id>
+      <Id>600</Id>
       <_accuracy>100</_accuracy>
       <_advancedFlags />
       <_class>Special</_class>
@@ -9898,7 +10215,128 @@
       <_type>Bug</_type>
     </MoveType>
     <MoveType>
-      <Id>575</Id>
+      <Id>601</Id>
+      <_advancedFlags>
+        <PrepareOneTurn>true</PrepareOneTurn>
+      </_advancedFlags>
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>10</_pp>
+      <_range>Self</_range>
+      <_type>Fairy</_type>
+    </MoveType>
+    <MoveType>
+      <Id>602</Id>
+      <_advancedFlags />
+      <_class>Lv7DChange</_class>
+      <_lv7DChanges>
+        <MoveLv7DChange>
+          <Change>1</Change>
+          <Probability>0</Probability>
+          <Type>Def</Type>
+        </MoveLv7DChange>
+        <MoveLv7DChange>
+          <Change>1</Change>
+          <Probability>0</Probability>
+          <Type>SpDef</Type>
+        </MoveLv7DChange>
+      </_lv7DChanges>
+      <_pp>20</_pp>
+      <_range>SelfPokemons</_range>
+      <_type>Electric</_type>
+    </MoveType>
+    <MoveType>
+      <Id>603</Id>
+      <_advancedFlags />
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>10</_pp>
+      <_type>Normal</_type>
+    </MoveType>
+    <MoveType>
+      <Id>604</Id>
+      <_advancedFlags />
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>10</_pp>
+      <_range>Board</_range>
+      <_type>Electric</_type>
+    </MoveType>
+    <MoveType>
+      <Id>605</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_category>Special</_category>
+      <_lv7DChanges />
+      <_power>80</_power>
+      <_pp>10</_pp>
+      <_range>FoePokemons</_range>
+      <_type>Fairy</_type>
+    </MoveType>
+    <MoveType>
+      <Id>606</Id>
+      <_advancedFlags />
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>10</_pp>
+      <_type>Normal</_type>
+    </MoveType>
+    <MoveType>
+      <Id>607</Id>
+      <_advancedFlags />
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>10</_pp>
+      <_type>Normal</_type>
+    </MoveType>
+    <MoveType>
+      <Id>608</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_class>Lv7DChange</_class>
+      <_lv7DChanges>
+        <MoveLv7DChange>
+          <Change>-1</Change>
+          <Probability>0</Probability>
+          <Type>Atk</Type>
+        </MoveLv7DChange>
+      </_lv7DChanges>
+      <_pp>30</_pp>
+      <_priority>1</_priority>
+      <_type>Fairy</_type>
+    </MoveType>
+    <MoveType>
+      <Id>609</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_attachment>
+        <Category>Forever</Category>
+        <Probability>100</Probability>
+        <State>PAR</State>
+      </_attachment>
+      <_category>Physical</_category>
+      <_class>AttackWithState</_class>
+      <_lv7DChanges />
+      <_power>20</_power>
+      <_pp>20</_pp>
+      <_type>Electric</_type>
+    </MoveType>
+    <MoveType>
+      <Id>610</Id>
+      <_advancedFlags />
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>10</_pp>
+      <_type>Normal</_type>
+    </MoveType>
+    <MoveType>
+      <Id>611</Id>
       <_accuracy>100</_accuracy>
       <_advancedFlags>
         <Protectable>true</Protectable>
@@ -9918,440 +10356,66 @@
       <_type>Bug</_type>
     </MoveType>
     <MoveType>
-      <Id>576</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags>
-        <PrepareOneTurn>true</PrepareOneTurn>
-      </_advancedFlags>
-      <_category>Physical</_category>
-      <_lv7DChanges />
-      <_power>90</_power>
-      <_pp>10</_pp>
-      <_type>Ghost</_type>
-    </MoveType>
-    <MoveType>
-      <Id>577</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags />
-      <_class>Special</_class>
-      <_lv7DChanges />
-      <_pp>20</_pp>
-      <_type>Ghost</_type>
-    </MoveType>
-    <MoveType>
-      <Id>578</Id>
-      <_advancedFlags />
-      <_class>Special</_class>
-      <_lv7DChanges />
-      <_pp>10</_pp>
-      <_range>Self</_range>
-      <_type>Steel</_type>
-    </MoveType>
-    <MoveType>
-      <Id>579</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_category>Special</_category>
-      <_class>AttackWithTargetLv7DChange</_class>
-      <_lv7DChanges>
-        <MoveLv7DChange>
-          <Change>-1</Change>
-          <Probability>0</Probability>
-          <Type>SpAtk</Type>
-        </MoveLv7DChange>
-      </_lv7DChanges>
-      <_power>65</_power>
-      <_pp>10</_pp>
-      <_range>Adjacent</_range>
-      <_type>Fire</_type>
-    </MoveType>
-    <MoveType>
-      <Id>580</Id>
+      <Id>612</Id>
       <_accuracy>100</_accuracy>
       <_advancedFlags>
         <Protectable>true</Protectable>
       </_advancedFlags>
       <_category>Physical</_category>
-      <_lv7DChanges />
-      <_maxTimes>5</_maxTimes>
-      <_minTimes>2</_minTimes>
-      <_power>15</_power>
-      <_pp>20</_pp>
-      <_priority>1</_priority>
-      <_type>Water</_type>
-    </MoveType>
-    <MoveType>
-      <Id>581</Id>
-      <_advancedFlags />
-      <_class>Special</_class>
-      <_lv7DChanges />
-      <_pp>10</_pp>
-      <_range>Board</_range>
-      <_type>Grass</_type>
-    </MoveType>
-    <MoveType>
-      <Id>582</Id>
-      <_advancedFlags />
-      <_class>Special</_class>
-      <_lv7DChanges />
-      <_pp>20</_pp>
-      <_range>Self</_range>
-      <_type>Grass</_type>
-    </MoveType>
-    <MoveType>
-      <Id>583</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_category>Physical</_category>
-      <_lv7DChanges />
-      <_power>90</_power>
-      <_pp>15</_pp>
-      <_range>Adjacent</_range>
-      <_type>Grass</_type>
-    </MoveType>
-    <MoveType>
-      <Id>584</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags />
-      <_class>Special</_class>
-      <_lv7DChanges />
-      <_pp>20</_pp>
-      <_type>Grass</_type>
-    </MoveType>
-    <MoveType>
-      <Id>585</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_class>Lv7DChange</_class>
-      <_lv7DChanges>
-        <MoveLv7DChange>
-          <Change>-2</Change>
-          <Probability>0</Probability>
-          <Type>SpAtk</Type>
-        </MoveLv7DChange>
-      </_lv7DChanges>
-      <_pp>15</_pp>
-      <_type>Electric</_type>
-    </MoveType>
-    <MoveType>
-      <Id>586</Id>
-      <_advancedFlags />
-      <_class>Lv7DChange</_class>
+      <_class>AttackWithSelfLv7DChange</_class>
       <_lv7DChanges>
         <MoveLv7DChange>
           <Change>1</Change>
-          <Probability>0</Probability>
-          <Type>Def</Type>
-        </MoveLv7DChange>
-        <MoveLv7DChange>
-          <Change>1</Change>
-          <Probability>0</Probability>
-          <Type>SpDef</Type>
-        </MoveLv7DChange>
-      </_lv7DChanges>
-      <_pp>20</_pp>
-      <_range>SelfPokemons</_range>
-      <_type>Electric</_type>
-    </MoveType>
-    <MoveType>
-      <Id>587</Id>
-      <_advancedFlags />
-      <_class>Special</_class>
-      <_lv7DChanges />
-      <_pp>20</_pp>
-      <_type>Electric</_type>
-    </MoveType>
-    <MoveType>
-      <Id>588</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_category>Special</_category>
-      <_class>AttackAndAbsorb</_class>
-      <_hurtPercentage>50</_hurtPercentage>
-      <_lv7DChanges />
-      <_power>50</_power>
-      <_pp>20</_pp>
-      <_range>Adjacent</_range>
-      <_type>Electric</_type>
-    </MoveType>
-    <MoveType>
-      <Id>589</Id>
-      <_advancedFlags />
-      <_class>Special</_class>
-      <_lv7DChanges />
-      <_pp>25</_pp>
-      <_type>Electric</_type>
-    </MoveType>
-    <MoveType>
-      <Id>590</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_attachment>
-        <Category>Forever</Category>
-        <Probability>100</Probability>
-        <State>PAR</State>
-      </_attachment>
-      <_category>Physical</_category>
-      <_class>AttackWithState</_class>
-      <_lv7DChanges />
-      <_power>20</_power>
-      <_pp>20</_pp>
-      <_type>Electric</_type>
-    </MoveType>
-    <MoveType>
-      <Id>591</Id>
-      <_advancedFlags />
-      <_class>Special</_class>
-      <_lv7DChanges />
-      <_pp>10</_pp>
-      <_range>Board</_range>
-      <_type>Electric</_type>
-    </MoveType>
-    <MoveType>
-      <Id>592</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_attachment>
-        <Category>Forever</Category>
-        <Probability>100</Probability>
-        <State>FRZ</State>
-      </_attachment>
-      <_category>Special</_category>
-      <_class>AttackWithState</_class>
-      <_lv7DChanges />
-      <_power>70</_power>
-      <_pp>20</_pp>
-      <_type>Ice</_type>
-    </MoveType>
-    <MoveType>
-      <Id>593</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_class>Lv7DChange</_class>
-      <_lv7DChanges>
-        <MoveLv7DChange>
-          <Change>-1</Change>
           <Probability>0</Probability>
           <Type>Atk</Type>
         </MoveLv7DChange>
-        <MoveLv7DChange>
-          <Change>-1</Change>
-          <Probability>0</Probability>
-          <Type>SpAtk</Type>
-        </MoveLv7DChange>
       </_lv7DChanges>
-      <_pp>20</_pp>
-      <_type>Dark</_type>
-    </MoveType>
-    <MoveType>
-      <Id>594</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags />
-      <_class>Special</_class>
-      <_lv7DChanges />
-      <_pp>20</_pp>
-      <_type>Dark</_type>
-    </MoveType>
-    <MoveType>
-      <Id>595</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags />
-      <_class>Lv7DChange</_class>
-      <_lv7DChanges>
-        <MoveLv7DChange>
-          <Change>1</Change>
-          <Probability>0</Probability>
-          <Type>SpDef</Type>
-        </MoveLv7DChange>
-      </_lv7DChanges>
-      <_pp>20</_pp>
-      <_range>SelfPokemons</_range>
-      <_type>Fairy</_type>
-    </MoveType>
-    <MoveType>
-      <Id>596</Id>
-      <_advancedFlags>
-        <PrepareOneTurn>true</PrepareOneTurn>
-      </_advancedFlags>
-      <_class>Special</_class>
-      <_lv7DChanges />
-      <_pp>10</_pp>
-      <_range>Self</_range>
-      <_type>Fairy</_type>
-    </MoveType>
-    <MoveType>
-      <Id>597</Id>
-      <_accuracy>90</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_category>Physical</_category>
-      <_class>AttackWithTargetLv7DChange</_class>
-      <_lv7DChanges>
-        <MoveLv7DChange>
-          <Change>-1</Change>
-          <Probability>10</Probability>
-          <Type>Atk</Type>
-        </MoveLv7DChange>
-      </_lv7DChanges>
-      <_power>90</_power>
-      <_pp>10</_pp>
-      <_type>Fairy</_type>
-    </MoveType>
-    <MoveType>
-      <Id>598</Id>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_category>Special</_category>
-      <_lv7DChanges />
       <_power>40</_power>
-      <_pp>15</_pp>
-      <_range>FoePokemons</_range>
-      <_type>Fairy</_type>
-    </MoveType>
-    <MoveType>
-      <Id>599</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_class>Lv7DChange</_class>
-      <_lv7DChanges>
-        <MoveLv7DChange>
-          <Change>-1</Change>
-          <Probability>0</Probability>
-          <Type>Atk</Type>
-        </MoveLv7DChange>
-      </_lv7DChanges>
       <_pp>30</_pp>
-      <_priority>1</_priority>
-      <_type>Fairy</_type>
+      <_type>Fighting</_type>
     </MoveType>
     <MoveType>
-      <Id>600</Id>
-      <_advancedFlags />
-      <_class>Special</_class>
-      <_lv7DChanges />
-      <_pp>10</_pp>
-      <_range>SelfField</_range>
-      <_type>Fairy</_type>
-    </MoveType>
-    <MoveType>
-      <Id>601</Id>
+      <Id>613</Id>
       <_accuracy>100</_accuracy>
       <_advancedFlags>
         <Protectable>true</Protectable>
       </_advancedFlags>
       <_category>Special</_category>
       <_class>AttackAndAbsorb</_class>
-      <_lv7DChanges />
-      <_power>50</_power>
-      <_pp>20</_pp>
-      <_type>Fairy</_type>
-    </MoveType>
-    <MoveType>
-      <Id>602</Id>
-      <_advancedFlags />
-      <_class>Special</_class>
-      <_lv7DChanges />
-      <_pp>10</_pp>
-      <_range>Board</_range>
-      <_type>Fairy</_type>
-    </MoveType>
-    <MoveType>
-      <Id>603</Id>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_class>Lv7DChange</_class>
-      <_lv7DChanges>
-        <MoveLv7DChange>
-          <Change>1</Change>
-          <Probability>0</Probability>
-          <Type>Def</Type>
-        </MoveLv7DChange>
-      </_lv7DChanges>
-      <_pp>10</_pp>
-      <_range>All</_range>
-      <_type>Fairy</_type>
-    </MoveType>
-    <MoveType>
-      <Id>604</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_category>Special</_category>
+      <_hurtPercentage>75</_hurtPercentage>
       <_lv7DChanges />
       <_power>80</_power>
       <_pp>10</_pp>
-      <_range>FoePokemons</_range>
-      <_type>Fairy</_type>
+      <_type>Flying</_type>
     </MoveType>
     <MoveType>
-      <Id>605</Id>
+      <Id>614</Id>
       <_advancedFlags />
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_range>Board</_range>
-      <_type>Fairy</_type>
-    </MoveType>
-    <MoveType>
-      <Id>606</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_category>Special</_category>
-      <_class>AttackWithTargetLv7DChange</_class>
-      <_lv7DChanges>
-        <MoveLv7DChange>
-          <Change>-1</Change>
-          <Probability>20</Probability>
-          <Type>SpAtk</Type>
-        </MoveLv7DChange>
-      </_lv7DChanges>
-      <_power>95</_power>
-      <_pp>15</_pp>
-      <_type>Fairy</_type>
-    </MoveType>
-    <MoveType>
-      <Id>607</Id>
-      <_accuracy>100</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_category>Special</_category>
-      <_lv7DChanges />
-      <_power>40</_power>
-      <_pp>30</_pp>
-      <_type>Fairy</_type>
-    </MoveType>
-    <MoveType>
-      <Id>608</Id>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_category>Special</_category>
-      <_lv7DChanges />
-      <_pp>30</_pp>
       <_type>Normal</_type>
+    </MoveType>
+    <MoveType>
+      <Id>615</Id>
+      <_advancedFlags />
+      <_class>Special</_class>
+      <_lv7DChanges />
+      <_pp>10</_pp>
+      <_type>Normal</_type>
+    </MoveType>
+    <MoveType>
+      <Id>616</Id>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_category>Physical</_category>
+      <_lv7DChanges />
+      <_power>90</_power>
+      <_pp>10</_pp>
+      <_range>FoePokemons</_range>
+      <_type>Ground</_type>
     </MoveType>
   </moves>
   <pokemons>
@@ -10557,9 +10621,9 @@
           <T1>Fire</T1>
           <T2>Dragon</T2>
           <A>
-            <a:int>168</a:int>
+            <a:int>181</a:int>
             <a:int>0</a:int>
-            <a:int>168</a:int>
+            <a:int>181</a:int>
           </A>
           <Base>
             <H>78</H>
@@ -10692,9 +10756,9 @@
         <PokemonFormData>
           <T1>Water</T1>
           <A>
-            <a:int>188</a:int>
+            <a:int>178</a:int>
             <a:int>0</a:int>
-            <a:int>188</a:int>
+            <a:int>178</a:int>
           </A>
           <Base>
             <H>79</H>
@@ -13852,9 +13916,9 @@
         <PokemonFormData>
           <T1>Normal</T1>
           <A>
-            <a:int>167</a:int>
+            <a:int>184</a:int>
             <a:int>0</a:int>
-            <a:int>167</a:int>
+            <a:int>184</a:int>
           </A>
           <Base>
             <H>105</H>
@@ -14225,9 +14289,9 @@
           <T1>Bug</T1>
           <T2>Flying</T2>
           <A>
-            <a:int>174</a:int>
+            <a:int>185</a:int>
             <a:int>0</a:int>
-            <a:int>174</a:int>
+            <a:int>185</a:int>
           </A>
           <Base>
             <H>65</H>
@@ -14459,7 +14523,7 @@
           <T2>Water</T2>
           <A>
             <a:int>11</a:int>
-            <a:int>11</a:int>
+            <a:int>0</a:int>
             <a:int>93</a:int>
           </A>
           <Base>
@@ -14488,7 +14552,7 @@
           <T2>Electric</T2>
           <A>
             <a:int>10</a:int>
-            <a:int>10</a:int>
+            <a:int>0</a:int>
             <a:int>95</a:int>
           </A>
           <Base>
@@ -14517,7 +14581,7 @@
           <T2>Fire</T2>
           <A>
             <a:int>18</a:int>
-            <a:int>18</a:int>
+            <a:int>0</a:int>
             <a:int>62</a:int>
           </A>
           <Base>
@@ -14713,9 +14777,9 @@
           <T1>Rock</T1>
           <T2>Flying</T2>
           <A>
-            <a:int>168</a:int>
+            <a:int>181</a:int>
             <a:int>0</a:int>
-            <a:int>168</a:int>
+            <a:int>181</a:int>
           </A>
           <Base>
             <H>80</H>
@@ -16372,7 +16436,7 @@
           <T2>Psychic</T2>
           <A>
             <a:int>28</a:int>
-            <a:int>28</a:int>
+            <a:int>0</a:int>
             <a:int>156</a:int>
           </A>
           <Base>
@@ -16401,7 +16465,7 @@
           <T2>Dark</T2>
           <A>
             <a:int>28</a:int>
-            <a:int>28</a:int>
+            <a:int>0</a:int>
             <a:int>39</a:int>
           </A>
           <Base>
@@ -19102,9 +19166,9 @@
           <T1>Psychic</T1>
           <T2>Fairy</T2>
           <A>
-            <a:int>181</a:int>
+            <a:int>182</a:int>
             <a:int>0</a:int>
-            <a:int>181</a:int>
+            <a:int>182</a:int>
           </A>
           <Base>
             <H>68</H>
@@ -20576,7 +20640,7 @@
           <T2>Dragon</T2>
           <A>
             <a:int>26</a:int>
-            <a:int>26</a:int>
+            <a:int>0</a:int>
             <a:int>26</a:int>
           </A>
           <Base>
@@ -20605,7 +20669,7 @@
           <T2>Dragon</T2>
           <A>
             <a:int>26</a:int>
-            <a:int>26</a:int>
+            <a:int>0</a:int>
             <a:int>26</a:int>
           </A>
           <Base>
@@ -24762,7 +24826,7 @@
           <T2>Ice</T2>
           <A>
             <a:int>46</a:int>
-            <a:int>46</a:int>
+            <a:int>0</a:int>
             <a:int>124</a:int>
           </A>
           <Base>
@@ -25025,7 +25089,7 @@
           <T2>Grass</T2>
           <A>
             <a:int>102</a:int>
-            <a:int>102</a:int>
+            <a:int>0</a:int>
             <a:int>34</a:int>
           </A>
           <Base>
@@ -25054,7 +25118,7 @@
           <T2>Ice</T2>
           <A>
             <a:int>81</a:int>
-            <a:int>81</a:int>
+            <a:int>0</a:int>
             <a:int>115</a:int>
           </A>
           <Base>
@@ -25170,7 +25234,7 @@
           <T2>Fighting</T2>
           <A>
             <a:int>80</a:int>
-            <a:int>80</a:int>
+            <a:int>0</a:int>
             <a:int>154</a:int>
           </A>
           <Base>
@@ -25258,7 +25322,7 @@
           <T2>Ghost</T2>
           <A>
             <a:int>81</a:int>
-            <a:int>81</a:int>
+            <a:int>0</a:int>
             <a:int>130</a:int>
           </A>
           <Base>
@@ -25966,7 +26030,7 @@
           <T2>Grass</T2>
           <A>
             <a:int>65</a:int>
-            <a:int>65</a:int>
+            <a:int>0</a:int>
             <a:int>126</a:int>
           </A>
           <Base>
@@ -25996,7 +26060,7 @@
           <T2>Grass</T2>
           <A>
             <a:int>65</a:int>
-            <a:int>65</a:int>
+            <a:int>0</a:int>
             <a:int>126</a:int>
           </A>
           <Base>
@@ -26026,7 +26090,7 @@
           <T2>Grass</T2>
           <A>
             <a:int>65</a:int>
-            <a:int>65</a:int>
+            <a:int>0</a:int>
             <a:int>126</a:int>
           </A>
           <Base>
@@ -26055,7 +26119,7 @@
           <T2>Fire</T2>
           <A>
             <a:int>66</a:int>
-            <a:int>66</a:int>
+            <a:int>0</a:int>
             <a:int>47</a:int>
           </A>
           <Base>
@@ -26084,7 +26148,7 @@
           <T2>Fighting</T2>
           <A>
             <a:int>66</a:int>
-            <a:int>66</a:int>
+            <a:int>0</a:int>
             <a:int>47</a:int>
           </A>
           <Base>
@@ -26113,7 +26177,7 @@
           <T2>Fighting</T2>
           <A>
             <a:int>66</a:int>
-            <a:int>66</a:int>
+            <a:int>0</a:int>
             <a:int>120</a:int>
           </A>
           <Base>
@@ -26142,7 +26206,7 @@
           <T2>Water</T2>
           <A>
             <a:int>67</a:int>
-            <a:int>67</a:int>
+            <a:int>0</a:int>
             <a:int>75</a:int>
           </A>
           <Base>
@@ -26171,7 +26235,7 @@
           <T2>Water</T2>
           <A>
             <a:int>67</a:int>
-            <a:int>67</a:int>
+            <a:int>0</a:int>
             <a:int>75</a:int>
           </A>
           <Base>
@@ -26200,7 +26264,7 @@
           <T2>Water</T2>
           <A>
             <a:int>67</a:int>
-            <a:int>67</a:int>
+            <a:int>0</a:int>
             <a:int>75</a:int>
           </A>
           <Base>
@@ -30729,7 +30793,7 @@
           <A>
             <a:int>65</a:int>
             <a:int>0</a:int>
-            <a:int>185</a:int>
+            <a:int>171</a:int>
           </A>
           <Base>
             <H>56</H>
@@ -30757,7 +30821,7 @@
           <A>
             <a:int>65</a:int>
             <a:int>0</a:int>
-            <a:int>185</a:int>
+            <a:int>171</a:int>
           </A>
           <Base>
             <H>61</H>
@@ -30786,7 +30850,7 @@
           <A>
             <a:int>65</a:int>
             <a:int>0</a:int>
-            <a:int>185</a:int>
+            <a:int>171</a:int>
           </A>
           <Base>
             <H>88</H>
@@ -30814,7 +30878,7 @@
           <A>
             <a:int>66</a:int>
             <a:int>0</a:int>
-            <a:int>187</a:int>
+            <a:int>170</a:int>
           </A>
           <Base>
             <H>40</H>
@@ -30842,7 +30906,7 @@
           <A>
             <a:int>66</a:int>
             <a:int>0</a:int>
-            <a:int>187</a:int>
+            <a:int>170</a:int>
           </A>
           <Base>
             <H>59</H>
@@ -30871,7 +30935,7 @@
           <A>
             <a:int>66</a:int>
             <a:int>0</a:int>
-            <a:int>187</a:int>
+            <a:int>170</a:int>
           </A>
           <Base>
             <H>75</H>
@@ -30899,7 +30963,7 @@
           <A>
             <a:int>67</a:int>
             <a:int>0</a:int>
-            <a:int>184</a:int>
+            <a:int>168</a:int>
           </A>
           <Base>
             <H>41</H>
@@ -30927,7 +30991,7 @@
           <A>
             <a:int>67</a:int>
             <a:int>0</a:int>
-            <a:int>184</a:int>
+            <a:int>168</a:int>
           </A>
           <Base>
             <H>54</H>
@@ -30956,7 +31020,7 @@
           <A>
             <a:int>67</a:int>
             <a:int>0</a:int>
-            <a:int>184</a:int>
+            <a:int>168</a:int>
           </A>
           <Base>
             <H>72</H>
@@ -30983,7 +31047,7 @@
           <T1>Normal</T1>
           <A>
             <a:int>53</a:int>
-            <a:int>186</a:int>
+            <a:int>167</a:int>
             <a:int>37</a:int>
           </A>
           <Base>
@@ -31012,7 +31076,7 @@
           <T2>Ground</T2>
           <A>
             <a:int>53</a:int>
-            <a:int>186</a:int>
+            <a:int>167</a:int>
             <a:int>37</a:int>
           </A>
           <Base>
@@ -31042,7 +31106,7 @@
           <A>
             <a:int>145</a:int>
             <a:int>0</a:int>
-            <a:int>178</a:int>
+            <a:int>177</a:int>
           </A>
           <Base>
             <H>45</H>
@@ -31071,7 +31135,7 @@
           <A>
             <a:int>49</a:int>
             <a:int>0</a:int>
-            <a:int>178</a:int>
+            <a:int>177</a:int>
           </A>
           <Base>
             <H>62</H>
@@ -31100,7 +31164,7 @@
           <A>
             <a:int>49</a:int>
             <a:int>0</a:int>
-            <a:int>178</a:int>
+            <a:int>177</a:int>
           </A>
           <Base>
             <H>78</H>
@@ -31326,9 +31390,9 @@
         <PokemonFormData>
           <T1>Fairy</T1>
           <A>
-            <a:int>182</a:int>
+            <a:int>166</a:int>
             <a:int>0</a:int>
-            <a:int>171</a:int>
+            <a:int>180</a:int>
           </A>
           <Base>
             <H>44</H>
@@ -31357,9 +31421,9 @@
         <PokemonFormData>
           <T1>Fairy</T1>
           <A>
-            <a:int>182</a:int>
+            <a:int>166</a:int>
             <a:int>0</a:int>
-            <a:int>171</a:int>
+            <a:int>180</a:int>
           </A>
           <Base>
             <H>54</H>
@@ -31385,9 +31449,9 @@
         <PokemonFormData>
           <T1>Fairy</T1>
           <A>
-            <a:int>182</a:int>
+            <a:int>166</a:int>
             <a:int>0</a:int>
-            <a:int>171</a:int>
+            <a:int>180</a:int>
           </A>
           <Base>
             <H>78</H>
@@ -31415,7 +31479,7 @@
           <A>
             <a:int>157</a:int>
             <a:int>0</a:int>
-            <a:int>172</a:int>
+            <a:int>179</a:int>
           </A>
           <Base>
             <H>66</H>
@@ -31443,7 +31507,7 @@
           <A>
             <a:int>157</a:int>
             <a:int>0</a:int>
-            <a:int>172</a:int>
+            <a:int>179</a:int>
           </A>
           <Base>
             <H>123</H>
@@ -31528,7 +31592,7 @@
         <PokemonFormData>
           <T1>Normal</T1>
           <A>
-            <a:int>179</a:int>
+            <a:int>169</a:int>
             <a:int>0</a:int>
             <a:int>0</a:int>
           </A>
@@ -31604,7 +31668,7 @@
           <A>
             <a:int>51</a:int>
             <a:int>151</a:int>
-            <a:int>169</a:int>
+            <a:int>172</a:int>
           </A>
           <Base>
             <H>74</H>
@@ -31693,7 +31757,7 @@
           <T1>Steel</T1>
           <T2>Ghost</T2>
           <A>
-            <a:int>177</a:int>
+            <a:int>176</a:int>
             <a:int>0</a:int>
             <a:int>0</a:int>
           </A>
@@ -31712,7 +31776,7 @@
           <T1>Steel</T1>
           <T2>Ghost</T2>
           <A>
-            <a:int>177</a:int>
+            <a:int>176</a:int>
             <a:int>0</a:int>
             <a:int>0</a:int>
           </A>
@@ -31800,7 +31864,7 @@
         <PokemonFormData>
           <T1>Fairy</T1>
           <A>
-            <a:int>173</a:int>
+            <a:int>175</a:int>
             <a:int>0</a:int>
             <a:int>84</a:int>
           </A>
@@ -31828,7 +31892,7 @@
         <PokemonFormData>
           <T1>Fairy</T1>
           <A>
-            <a:int>173</a:int>
+            <a:int>175</a:int>
             <a:int>0</a:int>
             <a:int>84</a:int>
           </A>
@@ -31917,7 +31981,7 @@
           <T1>Rock</T1>
           <T2>Water</T2>
           <A>
-            <a:int>168</a:int>
+            <a:int>181</a:int>
             <a:int>97</a:int>
             <a:int>124</a:int>
           </A>
@@ -31946,7 +32010,7 @@
           <T1>Rock</T1>
           <T2>Water</T2>
           <A>
-            <a:int>168</a:int>
+            <a:int>181</a:int>
             <a:int>97</a:int>
             <a:int>124</a:int>
           </A>
@@ -32035,7 +32099,7 @@
         <PokemonFormData>
           <T1>Water</T1>
           <A>
-            <a:int>188</a:int>
+            <a:int>178</a:int>
             <a:int>0</a:int>
             <a:int>0</a:int>
           </A>
@@ -32064,7 +32128,7 @@
         <PokemonFormData>
           <T1>Water</T1>
           <A>
-            <a:int>188</a:int>
+            <a:int>178</a:int>
             <a:int>0</a:int>
             <a:int>0</a:int>
           </A>
@@ -32154,7 +32218,7 @@
           <T1>Rock</T1>
           <T2>Dragon</T2>
           <A>
-            <a:int>170</a:int>
+            <a:int>173</a:int>
             <a:int>0</a:int>
             <a:int>69</a:int>
           </A>
@@ -32184,7 +32248,7 @@
           <T1>Rock</T1>
           <T2>Dragon</T2>
           <A>
-            <a:int>170</a:int>
+            <a:int>173</a:int>
             <a:int>0</a:int>
             <a:int>69</a:int>
           </A>
@@ -32213,7 +32277,7 @@
           <T1>Rock</T1>
           <T2>Ice</T2>
           <A>
-            <a:int>183</a:int>
+            <a:int>174</a:int>
             <a:int>0</a:int>
             <a:int>117</a:int>
           </A>
@@ -32242,7 +32306,7 @@
           <T1>Rock</T1>
           <T2>Ice</T2>
           <A>
-            <a:int>183</a:int>
+            <a:int>174</a:int>
             <a:int>0</a:int>
             <a:int>117</a:int>
           </A>
@@ -32272,7 +32336,7 @@
           <A>
             <a:int>56</a:int>
             <a:int>0</a:int>
-            <a:int>181</a:int>
+            <a:int>182</a:int>
           </A>
           <Base>
             <H>95</H>
@@ -32329,7 +32393,7 @@
           <T1>Electric</T1>
           <T2>Fairy</T2>
           <A>
-            <a:int>186</a:int>
+            <a:int>167</a:int>
             <a:int>53</a:int>
             <a:int>57</a:int>
           </A>
@@ -32389,7 +32453,7 @@
           <A>
             <a:int>157</a:int>
             <a:int>93</a:int>
-            <a:int>176</a:int>
+            <a:int>183</a:int>
           </A>
           <Base>
             <H>45</H>
@@ -32417,7 +32481,7 @@
           <A>
             <a:int>157</a:int>
             <a:int>93</a:int>
-            <a:int>176</a:int>
+            <a:int>183</a:int>
           </A>
           <Base>
             <H>68</H>
@@ -32445,7 +32509,7 @@
           <A>
             <a:int>157</a:int>
             <a:int>93</a:int>
-            <a:int>176</a:int>
+            <a:int>183</a:int>
           </A>
           <Base>
             <H>90</H>
@@ -32474,7 +32538,7 @@
           <A>
             <a:int>158</a:int>
             <a:int>0</a:int>
-            <a:int>187</a:int>
+            <a:int>170</a:int>
           </A>
           <Base>
             <H>57</H>
@@ -32870,7 +32934,7 @@
         <PokemonFormData>
           <T1>Fairy</T1>
           <A>
-            <a:int>180</a:int>
+            <a:int>187</a:int>
             <a:int>0</a:int>
             <a:int>0</a:int>
           </A>
@@ -32899,7 +32963,7 @@
           <T1>Dark</T1>
           <T2>Flying</T2>
           <A>
-            <a:int>175</a:int>
+            <a:int>186</a:int>
             <a:int>0</a:int>
             <a:int>0</a:int>
           </A>
@@ -32928,7 +32992,7 @@
           <T1>Dragon</T1>
           <T2>Ground</T2>
           <A>
-            <a:int>166</a:int>
+            <a:int>188</a:int>
             <a:int>0</a:int>
             <a:int>0</a:int>
           </A>
