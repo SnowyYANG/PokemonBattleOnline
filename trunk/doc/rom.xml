@@ -11639,7 +11639,7 @@
           <T2>Fairy</T2>
           <A>
             <a:int>56</a:int>
-            <a:int>0</a:int>
+            <a:int>172</a:int>
             <a:int>132</a:int>
           </A>
           <Base>
@@ -11668,7 +11668,7 @@
           <T2>Fairy</T2>
           <A>
             <a:int>56</a:int>
-            <a:int>0</a:int>
+            <a:int>172</a:int>
             <a:int>119</a:int>
           </A>
           <Base>
@@ -15764,7 +15764,7 @@
           <T2>Fairy</T2>
           <A>
             <a:int>56</a:int>
-            <a:int>0</a:int>
+            <a:int>172</a:int>
             <a:int>132</a:int>
           </A>
           <Base>
@@ -20113,7 +20113,7 @@
           <A>
             <a:int>57</a:int>
             <a:int>0</a:int>
-            <a:int>0</a:int>
+            <a:int>31</a:int>
           </A>
           <Base>
             <H>60</H>
@@ -20142,7 +20142,7 @@
           <A>
             <a:int>58</a:int>
             <a:int>0</a:int>
-            <a:int>0</a:int>
+            <a:int>10</a:int>
           </A>
           <Base>
             <H>60</H>
@@ -21258,7 +21258,7 @@
           <T2>Water</T2>
           <A>
             <a:int>63</a:int>
-            <a:int>0</a:int>
+            <a:int>172</a:int>
             <a:int>56</a:int>
           </A>
           <Base>
@@ -21387,7 +21387,7 @@
           <A>
             <a:int>16</a:int>
             <a:int>0</a:int>
-            <a:int>0</a:int>
+            <a:int>168</a:int>
           </A>
           <Base>
             <H>60</H>
@@ -21496,7 +21496,7 @@
           <A>
             <a:int>26</a:int>
             <a:int>0</a:int>
-            <a:int>0</a:int>
+            <a:int>119</a:int>
           </A>
           <Base>
             <H>20</H>
@@ -21525,7 +21525,7 @@
           <A>
             <a:int>46</a:int>
             <a:int>0</a:int>
-            <a:int>0</a:int>
+            <a:int>119</a:int>
           </A>
           <Base>
             <H>40</H>
@@ -22792,7 +22792,7 @@
           <A>
             <a:int>51</a:int>
             <a:int>0</a:int>
-            <a:int>51</a:int>
+            <a:int>120</a:int>
           </A>
           <Base>
             <H>40</H>
@@ -25293,7 +25293,7 @@
           <A>
             <a:int>46</a:int>
             <a:int>0</a:int>
-            <a:int>0</a:int>
+            <a:int>119</a:int>
           </A>
           <Base>
             <H>45</H>
@@ -27427,7 +27427,7 @@
           <A>
             <a:int>38</a:int>
             <a:int>68</a:int>
-            <a:int>95</a:int>
+            <a:int>3</a:int>
           </A>
           <Base>
             <H>30</H>
@@ -27456,7 +27456,7 @@
           <A>
             <a:int>38</a:int>
             <a:int>68</a:int>
-            <a:int>95</a:int>
+            <a:int>3</a:int>
           </A>
           <Base>
             <H>40</H>
@@ -27485,7 +27485,7 @@
           <A>
             <a:int>38</a:int>
             <a:int>68</a:int>
-            <a:int>95</a:int>
+            <a:int>3</a:int>
           </A>
           <Base>
             <H>60</H>
@@ -28386,7 +28386,7 @@
           <T2>Psychic</T2>
           <A>
             <a:int>119</a:int>
-            <a:int>0</a:int>
+            <a:int>172</a:int>
             <a:int>23</a:int>
           </A>
           <Base>
@@ -28415,7 +28415,7 @@
           <T2>Psychic</T2>
           <A>
             <a:int>119</a:int>
-            <a:int>0</a:int>
+            <a:int>172</a:int>
             <a:int>23</a:int>
           </A>
           <Base>
@@ -28444,7 +28444,7 @@
           <T2>Psychic</T2>
           <A>
             <a:int>119</a:int>
-            <a:int>0</a:int>
+            <a:int>172</a:int>
             <a:int>23</a:int>
           </A>
           <Base>
@@ -29106,7 +29106,7 @@
           <A>
             <a:int>160</a:int>
             <a:int>0</a:int>
-            <a:int>0</a:int>
+            <a:int>107</a:int>
           </A>
           <Base>
             <H>74</H>
@@ -29367,7 +29367,7 @@
           <A>
             <a:int>18</a:int>
             <a:int>49</a:int>
-            <a:int>23</a:int>
+            <a:int>151</a:int>
           </A>
           <Base>
             <H>50</H>
@@ -29396,7 +29396,7 @@
           <A>
             <a:int>18</a:int>
             <a:int>49</a:int>
-            <a:int>23</a:int>
+            <a:int>151</a:int>
           </A>
           <Base>
             <H>60</H>
@@ -29425,7 +29425,7 @@
           <A>
             <a:int>18</a:int>
             <a:int>49</a:int>
-            <a:int>23</a:int>
+            <a:int>151</a:int>
           </A>
           <Base>
             <H>60</H>

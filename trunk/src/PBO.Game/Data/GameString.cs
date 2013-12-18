@@ -55,7 +55,7 @@ namespace PokemonBattleOnline.Game
         if (r != list.Length)
         {
           for (int i = r; i < list.Length; ++i)
-            if (list[r] != null && list[i].Equals(name, StringComparison.CurrentCultureIgnoreCase)) return i;
+            if (list[i] != null && list[i].Equals(name, StringComparison.CurrentCultureIgnoreCase)) return i;
           return r;
         }
       }
