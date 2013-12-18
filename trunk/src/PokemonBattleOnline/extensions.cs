@@ -82,6 +82,11 @@ namespace PokemonBattleOnline
       var types = type.Assembly.GetTypes();
       return type.IsInterface ? types.Where((t) => t.GetInterfaces().Contains(type)) : types.Where((t) => t.IsSubclassOf(type));
     }
+    /// <summary>
+    /// return 0 if any error occurs
+    /// </summary>
+    /// <param name="s"></param>
+    /// <returns></returns>
     public static int ToInt(this string s)
     {
       int i = 0;

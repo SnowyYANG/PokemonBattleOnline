@@ -97,8 +97,7 @@
             </Rectangle.Fill>
         </Rectangle>
         <Button Click="Close_Click" ToolTip="关闭" Style="{x:Static ui:Controls.XButton}" Foreground="#b0b0b0" Background="White" BorderBrush="White" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,-24,3,0"/>
-        <Rectangle Name="grid" Margin="0,3,0,0"/>
-        <Image Source="{Binding Image}" Height="{Binding Image.PixelHeight}" Width="{Binding Image.PixelWidth}" HorizontalAlignment="Center" VerticalAlignment="Top">
+        <!--<Image Source="{Binding Image}" Height="{Binding Image.PixelHeight}" Width="{Binding Image.PixelWidth}" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Image.ToolTip>
                 <ToolTip BorderThickness="0">
                     <Grid DataContext="{Binding PokemonForm.Data}">
@@ -131,7 +130,7 @@
                     </Style.Triggers>
                 </Style>
             </Image.Style>
-        </Image>
+        </Image>-->
         <Grid Margin="15,12,15,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160">
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -274,33 +273,12 @@
             </StackPanel>
 
             <StackPanel DataContext="{Binding Model.Ev}" Grid.Column="1" Margin="3,0,0,0">
-                <StackPanel.Resources>
-                    <Style TargetType="{x:Type ui:NumericUpdown}">
-                        <Setter Property="Width" Value="86"/>
-                        <Setter Property="Height" Value="25"/>
-                        <Setter Property="Minimum" Value="0"/>
-                        <Setter Property="Maximum" Value="255"/>
-                        <Setter Property="SmallChange" Value="4"/>
-                        <Setter Property="LargeChange" Value="4"/>
-                        <Setter Property="Background" Value="White"/>
-                        <Setter Property="Foreground">
-                            <Setter.Value>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="63,0" MappingMode="Absolute">
-                                    <GradientStop Color="#787885"/>
-                                    <GradientStop Color="#f2f2f2" Offset="1"/>
-                                </LinearGradientBrush>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="BorderBrush" Value="#4C808080"/>
-                        <Setter Property="ToolTip" Value="努力值"/>
-                    </Style>
-                </StackPanel.Resources>
-                <ui:NumericUpdown Value="{Binding Hp, Mode=TwoWay}" Margin="0,0,0,6"/>
-                <ui:NumericUpdown Value="{Binding Atk, Mode=TwoWay}"/>
-                <ui:NumericUpdown Value="{Binding Def, Mode=TwoWay}"/>
-                <ui:NumericUpdown Value="{Binding SpAtk, Mode=TwoWay}"/>
-                <ui:NumericUpdown Value="{Binding SpDef, Mode=TwoWay}"/>
-                <ui:NumericUpdown Value="{Binding Speed, Mode=TwoWay}"/>
+                <e:EvBox DataContext="{Binding Hp, Mode=TwoWay}" Margin="0,0,0,6"/>
+                <e:EvBox DataContext="{Binding Atk, Mode=TwoWay}" Margin="0,0,0,1"/>
+                <e:EvBox DataContext="{Binding Def, Mode=TwoWay}" Margin="0,0,0,1"/>
+                <e:EvBox DataContext="{Binding SpAtk, Mode=TwoWay}" Margin="0,0,0,1"/>
+                <e:EvBox DataContext="{Binding SpDef, Mode=TwoWay}" Margin="0,0,0,1"/>
+                <e:EvBox DataContext="{Binding Speed, Mode=TwoWay}" Margin="0,0,0,1"/>
             </StackPanel>
             <TextBlock Visibility="{Binding RemainingEvVisibility}" Foreground="#ff8080" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Height="25" Padding="0,5" HorizontalAlignment="Center">
                 <Run Text="剩余努力"/>
@@ -434,22 +412,16 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <StackPanel DataContext="{Binding Origin.Container}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-16,-18,0,0">
+        <StackPanel DataContext="{Binding Origin.Container}" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-21,0,0">
             <StackPanel.Resources>
                 <Style TargetType="ContentControl">
                     <Setter Property="ContentTemplate">
                         <Setter.Value>
                             <DataTemplate>
-                                <Canvas Height="32" Width="32">
-                                    <Polygon Name="stroke" IsHitTestVisible="False" Stroke="#80808080" StrokeThickness="1" Fill="{x:Null}" Canvas.Top="4" Points="1.5,16 6.5,4.5 25.5,4.5 30.5,16 25.5,27.5 6.5,27.5"/>
-                                    <Image Name="icon" Cursor="Hand" Source="{Binding Icon}" Height="32" Width="32"/>
-                                </Canvas>
+                                <Image Name="icon" Source="{Binding Icon}" Opacity="0.5" Cursor="Hand" Height="32" Width="32"/>
                                 <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding Icon}" Value="{x:Null}">
-                                        <Setter TargetName="stroke" Property="Visibility" Value="Collapsed"/>
-                                    </DataTrigger>
                                     <DataTrigger Binding="{Binding IsEditing}" Value="True">
-                                        <Setter TargetName="stroke" Property="StrokeThickness" Value="3"/>
+                                        <Setter TargetName="icon" Property="Opacity" Value="1"/>
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>

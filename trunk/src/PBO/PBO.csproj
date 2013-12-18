@@ -162,7 +162,10 @@
     <Compile Include="Editor\PokemonBank\TeamView.xaml.cs">
       <DependentUpon>TeamView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Editor\PokemonEditor\EvBox.cs" />
+    <Compile Include="Editor\PokemonEditor\EvBox.xaml.cs">
+      <DependentUpon>EvBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Elements\Controls\LimitedValueRule.cs" />
     <Compile Include="Elements\Controls\UIButton.cs" />
     <Compile Include="LobbyPanel.xaml.cs">
       <SubType>Code</SubType>
