@@ -306,9 +306,7 @@
     <Compile Include="Battle\NDS\Board2D\BattleField2D.xaml.cs">
       <DependentUpon>BattleField2D.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Battle\NDS\Board2D\OPokemon2D.cs" />
-    <Compile Include="Battle\NDS\Board2D\Pokemon2DBase.cs" />
-    <Compile Include="Battle\NDS\Board2D\RPokemon2D.cs" />
+    <Compile Include="Battle\NDS\Board2D\Pokemon2D.cs" />
     <Compile Include="Battle\NDS\ControlPanel\ControlPanel.xaml.cs">
       <DependentUpon>ControlPanel.xaml</DependentUpon>
     </Compile>

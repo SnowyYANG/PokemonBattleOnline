@@ -23,8 +23,8 @@
         </DataTemplate>
     </UserControl.Resources>
     <Canvas>
-        <my:RPokemon2D x:Name="rpm" Canvas.Right="68" Canvas.Top="110"/><!--187, 77-->
-        <my:OPokemon2D x:Name="opm" Canvas.Left="68" Canvas.Top="200"/>
+        <my:Pokemon2D x:Name="rpm" Canvas.Right="68" Canvas.Top="110"/><!--187, 77-->
+        <my:Pokemon2D x:Name="opm" Canvas.Left="68" Canvas.Top="200"/>
         <StackPanel Name="Team" Orientation="Horizontal" Canvas.Top="169" Width="93">
             <StackPanel.Resources>
                 <Style TargetType="ContentControl">

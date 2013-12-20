@@ -26,6 +26,7 @@ namespace PokemonBattleOnline.PBO.Battle
     public BattleField2D()
     {
       InitializeComponent();
+      opm.Back = true;
     }
 
     internal void Init(BoardOutward board, int observeTeam)
