@@ -4,7 +4,7 @@
         xmlns:pm="clr-namespace:PokemonBattleOnline.Game;assembly=PBO.Game"
         xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
         xmlns:pbo="clr-namespace:PokemonBattleOnline.PBO"
-        Title="Pokemon Battle Online" MinWidth="560" MinHeight="500">
+        Title="Pokemon Battle Online" MinWidth="560" MinHeight="500" TextOptions.TextRenderingMode="Grayscale">
     <Grid x:Name="grid" Loaded="Grid_Loaded" SizeChanged="Grid_SizeChanged">
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="c0"/>

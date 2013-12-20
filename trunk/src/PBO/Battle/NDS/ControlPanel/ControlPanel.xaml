@@ -4,7 +4,7 @@
         xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
         xmlns:b="clr-namespace:PokemonBattleOnline.PBO.Battle"
         xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters"
-        Height="240" Width="320" SnapsToDevicePixels="True" UseLayoutRounding="True" TextOptions.TextRenderingMode="Aliased">
+        Height="240" Width="320" SnapsToDevicePixels="True" UseLayoutRounding="True">
     <Canvas.Resources>
     </Canvas.Resources>
     <Canvas.Background>
