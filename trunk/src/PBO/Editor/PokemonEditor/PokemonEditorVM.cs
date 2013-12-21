@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.ComponentModel;
-using System.Globalization;
-using System.Collections.Specialized;
+using System.Windows.Media.Imaging;
 using PokemonBattleOnline.Game;
 using PokemonBattleOnline.PBO.Elements;
 
@@ -56,16 +55,10 @@ namespace PokemonBattleOnline.PBO.Editor
   }
   internal class PokemonEditorVM : ObservableObject
   {
-    public static readonly ICommand RemoveMoveCommand;
     public static readonly ICommand PPUpChangeCommand;
 
     static PokemonEditorVM()
     {
-      RemoveMoveCommand = new SimpleCommand((_m) =>
-        {
-          var l = EditorVM.Current.EditingPokemon._learnset.ValueOrDefault(((LearnedMove)_m).Move.Id);
-          if (l != null) l.IsSelected = false;
-        });
       PPUpChangeCommand = new SimpleCommand((_m) =>
         {
           var m = (LearnedMove)_m;
@@ -231,8 +224,8 @@ namespace PokemonBattleOnline.PBO.Editor
       OnPropertyChanged("Learnset");
     }
 
-    private System.Windows.Media.Imaging.BitmapImage _image;
-    public ImageSource Image
+    private BitmapImage _image;
+    public BitmapImage Image
     { get { return _image; } }
     private void RefreshImage()
     {

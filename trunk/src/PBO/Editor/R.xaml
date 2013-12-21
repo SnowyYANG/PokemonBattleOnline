@@ -32,7 +32,7 @@
     </DataTemplate>
     <DataTemplate x:Key="LearnedMove">
         <Grid Name="grid" Width="136" Height="34" ToolTip="{Binding Move.Id,Converter={x:Static c:MoveDString.C}}">
-            <Polygon Name="bg" Stroke="#202020" StrokeThickness="3" Points="1.5,17 9,0.5 127,0.5 134.5,17 127,33.5 9,33.5" Fill="#303030"/>
+            <!--<Polygon Name="bg" Stroke="#202020" StrokeThickness="3" Points="1.5,17 9,0.5 127,0.5 134.5,17 127,33.5 9,33.5" Fill="#303030"/>
             <Polygon Name="shine" Points="1.5,17 9,1.5 127,1.5 134.5,17 127,32.5 9,32.5">
                 <Polygon.Stroke>
                     <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
@@ -46,9 +46,9 @@
             <Button Name="clear" Command="{x:Static e:PokemonEditorVM.RemoveMoveCommand}" CommandParameter="{Binding}" Style="{x:Static ui:Controls.XButton}" ToolTip="忘记技能" Foreground="#c068f0" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="16,0,0,1"/>
             <TextBlock Name="pp" Text="PP " Foreground="#f8f8f8" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="83,0,0,1"/>
             <TextBlock Text="{Binding PP}" Foreground="#f8f8f8" VerticalAlignment="Bottom" Margin="0,0,15,1" HorizontalAlignment="Right"/>
-            <Button Name="ppUp" Command="{x:Static e:PokemonEditorVM.PPUpChangeCommand}" CommandParameter="{Binding}" Style="{x:Static ui:Controls.XButton}" Content="↑" ToolTip="PP上升+1" Foreground="#c068f0" FontSize="12" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,8,1"/>
+            <Button Name="ppUp" Command="{x:Static e:PokemonEditorVM.PPUpChangeCommand}" CommandParameter="{Binding}" Style="{x:Static ui:Controls.XButton}" Content="↑" ToolTip="PP上升+1" Foreground="#c068f0" FontSize="12" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,8,1"/>-->
         </Grid>
-        <DataTemplate.Triggers>
+        <!--<DataTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter TargetName="bg" Property="Stroke" Value="#b068f0"/>
                 <Setter TargetName="bg" Property="Fill" Value="#584078"/>
@@ -70,6 +70,6 @@
                 <Setter TargetName="ppUp" Property="Content" Value="↓"/>
                 <Setter TargetName="ppUp" Property="ToolTip" Value="PP上升重置"/>
             </DataTrigger>
-        </DataTemplate.Triggers>
+        </DataTemplate.Triggers>-->
     </DataTemplate>
 </ResourceDictionary>

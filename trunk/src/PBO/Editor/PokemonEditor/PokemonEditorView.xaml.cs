@@ -30,7 +30,8 @@ namespace PokemonBattleOnline.PBO.Editor
       NATUREE = SBrushes.NewBrush(0xffffcccc);
       NATURED = SBrushes.NewBrush(0xff99ccff);
     }
-    
+
+    private readonly byte[] pixels;
     VirtualizingStackPanel panel;
 
     public PokemonEditorView()
@@ -38,6 +39,7 @@ namespace PokemonBattleOnline.PBO.Editor
       InitializeComponent();
       Natures.ItemsSource = Enum.GetValues(typeof(PokemonNature));
       Natures.SelectionChanged += Natures_SelectionChanged;
+      pixels = new byte[307200];
     }
 
     void Natures_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -60,6 +62,16 @@ namespace PokemonBattleOnline.PBO.Editor
 
     private PokemonEditorVM VM
     { get { return (PokemonEditorVM)DataContext; } }
+
+    protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+    {
+      base.OnPropertyChanged(e);
+      if (e.Property == DataContextProperty && VM != null)
+        VM.PropertyChanged += (sender, e2) =>
+        {
+          if (e2.PropertyName == null || e2.PropertyName == "Image") VM.Image.CopyPixels(pixels, VM.Image.PixelWidth * 4, 0);
+        };
+    }
 
     private void SelectedMove_MouseDown(object sender, MouseButtonEventArgs e)
     {
@@ -138,6 +150,46 @@ namespace PokemonBattleOnline.PBO.Editor
     private void Gender_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
       VM.Gender = VM.Gender == PokemonGender.Male ? PokemonGender.Female : PokemonGender.Male;
+    }
+
+    private void Image_MouseMove(object sender, MouseEventArgs e)
+    {
+      var i = (Image)sender;
+      var p = e.GetPosition(i);
+      if (p.X < VM.Image.PixelWidth)
+      {
+        var offset = (int)p.X * VM.Image.Format.BitsPerPixel / 8;
+        if (VM.Image.Format.BitsPerPixel == 32) offset += 3;
+        if (pixels[(int)p.Y * VM.Image.PixelWidth * 4 + offset] == 0)
+        {
+          i.Cursor = Cursors.Arrow;
+          if (R6D.Visibility == System.Windows.Visibility.Visible) i.Opacity = 0.3;
+        }
+        else
+        {
+          i.Cursor = Cursors.Hand;
+          i.Opacity = 1;
+        }
+      }
+    }
+    private void Image_MouseLeave(object sender, MouseEventArgs e)
+    {
+      var i = (Image)sender;
+      i.Cursor = Cursors.Arrow;
+      if (R6D.Visibility == System.Windows.Visibility.Visible) i.Opacity = 0.3;
+    }
+    private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+      var i = (Image)sender;
+      if (i.Cursor == Cursors.Hand)
+        if (R6D.Visibility == System.Windows.Visibility.Visible)
+        {
+          R6D.Visibility = System.Windows.Visibility.Collapsed;
+        }
+        else
+        {
+          R6D.Visibility = System.Windows.Visibility.Visible;
+        }
     }
   }
 }

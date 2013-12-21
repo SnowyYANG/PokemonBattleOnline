@@ -109,29 +109,7 @@
             </Rectangle.Fill>
         </Rectangle>
         <Button Click="Close_Click" ToolTip="关闭" Style="{x:Static ui:Controls.XButton}" Foreground="#b0b0b0" Background="White" BorderBrush="White" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,-24,3,0"/>
-        <Image Opacity="0.3" Source="{Binding Image}" Height="{Binding Image.PixelHeight}" Width="{Binding Image.PixelWidth}" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <Image.ToolTip>
-                <ToolTip BorderThickness="0">
-                    <Grid DataContext="{Binding PokemonForm.Data}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="身高"/>
-                        <TextBlock Grid.Column="1" Margin="10,0,0,0">
-                            <TextBlock Text="{Binding Height}"/>m
-                        </TextBlock>
-                        <TextBlock Text="体重" Grid.Row="1"/>
-                        <TextBlock Grid.Row="1" Grid.Column="1" Margin="10,0,0,0">
-                            <TextBlock Text="{Binding Weight}"/>kg
-                        </TextBlock>
-                    </Grid>
-                </ToolTip>
-            </Image.ToolTip>
+        <Image Opacity="0.3" Source="{Binding Image}" Height="{Binding Image.PixelHeight}" Width="{Binding Image.PixelWidth}" MouseMove="Image_MouseMove" MouseLeave="Image_MouseLeave" MouseLeftButtonDown="Image_MouseLeftButtonDown" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Image.Style>
                 <Style TargetType="Image">
                     <Setter Property="Margin" Value="0,0,100,0"/>
@@ -143,89 +121,37 @@
                 </Style>
             </Image.Style>
         </Image>
-        <Grid Margin="15,12,15,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160">
+        
+        <Grid DataContext="{Binding PokemonForm.Data}" Width="100" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,100,0,0">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Visibility,ElementName=R6D}" Value="Collapsed">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBox Text="{Binding Model.Name}" FontFamily="Microsoft YaHei" VerticalContentAlignment="Center" Height="24" Margin="0,0,0,1" Padding="5,0" Background="{StaticResource BgD}" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}"/>
-            <ContentControl MouseLeftButtonDown="Gender_MouseLeftButtonDown" Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Cursor="Hand" ToolTip="性别" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0"/>
-            <Label Content="  Lv." Background="{StaticResource BgL}" Grid.Row="1"/>
-            <ui:NumericUpdown Value="{Binding Model.Lv,Mode=TwoWay}" Minimum="1" Median="50" Maximum="100" Width="50" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Grid.Row="1" Margin="35,0,0,1"/>
-            <Canvas Visibility="{Binding HappinessVisibility}" ToolTip="亲密度" MouseLeftButtonDown="Happiness_MouseLeftButtonDown" Cursor="Hand" Background="Transparent" Width="29" Height="25" HorizontalAlignment="Right" Grid.Row="1" Margin="10,0">
-                <Path x:Name="heart" Canvas.Right="0" IsHitTestVisible="False" StrokeLineJoin="Round" Height="25.5" Width="29" Stretch="Uniform" Data="M343.94027,195.18266 C341.16391,190.67782 336.88841,191.48044 335.01251,192.38285 330.82134,194.39901 328.41787,199.18479 330.9993,204.96216 334.89117,213.50771 343.98761,216.27715 343.98761,216.27715 343.98761,216.27715 352.53953,214.02943 357.37982,204.48072 359.15438,199.18479 357.05787,194.29035 353.10437,192.36459 351.32944,191.48194 347.05351,190.75974 343.94027,195.18266 z">
-                    <Path.Style>
-                        <Style TargetType="Path">
-                            <Setter Property="StrokeThickness" Value="2"/>
-                            <Setter Property="Stroke" Value="#ff0000"/>
-                            <Setter Property="Fill">
-                                <Setter.Value>
-                                    <SolidColorBrush Color="{Binding Stroke.Color,RelativeSource={RelativeSource AncestorType=Path}}" Opacity="0.2"/>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Model.Happiness}" Value="0">
-                                    <Setter Property="StrokeThickness" Value="1"/>
-                                    <Setter Property="Stroke" Value="#600038"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Model.Happiness}" Value="255">
-                                    <Setter Property="Stroke" Value="White"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Path.Style>
-                </Path>
-                <TextBox Text="{Binding Model.Happiness}" Foreground="{Binding Stroke,ElementName=heart}" TextAlignment="Center" Width="29" Padding="0" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Canvas.Right="0" Canvas.Bottom="5"/>
-            </Canvas>
-            <Rectangle Fill="{StaticResource BgD}" Grid.Row="2" Margin="0,0,0,1"/>
-            <Label Content="精灵" Grid.Row="2" VerticalAlignment="Top"/>
-            <ComboBox SelectedItem="{Binding PokemonSpecies}" ItemsSource="{x:Static pm:RomData.Pokemons}" ItemsPanel="{StaticResource VirtualPanel}" Grid.Row="2" VirtualizingStackPanel.VirtualizationMode="Recycling" VerticalAlignment="Top">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-                            <StackPanel.ToolTip>
-                                <ToolTip>
-                                    <Image Height="32" Width="32" Source="{Binding Converter={x:Static c:PokemonSpeciesIcon.C}}"/>
-                                </ToolTip>
-                            </StackPanel.ToolTip>
-                            <TextBlock Text="{Binding Number, StringFormat=No.{0: 000}}" Margin="0,0,5,0"/>
-                            <TextBlock Text="{Binding Number, Converter={x:Static c:PokemonSpeciesString.C}}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <Grid Margin="0,24,0,0" Grid.Row="2">
-                <Grid.Style>
-                    <Style TargetType="Grid">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Model.CanChooseForm}" Value="True">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Style>
-                <Label Content="形态"/>
-                <ComboBox SelectedItem="{Binding PokemonForm}" ItemsSource="{Binding PokemonSpecies.Forms}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Converter={x:Static c:PokemonFormShortString.C}}">
-                                <TextBlock.ToolTip>
-                                    <Image Source="{Binding Converter={x:Static c:PokemonFormIcon.C}}" Height="32" Width="32"/>
-                                </TextBlock.ToolTip>
-                            </TextBlock>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </Grid>
-            <Label Content="属性" Background="{StaticResource BgL}" Grid.Row="3"/>
-            <ContentPresenter Content="{Binding PokemonForm.Type1}" ContentTemplate="{x:Static ui:Labels.BattleType}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="3" Margin="45,0,0,0"/>
-            <ContentPresenter Content="{Binding PokemonForm.Type2}" ContentTemplate="{x:Static ui:Labels.BattleType}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="3" Margin="94,0,0,0"/>
+            <e:BaseHexagon DataContext="{Binding Base}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Border Grid.Row="1" BorderBrush="White" BorderThickness="0,0,0,1">
+                <TextBlock Text="身高" Margin="10,0,0,0"/>
+            </Border>
+            <TextBlock Grid.Row="1" Text="{Binding Height}" HorizontalAlignment="Right" Margin="0,0,30,0"/>
+            <TextBlock Grid.Row="1" Text="m" Grid.Column="1" HorizontalAlignment="Right" Width="30"/>
+            <Border BorderBrush="White" BorderThickness="0,0,0,1" Grid.Row="2">
+                <TextBlock Text="体重" Margin="10,0,0,0"/>
+            </Border>
+            <TextBlock Text="{Binding Weight}" HorizontalAlignment="Right" Grid.Row="2" Margin="0,0,30,0"/>
+            <TextBlock Text="kg" Grid.Row="2" HorizontalAlignment="Right" Width="30"/>
         </Grid>
-        <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Width="250" Margin="0,5,15,0">
+
+        <Grid Name="R6D" VerticalAlignment="Top" HorizontalAlignment="Right" Width="250" Margin="0,5,15,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="100"/>
@@ -316,7 +242,89 @@
             </StackPanel>
             <ContentControl Visibility="{Binding HiddenPowerVisibility}" Content="{Binding HiddenPowerType}" ContentTemplate="{x:Static ui:Labels.BattleType}" Width="48" ToolTip="觉醒力量" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,0,8,0"/>
         </Grid>
-        <Grid Margin="50,130,15,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140">
+        <Grid Visibility="{Binding Visibility,ElementName=R6D}" Margin="15,12,15,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBox Text="{Binding Model.Name}" FontFamily="Microsoft YaHei" VerticalContentAlignment="Center" Height="24" Margin="0,0,0,1" Padding="5,0" Background="{StaticResource BgD}" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}"/>
+            <ContentControl MouseLeftButtonDown="Gender_MouseLeftButtonDown" Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Cursor="Hand" ToolTip="性别" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <Label Content="  Lv." Background="{StaticResource BgL}" Grid.Row="1"/>
+            <ui:NumericUpdown Value="{Binding Model.Lv,Mode=TwoWay}" Minimum="1" Median="50" Maximum="100" Width="50" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Grid.Row="1" Margin="35,0,0,1"/>
+            <Canvas Visibility="{Binding HappinessVisibility}" ToolTip="亲密度" MouseLeftButtonDown="Happiness_MouseLeftButtonDown" Cursor="Hand" Background="Transparent" Width="29" Height="25" HorizontalAlignment="Right" Grid.Row="1" Margin="10,0">
+                <Path x:Name="heart" Canvas.Right="0" IsHitTestVisible="False" StrokeLineJoin="Round" Height="25.5" Width="29" Stretch="Uniform" Data="M343.94027,195.18266 C341.16391,190.67782 336.88841,191.48044 335.01251,192.38285 330.82134,194.39901 328.41787,199.18479 330.9993,204.96216 334.89117,213.50771 343.98761,216.27715 343.98761,216.27715 343.98761,216.27715 352.53953,214.02943 357.37982,204.48072 359.15438,199.18479 357.05787,194.29035 353.10437,192.36459 351.32944,191.48194 347.05351,190.75974 343.94027,195.18266 z">
+                    <Path.Style>
+                        <Style TargetType="Path">
+                            <Setter Property="StrokeThickness" Value="2"/>
+                            <Setter Property="Stroke" Value="#ff0000"/>
+                            <Setter Property="Fill">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{Binding Stroke.Color,RelativeSource={RelativeSource AncestorType=Path}}" Opacity="0.2"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Model.Happiness}" Value="0">
+                                    <Setter Property="StrokeThickness" Value="1"/>
+                                    <Setter Property="Stroke" Value="#600038"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Model.Happiness}" Value="255">
+                                    <Setter Property="Stroke" Value="White"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Path.Style>
+                </Path>
+                <TextBox Text="{Binding Model.Happiness}" Foreground="{Binding Stroke,ElementName=heart}" TextAlignment="Center" Width="29" Padding="0" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Canvas.Right="0" Canvas.Bottom="5"/>
+            </Canvas>
+            <Rectangle Fill="{StaticResource BgD}" Grid.Row="2" Margin="0,0,0,1"/>
+            <Label Content="精灵" Grid.Row="2" VerticalAlignment="Top"/>
+            <ComboBox SelectedItem="{Binding PokemonSpecies}" ItemsSource="{x:Static pm:RomData.Pokemons}" ItemsPanel="{StaticResource VirtualPanel}" Grid.Row="2" VirtualizingStackPanel.VirtualizationMode="Recycling" VerticalAlignment="Top">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+                            <StackPanel.ToolTip>
+                                <ToolTip>
+                                    <Image Height="32" Width="32" Source="{Binding Converter={x:Static c:PokemonSpeciesIcon.C}}"/>
+                                </ToolTip>
+                            </StackPanel.ToolTip>
+                            <TextBlock Text="{Binding Number, StringFormat=No.{0: 000}}" Margin="0,0,5,0"/>
+                            <TextBlock Text="{Binding Number, Converter={x:Static c:PokemonSpeciesString.C}}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Grid Margin="0,24,0,0" Grid.Row="2">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Model.CanChooseForm}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Label Content="形态"/>
+                <ComboBox SelectedItem="{Binding PokemonForm}" ItemsSource="{Binding PokemonSpecies.Forms}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={x:Static c:PokemonFormShortString.C}}">
+                                <TextBlock.ToolTip>
+                                    <Image Source="{Binding Converter={x:Static c:PokemonFormIcon.C}}" Height="32" Width="32"/>
+                                </TextBlock.ToolTip>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+            <Label Content="属性" Background="{StaticResource BgL}" Grid.Row="3"/>
+            <ContentPresenter Content="{Binding PokemonForm.Type1}" ContentTemplate="{x:Static ui:Labels.BattleType}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="3" Margin="45,0,0,0"/>
+            <ContentPresenter Content="{Binding PokemonForm.Type2}" ContentTemplate="{x:Static ui:Labels.BattleType}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="3" Margin="94,0,0,0"/>
+        </Grid>
+        <Grid Visibility="{Binding Visibility,ElementName=R6D}" Margin="50,130,15,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -326,6 +334,7 @@
             <Label Content="道具" Grid.Row="1" Background="{StaticResource BgL}"/>
             <ComboBox SelectedItem="{Binding HeldItem}" ItemsSource="{x:Static pm:RomData.Items}" ItemTemplate="{x:Static ui:Labels.Item}" ItemsPanel="{StaticResource VirtualPanel}" ToolTip="{Binding HeldItem,Converter={x:Static c:ItemDString.C}}" Grid.Row="1"/>
         </Grid>
+        
         <ListView x:Name="learnsetlist" ItemsSource="{Binding Learnset}" Margin="0,200,0,0" MinHeight="100" VirtualizingStackPanel.VirtualizationMode="Recycling" BorderThickness="0">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">

@@ -7,16 +7,6 @@
              xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor"
              MinHeight="400" MinWidth="600" Background="#FF282828">
     <Grid>
-        <Grid.Resources>
-		    <Style TargetType="Line">
-                <Setter Property="X2" Value="321"/>
-			    <Setter Property="Stroke" Value="#f8f8f8"/>
-			    <Setter Property="VerticalAlignment" Value="Top"/>
-			    <Setter Property="HorizontalAlignment" Value="Left"/>
-                <Setter Property="SnapsToDevicePixels" Value="True"/>
-                <Setter Property="IsHitTestVisible" Value="False"/>
-            </Style>
-        </Grid.Resources>
         <Rectangle Visibility="{Binding Visibility,ElementName=pev}" IsHitTestVisible="False" Margin="310,0,0,0" HorizontalAlignment="Right" Width="545" Fill="#505060"/>
         <Rectangle IsHitTestVisible="False" Name="gridbg"/>
         <Rectangle x:Name="bar" IsHitTestVisible="False" VerticalAlignment="Bottom" Height="23">
@@ -27,7 +17,7 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Line X2="{Binding ElementName=bar,Path=ActualWidth}" Stroke="Black" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,23.5"/>
+        <Line X2="{Binding ElementName=bar,Path=ActualWidth}" Stroke="Black" IsHitTestVisible="False" SnapsToDevicePixels="True" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,23.5"/>
         <e:PokemonBank DataContext="{Binding}"/>
         <e:PokemonEditorView x:Name="pev" DataContext="{Binding EditingPokemon}" HorizontalAlignment="Right">
             <e:PokemonEditorView.Style>

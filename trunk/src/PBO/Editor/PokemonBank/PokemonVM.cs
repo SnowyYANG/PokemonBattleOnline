@@ -17,6 +17,7 @@ namespace PokemonBattleOnline.PBO.Editor
     {
       _container = container;
       _index = index;
+      if (Model != null) Model.PropertyChanged += Model_PropertyChanged;
     }
 
     private TeamVM _container;
@@ -76,6 +77,7 @@ namespace PokemonBattleOnline.PBO.Editor
         if (value == null)//editing?
         {
           if (_index < 5 && EditorVM.Current.EditingPokemon != null && EditorVM.Current.EditingPokemon.Origin == _container[_index + 1]) EditorVM.Current.EditingPokemon.Origin = this;
+          Model.PropertyChanged -= Model_PropertyChanged;
           if (_container.Model.Pokemons.ValueOrDefault(_index + 1) == null)
           {
             _container.Model.Pokemons[_index] = null;
@@ -86,15 +88,22 @@ namespace PokemonBattleOnline.PBO.Editor
           {
             _container.Model.Pokemons[_index] = _container.Model.Pokemons[_index + 1];
             _container[_index + 1].Model = null;
+            Model.PropertyChanged += Model_PropertyChanged;
           }
         }
         else if (Actual == this)
         {
           _container.Model.Pokemons[_index] = value;
           if (_index < 5) _container[_index + 1].OnPropertyChanged("Icon");
-          Actual.OnPropertyChanged();
+          Model.PropertyChanged += Model_PropertyChanged;
+          OnPropertyChanged();
         }
       }
+    }
+
+    private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+      if (e.PropertyName == null || e.PropertyName == "Form" || e.PropertyName == "Gender") OnPropertyChanged("Icon");
     }
 
     public ImageSource Icon
