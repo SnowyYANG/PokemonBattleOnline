@@ -7,16 +7,18 @@
              xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor"
              Loaded="OnLoaded" Height="32" Width="385">
     <Canvas>
-        <Path Name="bg" Fill="{x:Static ui:SBrushes.GrayB1}" Stroke="{Binding BorderBrush}" Data="M0,9 L391,9 385,32 0,32" StrokeThickness="0" Stretch="None" VerticalAlignment="Bottom" SnapsToDevicePixels="True"/>
-        <e:PokemonIcon DataContext="{Binding [0]}"/>
-        <e:PokemonIcon DataContext="{Binding [1]}" Canvas.Left="32"/>
-        <e:PokemonIcon DataContext="{Binding [2]}" Canvas.Left="64"/>
-        <e:PokemonIcon DataContext="{Binding [3]}" Canvas.Left="96"/>
-        <e:PokemonIcon DataContext="{Binding [4]}" Canvas.Left="128"/>
-        <e:PokemonIcon DataContext="{Binding [5]}" Canvas.Left="160"/>
-        <CheckBox IsChecked="{Binding CanBattle}" Canvas.Left="195" Canvas.Bottom="5"/>
-        <TextBlock x:Name="NameBlock" Text="{Binding Name}" MouseLeftButtonDown="NameBlock_MouseLeftButtonDown" Cursor="IBeam" TextTrimming="CharacterEllipsis" TextWrapping="WrapWithOverflow" Background="Transparent" Foreground="#d8d8d8" Width="170" Canvas.Left="212" Canvas.Bottom="4"/>
-        <TextBox x:Name="NameEditor" KeyDown="NameEditor_KeyDown" LostFocus="NameEditor_LostFocus" Visibility="Collapsed" MaxLength="30" Foreground="White" Padding="0" BorderThickness="0" BorderBrush="{x:Null}" SnapsToDevicePixels="True" Background="Black" Canvas.Left="212" Canvas.Bottom="4" Width="170"/>
+        <!--<Path Name="bg" Fill="{x:Static ui:SBrushes.GrayB1}" Stroke="{Binding BorderBrush}" Data="M0,9 L391,9 385,32 0,32" StrokeThickness="0" Stretch="None" VerticalAlignment="Bottom" SnapsToDevicePixels="True"/>-->
+        <CheckBox IsChecked="{Binding CanBattle}" Canvas.Left="3" Canvas.Bottom="5"/>
+        <TextBlock x:Name="NameBlock" Text="{Binding Name}" MouseLeftButtonDown="NameBlock_MouseLeftButtonDown" Cursor="IBeam" TextTrimming="CharacterEllipsis" TextWrapping="WrapWithOverflow" Background="Transparent" Foreground="#d8d8d8" Width="170" Canvas.Left="20" Canvas.Bottom="4"/>
+        <TextBox x:Name="NameEditor" KeyDown="NameEditor_KeyDown" LostFocus="NameEditor_LostFocus" Visibility="Collapsed" MaxLength="30" Padding="0" BorderThickness="0" BorderBrush="{x:Null}" SnapsToDevicePixels="True" Background="White" Canvas.Left="20" Canvas.Bottom="4" Width="170"/>
         <Button x:Name="Remove" Click="Remove_Click" Style="{x:Static ui:Controls.XButton}" ToolTip="删除" Foreground="#f08080" Visibility="Collapsed" Canvas.Bottom="1" Canvas.Right="0"/>
+        <StackPanel Canvas.Left="192" Orientation="Horizontal">
+            <e:PokemonIcon DataContext="{Binding [0]}"/>
+            <e:PokemonIcon DataContext="{Binding [1]}"/>
+            <e:PokemonIcon DataContext="{Binding [2]}"/>
+            <e:PokemonIcon DataContext="{Binding [3]}"/>
+            <e:PokemonIcon DataContext="{Binding [4]}"/>
+            <e:PokemonIcon DataContext="{Binding [5]}"/>
+        </StackPanel>
     </Canvas>
 </UserControl>

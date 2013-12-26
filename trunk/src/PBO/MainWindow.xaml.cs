@@ -40,7 +40,7 @@ namespace PokemonBattleOnline.PBO
     {
       double x = Helper.Random.Next(16);
       double y = -Helper.Random.Next(16);
-      editor.SetGridBg(-x, y);
+      //editor.SetGridBg(-x, y);
       lobby.SetGridBg(-((c0.ActualWidth - 3 + x) % 16), y);
     }
 

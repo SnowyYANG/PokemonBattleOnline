@@ -25,16 +25,11 @@ namespace PokemonBattleOnline.PBO
     public EditorPanel()
     {
       InitializeComponent();
-      gridbg.Fill = SBrushes.GetGridTileBrush(16, SBrushes.NewBrush(0x66000000));//opacity=0.4
     }
 
     public void Init()
     {
       DataContext = EditorVM.Current;
-    }
-    public void SetGridBg(double x, double y)
-    {
-      gridbg.Margin = new Thickness(x, y, 0, 0);
     }
 
     public bool Window_Closing()
