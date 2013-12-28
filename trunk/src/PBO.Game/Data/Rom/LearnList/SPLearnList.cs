@@ -8,8 +8,8 @@ namespace PokemonBattleOnline.Game
 {
   public class LvLearnList
   {
-    public readonly KeyValuePair<int, int>[][] Lvs;
-    public readonly Dictionary<int, KeyValuePair<int, int>[]> Forms;
+    private readonly KeyValuePair<int, int>[][] Lvs;
+    private readonly Dictionary<int, KeyValuePair<int, int>[]> Forms;
 
     public LvLearnList()
     {
@@ -38,22 +38,22 @@ namespace PokemonBattleOnline.Game
 
     internal void Set(int number, int[] moves)
     {
-      Eggs[number - 1] = moves;
+      Eggs[number] = moves;
     }
     public IEnumerable<int> Get(int number)
     {
-      return Eggs.ValueOrDefault(number + 1);
+      return Eggs.ValueOrDefault(number) ?? Enumerable.Empty<int>();
     }
   }
   public class TMHMTutorLearnList
   {
-    public int[][] Raw;
-    public readonly Dictionary<int, int[]> Forms;
+    private int[][] Raw;
+    private readonly Dictionary<int, int[]> Forms;
 
     public TMHMTutorLearnList()
     {
       Raw = new int[RomData.Pokemons.Count()][];
-      Forms = new Dictionary<int,int[]>();
+      Forms = new Dictionary<int, int[]>();
     }
 
     internal void Set(int number, int form, int[] moves)
@@ -63,7 +63,24 @@ namespace PokemonBattleOnline.Game
     }
     public IEnumerable<int> Get(int number, int form)
     {
-      return form == 0 ? Raw.ValueOrDefault(number - 1) : Forms.ValueOrDefault(number * 100 + form);
+      return (form == 0 ? Raw.ValueOrDefault(number - 1) : Forms.ValueOrDefault(number * 100 + form)) ?? Enumerable.Empty<int>();
+    }
+  }
+  public class SPLearnList
+  {
+    private readonly Dictionary<int, int[]> SPs;
+
+    public SPLearnList()
+    {
+      SPs = new Dictionary<int, int[]>();
+    }
+    internal void Set(int number, int form, int[] moves)
+    {
+      SPs[number * 100 + form] = moves;
+    }
+    public IEnumerable<int> Get(int number, int form)
+    {
+      return SPs.ValueOrDefault(number * 100 + form) ?? Enumerable.Empty<int>();
     }
   }
 }

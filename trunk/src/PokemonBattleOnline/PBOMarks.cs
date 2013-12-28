@@ -18,6 +18,6 @@ namespace PokemonBattleOnline
     public const ushort VERSION = 0;
     public const int TIMEOUT = 30000;
     public const int GAMETIMEUP = 180;
-    public const int GEN = 5;
+    public const int GEN = 6;
   }
 }

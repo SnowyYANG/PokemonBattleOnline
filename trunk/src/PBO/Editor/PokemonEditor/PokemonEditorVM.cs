@@ -220,8 +220,44 @@ namespace PokemonBattleOnline.PBO.Editor
     { get { return _learnset.Values; } }
     private void RefreshLearnset()
     {
-      _learnset = RomData.Moves.Where(m => m.Id != Ms.STRUGGLE).ToDictionary(m => m.Id, m => new LearnVM(this, m));
+      _learnset = new Dictionary<int, LearnVM>();
+      var number = PokemonSpecies.Number;
+      var form = PokemonForm.Index;
+      GetLearnset(number, form);
+      number = RomData.GetPreEvolution(number);
+      GetLearnset(number, 0);
+      number = RomData.GetPreEvolution(number);
+      GetLearnset(number, 0);
       OnPropertyChanged("Learnset");
+    }
+    private void GetLearnset(int number, int form)
+    {
+      if (number != 0)
+      {
+        foreach (var gen in LearnList.Index)
+          foreach (var game in gen.Games)
+          {
+            var l = game.Lv.Get(number, form);
+            if (l != null)
+            {
+              foreach (var pair in l) GetLearnVM(pair.Key).AddMethod(LearnCategory.Lv);
+              if (game.Tutor != null) foreach (var tutor in game.Tutor.Get(number, form)) GetLearnVM(tutor).AddMethod(LearnCategory.Tutor);
+              if (game.TM != null) foreach (var tm in game.TM.Get(number, form)) GetLearnVM(tm).AddMethod(LearnCategory.Machine);
+              if (game.HM != null) foreach (var hm in game.HM.Get(number, form)) GetLearnVM(hm).AddMethod(LearnCategory.Machine);
+            }
+          }
+        foreach (var sp in LearnList.SP.Get(number, form)) GetLearnVM(sp).AddMethod(LearnCategory.Other);
+      }
+    }
+    private LearnVM GetLearnVM(int move)
+    {
+      LearnVM vm;
+      if (!_learnset.TryGetValue(move, out vm))
+      {
+        vm = new LearnVM(this, move);
+        _learnset.Add(move, vm);
+      }
+      return vm;
     }
 
     private BitmapImage _image;

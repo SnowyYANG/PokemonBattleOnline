@@ -14,18 +14,20 @@ namespace PokemonBattleOnline.PBO.Editor
 
     private readonly PokemonEditorVM pokemon;
 
-    public LearnVM(PokemonEditorVM pm, MoveType move)
+    public LearnVM(PokemonEditorVM pm, int move)
     {
       pokemon = pm;
-      Move = move;
-      _isSelected = pokemon.Model.HasMove(move.Id);
+      Move = RomData.GetMove(move);
+      _isSelected = pokemon.Model.HasMove(move);
+      _methods = new List<LearnMethod>();
     }
     
     public MoveType Move
     { get; private set; }
 
+    private readonly List<LearnMethod> _methods;
     public IEnumerable<LearnMethod> Methods
-    { get; private set; }
+    { get { return _methods; } }
 
     private bool _isSelected;
     public bool IsSelected
@@ -47,6 +49,11 @@ namespace PokemonBattleOnline.PBO.Editor
           OnPropertyChanged(ISSELECTED);
         }
       }
+    }
+
+    internal void AddMethod(LearnCategory method)
+    {
+      _methods.Add(new LearnMethod(method));
     }
   }
 }

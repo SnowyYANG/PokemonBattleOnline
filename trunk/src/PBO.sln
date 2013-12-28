@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO", "PBO\PBO.csproj", "{3C35464D-CF08-4DBB-9FE8-83F9AB140767}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBOServer", "PBOServer\PBOServer.csproj", "{480C2C92-A2D7-4D44-96A6-030FFC3E6ACD}"
@@ -32,7 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Learnset", "Learnset", "{FB
 		..\doc\Learnset\Egg_G3.txt = ..\doc\Learnset\Egg_G3.txt
 		..\doc\Learnset\Egg_G5.txt = ..\doc\Learnset\Egg_G5.txt
 		..\doc\Learnset\Egg_HGSS.txt = ..\doc\Learnset\Egg_HGSS.txt
-		..\doc\Learnset\Form exclusive.txt = ..\doc\Learnset\Form exclusive.txt
+		..\doc\Learnset\Egg_XY.txt = ..\doc\Learnset\Egg_XY.txt
 		..\doc\Learnset\index.txt = ..\doc\Learnset\index.txt
 		..\doc\Learnset\Level_B2W2.txt = ..\doc\Learnset\Level_B2W2.txt
 		..\doc\Learnset\Level_BW.txt = ..\doc\Learnset\Level_BW.txt
@@ -41,11 +43,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Learnset", "Learnset", "{FB
 		..\doc\Learnset\Level_HGSS.txt = ..\doc\Learnset\Level_HGSS.txt
 		..\doc\Learnset\Level_Pt.txt = ..\doc\Learnset\Level_Pt.txt
 		..\doc\Learnset\Level_RSE.txt = ..\doc\Learnset\Level_RSE.txt
+		..\doc\Learnset\Level_XY.txt = ..\doc\Learnset\Level_XY.txt
+		..\doc\Learnset\SP.txt = ..\doc\Learnset\SP.txt
 		..\doc\Learnset\TMHM_B2W2.txt = ..\doc\Learnset\TMHM_B2W2.txt
 		..\doc\Learnset\TMHM_BW.txt = ..\doc\Learnset\TMHM_BW.txt
 		..\doc\Learnset\TMHM_DPPt.txt = ..\doc\Learnset\TMHM_DPPt.txt
 		..\doc\Learnset\TMHM_G3.txt = ..\doc\Learnset\TMHM_G3.txt
 		..\doc\Learnset\TMHM_HGSS.txt = ..\doc\Learnset\TMHM_HGSS.txt
+		..\doc\Learnset\TMHM_XY.txt = ..\doc\Learnset\TMHM_XY.txt
 		..\doc\Learnset\Tutor_B2W2.txt = ..\doc\Learnset\Tutor_B2W2.txt
 		..\doc\Learnset\Tutor_BW.txt = ..\doc\Learnset\Tutor_BW.txt
 		..\doc\Learnset\Tutor_DP.txt = ..\doc\Learnset\Tutor_DP.txt
@@ -54,6 +59,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Learnset", "Learnset", "{FB
 		..\doc\Learnset\Tutor_HGSS.txt = ..\doc\Learnset\Tutor_HGSS.txt
 		..\doc\Learnset\Tutor_Pt.txt = ..\doc\Learnset\Tutor_Pt.txt
 		..\doc\Learnset\Tutor_XD.txt = ..\doc\Learnset\Tutor_XD.txt
+		..\doc\Learnset\Tutor_XY.txt = ..\doc\Learnset\Tutor_XY.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBO.Network.Server", "PBO.Network.Server\PBO.Network.Server.csproj", "{F46386CC-6DE1-41A0-89D2-B3511224714F}"

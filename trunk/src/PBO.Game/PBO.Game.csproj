@@ -72,6 +72,7 @@
     <Compile Include="Client\SimOnboardPokemon.cs" />
     <Compile Include="Data\IDs.cs" />
     <Compile Include="Data\Rom\BattleType.cs" />
+    <Compile Include="Data\Rom\LearnList\GameLearnList.cs" />
     <Compile Include="Data\Rom\Pokemon\GiftPokemon.cs" />
     <Compile Include="Data\Rom\LearnList\LearnList.cs" />
     <Compile Include="Data\Rom\LearnList\SPLearnList.cs" />

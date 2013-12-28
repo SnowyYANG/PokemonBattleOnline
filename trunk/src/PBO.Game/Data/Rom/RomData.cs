@@ -92,10 +92,16 @@ namespace PokemonBattleOnline.Game
       return current.moves.ValueOrDefault(moveId - 1);
     }
 
-    public static int? GetPreEvolution(int number)
+    /// <summary>
+    /// 0 if no preevolution
+    /// </summary>
+    /// <param name="number"></param>
+    /// <returns></returns>
+    public static int GetPreEvolution(int number)
     {
-      var r = current.evolutions.FirstOrDefault((e) => e.To == number);
-      return r == null ? null : (int?)r.From;
+      foreach (var e in current.evolutions)
+        if (e.To == number) return e.From;
+      return 0;
     }
     public static IEnumerable<int> GetEvolutions(int number)
     {

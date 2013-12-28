@@ -15,6 +15,11 @@ namespace PokemonBattleOnline.Game
   }
   public class LearnMethod
   {
+    public LearnMethod(LearnCategory method)
+    {
+      Method = method;
+    }
+
     public LearnCategory Method
     { get; private set; }
     public int Gen
