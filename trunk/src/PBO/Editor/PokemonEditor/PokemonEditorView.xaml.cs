@@ -181,15 +181,7 @@ namespace PokemonBattleOnline.PBO.Editor
     private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
       var i = (Image)sender;
-      if (i.Cursor == Cursors.Hand)
-        if (R6D.Visibility == System.Windows.Visibility.Visible)
-        {
-          R6D.Visibility = System.Windows.Visibility.Collapsed;
-        }
-        else
-        {
-          R6D.Visibility = System.Windows.Visibility.Visible;
-        }
+      if (i.Cursor == Cursors.Hand) R6D.Visibility = R6D.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
     }
   }
 }

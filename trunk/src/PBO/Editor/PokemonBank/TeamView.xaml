@@ -5,14 +5,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
              xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor"
-             Loaded="OnLoaded" Height="32" Width="385">
-    <Canvas>
+             Loaded="OnLoaded" Height="32" Width="292">
+    <Grid>
+        <Grid.Style>
+            <Style TargetType="Grid">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding CanBattle}" Value="False">
+                        <Setter Property="Opacity" Value="0.5"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
         <!--<Path Name="bg" Fill="{x:Static ui:SBrushes.GrayB1}" Stroke="{Binding BorderBrush}" Data="M0,9 L391,9 385,32 0,32" StrokeThickness="0" Stretch="None" VerticalAlignment="Bottom" SnapsToDevicePixels="True"/>-->
-        <CheckBox IsChecked="{Binding CanBattle}" Canvas.Left="3" Canvas.Bottom="5"/>
-        <TextBlock x:Name="NameBlock" Text="{Binding Name}" MouseLeftButtonDown="NameBlock_MouseLeftButtonDown" Cursor="IBeam" TextTrimming="CharacterEllipsis" TextWrapping="WrapWithOverflow" Background="Transparent" Foreground="#d8d8d8" Width="170" Canvas.Left="20" Canvas.Bottom="4"/>
-        <TextBox x:Name="NameEditor" KeyDown="NameEditor_KeyDown" LostFocus="NameEditor_LostFocus" Visibility="Collapsed" MaxLength="30" Padding="0" BorderThickness="0" BorderBrush="{x:Null}" SnapsToDevicePixels="True" Background="White" Canvas.Left="20" Canvas.Bottom="4" Width="170"/>
-        <Button x:Name="Remove" Click="Remove_Click" Style="{x:Static ui:Controls.XButton}" ToolTip="删除" Foreground="#f08080" Visibility="Collapsed" Canvas.Bottom="1" Canvas.Right="0"/>
-        <StackPanel Canvas.Left="192" Orientation="Horizontal">
+        <TextBlock x:Name="NameBlock" Text="{Binding Name}" MouseLeftButtonDown="NameBlock_MouseLeftButtonDown" Cursor="IBeam" TextTrimming="CharacterEllipsis" TextWrapping="WrapWithOverflow" Background="Transparent" HorizontalAlignment="Left" Padding="10,8,0,8" MaxWidth="100"/>
+        <CheckBox IsChecked="{Binding CanBattle}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <TextBox x:Name="NameEditor" KeyDown="NameEditor_KeyDown" LostFocus="NameEditor_LostFocus" Visibility="Collapsed" MaxLength="30" Padding="0" BorderThickness="0" BorderBrush="{x:Null}" SnapsToDevicePixels="True" Background="White" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Width="100"/>
+        <StackPanel Margin="100,0,0,0" HorizontalAlignment="Right" Orientation="Horizontal">
             <e:PokemonIcon DataContext="{Binding [0]}"/>
             <e:PokemonIcon DataContext="{Binding [1]}"/>
             <e:PokemonIcon DataContext="{Binding [2]}"/>
@@ -20,5 +28,6 @@
             <e:PokemonIcon DataContext="{Binding [4]}"/>
             <e:PokemonIcon DataContext="{Binding [5]}"/>
         </StackPanel>
-    </Canvas>
+        <Button x:Name="Remove" Click="Remove_Click" Style="{x:Static ui:Controls.XButton}" ToolTip="删除" Foreground="#f08080" Visibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+    </Grid>
 </UserControl>

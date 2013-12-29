@@ -129,7 +129,7 @@ namespace PokemonBattleOnline.Game
         {
           //[0].[1] [2],[3]...
           var s = Split(line);
-          for (int i = 2; i < s.Length - 1; ++i)
+          for (int i = 2; i < s.Length; ++i)
           {
             //move:lv
             var ml = s[i].Split(':');
@@ -150,7 +150,7 @@ namespace PokemonBattleOnline.Game
         {
           //[0].[1] [2],[3]...
           var s = Split(line);
-          for (int i = 2; i < s.Length - 1; ++i) moves.Add(Convert.ToInt32(s[i]));
+          for (int i = 2; i < s.Length; ++i) moves.Add(Convert.ToInt32(s[i]));
           if (moves.Any())
           {
             egg.Set(Convert.ToInt32(s[0]), moves.ToArray());
@@ -167,7 +167,7 @@ namespace PokemonBattleOnline.Game
         {
           //[0].[1] [2],[3]...
           var s = Split(line);
-          for (int i = 2; i < s.Length - 1; ++i)
+          for (int i = 2; i < s.Length; ++i)
           {
             //move:TM## move:HM## TM00=TM100
             var mm = s[i];
@@ -198,7 +198,7 @@ namespace PokemonBattleOnline.Game
         {
           //[0].[1] [2],[3]...
           var s = Split(line);
-          for (int i = 2; i < s.Length - 1; ++i) moves.Add(s[i].ToInt());
+          for (int i = 2; i < s.Length; ++i) moves.Add(s[i].ToInt());
           if (moves.Any())
           {
             tutor.Set(s[0].ToInt(), s[1].ToInt(), moves.ToArray());

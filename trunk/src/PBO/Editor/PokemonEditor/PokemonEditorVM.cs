@@ -228,6 +228,8 @@ namespace PokemonBattleOnline.PBO.Editor
       GetLearnset(number, 0);
       number = RomData.GetPreEvolution(number);
       GetLearnset(number, 0);
+      var dataView = CollectionViewSource.GetDefaultView(Learnset);
+      dataView.SortDescriptions.Add(new SortDescription("IsSelected", ListSortDirection.Descending));
       OnPropertyChanged("Learnset");
     }
     private void GetLearnset(int number, int form)
@@ -244,6 +246,7 @@ namespace PokemonBattleOnline.PBO.Editor
               if (game.Tutor != null) foreach (var tutor in game.Tutor.Get(number, form)) GetLearnVM(tutor).AddMethod(LearnCategory.Tutor);
               if (game.TM != null) foreach (var tm in game.TM.Get(number, form)) GetLearnVM(tm).AddMethod(LearnCategory.Machine);
               if (game.HM != null) foreach (var hm in game.HM.Get(number, form)) GetLearnVM(hm).AddMethod(LearnCategory.Machine);
+              if (game.Egg != null) foreach (var egg in game.Egg.Get(number)) GetLearnVM(egg).AddMethod(LearnCategory.Egg);
             }
           }
         foreach (var sp in LearnList.SP.Get(number, form)) GetLearnVM(sp).AddMethod(LearnCategory.Other);
