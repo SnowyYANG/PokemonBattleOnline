@@ -1026,7 +1026,7 @@ namespace PokemonBattleOnline.Game
     public const int CONFIDE = 590;
     public const int HAPPY_HOUR = 591;
     public const int CELEBRATE = 592;
-    public const int MOVE593 = 593;
+    public const int HOLD_BACK = 593;
     public const int WATER_SHURIKEN = 594;
     public const int MYSTICAL_FIRE = 595;
     public const int SPIKY_SHIELD = 596;

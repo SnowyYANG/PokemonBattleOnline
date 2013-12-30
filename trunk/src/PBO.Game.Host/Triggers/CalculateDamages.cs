@@ -79,6 +79,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       switch (atk.Move.Id)
       {
         case Ms.FALSE_SWIPE:
+        case Ms.HOLD_BACK:
           if (def.Damage >= def.Defender.Hp) def.Damage = def.Defender.Hp - 1;
           break;
         case Ms.BEAT_UP:
