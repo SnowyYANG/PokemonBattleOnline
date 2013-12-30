@@ -13,7 +13,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var move = atk.Move.Id;
       var aer = atk.Attacker;
 
-      if (move == Ms.TELEPORT || move == Ms.SKETCH || move == Ms.SKY_DROP)
+      if (move == Ms.SKY_DROP)
       {
         atk.FailAll("bad", aer.Id, move);
         return;

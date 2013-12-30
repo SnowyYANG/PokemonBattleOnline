@@ -249,7 +249,12 @@ namespace PokemonBattleOnline.PBO.Editor
               if (game.Egg != null) foreach (var egg in game.Egg.Get(number)) GetLearnVM(egg).AddMethod(LearnCategory.Egg);
             }
           }
-        foreach (var sp in LearnList.SP.Get(number, form)) GetLearnVM(sp).AddMethod(LearnCategory.Other);
+        if (number == 235)
+        {
+          for (var m = 1; m <= RomData.Moves.Count(); ++m)
+            if (m != Ms.STRUGGLE && m != 603 && m != 606 && m != 607 && m != 614 && m != 615) GetLearnVM(m).AddMethod(LearnCategory.Other);
+        }
+        else foreach (var sp in LearnList.SP.Get(number, form)) GetLearnVM(sp).AddMethod(LearnCategory.Other);
       }
     }
     private LearnVM GetLearnVM(int move)

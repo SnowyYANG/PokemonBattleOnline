@@ -381,9 +381,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.POWDER:
           Powder(atk);
           break;
-        case Ms.HAPPY_HOUR:
-          atk.FailAll();
-          break;
         case Ms.CELEBRATE:
           aer.ShowLogPm("Celebrate");
           break;

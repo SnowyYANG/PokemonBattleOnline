@@ -19,6 +19,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (atk.Targets == null || atk.Target != null)
         switch (atk.Move.Id)
         {
+          case Ms.SKETCH:
+          case Ms.TELEPORT:
+          case Ms.HAPPY_HOUR:
+            break;
           case Ms.STOCKPILE:
             if (aer.OnboardPokemon.GetCondition<int>("Stockpile") != 3) return true;
             break;
