@@ -5,25 +5,44 @@
              xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor"
              Background="Transparent" AllowDrop="True">
     <Grid>
-        <ItemsControl ItemsSource="{Binding Teams}" HorizontalAlignment="Left">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <e:TeamView x:Name="main" DataContext="{Binding}"/>
-                    <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding}" Value="{x:Null}">
-                            <Setter TargetName="main" Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
-                    </DataTemplate.Triggers>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemContainerStyle>
-                <Style TargetType="ContentPresenter">
-                    <Setter Property="Height" Value="32"/>
-                </Style>
-            </ItemsControl.ItemContainerStyle>
-        </ItemsControl>
-        <ui:UIButton Content="新建队伍" Click="NewTeam_Click" Shape="M5.5,1.5 L100.5,1.5 104.5,10 100.5,18.5 5.5,18.5 1.5,10Z"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <ui:UIButton Content="从剪贴板导入" Click="PasteTeam_Click" Shape="M5.5,1.5 L100.5,1.5 104.5,10 100.5,18.5 5.5,18.5 1.5,10Z" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="196,0,0,0"/>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+        	<ScrollViewer.Template>
+        		<ControlTemplate TargetType="{x:Type ScrollViewer}">
+        			<Grid x:Name="Grid" Background="{TemplateBinding Background}">
+        				<Grid.RowDefinitions>
+        					<RowDefinition Height="Auto"/>
+        					<RowDefinition Height="*"/>
+        				</Grid.RowDefinitions>
+        				<ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}" Grid.Row="1"/>
+        				<ScrollBar x:Name="PART_VerticalScrollBar" Visibility="Collapsed"/>
+        				<ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="0" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}"/>
+        			</Grid>
+        		</ControlTemplate>
+        	</ScrollViewer.Template>
+            <Grid>
+                <ItemsControl ItemsSource="{Binding Teams}" ItemsPanel="{x:Static ui:Controls.VerticalWrapPanel}" HorizontalAlignment="Left">
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Height" Value="32"/>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <e:TeamView x:Name="main" DataContext="{Binding}"/>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                                <Setter TargetName="main" Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                </ItemsControl>
+                <ui:UIButton Content="新建队伍" Click="NewTeam_Click" Shape="M5.5,1.5 L100.5,1.5 104.5,10 100.5,18.5 5.5,18.5 1.5,10Z"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <ui:UIButton Content="从剪贴板导入" Click="PasteTeam_Click" Shape="M5.5,1.5 L100.5,1.5 104.5,10 100.5,18.5 5.5,18.5 1.5,10Z" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="160,0,0,0"/>
+            </Grid>
+        </ScrollViewer>
         <Canvas IsHitTestVisible="False">
             <Image x:Name="DragIcon"/>
         </Canvas>

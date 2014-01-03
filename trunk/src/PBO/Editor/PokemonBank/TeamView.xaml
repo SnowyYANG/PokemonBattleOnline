@@ -28,6 +28,6 @@
             <e:PokemonIcon DataContext="{Binding [4]}"/>
             <e:PokemonIcon DataContext="{Binding [5]}"/>
         </StackPanel>
-        <Button x:Name="Remove" Click="Remove_Click" Style="{x:Static ui:Controls.XButton}" ToolTip="删除" Foreground="#f08080" Visibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Button x:Name="Remove" Click="Remove_Click" Style="{x:Static ui:Controls.XButton}" ToolTip="全队删除" Foreground="#f08080" Visibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Center"/>
     </Grid>
 </UserControl>

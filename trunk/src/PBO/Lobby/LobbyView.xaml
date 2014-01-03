@@ -22,16 +22,31 @@
             </Grid.Background>
             <TabControl>
                 <TabItem Header="房间" Background="{x:Null}">
-                    <Grid>
-                        <Button Content="开启新房间" Click="NewRoom_Click" VerticalAlignment="Top"/>
-                        <ItemsControl Name="Rooms" Margin="0,20,0,0">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <l:RoomView DataContext="{Binding}" Margin="0,3"/>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </Grid>
+                    <ScrollViewer>
+                        <Grid>
+                            <ItemsControl Name="Rooms" ItemsPanel="{x:Static ui:Controls.WrapPanel}">
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="Height" Value="32"/>
+                                        <Setter Property="Width" Value="256"/>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <l:RoomView x:Name="rv" DataContext="{Binding}" Margin="0,3"/>
+                                                    <DataTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                                            <Setter TargetName="rv" Property="Visibility" Value="Collapsed"/>
+                                                        </DataTrigger>
+                                                    </DataTemplate.Triggers>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+                            </ItemsControl>
+                            <Button Content="开启新房间" Click="NewRoom_Click" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        </Grid>
+                    </ScrollViewer>
                 </TabItem>
                 <TabItem Header="用户" Background="{x:Null}">
                     <ItemsControl Name="Users" ItemTemplate="{x:Static ui:Cartes.User}" ItemsPanel="{x:Static ui:Controls.WrapPanel}"/>

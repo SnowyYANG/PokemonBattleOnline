@@ -44,6 +44,7 @@ namespace PokemonBattleOnline.Network
 
       users.Add(_user.Id, _user);
       _users.Add(_user);
+      _rooms.Insert(0, null);
     }
 
     private readonly User _user;
@@ -96,7 +97,7 @@ namespace PokemonBattleOnline.Network
     {
       if (rooms.Remove(id))
         foreach(var r in _rooms)
-          if (r.Id == id)
+          if (r != null && r.Id == id)
           {
             bool isUser = r == Room.Room;
             r.RemoveUsers();
