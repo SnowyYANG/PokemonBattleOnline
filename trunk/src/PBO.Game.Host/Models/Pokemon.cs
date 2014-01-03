@@ -42,11 +42,13 @@ namespace PokemonBattleOnline.Game.Host
       Lv = custom.Lv;
       Nature = custom.Nature;
       AbilityIndex = custom.AbilityIndex;
-      Moves = custom.Moves.Select((m) => new Move(m.Move, m.PP)).ToArray();
+      Moves = new Move[custom.Moves.Count()];
+      int i = 0;
+      foreach(var m in custom.Moves) Moves[i++] = new Move(m.Move, m.PP);
       _item = custom.Item;
       Iv = new ReadOnly6D(custom.Iv);
       Ev = new ReadOnly6D(custom.Ev);
-      _hp = MaxHp = PokemonStatHelper.GetHp(custom.Form.Data.Base.Hp, (byte)Iv.Hp, (byte)Ev.Hp, (byte)Lv);
+      _hp = MaxHp = StatHelper.GetHp(custom.Form.Data.Base.Hp, (byte)Iv.Hp, (byte)Ev.Hp, (byte)Lv);
     }
 
     public PokemonForm Form; //shaymi
@@ -111,7 +113,7 @@ namespace PokemonBattleOnline.Game.Host
 
     private int Get5D(StatType type)
     {
-      return PokemonStatHelper.Get5D(type, Nature, Form.Data.Base.GetStat(type), Iv.GetStat(type), Ev.GetStat(type), Lv);
+      return StatHelper.Get5D(type, Nature, Form.Data.Base.GetStat(type), Iv.GetStat(type), Ev.GetStat(type), Lv);
     }
 
     /// <summary>

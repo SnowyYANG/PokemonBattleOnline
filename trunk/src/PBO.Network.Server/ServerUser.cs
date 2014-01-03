@@ -18,9 +18,9 @@ namespace PokemonBattleOnline.Network
     static ServerUser()
     {
       var c2s = typeof(IC2SE);
-      C2SSerializer = new DataContractJsonSerializer(c2s, c2s.SubClasses().ToArray());
+      C2SSerializer = new DataContractJsonSerializer(c2s, c2s.SubClasses());
       var s2c = typeof(IS2C);
-      S2CSerializer = new DataContractJsonSerializer(s2c, s2c.SubClasses().ToArray());
+      S2CSerializer = new DataContractJsonSerializer(s2c, s2c.SubClasses());
     }
 
     public readonly Server Server;

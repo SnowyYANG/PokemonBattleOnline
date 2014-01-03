@@ -74,11 +74,16 @@ namespace PokemonBattleOnline.Network
     private void OnTimeUp(int[,] time)
     {
       EndGame();
-      Send(GameEndS2C.TimeUp(Room.Players.Select((p) => new KeyValuePair<int, int>(p.Id, time[p.Seat.TeamId(), p.Seat.TeamIndex()]))));
+      var ps = new List<KeyValuePair<int, int>>(4);
+      foreach (var p in Room.Players) ps.Add(new KeyValuePair<int, int>(p.Id, time[p.Seat.TeamId(), p.Seat.TeamIndex()]));
+      Send(GameEndS2C.TimeUp(ps.ToArray()));
     }
     private void OnWaitingForInput(bool[,] players)
     {
-      Send(new WaitingForInputS2C(Room.Players.Where((p) => players[p.Seat.TeamId(), p.Seat.TeamIndex()]).Select((p) => p.Id).ToArray()));
+      var ps = new List<int>(4);
+      foreach(var p in Room.Players)
+        if (players[p.Seat.TeamId(), p.Seat.TeamIndex()]) ps.Add(p.Id);
+      Send(new WaitingForInputS2C(ps.ToArray()));
     }
     private void OnGameUpdate(ReportFragment fragment, InputRequest[,] requirements)
     {

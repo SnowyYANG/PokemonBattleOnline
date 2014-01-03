@@ -60,11 +60,15 @@ namespace PokemonBattleOnline.Network
         if (_game != value)
         {
           _game = value;
-          _game.GameEnd += () => OnGameStop(GameStopReason.GameEnd, null);
+          _game.GameEnd += Game_GameEnd;
           OnPropertyChanged("Game");
           UIDispatcher.Invoke(GameInited);
         }
       }
+    }
+    private void Game_GameEnd()
+    {
+      OnGameStop(GameStopReason.GameEnd, null);
     }
 
     internal void OnGameStop(GameStopReason reason, User player)

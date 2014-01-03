@@ -45,18 +45,16 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           return false;
         }
 
-        {
-          var pa = pm.Field.Pokemons.FirstOrDefault((p) => p.Ability == As.SWEET_VEIL);
-          if (pa != null)
+        foreach(var p in pm.Field.Pokemons)
+          if (p.Ability == As.SWEET_VEIL)
           {
             if (showFail)
             {
-              pa.RaiseAbility();
+              p.RaiseAbility();
               pm.ShowLogPm("CantSLP");
             }
             return false;
           }
-        }
       }
       return true;
     }

@@ -6,8 +6,9 @@ using System.Diagnostics.Contracts;
 
 namespace PokemonBattleOnline.Game
 {
-  public static class PokemonStatHelper
+  public static class StatHelper
   {
+    public static readonly StatType[] SEVEN_D = { StatType.Atk, StatType.Def, StatType.SpAtk, StatType.SpDef, StatType.Speed, StatType.Accuracy, StatType.Evasion };    
     public static int Get5D(StatType statType, PokemonNature nature, int typeBase, int iv, int ev, int lv)
     {
       return (((typeBase << 1) + iv + (ev >> 2)) * lv / 100 + 5) * nature.StatRevise(statType) / 10;

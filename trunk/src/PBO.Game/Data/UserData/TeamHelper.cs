@@ -300,7 +300,7 @@ namespace PokemonBattleOnline.Game
         public static void WriteToFile(string path, PokemonTeam pt)
         {
             var team = new Team();
-            team.Pokemons = pt.Pokemons.Select(p => ToPokemon(p)).ToArray();
+            team.Pokemons = pt.Pokemons.Select(ToPokemon).ToArray();
             try
             {
                 using (var fs = new FileStream(path, FileMode.Create, FileAccess.Write))
@@ -333,7 +333,7 @@ namespace PokemonBattleOnline.Game
         {
             if (team != null)
             {
-                var pokemons = team.Pokemons.Select(p => ToPokemonData(p)).ToArray();
+                var pokemons = team.Pokemons.Select(ToPokemonData).ToArray();
                 return new PokemonTeam(pokemons);
             }
             return new PokemonTeam();

@@ -72,10 +72,12 @@ namespace PokemonBattleOnline.Game.Host
     public static void Illusion(PokemonProxy pm)
     {
       if (pm.Ability == As.ILLUSION)
-      {
-        var o = pm.Pokemon.Owner.Pokemons.LastOrDefault((p) => p.Hp > 0);
-        if (o != null) pm.OnboardPokemon.SetCondition("Illusion", o.Pokemon);
-      }
+        foreach(var p in pm.Pokemon.Owner.Pokemons.Reverse())
+          if (p.Hp > 0)
+          {
+            pm.OnboardPokemon.SetCondition("Illusion", p.Pokemon);
+            break;
+          }
     }
     public static void ColorChange(DefContext def)
     {

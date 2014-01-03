@@ -32,11 +32,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             break;
           case Ms.SELFDESTRUCT: //120
           case Ms.EXPLOSION: //153
-            if (aer.Controller.Board.Pokemons.Any((p) => p.RaiseAbility(As.DAMP)))
-            {
-              atk.FailAll("FailSp", atk.Attacker.Id, atk.Move.Id);
-              return false;
-            }
+            foreach (var p in aer.Controller.Board.Pokemons)
+              if (p.RaiseAbility(As.DAMP))
+              {
+                atk.FailAll("FailSp", atk.Attacker.Id, atk.Move.Id);
+                return false;
+              }
             return true;
           case Ms.REST: //156
             if (aer.Hp == aer.Pokemon.MaxHp)
@@ -56,8 +57,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             break;
           case Ms.FAKE_OUT: //252
           case Ms.MAT_BLOCK:
-            if (!aer.Moves.Any((m) => m.HasUsed)) return true;
-            break;
+            foreach (var m in aer.Moves)
+              if (m.HasUsed) goto FAIL;
+            return true;
           case Ms.NATURAL_GIFT: //363
             if (ITs.CanLostItem(aer) && ITs.CanUseItem(aer) && ITs.Berry(aer.Pokemon.Item)) return true;
             break;
@@ -65,8 +67,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             if (ITs.CanLostItem(aer) && ITs.CanUseItem(aer) && MTs.FlingPower(aer.Pokemon.Item) != 0) return true;
             break;
           case Ms.LAST_RESORT: //387
-            if (aer.Moves.All((m) => m.HasUsed || m.Type.Id == Ms.LAST_RESORT)) return true;
-            break;
+            foreach (var m in aer.Moves)
+              if (!m.HasUsed && m.Type.Id != Ms.LAST_RESORT) goto FAIL;
+            return true;
           case Ms.BESTOW: //516
             if (aer.Pokemon.Item == 0 || ITs.NeverLostItem(aer.Pokemon)) return true;
             break;
@@ -85,6 +88,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             if (!atk.Move.HardToUseContinuously() || ContinuousUse(atk)) return true;
             break;
         }
+    FAIL:
       atk.FailAll();
       return false;
     }

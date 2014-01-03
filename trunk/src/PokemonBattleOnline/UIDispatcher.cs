@@ -5,6 +5,9 @@ using System.Text;
 
 namespace PokemonBattleOnline
 {
+  /// <summary>
+  /// this should not be used as a dispatcher
+  /// </summary>
   public static class UIDispatcher
   {
     private static System.Windows.Threading.Dispatcher wpf;
@@ -21,17 +24,10 @@ namespace PokemonBattleOnline
       {
 #endif
         if (action != null)
-      {
-#if DEBUG
-        if (wpf == null)
         {
-          action();
-          return;
+          if (wpf == null || wpf.CheckAccess()) action();
+          else wpf.Invoke(action);
         }
-#endif
-        if (wpf.CheckAccess()) action();
-        else wpf.Invoke(action);
-      }
 #if DEBUG
       }
       catch
@@ -46,18 +42,11 @@ namespace PokemonBattleOnline
       try
       {
 #endif
-      if (method != null)
-      {
-#if DEBUG
-        if (wpf == null)
+        if (method != null)
         {
-          method.DynamicInvoke(args);
-          return;
+          if (wpf == null || wpf.CheckAccess()) method.DynamicInvoke(args);
+          else wpf.Invoke(method, args);
         }
-#endif
-        if (wpf.CheckAccess()) method.DynamicInvoke(args);
-        else wpf.Invoke(method, args);
-      }
 #if DEBUG
       }
       catch
@@ -72,17 +61,11 @@ namespace PokemonBattleOnline
       try
       {
 #endif
-      if (method != null)
-      {
-#if DEBUG
-        if (wpf == null)
+        if (method != null)
         {
-          method.DynamicInvoke(args);
-          return;
+          if (wpf == null) method.DynamicInvoke(args);
+          else wpf.BeginInvoke(method, args);
         }
-#endif
-        wpf.BeginInvoke(method, args);
-      }
 #if DEBUG
       }
       catch

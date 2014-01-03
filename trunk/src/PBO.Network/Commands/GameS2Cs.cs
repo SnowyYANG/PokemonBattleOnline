@@ -50,7 +50,8 @@ namespace PokemonBattleOnline.Network.Commands
 
     public PartnerInfoS2C(IPokemonData[] pms)
     {
-      a_ = pms.Select((p) => (PokemonData)p).ToArray();
+      a_ = new PokemonData[pms.Length];
+      for (int i = 0; i < pms.Length; ++i) a_[i] = (PokemonData)pms[0];
     }
 
     void IS2C.Execute(Client client)
@@ -113,9 +114,9 @@ namespace PokemonBattleOnline.Network.Commands
     {
       return new GameEndS2C() { Player = player, Reason = reason };
     }
-    public static GameEndS2C TimeUp(IEnumerable<KeyValuePair<int, int>> time)
+    public static GameEndS2C TimeUp(KeyValuePair<int, int>[] time)
     {
-      return new GameEndS2C() { Time = time.ToArray() };
+      return new GameEndS2C() { Time = time };
     }
     [DataMember(EmitDefaultValue = false)]
     int Player;

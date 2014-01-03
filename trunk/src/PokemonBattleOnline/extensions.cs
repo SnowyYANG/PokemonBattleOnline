@@ -61,6 +61,10 @@ namespace PokemonBattleOnline
         if (array[i].Equals(value)) return i;
       return -1;
     }
+    public static void Sort<T>(this T[] array, IComparer<T> comparer)
+    {
+      Array.Sort(array, comparer);
+    }
     public static bool ArrayEquals(this Array x, Array y)
     {
       if (y == null || x.Length != y.Length) return false;
@@ -77,10 +81,19 @@ namespace PokemonBattleOnline
       Append(sb, args);
       sb.AppendLine();
     }
-    public static IEnumerable<Type> SubClasses(this Type type)
+    public static Type[] SubClasses(this Type type)
     {
       var types = type.Assembly.GetTypes();
-      return type.IsInterface ? types.Where((t) => t.GetInterfaces().Contains(type)) : types.Where((t) => t.IsSubclassOf(type));
+      var stypes = new List<Type>(types.Length);
+      if (type.IsInterface)
+      {
+        foreach (var t in types)
+          if (t.GetInterfaces().Contains(type)) stypes.Add(t);
+      }
+      else
+        foreach (var t in types)
+          if (t.IsSubclassOf(type)) stypes.Add(t);
+      return stypes.ToArray();
     }
     /// <summary>
     /// return 0 if any error occurs

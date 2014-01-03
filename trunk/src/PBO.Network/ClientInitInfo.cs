@@ -12,11 +12,11 @@ namespace PokemonBattleOnline.Network
     [DataMember(Name = "a")]
     public readonly int User;
 
-    public ClientInitInfo(int user, IEnumerable<User> users, IEnumerable<Room> rooms)
+    public ClientInitInfo(int user, User[] lobbyUsers, Room[] rooms)
     {
       User = user;
-      _lobbyUsers = users.Where((u) => u.Room == null).ToArray();
-      _rooms = rooms.ToArray();
+      _lobbyUsers = lobbyUsers;
+      _rooms = rooms;
     }
 
     [DataMember(Name = "b_")]

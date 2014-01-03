@@ -8,22 +8,24 @@ namespace PokemonBattleOnline.Game.Host
 {
   internal class TurnController : ControllerComponent
   {
-    private readonly Comparer comparer;
-    private readonly Tile[] tiles;
+    private readonly Comparer Comparer;
     private byte current;
 
     public TurnController(Controller controller)
       : base(controller)
     {
-      comparer = new Comparer(controller.Board);
-      Tiles = tiles = Board.Tiles.ToArray(); //this is a copy
+      Comparer = new Comparer(controller.Board);
+      _tiles = Board.Tiles.ToArray(); //this is a copy
       ActingPokemons = new List<PokemonProxy>();
     }
 
     public List<PokemonProxy> ActingPokemons
     { get; private set; }
+
+    private readonly Tile[] _tiles;
     public IEnumerable<Tile> Tiles
-    { get; private set; }
+    { get { return _tiles; } }
+    
     public IEnumerable<PokemonProxy> Pokemons
     { get { return Tiles.Where((t) => t.Pokemon != null).Select((t) => t.Pokemon); } }
 
@@ -39,19 +41,19 @@ namespace PokemonBattleOnline.Game.Host
       }
       foreach (var p in Board.Pokemons)
         if (p.Action != PokemonAction.WillSwitch) p.ItemSpeedValue = STs.ItemSpeedValue(p);
-      ActingPokemons = ActingPokemons.OrderBy((pm) => pm, comparer).ToList();
+      ActingPokemons.Sort(Comparer);
     }
     private void SortTiles()
     {
-      for (int i = 0; i < tiles.Length - 1; i++)
+      for (int i = 0; i < _tiles.Length - 1; i++)
       {
         int j;
-        j = Controller.GetRandomInt(i, tiles.Length - 1);
-        Tile temp = tiles[i];
-        tiles[i] = tiles[j];
-        tiles[j] = temp;
+        j = Controller.GetRandomInt(i, _tiles.Length - 1);
+        Tile temp = _tiles[i];
+        _tiles[i] = _tiles[j];
+        _tiles[j] = temp;
       }
-      Tiles = tiles.OrderBy((pm) => pm, comparer).ToArray();
+      _tiles.Sort(Comparer);
     }
 
     public void StartGameLoop()

@@ -101,11 +101,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
           break;
       }
-      if (move.AromaVeil() && der.Field.Pokemons.Any((p) => p.RaiseAbility(As.AROMA_VEIL)))
-      {
-        def.Defender.ShowLogPm("NoEffect");
-        return false;
-      }
+      if (move.AromaVeil())
+        foreach(var p in der.Field.Pokemons)
+          if (p.RaiseAbility(As.AROMA_VEIL))
+          {
+            def.Defender.ShowLogPm("NoEffect");
+            return false;
+          }
       if (move.Powder() && der.Item == Is.SAFETY_GOGGLES)
       {
         def.Defender.ShowLogPm("SafetyGoggles");

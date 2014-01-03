@@ -43,18 +43,16 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
         }
         if (pm.OnboardPokemon.HasType(BattleType.Grass))
-        {
-          var partner = pm.Field.Pokemons.FirstOrDefault((p) => p.Ability == As.FLOWER_VEIL);
-          if (partner != null)
-          {
-            if (showFail)
+          foreach(var p in pm.Field.Pokemons)
+            if (p.Ability == As.FLOWER_VEIL)
             {
-              partner.RaiseAbility();
-              pm.ShowLogPm("7DLock", (int)stat);
+              if (showFail)
+              {
+                p.RaiseAbility();
+                pm.ShowLogPm("7DLock", (int)stat);
+              }
+              return 0;
             }
-            return 0;            
-          }
-        }
       }
 
       switch (a)

@@ -10,7 +10,6 @@ namespace PokemonBattleOnline.Network
     internal readonly object Locker;
     internal readonly TcpServer Network;
     private readonly LoginServer Login;
-    public readonly ServerState State;
     private readonly Dictionary<int, ServerUser> Users;
     private readonly IdsPool RoomIds;
     private readonly Dictionary<int, RoomHost> Rooms;
@@ -20,7 +19,6 @@ namespace PokemonBattleOnline.Network
       Locker = new object();
       Network = new TcpServer(port);
       Login = new LoginServer(Network, this);
-      State = new ServerState();
       Users = new Dictionary<int, ServerUser>();
       RoomIds = new IdsPool();
       Rooms = new Dictionary<int, RoomHost>();
@@ -41,19 +39,30 @@ namespace PokemonBattleOnline.Network
     {
       lock (Locker)
       {
-        user.Network.Sender.Send(State.GetClientInitInfo(user.Network.Id).ToPack());
+        user.Network.Sender.Send(GetCII(user.Network.Id).ToPack());
         Send(Commands.UserS2C.AddUser(user.Network.Id, user.User.Name, user.User.Avatar));
         Users.Add(user.Network.Id, user);
-        State.UserList.Add(user.User);
       }
     }
+    private ClientInitInfo GetCII(int user)
+    { 
+      //already in lock
+      var lus = new List<User>();
+      var rs = new Room[Rooms.Count];
+      foreach (var u in Users.Values)
+        if (u.Room == null) lus.Add(u.User);
+      int i = 0;
+      foreach (var r in Rooms.Values) rs[i++] = r.Room;
+      return new ClientInitInfo(user, lus.ToArray(), rs);
+    }
+
+
     internal void RemoveUser(ServerUser user)
     {
       lock (Locker)
       {
         if (user.Room != null) user.Room.RemoveUser(user);
         Users.Remove(user.Network.Id);
-        State.UserList.Remove(user.User);
         Send(Commands.UserS2C.RemoveUser(user.Network.Id));
       }
       Login.RemoveName(user.User.Name);
@@ -67,7 +76,6 @@ namespace PokemonBattleOnline.Network
       var id = RoomIds.GetId();
       var rc = new RoomHost(this, id, name, settings);
       Rooms.Add(id, rc);
-      State.RoomList.Add(rc.Room);
       Send(Commands.RoomS2C.NewRoom(id, settings));
       return rc;
     }
@@ -77,7 +85,6 @@ namespace PokemonBattleOnline.Network
       if (Rooms.Remove(room.Id))
       {
         rc.Dispose();
-        State.RoomList.Remove(room);
         room.RemoveUsers();
         Send(Commands.RoomS2C.RemoveRoom(room.Id));
       }

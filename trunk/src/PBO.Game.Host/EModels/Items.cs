@@ -294,26 +294,27 @@ namespace PokemonBattleOnline.Game.Host
       if (!atk.IgnoreSwitchItem)
       {
         bool e = true, r = aer.Hp != 0 && aer.Controller.CanWithdraw(aer);
-        foreach (var d in atk.Targets.Where((d) => !d.HitSubstitute && d.Defender.Tile != null).OrderBy((d) => d.Defender.Speed).ToArray())
-        {
-          var der = d.Defender;
-          var i = der.Item;
-          if (e && i == Is.EJECT_BUTTON)
+        foreach (var d in atk.Targets)
+          if (!d.HitSubstitute && d.Defender.Tile != null)
           {
-            atk.SetCondition("EjectButton", der.Tile);
-            der.ConsumeItem();
-            c.Withdraw(der, "EjectButton", 0, true);
-            if (r == false) break;
-            e = false;
+            var der = d.Defender;
+            var i = der.Item;
+            if (e && i == Is.EJECT_BUTTON)
+            {
+              atk.SetCondition("EjectButton", der.Tile);
+              der.ConsumeItem();
+              c.Withdraw(der, "EjectButton", 0, true);
+              if (r == false) break;
+              e = false;
+            }
+            else if (r && i == Is.RED_CARD)
+            {
+              der.ConsumeItem();
+              der.ShowLogPm("RedCard", aer.Id);
+              r = !MoveE.ForceSwitchImplement(aer, true);
+              if (e == false) return;
+            }
           }
-          else if (r && i == Is.RED_CARD)
-          {
-            der.ConsumeItem();
-            der.ShowLogPm("RedCard", aer.Id);
-            r = !MoveE.ForceSwitchImplement(aer, true);
-            if (e == false) return;
-          }
-        }
       }
       if (aer.Item == Is.SHELL_BELL)
       {

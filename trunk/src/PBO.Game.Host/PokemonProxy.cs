@@ -19,6 +19,7 @@ namespace PokemonBattleOnline.Game.Host
       Pokemon = pokemon;
       NullOnboardPokemon = new OnboardPokemon(pokemon, -1);
       StruggleMove = new MoveProxy(new Move(RomData.GetMove(Ms.STRUGGLE), 1), this);
+      _moves = new List<MoveProxy>(4);
     }
 
     internal readonly OnboardPokemon NullOnboardPokemon;
@@ -80,9 +81,9 @@ namespace PokemonBattleOnline.Game.Host
         0 : Pokemon.Item;
       }
     }
-    private MoveProxy[] moves;
+    private List<MoveProxy> _moves;
     public IEnumerable<MoveProxy> Moves
-    { get { return moves; } }
+    { get { return _moves; } }
     public MoveProxy StruggleMove
     { get; private set; }
     public int Speed
@@ -120,16 +121,16 @@ namespace PokemonBattleOnline.Game.Host
     {
       OnboardPokemon.SetCondition("Transform");
       OnboardPokemon.Transform(target.OnboardPokemon);
-      moves = new MoveProxy[target.moves.Length];
-      for (int i = 0; i < moves.Length; ++i) moves[i] = new MoveProxy(target.moves[i].Type, this);
+      _moves.Clear();
+      foreach (var m in target._moves) _moves.Add(new MoveProxy(m.Type, this));
       Controller.ReportBuilder.Transform(this);
     }
     public void ChangeMove(MoveType from, MoveType to)
     {
-      for (int i = 0; i < moves.Length; ++i)
-        if (moves[i].Type == from)
+      for (int i = 0; i < _moves.Count; ++i)
+        if (_moves[i].Type == from)
         {
-          moves[i] = new MoveProxy(to, this);
+          _moves[i] = new MoveProxy(to, this);
           break;
         }
     }
@@ -318,7 +319,8 @@ namespace PokemonBattleOnline.Game.Host
       _atkContext = null;
       SelectedMove = null;
       SelectedTarget = null;
-      moves = Pokemon.Moves.Select((m) => new MoveProxy(m, this)).ToArray();
+      _moves.Clear();
+      foreach (var m in Pokemon.Moves) _moves.Add(new MoveProxy(m, this));
       LastMoveTurn = 0;
     }
     internal void BuildAtkContext(MoveProxy move)
@@ -470,7 +472,9 @@ namespace PokemonBattleOnline.Game.Host
         case PokemonAction.MoveAttached:
           {
             var o = OnboardPokemon.GetCondition("Encore");
-            if (o != null) SelectedMove = Moves.First((m) => m.Type == o.Move);
+            if (o != null)
+              foreach (var m in Moves)
+                if (m.Type == o.Move) SelectedMove = m;
           }
           ATs.StanceChange(this);
           if (CanExecute() && SelectedMove.CanExecute())

@@ -261,9 +261,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.ACUPRESSURE: //367
           {
-            StatType[] ss = ALL_STATS.Where((s) => atk.Target.Defender.CanChangeLv7D(aer, s, 2, false) != 0).ToArray();
-            if (ss.Length == 0) atk.FailAll();
-            else atk.Target.Defender.ChangeLv7D(aer, ss[aer.Controller.GetRandomInt(0, ss.Length - 1)], 2, true);
+            var ss = new List<StatType>();
+            foreach (var s in StatHelper.SEVEN_D)
+              if (atk.Target.Defender.CanChangeLv7D(aer, s, 2, false) != 0) ss.Add(s);
+            if (ss.Count == 0) atk.FailAll();
+            else atk.Target.Defender.ChangeLv7D(aer, ss[aer.Controller.GetRandomInt(0, ss.Count - 1)], 2, true);
           }
           break;
         case Ms.PSYCHO_SHIFT: //375
@@ -442,8 +444,24 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         atk.Hit++;
         CalculateDamages.Execute(atk);
         if (atk.Target.Damage == 0 && atk.Hit == 2 && atk.HasCondition("ParentalBond")) break;
-        Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId == atkTeam));
-        Implement(atk.Targets.Where((d) => d.Defender.Pokemon.TeamId != atkTeam));
+        if (atk.Targets.Count() == 1) Implement(atk.Targets);
+        else
+        {
+          List<DefContext> od = null, fd = null;
+          foreach (var d in atk.Targets)
+            if (d.Defender.Pokemon.TeamId == atkTeam)
+            {
+              if (od == null) od = new List<DefContext>();
+              od.Add(d);
+            }
+            else
+            {
+              if (fd == null) fd = new List<DefContext>();
+              fd.Add(d);
+            }
+          if (od != null) Implement(od);
+          if (fd != null) Implement(fd);
+        }
       }
       while (atk.Hit < atk.Hits && atk.Target.Defender.Hp != 0 && aer.Hp != 0 && aer.State != PokemonState.FRZ && aer.State != PokemonState.SLP);
 
@@ -646,7 +664,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static void Sport(AtkContext atk, string condition)
     {
-      if (atk.Attacker.OnboardPokemon.AddCondition(condition)) atk.Controller.ReportBuilder.ShowLog(condition);
+      var c = atk.Controller;
+      if (c.Board.AddCondition(condition, c.TurnNumber + 4)) c.ReportBuilder.ShowLog("En" + condition);
       else atk.FailAll();
     }
     private static void Room(AtkContext atk, string condition)

@@ -94,16 +94,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
 
       if (move.Flags.MagicCoat && atk.Targets == null)
-      {
-        var pm = aer.Controller.GetOnboardPokemons(1 - aer.Pokemon.TeamId).FirstOrDefault((p) => STs.MagicCoat(atk, p));
-        if (pm != null)
-        {
-          atk.SetCondition("MagicCoat", new List<PokemonProxy>() { pm });
-          atk.FailAll(null);
-          MoveE.MagicCoat(atk);
-          return;
-        }
-      }
+        foreach(var p in aer.Controller.GetOnboardPokemons(1 - aer.Pokemon.TeamId))
+          if (STs.MagicCoat(atk, p))
+          {
+            atk.SetCondition("MagicCoat", new List<PokemonProxy>() { p });
+            atk.FailAll(null);
+            MoveE.MagicCoat(atk);
+            return;
+          }
 
       CalculateType.Execute(atk);
 

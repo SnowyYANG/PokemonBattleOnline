@@ -49,7 +49,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (def.IsCt) der.ChangeLv7D(der, StatType.Atk, 12, false, true, "AngerPoint");
           break;
         case As.AFTERMATH:
-          if (touch && der.Hp == 0 && aer.CanEffectHurt && !aer.Controller.Board.Pokemons.Any((p) => p.Ability == As.DAMP))
+          if (touch && der.Hp == 0 && aer.CanEffectHurt && aer.Controller.Board.Pokemons.HasAbility(As.DAMP) == null)
           {
             der.RaiseAbility();
             aer.EffectHurtByOneNth(4);

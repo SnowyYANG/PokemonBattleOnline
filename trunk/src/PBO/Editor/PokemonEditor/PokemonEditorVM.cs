@@ -32,7 +32,7 @@ namespace PokemonBattleOnline.PBO.Editor
     }
 
     public int Hp
-    { get { return PokemonStatHelper.GetHp(Model.Form.Data.Base.Hp, Model.Iv.Hp, Model.Ev.Hp, Model.Lv); } }
+    { get { return StatHelper.GetHp(Model.Form.Data.Base.Hp, Model.Iv.Hp, Model.Ev.Hp, Model.Lv); } }
     public int Atk
     { get { return GetStat(StatType.Atk); } }
     public int Def
@@ -45,7 +45,7 @@ namespace PokemonBattleOnline.PBO.Editor
     { get { return GetStat(StatType.Speed); } }
     private int GetStat(StatType stat)
     {
-      return PokemonStatHelper.Get5D(stat, Model.Nature, Model.Form.Data.Base.GetStat(stat), Model.Iv.GetStat(stat), Model.Ev.GetStat(stat), Model.Lv);
+      return StatHelper.Get5D(stat, Model.Nature, Model.Form.Data.Base.GetStat(stat), Model.Iv.GetStat(stat), Model.Ev.GetStat(stat), Model.Lv);
     }
 
     public void RefreshAll()

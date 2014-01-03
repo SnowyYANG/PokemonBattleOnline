@@ -14,7 +14,7 @@ namespace PokemonBattleOnline.Game
     static Type[] knownGameEvents;
     static IEnumerable<Type> KnownEvents()
     {
-      if (knownGameEvents == null) knownGameEvents = typeof(GameEvent).SubClasses().ToArray();
+      if (knownGameEvents == null) knownGameEvents = typeof(GameEvent).SubClasses();
       return knownGameEvents;
     }
 

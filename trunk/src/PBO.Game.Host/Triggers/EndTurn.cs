@@ -457,7 +457,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     //26.1 Speed Boost, Bad Dreams, Harvest, Moody
     //26.2 Toxic Orb activation, Flame Orb activation, Sticky Barb
     //26.3 pickup
-    private static readonly StatType[] SEVEN_D = { StatType.Atk, StatType.Def, StatType.SpAtk, StatType.SpDef, StatType.Speed, StatType.Accuracy, StatType.Evasion };
     private static void Pokemon(Controller c)
     {
       foreach (var pm in c.OnboardPokemons.ToArray())
@@ -507,11 +506,19 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             break;
           case As.MOODY:
             {
-              StatType[] up = SEVEN_D.Where((s) => pm.CanChangeLv7D(pm, s, 2, false) != 0).ToArray();
-              StatType[] down = SEVEN_D.Where((s) => pm.CanChangeLv7D(pm, s, -1, false) != 0).ToArray();
-              pm.RaiseAbility();
-              if (up.Length != 0) pm.ChangeLv7D(pm, up[c.GetRandomInt(0, up.Length)], 2, false);
-              if (down.Length != 0) pm.ChangeLv7D(pm, down[c.GetRandomInt(0, down.Length)], -1, false);
+              var up = new List<StatType>(7);
+              var down = new List<StatType>(7);
+              foreach (var s in StatHelper.SEVEN_D)
+              {
+                if (pm.CanChangeLv7D(pm, s, 2, false) != 0) up.Add(s);
+                if (pm.CanChangeLv7D(pm, s, -1, false) != 0) down.Add(s);
+              }
+              if (up.Count != 0 && down.Count != 0)
+              {
+                pm.RaiseAbility();
+                if (up.Count != 0) pm.ChangeLv7D(pm, up[c.GetRandomInt(0, up.Count - 1)], 2, false);
+                if (down.Count != 0) pm.ChangeLv7D(pm, down[c.GetRandomInt(0, down.Count - 1)], -1, false);
+              }
             }
             break;
         }

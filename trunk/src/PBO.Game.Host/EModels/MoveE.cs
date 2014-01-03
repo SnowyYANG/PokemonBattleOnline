@@ -262,7 +262,8 @@ namespace PokemonBattleOnline.Game.Host
         {
           d0.Defender.Controller.ReportBuilder.ShowLog("MatBlock", move.Id);
           var td = d0.Defender.Pokemon.TeamId;
-          targets.RemoveAll((d) => d.Defender.Pokemon.TeamId == td);
+          foreach (var d in targets.ToArray())
+            if (d.Defender.Pokemon.TeamId == td) targets.Remove(d);
           d0 = targets.FirstOrDefault();
           if (d0 != null && d0.Defender.Field.HasCondition("MatBlock")) targets.Clear();
         }

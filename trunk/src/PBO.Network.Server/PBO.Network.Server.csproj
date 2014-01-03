@@ -56,7 +56,6 @@
     <Compile Include="PBOServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
-    <Compile Include="ServerState.cs" />
     <Compile Include="ServerUser.cs" />
     <Compile Include="Network\TcpServer.cs" />
     <Compile Include="Network\TcpUser.cs" />

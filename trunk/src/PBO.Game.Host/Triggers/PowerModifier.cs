@@ -26,8 +26,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       #warning HelpingHand
       //If Water Sport was used by any Pokémon still on the field and move is Fire type.
       //If Mud Sport was used by any Pokémon still on the field and move is Electric type.
-      if ((atk.Type == BattleType.Fire && c.OnboardPokemons.Any((p) => p.OnboardPokemon.HasCondition("WaterSport"))) ||
-        (atk.Type == BattleType.Electric && c.OnboardPokemons.Any((p) => p.OnboardPokemon.HasCondition("MudSport"))))
+      if ((atk.Type == BattleType.Fire && c.Board.HasCondition("WaterSport")) ||
+        (atk.Type == BattleType.Electric && c.Board.HasCondition("MudSport")))
         m *= 0x800;
 
       if ((atk.Type == BattleType.Electric && c.Board.HasCondition("ElectricTerrain") || atk.Type == BattleType.Grass && c.Board.HasCondition("GrassyTerrain")) && HasEffect.IsGroundAffectable(aer, true, false)) m *= 0x1800;
@@ -107,7 +107,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (type == BattleType.Dark || type == BattleType.Fairy)
       {
         var a = type == BattleType.Dark ? As.DARK_AURA : As.FAIRY_AURA;
-        if (aer.Controller.OnboardPokemons.Any((p) => p.Ability == a)) m *= (Modifier)(aer.Controller.OnboardPokemons.Any((p) => p.Ability == As.AURA_BREAK) ? 0xc00 : 0x1555);
+        if (aer.Controller.OnboardPokemons.HasAbility(a) != null) m *= (Modifier)(aer.Controller.OnboardPokemons.HasAbility(As.AURA_BREAK) == null ? 0x1555 : 0xc00);
       }
 
       return m;

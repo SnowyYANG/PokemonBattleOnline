@@ -9,6 +9,18 @@ namespace PokemonBattleOnline.Game.Host.Triggers
 {
   internal static class STs
   {
+    public static PokemonProxy HasAbility(this IEnumerable<PokemonProxy> pms, int ability)
+    {
+      foreach (var p in pms)
+        if (p.Ability == ability) return p;
+      return null;
+    }
+    public static PokemonProxy RaiseAbility(this IEnumerable<PokemonProxy> pms, int ability)
+    {
+      foreach (var p in pms)
+        if (p.RaiseAbility(ability)) return p;
+      return null;
+    }
     #region gen5
     public static void KOed(DefContext def, OnboardPokemon o)
     {
@@ -236,7 +248,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     public static bool TypeCalculated(AtkContext atk)
     {
       var aer = atk.Attacker;
-      if (atk.Type == BattleType.Fire && aer.OnboardPokemon.HasCondition("Powder") && !aer.Controller.OnboardPokemons.Any((p) => p.Ability == As.DAMP))
+      if (atk.Type == BattleType.Fire && aer.OnboardPokemon.HasCondition("Powder") && aer.Controller.OnboardPokemons.HasAbility(As.DAMP) == null)
       {
         aer.EffectHurtByOneNth(4, "m_Powder");
         return true;

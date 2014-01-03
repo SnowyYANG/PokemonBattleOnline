@@ -32,7 +32,9 @@ namespace PokemonBattleOnline.Game
     }
     protected SimOnboardPokemon GetOnboardPokemon(SimGame game, int id)
     {
-      return game.OnboardPokemons.FirstOrDefault((p) => p != null && p.Id == id);
+      foreach (var p in game.OnboardPokemons)
+        if (p != null && p.Id == id) return p;
+      return null;
     }
     protected virtual void Update()
     {
