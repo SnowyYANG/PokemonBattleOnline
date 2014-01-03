@@ -19,7 +19,7 @@ namespace PokemonBattleOnline.Game
 
     private static bool CanChangeEv(I6D sender, int oldValue, int newValue)
     {
-      return 0 <= newValue && newValue <= 255 && sender.Sum() + newValue - oldValue <= 510;
+      return 0 <= newValue && newValue <= 252 && sender.Sum() + newValue - oldValue <= 510;
     }
 
     [DataMember(Name = "n")]

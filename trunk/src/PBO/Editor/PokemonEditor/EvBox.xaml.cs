@@ -96,7 +96,7 @@ namespace PokemonBattleOnline.PBO.Editor
     {
       var v0 = Value;
       var v = v0 + 4;
-      if (v > 255) v = 255;
+      if (v > 252) v = 252;
       if (v0 != v) Value = v;
     }
     private void DecreaseButton_Click(object sender, RoutedEventArgs e)

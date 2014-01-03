@@ -1036,19 +1036,13 @@ namespace PokemonBattleOnline.Game
     public const int POWDER = 600;
     public const int GEOMANCY = 601;
     public const int MAGNETIC_FLUX = 602;
-    public const int MOVE603 = 603;
     public const int ELECTRIC_TERRAIN = 604;
     public const int DAZZLING_GLEAM = 605;
-    public const int MOVE606 = 606;
-    public const int MOVE607 = 607;
     public const int BABYDOLL_EYES = 608;
     public const int NUZZLE = 609;
-    public const int MOVE610 = 610;
     public const int INFESTATION = 611;
     public const int POWERUP_PUNCH = 612;
     public const int OBLIVION_WING = 613;
-    public const int MOVE614 = 614;
-    public const int MOVE615 = 615;
     public const int LANDS_WRATH = 616;
   }
 }

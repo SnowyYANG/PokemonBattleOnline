@@ -45,7 +45,7 @@ namespace PokemonBattleOnline.PBO.Editor
     { get { return GetStat(StatType.Speed); } }
     private int GetStat(StatType stat)
     {
-      return PokemonStatHelper.Get5D(stat, PokemonNature.Serious, Model.Form.Data.Base.GetStat(stat), Model.Iv.GetStat(stat), Model.Ev.GetStat(stat), Model.Lv);
+      return PokemonStatHelper.Get5D(stat, Model.Nature, Model.Form.Data.Base.GetStat(stat), Model.Iv.GetStat(stat), Model.Ev.GetStat(stat), Model.Lv);
     }
 
     public void RefreshAll()
@@ -321,7 +321,7 @@ namespace PokemonBattleOnline.PBO.Editor
       {
 
         {
-          var value = Model.HasMove(216) || Model.HasMove(218) ? Visibility.Visible : Visibility.Collapsed;
+          var value = Model.HasMove(Ms.RETURN) || Model.HasMove(Ms.FRUSTRATION) ? Visibility.Visible : Visibility.Collapsed;
           if (_happinessVisibility != value)
           {
             _happinessVisibility = value;
@@ -329,7 +329,7 @@ namespace PokemonBattleOnline.PBO.Editor
           }
         }
         {
-          var value = Model.HasMove(237) ? Visibility.Visible : Visibility.Collapsed;
+          var value = Model.HasMove(Ms.HIDDEN_POWER) ? Visibility.Visible : Visibility.Collapsed;
           if (_hiddenPowerVisibility != value)
           {
             _hiddenPowerVisibility = value;
@@ -352,7 +352,7 @@ namespace PokemonBattleOnline.PBO.Editor
     {
       Model.RemoveMove(m);
       RefreshOptionalVisibility();
-      if (m.Id == 548 && PokemonSpecies.Number == 647) RefreshImage();
+      if (m.Id == Ms.SECRET_SWORD && PokemonSpecies.Number == 647) RefreshImage();
     }
 
     public void Close()
