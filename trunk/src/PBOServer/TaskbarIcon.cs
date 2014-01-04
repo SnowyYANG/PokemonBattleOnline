@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace PokemonBattleOnline.PBO.Server
 {
-  static class TaskbarIconService
+  static class TaskbarIcon
   {
     [System.Runtime.InteropServices.DllImport("user32.dll")]
     private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
@@ -14,31 +14,37 @@ namespace PokemonBattleOnline.PBO.Server
     private readonly static NotifyIcon NI;
     private readonly static IntPtr hWnd;
 
-    static TaskbarIconService()
+    static TaskbarIcon()
     {
       NI = new NotifyIcon();
-      NI.Icon = new System.Drawing.Icon(typeof(TaskbarIconService), "server.ico");
+      NI.Icon = new System.Drawing.Icon(typeof(TaskbarIcon), "server.ico");
       NI.Text = "PBOv0.8 Server";
       NI.ContextMenu = new ContextMenu(new MenuItem[] { new MenuItem("退出", Quit_Click) });
       hWnd = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
+      if (hWnd != IntPtr.Zero) NI.MouseClick += NI_MouseClick;
     }
 
-
     private static int sw;
-    private static void NI_Click(object sender, EventArgs e)
+    private static readonly object Locker = new object();
+    private static void NI_MouseClick(object sender, MouseEventArgs e)
     {
-      ShowWindow(hWnd, sw); // 0 = SW_HIDE
-      sw = 1 - sw;
+      if (e.Button == MouseButtons.Left)
+      {
+        lock (Locker)
+        {
+          ShowWindow(hWnd, sw); // 0 = SW_HIDE
+          sw = 1 - sw;
+        }
+      }
     }
     private static void Quit_Click(object sender, EventArgs e)
     {
-      //Hide the window
-      ShowWindow(hWnd, sw); // 0 = SW_HIDE
+      Close();
+      Environment.Exit(0);
     }
 
     public static void Init()
     {
-      if (hWnd != IntPtr.Zero) NI.Click += NI_Click;
       NI.Visible = true;
       Application.Run();
     }
@@ -47,6 +53,7 @@ namespace PokemonBattleOnline.PBO.Server
     {
       NI.Visible = false;
       NI.Dispose();
+      Application.Exit();
     }
   }
 }

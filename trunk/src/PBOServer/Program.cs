@@ -10,7 +10,7 @@ namespace PokemonBattleOnline.PBO.Server
 {
   class Program
   {
-    static void Main(string[] args)
+    static int Main(string[] args)
     {
       using (var pack = new ZipData("..\\res\\rom.zip"))
       {
@@ -20,11 +20,16 @@ namespace PokemonBattleOnline.PBO.Server
       PBOServer.NewServer(PBOMarks.DEFAULT_PORT);
       var server = PBOServer.Current;
       server.Start();
-      Thread t = new Thread(TaskbarIconService.Init);
+      Thread t = new Thread(TaskbarIcon.Init);
       t.Start();
 
     LOOP:
       var line = Console.ReadLine();
+      if (line.Equals("quit", StringComparison.CurrentCultureIgnoreCase))
+      {
+        TaskbarIcon.Close();
+        return 0;
+      }
       goto LOOP;
     }
   }
