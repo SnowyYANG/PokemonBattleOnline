@@ -169,10 +169,12 @@ namespace PokemonBattleOnline.Game
           var s = Split(line);
           for (int i = 2; i < s.Length; ++i)
           {
-            //move:TM## move:HM## TM00=TM100
+            //move:TM## move:HM##
             var mm = s[i];
-            var move = Convert.ToInt32(mm.Substring(0, mm.Length - 5));
-            if (mm[mm.Length - 4] == 'T') tmmoves.Add(move);
+            var colon = mm.Length - 5;
+            if (mm[colon] != ':') colon--;
+            var move = Convert.ToInt32(mm.Substring(0, colon));
+            if (mm[colon + 1] == 'T') tmmoves.Add(move);
             else if (hmmoves == null) break;
             else hmmoves.Add(move);
           }
