@@ -52,11 +52,11 @@ namespace PokemonBattleOnline.Network
       }
     }
 
-    public User this[int index]
+    private User this[int index]
     {
       get
       { return players.ValueOrDefault(index); }
-      private set
+      set
       {
         if (0 <= index && index < 4)
         {
