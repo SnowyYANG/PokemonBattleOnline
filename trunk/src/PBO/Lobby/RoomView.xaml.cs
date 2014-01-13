@@ -27,7 +27,7 @@ namespace PokemonBattleOnline.PBO.Lobby
 
     private void SetSeat(Seat seat)
     {
-      PBOClient.Current.Controller.EnterRoom((Room)DataContext, seat);
+      PBOClient.Current.EnterRoom((Room)DataContext, seat);
     }
     private void P00_Click(object sender, RoutedEventArgs e)
     {

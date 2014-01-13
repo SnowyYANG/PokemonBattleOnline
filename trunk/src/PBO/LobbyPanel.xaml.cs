@@ -41,7 +41,7 @@ namespace PokemonBattleOnline.PBO
       else
       {
         login.Visibility = Visibility.Collapsed;
-        lobby.Init(PBOClient.Current.Controller);
+        lobby.Init(PBOClient.Current);
         lobby.IsEnabled = true;
         lobby.Visibility = Visibility.Visible;
       }
@@ -55,7 +55,7 @@ namespace PokemonBattleOnline.PBO
     public bool Window_Closing()
     {
       if (PBOClient.Current != null)
-        if (ShowMessageBox.ExitLobby() == MessageBoxResult.Yes) PBOClient.Current.Controller.Exit();
+        if (ShowMessageBox.ExitLobby() == MessageBoxResult.Yes) PBOClient.Exit();
         else return true;
       return false;
     }

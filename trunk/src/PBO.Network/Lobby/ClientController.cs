@@ -133,7 +133,7 @@ namespace PokemonBattleOnline.Network
       }
     }
     private bool exit;
-    public void Exit()
+    internal void Exit()
     {
       if (/*User.Room == null && */!exit)
       {

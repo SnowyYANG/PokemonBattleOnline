@@ -71,7 +71,7 @@ namespace PokemonBattleOnline.PBO.Lobby
       {
         var ti = (TabItem)whom.SelectedItem;
         Controller.ChatPrivate((User)ti.Header, chat);
-        ((TextBox)ti.Content).AppendText(PBOClient.Current.Controller.User.Name + ": " + chat + "\n");
+        ((TextBox)ti.Content).AppendText(PBOClient.Current.User.Name + ": " + chat + "\n");
       }
       else Controller.ChatPublic(chat);
     }

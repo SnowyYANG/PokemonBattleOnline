@@ -54,23 +54,14 @@ namespace PokemonBattleOnline.Network
     /// <summary>
     /// get is not thread safe
     /// </summary>
-    public static Client Current
-    {
-      get { return _current; }
-      internal set
-      {
-        lock (Locker)
-        {
-          _current = value;
-          UIDispatcher.Invoke(CurrentChanged);
-        }
-      }
-    }
+    public static ClientController Current
+    { get { return _current.Controller; } }
 
     private static void LoginSucceed(Client obj)
     {
       currentLogin = null;
-      Current = obj;
+      _current = obj;
+      UIDispatcher.Invoke(CurrentChanged);
     }
     private static void LoginFailed()
     {
@@ -94,6 +85,12 @@ namespace PokemonBattleOnline.Network
         }
         return false;
       }
+    }
+
+    public static void Exit()
+    {
+      Current.Exit();
+      _current = null;
     }
   }
 }

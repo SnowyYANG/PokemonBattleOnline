@@ -49,7 +49,7 @@ namespace PokemonBattleOnline.PBO
 
     static void RoomController_Entered()
     {
-      Current.Reset(PBOClient.Current.Controller.Room);
+      Current.Reset(PBOClient.Current.Room);
     }
 
     static void RoomController_TimeUp(IEnumerable<KeyValuePair<User, int>> spentTime)
@@ -87,7 +87,7 @@ namespace PokemonBattleOnline.PBO
 
     public static bool Window_Closing(Window mainWindow)
     {
-      if (PBOClient.Current != null && PBOClient.Current.Controller.User.Room != null)
+      if (PBOClient.Current != null && PBOClient.Current.User.Room != null)
       {
         ShowMessageBox.CantCloseMainWindow(mainWindow);
         return true;
