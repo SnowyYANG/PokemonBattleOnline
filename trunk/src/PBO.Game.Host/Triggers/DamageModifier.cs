@@ -13,14 +13,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var der = def.Defender;
       var atk = def.AtkContext;
       var move = atk.Move;
-      PokemonProxy aer = atk.Attacker;
+      var aer = atk.Attacker;
 
       //If the target's side is affected by Reflect, the move used was physical, the user's ability isn't Infiltrator and the critical hit flag isn't set. 
       //The value of the modificator is 0xA8F if there is more than one Pokemon per side of the field and 0x800 otherwise.
       //Same as above with Light Screen and special moves.
-      Modifier m = (Modifier)(
-        move.Category == MoveCategory.Physical && def.HasInfiltratableCondition("Reflect") ||
-        move.Category == MoveCategory.Special && def.HasInfiltratableCondition("LightScreen") ?
+      Modifier m = (Modifier)(!def.IsCt && (der.Pokemon.TeamId == aer.Pokemon.TeamId || aer.Ability != As.INFILTRATOR) &&
+        (move.Category == MoveCategory.Physical && der.Field.HasCondition("Reflect") || move.Category == MoveCategory.Special && der.Field.HasCondition("LightScreen")) ?
         atk.MultiTargets ? 0xA8F : 0x800 : 0x1000);
 
       {

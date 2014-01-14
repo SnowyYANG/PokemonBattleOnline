@@ -44,45 +44,81 @@ namespace PokemonBattleOnline.Game.Host
         );
     }
 
-    private static int[] CONTINUOUS_USE = new int[] { Ms.PROTECT, Ms.DETECT, Ms.ENDURE, Ms.QUICK_GUARD, Ms.WIDE_GUARD, Ms.CRAFTY_SHIELD, Ms.SPIKY_SHIELD, Ms.KINGS_SHIELD };
-    public static bool HardToUseContinuously(this MoveType move)
+    private static int[] MENTAL = new int[] { Ms.DISABLE, Ms.ATTRACT, Ms.ENCORE, Ms.TORMENT, Ms.TAUNT, Ms.HEAL_BLOCK };
+    public static bool Mental(this MoveType move)
     {
-      return CONTINUOUS_USE.Contains(move.Id);
+      return MENTAL.Contains(move.Id);
     }
-
-    private static int[] AROMA_VEILS = new int[] { Ms.DISABLE, Ms.ATTRACT, Ms.ENCORE, Ms.TORMENT, Ms.TAUNT };
-    public static bool AromaVeil(this MoveType move)
+    private static int[] TEETH = new int[] { Ms.BITE, Ms.CRUNCH, Ms.FIRE_FANG, Ms.HYPER_FANG, Ms.HYPER_FANG, Ms.ICE_FANG, Ms.POISON_FANG, Ms.THUNDER_FANG };
+    public static bool Teeth(this MoveType move)
     {
-      return AROMA_VEILS.Contains(move.Id);
+      return TEETH.Contains(move.Id);
     }
-
-    private static int[] STRONG_JAWS = new int[] { Ms.BITE, Ms.CRUNCH, Ms.FIRE_FANG, Ms.HYPER_FANG, Ms.HYPER_FANG, Ms.ICE_FANG, Ms.POISON_FANG, Ms.THUNDER_FANG };
-    public static bool StrongJaw(this MoveType move)
+    private static int[] BULLET = new int[] { Ms.ACID_SPRAY, Ms.AURA_SPHERE, Ms.BARRAGE, Ms.BULLET_SEED, Ms.EGG_BOMB, Ms.ELECTRO_BALL, Ms.ENERGY_BALL, Ms.FOCUS_BLAST, Ms.GYRO_BALL, Ms.ICE_BALL, Ms.MAGNET_BOMB, Ms.MIST_BALL, Ms.MUD_BOMB, Ms.OCTAZOOKA, Ms.ROCK_WRECKER, Ms.SEARING_SHOT, Ms.SEED_BOMB, Ms.SHADOW_BALL, Ms.SLUDGE_BOMB, Ms.WEATHER_BALL, Ms.ZAP_CANNON };
+    public static bool Bullet(this MoveType move)
     {
-      return STRONG_JAWS.Contains(move.Id);
+      return BULLET.Contains(move.Id);
     }
-    private static int[] BULLETPROOFS = new int[] { Ms.ACID_SPRAY, Ms.AURA_SPHERE, Ms.BARRAGE, Ms.BULLET_SEED, Ms.EGG_BOMB, Ms.ELECTRO_BALL, Ms.ENERGY_BALL, Ms.FOCUS_BLAST, Ms.GYRO_BALL, Ms.ICE_BALL, Ms.MAGNET_BOMB, Ms.OCTAZOOKA, Ms.SEED_BOMB, Ms.SHADOW_BALL, Ms.SLUDGE_BOMB, Ms.WEATHER_BALL };
-    public static bool Bulletproof(this MoveType move)
+    private static int[] PULSE = new int[] { Ms.AURA_SPHERE, Ms.DARK_PULSE, Ms.DRAGON_PULSE, Ms.WATER_PULSE };
+    /// <summary>
+    /// does not contains heal pulse
+    /// </summary>
+    /// <param name="move"></param>
+    /// <returns></returns>
+    public static bool Pulse(this MoveType move)
     {
-      return BULLETPROOFS.Contains(move.Id);
+      return PULSE.Contains(move.Id);
     }
-    private static int[] MEGA_LAUNCHER = new int[] { Ms.AURA_SPHERE, Ms.DARK_PULSE, Ms.DRAGON_PULSE, Ms.WATER_PULSE };
-    public static bool MegaLaucher(this MoveType move)
-    {
-      return MEGA_LAUNCHER.Contains(move.Id);
-    }
-
-    private static int[] POWDER = new int[] { Ms.POWDER, Ms.POWDER_SNOW, Ms.POISONPOWDER, Ms.RAGE_POWDER, Ms.SLEEP_POWDER };
+    private static readonly int[] POWDER = new int[] { Ms.COTTON_SPORE, Ms.POISON_POWDER, Ms.POWDER, Ms.RAGE_POWDER, Ms.SLEEP_POWDER, Ms.SPORE, Ms.STUN_SPORE };
     public static bool Powder(this MoveType move)
     {
       return POWDER.Contains(move.Id);
     }
-    private static int[] SPORE = new int[] { Ms.SPORE, Ms.COTTON_SPORE, Ms.STUN_SPORE };
     public static bool Spore(this MoveType move)
     {
-      return SPORE.Contains(move.Id);
+      return move.Id == Ms.SPORE || move.Id == Ms.COTTON_SPORE || move.Id == Ms.STUN_SPORE;
     }
-    private static int[] CT1 = new int[] { Ms.KARATE_CHOP, Ms.RAZOR_WIND, Ms.RAZOR_LEAF, Ms.SKY_ATTACK, Ms.CRABHAMMER, Ms.SLASH, Ms.AEROBLAST, Ms.CROSS_CHOP, Ms.BLAZE_KICK, Ms.AIR_CUTTER, Ms.POISON_TAIL, Ms.LEAF_BLADE, Ms.NIGHT_SLASH, Ms.SHADOW_CLAW, Ms.PSYCHO_CUT, Ms.CROSS_POISON, Ms.STONE_EDGE, Ms.ATTACK_ORDER, Ms.SPACIAL_REND, Ms.DRILL_RUN };
+    private static readonly int[] SOUND = new int[] { Ms.GROWL, Ms.ROAR, Ms.SING, Ms.SUPERSONIC, Ms.SCREECH, Ms.SNORE, Ms.PERISH_SONG, Ms.HEAL_BELL, Ms.UPROAR, Ms.HYPER_VOICE, Ms.METAL_SOUND, Ms.GRASS_WHISTLE, Ms.BUG_BUZZ, Ms.CHATTER, Ms.ROUND, Ms.ECHOED_VOICE, Ms.RELIC_SONG, Ms.SNARL, Ms.CONFIDE };
+    public static bool Sound(this MoveType move)
+    {
+      return SOUND.Contains(move.Id);
+    }
+    private static readonly int[] FIST = new int[] { Ms.BULLET_PUNCH, Ms.COMET_PUNCH, Ms.DIZZY_PUNCH, Ms.DRAIN_PUNCH, Ms.DYNAMIC_PUNCH, Ms.FIRE_PUNCH, Ms.FOCUS_PUNCH, Ms.HAMMER_ARM, Ms.ICE_PUNCH, Ms.MACH_PUNCH, Ms.MEGA_PUNCH, Ms.METEOR_MASH, Ms.POWERUP_PUNCH, Ms.SHADOW_PUNCH, Ms.SKY_UPPERCUT, Ms.THUNDER_PUNCH };
+    public static bool Fist(this MoveType move)
+    {
+      return FIST.Contains(move.Id);
+    }
+    private static readonly int[] HEAL = new int[] { Ms.RECOVER, Ms.SOFTBOILED, Ms.REST, Ms.MILK_DRINK, Ms.MORNING_SUN, Ms.SYNTHESIS, Ms.MOONLIGHT, Ms.SWALLOW, Ms.WISH, Ms.SLACK_OFF, Ms.ROOST, Ms.HEALING_WISH, Ms.HEAL_ORDER, Ms.LUNAR_DANCE, Ms.HEAL_PULSE };
+    public static bool Heal(this MoveType move)
+    {
+      return HEAL.Contains(move.Id);
+    }
+
+    private static readonly int[] NOGRAVITY = new int[] { Ms.FLY, Ms.JUMP_KICK, Ms.HIGH_JUMP_KICK, Ms.SPLASH, Ms.BOUNCE, Ms.MAGNET_RISE, Ms.TELEKINESIS, Ms.SKY_DROP };
+    public static bool UnavailableWithGravity(this MoveType move)
+    {
+      return NOGRAVITY.Contains(move.Id);
+    }
+    public static bool SelfDeFrozen(this MoveType move)
+    {
+      return move.Id == Ms.FLAME_WHEEL || move.Id == Ms.SACRED_FIRE || move.Id == Ms.FLARE_BLITZ || move.Id == Ms.SCALD || move.Id == Ms.FUSION_FLARE;
+    }
+    private static readonly int[] STIFF = new int[] { Ms.HYPER_BEAM, Ms.BLAST_BURN, Ms.HYDRO_CANNON, Ms.FRENZY_PLANT, Ms.GIGA_IMPACT, Ms.ROCK_WRECKER, Ms.ROAR_OF_TIME };
+    public static bool StiffOneTurn(this MoveType move)
+    {
+      return STIFF.Contains(move.Id);
+    }
+    private static readonly int[] PREPARE = new int[] { Ms.RAZOR_WIND, Ms.FLY, Ms.SOLAR_BEAM, Ms.DIG, Ms.SKULL_BASH, Ms.SKY_ATTACK, Ms.DIVE, Ms.BOUNCE, Ms.SHADOW_FORCE, Ms.SKY_DROP, Ms.FREEZE_SHOCK, Ms.ICE_BURN, Ms.PHANTOM_FORCE, Ms.GEOMANCY };
+    public static bool PrepareOntTurn(this MoveType move)
+    {
+      return PREPARE.Contains(move.Id);
+    }
+    private static int[] CONTINUOUS_USE = new int[] { Ms.PROTECT, Ms.DETECT, Ms.ENDURE, Ms.CRAFTY_SHIELD, Ms.SPIKY_SHIELD, Ms.KINGS_SHIELD };
+    public static bool HardToUseContinuously(this MoveType move)
+    {
+      return CONTINUOUS_USE.Contains(move.Id);
+    }
+    private static readonly int[] CT1 = new int[] { Ms.KARATE_CHOP, Ms.RAZOR_WIND, Ms.RAZOR_LEAF, Ms.SKY_ATTACK, Ms.CRABHAMMER, Ms.SLASH, Ms.AEROBLAST, Ms.CROSS_CHOP, Ms.BLAZE_KICK, Ms.AIR_CUTTER, Ms.POISON_TAIL, Ms.LEAF_BLADE, Ms.NIGHT_SLASH, Ms.SHADOW_CLAW, Ms.PSYCHO_CUT, Ms.CROSS_POISON, Ms.STONE_EDGE, Ms.ATTACK_ORDER, Ms.SPACIAL_REND, Ms.DRILL_RUN };
     public static bool Ct1(this MoveType move)
     {
       return CT1.Contains(move.Id);
@@ -90,6 +126,10 @@ namespace PokemonBattleOnline.Game.Host
     public static bool MustCt(this MoveType move)
     {
       return move.Id == Ms.STORM_THROW || move.Id == Ms.FROST_BREATH;
+    }
+    public static bool IgnoreSubstitute(this MoveType move)
+    {
+      return move.Flags.IgnoreSubstitute || Sound(move);
     }
 
     public static int FlingPower(int item)

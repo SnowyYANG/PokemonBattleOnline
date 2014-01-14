@@ -10,9 +10,6 @@ namespace PokemonBattleOnline.Game
   public class MoveFlags
   {
     [DataMember(EmitDefaultValue = false)]
-    public bool IsFist { get; private set; }
-
-    [DataMember(EmitDefaultValue = false)]
     public bool Mirrorable { get; private set; }
 
     [DataMember(EmitDefaultValue = false)]
@@ -23,14 +20,6 @@ namespace PokemonBattleOnline.Game
 
     [DataMember(EmitDefaultValue = false)]
     public bool Protectable
-#if EDITING
-;
-#else
-    { get; private set; }
-#endif
-
-    [DataMember(EmitDefaultValue = false)]
-    public bool StiffOneTurn
 #if EDITING
 ;
 #else
@@ -62,18 +51,6 @@ namespace PokemonBattleOnline.Game
 #endif
 
     [DataMember(EmitDefaultValue = false)]
-    public bool IsHeal { get; private set; }
-
-    [DataMember(EmitDefaultValue = false)]
     public bool IsRemote { get; private set; }
-
-    [DataMember(EmitDefaultValue = false)]
-    public bool AvailableEvenFrozen { get; private set; }
-
-    [DataMember(EmitDefaultValue = false)]
-    public bool UnavailableWithGravity { get; private set; }
-
-    [DataMember(EmitDefaultValue = false)]
-    public bool IsSound { get; private set; }
   }
 }

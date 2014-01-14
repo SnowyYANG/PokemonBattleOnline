@@ -6,12 +6,12 @@ using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Game
 {
-  public class LvLearnList
+  public class LvLearnset
   {
     private readonly KeyValuePair<int, int>[][] Lvs;
     private readonly Dictionary<int, KeyValuePair<int, int>[]> Forms;
 
-    public LvLearnList()
+    public LvLearnset()
     {
       Lvs = new KeyValuePair<int, int>[RomData.Pokemons.Count()][]; //怎么想都是件不可思议的事..
       Forms = new Dictionary<int, KeyValuePair<int, int>[]>();
@@ -27,11 +27,11 @@ namespace PokemonBattleOnline.Game
       return form == 0 ? Lvs.ValueOrDefault(number - 1) : Forms.ValueOrDefault(number * 100 + form);
     }
   }
-  public class EggLearnList
+  public class EggLearnset
   {
     private readonly Dictionary<int, int[]> Eggs;
 
-    public EggLearnList()
+    public EggLearnset()
     {
       Eggs = new Dictionary<int, int[]>();
     }
@@ -45,12 +45,12 @@ namespace PokemonBattleOnline.Game
       return Eggs.ValueOrDefault(number) ?? Enumerable.Empty<int>();
     }
   }
-  public class TMHMTutorLearnList
+  public class TMHMTutorLearnset
   {
     private int[][] Raw;
     private readonly Dictionary<int, int[]> Forms;
 
-    public TMHMTutorLearnList()
+    public TMHMTutorLearnset()
     {
       Raw = new int[RomData.Pokemons.Count()][];
       Forms = new Dictionary<int, int[]>();
@@ -66,11 +66,11 @@ namespace PokemonBattleOnline.Game
       return (form == 0 ? Raw.ValueOrDefault(number - 1) : Forms.ValueOrDefault(number * 100 + form)) ?? Enumerable.Empty<int>();
     }
   }
-  public class SPLearnList
+  public class SPLearnset
   {
     private readonly Dictionary<int, int[]> SPs;
 
-    public SPLearnList()
+    public SPLearnset()
     {
       SPs = new Dictionary<int, int[]>();
     }

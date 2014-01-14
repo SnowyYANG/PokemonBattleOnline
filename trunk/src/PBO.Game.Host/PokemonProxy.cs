@@ -196,17 +196,17 @@ namespace PokemonBattleOnline.Game.Host
       switch (state)
       {
         case AttachedState.BRN:
-          if (State == PokemonState.BRN) goto BEENSTATE;
-          if (OnboardPokemon.HasType(BattleType.Fire)) goto NOEFFECT;
+          if (State == PokemonState.BRN) goto FAIL_BEENSTATE;
+          if (OnboardPokemon.HasType(BattleType.Fire)) goto FAIL_NOEFFECT;
           goto STATE;
         case AttachedState.FRZ:
           if (Controller.Weather == Weather.IntenseSunlight) goto FAIL;//战报顺序未测
-          if (State == PokemonState.FRZ) goto BEENSTATE;
-          if (OnboardPokemon.HasType(BattleType.Ice)) goto NOEFFECT;
+          if (State == PokemonState.FRZ) goto FAIL_BEENSTATE;
+          if (OnboardPokemon.HasType(BattleType.Ice)) goto FAIL_NOEFFECT;
           goto STATE;
         case AttachedState.PAR:
-          if (State == PokemonState.PAR) goto BEENSTATE;
-          if (OnboardPokemon.HasType(BattleType.Electric)) goto NOEFFECT;
+          if (State == PokemonState.PAR) goto FAIL_BEENSTATE;
+          if (OnboardPokemon.HasType(BattleType.Electric)) goto FAIL_NOEFFECT;
           goto STATE;
         case AttachedState.PSN:
           if (State == PokemonState.PSN || State == PokemonState.BadlyPSN)
@@ -214,7 +214,7 @@ namespace PokemonBattleOnline.Game.Host
             if (showFail) ShowLogPm("BeenPSN");
             return false;
           }
-          if (OnboardPokemon.HasType(BattleType.Poison) || OnboardPokemon.HasType(BattleType.Steel)) goto NOEFFECT;
+          if (OnboardPokemon.HasType(BattleType.Poison) || OnboardPokemon.HasType(BattleType.Steel)) goto FAIL_NOEFFECT;
           goto STATE;
         case AttachedState.SLP:
           if (ability != As.SOUNDPROOF)
@@ -226,20 +226,19 @@ namespace PokemonBattleOnline.Game.Host
                   else ShowLogPm("UproarCantSLP");
                 return false;
               }
-          if (State == PokemonState.SLP) goto BEENSTATE;
+          if (State == PokemonState.SLP) goto FAIL_BEENSTATE;
           goto STATE;
         case AttachedState.Confuse:
-          if (OnboardPokemon.HasCondition("Confuse")) goto BEENSTATE;
-          if (Field.HasCondition("Safeguard") && this != by && by.Ability == As.INFILTRATOR) goto SAFEGUARD;
-          goto GENERIC;
+          if (OnboardPokemon.HasCondition("Confuse")) goto FAIL_BEENSTATE;
+          goto SAFEGUARD;
         case AttachedState.Attract:
           if (OnboardPokemon.Gender == PokemonGender.None || by.OnboardPokemon.Gender == PokemonGender.None || OnboardPokemon.Gender == by.OnboardPokemon.Gender) goto NOEFFECT;
           goto CONDITION;
         case AttachedState.LeechSeed:
-          if (OnboardPokemon.HasType(BattleType.Grass)) goto NOEFFECT;
+          if (OnboardPokemon.HasType(BattleType.Grass)) goto FAIL_NOEFFECT;
           goto CONDITION;
         case AttachedState.Embargo:
-          if (OnboardPokemon.Ability == As.MULTITYPE) goto NOEFFECT;
+          if (OnboardPokemon.Ability == As.MULTITYPE) goto FAIL_NOEFFECT;
           goto CONDITION;
         case AttachedState.PerishSong:
           return !OnboardPokemon.HasCondition("PerishSong"); //无需判断防音 never show fail
@@ -252,21 +251,23 @@ namespace PokemonBattleOnline.Game.Host
     FAIL:
       if (showFail) Controller.ReportBuilder.ShowLog(fail);
       return false;
-    NOEFFECT:
+    FAIL_NOEFFECT:
       if (showFail) ShowLogPm("NoEffect");
       return false;
-    BEENSTATE:
+    FAIL_BEENSTATE:
       if (showFail) ShowLogPm("Been" + state);
       return false;
-    SAFEGUARD:
-      if (showFail) ShowLogPm("Safeguard");
-      return false;
-    STATE:
-      if (State != PokemonState.Normal) goto FAIL;
-      if (Field.HasCondition("Safeguard") && this != by && by.Ability != As.INFILTRATOR) goto SAFEGUARD;
-      goto GENERIC;
     CONDITION:
       if (OnboardPokemon.HasCondition(state.ToString())) goto FAIL;
+      goto GENERIC;
+    STATE:
+      if (State != PokemonState.Normal) goto FAIL;
+    SAFEGUARD:
+      if (Field.HasCondition("Safeguard") && this != by && by.Ability != As.INFILTRATOR)
+      {
+        if (showFail) ShowLogPm("Safeguard");
+        return false;
+      }
     GENERIC:
       return Triggers.CanAddState.Execute(this, by, state, showFail) && Rules.CanAddState(this, state, by, showFail);
     }

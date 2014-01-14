@@ -170,7 +170,7 @@ namespace PokemonBattleOnline.Game.Host
     
     private int Get5D(StatType type)
     {
-      return StatHelper.Get5D(type, Pokemon.Nature, Form.Data.Base.GetStat(type), Pokemon.Iv.GetStat(type), Pokemon.Ev.GetStat(type), Pokemon.Lv);
+      return GameHelper.Get5D(type, Pokemon.Nature, Form.Data.Base.GetStat(type), Pokemon.Iv.GetStat(type), Pokemon.Ev.GetStat(type), Pokemon.Lv);
     }
     public void ChangeForm(PokemonForm form)
     {

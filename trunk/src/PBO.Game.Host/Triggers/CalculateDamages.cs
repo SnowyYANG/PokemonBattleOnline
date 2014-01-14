@@ -40,7 +40,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.METAL_BURST:
           Counter(atk, "Damage", 0x1800);
           break;
-        case Ms.SONICBOOM: //49
+        case Ms.SONIC_BOOM: //49
           def.Damage = 20;
           break;
         case Ms.DRAGON_RAGE: //82

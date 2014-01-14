@@ -262,7 +262,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.ACUPRESSURE: //367
           {
             var ss = new List<StatType>();
-            foreach (var s in StatHelper.SEVEN_D)
+            foreach (var s in GameHelper.SEVEN_D)
               if (atk.Target.Defender.CanChangeLv7D(aer, s, 2, false) != 0) ss.Add(s);
             if (ss.Count == 0) atk.FailAll();
             else atk.Target.Defender.ChangeLv7D(aer, ss[aer.Controller.GetRandomInt(0, ss.Count - 1)], 2, true);
@@ -530,7 +530,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       else
       {
         bool nonSub = false;
-        if (!(move.Flags.IgnoreSubstitute || aer.Ability == As.INFILTRATOR))
+        if (!(move.IgnoreSubstitute() || aer.Ability == As.INFILTRATOR))
           foreach (DefContext d in defs) nonSub |= !SubstituteTriggers.Hurt(d);
         if (!nonSub)
         {

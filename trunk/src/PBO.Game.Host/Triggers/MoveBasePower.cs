@@ -120,7 +120,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.FRUSTRATION:
           def.BasePower = (255 - aer.Pokemon.Happiness) * 4 / 10;
           break;
-        case Ms.SMELLINGSALT: //265
+        case Ms.SMELLING_SALTS: //265
           DeAbnormalState(def, PokemonState.PAR);
           break;
         case Ms.WAKEUP_SLAP: //358

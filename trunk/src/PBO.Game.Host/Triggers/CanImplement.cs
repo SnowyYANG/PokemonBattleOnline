@@ -60,7 +60,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (!NoEffectWithLv7DUp(def, BattleType.Grass, StatType.Atk)) return false;
           break;
         case As.SOUNDPROOF: //43
-          if (move.Flags.IsSound)
+          if (move.Sound())
           {
             der.RaiseAbility();
             der.ShowLogPm("NoEffect");
@@ -85,7 +85,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
           break;
         case As.BULLETPROOF:
-          if (move.Bulletproof())
+          if (move.Bullet())
           {
             der.RaiseAbility();
             der.ShowLogPm("NoEffect");
@@ -101,7 +101,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
           break;
       }
-      if (move.AromaVeil())
+      if (move.Mental())
         foreach(var p in der.Field.Pokemons)
           if (p.RaiseAbility(As.AROMA_VEIL))
           {

@@ -181,13 +181,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     public static bool CanExecuteMove(PokemonProxy pm, MoveType move)
     {
       //重力
-      if (move.Flags.UnavailableWithGravity && pm.Controller.Board.HasCondition("Gravity"))
+      if (move.UnavailableWithGravity() && pm.Controller.Board.HasCondition("Gravity"))
       {
         pm.ShowLogPm("GravityCantUseMove", move.Id);
         return false;
       }
       //回复封印
-      if (move.Flags.IsHeal && pm.OnboardPokemon.HasCondition("HealBlock"))
+      if (move.Heal() && pm.OnboardPokemon.HasCondition("HealBlock"))
       {
         pm.ShowLogPm("HealBlockCantUseMove", move.Id);
         return false;

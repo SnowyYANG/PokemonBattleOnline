@@ -79,12 +79,12 @@
     <Compile Include="Client\SimPokemon.cs" />
     <Compile Include="Client\Position.cs" />
     <Compile Include="Client\SimOnboardPokemon.cs" />
-    <Compile Include="Data\IDs.cs" />
+    <Compile Include="Data\Rom\IDs.cs" />
     <Compile Include="Data\Rom\BattleType.cs" />
-    <Compile Include="Data\Rom\LearnList\GameLearnList.cs" />
+    <Compile Include="Data\Rom\Learnset\GameLearnset.cs" />
     <Compile Include="Data\Rom\Pokemon\GiftPokemon.cs" />
-    <Compile Include="Data\Rom\LearnList\LearnList.cs" />
-    <Compile Include="Data\Rom\LearnList\SPLearnList.cs" />
+    <Compile Include="Data\Rom\Learnset\Learnset.cs" />
+    <Compile Include="Data\Rom\Learnset\SPLearnsets.cs" />
     <Compile Include="Data\Rom\Move\MoveCategory.cs" />
     <Compile Include="Data\Rom\Move\MoveInnerClass.cs" />
     <Compile Include="Data\Rom\Move\MoveLv7DChange.cs" />
@@ -98,14 +98,14 @@
     <Compile Include="Data\Rom\Pokemon\PokemonNature.cs" />
     <Compile Include="Data\Rom\Pokemon\PokemonSpecies.cs" />
     <Compile Include="Data\Rom\RomData.cs" />
-    <Compile Include="Data\UserData\Helper.cs" />
-    <Compile Include="Data\UserData\PokemonTeam.cs" />
-    <Compile Include="Data\UserData\PokemonData.cs" />
-    <Compile Include="Data\UserData\TeamHelper.cs" />
-    <Compile Include="Data\Utilities\IPokemonData.cs" />
-    <Compile Include="Data\Utilities\PokemonStatHelper.cs" />
-    <Compile Include="Data\Utilities\PokemonValidator.cs" />
-    <Compile Include="Data\Utilities\StatType.cs" />
+    <Compile Include="Data\Save\Xxporter.cs" />
+    <Compile Include="Data\Save\PokemonTeam.cs" />
+    <Compile Include="Data\Save\PokemonData.cs" />
+    <Compile Include="Data\Save\PO.cs" />
+    <Compile Include="Data\Rom\IPokemonData.cs" />
+    <Compile Include="Data\Rom\GameHelper.cs" />
+    <Compile Include="Data\Rom\PokemonValidator.cs" />
+    <Compile Include="Data\Rom\StatType.cs" />
     <Compile Include="IGameSettings.cs" />
     <Compile Include="Interactive\GameEvents\Mimic.cs" />
     <Compile Include="Interactive\GameEvents\SetItem.cs" />
@@ -119,7 +119,7 @@
     <Compile Include="Interactive\GameEvents\SetProperties.cs" />
     <Compile Include="Interactive\GameEvents\ShowLog.cs" />
     <Compile Include="Interactive\GameEvents\Switch.cs" />
-    <Compile Include="Data\LogStyle.cs" />
+    <Compile Include="Data\Rom\LogStyle.cs" />
     <Compile Include="Interactive\ReportFragment.cs" />
     <Compile Include="Client\SimGame.cs" />
     <Compile Include="Interactive\ActionInput.cs" />
@@ -135,12 +135,12 @@
     <Compile Include="Client\PokemonOutward.cs" />
     <Compile Include="Models\Weather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Data\GameString.cs" />
-    <Compile Include="Data\Rom\LearnList\GenLearnList.cs" />
+    <Compile Include="Data\Rom\GameString.cs" />
+    <Compile Include="Data\Rom\Learnset\GenLearnset.cs" />
     <Compile Include="Data\Rom\Move\MoveAttachment.cs" />
     <Compile Include="Data\Rom\Pokemon\Evolution.cs" />
-    <Compile Include="Data\UserData\UserData.cs" />
-    <Compile Include="Data\Utilities\6D.cs" />
+    <Compile Include="Data\Save\UserData.cs" />
+    <Compile Include="Data\Rom\6D.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PokemonBattleOnline\PokemonBattleOnline.csproj">
@@ -148,6 +148,9 @@
       <Name>PokemonBattleOnline</Name>
       <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\Utilities\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

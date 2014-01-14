@@ -58,13 +58,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             }
             break;
           case As.IRON_FIST:
-            if (move.Flags.IsFist) m *= 0x1333;
+            if (move.Fist()) m *= 0x1333;
             break;
           case As.TECHNICIAN:
             if (def.BasePower <= 60) m *= 0x1800;
             break;
           case As.RECKLESS:
-            if (move.HurtPercentage < 0 || move.Id == Ms.JUMP_KICK || move.Id == Ms.HI_JUMP_KICK) m *= 0x1333;
+            if (move.HurtPercentage < 0 || move.Id == Ms.JUMP_KICK || move.Id == Ms.HIGH_JUMP_KICK) m *= 0x1333;
             break;
           case As.TOXIC_BOOST:
             if ((aer.State == PokemonState.PSN || aer.State == PokemonState.BadlyPSN) && move.Category == MoveCategory.Physical) m *= 0x1800;
@@ -85,13 +85,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             if ((type == BattleType.Rock || type == BattleType.Ground || type == BattleType.Steel) && aer.Controller.Weather == Weather.Sandstorm) m *= 0x14cd;
             break;
           case As.STRONG_JAW:
-            if (move.StrongJaw()) m *= 0x1800;
+            if (move.Teeth()) m *= 0x1800;
             break;
           case As.TOUGH_CLAWS:
             if (move.Flags.NeedTouch) m *= 0x14cd;
             break;
           case As.MEGA_LAUNCHER:
-            if (move.MegaLaucher()) m *= 0x1800;
+            if (move.Pulse()) m *= 0x1800;
             break;
         }
 
@@ -242,7 +242,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       //If move was called using Me First.
       if (atk.HasCondition("MeFirst")) m *= 0x1800;
       //If move is SolarBeam in non-sunny, non-default weather.
-      if (def.AtkContext.Move.Id == Ms.SOLARBEAM)
+      if (def.AtkContext.Move.Id == Ms.SOLAR_BEAM)
       {
         Weather w = def.Defender.Controller.Weather;
         if (w != Weather.IntenseSunlight && w != Weather.Normal) m *= 0x800;

@@ -53,7 +53,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
               switch (move)
               {
                 case Ms.JUMP_KICK:
-                case Ms.HI_JUMP_KICK:
+                case Ms.HIGH_JUMP_KICK:
                   aer.EffectHurtByOneNth(2, "m_FailSelfHurt");
                   break;
                 case Ms.SELFDESTRUCT:
@@ -234,7 +234,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         aer.ShowLogPm("Prepare" + m.ToString());
         if (m == Ms.SKULL_BASH) aer.ChangeLv7D(atk.Attacker, StatType.Def, 1, false);
         atk.SetAttackerAction(PokemonAction.Moving);
-        return !(m == Ms.SOLARBEAM && aer.Controller.Weather == Weather.IntenseSunlight || ITs.PowerHerb(aer));
+        return !(m == Ms.SOLAR_BEAM && aer.Controller.Weather == Weather.IntenseSunlight || ITs.PowerHerb(aer));
       }
       return false;
     }

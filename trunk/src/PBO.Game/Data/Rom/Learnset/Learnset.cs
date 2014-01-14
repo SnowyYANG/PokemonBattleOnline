@@ -8,23 +8,23 @@ namespace PokemonBattleOnline.Game
 {
   public static class LearnList
   {
-    public static readonly GenLearnList[] Index;
-    public static readonly SPLearnList SP;
+    public static readonly GenLearnset[] Index;
+    public static readonly SPLearnset SP;
 
     static LearnList()
     {
-      Index = new GenLearnList[PBOMarks.GEN - 2];
-      SP = new SPLearnList();
+      Index = new GenLearnset[PBOMarks.GEN - 2];
+      SP = new SPLearnset();
     }
 
     public static void Load(ZipData zip, string path)
     {
       using (var index = new StreamReader(zip.GetStream(path + "/index.txt")))
       {
-        var gll = new GenLearnList(3);
-        var lvs = new Dictionary<string, LvLearnList>();
-        var tmhmts = new Dictionary<string, TMHMTutorLearnList>();
-        var eggs = new Dictionary<string, EggLearnList>();
+        var gll = new GenLearnset(3);
+        var lvs = new Dictionary<string, LvLearnset>();
+        var tmhmts = new Dictionary<string, TMHMTutorLearnset>();
+        var eggs = new Dictionary<string, EggLearnset>();
         for (string line = index.ReadLine(); !string.IsNullOrWhiteSpace(line); line = index.ReadLine())
         {
           var s = Split(line);
@@ -32,11 +32,11 @@ namespace PokemonBattleOnline.Game
           if (gen != gll.Gen)
           {
             Index[gll.Gen - 3] = gll;
-            gll = new GenLearnList(gen);
+            gll = new GenLearnset(gen);
           }
-          LvLearnList lv = null;
-          EggLearnList egg = null;
-          TMHMTutorLearnList tm = null, hm = null, tutor = null;
+          LvLearnset lv = null;
+          EggLearnset egg = null;
+          TMHMTutorLearnset tm = null, hm = null, tutor = null;
           for (int i = 2; i < s.Length; ++i)
           {
             var table = s[i];
@@ -47,7 +47,7 @@ namespace PokemonBattleOnline.Game
                   lv = lvs.ValueOrDefault(table);
                   if (lv == null)
                   {
-                    lv = new LvLearnList();
+                    lv = new LvLearnset();
                     LoadLevel(GetStream(zip, path, table), lv);
                     lvs.Add(table, lv);
                   }
@@ -58,7 +58,7 @@ namespace PokemonBattleOnline.Game
                   egg = eggs.ValueOrDefault(table);
                   if (egg == null)
                   {
-                    egg = new EggLearnList();
+                    egg = new EggLearnset();
                     LoadEgg(GetStream(zip, path, table), egg);
                     eggs.Add(table, egg);
                   }
@@ -72,8 +72,8 @@ namespace PokemonBattleOnline.Game
                   tm = tmhmts.ValueOrDefault(tmk);
                   if (tm == null)
                   {
-                    tm = new TMHMTutorLearnList();
-                    if (needHM) hm = new TMHMTutorLearnList();
+                    tm = new TMHMTutorLearnset();
+                    if (needHM) hm = new TMHMTutorLearnset();
                     LoadTMHM(GetStream(zip, path, table), tm, hm);
                     tmhmts.Add(tmk, tm);
                     if (needHM) tmhmts.Add("HM_" + g, hm);
@@ -86,7 +86,7 @@ namespace PokemonBattleOnline.Game
                   tutor = tmhmts.ValueOrDefault(table);
                   if (tutor == null)
                   {
-                    tutor = new TMHMTutorLearnList();
+                    tutor = new TMHMTutorLearnset();
                     LoadTutor(GetStream(zip, path, table), tutor);
                     tmhmts.Add(table, tutor);
                   }
@@ -121,7 +121,7 @@ namespace PokemonBattleOnline.Game
     {
       return zip.GetStream(path + "/" + table + ".txt");
     }
-    private static void LoadLevel(Stream stream, LvLearnList lv)
+    private static void LoadLevel(Stream stream, LvLearnset lv)
     {
       var mls = new List<KeyValuePair<int, int>>();
       using (var sr = new StreamReader(stream))
@@ -142,7 +142,7 @@ namespace PokemonBattleOnline.Game
           }
         }
     }
-    private static void LoadEgg(Stream stream, EggLearnList egg)
+    private static void LoadEgg(Stream stream, EggLearnset egg)
     {
       var moves = new List<int>();
       using (var sr = new StreamReader(stream))
@@ -158,7 +158,7 @@ namespace PokemonBattleOnline.Game
           }
         }
     }
-    private static void LoadTMHM(Stream stream, TMHMTutorLearnList tm, TMHMTutorLearnList hm)
+    private static void LoadTMHM(Stream stream, TMHMTutorLearnset tm, TMHMTutorLearnset hm)
     {
       var tmmoves = new List<int>();
       var hmmoves = hm == null ? null : new List<int>();
@@ -192,7 +192,7 @@ namespace PokemonBattleOnline.Game
           }
         }
     }
-    private static void LoadTutor(Stream stream, TMHMTutorLearnList tutor)
+    private static void LoadTutor(Stream stream, TMHMTutorLearnset tutor)
     {
       var moves = new List<int>();
       using (var sr = new StreamReader(stream))

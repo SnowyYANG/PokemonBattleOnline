@@ -34,7 +34,7 @@ namespace PokemonBattleOnline.Game
       Item = custom.Item;
       iv = new ReadOnly6D(custom.Iv);
       ev = new ReadOnly6D(custom.Ev);
-      _hp = new PairValue(StatHelper.GetHp(custom.Form.Data.Base.Hp, (byte)iv.Hp, (byte)ev.Hp, (byte)Lv));
+      _hp = new PairValue(GameHelper.GetHp(custom.Form.Data.Base.Hp, (byte)iv.Hp, (byte)ev.Hp, (byte)Lv));
 
       Form = custom.Form;
       originForm = Form;
@@ -102,7 +102,7 @@ namespace PokemonBattleOnline.Game
     { get { return Owner.GetPokemonIndex(Id); } }
     private int Get5D(StatType type)
     {
-      return StatHelper.Get5D(type, nature, Form.Data.Base.GetStat(type), (byte)iv.GetStat(type), (byte)ev.GetStat(type), (byte)Lv);
+      return GameHelper.Get5D(type, nature, Form.Data.Base.GetStat(type), (byte)iv.GetStat(type), (byte)ev.GetStat(type), (byte)Lv);
     }
     public void SetHp(int value)
     {

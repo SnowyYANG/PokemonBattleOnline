@@ -331,35 +331,13 @@ namespace PokemonBattleOnline.Game
         case StatType.Speed:
           Speed = value;
           break;
-        case StatType.All:
-          Hp = Atk = Def = SpAtk = SpDef = Speed = value;
-          break;
       }
     }
 
-    public void SetByIndex(int index, int value)
+    public void SetAll(int value)
     {
-      switch (index)
-      {
-        case 0:
-          Hp = value;
-          break;
-        case 1:
-          Atk = value;
-          break;
-        case 2:
-          Def = value;
-          break;
-        case 3:
-          SpAtk = value;
-          break;
-        case 4:
-          SpDef = value;
-          break;
-        case 5:
-          Speed = value;
-          break;
-      }
+      _hp = _atk = _def = _spAtk = _spDef = _speed = value;
+      OnPropertyChanged();
     }
   }
 }

@@ -77,9 +77,9 @@ namespace PokemonBattleOnline.Game.Host
           if (o != null && o.Move == Type) return new SelectMoveFail("Disable", Type.Id);
         }
         //重力
-        if (Type.Flags.UnavailableWithGravity && Owner.Controller.Board.HasCondition("Gravity")) return new SelectMoveFail("GravityCantUseMove", Type.Id);
+        if (Type.UnavailableWithGravity() && Owner.Controller.Board.HasCondition("Gravity")) return new SelectMoveFail("GravityCantUseMove", Type.Id);
         //回复封印
-        if (Type.Flags.IsHeal && op.HasCondition("HealBlock")) return new SelectMoveFail("HealBlockCantUseMove", Type.Id);
+        if (Type.Heal() && op.HasCondition("HealBlock")) return new SelectMoveFail("HealBlockCantUseMove", Type.Id);
         //挑拨
         if (Type.Category == MoveCategory.Status && op.HasCondition("Taunt")) return new SelectMoveFail("Taunt", Type.Id);
         //突击背心

@@ -305,7 +305,7 @@ namespace PokemonBattleOnline.Game.Host
           if (def.Defender != atk.Attacker && (mc && STs.MagicCoat(atk, def.Defender) || ab && !CanImplement.Execute(def))) targets.Remove(def);
       }
       #endregion
-      if (move.Category == MoveCategory.Status && !(move.Flags.IgnoreSubstitute || aer.Ability == As.INFILTRATOR))
+      if (move.Category == MoveCategory.Status && !(move.IgnoreSubstitute() || aer.Ability == As.INFILTRATOR))
         foreach (DefContext d in targets.ToArray())
           if (d.Defender != aer && d.Defender.OnboardPokemon.HasCondition("Substitute"))
           {
@@ -389,7 +389,7 @@ namespace PokemonBattleOnline.Game.Host
 
       MagicCoat(atk);
 
-      atk.SetAttackerAction(atk.Move.Flags.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done);
+      atk.SetAttackerAction(atk.Move.StiffOneTurn() ? PokemonAction.Stiff : PokemonAction.Done);
       if (atk.Targets != null)
         foreach (var d in atk.Targets)
         {

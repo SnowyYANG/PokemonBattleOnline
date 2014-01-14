@@ -31,19 +31,19 @@ namespace PokemonBattleOnline.Game
     public static PokemonTeam ImportTeam(string source)
     {
       var pms = new PokemonData[6];
-      Helper.Import(source, pms);
+      Xxporter.Import(source, pms);
       return new PokemonTeam(pms);
     }
     public static PokemonData ImportPokemon(string source)
     {
       var target = new PokemonData[1];
-      Helper.Import(source, target);
+      Xxporter.Import(source, target);
       return target[0];
     }
     public static string Export(PokemonData pm)
     {
       var sb = new StringBuilder();
-      Helper.Export(sb, pm);
+      Xxporter.Export(sb, pm);
       return sb.ToString();
     }
     public static string Export(IEnumerable<PokemonData> pms)
@@ -58,7 +58,7 @@ namespace PokemonBattleOnline.Game
           sb.AppendLine();
           sb.AppendLine();
         }
-        Helper.Export(sb, pm);
+        Xxporter.Export(sb, pm);
       }
       return sb.ToString();
     }

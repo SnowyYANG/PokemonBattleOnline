@@ -51,7 +51,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       if (p.State == PokemonState.FRZ)
       {
-        if (p.SelectedMove.Type.Flags.AvailableEvenFrozen) p.DeAbnormalState("DeFRZ2", p.SelectedMove.Type.Id);
+        if (p.SelectedMove.Type.SelfDeFrozen()) p.DeAbnormalState("DeFRZ2", p.SelectedMove.Type.Id);
         else if (p.Controller.GetRandomInt(0, 3) == 0) p.DeAbnormalState();
         else
         {
@@ -100,7 +100,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static bool HealBlock(PokemonProxy pm)
     {
-      if (pm.SelectedMove.Move.Type.Flags.IsHeal && pm.OnboardPokemon.HasCondition("HealBlock"))
+      if (pm.SelectedMove.Move.Type.Heal() && pm.OnboardPokemon.HasCondition("HealBlock"))
       {
         pm.ShowLogPm("HealBlockCantUseMove", pm.SelectedMove.Move.Type.Id);
         return false;
@@ -155,7 +155,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static bool Gravity(PokemonProxy p)
     {
-      if (p.SelectedMove.Type.Flags.UnavailableWithGravity && p.Controller.Board.HasCondition("Gravity"))
+      if (p.SelectedMove.Type.UnavailableWithGravity() && p.Controller.Board.HasCondition("Gravity"))
       {
         p.ShowLogPm("GravityCantUseMove", p.SelectedMove.Type.Id);
         return false;

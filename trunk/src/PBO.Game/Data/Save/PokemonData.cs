@@ -86,10 +86,10 @@ namespace PokemonBattleOnline.Game
           {
             _moves.Clear();
             _gender = value.Species.Genders.First();
-            _ev.SetStat(StatType.All, 0);
+            _ev.SetAll(0);
             _lv = 0;
             _nature = default(PokemonNature);
-            Iv.SetStat(StatType.All, 31);
+            Iv.SetAll(31);
             _happiness = 0;
             _item = 0;
           }

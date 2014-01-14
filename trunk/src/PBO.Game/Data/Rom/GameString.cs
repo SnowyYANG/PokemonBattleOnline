@@ -17,6 +17,7 @@ namespace PokemonBattleOnline.Game
     public static GameString Backup
     { get; private set; }
     private static GameString InnerBackup;
+    private static List<KeyValuePair<string, string>> Redirections;
 
     public static void Load(string path, string language, string backup)
     {

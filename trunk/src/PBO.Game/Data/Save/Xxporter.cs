@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace PokemonBattleOnline.Game
 {
-    internal static class Helper
+    internal static class Xxporter
     {
         public static void Import(string source, PokemonData[] target)
         {
@@ -154,7 +154,7 @@ namespace PokemonBattleOnline.Game
             sb.AppendLine("* 性格：", space, GameString.Current.Nature(pm.Nature));
             {
                 var ss = pm.Iv;
-                if (ss.Hp != 31 || ss.Atk != 31 || ss.Def < 31 || ss.SpAtk != 31 || ss.SpDef != 31 || ss.Speed != 31)
+                if (ss.Hp != 31 || ss.Atk != 31 || ss.Def != 31 || ss.SpAtk != 31 || ss.SpDef != 31 || ss.Speed != 31)
                     sb.AppendLine("* 个体：", space, ss.Hp, "/", ss.Atk, "/", ss.Def, "/", ss.SpAtk, "/", ss.SpDef, "/", ss.Speed);
                 ss = pm.Ev;
                 sb.AppendLine("* 努力：", space, ss.Hp, "/", ss.Atk, "/", ss.Def, "/", ss.SpAtk, "/", ss.SpDef, "/", ss.Speed);
@@ -174,18 +174,7 @@ namespace PokemonBattleOnline.Game
                     if (first) first = false;
                     else sb.Append("/");
                     sb.Append(GameString.Current.Move(m.Move.Id));
-                    if (m.Move.Id == 237)
-                    {
-                        int pI;
-                        pI = pm.Iv.Hp & 1;
-                        pI |= (pm.Iv.Atk & 1) << 1;
-                        pI |= (pm.Iv.Def & 1) << 2;
-                        pI |= (pm.Iv.Speed & 1) << 3;
-                        pI |= (pm.Iv.SpAtk & 1) << 4;
-                        pI |= (pm.Iv.SpDef & 1) << 5;
-                        pI = pI * 15 / 63;
-                        sb.Append("[", "斗飞毒地岩虫鬼钢火水草电超冰龙恶".Substring(pI, 1), "]");
-                    }
+                    if (m.Move.Id == Ms.HIDDEN_POWER) sb.Append("[", GameString.Current.BattleType(GameHelper.HiddenPower(pm.Iv)), "]");
                 }
             }
         }

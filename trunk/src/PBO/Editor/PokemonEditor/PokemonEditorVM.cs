@@ -32,7 +32,7 @@ namespace PokemonBattleOnline.PBO.Editor
     }
 
     public int Hp
-    { get { return StatHelper.GetHp(Model.Form.Data.Base.Hp, Model.Iv.Hp, Model.Ev.Hp, Model.Lv); } }
+    { get { return GameHelper.GetHp(Model.Form.Data.Base.Hp, Model.Iv.Hp, Model.Ev.Hp, Model.Lv); } }
     public int Atk
     { get { return GetStat(StatType.Atk); } }
     public int Def
@@ -45,7 +45,7 @@ namespace PokemonBattleOnline.PBO.Editor
     { get { return GetStat(StatType.Speed); } }
     private int GetStat(StatType stat)
     {
-      return StatHelper.Get5D(stat, Model.Nature, Model.Form.Data.Base.GetStat(stat), Model.Iv.GetStat(stat), Model.Ev.GetStat(stat), Model.Lv);
+      return GameHelper.Get5D(stat, Model.Nature, Model.Form.Data.Base.GetStat(stat), Model.Iv.GetStat(stat), Model.Ev.GetStat(stat), Model.Lv);
     }
 
     public void RefreshAll()
@@ -285,20 +285,7 @@ namespace PokemonBattleOnline.PBO.Editor
     public Visibility HiddenPowerVisibility
     { get { return _hiddenPowerVisibility; } }
     public BattleType HiddenPowerType
-    {
-      get
-      {
-        int pI;
-        var iv = Model.Iv;
-        pI = iv.Hp & 1;
-        pI |= (iv.Atk & 1) << 1;
-        pI |= (iv.Def & 1) << 2;
-        pI |= (iv.Speed & 1) << 3;
-        pI |= (iv.SpAtk & 1) << 4;
-        pI |= (iv.SpDef & 1) << 5;
-        return (BattleType)(pI * 15 / 63 + 2);
-      }
-    }
+    { get { return GameHelper.HiddenPower(Model.Iv); } }
     private Visibility _happinessVisibility;
     public Visibility HappinessVisibility
     { get { return _happinessVisibility; } }

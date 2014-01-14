@@ -508,7 +508,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             {
               var up = new List<StatType>(7);
               var down = new List<StatType>(7);
-              foreach (var s in StatHelper.SEVEN_D)
+              foreach (var s in GameHelper.SEVEN_D)
               {
                 if (pm.CanChangeLv7D(pm, s, 2, false) != 0) up.Add(s);
                 if (pm.CanChangeLv7D(pm, s, -1, false) != 0) down.Add(s);

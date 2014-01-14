@@ -55,7 +55,7 @@ namespace PokemonBattleOnline.Network
     /// get is not thread safe
     /// </summary>
     public static ClientController Current
-    { get { return _current.Controller; } }
+    { get { return _current == null ? null : _current.Controller; } }
 
     private static void LoginSucceed(Client obj)
     {
@@ -89,7 +89,7 @@ namespace PokemonBattleOnline.Network
 
     public static void Exit()
     {
-      Current.Exit();
+      _current.Controller.Exit();
       _current = null;
     }
   }

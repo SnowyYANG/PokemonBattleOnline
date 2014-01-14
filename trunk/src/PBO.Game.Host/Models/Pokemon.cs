@@ -48,7 +48,7 @@ namespace PokemonBattleOnline.Game.Host
       _item = custom.Item;
       Iv = new ReadOnly6D(custom.Iv);
       Ev = new ReadOnly6D(custom.Ev);
-      _hp = MaxHp = StatHelper.GetHp(custom.Form.Data.Base.Hp, (byte)Iv.Hp, (byte)Ev.Hp, (byte)Lv);
+      _hp = MaxHp = GameHelper.GetHp(custom.Form.Data.Base.Hp, (byte)Iv.Hp, (byte)Ev.Hp, (byte)Lv);
     }
 
     public PokemonForm Form; //shaymi
@@ -113,7 +113,7 @@ namespace PokemonBattleOnline.Game.Host
 
     private int Get5D(StatType type)
     {
-      return StatHelper.Get5D(type, Nature, Form.Data.Base.GetStat(type), Iv.GetStat(type), Ev.GetStat(type), Lv);
+      return GameHelper.Get5D(type, Nature, Form.Data.Base.GetStat(type), Iv.GetStat(type), Ev.GetStat(type), Lv);
     }
 
     /// <summary>

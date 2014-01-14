@@ -128,14 +128,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       return percentage == 0 || Ability != As.SHIELD_DUST && AtkContext.RandomHappen(percentage);
     }
-    public bool HasInfiltratableCondition(string condition)
-    {
-      PokemonProxy a = AtkContext.Attacker;
-      return
-        !IsCt &&
-        Defender.Field.HasCondition(condition) &&
-        (Defender.Pokemon.TeamId == a.Pokemon.TeamId || a.Ability != As.INFILTRATOR);
-    }
+    
     public void MoveHurt()
     {
       Damage = Defender.MoveHurt(Damage);

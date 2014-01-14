@@ -11,6 +11,9 @@ namespace PokemonBattleOnline.Test
     static void Main(string[] args)
     {
     }
+    public static PokemonData[] AutoTeam(string name)
+    {
+    }
     public static void NewTest()
     {
       Host h = new Host();

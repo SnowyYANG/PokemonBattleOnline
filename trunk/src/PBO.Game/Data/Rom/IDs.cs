@@ -436,15 +436,15 @@ namespace PokemonBattleOnline.Game
   {
     public const int POUND = 1;
     public const int KARATE_CHOP = 2;
-    public const int DOUBLESLAP = 3;
+    public const int DOUBLE_SLAP = 3;
     public const int COMET_PUNCH = 4;
     public const int MEGA_PUNCH = 5;
     public const int PAY_DAY = 6;
     public const int FIRE_PUNCH = 7;
     public const int ICE_PUNCH = 8;
-    public const int THUNDERPUNCH = 9;
+    public const int THUNDER_PUNCH = 9;
     public const int SCRATCH = 10;
-    public const int VICEGRIP = 11;
+    public const int VICE_GRIP = 11;
     public const int GUILLOTINE = 12;
     public const int RAZOR_WIND = 13;
     public const int SWORDS_DANCE = 14;
@@ -461,7 +461,7 @@ namespace PokemonBattleOnline.Game
     public const int MEGA_KICK = 25;
     public const int JUMP_KICK = 26;
     public const int ROLLING_KICK = 27;
-    public const int SANDATTACK = 28;
+    public const int SAND_ATTACK = 28;
     public const int HEADBUTT = 29;
     public const int HORN_ATTACK = 30;
     public const int FURY_ATTACK = 31;
@@ -482,7 +482,7 @@ namespace PokemonBattleOnline.Game
     public const int ROAR = 46;
     public const int SING = 47;
     public const int SUPERSONIC = 48;
-    public const int SONICBOOM = 49;
+    public const int SONIC_BOOM = 49;
     public const int DISABLE = 50;
     public const int ACID = 51;
     public const int EMBER = 52;
@@ -494,7 +494,7 @@ namespace PokemonBattleOnline.Game
     public const int ICE_BEAM = 58;
     public const int BLIZZARD = 59;
     public const int PSYBEAM = 60;
-    public const int BUBBLEBEAM = 61;
+    public const int BUBBLE_BEAM = 61;
     public const int AURORA_BEAM = 62;
     public const int HYPER_BEAM = 63;
     public const int PECK = 64;
@@ -509,15 +509,15 @@ namespace PokemonBattleOnline.Game
     public const int LEECH_SEED = 73;
     public const int GROWTH = 74;
     public const int RAZOR_LEAF = 75;
-    public const int SOLARBEAM = 76;
-    public const int POISONPOWDER = 77;
+    public const int SOLAR_BEAM = 76;
+    public const int POISON_POWDER = 77;
     public const int STUN_SPORE = 78;
     public const int SLEEP_POWDER = 79;
     public const int PETAL_DANCE = 80;
     public const int STRING_SHOT = 81;
     public const int DRAGON_RAGE = 82;
     public const int FIRE_SPIN = 83;
-    public const int THUNDERSHOCK = 84;
+    public const int THUNDER_SHOCK = 84;
     public const int THUNDERBOLT = 85;
     public const int THUNDER_WAVE = 86;
     public const int THUNDER = 87;
@@ -569,7 +569,7 @@ namespace PokemonBattleOnline.Game
     public const int AMNESIA = 133;
     public const int KINESIS = 134;
     public const int SOFTBOILED = 135;
-    public const int HI_JUMP_KICK = 136;
+    public const int HIGH_JUMP_KICK = 136;
     public const int GLARE = 137;
     public const int DREAM_EATER = 138;
     public const int POISON_GAS = 139;
@@ -618,7 +618,7 @@ namespace PokemonBattleOnline.Game
     public const int PROTECT = 182;
     public const int MACH_PUNCH = 183;
     public const int SCARY_FACE = 184;
-    public const int FAINT_ATTACK = 185;
+    public const int FEINT_ATTACK = 185;
     public const int SWEET_KISS = 186;
     public const int BELLY_DRUM = 187;
     public const int SLUDGE_BOMB = 188;
@@ -656,9 +656,9 @@ namespace PokemonBattleOnline.Game
     public const int PAIN_SPLIT = 220;
     public const int SACRED_FIRE = 221;
     public const int MAGNITUDE = 222;
-    public const int DYNAMICPUNCH = 223;
+    public const int DYNAMIC_PUNCH = 223;
     public const int MEGAHORN = 224;
-    public const int DRAGONBREATH = 225;
+    public const int DRAGON_BREATH = 225;
     public const int BATON_PASS = 226;
     public const int ENCORE = 227;
     public const int PURSUIT = 228;
@@ -678,8 +678,8 @@ namespace PokemonBattleOnline.Game
     public const int CRUNCH = 242;
     public const int MIRROR_COAT = 243;
     public const int PSYCH_UP = 244;
-    public const int EXTREMESPEED = 245;
-    public const int ANCIENTPOWER = 246;
+    public const int EXTREME_SPEED = 245;
+    public const int ANCIENT_POWER = 246;
     public const int SHADOW_BALL = 247;
     public const int FUTURE_SIGHT = 248;
     public const int ROCK_SMASH = 249;
@@ -698,7 +698,7 @@ namespace PokemonBattleOnline.Game
     public const int MEMENTO = 262;
     public const int FACADE = 263;
     public const int FOCUS_PUNCH = 264;
-    public const int SMELLINGSALT = 265;
+    public const int SMELLING_SALTS = 265;
     public const int FOLLOW_ME = 266;
     public const int NATURE_POWER = 267;
     public const int CHARGE = 268;
@@ -730,7 +730,7 @@ namespace PokemonBattleOnline.Game
     public const int TAIL_GLOW = 294;
     public const int LUSTER_PURGE = 295;
     public const int MIST_BALL = 296;
-    public const int FEATHERDANCE = 297;
+    public const int FEATHER_DANCE = 297;
     public const int TEETER_DANCE = 298;
     public const int BLAZE_KICK = 299;
     public const int MUD_SPORT = 300;
@@ -753,7 +753,7 @@ namespace PokemonBattleOnline.Game
     public const int ROCK_TOMB = 317;
     public const int SILVER_WIND = 318;
     public const int METAL_SOUND = 319;
-    public const int GRASSWHISTLE = 320;
+    public const int GRASS_WHISTLE = 320;
     public const int TICKLE = 321;
     public const int COSMIC_POWER = 322;
     public const int WATER_SPOUT = 323;
@@ -1040,9 +1040,12 @@ namespace PokemonBattleOnline.Game
     public const int DAZZLING_GLEAM = 605;
     public const int BABYDOLL_EYES = 608;
     public const int NUZZLE = 609;
+    public const int DIAMOND_STORM = 610;
     public const int INFESTATION = 611;
     public const int POWERUP_PUNCH = 612;
     public const int OBLIVION_WING = 613;
+    public const int HYPERSPACE_HOLE = 614;
+    public const int STEAM_ERUPTION = 615;
     public const int LANDS_WRATH = 616;
   }
 }

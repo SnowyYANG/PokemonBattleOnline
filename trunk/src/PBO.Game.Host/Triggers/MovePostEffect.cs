@@ -17,7 +17,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.RAPID_SPIN: //229
           RapidSpin(def);
           break;
-        case Ms.SMELLINGSALT: //265
+        case Ms.SMELLING_SALTS: //265
           DeAbnormalState(def, PokemonState.PAR);
           break;
         case Ms.WAKEUP_SLAP: //358
