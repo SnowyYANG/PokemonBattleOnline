@@ -146,7 +146,7 @@ namespace PokemonBattleOnline.Game
         public static void Export(StringBuilder sb, PokemonData pm)
         {
             const string space = "";//"　";
-            sb.Append(pm.Name, "（", GameString.Current.Pokemon(pm.Form), "）", " Lv.", pm.Lv);
+            sb.Append(pm.Name, "（", GameString.Current.Pokemon(pm.Form.Species.Number, pm.Form.Index), "）", " Lv.", pm.Lv);
             if (pm.Gender == PokemonGender.Male) sb.Append(" ♂");
             else if (pm.Gender == PokemonGender.Female) sb.Append(" ♀");
             sb.AppendLine();
@@ -174,7 +174,7 @@ namespace PokemonBattleOnline.Game
                     if (first) first = false;
                     else sb.Append("/");
                     sb.Append(GameString.Current.Move(m.Move.Id));
-                    if (m.Move.Id == Ms.HIDDEN_POWER) sb.Append("[", GameString.Current.BattleType(GameHelper.HiddenPower(pm.Iv)), "]");
+                    if (m.Move.Id == Ms.HIDDEN_POWER) sb.Append('[', GameString.Current.BattleType(GameHelper.HiddenPower(pm.Iv)), ']');
                 }
             }
         }

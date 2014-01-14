@@ -102,7 +102,7 @@ namespace PokemonBattleOnline
     /// <returns></returns>
     public static int ToInt(this string s)
     {
-      int i = 0;
+      int i;
       int.TryParse(s, out i);
       return i;
     }

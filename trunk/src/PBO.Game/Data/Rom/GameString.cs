@@ -8,6 +8,14 @@ namespace PokemonBattleOnline.Game
 {
   public class GameString
   {
+    private class Comparer : IComparer<KeyValuePair<string, string>>
+    {
+      public static readonly Comparer I = new Comparer();
+      public int Compare(KeyValuePair<string, string> a, KeyValuePair<string, string> b)
+      {
+        return String.Compare(a.Key, b.Key, StringComparison.InvariantCultureIgnoreCase);
+      }
+    }
     public static GameString JP
     { get; private set; }
     public static GameString EN
@@ -21,18 +29,30 @@ namespace PokemonBattleOnline.Game
 
     public static void Load(string path, string language, string backup)
     {
+      Redirections = new List<KeyValuePair<string, string>>();
       Current = TryLoad(path, language);
-      EN = language == "en" ? Current : TryLoad(path, "en");
-      JP = language == "jp" ? Current : TryLoad(path, "jp");
       if (backup != null) Backup = TryLoad(path, backup);
+      if (EN == null) TryLoad(path, "en");
+      if (JP == null) TryLoad(path, "jp");
       InnerBackup = Backup ?? EN ?? JP ?? Current;
       if (Current == null) Current = InnerBackup;
+      for (int i = 1; i <= RomData.Pokemons.Count(); ++i)
+      {
+        Redirections.Add(new KeyValuePair<string, string>(i.ToString("000"), "p" + i));
+        Redirections.Add(new KeyValuePair<string, string>(i.ToString(), "p" + i));
+      }
+      for (int i = 100; i <= RomData.Pokemons.Count(); ++i) Redirections.Add(new KeyValuePair<string, string>(i.ToString(), "p" + i));
+      Redirections.Sort(Comparer.I);
+      Redirections.TrimExcess();
     }
     private static GameString TryLoad(string basePath, string language)
     {
       try
       {
-        return new GameString(basePath + "\\" + language, language);
+        var gs = new GameString(basePath + "\\" + language, language);
+        if (language == "en") EN = gs;
+        else if (language == "jp") JP = gs;
+        return gs;
       }
       catch
       {
@@ -62,70 +82,71 @@ namespace PokemonBattleOnline.Game
       }
       return -1;
     }
-    public static BattleType BattleType(string name)
+    /// <summary>
+    /// return PokemonForm, Ability, Move, Item or Nature
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="end"></param>
+    /// <returns></returns>
+    public static string Find(string name, out int end)
     {
-      var gs = GetLanguage(name);
-      var i = gs == null ? -1 : IndexOf(gs.BattleTypes, name);
-      return i == -1 ? Game.BattleType.Invalid : (BattleType)(i + 1);
+      if (!string.IsNullOrWhiteSpace(name))
+      {
+        var i = Redirections.BinarySearch(new KeyValuePair<string, string>(name, null), Comparer.I);
+        if (i < 0) i = ~i;
+        if (i < Redirections.Count)
+        {
+          var pair = Redirections[i];
+          var key = pair.Key;
+          for (end = 0; end < key.Length && end < name.Length; end++)
+            if (char.ToLowerInvariant(key[end]) != char.ToLowerInvariant(name[end])) break;
+          if (end == name.Length || char.IsWhiteSpace(name[end]))
+          {
+            while (end < name.Length && char.IsWhiteSpace(name[end])) end++;
+            return pair.Value;
+          }
+        }
+      }
+      end = 0;
+      return null;
     }
     public static PokemonNature? Nature(string name)
     {
-      var gs = GetLanguage(name);
-      var i = gs == null ? -1 : IndexOf(gs.Natures, name);
-      return i == -1 ? null : (PokemonNature?)(i);
+      int e;
+      var r = Find(name, out e);
+      return r != null && r[0] == 'n' ? (PokemonNature?)r.Substring(1).ToInt() : null;
     }
     public static PokemonSpecies PokemonSpecies(string name)
     {
-      var gs = GetLanguage(name);
-      var i = gs == null ? -1 : IndexOf(gs.Pokemons, name);
-      if (i == -1 && gs == Current && Backup != null) i = IndexOf(Backup.Pokemons, name);
-      return i == -1 ? null : RomData.GetPokemon(i + 1);
+      int e;
+      var r = Find(name, out e);
+      return r != null && r[0] == 'p' ? RomData.GetPokemon(r.Substring(1).ToInt() / 100) : null;
     }
     internal static PokemonForm PokemonForm(string name)
     {
-      var gs = GetLanguage(name);
-      foreach (var pair in gs.Forms)
-      {
-        var n = pair.Key / 100;
-        var f = pair.Key % 100;
-        var str = string.Format(pair.Value, gs.Pokemon(n));
-        if (str == name) return RomData.GetPokemon(n).GetForm(f);
-      }
-      return PokemonSpecies(name).GetForm(0);
+      int e;
+      var r = Find(name, out e);
+      if (r == null || r[0] != 'p') return null;
+      var n = r.Substring(1).ToInt();
+      return RomData.GetPokemon(n / 100, n % 100);
     }
     public static int Ability(string name)
     {
-      var gs = GetLanguage(name);
-      var i = gs == null ? -1 : IndexOf(gs.Abilities, name);
-      if (i == -1 && gs == Current && Backup != null) i = IndexOf(Backup.Abilities, name);
-      return i + 1;
-    }
-    private static int KeyOf(Dictionary<int, string> list, string name)
-    {
-      int sw = 0;
-      if (list != null)
-      {
-        foreach (var p in list)
-        {
-          if (sw == 0 && p.Value.StartsWith(name, StringComparison.CurrentCultureIgnoreCase)) sw = p.Key;
-          if (p.Value.Equals(name, StringComparison.CurrentCultureIgnoreCase)) return p.Key;
-        }
-      }
-      return sw;
+      int e;
+      var r = Find(name, out e);
+      return r != null && r[0] == 'a' ? r.Substring(1).ToInt() : 0;
     }
     public static int Item(string name)
     {
-      var gs = GetLanguage(name);
-      var i = gs == null ? 0 : KeyOf(gs.Items, name);
-      if (i == 0 && gs == Current && Backup != null) i = KeyOf(Backup.Items, name);
-      return i;
+      int e;
+      var r = Find(name, out e);
+      return r != null && r[0] == 'i' ? r.Substring(1).ToInt() : 0;
     }
     public static MoveType Move(string name)
     {
-      var gs = GetLanguage(name);
-      var i = gs == null ? -1 : IndexOf(gs.Moves, name);
-      if (i == -1 && gs == Current && Backup != null) i = IndexOf(Backup.Moves, name);
-      return i == -1 ? null : RomData.GetMove(i + 1);
+      int e;
+      var r = Find(name, out e);
+      return r != null && r[0] == 'm' ? RomData.GetMove(r.Substring(1).ToInt()) : null;
     }
 
     public readonly string Language;
@@ -155,7 +176,7 @@ namespace PokemonBattleOnline.Game
       Forms = new Dictionary<int, string>();
       Moves = new string[RomData.Moves.Count()];
       Abilities = new string[RomData.Abilities];
-      Items = new Dictionary<int, string>();
+      Items = new Dictionary<int, string>(RomData.Items.Count());
       using (var sr = new StreamReader(path))
         for (string line = sr.ReadLine(); !string.IsNullOrWhiteSpace(line); line = sr.ReadLine())
         {
@@ -169,17 +190,29 @@ namespace PokemonBattleOnline.Game
             switch (h)
             {
               case 'p':
-                if (line[4] == ':') Pokemons[num - 1] = str;
-                else Forms[num] = str;
+                if (line[4] == ':')
+                {
+                  Pokemons[num - 1] = str;
+                  num *= 100;
+                }
+                else
+                {
+                  Forms[num] = str;
+                  str = string.Format(str, Pokemons[num / 100 - 1]);
+                }
+                Redirections.Add(new KeyValuePair<string, string>(str, "p" + num));
                 break;
               case 'm':
                 Moves[num - 1] = str;
+                Redirections.Add(new KeyValuePair<string, string>(str, "m" + num));
                 break;
               case 'a':
                 Abilities[num - 1] = str;
+                Redirections.Add(new KeyValuePair<string, string>(str, "a" + num));
                 break;
               case 'i':
                 Items[num] = str;
+                Redirections.Add(new KeyValuePair<string, string>(str, "i" + num));
                 break;
               case 'M':
                 if (MovesD == null) MovesD = new string[Moves.Length];
@@ -190,12 +223,13 @@ namespace PokemonBattleOnline.Game
                 AbilitiesD[num - 1] = str;
                 break;
               case 'I':
-                if (ItemsD == null) ItemsD = new Dictionary<int, string>();
+                if (ItemsD == null) ItemsD = new Dictionary<int, string>(RomData.Items.Count());
                 ItemsD[num] = str;
                 break;
               case 'n':
                 if (Natures == null) Natures = new string[RomData.Natures];
                 Natures[num] = str;
+                Redirections.Add(new KeyValuePair<string, string>(str, "n" + num));
                 break;
               case 'b':
                 if (BattleTypes == null) BattleTypes = new string[RomData.BattleTypes];
@@ -238,18 +272,6 @@ namespace PokemonBattleOnline.Game
     {
       var i = number * 100 + form;
       return string.Format(Forms.ValueOrDefault(i) ?? InnerBackup.Forms.ValueOrDefault(i) ?? Pokemon(number), string.Empty).Trim();
-    }
-    public string Pokemon(PokemonSpecies pokemon)
-    {
-      return Pokemon(pokemon.Number);
-    }
-    public string Pokemon(PokemonForm form)
-    {
-      return Pokemon(form.Species.Number, form.Index);
-    }
-    public string PokemonForm(PokemonForm form)
-    {
-      return PokemonForm(form.Species.Number, form.Index);
     }
     public string Move(int move)
     {

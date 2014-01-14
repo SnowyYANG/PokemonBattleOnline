@@ -103,42 +103,36 @@ namespace PokemonBattleOnline.PBO.Editor
       if (e.Key == Key.Enter)
       {
         var text = QuickText.Text.Trim();
-        if (!string.IsNullOrWhiteSpace(text))
+        int end;
+      LOOP:
+        var r = GameString.Find(text, out end);
+        if (end == 0)
         {
-          var pn = text.ToInt();
-          if (1 <= pn && pn <= RomData.Pokemons.Count()) VM.PokemonSpecies = RomData.GetPokemon(pn);
-          else
-          {
-            var m = GameString.Move(text);
-            if (m != null)
-            {
-              foreach (var l in VM.Learnset)
-                if (l.Move == m) l.IsSelected = true;
-            }
-            else
-            {
-              var i = GameString.Item(text);
-              if (i != 0) VM.HeldItem = i;
-              else
-              {
-                var a = GameString.Ability(text);
-                if (a != 0) VM.Model.Ability = a;
-                else
-                {
-                  var n = GameString.Nature(text);
-                  if (n.HasValue) VM.Model.Nature = n.Value;
-                  else
-                  {
-                    var p = GameString.PokemonSpecies(text);
-                    if (p != null) VM.PokemonSpecies = p;
-                    else return;
-                  }
-                }
-              }
-            }
-          }
-        } //if (!string.Is
-        QuickText.Clear();
+          QuickText.Text = text;
+          return;
+        }
+        var n = r.Substring(1).ToInt();
+        switch (r[0])
+        {
+          case 'p':
+            VM.PokemonForm = RomData.GetPokemon(n / 100, n % 100);
+            break;
+          case 'm':
+            foreach (var l in VM.Learnset)
+              if (l.Move.Id == n) l.IsSelected = true;
+            break;
+          case 'a':
+            VM.Model.Ability = n;
+            break;
+          case 'i':
+            VM.HeldItem = n;
+            break;
+          case 'n':
+            VM.Model.Nature = (PokemonNature)n;
+            break;
+        }
+        text = text.Substring(end);
+        goto LOOP;
       }
     }
 

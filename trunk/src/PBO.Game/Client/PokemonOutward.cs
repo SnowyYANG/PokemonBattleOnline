@@ -243,7 +243,7 @@ namespace PokemonBattleOnline.Game
           r = Lv.ToString();
           break;
         case "Form":
-          r = GameString.Current.Pokemon(Form);
+          r = GameString.Current.Pokemon(number, form);
           break;
         case "State":
           r = GameString.Current.PokemonState(State);
