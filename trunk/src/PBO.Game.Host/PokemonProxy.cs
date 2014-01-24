@@ -232,7 +232,7 @@ namespace PokemonBattleOnline.Game.Host
           if (OnboardPokemon.HasCondition("Confuse")) goto FAIL_BEENSTATE;
           goto SAFEGUARD;
         case AttachedState.Attract:
-          if (OnboardPokemon.Gender == PokemonGender.None || by.OnboardPokemon.Gender == PokemonGender.None || OnboardPokemon.Gender == by.OnboardPokemon.Gender) goto NOEFFECT;
+          if (OnboardPokemon.Gender == PokemonGender.None || by.OnboardPokemon.Gender == PokemonGender.None || OnboardPokemon.Gender == by.OnboardPokemon.Gender) goto FAIL_NOEFFECT;
           goto CONDITION;
         case AttachedState.LeechSeed:
           if (OnboardPokemon.HasType(BattleType.Grass)) goto FAIL_NOEFFECT;

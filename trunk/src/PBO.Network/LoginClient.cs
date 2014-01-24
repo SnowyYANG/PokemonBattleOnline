@@ -6,7 +6,12 @@ using System.Threading;
 
 namespace PokemonBattleOnline.Network
 {
-  internal class LoginClient : IPackReceivedListener
+#if TEST
+  public
+#else
+  internal
+#endif
+  class LoginClient : IPackReceivedListener
   {
     private static void OnLoginTimeout(object state)
     {

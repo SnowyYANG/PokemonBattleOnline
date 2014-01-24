@@ -65,6 +65,14 @@
       <Name>PBO.Game</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\PBO.Network.Server\PBO.Network.Server.csproj">
+      <Project>{f46386cc-6de1-41a0-89d2-b3511224714f}</Project>
+      <Name>PBO.Network.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PBO.Network\PBO.Network.csproj">
+      <Project>{61056b34-a2a8-485b-8a36-df633e47c7f2}</Project>
+      <Name>PBO.Network</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PokemonBattleOnline\PokemonBattleOnline.csproj">
       <Project>{ee2c451e-a61e-4634-b382-5298982e060c}</Project>
       <Name>PokemonBattleOnline</Name>
