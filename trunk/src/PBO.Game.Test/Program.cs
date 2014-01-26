@@ -46,6 +46,10 @@ namespace PokemonBattleOnline.Test
         else
         {
           C2 = c.Controller;
+          C1.Room.PropertyChanged += (sender, e) =>
+            {
+              if (e.PropertyName == "PlayerController" && C2.Room.PlayerController != null) C2.Room.PlayerController.RequireInput += (ir) => IR2 = ir;
+            };
           C2.EnterRoom(C2.Rooms.Last(), Seat.Player10);
         }
         Console.WriteLine(c.Controller.User.Name + "logined.");
@@ -102,8 +106,8 @@ namespace PokemonBattleOnline.Test
         Console.WriteLine("------------------------------");
         goto TEAM1;
       }
-      Battle(C1.Room.PlayerController);
-      Battle(C2.Room.PlayerController);
+      Battle(C1.Room.PlayerController, ref IR1);
+      Battle(C2.Room.PlayerController, ref IR2);
       goto BATTLE;
     }
 
@@ -165,14 +169,31 @@ namespace PokemonBattleOnline.Test
       text = text.Substring(end);
       goto LOOP;
     }
-    public static void Battle(PlayerController pc)
+    public static void Battle(PlayerController pc, ref InputRequest ir)
     {
-      var ai = new ActionInput(1);
-      var moves = pc.Game.OnboardPokemons[0].Moves;
-      int i;
-      for(i = 0; i < 4; ++i) if (moves[i] == null) break;
-      ai.UseMove(0, moves[Random.Next(0, i)], false);
-      pc.Input(ai);
+      if (ir != null)
+      {
+        var ai = new ActionInput(1);
+        if (pc.Game.OnboardPokemons[0] != null)
+        {
+          var moves = pc.Game.OnboardPokemons[0].Moves;
+          int i;
+          for (i = 0; i < 4; ++i) if (moves[i] == null) break;
+          ai.UseMove(0, moves[Random.Next(0, i)], false);
+        }
+        else
+        {
+          var ii = new List<int>();
+          for (int i = 1; i < 6; ++i)
+          {
+            var p = pc.Game.Player.GetPokemon(i);
+            if (p != null && p.Hp.Value > 0) ii.Add(i);
+          }
+          ai.SendOut(0, pc.Game.Player.GetPokemon(ii[Random.Next(0, ii.Count)]));
+        }
+        pc.Input(ai);
+        ir = null;
+      }
     }
   }
 }
