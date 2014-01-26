@@ -23,7 +23,7 @@ namespace PokemonBattleOnline.PBO.Battle
   /// </summary>
   public partial class BattleReport : UserControl
   {
-    private class Control : IGameOutwardEvents
+    private class Control
     {
       private readonly BattleReport Nest;
       private readonly DocumentBattleReport RealTime;
@@ -40,11 +40,11 @@ namespace PokemonBattleOnline.PBO.Battle
       }
 
       bool beginTurn;
-      void IGameOutwardEvents.TurnEnd()
+      public void TurnEnd()
       {
         beginTurn = true;
       }
-      void IGameOutwardEvents.GameLogAppend(string text, LogStyle style)
+      public void GameLogAppended(string text, LogStyle style)
       {
         if (!style.HasFlag(LogStyle.HiddenAfterBattle))
         {

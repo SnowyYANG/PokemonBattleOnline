@@ -132,18 +132,13 @@ namespace PokemonBattleOnline
       public bool IsSynchronized
       { get; private set; }
 
-      public Work(Delegate method, bool isSynchronized)
+      public Work(Delegate method, bool isSynchronized, params object[] args)
       {
         this.Method = method;
+        this.Arguments = args;
         this.IsSynchronized = isSynchronized;
         if (isSynchronized)
           CompleteWaiter = new ManualResetEvent(false);
-      }
-
-      public Work(Delegate method, bool isSynchronized, params object[] args)
-        : this(method, isSynchronized)
-      {
-        this.Arguments = args;
       }
 
       public Work(Delegate method)

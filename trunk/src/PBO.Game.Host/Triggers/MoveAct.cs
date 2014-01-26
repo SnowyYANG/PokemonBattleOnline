@@ -529,10 +529,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
       else
       {
-        bool nonSub = false;
-        if (!(move.IgnoreSubstitute() || aer.Ability == As.INFILTRATOR))
-          foreach (DefContext d in defs) nonSub |= !SubstituteTriggers.Hurt(d);
-        if (!nonSub)
+        bool allSub;
+        if (atk.IgnoreSubstitute()) allSub = false;
+        else
+        {
+          allSub = true;
+          foreach (DefContext d in defs) allSub &= SubstituteTriggers.Hurt(d);
+        }
+        if (!allSub)
         {
           foreach (DefContext d in defs)
             if (d.RemoveCondition("Antiberry"))

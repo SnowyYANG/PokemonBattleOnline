@@ -7,14 +7,6 @@ using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Game
 {
-  /// <summary>
-  /// 只能有一个Listner卡住线程，建议是Subtitle
-  /// </summary>
-  public interface IGameOutwardEvents
-  {
-    void TurnEnd();
-    void GameLogAppend(string t, LogStyle style);
-  }
   public class GameOutward : IFormatProvider, ICustomFormatter
   {
     /// <summary>
@@ -22,10 +14,11 @@ namespace PokemonBattleOnline.Game
     /// </summary>
     public event Action GameStart;
     public event Action GameEnd;
+    public event Action<string, LogStyle> LogAppended;
+    public event Action TurnEnd;
     public readonly IGameSettings Settings;
     public readonly BoardOutward Board;
     private readonly string[, ] Players;
-    private readonly Collection<IGameOutwardEvents> listeners;
 
     public GameOutward(IGameSettings settings, string[,] players)
     {
@@ -34,7 +27,6 @@ namespace PokemonBattleOnline.Game
       Board = new BoardOutward(Settings);
       Board.Teams[0] = new TeamOutward(players[0, 0]);
       Board.Teams[1] = new TeamOutward(players[1, 0]);
-      listeners = new Collection<IGameOutwardEvents>();
     }
     public int TurnNumber
     { get; set; }
@@ -72,7 +64,9 @@ namespace PokemonBattleOnline.Game
       foreach (GameEvent e in events)
       {
         UIDispatcher.Invoke((Action<GameOutward>)e.Update, this);
+#if !TEST
         System.Threading.Thread.Sleep(e.Sleep);
+#endif
       }
       //check game over
       int team0 = Board.Teams[0].AliveCount;
@@ -92,7 +86,10 @@ namespace PokemonBattleOnline.Game
 
     public void AppendGameLog(string text, LogStyle style)
     {
-      foreach (var l in listeners) l.GameLogAppend(text, style);
+#if TEST
+      if (LogAppended != null)
+#endif
+        LogAppended(text, style);
     }
     public void AppendGameLogByKey(string key, LogStyle style, object arg0 = null, object arg1 = null, object arg2 = null)
     {
@@ -102,11 +99,10 @@ namespace PokemonBattleOnline.Game
     }
     public void EndTurn()
     {
-      foreach (var l in listeners) l.TurnEnd();
-    }
-    public void AddListner(IGameOutwardEvents listener)
-    {
-      if (listener != null) listeners.Add(listener);
+#if TEST
+      if (TurnEnd != null)
+#endif
+        TurnEnd();
     }
 
     object IFormatProvider.GetFormat(Type formatType)

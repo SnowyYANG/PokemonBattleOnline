@@ -179,7 +179,10 @@ namespace PokemonBattleOnline.Game
     public void Faint()
     {
       State = PokemonState.Faint;
-      listener.Faint();
+#if TEST
+      if (listener != null)
+#endif
+        listener.Faint();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
@@ -187,7 +190,10 @@ namespace PokemonBattleOnline.Game
     public void Hurt(int damage)
     {
       Hp.Value -= damage;
-      listener.Hurt();
+#if TEST
+      if (listener != null)
+#endif
+        listener.Hurt();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
@@ -197,21 +203,30 @@ namespace PokemonBattleOnline.Game
       if (Position.X == x && Position.Y == y) return;
       _position.X = x;
       _position.Y = y;
-      listener.PositionChanged();
+#if TEST
+      if (listener != null)
+#endif
+        listener.PositionChanged();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
     public void ShowSubstitute()
     {
-      listener.SubstituteAppear();
+#if TEST
+      if (listener != null)
+#endif
+        listener.SubstituteAppear();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
     public void HideSubstitute()
     {
-      listener.SubstituteDisappear();
+#if TEST
+      if (listener != null)
+#endif
+        listener.SubstituteDisappear();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
@@ -220,14 +235,20 @@ namespace PokemonBattleOnline.Game
     {
       this.number = number;
       this.form = form;
-      listener.ImageChanged();
+#if TEST
+      if (listener != null)
+#endif
+        listener.ImageChanged();
     }
     /// <summary>
     /// PokemonOutward是可以序列化的，主机端不要调用这些方法
     /// </summary>
     public void Withdraw()
     {
-      listener.Withdrawn();
+#if TEST
+      if (listener != null)
+#endif
+        listener.Withdrawn();
     }
     #endregion
 

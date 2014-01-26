@@ -37,12 +37,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
-    <OutputPath>bin\Test\</OutputPath>
+    <OutputPath>..\..\build\dll\</OutputPath>
     <Optimize>true</Optimize>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>none</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DefineConstants>TEST</DefineConstants>
+    <DefineConstants>TEST, ETV</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

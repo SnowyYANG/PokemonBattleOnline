@@ -18,7 +18,7 @@ namespace PokemonBattleOnline.PBO.Battle
   /// <summary>
   /// Interaction logic for BattleField2D.xaml
   /// </summary>
-  public partial class BattleField2D : UserControl, IBoardOutwardEvents
+  public partial class BattleField2D : UserControl
   {
     BoardOutward Board;
     int ObserveTeam;
@@ -35,9 +35,9 @@ namespace PokemonBattleOnline.PBO.Battle
       ObserveTeam = observeTeam;
       Team.DataContext = board.Teams[observeTeam];
       FoeTeam.DataContext = board.Teams[1 - observeTeam];
-      board.AddListener(this);
+      board.PokemonSentOut += OnPokemonSentOut;
     }
-    void IBoardOutwardEvents.PokemonSentout(int team, int x)
+    void OnPokemonSentOut(int team, int x)
     {
       if (team == ObserveTeam) opm.SendOut(Board[team, x]);
       else rpm.SendOut(Board[team, x]);

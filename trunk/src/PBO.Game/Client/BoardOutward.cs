@@ -7,20 +7,15 @@ using System.ComponentModel;
 
 namespace PokemonBattleOnline.Game
 {
-  public interface IBoardOutwardEvents
-  {
-    void PokemonSentout(int team, int x);
-  }
-
   public class BoardOutward
   {
+    public event Action<int, int> PokemonSentOut;
+    
     public readonly ReadOnlyObservableCollection<PokemonOutward>[] Pokemons;
     public readonly Terrain Terrain;
 
     private readonly ObservableCollection<PokemonOutward>[] pokemons;
     private readonly IGameSettings Settings;
-    
-    private IBoardOutwardEvents listener;
 
     internal BoardOutward(IGameSettings settings)
     {
@@ -62,14 +57,12 @@ namespace PokemonBattleOnline.Game
     public TeamOutward[] Teams
     { get; private set; }
 
-    public void AddListener(IBoardOutwardEvents listener)
+    internal void OnPokemonSentOut(int team, int x)
     {
-      if (this.listener != null) System.Diagnostics.Debugger.Break();
-      this.listener = listener;
-    }
-    public void PokemonSentout(GameOutward game, int team, int x)
-    {
-      listener.PokemonSentout(team, x);
+#if TEST
+      if (PokemonSentOut != null)
+#endif
+        PokemonSentOut(team, x);
     }
   }
 }

@@ -263,6 +263,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
   }
   internal static class SubstituteTriggers
   {
+    public static bool IgnoreSubstitute(this AtkContext atk)
+    {
+      return atk.Move.IgnoreSubstitute() || atk.Attacker.Ability == As.INFILTRATOR;
+    }
     private static int Generic(DefContext def)
     {
       int hp = def.Defender.OnboardPokemon.GetCondition<int>("Substitute");

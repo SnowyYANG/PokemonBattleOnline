@@ -10,8 +10,11 @@ namespace PokemonBattleOnline.Test
 {
   class Program
   {
-    static Client C1;
-    static Client C2;
+    static ClientController C1;
+    static ClientController C2;
+    static InputRequest IR1;
+    static InputRequest IR2;
+    static Random Random = new Random(0);
 
     static void Main(string[] args)
     {
@@ -23,14 +26,33 @@ namespace PokemonBattleOnline.Test
       GameString.Load("..\\res\\string", "zh", "en");
       PBOServer.NewServer(9999);
       Thread.Sleep(1000);
+      RoomController.GameStop += (r, u) => Console.WriteLine(r.ToString() + (u == null ? " " : " " + u.Name));
       LoginClient.LoginSucceed += (c) =>
       {
-        if (C1 == null) C1 = c;
-        else C2 = c;
+        if (C1 == null)
+        {
+          C1 = c.Controller;
+          C1.Room.PropertyChanged += (sender, e) =>
+            {
+              if (e.PropertyName == "Game") C1.Room.Game.LogAppended += (t, s) =>
+                {
+                  if (s.HasFlag(LogStyle.NoBr)) Console.Write(t);
+                  else Console.WriteLine(t);
+                };
+              else if (e.PropertyName == "PlayerController" && C1.Room.PlayerController != null) C1.Room.PlayerController.RequireInput += (ir) => IR1 = ir;
+            };
+          C1.NewRoom(null, new Network.GameSettings(GameMode.Single), Seat.Player00);
+        }
+        else
+        {
+          C2 = c.Controller;
+          C2.EnterRoom(C2.Rooms.Last(), Seat.Player10);
+        }
         Console.WriteLine(c.Controller.User.Name + "logined.");
       };
       var client1 = new LoginClient("127.0.0.1", 9999, "P1", 1);
       client1.BeginLogin();
+      Thread.Sleep(1000);
       var client2 = new LoginClient("127.0.0.1", 9999, "P2", 1);
       client2.BeginLogin();
 
@@ -38,40 +60,51 @@ namespace PokemonBattleOnline.Test
       var team2 = new List<PokemonData>();
       string line;
       Thread.Sleep(2000);
-      Console.WriteLine("Set TEAM1:");
     TEAM1:
+      Console.Write("TEAM1: ");
       line = Console.ReadLine();
       if (line == "preview") foreach (var t in team1) Console.WriteLine(UserData.Export(t));
-      if (line == "OK")
+      else if (line == "ok")
       {
         Console.WriteLine();
-        Console.WriteLine("============TEAM1============");
+        Console.WriteLine("============TEAM 1============");
         foreach (var t in team1) Console.WriteLine(UserData.Export(t));
         Console.WriteLine();
-        Console.WriteLine("Set TEAM2:");
         goto TEAM2;
       }
-      AutoTeam(team1, line.Trim());
+      else AutoTeam(team1, line.Trim());
       goto TEAM1;
     TEAM2:
+      Console.Write("TEAM2: ");
       line = Console.ReadLine();
-      if (line == "preview") foreach (var t in team2) Console.WriteLine(UserData.Export(t));
-      if (line == "OK")
+      if (line == "team1") team2 = team1.ToList();
+      else if (line == "preview") foreach (var t in team2) Console.WriteLine(UserData.Export(t));
+      else if (line == "ok")
       {
         Console.WriteLine();
-        Console.WriteLine("============TEAM1============");
-        foreach (var t in team1) Console.WriteLine(UserData.Export(t));
-        Console.WriteLine("============TEAM2============");
-        foreach (var t in team2) Console.WriteLine(UserData.Export(t));
         Console.WriteLine();
+        Console.WriteLine("============TEAM 1============");
+        foreach (var t in team1) Console.WriteLine(UserData.Export(t));
+        Console.WriteLine("============TEAM 2============");
+        foreach (var t in team2) Console.WriteLine(UserData.Export(t));
+        Console.WriteLine("============BATTLE============");
+        C1.Room.GamePrepare(team1.ToArray());
+        C2.Room.GamePrepare(team2.ToArray());
         goto BATTLE;
       }
-      AutoTeam(team2, line.Trim());
+      else AutoTeam(team2, line.Trim());
       goto TEAM2;
     BATTLE:
-      var key = Console.ReadKey();
-      if (key.Key == ConsoleKey.Escape) goto TEAM1;
-      else ;
+      //Console.Write("BATTLE: ");
+      var key = Console.ReadKey(false);
+      if (key.Key == ConsoleKey.Escape)
+      {
+        Console.WriteLine("------------------------------");
+        goto TEAM1;
+      }
+      Battle(C1.Room.PlayerController);
+      Battle(C2.Room.PlayerController);
+      goto BATTLE;
     }
 
     public static void AutoTeam(List<PokemonData> team, string text)
@@ -132,19 +165,14 @@ namespace PokemonBattleOnline.Test
       text = text.Substring(end);
       goto LOOP;
     }
-    public static void Battle()
+    public static void Battle(PlayerController pc)
     {
-    }
-    public static void NewTest()
-    {
-      Host h = new Host();
-      h.GameEnd += AIController.TestEnd;
-      var p1 = h.AddPlayer(AIController.GetP1Team());
-      var p2 = h.AddPlayer(AIController.GetP2Team());
-      AIController.TestBegin(p1, p2);
-      p1.RequireInput += new Action<Game.InputRequest>(AIController.P1_RequireInput);
-      p2.RequireInput += new Action<Game.InputRequest>(AIController.P2_RequireInput);
-      h.StartGame();
+      var ai = new ActionInput(1);
+      var moves = pc.Game.OnboardPokemons[0].Moves;
+      int i;
+      for(i = 0; i < 4; ++i) if (moves[i] == null) break;
+      ai.UseMove(0, moves[Random.Next(0, i)], false);
+      pc.Input(ai);
     }
   }
 }

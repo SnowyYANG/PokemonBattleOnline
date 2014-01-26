@@ -32,7 +32,10 @@ namespace PokemonBattleOnline.Network
 
     internal void OnRequireInput(InputRequest inputRequest)
     {
-      RequireInput(inputRequest);
+#if TEST
+      if (RequireInput != null)
+#endif
+        RequireInput(inputRequest);
     }
   }
 }

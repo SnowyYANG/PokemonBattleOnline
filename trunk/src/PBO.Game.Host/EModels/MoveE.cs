@@ -305,7 +305,7 @@ namespace PokemonBattleOnline.Game.Host
           if (def.Defender != atk.Attacker && (mc && STs.MagicCoat(atk, def.Defender) || ab && !CanImplement.Execute(def))) targets.Remove(def);
       }
       #endregion
-      if (move.Category == MoveCategory.Status && !(move.IgnoreSubstitute() || aer.Ability == As.INFILTRATOR))
+      if (move.Category == MoveCategory.Status && !atk.IgnoreSubstitute())
         foreach (DefContext d in targets.ToArray())
           if (d.Defender != aer && d.Defender.OnboardPokemon.HasCondition("Substitute"))
           {

@@ -13,10 +13,12 @@ namespace PokemonBattleOnline.Network
   {
     private static void OnKeepAlive(object state)
     {
+#if !TEST
       var users = (List<TcpUser>)state;
       var lastPack = DateTime.Now.AddMilliseconds(-2d * PBOMarks.TIMEOUT);
       foreach (var u in users.ToArray())
         if (u.LastPack < lastPack) u.OnDisconnect();
+#endif
     }
     
     public event Action<TcpUser> NewComingUser;

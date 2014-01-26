@@ -37,8 +37,9 @@ namespace PokemonBattleOnline.PBO.Battle
 
     public void Init(GameOutward game)
     {
-      game.AddListner(controller);
       reportViewer.Document = Battling;
+      game.LogAppended += controller.GameLogAppended;
+      game.TurnEnd += controller.TurnEnd;
       game.GameEnd += () => reportViewer.Document = Full;
     }
 
