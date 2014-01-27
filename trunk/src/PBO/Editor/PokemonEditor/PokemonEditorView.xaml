@@ -377,7 +377,8 @@
                                             <ContentPresenter Content="{Binding Move.Type}" ContentTemplate="{x:Static ui:Labels.BattleType}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,-1"/>
                                             <TextBlock Name="pp" Text="PP" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,30,1"/>
                                             <TextBlock Text="{Binding PP}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,1"/>
-                                            <Button Name="ppUp" Command="{x:Static e:PokemonEditorVM.PPUpChangeCommand}" CommandParameter="{Binding}" Style="{x:Static ui:Controls.XButton}" Content="↑" ToolTip="PP上升+1" Foreground="#a0a0a0" FontSize="12" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,3,1"/>
+                                            <Button Name="ppUp" Command="{x:Static e:PokemonEditorVM.PPUpChangeCommand}" CommandParameter="{Binding}" Cursor="Hand" Style="{x:Static ui:Controls.XButton}" Content="↑" ToolTip="PP上升+1" Foreground="#a0a0a0" FontSize="12" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,3,1"/>
+                                            <Button Name="forget" Command="{x:Static e:PokemonEditorVM.RemoveMoveCommand}" CommandParameter="{Binding}" Cursor="Hand" Visibility="Collapsed" Style="{x:Static ui:Controls.XButton}" ToolTip="遗忘技能" Foreground="#ff8080" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,-4,4,0"/>
                                         </Grid>
                                     </Border>
                                 </Border>
@@ -390,6 +391,9 @@
                                         <Setter TargetName="ppUp" Property="Content" Value="↓"/>
                                         <Setter TargetName="ppUp" Property="ToolTip" Value="PP上升重置"/>
                                     </DataTrigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="forget" Property="Visibility" Value="Visible"/>
+                                    </Trigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
                         </Setter.Value>
@@ -445,9 +449,13 @@
                                     </LinearGradientBrush>
                                 </Setter.Value>
                             </Setter>
+                            <EventSetter Event="Click" Handler="ColumnHeader_Click"/>
                         </Style>
                     </GridView.ColumnHeaderContainerStyle>
-                    <GridViewColumn Header="属性" Width="60">
+                    <GridViewColumn Width="60">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="属性" Click="TypeHeader_Click"/>
+                        </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ContentPresenter Content="{Binding Move.Type}" ContentTemplate="{x:Static ui:Labels.BattleType}"/>
@@ -455,7 +463,10 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="名称" Width="80" DisplayMemberBinding="{Binding Name}"/>
-                    <GridViewColumn Header="类别" Width="60">
+                    <GridViewColumn Width="60">
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="类别" Click="CategoryHeader_Click"/>
+                        </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ContentPresenter Content="{Binding Move.Category}" ContentTemplate="{x:Static ui:Labels.MoveCategory}"/>

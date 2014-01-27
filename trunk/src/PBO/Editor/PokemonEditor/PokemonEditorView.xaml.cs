@@ -12,7 +12,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Reflection;
-using System.Windows.Media.Animation;
 using PokemonBattleOnline.Game;
 using PokemonBattleOnline.PBO.Elements;
 
@@ -93,6 +92,23 @@ namespace PokemonBattleOnline.PBO.Editor
       var m = (LearnVM)((Border)sender).DataContext;
       if (m.IsLearned) VM.RemoveMove(m.Move);
       else VM.AddMove(m.Move);
+    }
+    private void ColumnHeader_Click(object sender, RoutedEventArgs e)
+    {
+      GridViewColumn column = ((GridViewColumnHeader)sender).Column;
+      if (column != null)
+      {
+        Binding displayMemberBinding = column.DisplayMemberBinding as Binding;
+        if (displayMemberBinding != null) Helper.SortOnClick(CollectionViewSource.GetDefaultView(VM.Learnset), displayMemberBinding.Path.Path);
+      }
+    }
+    private void TypeHeader_Click(object sender, RoutedEventArgs e)
+    {
+      Helper.SortOnClick(CollectionViewSource.GetDefaultView(VM.Learnset), "Move.Type");
+    }
+    private void CategoryHeader_Click(object sender, RoutedEventArgs e)
+    {
+      Helper.SortOnClick(CollectionViewSource.GetDefaultView(VM.Learnset), "Move.Category");
     }
 
     private void Close_Click(object sender, RoutedEventArgs e)

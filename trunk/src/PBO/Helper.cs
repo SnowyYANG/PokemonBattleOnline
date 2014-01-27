@@ -5,9 +5,11 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Input;
 using System.IO;
 using Microsoft.Win32;
 using System.Diagnostics.Contracts;
+using System.ComponentModel;
 
 namespace PokemonBattleOnline.PBO
 {
@@ -98,6 +100,20 @@ namespace PokemonBattleOnline.PBO
       }
       while (reference == null || reference is T);
       return (T)reference;
+    }
+    public static void SortOnClick(ICollectionView view, string property)
+    {
+      var shift = Keyboard.Modifiers == ModifierKeys.Shift;
+      ListSortDirection order = ListSortDirection.Ascending;
+      foreach (var sd in view.SortDescriptions)
+        if (sd.PropertyName == property)
+        {
+          order = sd.Direction == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
+          if (shift) view.SortDescriptions.Remove(sd);
+          break;
+        }
+      if (!shift) view.SortDescriptions.Clear();
+      view.SortDescriptions.Add(new SortDescription(property, order));
     }
   }
 }
