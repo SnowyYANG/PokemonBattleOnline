@@ -98,6 +98,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style TargetType="Rectangle">
+            <Setter Property="IsHitTestVisible" Value="False"/>
+        </Style>
     </UserControl.Resources>
     <Grid Margin="0,18,0,0">
         <Rectangle Margin="0,-14,0,0" Height="7" VerticalAlignment="Top">
@@ -250,7 +253,22 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBox Text="{Binding Model.Name}" FontFamily="Microsoft YaHei" VerticalContentAlignment="Center" Height="24" Margin="0,0,0,1" Padding="5,0" Background="{StaticResource BgD}" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}"/>
+            <Rectangle Fill="{StaticResource BgD}" Margin="0,0,0,1"/>
+            <TextBox Text="{Binding Model.Name}" FontFamily="Microsoft YaHei" VerticalContentAlignment="Center" Height="24" Margin="0,0,0,1" Padding="5,0" Foreground="White" BorderThickness="0" BorderBrush="{x:Null}">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#20000000"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="Background" Value="#20000000"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
             <ContentControl MouseLeftButtonDown="Gender_MouseLeftButtonDown" Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Cursor="Hand" ToolTip="性别" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0"/>
             <Label Content="  Lv." Background="{StaticResource BgL}" Grid.Row="1"/>
             <ui:NumericUpdown Value="{Binding Model.Lv,Mode=TwoWay}" Minimum="1" Median="50" Maximum="100" Width="50" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Grid.Row="1" Margin="35,0,0,1"/>
@@ -334,8 +352,61 @@
             <Label Content="道具" Grid.Row="1" Background="{StaticResource BgL}"/>
             <ComboBox SelectedItem="{Binding HeldItem}" ItemsSource="{x:Static pm:RomData.Items}" ItemTemplate="{x:Static ui:Labels.Item}" ItemsPanel="{StaticResource VirtualPanel}" ToolTip="{Binding HeldItem,Converter={x:Static c:ItemDString.C}}" Grid.Row="1"/>
         </Grid>
-        
-        <ListView x:Name="learnsetlist" ItemsSource="{Binding Learnset}" Margin="0,200,0,0" MinHeight="100" VirtualizingStackPanel.VirtualizationMode="Recycling" BorderThickness="0">
+
+        <Canvas DataContext="{Binding Model.Moves}" Margin="0,190,0,0" VerticalAlignment="Top">
+            <Canvas.Resources>
+                <Style TargetType="{x:Type ContentPresenter}">
+                    <Setter Property="ContentTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <Border Width="115" Height="38" CornerRadius="20" Background="#ff8000" BorderBrush="#666666" BorderThickness="1">
+                                    <Border CornerRadius="19" BorderBrush="{x:Null}" BorderThickness="0" Margin="2,1">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <GradientStop Color="#d3d3d3" Offset="0"/>
+                                                <GradientStop Color="White" Offset="0.3"/>
+                                                <GradientStop Color="White" Offset="0.45"/>
+                                                <GradientStop Color="#e0e0e0" Offset="0.5"/>
+                                                <GradientStop Color="#e0e0e0" Offset="0.6"/>
+                                                <GradientStop Color="#f0f0f0" Offset="0.8"/>
+                                                <GradientStop Color="#e0e0e0" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                        <Grid Name="grid" Margin="5,0,0,0" ToolTip="{Binding Move.Id,Converter={x:Static c:MoveDString.C}}">
+                                            <ContentControl Content="{Binding Move.Id,Converter={x:Static c:MoveString.C}}" VerticalAlignment="Top" Style="{x:Null}" Margin="8,0,0,0"/>
+                                            <ContentPresenter Content="{Binding Move.Type}" ContentTemplate="{x:Static ui:Labels.BattleType}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,-1"/>
+                                            <TextBlock Name="pp" Text="PP" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,30,1"/>
+                                            <TextBlock Text="{Binding PP}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,1"/>
+                                            <Button Name="ppUp" Command="{x:Static e:PokemonEditorVM.PPUpChangeCommand}" CommandParameter="{Binding}" Style="{x:Static ui:Controls.XButton}" Content="↑" ToolTip="PP上升+1" Foreground="#a0a0a0" FontSize="12" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,3,1"/>
+                                        </Grid>
+                                    </Border>
+                                </Border>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                        <Setter TargetName="grid" Property="Visibility" Value="Collapsed"/>
+                                        <Setter Property="Opacity" Value="0.5"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding PPUp}" Value="3">
+                                        <Setter TargetName="ppUp" Property="Content" Value="↓"/>
+                                        <Setter TargetName="ppUp" Property="ToolTip" Value="PP上升重置"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <EventSetter Event="MouseDown" Handler="LearnedMove_MouseDown"/>
+                </Style>
+            </Canvas.Resources>
+            <Border BorderBrush="#80808080" BorderThickness="1" CornerRadius="21" Width="119" Height="42" Canvas.Left="-2" Canvas.Top="-2"/>
+            <Border BorderBrush="#80808080" BorderThickness="1" CornerRadius="21" Width="119" Height="42" Canvas.Left="113" Canvas.Top="-2"/>
+            <Border BorderBrush="#80808080" BorderThickness="1" CornerRadius="21" Width="119" Height="42" Canvas.Left="228" Canvas.Top="-2"/>
+            <Border BorderBrush="#80808080" BorderThickness="1" CornerRadius="21" Width="119" Height="42" Canvas.Left="343" Canvas.Top="-2"/>
+            <ContentPresenter Content="{Binding [0]}"/>
+            <ContentPresenter Content="{Binding [1]}" Canvas.Left="115"/>
+            <ContentPresenter Content="{Binding [2]}" Canvas.Left="230"/>
+            <ContentPresenter Content="{Binding [3]}" Canvas.Left="345"/>
+        </Canvas>
+        <ListView x:Name="learnsetlist" ItemsSource="{Binding Learnset}" Margin="0,235,0,0" MinHeight="100" VirtualizingStackPanel.VirtualizationMode="Recycling" BorderThickness="0">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="Margin" Value="0,0,0,1"/>
@@ -344,28 +415,15 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                <Border BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}" BorderThickness="0,3" SnapsToDevicePixels="true">
-                                    <StackPanel Margin="5,1">
-                                        <GridViewRowPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                        <ContentPresenter x:Name="methods" Content="..." HorizontalAlignment="Stretch" Margin="30,1,0,0" Visibility="Collapsed">
-                                            <ContentPresenter.Resources>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="TextWrapping" Value="Wrap"/>
-                                                </Style>
-                                            </ContentPresenter.Resources>
-                                        </ContentPresenter>
-                                    </StackPanel>
+                                <Border DataContext="{Binding}" Cursor="Hand" MouseDown="Learn_MouseDown" ToolTip="{Binding Move.Id, Converter={x:Static c:MoveDString.C}}" BorderBrush="{TemplateBinding Background}" Background="{TemplateBinding Background}" BorderThickness="0,3" SnapsToDevicePixels="true">
+                                    <GridViewRowPresenter Margin="2,1" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 </Border>
                                 <ControlTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                    <DataTrigger Binding="{Binding IsLearned}" Value="True">
                                         <Setter Property="FontWeight" Value="Bold"/>
                                     </DataTrigger>
                                     <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter Property="Background" Value="#80a0a0a0"/>
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="true">
-                                        <Setter Property="Background" Value="{x:Static ui:SBrushes.SelectedItemBg}"/>
-                                        <Setter TargetName="methods" Property="Visibility" Value="Visible"/>
+                                        <Setter Property="Background" Value="#80de9442"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -377,8 +435,6 @@
                 <GridView>
                     <GridView.ColumnHeaderContainerStyle>
                         <Style TargetType="{x:Type GridViewColumnHeader}">
-                            <Setter Property="Width" Value="Auto"/>
-                            <Setter Property="MinWidth" Value="50"/>
                             <Setter Property="FontWeight" Value="Bold"/>
                             <Setter Property="Height" Value="23"/>
                             <Setter Property="Background">
@@ -391,48 +447,29 @@
                             </Setter>
                         </Style>
                     </GridView.ColumnHeaderContainerStyle>
-                    <GridViewColumn Width="Auto">
-                        <GridViewColumn.HeaderContainerStyle>
-                            <Style TargetType="{x:Type GridViewColumnHeader}">
-                                <Setter Property="Background">
-                                    <Setter.Value>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                            <GradientStop Color="White" Offset="0.4"/>
-                                            <GradientStop Color="LightGray" Offset="1"/>
-                                        </LinearGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="MinWidth" Value="15"/>
-                            </Style>
-                        </GridViewColumn.HeaderContainerStyle>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding IsSelected}" Margin="15,0,0,0"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="名称" DisplayMemberBinding="{Binding Move.Id,Converter={x:Static c:MoveString.C}}"/>
-                    <GridViewColumn Header="属性">
+                    <GridViewColumn Header="属性" Width="60">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ContentPresenter Content="{Binding Move.Type}" ContentTemplate="{x:Static ui:Labels.BattleType}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="类别">
+                    <GridViewColumn Header="名称" Width="80" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="类别" Width="60">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ContentPresenter Content="{Binding Move.Category}" ContentTemplate="{x:Static ui:Labels.MoveCategory}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="威力" DisplayMemberBinding="{Binding Move.Power, Converter={x:Static c:PowerString.C}}"/>
-                    <GridViewColumn Header="命中" DisplayMemberBinding="{Binding Move.Accuracy, Converter={x:Static c:AccuracyString.C}}"/>
-                    <GridViewColumn Header="PP" DisplayMemberBinding="{Binding Move.PP}"/>
-                    <GridViewColumn Header="描述" DisplayMemberBinding="{Binding Move.Id, Converter={x:Static c:MoveDString.C}}"/>
+                    <GridViewColumn Header="威力" Width="40" DisplayMemberBinding="{Binding Move.Power, Converter={x:Static c:PowerString.C}}"/>
+                    <GridViewColumn Header="命中" Width="40" DisplayMemberBinding="{Binding Move.Accuracy, Converter={x:Static c:AccuracyString.C}}"/>
+                    <GridViewColumn Header="PP" Width="40" DisplayMemberBinding="{Binding Move.PP}"/>
+                    <GridViewColumn Header="英文名称" Width="115" DisplayMemberBinding="{Binding BackupName}"/>
                 </GridView>
             </ListView.View>
         </ListView>
+        
         <StackPanel DataContext="{Binding Origin.Container}" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-21,0,0">
             <StackPanel.Resources>
                 <Style TargetType="ContentControl">

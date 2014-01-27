@@ -14,7 +14,7 @@ namespace PokemonBattleOnline.PBO.Converters
 
     protected override object Convert(int value)
     {
-      return value == 0x65 ? "-" : value.ToString();
+      return value == 0 ? "-" : value.ToString();
     }
   }
 

@@ -73,20 +73,26 @@ namespace PokemonBattleOnline.PBO.Editor
         };
     }
 
-    private void SelectedMove_MouseDown(object sender, MouseButtonEventArgs e)
+    private void LearnedMove_MouseDown(object sender, MouseButtonEventArgs e)
     {
-      if (((ContentPresenter)sender).Content != null)
+      var m = ((ContentPresenter)sender).Content as LearnedMove;
+      if (m != null)
       {
-        var move = ((LearnedMove)((ContentPresenter)sender).Content).Move.Id;
+        var move = m.Move.Id;
         for (int i = 0; i < learnsetlist.Items.Count; ++i)
           if (((LearnVM)learnsetlist.Items[i]).Move.Id == move)
           {
-            learnsetlist.SelectedIndex = i;
             if (panel == null) panel = typeof(ItemsControl).InvokeMember("_itemsHost", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField, null, learnsetlist, null) as VirtualizingStackPanel;
-            if (panel != null) panel.SetVerticalOffset(panel.ScrollOwner.ScrollableHeight * learnsetlist.SelectedIndex / learnsetlist.Items.Count);
+            if (panel != null) panel.SetVerticalOffset(panel.ScrollOwner.ScrollableHeight * i / learnsetlist.Items.Count);
             break;
           }
       }
+    }
+    private void Learn_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+      var m = (LearnVM)((Border)sender).DataContext;
+      if (m.IsLearned) VM.RemoveMove(m.Move);
+      else VM.AddMove(m.Move);
     }
 
     private void Close_Click(object sender, RoutedEventArgs e)
@@ -118,8 +124,7 @@ namespace PokemonBattleOnline.PBO.Editor
             VM.PokemonForm = RomData.GetPokemon(n / 100, n % 100);
             break;
           case 'm':
-            foreach (var l in VM.Learnset)
-              if (l.Move.Id == n) l.IsSelected = true;
+            VM.AddMove(RomData.GetMove(n));
             break;
           case 'a':
             VM.Model.Ability = n;

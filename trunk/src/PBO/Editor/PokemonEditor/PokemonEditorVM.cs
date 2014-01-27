@@ -55,10 +55,16 @@ namespace PokemonBattleOnline.PBO.Editor
   }
   internal class PokemonEditorVM : ObservableObject
   {
+    public static readonly ICommand RemoveMoveCommand;
     public static readonly ICommand PPUpChangeCommand;
 
     static PokemonEditorVM()
     {
+      RemoveMoveCommand = new SimpleCommand((_m) =>
+        {
+          var m = (LearnedMove)_m;
+          EditorVM.Current.EditingPokemon.RemoveMove(m.Move);
+        });
       PPUpChangeCommand = new SimpleCommand((_m) =>
         {
           var m = (LearnedMove)_m;
@@ -124,7 +130,7 @@ namespace PokemonBattleOnline.PBO.Editor
     { get { return Origin == null ? null : Origin.Model; } }
     public PokemonSpecies PokemonSpecies
     {
-      get { return Model.Form.Species; }
+      get { return Model == null ? null : Model.Form.Species; }
       set
       {
         if (Model.Form.Species != value)
@@ -136,7 +142,7 @@ namespace PokemonBattleOnline.PBO.Editor
     }
     public PokemonForm PokemonForm
     {
-      get { return Model.Form; }
+      get { return Model == null ? null : Model.Form; }
       set
       {
         if (Model.Form != value && value != null)
@@ -153,7 +159,7 @@ namespace PokemonBattleOnline.PBO.Editor
     }
     public PokemonGender Gender
     {
-      get { return Model.Gender; }
+      get { return Model == null ? 0 : Model.Gender; }
       set
       {
         if (Model.Gender != value)
@@ -172,7 +178,7 @@ namespace PokemonBattleOnline.PBO.Editor
     }
     public int HeldItem
     {
-      get { return Model.Item; }
+      get { return Model == null ? 0 : Model.Item; }
       set
       {
         if (Model.Item != value)
@@ -194,13 +200,7 @@ namespace PokemonBattleOnline.PBO.Editor
     public PokemonEditor6D Stats
     { get { return _stats; } }
     public int RemainingEv
-    {
-      get
-      {
-        var ev = Model.Ev;
-        return 510 - ev.Sum();
-      }
-    }
+    { get { return Model == null ? 0 : 510 - Model.Ev.Sum(); } }
     private Visibility _remainingEvVisibility;
     public Visibility RemainingEvVisibility
     { get { return _remainingEvVisibility; } }
@@ -217,7 +217,7 @@ namespace PokemonBattleOnline.PBO.Editor
 
     private Dictionary<int, LearnVM> _learnset;
     public IEnumerable<LearnVM> Learnset
-    { get { return _learnset.Values; } }
+    { get { return _learnset == null ? null : _learnset.Values; } }
     private void RefreshLearnset()
     {
       _learnset = new Dictionary<int, LearnVM>();
@@ -228,8 +228,8 @@ namespace PokemonBattleOnline.PBO.Editor
       GetLearnset(number, 0);
       number = RomData.GetPreEvolution(number);
       GetLearnset(number, 0);
-      var dataView = CollectionViewSource.GetDefaultView(Learnset);
-      dataView.SortDescriptions.Add(new SortDescription("IsSelected", ListSortDirection.Descending));
+      //var dataView = CollectionViewSource.GetDefaultView(Learnset);
+      //dataView.SortDescriptions.Add(new SortDescription("IsSelected", ListSortDirection.Descending));
       OnPropertyChanged("Learnset");
     }
     private void GetLearnset(int number, int form)
@@ -252,7 +252,7 @@ namespace PokemonBattleOnline.PBO.Editor
         if (number == 235)
         {
           for (var m = 1; m <= RomData.Moves.Count(); ++m)
-            if (m != Ms.STRUGGLE && m != 603 && m != 606 && m != 607 && m != 614 && m != 615) GetLearnVM(m).AddMethod(LearnCategory.Other);
+            if (m != Ms.STRUGGLE && m != 603 && m != 606 && m != 607) GetLearnVM(m).AddMethod(LearnCategory.Other);
         }
         else foreach (var sp in LearnList.SP.Get(number, form)) GetLearnVM(sp).AddMethod(LearnCategory.Other);
       }
@@ -285,7 +285,7 @@ namespace PokemonBattleOnline.PBO.Editor
     public Visibility HiddenPowerVisibility
     { get { return _hiddenPowerVisibility; } }
     public BattleType HiddenPowerType
-    { get { return GameHelper.HiddenPower(Model.Iv); } }
+    { get { return Model == null ? 0 : GameHelper.HiddenPower(Model.Iv); } }
     private Visibility _happinessVisibility;
     public Visibility HappinessVisibility
     { get { return _happinessVisibility; } }
@@ -326,20 +326,24 @@ namespace PokemonBattleOnline.PBO.Editor
       }
     }
 
-    public bool AddMove(MoveType m)
+    public void AddMove(MoveType move)
     {
-      if (Model.AddMove(m))
-      {
-        RefreshOptionalVisibility();
-        return true;
-      }
-      else return false;
+      foreach(var l in Learnset)
+        if (l.Move == move && Model.AddMove(move))
+        {
+          RefreshOptionalVisibility();
+          l.IsLearned = true;
+          break;
+        }
     }
     public void RemoveMove(MoveType m)
     {
-      Model.RemoveMove(m);
-      RefreshOptionalVisibility();
-      if (m.Id == Ms.SECRET_SWORD && PokemonSpecies.Number == 647) RefreshImage();
+      if (Model.RemoveMove(m))
+      {
+        RefreshOptionalVisibility();
+        _learnset[m.Id].IsLearned = false;
+        if (m.Id == Ms.SECRET_SWORD && PokemonSpecies.Number == 647) RefreshImage();
+      }
     }
 
     public void Close()

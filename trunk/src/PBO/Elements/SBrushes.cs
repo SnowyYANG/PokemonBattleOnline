@@ -16,8 +16,6 @@ namespace PokemonBattleOnline.PBO.Elements
     public static readonly Brush GrayB1;
     public static readonly Brush GrayF;
 
-    public static readonly Brush SelectedItemBg;
-
     public static readonly Brush BlueM;
     public static readonly Brush OrangeM;
     public static readonly Brush MagentaM;
@@ -29,8 +27,6 @@ namespace PokemonBattleOnline.PBO.Elements
       CyanF = NewBrush(0xff28c0a8);
       GrayB1 = NewBrush(0xff181818);
       GrayF = NewBrush(0xfff8f8f8);
-
-      SelectedItemBg = NewBrush(0x804294de);
 
       BlueM = NewBrush(0xff0080e8);
       OrangeM = NewBrush(0xffe88800);

@@ -346,7 +346,7 @@ namespace PokemonBattleOnline.Game
       return false;
     }
 
-    public void RemoveMove(MoveType move)
+    public bool RemoveMove(MoveType move)
     {
       foreach (var m in _moves)
         if (m.Move == move)
@@ -354,8 +354,9 @@ namespace PokemonBattleOnline.Game
           _moves.Remove(m);
           if (CheckSpForm()) OnPropertyChanged();
           if (number == KELDEO && move.Id == Ms.SECRET_SWORD) OnPropertyChanged("CanChooseForm");
-          break;
+          return true;
         }
+      return false;
     }
 
     #region ICloneable
