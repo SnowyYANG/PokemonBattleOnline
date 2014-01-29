@@ -64,7 +64,7 @@ namespace PokemonBattleOnline.Game.GameEvents
       {
         var fh = pm.Hp.Value;
         pm.Hp.Value = Hp;
-        Sleep = 17 * fh > Hp ? fh - Hp : Hp - fh + 500;
+        Sleep = 17 * (fh > Hp ? fh - Hp : Hp - fh) + 500;
       }
     }
     public override void Update(SimGame game)
