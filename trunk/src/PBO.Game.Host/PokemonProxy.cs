@@ -200,7 +200,7 @@ namespace PokemonBattleOnline.Game.Host
           if (OnboardPokemon.HasType(BattleType.Fire)) goto FAIL_NOEFFECT;
           goto STATE;
         case AttachedState.FRZ:
-          if (Controller.Weather == Weather.IntenseSunlight) goto FAIL;//战报顺序未测
+          if (Controller.Weather == Weather.IntenseSunlight) goto FAIL_FAIL;//战报顺序未测
           if (State == PokemonState.FRZ) goto FAIL_BEENSTATE;
           if (OnboardPokemon.HasType(BattleType.Ice)) goto FAIL_NOEFFECT;
           goto STATE;
@@ -242,13 +242,16 @@ namespace PokemonBattleOnline.Game.Host
           goto CONDITION;
         case AttachedState.PerishSong:
           return !OnboardPokemon.HasCondition("PerishSong"); //无需判断防音 never show fail
+        case AttachedState.Disable:
+          if (LastMove == null) goto FAIL_FAIL;
+          goto CONDITION;
         case AttachedState.Yawn:
           if (CanAddState(by, ability, AttachedState.SLP, false)) goto CONDITION;
-          else goto FAIL;
+          else goto FAIL_FAIL;
         default:
           goto CONDITION;
       }
-    FAIL:
+    FAIL_FAIL:
       if (showFail) Controller.ReportBuilder.ShowLog(fail);
       return false;
     FAIL_NOEFFECT:
@@ -258,10 +261,10 @@ namespace PokemonBattleOnline.Game.Host
       if (showFail) ShowLogPm("Been" + state);
       return false;
     CONDITION:
-      if (OnboardPokemon.HasCondition(state.ToString())) goto FAIL;
+      if (OnboardPokemon.HasCondition(state.ToString())) goto FAIL_FAIL;
       goto GENERIC;
     STATE:
-      if (State != PokemonState.Normal) goto FAIL;
+      if (State != PokemonState.Normal) goto FAIL_FAIL;
     SAFEGUARD:
       if (Field.HasCondition("Safeguard") && this != by && by.Ability != As.INFILTRATOR)
       {

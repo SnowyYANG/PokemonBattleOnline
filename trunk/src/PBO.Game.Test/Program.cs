@@ -92,15 +92,16 @@ namespace PokemonBattleOnline.Test
       foreach (var t in team1) LogLine(UserData.Export(t));
       LogLine("============TEAM 2============");
       foreach (var t in team2) LogLine(UserData.Export(t));
+      LogLine();
       LogLine("============BATTLE============");
       C1.Room.GamePrepare(team1.ToArray());
       C2.Room.GamePrepare(team2.ToArray());
 
     BATTLE:
+      Thread.Sleep(500);
       var ir1 = IR1;
       var ir2 = IR2;
       IR1 = IR2 = null;
-      Thread.Sleep(500);
       if (Battle(C1.Room.PlayerController, "BATTLE1: ", ir1, PM1) && Battle(C2.Room.PlayerController, "BATTLE2: ", ir2, PM2)) goto BATTLE;
       else
       {
@@ -115,6 +116,11 @@ namespace PokemonBattleOnline.Test
       if (!Directory.Exists("logs")) Directory.CreateDirectory("logs");
       log = new StreamWriter("logs\\" + DateTime.Now.ToString("yyyyMMddhhmmss") + ".txt", true, Encoding.Unicode);
     }
+    static void LogLine()
+    {
+      Console.WriteLine();
+      if (log != null) log.WriteLine();
+    }
     static void LogLine(string text)
     {
       Console.WriteLine(text);
@@ -127,8 +133,11 @@ namespace PokemonBattleOnline.Test
     }
     static void EndLog()
     {
-      log.Dispose();
-      log = null;
+      if (log != null)
+      {
+        log.Dispose();
+        log = null;
+      }
     }
     private static void Team(List<PokemonData> team, string pre)
     {

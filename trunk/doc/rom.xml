@@ -2460,7 +2460,7 @@
         <MinTurn>4</MinTurn>
         <State>Disable</State>
       </_attachment>
-      <_class>Special</_class>
+      <_class>AddState</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
       <_type>Normal</_type>
