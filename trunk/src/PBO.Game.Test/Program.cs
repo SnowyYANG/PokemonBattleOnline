@@ -100,21 +100,6 @@ namespace PokemonBattleOnline.Test
         Console.WriteLine("------------------------------");
         goto TEAM;
       }
-      //Console.Write("BATTLE: ");
-      line = Console.ReadLine();
-      switch (line)
-      {
-        case "":
-          Battle(C2.Room.PlayerController, ref IR2);
-          break;
-        case "ok":
-          C1.Room.PlayerController.GiveUp();
-          goto TEAM;
-        default:
-          Console.WriteLine("ERROR");
-          break;
-      }
-      goto BATTLE;
     }
     private static void Team(List<PokemonData> team, string pre, List<PokemonData> team1)
     {
