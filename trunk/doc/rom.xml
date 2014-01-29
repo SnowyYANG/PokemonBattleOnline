@@ -10534,7 +10534,7 @@
       </_advancedFlags>
       <_attachment>
         <Category>Forever</Category>
-        <Probability>100</Probability>
+        <Probability>10</Probability>
         <State>FRZ</State>
       </_attachment>
       <_category>Special</_category>
@@ -10595,6 +10595,7 @@
       </_advancedFlags>
       <_category>Special</_category>
       <_class>AttackAndAbsorb</_class>
+      <_hurtPercentage>50</_hurtPercentage>
       <_lv7DChanges />
       <_power>50</_power>
       <_pp>20</_pp>
