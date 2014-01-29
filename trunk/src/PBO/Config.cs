@@ -30,9 +30,18 @@ namespace PokemonBattleOnline.PBO
 
     [DataMember(EmitDefaultValue = false)]
     public int PokemonNumber;
-    
-    [DataMember(EmitDefaultValue = false)]
-    public string Server;
+
+    [DataMember(Name = "Servers", EmitDefaultValue = false)]
+    private List<string> _servers;
+    public List<string> Servers
+    {
+      get
+      {
+        if (_servers == null) _servers = new List<string>(30);
+        return _servers;
+      }
+      set { _servers = value; }
+    }
 
     [DataMember(EmitDefaultValue = false)]
     public string Name;

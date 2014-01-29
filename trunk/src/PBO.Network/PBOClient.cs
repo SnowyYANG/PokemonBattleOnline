@@ -91,6 +91,7 @@ namespace PokemonBattleOnline.Network
     {
       _current.Controller.Exit();
       _current = null;
+      CurrentChanged();
     }
   }
 }

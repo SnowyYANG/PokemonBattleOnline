@@ -22,7 +22,7 @@ namespace PokemonBattleOnline.PBO
     public LobbyPanel()
     {
       InitializeComponent();
-      gridbg.Fill = PBO.Elements.SBrushes.GetGridTileBrush(16, SBrushes.NewBrush(0xffffffff));
+      gridbg.Fill = PBO.Elements.SBrushes.GetGridTileBrush(16, SBrushes.NewBrush(0x20ffffff));
       PBOClient.Disconnected += () => MessageBox.Show("连接到服务器中断。");
       PBOClient.CurrentChanged += PBOClient_CurrentChanged;
       PBOClient_CurrentChanged();

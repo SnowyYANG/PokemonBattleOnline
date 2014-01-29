@@ -13,17 +13,17 @@
         </LinearGradientBrush>
     </UserControl.Background>
     <Grid>
-        <Rectangle IsHitTestVisible="False">
+        <Rectangle Name="gridbg" IsHitTestVisible="False">
             <Rectangle.Fill>
                 <ImageBrush TileMode="Tile" Viewport="0,0,248,73" ViewportUnits="Absolute" ImageSource="/PBO;component/images/PokemonBankBackground1.png"/>
             </Rectangle.Fill>
         </Rectangle>
-        <Rectangle IsHitTestVisible="False">
+        <Rectangle Margin="{Binding Margin,ElementName=gridbg}" IsHitTestVisible="False">
             <Rectangle.Fill>
                 <ImageBrush TileMode="Tile" Viewport="0,0,25,23" ViewportUnits="Absolute" ImageSource="/PBO;component/images/PokemonBankBackground2.png"/>
             </Rectangle.Fill>
         </Rectangle>
-        <Rectangle IsHitTestVisible="False">
+        <Rectangle Margin="{Binding Margin,ElementName=gridbg}" IsHitTestVisible="False">
             <Rectangle.Fill>
                 <ImageBrush TileMode="Tile" Viewport="0,0,38,76" ViewportUnits="Absolute" ImageSource="/PBO;component/images/PokemonBankBackground3.png"/>
             </Rectangle.Fill>

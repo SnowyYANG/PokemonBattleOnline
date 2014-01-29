@@ -42,15 +42,6 @@ namespace PokemonBattleOnline.PBO.Server
         Console.WriteLine(@"Server is ready. To close server, input ""quit"" or close this window. To hide this window, click the notify icon in task.");
         Console.WriteLine();
 
-        new Thread(() =>
-          {
-            while (true)
-            {
-              Thread.Sleep(500);
-              Console.WriteLine("Test");
-            }
-          }).Start();
-
       LOOP:
         Console.Write("Input command: ");
         var line = Console.ReadLine();

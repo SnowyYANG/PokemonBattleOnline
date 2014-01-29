@@ -19,7 +19,6 @@ namespace PokemonBattleOnline.PBO
   /// </summary>
   public partial class MainWindow : Window
   {
-    readonly GridLength GL0;
     readonly GridLength GLMIN;
 
     static MainWindow()
@@ -30,9 +29,6 @@ namespace PokemonBattleOnline.PBO
     public MainWindow()
     {
       InitializeComponent();
-      Loaded += switchLobby_Click;
-      GL0 = new GridLength(0);
-      GLMIN = new GridLength(lobby.MinWidth);
       editor.Init();
     }
 
@@ -40,38 +36,38 @@ namespace PokemonBattleOnline.PBO
     {
       double x = Helper.Random.Next(16);
       double y = -Helper.Random.Next(16);
-      //editor.SetGridBg(-x, y);
+      editor.SetGridBg(-x, y);
       lobby.SetGridBg(-((c0.ActualWidth - 3 + x) % 16), y);
     }
 
-    private void switchLobby_Click(object sender, RoutedEventArgs e)
-    {
-      if (c1.ActualWidth == 0) c1.Width = GLMIN;
-      else c1.Width = new GridLength(grid.ActualWidth);
-    }
-    private void switchEditor_Click(object sender, RoutedEventArgs e)
-    {
-      if (c0.ActualWidth == 0) c1.Width = GLMIN;
-      else c1.Width = GL0;
-    }
     private void Rectangle_SizeChanged(object sender, SizeChangedEventArgs e)
     {
       double w = e.NewSize.Width;
       if (w < lobby.MinWidth && w > 0)
       {
-        if (e.PreviousSize.Width == lobby.MinWidth) c1.Width = GL0;
-        else c1.Width = GLMIN;
+        if (e.PreviousSize.Width == lobby.MinWidth) c1.Width = new GridLength(0);
+        else c1.Width = new GridLength(lobby.MinWidth);
       }
       else if (grid.ActualWidth - w < 321)
       {
-        if (grid.ActualWidth - w > 20) c1.Width = new GridLength(grid.ActualWidth - 321);
-        else c1.Width = new GridLength(grid.ActualWidth);
+        if (e.PreviousSize.Width == grid.ActualWidth - 321 || grid.ActualWidth - w < 50) c1.Width = new GridLength(grid.ActualWidth);
+        else c1.Width = new GridLength(grid.ActualWidth - 321);
+      }
+      if (c0.ActualWidth == 0)
+      {
+        lobby.Margin = new Thickness(10, 0, 0, 0);
+        SwitchEditor.Visibility = Visibility.Visible;
+      }
+      else if (c1.ActualWidth == 0)
+      {
+        editor.Margin = new Thickness(0, 0, 10, 0);
+        SwitchLobby.Visibility = Visibility.Visible;
       }
       RefreshGrid();
     }
     private void Grid_Loaded(object sender, RoutedEventArgs e)
     {
-      c1.Width = GLMIN;
+      c1.Width = new GridLength(lobby.MinWidth);
     }
     private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
     {
@@ -92,6 +88,14 @@ namespace PokemonBattleOnline.PBO
       base.OnClosed(e);
       Config.Current.Save();
       Application.Current.Shutdown();
+    }
+
+    private void Switch_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+      c1.Width = GLMIN;
+      editor.Margin = new Thickness(0, 0, 3, 0);
+      lobby.Margin = new Thickness();
+      SwitchEditor.Visibility = SwitchLobby.Visibility = Visibility.Collapsed;
     }
   }
 }

@@ -5,7 +5,7 @@
              xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
              xmlns:l="clr-namespace:PokemonBattleOnline.PBO.Lobby">
     <Grid>
-        <TabControl x:Name="whom" Margin="0,0,0,22" Padding="0">
+        <TabControl x:Name="whom" BorderBrush="{x:Null}" BorderThickness="0" Background="#80ffffff" Margin="0,0,0,22" Padding="0">
             <TabControl.ItemContainerStyle>
                 <Style TargetType="TabItem">
                     <Setter Property="HeaderTemplate">

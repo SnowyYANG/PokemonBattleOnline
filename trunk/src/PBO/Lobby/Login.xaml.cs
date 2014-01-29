@@ -28,6 +28,22 @@ namespace PokemonBattleOnline.PBO.Lobby
       PBOClient.LoginFailed_Version += () => LoginFailed(R.LOGINFAILED_VERSION);
       PBOClient.LoginFailed_Full += () => LoginFailed(R.LOGINFAILED_FULL);
       PBOClient.LoginFailed_Disconnect += () => LoginFailed("连接到服务器失败。");
+      PBOClient.CurrentChanged += () =>
+        {
+          if (PBOClient.Current != null)
+          {
+            var server = servers.Text;
+            var ss = Config.Current.Servers;
+            if (ss.FirstOrDefault() != server)
+            {
+              ss.Remove(server);
+              var n = ss.Count;
+              if (n > 30) ss.RemoveRange(30, n - 30);
+              ss.Insert(0, server);
+              servers.Items.Refresh();
+            }
+          }
+        };
       var av = Config.Current.Avatar;
       if (av < 651 || av >= 868 || av == 790 || av == 856 || av == 857 || av == 858)
       {
@@ -37,6 +53,8 @@ namespace PokemonBattleOnline.PBO.Lobby
       avatar.Content = av;
       var na = Config.Current.Name;
       if (na != null) name.Text = na;
+      servers.ItemsSource = Config.Current.Servers;
+      servers.SelectedIndex = 0;
     }
 
     private void LoginFailed(string message)

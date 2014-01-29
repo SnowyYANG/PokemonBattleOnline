@@ -32,6 +32,11 @@ namespace PokemonBattleOnline.PBO
       DataContext = EditorVM.Current;
     }
 
+    public void SetGridBg(double x, double y)
+    {
+      gridbg.Margin = new Thickness(x, y, 0, 0);
+    }
+
     public bool Window_Closing()
     {
       EditorVM.Current.Save();
