@@ -35,7 +35,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.SPIDER_WEB: //169
         case Ms.MEAN_LOOK: //212
         case Ms.BLOCK: //335
-          return der.OnboardPokemon.HasType(BattleType.Ghost);
+          return !der.OnboardPokemon.HasType(BattleType.Ghost);
       }
 
       if ((move.Powder() || move.Spore()) && der.OnboardPokemon.HasType(BattleType.Grass)) return false;
