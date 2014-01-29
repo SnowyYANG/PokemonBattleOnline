@@ -55,7 +55,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
-    <OutputPath>..\..\build\dll\</OutputPath>
+    <OutputPath>..\..\test\</OutputPath>
     <DefineConstants>ETV, TEST</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
