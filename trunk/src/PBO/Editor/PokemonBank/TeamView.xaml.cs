@@ -96,10 +96,5 @@ namespace PokemonBattleOnline.PBO.Editor
         EditorVM.Current.Teams.Remove(ViewModel);
       }
     }
-
-    private void NameEditor_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-
-    }
   }
 }

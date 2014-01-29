@@ -29,8 +29,8 @@ namespace PokemonBattleOnline.PBO.Editor
       get
       {
         var pms = _container.Model.Pokemons;
-        for (int i = _index; i > 0; --i)
-          if (pms[i - 1] != null) return _container[i];
+        for (int i = _index; i >= 0; --i)
+          if (i == 0 || pms[i - 1] != null) return _container[i];
         return this;
       }
     }
