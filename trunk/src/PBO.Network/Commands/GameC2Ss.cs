@@ -42,4 +42,11 @@ namespace PokemonBattleOnline.Network.Commands
     {
     }
   }
+  [DataContract(Namespace = PBOMarks.JSON)]
+  public class GiveUpC2S : IC2S
+  {
+    public GiveUpC2S()
+    {
+    }
+  }
 }

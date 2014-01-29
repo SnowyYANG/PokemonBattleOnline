@@ -184,6 +184,13 @@ namespace PokemonBattleOnline.Network
         else OnGameStop(su.User.Id, GameStopReason.InvalidInput);
     }
 
+    public void GiveUpGame(ServerUser su)
+    {
+      var seat = su.User.Seat;
+      if (seat != Seat.Spectator && game != null)
+        OnGameStop(su.User.Id, GameStopReason.PlayerGiveUp);
+    }
+
     public void Dispose()
     {
       if (game != null) game.Dispose();

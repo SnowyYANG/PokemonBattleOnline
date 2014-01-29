@@ -29,6 +29,10 @@ namespace PokemonBattleOnline.Network
     {
       Client.Send(new Commands.InputC2S(input));
     }
+    public void GiveUp()
+    {
+      Client.Send(new Commands.GiveUpC2S());
+    }
 
     internal void OnRequireInput(InputRequest inputRequest)
     {

@@ -31,4 +31,16 @@ namespace PokemonBattleOnline.Network.C2SEs
       if (room != null) room.Input(su, this);
     }
   }
+  [DataContract(Namespace = PBOMarks.JSON)]
+  internal class GiveUpC2SE : Commands.GiveUpC2S, IC2SE
+  {
+    private GiveUpC2SE()
+    {
+    }
+    public void Execute(ServerUser su)
+    {
+      var room = su.Room;
+      if (room != null) room.GiveUpGame(su);
+    }
+  }
 }
