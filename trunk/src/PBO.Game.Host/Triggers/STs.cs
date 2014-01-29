@@ -370,7 +370,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void DeReport(ReportBuilder report, Condition hazard, Field field)
     {
       var m = hazard.Move.Id;
-      report.ShowLog(m == Ms.SPIKES ? "DeSpikes" : m == Ms.TOXIC_SPIKES ? "DeToxicSpikes" : "DeStealthRock", field.Team);
+      report.ShowLog(m == Ms.SPIKES ? "DeSpikes" : m == Ms.TOXIC_SPIKES ? "DeToxicSpikes" : m == Ms.STEALTH_ROCK ? "DeStealthRock" : "DeStickyWeb", field.Team);
     }
     public static void Debut(PokemonProxy pm) //欢迎登场，口耐的精灵们（笑
     {
@@ -381,11 +381,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           Debut(eh, pm);
           if (pm.CheckFaint()) return;
         }
-      if (pm.Field.HasCondition("StickyWeb") && HasEffect.IsGroundAffectable(pm, true, false))
-      {
-        pm.ShowLogPm("StickyWeb");
-        pm.ChangeLv7D(null, StatType.Speed, -1, false, false);
-      }
     }
     private static void Debut(Condition hazard, PokemonProxy pm)
     {
@@ -404,6 +399,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           int revise = BattleType.Rock.EffectRevise(pm.OnboardPokemon.Types);//羽栖有效无效都无所谓
           int hp = (revise > 0 ? pm.Pokemon.MaxHp << revise : pm.Pokemon.MaxHp >> -revise) >> 3;
           if (pm.CanEffectHurt) pm.EffectHurt(hp, "m_StealthRock");
+          break;
+        case Ms.STICKY_WEB:
+          if (HasEffect.IsGroundAffectable(pm, true, false))
+          {
+            pm.ShowLogPm("StickyWeb");
+            pm.ChangeLv7D(null, StatType.Speed, -1, false, false);
+          }
           break;
       }
     }

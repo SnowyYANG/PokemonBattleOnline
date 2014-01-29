@@ -32,9 +32,9 @@ namespace PokemonBattleOnline.Network.C2SEs
     }
   }
   [DataContract(Namespace = PBOMarks.JSON)]
-  internal class GiveUpC2SE : Commands.GiveUpC2S, IC2SE
+  internal class GiveUpC2S : Commands.GiveUpC2S, IC2SE
   {
-    private GiveUpC2SE()
+    private GiveUpC2S()
     {
     }
     public void Execute(ServerUser su)

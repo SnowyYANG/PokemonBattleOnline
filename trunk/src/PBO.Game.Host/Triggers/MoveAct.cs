@@ -132,13 +132,16 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           BellyDrum(atk);
           break;
         case Ms.SPIKES: //191
-          EntryHazards(atk, move, "EnSpikes");
+          EntryHazards(atk, "EnSpikes");
           break;
         case Ms.TOXIC_SPIKES: //390
-          EntryHazards(atk, move, "EnToxicSpikes");
+          EntryHazards(atk, "EnToxicSpikes");
           break;
         case Ms.STEALTH_ROCK: //446
-          EntryHazards(atk, move, "EnStealthRock");
+          EntryHazards(atk, "EnStealthRock");
+          break;
+        case Ms.STICKY_WEB:
+          EntryHazards(atk, "EnStickyWeb");
           break;
         case Ms.DESTINY_BOND: //194
           KOedCondition(atk, "DestinyBond");
@@ -344,13 +347,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.MAT_BLOCK:
           if (aer.Field.AddCondition("MatBlock")) aer.ShowLogPm("EnMatBlock");
           else atk.FailAll();
-          break;
-        case Ms.STICKY_WEB:
-          {
-            var team = 1 - aer.Pokemon.TeamId;
-            if (aer.Controller.Board[team].AddCondition("StickyWeb")) aer.Controller.ReportBuilder.ShowLog("EnStickyWeb", team);
-            else atk.FailAll();
-          }
           break;
         case Ms.TRICKORTREAT:
           AddType(atk, BattleType.Ghost);
@@ -688,10 +684,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (atk.Controller.Board[team].AddCondition(condition, atk.Controller.TurnNumber + turn - 1)) atk.Controller.ReportBuilder.ShowLog("En" + condition, team);
       else atk.FailAll();
     }
-    private static void EntryHazards(AtkContext atk, MoveType move, string log)
+    private static void EntryHazards(AtkContext atk, string log)
     {
       var team = 1 - atk.Attacker.Pokemon.TeamId;
-      if (EHTs.En(atk.Controller.Board[team], move)) atk.Controller.ReportBuilder.ShowLog(log, team);
+      if (EHTs.En(atk.Controller.Board[team], atk.Move)) atk.Controller.ReportBuilder.ShowLog(log, team);
       else atk.FailAll();
     }
     private static void LockOn(AtkContext atk)
@@ -821,6 +817,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var t = atk.Target.Defender.Pokemon.TeamId;
       var f = atk.Controller.Board[t];
       EHTs.De(r, f);
+      EHTs.De(r, atk.Controller.Board[1 - t]);
       if (f.RemoveCondition("Reflect")) r.ShowLog("DeReflect", t);
       if (f.RemoveCondition("LightScreen")) r.ShowLog("DeLightScreen", t);
       if (f.RemoveCondition("Mist")) r.ShowLog("DeMist", t);

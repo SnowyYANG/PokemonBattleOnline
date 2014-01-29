@@ -21,6 +21,7 @@ namespace PokemonBattleOnline.Game
     { get; private set; }
     public int TeamIndex
     { get; private set; }
+    
     private readonly SimPokemon[] _pokemons;
     public IEnumerable<SimPokemon> Pokemons
     { get { return _pokemons; } }

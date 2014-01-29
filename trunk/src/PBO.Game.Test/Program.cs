@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.IO;
 using PokemonBattleOnline.Game;
 using PokemonBattleOnline.Network;
 
@@ -12,6 +13,8 @@ namespace PokemonBattleOnline.Test
   {
     static ClientController C1;
     static ClientController C2;
+    static SimPokemon[] PM1;
+    static SimPokemon[] PM2;
     static InputRequest IR1;
     static InputRequest IR2;
     static Random Random = new Random(0);
@@ -26,7 +29,7 @@ namespace PokemonBattleOnline.Test
       GameString.Load("..\\res\\string", "zh", "en");
       PBOServer.NewServer(9999);
       Thread.Sleep(1000);
-      RoomController.GameStop += (r, u) => Console.WriteLine(r.ToString() + (u == null ? " " : " " + u.Name));
+      RoomController.GameStop += (r, u) => LogLine(r.ToString() + (u == null ? " " : " " + u.Name));
       LoginClient.LoginSucceed += (c) =>
       {
         if (C1 == null)
@@ -36,29 +39,27 @@ namespace PokemonBattleOnline.Test
             {
               if (e.PropertyName == "Game") C1.Room.Game.LogAppended += (t, s) =>
                 {
-                  if (s.HasFlag(LogStyle.NoBr)) Console.Write(t);
-                  else Console.WriteLine(t);
+                  if (s.HasFlag(LogStyle.NoBr)) Log(t);
+                  else LogLine(t);
                 };
               else if (e.PropertyName == "PlayerController" && C1.Room.PlayerController != null)
-                C1.Room.PlayerController.RequireInput += (ir) =>
-                  {
-                    IR1 = ir;
-                    Console.Write("BATTLE1: ");
-                  };
+              {
+                PM1 = C1.Room.PlayerController.Player.Pokemons.ToArray();
+                C1.Room.PlayerController.RequireInput += (ir) => IR1 = ir;
+              }
             };
           C1.NewRoom(null, new Network.GameSettings(GameMode.Single), Seat.Player00);
         }
         else
         {
           C2 = c.Controller;
-          C1.Room.PropertyChanged += (sender, e) =>
+          C2.Room.PropertyChanged += (sender, e) =>
             {
               if (e.PropertyName == "PlayerController" && C2.Room.PlayerController != null)
-                C2.Room.PlayerController.RequireInput += (ir) =>
-                  {
-                    IR2 = ir;
-                    Console.Write("BATTLE2: ");
-                  };
+              {
+                PM2 = C2.Room.PlayerController.Player.Pokemons.ToArray();
+                C2.Room.PlayerController.RequireInput += (ir) => IR2 = ir;
+              }
             };
           C2.EnterRoom(C2.Rooms.Last(), Seat.Player10);
         }
@@ -72,21 +73,26 @@ namespace PokemonBattleOnline.Test
 
       var team1 = new List<PokemonData>();
       var team2 = new List<PokemonData>();
-      string line;
-      Thread.Sleep(2000);
 
     TEAM:
-      Team(team1, "TEAM1: ", null);
+      Thread.Sleep(2000);
+      Team(team1, "TEAM1: ");
       Console.WriteLine();
       Console.WriteLine("============TEAM 1============");
-      foreach (var t in team1) Console.WriteLine(UserData.Export(t));
-      Team(team2, "TEAM2: ", team1);
+      team2.Clear();
+      foreach (var p in team1)
+      {
+        Console.WriteLine(UserData.Export(p));
+        team2.Add(p.Clone());
+      }
+      Team(team2, "TEAM2: ");
       Console.WriteLine();
-      Console.WriteLine("============TEAM 1============");
-      foreach (var t in team1) Console.WriteLine(UserData.Export(t));
-      Console.WriteLine("============TEAM 2============");
-      foreach (var t in team2) Console.WriteLine(UserData.Export(t));
-      Console.WriteLine("============BATTLE============");
+      BeginLog();
+      LogLine("============TEAM 1============");
+      foreach (var t in team1) LogLine(UserData.Export(t));
+      LogLine("============TEAM 2============");
+      foreach (var t in team2) LogLine(UserData.Export(t));
+      LogLine("============BATTLE============");
       C1.Room.GamePrepare(team1.ToArray());
       C2.Room.GamePrepare(team2.ToArray());
 
@@ -94,17 +100,40 @@ namespace PokemonBattleOnline.Test
       var ir1 = IR1;
       var ir2 = IR2;
       IR1 = IR2 = null;
-      if (Battle(C1.Room.PlayerController, "BATTLE1: ", ir1) && Battle(C1.Room.PlayerController, "BATTLE2: ", ir2)) goto BATTLE;
+      Thread.Sleep(500);
+      if (Battle(C1.Room.PlayerController, "BATTLE1: ", ir1, PM1) && Battle(C2.Room.PlayerController, "BATTLE2: ", ir2, PM2)) goto BATTLE;
       else
       {
         Console.WriteLine("------------------------------");
+        EndLog();
         goto TEAM;
       }
     }
-    private static void Team(List<PokemonData> team, string pre, List<PokemonData> team1)
+    static StreamWriter log;
+    static void BeginLog()
+    {
+      if (!Directory.Exists("logs")) Directory.CreateDirectory("logs");
+      log = new StreamWriter("logs\\" + DateTime.Now.ToString("yyyyMMddhhmmss") + ".txt", true, Encoding.Unicode);
+    }
+    static void LogLine(string text)
+    {
+      Console.WriteLine(text);
+      if (log != null) log.WriteLine(text);
+    }
+    static void Log(string text)
+    {
+      Console.Write(text);
+      if (log != null) log.Write(text);
+    }
+    static void EndLog()
+    {
+      log.Dispose();
+      log = null;
+    }
+    private static void Team(List<PokemonData> team, string pre)
     {
     LOOP:
-      Console.Write("TEAM1: ");
+      Console.Write(pre);
       var line = Console.ReadLine();
       switch(line)
       {
@@ -118,14 +147,6 @@ namespace PokemonBattleOnline.Test
           break;
         case "clear":
           team.Clear();
-          break;
-        case "team1":
-          if (team1 == null) Console.WriteLine("ERROR");
-          else
-          {
-            team.Clear();
-            foreach (var p in team1) team.Add(p.Clone());
-          }
           break;
         default:
           AutoTeam(team, line.Trim());
@@ -191,7 +212,7 @@ namespace PokemonBattleOnline.Test
       text = text.Substring(end);
       goto LOOP;
     }
-    public static bool Battle(PlayerController pc, string pre, InputRequest ir)
+    public static bool Battle(PlayerController pc, string pre, InputRequest ir, SimPokemon[] pms)
     {
       if (ir != null)
       {
@@ -227,11 +248,21 @@ namespace PokemonBattleOnline.Test
           case "mega !2":
           case "mega !3":
           case "mega !4":
+            {
+              var move = pc.Game.OnboardPokemons[0].Moves[line[6] - '1'];
+              if (move == null) goto default;
+              ai.UseMove(0, move, true);
+            }
             break;
           case "!1":
           case "!2":
           case "!3":
           case "!4":
+            {
+              var move = pc.Game.OnboardPokemons[0].Moves[line[6] - '1'];
+              if (move == null) goto default;
+              ai.UseMove(0, move, false);
+            }
             break;
           case "#1":
           case "#2":
@@ -239,6 +270,13 @@ namespace PokemonBattleOnline.Test
           case "#4":
           case "#5":
           case "#6":
+            {
+              var p = pms[line[1] - '1'];
+              if (p == null || p.Hp.Value == 0 || p.Owner.GetPokemon(0) == p) goto default;
+              if (pc.Game.OnboardPokemons[0] != null) ai.Switch(0, p);
+              else ai.SendOut(0, p);
+            }
+            break;
           default:
             Console.WriteLine("ERROR");
             goto LOOP;
