@@ -41,11 +41,6 @@ namespace PokemonBattleOnline.Game
       return 0 < lv && lv <= 100;
     }
 
-    public static bool ValidateAbility(IPokemonData pm)
-    {
-      return pm.Form.Data.GetAbility(pm.AbilityIndex) != 0;
-    }
-
     public static bool ValidateMoves(IPokemonData pm)
     {
       return pm.Moves.Count() <= 4;
@@ -56,7 +51,6 @@ namespace PokemonBattleOnline.Game
       return true;
       return
         pm.Form != null &&
-        ValidateAbility(pm) &&
         ValidateEv(pm.Ev) &&
         ValidateLv(pm.Lv) &&
         ValidateIv(pm.Iv) &&

@@ -81,7 +81,8 @@ namespace PokemonBattleOnline.Game
 
     public int GetAbility(int index)
     {
-      return abilities.ValueOrDefault(index);
+      var ab = abilities.ValueOrDefault(index);
+      return ab == 0 ? abilities[0] : ab;
     }
   }
 }
