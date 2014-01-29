@@ -36,12 +36,12 @@ namespace PokemonBattleOnline.Game
       if (JP == null) TryLoad(path, "jp");
       InnerBackup = Backup ?? EN ?? JP ?? Current;
       if (Current == null) Current = InnerBackup;
-      for (int i = 1; i <= RomData.Pokemons.Count(); ++i)
+      for (int i = 1; i < 100; ++i)
       {
-        Redirections.Add(new KeyValuePair<string, string>(i.ToString("000"), "p" + i));
-        Redirections.Add(new KeyValuePair<string, string>(i.ToString(), "p" + i));
+        Redirections.Add(new KeyValuePair<string, string>(i.ToString("000"), "p" + i + "00"));
+        Redirections.Add(new KeyValuePair<string, string>(i.ToString(), "p" + i + "00"));
       }
-      for (int i = 100; i <= RomData.Pokemons.Count(); ++i) Redirections.Add(new KeyValuePair<string, string>(i.ToString(), "p" + i));
+      for (int i = 100; i <= RomData.Pokemons.Count(); ++i) Redirections.Add(new KeyValuePair<string, string>(i.ToString(), "p" + i + "00"));
       Redirections.Sort(Comparer.I);
       Redirections.TrimExcess();
     }
