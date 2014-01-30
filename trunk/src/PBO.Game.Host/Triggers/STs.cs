@@ -248,7 +248,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     public static bool TypeCalculated(AtkContext atk)
     {
       var aer = atk.Attacker;
-      if (atk.Type == BattleType.Fire && aer.OnboardPokemon.HasCondition("Powder") && aer.Controller.OnboardPokemons.HasAbility(As.DAMP) == null)
+      if (atk.Type == BattleType.Fire && aer.OnboardPokemon.HasCondition("Powder"))
       {
         aer.EffectHurtByOneNth(4, "m_Powder");
         return true;

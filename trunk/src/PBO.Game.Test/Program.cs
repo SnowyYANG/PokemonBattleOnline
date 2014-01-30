@@ -21,6 +21,7 @@ namespace PokemonBattleOnline.Test
 
     static void Main(string[] args)
     {
+      AppDomain.CurrentDomain.ProcessExit += (sender, e) => EndLog();
       using (var pack = new ZipData("..\\res\\rom.zip"))
       {
         RomData.Load(pack, "/rom.xml");
@@ -78,7 +79,7 @@ namespace PokemonBattleOnline.Test
       Thread.Sleep(2000);
       Team(team1, "TEAM1: ");
       Console.WriteLine();
-      Console.WriteLine("============TEAM 1============");
+      Console.WriteLine("===========TEAM 1&2===========");
       team2.Clear();
       foreach (var p in team1)
       {

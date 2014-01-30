@@ -61,7 +61,7 @@ namespace PokemonBattleOnline.Game.Host
     public bool SetTypes(BattleType type1, BattleType type2 = BattleType.Invalid)
     {
       var ts = ActualTypes;
-      if (ts.Remove(type1) && (type2 == BattleType.Invalid || ts.Remove(type2)) && !ts.Any())
+      if (!ts.Remove(type1) || type2 != BattleType.Invalid && !ts.Remove(type2) || ts.Any())
       {
         Type1 = type1;
         Type2 = type2;
