@@ -183,7 +183,7 @@ namespace PokemonBattleOnline.PBO
       if (reason != GameStopReason.GameEnd)
       {
         br.FontSize = 12;
-        if (reason == GameStopReason.Error) br.AddLogText("游戏对战逻辑发生了错误，请将战报与队伍发送给反馈人员，谢谢。");
+        if (reason == GameStopReason.Error) br.AddLogText("游戏逻辑发生了错误，请将战报与队伍发送给反馈人员，谢谢。");
         else br.AddLogText(string.Format(GameString.Current.BattleLog("SYS_" + reason.ToString()).LineBreak(), player.Name));
       }
       OnGameStop();
