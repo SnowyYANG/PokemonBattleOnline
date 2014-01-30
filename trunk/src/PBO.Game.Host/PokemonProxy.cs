@@ -116,6 +116,7 @@ namespace PokemonBattleOnline.Game.Host
       if (forever) Pokemon.Form = OnboardPokemon.Form;
       Controller.ReportBuilder.ChangeForm(this);
       if (log != null) ShowLogPm(log);
+      AbilityAttach.Execute(this);
     }
     public void Transform(PokemonProxy target)
     {
@@ -540,12 +541,12 @@ namespace PokemonBattleOnline.Game.Host
       Pokemon.Hp = 0;
       CheckFaint();
     }
-    public int MoveHurt(int damage)
+    public int MoveHurt(int damage, bool ability)
     {
       if (damage >= Hp)
       {
         damage = Hp;
-        if (STs.Remaining1HP(this))
+        if (STs.Remaining1HP(this, ability))
         {
           damage--;
           Pokemon.SetHp(1);

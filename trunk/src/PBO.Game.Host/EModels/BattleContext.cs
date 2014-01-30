@@ -131,7 +131,7 @@ namespace PokemonBattleOnline.Game.Host
     
     public void MoveHurt()
     {
-      Damage = Defender.MoveHurt(Damage);
+      Damage = Defender.MoveHurt(Damage, !ATs.IgnoreDefenderAbility(AtkContext.Attacker.Ability));
       {
         var o = new Condition();
         o.Damage = Damage;

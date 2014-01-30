@@ -142,14 +142,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
         }
     }
-    public static bool Remaining1HP(PokemonProxy pm)
+    public static bool Remaining1HP(PokemonProxy pm, bool ability)
     {
       if (pm.OnboardPokemon.HasCondition("Endure"))
       {
         pm.ShowLogPm("Endure");
         return true;
       }
-      if (pm.Hp == pm.Pokemon.MaxHp && pm.RaiseAbility(As.STURDY))
+      if (ability && pm.Hp == pm.Pokemon.MaxHp && pm.RaiseAbility(As.STURDY))
       {
         pm.ShowLogPm("Endure");
         return true;
