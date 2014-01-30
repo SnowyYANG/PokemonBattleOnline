@@ -150,8 +150,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (ability) pm.RaiseAbility();
       c.ReportBuilder.ShowWeather(c);
       if (!ATs.IgnoreWeather(c)) ATs.WeatherChanged(c);
-      var ct = c.TurnNumber == 0 ? 1 : c.TurnNumber;
-      c.Board.SetCondition("Weather", ct + (pm.ItemE(weather.Item()) ? 7 : 4));
+      c.Board.SetCondition("Weather", (c.TurnNumber == 0 ? 1 : c.TurnNumber) + (pm.ItemE(weather.Item()) ? 7 : 4));
       return true;
     }
     public static bool Remaining1HP(PokemonProxy pm, bool ability)
