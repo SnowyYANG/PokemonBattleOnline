@@ -9,7 +9,7 @@ namespace PokemonBattleOnline.Game.GameEvents
   [DataContract(Name = "est", Namespace = PBOMarks.JSON)]
   public class SetState : GameEvent
   {
-    [DataMember(Name = "a")]
+    [DataMember(Name = "a", EmitDefaultValue = false)]
     public int Pm;
     [DataMember(Name = "b", EmitDefaultValue = false)]
     public PokemonState State;
@@ -29,7 +29,7 @@ namespace PokemonBattleOnline.Game.GameEvents
   [DataContract(Name = "eh", Namespace = PBOMarks.JSON)]
   public class ShowHp : GameEvent
   {
-    [DataMember(Name = "a")]
+    [DataMember(Name = "a", EmitDefaultValue = false)]
     public int Pm;
     [DataMember(Name = "b", EmitDefaultValue = false)]
     public int Hp;
@@ -52,7 +52,7 @@ namespace PokemonBattleOnline.Game.GameEvents
   [DataContract(Namespace = PBOMarks.JSON)]
   public class SetHp : GameEvent
   {
-    [DataMember(Name = "a")]
+    [DataMember(Name = "a", EmitDefaultValue = false)]
     public int Pm;
     [DataMember(Name = "b", EmitDefaultValue = false)]
     public int Hp;
@@ -77,7 +77,7 @@ namespace PokemonBattleOnline.Game.GameEvents
   [DataContract(Namespace = PBOMarks.JSON)]
   public class SetY : GameEvent
   {
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public int Pm;
     [DataMember(EmitDefaultValue = false)]
     public CoordY Y;
@@ -92,7 +92,7 @@ namespace PokemonBattleOnline.Game.GameEvents
   [DataContract(Namespace = PBOMarks.JSON)]
   public class SetX : GameEvent
   {
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public int Pm;
     [DataMember(EmitDefaultValue = false)]
     public int X;
@@ -107,7 +107,7 @@ namespace PokemonBattleOnline.Game.GameEvents
   [DataContract(Name = "eo", Namespace = PBOMarks.JSON)]
   public class SetOutward : GameEvent
   {
-    [DataMember(Name = "a")]
+    [DataMember(Name = "a", EmitDefaultValue = false)]
     public int Pm;
     [DataMember(Name = "d", EmitDefaultValue = false)]
     public string Name;

@@ -9,7 +9,7 @@ namespace PokemonBattleOnline.Game.GameEvents
   [DataContract(Namespace = PBOMarks.JSON)]
   public class SetItem : GameEvent
   {
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public int Pm;
     [DataMember(EmitDefaultValue = false)]
     public int Item;

@@ -11,7 +11,7 @@ namespace PokemonBattleOnline.Game.GameEvents
   {
     [DataMember(EmitDefaultValue = false)]
     public bool De;
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public int Pm;
 
     protected override void Update()

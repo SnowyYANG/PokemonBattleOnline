@@ -9,7 +9,7 @@ namespace PokemonBattleOnline.Game.GameEvents
   [DataContract(Name = "es", Namespace = PBOMarks.JSON)]
   public class SendOut : GameEvent
   {
-    [DataMember(Name = "a")]
+    [DataMember(Name = "a",EmitDefaultValue = false)]
     public PokemonOutward Pm;
     [DataMember(Name = "b")]
     public int FormerIndex;

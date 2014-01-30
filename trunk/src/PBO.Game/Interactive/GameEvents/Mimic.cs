@@ -9,7 +9,7 @@ namespace PokemonBattleOnline.Game.GameEvents
   [DataContract(Namespace = PBOMarks.JSON)]
   public class Mimic : GameEvent
   {
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public int Pm;
     [DataMember]
     public int Move;

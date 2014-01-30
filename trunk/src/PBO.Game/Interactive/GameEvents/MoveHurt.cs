@@ -12,7 +12,7 @@ namespace PokemonBattleOnline.Game.GameEvents
   [DataContract(Name = "ed", Namespace = PBOMarks.JSON)]
   public class MoveHurt : GameEvent
   {
-    [DataMember(Name = "a", EmitDefaultValue = false)]
+    [DataMember(Name = "a")]
     public int[] Pms;
     [DataMember(Name = "b", EmitDefaultValue = false)]
     public int[] Damages;
