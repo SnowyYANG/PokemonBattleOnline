@@ -815,14 +815,18 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       var r = atk.Controller.ReportBuilder;
       atk.Target.Defender.ChangeLv7D(atk.Attacker, StatType.Evasion, -1, true);
-      var t = atk.Target.Defender.Pokemon.TeamId;
-      var f = atk.Controller.Board[t];
-      EHTs.De(r, f);
-      EHTs.De(r, atk.Controller.Board[1 - t]);
-      if (f.RemoveCondition("Reflect")) r.ShowLog("DeReflect", t);
-      if (f.RemoveCondition("LightScreen")) r.ShowLog("DeLightScreen", t);
-      if (f.RemoveCondition("Mist")) r.ShowLog("DeMist", t);
-      if (f.RemoveCondition("Safeguard")) r.ShowLog("DeSafeguard", t);
+      var f0 = atk.Controller.Board[0];
+      var f1 = atk.Controller.Board[1];
+      EHTs.De(r, f0);
+      if (f0.RemoveCondition("Reflect")) r.ShowLog("DeReflect", 0);
+      if (f0.RemoveCondition("LightScreen")) r.ShowLog("DeLightScreen", 0);
+      if (f0.RemoveCondition("Mist")) r.ShowLog("DeMist", 0);
+      if (f0.RemoveCondition("Safeguard")) r.ShowLog("DeSafeguard", 0);
+      EHTs.De(r, f1);
+      if (f1.RemoveCondition("Reflect")) r.ShowLog("DeReflect", 1);
+      if (f1.RemoveCondition("LightScreen")) r.ShowLog("DeLightScreen", 1);
+      if (f1.RemoveCondition("Mist")) r.ShowLog("DeMist", 1);
+      if (f1.RemoveCondition("Safeguard")) r.ShowLog("DeSafeguard", 1);
     }
     private static void Soak(AtkContext atk)
     {
