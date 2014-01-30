@@ -30,7 +30,7 @@ namespace PokemonBattleOnline.PBO
       RoomController.GameStop += (r, p) => Current.OnGameStop(r, p);
       RoomController.RoomChat += RoomController_RoomChat;
       RoomController.TimeReminder += RoomController_TimeReminder;
-      RoomController.TimeUp += RoomController_TimeUp;
+      RoomController.TimeUp += (st) => Current.OnTimeUp(st);
       RoomController.Entered += RoomController_Entered;
       RoomController.GameInited += RoomController_GameInited;
       PBOClient.CurrentChanged += PBOClient_CurrentChanged;
@@ -52,13 +52,6 @@ namespace PokemonBattleOnline.PBO
       Current.Reset(PBOClient.Current.Room);
     }
 
-    static void RoomController_TimeUp(IEnumerable<KeyValuePair<User, int>> spentTime)
-    {
-      var br = Current.br;
-      br.AddLogText("Time Up\r\n");
-      foreach (var pair in spentTime)
-        br.AddUserText(string.Format("{0}使用了{1}秒", pair.Key.Name, pair.Value), pair.Key);
-    }
     static void RoomController_TimeReminder(User[] users)
     {
       var br = Current.br;
@@ -177,6 +170,14 @@ namespace PokemonBattleOnline.PBO
         };
     }
 
+    private void OnTimeUp(IEnumerable<KeyValuePair<User, int>> spentTime)
+    {
+      var br = Current.br;
+      br.AddLogText("Time Up\r\n");
+      foreach (var pair in spentTime)
+        br.AddUserText(string.Format("{0}使用了{1}秒", pair.Key.Name, pair.Value), pair.Key);
+      OnGameStop();
+    }
     private void OnGameStop(GameStopReason reason, User player)
     {
       if (reason != GameStopReason.GameEnd)
@@ -185,6 +186,10 @@ namespace PokemonBattleOnline.PBO
         if (reason == GameStopReason.Error) br.AddLogText("游戏对战逻辑发生了错误，请将战报与队伍发送给反馈人员，谢谢。");
         else br.AddLogText(string.Format(GameString.Current.BattleLog("SYS_" + reason.ToString()).LineBreak(), player.Name));
       }
+      OnGameStop();
+    }
+    private void OnGameStop()
+    {
       if (Room.User.Seat != Seat.Spectator) br.Save(Title, Room.Client.User.Name);
       PrepareTeam.DataContext = null;
       Teams.Visibility = Visibility.Visible;

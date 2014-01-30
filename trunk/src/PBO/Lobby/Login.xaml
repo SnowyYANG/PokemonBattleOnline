@@ -64,7 +64,6 @@
                                         </Border>
                                     </Themes:SystemDropShadowChrome>
                                 </Popup>
-                                <Themes:ListBoxChrome x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.ColumnSpan="2" RenderMouseOver="{TemplateBinding IsMouseOver}" RenderFocused="{TemplateBinding IsKeyboardFocusWithin}"/>
                                 <TextBox x:Name="PART_EditableTextBox" Foreground="White" HorizontalContentAlignment="Right" Margin="{TemplateBinding Padding}" VerticalContentAlignment="Center" AllowDrop="True" MinHeight="0" MinWidth="0" ScrollViewer.PanningMode="VerticalFirst" Stylus.IsFlicksEnabled="False">
                                     <TextBox.Template>
                                         <ControlTemplate TargetType="{x:Type TextBox}">
@@ -94,9 +93,6 @@
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsKeyboardFocusWithin" Value="true">
                                     <Setter Property="Foreground" Value="Black"/>
-                                </Trigger>
-                                <Trigger Property="IsDropDownOpen" Value="true">
-                                    <Setter Property="RenderFocused" TargetName="Border" Value="true"/>
                                 </Trigger>
                                 <Trigger Property="HasItems" Value="false">
                                     <Setter Property="Height" TargetName="DropDownBorder" Value="95"/>
