@@ -68,7 +68,11 @@ namespace PokemonBattleOnline.PBO.Editor
       if (e.Property == DataContextProperty && VM != null)
         VM.PropertyChanged += (sender, e2) =>
         {
-          if (e2.PropertyName == null || e2.PropertyName == "Image") VM.Image.CopyPixels(pixels, VM.Image.PixelWidth * 4, 0);
+          if (e2.PropertyName == null || e2.PropertyName == "Image")
+          {
+            var img = VM.Image;
+            if (img != null) img.CopyPixels(pixels, VM.Image.PixelWidth * 4, 0);
+          }
         };
     }
 
