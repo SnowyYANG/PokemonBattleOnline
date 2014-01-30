@@ -12,7 +12,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     public static PokemonProxy HasAbility(this IEnumerable<PokemonProxy> pms, int ability)
     {
       foreach (var p in pms)
-        if (p.Ability == ability) return p;
+        if (p.AbilityE(ability)) return p;
       return null;
     }
     public static PokemonProxy RaiseAbility(this IEnumerable<PokemonProxy> pms, int ability)
@@ -38,7 +38,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         aer.ShowLogPm("Grudge");
       }
       if (def.AtkContext.Move.Id == Ms.FELL_STINGER) aer.ChangeLv7D(aer, StatType.Atk, 2, false);
-      if (aer.Ability == As.MOXIE) aer.ChangeLv7D(aer, StatType.Atk, 1, false, true);
+      if (aer.AbilityE(As.MOXIE)) aer.ChangeLv7D(aer, StatType.Atk, 1, false, true);
     }
     public static void WillAct(PokemonProxy pm)
     {
@@ -142,6 +142,18 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
         }
     }
+    public static bool SetWeather(PokemonProxy pm, Weather weather, bool ability)
+    {
+      var c = pm.Controller;
+      if (c.Board.Weather == weather) return false;
+      c.Board.Weather = weather;
+      if (ability) pm.RaiseAbility();
+      c.ReportBuilder.ShowWeather(c);
+      if (!ATs.IgnoreWeather(c)) ATs.WeatherChanged(c);
+      var ct = c.TurnNumber == 0 ? 1 : c.TurnNumber;
+      c.Board.SetCondition("Weather", ct + (pm.ItemE(weather.Item()) ? 7 : 4));
+      return true;
+    }
     public static bool Remaining1HP(PokemonProxy pm, bool ability)
     {
       if (pm.OnboardPokemon.HasCondition("Endure"))
@@ -154,7 +166,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         pm.ShowLogPm("Endure");
         return true;
       }
-      if ((pm.Item == Is.FOCUS_BAND && pm.Controller.OneNth(10)) || (pm.Item == Is.FOCUS_SASH && pm.Hp == pm.Pokemon.MaxHp))
+      if (pm.ItemE(Is.FOCUS_BAND) && pm.Controller.OneNth(10) || pm.ItemE(Is.FOCUS_SASH) && pm.Hp == pm.Pokemon.MaxHp)
       {
         pm.ShowLogPm("FocusItem", pm.Pokemon.Item);
         if (pm.Pokemon.Item == Is.FOCUS_SASH) pm.ConsumeItem();
@@ -165,7 +177,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     public static bool MagicCoat(AtkContext atk, PokemonProxy der)
     {
       //atk.Move.AdvancedFlags.MagicCoat is already checked
-      if (der.OnboardPokemon.HasCondition("MagicCoat") || !ATs.IgnoreDefenderAbility(atk.Attacker.Ability) && der.Ability == As.MAGIC_BOUNCE)
+      if (der.OnboardPokemon.HasCondition("MagicCoat") || !atk.IgnoreDefenderAbility() && der.AbilityE(As.MAGIC_BOUNCE))
       {
         var o = atk.GetCondition<List<PokemonProxy>>("MagicCoat");
         if (o == null)
@@ -227,9 +239,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       int ab = aer.Ability;
       Modifier m = (Modifier)(ab == As.COMPOUNDEYES ? 0x14cc : ab == As.HUSTLE && atk.Move.Category == MoveCategory.Physical ? 0xccc : 0x1000);
       foreach (PokemonProxy pm in atk.Controller.GetOnboardPokemons(aer.Pokemon.TeamId))
-        if (pm.Ability == As.VICTORY_STAR) m *= 0x1199;
+        if (pm.AbilityE(As.VICTORY_STAR)) m *= 0x1199;
       if (aer.OnboardPokemon.RemoveCondition("MicleBerry")) m *= 0x1199;
-      if (aer.Item == Is.WIDE_LENS) m *= 0x1199;
+      if (aer.ItemE(Is.WIDE_LENS)) m *= 0x1199;
       return m;
     }
     #endregion
@@ -253,7 +265,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         aer.EffectHurtByOneNth(4, "m_Powder");
         return true;
       }
-      if (aer.Ability == As.PROTEAN && aer.OnboardPokemon.SetTypes(atk.Type))
+      if (aer.AbilityE(As.PROTEAN) && aer.OnboardPokemon.SetTypes(atk.Type))
       {
         aer.RaiseAbility();
         aer.ShowLogPm("TypeChange", (int)atk.Type);
@@ -265,7 +277,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
   {
     public static bool IgnoreSubstitute(this AtkContext atk)
     {
-      return atk.Move.IgnoreSubstitute() || atk.Attacker.Ability == As.INFILTRATOR;
+      return atk.Move.IgnoreSubstitute() || atk.Attacker.AbilityE(As.INFILTRATOR);
     }
     private static int Generic(DefContext def)
     {
@@ -290,7 +302,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (def.EffectRevise > 0) c.ReportBuilder.ShowLog("SuperHurt0");
         else if (def.EffectRevise < 0) c.ReportBuilder.ShowLog("WeakHurt0");
         if (def.IsCt) c.ReportBuilder.ShowLog("CT0");
-        if (def.Defender.Item == Is.AIR_BALLOON) ITs.AirBalloon(def);
+        if (def.Defender.ItemE(Is.AIR_BALLOON)) ITs.AirBalloon(def);
         if (hp == 0) Disappear(def.Defender);
         else def.Defender.OnboardPokemon.SetCondition("Substitute", hp);
         return true;

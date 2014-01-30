@@ -16,18 +16,22 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static bool RaiseAbility(this PokemonProxy pm, int abilityId)
     {
-      if (pm.Ability != abilityId) return false;
-      RaiseAbility(pm);
-      return true;
+      if (pm.AbilityE(abilityId))
+      {
+        RaiseAbility(pm);
+        return true;
+      }
+      return false;
     }
 
-    public static bool IgnoreDefenderAbility(int ability)
+    public static bool IgnoreDefenderAbility(this AtkContext atk)
     {
-      return ability == As.MOLD_BREAKER || ability == As.TURBOBLAZE || ability == As.TERAVOLT;
+      var pm = atk.Attacker;
+      return pm.AbilityE(As.MOLD_BREAKER) || pm.AbilityE(As.TURBOBLAZE) || pm.AbilityE(As.TERAVOLT);
     }
-    public static bool CannotBeCted(int ability)
+    public static bool CannotBeCted(this DefContext def)
     {
-      return ability == As.BATTLE_ARMOR || ability == As.SHELL_ARMOR;
+      return def.AbilityE(As.BATTLE_ARMOR) || def.AbilityE(As.SHELL_ARMOR);
     }
 
     public static bool IgnoreWeather(Controller c)
@@ -48,7 +52,7 @@ namespace PokemonBattleOnline.Game.Host
         Enumerable.Empty<PokemonProxy>() :
         atk.Targets.Select((t) => t.Defender).Where((p) => p.Pokemon.TeamId != atk.Attacker.Pokemon.TeamId);
       foreach (var d in ts)
-        if (d.Ability == As.PRESSURE) atk.Pressure++;     
+        if (d.AbilityE(As.PRESSURE)) atk.Pressure++;     
     }
     public static void Withdrawn(PokemonProxy pm, int ability)
     {
@@ -71,7 +75,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static void Illusion(PokemonProxy pm)
     {
-      if (pm.Ability == As.ILLUSION)
+      if (pm.AbilityE(As.ILLUSION))
         foreach(var p in pm.Pokemon.Owner.Pokemons.Reverse())
           if (p.Hp > 0)
           {
@@ -104,7 +108,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static bool Stench(DefContext def)
     {
-      return def.AtkContext.Attacker.Ability == As.STENCH && def.Defender.Controller.RandomHappen(10);
+      return def.AtkContext.Attacker.AbilityE(As.STENCH) && def.Defender.Controller.RandomHappen(10);
     }
     public static bool Trace(int abilityId)
     {
@@ -123,13 +127,13 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static bool Gluttony(PokemonProxy pm)
     {
-      return pm.Hp << 2 <= pm.Pokemon.MaxHp || (pm.Ability == As.GLUTTONY && pm.Hp << 1 <= pm.Pokemon.MaxHp);
+      return pm.Hp << 2 <= pm.Pokemon.MaxHp || pm.AbilityE(As.GLUTTONY) && pm.Hp << 1 <= pm.Pokemon.MaxHp;
     }
 
     internal static void SlowStart(Controller Controller)
     {
       foreach (var pm in Controller.ActingPokemons)
-        if (pm.Ability == As.SLOW_START)
+        if (pm.AbilityE(As.SLOW_START))
         {
           int turn = pm.OnboardPokemon.GetCondition<int>("SlowStart");
           if (turn == Controller.TurnNumber)
@@ -148,7 +152,7 @@ namespace PokemonBattleOnline.Game.Host
         else if (atk.Type == BattleType.Water) ab = As.STORM_DRAIN;
         if (ab != 0)
           foreach (var pm in atk.Controller.Board.Pokemons)
-            if (pm.Ability == ab)
+            if (pm.AbilityE(ab))
             {
               if (pm != atk.Attacker && pm != atk.Target.Defender)
               {
@@ -168,12 +172,12 @@ namespace PokemonBattleOnline.Game.Host
     }
     internal static bool Unnerve(PokemonProxy pm)
     {
-      return pm.OnboardPokemon.HasCondition("Unnerve") && pm.Ability == As.UNNERVE;
+      return pm.OnboardPokemon.HasCondition("Unnerve") && pm.AbilityE(As.UNNERVE);
     }
     internal static void AttachUnnerve(Controller c)
     {
       foreach(var pm in c.OnboardPokemons)
-        if (!pm.OnboardPokemon.HasCondition("Unnerve") && pm.Ability == As.UNNERVE)
+        if (!pm.OnboardPokemon.HasCondition("Unnerve") && pm.AbilityE(As.UNNERVE))
         {
           pm.OnboardPokemon.SetCondition("Unnerve");
           pm.RaiseAbility();

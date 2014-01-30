@@ -28,8 +28,8 @@ namespace PokemonBattleOnline.Game.Host
         var bm = b.SelectedMove.Type;
         int aP = am.Priority;
         int bP = bm.Priority;
-        if (am.Category == MoveCategory.Status && a.Ability == As.PRANKSTER || am.Type == BattleType.Flying && a.Ability == As.GALE_WINGS) aP++;
-        if (bm.Category == MoveCategory.Status && b.Ability == As.PRANKSTER || bm.Type == BattleType.Flying && b.Ability == As.GALE_WINGS) bP++;
+        if (am.Category == MoveCategory.Status && a.AbilityE(As.PRANKSTER) || am.Type == BattleType.Flying && a.AbilityE(As.GALE_WINGS)) aP++;
+        if (bm.Category == MoveCategory.Status && b.AbilityE(As.PRANKSTER) || bm.Type == BattleType.Flying && b.AbilityE(As.GALE_WINGS)) bP++;
         if (aP != bP) return bP - aP;
       }
 
@@ -41,8 +41,8 @@ namespace PokemonBattleOnline.Game.Host
       }
 
       {
-        bool aIsStall = a.Ability == As.STALL;
-        bool bIsStall = b.Ability == As.STALL;
+        bool aIsStall = a.AbilityE(As.STALL);
+        bool bIsStall = b.AbilityE(As.STALL);
         if (aIsStall == bIsStall) goto SPEED;
         if (aIsStall) return 1;
         if (bIsStall) return -1;

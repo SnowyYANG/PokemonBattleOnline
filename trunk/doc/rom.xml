@@ -10904,7 +10904,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
-      <_range>Adjacent</_range>
+      <_priority>1</_priority>
       <_type>Bug</_type>
     </MoveType>
     <MoveType>

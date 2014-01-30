@@ -115,23 +115,27 @@ namespace PokemonBattleOnline.Game.Host
     { 
       get
       {
-        if (AtkContext.Attacker.Ability == As.NO_GUARD || Defender.Ability == As.NO_GUARD) return true;
+        if (AtkContext.Attacker.AbilityE(As.NO_GUARD) || Defender.AbilityE(As.NO_GUARD)) return true;
         Condition c = Defender.OnboardPokemon.GetCondition("NoGuard");
         return c != null && c.By == AtkContext.Attacker && c.Turn == Defender.Controller.TurnNumber; 
       }
     }
 
     public int Ability
-    { get { return ATs.IgnoreDefenderAbility(AtkContext.Attacker.Ability) ? 0 : Defender.Ability; } }
+    { get { return AtkContext.IgnoreDefenderAbility() ? 0 : Defender.Ability; } }
+    public bool AbilityE(int ability)
+    {
+      return Defender.AbilityE(ability) && !AtkContext.IgnoreDefenderAbility();
+    }
     
     public bool RandomHappen(int percentage)
     {
-      return percentage == 0 || Ability != As.SHIELD_DUST && AtkContext.RandomHappen(percentage);
+      return percentage == 0 || !AbilityE(As.SHIELD_DUST) && AtkContext.RandomHappen(percentage);
     }
     
     public void MoveHurt()
     {
-      Damage = Defender.MoveHurt(Damage, !ATs.IgnoreDefenderAbility(AtkContext.Attacker.Ability));
+      Damage = Defender.MoveHurt(Damage, !AtkContext.IgnoreDefenderAbility());
       {
         var o = new Condition();
         o.Damage = Damage;

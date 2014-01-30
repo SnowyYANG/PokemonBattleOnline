@@ -33,7 +33,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       
       if (cat == MoveCategory.Special && der.Controller.Weather == Weather.IntenseSunlight)
         foreach (PokemonProxy pm in der.Controller.GetOnboardPokemons(der.Pokemon.TeamId))
-          if (pm.Pokemon.Form.Species.Number == 421 && pm.Ability == As.FLOWER_GIFT) m *= 0x1800;
+          if (pm.Pokemon.Form.Species.Number == 421 && pm.AbilityE(As.FLOWER_GIFT)) m *= 0x1800;
       
       switch (der.Item)
       {

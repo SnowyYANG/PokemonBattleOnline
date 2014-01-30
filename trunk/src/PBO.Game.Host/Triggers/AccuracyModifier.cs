@@ -39,7 +39,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         else if (i == Is.LAX_INCENSE) m *= 0xF34;
       }
 
-      if (aer.Item == Is.ZOOM_LENS && aer.LastMoveTurn == der.LastMoveTurn) m *= 0x1333;
+      if (aer.ItemE(Is.ZOOM_LENS) && aer.LastMoveTurn == der.LastMoveTurn) m *= 0x1333;
       
       if (der.Controller.Board.HasCondition("Gravity")) m *= 0x1AAA;//如果场上存在重力，命中×5/3。
       

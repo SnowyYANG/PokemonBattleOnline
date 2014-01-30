@@ -49,26 +49,26 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
       return (
         canAtk != BattleType.Invalid && der.OnboardPokemon.HasType(canAtk) ||
-        der.Item == Is.RING_TARGET ||
-        atk.Type == BattleType.Ground ? IsGroundAffectable(der, !ATs.IgnoreDefenderAbility(atk.Attacker.Ability), true) : NonGround(def));
+        der.ItemE(Is.RING_TARGET) ||
+        atk.Type == BattleType.Ground ? IsGroundAffectable(der, !atk.IgnoreDefenderAbility(), true) : NonGround(def));
     }
     public static bool IsGroundAffectable(PokemonProxy pm, bool abilityAvailable, bool raiseAbility)
     {
       var o = pm.OnboardPokemon;
       return
-        (o.HasCondition("SmackDown") || o.HasCondition("Ingrain") || pm.Controller.Board.HasCondition("Gravity")) || pm.Item == Is.IRON_BALL ||
+        (o.HasCondition("SmackDown") || o.HasCondition("Ingrain") || pm.Controller.Board.HasCondition("Gravity")) || pm.ItemE(Is.IRON_BALL) ||
         !
         (
           o.HasType(BattleType.Flying) ||
           o.HasCondition("MagnetRise") || o.HasCondition("Telekinesis") ||
-          pm.Item == Is.AIR_BALLOON ||
-          (abilityAvailable && (raiseAbility ? pm.RaiseAbility(As.LEVITATE) : pm.Ability == As.LEVITATE))
+          pm.ItemE(Is.AIR_BALLOON) ||
+          (abilityAvailable && (raiseAbility ? pm.RaiseAbility(As.LEVITATE) : pm.AbilityE(As.LEVITATE)))
         );
     }
     private static bool NonGround(DefContext def)
     {
       var type = def.AtkContext.Type.NoEffect();
-      return type == BattleType.Invalid || type == BattleType.Ghost && def.AtkContext.Attacker.Ability == As.SCRAPPY || !def.Defender.OnboardPokemon.HasType(type);
+      return type == BattleType.Invalid || type == BattleType.Ghost && def.AtkContext.Attacker.AbilityE(As.SCRAPPY) || !def.Defender.OnboardPokemon.HasType(type);
     }
     private static bool Sychronoise(DefContext def)
     {

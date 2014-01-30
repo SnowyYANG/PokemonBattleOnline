@@ -32,7 +32,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         int count = pm.OnboardPokemon.GetCondition<int>("SLP");
         count--;
-        if (pm.Ability == As.EARLY_BIRD) count--;
+        if (pm.AbilityE(As.EARLY_BIRD)) count--;
         if (count <= 0)
         {
           pm.OnboardPokemon.RemoveCondition("SLP");
@@ -73,7 +73,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static bool Truant(PokemonProxy p)
     {
-      if (p.Ability == As.TRUANT)
+      if (p.AbilityE(As.TRUANT))
       {
         if (p.OnboardPokemon.GetCondition<int>("Truant") == p.Controller.TurnNumber)
         {

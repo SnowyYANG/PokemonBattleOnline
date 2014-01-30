@@ -46,7 +46,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         }
 
         foreach(var p in pm.Field.Pokemons)
-          if (p.Ability == As.SWEET_VEIL)
+          if (p.AbilityE(As.SWEET_VEIL))
           {
             if (showFail)
             {

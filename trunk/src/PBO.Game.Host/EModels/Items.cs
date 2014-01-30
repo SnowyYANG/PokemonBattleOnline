@@ -11,7 +11,7 @@ namespace PokemonBattleOnline.Game.Host
   {
     public static void Attach(PokemonProxy pm)
     {
-      if (pm.Item == Is.LEPPA_BERRY)
+      if (pm.ItemE(Is.LEPPA_BERRY))
       {
         foreach (var m in pm.Moves)
           if (m.PP == 0)
@@ -96,11 +96,11 @@ namespace PokemonBattleOnline.Game.Host
         (
         pm.Pokemon.Item == 0 ||
         NeverLostItem(pm.Pokemon) ||
-        pm.Ability == As.STICKY_HOLD
+        pm.AbilityE(As.STICKY_HOLD)
         );
     }
     public static bool CanUseItem(PokemonProxy pm)
-    { return !(pm.OnboardPokemon.HasCondition("Embargo") || pm.Controller.Board.HasCondition("MagicRoom") || pm.Ability == As.KLUTZ); }
+    { return !(pm.OnboardPokemon.HasCondition("Embargo") || pm.Controller.Board.HasCondition("MagicRoom") || pm.AbilityE(As.KLUTZ)); }
     public static bool PlatedArceus(Pokemon pm)
     {
       return pm.Form.Species.Number == 493 && Is.FLAME_PLATE <= pm.Item && pm.Item <= Is.IRON_PLATE;
@@ -255,7 +255,7 @@ namespace PokemonBattleOnline.Game.Host
 
     public static void WhiteHerb(PokemonProxy pm)
     {
-      if (pm.Item == Is.WHITE_HERB)
+      if (pm.ItemE(Is.WHITE_HERB))
       {
         Simple6D lvs = (Simple6D)pm.OnboardPokemon.Lv5D;
         bool raise = false;
@@ -275,7 +275,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static bool AirBalloon(PokemonProxy pm) //气球的提示信息不是Attach而是Debut，是唯一会Debut的道具
     {
-      if (pm.Item == Is.AIR_BALLOON) //batonpass embargo
+      if (pm.ItemE(Is.AIR_BALLOON)) //batonpass embargo
       {
         pm.ShowLogPm("EnBalloon");
         return true;
@@ -316,12 +316,12 @@ namespace PokemonBattleOnline.Game.Host
             }
           }
       }
-      if (aer.Item == Is.SHELL_BELL)
+      if (aer.ItemE(Is.SHELL_BELL))
       {
         if (atk.TotalDamage != 0)
           aer.HpRecoverByOneNth(atk.TotalDamage >> 3, false, "m_ItemRecover", Is.SHELL_BELL);
       }
-      else if (aer.Item == Is.LIFE_ORB)
+      else if (aer.ItemE(Is.LIFE_ORB))
       {
         aer.EffectHurtByOneNth(10, "m_LifeOrb");
         aer.CheckFaint();
@@ -329,12 +329,11 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static bool CanAttackFlinch(DefContext def)
     {
-      int item = def.AtkContext.Attacker.Item;
-      return (item == Is.KINGS_ROCK || item == Is.RAZOR_FANG) && def.Defender.Controller.RandomHappen(10);
+      return (def.AtkContext.Attacker.ItemE(Is.KINGS_ROCK) || def.AtkContext.Attacker.ItemE(Is.RAZOR_FANG)) && def.Defender.Controller.RandomHappen(10);
     }
     public static bool PowerHerb(PokemonProxy pm)
     {
-      if (pm.Item == Is.POWER_HERB)
+      if (pm.ItemE(Is.POWER_HERB))
       {
         pm.ShowLogPm("PowerHerb", Is.POWER_HERB);
         pm.ConsumeItem();
@@ -345,7 +344,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static double FloatStone(PokemonProxy pm)
     {
-      if (pm.Item == Is.FLOAT_STONE) return 0.5d;
+      if (pm.ItemE(Is.FLOAT_STONE)) return 0.5d;
       return 1d;
     }
     public static void CheckGem(AtkContext atk)
@@ -420,7 +419,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static void DestinyKnot(PokemonProxy pm, PokemonProxy by)
     {
-      if (pm.Item == Is.DESTINY_KNOT) by.AddState(pm, AttachedState.Attract, false, 0, "ItemEnAttract", Is.DESTINY_KNOT);
+      if (pm.ItemE(Is.DESTINY_KNOT)) by.AddState(pm, AttachedState.Attract, false, 0, "ItemEnAttract", Is.DESTINY_KNOT);
     }
 
     public static int MegaNumber(int item)
@@ -488,6 +487,16 @@ namespace PokemonBattleOnline.Game.Host
     public static int MegaForm(int item)
     {
       return item == Is.CHARIZARDITE_Y || item == Is.MEWTWONITE_Y ? 2 : 1;
+    }
+    /// <summary>
+    /// weather should not be Normal
+    /// </summary>
+    /// <param name="pm"></param>
+    /// <param name="weather"></param>
+    /// <returns></returns>
+    public static int Item(this Weather weather)
+    {
+      return weather == Weather.Hailstorm ? Is.ICY_ROCK : weather == Weather.Sandstorm ? Is.SMOOTH_ROCK : weather == Weather.IntenseSunlight ? Is.HEAT_ROCK : Is.DAMP_ROCK;
     }
   }
 }

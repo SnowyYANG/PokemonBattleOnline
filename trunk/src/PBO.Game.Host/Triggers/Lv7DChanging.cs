@@ -44,7 +44,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         }
         if (pm.OnboardPokemon.HasType(BattleType.Grass))
           foreach(var p in pm.Field.Pokemons)
-            if (p.Ability == As.FLOWER_VEIL)
+            if (p.AbilityE(As.FLOWER_VEIL))
             {
               if (showFail)
               {

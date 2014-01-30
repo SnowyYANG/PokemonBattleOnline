@@ -30,7 +30,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       if (c.Board.GetCondition<int>("Weather") == c.TurnNumber)
       {
-        c.Weather = Game.Weather.Normal;
+        c.ReportBuilder.ShowLog("De" + c.Board.Weather.ToString());
+        c.Board.Weather = Game.Weather.Normal;
         c.Board.RemoveCondition("Weather");
       }
       else
@@ -43,7 +44,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             foreach (var pm in c.OnboardPokemons.ToArray())
             {
               var types = pm.OnboardPokemon.Types;
-              if (types.Contains(BattleType.Rock) || types.Contains(BattleType.Steel) || types.Contains(BattleType.Ground) || pm.Item == Is.SAFETY_GOGGLES) continue;
+              if (types.Contains(BattleType.Rock) || types.Contains(BattleType.Steel) || types.Contains(BattleType.Ground) || pm.ItemE(Is.SAFETY_GOGGLES)) continue;
               int ab = pm.Ability;
               if (ab == As.OVERCOAT || ab == As.SAND_VEIL || ab == As.SAND_RUSH || ab == As.SAND_FORCE) continue;
               pm.EffectHurtByOneNth(16, "m_SandstormHurt");
@@ -182,7 +183,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (pm.OnboardPokemon.HasCondition("AquaRing"))
         {
           int hp = pm.Pokemon.MaxHp;
-          if (pm.Item == Is.BIG_ROOT) hp = (int)(hp * 1.3);
+          if (pm.ItemE(Is.BIG_ROOT)) hp = (int)(hp * 1.3);
           hp /= 16;
           pm.HpRecover(hp, false, "m_AquaRing");
         }
@@ -190,7 +191,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (pm.OnboardPokemon.HasCondition("Ingrain"))
         {
           int hp = pm.Pokemon.MaxHp;
-          if (pm.Item == Is.BIG_ROOT) hp = (int)(hp * 1.3);
+          if (pm.ItemE(Is.BIG_ROOT)) hp = (int)(hp * 1.3);
           hp /= 16;
           pm.HpRecover(hp, false, "m_Ingrain");
         }
@@ -205,8 +206,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           var recover = tile.Pokemon;
           if (hp > 0 && recover.CanHpRecover())
           {
-            if (recover.Item == Is.BIG_ROOT) hp = (int)(hp * 1.3);
-            if (recover.Ability != As.MAGIC_GUARD && pm.RaiseAbility(As.LIQUID_OOZE))
+            if (recover.ItemE(Is.BIG_ROOT)) hp = (int)(hp * 1.3);
+            if (!recover.AbilityE(As.MAGIC_GUARD) && pm.RaiseAbility(As.LIQUID_OOZE))
             {
               recover.EffectHurt(hp);
               recover.CheckFaint();

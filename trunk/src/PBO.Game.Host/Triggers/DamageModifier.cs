@@ -18,24 +18,22 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       //If the target's side is affected by Reflect, the move used was physical, the user's ability isn't Infiltrator and the critical hit flag isn't set. 
       //The value of the modificator is 0xA8F if there is more than one Pokemon per side of the field and 0x800 otherwise.
       //Same as above with Light Screen and special moves.
-      Modifier m = (Modifier)(!def.IsCt && (der.Pokemon.TeamId == aer.Pokemon.TeamId || aer.Ability != As.INFILTRATOR) &&
+      Modifier m = (Modifier)(!def.IsCt && (der.Pokemon.TeamId == aer.Pokemon.TeamId || !aer.AbilityE(As.INFILTRATOR)) &&
         (move.Category == MoveCategory.Physical && der.Field.HasCondition("Reflect") || move.Category == MoveCategory.Special && der.Field.HasCondition("LightScreen")) ?
         atk.MultiTargets ? 0xA8F : 0x800 : 0x1000);
 
       {
-        //multiscale tinedlens friendguard sniper filter solidrock
-        int aa = def.AtkContext.Attacker.Ability, da = def.Ability;
         //If the target's ability is Multiscale and the target is at full health.
-        m *= (Modifier)(da == As.MULTISCALE && der.Hp == der.Pokemon.MaxHp ? 0x800 : 0x1000);
+        m *= (Modifier)(def.AbilityE(As.MULTISCALE) && der.Hp == der.Pokemon.MaxHp ? 0x800 : 0x1000);
         //If the user's ability is Tinted Lens and the move wasn't very effective.
-        if (def.EffectRevise < 0 && aa == As.TINTED_LENS) m *= 0x2000;
+        if (def.EffectRevise < 0 && aer.AbilityE(As.TINTED_LENS)) m *= 0x2000;
         //If one of the target's allies' ability is Friend Guard.
         foreach (PokemonProxy pm in der.Controller.GetOnboardPokemons(der.Pokemon.TeamId))
-          if (pm != der && pm.Ability == As.FRIEND_GUARD) m *= 0xC00;
+          if (pm != der && pm.AbilityE(As.FRIEND_GUARD)) m *= 0xC00;
         //If user has ability Sniper and move was a critical hit.
-        if (def.IsCt && aa == As.SNIPER) m *= 0x1800;
+        if (def.IsCt && aer.AbilityE(As.SNIPER)) m *= 0x1800;
         //If the target's ability is Solid Rock or Filter and the move was super effective.
-        if (def.EffectRevise > 0 && (da == As.FILTER || da == As.SOLID_ROCK)) m *= 0xC00;
+        if (def.EffectRevise > 0 && (def.AbilityE(As.FILTER) || def.AbilityE(As.SOLID_ROCK))) m *= 0xC00;
         if (atk.Hit == 2 && atk.HasCondition("ParentalBond")) m *= 0x800;
       }
 

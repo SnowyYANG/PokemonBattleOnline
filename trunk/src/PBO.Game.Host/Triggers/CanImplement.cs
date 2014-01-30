@@ -108,7 +108,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             def.Defender.ShowLogPm("NoEffect");
             return false;
           }
-      if (move.Powder() && der.Item == Is.SAFETY_GOGGLES)
+      if (move.Powder() && der.ItemE(Is.SAFETY_GOGGLES))
       {
         def.Defender.ShowLogPm("SafetyGoggles");
         return false;

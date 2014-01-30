@@ -67,19 +67,30 @@ namespace PokemonBattleOnline.Game.Host
     { get { return _atkContext; } }
     public MoveType LastMove
     { get { return AtkContext == null ? null : AtkContext.MoveProxy == null ? null : AtkContext.MoveProxy.Type; } }
+    private bool NoAbilityE
+    { get { return OnboardPokemon == NullOnboardPokemon || OnboardPokemon.HasCondition("GastroAcid"); } }
     public int Ability
-    { get { return OnboardPokemon == NullOnboardPokemon || OnboardPokemon.HasCondition("GastroAcid") ? 0 : OnboardPokemon.Ability; } }
-    public int Item
+    { get { return NoAbilityE ? 0 : OnboardPokemon.Ability; } }
+    public bool AbilityE(int ability)
     {
+      return OnboardPokemon.Ability == ability && !NoAbilityE;
+    }
+    private bool NoItemE
+    { 
       get
       {
         return
           OnboardPokemon == NullOnboardPokemon ||
           Pokemon.Item == 0 ||
           !ITs.CanUseItem(this) ||
-          ITs.Berry(Pokemon.Item) && Controller.Board[1 - Pokemon.TeamId].Pokemons.Any(ATs.Unnerve) ?
-        0 : Pokemon.Item;
+          ITs.Berry(Pokemon.Item) && Controller.Board[1 - Pokemon.TeamId].Pokemons.Any(ATs.Unnerve);
       }
+    }
+    public int Item
+    { get { return NoItemE ? 0 : Pokemon.Item; } }
+    public bool ItemE(int item)
+    {
+      return Pokemon.Item == item && !NoItemE;
     }
     private List<MoveProxy> _moves;
     public IEnumerable<MoveProxy> Moves
@@ -169,7 +180,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public bool CanEffectHurt
     {
-      get { return !(OnboardPokemon == NullOnboardPokemon || Hp == 0 || Ability == As.MAGIC_GUARD); }
+      get { return !(OnboardPokemon == NullOnboardPokemon || Hp == 0 || AbilityE(As.MAGIC_GUARD)); }
     }
     private bool CanExecute()
     {
@@ -267,7 +278,7 @@ namespace PokemonBattleOnline.Game.Host
     STATE:
       if (State != PokemonState.Normal) goto FAIL_FAIL;
     SAFEGUARD:
-      if (Field.HasCondition("Safeguard") && this != by && by.Ability != As.INFILTRATOR)
+      if (Field.HasCondition("Safeguard") && this != by && !by.AbilityE(As.INFILTRATOR))
       {
         if (showFail) ShowLogPm("Safeguard");
         return false;
@@ -338,7 +349,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       get
       {
-        if (OnboardPokemon.HasType(BattleType.Ghost) || Item == Is.SHED_SHELL) return true;
+        if (OnboardPokemon.HasType(BattleType.Ghost) || ItemE(Is.SHED_SHELL)) return true;
         if (OnboardPokemon.HasCondition("Trap") || OnboardPokemon.HasCondition("Ingrain") || OnboardPokemon.HasCondition("CantSelectWithdraw") || Controller.Board.GetCondition<int>("FairyLock", -1) == Controller.TurnNumber) return false;
         bool arenaTrap = false, magnetPull = false, shadowTag = false;
         foreach (var pm in Controller.GetOnboardPokemons(1 - Pokemon.TeamId))
@@ -352,7 +363,7 @@ namespace PokemonBattleOnline.Game.Host
           !
           (
           magnetPull && OnboardPokemon.HasType(BattleType.Steel) ||
-          shadowTag && Ability != As.SHADOW_TAG ||
+          shadowTag && !AbilityE(As.SHADOW_TAG) ||
           arenaTrap && HasEffect.IsGroundAffectable(this, true, false)
           );
       }
@@ -431,7 +442,7 @@ namespace PokemonBattleOnline.Game.Host
       if (Action == PokemonAction.Debuting)
       {
         Tile.Debut();
-        if (!(OnboardPokemon.HasCondition("Substitute") || Ability == As.OVERCOAT)) EHTs.Debut(this);
+        if (!(OnboardPokemon.HasCondition("Substitute") || AbilityE(As.OVERCOAT))) EHTs.Debut(this);
         if (!CheckFaint())
         {
           if (OnboardPokemon.Ability != As.FLOWER_GIFT && OnboardPokemon.Ability != As.FORECAST) AbilityAttach.Execute(this);
@@ -596,7 +607,7 @@ namespace PokemonBattleOnline.Game.Host
     public void RemoveItem()
     {
       Pokemon.Item = 0;
-      if (Ability == As.UNBURDEN) OnboardPokemon.SetCondition("Unburden");
+      if (AbilityE(As.UNBURDEN)) OnboardPokemon.SetCondition("Unburden");
     }
     public void ConsumeItem(bool cheekPouch = true)
     {

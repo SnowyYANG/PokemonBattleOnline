@@ -36,10 +36,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           AddTeamCondition(atk, "Mist");
           break;
         case Ms.LIGHT_SCREEN: //113
-          AddTeamCondition(atk, "LightScreen", aer.Item == Is.LIGHT_CLAY ? 8 : 5);
+          AddTeamCondition(atk, "LightScreen", aer.ItemE(Is.LIGHT_CLAY) ? 8 : 5);
           break;
         case Ms.REFLECT: //115
-          AddTeamCondition(atk, "Reflect", aer.Item == Is.LIGHT_CLAY ? 8 : 5);
+          AddTeamCondition(atk, "Reflect", aer.ItemE(Is.LIGHT_CLAY) ? 8 : 5);
           break;
         case Ms.SAFEGUARD: //219
           AddTeamCondition(atk, "Safeguard");
@@ -150,16 +150,16 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           KOedCondition(atk, "Grudge");
           break;
         case Ms.SANDSTORM: //201
-          WeatherMove(atk, Weather.Sandstorm, 60);
+          WeatherMove(atk, Weather.Sandstorm);
           break;
         case Ms.RAIN_DANCE: //240
-          WeatherMove(atk, Weather.HeavyRain, 62);
+          WeatherMove(atk, Weather.HeavyRain);
           break;
         case Ms.SUNNY_DAY: //241
-          WeatherMove(atk, Weather.IntenseSunlight, 61);
+          WeatherMove(atk, Weather.IntenseSunlight);
           break;
         case Ms.HAIL: //258
-          WeatherMove(atk, Weather.Hailstorm, 59);
+          WeatherMove(atk, Weather.Hailstorm);
           break;
         case Ms.HEAL_BELL: //215
           HealBell(atk, "HealBell");
@@ -553,8 +553,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (move.HurtPercentage > 0)
         {
           int v = def.Damage * move.HurtPercentage / 100;
-          if (aer.Item == Is.BIG_ROOT) v *= (Modifier)0x14cc;
-          if (aer.Ability != As.MAGIC_GUARD && def.Defender.RaiseAbility(As.LIQUID_OOZE)) aer.EffectHurt(v);
+          if (aer.ItemE(Is.BIG_ROOT)) v *= (Modifier)0x14cc;
+          if (!aer.AbilityE(As.MAGIC_GUARD) && def.Defender.RaiseAbility(As.LIQUID_OOZE)) aer.EffectHurt(v);
           else aer.HpRecover(v, false);
         }
         if (move.Class == MoveInnerClass.AttackWithSelfLv7DChange && atk.RandomHappen(move.Lv7DChanges.First().Probability)) aer.ChangeLv7D(atk.Attacker, move);
@@ -581,7 +581,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static void FinalEffect(AtkContext atk)
     {
-      if (!(atk.Move.HasProbabilitiedAdditonalEffects() && atk.Attacker.Ability == As.SHEER_FORCE))
+      if (!(atk.Move.HasProbabilitiedAdditonalEffects() && atk.Attacker.AbilityE(As.SHEER_FORCE)))
       {
         foreach (DefContext d in atk.Targets) ATs.ColorChange(d);
         ITs.AttackPostEffect(atk);
@@ -616,7 +616,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case MoveInnerClass.ForceToSwitch:
           int aLv = atk.Attacker.Pokemon.Lv, dLv = def.Defender.Pokemon.Lv;
           if ((aLv < dLv && (aLv + dLv) * atk.Controller.GetRandomInt(0, 255) < dLv >> 2) || !def.Defender.Controller.CanWithdraw(def.Defender)) atk.FailAll();
-          else MoveE.ForceSwitchImplement(def.Defender, ATs.IgnoreDefenderAbility(atk.Attacker.Ability));
+          else MoveE.ForceSwitchImplement(def.Defender, atk.IgnoreDefenderAbility());
           break;
       }
     }
@@ -1227,7 +1227,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
 
     private static void HealPulse(AtkContext atk)
     {
-      atk.Target.Defender.HpRecover(atk.Target.Defender.Pokemon.MaxHp * (atk.Attacker.Ability == As.MEGA_LAUNCHER ? 75 : 50) / 100, true);
+      atk.Target.Defender.HpRecover(atk.Target.Defender.Pokemon.MaxHp * (atk.Attacker.AbilityE(As.MEGA_LAUNCHER) ? 75 : 50) / 100, true);
     }
     private static void AddType(AtkContext atk, BattleType type)
     {
@@ -1267,15 +1267,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       atk.Controller.Board[team].SetTurnCondition(condition);
       atk.Controller.ReportBuilder.ShowLog("En" + condition, team);
     }
-    private static void WeatherMove(AtkContext atk, Weather weather, int item)
+    private static void WeatherMove(AtkContext atk, Weather weather)
     {
       var c = atk.Controller;
-      if (c.Board.Weather == weather) atk.FailAll();
-      else
-      {
-        c.Weather = weather;
-        c.Board.SetCondition("Weather", c.TurnNumber + atk.Attacker.Item == item ? 9 : 4);
-      }
+      if (!STs.SetWeather(atk.Attacker, weather, false)) atk.FailAll();
     }
     private static void Powder(AtkContext atk)
     {

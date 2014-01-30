@@ -84,15 +84,7 @@ namespace PokemonBattleOnline.Game.Host
       return random.Next(n) == 0;
     }
     public Weather Weather
-    {
-      get { return ATs.IgnoreWeather(this) ? Weather.Normal : Board.Weather; }
-      set
-      {
-        Board.Weather = value;
-        ReportBuilder.ShowWeather(this);
-        if (!ATs.IgnoreWeather(this)) ATs.WeatherChanged(this);
-      }
-    }
+    { get { return ATs.IgnoreWeather(this) ? Weather.Normal : Board.Weather; } }
     /// <summary>
     /// sorted by speed
     /// </summary>

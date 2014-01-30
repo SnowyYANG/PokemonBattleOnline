@@ -60,7 +60,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           {
             if (move.Class == MoveInnerClass.AttackWithTargetLv7DChange) der.ChangeLv7D(def);
             else if (move.Class == MoveInnerClass.AttackWithState) der.AddState(def);
-            if (def.Ability != As.INNER_FOCUS && (move.FlinchProbability != 0 && def.RandomHappen(move.FlinchProbability) || ATs.Stench(def) || ITs.CanAttackFlinch(def))) der.OnboardPokemon.SetTurnCondition("Flinch");
+            if (!def.AbilityE(As.INNER_FOCUS) && (move.FlinchProbability != 0 && def.RandomHappen(move.FlinchProbability) || ATs.Stench(def) || ITs.CanAttackFlinch(def))) der.OnboardPokemon.SetTurnCondition("Flinch");
           }
           break;
       }

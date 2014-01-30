@@ -12,6 +12,5 @@ namespace PokemonBattleOnline.Game
         HeavyRain,
         Hailstorm,
         Sandstorm,
-        Fog,
     }
 }

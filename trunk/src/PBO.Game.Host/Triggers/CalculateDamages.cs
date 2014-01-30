@@ -85,7 +85,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.BEAT_UP:
           {//无视属性相克修正，但依然会显示“没有什么效果”“效果拔群”的战报。
             BattleType a = def.AtkContext.Type;
-            def.EffectRevise = a == BattleType.Ground && der.Item == Is.IRON_BALL && der.OnboardPokemon.HasType(BattleType.Flying) ? 0 : a.EffectRevise(der.OnboardPokemon.Types);
+            def.EffectRevise = a == BattleType.Ground && der.ItemE(Is.IRON_BALL) && der.OnboardPokemon.HasType(BattleType.Flying) ? 0 : a.EffectRevise(der.OnboardPokemon.Types);
           }
           break;
         case Ms.SELFDESTRUCT: //120
@@ -117,14 +117,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         default:
           BattleType a = def.AtkContext.Type;
-          def.EffectRevise = a == BattleType.Ground && der.Item == Is.IRON_BALL && der.OnboardPokemon.HasType(BattleType.Flying) ? 0 : a.EffectRevise(types);
+          def.EffectRevise = a == BattleType.Ground && der.ItemE(Is.IRON_BALL) && der.OnboardPokemon.HasType(BattleType.Flying) ? 0 : a.EffectRevise(types);
           break;
       }
     }
     private static readonly int[] LV_CT = { 16, 8, 2 };
     private static void Ct(DefContext def)
     {
-      if (!(def.Defender.Field.HasCondition("LuckyChant") || ATs.CannotBeCted(def.Ability)))
+      if (!(def.Defender.Field.HasCondition("LuckyChant") || def.CannotBeCted()))
       {
         var atk = def.AtkContext;
         if (MTs.MustCt(atk.Move)) def.IsCt = true;
@@ -133,7 +133,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           var pm = atk.Attacker;
           var ct = MTs.Ct1(atk.Move) ? 1 : 0;
           if (pm.OnboardPokemon.HasCondition("FocusEnergy")) ct += 2;
-          if (pm.Ability == As.SUPER_LUCK) ct++;
+          if (pm.AbilityE(As.SUPER_LUCK)) ct++;
           switch (pm.Item)
           {
             case Is.SCOPE_LENS:
@@ -173,7 +173,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           else p = atk.Attacker.OnboardPokemon;
           StatType st = move.Category == MoveCategory.Physical ? StatType.Atk : StatType.SpAtk;
           a = p.FiveD.GetStat(st);
-          if (def.Ability != As.UNAWARE)
+          if (!def.AbilityE(As.UNAWARE))
           {
             int atkLv = p.Lv5D.GetStat(st);
             if (!(def.IsCt && atkLv < 0)) a = OnboardPokemon.Get5D(a, atkLv);
@@ -186,7 +186,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         StatType st = move.Category == MoveCategory.Physical || move.UsePhysicalDef() ? StatType.Def : StatType.SpDef;
         int d = def.Defender.OnboardPokemon.FiveD.GetStat(st);
         int defLv;
-        if (aer.Ability == As.UNAWARE || move.IgnoreDefenderLv7D()) defLv = 0;
+        if (aer.AbilityE(As.UNAWARE) || move.IgnoreDefenderLv7D()) defLv = 0;
         else
         {
           defLv = def.Defender.OnboardPokemon.Lv5D.GetStat(st);
@@ -221,13 +221,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       def.Damage /= 100;
       //5.Apply STAB modifier
       if (atk.Attacker.OnboardPokemon.HasType(atk.Type))
-        def.ModifyDamage((Modifier)(atk.Attacker.Ability == As.ADAPTABILITY ? 0x2000 : 0x1800));
+        def.ModifyDamage((Modifier)(atk.Attacker.AbilityE(As.ADAPTABILITY) ? 0x2000 : 0x1800));
       //6.Alter with type effectiveness
       CalculateEffectRevise(def);
       if (def.EffectRevise > 0) def.Damage <<= def.EffectRevise;
       else if (def.EffectRevise < 0) def.Damage >>= -def.EffectRevise;
       //7.Alter with user's burn
-      if (move.Category == MoveCategory.Physical && aer.State == PokemonState.BRN && aer.Ability != As.GUTS) def.Damage >>= 1;
+      if (move.Category == MoveCategory.Physical && aer.State == PokemonState.BRN && !aer.AbilityE(As.GUTS)) def.Damage >>= 1;
       //8.Make sure damage is at least 1
       if (def.Damage < 1) def.Damage = 1;
       //9.Apply the final modifier

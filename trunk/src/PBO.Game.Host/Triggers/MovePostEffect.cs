@@ -32,12 +32,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.CIRCLE_THROW: //509
         case Ms.DRAGON_TAIL: //525
-          if (def.Defender.Hp != 0 && def.Defender.Controller.CanWithdraw(def.Defender)) MoveE.ForceSwitchImplement(def.Defender, ATs.IgnoreDefenderAbility(def.AtkContext.Attacker.Ability));
+          if (def.Defender.Hp != 0 && def.Defender.Controller.CanWithdraw(def.Defender)) MoveE.ForceSwitchImplement(def.Defender, def.AtkContext.IgnoreDefenderAbility());
           break;
         default:
           {
             var aer = def.AtkContext.Attacker;
-            if (move.HurtPercentage < 0 && aer.Ability != As.ROCK_HEAD) aer.EffectHurt(-def.Damage * move.HurtPercentage / 100, "m_ReHurt");
+            if (move.HurtPercentage < 0 && !aer.AbilityE(As.ROCK_HEAD)) aer.EffectHurt(-def.Damage * move.HurtPercentage / 100, "m_ReHurt");
             else if (move.MaxHpPercentage < 0) //拼命专用
             {
               var change = aer.Pokemon.MaxHp * move.MaxHpPercentage / 100;
@@ -82,7 +82,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void SmackDown(DefContext def)
     {
       var der = def.Defender;
-      if (der.Hp != 0 && (der.OnboardPokemon.HasType(BattleType.Flying) || der.Ability == As.LEVITATE))
+      if (der.Hp != 0 && (der.OnboardPokemon.HasType(BattleType.Flying) || der.AbilityE(As.LEVITATE)))
       {
         der.OnboardPokemon.SetCondition("SmackDown");
         der.ShowLogPm("EnSmackDown");

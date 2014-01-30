@@ -83,7 +83,7 @@ namespace PokemonBattleOnline.Game.Host
         //挑拨
         if (Type.Category == MoveCategory.Status && op.HasCondition("Taunt")) return new SelectMoveFail("Taunt", Type.Id);
         //突击背心
-        if (Type.Category == MoveCategory.Status && Owner.Item == Is.ASSAULT_VEST) return new SelectMoveFail("AssaultVest", Type.Id);
+        if (Type.Category == MoveCategory.Status && Owner.ItemE(Is.ASSAULT_VEST)) return new SelectMoveFail("AssaultVest", Type.Id);
       }
       return null;
     }

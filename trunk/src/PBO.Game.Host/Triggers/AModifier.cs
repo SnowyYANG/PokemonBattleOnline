@@ -55,7 +55,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       
       if (cat == MoveCategory.Physical && atk.Controller.Weather == Weather.IntenseSunlight)
         foreach (PokemonProxy pm in atk.Controller.GetOnboardPokemons(atk.Attacker.Pokemon.Id))
-          if (pm.Pokemon.Form.Species.Number == 421 && pm.Ability == As.FLOWER_GIFT) return m *= 0x1800;
+          if (pm.Pokemon.Form.Species.Number == 421 && pm.AbilityE(As.FLOWER_GIFT)) return m *= 0x1800;
 
       var n = aer.Pokemon.Form.Species.Number;
       switch (aer.Item)
@@ -84,12 +84,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     public static Modifier Hustle(AtkContext atk)
     {
-      return (Modifier)(atk.Attacker.Ability == As.HUSTLE && atk.Move.Category == MoveCategory.Physical ? 0x1800 : 0x1000);
+      return (Modifier)(atk.Attacker.AbilityE(As.HUSTLE) && atk.Move.Category == MoveCategory.Physical ? 0x1800 : 0x1000);
     }
     private static Modifier ThickFat(DefContext def)
     {
       BattleType type = def.AtkContext.Move.Type;
-      return (Modifier)((type == BattleType.Ice || type == BattleType.Fire) && def.Ability == As.THICK_FAT ? 0x800 : 0x1000);
+      return (Modifier)((type == BattleType.Ice || type == BattleType.Fire) && def.AbilityE(As.THICK_FAT) ? 0x800 : 0x1000);
     }
     private static Modifier PlusMinus(AtkContext atk)
     {

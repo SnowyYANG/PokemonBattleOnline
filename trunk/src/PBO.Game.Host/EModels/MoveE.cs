@@ -300,7 +300,7 @@ namespace PokemonBattleOnline.Game.Host
       #region Check for Telepathy (and possibly other abilities)
       {
         var mc = move.Flags.MagicCoat && !atk.HasCondition("IgnoreMagicCoat");
-        var ab = !ATs.IgnoreDefenderAbility(aer.Ability);
+        var ab = !atk.IgnoreDefenderAbility();
         foreach (DefContext def in targets.ToArray())
           if (def.Defender != atk.Attacker && (mc && STs.MagicCoat(atk, def.Defender) || ab && !CanImplement.Execute(def))) targets.Remove(def);
       }
@@ -313,7 +313,7 @@ namespace PokemonBattleOnline.Game.Host
             targets.Remove(d);
           }
       #region Check for misses
-      if (!(MustHit(atk) || aer.Ability == As.NO_GUARD))
+      if (!(MustHit(atk) || aer.AbilityE(As.NO_GUARD)))
       {
         if (move.Class != MoveInnerClass.OHKO) atk.AccuracyModifier = STs.AccuracyModifier(atk);
         foreach (DefContext def in targets.ToArray())
@@ -346,7 +346,7 @@ namespace PokemonBattleOnline.Game.Host
       else
       {
         int lv;
-        if (def.Ability == As.UNAWARE) lv = 0;
+        if (def.AbilityE(As.UNAWARE)) lv = 0;
         else lv = def.AtkContext.Attacker.OnboardPokemon.AccuracyLv;
         //如果攻击方是天然特性，防御方的回避等级按0计算。 
         //循序渐进无视防御方回避等级。

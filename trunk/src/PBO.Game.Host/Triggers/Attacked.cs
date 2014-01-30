@@ -16,7 +16,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var touch = atk.Move.Flags.NeedTouch;
       var realHurt = def.Damage != 0;
 
-      if (touch && aer.Ability == As.POISON_TOUCH && der.Controller.RandomHappen(30) && der.CanAddState(aer, AttachedState.PSN, false))
+      if (touch && aer.AbilityE(As.POISON_TOUCH) && der.Controller.RandomHappen(30) && der.CanAddState(aer, AttachedState.PSN, false))
       {
         aer.RaiseAbility();
         der.AddState(aer, AttachedState.PSN, false);
