@@ -27,14 +27,6 @@ namespace PokemonBattleOnline.Game
 #endif
 
     [DataMember(EmitDefaultValue = false)]
-    public bool PrepareOneTurn
-#if EDITING
-;
-#else
-    { get; private set; }
-#endif
-
-    [DataMember(EmitDefaultValue = false)]
     public bool NeedTouch
 #if EDITING
 ;

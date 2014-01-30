@@ -76,7 +76,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var move = atk.Move;
       var aer = atk.Attacker;
 
-      if (move.Flags.PrepareOneTurn && PrepareOneTurn(atk)) return;
+      if (move.PrepareOneTurn() && PrepareOneTurn(atk)) return;
 
       if (move.Flags.Snatchable)
         foreach (var pm in atk.Controller.ActingPokemons)
@@ -166,7 +166,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var aer = atk.Attacker;
       var moves = new List<MoveType>();
       foreach (var m in aer.Moves)
-        if (!(m.Type.Flags.PrepareOneTurn || SLEEPTALK_BLOCK.Contains(m.Type.Id))) moves.Add(m.Type);
+        if (!(m.Type.PrepareOneTurn() || SLEEPTALK_BLOCK.Contains(m.Type.Id))) moves.Add(m.Type);
       var n = moves.Count;
       if (n == 0) atk.FailAll();
       else atk.StartExecute(moves[aer.Controller.GetRandomInt(0, moves.Count - 1)]);

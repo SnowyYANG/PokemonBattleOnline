@@ -109,7 +109,7 @@ namespace PokemonBattleOnline.Game.Host
       return STIFF.Contains(move.Id);
     }
     private static readonly int[] PREPARE = new int[] { Ms.RAZOR_WIND, Ms.FLY, Ms.SOLAR_BEAM, Ms.DIG, Ms.SKULL_BASH, Ms.SKY_ATTACK, Ms.DIVE, Ms.BOUNCE, Ms.SHADOW_FORCE, Ms.SKY_DROP, Ms.FREEZE_SHOCK, Ms.ICE_BURN, Ms.PHANTOM_FORCE, Ms.GEOMANCY };
-    public static bool PrepareOntTurn(this MoveType move)
+    public static bool PrepareOneTurn(this MoveType move)
     {
       return PREPARE.Contains(move.Id);
     }
