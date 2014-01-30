@@ -144,12 +144,6 @@ namespace PokemonBattleOnline.Game.Host
         Defender.OnboardPokemon.SetTurnCondition(c, o);
         Defender.OnboardPokemon.SetTurnCondition("Damage", o);
       }
-      if (Defender.Action == PokemonAction.Moving && AtkContext.Move.Id == Ms.BIDE)
-      {
-        var o = AtkContext.GetCondition("Bide");
-        o.By = AtkContext.Attacker;
-        o.Damage += Damage;
-      }
     }
     public void ModifyDamage(Modifier modifier)
     {

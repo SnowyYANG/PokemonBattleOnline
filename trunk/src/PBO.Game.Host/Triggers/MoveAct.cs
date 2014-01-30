@@ -79,7 +79,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             if (turn == 1)
             {
               atk.Attacker.ShowLogPm("DeBide");
-              StatusMove(atk);
+              AttackMove(atk);
+              atk.RemoveCondition("Bide");
             }
             else if (turn == 2) atk.Attacker.ShowLogPm("Bide");
           }

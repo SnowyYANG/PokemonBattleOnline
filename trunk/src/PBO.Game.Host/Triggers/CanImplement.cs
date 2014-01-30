@@ -31,7 +31,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
           break;
         case As.FLASH_FIRE: //18
-          if (move.Category != MoveCategory.Status && def.AtkContext.Type == BattleType.Fire)
+          if (def.AtkContext.Type == BattleType.Fire)
           {
             der.OnboardPokemon.SetCondition("FlashFire");
             der.RaiseAbility();

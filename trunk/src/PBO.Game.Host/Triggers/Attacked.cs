@@ -21,6 +21,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         aer.RaiseAbility();
         der.AddState(aer, AttachedState.PSN, false);
       }
+      if (der.AtkContext != null && der.AtkContext.HasCondition("Bide"))
+      {
+        var o = der.AtkContext.GetCondition("Bide");
+        o.By = aer;
+        o.Damage += def.Damage;
+      }
       switch (der.Ability) //此时破格不能无视
       {
         case As.ILLUSION:

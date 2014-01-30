@@ -269,7 +269,7 @@ namespace PokemonBattleOnline.Test
           case "!3":
           case "!4":
             {
-              var move = pc.Game.OnboardPokemons[0].Moves[line[6] - '1'];
+              var move = pc.Game.OnboardPokemons[0].Moves[line[1] - '1'];
               if (move == null) goto default;
               ai.UseMove(0, move, false);
             }

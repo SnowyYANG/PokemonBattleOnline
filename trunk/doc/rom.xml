@@ -10487,6 +10487,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>25</_pp>
+      <_priority>1</_priority>
       <_type>Electric</_type>
     </MoveType>
     <MoveType>
@@ -10607,6 +10608,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
+      <_priority>3</_priority>
       <_range>SelfField</_range>
       <_type>Fairy</_type>
     </MoveType>
@@ -10730,8 +10732,8 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_range>Self</_range>
       <_priority>4</_priority>
+      <_range>Self</_range>
       <_type>Steel</_type>
     </MoveType>
     <MoveType>
@@ -10833,6 +10835,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
+      <_priority>4</_priority>
       <_range>Self</_range>
       <_type>Grass</_type>
     </MoveType>
@@ -10911,8 +10914,21 @@
       <Id>601</Id>
       <_advancedFlags>
       </_advancedFlags>
-      <_class>Special</_class>
-      <_lv7DChanges />
+      <_class>Lv7DChange</_class>
+      <_lv7DChanges>
+        <MoveLv7DChange>
+          <Change>2</Change>
+          <Type>SpAtk</Type>
+        </MoveLv7DChange>
+        <MoveLv7DChange>
+          <Change>2</Change>
+          <Type>SpDef</Type>
+        </MoveLv7DChange>
+        <MoveLv7DChange>
+          <Change>2</Change>
+          <Type>Speed</Type>
+        </MoveLv7DChange>
+      </_lv7DChanges>
       <_pp>10</_pp>
       <_range>Self</_range>
       <_type>Fairy</_type>
@@ -10924,12 +10940,10 @@
       <_lv7DChanges>
         <MoveLv7DChange>
           <Change>1</Change>
-          <Probability>0</Probability>
           <Type>Def</Type>
         </MoveLv7DChange>
         <MoveLv7DChange>
           <Change>1</Change>
-          <Probability>0</Probability>
           <Type>SpDef</Type>
         </MoveLv7DChange>
       </_lv7DChanges>
