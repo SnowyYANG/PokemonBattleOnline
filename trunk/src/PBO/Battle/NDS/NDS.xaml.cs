@@ -22,12 +22,6 @@ namespace PokemonBattleOnline.PBO.Battle
   /// </summary>
   public partial class NDS : UserControl
   {
-    public event Action<SimPokemon> ReviewPokemon
-    {
-      add { cp.ReviewPokemon += value; }
-      remove { cp.ReviewPokemon -= value; }
-    }
-    
     public NDS()
     {
       InitializeComponent();
@@ -46,6 +40,11 @@ namespace PokemonBattleOnline.PBO.Battle
       opms.ItemsSource = game.Board.Pokemons[observerTeamId];
       rpms.ItemsSource = game.Board.Pokemons[1 - observerTeamId];
       board.Init(game.Board, observerTeamId);
+    }
+
+    internal void Reset()
+    {
+      cp.Reset();
     }
   }
 }

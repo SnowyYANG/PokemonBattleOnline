@@ -287,4 +287,173 @@
         <Label Content="剩余时间：" Style="{x:Static ui:Controls.STextBlock}" FontSize="13"/>
         <Label Content="{Binding Time}" Style="{x:Static ui:Controls.STextBlock}" FontSize="13"/>        
     </StackPanel>
+    <ContentControl x:Name="Current" IsHitTestVisible="False" Canvas.Left="320" Canvas.Top="50">
+        <ContentControl.ContentTemplate>
+            <DataTemplate>
+                <Canvas Background="#202020" Height="170" Width="256">
+                    <Canvas.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="SnapsToDevicePixels" Value="True"/>
+                            <Setter Property="Foreground" Value="#e8e8e8"/>
+                            <Setter Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect ShadowDepth="1.2" BlurRadius="2" Color="#B0B0B0"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Canvas.Resources>
+                    <Rectangle Width="256" Height="3" Fill="Black"/>
+                    <Rectangle Canvas.Top="5" Width="256" Height="22" Fill="Black"/>
+                    <Image Source="{Binding Converter={x:Static c:PokemonIcon.C}}" Height="32" Width="32" Canvas.Left="8" Canvas.Top="-4"/>
+                    <TextBlock Text="{Binding Name}" Canvas.Left="40" Canvas.Top="8" Width="111" />
+                    <ContentPresenter Content="{Binding Form.Type1}" ContentTemplate="{x:Static ui:Labels.BattleType}" Width="40" Canvas.Right="3" Canvas.Top="8"/>
+                    <ContentPresenter Content="{Binding Form.Type2}" ContentTemplate="{x:Static ui:Labels.BattleType}" Width="40" Canvas.Right="45" Canvas.Top="8"/>
+                    <Canvas x:Name="main" Width="256">
+                        <Canvas.Resources>
+                            <Style TargetType="Line">
+                                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                                <Setter Property="IsHitTestVisible" Value="False"/>
+                                <Setter Property="Stroke" Value="#90a0a8"/>
+                            </Style>
+                            <Style TargetType="Polyline">
+                                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                                <Setter Property="Stroke" Value="#98a0a8"/>
+                            </Style>
+                            <Style TargetType="Label">
+                                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Label">
+                                            <Canvas>
+                                                <Line X2="4" Y2="4" Stroke="#98a0a8" Canvas.Left="2" Canvas.Top="11.5" SnapsToDevicePixels="True"/>
+                                                <Line X1="4" X2="{TemplateBinding Width}" Canvas.Left="2" Canvas.Top="15.5" Stroke="#98a0a8" SnapsToDevicePixels="True"/>
+                                                <Rectangle Width="3" Height="3" Fill="#88d018" Canvas.Top="6">
+                                                    <Rectangle.Effect>
+                                                        <DropShadowEffect BlurRadius="1" ShadowDepth="1.5" Color="#9988d018" Direction="225"/>
+                                                    </Rectangle.Effect>
+                                                </Rectangle>
+                                                <TextBlock Text="{TemplateBinding Content}" Canvas.Left="8" Foreground="#e8e8e8">
+                                                    <TextBlock.Effect>
+                                                        <DropShadowEffect ShadowDepth="1.2" BlurRadius="2" Color="#B0B0B0"/>
+                                                    </TextBlock.Effect>
+                                                </TextBlock>
+                                            </Canvas>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Canvas.Resources>
+                        <Polygon Points="0,31 182,31 187,24 256,24 255,118 0,118">
+                        </Polygon>
+                        <Polyline Points="0,30 181,30 186,23 256,23" Stroke="#505860"/>
+                        <Polyline Points="0,32 183,32 188,25 256,25" Stroke="#505860"/>
+                        <Polyline Points="0,31 182,31 187,24 256,24"/>
+                        <Line X2="256" Canvas.Top="118" Stroke="#505860"/>
+                        <Line X2="256" Canvas.Top="119"/>
+                        <Line X2="256" Canvas.Top="120" Stroke="Black"/>
+                        <Polyline Points="12,78 16,81 151,81"/>
+                        <Line X1="8" X2="151" Canvas.Top="105"/>
+
+                        <Canvas x:Name="labels">
+                            <Label Content="攻击" Width="92" Canvas.Left="162" Canvas.Top="33"/>
+                            <Label Content="防御" Width="92" Canvas.Left="162" Canvas.Top="49"/>
+                            <Label Content="特攻" Width="92" Canvas.Left="162" Canvas.Top="65"/>
+                            <Label Content="特防" Width="92" Canvas.Left="162" Canvas.Top="81"/>
+                            <Label Content="速度" Width="92" Canvas.Left="162" Canvas.Top="97"/>
+                        </Canvas>
+
+                        <Label Content="{Binding Ability,Converter={x:Static c:AbilityString.C}}" Width="146" Canvas.Left="2" Canvas.Top="33"/>
+                        <TextBlock Text="{Binding Ability,Converter={x:Static c:AbilityDString.C}}" TextWrapping="Wrap" Canvas.Left="18" Canvas.Top="49" Height="32" Width="133"/>
+                        <Image x:Name="itemImage" Source="/PBO;component/images/Item.png" Width="6" Height="9" Canvas.Left="13" Canvas.Top="95"/>
+                        <TextBlock x:Name="itemText" Text="{Binding Item,Converter={x:Static c:ItemString.C}}" Canvas.Left="36" Canvas.Top="89" />
+                        <TextBlock Text="{Binding FiveD.Atk}" Canvas.Right="9" Canvas.Top="33"/>
+                        <TextBlock Text="{Binding FiveD.Def}" Canvas.Right="9" Canvas.Top="49"/>
+                        <TextBlock Text="{Binding FiveD.SpAtk}" Canvas.Right="9" Canvas.Top="65"/>
+                        <TextBlock Text="{Binding FiveD.SpDef}" Canvas.Right="9" Canvas.Top="81"/>
+                        <TextBlock Text="{Binding FiveD.Speed}" Canvas.Right="9" Canvas.Top="97"/>
+                    </Canvas>
+                    <Canvas DataContext="{Binding Moves}"  Width="256" Canvas.Top="118">
+                        <Canvas.Resources>
+                            <Style TargetType="ContentControl">
+                                <Setter Property="ContentTemplate">
+                                    <Setter.Value>
+                                        <DataTemplate>
+                                            <Canvas Width="106" ToolTip="{Binding Type}">
+                                                <Canvas.Resources>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Foreground" Value="White"/>
+                                                        <Setter Property="IsHitTestVisible" Value="False"/>
+                                                    </Style>
+                                                    <Style TargetType="ToolTip">
+                                                        <Setter Property="Background" Value="Black"/>
+                                                        <Setter Property="ContentTemplate">
+                                                            <Setter.Value>
+                                                                <DataTemplate>
+                                                                    <Grid>
+                                                                        <Grid.Resources>
+                                                                            <Style TargetType="TextBlock">
+                                                                                <Setter Property="FontFamily" Value="Microsoft YaHei"/>
+                                                                                <Setter Property="Foreground" Value="#a0a0a0"/>
+                                                                            </Style>
+                                                                        </Grid.Resources>
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition Height="Auto"/>
+                                                                            <RowDefinition Height="Auto"/>
+                                                                            <RowDefinition Height="Auto"/>
+                                                                        </Grid.RowDefinitions>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="Auto"/>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                            <ColumnDefinition Width="Auto"/>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBlock Text="属性："/>
+                                                                        <TextBlock Text="{Binding Type}" Grid.Column="1"/>
+                                                                        <TextBlock Text="分类：" Grid.Row="1"/>
+                                                                        <TextBlock Text="{Binding Category}" Grid.Column="1" Grid.Row="1"/>
+                                                                        <TextBlock Text="威力：" Grid.Column="2"/>
+                                                                        <TextBlock Text="{Binding Power,Converter={x:Static c:PowerString.C}}" Grid.Column="3"/>
+                                                                        <TextBlock Text="命中：" Grid.Row="1" Grid.Column="2"/>
+                                                                        <TextBlock Text="{Binding Accuracy,Converter={x:Static c:AccuracyString.C}}" Grid.Column="3" Grid.Row="1"/>
+                                                                        <TextBlock Grid.Row="2" Grid.ColumnSpan="4" Text="{Binding Description}" Width="160" TextWrapping="Wrap"/>
+                                                                    </Grid>
+                                                                </DataTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Canvas.Resources>
+                                                <Polygon DataContext="{Binding Type.Type}" Fill="{Binding Converter={x:Static c:BattleTypeBg.C}}" Stroke="{Binding Converter={x:Static c:BattleTypeBorder.C}}" StrokeThickness="1" Points="0,8 3,0 103,0 106,8 103,16 3,16"/>
+                                                <TextBlock Text="/" Canvas.Left="83"/>
+                                                <TextBlock Text="{Binding Type.Id,Converter={x:Static c:MoveString.C}}" Canvas.Left="5"/>
+                                                <TextBlock Text="{Binding PP.Value}" Canvas.Right="23"/>
+                                                <TextBlock Text="{Binding PP.Origin}" Canvas.Left="88"/>
+                                            </Canvas>
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Canvas.Resources>
+                        <ContentControl Content="{Binding [0]}" Canvas.Left="18"/>
+                        <ContentControl Content="{Binding [1]}" Canvas.Right="18"/>
+                        <ContentControl Content="{Binding [2]}" Canvas.Left="18" Canvas.Top="20"/>
+                        <ContentControl Content="{Binding [3]}" Canvas.Right="18" Canvas.Top="20"/>
+                    </Canvas>
+                </Canvas>
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Item}" Value="{x:Null}">
+                        <Setter TargetName="itemImage" Property="Visibility" Value="Collapsed"/>
+                        <Setter TargetName="itemText" Property="Text" Value="无道具"/>
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+        </ContentControl.ContentTemplate>
+    </ContentControl>
 </Canvas>

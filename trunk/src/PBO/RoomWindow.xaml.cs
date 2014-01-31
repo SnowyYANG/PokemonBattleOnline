@@ -134,6 +134,7 @@ namespace PokemonBattleOnline.PBO
       else
       {
         Current.Visibility = Visibility.Collapsed;
+        nds.Reset();
         br.Reset();
         Prepare.DataContext = null;
         Room = null;
@@ -197,6 +198,7 @@ namespace PokemonBattleOnline.PBO
       Start.IsEnabled = true;
       Start.Content = "使用所选队伍开始对战！";
       Title = "对战房间";
+      nds.Reset();
     }
 
     protected override void OnClosing(System.ComponentModel.CancelEventArgs e)

@@ -41,6 +41,10 @@ namespace PokemonBattleOnline.PBO.Battle
       game.LogAppended += controller.GameLogAppended;
       game.TurnEnd += controller.TurnEnd;
       game.GameEnd += () => reportViewer.Document = Full;
+      game.Error += (e) =>
+        {
+          controller.AddText("客户端同步对战状态时发生了逻辑错误，请退出对战窗口，将战报与队伍发送给反馈人员，必要时重启客户端，谢谢。", Brushes.OrangeRed);
+        };
     }
 
     internal void Reset()

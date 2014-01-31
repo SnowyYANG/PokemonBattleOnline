@@ -12,6 +12,7 @@ namespace PokemonBattleOnline.Game
     /// <summary>
     /// game start, or an observer
     /// </summary>
+    public event Action<Exception> Error;
     public event Action GameStart;
     public event Action GameEnd;
     public event Action<string, LogStyle> LogAppended;
@@ -63,7 +64,14 @@ namespace PokemonBattleOnline.Game
     {
       foreach (GameEvent e in events)
       {
-        UIDispatcher.Invoke((Action<GameOutward>)e.Update, this);
+        try
+        {
+          UIDispatcher.Invoke((Action<GameOutward>)e.Update, this);
+        }
+        catch(Exception ex)
+        {
+          UIDispatcher.Invoke(Error, ex);
+        }
 #if !TEST
         System.Threading.Thread.Sleep(e.Sleep);
 #endif

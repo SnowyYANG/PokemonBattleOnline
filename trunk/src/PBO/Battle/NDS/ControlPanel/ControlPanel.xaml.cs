@@ -20,7 +20,6 @@ namespace PokemonBattleOnline.PBO.Battle
   /// </summary>
   public partial class ControlPanel : Canvas
   {
-    public event Action<SimPokemon> ReviewPokemon = delegate { };
     ControlPanelVM vm;
 
     public ControlPanel()
@@ -28,19 +27,9 @@ namespace PokemonBattleOnline.PBO.Battle
       InitializeComponent();
     }
 
-    private SimPokemon _current;
-    private SimPokemon Current
-    {
-      get { return _current; }
-      set
-      {
-        _current = value;
-        ReviewPokemon(_current);
-      }
-    }
-
     private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+      Current.Content = null;
       //if (vm != null)
       //  switch (vm.SelectedPanel)
       //  {
@@ -66,7 +55,7 @@ namespace PokemonBattleOnline.PBO.Battle
       if (controlPanel.SelectedIndex == ControlPanelVM.TARGET)
         controlPanel.SelectedIndex = ControlPanelVM.FIGHT;
       controlPanel.SelectedIndex = ControlPanelVM.MAIN;
-      Current = null;
+      Current.Content = null;
     }
     private void Fight_Click(object sender, RoutedEventArgs e)
     {
@@ -87,12 +76,15 @@ namespace PokemonBattleOnline.PBO.Battle
     private void Pokemon_Click(object sender, RoutedEventArgs e)
     {
       SimPokemon pm = (SimPokemon)((GameButton)sender).Content;
-      if (pm == Current)
+      if (pm == Current.Content)
       {
         vm.Pokemon_Click(pm);
-        Current = null;
+        Current.Content = null;
       }
-      else Current = pm;
+      else
+      {
+        Current.Content = pm;
+      }
     }
     private void Giveup_Click(object sender, RoutedEventArgs e)
     {
@@ -101,6 +93,12 @@ namespace PokemonBattleOnline.PBO.Battle
     internal void Init(ControlPanelVM cp)
     {
       DataContext = vm = cp;
+      Current.Content = null;
+    }
+
+    internal void Reset()
+    {
+      Current.Content = null;
     }
   }
 }
