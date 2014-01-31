@@ -365,7 +365,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           Terrain(atk, "ElectricTerrain");
           break;
         case Ms.FAIRY_LOCK:
-          aer.Controller.Board.SetCondition("FairyLock", aer.Controller.TurnNumber + 1);
+          aer.Controller.Board.SetCondition("FairyLock", aer.Controller.TurnNumber);
           aer.Controller.ReportBuilder.ShowLog("EnFairyLock");
           break;
         case Ms.TOPSYTURVY:
