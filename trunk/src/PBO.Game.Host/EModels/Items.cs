@@ -62,7 +62,7 @@ namespace PokemonBattleOnline.Game.Host
       }
       pm.OnboardPokemon.ChangeLv7D(stat, change);
       pm.ConsumeItem();
-      pm.ShowLogPm(log, (int)stat, change > 0 ? i : 0);
+      pm.ShowLogPm(log, i, (int)stat);
     }
 
     public static bool ChoiceItem(int item)
