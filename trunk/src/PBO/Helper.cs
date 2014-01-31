@@ -98,7 +98,7 @@ namespace PokemonBattleOnline.PBO
       {
         reference = VisualTreeHelper.GetParent(reference);
       }
-      while (reference == null || reference is T);
+      while (reference != null && !(reference is T));
       return (T)reference;
     }
     public static void SortOnClick(ICollectionView view, string property)

@@ -5,15 +5,16 @@
              xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
              xmlns:l="clr-namespace:PokemonBattleOnline.PBO.Lobby">
     <Grid>
-        <TabControl x:Name="whom" BorderBrush="{x:Null}" BorderThickness="0" Background="#80ffffff" Margin="0,0,0,22" Padding="0">
+        <TabControl x:Name="whom" BorderBrush="#80ffffff" BorderThickness="0,1" Background="#40ffffff" Margin="0,0,0,22" Padding="0">
             <TabControl.ItemContainerStyle>
                 <Style TargetType="TabItem">
+                    <Setter Property="Background" Value="{x:Null}"/>
                     <Setter Property="HeaderTemplate">
                         <Setter.Value>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Background="Transparent">
                                     <TextBlock Text="{Binding Name}" Margin="1,0" FontSize="13"/>
-                                    <Button Name="close" Click="close_Click" Style="{x:Static ui:Controls.XButton}" FontSize="15" Margin="5,0,0,0" Padding="-1" Visibility="Hidden"/>
+                                    <Button Name="close" Click="close_Click" Style="{x:Static ui:Controls.XButton}" FontSize="15" Margin="5,-1,0,0" Visibility="Hidden"/>
                                 </StackPanel>
                                 <DataTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
@@ -25,10 +26,10 @@
                     </Setter>
                 </Style>
             </TabControl.ItemContainerStyle>
-            <TabItem Header="全部" FontSize="13" Style="{x:Null}" Background="{x:Null}">
-                <FlowDocumentScrollViewer Margin="3" Background="{x:Null}" Name="chatViewer" IsToolBarVisible="False" BorderThickness="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
+            <TabItem Header="全部" Style="{x:Null}" Background="{x:Null}">
+                <FlowDocumentScrollViewer Background="{x:Null}" Name="chatViewer" IsToolBarVisible="False" BorderThickness="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
                     <FlowDocument FontSize="12" TextAlignment="Left" PagePadding="0">
-                        <Paragraph x:Name="chat" Margin="0"/>
+                        <Paragraph x:Name="chat" Margin="3"/>
                     </FlowDocument>
                 </FlowDocumentScrollViewer>  
             </TabItem>

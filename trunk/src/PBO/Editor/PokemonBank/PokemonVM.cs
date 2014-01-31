@@ -116,12 +116,18 @@ namespace PokemonBattleOnline.PBO.Editor
       if (sender == Model.Ev) OnPropertyChanged("IsRare");
       else if (sender == Model)
       {
-        if (e.PropertyName == null || e.PropertyName == "Form" || e.PropertyName == "Gender") OnPropertyChanged("Icon");
+        if (e.PropertyName == null || e.PropertyName == "Form" || e.PropertyName == "Gender")
+        {
+          OnPropertyChanged("Icon");
+          OnPropertyChanged("RIcon");
+        }
       }
     }
 
     public ImageSource Icon
     { get { return Model == null ? Index == 0 || Container[Index - 1].Model != null ? R.P00000 : null : ImageService.GetPokemonIcon(Model.Form, Model.Gender); } }
+    public ImageSource RIcon
+    { get { return Model == null ? null : ImageService.GetPokemonIcon(Model.Form, Model.Gender); } }
 
     public bool IsRare
     {

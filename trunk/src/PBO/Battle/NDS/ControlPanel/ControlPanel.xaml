@@ -63,7 +63,9 @@
                         </Setter>
                         <Style.Triggers>
                             <Trigger Property="Content" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Fight/Normal.png"/>
+                                <Setter Property="IsEnabled" Value="False"/>
+                                <Setter Property="ContentTemplate" Value="{x:Null}"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -102,7 +104,9 @@
                         </Setter>
                         <Style.Triggers>
                             <Trigger Property="Content" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Fight/Normal.png"/>
+                                <Setter Property="IsEnabled" Value="False"/>
+                                <Setter Property="ContentTemplate" Value="{x:Null}"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -130,7 +134,7 @@
                 <b:GameButton Content="{Binding ControllingPokemon.Moves[1]}" Style="{StaticResource R}" Margin="0,41,0,0"/>
                 <b:GameButton Content="{Binding ControllingPokemon.Moves[2]}" Style="{StaticResource L}" Margin="0,101,0,0"/>
                 <b:GameButton Content="{Binding ControllingPokemon.Moves[3]}" Style="{StaticResource R}" Margin="0,101,0,0"/>
-                <ToggleButton IsChecked="{Binding Mega}" Width="142" Height="108" Visibility="{Binding MegaVisibility}" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                <ToggleButton IsChecked="{Binding Mega}" Width="320" Height="108" Visibility="{Binding MegaVisibility}" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                     <ToggleButton.Template>
                         <ControlTemplate TargetType="ToggleButton">
                             <Grid>

@@ -3,7 +3,7 @@
                     xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
                     xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters">
     <ItemsPanelTemplate x:Key="WrapPanelTemplate">
-        <WrapPanel Background="Transparent" Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"/>
+        <WrapPanel Background="{x:Null}" Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"/>
     </ItemsPanelTemplate>
     <ItemsPanelTemplate x:Key="VerticalWrapPanelTemplate">
         <WrapPanel Background="{x:Null}" Orientation="Vertical" Height="{Binding (FrameworkElement.ActualHeight), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"/>

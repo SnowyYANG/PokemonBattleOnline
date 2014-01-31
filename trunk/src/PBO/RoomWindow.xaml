@@ -35,13 +35,13 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Canvas Height="32">
-                            <Image Height="32" Width="32" Source="{Binding [0].Model,Converter={x:Static c:PokemonDataIcon.C}}"/>
-                            <Image Height="32" Width="32" Canvas.Left="32" Source="{Binding [1].Model,Converter={x:Static c:PokemonDataIcon.C}}"/>
-                            <Image Height="32" Width="32" Canvas.Left="64" Source="{Binding [2].Model,Converter={x:Static c:PokemonDataIcon.C}}"/>
-                            <Image Height="32" Width="32" Canvas.Left="96" Source="{Binding [3].Model,Converter={x:Static c:PokemonDataIcon.C}}"/>
-                            <Image Height="32" Width="32" Canvas.Left="128" Source="{Binding [4].Model,Converter={x:Static c:PokemonDataIcon.C}}"/>
-                            <Image Height="32" Width="32" Canvas.Left="160" Source="{Binding [5].Model,Converter={x:Static c:PokemonDataIcon.C}}"/>
-                            <TextBlock Text="{Binding Name}" Canvas.Left="192" Canvas.Top="5"/>
+                            <Image Height="32" Width="32" Source="{Binding [0].RIcon}"/>
+                            <Image Height="32" Width="32" Canvas.Left="32" Source="{Binding [1].RIcon}"/>
+                            <Image Height="32" Width="32" Canvas.Left="64" Source="{Binding [2].RIcon}"/>
+                            <Image Height="32" Width="32" Canvas.Left="96" Source="{Binding [3].RIcon}"/>
+                            <Image Height="32" Width="32" Canvas.Left="128" Source="{Binding [4].RIcon}"/>
+                            <Image Height="32" Width="32" Canvas.Left="160" Source="{Binding [5].RIcon}"/>
+                            <TextBlock Text="{Binding Name}" Canvas.Left="192" Canvas.Top="8"/>
                         </Canvas>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

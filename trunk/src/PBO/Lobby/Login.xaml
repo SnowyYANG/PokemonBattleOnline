@@ -42,7 +42,7 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <ComboBox Name="servers" Grid.Row="1" Margin="115,0,0,0" IsEditable="True" FontFamily="Microsoft YaHei" BorderThickness="0" Background="Transparent">
+                <ComboBox Name="servers" Grid.Row="1" Margin="110,0,0,0" IsEditable="True" FontFamily="Microsoft YaHei" BorderThickness="0" Background="Transparent">
                     <ComboBox.Template>
                         <ControlTemplate TargetType="ComboBox">
                             <Grid x:Name="Placement" SnapsToDevicePixels="true">

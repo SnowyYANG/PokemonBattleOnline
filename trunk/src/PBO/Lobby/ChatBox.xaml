@@ -4,6 +4,6 @@
     <Grid>
         <Button HorizontalAlignment="Right" Width="22" Click="Button_Click"/>
         <TextBox x:Name="Speaking" Margin="0,0,22,0" KeyDown="Speaking_KeyDown"/>
-        <TextBlock Text="输入聊天文字后回车..." Margin="3,0,25,0" Foreground="Gray" VerticalAlignment="Center"/>
+        <TextBlock Text="输入聊天文字后回车..." IsHitTestVisible="False" Focusable="False" Margin="3,0,25,0" Foreground="Gray" VerticalAlignment="Center"/>
     </Grid>
 </UserControl>

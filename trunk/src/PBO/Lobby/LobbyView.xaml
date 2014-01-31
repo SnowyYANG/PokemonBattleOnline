@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
              xmlns:l="clr-namespace:PokemonBattleOnline.PBO.Lobby"
-             MinHeight="300" MinWidth="256" SizeChanged="UserControl_SizeChanged">
+             MinHeight="300" MinWidth="280" SizeChanged="UserControl_SizeChanged">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -14,25 +14,20 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid x:Name="upper">
-            <Grid.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                    <GradientStop Color="#00ffffff" Offset="1"/>
-                    <GradientStop Color="White" Offset="0"/>
-                </LinearGradientBrush>
-            </Grid.Background>
-            <TabControl>
+            <TabControl Background="{x:Null}" BorderBrush="#80ffffff" BorderThickness="0,1" Padding="0">
                 <TabItem Header="房间" Background="{x:Null}">
-                    <ScrollViewer>
+                    <ScrollViewer Padding="3">
                         <Grid>
                             <ItemsControl Name="Rooms" ItemsPanel="{x:Static ui:Controls.WrapPanel}">
                                 <ItemsControl.ItemContainerStyle>
                                     <Style TargetType="ContentPresenter">
                                         <Setter Property="Height" Value="32"/>
                                         <Setter Property="Width" Value="256"/>
+                                        <Setter Property="Margin" Value="0,2"/>
                                         <Setter Property="ContentTemplate">
                                             <Setter.Value>
                                                 <DataTemplate>
-                                                    <l:RoomView x:Name="rv" DataContext="{Binding}" Margin="0,3"/>
+                                                    <l:RoomView x:Name="rv" DataContext="{Binding}"/>
                                                     <DataTemplate.Triggers>
                                                         <DataTrigger Binding="{Binding}" Value="{x:Null}">
                                                             <Setter TargetName="rv" Property="Visibility" Value="Collapsed"/>
@@ -44,15 +39,52 @@
                                     </Style>
                                 </ItemsControl.ItemContainerStyle>
                             </ItemsControl>
-                            <Button Content="开启新房间" Click="NewRoom_Click" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <Button Click="NewRoom_Click" Cursor="Hand" VerticalAlignment="Top" HorizontalAlignment="Left" Height="32" Width="256">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Grid Background="Transparent">
+                                            <Grid x:Name="bg" Opacity="0.5">
+                                                <Rectangle IsHitTestVisible="False" StrokeThickness="2" Stroke="#80f0ffff"/>
+                                                <Ellipse IsHitTestVisible="False" Height="10" Width="10" Stroke="#80f0ffff" StrokeThickness="2"/>
+                                                <Ellipse IsHitTestVisible="False" Height="20" Width="20" Stroke="#80f0ffff" StrokeThickness="2"/>
+                                                <Line IsHitTestVisible="False" Y2="11" StrokeThickness="2" Stroke="#80f0ffff" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="1,0,0,0"/>
+                                                <Line IsHitTestVisible="False" Y2="11" StrokeThickness="2" Stroke="#80f0ffff" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="1,0,0,0"/>
+                                            </Grid>
+                                            <TextBlock Text="开 启 新 房 间" Foreground="#336699" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="bg" Property="Opacity" Value="1"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="bg" Property="Background" Value="#40ffffff"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
                         </Grid>
                     </ScrollViewer>
                 </TabItem>
                 <TabItem Header="用户" Background="{x:Null}">
-                    <ItemsControl Name="Users" ItemTemplate="{x:Static ui:Cartes.User}" ItemsPanel="{x:Static ui:Controls.WrapPanel}"/>
+                    <ScrollViewer Padding="3">
+                        <ItemsControl Name="Users" ItemsPanel="{x:Static ui:Controls.WrapPanel}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ContentControl Content="{Binding}" ContentTemplate="{x:Static ui:Cartes.User}">
+                                        <ContentControl.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="聊天" Command="{x:Static l:Chat.NewChatCommand}" CommandParameter="{Binding}"/>
+                                            </ContextMenu>
+                                        </ContentControl.ContextMenu>
+                                    </ContentControl>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
                 </TabItem>
             </TabControl>
-            <Button Content="退出" Width="70" Click="Exit_Click" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+            <Button Content="登出服务器" Click="Exit_Click" Style="{x:Static ui:Controls.XButton}" FontSize="12" Foreground="#336699" Background="#000000" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2"/>
         </Grid>
         <l:Chat x:Name="chat"/>
         <GridSplitter x:Name="split" Background="Transparent" ShowsPreview="True">

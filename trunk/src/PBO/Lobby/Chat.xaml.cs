@@ -22,9 +22,16 @@ namespace PokemonBattleOnline.PBO.Lobby
   /// </summary>
   public partial class Chat : UserControl
   {
-    static readonly SoundPlayer sound;
+    public static readonly SimpleCommand NewChatCommand;
+    private static readonly SoundPlayer sound;
+    private static Chat Current;
     static Chat()
     {
+      NewChatCommand = new SimpleCommand((_u) =>
+        {
+          var u = (User)_u;
+          if (PBOClient.Current != null && u != PBOClient.Current.User) Current.NewChat(u);
+        });
       sound = new SoundPlayer("..\\res\\chat.wav");
       try
       {
@@ -42,6 +49,7 @@ namespace PokemonBattleOnline.PBO.Lobby
 
     public Chat()
     {
+      Current = this;
       InitializeComponent();
       whom.SelectionChanged += (sender, e) =>
         {
