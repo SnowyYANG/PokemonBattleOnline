@@ -433,6 +433,16 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         c.ReportBuilder.ShowLog("DeMagicRoom");
         foreach (var pm in c.OnboardPokemons) ITs.Attach(pm);
       }
+      if (board.GetCondition<int>("WaterSport") == turn)
+      {
+        board.RemoveCondition("WaterSport");
+        c.ReportBuilder.ShowLog("DeWaterSport");
+      }
+      if (board.GetCondition<int>("MudSport") == turn)
+      {
+        board.RemoveCondition("MudSport");
+        c.ReportBuilder.ShowLog("DeMudSport");
+      }
       var t = board.GetCondition<int>("GrassyTerrain"); 
       if (t == turn)
       {
