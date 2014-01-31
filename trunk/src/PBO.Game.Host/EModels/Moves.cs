@@ -78,7 +78,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       return move.Id == Ms.SPORE || move.Id == Ms.COTTON_SPORE || move.Id == Ms.STUN_SPORE;
     }
-    private static readonly int[] SOUND = new int[] { Ms.GROWL, Ms.ROAR, Ms.SING, Ms.SUPERSONIC, Ms.SCREECH, Ms.SNORE, Ms.PERISH_SONG, Ms.HEAL_BELL, Ms.UPROAR, Ms.HYPER_VOICE, Ms.METAL_SOUND, Ms.GRASS_WHISTLE, Ms.BUG_BUZZ, Ms.CHATTER, Ms.ROUND, Ms.ECHOED_VOICE, Ms.RELIC_SONG, Ms.SNARL, Ms.CONFIDE };
+    private static readonly int[] SOUND = new int[] { Ms.GROWL, Ms.ROAR, Ms.SING, Ms.SUPERSONIC, Ms.SCREECH, Ms.SNORE, Ms.PERISH_SONG, Ms.HEAL_BELL, Ms.UPROAR, Ms.HYPER_VOICE, Ms.METAL_SOUND, Ms.GRASS_WHISTLE, Ms.BUG_BUZZ, Ms.CHATTER, Ms.ROUND, Ms.ECHOED_VOICE, Ms.RELIC_SONG, Ms.SNARL, Ms.CONFIDE, Ms.DISARMING_VOICE, Ms.BOOMBURST };
     public static bool Sound(this MoveType move)
     {
       return SOUND.Contains(move.Id);
