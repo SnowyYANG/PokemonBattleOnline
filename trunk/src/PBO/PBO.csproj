@@ -488,6 +488,9 @@
     <Resource Include="images\PokemonBankBackground2.png" />
     <Resource Include="images\PokemonBankBackground3.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\ControlPanel\BackgroundD.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

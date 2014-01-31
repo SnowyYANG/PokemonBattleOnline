@@ -8,7 +8,7 @@
     <Canvas.Resources>
     </Canvas.Resources>
     <Canvas.Background>
-        <ImageBrush ImageSource="/PBO;component/images/ControlPanel/Background.png"/>
+        <ImageBrush ImageSource="/PBO;component/images/ControlPanel/BackgroundD.png"/>
     </Canvas.Background>
     <TabControl Height="240" Width="320" SnapsToDevicePixels="True" UseLayoutRounding="True" Name="controlPanel" SelectedIndex="{Binding SelectedPanel,Mode=TwoWay}" Background="{x:Null}" Padding="0,0,0,-2" TabStripPlacement="Bottom" BorderThickness="0" SelectionChanged="TabControl_SelectionChanged">
         <TabControl.Resources>
@@ -153,6 +153,9 @@
         </TabItem>
         <TabItem>
             <Canvas>
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/PBO;component/images/ControlPanel/Background.png"/>
+                </Canvas.Background>
                 <Canvas.Resources>
                     <Style x:Key="L" TargetType="b:GameButton">
                         <EventSetter Event="Click" Handler="Pokemon_Click"/>
