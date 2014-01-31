@@ -18,7 +18,7 @@ namespace PokemonBattleOnline.PBO.Server
     {
       NI = new NotifyIcon();
       NI.Icon = new System.Drawing.Icon(typeof(TaskbarIcon), "server.ico");
-      NI.Text = "PBOv0.8 Server";
+      NI.Text = PBOMarks.TITLE + " Server";
       NI.ContextMenu = new ContextMenu(new MenuItem[] { new MenuItem("退出", Quit_Click) });
       hWnd = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
       if (hWnd != IntPtr.Zero) NI.MouseClick += NI_MouseClick;

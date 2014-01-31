@@ -93,7 +93,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             return;
           }
 
-      if (move.Flags.MagicCoat && atk.Targets == null)
+      if (move.Flags.MagicCoat && atk.Targets == null && !atk.HasCondition("IgnoreMagicCoat"))
         foreach(var p in aer.Controller.GetOnboardPokemons(1 - aer.Pokemon.TeamId))
           if (STs.MagicCoat(atk, p))
           {

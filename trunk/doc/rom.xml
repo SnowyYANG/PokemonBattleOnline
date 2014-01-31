@@ -10367,6 +10367,7 @@
       <Id>560</Id>
       <_accuracy>95</_accuracy>
       <_advancedFlags>
+        <NeedTouch>true</NeedTouch>
         <Protectable>true</Protectable>
       </_advancedFlags>
       <_category>Physical</_category>
@@ -10420,7 +10421,9 @@
     </MoveType>
     <MoveType>
       <Id>564</Id>
-      <_advancedFlags />
+      <_advancedFlags>
+        <MagicCoat>true</MagicCoat>
+      </_advancedFlags>
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
@@ -10431,6 +10434,7 @@
       <Id>565</Id>
       <_accuracy>100</_accuracy>
       <_advancedFlags>
+        <NeedTouch>true</NeedTouch>
         <Protectable>true</Protectable>
       </_advancedFlags>
       <_category>Physical</_category>
@@ -10443,6 +10447,7 @@
       <Id>566</Id>
       <_accuracy>100</_accuracy>
       <_advancedFlags>
+        <NeedTouch>true</NeedTouch>
       </_advancedFlags>
       <_category>Physical</_category>
       <_lv7DChanges />
@@ -10463,6 +10468,7 @@
       <Id>568</Id>
       <_accuracy>100</_accuracy>
       <_advancedFlags>
+        <MagicCoat>true</MagicCoat>
         <Protectable>true</Protectable>
       </_advancedFlags>
       <_class>Lv7DChange</_class>
@@ -10592,6 +10598,7 @@
       <Id>577</Id>
       <_accuracy>100</_accuracy>
       <_advancedFlags>
+        <NeedTouch>true</NeedTouch>
         <Protectable>true</Protectable>
       </_advancedFlags>
       <_category>Special</_category>
@@ -10859,6 +10866,7 @@
       <Id>598</Id>
       <_accuracy>100</_accuracy>
       <_advancedFlags>
+        <MagicCoat>true</MagicCoat>
         <Protectable>true</Protectable>
       </_advancedFlags>
       <_class>Lv7DChange</_class>
@@ -10876,6 +10884,7 @@
       <Id>599</Id>
       <_accuracy>100</_accuracy>
       <_advancedFlags>
+        <MagicCoat>true</MagicCoat>
         <Protectable>true</Protectable>
       </_advancedFlags>
       <_class>Lv7DChange</_class>
@@ -11001,6 +11010,7 @@
       <Id>608</Id>
       <_accuracy>100</_accuracy>
       <_advancedFlags>
+        <MagicCoat>true</MagicCoat>
         <Protectable>true</Protectable>
       </_advancedFlags>
       <_class>Lv7DChange</_class>
@@ -11019,6 +11029,7 @@
       <Id>609</Id>
       <_accuracy>100</_accuracy>
       <_advancedFlags>
+        <NeedTouch>true</NeedTouch>
         <Protectable>true</Protectable>
       </_advancedFlags>
       <_attachment>
@@ -11056,6 +11067,7 @@
       <Id>611</Id>
       <_accuracy>100</_accuracy>
       <_advancedFlags>
+        <NeedTouch>true</NeedTouch>
         <Protectable>true</Protectable>
       </_advancedFlags>
       <_attachment>
@@ -11076,6 +11088,7 @@
       <Id>612</Id>
       <_accuracy>100</_accuracy>
       <_advancedFlags>
+        <NeedTouch>true</NeedTouch>
         <Protectable>true</Protectable>
       </_advancedFlags>
       <_category>Physical</_category>
