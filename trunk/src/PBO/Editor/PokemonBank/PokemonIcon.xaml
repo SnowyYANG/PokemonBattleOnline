@@ -8,6 +8,7 @@
     <UserControl.ContextMenu>
         <ContextMenu>
             <MenuItem Name="Copy" Click="Copy_Click" Header="复制"/>
+            <MenuItem Name="CopyAll" Click="CopyAll_Click" Header="全队复制"/>
             <MenuItem Name="Paste" Click="Paste_Click" Header="粘贴"/>
             <Separator/>
             <MenuItem Name="Remove" Click="Remove_Click" Header="删除"/>

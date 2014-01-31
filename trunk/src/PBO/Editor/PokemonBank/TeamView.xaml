@@ -6,7 +6,7 @@
              xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
              xmlns:e="clr-namespace:PokemonBattleOnline.PBO.Editor"
              Loaded="OnLoaded" Height="32" Width="292">
-    <Grid>
+    <Grid Margin="3,0">
         <Grid.Style>
             <Style TargetType="Grid">
                 <Style.Triggers>
@@ -16,18 +16,26 @@
                 </Style.Triggers>
             </Style>
         </Grid.Style>
+        <Rectangle IsHitTestVisible="False" Margin="0,2">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#80ffffff" Offset="0.5"/>
+                    <GradientStop Color="#00ffffff" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
         <!--<Path Name="bg" Fill="{x:Static ui:SBrushes.GrayB1}" Stroke="{Binding BorderBrush}" Data="M0,9 L391,9 385,32 0,32" StrokeThickness="0" Stretch="None" VerticalAlignment="Bottom" SnapsToDevicePixels="True"/>-->
-        <TextBlock x:Name="NameBlock" Text="{Binding Name}" MouseLeftButtonDown="NameBlock_MouseLeftButtonDown" Cursor="IBeam" TextTrimming="CharacterEllipsis" TextWrapping="WrapWithOverflow" Background="Transparent" HorizontalAlignment="Left" Padding="10,8,0,8" MaxWidth="100"/>
-        <CheckBox IsChecked="{Binding CanBattle}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <TextBox x:Name="NameEditor" KeyDown="NameEditor_KeyDown" LostFocus="NameEditor_LostFocus" Visibility="Collapsed" MaxLength="30" Padding="0" BorderThickness="0" BorderBrush="{x:Null}" SnapsToDevicePixels="True" Background="White" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Width="100"/>
-        <StackPanel Margin="100,0,0,0" HorizontalAlignment="Right" Orientation="Horizontal">
-            <e:PokemonIcon DataContext="{Binding [0]}"/>
-            <e:PokemonIcon DataContext="{Binding [1]}"/>
-            <e:PokemonIcon DataContext="{Binding [2]}"/>
-            <e:PokemonIcon DataContext="{Binding [3]}"/>
-            <e:PokemonIcon DataContext="{Binding [4]}"/>
-            <e:PokemonIcon DataContext="{Binding [5]}"/>
+        <TextBlock x:Name="NameBlock" Focusable="False" Text="{Binding Name}" MouseLeftButtonDown="NameBlock_MouseLeftButtonDown" Cursor="IBeam" TextTrimming="CharacterEllipsis" TextWrapping="WrapWithOverflow" Background="Transparent" Padding="14,8,205,8"/>
+        <CheckBox x:Name="BattleCheckBox" Visibility="Collapsed" Focusable="False" IsTabStop="False" IsChecked="{Binding CanBattle}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <TextBox x:Name="NameEditor" KeyDown="NameEditor_KeyDown" LostFocus="NameEditor_LostFocus" IsTabStop="False" Visibility="Collapsed" MaxLength="30" Padding="0" BorderThickness="0" BorderBrush="{x:Null}" SnapsToDevicePixels="True" Background="White" VerticalAlignment="Center" Margin="12,0,205,0"/>
+        <StackPanel Focusable="False" Margin="0,0,10,0" HorizontalAlignment="Right" Orientation="Horizontal">
+            <e:PokemonIcon Focusable="False" DataContext="{Binding [0]}"/>
+            <e:PokemonIcon Focusable="False" DataContext="{Binding [1]}"/>
+            <e:PokemonIcon Focusable="False" DataContext="{Binding [2]}"/>
+            <e:PokemonIcon Focusable="False" DataContext="{Binding [3]}"/>
+            <e:PokemonIcon Focusable="False" DataContext="{Binding [4]}"/>
+            <e:PokemonIcon Focusable="False" DataContext="{Binding [5]}"/>
         </StackPanel>
-        <Button x:Name="Remove" Click="Remove_Click" Style="{x:Static ui:Controls.XButton}" ToolTip="全队删除" Foreground="#f08080" Visibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Button x:Name="Remove" Click="Remove_Click" Style="{x:Static ui:Controls.XButton}" ToolTip="全队删除" Focusable="False" IsTabStop="False" Foreground="#f08080" Visibility="Collapsed" HorizontalAlignment="Right" Margin="0,5,0,0"/>
     </Grid>
 </UserControl>

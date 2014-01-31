@@ -45,17 +45,20 @@ namespace PokemonBattleOnline.PBO.Editor
     protected override void OnMouseEnter(MouseEventArgs e)
     {
       base.OnMouseEnter(e);
+      BattleCheckBox.Visibility = System.Windows.Visibility.Visible;
       Remove.Visibility = System.Windows.Visibility.Visible;
     }
     protected override void OnMouseLeave(MouseEventArgs e)
     {
       base.OnMouseLeave(e);
+      BattleCheckBox.Visibility = System.Windows.Visibility.Collapsed;
       Remove.Visibility = System.Windows.Visibility.Collapsed;
     }
 
     private void NameBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
       BeginEdit();
+      e.Handled = true;
     }
     private void NameEditor_KeyDown(object sender, KeyEventArgs e)
     {

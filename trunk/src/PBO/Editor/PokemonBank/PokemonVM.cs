@@ -17,7 +17,17 @@ namespace PokemonBattleOnline.PBO.Editor
     {
       _container = container;
       _index = index;
-      if (Model != null) Model.PropertyChanged += Model_PropertyChanged;
+      if (Model != null)
+      {
+        Model.PropertyChanged += Model_PropertyChanged;
+        Model.Ev.PropertyChanged += Model_PropertyChanged;
+        ((ObservableCollection<LearnedMove>)Model.Moves).CollectionChanged += PokemonVM_CollectionChanged;
+      }
+    }
+
+    void PokemonVM_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+      OnPropertyChanged("IsRare");
     }
 
     private TeamVM _container;
@@ -103,7 +113,11 @@ namespace PokemonBattleOnline.PBO.Editor
 
     private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-      if (e.PropertyName == null || e.PropertyName == "Form" || e.PropertyName == "Gender") OnPropertyChanged("Icon");
+      if (sender == Model.Ev) OnPropertyChanged("IsRare");
+      else if (sender == Model)
+      {
+        if (e.PropertyName == null || e.PropertyName == "Form" || e.PropertyName == "Gender") OnPropertyChanged("Icon");
+      }
     }
 
     public ImageSource Icon

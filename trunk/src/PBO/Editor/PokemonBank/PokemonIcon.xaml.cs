@@ -161,10 +161,17 @@ namespace PokemonBattleOnline.PBO.Editor
     {
       if (VM.Model != null) Clipboard.SetText(Game.UserData.Export(VM.Model));
     }
+    private void CopyAll_Click(object sender, RoutedEventArgs e)
+    {
+      var pms = VM.Container.Model.Pokemons;
+      if (pms[0] != null)
+        Clipboard.SetText(Game.UserData.Export(pms.Where((p) => p != null)));
+    }
     protected override void OnContextMenuOpening(ContextMenuEventArgs e)
     {
       var model = VM.Model;
       Copy.IsEnabled = Remove.IsEnabled = model != null;
+      CopyAll.IsEnabled = VM.Container.Model.Pokemons[0] != null;
       Paste.IsEnabled = Clipboard.ContainsText();
     }
   }
