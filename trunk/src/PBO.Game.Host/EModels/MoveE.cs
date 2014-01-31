@@ -239,7 +239,7 @@ namespace PokemonBattleOnline.Game.Host
             def.Defender.ShowLogPm("WideGuard");
             targets.Remove(def);
           }
-      if (move.Priority > 0 && move.Id != Ms.FEINT)
+      if (aer.Priority > 0 && move.Id != Ms.FEINT)
         foreach (var def in targets.ToArray())
           if (def.Defender.Field.HasCondition("QuickGuard"))
           {

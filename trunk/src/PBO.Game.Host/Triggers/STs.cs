@@ -205,33 +205,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
       return true;
     }
-    public static int ItemSpeedValue(PokemonProxy pm)
-    {
-      int r = 0;
-      switch (pm.Item)
-      {
-        case Is.LAGGING_TAIL:
-        case Is.FULL_INCENSE:
-          r = -1;
-          break;
-        case Is.QUICK_CLAW:
-          if (pm.Controller.RandomHappen(20))
-          {
-            pm.ShowLogPm("QuickItem", Is.QUICK_CLAW);
-            r = 1;
-          }
-          break;
-        case Is.CUSTAP_BERRY:
-          if (ATs.Gluttony(pm))
-          {
-            pm.ShowLogPm("QuickItem", Is.CUSTAP_BERRY);
-            pm.ConsumeItem();
-            r = 1;
-          }
-          break;
-      }
-      return r;
-    }
     public static Modifier AccuracyModifier(AtkContext atk)
     {
       var aer = atk.Attacker;

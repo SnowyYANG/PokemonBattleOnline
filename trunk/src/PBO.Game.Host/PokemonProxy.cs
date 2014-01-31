@@ -431,7 +431,8 @@ namespace PokemonBattleOnline.Game.Host
     }
     #endregion
     #region Turn
-    internal int ItemSpeedValue;
+    public int ItemSpeedValue;
+    public int Priority;
     internal bool CanMove
     { get { return Hp != 0 && LastMoveTurn != Controller.TurnNumber && (Action == PokemonAction.MoveAttached || Action == PokemonAction.Stiff || Action == PokemonAction.Moving); } }
     public bool CanMega
@@ -889,6 +890,39 @@ namespace PokemonBattleOnline.Game.Host
         return true;
       }
       return false;
+    }
+    public void CalculatePriority()
+    {
+      Priority = 0;
+      ItemSpeedValue = 0;
+      if (Action != PokemonAction.WillSwitch)
+      {
+        var m = SelectedMove.Type;
+        Priority = m.Priority;
+        if (m.Category == MoveCategory.Status && AbilityE(As.PRANKSTER) || m.Type == BattleType.Flying && AbilityE(As.GALE_WINGS)) Priority++;
+        switch (Item)
+        {
+          case Is.LAGGING_TAIL:
+          case Is.FULL_INCENSE:
+            ItemSpeedValue = -1;
+            break;
+          case Is.QUICK_CLAW:
+            if (Controller.RandomHappen(20))
+            {
+              ShowLogPm("QuickItem", Is.QUICK_CLAW);
+              ItemSpeedValue = 1;
+            }
+            break;
+          case Is.CUSTAP_BERRY:
+            if (ATs.Gluttony(this))
+            {
+              ShowLogPm("QuickItem", Is.CUSTAP_BERRY);
+              ConsumeItem();
+              ItemSpeedValue = 1;
+            }
+            break;
+        }
+      }
     }
   }
 }

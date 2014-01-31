@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PokemonBattleOnline.Game;
+using PokemonBattleOnline.Game.Host.Triggers;
 
 namespace PokemonBattleOnline.Game.Host
 {
@@ -23,21 +23,11 @@ namespace PokemonBattleOnline.Game.Host
       if (a.Action == PokemonAction.WillSwitch) return -1;
       if (b.Action == PokemonAction.WillSwitch) return 1;
 
-      {
-        var am = a.SelectedMove.Type;
-        var bm = b.SelectedMove.Type;
-        int aP = am.Priority;
-        int bP = bm.Priority;
-        if (am.Category == MoveCategory.Status && a.AbilityE(As.PRANKSTER) || am.Type == BattleType.Flying && a.AbilityE(As.GALE_WINGS)) aP++;
-        if (bm.Category == MoveCategory.Status && b.AbilityE(As.PRANKSTER) || bm.Type == BattleType.Flying && b.AbilityE(As.GALE_WINGS)) bP++;
-        if (aP != bP) return bP - aP;
-      }
+      if (a.Priority != b.Priority) return b.Priority - a.Priority;
 
       {//1=先制爪/先制果发动 0=无道具 -1=后攻尾/满腹香炉发动<--同时带这个慢的先出 只计算不发动
-        int aItem = a.ItemSpeedValue;
-        int bItem = b.ItemSpeedValue;
-        if (aItem != bItem) return (bItem - aItem);
-        if (aItem == -1) aS = bS = -1;
+        if (a.ItemSpeedValue != b.ItemSpeedValue) return (b.ItemSpeedValue - a.ItemSpeedValue);
+        if (a.ItemSpeedValue == -1) aS = bS = -1;
       }
 
       {

@@ -39,8 +39,7 @@ namespace PokemonBattleOnline.Game.Host
         ActingPokemons[i] = ActingPokemons[j];
         ActingPokemons[j] = temp;
       }
-      foreach (var p in Board.Pokemons)
-        if (p.Action != PokemonAction.WillSwitch) p.ItemSpeedValue = STs.ItemSpeedValue(p);
+      foreach (var p in Board.Pokemons) p.CalculatePriority();
       ActingPokemons.Sort(Comparer);
     }
     private void SortTiles()
