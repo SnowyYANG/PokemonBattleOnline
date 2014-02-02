@@ -39,7 +39,7 @@ namespace PokemonBattleOnline.Game.Host
         ActingPokemons[i] = ActingPokemons[j];
         ActingPokemons[j] = temp;
       }
-      foreach (var p in Board.Pokemons) p.CalculatePriority();
+      foreach (var p in ActingPokemons) p.CalculatePriority();
       ActingPokemons.Sort(Comparer);
     }
     private void SortTiles()
@@ -186,6 +186,7 @@ namespace PokemonBattleOnline.Game.Host
       {
         Controller.GameStartSendOut(Board[0].Tiles);
         Controller.GameStartSendOut(Board[1].Tiles);
+        Board.RefreshPokemons();
       }
       else
         foreach (Tile t in Tiles)

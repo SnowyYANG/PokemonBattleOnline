@@ -19,8 +19,6 @@ namespace PokemonBattleOnline.PBO
   /// </summary>
   public partial class MainWindow : Window
   {
-    readonly GridLength GLMIN;
-
     static MainWindow()
     {
       RoomWindow.Init();
@@ -92,7 +90,7 @@ namespace PokemonBattleOnline.PBO
 
     private void Switch_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-      c1.Width = GLMIN;
+      c1.Width = new GridLength(lobby.MinWidth);
       editor.Margin = new Thickness(0, 0, 3, 0);
       lobby.Margin = new Thickness();
       SwitchEditor.Visibility = SwitchLobby.Visibility = Visibility.Collapsed;
