@@ -50,7 +50,7 @@ namespace PokemonBattleOnline.PBO
     }
     private static BitmapImage GetPokemonImage(string category, PokemonForm form, PokemonGender gender, bool shiny)
     {
-      var path = shiny ? "shiny/" : "normal/" + category;
+      var path = /*shiny ? "shiny/" : */"normal/" + category;
       return GetImage(path, form.Species.Number, form.Index, gender == PokemonGender.Female);
     }
     public static BitmapImage GetPokemonIcon(PokemonForm form, PokemonGender gender)

@@ -111,24 +111,24 @@
                         </Style.Triggers>
                     </Style>
                 </Grid.Resources>
-                <Image Source="/PBO;component/images/ControlPanel/Background.png" IsHitTestVisible="False">
-                    <Image.Effect>
-                        <BlurEffect Radius="20"/>
-                    </Image.Effect>
-                </Image>
-                <Rectangle IsHitTestVisible="False">
-                    <Rectangle.Style>
-                        <Style TargetType="Rectangle">
-                            <Setter Property="Fill" Value="#80ffffff"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Mega}" Value="True">
-                                    <Setter Property="Fill" Value="#30000000"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Rectangle.Style>
-                </Rectangle>
-                <Image Source="/PBO;component/images/ControlPanel/Fight/Upper.png" IsHitTestVisible="False" Height="30" VerticalAlignment="Top"/>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <ImageBrush ImageSource="/PBO;component/images/ControlPanel/Fight/Background.png"/>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Mega}" Value="True">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="/PBO;component/images/ControlPanel/Fight/BackgroundMega.png"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
                 <b:GameButton Click="Return_Click" Style="{x:Null}" Shape="M3,47 A44,44 120 0 1 67,7 V47 Z" Padding="2,2,0,0" Width="67" Height="47" Image="/PBO;component/images/ControlPanel/Return.png" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                 <b:GameButton Content="{Binding ControllingPokemon.Moves[0]}" Style="{StaticResource L}" Margin="0,41,0,0"/>
                 <b:GameButton Content="{Binding ControllingPokemon.Moves[1]}" Style="{StaticResource R}" Margin="0,41,0,0"/>

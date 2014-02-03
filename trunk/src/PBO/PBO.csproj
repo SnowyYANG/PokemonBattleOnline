@@ -449,9 +449,6 @@
     <Resource Include="images\ControlPanel\Fight\MegaT.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\ControlPanel\Fight\Upper.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="images\ControlPanel\Fight.png" />
     <Resource Include="images\ControlPanel\MainMenu.png" />
     <Resource Include="images\Subtitle.png" />
@@ -490,6 +487,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\ControlPanel\BackgroundD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\ControlPanel\Fight\Background.png" />
+    <Resource Include="images\ControlPanel\Fight\BackgroundMega.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

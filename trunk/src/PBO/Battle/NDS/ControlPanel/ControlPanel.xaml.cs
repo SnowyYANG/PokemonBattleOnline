@@ -52,10 +52,13 @@ namespace PokemonBattleOnline.PBO.Battle
     }
     private void Return_Click(object sender, RoutedEventArgs e)
     {
-      if (controlPanel.SelectedIndex == ControlPanelVM.TARGET)
-        controlPanel.SelectedIndex = ControlPanelVM.FIGHT;
-      controlPanel.SelectedIndex = ControlPanelVM.MAIN;
-      Current.Content = null;
+      if (controlPanel.SelectedIndex == ControlPanelVM.TARGET) controlPanel.SelectedIndex = ControlPanelVM.FIGHT;
+      else
+      {
+        vm.Mega = false;
+        controlPanel.SelectedIndex = ControlPanelVM.MAIN;
+        Current.Content = null;
+      }
     }
     private void Fight_Click(object sender, RoutedEventArgs e)
     {
