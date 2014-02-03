@@ -1870,7 +1870,7 @@
           <Type>Atk</Type>
         </MoveLv7DChange>
       </_lv7DChanges>
-      <_pp>30</_pp>
+      <_pp>20</_pp>
       <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
@@ -2965,7 +2965,7 @@
       <_class>Lv7DChange</_class>
       <_lv7DChanges>
         <MoveLv7DChange>
-          <Change>-1</Change>
+          <Change>-2</Change>
           <Probability>0</Probability>
           <Type>Speed</Type>
         </MoveLv7DChange>
@@ -4042,7 +4042,7 @@
     </MoveType>
     <MoveType>
       <Id>149</Id>
-      <_accuracy>80</_accuracy>
+      <_accuracy>100</_accuracy>
       <_advancedFlags>
         <Mirrorable>true</Mirrorable>
         <Protectable>true</Protectable>
@@ -4076,7 +4076,7 @@
           <Type>Def</Type>
         </MoveLv7DChange>
       </_lv7DChanges>
-      <_pp>40</_pp>
+      <_pp>20</_pp>
       <_range>Self</_range>
       <_type>Poison</_type>
     </MoveType>
@@ -5238,7 +5238,7 @@
       <_class>Lv7DChange</_class>
       <_lv7DChanges>
         <MoveLv7DChange>
-          <Change>-1</Change>
+          <Change>-2</Change>
           <Probability>0</Probability>
           <Type>Evasion</Type>
         </MoveLv7DChange>
@@ -5781,7 +5781,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
-      <_priority>3</_priority>
+      <_priority>2</_priority>
       <_range>Self</_range>
       <_type>Normal</_type>
     </MoveType>
@@ -5998,7 +5998,7 @@
       </_advancedFlags>
       <_category>Physical</_category>
       <_lv7DChanges />
-      <_power>55</_power>
+      <_power>65</_power>
       <_pp>25</_pp>
       <_type>Dark</_type>
     </MoveType>
@@ -6987,7 +6987,7 @@
       <_category>Physical</_category>
       <_lv7DChanges />
       <_power>60</_power>
-      <_pp>40</_pp>
+      <_pp>25</_pp>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -7456,7 +7456,7 @@
     </MoveType>
     <MoveType>
       <Id>375</Id>
-      <_accuracy>90</_accuracy>
+      <_accuracy>100</_accuracy>
       <_advancedFlags>
         <Mirrorable>true</Mirrorable>
         <Protectable>true</Protectable>
@@ -7853,7 +7853,7 @@
       <_flinchProbability>30</_flinchProbability>
       <_lv7DChanges />
       <_power>75</_power>
-      <_pp>20</_pp>
+      <_pp>15</_pp>
       <_type>Flying</_type>
     </MoveType>
     <MoveType>
@@ -8965,7 +8965,6 @@
       <_class>AddMapState</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_priority>-7</_priority>
       <_range>Board</_range>
       <_type>Psychic</_type>
     </MoveType>
@@ -9018,7 +9017,7 @@
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>20</_pp>
-      <_priority>3</_priority>
+      <_priority>2</_priority>
       <_range>Self</_range>
       <_type>Bug</_type>
     </MoveType>
@@ -9048,7 +9047,6 @@
       <_class>AddMapState</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
-      <_priority>-7</_priority>
       <_range>Board</_range>
       <_type>Psychic</_type>
     </MoveType>
@@ -15612,7 +15610,7 @@
           <A>
             <a:int>46</a:int>
             <a:int>0</a:int>
-            <a:int>31</a:int>
+            <a:int>9</a:int>
           </A>
           <Base>
             <H>90</H>
