@@ -54,7 +54,7 @@ namespace PokemonBattleOnline.Game
       }
     }
 
-    private static readonly int[] CAN_CHOOSE_FORM = { 201, 386, 412, 413, 422, 423, 479, 492, 641, 642, 645, 646, 710, 711 };
+    private static readonly int[] CAN_CHOOSE_FORM = { 201, 386, 412, 413, 422, 423, 479, 492, 550, 641, 642, 645, 646, 666, 669, 670, 671, 676, 710, 711 };
     public bool CanChooseForm
     { get { return CAN_CHOOSE_FORM.Contains(number) || number == KELDEO && HasMove(Ms.SECRET_SWORD); } }
 

@@ -28410,11 +28410,8 @@
       <Forms>
         <PokemonForm />
         <PokemonForm>
-          <_index>1</_index>
-        </PokemonForm>
-        <PokemonForm>
           <_data>1</_data>
-          <_index>2</_index>
+          <_index>1</_index>
         </PokemonForm>
       </Forms>
     </PokemonSpecies>
