@@ -221,18 +221,33 @@ namespace PokemonBattleOnline.PBO.Editor
     private void RefreshLearnset()
     {
       _learnset = new Dictionary<int, LearnVM>();
-      var number = PokemonSpecies.Number;
-      var form = PokemonForm.Index;
-      GetLearnset(number, form);
-      number = RomData.GetPreEvolution(number);
-      GetLearnset(number, 0);
-      number = RomData.GetPreEvolution(number);
-      GetLearnset(number, 0);
+      GetLearnset(PokemonSpecies.Number, PokemonForm.Index);
       //var dataView = CollectionViewSource.GetDefaultView(Learnset);
       //dataView.SortDescriptions.Add(new SortDescription("IsSelected", ListSortDirection.Descending));
       OnPropertyChanged("Learnset");
     }
     private void GetLearnset(int number, int form)
+    {
+      GetGenericLearnset(number, form);
+      if (number == 235)
+      {
+        for (var m = 1; m <= RomData.Moves.Count(); ++m)
+          if (m != Ms.STRUGGLE && m != 603 && m != 606 && m != 607) GetLearnVM(m).AddMethod(LearnCategory.Other);
+      }
+      else
+      {
+        foreach (var sp in LearnList.SP.Get(number, form)) GetLearnVM(sp).AddMethod(LearnCategory.Other);
+        if (number == 492) GetGenericLearnset(492, 1 - form);
+        else
+        {
+          number = RomData.GetPreEvolution(number);
+          GetGenericLearnset(number, 0);
+          number = RomData.GetPreEvolution(number);
+          GetGenericLearnset(number, 0);
+        }
+      }
+    }
+    private void GetGenericLearnset(int number, int form)
     {
       if (number != 0)
       {
@@ -249,12 +264,6 @@ namespace PokemonBattleOnline.PBO.Editor
               if (game.Egg != null) foreach (var egg in game.Egg.Get(number)) GetLearnVM(egg).AddMethod(LearnCategory.Egg);
             }
           }
-        if (number == 235)
-        {
-          for (var m = 1; m <= RomData.Moves.Count(); ++m)
-            if (m != Ms.STRUGGLE && m != 603 && m != 606 && m != 607) GetLearnVM(m).AddMethod(LearnCategory.Other);
-        }
-        else foreach (var sp in LearnList.SP.Get(number, form)) GetLearnVM(sp).AddMethod(LearnCategory.Other);
       }
     }
     private LearnVM GetLearnVM(int move)
