@@ -20,7 +20,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'EDITING|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\build\</OutputPath>
+    <OutputPath>..\..\build\editor\</OutputPath>
     <DefineConstants>TRACE;DEBUG;EDITING</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>

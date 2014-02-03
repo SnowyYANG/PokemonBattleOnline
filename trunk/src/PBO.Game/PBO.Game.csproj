@@ -36,18 +36,9 @@
     <ErrorReport>none</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ETV|AnyCPU'">
-    <OutputPath>..\..\build\dll\</OutputPath>
-    <DefineConstants>ETV</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'EDITING|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\build\dll\</OutputPath>
+    <OutputPath>..\..\build\editor\</OutputPath>
     <DefineConstants>TRACE;DEBUG;EDITING</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -55,7 +46,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
-    <OutputPath>..\..\test\</OutputPath>
+    <OutputPath>..\..\build\test\</OutputPath>
     <DefineConstants>ETV, TEST</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>

@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
-    <OutputPath>..\..\test\</OutputPath>
+    <OutputPath>..\..\build\test\</OutputPath>
     <DefineConstants>TRACE;TEST, ETV</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
