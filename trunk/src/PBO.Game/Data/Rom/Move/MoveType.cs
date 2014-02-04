@@ -35,8 +35,8 @@ namespace PokemonBattleOnline.Game
 #else
     private readonly
 #endif
-    MoveInnerClass _class;
-    public MoveInnerClass Class
+    MoveClass _class;
+    public MoveClass Class
     { get { return _class; } }
 
     [DataMember(EmitDefaultValue = false)]

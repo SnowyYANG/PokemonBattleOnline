@@ -47,15 +47,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
               if (types.Contains(BattleType.Rock) || types.Contains(BattleType.Steel) || types.Contains(BattleType.Ground) || pm.ItemE(Is.SAFETY_GOGGLES)) continue;
               int ab = pm.Ability;
               if (ab == As.OVERCOAT || ab == As.SAND_VEIL || ab == As.SAND_RUSH || ab == As.SAND_FORCE) continue;
-              pm.EffectHurtByOneNth(16, "m_SandstormHurt");
-              pm.CheckFaint();
+              if (pm.EffectHurtByOneNth(16, "m_SandstormHurt")) pm.CheckFaint();
             }
             break;
           case Game.Weather.Hailstorm:
             foreach (var pm in c.OnboardPokemons.ToArray())
-            {
-              int ab = pm.Ability;
-              if (ab == As.ICE_BODY)
+              if (pm.AbilityE(As.ICE_BODY))
               {
                 if (pm.CanHpRecover())
                 {
@@ -63,13 +60,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                   pm.HpRecoverByOneNth(16);
                 }
               }
-              else
-              {
-                if (ab == As.OVERCOAT || ab == As.SNOW_CLOAK || pm.OnboardPokemon.HasType(BattleType.Ice)) continue;
-                pm.EffectHurtByOneNth(16, "m_HailstormHurt");
-                pm.CheckFaint();
-              }
-            }
+              else if (
+                !(pm.AbilityE(As.OVERCOAT) || pm.AbilityE(As.SNOW_CLOAK) || pm.OnboardPokemon.HasType(BattleType.Ice))
+                 && pm.EffectHurtByOneNth(16, "m_HailstormHurt")) pm.CheckFaint();
             break;
           case Game.Weather.HeavyRain:
             foreach (var pm in c.OnboardPokemons)
@@ -79,11 +72,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             break;
           case Game.Weather.IntenseSunlight:
             foreach (var pm in c.OnboardPokemons.ToArray())
-              if (pm.RaiseAbility(As.SOLAR_POWER) || pm.RaiseAbility(As.DRY_SKIN))
-              {
-                pm.EffectHurtByOneNth(8);
-                pm.CheckFaint();
-              }
+              if ((pm.RaiseAbility(As.SOLAR_POWER) || pm.RaiseAbility(As.DRY_SKIN)) && pm.EffectHurtByOneNth(8)) pm.CheckFaint();
             break;
         }
       }
@@ -201,18 +190,20 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (tile != null && tile.Pokemon != null)
         {
           var hp = pm.Hp;
-          pm.EffectHurtByOneNth(8, "m_LeechSeed");
-          hp -= pm.Hp;
-          var recover = tile.Pokemon;
-          if (hp > 0 && recover.CanHpRecover())
+          if (pm.EffectHurtByOneNth(8, "m_LeechSeed"))
           {
-            if (recover.ItemE(Is.BIG_ROOT)) hp = (int)(hp * 1.3);
-            if (!recover.AbilityE(As.MAGIC_GUARD) && pm.RaiseAbility(As.LIQUID_OOZE))
+            hp -= pm.Hp;
+            var recover = tile.Pokemon;
+            if (hp > 0 && recover.CanHpRecover())
             {
-              recover.EffectHurt(hp);
-              recover.CheckFaint();
+              if (recover.ItemE(Is.BIG_ROOT)) hp = (int)(hp * 1.3);
+              if (!recover.AbilityE(As.MAGIC_GUARD) && pm.RaiseAbility(As.LIQUID_OOZE))
+              {
+                recover.EffectHurt(hp);
+                recover.CheckFaint();
+              }
+              else recover.HpRecover(hp);
             }
-            else recover.HpRecover(hp);
           }
         }
         pm.CheckFaint();
@@ -258,12 +249,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     //10.0 Curse (from a Ghost-type)
     private static void Curse(Controller c)
     {
-      foreach (var pm in c.OnboardPokemons)
-        if (pm.OnboardPokemon.HasCondition("Curse"))
-        {
-          pm.EffectHurtByOneNth(4, "m_Curse");
-          pm.CheckFaint();
-        }
+      foreach (var pm in c.OnboardPokemons.ToArray())
+        if (pm.OnboardPokemon.HasCondition("Curse") && pm.EffectHurtByOneNth(4, "m_Curse")) pm.CheckFaint();
     }
     //11.0 Bind, Wrap, Fire Spin, Clamp, Whirlpool, Sand Tomb, Magma Storm
     private static void Trap(Controller c)
@@ -277,11 +264,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             pm.OnboardPokemon.RemoveCondition("Trap");
             pm.ShowLogPm("TrapFree", trap.Move.Id);
           }
-          else
-          {
-            pm.EffectHurtByOneNth(trap.Bool ? 6 : 8, "m_TrapHurt", trap.Move.Id);
-            pm.CheckFaint();
-          }
+          else if (pm.EffectHurtByOneNth(trap.Bool ? 6 : 8, "m_TrapHurt", trap.Move.Id)) pm.CheckFaint();
       }
     }
     //12.0 Taunt ends

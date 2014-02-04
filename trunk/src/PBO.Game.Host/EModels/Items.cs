@@ -321,11 +321,7 @@ namespace PokemonBattleOnline.Game.Host
         if (atk.TotalDamage != 0)
           aer.HpRecoverByOneNth(atk.TotalDamage >> 3, false, "m_ItemRecover", Is.SHELL_BELL);
       }
-      else if (aer.ItemE(Is.LIFE_ORB))
-      {
-        aer.EffectHurtByOneNth(10, "m_LifeOrb");
-        aer.CheckFaint();
-      }
+      else if (aer.ItemE(Is.LIFE_ORB) && aer.EffectHurtByOneNth(10, "m_LifeOrb")) aer.CheckFaint();
     }
     public static bool CanAttackFlinch(DefContext def)
     {

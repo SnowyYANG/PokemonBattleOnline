@@ -77,7 +77,7 @@
     <Compile Include="Data\Rom\Learnset\Learnset.cs" />
     <Compile Include="Data\Rom\Learnset\SPLearnsets.cs" />
     <Compile Include="Data\Rom\Move\MoveCategory.cs" />
-    <Compile Include="Data\Rom\Move\MoveInnerClass.cs" />
+    <Compile Include="Data\Rom\Move\MoveClass.cs" />
     <Compile Include="Data\Rom\Move\MoveLv7DChange.cs" />
     <Compile Include="Data\Rom\Move\MoveRange.cs" />
     <Compile Include="Data\Rom\Move\MoveType.cs" />

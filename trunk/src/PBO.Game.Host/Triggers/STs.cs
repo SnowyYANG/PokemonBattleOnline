@@ -371,8 +371,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       switch (hazard.Move.Id)
       {
         case Ms.SPIKES:
-          if (pm.CanEffectHurt && HasEffect.IsGroundAffectable(pm, true, false))
-            pm.EffectHurtByOneNth(hazard.Int, "m_Spikes");
+          if (HasEffect.IsGroundAffectable(pm, true, false)) pm.EffectHurtByOneNth(hazard.Int, "m_Spikes");
           break;
         case Ms.TOXIC_SPIKES:
           if (HasEffect.IsGroundAffectable(pm, true, false))
@@ -382,7 +381,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.STEALTH_ROCK:
           int revise = BattleType.Rock.EffectRevise(pm.OnboardPokemon.Types);//羽栖有效无效都无所谓
           int hp = (revise > 0 ? pm.Pokemon.MaxHp << revise : pm.Pokemon.MaxHp >> -revise) >> 3;
-          if (pm.CanEffectHurt) pm.EffectHurt(hp, "m_StealthRock");
+          pm.EffectHurt(hp, "m_StealthRock");
           break;
         case Ms.STICKY_WEB:
           if (HasEffect.IsGroundAffectable(pm, true, false))

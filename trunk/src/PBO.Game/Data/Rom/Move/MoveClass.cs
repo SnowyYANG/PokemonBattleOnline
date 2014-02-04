@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PokemonBattleOnline.Game
 {
-  public enum MoveInnerClass
+  public enum MoveClass
   {
     Attack,
     AddState,

@@ -41,29 +41,25 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if ((move.Powder() || move.Spore()) && der.OnboardPokemon.HasType(BattleType.Grass)) return false;
 
       if (move.Category == MoveCategory.Status && move.Id != Ms.THUNDER_WAVE) return true;
-      if (move.Class == MoveInnerClass.OHKO && (der.Pokemon.Lv > atk.Attacker.Pokemon.Lv || der.RaiseAbility(As.STURDY))) return false;
+      if (move.Class == MoveClass.OHKO && (der.Pokemon.Lv > atk.Attacker.Pokemon.Lv || der.RaiseAbility(As.STURDY))) return false;
       BattleType canAtk;
       {
         var o = der.OnboardPokemon.GetCondition("CanAttack");
         canAtk = o == null ? BattleType.Invalid : o.BattleType;
       }
-      return (
-        canAtk != BattleType.Invalid && der.OnboardPokemon.HasType(canAtk) ||
-        der.ItemE(Is.RING_TARGET) ||
-        atk.Type == BattleType.Ground ? IsGroundAffectable(der, !atk.IgnoreDefenderAbility(), true) : NonGround(def));
+      return (canAtk != BattleType.Invalid && der.OnboardPokemon.HasType(canAtk)
+              || der.ItemE(Is.RING_TARGET)
+              || atk.Type == BattleType.Ground ? IsGroundAffectable(der, !atk.IgnoreDefenderAbility(), true) : NonGround(def));
     }
     public static bool IsGroundAffectable(PokemonProxy pm, bool abilityAvailable, bool raiseAbility)
     {
       var o = pm.OnboardPokemon;
       return
-        (o.HasCondition("SmackDown") || o.HasCondition("Ingrain") || pm.Controller.Board.HasCondition("Gravity")) || pm.ItemE(Is.IRON_BALL) ||
-        !
-        (
-          o.HasType(BattleType.Flying) ||
-          o.HasCondition("MagnetRise") || o.HasCondition("Telekinesis") ||
-          pm.ItemE(Is.AIR_BALLOON) ||
-          (abilityAvailable && (raiseAbility ? pm.RaiseAbility(As.LEVITATE) : pm.AbilityE(As.LEVITATE)))
-        );
+        (o.HasCondition("SmackDown") || o.HasCondition("Ingrain") || pm.Controller.Board.HasCondition("Gravity")) || pm.ItemE(Is.IRON_BALL)
+        || !(o.HasType(BattleType.Flying)
+             || o.HasCondition("MagnetRise") || o.HasCondition("Telekinesis")
+             || pm.ItemE(Is.AIR_BALLOON)
+             || (abilityAvailable && (raiseAbility ? pm.RaiseAbility(As.LEVITATE) : pm.AbilityE(As.LEVITATE))));
     }
     private static bool NonGround(DefContext def)
     {

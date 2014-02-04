@@ -58,7 +58,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (touch && der.Hp == 0 && aer.CanEffectHurt && aer.Controller.Board.Pokemons.HasAbility(As.DAMP) == null)
           {
             der.RaiseAbility();
-            aer.EffectHurtByOneNth(4);
+            aer.EffectHurtByOneNthImplement(4);
           }
           break;
         case As.PICKPOCKET:
@@ -173,7 +173,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (def.AtkContext.Attacker.CanEffectHurt)
       {
         def.Defender.RaiseAbility();
-        def.AtkContext.Attacker.EffectHurtByOneNth(8);
+        def.AtkContext.Attacker.EffectHurtByOneNthImplement(8);
       }
     }
     private static void EffectSpore(DefContext d)

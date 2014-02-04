@@ -58,8 +58,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         default:
           if (der.Hp > 0)
           {
-            if (move.Class == MoveInnerClass.AttackWithTargetLv7DChange) der.ChangeLv7D(def);
-            else if (move.Class == MoveInnerClass.AttackWithState) der.AddState(def);
+            if (move.Class == MoveClass.AttackWithTargetLv7DChange) der.ChangeLv7D(def);
+            else if (move.Class == MoveClass.AttackWithState) der.AddState(def);
             if (!def.AbilityE(As.INNER_FOCUS) && (move.FlinchProbability != 0 && def.RandomHappen(move.FlinchProbability) || ATs.Stench(def) || ITs.CanAttackFlinch(def))) der.OnboardPokemon.SetTurnCondition("Flinch");
           }
           break;

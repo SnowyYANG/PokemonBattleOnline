@@ -584,21 +584,30 @@ namespace PokemonBattleOnline.Game.Host
       int hp = Pokemon.MaxHp / n;
       HpRecover(hp, showFail, log, arg1, consumeItem);
     }
-    public void EffectHurt(int changeHp, string logKey = "m_Hurt", int arg1 = 0, int arg2 = 0)
+    public bool EffectHurt(int hp, string log = "m_Hurt", int arg1 = 0, int arg2 = 0)
     {
       if (CanEffectHurt)
       {
-        if (changeHp == 0) changeHp = 1;
-        ShowLogPm(logKey, arg1, arg2);
-        Hp -= changeHp;
-        HpChanged.Execute(this);
-        OnboardPokemon.SetTurnCondition("Assurance");
+        EffectHurtImplement(hp, log, arg1, arg2);
+        return true;
       }
+      return false;
     }
-    public void EffectHurtByOneNth(int n, string logKey = "m_Hurt", int arg1 = 0, int arg2 = 0)
+    public void EffectHurtImplement(int hp, string log = "m_Hurt", int arg1 = 0, int arg2 = 0)
     {
-      int hp = Pokemon.MaxHp / n;
-      EffectHurt(hp, logKey, arg1, arg2);
+      if (hp == 0) hp = 1;
+      ShowLogPm(log, arg1, arg2);
+      Hp -= hp;
+      HpChanged.Execute(this);
+      OnboardPokemon.SetTurnCondition("Assurance");
+    }
+    public bool EffectHurtByOneNth(int n, string log = "m_Hurt", int arg1 = 0, int arg2 = 0)
+    {
+      return EffectHurt(Pokemon.MaxHp / n, log, arg1, arg2);
+    }
+    public void EffectHurtByOneNthImplement(int n, string log = "m_Hurt", int arg1 = 0, int arg2 = 0)
+    {
+      EffectHurtImplement(Pokemon.MaxHp / n, log, arg1, arg2);
     }
     #endregion
 

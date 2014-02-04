@@ -36,11 +36,11 @@ namespace PokemonBattleOnline.Game.Host
     {
       return
         (
-        move.Class == MoveInnerClass.AttackWithState ||
-        move.Class == MoveInnerClass.AttackWithTargetLv7DChange ||
+        move.Class == MoveClass.AttackWithState ||
+        move.Class == MoveClass.AttackWithTargetLv7DChange ||
         move.FlinchProbability > 0 ||
         (move.Attachment != null && move.Attachment.Probability > 0) ||
-        (move.Class == MoveInnerClass.AttackWithSelfLv7DChange && move.Lv7DChanges.First().Change > 0)
+        (move.Class == MoveClass.AttackWithSelfLv7DChange && move.Lv7DChanges.First().Change > 0)
         );
     }
 

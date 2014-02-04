@@ -69,7 +69,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           def.Damage = atk.Attacker.Hp;
           break;
         default:
-          if (move.Class != MoveInnerClass.OHKO)
+          if (move.Class != MoveClass.OHKO)
           {
             ITs.CheckGem(atk);
             foreach (DefContext d in atk.Targets) CalculateDamage(d);

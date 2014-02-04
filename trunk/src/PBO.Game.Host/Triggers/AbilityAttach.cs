@@ -159,7 +159,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             int power = m.Type.Power;
             if (power == 1)
             {
-              if (m.Type.Class == MoveInnerClass.OHKO) power = 160;
+              if (m.Type.Class == MoveClass.OHKO) power = 160;
               else
               {
                 var mid = m.Type.Id;
@@ -226,7 +226,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       foreach (var p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1))
         foreach (var m in p.Moves)
-          if (m.Type.Class == MoveInnerClass.OHKO || m.Type.Type.EffectRevise(pm.OnboardPokemon.Types) > 0)
+          if (m.Type.Class == MoveClass.OHKO || m.Type.Type.EffectRevise(pm.OnboardPokemon.Types) > 0)
           {
             pm.RaiseAbility();
             pm.ShowLogPm("Anticipation");

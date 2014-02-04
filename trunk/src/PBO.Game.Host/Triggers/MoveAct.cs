@@ -511,7 +511,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var aer = atk.Attacker;
       var move = def.AtkContext.Move;
 
-      if (move.Class == MoveInnerClass.OHKO)
+      if (move.Class == MoveClass.OHKO)
       {
         if (!SubstituteTriggers.OHKO(def))
         {
@@ -555,10 +555,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         {
           int v = def.Damage * move.HurtPercentage / 100;
           if (aer.ItemE(Is.BIG_ROOT)) v *= (Modifier)0x14cc;
-          if (!aer.AbilityE(As.MAGIC_GUARD) && def.Defender.RaiseAbility(As.LIQUID_OOZE)) aer.EffectHurt(v);
-          else aer.HpRecover(v, false);
+          if (!def.Defender.AbilityE(As.LIQUID_OOZE)) aer.HpRecover(v, false);
+          else if (aer.CanEffectHurt)
+          {
+            def.Defender.RaiseAbility();
+            aer.EffectHurtImplement(v);
+          }
         }
-        if (move.Class == MoveInnerClass.AttackWithSelfLv7DChange && atk.RandomHappen(move.Lv7DChanges.First().Probability)) aer.ChangeLv7D(atk.Attacker, move);
+        if (move.Class == MoveClass.AttackWithSelfLv7DChange && atk.RandomHappen(move.Lv7DChanges.First().Probability)) aer.ChangeLv7D(atk.Attacker, move);
 
         foreach (DefContext d in defs)
           if (!d.HitSubstitute)
@@ -596,25 +600,25 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var def = atk.Target;
       switch (move.Class)
       {
-        case MoveInnerClass.AddState:
+        case MoveClass.AddState:
           foreach (var d in atk.Targets) notAllFail |= d.Defender.AddState(d);
           if (move.Attachment.State == AttachedState.PerishSong)
             if (notAllFail) atk.Controller.ReportBuilder.ShowLog("EnPerishSong");
             else atk.FailAll();
           break;
-        case MoveInnerClass.Lv7DChange:
+        case MoveClass.Lv7DChange:
           foreach (var d in atk.Targets) notAllFail |= d.Defender.ChangeLv7D(d);
           atk.Fail = !notAllFail;
           break;
-        case MoveInnerClass.HpRecover:
+        case MoveClass.HpRecover:
           foreach (var d in atk.Targets)
             d.Defender.HpRecover(d.Defender.Pokemon.MaxHp * move.MaxHpPercentage / 100, true);
           break;
-        case MoveInnerClass.ConfusionWithLv7DChange:
+        case MoveClass.ConfusionWithLv7DChange:
           def.Defender.AddState(def);
           def.Defender.ChangeLv7D(def);
           break;
-        case MoveInnerClass.ForceToSwitch:
+        case MoveClass.ForceToSwitch:
           int aLv = atk.Attacker.Pokemon.Lv, dLv = def.Defender.Pokemon.Lv;
           if ((aLv < dLv && (aLv + dLv) * atk.Controller.GetRandomInt(0, 255) < dLv >> 2) || !def.Defender.Controller.CanWithdraw(def.Defender)) atk.FailAll();
           else MoveE.ForceSwitchImplement(def.Defender, atk.IgnoreDefenderAbility());

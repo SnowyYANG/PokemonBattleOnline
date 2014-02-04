@@ -315,7 +315,7 @@ namespace PokemonBattleOnline.Game.Host
       #region Check for misses
       if (!(MustHit(atk) || aer.AbilityE(As.NO_GUARD)))
       {
-        if (move.Class != MoveInnerClass.OHKO) atk.AccuracyModifier = STs.AccuracyModifier(atk);
+        if (move.Class != MoveClass.OHKO) atk.AccuracyModifier = STs.AccuracyModifier(atk);
         foreach (DefContext def in targets.ToArray())
           if (!(def.NoGuard || CanHit(def)))//心眼锁定、无防御
           {
@@ -342,7 +342,7 @@ namespace PokemonBattleOnline.Game.Host
       Controller c = atk.Controller;
       var move = atk.Move;
       int acc;
-      if (move.Class == MoveInnerClass.OHKO) acc = move.Accuracy + atk.Attacker.Pokemon.Lv - def.Defender.Pokemon.Lv;
+      if (move.Class == MoveClass.OHKO) acc = move.Accuracy + atk.Attacker.Pokemon.Lv - def.Defender.Pokemon.Lv;
       else
       {
         int lv;
