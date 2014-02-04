@@ -77,7 +77,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (pm.AbilityE(As.ILLUSION))
         foreach(var p in pm.Pokemon.Owner.Pokemons.Reverse())
-          if (p.Hp > 0)
+          if (p != pm && p.Hp > 0)
           {
             pm.OnboardPokemon.SetCondition("Illusion", p.Pokemon);
             break;
