@@ -68,7 +68,6 @@
     <Compile Include="ServerUser.cs" />
     <Compile Include="Network\TcpServer.cs" />
     <Compile Include="Network\TcpUser.cs" />
-    <Compile Include="Network\UserBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PBO.Game.Host\PBO.Game.Host.csproj">

@@ -11,7 +11,7 @@ using PokemonBattleOnline.Network.C2SEs;
 
 namespace PokemonBattleOnline.Network
 {
-  internal class ServerUser : UserBase
+  internal class ServerUser : IPackReceivedListener, IDisposable
   {
     private static readonly DataContractJsonSerializer C2SSerializer;
     private static readonly DataContractJsonSerializer S2CSerializer;
@@ -23,11 +23,14 @@ namespace PokemonBattleOnline.Network
       S2CSerializer = new DataContractJsonSerializer(s2c, s2c.SubClasses());
     }
 
+    public readonly TcpUser Network;
     public readonly Server Server;
 
     public ServerUser(LoginUser user, Server server)
-      : base(user.Network)
     {
+      Network = user.Network;
+      Network.Disconnected += Dispose;
+      Network.Listener = this;
       _user = new User(user.Network.Id, user.Name, user.Avatar);
       Server = server;
     }
@@ -38,7 +41,7 @@ namespace PokemonBattleOnline.Network
     public RoomHost Room
     { get { return User.Room == null ? null : Server.GetRoom(User.Room.Id); } }
 
-    protected override void OnPackReceived(byte[] pack)
+    void IPackReceivedListener.OnPackReceived(byte[] pack)
     {
       try
       {
@@ -75,10 +78,10 @@ namespace PokemonBattleOnline.Network
       }
     }
 
-    public override void Dispose()
+    public void Dispose()
     {
       Server.RemoveUser(this);
-      base.Dispose();
+      Network.Dispose();
     }
   }
 }

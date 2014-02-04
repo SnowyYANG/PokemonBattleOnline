@@ -6,13 +6,16 @@ using System.Threading;
 
 namespace PokemonBattleOnline.Network
 {
-  internal class LoginUser : UserBase
+  internal class LoginUser : IPackReceivedListener, IDisposable
   {
+    public readonly TcpUser Network;
     private readonly LoginServer Server;
     
     public LoginUser(TcpUser network, LoginServer server)
-      : base(network)
     {
+      Network = network;
+      network.Disconnected += Dispose;
+      network.Listener = this;
       Server = server;
     }
 
@@ -22,7 +25,7 @@ namespace PokemonBattleOnline.Network
     { get; private set; }
 
     private byte state;
-    protected override void OnPackReceived(byte[] pack)
+    void IPackReceivedListener.OnPackReceived(byte[] pack)
     {
       try
       {
@@ -64,10 +67,10 @@ namespace PokemonBattleOnline.Network
       }
     }
 
-    public override void Dispose()
+    public void Dispose()
     {
       Server.BadLogin(this);
-      base.Dispose();
+      Network.Dispose();
     }
   }
 }

@@ -10,26 +10,27 @@ namespace PokemonBattleOnline.Network
   internal class TcpUser : IDisposable
   {
     private event Action _disconnected;
+    /// <summary>
+    /// always one handler, no need to remove handler
+    /// </summary>
     public event Action Disconnected
     { 
       add { _disconnected = value; }
-      remove { System.Diagnostics.Debugger.Break(); }
+      remove { }
     }
 
     public readonly TcpServer Server;
     private readonly Socket Socket;
     public readonly TcpPackSender Sender;
     private readonly TcpPackReceiver Receiver;
-    private readonly object Locker;
 
-    public TcpUser(TcpServer server, Socket socket)
+    public TcpUser(int id, TcpServer server, Socket socket)
     {
+      _id = id;
       Server = server;
       Socket = socket;
       Sender = new TcpPackSender(socket);
       Receiver = new TcpPackReceiver(socket);
-      Locker = new object();
-      _id = server.IdsPool.GetId();
       Sender.Disconnect += OnDisconnect;
       Receiver.Disconnect += OnDisconnect;
     }
@@ -46,6 +47,8 @@ namespace PokemonBattleOnline.Network
     }
     internal DateTime LastPack
     { get { return Receiver.LastPack; } }
+
+    private readonly object Locker = new object();
 
     private bool _isDisconnected;
     internal void OnDisconnect()

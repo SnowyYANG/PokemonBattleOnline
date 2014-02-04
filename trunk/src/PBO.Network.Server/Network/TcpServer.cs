@@ -14,16 +14,21 @@ namespace PokemonBattleOnline.Network
     private static void OnKeepAlive(object state)
     {
 #if !TEST
-      var users = (List<TcpUser>)state;
+      var server = (TcpServer)state;
       var lastPack = DateTime.Now.AddMilliseconds(-2d * PBOMarks.TIMEOUT);
-      foreach (var u in users.ToArray())
+      TcpUser[] users;
+      lock(server.Locker)
+      {
+        users = server.Users.ToArray();
+      }
+      foreach (var u in users)
         if (u.LastPack < lastPack) u.OnDisconnect();
 #endif
     }
     
     public event Action<TcpUser> NewComingUser;
 
-    public readonly IdsPool IdsPool;
+    private readonly IdsPool IdsPool;
     private readonly List<TcpUser> Users;
     private readonly int Port;
     private readonly Timer KeepAliveTimer;
@@ -32,9 +37,9 @@ namespace PokemonBattleOnline.Network
     public TcpServer(int port)
     {
       IdsPool = new IdsPool();
-      Users = new List<TcpUser>(300);
+      Users = new List<TcpUser>(100);
       Port = port;
-      KeepAliveTimer = new Timer(OnKeepAlive, Users, PBOMarks.TIMEOUT << 1, PBOMarks.TIMEOUT << 1);
+      KeepAliveTimer = new Timer(OnKeepAlive, this, PBOMarks.TIMEOUT << 1, PBOMarks.TIMEOUT << 1);
       ListenerLocker = new object();
     }
 
@@ -87,19 +92,25 @@ namespace PokemonBattleOnline.Network
       bool willRaiseEvent = listener.AcceptAsync(acceptEventArg);
       if (!willRaiseEvent) ProcessAccept(null, acceptEventArg);
     }
+    private readonly object Locker = new object();
     private void ProcessAccept(object sender, SocketAsyncEventArgs e)
     {
       Socket s = e.AcceptSocket;
       s.LingerState = new LingerOption(true, 5);
-      var u = new TcpUser(this, s);
-      Users.Add(u); //thread safe?
+      var u = new TcpUser(IdsPool.GetId(), this, s);
+      lock (Locker)
+      {
+        Users.Add(u);
+      }
       NewComingUser(u);
       if (IsListening) StartAccept(e);
     }
-
     internal void Remove(TcpUser user)
     {
-      Users.Remove(user); //thread safe?
+      lock (Locker)
+      {
+        Users.Remove(user);
+      }
       IdsPool.Push(user.Id);
     }
 
