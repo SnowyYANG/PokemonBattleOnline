@@ -4055,8 +4055,7 @@
     </MoveType>
     <MoveType>
       <Id>150</Id>
-      <_advancedFlags>
-      </_advancedFlags>
+      <_advancedFlags />
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>40</_pp>
@@ -8826,7 +8825,7 @@
       <_category>Special</_category>
       <_class>AttackWithState</_class>
       <_lv7DChanges />
-      <_power>120</_power>
+      <_power>100</_power>
       <_pp>5</_pp>
       <_type>Fire</_type>
     </MoveType>
@@ -10112,7 +10111,7 @@
       </_advancedFlags>
       <_category>Special</_category>
       <_lv7DChanges />
-      <_power>85</_power>
+      <_power>120</_power>
       <_pp>5</_pp>
       <_type>Normal</_type>
     </MoveType>
@@ -10775,7 +10774,7 @@
     </MoveType>
     <MoveType>
       <Id>591</Id>
-      <_advancedFlags/>
+      <_advancedFlags />
       <_category>Special</_category>
       <_lv7DChanges />
       <_pp>30</_pp>
@@ -10784,7 +10783,7 @@
     </MoveType>
     <MoveType>
       <Id>592</Id>
-      <_advancedFlags/>
+      <_advancedFlags />
       <_category>Special</_category>
       <_lv7DChanges />
       <_pp>40</_pp>
@@ -10793,7 +10792,7 @@
     </MoveType>
     <MoveType>
       <Id>593</Id>
-      <_advancedFlags/>
+      <_advancedFlags />
       <_class>Special</_class>
       <_lv7DChanges />
       <_pp>10</_pp>
@@ -10919,20 +10918,22 @@
     </MoveType>
     <MoveType>
       <Id>601</Id>
-      <_advancedFlags>
-      </_advancedFlags>
+      <_advancedFlags />
       <_class>Lv7DChange</_class>
       <_lv7DChanges>
         <MoveLv7DChange>
           <Change>2</Change>
+          <Probability>0</Probability>
           <Type>SpAtk</Type>
         </MoveLv7DChange>
         <MoveLv7DChange>
           <Change>2</Change>
+          <Probability>0</Probability>
           <Type>SpDef</Type>
         </MoveLv7DChange>
         <MoveLv7DChange>
           <Change>2</Change>
+          <Probability>0</Probability>
           <Type>Speed</Type>
         </MoveLv7DChange>
       </_lv7DChanges>
@@ -10947,10 +10948,12 @@
       <_lv7DChanges>
         <MoveLv7DChange>
           <Change>1</Change>
+          <Probability>0</Probability>
           <Type>Def</Type>
         </MoveLv7DChange>
         <MoveLv7DChange>
           <Change>1</Change>
+          <Probability>0</Probability>
           <Type>SpDef</Type>
         </MoveLv7DChange>
       </_lv7DChanges>
@@ -11118,10 +11121,9 @@
     </MoveType>
     <MoveType>
       <Id>614</Id>
-      <_advancedFlags/>
+      <_advancedFlags />
       <_category>Special</_category>
-      <_class>Attack</_class>
-      <_lv7DChanges/>
+      <_lv7DChanges />
       <_power>80</_power>
       <_pp>5</_pp>
       <_type>Psychic</_type>
@@ -11139,7 +11141,7 @@
       </_attachment>
       <_category>Special</_category>
       <_class>AttackWithState</_class>
-      <_lv7DChanges/>
+      <_lv7DChanges />
       <_power>110</_power>
       <_pp>5</_pp>
       <_type>Water</_type>
@@ -11280,7 +11282,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>66</a:int>
             <a:int>0</a:int>
@@ -11310,7 +11311,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>66</a:int>
             <a:int>0</a:int>
@@ -11416,7 +11416,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>67</a:int>
             <a:int>0</a:int>
@@ -11446,7 +11445,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>67</a:int>
             <a:int>0</a:int>
@@ -11476,7 +11474,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>67</a:int>
             <a:int>0</a:int>
@@ -11527,7 +11524,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Bug</T1>
-          <T2>Bug</T2>
           <A>
             <a:int>19</a:int>
             <a:int>0</a:int>
@@ -11556,7 +11552,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Bug</T1>
-          <T2>Bug</T2>
           <A>
             <a:int>61</a:int>
             <a:int>0</a:int>
@@ -11788,7 +11783,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>50</a:int>
             <a:int>62</a:int>
@@ -11817,7 +11811,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>50</a:int>
             <a:int>62</a:int>
@@ -11905,7 +11898,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Poison</T1>
-          <T2>Poison</T2>
           <A>
             <a:int>22</a:int>
             <a:int>61</a:int>
@@ -11935,7 +11927,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Poison</T1>
-          <T2>Poison</T2>
           <A>
             <a:int>22</a:int>
             <a:int>61</a:int>
@@ -11965,7 +11956,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>9</a:int>
             <a:int>0</a:int>
@@ -11995,7 +11985,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>9</a:int>
             <a:int>0</a:int>
@@ -12024,7 +12013,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ground</T1>
-          <T2>Ground</T2>
           <A>
             <a:int>8</a:int>
             <a:int>0</a:int>
@@ -12053,7 +12041,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ground</T1>
-          <T2>Ground</T2>
           <A>
             <a:int>8</a:int>
             <a:int>0</a:int>
@@ -12083,7 +12070,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Poison</T1>
-          <T2>Poison</T2>
           <A>
             <a:int>38</a:int>
             <a:int>79</a:int>
@@ -12112,7 +12098,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Poison</T1>
-          <T2>Poison</T2>
           <A>
             <a:int>38</a:int>
             <a:int>79</a:int>
@@ -12171,7 +12156,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Poison</T1>
-          <T2>Poison</T2>
           <A>
             <a:int>38</a:int>
             <a:int>79</a:int>
@@ -12201,7 +12185,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Poison</T1>
-          <T2>Poison</T2>
           <A>
             <a:int>38</a:int>
             <a:int>79</a:int>
@@ -12259,8 +12242,7 @@
       <Egg1>Fairy</Egg1>
       <FormData>
         <PokemonFormData>
-          <T1>Normal</T1>
-          <T2>Fairy</T2>
+          <T1>Fairy</T1>
           <A>
             <a:int>56</a:int>
             <a:int>98</a:int>
@@ -12288,8 +12270,7 @@
       <Egg1>Fairy</Egg1>
       <FormData>
         <PokemonFormData>
-          <T1>Normal</T1>
-          <T2>Fairy</T2>
+          <T1>Fairy</T1>
           <A>
             <a:int>56</a:int>
             <a:int>98</a:int>
@@ -12318,7 +12299,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>18</a:int>
             <a:int>0</a:int>
@@ -12347,7 +12327,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>18</a:int>
             <a:int>0</a:int>
@@ -12697,7 +12676,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ground</T1>
-          <T2>Ground</T2>
           <A>
             <a:int>8</a:int>
             <a:int>71</a:int>
@@ -12726,7 +12704,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ground</T1>
-          <T2>Ground</T2>
           <A>
             <a:int>8</a:int>
             <a:int>71</a:int>
@@ -12755,7 +12732,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>53</a:int>
             <a:int>101</a:int>
@@ -12784,7 +12760,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>7</a:int>
             <a:int>101</a:int>
@@ -12814,7 +12789,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>6</a:int>
             <a:int>13</a:int>
@@ -12844,7 +12818,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>6</a:int>
             <a:int>13</a:int>
@@ -12873,7 +12846,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>72</a:int>
             <a:int>83</a:int>
@@ -12902,7 +12874,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>72</a:int>
             <a:int>83</a:int>
@@ -12931,7 +12902,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>22</a:int>
             <a:int>18</a:int>
@@ -12960,7 +12930,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>22</a:int>
             <a:int>18</a:int>
@@ -12989,7 +12958,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>11</a:int>
             <a:int>6</a:int>
@@ -13018,7 +12986,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>11</a:int>
             <a:int>6</a:int>
@@ -13076,7 +13043,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>28</a:int>
             <a:int>39</a:int>
@@ -13105,7 +13071,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>28</a:int>
             <a:int>39</a:int>
@@ -13134,7 +13099,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>28</a:int>
             <a:int>39</a:int>
@@ -13185,7 +13149,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>62</a:int>
             <a:int>99</a:int>
@@ -13214,7 +13177,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>62</a:int>
             <a:int>99</a:int>
@@ -13243,7 +13205,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>62</a:int>
             <a:int>99</a:int>
@@ -13504,7 +13465,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>50</a:int>
             <a:int>18</a:int>
@@ -13533,7 +13493,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>50</a:int>
             <a:int>18</a:int>
@@ -13769,7 +13728,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>47</a:int>
             <a:int>93</a:int>
@@ -13828,7 +13786,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Poison</T1>
-          <T2>Poison</T2>
           <A>
             <a:int>1</a:int>
             <a:int>60</a:int>
@@ -13857,7 +13814,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Poison</T1>
-          <T2>Poison</T2>
           <A>
             <a:int>1</a:int>
             <a:int>60</a:int>
@@ -13886,7 +13842,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>75</a:int>
             <a:int>92</a:int>
@@ -14083,7 +14038,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>15</a:int>
             <a:int>108</a:int>
@@ -14112,7 +14066,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>15</a:int>
             <a:int>108</a:int>
@@ -14141,7 +14094,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>52</a:int>
             <a:int>75</a:int>
@@ -14170,7 +14122,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>52</a:int>
             <a:int>75</a:int>
@@ -14199,7 +14150,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>43</a:int>
             <a:int>9</a:int>
@@ -14228,7 +14178,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>43</a:int>
             <a:int>9</a:int>
@@ -14315,7 +14264,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ground</T1>
-          <T2>Ground</T2>
           <A>
             <a:int>69</a:int>
             <a:int>31</a:int>
@@ -14344,7 +14292,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ground</T1>
-          <T2>Ground</T2>
           <A>
             <a:int>69</a:int>
             <a:int>31</a:int>
@@ -14373,7 +14320,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>7</a:int>
             <a:int>120</a:int>
@@ -14402,7 +14348,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>51</a:int>
             <a:int>89</a:int>
@@ -14431,7 +14376,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>20</a:int>
             <a:int>12</a:int>
@@ -14460,7 +14404,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Poison</T1>
-          <T2>Poison</T2>
           <A>
             <a:int>26</a:int>
             <a:int>0</a:int>
@@ -14489,7 +14432,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Poison</T1>
-          <T2>Poison</T2>
           <A>
             <a:int>26</a:int>
             <a:int>0</a:int>
@@ -14578,7 +14520,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>30</a:int>
             <a:int>32</a:int>
@@ -14607,7 +14548,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>34</a:int>
             <a:int>102</a:int>
@@ -14636,7 +14576,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>48</a:int>
             <a:int>113</a:int>
@@ -14688,7 +14627,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>33</a:int>
             <a:int>97</a:int>
@@ -14718,7 +14656,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>38</a:int>
             <a:int>97</a:int>
@@ -14747,7 +14684,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>33</a:int>
             <a:int>41</a:int>
@@ -14776,7 +14712,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>33</a:int>
             <a:int>41</a:int>
@@ -14805,7 +14740,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>35</a:int>
             <a:int>30</a:int>
@@ -14950,7 +14884,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>9</a:int>
             <a:int>0</a:int>
@@ -14979,7 +14912,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>49</a:int>
             <a:int>0</a:int>
@@ -15008,7 +14940,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Bug</T1>
-          <T2>Bug</T2>
           <A>
             <a:int>52</a:int>
             <a:int>104</a:int>
@@ -15060,7 +14991,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>22</a:int>
             <a:int>83</a:int>
@@ -15090,7 +15020,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>33</a:int>
             <a:int>0</a:int>
@@ -15202,7 +15131,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>7</a:int>
             <a:int>0</a:int>
@@ -15231,7 +15159,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>50</a:int>
             <a:int>91</a:int>
@@ -15260,7 +15187,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>11</a:int>
             <a:int>0</a:int>
@@ -15289,7 +15215,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>10</a:int>
             <a:int>0</a:int>
@@ -15318,7 +15243,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>18</a:int>
             <a:int>0</a:int>
@@ -15347,7 +15271,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>36</a:int>
             <a:int>88</a:int>
@@ -15548,7 +15471,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>17</a:int>
             <a:int>47</a:int>
@@ -15665,7 +15587,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Dragon</T1>
-          <T2>Dragon</T2>
           <A>
             <a:int>61</a:int>
             <a:int>0</a:int>
@@ -15695,7 +15616,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Dragon</T1>
-          <T2>Dragon</T2>
           <A>
             <a:int>61</a:int>
             <a:int>0</a:int>
@@ -15754,7 +15674,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>46</a:int>
             <a:int>0</a:int>
@@ -15828,7 +15747,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>28</a:int>
             <a:int>0</a:int>
@@ -15858,7 +15776,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>65</a:int>
             <a:int>0</a:int>
@@ -15888,7 +15805,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>65</a:int>
             <a:int>0</a:int>
@@ -15918,7 +15834,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>65</a:int>
             <a:int>0</a:int>
@@ -15947,7 +15862,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>66</a:int>
             <a:int>0</a:int>
@@ -15976,7 +15890,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>66</a:int>
             <a:int>0</a:int>
@@ -16005,7 +15918,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>66</a:int>
             <a:int>0</a:int>
@@ -16035,7 +15947,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>67</a:int>
             <a:int>0</a:int>
@@ -16065,7 +15976,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>67</a:int>
             <a:int>0</a:int>
@@ -16095,7 +16005,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>67</a:int>
             <a:int>0</a:int>
@@ -16124,7 +16033,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>50</a:int>
             <a:int>51</a:int>
@@ -16153,7 +16061,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>50</a:int>
             <a:int>51</a:int>
@@ -16443,7 +16350,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>9</a:int>
             <a:int>0</a:int>
@@ -16471,8 +16377,7 @@
       <Egg1>Undiscovered</Egg1>
       <FormData>
         <PokemonFormData>
-          <T1>Normal</T1>
-          <T2>Fairy</T2>
+          <T1>Fairy</T1>
           <A>
             <a:int>56</a:int>
             <a:int>98</a:int>
@@ -16529,8 +16434,7 @@
       <Egg1>Undiscovered</Egg1>
       <FormData>
         <PokemonFormData>
-          <T1>Normal</T1>
-          <T2>Fairy</T2>
+          <T1>Fairy</T1>
           <A>
             <a:int>55</a:int>
             <a:int>32</a:int>
@@ -16648,7 +16552,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>9</a:int>
             <a:int>0</a:int>
@@ -16678,7 +16581,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>9</a:int>
             <a:int>0</a:int>
@@ -16708,7 +16610,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>9</a:int>
             <a:int>0</a:int>
@@ -16760,7 +16661,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>34</a:int>
             <a:int>0</a:int>
@@ -16849,7 +16749,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Rock</T1>
-          <T2>Rock</T2>
           <A>
             <a:int>5</a:int>
             <a:int>69</a:int>
@@ -16878,7 +16777,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>11</a:int>
             <a:int>6</a:int>
@@ -16997,7 +16895,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>50</a:int>
             <a:int>53</a:int>
@@ -17026,7 +16923,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>34</a:int>
             <a:int>94</a:int>
@@ -17055,7 +16951,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>34</a:int>
             <a:int>94</a:int>
@@ -17173,7 +17068,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>28</a:int>
             <a:int>0</a:int>
@@ -17202,7 +17096,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Dark</T1>
-          <T2>Dark</T2>
           <A>
             <a:int>28</a:int>
             <a:int>0</a:int>
@@ -17290,7 +17183,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ghost</T1>
-          <T2>Ghost</T2>
           <A>
             <a:int>26</a:int>
             <a:int>0</a:int>
@@ -17319,7 +17211,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>26</a:int>
             <a:int>0</a:int>
@@ -17429,7 +17320,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>23</a:int>
             <a:int>0</a:int>
@@ -17487,7 +17377,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Bug</T1>
-          <T2>Bug</T2>
           <A>
             <a:int>5</a:int>
             <a:int>0</a:int>
@@ -17545,7 +17434,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>32</a:int>
             <a:int>50</a:int>
@@ -17632,8 +17520,7 @@
       <Egg2>Fairy</Egg2>
       <FormData>
         <PokemonFormData>
-          <T1>Normal</T1>
-          <T2>Fairy</T2>
+          <T1>Fairy</T1>
           <A>
             <a:int>22</a:int>
             <a:int>50</a:int>
@@ -17662,8 +17549,7 @@
       <Egg2>Fairy</Egg2>
       <FormData>
         <PokemonFormData>
-          <T1>Normal</T1>
-          <T2>Fairy</T2>
+          <T1>Fairy</T1>
           <A>
             <a:int>22</a:int>
             <a:int>95</a:int>
@@ -17883,7 +17769,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>53</a:int>
             <a:int>95</a:int>
@@ -17912,7 +17797,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>62</a:int>
             <a:int>95</a:int>
@@ -17941,7 +17825,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>40</a:int>
             <a:int>49</a:int>
@@ -18088,7 +17971,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>55</a:int>
             <a:int>97</a:int>
@@ -18118,7 +18000,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>21</a:int>
             <a:int>97</a:int>
@@ -18346,7 +18227,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ground</T1>
-          <T2>Ground</T2>
           <A>
             <a:int>53</a:int>
             <a:int>0</a:int>
@@ -18375,7 +18255,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ground</T1>
-          <T2>Ground</T2>
           <A>
             <a:int>5</a:int>
             <a:int>0</a:int>
@@ -18404,7 +18283,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>36</a:int>
             <a:int>88</a:int>
@@ -18433,7 +18311,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>22</a:int>
             <a:int>119</a:int>
@@ -18462,7 +18339,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>20</a:int>
             <a:int>101</a:int>
@@ -18491,7 +18367,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>62</a:int>
             <a:int>80</a:int>
@@ -18520,7 +18395,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>22</a:int>
             <a:int>101</a:int>
@@ -18578,7 +18452,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>9</a:int>
             <a:int>0</a:int>
@@ -18607,7 +18480,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>49</a:int>
             <a:int>0</a:int>
@@ -18636,7 +18508,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>47</a:int>
             <a:int>113</a:int>
@@ -18665,7 +18536,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>30</a:int>
             <a:int>32</a:int>
@@ -18694,7 +18564,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>46</a:int>
             <a:int>0</a:int>
@@ -18723,7 +18592,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>46</a:int>
             <a:int>0</a:int>
@@ -18752,7 +18620,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>46</a:int>
             <a:int>0</a:int>
@@ -18979,7 +18846,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>65</a:int>
             <a:int>0</a:int>
@@ -19009,7 +18875,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>65</a:int>
             <a:int>0</a:int>
@@ -19039,7 +18904,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>65</a:int>
             <a:int>0</a:int>
@@ -19068,7 +18932,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>66</a:int>
             <a:int>0</a:int>
@@ -19179,7 +19042,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>67</a:int>
             <a:int>0</a:int>
@@ -19268,7 +19130,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Dark</T1>
-          <T2>Dark</T2>
           <A>
             <a:int>50</a:int>
             <a:int>95</a:int>
@@ -19297,7 +19158,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Dark</T1>
-          <T2>Dark</T2>
           <A>
             <a:int>22</a:int>
             <a:int>95</a:int>
@@ -19326,7 +19186,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>53</a:int>
             <a:int>82</a:int>
@@ -19355,7 +19214,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>53</a:int>
             <a:int>82</a:int>
@@ -19384,7 +19242,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Bug</T1>
-          <T2>Bug</T2>
           <A>
             <a:int>19</a:int>
             <a:int>0</a:int>
@@ -19413,7 +19270,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Bug</T1>
-          <T2>Bug</T2>
           <A>
             <a:int>61</a:int>
             <a:int>0</a:int>
@@ -19471,7 +19327,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Bug</T1>
-          <T2>Bug</T2>
           <A>
             <a:int>61</a:int>
             <a:int>0</a:int>
@@ -19620,7 +19475,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>34</a:int>
             <a:int>48</a:int>
@@ -19998,7 +19852,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>27</a:int>
             <a:int>90</a:int>
@@ -20057,7 +19910,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>54</a:int>
             <a:int>0</a:int>
@@ -20086,7 +19938,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>72</a:int>
             <a:int>0</a:int>
@@ -20115,7 +19966,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>54</a:int>
             <a:int>0</a:int>
@@ -20232,7 +20082,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>43</a:int>
             <a:int>0</a:int>
@@ -20262,7 +20111,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>43</a:int>
             <a:int>0</a:int>
@@ -20292,7 +20140,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>43</a:int>
             <a:int>0</a:int>
@@ -20321,7 +20168,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>47</a:int>
             <a:int>62</a:int>
@@ -20350,7 +20196,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>47</a:int>
             <a:int>62</a:int>
@@ -20408,7 +20253,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Rock</T1>
-          <T2>Rock</T2>
           <A>
             <a:int>5</a:int>
             <a:int>42</a:int>
@@ -20438,7 +20282,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>56</a:int>
             <a:int>96</a:int>
@@ -20468,7 +20311,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>56</a:int>
             <a:int>96</a:int>
@@ -20769,7 +20611,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>9</a:int>
             <a:int>31</a:int>
@@ -20798,7 +20639,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>9</a:int>
             <a:int>31</a:int>
@@ -20849,7 +20689,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>57</a:int>
             <a:int>0</a:int>
@@ -20878,7 +20717,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>58</a:int>
             <a:int>0</a:int>
@@ -20908,7 +20746,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Bug</T1>
-          <T2>Bug</T2>
           <A>
             <a:int>35</a:int>
             <a:int>68</a:int>
@@ -20938,7 +20775,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Bug</T1>
-          <T2>Bug</T2>
           <A>
             <a:int>12</a:int>
             <a:int>110</a:int>
@@ -20997,7 +20833,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Poison</T1>
-          <T2>Poison</T2>
           <A>
             <a:int>64</a:int>
             <a:int>60</a:int>
@@ -21026,7 +20861,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Poison</T1>
-          <T2>Poison</T2>
           <A>
             <a:int>64</a:int>
             <a:int>60</a:int>
@@ -21114,7 +20948,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>41</a:int>
             <a:int>12</a:int>
@@ -21144,7 +20977,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>41</a:int>
             <a:int>12</a:int>
@@ -21231,7 +21063,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>73</a:int>
             <a:int>0</a:int>
@@ -21260,7 +21091,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>47</a:int>
             <a:int>20</a:int>
@@ -21289,7 +21119,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>47</a:int>
             <a:int>20</a:int>
@@ -21319,7 +21148,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>20</a:int>
             <a:int>77</a:int>
@@ -21348,7 +21176,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ground</T1>
-          <T2>Ground</T2>
           <A>
             <a:int>52</a:int>
             <a:int>71</a:int>
@@ -21436,7 +21263,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>8</a:int>
             <a:int>0</a:int>
@@ -21555,7 +21381,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>17</a:int>
             <a:int>0</a:int>
@@ -21585,7 +21410,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Poison</T1>
-          <T2>Poison</T2>
           <A>
             <a:int>61</a:int>
             <a:int>0</a:int>
@@ -21731,7 +21555,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>52</a:int>
             <a:int>75</a:int>
@@ -21965,7 +21788,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>33</a:int>
             <a:int>0</a:int>
@@ -21995,7 +21817,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>63</a:int>
             <a:int>172</a:int>
@@ -22025,7 +21846,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>59</a:int>
             <a:int>0</a:int>
@@ -22044,7 +21864,6 @@
         </PokemonFormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>59</a:int>
             <a:int>0</a:int>
@@ -22063,7 +21882,6 @@
         </PokemonFormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>59</a:int>
             <a:int>0</a:int>
@@ -22082,7 +21900,6 @@
         </PokemonFormData>
         <PokemonFormData>
           <T1>Ice</T1>
-          <T2>Ice</T2>
           <A>
             <a:int>59</a:int>
             <a:int>0</a:int>
@@ -22123,7 +21940,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>16</a:int>
             <a:int>0</a:int>
@@ -22152,7 +21968,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ghost</T1>
-          <T2>Ghost</T2>
           <A>
             <a:int>15</a:int>
             <a:int>119</a:int>
@@ -22181,7 +21996,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ghost</T1>
-          <T2>Ghost</T2>
           <A>
             <a:int>15</a:int>
             <a:int>119</a:int>
@@ -22232,7 +22046,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ghost</T1>
-          <T2>Ghost</T2>
           <A>
             <a:int>26</a:int>
             <a:int>0</a:int>
@@ -22261,7 +22074,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ghost</T1>
-          <T2>Ghost</T2>
           <A>
             <a:int>46</a:int>
             <a:int>0</a:int>
@@ -22320,7 +22132,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>26</a:int>
             <a:int>0</a:int>
@@ -22349,7 +22160,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Dark</T1>
-          <T2>Dark</T2>
           <A>
             <a:int>46</a:int>
             <a:int>105</a:int>
@@ -22400,7 +22210,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>23</a:int>
             <a:int>0</a:int>
@@ -22430,7 +22239,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ice</T1>
-          <T2>Ice</T2>
           <A>
             <a:int>39</a:int>
             <a:int>115</a:int>
@@ -22460,7 +22268,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ice</T1>
-          <T2>Ice</T2>
           <A>
             <a:int>39</a:int>
             <a:int>115</a:int>
@@ -22579,7 +22386,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>75</a:int>
             <a:int>0</a:int>
@@ -22608,7 +22414,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>33</a:int>
             <a:int>0</a:int>
@@ -22637,7 +22442,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>33</a:int>
             <a:int>0</a:int>
@@ -22696,7 +22500,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>33</a:int>
             <a:int>0</a:int>
@@ -22725,7 +22528,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Dragon</T1>
-          <T2>Dragon</T2>
           <A>
             <a:int>69</a:int>
             <a:int>0</a:int>
@@ -22754,7 +22556,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Dragon</T1>
-          <T2>Dragon</T2>
           <A>
             <a:int>69</a:int>
             <a:int>0</a:int>
@@ -22899,7 +22700,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Rock</T1>
-          <T2>Rock</T2>
           <A>
             <a:int>29</a:int>
             <a:int>0</a:int>
@@ -22928,7 +22728,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ice</T1>
-          <T2>Ice</T2>
           <A>
             <a:int>29</a:int>
             <a:int>0</a:int>
@@ -22957,7 +22756,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Steel</T1>
-          <T2>Steel</T2>
           <A>
             <a:int>29</a:int>
             <a:int>0</a:int>
@@ -23044,7 +22842,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>2</a:int>
             <a:int>0</a:int>
@@ -23073,7 +22870,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ground</T1>
-          <T2>Ground</T2>
           <A>
             <a:int>70</a:int>
             <a:int>0</a:int>
@@ -23160,7 +22956,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>46</a:int>
             <a:int>0</a:int>
@@ -23179,7 +22974,6 @@
         </PokemonFormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>46</a:int>
             <a:int>0</a:int>
@@ -23198,7 +22992,6 @@
         </PokemonFormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>46</a:int>
             <a:int>0</a:int>
@@ -23217,7 +23010,6 @@
         </PokemonFormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>46</a:int>
             <a:int>0</a:int>
@@ -23259,7 +23051,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>65</a:int>
             <a:int>0</a:int>
@@ -23289,7 +23080,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>65</a:int>
             <a:int>0</a:int>
@@ -23349,7 +23139,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>66</a:int>
             <a:int>0</a:int>
@@ -23439,7 +23228,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>67</a:int>
             <a:int>0</a:int>
@@ -23469,7 +23257,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>67</a:int>
             <a:int>0</a:int>
@@ -23616,7 +23403,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>86</a:int>
             <a:int>109</a:int>
@@ -23675,7 +23461,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Bug</T1>
-          <T2>Bug</T2>
           <A>
             <a:int>61</a:int>
             <a:int>0</a:int>
@@ -23704,7 +23489,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Bug</T1>
-          <T2>Bug</T2>
           <A>
             <a:int>68</a:int>
             <a:int>0</a:int>
@@ -23733,7 +23517,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>79</a:int>
             <a:int>22</a:int>
@@ -23762,7 +23545,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>79</a:int>
             <a:int>22</a:int>
@@ -23791,7 +23573,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>79</a:int>
             <a:int>22</a:int>
@@ -23879,7 +23660,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Rock</T1>
-          <T2>Rock</T2>
           <A>
             <a:int>104</a:int>
             <a:int>0</a:int>
@@ -23908,7 +23688,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Rock</T1>
-          <T2>Rock</T2>
           <A>
             <a:int>104</a:int>
             <a:int>0</a:int>
@@ -23995,7 +23774,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Bug</T1>
-          <T2>Bug</T2>
           <A>
             <a:int>61</a:int>
             <a:int>0</a:int>
@@ -24193,7 +23971,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>50</a:int>
             <a:int>53</a:int>
@@ -24223,7 +24000,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>33</a:int>
             <a:int>0</a:int>
@@ -24253,7 +24029,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>33</a:int>
             <a:int>0</a:int>
@@ -24283,7 +24058,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>34</a:int>
             <a:int>0</a:int>
@@ -24313,7 +24087,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>122</a:int>
             <a:int>0</a:int>
@@ -24346,7 +24119,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>60</a:int>
             <a:int>114</a:int>
@@ -24411,7 +24183,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>101</a:int>
             <a:int>53</a:int>
@@ -24499,7 +24270,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>50</a:int>
             <a:int>103</a:int>
@@ -24529,7 +24299,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>56</a:int>
             <a:int>103</a:int>
@@ -24558,7 +24327,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ghost</T1>
-          <T2>Ghost</T2>
           <A>
             <a:int>26</a:int>
             <a:int>0</a:int>
@@ -24616,7 +24384,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>7</a:int>
             <a:int>20</a:int>
@@ -24645,7 +24412,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>47</a:int>
             <a:int>20</a:int>
@@ -24674,7 +24440,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>26</a:int>
             <a:int>0</a:int>
@@ -24819,7 +24584,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Rock</T1>
-          <T2>Rock</T2>
           <A>
             <a:int>5</a:int>
             <a:int>69</a:int>
@@ -24877,7 +24641,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>30</a:int>
             <a:int>32</a:int>
@@ -25077,7 +24840,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>53</a:int>
             <a:int>47</a:int>
@@ -25106,7 +24868,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>80</a:int>
             <a:int>39</a:int>
@@ -25188,7 +24949,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ground</T1>
-          <T2>Ground</T2>
           <A>
             <a:int>45</a:int>
             <a:int>0</a:int>
@@ -25217,7 +24977,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ground</T1>
-          <T2>Ground</T2>
           <A>
             <a:int>45</a:int>
             <a:int>0</a:int>
@@ -25364,7 +25123,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>26</a:int>
             <a:int>0</a:int>
@@ -25393,7 +25151,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>33</a:int>
             <a:int>114</a:int>
@@ -25422,7 +25179,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>33</a:int>
             <a:int>114</a:int>
@@ -25621,7 +25377,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>20</a:int>
             <a:int>12</a:int>
@@ -25680,7 +25435,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>34</a:int>
             <a:int>102</a:int>
@@ -25709,7 +25463,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>78</a:int>
             <a:int>0</a:int>
@@ -25738,7 +25491,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>49</a:int>
             <a:int>0</a:int>
@@ -25826,7 +25578,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>102</a:int>
             <a:int>0</a:int>
@@ -25855,7 +25606,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ice</T1>
-          <T2>Ice</T2>
           <A>
             <a:int>81</a:int>
             <a:int>0</a:int>
@@ -25942,7 +25692,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>91</a:int>
             <a:int>88</a:int>
@@ -26029,7 +25778,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ghost</T1>
-          <T2>Ghost</T2>
           <A>
             <a:int>46</a:int>
             <a:int>0</a:int>
@@ -26232,7 +25980,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>26</a:int>
             <a:int>0</a:int>
@@ -26261,7 +26008,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>26</a:int>
             <a:int>0</a:int>
@@ -26290,7 +26036,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>26</a:int>
             <a:int>0</a:int>
@@ -26406,7 +26151,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>112</a:int>
             <a:int>0</a:int>
@@ -26487,7 +26231,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>26</a:int>
             <a:int>0</a:int>
@@ -26517,7 +26260,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>93</a:int>
             <a:int>0</a:int>
@@ -26547,7 +26289,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>93</a:int>
             <a:int>0</a:int>
@@ -26576,7 +26317,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Dark</T1>
-          <T2>Dark</T2>
           <A>
             <a:int>123</a:int>
             <a:int>0</a:int>
@@ -26605,7 +26345,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>30</a:int>
             <a:int>0</a:int>
@@ -26657,7 +26396,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>121</a:int>
             <a:int>0</a:int>
@@ -26767,7 +26505,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>65</a:int>
             <a:int>0</a:int>
@@ -26797,7 +26534,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>65</a:int>
             <a:int>0</a:int>
@@ -26827,7 +26563,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>65</a:int>
             <a:int>0</a:int>
@@ -26856,7 +26591,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>66</a:int>
             <a:int>0</a:int>
@@ -26943,7 +26677,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>67</a:int>
             <a:int>0</a:int>
@@ -26972,7 +26705,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>67</a:int>
             <a:int>0</a:int>
@@ -27001,7 +26733,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>67</a:int>
             <a:int>0</a:int>
@@ -27030,7 +26761,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>50</a:int>
             <a:int>51</a:int>
@@ -27059,7 +26789,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>35</a:int>
             <a:int>51</a:int>
@@ -27088,7 +26817,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>72</a:int>
             <a:int>53</a:int>
@@ -27117,7 +26845,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>22</a:int>
             <a:int>146</a:int>
@@ -27146,7 +26873,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>22</a:int>
             <a:int>146</a:int>
@@ -27175,7 +26901,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Dark</T1>
-          <T2>Dark</T2>
           <A>
             <a:int>7</a:int>
             <a:int>84</a:int>
@@ -27204,7 +26929,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Dark</T1>
-          <T2>Dark</T2>
           <A>
             <a:int>7</a:int>
             <a:int>84</a:int>
@@ -27233,7 +26957,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>82</a:int>
             <a:int>0</a:int>
@@ -27262,7 +26985,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>82</a:int>
             <a:int>0</a:int>
@@ -27291,7 +27013,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>82</a:int>
             <a:int>0</a:int>
@@ -27320,7 +27041,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>82</a:int>
             <a:int>0</a:int>
@@ -27349,7 +27069,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>82</a:int>
             <a:int>0</a:int>
@@ -27378,7 +27097,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>82</a:int>
             <a:int>0</a:int>
@@ -27407,7 +27125,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>108</a:int>
             <a:int>28</a:int>
@@ -27436,7 +27153,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>108</a:int>
             <a:int>28</a:int>
@@ -27552,7 +27268,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>31</a:int>
             <a:int>78</a:int>
@@ -27581,7 +27296,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>31</a:int>
             <a:int>78</a:int>
@@ -27610,7 +27324,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Rock</T1>
-          <T2>Rock</T2>
           <A>
             <a:int>5</a:int>
             <a:int>0</a:int>
@@ -27639,7 +27352,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Rock</T1>
-          <T2>Rock</T2>
           <A>
             <a:int>5</a:int>
             <a:int>0</a:int>
@@ -27668,7 +27380,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Rock</T1>
-          <T2>Rock</T2>
           <A>
             <a:int>5</a:int>
             <a:int>0</a:int>
@@ -27757,7 +27468,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ground</T1>
-          <T2>Ground</T2>
           <A>
             <a:int>146</a:int>
             <a:int>159</a:int>
@@ -27815,7 +27525,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>131</a:int>
             <a:int>144</a:int>
@@ -27844,7 +27553,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>62</a:int>
             <a:int>125</a:int>
@@ -27873,7 +27581,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>62</a:int>
             <a:int>125</a:int>
@@ -27902,7 +27609,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>62</a:int>
             <a:int>125</a:int>
@@ -27931,7 +27637,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>33</a:int>
             <a:int>93</a:int>
@@ -28018,7 +27723,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>62</a:int>
             <a:int>39</a:int>
@@ -28047,7 +27751,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>5</a:int>
             <a:int>39</a:int>
@@ -28310,7 +28013,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>34</a:int>
             <a:int>20</a:int>
@@ -28339,7 +28041,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>34</a:int>
             <a:int>20</a:int>
@@ -28368,7 +28069,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>120</a:int>
             <a:int>91</a:int>
@@ -28387,7 +28087,6 @@
         </PokemonFormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>69</a:int>
             <a:int>91</a:int>
@@ -28507,7 +28206,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>55</a:int>
             <a:int>0</a:int>
@@ -28536,7 +28234,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>125</a:int>
             <a:int>0</a:int>
@@ -28588,7 +28285,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Grass</T1>
-          <T2>Grass</T2>
           <A>
             <a:int>11</a:int>
             <a:int>34</a:int>
@@ -28767,7 +28463,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ghost</T1>
-          <T2>Ghost</T2>
           <A>
             <a:int>152</a:int>
             <a:int>0</a:int>
@@ -28797,7 +28492,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ghost</T1>
-          <T2>Ghost</T2>
           <A>
             <a:int>152</a:int>
             <a:int>0</a:int>
@@ -28946,7 +28640,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Poison</T1>
-          <T2>Poison</T2>
           <A>
             <a:int>1</a:int>
             <a:int>60</a:int>
@@ -28975,7 +28668,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Poison</T1>
-          <T2>Poison</T2>
           <A>
             <a:int>1</a:int>
             <a:int>133</a:int>
@@ -29004,7 +28696,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Dark</T1>
-          <T2>Dark</T2>
           <A>
             <a:int>149</a:int>
             <a:int>0</a:int>
@@ -29033,7 +28724,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Dark</T1>
-          <T2>Dark</T2>
           <A>
             <a:int>149</a:int>
             <a:int>0</a:int>
@@ -29062,7 +28752,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>56</a:int>
             <a:int>101</a:int>
@@ -29091,7 +28780,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>56</a:int>
             <a:int>101</a:int>
@@ -29120,7 +28808,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>119</a:int>
             <a:int>172</a:int>
@@ -29149,7 +28836,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>119</a:int>
             <a:int>172</a:int>
@@ -29178,7 +28864,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>119</a:int>
             <a:int>172</a:int>
@@ -29207,7 +28892,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>142</a:int>
             <a:int>98</a:int>
@@ -29236,7 +28920,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>142</a:int>
             <a:int>98</a:int>
@@ -29265,7 +28948,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>142</a:int>
             <a:int>98</a:int>
@@ -29354,7 +29036,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ice</T1>
-          <T2>Ice</T2>
           <A>
             <a:int>115</a:int>
             <a:int>0</a:int>
@@ -29383,7 +29064,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ice</T1>
-          <T2>Ice</T2>
           <A>
             <a:int>115</a:int>
             <a:int>0</a:int>
@@ -29412,7 +29092,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ice</T1>
-          <T2>Ice</T2>
           <A>
             <a:int>115</a:int>
             <a:int>0</a:int>
@@ -29546,7 +29225,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Bug</T1>
-          <T2>Bug</T2>
           <A>
             <a:int>68</a:int>
             <a:int>61</a:int>
@@ -29721,7 +29399,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Water</T1>
-          <T2>Water</T2>
           <A>
             <a:int>131</a:int>
             <a:int>93</a:int>
@@ -29868,7 +29545,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Steel</T1>
-          <T2>Steel</T2>
           <A>
             <a:int>57</a:int>
             <a:int>58</a:int>
@@ -29897,7 +29573,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Steel</T1>
-          <T2>Steel</T2>
           <A>
             <a:int>57</a:int>
             <a:int>58</a:int>
@@ -29926,7 +29601,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Steel</T1>
-          <T2>Steel</T2>
           <A>
             <a:int>57</a:int>
             <a:int>58</a:int>
@@ -29955,7 +29629,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>26</a:int>
             <a:int>0</a:int>
@@ -29984,7 +29657,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>26</a:int>
             <a:int>0</a:int>
@@ -30013,7 +29685,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Electric</T1>
-          <T2>Electric</T2>
           <A>
             <a:int>26</a:int>
             <a:int>0</a:int>
@@ -30042,7 +29713,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>140</a:int>
             <a:int>28</a:int>
@@ -30071,7 +29741,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Psychic</T1>
-          <T2>Psychic</T2>
           <A>
             <a:int>140</a:int>
             <a:int>28</a:int>
@@ -30188,7 +29857,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Dragon</T1>
-          <T2>Dragon</T2>
           <A>
             <a:int>79</a:int>
             <a:int>104</a:int>
@@ -30218,7 +29886,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Dragon</T1>
-          <T2>Dragon</T2>
           <A>
             <a:int>79</a:int>
             <a:int>104</a:int>
@@ -30248,7 +29915,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Dragon</T1>
-          <T2>Dragon</T2>
           <A>
             <a:int>79</a:int>
             <a:int>104</a:int>
@@ -30277,7 +29943,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ice</T1>
-          <T2>Ice</T2>
           <A>
             <a:int>81</a:int>
             <a:int>0</a:int>
@@ -30306,7 +29971,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ice</T1>
-          <T2>Ice</T2>
           <A>
             <a:int>81</a:int>
             <a:int>0</a:int>
@@ -30335,7 +29999,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Ice</T1>
-          <T2>Ice</T2>
           <A>
             <a:int>26</a:int>
             <a:int>0</a:int>
@@ -30364,7 +30027,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Bug</T1>
-          <T2>Bug</T2>
           <A>
             <a:int>93</a:int>
             <a:int>75</a:int>
@@ -30393,7 +30055,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Bug</T1>
-          <T2>Bug</T2>
           <A>
             <a:int>93</a:int>
             <a:int>60</a:int>
@@ -30453,7 +30114,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>39</a:int>
             <a:int>144</a:int>
@@ -30483,7 +30143,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fighting</T1>
-          <T2>Fighting</T2>
           <A>
             <a:int>39</a:int>
             <a:int>144</a:int>
@@ -30513,7 +30172,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Dragon</T1>
-          <T2>Dragon</T2>
           <A>
             <a:int>24</a:int>
             <a:int>125</a:int>
@@ -30658,7 +30316,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Normal</T1>
-          <T2>Normal</T2>
           <A>
             <a:int>120</a:int>
             <a:int>157</a:int>
@@ -30803,7 +30460,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Fire</T1>
-          <T2>Fire</T2>
           <A>
             <a:int>82</a:int>
             <a:int>18</a:int>
@@ -31093,7 +30749,6 @@
       <FormData>
         <PokemonFormData>
           <T1>Flying</T1>
-          <T2>Flying</T2>
           <A>
             <a:int>158</a:int>
             <a:int>0</a:int>
@@ -31112,7 +30767,6 @@
         </PokemonFormData>
         <PokemonFormData>
           <T1>Flying</T1>
-          <T2>Flying</T2>
           <A>
             <a:int>144</a:int>
             <a:int>0</a:int>

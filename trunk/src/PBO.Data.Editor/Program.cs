@@ -144,11 +144,19 @@ namespace PokemonBattleOnline.Game.DataEditor
     static void Main(string[] args)
     {
       var rom = RomData.current = RomData.LoadFromXml<RomData>("..\\..\\doc\\rom.xml");
-      using (var sw = new StreamWriter(Desktop + "m.txt"))
-      {
-        foreach (var m in rom.moves)
-          sw.WriteLine(m.Priority);
-      }
+      //using (var sw = new StreamWriter(Desktop + "m.txt"))
+      //{
+      //  foreach (var p in rom.pokemons)
+      //  {
+      //    var fd = p.formData;
+      //    if (fd.Length > 1)
+      //      for (int i = 1; i < fd.Length; ++i) sw.WriteLine(p.Number * 100 + i);
+      //    //if (p.formData[0]._type2 != BattleType.Invalid) sw.Write(p.formData[0]._type2);
+      //    //sw.WriteLine();
+      //  }
+      //}
+      //Console.WriteLine("Done");
+      //Console.ReadKey();
       //RomData.current.SaveXml("..\\..\\doc\\rom.xml");
     }
   }
