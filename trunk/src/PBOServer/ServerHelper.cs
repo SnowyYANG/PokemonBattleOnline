@@ -12,9 +12,9 @@ namespace PokemonBattleOnline.PBO.Server
     {
         internal static void process(string command)
         {
-            if (command.StartsWith("ban"))
+            if (command.StartsWith("ban "))
             {
-                command = command.Substring(3);
+                command = command.Substring(4);
                 char[] cd = { '.' };
                 string[] st = command.Split(cd);
                 byte[] ips = new byte[4];
@@ -22,16 +22,16 @@ namespace PokemonBattleOnline.PBO.Server
                     ips[i] = (byte)Convert.ToInt32(st[i]);
                 IPAddress ip = new IPAddress(ips);
                 if (PBOServer.Current.Banlist.IndexOf(ip) >= 0)
-                    Console.WriteLine(command + " is already in banlist.");
+                    Console.WriteLine(ip.ToString() + " is already in banlist.");
                 else
                 {
                     PBOServer.Current.BanIp(ip);
-                    Console.WriteLine(command + " banned.");
+                    Console.WriteLine(ip.ToString() + " banned.");
                 }
             }
-            else if (command.StartsWith("unban"))
+            else if (command.StartsWith("unban "))
             {
-                command = command.Substring(5);
+                command = command.Substring(6);
                 char[] cd = { '.' };
                 string[] st = command.Split(cd);
                 byte[] ips = new byte[4];
@@ -42,10 +42,10 @@ namespace PokemonBattleOnline.PBO.Server
                 if (PBOServer.Current.Banlist.IndexOf(ip) >= 0)
                 {
                     PBOServer.Current.UnbanIp(ip);
-                    Console.WriteLine(command + " unbanned.");
+                    Console.WriteLine(ip.ToString() + " unbanned.");
                 }
                 else
-                    Console.WriteLine(command + " isn't in banlist.");
+                    Console.WriteLine(ip.ToString() + " isn't in banlist.");
             }
             else if (command == "list" || command == "l")
                 PBOServer.Current.ListUsers();

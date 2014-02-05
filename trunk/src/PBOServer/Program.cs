@@ -44,7 +44,7 @@ namespace PokemonBattleOnline.PBO.Server
 
       LOOP:
         //Console.Write("Input command: ");
-        Console.Write(">>>");
+        //Console.Write(">>>");
         var line = Console.ReadLine();
         if (line.Equals("quit", StringComparison.CurrentCultureIgnoreCase))
         {

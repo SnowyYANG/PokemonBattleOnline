@@ -60,12 +60,13 @@ namespace PokemonBattleOnline.Network
     public void BanIp(IPAddress ip)
     {
         Banlist.Add(ip);
+        List<ServerUser> tmp = new List<ServerUser>();
         foreach (KeyValuePair<int, ServerUser> ea in Users)
-            if (ea.Value.Network.EndPoint.Address == ip)
-            {
-                Users.Remove(ea.Key);
-                RemoveUser(ea.Value);
-            }
+            if (ea.Value.Network.EndPoint.Address.Address == ip.Address)
+                tmp.Add(ea.Value);
+
+        foreach (var i in tmp)
+            RemoveUser(i);
     }
     public void UnbanIp(IPAddress ip)
     {
