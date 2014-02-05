@@ -54,7 +54,7 @@ namespace PokemonBattleOnline.Network
     {
         foreach (ServerUser user in Users.Values)
         {
-            Console.WriteLine(user.User.Name);
+            Console.WriteLine(user.User.Name + "" + user.Network.EndPoint.Address.ToString());
         }
     }
     public void BanIp(IPAddress ip)
