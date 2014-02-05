@@ -17,7 +17,7 @@ namespace PokemonBattleOnline.Network
     private readonly Dictionary<int, ServerUser> Users;
     private InitingGame initingGame;
     private GameContext game;
-    
+ 
     public RoomHost(Server server, int id, string name, GameSettings settings)
     {
       Server = server;

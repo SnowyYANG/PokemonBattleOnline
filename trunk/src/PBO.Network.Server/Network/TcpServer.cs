@@ -33,6 +33,7 @@ namespace PokemonBattleOnline.Network
     private readonly int Port;
     private readonly Timer KeepAliveTimer;
     private readonly object ListenerLocker;
+    public List<IPAddress> Banlist;
 
     public TcpServer(int port)
     {
@@ -41,6 +42,7 @@ namespace PokemonBattleOnline.Network
       Port = port;
       KeepAliveTimer = new Timer(OnKeepAlive, this, PBOMarks.TIMEOUT << 1, PBOMarks.TIMEOUT << 1);
       ListenerLocker = new object();
+      Banlist = new List<IPAddress>();
     }
 
     private Socket listener;
@@ -96,8 +98,17 @@ namespace PokemonBattleOnline.Network
     private void ProcessAccept(object sender, SocketAsyncEventArgs e)
     {
       Socket s = e.AcceptSocket;
+      IPAddress tip = ((IPEndPoint)s.RemoteEndPoint).Address;
+      Console.Write(DateTime.Now.ToString("(hh:mm:ss) "));
+      Console.WriteLine(tip.ToString()+" is trying to login.");
       s.LingerState = new LingerOption(true, 5);
       var u = new TcpUser(IdsPool.GetId(), this, s);
+      if (Banlist.IndexOf(tip) >= 0)
+      {
+          u.Dispose();
+          if (IsListening) StartAccept(e);
+          return;
+      }
       lock (Locker)
       {
         Users.Add(u);

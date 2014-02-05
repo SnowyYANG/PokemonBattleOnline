@@ -43,7 +43,8 @@ namespace PokemonBattleOnline.PBO.Server
         Console.WriteLine();
 
       LOOP:
-        Console.Write("Input command: ");
+        //Console.Write("Input command: ");
+        Console.Write(">>>");
         var line = Console.ReadLine();
         if (line.Equals("quit", StringComparison.CurrentCultureIgnoreCase))
         {
@@ -51,6 +52,7 @@ namespace PokemonBattleOnline.PBO.Server
           TaskbarIcon.Close();
           return 0;
         }
+        ServerHelper.process(line);
         goto LOOP;
       }
       catch (Exception e)

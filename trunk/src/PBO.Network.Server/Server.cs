@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace PokemonBattleOnline.Network
     private readonly Dictionary<int, ServerUser> Users;
     private readonly IdsPool RoomIds;
     private readonly Dictionary<int, RoomHost> Rooms;
+    public List<IPAddress> Banlist;
 
     internal Server(int port)
     {
@@ -22,6 +24,7 @@ namespace PokemonBattleOnline.Network
       Users = new Dictionary<int, ServerUser>();
       RoomIds = new IdsPool();
       Rooms = new Dictionary<int, RoomHost>();
+      Banlist = Network.Banlist;
     }
 
     public void Start()
@@ -42,7 +45,16 @@ namespace PokemonBattleOnline.Network
         user.Network.Sender.Send(GetCII(user.Network.Id).ToPack());
         Send(Commands.UserS2C.AddUser(user.Network.Id, user.User.Name, user.User.Avatar));
         Users.Add(user.Network.Id, user);
+        Console.Write(DateTime.Now.ToString("(hh:mm:ss) "));
+        Console.WriteLine(user.User.Name + " has entered the lobby.");
       }
+    }
+    public void ListUsers()
+    {
+        foreach (ServerUser user in Users.Values)
+        {
+            Console.WriteLine(user.User.Name);
+        }
     }
     private ClientInitInfo GetCII(int user)
     { 
@@ -66,6 +78,8 @@ namespace PokemonBattleOnline.Network
         Send(Commands.UserS2C.RemoveUser(user.Network.Id));
       }
       Login.RemoveName(user.User.Name);
+      Console.Write(DateTime.Now.ToString("(hh:mm:ss) "));
+      Console.WriteLine(user.User.Name + " has left the lobby.");
     }
     internal RoomHost GetRoom(int id)
     {
