@@ -25,7 +25,7 @@ namespace PokemonBattleOnline.PBO.Server
                     Console.WriteLine(command + " is already in banlist.");
                 else
                 {
-                    PBOServer.Current.Banlist.Add(ip);
+                    PBOServer.Current.BanIp(ip);
                     Console.WriteLine(command + " banned.");
                 }
             }
@@ -41,7 +41,7 @@ namespace PokemonBattleOnline.PBO.Server
                 IPAddress ip = new IPAddress(ips);
                 if (PBOServer.Current.Banlist.IndexOf(ip) >= 0)
                 {
-                    PBOServer.Current.Banlist.Remove(ip);
+                    PBOServer.Current.UnbanIp(ip);
                     Console.WriteLine(command + " unbanned.");
                 }
                 else

@@ -49,12 +49,27 @@ namespace PokemonBattleOnline.Network
         Console.WriteLine(user.User.Name + " has entered the lobby.");
       }
     }
+
     public void ListUsers()
     {
         foreach (ServerUser user in Users.Values)
         {
             Console.WriteLine(user.User.Name);
         }
+    }
+    public void BanIp(IPAddress ip)
+    {
+        Banlist.Add(ip);
+        foreach (KeyValuePair<int, ServerUser> ea in Users)
+            if (ea.Value.Network.EndPoint.Address == ip)
+            {
+                Users.Remove(ea.Key);
+                RemoveUser(ea.Value);
+            }
+    }
+    public void UnbanIp(IPAddress ip)
+    {
+        Banlist.Remove(ip);
     }
     private ClientInitInfo GetCII(int user)
     { 
