@@ -44,10 +44,6 @@ namespace PokemonBattleOnline.Game.Host
     {
       return conditions.Remove(name);
     }
-    public void ClearCondition()
-    {
-      conditions.Clear();
-    }
     public bool AddTurnCondition(string name, object value = null)
     {
       if (AddCondition(name, value))

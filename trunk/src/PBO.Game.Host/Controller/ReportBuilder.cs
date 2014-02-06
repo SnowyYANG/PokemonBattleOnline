@@ -108,7 +108,7 @@ namespace PokemonBattleOnline.Game.Host
     public void DeIllusion(PokemonProxy pm)
     {
       var o = pm.GetOutward();
-      Add(new SetOutward() { Pm = pm.Id, Number = o.Form.Species.Number, Form = o.Form.Index, Name = o.Name, Gender = o.Gender });
+      Add(new SetOutward() { Pm = pm.Id, Number = o.Form.Species.Number, Form = o.Form.Index, Name = o.RawName, Gender = o.Gender });
     }
     public void ChangeForm(PokemonProxy pm)
     {

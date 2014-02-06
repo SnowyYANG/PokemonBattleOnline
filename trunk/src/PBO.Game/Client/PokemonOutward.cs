@@ -59,6 +59,8 @@ namespace PokemonBattleOnline.Game
 
     [DataMember(EmitDefaultValue = false)]
     private string _name;
+    public string RawName
+    { get { return _name; } }
     public string Name
     {
       get { return _name ?? GameString.Current.Pokemon(Form.Species.Number); }
