@@ -12,10 +12,6 @@ namespace PokemonBattleOnline.Network
   public static class PBOClient
   {
     public static event Action Disconnected;
-    private static void OnDisconnected()
-    {
-      UIDispatcher.Invoke(Disconnected);
-    }
     public static event Action CurrentChanged;
     public static event Action LoginFailed_Full
     {
@@ -92,6 +88,12 @@ namespace PokemonBattleOnline.Network
       _current.Controller.Exit();
       _current = null;
       CurrentChanged();
+    }
+    private static void OnDisconnected()
+    {
+      UIDispatcher.Invoke(Disconnected);
+      _current = null;
+      UIDispatcher.Invoke(CurrentChanged);
     }
   }
 }
