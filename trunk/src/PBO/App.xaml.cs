@@ -45,5 +45,36 @@ namespace PokemonBattleOnline.PBO
       new MainWindow().Show();
       base.OnStartup(e);
     }
+
+    protected override void OnExit(ExitEventArgs e)
+    {
+      if (e.ApplicationExitCode != 0)
+      {
+        if (MessageBox.Show("PBO异常退出，是否保存编辑器中精灵的改动（否则恢复到PBO本次运行时前状态）？", "PBO", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+        {
+          try
+          {
+            var ev = Editor.EditorVM.Current;
+            if (ev != null) ev.Save();
+          }
+          catch
+          {
+            MessageBox.Show("保存精灵失败。");
+          }
+        }
+        if (MessageBox.Show("是否保留本次运行改动的界面配置？", "PBO", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+        {
+          try
+          {
+            Config.Current.Save();
+          }
+          catch
+          {
+            MessageBox.Show("保存配置失败。");
+          }
+        }
+      }
+      base.OnExit(e);
+    }
   }
 }
