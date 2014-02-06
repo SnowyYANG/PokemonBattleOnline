@@ -742,11 +742,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       else
       {
         AttachedState a;
+        int t = 0;
         switch(aer.State)
         {
-          case PokemonState.BadlyPSN:
-            atk.Target.Defender.AddState(aer, AttachedState.PSN, true, 15);
-            return;
           case PokemonState.BRN:
             a = AttachedState.BRN;
             break;
@@ -762,11 +760,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           case PokemonState.SLP:
             a = AttachedState.SLP;
             break;
-          default:
-            return;
+          default: //BadlyPSN
+            a = AttachedState.PSN;
+            t = 15;
+            break;
         }
-        atk.Target.Defender.AddState(aer, a, true);
-        atk.Attacker.DeAbnormalState();
+        if (atk.Target.Defender.AddState(aer, a, true, t)) atk.Attacker.DeAbnormalState();
       }
     }
     private static void PowerTrick(AtkContext atk)
