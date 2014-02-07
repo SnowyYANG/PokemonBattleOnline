@@ -101,9 +101,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.SUBSTITUTE: //164
           Substitute(atk);
           break;
-        case Ms.TRIPLE_KICK: //167
-          TripleKick(atk);
-          break;
         case Ms.SPIDER_WEB: //169
         case Ms.MEAN_LOOK: //212
         case Ms.BLOCK: //335
@@ -441,7 +438,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         atk.Hit++;
         CalculateDamages.Execute(atk);
         if (atk.Target.Damage == 0 && atk.Hit == 2 && atk.HasCondition("ParentalBond")) break;
-        if (atk.Targets.Count() == 1) Implement(atk.Targets);
+        if (atk.Targets.Count() == 1)
+        {
+          Implement(atk.Targets);
+          if (atk.Move.Id == Ms.TRI_ATTACK) MoveE.FilterDefContext(atk);
+        }
         else
         {
           List<DefContext> od = null, fd = null;
@@ -1205,29 +1206,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           Implement(atk.Targets);
           if (atk.Target.Defender.Hp == 0 || aer.Hp == 0 || aer.State == PokemonState.FRZ || aer.State == PokemonState.SLP) break;
         }
-      atk.Controller.ReportBuilder.ShowLog("Hits", hits);
-
-      FinalEffect(atk);
-    }
-    private static void TripleKick(AtkContext atk)
-    {
-      PokemonProxy aer = atk.Attacker;
-
-      //生成攻击次数
-      int times = 3;
-
-      int atkTeam = aer.Pokemon.TeamId;
-      int hits = 0;
-      do
-      {
-        hits++;
-        atk.Target.BasePower += 10;
-        CalculateDamages.Execute(atk);
-        Implement(atk.Targets);
-        MoveE.FilterDefContext(atk);
-      }
-      while (atk.Target != null && hits < times && atk.Target.Defender.Hp != 0 && aer.Hp != 0 && aer.State != PokemonState.FRZ && aer.State != PokemonState.SLP);
-
       atk.Controller.ReportBuilder.ShowLog("Hits", hits);
 
       FinalEffect(atk);

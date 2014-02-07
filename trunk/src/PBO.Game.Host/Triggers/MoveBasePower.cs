@@ -21,6 +21,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           def.BasePower = def.Defender.CoordY == CoordY.Air ? 80 : 40;
           break;
         case Ms.TRIPLE_KICK: //167
+          def.BasePower = 10 * def.AtkContext.Hit;
           break;
         case Ms.ROLLOUT: //205
         case Ms.ICE_BALL: //301

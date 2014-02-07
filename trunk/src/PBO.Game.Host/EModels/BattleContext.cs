@@ -20,6 +20,9 @@ namespace PokemonBattleOnline.Game.Host
     public MoveType Move;
     public bool MultiTargets;
     public int Hits;
+    /// <summary>
+    /// 1, 2, 3...
+    /// </summary>
     public int Hit;
 
     public AtkContext(MoveProxy mp)
