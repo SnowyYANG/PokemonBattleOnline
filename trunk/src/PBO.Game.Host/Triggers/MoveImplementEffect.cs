@@ -114,16 +114,16 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
     }
 
-    private static void RemoveItem(DefContext def, bool berry, string log)
+    private static void RemoveItem(DefContext def, bool sp, string log)
     {
       var der = def.Defender;
       if (ITs.CanLostItem(der))
       {
         var i = der.Pokemon.Item;
-        if (!berry || ITs.Berry(i))
+        if (!sp || ITs.Berry(i) || ITs.Gem(i))
         {
           der.RemoveItem();
-          der.ShowLogPm(log, i, berry ? 0 : def.AtkContext.Attacker.Id);
+          der.ShowLogPm(log, i, sp ? 0 : def.AtkContext.Attacker.Id);
         }
       }
     }

@@ -338,6 +338,10 @@ namespace PokemonBattleOnline.Game.Host
       if (pm.ItemE(Is.FLOAT_STONE)) return 0.5d;
       return 1d;
     }
+    public static bool Gem(int item)
+    {
+      return item / 1000 == 7;
+    }
     public static void CheckGem(AtkContext atk)
     {
       int i = atk.Attacker.Item;
