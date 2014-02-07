@@ -85,6 +85,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.MAGNITUDE: //222
           if (der.CoordY == CoordY.Underground) m *= 0x2000;
           break;
+        case Ms.KNOCK_OFF:
+          if (der.Pokemon.Item != 0 && !ITs.NeverLostItem(der.Pokemon)) m *= 0x1800;
+          break;
       }
 
       return m;

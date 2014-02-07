@@ -92,12 +92,7 @@ namespace PokemonBattleOnline.Game.Host
     /// <returns></returns>
     public static bool CanLostItem(PokemonProxy pm)
     {
-      return !
-        (
-        pm.Pokemon.Item == 0 ||
-        NeverLostItem(pm.Pokemon) ||
-        pm.AbilityE(As.STICKY_HOLD)
-        );
+      return !(pm.Pokemon.Item == 0 || NeverLostItem(pm.Pokemon) || pm.AbilityE(As.STICKY_HOLD));
     }
     public static bool CanUseItem(PokemonProxy pm)
     { return !(pm.OnboardPokemon.HasCondition("Embargo") || pm.Controller.Board.HasCondition("MagicRoom") || pm.AbilityE(As.KLUTZ)); }
