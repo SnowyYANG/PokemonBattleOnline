@@ -552,16 +552,17 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         }
 
         if (move.HurtPercentage > 0)
-        {
-          int v = def.Damage * move.HurtPercentage / 100;
-          if (aer.ItemE(Is.BIG_ROOT)) v *= (Modifier)0x14cc;
-          if (!def.Defender.AbilityE(As.LIQUID_OOZE)) aer.HpRecover(v, false);
-          else if (aer.CanEffectHurt)
+          foreach (var d in defs)
           {
-            def.Defender.RaiseAbility();
-            aer.EffectHurtImplement(v);
+            int v = d.Damage * move.HurtPercentage / 100;
+            if (aer.ItemE(Is.BIG_ROOT)) v *= (Modifier)0x14cc;
+            if (!d.Defender.AbilityE(As.LIQUID_OOZE)) aer.HpRecover(v, false);
+            else if (aer.CanEffectHurt)
+            {
+              d.Defender.RaiseAbility();
+              aer.EffectHurtImplement(v);
+            }
           }
-        }
         if (move.Class == MoveClass.AttackWithSelfLv7DChange && atk.RandomHappen(move.Lv7DChanges.First().Probability)) aer.ChangeLv7D(atk.Attacker, move);
 
         foreach (DefContext d in defs)
