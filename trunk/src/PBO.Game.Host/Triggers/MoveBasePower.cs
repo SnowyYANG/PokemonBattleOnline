@@ -237,14 +237,15 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static void SLevel(DefContext def, int @const)
     {
-      var l5 = def.Defender.OnboardPokemon.Lv5D;
-      int sst = l5.Atk;
+      var ao = def.AtkContext.Attacker.OnboardPokemon;
+      var l5 = ao.Lv5D;
+      int sst = Positive(l5.Atk);
       sst += Positive(l5.Def);
       sst += Positive(l5.SpAtk);
       sst += Positive(l5.SpDef);
       sst += Positive(l5.Speed);
-      sst += Positive(def.Defender.OnboardPokemon.AccuracyLv);
-      sst += Positive(def.Defender.OnboardPokemon.EvasionLv);
+      sst += Positive(ao.AccuracyLv);
+      sst += Positive(ao.EvasionLv);
       def.BasePower = sst * 20 + @const;
     }
 
