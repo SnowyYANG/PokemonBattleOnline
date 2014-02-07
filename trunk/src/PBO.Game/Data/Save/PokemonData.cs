@@ -54,7 +54,7 @@ namespace PokemonBattleOnline.Game
       }
     }
 
-    private static readonly int[] CAN_CHOOSE_FORM = { 201, 386, 412, 413, 422, 423, 479, 492, 550, 641, 642, 645, 646, 666, 669, 670, 671, 676, 710, 711 };
+    private static readonly int[] CAN_CHOOSE_FORM = { 201, 386, 412, 413, 422, 423, 479, 492, 550, 585, 586, 641, 642, 645, 646, 666, 669, 670, 671, 676, 710, 711 };
     public bool CanChooseForm
     { get { return CAN_CHOOSE_FORM.Contains(number) || number == KELDEO && HasMove(Ms.SECRET_SWORD); } }
 
@@ -295,8 +295,6 @@ namespace PokemonBattleOnline.Game
     private const int ROTOM = 479;
     private const int GIRATINA = 487;
     private const int ARCEUS = 493;
-    private const int DEERLING = 585;
-    private const int SAWSBUCK = 586;
     private const int GENESECT = 649;
     private const int KYUREM = 646;
     private const int KELDEO = 647;
@@ -306,10 +304,6 @@ namespace PokemonBattleOnline.Game
     {
       switch (number)
       {
-        case DEERLING:
-        case SAWSBUCK:
-          form = (DateTime.Now.Month - 1) & 3;
-          break;
         case ARCEUS:
           form = _item / 1000 == Is.FLAME_PLATE / 1000 ? _item - Is.FLAME_PLATE + 1 : 0;
           break;

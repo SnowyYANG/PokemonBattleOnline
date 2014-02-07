@@ -150,7 +150,7 @@ namespace PokemonBattleOnline.PBO.Editor
           var oldNumber = Model.Form.Species.Number;
           var oldData = Model.Form.Data;
           Model.Form = value;
-          if (oldNumber != value.Species.Number || oldNumber == 413 || oldNumber == 479 || oldNumber == 646) RefreshLearnset();
+          if (oldNumber != value.Species.Number || oldNumber == 413 || oldNumber == 479 || oldNumber == 646 || oldNumber == 678) RefreshLearnset();
           if (oldData != Model.Form.Data) Stats.RefreshAll();
           RefreshImage();
           OnPropertyChanged();
@@ -169,7 +169,11 @@ namespace PokemonBattleOnline.PBO.Editor
           if (form != PokemonForm)
           {
             OnPropertyChanged("PokemonForm");
-            if (form.Data != PokemonForm.Data) Stats.RefreshAll();
+            if (form.Data != PokemonForm.Data)
+            {
+              Stats.RefreshAll();
+              if (PokemonForm.Species.Number == 678) RefreshLearnset();
+            }
           }
           OnPropertyChanged("Gender");
           RefreshImage();
@@ -228,11 +232,12 @@ namespace PokemonBattleOnline.PBO.Editor
     }
     private void GetLearnset(int number, int form)
     {
+      if (!(number == 413 || number == 479 || number == 646 || number == 678)) form = 0;
       GetGenericLearnset(number, form);
       if (number == 235)
       {
         for (var m = 1; m <= RomData.Moves.Count(); ++m)
-          if (m != Ms.STRUGGLE && m != 603 && m != 606 && m != 607) GetLearnVM(m).AddMethod(LearnCategory.Other);
+          if (m != Ms.STRUGGLE && m != Ms.CHATTER && m != 603 && m != 606 && m != 607) GetLearnVM(m).AddMethod(LearnCategory.Other);
       }
       else
       {
