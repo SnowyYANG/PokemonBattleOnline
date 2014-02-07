@@ -246,6 +246,9 @@ namespace PokemonBattleOnline.Game.Host
         case AttachedState.Attract:
           if (OnboardPokemon.Gender == PokemonGender.None || by.OnboardPokemon.Gender == PokemonGender.None || OnboardPokemon.Gender == by.OnboardPokemon.Gender) goto FAIL_NOEFFECT;
           goto CONDITION;
+        case AttachedState.Nightmare:
+          if (State == PokemonState.SLP) goto CONDITION;
+          goto FAIL_NOEFFECT;//战报已测
         case AttachedState.LeechSeed:
           if (OnboardPokemon.HasType(BattleType.Grass)) goto FAIL_NOEFFECT;
           goto CONDITION;
