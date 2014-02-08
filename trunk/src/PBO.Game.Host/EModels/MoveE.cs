@@ -313,11 +313,11 @@ namespace PokemonBattleOnline.Game.Host
             targets.Remove(d);
           }
       #region Check for misses
-      if (!(MustHit(atk) || aer.AbilityE(As.NO_GUARD)))
+      if (!MustHit(atk))
       {
         if (move.Class != MoveClass.OHKO) atk.AccuracyModifier = STs.AccuracyModifier(atk);
         foreach (DefContext def in targets.ToArray())
-          if (!(def.NoGuard || CanHit(def)))//心眼锁定、无防御
+          if (!(MustHit(def) || CanHit(def)))
           {
             targets.Remove(def);
             def.Defender.ShowLogPm("Miss");
@@ -371,7 +371,19 @@ namespace PokemonBattleOnline.Game.Host
     public static bool MustHit(AtkContext atk)
     {
       var m = atk.Move.Id;
-      return atk.Move.Accuracy == 0 || (m == Ms.THUNDER || m == Ms.HURRICANE) && atk.Controller.Weather == Weather.HeavyRain || m == Ms.BLIZZARD && atk.Controller.Weather == Weather.Hailstorm || atk.Attacker.OnboardPokemon.HasType(BattleType.Poison) && m == Ms.TOXIC;
+      return
+        atk.Move.Accuracy == 0
+        || atk.Attacker.AbilityE(As.NO_GUARD)
+        || (m == Ms.THUNDER || m == Ms.HURRICANE) && atk.Controller.Weather == Weather.HeavyRain
+        || m == Ms.BLIZZARD && atk.Controller.Weather == Weather.Hailstorm
+        || atk.Attacker.OnboardPokemon.HasType(BattleType.Poison) && m == Ms.TOXIC;
+    }
+    public static bool MustHit(DefContext def)
+    {
+      var m = def.AtkContext.Move.Id;
+      return
+        def.NoGuard
+        || (m == Ms.STOMP || m == Ms.DRAGON_RUSH || m == Ms.STEAMROLLER || m == Ms.PHANTOM_FORCE || m == Ms.FLYING_PRESS) && def.Defender.OnboardPokemon.HasCondition("Minimize");
     }
     #endregion
 

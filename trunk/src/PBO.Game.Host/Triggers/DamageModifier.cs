@@ -74,7 +74,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       switch (move.Id)
       {
         case Ms.STOMP: //23
+        case Ms.DRAGON_RUSH:
         case Ms.STEAMROLLER: //537
+        case Ms.PHANTOM_FORCE:
+        case Ms.FLYING_PRESS:
           if (der.OnboardPokemon.HasCondition("Minimize")) m *= 0x2000;
           break;
         case Ms.SURF:
