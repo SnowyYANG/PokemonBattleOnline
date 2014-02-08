@@ -206,9 +206,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       var der = def.Defender;
       var atk = def.AtkContext;
+      var move = atk.Move.Id;
       Modifier m = 0x1000;
 
-      switch (atk.Move.Id)
+      switch (move)
       {
         case Ms.FUSION_FLARE: //558
           {
@@ -242,10 +243,18 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       //If move was called using Me First.
       if (atk.HasCondition("MeFirst")) m *= 0x1800;
       //If move is SolarBeam in non-sunny, non-default weather.
-      if (def.AtkContext.Move.Id == Ms.SOLAR_BEAM)
+
+      switch (move)
       {
-        Weather w = def.Defender.Controller.Weather;
-        if (w != Weather.IntenseSunlight && w != Weather.Normal) m *= 0x800;
+        case Ms.SOLAR_BEAM:
+          Weather w = def.Defender.Controller.Weather;
+          if (w != Weather.IntenseSunlight && w != Weather.Normal) m *= 0x800;
+          break;
+        case Ms.EARTHQUAKE:
+        case Ms.BULLDOZE:
+        case Ms.MAGNITUDE:
+          if (der.Controller.Board.HasCondition("GrassyTerrain")) m *= 0x800;
+          break;
       }
 
       return m;
