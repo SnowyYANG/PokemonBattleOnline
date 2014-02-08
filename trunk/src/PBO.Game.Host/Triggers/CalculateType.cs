@@ -31,39 +31,26 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
           break;
         default:
-          switch (atk.Attacker.Ability)
-          {
-            case As.NORMALIZE:
-              atk.Type = BattleType.Normal;
-              break;
-            case As.AERILATE:
-              if (atk.Move.Type == BattleType.Normal)
-              {
-                atk.Type = BattleType.Flying;
-                atk.SetCondition("Sukin");
-              }
-              else goto default;
-              break;
-            case As.PIXILATE:
-              if (atk.Move.Type == BattleType.Normal)
-              {
-                atk.Type = BattleType.Fairy;
-                atk.SetCondition("Sukin");
-              }
-              else goto default;
-              break;
-            case As.REFRIGERATE:
-              if (atk.Move.Type == BattleType.Ice)
-              {
-                atk.Type = BattleType.Ice;
-                atk.SetCondition("Sukin");
-              }
-              else goto default;
-              break;
-            default:
-              atk.Type = atk.Move.Type;
-              break;
-          }
+          var aer = atk.Attacker;
+          if (aer.OnboardPokemon.HasCondition("Electrify")) atk.Type = BattleType.Electric;
+          else if (atk.Move.Type == BattleType.Normal || aer.AbilityE(As.NORMALIZE))
+            if (aer.AbilityE(As.AERILATE))
+            {
+              atk.Type = BattleType.Flying;
+              atk.SetCondition("Sukin");
+            }
+            else if (aer.AbilityE(As.PIXILATE))
+            {
+              atk.Type = BattleType.Fairy;
+              atk.SetCondition("Sukin");
+            }
+            else if (aer.AbilityE(As.REFRIGERATE))
+            {
+              atk.Type = BattleType.Ice;
+              atk.SetCondition("Sukin");
+            }
+            else atk.Type = atk.Controller.Board.HasCondition("IonDeluge") ? BattleType.Electric : BattleType.Normal;
+          else atk.Type = atk.Move.Type;
           break;
       }
     }

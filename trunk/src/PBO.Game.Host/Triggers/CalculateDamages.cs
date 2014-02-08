@@ -104,22 +104,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static void CalculateEffectRevise(DefContext def)
     {
+      var atk = def.AtkContext;
       var der = def.Defender;
       var types = def.Defender.OnboardPokemon.Types;
-      switch (def.AtkContext.Move.Id)
-      {
-        case Ms.FLYING_PRESS:
-          def.EffectRevise = BattleType.Flying.EffectRevise(types) + BattleType.Fighting.EffectRevise(types);
-          break;
-        case Ms.FREEZEDRY:
-          def.EffectRevise = BattleType.Ice.EffectRevise(types);
-          if (types.Contains(BattleType.Water)) def.EffectRevise += 2;
-          break;
-        default:
-          BattleType a = def.AtkContext.Type;
-          def.EffectRevise = a == BattleType.Ground && der.ItemE(Is.IRON_BALL) && der.OnboardPokemon.HasType(BattleType.Flying) ? 0 : a.EffectRevise(types);
-          break;
-      }
+      BattleType a = atk.Type;
+      def.EffectRevise = a == BattleType.Ground && der.ItemE(Is.IRON_BALL) && der.OnboardPokemon.HasType(BattleType.Flying) ? 0 : a.EffectRevise(types);
+      if (atk.Move.Id == Ms.FLYING_PRESS) def.EffectRevise += BattleType.Flying.EffectRevise(types);
+      else if (atk.Move.Id == Ms.FREEZEDRY && a == BattleType.Ice && types.Contains(BattleType.Water)) def.EffectRevise += 2;
     }
     private static readonly int[] LV_CT = { 16, 8, 2 };
     private static void Ct(DefContext def)

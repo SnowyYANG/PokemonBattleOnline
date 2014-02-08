@@ -375,10 +375,17 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           SelfProtect(atk, "KingsShield", "EnProtect");
           break;
         case Ms.POWDER:
-          Powder(atk);
+          AddTurnCondition(atk, "Powder");
           break;
         case Ms.CELEBRATE:
           aer.ShowLogPm("Celebrate");
+          break;
+        case Ms.ION_DELUGE:
+          if (aer.Controller.Board.AddTurnCondition("IonDeluge")) aer.Controller.ReportBuilder.ShowLog("EnIonDeluge");
+          else atk.FailAll();
+          break;
+        case Ms.ELECTRIFY:
+          AddTurnCondition(atk, "Electrify");
           break;
         default:
           if (move.Category == MoveCategory.Status) StatusMove(atk);
@@ -1259,13 +1266,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var c = atk.Controller;
       if (!STs.SetWeather(atk.Attacker, weather, false)) atk.FailAll();
     }
-    private static void Powder(AtkContext atk)
+    private static void AddTurnCondition(AtkContext atk, string condition)
     {
-      foreach (var d in atk.Targets)
-      {
-        d.Defender.OnboardPokemon.SetTurnCondition("Powder");
-        d.Defender.ShowLogPm("EnPowder");
-      }
+      if (atk.Target.Defender.OnboardPokemon.AddTurnCondition(condition)) atk.Target.Defender.ShowLogPm("En" + condition);
+      else atk.FailAll();
     }
   }
 }
