@@ -78,6 +78,7 @@ namespace PokemonBattleOnline.Game.Host
         }
       }
     }
+    public int SLPTurn;
 
     private bool _mega;
     public bool Mega

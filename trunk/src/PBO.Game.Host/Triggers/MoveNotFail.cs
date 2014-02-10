@@ -45,7 +45,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
               atk.FailAll("FullHp", aer.Id);
               return false;
             }
-            if (!aer.CanAddState(aer, AttachedState.SLP, true))
+            if (!PTs.CanAddXXX(aer, aer, true, AttachedState.SLP, true))
             {
               atk.FailAll(null);
               return false;

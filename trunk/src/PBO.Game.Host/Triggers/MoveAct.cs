@@ -941,15 +941,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       var aer = atk.Attacker;
       if (aer.Hp == aer.Pokemon.MaxHp) atk.FailAll();
-      else if (CanAddState.Execute(aer, aer, AttachedState.SLP, true))
+      else if (PTs.CanAddXXX(aer, aer, true, AttachedState.SLP, true))
       {
-        aer.Pokemon.Hp = aer.Pokemon.MaxHp;
-        aer.Controller.ReportBuilder.SetHp(aer.Pokemon);
+        aer.ShowLogPm("m_Rest");
+        aer.Hp = aer.Pokemon.MaxHp;
         aer.Pokemon.State = PokemonState.SLP;
-        aer.OnboardPokemon.SetCondition("SLP", 3);
-        aer.Field.SetCondition("Rest" + aer.Id);
-        aer.ShowLogPm("Rest");
-        StateAdded.Execute(aer);
+        aer.Pokemon.SLPTurn = 3;
       }
     }
     private static void Recycle(AtkContext atk)
@@ -980,12 +977,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void HealBell(AtkContext atk, string log)
     {
       var aer = atk.Attacker;
-      foreach (var pm in aer.Field.Pokemons)
-        if (pm.State != PokemonState.Normal)
-        {
-          if (pm.Pokemon.State == PokemonState.SLP) pm.Field.RemoveCondition("Rest" + pm.Id);
-          pm.Pokemon.State = PokemonState.Normal;
-        }
+      foreach (var pm in aer.Field.Pokemons) pm.Pokemon.State = PokemonState.Normal;
       foreach (var pm in aer.Pokemon.Owner.Pokemons)
         if (pm.Hp > 0 && pm.State != PokemonState.Normal) pm.Pokemon.State = PokemonState.Normal;
       aer.Controller.ReportBuilder.ShowLog(log);

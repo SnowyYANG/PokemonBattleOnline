@@ -30,17 +30,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       if (pm.State == PokemonState.SLP)
       {
-        int count = pm.OnboardPokemon.GetCondition<int>("SLP");
-        count--;
-        if (pm.AbilityE(As.EARLY_BIRD)) count--;
-        if (count <= 0)
-        {
-          pm.OnboardPokemon.RemoveCondition("SLP");
-          pm.DeAbnormalState();
-        }
+        pm.Pokemon.SLPTurn -= pm.AbilityE(As.EARLY_BIRD) ? 2 : 1;
+        if (pm.Pokemon.SLPTurn <= 0) pm.DeAbnormalState();
         else
         {
-          pm.OnboardPokemon.SetCondition("SLP", count);
           pm.ShowLogPm("SLP");
           return pm.SelectedMove.AvailableEvenSleeping();
         }

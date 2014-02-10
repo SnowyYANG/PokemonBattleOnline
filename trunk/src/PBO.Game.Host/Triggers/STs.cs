@@ -54,12 +54,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       pm.Reset();
       var o = pm.OnboardPokemon;
-      if (pm.State == PokemonState.SLP) o.SetCondition("SLP", pm.Field.HasCondition("Rest" + pm.Id) ? 3 : pm.Controller.GetRandomInt(2, 4));
-      else
-      {
-        pm.Field.RemoveCondition("Rest" + pm.Id);
-        if (pm.State == PokemonState.BadlyPSN) o.SetCondition("PSN", pm.Controller.TurnNumber);
-      }
+      if (pm.State == PokemonState.BadlyPSN) o.SetCondition("PSN", pm.Controller.TurnNumber);
       var pass = pm.Tile.GetCondition<OnboardPokemon>("BatonPass");
       if (pass != null)
       {
