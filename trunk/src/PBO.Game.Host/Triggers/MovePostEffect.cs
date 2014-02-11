@@ -32,7 +32,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.CIRCLE_THROW: //509
         case Ms.DRAGON_TAIL: //525
-          if (def.Defender.Hp != 0 && def.Defender.Controller.CanWithdraw(def.Defender)) MoveE.ForceSwitchImplement(def.Defender, def.AtkContext.IgnoreDefenderAbility());
+          if (def.Defender.Hp != 0 && def.Defender.Controller.CanWithdraw(def.Defender)) MoveE.ForceSwitchImplement(def.Defender, def.AtkContext.DefenderAbilityAvailable());
           break;
         default:
           {

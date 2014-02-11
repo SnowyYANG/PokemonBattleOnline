@@ -300,7 +300,7 @@ namespace PokemonBattleOnline.Game.Host
       #region Check for Telepathy (and possibly other abilities)
       {
         var mc = move.Flags.MagicCoat && !atk.HasCondition("IgnoreMagicCoat");
-        var ab = !atk.IgnoreDefenderAbility();
+        var ab = atk.DefenderAbilityAvailable();
         foreach (DefContext def in targets.ToArray())
           if (def.Defender != atk.Attacker && (mc && STs.MagicCoat(atk, def.Defender) || ab && !CanImplement.Execute(def))) targets.Remove(def);
       }

@@ -125,10 +125,10 @@ namespace PokemonBattleOnline.Game.Host
     }
 
     public int Ability
-    { get { return AtkContext.IgnoreDefenderAbility() ? 0 : Defender.Ability; } }
+    { get { return AtkContext.DefenderAbilityAvailable() ? Defender.Ability : 0; } }
     public bool AbilityE(int ability)
     {
-      return Defender.AbilityE(ability) && !AtkContext.IgnoreDefenderAbility();
+      return Defender.AbilityE(ability) && AtkContext.DefenderAbilityAvailable();
     }
     
     public bool RandomHappen(int percentage)
@@ -138,7 +138,7 @@ namespace PokemonBattleOnline.Game.Host
     
     public void MoveHurt()
     {
-      Damage = Defender.MoveHurt(Damage, !AtkContext.IgnoreDefenderAbility());
+      Damage = Defender.MoveHurt(Damage, AtkContext.DefenderAbilityAvailable());
       {
         var o = new Condition();
         o.Damage = Damage;

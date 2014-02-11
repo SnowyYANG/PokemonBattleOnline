@@ -171,7 +171,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     public static bool MagicCoat(AtkContext atk, PokemonProxy der)
     {
       //atk.Move.AdvancedFlags.MagicCoat is already checked
-      if (der.OnboardPokemon.HasCondition("MagicCoat") || !atk.IgnoreDefenderAbility() && der.AbilityE(As.MAGIC_BOUNCE))
+      if (der.OnboardPokemon.HasCondition("MagicCoat") || atk.DefenderAbilityAvailable() && der.AbilityE(As.MAGIC_BOUNCE))
       {
         var o = atk.GetCondition<List<PokemonProxy>>("MagicCoat");
         if (o == null)

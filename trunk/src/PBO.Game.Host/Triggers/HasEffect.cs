@@ -49,7 +49,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
       return (canAtk != BattleType.Invalid && der.OnboardPokemon.HasType(canAtk)
               || der.ItemE(Is.RING_TARGET)
-              || atk.Type == BattleType.Ground ? IsGroundAffectable(der, !atk.IgnoreDefenderAbility(), true) : NonGround(def));
+              || atk.Type == BattleType.Ground ? IsGroundAffectable(der, atk.DefenderAbilityAvailable(), true) : NonGround(def));
     }
     public static bool IsGroundAffectable(PokemonProxy pm, bool abilityAvailable, bool raiseAbility)
     {

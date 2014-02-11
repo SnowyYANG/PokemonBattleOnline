@@ -32,10 +32,10 @@ namespace PokemonBattleOnline.Game.Host
       return false;
     }
 
-    public static bool IgnoreDefenderAbility(this AtkContext atk)
+    public static bool DefenderAbilityAvailable(this AtkContext atk)
     {
       var pm = atk.Attacker;
-      return pm.AbilityE(As.MOLD_BREAKER) || pm.AbilityE(As.TURBOBLAZE) || pm.AbilityE(As.TERAVOLT);
+      return !(pm.AbilityE(As.MOLD_BREAKER) || pm.AbilityE(As.TURBOBLAZE) || pm.AbilityE(As.TERAVOLT));
     }
     public static bool CannotBeCted(this DefContext def)
     {

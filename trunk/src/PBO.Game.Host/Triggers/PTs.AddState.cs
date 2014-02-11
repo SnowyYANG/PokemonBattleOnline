@@ -329,7 +329,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       var aer = def.AtkContext.Attacker;
       MoveAttachment attachment = def.AtkContext.Move.Attachment;
-      if (def.RandomHappen(attachment.Probability) && CanAddState(pm, aer, !def.AtkContext.IgnoreDefenderAbility(), attachment.State, def.AtkContext.Move.Category == MoveCategory.Status))
+      if (def.RandomHappen(attachment.Probability) && CanAddState(pm, aer, def.AtkContext.DefenderAbilityAvailable(), attachment.State, def.AtkContext.Move.Category == MoveCategory.Status))
       {
         int turn;
         if (attachment.State == AttachedState.Trap && aer.Item == Is.GRIP_CLAW) turn = 8;
