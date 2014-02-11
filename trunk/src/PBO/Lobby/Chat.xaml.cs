@@ -32,7 +32,7 @@ namespace PokemonBattleOnline.PBO.Lobby
           var u = (User)_u;
           if (PBOClient.Current != null && u != PBOClient.Current.User) Current.NewChat(u);
         });
-      sound = new SoundPlayer("..\\res\\chat.wav");
+      sound = new SoundPlayer(Application.GetResourceStream(new Uri(@"pack://application:,,,/PBO;component/images/chat.wav", UriKind.Absolute)).Stream);
       try
       {
         sound.LoadAsync();

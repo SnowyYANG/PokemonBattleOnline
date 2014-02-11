@@ -22,15 +22,22 @@ namespace PokemonBattleOnline.PBO
   {
     private void Init()
     {
-      using (var pack = new ZipData("..\\res\\rom.zip"))
+      var r =
+#if DEBUG
+        "..\\"
+#else
+        string.Empty
+#endif
+        ;
+      using (var pack = new ZipData(r + "res\\rom.zip"))
       {
         RomData.Load(pack, "/rom.xml");
         LearnList.Load(pack, "/learnset");
       }
-      ImageService.Load("..\\res\\image.zip");
-      GameString.Load("..\\res\\string", "zh", "en");
-      UserData.Load("..\\MyPBO\\user.dat");
-      Config.Load("..\\MyPBO\\config.xml");
+      ImageService.Load(r + "res\\image.zip");
+      GameString.Load(r + "res\\string", "zh", "en");
+      UserData.Load(r + "MyPBO\\user.dat");
+      Config.Load(r + "MyPBO\\config.xml");
     }
     
     protected override void OnStartup(StartupEventArgs e)

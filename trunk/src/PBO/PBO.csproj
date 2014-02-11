@@ -38,7 +38,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>..\..\bin\</OutputPath>
+    <OutputPath>..\..\</OutputPath>
     <DefineConstants>
     </DefineConstants>
     <Optimize>true</Optimize>
@@ -482,6 +482,10 @@
   <ItemGroup>
     <Resource Include="images\ControlPanel\Fight\Background.png" />
     <Resource Include="images\ControlPanel\Fight\BackgroundMega.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\challenged.wav" />
+    <Resource Include="images\chat.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
