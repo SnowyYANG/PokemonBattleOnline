@@ -70,31 +70,25 @@ namespace PokemonBattleOnline.Game.Host
     private bool Input(XActionInput input, Controller controller, Tile tile)
     {
       bool r = false;
-      try
+      if (input.SendOutIndex > 0) r = controller.InputSendOut(tile, input.SendOutIndex);
+      else
       {
-        if (input.SendOutIndex > 0) r = controller.InputSendOut(tile, input.SendOutIndex);
-        else
+        var pm = tile.Pokemon;
+        if (input.Move > 0)
         {
-          var pm = tile.Pokemon;
-          if (input.Move > 0)
-          {
-            foreach (MoveProxy m in pm.Moves)
-              if (m.Type.Id == input.Move)
-              {
-                Tile target = input.TargetTeam > 0 ? controller.Board[input.TargetTeam - 1][input.TargetX - 1] : null;
-                r = controller.InputSelectMove(m, target, input.Mega);
-                break;
-              }
-          }
-          else r = controller.InputStruggle(pm);
+          foreach (MoveProxy m in pm.Moves)
+            if (m.Type.Id == input.Move)
+            {
+              Tile target = input.TargetTeam > 0 ? controller.Board[input.TargetTeam - 1][input.TargetX - 1] : null;
+              r = controller.InputSelectMove(m, target, input.Mega);
+              break;
+            }
         }
-      }
-      catch
-      {
-        Error();
+        else r = controller.InputStruggle(pm);
       }
       return r;
     }
+    private readonly object InputLocker = new object();
     public bool InputAction(int teamId, int teamIndex, ActionInput action)
     {
       try
@@ -103,13 +97,16 @@ namespace PokemonBattleOnline.Game.Host
         {
           //action.Input(controller, )
           var inputs = action.Inputs;
-          for (int x = 0; x < inputs.Length; ++x)
-            if (inputs[x] != null)
-            {
-              if (Controller.GameSettings.Mode.GetPlayerIndex(x) != teamIndex) return false;
-              if (!Input(inputs[x], Controller, Controller.Board[teamId][x])) return false;
-            }
-          return Controller.CheckInputSucceed(teamId, teamIndex);
+          lock (InputLocker)
+          {
+            for (int x = 0; x < inputs.Length; ++x)
+              if (inputs[x] != null)
+              {
+                if (Controller.GameSettings.Mode.GetPlayerIndex(x) != teamIndex) return false;
+                if (!Input(inputs[x], Controller, Controller.Board[teamId][x])) return false;
+              }
+            return Controller.CheckInputSucceed(teamId, teamIndex);
+          }
         }
       }
       catch
