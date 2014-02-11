@@ -57,7 +57,7 @@ namespace PokemonBattleOnline.Network
       LoginUser u;
       if (Users.TryRemove(user.Network.Id, out u) && user == u)
       {
-        Console.WriteLine(user.Name + " has entered the lobby.");
+        //Console.WriteLine(user.Name + " has entered the lobby.");
         Server.AddUser(new ServerUser(user, Server));
       }
       else
