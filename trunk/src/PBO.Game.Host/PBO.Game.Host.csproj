@@ -80,6 +80,7 @@
     <Compile Include="Triggers\MoveNotFail.cs" />
     <Compile Include="Triggers\MovePostEffect.cs" />
     <Compile Include="Triggers\PowerModifier.cs" />
+    <Compile Include="Triggers\PTs.ChangeLv7D.cs" />
     <Compile Include="Triggers\PTs.cs" />
     <Compile Include="Triggers\SpeedRevise.cs" />
     <Compile Include="Triggers\StateAdded.cs" />
@@ -125,6 +126,9 @@
       <Name>PokemonBattleOnline</Name>
       <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Triggers\PTs.ChangeHp.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PokemonBattleOnline.Game;
+using PokemonBattleOnline.Game.Host.Triggers;
 
-namespace PokemonBattleOnline.Game.Host.Triggers
+namespace PokemonBattleOnline.Game.Host
 {
   internal static partial class PTs
   {
@@ -14,7 +14,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static bool CanAddState(this PokemonProxy pm, PokemonProxy by, bool ability, AttachedState state, bool showFail)
     {
-      if (pm.OnboardPokemon == pm.NullOnboardPokemon || pm.Hp == 0) return false;
+      if (!pm.AliveOnboard) return false;
       string fail = pm.Controller.GameSettings.Mode.NeedTarget() ? "Fail" : "Fail0";
       switch (state)
       {

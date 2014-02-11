@@ -23,10 +23,11 @@ namespace PokemonBattleOnline.Game.Host
     }
 
     internal readonly OnboardPokemon NullOnboardPokemon;
+    public bool AliveOnboard
+    { get { return OnboardPokemon != NullOnboardPokemon && Hp > 0; } }
     public OnboardPokemon OnboardPokemon
     { get; internal set; }
 
-    #region Data
     public PokemonAction Action
     { get; internal set; }
     public Field Field
@@ -63,7 +64,7 @@ namespace PokemonBattleOnline.Game.Host
     public MoveType LastMove
     { get { return AtkContext == null ? null : AtkContext.MoveProxy == null ? null : AtkContext.MoveProxy.Type; } }
     private bool NoAbilityE
-    { get { return OnboardPokemon == NullOnboardPokemon || OnboardPokemon.HasCondition("GastroAcid"); } }
+    { get { return !AliveOnboard || OnboardPokemon.HasCondition("GastroAcid"); } }
     public int Ability
     { get { return NoAbilityE ? 0 : OnboardPokemon.Ability; } }
     public bool AbilityE(int ability)
@@ -75,8 +76,7 @@ namespace PokemonBattleOnline.Game.Host
       get
       {
         return
-          OnboardPokemon == NullOnboardPokemon ||
-          Pokemon.Item == 0 ||
+          !AliveOnboard ||
           !ITs.CanUseItem(this) ||
           ITs.Berry(Pokemon.Item) && Controller.Board[1 - Pokemon.TeamId].Pokemons.Any(ATs.Unnerve);
       }
@@ -116,13 +116,11 @@ namespace PokemonBattleOnline.Game.Host
         }
       }
     }
-    public void ChangeForm(int form, bool forever = false, string log = "FormChange")
+    public bool CanTransform(PokemonProxy target)
     {
-      OnboardPokemon.ChangeForm(OnboardPokemon.Form.Species.GetForm(form));
-      if (forever) Pokemon.Form = OnboardPokemon.Form;
-      Controller.ReportBuilder.ChangeForm(this);
-      if (log != null) ShowLogPm(log);
-      AbilityAttach.Execute(this);
+      if (target == null) return false;
+      var to = target.OnboardPokemon;
+      return !(OnboardPokemon.HasCondition("Transform") || to.HasCondition("Illusion") || to.HasCondition("Transform") || to.HasCondition("Substitute"));
     }
     public void Transform(PokemonProxy target)
     {
@@ -141,100 +139,18 @@ namespace PokemonBattleOnline.Game.Host
           break;
         }
     }
-    public void ChangeAbility(int ab)
-    {
-      AbilityDetach.Execute(this);
-      OnboardPokemon.Ability = ab;
-      AbilityAttach.Execute(this);
-    }
-    public void SetItem(int item)
-    {
-      Pokemon.Item = item;
-      OnboardPokemon.RemoveCondition("Unburden");
-      OnboardPokemon.RemoveCondition("ChoiceItem");
-    }
-    #endregion
-
-    #region Predict
     public int LastMoveTurn
     { get; private set; }
-    public bool CanHpRecover(bool showFail = false)
-    {
-      if (OnboardPokemon == NullOnboardPokemon || Hp == 0) return false;
-      if (Hp == Pokemon.MaxHp)
-      {
-        if (showFail) ShowLogPm("FullHp");
-        return false;
-      }
-      if (OnboardPokemon.HasCondition("HealBlock"))
-      {
-        ShowLogPm("HealBlock");
-        return false;
-      }
-      return true;
-    }
     public bool CanEffectHurt
     {
-      get { return !(OnboardPokemon == NullOnboardPokemon || Hp == 0 || AbilityE(As.MAGIC_GUARD)); }
+      get { return AliveOnboard && !AbilityE(As.MAGIC_GUARD); }
     }
     private bool CanExecute()
     {
       CoordY = CoordY.Plate;
       return Triggers.CanExecute.Execute(this);
     }
-    /// <summary>
-    /// null log to show default log
-    /// </summary>
-    /// <param name="log"></param>
-    /// <param name="arg1"></param>
-    public void DeAbnormalState(string log = null, int arg1 = 0)
-    {
-      if (State != PokemonState.Normal && Hp > 0)
-      {
-        ShowLogPm(log ?? "De" + Pokemon.State.ToString(), arg1);
-        Pokemon.State = PokemonState.Normal;
-      }
-    }
-    public int CanChangeLv7D(PokemonProxy by, StatType stat, int change, bool showFail)
-    {
-      if (OnboardPokemon == NullOnboardPokemon || Hp == 0 || change == 0) return 0;
-      change = Lv7DChanging.Execute(this, by, stat, change, showFail);
-      if (change != 0)
-      {
-        int oldValue = stat == StatType.Accuracy ? OnboardPokemon.AccuracyLv : stat == StatType.Evasion ? OnboardPokemon.EvasionLv : OnboardPokemon.Lv5D.GetStat(stat);
-        if (oldValue == 6 && change > 0)
-        {
-          if (showFail) ShowLogPm("7DMax", (int)stat);
-          return 0;
-        }
-        else if (oldValue == -6 && change < 0)
-        {
-          if (showFail) ShowLogPm("7DMin", (int)stat);
-          return 0;
-        }
-        int value = oldValue + change;
-        if (value > 6) change = 6 - oldValue;
-        else if (value < -6) change = -6 - oldValue;
-      }
-      return change;
-    }
-    public bool CanTransform(PokemonProxy target)
-    {
-      if (target == null) return false;
-      var to = target.OnboardPokemon;
-      return !(OnboardPokemon.HasCondition("Transform") || to.HasCondition("Illusion") || to.HasCondition("Transform") || to.HasCondition("Substitute"));
-    }
-    public bool CanChangeForm(int number)
-    { 
-      return Pokemon.Form.Species.Number == number && !OnboardPokemon.HasCondition("Transform");
-    }
-    public bool CanChangeForm(int number, int form)
-    {
-      return OnboardPokemon.Form.Index != form && CanChangeForm(number);
-    }
-    #endregion
 
-    #region internal
     internal void Reset()
     {
       _atkContext = null;
@@ -341,7 +257,7 @@ namespace PokemonBattleOnline.Game.Host
     internal bool CanMove
     { get { return Hp != 0 && LastMoveTurn != Controller.TurnNumber && (Action == PokemonAction.MoveAttached || Action == PokemonAction.Stiff || Action == PokemonAction.Moving); } }
     public bool CanMega
-    { get { return  Pokemon.Owner.Pokemons.All((p) => !(p.SelectMega || p.Pokemon.Mega)) && CanChangeForm(ITs.MegaNumber(Pokemon.Item), ITs.MegaNumber(Pokemon.Item)); } }
+    { get { return  Pokemon.Owner.Pokemons.All((p) => !(p.SelectMega || p.Pokemon.Mega)) && PTs.CanChangeForm(this, ITs.MegaNumber(Pokemon.Item), ITs.MegaNumber(Pokemon.Item)); } }
 
     internal void Debut()
     {
@@ -349,7 +265,7 @@ namespace PokemonBattleOnline.Game.Host
       {
         Tile.Debut();
         if (!(OnboardPokemon.HasCondition("Substitute") || AbilityE(As.OVERCOAT))) EHTs.Debut(this);
-        if (!CheckFaint())
+        if (!PTs.CheckFaint(this))
         {
           if (OnboardPokemon.Ability != As.FLOWER_GIFT && OnboardPokemon.Ability != As.FORECAST) AbilityAttach.Execute(this);
           if (!ITs.AirBalloon(this)) ITs.Attach(this);
@@ -380,13 +296,13 @@ namespace PokemonBattleOnline.Game.Host
       switch (Action)
       {
         case PokemonAction.Stiff:
-          ShowLogPm("Stiff");
+          PTs.ShowLogPm(this, "Stiff");
           Action = PokemonAction.Done;
           break;
         case PokemonAction.Moving:
           if (CanExecute())
           {
-            if (AtkContext.Move.Id != Ms.BIDE) ShowLogPm("UseMove", AtkContext.Move.Id);
+            if (AtkContext.Move.Id != Ms.BIDE) PTs.ShowLogPm(this, "UseMove", AtkContext.Move.Id);
             AtkContext.ContinueExecute(SelectedTarget);
           }
           else Action = PokemonAction.Done;
@@ -450,240 +366,5 @@ namespace PokemonBattleOnline.Game.Host
       return outward;
     }
     #endregion
-    #endregion
-
-    #region ChangeHp
-    public void Faint()
-    {
-      Pokemon.Hp = 0;
-      CheckFaint();
-    }
-    public int MoveHurt(int damage, bool ability)
-    {
-      if (damage >= Hp)
-      {
-        damage = Hp;
-        if (STs.Remaining1HP(this, ability))
-        {
-          damage--;
-          Pokemon.SetHp(1);
-        }
-        else Pokemon.SetHp(0);
-      }
-      else Pokemon.SetHp(Hp - damage);
-      if (damage != 0) OnboardPokemon.SetTurnCondition("Assurance");
-      return damage;
-    }
-    public void HpRecover(int changeHp, bool showFail = false, string log = "m_HpRecover", int arg1 = 0, bool consumeItem = false)
-    {
-      if (CanHpRecover(showFail))
-      {
-        if (consumeItem) ConsumeItem();
-        if (changeHp == 0) changeHp = 1;
-        ShowLogPm(log, arg1);
-        Hp += changeHp;
-      }
-    }
-    public void HpRecoverByOneNth(int n, bool showFail = false, string log = "m_HpRecover", int arg1 = 0, bool consumeItem = false)
-    {
-      int hp = Pokemon.MaxHp / n;
-      HpRecover(hp, showFail, log, arg1, consumeItem);
-    }
-    public bool EffectHurt(int hp, string log = "m_Hurt", int arg1 = 0, int arg2 = 0)
-    {
-      if (CanEffectHurt)
-      {
-        EffectHurtImplement(hp, log, arg1, arg2);
-        return true;
-      }
-      return false;
-    }
-    public void EffectHurtImplement(int hp, string log = "m_Hurt", int arg1 = 0, int arg2 = 0)
-    {
-      if (hp == 0) hp = 1;
-      ShowLogPm(log, arg1, arg2);
-      Hp -= hp;
-      HpChanged.Execute(this);
-      OnboardPokemon.SetTurnCondition("Assurance");
-    }
-    public bool EffectHurtByOneNth(int n, string log = "m_Hurt", int arg1 = 0, int arg2 = 0)
-    {
-      return EffectHurt(Pokemon.MaxHp / n, log, arg1, arg2);
-    }
-    public void EffectHurtByOneNthImplement(int n, string log = "m_Hurt", int arg1 = 0, int arg2 = 0)
-    {
-      EffectHurtImplement(Pokemon.MaxHp / n, log, arg1, arg2);
-    }
-    #endregion
-
-    /// <summary>
-    /// Item should not be null, or Unburden effect will be wrong
-    /// </summary>
-    public void RemoveItem()
-    {
-      Pokemon.Item = 0;
-      if (AbilityE(As.UNBURDEN)) OnboardPokemon.SetCondition("Unburden");
-    }
-    public void ConsumeItem(bool cheekPouch = true)
-    {
-      OnboardPokemon.SetTurnCondition("UsedItem", Pokemon.Item);
-      Field.SetCondition("UsedItem" + Id, Pokemon.Item);
-      if (ITs.Berry(Pokemon.Item))
-      {
-        OnboardPokemon.SetCondition("Belch");
-        Field.SetCondition("UsedBerry" + Id, Pokemon.Item);
-        if (CanHpRecover() && ATs.RaiseAbility(this, As.CHEEK_POUCH)) HpRecoverByOneNth(3);
-      }
-      RemoveItem();
-    }
-    public bool CheckFaint()
-    {
-      if (Hp == 0 && OnboardPokemon != NullOnboardPokemon)
-      {
-        Field.SetCondition("FaintTurn", Controller.TurnNumber);
-        Pokemon.State = PokemonState.Faint;
-        Controller.Withdraw(this, "Faint", 0, false);
-        return true;
-      }
-      return false;
-    }
-    private void ChangeLv7DImplement(PokemonProxy by, StatType stat, int actualChange, string log)
-    {
-      if (actualChange != 0)
-      {
-        if (stat == StatType.Accuracy) OnboardPokemon.AccuracyLv += actualChange;
-        else if (stat == StatType.Evasion) OnboardPokemon.EvasionLv += actualChange;
-        else OnboardPokemon.ChangeLv7D(stat, actualChange);
-        if (log == null)
-          switch (actualChange)
-          {
-            case 1:
-              log = "7DUp1";
-              break;
-            case 2:
-              log = "7DUp2";
-              break;
-            case -1:
-              log = "7DDown1";
-              break;
-            case -2:
-              log = "7DDown2";
-              break;
-            default:
-              if (actualChange > 0) log = "7DUp3";
-              else log = "7DDown3";
-              break;
-          }
-        ShowLogPm(log, (int)stat);
-        if ((by == null || by.Pokemon.TeamId != Pokemon.TeamId) && actualChange < 0) STs.Lv7DDown(this);
-      }
-    }
-    /// <summary>
-    /// null log to show default log
-    /// </summary>
-    /// <param name="by"></param>
-    /// <param name="stat"></param>
-    /// <param name="change"></param>
-    /// <param name="showFail"></param>
-    /// <param name="log"></param>
-    /// <returns></returns>
-    public bool ChangeLv7D(PokemonProxy by, StatType stat, int change, bool showFail, bool ability = false, string log = null)
-    {
-      change = CanChangeLv7D(by, stat, change, showFail);
-      if (change != 0)
-      {
-        if (ability) ATs.RaiseAbility(this);
-        ChangeLv7DImplement(by, stat, change, log);
-        ITs.WhiteHerb(this);
-        return true;
-      }
-      return false;
-    }
-    public bool ChangeLv7D(PokemonProxy by, bool showFail, bool ability, int a, int d = 0, int sa = 0, int sd = 0, int s = 0, int ac = 0, int e = 0)
-    {
-      a = CanChangeLv7D(by, StatType.Atk, a, false);
-      d = CanChangeLv7D(by, StatType.Def, d, false);
-      sa = CanChangeLv7D(by, StatType.SpAtk, sa, false);
-      sd = CanChangeLv7D(by, StatType.SpDef, sd, false);
-      s = CanChangeLv7D(by, StatType.Speed, s, false);
-      ac = CanChangeLv7D(by, StatType.Accuracy, ac, false);
-      e = CanChangeLv7D(by, StatType.Evasion, e, false);
-      if (a != 0 || d != 0 || sa != 0 || sd != 0 || s != 0 || ac != 0 || e != 0)
-      {
-        if (ability) ATs.RaiseAbility(this);
-        ChangeLv7DImplement(by, StatType.Atk, a, null);
-        ChangeLv7DImplement(by, StatType.SpAtk, sa, null);
-        ChangeLv7DImplement(by, StatType.Def, d, null);
-        ChangeLv7DImplement(by, StatType.SpDef, sd, null);
-        ChangeLv7DImplement(by, StatType.Speed, s, null);
-        ChangeLv7DImplement(by, StatType.Accuracy, ac, null);
-        ChangeLv7DImplement(by, StatType.Evasion, e, null);
-        ITs.WhiteHerb(this);
-        return true;
-      }
-      return false;
-    }
-    public bool ChangeLv7D(PokemonProxy by, MoveType move)
-    {
-      bool r = false;
-      var c0 = move.Lv7DChanges.FirstOrDefault();
-      if (c0 != null)
-      {
-        bool showFail = move.Category == MoveCategory.Status;
-        if (c0.Type == StatType.All) r = ChangeLv7D(by, showFail, false, c0.Change, c0.Change, c0.Change, c0.Change, c0.Change);
-        else
-        {
-          foreach (MoveLv7DChange c in move.Lv7DChanges)
-          {
-            var ac = CanChangeLv7D(by, c.Type, c.Change, showFail);
-            if (ac != 0)
-            {
-              ChangeLv7DImplement(by, c.Type, ac, null);
-              r = true;
-            }
-          }
-          if (r) ITs.WhiteHerb(this);
-        }
-      }
-      return r;
-    }
-    public bool ChangeLv7D(DefContext def)
-    {
-      var c = def.AtkContext.Move.Lv7DChanges.FirstOrDefault();
-      return c != null && def.RandomHappen(c.Probability) && ChangeLv7D(def.AtkContext.Attacker, def.AtkContext.Move);
-    }
-    public void CalculatePriority()
-    {
-      Priority = 0;
-      ItemSpeedValue = 0;
-      if (Action != PokemonAction.WillSwitch)
-      {
-        var m = SelectedMove.Type;
-        Priority = m.Priority;
-        if (m.Category == MoveCategory.Status && AbilityE(As.PRANKSTER) || m.Type == BattleType.Flying && AbilityE(As.GALE_WINGS)) Priority++;
-        switch (Item)
-        {
-          case Is.LAGGING_TAIL:
-          case Is.FULL_INCENSE:
-            ItemSpeedValue = -1;
-            break;
-          case Is.QUICK_CLAW:
-            if (Controller.RandomHappen(20))
-            {
-              ShowLogPm("QuickItem", Is.QUICK_CLAW);
-              ItemSpeedValue = 1;
-            }
-            break;
-          case Is.CUSTAP_BERRY:
-            if (ATs.Gluttony(this))
-            {
-              ShowLogPm("QuickItem", Is.CUSTAP_BERRY);
-              ConsumeItem();
-              ItemSpeedValue = 1;
-            }
-            break;
-        }
-      }
-    }
   }
 }
