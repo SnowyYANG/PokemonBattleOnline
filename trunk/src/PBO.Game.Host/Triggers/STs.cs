@@ -28,7 +28,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var aer = def.AtkContext.Attacker;
       if (o.HasCondition("DestinyBond"))
       {
-        der.ShowLogPm("DestinyBond"); //战报顺序已测
+        aer.ShowLogPm("DestinyBond"); //战报顺序已测
         aer.Faint();
       }
       var mp = def.AtkContext.MoveProxy;
