@@ -23,10 +23,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (!NoEffectWithAbsorb(def, BattleType.Water)) return false;
           break;
         case As.OBLIVIOUS: //12
-          if (move.Id == Ms.CAPTIVATE)
+          if (move.Id == Ms.CAPTIVATE || move.Id == Ms.TAUNT)//顺序已测
           {
             der.RaiseAbility();
-            der.ShowLogPm("NoEffect");
+            der.NoEffect();
             return false;
           }
           break;
@@ -43,7 +43,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if ((move.Category != MoveCategory.Status || move.Id == Ms.THUNDER_WAVE) && def.AtkContext.Type.EffectRevise(der.OnboardPokemon.Types) <= 0)
           {
             der.RaiseAbility();
-            der.ShowLogPm("NoEffect");
+            der.NoEffect();
             return false;
           }
           break;
@@ -63,7 +63,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (move.Sound())
           {
             der.RaiseAbility();
-            der.ShowLogPm("NoEffect");
+            der.NoEffect();
             return false;
           }
           break;
@@ -72,7 +72,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (m == Ms.THIEF || m == Ms.TRICK || m == Ms.COVET || m == Ms.SWITCHEROO)
           {
             der.RaiseAbility();
-            der.ShowLogPm("NoEffect");
+            der.NoEffect();
             return false;
           }
           break;
@@ -80,7 +80,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if ((move.Category != MoveCategory.Status || move.Id == Ms.THUNDER_WAVE) && def.AtkContext.Attacker.Pokemon.TeamId == der.Pokemon.TeamId)
           {
             der.RaiseAbility();
-            der.ShowLogPm("NoEffect");
+            der.NoEffect();
             return false;
           }
           break;
@@ -88,7 +88,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (move.Bullet())
           {
             der.RaiseAbility();
-            der.ShowLogPm("NoEffect");
+            der.NoEffect();
             return false;
           }
           break;
@@ -96,7 +96,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (move.Powder())
           {
             der.RaiseAbility();
-            der.ShowLogPm("NoEffect");
+            der.NoEffect();
             return false;
           }
           break;
@@ -105,7 +105,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         foreach(var p in der.Field.Pokemons)
           if (p.RaiseAbility(As.AROMA_VEIL))
           {
-            def.Defender.ShowLogPm("NoEffect");
+            def.Defender.NoEffect();
             return false;
           }
       if (move.Powder() && der.ItemE(Is.SAFETY_GOGGLES))
@@ -122,7 +122,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         var der = def.Defender;
         der.RaiseAbility();
-        if (der.Hp == der.Pokemon.MaxHp) der.ShowLogPm("NoEffect");
+        if (der.Hp == der.Pokemon.MaxHp) der.NoEffect();
         else der.HpRecoverByOneNth(4);
         return false;
       }
@@ -134,7 +134,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         var der = def.Defender;
         der.RaiseAbility();
-        if (!der.ChangeLv7D(der, stat, 1, false)) der.ShowLogPm("NoEffect");
+        if (!der.ChangeLv7D(der, stat, 1, false)) der.NoEffect();
         return false;
       }
       return true;

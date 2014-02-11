@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PokemonBattleOnline.Game;
 using PokemonBattleOnline.Game.GameEvents;
 using PokemonBattleOnline.Game.Host.Triggers;
 
@@ -19,6 +18,15 @@ namespace PokemonBattleOnline.Game.Host
       if (pm.AbilityE(abilityId))
       {
         RaiseAbility(pm);
+        return true;
+      }
+      return false;
+    }
+    public static bool RaiseAbility(this DefContext def, int abilityId)
+    {
+      if (def.AbilityE(abilityId))
+      {
+        RaiseAbility(def.Defender);
         return true;
       }
       return false;

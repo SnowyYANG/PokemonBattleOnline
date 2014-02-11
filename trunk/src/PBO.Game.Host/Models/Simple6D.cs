@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PokemonBattleOnline.Game;
 
-namespace PokemonBattleOnline.Game
+namespace PokemonBattleOnline.Game.Host
 {
   public class Simple6D : I6D
   {

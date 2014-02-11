@@ -228,7 +228,7 @@ namespace PokemonBattleOnline.Game.Host
         if (!HasEffect.Execute(def))
         {
           targets.Remove(def);
-          def.Defender.ShowLogPm("NoEffect");
+          def.Defender.NoEffect();
         }
       #endregion
       #region WideGuard QuickGuard CraftyShield MatBlock

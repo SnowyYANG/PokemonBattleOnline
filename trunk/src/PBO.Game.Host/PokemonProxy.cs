@@ -26,11 +26,6 @@ namespace PokemonBattleOnline.Game.Host
     public OnboardPokemon OnboardPokemon
     { get; internal set; }
 
-    public void ShowLogPm(string key, int arg1 = 0, int arg2 = 0)
-    {
-      Controller.ReportBuilder.ShowLog(key, Id, arg1, arg2);
-    }
-
     #region Data
     public PokemonAction Action
     { get; internal set; }

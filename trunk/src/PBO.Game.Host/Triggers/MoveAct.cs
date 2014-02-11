@@ -672,7 +672,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void Telekinesis(AtkContext atk)
     {
       var der = atk.Target.Defender.OnboardPokemon;
-      if (der.Form.Species.Number == 50 || der.Form.Species.Number == 51) atk.Target.Defender.ShowLogPm("NoEffect");
+      if (der.Form.Species.Number == 50 || der.Form.Species.Number == 51) atk.Target.Defender.NoEffect();
       else if (der.AddCondition("Telekinesis", atk.Controller.TurnNumber + 2)) atk.Target.Defender.ShowLogPm("EnTelekinesis");
       else atk.FailAll();
     }
