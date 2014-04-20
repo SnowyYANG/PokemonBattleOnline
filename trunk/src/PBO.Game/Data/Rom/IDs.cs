@@ -1024,9 +1024,9 @@ namespace PokemonBattleOnline.Game
     public const int KINGS_SHIELD = 588;
     public const int PLAY_NICE = 589;
     public const int CONFIDE = 590;
-    public const int HAPPY_HOUR = 591;
-    public const int CELEBRATE = 592;
-    public const int HOLD_BACK = 593;
+    public const int DIAMOND_STORM = 591;
+    public const int STEAM_ERUPTION = 592;
+    public const int HYPERSPACE_HOLE = 593;
     public const int WATER_SHURIKEN = 594;
     public const int MYSTICAL_FIRE = 595;
     public const int SPIKY_SHIELD = 596;
@@ -1036,16 +1036,20 @@ namespace PokemonBattleOnline.Game
     public const int POWDER = 600;
     public const int GEOMANCY = 601;
     public const int MAGNETIC_FLUX = 602;
+    public const int HAPPY_HOUR = 603;
     public const int ELECTRIC_TERRAIN = 604;
     public const int DAZZLING_GLEAM = 605;
+    public const int CELEBRATE = 606;
+    public const int HOLD_HANDS = 607;
     public const int BABYDOLL_EYES = 608;
     public const int NUZZLE = 609;
-    public const int DIAMOND_STORM = 610;
+    public const int HOLD_BACK = 610;
     public const int INFESTATION = 611;
     public const int POWERUP_PUNCH = 612;
     public const int OBLIVION_WING = 613;
-    public const int HYPERSPACE_HOLE = 614;
-    public const int STEAM_ERUPTION = 615;
+    public const int THOUSAND_ARROWS = 614;
+    public const int THOUSAND_WAVES = 615;
     public const int LANDS_WRATH = 616;
+    public const int LIGHT_OF_RUIN = 617;
   }
 }

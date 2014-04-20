@@ -172,7 +172,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       else atk.StartExecute(moves[aer.Controller.GetRandomInt(0, moves.Count - 1)]);
     }
 
-    private static readonly int[] METRONOME_BLOCK = new int[] { 68, 102, 118, 119, 144, 165, 166, 168, 173, 182, 194, 197, 203, 214, 243, 264, 266, 267, 270, 271, 274, 289, 343, 364, 382, 383, 415, 448, 469, 476, 495, 501, 511, Ms.BESTOW, Ms.TECHNO_BLAST, Ms.RELIC_SONG, Ms.SECRET_SWORD, Ms.FREEZE_SHOCK, Ms.ICE_BURN, Ms.VCREATE, Ms.HAPPY_HOUR, Ms.CELEBRATE, Ms.DIAMOND_STORM, Ms.HYPERSPACE_HOLE, Ms.STEAM_ERUPTION, 603, 606, 607 };
+    private static readonly int[] METRONOME_BLOCK = new int[] { 68, 102, 118, 119, 144, 165, 166, 168, 173, 182, 194, 197, 203, 214, 243, 264, 266, 267, 270, 271, 274, 289, 343, 364, 382, 383, 415, 448, 469, 476, 495, 501, 511, Ms.BESTOW, Ms.TECHNO_BLAST, Ms.RELIC_SONG, Ms.SECRET_SWORD, Ms.FREEZE_SHOCK, Ms.ICE_BURN, Ms.VCREATE, Ms.CELEBRATE, Ms.DIAMOND_STORM, Ms.HAPPY_HOUR, Ms.HOLD_HANDS, Ms.HYPERSPACE_HOLE, Ms.STEAM_ERUPTION, Ms.THOUSAND_ARROWS, Ms.THOUSAND_WAVES };
     private static void Metronome(AtkContext atk)
     {
     LOOP:

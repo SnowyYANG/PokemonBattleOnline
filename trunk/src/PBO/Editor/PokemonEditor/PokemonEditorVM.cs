@@ -237,7 +237,7 @@ namespace PokemonBattleOnline.PBO.Editor
       if (number == 235)
       {
         for (var m = 1; m <= RomData.Moves.Count(); ++m)
-          if (m != Ms.STRUGGLE && m != Ms.CHATTER && m != 603 && m != 606 && m != 607) GetLearnVM(m).AddMethod(LearnCategory.Other);
+          if (m != Ms.STRUGGLE && m != Ms.CHATTER) GetLearnVM(m).AddMethod(LearnCategory.Other);
       }
       else
       {

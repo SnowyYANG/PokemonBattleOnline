@@ -10775,29 +10775,32 @@
     </MoveType>
     <MoveType>
       <Id>591</Id>
+      <_accuracy>95</_accuracy>
       <_advancedFlags />
-      <_category>Special</_category>
+      <_category>Physical</_category>
       <_lv7DChanges />
-      <_pp>30</_pp>
-      <_range>SelfPokemons</_range>
-      <_type>Normal</_type>
+      <_power>100</_power>
+      <_pp>5</_pp>
+      <_type>Rock</_type>
     </MoveType>
     <MoveType>
       <Id>592</Id>
+      <_accuracy>95</_accuracy>
       <_advancedFlags />
       <_category>Special</_category>
       <_lv7DChanges />
-      <_pp>40</_pp>
-      <_range>Self</_range>
-      <_type>Normal</_type>
+      <_power>110</_power>
+      <_pp>5</_pp>
+      <_type>Water</_type>
     </MoveType>
     <MoveType>
       <Id>593</Id>
       <_advancedFlags />
-      <_class>Special</_class>
+      <_category>Special</_category>
       <_lv7DChanges />
-      <_pp>10</_pp>
-      <_type>Normal</_type>
+      <_power>80</_power>
+      <_pp>5</_pp>
+      <_type>Psychic</_type>
     </MoveType>
     <MoveType>
       <Id>594</Id>
@@ -10967,7 +10970,7 @@
       <_advancedFlags />
       <_class>Special</_class>
       <_lv7DChanges />
-      <_pp>10</_pp>
+      <_pp>30</_pp>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -10997,7 +11000,7 @@
       <_advancedFlags />
       <_class>Special</_class>
       <_lv7DChanges />
-      <_pp>10</_pp>
+      <_pp>40</_pp>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -11005,7 +11008,7 @@
       <_advancedFlags />
       <_class>Special</_class>
       <_lv7DChanges />
-      <_pp>10</_pp>
+      <_pp>40</_pp>
       <_type>Normal</_type>
     </MoveType>
     <MoveType>
@@ -11048,22 +11051,15 @@
     </MoveType>
     <MoveType>
       <Id>610</Id>
-      <_accuracy>95</_accuracy>
+      <_accuracy>100</_accuracy>
       <_advancedFlags>
         <Protectable>true</Protectable>
       </_advancedFlags>
       <_category>Physical</_category>
-      <_class>AttackWithSelfLv7DChange</_class>
-      <_lv7DChanges>
-        <MoveLv7DChange>
-          <Change>-1</Change>
-          <Probability>10</Probability>
-          <Type>Def</Type>
-        </MoveLv7DChange>
-      </_lv7DChanges>
-      <_power>100</_power>
-      <_pp>5</_pp>
-      <_type>Rock</_type>
+      <_lv7DChanges/>
+      <_power>40</_power>
+      <_pp>40</_pp>
+      <_type>Normal</_type>
     </MoveType>
     <MoveType>
       <Id>611</Id>
@@ -11122,30 +11118,23 @@
     </MoveType>
     <MoveType>
       <Id>614</Id>
+      <_accuracy>100</_accuracy>
       <_advancedFlags />
-      <_category>Special</_category>
+      <_category>Physical</_category>
       <_lv7DChanges />
-      <_power>80</_power>
-      <_pp>5</_pp>
-      <_type>Psychic</_type>
+      <_power>90</_power>
+      <_pp>10</_pp>
+      <_type>Ground</_type>
     </MoveType>
     <MoveType>
       <Id>615</Id>
-      <_accuracy>95</_accuracy>
-      <_advancedFlags>
-        <Protectable>true</Protectable>
-      </_advancedFlags>
-      <_attachment>
-        <Category>Forever</Category>
-        <Probability>100</Probability>
-        <State>BRN</State>
-      </_attachment>
-      <_category>Special</_category>
-      <_class>AttackWithState</_class>
+      <_accuracy>100</_accuracy>
+      <_advancedFlags/>
+      <_category>Physical</_category>
       <_lv7DChanges />
-      <_power>110</_power>
-      <_pp>5</_pp>
-      <_type>Water</_type>
+      <_power>90</_power>
+      <_pp>10</_pp>
+      <_type>Ground</_type>
     </MoveType>
     <MoveType>
       <Id>616</Id>
@@ -11159,6 +11148,18 @@
       <_pp>10</_pp>
       <_range>FoePokemons</_range>
       <_type>Ground</_type>
+    </MoveType>
+    <MoveType>
+      <Id>617</Id>
+      <_accuracy>90</_accuracy>
+      <_advancedFlags>
+        <Protectable>true</Protectable>
+      </_advancedFlags>
+      <_category>Special</_category>
+      <_lv7DChanges />
+      <_power>140</_power>
+      <_pp>5</_pp>
+      <_type>Fairy</_type>
     </MoveType>
   </moves>
   <pokemons>
