@@ -148,10 +148,10 @@ namespace PokemonBattleOnline.PBO.Editor
         if (Model.Form != value && value != null)
         {
           var oldNumber = Model.Form.Species.Number;
-          var oldData = Model.Form.Data;
+          var dataChanged = Model.Form.Data != value.Data;
           Model.Form = value;
-          if (oldNumber != value.Species.Number || oldNumber == 413 || oldNumber == 479 || oldNumber == 646 || oldNumber == 678) RefreshLearnset();
-          if (oldData != Model.Form.Data) Stats.RefreshAll();
+          if (oldNumber != value.Species.Number || oldNumber == 413 || oldNumber == 479 || oldNumber == 646 || oldNumber == 670 && dataChanged || oldNumber == 678) RefreshLearnset();
+          if (dataChanged) Stats.RefreshAll();
           RefreshImage();
           OnPropertyChanged();
         }
@@ -232,7 +232,7 @@ namespace PokemonBattleOnline.PBO.Editor
     }
     private void GetLearnset(int number, int form)
     {
-      if (!(number == 413 || number == 479 || number == 646 || number == 678)) form = 0;
+      if (!(number == 413 || number == 479 || number == 646 || number == 670 && form == 5 || number == 678)) form = 0;
       GetGenericLearnset(number, form);
       if (number == 235)
       {
@@ -243,7 +243,7 @@ namespace PokemonBattleOnline.PBO.Editor
       {
         foreach (var sp in LearnList.SP.Get(number, form)) GetLearnVM(sp).AddMethod(LearnCategory.Other);
         if (number == 492) GetGenericLearnset(492, 1 - form);
-        else
+        else if (!(number == 670 && form == 5))
         {
           number = RomData.GetPreEvolution(number);
           GetGenericLearnset(number, 0);

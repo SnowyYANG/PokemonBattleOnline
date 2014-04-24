@@ -11156,6 +11156,7 @@
         <Protectable>true</Protectable>
       </_advancedFlags>
       <_category>Special</_category>
+      <_hurtPercentage>-50</_hurtPercentage>
       <_lv7DChanges />
       <_power>140</_power>
       <_pp>5</_pp>
@@ -31829,9 +31830,43 @@
           <H>0.2</H>
           <W>0.9</W>
         </PokemonFormData>
+        <PokemonFormData>
+          <T1>Fairy</T1>
+          <A>
+            <a:int>166</a:int>
+            <a:int>0</a:int>
+            <a:int>180</a:int>
+          </A>
+          <Base>
+            <H>74</H>
+            <A>65</A>
+            <D>67</D>
+            <SA>125</SA>
+            <SD>128</SD>
+            <S>92</S>
+          </Base>
+          <H>0.2</H>
+          <W>0.9</W>
+        </PokemonFormData>
       </FormData>
       <Forms>
         <PokemonForm />
+        <PokemonForm>
+          <_index>1</_index>
+        </PokemonForm>
+        <PokemonForm>
+          <_index>2</_index>
+        </PokemonForm>
+        <PokemonForm>
+          <_index>3</_index>
+        </PokemonForm>
+        <PokemonForm>
+          <_index>4</_index>
+        </PokemonForm>
+        <PokemonForm>
+          <_data>1</_data>
+          <_index>5</_index>
+        </PokemonForm>
       </Forms>
     </PokemonSpecies>
     <PokemonSpecies>
