@@ -26,7 +26,7 @@ namespace PokemonBattleOnline.Game.Host
         else pm.Pokemon.SetHp(0);
       }
       else pm.Pokemon.SetHp(pm.Hp - damage);
-      if (damage != 0) pm.OnboardPokemon.SetTurnCondition("Assurance");
+      if (damage != 0) pm.OnboardPokemon.SetTurnCondition(Cs.Assurance);
       return damage;
     }
     public static void HpRecover(this PokemonProxy pm, int changeHp, bool showFail = false, string log = "m_HpRecover", int arg1 = 0, bool consumeItem = false)
@@ -59,7 +59,7 @@ namespace PokemonBattleOnline.Game.Host
       ShowLogPm(pm, log, arg1, arg2);
       pm.Hp -= hp;
       HpChanged.Execute(pm);
-      pm.OnboardPokemon.SetTurnCondition("Assurance");
+      pm.OnboardPokemon.SetTurnCondition(Cs.Assurance);
     }
     public static bool EffectHurtByOneNth(this PokemonProxy pm, int n, string log = "m_Hurt", int arg1 = 0, int arg2 = 0)
     {

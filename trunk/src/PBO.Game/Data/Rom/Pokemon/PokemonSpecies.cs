@@ -6,118 +6,109 @@ using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Game
 {
-  [DataContract(Namespace = PBOMarks.PBO)]
-  public class PokemonSpecies
-  {
-    [DataMember(Name = "FormData", Order = 4)]
-#if EDITING
-    public
-#else
-    private readonly
-#endif
-      PokemonFormData[] formData;
-    [DataMember(Name = "Forms", Order = 5)]
-#if EDITING
-    public
-#else
-    private readonly
-#endif
-      PokemonForm[] forms;
-
-#if DEBUG
-    public PokemonSpecies()
+    public enum PokemonGender : byte
     {
+        None,
+        Male,
+        Female,
     }
-#else
-    private PokemonSpecies()
+    public enum PokemonColor : byte
     {
+        Red = 0,
+        Blue = 1,
+        Yellow = 2,
+        Green = 3,
+        Black = 4,
+        Brown = 5,
+        Purple = 6,
+        Gray = 7,
+        White = 8,
+        Pink = 9
     }
-#endif
-
-    [DataMember(Name = "Number", Order = 0)]
-#if EDITING
-    public
-#else
-    private readonly
-#endif
-      int _number;
-    public int Number
-    { get { return _number; } }
-
-    [DataMember(Name = "Gender", Order = 1)]
-#if EDITING
-    public
-#else
-    private readonly
-#endif
-      byte _genderBoundary;
-    private static readonly IEnumerable<PokemonGender> NONE = new[] { PokemonGender.None };
-    private static readonly IEnumerable<PokemonGender> MALE = new[] { PokemonGender.Male };
-    private static readonly IEnumerable<PokemonGender> FEMALE = new[] { PokemonGender.Female };
-    private static readonly IEnumerable<PokemonGender> BOTH = new[] { PokemonGender.Male, PokemonGender.Female };
-    private IEnumerable<PokemonGender> genders;
-    public IEnumerable<PokemonGender> Genders
+    public class PokemonSpecies
     {
-      get
-      {
-        if (genders == null)
-          switch (_genderBoundary)
-          {
-            case 0x00:
-              genders = MALE;
-              break;
-            case 0xfe:
-              genders = FEMALE;
-              break;
-            case 0xff:
-              genders = NONE;
-              break;
-            default:
-              genders = BOTH;
-              break;
-          }
-        return genders;
-      }
-    }
+        internal PokemonSpecies(int number, int gender, EggGroup e1, EggGroup e2, PokemonColor color, int forms)
+        {
+            _number = number;
+            _genderBoundary = (byte)gender;
+            _forms = new PokemonForm[forms];
+            for (int i = 0; i < forms; ++i) _forms[i] = new PokemonForm(this, i);
+            _eggGroup1 = e1;
+            _eggGroup2 = e2;
+            _color = color;
+        }
 
-    [DataMember(Name = "Egg1", Order = 2)]
-#if EDITING
-    public
-#else
-    private readonly
-#endif
-      EggGroup _eggGroup1;
-    public EggGroup EggGroup1
-    { get { return _eggGroup1; } }
-    [DataMember(Name = "Egg2", Order = 3, EmitDefaultValue = false)]
-#if EDITING
-    public
-#else
-    private readonly
-#endif
-      EggGroup _eggGroup2;
-    public EggGroup EggGroup2
-    { get { return _eggGroup2; } }
+        private readonly int _number;
+        public int Number
+        { get { return _number; } }
 
-    /// <summary>
-    /// public for Binding
-    /// </summary>
-    public IEnumerable<PokemonForm> Forms
-    { get { return forms; } }
+        private readonly byte _genderBoundary;
+        private static readonly IEnumerable<PokemonGender> NONE = new[] { PokemonGender.None };
+        private static readonly IEnumerable<PokemonGender> MALE = new[] { PokemonGender.Male };
+        private static readonly IEnumerable<PokemonGender> FEMALE = new[] { PokemonGender.Female };
+        private static readonly IEnumerable<PokemonGender> BOTH = new[] { PokemonGender.Male, PokemonGender.Female };
+        private IEnumerable<PokemonGender> genders;
+        public IEnumerable<PokemonGender> Genders
+        {
+            get
+            {
+                if (genders == null)
+                    switch (_genderBoundary)
+                    {
+                        case 0x00:
+                            genders = MALE;
+                            break;
+                        case 0xfe:
+                            genders = FEMALE;
+                            break;
+                        case 0xff:
+                            genders = NONE;
+                            break;
+                        default:
+                            genders = BOTH;
+                            break;
+                    }
+                return genders;
+            }
+        }
 
-    internal PokemonFormData GetData(int index)
-    {
-      return formData[index];
-    }
-    
-    public PokemonForm GetForm(int index)
-    {
-      return forms.ValueOrDefault(index);
-    }
+        private readonly EggGroup _eggGroup1;
+        public EggGroup EggGroup1
+        { get { return _eggGroup1; } }
 
-    public override string ToString()
-    {
-      return _number.ToString();
+        private readonly EggGroup _eggGroup2;
+        public EggGroup EggGroup2
+        { get { return _eggGroup2; } }
+
+        private readonly PokemonColor _color;
+        public PokemonColor Color
+        { get { return _color; } }
+
+        private readonly PokemonForm[] _forms;
+        /// <summary>
+        /// public for Binding
+        /// </summary>
+        public IEnumerable<PokemonForm> Forms
+        { get { return _forms; } }
+
+        internal void SetFormData(int index, PokemonFormData data)
+        {
+            if (index == 0)
+            {
+                foreach (var f in _forms)
+                    if (f.Data == null) f.Data = data;
+            }
+            else _forms[index].Data = data;
+        }
+
+        public PokemonForm GetForm(int index)
+        {
+            return _forms.ValueOrDefault(index);
+        }
+
+        public override string ToString()
+        {
+            return _number.ToString();
+        }
     }
-  }
 }

@@ -32,25 +32,25 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         default:
           var aer = atk.Attacker;
-          if (aer.OnboardPokemon.HasCondition("Electrify")) atk.Type = BattleType.Electric;
-          else if (atk.Move.Type == BattleType.Normal || aer.AbilityE(As.NORMALIZE))
+          if (aer.OnboardPokemon.HasCondition(Cs.Electrify)) atk.Type = BattleType.Electric;
+          else if (atk.Move.Move.Type == BattleType.Normal || aer.AbilityE(As.NORMALIZE))
             if (aer.AbilityE(As.AERILATE))
             {
               atk.Type = BattleType.Flying;
-              atk.SetCondition("Sukin");
+              atk.SetCondition(Cs.Sukin);
             }
             else if (aer.AbilityE(As.PIXILATE))
             {
               atk.Type = BattleType.Fairy;
-              atk.SetCondition("Sukin");
+              atk.SetCondition(Cs.Sukin);
             }
             else if (aer.AbilityE(As.REFRIGERATE))
             {
               atk.Type = BattleType.Ice;
-              atk.SetCondition("Sukin");
+              atk.SetCondition(Cs.Sukin);
             }
-            else atk.Type = atk.Controller.Board.HasCondition("IonDeluge") ? BattleType.Electric : BattleType.Normal;
-          else atk.Type = atk.Move.Type;
+            else atk.Type = atk.Controller.Board.HasCondition(Cs.IonDeluge) ? BattleType.Electric : BattleType.Normal;
+          else atk.Type = atk.Move.Move.Type;
           break;
       }
     }

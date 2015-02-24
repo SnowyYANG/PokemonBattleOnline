@@ -76,35 +76,36 @@ namespace PokemonBattleOnline.Game
             // 9: Happiness
             // 10: Items
             // 11: Moves
+            int i;
             var form = GameString.PokemonForm(m.Groups[2].Value);
             var pm = new PokemonData(form.Species.Number, form.Index);
             pm.Name = m.Groups[1].Value;
-            pm.Lv = m.Groups[3].Value.ToInt();
+            if (int.TryParse(m.Groups[3].Value, out i)) pm.Lv = i;
             pm.Gender = GetGender(m.Groups[4].Value);
             var ab = GameString.Ability(m.Groups[5].Value);
             if (ab != 0) pm.Ability = ab;
             pm.Nature = GameString.Nature(m.Groups[6].Value) ?? PokemonNature.Hardy;
-            if (m.Groups[9].Value.Length > 0) pm.Happiness = m.Groups[9].Value.ToInt();
+            if (m.Groups[9].Value.Length > 0 && int.TryParse(m.Groups[9].Value, out i)) pm.Happiness = i;
             pm.Item = GameString.Item(m.Groups[10].Value);
 
             if (!string.IsNullOrEmpty(m.Groups[7].Value))
             {
                 var ivs = m.Groups[7].Value.Split('/');
-                pm.Iv.Hp = ivs[0].ToInt();
-                pm.Iv.Atk = ivs[1].ToInt();
-                pm.Iv.Def = ivs[2].ToInt();
-                pm.Iv.SpAtk = ivs[3].ToInt();
-                pm.Iv.SpDef = ivs[4].ToInt();
-                pm.Iv.Speed = ivs[5].ToInt();
+                if (int.TryParse(ivs[0], out i)) pm.Iv.Hp = i;
+                if (int.TryParse(ivs[1], out i)) pm.Iv.Atk = i;
+                if (int.TryParse(ivs[2], out i)) pm.Iv.Def = i;
+                if (int.TryParse(ivs[3], out i)) pm.Iv.SpAtk = i;
+                if (int.TryParse(ivs[4], out i)) pm.Iv.SpDef = i;
+                if (int.TryParse(ivs[5], out i)) pm.Iv.Speed = i;
             }
 
             var evs = m.Groups[8].Value.Split('/');
-            pm.Ev.Hp = evs[0].ToInt();
-            pm.Ev.Atk = evs[1].ToInt();
-            pm.Ev.Def = evs[2].ToInt();
-            pm.Ev.SpAtk = evs[3].ToInt();
-            pm.Ev.SpDef = evs[4].ToInt();
-            pm.Ev.Speed = evs[5].ToInt();
+            if (int.TryParse(evs[0], out i)) pm.Ev.Hp = i;
+            if (int.TryParse(evs[1], out i)) pm.Ev.Atk = i;
+            if (int.TryParse(evs[2], out i)) pm.Ev.Def = i;
+            if (int.TryParse(evs[3], out i)) pm.Ev.SpAtk = i;
+            if (int.TryParse(evs[4], out i)) pm.Ev.SpDef = i;
+            if (int.TryParse(evs[5], out i)) pm.Ev.Speed = i;
 
             foreach (var s in Regex.Replace(m.Groups[11].Value, @"\[.+?\]", "").Split('/'))
             {
@@ -194,8 +195,7 @@ namespace PokemonBattleOnline.Game
         private static int TryMatch(string input, string pattern, short group = 0, int defaultvalue = 0)
         {
             var m = Regex.Match(input, pattern, RegexOptions.IgnoreCase);
-            if (m.Success) return m.Groups[group].Value.ToInt();
-            else return defaultvalue;
+            return m.Success ? int.Parse(m.Groups[group].Value) : defaultvalue;
         }
     }
 }

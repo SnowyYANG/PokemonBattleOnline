@@ -24,11 +24,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           case Ms.HAPPY_HOUR:
             break;
           case Ms.STOCKPILE:
-            if (aer.OnboardPokemon.GetCondition<int>("Stockpile") != 3) return true;
+            if (aer.OnboardPokemon.GetCondition<int>(Cs.Stockpile) != 3) return true;
             break;
           case Ms.SPIT_UP:
           case Ms.SWALLOW:
-            if (aer.OnboardPokemon.HasCondition("Stockpile")) return true;
+            if (aer.OnboardPokemon.HasCondition(Cs.Stockpile)) return true;
             break;
           case Ms.SELFDESTRUCT: //120
           case Ms.EXPLOSION: //153
@@ -68,7 +68,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             break;
           case Ms.LAST_RESORT: //387
             foreach (var m in aer.Moves)
-              if (!m.HasUsed && m.Type.Id != Ms.LAST_RESORT) goto FAIL;
+              if (!m.HasUsed && m.MoveE.Id != Ms.LAST_RESORT) goto FAIL;
             return true;
           case Ms.BESTOW: //516
             if (aer.Pokemon.Item == 0 || ITs.NeverLostItem(aer.Pokemon)) return true;
@@ -82,10 +82,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             }
             break;
           case Ms.BELCH:
-            if (aer.OnboardPokemon.HasCondition("Belch")) return true;
+            if (aer.OnboardPokemon.HasCondition(Cs.Belch)) return true;
             break;
           default:
-            if (!atk.Move.HardToUseContinuously() || ContinuousUse(atk)) return true;
+            if (!atk.Move.HardToUseContinuously || ContinuousUse(atk)) return true;
             break;
         }
     FAIL:
@@ -96,26 +96,26 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       if (atk.Controller.ActingPokemons[atk.Controller.ActingPokemons.Count - 1] == atk.Attacker)
       {
-        atk.Attacker.OnboardPokemon.RemoveCondition("ContinuousUse");
+        atk.Attacker.OnboardPokemon.RemoveCondition(Cs.ContinuousUse);
         return false;
       }
       var o = atk.Attacker.OnboardPokemon;
-      var c = o.GetCondition("LastMove");
+      var c = o.GetCondition(Cs.LastMove);
       if (c != null)
       {
-        if (c.Move.HardToUseContinuously())
+        if (c.Move.HardToUseContinuously)
         {
-          var count = o.GetCondition<int>("ContinuousUse");
+          var count = o.GetCondition<int>(Cs.ContinuousUse);
           if (atk.Controller.GetRandomInt(0, 0xffff - 1) < 0xffff >> count)
           {
-            o.SetCondition("ContinuousUse", count + 1);
+            o.SetCondition(Cs.ContinuousUse, count + 1);
             return true;
           }
-          atk.Attacker.OnboardPokemon.RemoveCondition("ContinuousUse");
+          atk.Attacker.OnboardPokemon.RemoveCondition(Cs.ContinuousUse);
           return false;
         }
       }
-      o.SetCondition("ContinuousUse", 1);
+      o.SetCondition(Cs.ContinuousUse, 1);
       return true;
     }
   }

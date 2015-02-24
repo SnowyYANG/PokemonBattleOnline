@@ -76,13 +76,13 @@ namespace PokemonBattleOnline.Game.Host
       var last = current.Events.LastOrDefault();
       if (!(last is HorizontalLine || last is TimeTick || last is BeginTurn)) current.AddEvent(new HorizontalLine());
     }
-    public void Mimic(PokemonProxy pm, MoveType move)
+    public void Mimic(PokemonProxy pm, MoveTypeE move)
     {
       Add(new Mimic() { Pm = pm.Id, Move = move.Id });
     }
     public void SetPP(MoveProxy move)
     {
-      Add(new SetPP() { Pm = move.Owner.Id, Move = move.Type.Id, PP = move.PP });
+      Add(new SetPP() { Pm = move.Owner.Id, Move = move.MoveE.Id, PP = move.PP });
     }
     public void SetItem(Pokemon pm)
     {
@@ -103,7 +103,7 @@ namespace PokemonBattleOnline.Game.Host
     public void Transform(PokemonProxy pm)
     {
       var o = pm.GetOutward();
-      Add(new SetOutward() { Pm = pm.Id, Number = o.Form.Species.Number, Form = o.Form.Index, Moves = pm.Moves.Select((m) => m.Type.Id).ToArray() });
+      Add(new SetOutward() { Pm = pm.Id, Number = o.Form.Species.Number, Form = o.Form.Index, Moves = pm.Moves.Select((m) => m.MoveE.Id).ToArray() });
     }
     public void DeIllusion(PokemonProxy pm)
     {

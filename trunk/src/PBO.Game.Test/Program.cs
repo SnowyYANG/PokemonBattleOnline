@@ -25,7 +25,7 @@ namespace PokemonBattleOnline.Test
       using (var pack = new ZipData("..\\..\\res\\rom.zip"))
       {
         RomData.Load(pack, "/rom.xml");
-        LearnList.Load(pack, "/learnset");
+        Learnset.Load(pack, "/learnset");
       }
       GameString.Load("..\\..\\res\\string", "zh", "en");
       PBOServer.NewServer(9999);
@@ -174,7 +174,7 @@ namespace PokemonBattleOnline.Test
         if (!string.IsNullOrWhiteSpace(text)) Console.WriteLine(@"<ERROR> """ + text + @"""");
         return;
       }
-      var n = r.Substring(1).ToInt();
+      var n = int.Parse(r.Substring(1));
       switch (r[0])
       {
         case 'p':

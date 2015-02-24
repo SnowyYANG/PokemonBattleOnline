@@ -21,17 +21,17 @@ namespace PokemonBattleOnline.Game.Host.Triggers
 
       m *= Move(def);
       //If user used Charge the previous turn and move is Electric type.
-      if (atk.Type == BattleType.Electric && atk.Attacker.OnboardPokemon.GetCondition<int>("Charge") == c.TurnNumber) m *= 0x2000;
+      if (atk.Type == BattleType.Electric && atk.Attacker.OnboardPokemon.GetCondition<int>(Cs.Charge) == c.TurnNumber) m *= 0x2000;
       //If user has been the target of Helping Hand this turn.
       #warning HelpingHand
       //If Water Sport was used by any Pokémon still on the field and move is Fire type.
       //If Mud Sport was used by any Pokémon still on the field and move is Electric type.
-      if ((atk.Type == BattleType.Fire && c.Board.HasCondition("WaterSport")) ||
-        (atk.Type == BattleType.Electric && c.Board.HasCondition("MudSport")))
+      if ((atk.Type == BattleType.Fire && c.Board.HasCondition(Cs.WaterSport)) ||
+        (atk.Type == BattleType.Electric && c.Board.HasCondition(Cs.MudSport)))
         m *= 0x800;
 
-      if ((atk.Type == BattleType.Electric && c.Board.HasCondition("ElectricTerrain") || atk.Type == BattleType.Grass && c.Board.HasCondition("GrassyTerrain")) && HasEffect.IsGroundAffectable(aer, true, false)) m *= 0x1800;
-      else if (atk.Type == BattleType.Dragon && c.Board.HasCondition("MistyTerrain") && HasEffect.IsGroundAffectable(der, true, false)) m *= 0x800;
+      if ((atk.Type == BattleType.Electric && c.Board.HasCondition(Cs.ElectricTerrain) || atk.Type == BattleType.Grass && c.Board.HasCondition(Cs.GrassyTerrain)) && HasEffect.IsGroundAffectable(aer, true, false)) m *= 0x1800;
+      else if (atk.Type == BattleType.Dragon && c.Board.HasCondition(Cs.MistyTerrain) && HasEffect.IsGroundAffectable(der, true, false)) m *= 0x800;
 
       return m;
     }
@@ -45,7 +45,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
 
       Modifier m = 0x1000;
 
-      if (atk.HasCondition("Sukin")) m *= 0x14cd;
+      if (atk.HasCondition(Cs.Sukin)) m *= 0x14cd;
       else
         switch (aer.Ability)
         {
@@ -58,7 +58,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             }
             break;
           case As.IRON_FIST:
-            if (move.Fist()) m *= 0x1333;
+            if (move.Fist) m *= 0x1333;
             break;
           case As.TECHNICIAN:
             if (def.BasePower <= 60) m *= 0x1800;
@@ -67,10 +67,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             if (move.HurtPercentage < 0 || move.Id == Ms.JUMP_KICK || move.Id == Ms.HIGH_JUMP_KICK) m *= 0x1333;
             break;
           case As.TOXIC_BOOST:
-            if ((aer.State == PokemonState.PSN || aer.State == PokemonState.BadlyPSN) && move.Category == MoveCategory.Physical) m *= 0x1800;
+            if ((aer.State == PokemonState.PSN || aer.State == PokemonState.BadlyPSN) && move.Move.Category == MoveCategory.Physical) m *= 0x1800;
             break;
           case As.FLARE_BOOST:
-            if (move.Category == MoveCategory.Special && aer.State == PokemonState.BRN) m *= 0x1800;
+            if (move.Move.Category == MoveCategory.Special && aer.State == PokemonState.BRN) m *= 0x1800;
             break;
           case As.ANALYTIC:
             {
@@ -79,19 +79,19 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             }
             break;
           case As.SHEER_FORCE:
-            if (atk.Move.HasProbabilitiedAdditonalEffects()) m *= 0x14cd;
+            if (atk.Move.HasProbabilitiedAdditonalEffects) m *= 0x14cd;
             break;
           case As.SAND_FORCE:
             if ((type == BattleType.Rock || type == BattleType.Ground || type == BattleType.Steel) && aer.Controller.Weather == Weather.Sandstorm) m *= 0x14cd;
             break;
           case As.STRONG_JAW:
-            if (move.Teeth()) m *= 0x1800;
+            if (move.Teeth) m *= 0x1800;
             break;
           case As.TOUGH_CLAWS:
-            if (move.Flags.NeedTouch) m *= 0x14cd;
+            if (move.NeedTouch) m *= 0x14cd;
             break;
           case As.MEGA_LAUNCHER:
-            if (move.Pulse()) m *= 0x1800;
+            if (move.Pulse) m *= 0x1800;
             break;
         }
 
@@ -115,7 +115,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     
     private static Modifier AttackerItem(AtkContext atk)
     {
-      if (atk.HasCondition("Gem")) return 0x1800;
+      if (atk.HasCondition(Cs.Gem)) return 0x1800;
       switch (atk.Attacker.Item)
       {
         case Is.GRISEOUS_ORB:
@@ -199,7 +199,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static Modifier Category(AtkContext atk, MoveCategory category)
     {
-      return (Modifier)(atk.Move.Category == category ? 0x1199 : 0x1000);
+      return (Modifier)(atk.Move.Move.Category == category ? 0x1199 : 0x1000);
     }
     
     private static Modifier Move(DefContext def)
@@ -214,17 +214,17 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.FUSION_FLARE: //558
           {
             var b = der.Controller.Board;
-            b.SetTurnCondition("FusionFlare");
-            var o = b.GetCondition("LastMove");
-            if (o != null && o.Move.Id == Ms.FUSION_BOLT && b.HasCondition("FusionBolt")) m = 0x2000;
+            b.SetTurnCondition(Cs.FusionFlare);
+            var o = b.GetCondition(Cs.LastMove);
+            if (o != null && o.Move.Id == Ms.FUSION_BOLT && b.HasCondition(Cs.FusionBolt)) m = 0x2000;
           }
           break;
         case Ms.FUSION_BOLT: //559
           {
             var b = der.Controller.Board;
-            b.SetTurnCondition("FusionBolt");
-            var o = b.GetCondition("LastMove");
-            if (o != null && o.Move.Id == Ms.FUSION_FLARE && b.HasCondition("FusionFlare")) m = 0x2000;
+            b.SetTurnCondition(Cs.FusionBolt);
+            var o = b.GetCondition(Cs.LastMove);
+            if (o != null && o.Move.Id == Ms.FUSION_FLARE && b.HasCondition(Cs.FusionFlare)) m = 0x2000;
           }
           break;
         case Ms.FACADE: //263
@@ -237,11 +237,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (atk.Attacker.State == PokemonState.PSN && atk.Attacker.State == PokemonState.BadlyPSN) m = 0x2000;
           break;
         case Ms.RETALIATE: //514
-          if (atk.Attacker.Field.GetCondition<int>("FaintTurn") == der.Controller.TurnNumber - 1) m = 0x2000;
+          if (atk.Attacker.Field.GetCondition<int>(Cs.FaintTurn) == der.Controller.TurnNumber - 1) m = 0x2000;
           break;
       }
       //If move was called using Me First.
-      if (atk.HasCondition("MeFirst")) m *= 0x1800;
+      if (atk.HasCondition(Cs.MeFirst)) m *= 0x1800;
       //If move is SolarBeam in non-sunny, non-default weather.
 
       switch (move)
@@ -253,7 +253,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.EARTHQUAKE:
         case Ms.BULLDOZE:
         case Ms.MAGNITUDE:
-          if (der.Controller.Board.HasCondition("GrassyTerrain")) m *= 0x800;
+          if (der.Controller.Board.HasCondition(Cs.GrassyTerrain)) m *= 0x800;
           break;
       }
 

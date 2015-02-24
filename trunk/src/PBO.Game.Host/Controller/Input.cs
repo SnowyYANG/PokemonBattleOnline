@@ -50,7 +50,7 @@ namespace PokemonBattleOnline.Game.Host
             else
             {
               if (pir.Block == null) pir.Block = new string[pm.Moves.Count()];
-              if (f.Move == move.Type.Id) pir.Block[i] = f.Key;
+              if (f.Move == move.MoveE.Id) pir.Block[i] = f.Key;
               else if (pir.Only == null)
               {
                 pir.Only = f.Key;

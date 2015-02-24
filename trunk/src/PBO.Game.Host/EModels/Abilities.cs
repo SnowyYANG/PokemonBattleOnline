@@ -54,7 +54,7 @@ namespace PokemonBattleOnline.Game.Host
     public static void Pressure(AtkContext atk, MoveRange range)
     {
       var ts =
-        atk.Move.Range == MoveRange.Board || atk.Move.Range == MoveRange.FoeField ?
+        atk.Move.Move.Range == MoveRange.Board || atk.Move.Move.Range == MoveRange.FoeField ?
         atk.Attacker.Controller.Board[1 - atk.Attacker.Pokemon.TeamId].Pokemons :
         atk.Targets == null ?
         Enumerable.Empty<PokemonProxy>() :
@@ -87,7 +87,7 @@ namespace PokemonBattleOnline.Game.Host
         foreach(var p in pm.Pokemon.Owner.Pokemons.Reverse())
           if (p != pm && p.Hp > 0)
           {
-            pm.OnboardPokemon.SetCondition("Illusion", p.Pokemon);
+            pm.OnboardPokemon.SetCondition(Cs.Illusion, p.Pokemon);
             break;
           }
     }
@@ -143,17 +143,17 @@ namespace PokemonBattleOnline.Game.Host
       foreach (var pm in Controller.ActingPokemons)
         if (pm.AbilityE(As.SLOW_START))
         {
-          int turn = pm.OnboardPokemon.GetCondition<int>("SlowStart");
+          int turn = pm.OnboardPokemon.GetCondition<int>(Cs.SlowStart);
           if (turn == Controller.TurnNumber)
           {
-            pm.OnboardPokemon.RemoveCondition("SlowStart");
+            pm.OnboardPokemon.RemoveCondition(Cs.SlowStart);
             pm.ShowLogPm("DeSlowStart");
           }
         }
     }
     internal static void ReTarget(AtkContext atk)
     {
-      if (atk.Move.Range == MoveRange.Single)
+      if (atk.Move.Move.Range == MoveRange.Single)
       {
         int ab = 0;
         if (atk.Type == BattleType.Electric) ab = As.LIGHTNINGROD;
@@ -180,14 +180,14 @@ namespace PokemonBattleOnline.Game.Host
     }
     internal static bool Unnerve(PokemonProxy pm)
     {
-      return pm.OnboardPokemon.HasCondition("Unnerve") && pm.AbilityE(As.UNNERVE);
+      return pm.OnboardPokemon.HasCondition(Cs.Unnerve) && pm.AbilityE(As.UNNERVE);
     }
     internal static void AttachUnnerve(Controller c)
     {
       foreach(var pm in c.OnboardPokemons)
-        if (!pm.OnboardPokemon.HasCondition("Unnerve") && pm.AbilityE(As.UNNERVE))
+        if (!pm.OnboardPokemon.HasCondition(Cs.Unnerve) && pm.AbilityE(As.UNNERVE))
         {
-          pm.OnboardPokemon.SetCondition("Unnerve");
+          pm.OnboardPokemon.SetCondition(Cs.Unnerve);
           pm.RaiseAbility();
           pm.Controller.ReportBuilder.ShowLog("Unnerve", 1 - pm.Pokemon.TeamId);
         }
@@ -195,13 +195,13 @@ namespace PokemonBattleOnline.Game.Host
     internal static void AttachWeatherObserver(PokemonProxy pm)
     {
       var a = pm.OnboardPokemon.Ability;
-      if (a == As.FORECAST || a == As.FLOWER_GIFT) pm.OnboardPokemon.SetCondition("ObserveWeather");
+      if (a == As.FORECAST || a == As.FLOWER_GIFT) pm.OnboardPokemon.SetCondition(Cs.ObserveWeather);
     }
 
     public static void WeatherChanged(Controller c)
     {
       foreach (var pm in c.OnboardPokemons)
-        if (pm.OnboardPokemon.HasCondition("ObserveWeather"))
+        if (pm.OnboardPokemon.HasCondition(Cs.ObserveWeather))
         {
           var ab = pm.Ability;
           if (ab == As.FORECAST || ab == As.FLOWER_GIFT) AbilityAttach.Execute(pm);
@@ -209,7 +209,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static void DeIllusion(PokemonProxy pm)
     {
-      if (pm.OnboardPokemon.RemoveCondition("Illusion"))
+      if (pm.OnboardPokemon.RemoveCondition(Cs.Illusion))
       {
         pm.Controller.ReportBuilder.DeIllusion(pm);
         pm.ShowLogPm("DeIllusion");
@@ -217,11 +217,11 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static void StanceChange(PokemonProxy pm)
     {
-      if (pm.SelectedMove.Type.Id == Ms.KINGS_SHIELD)
+      if (pm.SelectedMove.MoveE.Id == Ms.KINGS_SHIELD)
       {
         if (pm.CanChangeForm(681, 0) && RaiseAbility(pm, As.STANCE_CHANGE)) pm.ChangeForm(0, false, "StanceChangeShield");
       }
-      else if (pm.SelectedMove.Type.Category != MoveCategory.Status && pm.CanChangeForm(681, 1) && ATs.RaiseAbility(pm, As.STANCE_CHANGE)) pm.ChangeForm(1, false, "StanceChangeSword");
+      else if (pm.SelectedMove.MoveE.Move.Category != MoveCategory.Status && pm.CanChangeForm(681, 1) && ATs.RaiseAbility(pm, As.STANCE_CHANGE)) pm.ChangeForm(1, false, "StanceChangeSword");
     }
   }
 }

@@ -18,7 +18,7 @@ namespace PokemonBattleOnline.Game.Host
           {
             m.PP += 10;
             pm.ConsumeItem();
-            pm.ShowLogPm("ItemPPRecover", Is.LEPPA_BERRY, m.Type.Id);
+            pm.ShowLogPm("ItemPPRecover", Is.LEPPA_BERRY, m.MoveE.Id);
             return;
           }
       }
@@ -95,7 +95,7 @@ namespace PokemonBattleOnline.Game.Host
       return !(pm.Pokemon.Item == 0 || NeverLostItem(pm.Pokemon) || pm.AbilityE(As.STICKY_HOLD));
     }
     public static bool CanUseItem(PokemonProxy pm)
-    { return !(pm.OnboardPokemon.HasCondition("Embargo") || pm.Controller.Board.HasCondition("MagicRoom") || pm.AbilityE(As.KLUTZ)); }
+    { return !(pm.OnboardPokemon.HasCondition(Cs.Embargo) || pm.Controller.Board.HasCondition(Cs.MagicRoom) || pm.AbilityE(As.KLUTZ)); }
     public static bool PlatedArceus(Pokemon pm)
     {
       return pm.Form.Species.Number == 493 && Is.FLAME_PLATE <= pm.Item && pm.Item <= Is.IRON_PLATE;
@@ -141,10 +141,10 @@ namespace PokemonBattleOnline.Game.Host
           }
           break;
         case Is.MENTAL_HERB:
-          if (op.RemoveCondition("Attract")) pm.ShowLogPm("ItemDeAttract", Is.MENTAL_HERB);
+          if (op.RemoveCondition(Cs.Attract)) pm.ShowLogPm("ItemDeAttract", Is.MENTAL_HERB);
           break;
         case Is.KINGS_ROCK:
-          op.AddTurnCondition("Flinch");
+          op.AddTurnCondition(Cs.Flinch);
           break;
         case Is.LIGHT_BALL:
           pm.AddState(by, AttachedState.PAR, false);
@@ -159,7 +159,7 @@ namespace PokemonBattleOnline.Game.Host
           pm.AddState(by, AttachedState.BRN, false);//战报
           break;
         case Is.RAZOR_FANG:
-          op.AddTurnCondition("Flinch");
+          op.AddTurnCondition(Cs.Flinch);
           break;
         case Is.CHERI_BERRY:
           if (pm.State == PokemonState.PAR) pm.DeAbnormalState();//战报
@@ -181,14 +181,14 @@ namespace PokemonBattleOnline.Game.Host
             if (m.PP == 0)
             {
               m.PP += 10;
-              pm.ShowLogPm("ItemPPRecover", Is.LEPPA_BERRY, m.Type.Id);
+              pm.ShowLogPm("ItemPPRecover", Is.LEPPA_BERRY, m.MoveE.Id);
               return;
             }
           foreach (var m in pm.Moves)
             if (m.PP != m.Move.PP.Origin)
             {
               m.PP += 10;
-              pm.ShowLogPm("ItemPPRecover", Is.LEPPA_BERRY, m.Type.Id);
+              pm.ShowLogPm("ItemPPRecover", Is.LEPPA_BERRY, m.MoveE.Id);
               return;
             }
           break;
@@ -196,7 +196,7 @@ namespace PokemonBattleOnline.Game.Host
           pm.HpRecover(10, false, "m_ItemHpRecover", Is.ORAN_BERRY);
           break;
         case Is.PERSIM_BERRY:
-          if (op.RemoveCondition("Confuse")) pm.ShowLogPm("DeConfuse");
+          if (op.RemoveCondition(Cs.Confuse)) pm.ShowLogPm("DeConfuse");
           break;
         case Is.LUM_BERRY:
           if (pm.State != PokemonState.Normal) pm.DeAbnormalState();
@@ -228,7 +228,7 @@ namespace PokemonBattleOnline.Game.Host
           pm.ChangeLv7D(by, StatType.SpDef, 1, false);
           break;
         case Is.LANSAT_BERRY:
-          if (pm.OnboardPokemon.AddCondition("FocusEnergy")) pm.ShowLogPm("ItemEnFocusEnergy", Is.LANSAT_BERRY);
+          if (pm.OnboardPokemon.AddCondition(Cs.FocusEnergy)) pm.ShowLogPm("ItemEnFocusEnergy", Is.LANSAT_BERRY);
           break;
         case Is.STARF_BERRY:
           {
@@ -243,7 +243,7 @@ namespace PokemonBattleOnline.Game.Host
           }
           break;
         case Is.MICLE_BERRY:
-          if (pm.OnboardPokemon.AddCondition("MicleBerry")) pm.ShowLogPm("MicleBerry", Is.MICLE_BERRY);
+          if (pm.OnboardPokemon.AddCondition(Cs.MicleBerry)) pm.ShowLogPm("MicleBerry", Is.MICLE_BERRY);
           break;
       }
     }
@@ -296,7 +296,7 @@ namespace PokemonBattleOnline.Game.Host
             var i = der.Item;
             if (e && i == Is.EJECT_BUTTON)
             {
-              atk.SetCondition("EjectButton", der.Tile);
+              atk.SetCondition(Cs.EjectButton, der.Tile);
               der.ConsumeItem();
               c.Withdraw(der, "EjectButton", 0, true);
               if (r == false) break;
@@ -408,7 +408,7 @@ namespace PokemonBattleOnline.Game.Host
       if (atk.Type == t)
       {
         atk.Controller.ReportBuilder.ShowLog("Gem", i, atk.Move.Id);
-        atk.SetTurnCondition("Gem");
+        atk.SetTurnCondition(Cs.Gem);
         atk.Attacker.ConsumeItem();
       }
     }

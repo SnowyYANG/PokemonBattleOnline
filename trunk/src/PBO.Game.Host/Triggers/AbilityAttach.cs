@@ -27,7 +27,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           CantAddState(pm, PokemonState.BRN);
           break;
         case As.OBLIVIOUS: //12
-          if (pm.OnboardPokemon.RemoveCondition("Attract"))
+          if (pm.OnboardPokemon.RemoveCondition(Cs.Attract))
           {
             pm.RaiseAbility();
             pm.ShowLogPm("DeAttract");
@@ -41,7 +41,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
           break;
         case As.OWN_TEMPO: //20
-          if (pm.OnboardPokemon.RemoveCondition("Confuse"))
+          if (pm.OnboardPokemon.RemoveCondition(Cs.Confuse))
           {
             pm.RaiseAbility();
             pm.ShowLogPm("DeConfuse");
@@ -66,7 +66,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           Forewarn(pm);
           break;
         case As.FLASH_FIRE:
-          pm.OnboardPokemon.RemoveCondition("FlashFire");
+          pm.OnboardPokemon.RemoveCondition(Cs.FlashFire);
           break;
         case As.AIR_LOCK:
           pm.RaiseAbility();
@@ -88,7 +88,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case As.INTIMIDATE:
           pm.RaiseAbility();
           foreach (var p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1))
-            if (p.OnboardPokemon.HasCondition("Substitute")) p.ShowLogPm("NoEffect");
+            if (p.OnboardPokemon.HasCondition(Cs.Substitute)) p.ShowLogPm("NoEffect");
             else p.ChangeLv7D(pm, StatType.Atk, -1, true);
           break;
         case As.TRACE:
@@ -113,7 +113,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           Anticipation(pm);
           break;
         case As.SLOW_START:
-          pm.OnboardPokemon.SetCondition("SlowStart", pm.Controller.TurnNumber + 5);
+          pm.OnboardPokemon.SetCondition(Cs.SlowStart, pm.Controller.TurnNumber + 5);
           pm.RaiseAbility();
           pm.ShowLogPm("EnSlowStart");
           break;
@@ -150,19 +150,19 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static void Forewarn(PokemonProxy pm)
     {
-      List<KeyValuePair<PokemonProxy, MoveType>> moves = new List<KeyValuePair<PokemonProxy, MoveType>>();
+      var moves = new List<KeyValuePair<PokemonProxy, MoveTypeE>>();
       {
         int maxPower = 0;
         foreach (PokemonProxy p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1))
           foreach (MoveProxy m in p.Moves)
           {
-            int power = m.Type.Power;
+            int power = m.MoveE.Move.Power;
             if (power == 1)
             {
-              if (m.Type.Class == MoveClass.OHKO) power = 160;
+              if (m.MoveE.Class == MoveClass.OHKO) power = 160;
               else
               {
-                var mid = m.Type.Id;
+                var mid = m.MoveE.Id;
                 if (mid == 382) power = 0; //先取
                 else if (mid == 68 || mid == 243 || mid == 368) power = 120;
               }
@@ -172,12 +172,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
               moves.Clear();
               maxPower = power;
             }
-            if (power == maxPower) moves.Add(new KeyValuePair<PokemonProxy, MoveType>(p, m.Type));
+            if (power == maxPower) moves.Add(new KeyValuePair<PokemonProxy, MoveTypeE>(p, m.MoveE));
           }
       }
       if (moves.Count != 0)
       {
-        KeyValuePair<PokemonProxy, MoveType> pair = moves[pm.Controller.GetRandomInt(0, moves.Count - 1)];
+        var pair = moves[pm.Controller.GetRandomInt(0, moves.Count - 1)];
         pm.RaiseAbility();
         pm.Controller.ReportBuilder.ShowLog("ReadMove", pair.Key.Id, pair.Value.Id);
       }
@@ -226,7 +226,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       foreach (var p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetPokemons(pm.OnboardPokemon.X - 1, pm.OnboardPokemon.X + 1))
         foreach (var m in p.Moves)
-          if (m.Type.Class == MoveClass.OHKO || m.Type.Type.EffectRevise(pm.OnboardPokemon.Types) > 0)
+          if (m.MoveE.Class == MoveClass.OHKO || m.MoveE.Move.Type.EffectRevise(pm.OnboardPokemon.Types) > 0)
           {
             pm.RaiseAbility();
             pm.ShowLogPm("Anticipation");

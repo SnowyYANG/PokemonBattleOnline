@@ -13,14 +13,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var der = def.Defender;
       var atk = def.AtkContext;
       var aer = atk.Attacker;
-      var cat = atk.Move.Category;
+      var cat = atk.Move.Move.Category;
 
       Modifier m = ThickFat(def);
 
       switch (aer.Ability)
       {
         case As.FLASH_FIRE:
-          if (atk.Type == BattleType.Fire && aer.OnboardPokemon.HasCondition("FlashFire")) m *= 0x1800;
+          if (atk.Type == BattleType.Fire && aer.OnboardPokemon.HasCondition(Cs.FlashFire)) m *= 0x1800;
           break;
         case As.HUGE_POWER:
         case As.PURE_POWER:
@@ -84,16 +84,16 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     public static Modifier Hustle(AtkContext atk)
     {
-      return (Modifier)(atk.Attacker.AbilityE(As.HUSTLE) && atk.Move.Category == MoveCategory.Physical ? 0x1800 : 0x1000);
+      return (Modifier)(atk.Attacker.AbilityE(As.HUSTLE) && atk.Move.Move.Category == MoveCategory.Physical ? 0x1800 : 0x1000);
     }
     private static Modifier ThickFat(DefContext def)
     {
-      BattleType type = def.AtkContext.Move.Type;
+      BattleType type = def.AtkContext.Move.Move.Type;
       return (Modifier)((type == BattleType.Ice || type == BattleType.Fire) && def.AbilityE(As.THICK_FAT) ? 0x800 : 0x1000);
     }
     private static Modifier PlusMinus(AtkContext atk)
     {
-      if (atk.Move.Category == MoveCategory.Special)
+      if (atk.Move.Move.Category == MoveCategory.Special)
         foreach (var p in atk.Attacker.Field.Pokemons)
           if (p != atk.Attacker)
           {

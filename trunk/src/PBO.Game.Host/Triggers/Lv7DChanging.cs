@@ -14,7 +14,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
 
       if (change < 0 && by != pm)
       {
-        if (pm.Field.HasCondition("Mist")) //根据百科非技能似乎不该发动，但排除了一下这样写肯定是对的
+        if (pm.Field.HasCondition(Cs.Mist)) //根据百科非技能似乎不该发动，但排除了一下这样写肯定是对的
         {
           if (showFail) pm.ShowLogPm("Mist");
           return 0;

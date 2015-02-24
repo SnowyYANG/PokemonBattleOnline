@@ -41,7 +41,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             else if (move.MaxHpPercentage < 0) //拼命专用
             {
               var change = aer.Pokemon.MaxHp * move.MaxHpPercentage / 100;
-              aer.OnboardPokemon.SetTurnCondition("Assurance");
+              aer.OnboardPokemon.SetTurnCondition(Cs.Assurance);
               aer.ShowLogPm("m_ReHurt");
               aer.Hp += (change == 0 ? -1 : change);
             }
@@ -59,18 +59,18 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       var aer = def.AtkContext.Attacker;
       EHTs.De(aer.Controller.ReportBuilder, aer.Field);
-      aer.OnboardPokemon.RemoveCondition("LeechSeed");
-      var trap = aer.OnboardPokemon.GetCondition("Trap");
+      aer.OnboardPokemon.RemoveCondition(Cs.LeechSeed);
+      var trap = aer.OnboardPokemon.GetCondition(Cs.Trap);
       if (trap != null)
       {
-        aer.OnboardPokemon.RemoveCondition("Trap");
+        aer.OnboardPokemon.RemoveCondition(Cs.Trap);
         aer.ShowLogPm("TrapFree", trap.Move.Id);
       }
     }
 
     private static void EatDefenderBerry(DefContext def)
     {
-      var i = def.GetCondition<int>("EatenBerry");
+      var i = def.GetCondition<int>(Cs.EatenBerry);
       if (i != 0)
       {
         var aer = def.AtkContext.Attacker;
@@ -84,11 +84,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var der = def.Defender;
       if (der.Hp != 0 && (der.OnboardPokemon.HasType(BattleType.Flying) || der.AbilityE(As.LEVITATE)))
       {
-        der.OnboardPokemon.SetCondition("SmackDown");
+        der.OnboardPokemon.SetCondition(Cs.SmackDown);
         der.ShowLogPm("EnSmackDown");
       }
-      if (der.OnboardPokemon.RemoveCondition("MagnetRise")) der.ShowLogPm("DeMagnetRise");
-      if (der.OnboardPokemon.RemoveCondition("Telekinesis")) der.ShowLogPm("DeTelekinesis");
+      if (der.OnboardPokemon.RemoveCondition(Cs.MagnetRise)) der.ShowLogPm("DeMagnetRise");
+      if (der.OnboardPokemon.RemoveCondition(Cs.Telekinesis)) der.ShowLogPm("DeTelekinesis");
     }
   }
 }

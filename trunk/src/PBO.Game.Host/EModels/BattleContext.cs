@@ -17,7 +17,7 @@ namespace PokemonBattleOnline.Game.Host
     public int TotalDamage;
     public bool Fail;
     public bool IgnoreSwitchItem;
-    public MoveType Move;
+    public MoveTypeE Move;
     public bool MultiTargets;
     public int Hits;
     /// <summary>
@@ -47,15 +47,15 @@ namespace PokemonBattleOnline.Game.Host
       if (Attacker.AtkContext == this) Attacker.Action = action;
     }
 
-    public void StartExecute(MoveType move, Tile selectTile = null, string log = "UseMove")
+    public void StartExecute(MoveTypeE move, Tile selectTile = null, string log = "UseMove")
     {
       Move = move;
-      if (STs.CanExecuteMove(Attacker, move))
+      if (STs.CanExecuteMove(Attacker, Move))
       {
-        if (log != null) Attacker.ShowLogPm(log, move.Id);
+        if (log != null) Attacker.ShowLogPm(log, Move.Id);
         InitAtkContext.Execute(this);
         MoveE.BuildDefContext(this, selectTile);
-        if (MoveProxy != null) ATs.Pressure(this, MTs.GetRange(Attacker, Move));
+        if (MoveProxy != null) ATs.Pressure(this, Move.GetRange(Attacker));
         MoveExecute.Execute(this);
       }
       else FailAll(null);
@@ -119,7 +119,7 @@ namespace PokemonBattleOnline.Game.Host
       get
       {
         if (AtkContext.Attacker.AbilityE(As.NO_GUARD) || Defender.AbilityE(As.NO_GUARD)) return true;
-        Condition c = Defender.OnboardPokemon.GetCondition("NoGuard");
+        Condition c = Defender.OnboardPokemon.GetCondition(Cs.NoGuard);
         return c != null && c.By == AtkContext.Attacker && c.Turn == Defender.Controller.TurnNumber; 
       }
     }
@@ -143,9 +143,9 @@ namespace PokemonBattleOnline.Game.Host
         var o = new Condition();
         o.Damage = Damage;
         o.By = AtkContext.Attacker;
-        string c = AtkContext.Move.Category == MoveCategory.Physical ? "PhysicalDamage" : "SpecialDamage";
+        var c = AtkContext.Move.Move.Category == MoveCategory.Physical ? Cs.PhysicalDamage : Cs.SpecialDamage;
         Defender.OnboardPokemon.SetTurnCondition(c, o);
-        Defender.OnboardPokemon.SetTurnCondition("Damage", o);
+        Defender.OnboardPokemon.SetTurnCondition(Cs.Damage, o);
       }
     }
     public void ModifyDamage(Modifier modifier)

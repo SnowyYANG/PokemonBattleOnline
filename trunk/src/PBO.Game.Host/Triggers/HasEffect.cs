@@ -38,13 +38,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           return !der.OnboardPokemon.HasType(BattleType.Ghost);
       }
 
-      if ((move.Powder() || move.Spore()) && der.OnboardPokemon.HasType(BattleType.Grass)) return false;
+      if ((move.Powder || move.Spore) && der.OnboardPokemon.HasType(BattleType.Grass)) return false;
 
-      if (move.Category == MoveCategory.Status && move.Id != Ms.THUNDER_WAVE) return true;
+      if (move.Move.Category == MoveCategory.Status && move.Id != Ms.THUNDER_WAVE) return true;
       if (move.Class == MoveClass.OHKO && (der.Pokemon.Lv > atk.Attacker.Pokemon.Lv || der.RaiseAbility(As.STURDY))) return false;
       BattleType canAtk;
       {
-        var o = der.OnboardPokemon.GetCondition("CanAttack");
+        var o = der.OnboardPokemon.GetCondition(Cs.CanAttack);
         canAtk = o == null ? BattleType.Invalid : o.BattleType;
       }
       return (canAtk != BattleType.Invalid && der.OnboardPokemon.HasType(canAtk)
@@ -55,9 +55,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       var o = pm.OnboardPokemon;
       return
-        (o.HasCondition("SmackDown") || o.HasCondition("Ingrain") || pm.Controller.Board.HasCondition("Gravity")) || pm.ItemE(Is.IRON_BALL)
+        (o.HasCondition(Cs.SmackDown) || o.HasCondition(Cs.Ingrain) || pm.Controller.Board.HasCondition(Cs.Gravity)) || pm.ItemE(Is.IRON_BALL)
         || !(o.HasType(BattleType.Flying)
-             || o.HasCondition("MagnetRise") || o.HasCondition("Telekinesis")
+             || o.HasCondition(Cs.MagnetRise) || o.HasCondition(Cs.Telekinesis)
              || pm.ItemE(Is.AIR_BALLOON)
              || (abilityAvailable && (raiseAbility ? pm.RaiseAbility(As.LEVITATE) : pm.AbilityE(As.LEVITATE))));
     }

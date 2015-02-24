@@ -35,7 +35,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         else
         {
           pm.ShowLogPm("SLP");
-          return pm.SelectedMove.AvailableEvenSleeping();
+          return pm.SelectedMove.MoveE.AvailableEvenSleeping;
         }
       }
       return true;
@@ -44,7 +44,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       if (p.State == PokemonState.FRZ)
       {
-        if (p.SelectedMove.Type.SelfDeFrozen()) p.DeAbnormalState("DeFRZ2", p.SelectedMove.Type.Id);
+        if (p.SelectedMove.MoveE.SelfDeFrozen) p.DeAbnormalState("DeFRZ2", p.SelectedMove.MoveE.Id);
         else if (p.Controller.GetRandomInt(0, 3) == 0) p.DeAbnormalState();
         else
         {
@@ -56,10 +56,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static bool Disable(PokemonProxy p)
     {
-      var c = p.OnboardPokemon.GetCondition("Disable");
-      if (c != null && p.SelectedMove.Type == c.Move) 
+      var c = p.OnboardPokemon.GetCondition(Cs.Disable);
+      if (c != null && p.SelectedMove.MoveE == c.Move) 
       {
-        p.ShowLogPm("Disable", p.SelectedMove.Type.Id);
+        p.ShowLogPm("Disable", p.SelectedMove.MoveE.Id);
         return false;
       }
       return true;
@@ -68,23 +68,23 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       if (p.AbilityE(As.TRUANT))
       {
-        if (p.OnboardPokemon.GetCondition<int>("Truant") == p.Controller.TurnNumber)
+        if (p.OnboardPokemon.GetCondition<int>(Cs.Truant) == p.Controller.TurnNumber)
         {
           p.RaiseAbility();
           p.ShowLogPm("Truant");
           return false;
         }
-        p.OnboardPokemon.SetCondition("Truant", p.Controller.TurnNumber + 1);
+        p.OnboardPokemon.SetCondition(Cs.Truant, p.Controller.TurnNumber + 1);
       }
       return true;
     }
     private static bool Imprison(PokemonProxy p)
     {
-      MoveType move = p.SelectedMove.Type;
+      var move = p.SelectedMove.MoveE;
       foreach (PokemonProxy pm in p.Controller.Board[1 - p.Pokemon.TeamId].GetPokemons(p.OnboardPokemon.X - 1, p.OnboardPokemon.X + 1))
-        if (pm.OnboardPokemon.HasCondition("Imprison"))
+        if (pm.OnboardPokemon.HasCondition(Cs.Imprison))
           foreach (MoveProxy m in pm.Moves)
-            if (m.Type == move)
+            if (m.MoveE == move)
             {
               p.ShowLogPm("Imprison", move.Id);
               return false;
@@ -93,7 +93,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static bool HealBlock(PokemonProxy pm)
     {
-      if (pm.SelectedMove.Move.Type.Heal() && pm.OnboardPokemon.HasCondition("HealBlock"))
+      if (pm.SelectedMove.MoveE.Heal && pm.OnboardPokemon.HasCondition(Cs.HealBlock))
       {
         pm.ShowLogPm("HealBlockCantUseMove", pm.SelectedMove.Move.Type.Id);
         return false;
@@ -102,12 +102,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static bool Confuse(PokemonProxy pm)
     {
-      int count = pm.OnboardPokemon.GetCondition<int>("Confuse");
+      int count = pm.OnboardPokemon.GetCondition<int>(Cs.Confuse);
       if (count != 0)
         if (--count > 0)
         {
           pm.ShowLogPm("Confuse");
-          pm.OnboardPokemon.SetCondition("Confuse", count);
+          pm.OnboardPokemon.SetCondition(Cs.Confuse, count);
           if (pm.Controller.OneNth(2))
           {
             pm.ShowLogPm("m_ConfuseWork");
@@ -122,14 +122,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         }
         else
         {
-          pm.OnboardPokemon.RemoveCondition("Confuse");
+          pm.OnboardPokemon.RemoveCondition(Cs.Confuse);
           pm.ShowLogPm("DeConfuse");
         }
       return true;
     }
     private static bool Flinch(PokemonProxy pm)
     {
-      if (pm.OnboardPokemon.HasCondition("Flinch"))
+      if (pm.OnboardPokemon.HasCondition(Cs.Flinch))
       {
         pm.ShowLogPm("Flinch");
         if (pm.RaiseAbility(As.STEADFAST)) pm.ChangeLv7D(pm, StatType.Speed, 1, false);
@@ -139,25 +139,25 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static bool Taunt(PokemonProxy p)
     {
-      if (p.SelectedMove.Type.Category == MoveCategory.Status && p.OnboardPokemon.HasCondition("Taunt"))
+      if (p.SelectedMove.MoveE.Move.Category == MoveCategory.Status && p.OnboardPokemon.HasCondition(Cs.Taunt))
       {
-        p.ShowLogPm("Taunt", p.SelectedMove.Type.Id);
+        p.ShowLogPm("Taunt", p.SelectedMove.MoveE.Id);
         return false;
       }
       return true;
     }
     private static bool Gravity(PokemonProxy p)
     {
-      if (p.SelectedMove.Type.UnavailableWithGravity() && p.Controller.Board.HasCondition("Gravity"))
+      if (p.SelectedMove.MoveE.UnavailableWithGravity && p.Controller.Board.HasCondition(Cs.Gravity))
       {
-        p.ShowLogPm("GravityCantUseMove", p.SelectedMove.Type.Id);
+        p.ShowLogPm("GravityCantUseMove", p.SelectedMove.MoveE.Id);
         return false;
       }
       return true;
     }
     private static bool Attract(PokemonProxy p)
     {
-      var pm = p.OnboardPokemon.GetCondition<PokemonProxy>("Attract");
+      var pm = p.OnboardPokemon.GetCondition<PokemonProxy>(Cs.Attract);
       if (pm != null)
       {
         p.ShowLogPm("Attract", pm.Id);
@@ -180,7 +180,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static bool FocusPunch(PokemonProxy p)
     {
-      if (p.SelectedMove.Type.Id == Ms.FOCUS_PUNCH && p.OnboardPokemon.HasCondition("Damage"))
+      if (p.SelectedMove.MoveE.Id == Ms.FOCUS_PUNCH && p.OnboardPokemon.HasCondition(Cs.Damage))
       {
         p.ShowLogPm("DeFocusPunch");
         return false;

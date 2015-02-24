@@ -22,7 +22,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (pm.Controller.Weather == Weather.HeavyRain) speed <<= 1;
           break;
         case As.UNBURDEN:
-          if (pm.Pokemon.Item == 0 && pm.OnboardPokemon.HasCondition("HadItem")) speed <<= 1;
+          if (pm.Pokemon.Item == 0 && pm.OnboardPokemon.HasCondition(Cs.HadItem)) speed <<= 1;
           break;
         case As.QUICK_FEET:
           if (pm.State != PokemonState.Normal) speed += speed >> 1;
@@ -41,14 +41,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           speed >>= 1;
           break;
         case Is.QUICK_POWDER:
-          if (pm.Pokemon.Form.Species.Number == 132 && !pm.OnboardPokemon.HasCondition("Transform")) speed <<= 1;
+          if (pm.Pokemon.Form.Species.Number == 132 && !pm.OnboardPokemon.HasCondition(Cs.Transform)) speed <<= 1;
           break;
         case Is.CHOICE_SCARF:
           speed += speed >> 1;
           break;
       }
-      if (pm.Field.HasCondition("Tailwind")) speed <<= 1;
-      if (pm.Field.HasCondition("Swamp")) speed = (speed + 1) >> 2; //小数点是0.5以下就舍去，如果是0.75就四舍五入
+      if (pm.Field.HasCondition(Cs.Tailwind)) speed <<= 1;
+      if (pm.Field.HasCondition(Cs.Swamp)) speed = (speed + 1) >> 2; //小数点是0.5以下就舍去，如果是0.75就四舍五入
       return speed;
     }
   }

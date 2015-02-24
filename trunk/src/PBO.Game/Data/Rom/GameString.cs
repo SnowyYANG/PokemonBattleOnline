@@ -41,7 +41,7 @@ namespace PokemonBattleOnline.Game
         Redirections.Add(new KeyValuePair<string, string>(i.ToString("000"), "p" + i + "00"));
         Redirections.Add(new KeyValuePair<string, string>(i.ToString(), "p" + i + "00"));
       }
-      for (int i = 100; i <= RomData.Pokemons.Count(); ++i) Redirections.Add(new KeyValuePair<string, string>(i.ToString(), "p" + i + "00"));
+      for (int i = 100; i <= RomData.POKEMONS; ++i) Redirections.Add(new KeyValuePair<string, string>(i.ToString(), "p" + i + "00"));
       Redirections.Sort(Comparer.I);
       Redirections.TrimExcess();
     }
@@ -114,39 +114,39 @@ namespace PokemonBattleOnline.Game
     {
       int e;
       var r = Find(name, out e);
-      return r != null && r[0] == 'n' ? (PokemonNature?)r.Substring(1).ToInt() : null;
+      return r != null && r[0] == 'n' ? (PokemonNature?)int.Parse(r.Substring(1)) : null;
     }
     public static PokemonSpecies PokemonSpecies(string name)
     {
       int e;
       var r = Find(name, out e);
-      return r != null && r[0] == 'p' ? RomData.GetPokemon(r.Substring(1).ToInt() / 100) : null;
+      return r != null && r[0] == 'p' ? RomData.GetPokemon(int.Parse(r.Substring(1)) / 100) : null;
     }
     internal static PokemonForm PokemonForm(string name)
     {
       int e;
       var r = Find(name, out e);
       if (r == null || r[0] != 'p') return null;
-      var n = r.Substring(1).ToInt();
+      var n = int.Parse(r.Substring(1));
       return RomData.GetPokemon(n / 100, n % 100);
     }
     public static int Ability(string name)
     {
       int e;
       var r = Find(name, out e);
-      return r != null && r[0] == 'a' ? r.Substring(1).ToInt() : 0;
+      return r != null && r[0] == 'a' ? int.Parse(r.Substring(1)) : 0;
     }
     public static int Item(string name)
     {
       int e;
       var r = Find(name, out e);
-      return r != null && r[0] == 'i' ? r.Substring(1).ToInt() : 0;
+      return r != null && r[0] == 'i' ? int.Parse(r.Substring(1)) : 0;
     }
     public static MoveType Move(string name)
     {
       int e;
       var r = Find(name, out e);
-      return r != null && r[0] == 'm' ? RomData.GetMove(r.Substring(1).ToInt()) : null;
+      return r != null && r[0] == 'm' ? RomData.GetMove(int.Parse(r.Substring(1))) : null;
     }
 
     public readonly string Language;
@@ -172,10 +172,10 @@ namespace PokemonBattleOnline.Game
     private GameString(string path, string language)
     {
       Language = language;
-      Pokemons = new string[RomData.Pokemons.Count()];
+      Pokemons = new string[RomData.POKEMONS];
       Forms = new Dictionary<int, string>();
       Moves = new string[RomData.Moves.Count()];
-      Abilities = new string[RomData.Abilities];
+      Abilities = new string[RomData.ABILITIES];
       Items = new Dictionary<int, string>(RomData.Items.Count());
       using (var sr = new StreamReader(path))
         for (string line = sr.ReadLine(); !string.IsNullOrWhiteSpace(line); line = sr.ReadLine())
@@ -185,7 +185,7 @@ namespace PokemonBattleOnline.Game
           str = line.Substring(comma + 1);
           if (char.IsDigit(line[1]))
           {
-            var num = line.Substring(1, comma - 1).ToInt();
+            var num = int.Parse(line.Substring(1, comma - 1));
             var h = line[0];
             switch (h)
             {
@@ -227,16 +227,16 @@ namespace PokemonBattleOnline.Game
                 ItemsD[num] = str;
                 break;
               case 'n':
-                if (Natures == null) Natures = new string[RomData.Natures];
+                if (Natures == null) Natures = new string[RomData.NATURES];
                 Natures[num] = str;
                 Redirections.Add(new KeyValuePair<string, string>(str, "n" + num));
                 break;
               case 'b':
-                if (BattleTypes == null) BattleTypes = new string[RomData.BattleTypes];
+                if (BattleTypes == null) BattleTypes = new string[RomData.BATTLETYPES];
                 BattleTypes[num] = str;
                 break;
               case 'c':
-                if (MoveCategories == null) MoveCategories = new string[RomData.MoveCategories];
+                if (MoveCategories == null) MoveCategories = new string[RomData.MOVECATEGORIES];
                 MoveCategories[num] = str;
                 break;
               case 'S':

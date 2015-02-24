@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Diagnostics.Contracts;
 
 namespace PokemonBattleOnline.Game
 {
@@ -20,7 +19,7 @@ namespace PokemonBattleOnline.Game
 
     static GameHelper()
     {
-      NO_EFFECT = new BattleType[RomData.BattleTypes + 1];
+      NO_EFFECT = new BattleType[RomData.BATTLETYPES + 1];
       NO_EFFECT[(int)BattleType.Normal] = NO_EFFECT[(int)BattleType.Fighting] = BattleType.Ghost;
       NO_EFFECT[(int)BattleType.Electric] = BattleType.Ground;
       NO_EFFECT[(int)BattleType.Poison] = BattleType.Steel;

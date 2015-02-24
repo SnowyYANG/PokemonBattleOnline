@@ -25,10 +25,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.ROLLOUT: //205
         case Ms.ICE_BALL: //301
-          def.BasePower = 30 * (1 << ((aer.OnboardPokemon.HasCondition("DefenseCurl") ? 6 : 5) - atk.GetCondition("MultiTurn").Turn));
+          def.BasePower = 30 * (1 << ((aer.OnboardPokemon.HasCondition(Cs.DefenseCurl) ? 6 : 5) - atk.GetCondition(Cs.MultiTurn).Turn));
           break;
         case Ms.PRESENT: //217
-          def.BasePower = atk.GetCondition<int>("Present");
+          def.BasePower = atk.GetCondition<int>(Cs.Present);
           break;
         case Ms.PURSUIT: //228
           def.BasePower = atk.IgnoreSwitchItem ? 80 : 40;
@@ -37,10 +37,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           HiddenPower(def);
           break;
         case Ms.BEAT_UP: //251:
-          def.BasePower = def.AtkContext.GetCondition<int>("BeatUpAtk") / 10 + 5;
+          def.BasePower = def.AtkContext.GetCondition<int>(Cs.BeatUp) / 10 + 5;
           break;
         case Ms.SPIT_UP: //255
-          def.BasePower = 100 * aer.OnboardPokemon.GetCondition<int>("Stockpile");
+          def.BasePower = 100 * aer.OnboardPokemon.GetCondition<int>(Cs.Stockpile);
           break;
         case Ms.REVENGE: //279
         case Ms.AVALANCHE:
@@ -60,7 +60,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           def.BasePower = der.LastMoveTurn == der.Controller.TurnNumber ? 100 : 50;
           break;
         case Ms.ASSURANCE: //372
-          def.BasePower = der.OnboardPokemon.HasCondition("Assurance") ? 100 : 50;
+          def.BasePower = der.OnboardPokemon.HasCondition(Cs.Assurance) ? 100 : 50;
           break;
         case Ms.FLING: //374
           def.BasePower = MTs.FlingPower(aer.Pokemon.Item);
@@ -82,7 +82,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           def.BasePower = der.Pokemon.State == PokemonState.Normal ? 50 : 100;
           break;
         case Ms.MAGNITUDE:
-          def.BasePower = 10 + 20 * atk.GetCondition<int>("Magnitude");
+          def.BasePower = 10 + 20 * atk.GetCondition<int>(Cs.Magnitude);
           break;
         case Ms.HEAVY_SLAM:
         case Ms.HEAT_CRASH:
@@ -94,7 +94,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.FURY_CUTTER:
           {
-            var c = atk.Attacker.OnboardPokemon.GetCondition("LastMove");
+            var c = atk.Attacker.OnboardPokemon.GetCondition(Cs.LastMove);
             if (c != null && c.Move == move) def.BasePower = 20 * (1 << (c.Int > 3 ? 3 : c.Int));
             else def.BasePower = 20;
           }
@@ -128,7 +128,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           DeAbnormalState(def, PokemonState.SLP);
           break;
         default:
-          def.BasePower = move.Power;
+          def.BasePower = move.Move.Power;
           break;
       }
       if (def.BasePower == 0) def.BasePower = 1;
@@ -220,7 +220,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
 
     private static void TrumpCard(DefContext def)
     {
-      if (def.AtkContext.MoveProxy == null || def.AtkContext.MoveProxy.Type.Id != Ms.TRUMP_CARD) def.BasePower = 40;
+      if (def.AtkContext.MoveProxy == null || def.AtkContext.MoveProxy.MoveE.Id != Ms.TRUMP_CARD) def.BasePower = 40;
       else
       {
         int pwa = def.AtkContext.MoveProxy.PP;
@@ -285,7 +285,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
 
     private static void EchoedVoice(DefContext def)
     {
-      var c = def.AtkContext.Attacker.OnboardPokemon.GetCondition("LastMove");
+      var c = def.AtkContext.Attacker.OnboardPokemon.GetCondition(Cs.LastMove);
       if (c != null && c.Move == def.AtkContext.Move)
       {
         def.BasePower = 40 * (c.Int + 1);
@@ -330,7 +330,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
 
     private static void Revenge(DefContext def)
     {
-      var o = def.AtkContext.Attacker.OnboardPokemon.GetCondition("Damage");
+      var o = def.AtkContext.Attacker.OnboardPokemon.GetCondition(Cs.Damage);
       if (o != null && o.By == def.Defender) def.BasePower = 120;
       else def.BasePower = 60;
     }

@@ -6,109 +6,110 @@ using PokemonBattleOnline.Game.GameEvents;
 
 namespace PokemonBattleOnline.Game.Host
 {
-  internal class MoveProxy
-  {
-    public readonly Move Move;
-    public readonly PokemonProxy Owner;
-    
-    internal MoveProxy(Move move, PokemonProxy owner)
+    internal class MoveProxy
     {
-      Move = move;
-      Owner = owner;
-    }
-    internal MoveProxy(MoveType move, PokemonProxy owner)
-    {
-      Move = new Move(move, 5);
-      Owner = owner;
-    }
+        public readonly Move Move;
+        public readonly MoveTypeE MoveE;
+        public readonly PokemonProxy Owner;
 
-    public int PP
-    { 
-      get { return Move.PP.Value; }
-      set
-      {
-        var pp = (PairValue)Move.PP;
-        if (value < 0) value = 0;
-        else if (value > pp.Origin) value = pp.Origin;
-        if (pp.Value != value)
+        internal MoveProxy(Move move, PokemonProxy owner)
         {
-          pp.Value = value;
-          Owner.Controller.ReportBuilder.SetPP(this);
+            Move = move;
+            MoveE = MoveTypeE.Get(move.Type);
+            Owner = owner;
         }
-      }
-    }
-    public bool HasUsed
-    { get; internal set; }
+        internal MoveProxy(MoveTypeE move, PokemonProxy owner)
+        {
+            Move = new Move(move.Move, 5);
+            MoveE = move;
+            Owner = owner;
+        }
 
-    public MoveType Type
-    { get { return Move.Type; } }
-    public bool CanBeSelected
-    { get { return PP > 0 && IfSelected() == null; } }
-    
-    /// <summary>
-    /// CanSelect不代表技能一定能用，http://www.smogon.com/dp/articles/move_restrictions#disable
-    /// </summary>
-    /// <returns>key, null if no problem</returns>
-    internal SelectMoveFail IfSelected()
-    {
-      if (Type.Id != Ms.STRUGGLE)
-      {
-        var op = Owner.OnboardPokemon;
-        //专爱
+        public int PP
         {
-          var o = op.GetCondition<MoveType>("ChoiceItem");
-          if (o != null && o != Type && ITs.ChoiceItem(Owner.Item)) return new SelectMoveFail("ChoiceItem", o.Id);
+            get { return Move.PP.Value; }
+            set
+            {
+                var pp = (PairValue)Move.PP;
+                if (value < 0) value = 0;
+                else if (value > pp.Origin) value = pp.Origin;
+                if (pp.Value != value)
+                {
+                    pp.Value = value;
+                    Owner.Controller.ReportBuilder.SetPP(this);
+                }
+            }
         }
-        //寻衅
-        if (op.HasCondition("Torment") && Owner.LastMove == Type) return new SelectMoveFail("Torment", Owner.AtkContext.MoveProxy.Type.Id);
-        //鼓掌
-        {
-          var o = op.GetCondition("Encore");
-          if (o != null && o.Move != Type) return new SelectMoveFail("Encore", Owner.AtkContext.MoveProxy.Type.Id);
-        }
-        //封印
-        foreach (var pm in Owner.Controller.Board[1 - Owner.Pokemon.TeamId].GetPokemons(Owner.OnboardPokemon.X - 1, Owner.OnboardPokemon.X + 1))
-          if (pm.OnboardPokemon.HasCondition("Imprison"))
-            foreach (var m in pm.Moves)
-              if (m.Type == Type) return new SelectMoveFail("Imprison", Type.Id);
-        //残废
-        {
-          var o = op.GetCondition("Disable");
-          if (o != null && o.Move == Type) return new SelectMoveFail("Disable", Type.Id);
-        }
-        //重力
-        if (Type.UnavailableWithGravity() && Owner.Controller.Board.HasCondition("Gravity")) return new SelectMoveFail("GravityCantUseMove", Type.Id);
-        //回复封印
-        if (Type.Heal() && op.HasCondition("HealBlock")) return new SelectMoveFail("HealBlockCantUseMove", Type.Id);
-        //挑拨
-        if (Type.Category == MoveCategory.Status && op.HasCondition("Taunt")) return new SelectMoveFail("Taunt", Type.Id);
-        //突击背心
-        if (Type.Category == MoveCategory.Status && Owner.ItemE(Is.ASSAULT_VEST)) return new SelectMoveFail("AssaultVest", Type.Id);
-      }
-      return null;
-    }
+        public bool HasUsed
+        { get; internal set; }
 
-    internal void Execute()
-    {
-      if (ITs.ChoiceItem(Owner.Item)) Owner.OnboardPokemon.AddCondition("ChoiceItem", Type);
-      Owner.ShowLogPm("UseMove", Type.Id);
-      Owner.BuildAtkContext(this);
-      Owner.AtkContext.StartExecute(Type, Owner.SelectedTarget, null);
-      HasUsed = true;
-    }
+        public bool CanBeSelected
+        { get { return PP > 0 && IfSelected() == null; } }
 
-    internal bool CanExecute()
-    {
-      if (Type.Id != Ms.STRUGGLE)
-      {
-        if (PP == 0)
+        /// <summary>
+        /// CanSelect不代表技能一定能用，http://www.smogon.com/dp/articles/move_restrictions#disable
+        /// </summary>
+        /// <returns>key, null if no problem</returns>
+        internal SelectMoveFail IfSelected()
         {
-          Owner.Controller.ReportBuilder.ShowLog("NoPP");
-          return false;
+            if (MoveE.Id != Ms.STRUGGLE)
+            {
+                var op = Owner.OnboardPokemon;
+                //专爱
+                {
+                    var o = op.GetCondition<MoveTypeE>(Cs.ChoiceItem);
+                    if (o != null && o != MoveE && ITs.ChoiceItem(Owner.Item)) return new SelectMoveFail("ChoiceItem", o.Id);
+                }
+                //寻衅
+                if (op.HasCondition(Cs.Torment) && Owner.LastMove == MoveE) return new SelectMoveFail("Torment", Owner.AtkContext.MoveProxy.MoveE.Id);
+                //鼓掌
+                {
+                    var o = op.GetCondition(Cs.Encore);
+                    if (o != null && o.Move != MoveE) return new SelectMoveFail("Encore", Owner.AtkContext.MoveProxy.MoveE.Id);
+                }
+                //封印
+                foreach (var pm in Owner.Controller.Board[1 - Owner.Pokemon.TeamId].GetPokemons(Owner.OnboardPokemon.X - 1, Owner.OnboardPokemon.X + 1))
+                    if (pm.OnboardPokemon.HasCondition(Cs.Imprison))
+                        foreach (var m in pm.Moves)
+                            if (m.MoveE == MoveE) return new SelectMoveFail("Imprison", MoveE.Id);
+                //残废
+                {
+                    var o = op.GetCondition(Cs.Disable);
+                    if (o != null && o.Move == MoveE) return new SelectMoveFail("Disable", MoveE.Id);
+                }
+                //重力
+                if (MoveE.UnavailableWithGravity && Owner.Controller.Board.HasCondition(Cs.Gravity)) return new SelectMoveFail("GravityCantUseMove", MoveE.Id);
+                //回复封印
+                if (MoveE.Heal && op.HasCondition(Cs.HealBlock)) return new SelectMoveFail("HealBlockCantUseMove", MoveE.Id);
+                //挑拨
+                if (MoveE.Move.Category == MoveCategory.Status && op.HasCondition(Cs.Taunt)) return new SelectMoveFail("Taunt", MoveE.Id);
+                //突击背心
+                if (MoveE.Move.Category == MoveCategory.Status && Owner.ItemE(Is.ASSAULT_VEST)) return new SelectMoveFail("AssaultVest", MoveE.Id);
+            }
+            return null;
         }
-        PP--;
-      }
-      return true;
+
+        internal void Execute()
+        {
+            if (ITs.ChoiceItem(Owner.Item)) Owner.OnboardPokemon.AddCondition(Cs.ChoiceItem, MoveE);
+            Owner.ShowLogPm("UseMove", MoveE.Id);
+            Owner.BuildAtkContext(this);
+            Owner.AtkContext.StartExecute(MoveE, Owner.SelectedTarget, null);
+            HasUsed = true;
+        }
+
+        internal bool CanExecute()
+        {
+            if (MoveE.Id != Ms.STRUGGLE)
+            {
+                if (PP == 0)
+                {
+                    Owner.Controller.ReportBuilder.ShowLog("NoPP");
+                    return false;
+                }
+                PP--;
+            }
+            return true;
+        }
     }
-  }
 }

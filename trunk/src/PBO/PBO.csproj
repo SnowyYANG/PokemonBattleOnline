@@ -487,6 +487,10 @@
     <Resource Include="images\challenged.wav" />
     <Resource Include="images\chat.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\UpperScreen\StateBar\Alpha.png" />
+    <Resource Include="images\UpperScreen\StateBar\Omega.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

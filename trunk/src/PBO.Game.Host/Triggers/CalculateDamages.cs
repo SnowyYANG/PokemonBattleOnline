@@ -21,24 +21,24 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.BRICK_BREAK: //280
           if (der.Pokemon.TeamId != aer.Pokemon.TeamId)
           {
-            ls = der.Field.RemoveCondition("LightScreen");
-            r = der.Field.RemoveCondition("Reflect");
+            ls = der.Field.RemoveCondition(Cs.LightScreen);
+            r = der.Field.RemoveCondition(Cs.Reflect);
           }
           break;
         case Ms.FEINT: //364
-          feint = der.OnboardPokemon.RemoveCondition("Protect") | (der.Pokemon.TeamId != atk.Attacker.Pokemon.TeamId && (der.Field.RemoveCondition("QuickGuard") | der.Field.RemoveCondition("WideGuard")));
+          feint = der.OnboardPokemon.RemoveCondition(Cs.Protect) | (der.Pokemon.TeamId != atk.Attacker.Pokemon.TeamId && (der.Field.RemoveCondition(Cs.QuickGuar) | der.Field.RemoveCondition(Cs.WideGuard)));
           break;
       }
       switch (atk.Move.Id)
       {
         case Ms.COUNTER:
-          Counter(atk, "PhysicalDamage", 0x2000);
+          Counter(atk, Cs.PhysicalDamage, 0x2000);
           break;
         case Ms.MIRROR_COAT:
-          Counter(atk, "SpecialDamage", 0x2000);
+          Counter(atk, Cs.SpecialDamage, 0x2000);
           break;
         case Ms.METAL_BURST:
-          Counter(atk, "Damage", 0x1800);
+          Counter(atk, Cs.Damage, 0x1800);
           break;
         case Ms.SONIC_BOOM: //49
           def.Damage = 20;
@@ -51,7 +51,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           def.Damage = aer.Pokemon.Lv;
           break;
         case Ms.BIDE: //117
-          def.Damage = atk.GetCondition("Bide").Damage << 1;
+          def.Damage = atk.GetCondition(Cs.Bide).Damage << 1;
           break;
         case Ms.PSYWAVE: //149
           def.Damage = der.Controller.GetRandomInt(50, 150) * aer.Pokemon.Lv / 100;
@@ -115,15 +115,15 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static readonly int[] LV_CT = { 16, 8, 2 };
     private static void Ct(DefContext def)
     {
-      if (!(def.Defender.Field.HasCondition("LuckyChant") || def.CannotBeCted()))
+      if (!(def.Defender.Field.HasCondition(Cs.LuckyChant) || def.CannotBeCted()))
       {
         var atk = def.AtkContext;
-        if (MTs.MustCt(atk.Move)) def.IsCt = true;
+        if (atk.Move.MustCt) def.IsCt = true;
         else
         {
           var pm = atk.Attacker;
-          var ct = MTs.Ct1(atk.Move) ? 1 : 0;
-          if (pm.OnboardPokemon.HasCondition("FocusEnergy")) ct += 2;
+          var ct = atk.Move.Ct1 ? 1 : 0;
+          if (pm.OnboardPokemon.HasCondition(Cs.FocusEnergy)) ct += 2;
           if (pm.AbilityE(As.SUPER_LUCK)) ct++;
           switch (pm.Item)
           {
@@ -162,7 +162,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           OnboardPokemon p;
           if (move.Id == Ms.FOUL_PLAY) p = def.Defender.OnboardPokemon;
           else p = atk.Attacker.OnboardPokemon;
-          StatType st = move.Category == MoveCategory.Physical ? StatType.Atk : StatType.SpAtk;
+          StatType st = move.Move.Category == MoveCategory.Physical ? StatType.Atk : StatType.SpAtk;
           a = p.FiveD.GetStat(st);
           if (!def.AbilityE(As.UNAWARE))
           {
@@ -174,10 +174,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         def.Damage *= a * AModifier.Execute(def);
       }
       {
-        StatType st = move.Category == MoveCategory.Physical || move.UsePhysicalDef() ? StatType.Def : StatType.SpDef;
+        StatType st = move.Move.Category == MoveCategory.Physical || move.UsePhysicalDef ? StatType.Def : StatType.SpDef;
         int d = def.Defender.OnboardPokemon.FiveD.GetStat(st);
         int defLv;
-        if (aer.AbilityE(As.UNAWARE) || move.IgnoreDefenderLv7D()) defLv = 0;
+        if (aer.AbilityE(As.UNAWARE) || move.IgnoreDefenderLv7D) defLv = 0;
         else
         {
           defLv = def.Defender.OnboardPokemon.Lv5D.GetStat(st);
@@ -218,14 +218,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (def.EffectRevise > 0) def.Damage <<= def.EffectRevise;
       else if (def.EffectRevise < 0) def.Damage >>= -def.EffectRevise;
       //7.Alter with user's burn
-      if (move.Category == MoveCategory.Physical && aer.State == PokemonState.BRN && !aer.AbilityE(As.GUTS)) def.Damage >>= 1;
+      if (move.Move.Category == MoveCategory.Physical && aer.State == PokemonState.BRN && !aer.AbilityE(As.GUTS)) def.Damage >>= 1;
       //8.Make sure damage is at least 1
       if (def.Damage < 1) def.Damage = 1;
       //9.Apply the final modifier
       def.Damage *= DamageModifier.Execute(def);
     }
 
-    private static void Counter(AtkContext atk, string condition, Modifier modifier)
+    private static void Counter(AtkContext atk, Cs condition, Modifier modifier)
     {
       ITs.CheckGem(atk);
       atk.Target.Damage = atk.Attacker.OnboardPokemon.GetCondition(condition).Damage;

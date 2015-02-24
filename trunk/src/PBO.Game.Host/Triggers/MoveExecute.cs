@@ -68,7 +68,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             break;
         }
       else atk.ImplementPressure();
-      if (atk.Move.Id == Ms.RAGE && aer != null) aer.OnboardPokemon.SetCondition("Rage");
+      if (atk.Move.Id == Ms.RAGE && aer != null) aer.OnboardPokemon.SetCondition(Cs.Rage);
     }
 
     private static void Generic(AtkContext atk)
@@ -76,13 +76,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var move = atk.Move;
       var aer = atk.Attacker;
 
-      if (move.PrepareOneTurn() && PrepareOneTurn(atk)) return;
+      if (move.PrepareOneTurn && PrepareOneTurn(atk)) return;
 
-      if (move.Flags.Snatchable)
+      if (move.Snatchable)
         foreach (var pm in atk.Controller.ActingPokemons)
-          if (pm.OnboardPokemon.HasCondition("Snatch"))
+          if (pm.OnboardPokemon.HasCondition(Cs.Snatch))
           {
-            pm.OnboardPokemon.RemoveCondition("Snatch");
+            pm.OnboardPokemon.RemoveCondition(Cs.Snatch);
             pm.ShowLogPm("Snatch", aer.Id);
             var s = new AtkContext(pm) { Move = move };
             InitAtkContext.Execute(s);
@@ -93,11 +93,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             return;
           }
 
-      if (move.Flags.MagicCoat && atk.Targets == null && !atk.HasCondition("IgnoreMagicCoat"))
+      if (move.MagicCoat && atk.Targets == null && !atk.HasCondition(Cs.IgnoreMagicCoat))
         foreach(var p in aer.Controller.GetOnboardPokemons(1 - aer.Pokemon.TeamId))
           if (STs.MagicCoat(atk, p))
           {
-            atk.SetCondition("MagicCoat", new List<PokemonProxy>() { p });
+            atk.SetCondition(Cs.MagicCoat, new List<PokemonProxy>() { p });
             atk.FailAll(null);
             MoveE.MagicCoat(atk);
             return;
@@ -119,12 +119,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         MoveE.MoveEnding(atk);
       }
 
-      if (move.Flags.MagicCoat && atk.Targets != null) MoveE.MagicCoat(atk);
+      if (move.MagicCoat && atk.Targets != null) MoveE.MagicCoat(atk);
     }
 
     private static void Snatch(AtkContext atk)
     {
-      atk.Attacker.OnboardPokemon.SetTurnCondition("Snatch");
+      atk.Attacker.OnboardPokemon.SetTurnCondition(Cs.Snatch);
       atk.Attacker.ShowLogPm("EnSnatch");
       atk.SetAttackerAction(PokemonAction.Done);
     }
@@ -133,25 +133,25 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void Assist(AtkContext atk)
     {
       var aer = atk.Attacker;
-      var moves = new List<MoveType>();
+      var moves = new List<MoveTypeE>();
       foreach (var pm in aer.Field.Pokemons)
         if (pm != aer && pm.Pokemon.Owner == aer.Pokemon.Owner)
           foreach (var m in pm.Moves)
-            if (!ASSIST_BLOCK.Contains(m.Type.Id)) moves.Add(m.Type);
+            if (!ASSIST_BLOCK.Contains(m.MoveE.Id)) moves.Add(m.MoveE);
       for (int i = aer.Controller.GameSettings.Mode.OnboardPokemonsPerPlayer(); i < aer.Pokemon.Owner.Pokemons.Count(); ++i)
         foreach (var m in aer.Pokemon.Owner.GetPokemon(i).Moves)
-          if (!ASSIST_BLOCK.Contains(m.Type.Id)) moves.Add(m.Type);
+          if (!ASSIST_BLOCK.Contains(m.MoveE.Id)) moves.Add(m.MoveE);
       if (moves.Count == 0) atk.FailAll();
       else atk.StartExecute(moves[aer.Controller.GetRandomInt(0, moves.Count - 1)]);
     }
 
     private static void NaturePower(AtkContext atk)
     {
-      MoveType m;
+      MoveTypeE m;
       switch (atk.Controller.GameSettings.Terrain)
       {
         case Terrain.Path:
-          m = RomData.GetMove(Ms.EARTHQUAKE);
+          m = MoveTypeE.Get(Ms.EARTHQUAKE);
           break;
         default:
           atk.Controller.ReportBuilder.ShowLog("error");
@@ -164,19 +164,19 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void SleepTalk(AtkContext atk)
     {
       var aer = atk.Attacker;
-      var moves = new List<MoveType>();
+      var moves = new List<MoveTypeE>();
       foreach (var m in aer.Moves)
-        if (!(m.Type.PrepareOneTurn() || SLEEPTALK_BLOCK.Contains(m.Type.Id))) moves.Add(m.Type);
+        if (!(m.MoveE.PrepareOneTurn || SLEEPTALK_BLOCK.Contains(m.MoveE.Id))) moves.Add(m.MoveE);
       var n = moves.Count;
       if (n == 0) atk.FailAll();
       else atk.StartExecute(moves[aer.Controller.GetRandomInt(0, moves.Count - 1)]);
     }
 
-    private static readonly int[] METRONOME_BLOCK = new int[] { 68, 102, 118, 119, 144, 165, 166, 168, 173, 182, 194, 197, 203, 214, 243, 264, 266, 267, 270, 271, 274, 289, 343, 364, 382, 383, 415, 448, 469, 476, 495, 501, 511, Ms.BESTOW, Ms.TECHNO_BLAST, Ms.RELIC_SONG, Ms.SECRET_SWORD, Ms.FREEZE_SHOCK, Ms.ICE_BURN, Ms.VCREATE, Ms.CELEBRATE, Ms.DIAMOND_STORM, Ms.HAPPY_HOUR, Ms.HOLD_HANDS, Ms.HYPERSPACE_HOLE, Ms.STEAM_ERUPTION, Ms.THOUSAND_ARROWS, Ms.THOUSAND_WAVES };
+    private static readonly int[] METRONOME_BLOCK = new int[] { 68, 102, 118, 119, 144, 165, 166, 168, 173, 182, 194, 197, 203, 214, 243, 264, 266, 267, 270, 271, 274, 289, 343, 364, 382, 383, 415, 448, 469, 476, 495, 501, 511, Ms.BESTOW, Ms.TECHNO_BLAST, Ms.RELIC_SONG, Ms.SECRET_SWORD, Ms.FREEZE_SHOCK, Ms.ICE_BURN, Ms.VCREATE, Ms.CELEBRATE, Ms.DIAMOND_STORM, Ms.HAPPY_HOUR, Ms.HOLD_HANDS, Ms.HYPERSPACE_HOLE, Ms.STEAM_ERUPTION, Ms.THOUSAND_ARROWS, Ms.THOUSAND_WAVES, Ms.LANDS_WRATH, Ms.LIGHT_OF_RUIN, Ms.ORIGIN_PULSE, Ms.PRECIPICE_BLADES, Ms.DRAGON_ASCENT, Ms.HYPERSPACE_FURY };
     private static void Metronome(AtkContext atk)
     {
     LOOP:
-      var m = RomData.GetMove(atk.Controller.GetRandomInt(1, RomData.Moves.Count()));
+      var m = MoveTypeE.Get(atk.Controller.GetRandomInt(1, RomData.MOVES));
       if (METRONOME_BLOCK.Contains(m.Id)) goto LOOP;
       atk.StartExecute(m, null, "Metronome");
     }
@@ -184,7 +184,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static readonly int[] COPYCAT_BLOCK = new int[] { 182, 197, 383, 102, 166, 271, 415, 509, 525, 194, 364, 264, 165 };
     private static void Copycat(AtkContext atk)
     {
-      var o = atk.Controller.Board.GetCondition("LastMove");
+      var o = atk.Controller.Board.GetCondition(Cs.LastMove);
       if (o == null || COPYCAT_BLOCK.Contains(o.Move.Id)) atk.FailAll();
       else atk.StartExecute(o.Move);
     }
@@ -192,11 +192,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void MeFirst(AtkContext atk)
     {
       var der = atk.Target.Defender;
-      var m = der.SelectedMove.Type;
-      if (der.OnboardPokemon.HasCondition("SkyDrop") || m.Id == Ms.STRUGGLE || m.Id == Ms.FOCUS_PUNCH) atk.FailAll();
+      var m = der.SelectedMove.MoveE;
+      if (der.OnboardPokemon.HasCondition(Cs.SkyDrop) || m.Id == Ms.STRUGGLE || m.Id == Ms.FOCUS_PUNCH) atk.FailAll();
       else
       {
-        atk.SetTurnCondition("MeFirst");
+        atk.SetTurnCondition(Cs.MeFirst);
         atk.StartExecute(m, der.Tile);
       }
     }
@@ -204,7 +204,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void MirrorMove(AtkContext atk)
     {
       var last = atk.Target.Defender.AtkContext;
-      if (last != null && last.Move.Flags.Mirrorable) atk.StartExecute(last.Move, atk.Target.Defender.Tile);
+      if (last != null && last.Move.Mirrorable) atk.StartExecute(last.Move, atk.Target.Defender.Tile);
       else atk.FailAll();
     }
 

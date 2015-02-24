@@ -19,7 +19,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       //The value of the modificator is 0xA8F if there is more than one Pokemon per side of the field and 0x800 otherwise.
       //Same as above with Light Screen and special moves.
       Modifier m = (Modifier)(!def.IsCt && (der.Pokemon.TeamId == aer.Pokemon.TeamId || !aer.AbilityE(As.INFILTRATOR)) &&
-        (move.Category == MoveCategory.Physical && der.Field.HasCondition("Reflect") || move.Category == MoveCategory.Special && der.Field.HasCondition("LightScreen")) ?
+        (move.Move.Category == MoveCategory.Physical && der.Field.HasCondition(Cs.Reflect) || move.Move.Category == MoveCategory.Special && der.Field.HasCondition(Cs.LightScreen)) ?
         atk.MultiTargets ? 0xA8F : 0x800 : 0x1000);
 
       {
@@ -34,7 +34,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (def.IsCt && aer.AbilityE(As.SNIPER)) m *= 0x1800;
         //If the target's ability is Solid Rock or Filter and the move was super effective.
         if (def.EffectRevise > 0 && (def.AbilityE(As.FILTER) || def.AbilityE(As.SOLID_ROCK))) m *= 0xC00;
-        if (atk.Hit == 2 && atk.HasCondition("ParentalBond")) m *= 0x800;
+        if (atk.Hit == 2 && atk.HasCondition(Cs.ParentalBond)) m *= 0x800;
       }
 
       switch (aer.Item)
@@ -49,7 +49,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         //If the user is holding the item Metronome. If n is the number of time the current move was used successfully and successively, the value of the modifier is 0x1000+n*0x333 if n≤4 and 0x2000 otherwise.
         case Is.METRONOME:
-          var c = aer.OnboardPokemon.GetCondition("LastMove");
+          var c = aer.OnboardPokemon.GetCondition(Cs.LastMove);
           if (c != null && move == c.Move)
           {
             if (c.Int < 5) m *= (ushort)(0x1000 + c.Int * 0x333);
@@ -66,7 +66,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           atk.Type == AntiBerry(item) && def.EffectRevise > 0
           )
         {
-          def.SetCondition("Antiberry");
+          def.SetCondition(Cs.Antiberry);
           m *= 0x800;
         }
       }
@@ -78,7 +78,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.STEAMROLLER: //537
         case Ms.PHANTOM_FORCE:
         case Ms.FLYING_PRESS:
-          if (der.OnboardPokemon.HasCondition("Minimize")) m *= 0x2000;
+          if (der.OnboardPokemon.HasCondition(Cs.Minimize)) m *= 0x2000;
           break;
         case Ms.SURF:
         case Ms.WHIRLPOOL:

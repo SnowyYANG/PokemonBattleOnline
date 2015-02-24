@@ -34,7 +34,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void WeatherObserver(PokemonProxy pm, int number)
     {
       if (pm.CanChangeForm(number, 0)) pm.ChangeForm(0);
-      pm.OnboardPokemon.RemoveCondition("ObserveWeather");
+      pm.OnboardPokemon.RemoveCondition(Cs.ObserveWeather);
     }
   }
 }

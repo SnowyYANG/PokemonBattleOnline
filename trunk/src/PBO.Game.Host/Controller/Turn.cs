@@ -52,7 +52,7 @@ namespace PokemonBattleOnline.Game.Host
         _tiles[i] = _tiles[j];
         _tiles[j] = temp;
       }
-      _tiles.Sort(Comparer);
+      Array.Sort(_tiles, Comparer);
     }
 
     public void StartGameLoop()
@@ -129,7 +129,7 @@ namespace PokemonBattleOnline.Game.Host
     private void CheckFocusPunch()
     {
       foreach (PokemonProxy p in ActingPokemons)
-        if (p.Action == PokemonAction.MoveAttached && p.SelectedMove.Type.Id == Ms.FOCUS_PUNCH) p.ShowLogPm("EnFocusPunch");
+        if (p.Action == PokemonAction.MoveAttached && p.SelectedMove.MoveE.Id == Ms.FOCUS_PUNCH) p.ShowLogPm("EnFocusPunch");
     }
     private void Mega()
     {

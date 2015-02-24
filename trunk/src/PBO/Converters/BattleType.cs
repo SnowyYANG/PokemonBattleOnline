@@ -18,7 +18,7 @@ namespace PokemonBattleOnline.PBO.Converters
     static readonly SolidColorBrush[] c;
     static BattleTypeBg()
     {
-      c = new SolidColorBrush[RomData.BattleTypes];
+      c = new SolidColorBrush[RomData.BATTLETYPES];
       c[0] = SBrushes.NewBrush(0xffdedecf);//normal
       c[1] = SBrushes.NewBrush(0xffde6a52);//fight
       c[2] = SBrushes.NewBrush(0xff7ebbff);//flying
@@ -50,7 +50,7 @@ namespace PokemonBattleOnline.PBO.Converters
     static readonly SolidColorBrush[] c;
     static BattleTypeBorder()
     {
-      c = new SolidColorBrush[RomData.BattleTypes];
+      c = new SolidColorBrush[RomData.BATTLETYPES];
       c[0] = SBrushes.NewBrush(0x80555553);//normal
       c[1] = SBrushes.NewBrush(0x80562c2d);//fight
       c[2] = SBrushes.NewBrush(0x802a3f7e);//flying
@@ -82,7 +82,7 @@ namespace PokemonBattleOnline.PBO.Converters
     static readonly ImageSource[] c;
     static BattleTypeMoveButton()
     {
-      c = new ImageSource[RomData.BattleTypes + 1];
+      c = new ImageSource[RomData.BATTLETYPES + 1];
       c[1] = Helper.GetImage(@"ControlPanel/Fight/Normal.png");
       c[2] = Helper.GetImage(@"ControlPanel/Fight/Fighting.png");
       c[3] = Helper.GetImage(@"ControlPanel/Fight/Flying.png");

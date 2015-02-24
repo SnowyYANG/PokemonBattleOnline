@@ -26,13 +26,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       var der = def.Defender;
       var aer = def.AtkContext.Attacker;
-      if (o.HasCondition("DestinyBond"))
+      if (o.HasCondition(Cs.DestinyBond))
       {
         aer.ShowLogPm("DestinyBond"); //战报顺序已测
         aer.Faint();
       }
       var mp = def.AtkContext.MoveProxy;
-      if (o.HasCondition("Grudge") && mp != null && mp.PP != 0)
+      if (o.HasCondition(Cs.Grudge) && mp != null && mp.PP != 0)
       {
         mp.PP = 0;
         aer.ShowLogPm("Grudge");
@@ -42,57 +42,57 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     public static void WillAct(PokemonProxy pm)
     {
-      pm.OnboardPokemon.RemoveCondition("DestinyBond");
-      pm.OnboardPokemon.RemoveCondition("Grudge");
-      pm.OnboardPokemon.RemoveCondition("Rage");
-      var i = pm.OnboardPokemon.GetCondition<int>("Taunt");
-      if (i != 0) pm.OnboardPokemon.SetCondition("Taunt", i - 1);
-      var o = pm.OnboardPokemon.GetCondition("Encore");
+      pm.OnboardPokemon.RemoveCondition(Cs.DestinyBond);
+      pm.OnboardPokemon.RemoveCondition(Cs.Grudge);
+      pm.OnboardPokemon.RemoveCondition(Cs.Rage);
+      var i = pm.OnboardPokemon.GetCondition<int>(Cs.Taunt);
+      if (i != 0) pm.OnboardPokemon.SetCondition(Cs.Taunt, i - 1);
+      var o = pm.OnboardPokemon.GetCondition(Cs.Encore);
       if (o != null) o.Turn--;
     }
     public static void SendingOut(PokemonProxy pm)
     {
       pm.Reset();
       var o = pm.OnboardPokemon;
-      if (pm.State == PokemonState.BadlyPSN) o.SetCondition("PSN", pm.Controller.TurnNumber);
-      var pass = pm.Tile.GetCondition<OnboardPokemon>("BatonPass");
+      if (pm.State == PokemonState.BadlyPSN) o.SetCondition(Cs.BadlyPSN, pm.Controller.TurnNumber);
+      var pass = pm.Tile.GetCondition<OnboardPokemon>(Cs.BatonPass);
       if (pass != null)
       {
         o.SetLv7D(pass.Lv5D.Atk, pass.Lv5D.Def, pass.Lv5D.SpAtk, pass.Lv5D.SpDef, pass.Lv5D.Speed, pass.AccuracyLv, pass.EvasionLv);
-        pm.Tile.RemoveCondition("BatonPass");
+        pm.Tile.RemoveCondition(Cs.BatonPass);
         object c;
         //混乱状态 
-        c = pass.GetCondition<object>("Confuse");
-        if (c != null) o.SetCondition("Confuse", c);
+        c = pass.GetCondition<object>(Cs.Confuse);
+        if (c != null) o.SetCondition(Cs.Confuse, c);
         //寄生种子状态 
-        c = pass.GetCondition<object>("LeechSeed");
-        if (c != null) o.SetCondition("LeechSeed", c);
+        c = pass.GetCondition<object>(Cs.LeechSeed);
+        if (c != null) o.SetCondition(Cs.LeechSeed, c);
         //扣押状态
-        c = pass.GetCondition<object>("Embargo");
-        if (c != null) o.SetCondition("Embargo", c);
+        c = pass.GetCondition<object>(Cs.Embargo);
+        if (c != null) o.SetCondition(Cs.Embargo, c);
         //回复封印状态 
-        c = pass.GetCondition<object>("HealBlock");
-        if (c != null) o.SetCondition("HealBlock", c);
+        c = pass.GetCondition<object>(Cs.HealBlock);
+        if (c != null) o.SetCondition(Cs.HealBlock, c);
         //念动力状态
-        c = pass.GetCondition<object>("Telekinesis");
-        if (c != null) o.SetCondition("Telekinesis", c);
+        c = pass.GetCondition<object>(Cs.Telekinesis);
+        if (c != null) o.SetCondition(Cs.Telekinesis, c);
         //胃液状态
-        if (pass.HasCondition("GastroAcid")) o.SetCondition("GastroAcid");
+        if (pass.HasCondition(Cs.GastroAcid)) o.SetCondition(Cs.GastroAcid);
         //扎根状态
-        if (pass.HasCondition("Ingrain")) o.SetCondition("Ingrain");
+        if (pass.HasCondition(Cs.Ingrain)) o.SetCondition(Cs.Ingrain);
         //液态圈状态
-        if (pass.HasCondition("AquaRing")) o.SetCondition("AquaRing");
+        if (pass.HasCondition(Cs.AquaRing)) o.SetCondition(Cs.AquaRing);
         //蓄气状态 
-        if (pass.HasCondition("FocusEnergy")) o.SetCondition("FocusEnergy");
+        if (pass.HasCondition(Cs.FocusEnergy)) o.SetCondition(Cs.FocusEnergy);
         //替身状态
-        c = pass.GetCondition<object>("Substitute");
-        if (c != null) o.SetCondition("Substitute", c);
+        c = pass.GetCondition<object>(Cs.Substitute);
+        if (c != null) o.SetCondition(Cs.Substitute, c);
         //电磁浮游状态
-        c = pass.GetCondition<object>("MagnetRise");
-        if (c != null) o.SetCondition("MagnetRise", c);
+        c = pass.GetCondition<object>(Cs.MagnetRise);
+        if (c != null) o.SetCondition(Cs.MagnetRise, c);
         //灭亡之歌状态
-        c = pass.GetCondition<object>("PerishSong");
-        if (c != null) o.SetCondition("PerishSong", c);
+        c = pass.GetCondition<object>(Cs.PerishSong);
+        if (c != null) o.SetCondition(Cs.PerishSong, c);
       }
       ATs.Illusion(pm);//幻影特性以交换前的队伍顺序决定
     }
@@ -102,11 +102,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       {
         var tile = pm.Tile;
         foreach (var p in pm.Controller.Board[1 - tile.Team].GetPokemons(tile.X - 1, tile.X + 1).ToArray())
-          if (p.SelectedMove != null && p.SelectedMove.Type.Id == Ms.PURSUIT && p.CanMove)
+          if (p.SelectedMove != null && p.SelectedMove.MoveE.Id == Ms.PURSUIT && p.CanMove)
           {
-            p.OnboardPokemon.SetCondition("Pursuiting");
+            p.OnboardPokemon.SetCondition(Cs.Pursuiting);
             p.Move();
-            p.OnboardPokemon.RemoveCondition("Pursuiting");
+            p.OnboardPokemon.RemoveCondition(Cs.Pursuiting);
             if (pm.Hp == 0) return;
           }
       }
@@ -115,25 +115,25 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         {
           var op = p.OnboardPokemon;
           {
-            var o = op.GetCondition("CanAttack");
-            if (o != null && o.By == pm) op.RemoveCondition("CanAttack");
+            var o = op.GetCondition(Cs.CanAttack);
+            if (o != null && o.By == pm) op.RemoveCondition(Cs.CanAttack);
           }
           {
-            if (op.GetCondition<PokemonProxy>("CantSelectWithdraw") == pm) op.RemoveCondition("CantSelectWithdraw");
+            if (op.GetCondition<PokemonProxy>(Cs.CantSelectWithdraw) == pm) op.RemoveCondition(Cs.CantSelectWithdraw);
           }
           {
-            var o = op.GetCondition("HealBlock");
-            if (o != null && o.By == pm) op.RemoveCondition("HealBlock");
+            var o = op.GetCondition(Cs.HealBlock);
+            if (o != null && o.By == pm) op.RemoveCondition(Cs.HealBlock);
           }
           {
-            if (op.GetCondition<PokemonProxy>("Attract") == pm) op.RemoveCondition("Attract");
+            if (op.GetCondition<PokemonProxy>(Cs.Attract) == pm) op.RemoveCondition(Cs.Attract);
           }
           {
-            if (op.GetCondition<PokemonProxy>("Torment") == pm) op.RemoveCondition("Torment");
+            if (op.GetCondition<PokemonProxy>(Cs.Torment) == pm) op.RemoveCondition(Cs.Torment);
           }
           {
-            var o = op.GetCondition("Trap");
-            if (o != null && o.By == pm) op.RemoveCondition("Trap");
+            var o = op.GetCondition(Cs.Trap);
+            if (o != null && o.By == pm) op.RemoveCondition(Cs.Trap);
           }
         }
     }
@@ -145,12 +145,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (ability) pm.RaiseAbility();
       c.ReportBuilder.ShowWeather(c);
       if (!ATs.IgnoreWeather(c)) ATs.WeatherChanged(c);
-      c.Board.SetCondition("Weather", (c.TurnNumber == 0 ? 1 : c.TurnNumber) + (pm.ItemE(weather.Item()) ? 7 : 4));
+      c.Board.SetCondition(Cs.Weather, (c.TurnNumber == 0 ? 1 : c.TurnNumber) + (pm.ItemE(weather.Item()) ? 7 : 4));
       return true;
     }
     public static bool Remaining1HP(PokemonProxy pm, bool ability)
     {
-      if (pm.OnboardPokemon.HasCondition("Endure"))
+      if (pm.OnboardPokemon.HasCondition(Cs.Endure))
       {
         pm.ShowLogPm("Endure");
         return true;
@@ -171,29 +171,29 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     public static bool MagicCoat(AtkContext atk, PokemonProxy der)
     {
       //atk.Move.AdvancedFlags.MagicCoat is already checked
-      if (der.OnboardPokemon.HasCondition("MagicCoat") || atk.DefenderAbilityAvailable() && der.AbilityE(As.MAGIC_BOUNCE))
+      if (der.OnboardPokemon.HasCondition(Cs.MagicCoat) || atk.DefenderAbilityAvailable() && der.AbilityE(As.MAGIC_BOUNCE))
       {
-        var o = atk.GetCondition<List<PokemonProxy>>("MagicCoat");
+        var o = atk.GetCondition<List<PokemonProxy>>(Cs.MagicCoat);
         if (o == null)
         {
           o = new List<PokemonProxy>();
-          atk.SetCondition("MagicCoat", o);
+          atk.SetCondition(Cs.MagicCoat, o);
         }
         o.Add(der);
         return true;
       }
       return false;
     }
-    public static bool CanExecuteMove(PokemonProxy pm, MoveType move)
+    public static bool CanExecuteMove(PokemonProxy pm, MoveTypeE move)
     {
       //重力
-      if (move.UnavailableWithGravity() && pm.Controller.Board.HasCondition("Gravity"))
+      if (move.UnavailableWithGravity && pm.Controller.Board.HasCondition(Cs.Gravity))
       {
         pm.ShowLogPm("GravityCantUseMove", move.Id);
         return false;
       }
       //回复封印
-      if (move.Heal() && pm.OnboardPokemon.HasCondition("HealBlock"))
+      if (move.Heal && pm.OnboardPokemon.HasCondition(Cs.HealBlock))
       {
         pm.ShowLogPm("HealBlockCantUseMove", move.Id);
         return false;
@@ -204,10 +204,10 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       var aer = atk.Attacker;
       int ab = aer.Ability;
-      Modifier m = (Modifier)(ab == As.COMPOUNDEYES ? 0x14cc : ab == As.HUSTLE && atk.Move.Category == MoveCategory.Physical ? 0xccc : 0x1000);
+      Modifier m = (Modifier)(ab == As.COMPOUNDEYES ? 0x14cc : ab == As.HUSTLE && atk.Move.Move.Category == MoveCategory.Physical ? 0xccc : 0x1000);
       foreach (PokemonProxy pm in atk.Controller.GetOnboardPokemons(aer.Pokemon.TeamId))
         if (pm.AbilityE(As.VICTORY_STAR)) m *= 0x1199;
-      if (aer.OnboardPokemon.RemoveCondition("MicleBerry")) m *= 0x1199;
+      if (aer.OnboardPokemon.RemoveCondition(Cs.MicleBerry)) m *= 0x1199;
       if (aer.ItemE(Is.WIDE_LENS)) m *= 0x1199;
       return m;
     }
@@ -227,7 +227,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     public static bool TypeCalculated(AtkContext atk)
     {
       var aer = atk.Attacker;
-      if (atk.Type == BattleType.Fire && aer.OnboardPokemon.HasCondition("Powder"))
+      if (atk.Type == BattleType.Fire && aer.OnboardPokemon.HasCondition(Cs.Powder))
       {
         aer.EffectHurtByOneNth(4, "m_Powder");
         return true;
@@ -244,18 +244,18 @@ namespace PokemonBattleOnline.Game.Host.Triggers
   {
     public static bool IgnoreSubstitute(this AtkContext atk)
     {
-      return atk.Move.IgnoreSubstitute() || atk.Attacker.AbilityE(As.INFILTRATOR);
+      return atk.Move.IgnoreSubstitute|| atk.Attacker.AbilityE(As.INFILTRATOR);
     }
     private static int Generic(DefContext def)
     {
-      int hp = def.Defender.OnboardPokemon.GetCondition<int>("Substitute");
+      int hp = def.Defender.OnboardPokemon.GetCondition<int>(Cs.Substitute);
       def.HitSubstitute = hp > 0;
       return hp;
     }
     private static void Disappear(PokemonProxy pm)
     {
       pm.Controller.ReportBuilder.DeSubstitute(pm);
-      pm.OnboardPokemon.RemoveCondition("Substitute");
+      pm.OnboardPokemon.RemoveCondition(Cs.Substitute);
     }
     public static bool Hurt(DefContext def)
     {
@@ -271,7 +271,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         if (def.IsCt) c.ReportBuilder.ShowLog("CT0");
         if (def.Defender.ItemE(Is.AIR_BALLOON)) ITs.AirBalloon(def);
         if (hp == 0) Disappear(def.Defender);
-        else def.Defender.OnboardPokemon.SetCondition("Substitute", hp);
+        else def.Defender.OnboardPokemon.SetCondition(Cs.Substitute, hp);
         return true;
       }
       return false;
@@ -292,15 +292,15 @@ namespace PokemonBattleOnline.Game.Host.Triggers
   {
     private static List<Condition> GetHazards(Field field)
     {
-      return field.GetCondition<List<Condition>>("Hazards");
+      return field.GetCondition<List<Condition>>(Cs.Hazards);
     }
-    public static bool En(Field field, MoveType move)
+    public static bool En(Field field, MoveTypeE move)
     {
       var hazards = GetHazards(field);
       if (hazards == null)
       {
         hazards = new List<Condition>();
-        field.AddCondition("Hazards", hazards);
+        field.AddCondition(Cs.Hazards, hazards);
       }
       foreach (var eh in hazards)
         if (eh.Move == move) return En(eh);
@@ -334,7 +334,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         hazards.Clear();
       }
     }
-    public static void De(ReportBuilder report, Field field, MoveType move)
+    public static void De(ReportBuilder report, Field field, MoveTypeE move)
     {
       var hazards = GetHazards(field);
       if (hazards != null)

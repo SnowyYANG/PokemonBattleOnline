@@ -18,7 +18,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       switch (def.Defender.Ability)
       {
         case As.WONDER_SKIN:
-          if (atk.Move.Category == MoveCategory.Status) m *= 0x999;
+          if (atk.Move.Move.Category == MoveCategory.Status) m *= 0x999;
           break;
         case As.SAND_VEIL:
           if (aer.Controller.Weather == Weather.Sandstorm) m *= 0xccc;
@@ -27,7 +27,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (aer.Controller.Weather == Weather.Hailstorm) m *= 0xccc;
           break;
         case As.TANGLED_FEET:
-          if (der.OnboardPokemon.HasCondition("Confuse")) m *= 0xccc;
+          if (der.OnboardPokemon.HasCondition(Cs.Confuse)) m *= 0xccc;
           break;
       }
       
@@ -41,7 +41,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
 
       if (aer.ItemE(Is.ZOOM_LENS) && aer.LastMoveTurn == der.LastMoveTurn) m *= 0x1333;
       
-      if (der.Controller.Board.HasCondition("Gravity")) m *= 0x1AAA;//如果场上存在重力，命中×5/3。
+      if (der.Controller.Board.HasCondition(Cs.Gravity)) m *= 0x1AAA;//如果场上存在重力，命中×5/3。
       
       return m;
     }

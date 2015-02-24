@@ -137,7 +137,7 @@ namespace PokemonBattleOnline.PBO.Editor
           QuickText.Text = text;
           return;
         }
-        var n = r.Substring(1).ToInt();
+        var n = int.Parse(r.Substring(1));
         switch (r[0])
         {
           case 'p':

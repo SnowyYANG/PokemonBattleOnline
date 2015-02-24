@@ -44,7 +44,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           Up1Berry(pm, StatType.SpDef);
           break;
         case Is.LANSAT_BERRY: //186
-          if (ATs.Gluttony(pm) && pm.OnboardPokemon.AddCondition("FocusEnergy"))
+          if (ATs.Gluttony(pm) && pm.OnboardPokemon.AddCondition(Cs.FocusEnergy))
           {
             pm.ConsumeItem();
             pm.ShowLogPm("ItemEnFocusEnergy", Is.LANSAT_BERRY);
@@ -54,7 +54,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           StarfBerry(pm);
           break;
         case Is.MICLE_BERRY: //189
-          if (ATs.Gluttony(pm) && pm.OnboardPokemon.AddCondition("MicleBerry"))
+          if (ATs.Gluttony(pm) && pm.OnboardPokemon.AddCondition(Cs.MicleBerry))
           {
             pm.ConsumeItem();
             pm.ShowLogPm("MicleBerry", Is.MICLE_BERRY);

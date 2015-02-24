@@ -29,11 +29,6 @@ namespace PokemonBattleOnline.PBO
         string.Empty
 #endif
         ;
-      using (var pack = new ZipData(r + "res\\rom.zip"))
-      {
-        RomData.Load(pack, "/rom.xml");
-        LearnList.Load(pack, "/learnset");
-      }
       ImageService.Load(r + "res\\image.zip");
       GameString.Load(r + "res\\string", "zh", "en");
       UserData.Load(r + "MyPBO\\user.dat");

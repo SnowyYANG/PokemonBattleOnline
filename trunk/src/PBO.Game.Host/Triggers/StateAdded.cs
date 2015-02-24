@@ -35,7 +35,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           }
           break;
         case Is.PERSIM_BERRY:
-          if (pm.OnboardPokemon.RemoveCondition("Confuse"))
+          if (pm.OnboardPokemon.RemoveCondition(Cs.Confuse))
           {
             pm.ShowLogPm("ItemDeConfuse", Is.PERSIM_BERRY);
             pm.ConsumeItem();
@@ -60,7 +60,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       }
     }
 
-    private static bool MentalHerb(PokemonProxy pm, string condition)
+    private static bool MentalHerb(PokemonProxy pm, Cs condition)
     {
       if (pm.OnboardPokemon.RemoveCondition(condition))
       {
@@ -71,9 +71,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static void MentalHerb(PokemonProxy pm)
     {
-      var a = pm.OnboardPokemon.RemoveCondition("Attract");
+      var a = pm.OnboardPokemon.RemoveCondition(Cs.Attract);
       if (a) pm.ShowLogPm("ItemDeAttract", pm.Pokemon.Item);
-      if (a | MentalHerb(pm, "Encore") | MentalHerb(pm, "Taunt") | MentalHerb(pm, "Torment") | MentalHerb(pm, "Disable")) pm.ConsumeItem();
+      if (a | MentalHerb(pm, Cs.Encore) | MentalHerb(pm, Cs.Taunt) | MentalHerb(pm, Cs.Torment) | MentalHerb(pm, Cs.Disable)) pm.ConsumeItem();
     }
   }
 }

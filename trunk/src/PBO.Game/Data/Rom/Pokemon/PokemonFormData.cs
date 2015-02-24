@@ -2,87 +2,50 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Game
 {
-  [DataContract(Namespace = PBOMarks.PBO)]
-  public class PokemonFormData
-  {
-
-#if EDITING
-    public PokemonFormData()
+    public class PokemonFormData
     {
+        internal PokemonFormData(BattleType t1, BattleType t2, int a1, int a2, int a3, ReadOnly6D d6, float height, float weight)
+        {
+            _type1 = t1;
+            _type2 = t2;
+            if (a1 == a2) a2 = 0;
+            _abilities = new int[3] { a1, a2, a3 };
+            _base = d6;
+            _height = height;
+            _weight = weight;
+        }
+
+        private readonly BattleType _type1;
+        internal BattleType Type1
+        { get { return _type1; } }
+
+        private readonly BattleType _type2;
+        internal BattleType Type2
+        { get { return _type2; } }
+
+        private readonly int[] _abilities;
+        public int[] Abilities
+        { get { return _abilities; } }
+
+        private readonly ReadOnly6D _base;
+        public I6D Base
+        { get { return _base; } }
+
+        private readonly float _height;
+        public float Height
+        { get { return _height; } }
+
+        private readonly float _weight;
+        public float Weight
+        { get { return _weight; } }
+
+        public int GetAbility(int index)
+        {
+            var ab = _abilities.ValueOrDefault(index);
+            return ab == 0 ? _abilities[0] : ab;
+        }
     }
-#else
-    private PokemonFormData()
-    {
-    }
-#endif
-
-    [DataMember(Name = "T1", Order = 0)]
-#if EDITING
-    public
-#else
-    private readonly
-#endif
-    BattleType _type1;
-    internal BattleType Type1
-    { get { return _type1; } }
-    [DataMember(Name = "T2", Order = 1, EmitDefaultValue = false)]
-#if EDITING
-    public
-#else
-    private readonly
-#endif
-    BattleType _type2;
-    internal BattleType Type2
-    { get { return _type2; } }
-
-    [DataMember(Name = "A", Order = 2)]
-    private readonly int[] abilities;
-    public int[] Abilities
-    {
-      get
-      {
-        if (abilities[0] == abilities[1]) abilities[1] = 0;
-        return abilities;
-      }
-    }
-
-    [DataMember(Name = "Base", Order = 3)]
-#if DEBUG
-    public
-#else
-    private readonly
-#endif
-     ReadOnly6D _base;
-    public I6D Base
-    { get { return _base; } }
-
-    [DataMember(Name = "H", Order = 4)]
-#if DEBUG
-    public
-#else
-    private readonly
-#endif
-      float _height;
-    public float Height
-    { get { return _height; } }
-    [DataMember(Name = "W", Order = 5)]
-#if DEBUG
-    public
-#else
-    private readonly
-#endif
-      float _weight;
-    public float Weight
-    { get { return _weight; } }
-
-    public int GetAbility(int index)
-    {
-      var ab = abilities.ValueOrDefault(index);
-      return ab == 0 ? abilities[0] : ab;
-    }
-  }
 }

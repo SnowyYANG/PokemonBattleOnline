@@ -25,7 +25,7 @@ namespace PokemonBattleOnline.Game.Host
           if (showFail) ShowLogPm(pm, "FullHp");
           return false;
         }
-        if (pm.OnboardPokemon.HasCondition("HealBlock"))
+        if (pm.OnboardPokemon.HasCondition(Cs.HealBlock))
         {
           ShowLogPm(pm, "HealBlock");
           return false;
@@ -36,7 +36,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static bool CanChangeForm(this PokemonProxy pm, int number)
     {
-      return pm.Pokemon.Form.Species.Number == number && !pm.OnboardPokemon.HasCondition("Transform");
+      return pm.Pokemon.Form.Species.Number == number && !pm.OnboardPokemon.HasCondition(Cs.Transform);
     }
     public static bool CanChangeForm(this PokemonProxy pm, int number, int form)
     {
@@ -63,34 +63,11 @@ namespace PokemonBattleOnline.Game.Host
         pm.Pokemon.State = PokemonState.Normal;
       }
     }
-    public static int CanChangeLv7D(this PokemonProxy pm, PokemonProxy by, StatType stat, int change, bool showFail)
-    {
-      if (!pm.AliveOnboard || change == 0) return 0;
-      change = Lv7DChanging.Execute(pm, by, stat, change, showFail);
-      if (change != 0)
-      {
-        int oldValue = stat == StatType.Accuracy ? pm.OnboardPokemon.AccuracyLv : stat == StatType.Evasion ? pm.OnboardPokemon.EvasionLv : pm.OnboardPokemon.Lv5D.GetStat(stat);
-        if (oldValue == 6 && change > 0)
-        {
-          if (showFail) ShowLogPm(pm, "7DMax", (int)stat);
-          return 0;
-        }
-        else if (oldValue == -6 && change < 0)
-        {
-          if (showFail) ShowLogPm(pm, "7DMin", (int)stat);
-          return 0;
-        }
-        int value = oldValue + change;
-        if (value > 6) change = 6 - oldValue;
-        else if (value < -6) change = -6 - oldValue;
-      }
-      return change;
-    }
     public static bool CheckFaint(this PokemonProxy pm)
     {
       if (pm.Hp == 0 && pm.OnboardPokemon != pm.NullOnboardPokemon)
       {
-        pm.Field.SetCondition("FaintTurn", pm.Controller.TurnNumber);
+        pm.Field.SetCondition(Cs.FaintTurn, pm.Controller.TurnNumber);
         pm.Pokemon.State = PokemonState.Faint;
         pm.Controller.Withdraw(pm, "Faint", 0, false);
         return true;
@@ -99,12 +76,12 @@ namespace PokemonBattleOnline.Game.Host
     }
     public static void ConsumeItem(this PokemonProxy pm, bool cheekPouch = true)
     {
-      pm.OnboardPokemon.SetTurnCondition("UsedItem", pm.Pokemon.Item);
-      pm.Field.SetCondition("UsedItem" + pm.Id, pm.Pokemon.Item);
+      pm.OnboardPokemon.SetTurnCondition(Cs.UsedItem, pm.Pokemon.Item);
+      pm.Pokemon.UsedItem = pm.Pokemon.Item;
       if (ITs.Berry(pm.Pokemon.Item))
       {
-        pm.OnboardPokemon.SetCondition("Belch");
-        pm.Field.SetCondition("UsedBerry" + pm.Id, pm.Pokemon.Item);
+        pm.OnboardPokemon.SetCondition(Cs.Belch);
+        pm.Pokemon.UsedBerry = pm.Pokemon.Item;
         if (CanHpRecover(pm) && ATs.RaiseAbility(pm, As.CHEEK_POUCH)) HpRecoverByOneNth(pm, 3);
       }
       RemoveItem(pm);
@@ -115,13 +92,13 @@ namespace PokemonBattleOnline.Game.Host
     public static void RemoveItem(this PokemonProxy pm)
     {
       pm.Pokemon.Item = 0;
-      if (pm.AbilityE(As.UNBURDEN)) pm.OnboardPokemon.SetCondition("Unburden");
+      if (pm.AbilityE(As.UNBURDEN)) pm.OnboardPokemon.SetCondition(Cs.Unburden);
     }
     public static void SetItem(this PokemonProxy pm, int item)
     {
       pm.Pokemon.Item = item;
-      pm.OnboardPokemon.RemoveCondition("Unburden");
-      pm.OnboardPokemon.RemoveCondition("ChoiceItem");
+      pm.OnboardPokemon.RemoveCondition(Cs.Unburden);
+      pm.OnboardPokemon.RemoveCondition(Cs.ChoiceItem);
     }
     public static void ChangeAbility(this PokemonProxy pm, int ab)
     {
@@ -136,9 +113,9 @@ namespace PokemonBattleOnline.Game.Host
       pm.ItemSpeedValue = 0;
       if (pm.Action != PokemonAction.WillSwitch)
       {
-        var m = pm.SelectedMove.Type;
+        var m = pm.SelectedMove.MoveE;
         pm.Priority = m.Priority;
-        if (m.Category == MoveCategory.Status && pm.AbilityE(As.PRANKSTER) || m.Type == BattleType.Flying && pm.AbilityE(As.GALE_WINGS)) pm.Priority++;
+        if (m.Move.Category == MoveCategory.Status && pm.AbilityE(As.PRANKSTER) || m.Move.Type == BattleType.Flying && pm.AbilityE(As.GALE_WINGS)) pm.Priority++;
         switch (pm.Item)
         {
           case Is.LAGGING_TAIL:

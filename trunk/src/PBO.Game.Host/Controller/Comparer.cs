@@ -50,7 +50,7 @@ namespace PokemonBattleOnline.Game.Host
     private int CompareSpeed(int a, int b)
     {
       const int N = 1813; //如果一方的实际速度能力值≥N，则速度快的一方先行动。（1806＜N≤1812）
-      if (a < N && b < N && board.HasCondition("TrickRoom")) return a - b;
+      if (a < N && b < N && board.HasCondition(Cs.TrickRoom)) return a - b;
       else return b - a;
     }
   }

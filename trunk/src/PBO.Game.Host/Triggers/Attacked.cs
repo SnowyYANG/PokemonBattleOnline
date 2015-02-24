@@ -13,7 +13,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var der = def.Defender;
       var atk = def.AtkContext;
       var aer = atk.Attacker;
-      var touch = atk.Move.Flags.NeedTouch;
+      var touch = atk.Move.NeedTouch;
       var realHurt = def.Damage != 0;
 
       if (touch && aer.AbilityE(As.POISON_TOUCH) && der.Controller.RandomHappen(30) && der.CanAddState(aer, AttachedState.PSN, false))
@@ -21,9 +21,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         aer.RaiseAbility();
         der.AddState(aer, AttachedState.PSN, false);
       }
-      if (der.AtkContext != null && der.AtkContext.HasCondition("Bide"))
+      if (der.AtkContext != null && der.AtkContext.HasCondition(Cs.Bide))
       {
-        var o = der.AtkContext.GetCondition("Bide");
+        var o = der.AtkContext.GetCondition(Cs.Bide);
         o.By = aer;
         o.Damage += def.Damage;
       }
@@ -68,11 +68,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (atk.Controller.RandomHappen(30) && aer.CanAddState(der, AttachedState.Disable, false))
           {
             der.RaiseAbility();
-            aer.AddState(der, AttachedState.Disable, false, 4);
+            aer.AddState(der, AttachedState.Disable, false);
           }
           break;
         case As.WEAK_ARMOR:
-          if (atk.Move.Category == MoveCategory.Physical) der.ChangeLv7D(der, false, true, 0, -1, 0, 0, 1);
+          if (atk.Move.Move.Category == MoveCategory.Physical) der.ChangeLv7D(der, false, true, 0, -1, 0, 0, 1);
           break;
         case As.MUMMY:
           var aa = aer.Ability;
@@ -150,7 +150,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           AttackedUpItem(def, MoveCategory.Special, StatType.SpDef);
           break;
       }
-      if (der.OnboardPokemon.HasCondition("Rage")) der.ChangeLv7D(der, StatType.Atk, 1, false, false, "Rage");
+      if (der.OnboardPokemon.HasCondition(Cs.Rage)) der.ChangeLv7D(der, StatType.Atk, 1, false, false, "Rage");
       if (aer.Pokemon.Item == 0 && ITs.CanLostItem(der) && aer.RaiseAbility(As.MAGICIAN))
       {
         var i = der.Pokemon.Item;
@@ -206,7 +206,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void ReHurtBerry(DefContext def, MoveCategory category)
     {
       var aer = def.AtkContext.Attacker;
-      if (def.AtkContext.Move.Category == category && aer.CanEffectHurt)
+      if (def.AtkContext.Move.Move.Category == category && aer.CanEffectHurt)
       {
         int hp = aer.Pokemon.MaxHp >> 3;
         if (hp == 0) hp = 1;
@@ -221,7 +221,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static void AttackedUpItem(DefContext def, MoveCategory cat, StatType stat)
     {
-      if (def.AtkContext.Move.Category == cat) ITs.ChangeLv5D(def.Defender, stat, 1);
+      if (def.AtkContext.Move.Move.Category == cat) ITs.ChangeLv5D(def.Defender, stat, 1);
     }
   }
 }

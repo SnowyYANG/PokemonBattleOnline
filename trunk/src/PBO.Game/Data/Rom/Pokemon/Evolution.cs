@@ -7,19 +7,9 @@ using System.Runtime.Serialization;
 namespace PokemonBattleOnline.Game
 {
   [DataContract(Namespace = PBOMarks.PBO)]
-#if EDITING
-  public
-#else
-  internal sealed
-#endif
-   class Evolution
+  public class Evolution
   {
-#if EDITING
-    public
-#else
-    private
-#endif
-      Evolution(int from, int to)
+    internal Evolution(int from, int to)
     {
       _from = (short)from;
       _to = (short)to;

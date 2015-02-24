@@ -57,45 +57,9 @@ namespace PokemonBattleOnline
             return SubArray(array, offset, array.Length - offset);
         }
 
-        /// <summary>
-        /// returns -1 if not found
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="array"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static int IndexOf<T>(this T[] array, T value)
-        {
-            return Array.FindIndex(array, t => t.Equals(value));
-            //for (int i = 0; i < array.Length; ++i)
-            //    if (array[i].Equals(value)) return i;
-            //return -1;
-        }
-
-        public static int IndexOf<T>(this T[] array, Predicate<T> match)
-        {
-            return Array.FindIndex(array, match);
-            //for (int i = 0; i < array.Length; ++i)
-            //    if (array[i].Equals(value)) return i;
-            //return -1;
-        }
-
-        public static void Sort<T>(this T[] array, IComparer<T> comparer)
-        {
-            Array.Sort(array, comparer);
-        }
-
         public static bool ArrayEquals<T>(this T[] a, T[] b)
         {
             return (b != null && a.Length == b.Length && a.SequenceEqual(b));
-        }
-
-        public static bool ArrayEquals(this Array x, Array y)
-        {
-            if (y == null || x.Length != y.Length) return false;
-            for (int i = 0; i < x.Length; ++i)
-                if (!x.GetValue(i).Equals(y.GetValue(i))) return false;
-            return true;
         }
 
         public static void Append(this StringBuilder sb, params object[] args)
@@ -112,42 +76,22 @@ namespace PokemonBattleOnline
         public static Type[] SubClasses(this Type type)
         {
             var types = type.Assembly.GetTypes();
-
+            var stypes = new List<Type>(types.Length);
             if (type.IsInterface)
             {
-                return types.Where(t => t.GetInterfaces().Contains(type)).ToArray();
+                foreach (var t in types)
+                    if (t.GetInterfaces().Contains(type)) stypes.Add(t);
             }
             else
-            {
-                return types.Where(t => t.IsSubclassOf(type)).ToArray();
-            }
-        }
-
-        /// <summary>
-        /// return 0 if any error occurs
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        public static int ToInt(this string s, int def = 0)
-        {
-            int i;
-            return int.TryParse(s, out i) ? i : def;
+                foreach (var t in types)
+                    if (t.IsSubclassOf(type)) stypes.Add(t);
+            return stypes.ToArray();
         }
 
         public static string LineBreak(this string s)
         {
-            return s + Environment.NewLine;
-        }
-
-        public static void ForEach<T>(this IEnumerable<T> array, Action<T> action)
-        {
-            if (action != null)
-            {
-                foreach (T item in array)
-                {
-                    action(item);
-                }
-            }
+            //used only within WPF and .txt file in Windows, do not use Environment.NewLine
+            return s + "\r\n";
         }
     }
 }

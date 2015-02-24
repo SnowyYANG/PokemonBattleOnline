@@ -61,10 +61,10 @@ namespace PokemonBattleOnline.Game.Host
     private AtkContext _atkContext;
     public AtkContext AtkContext
     { get { return _atkContext; } }
-    public MoveType LastMove
-    { get { return AtkContext == null ? null : AtkContext.MoveProxy == null ? null : AtkContext.MoveProxy.Type; } }
+    public MoveTypeE LastMove
+    { get { return AtkContext == null ? null : AtkContext.MoveProxy == null ? null : AtkContext.MoveProxy.MoveE; } }
     private bool NoAbilityE
-    { get { return !AliveOnboard || OnboardPokemon.HasCondition("GastroAcid"); } }
+    { get { return !AliveOnboard || OnboardPokemon.HasCondition(Cs.GastroAcid); } }
     public int Ability
     { get { return NoAbilityE ? 0 : OnboardPokemon.Ability; } }
     public bool AbilityE(int ability)
@@ -120,20 +120,20 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (target == null) return false;
       var to = target.OnboardPokemon;
-      return !(OnboardPokemon.HasCondition("Transform") || to.HasCondition("Illusion") || to.HasCondition("Transform") || to.HasCondition("Substitute"));
+      return !(OnboardPokemon.HasCondition(Cs.Transform) || to.HasCondition(Cs.Illusion) || to.HasCondition(Cs.Transform) || to.HasCondition(Cs.Substitute));
     }
     public void Transform(PokemonProxy target)
     {
-      OnboardPokemon.SetCondition("Transform");
+      OnboardPokemon.SetCondition(Cs.Transform);
       OnboardPokemon.Transform(target.OnboardPokemon);
       _moves.Clear();
-      foreach (var m in target._moves) _moves.Add(new MoveProxy(m.Type, this));
+      foreach (var m in target._moves) _moves.Add(new MoveProxy(m.MoveE, this));
       Controller.ReportBuilder.Transform(this);
     }
-    public void ChangeMove(MoveType from, MoveType to)
+    public void ChangeMove(MoveTypeE from, MoveTypeE to)
     {
       for (int i = 0; i < _moves.Count; ++i)
-        if (_moves[i].Type == from)
+        if (_moves[i].MoveE == from)
         {
           _moves[i] = new MoveProxy(to, this);
           break;
@@ -162,7 +162,7 @@ namespace PokemonBattleOnline.Game.Host
     }
     internal void BuildAtkContext(MoveProxy move)
     {
-      if (move.Type.Id == Ms.STRUGGLE) _atkContext = new AtkContext(this);
+      if (move.MoveE.Id == Ms.STRUGGLE) _atkContext = new AtkContext(this);
       else _atkContext = new AtkContext(move);
     }
     #region Input
@@ -171,7 +171,7 @@ namespace PokemonBattleOnline.Game.Host
       get
       {
         if (OnboardPokemon.HasType(BattleType.Ghost) || ItemE(Is.SHED_SHELL)) return true;
-        if (OnboardPokemon.HasCondition("Trap") || OnboardPokemon.HasCondition("Ingrain") || OnboardPokemon.HasCondition("CantSelectWithdraw") || Controller.Board.GetCondition<int>("FairyLock", -1) == Controller.TurnNumber) return false;
+        if (OnboardPokemon.HasCondition(Cs.Trap) || OnboardPokemon.HasCondition(Cs.Ingrain) || OnboardPokemon.HasCondition(Cs.CantSelectWithdraw) || Controller.Board.GetCondition<int>(Cs.FairyLock, -1) == Controller.TurnNumber) return false;
         bool arenaTrap = false, magnetPull = false, shadowTag = false;
         foreach (var pm in Controller.GetOnboardPokemons(1 - Pokemon.TeamId))
         {
@@ -196,30 +196,30 @@ namespace PokemonBattleOnline.Game.Host
     { get { return Action == PokemonAction.WaitingForInput; } }
     internal bool CheckNeedInput()
     {
-      if (Action == PokemonAction.Done || State == PokemonState.SLP && Action == PokemonAction.Moving && AtkContext.Move.SkipSleepMTA())
+      if (Action == PokemonAction.Done || State == PokemonState.SLP && Action == PokemonAction.Moving && AtkContext.Move.SkipSleepMTA)
       {
         {
-          var o = OnboardPokemon.GetCondition("Encore");
+          var o = OnboardPokemon.GetCondition(Cs.Encore);
           if (o != null)
           {
             foreach(var m in Moves)
-              if (m.Type == o.Move)
+              if (m.MoveE == o.Move)
               {
                 if (m.PP == 0) break;
                 else goto DONE1;
               }
-            OnboardPokemon.RemoveCondition("Encore");
+            OnboardPokemon.RemoveCondition(Cs.Encore);
           }
         }
       DONE1:
         if (ITs.ChoiceItem(Item))
         {
-          var o = OnboardPokemon.GetCondition<MoveType>("ChoiceItem");
+          var o = OnboardPokemon.GetCondition<MoveTypeE>(Cs.ChoiceItem);
           if (o != null)
           {
             foreach (var m in Moves)
-              if (m.Type == o) goto DONE2;
-            OnboardPokemon.RemoveCondition("ChoiceItem");
+              if (m.MoveE == o) goto DONE2;
+            OnboardPokemon.RemoveCondition(Cs.ChoiceItem);
           }
         }
       DONE2:
@@ -264,7 +264,7 @@ namespace PokemonBattleOnline.Game.Host
       if (Action == PokemonAction.Debuting)
       {
         Tile.Debut();
-        if (!(OnboardPokemon.HasCondition("Substitute") || AbilityE(As.OVERCOAT))) EHTs.Debut(this);
+        if (!(OnboardPokemon.HasCondition(Cs.Substitute) || AbilityE(As.OVERCOAT))) EHTs.Debut(this);
         if (!PTs.CheckFaint(this))
         {
           if (OnboardPokemon.Ability != As.FLOWER_GIFT && OnboardPokemon.Ability != As.FORECAST) AbilityAttach.Execute(this);
@@ -309,22 +309,22 @@ namespace PokemonBattleOnline.Game.Host
           break;
         case PokemonAction.MoveAttached:
           {
-            var o = OnboardPokemon.GetCondition("Encore");
+            var o = OnboardPokemon.GetCondition(Cs.Encore);
             if (o != null)
               foreach (var m in Moves)
-                if (m.Type == o.Move) SelectedMove = m;
+                if (m.MoveE == o.Move) SelectedMove = m;
           }
           ATs.StanceChange(this);
           if (CanExecute() && SelectedMove.CanExecute())
           {
             _atkContext = null;
             SelectedMove.Execute();
-            var o = OnboardPokemon.GetCondition("LastMove");
+            var o = OnboardPokemon.GetCondition(Cs.LastMove);
             if (o == null)
             {
               o = new Condition();
               o.Move = AtkContext.Move;
-              OnboardPokemon.SetCondition("LastMove", o);
+              OnboardPokemon.SetCondition(Cs.LastMove, o);
             }
             else if (o.Move != AtkContext.Move)
             {
@@ -333,11 +333,11 @@ namespace PokemonBattleOnline.Game.Host
             }
             if (AtkContext.Fail) o.Int = 0;
             else o.Int++;
-            Controller.Board.SetCondition("LastMove", o);
+            Controller.Board.SetCondition(Cs.LastMove, o);
           }
           else
           {
-            OnboardPokemon.RemoveCondition("LastMove");
+            OnboardPokemon.RemoveCondition(Cs.LastMove);
             Action = PokemonAction.Done;
           }
           break;
@@ -350,7 +350,7 @@ namespace PokemonBattleOnline.Game.Host
     internal PokemonOutward GetOutward()
     {
       var outward = new PokemonOutward(Id, Pokemon.TeamId, Pokemon.MaxHp);
-      Pokemon o = OnboardPokemon.GetCondition<Pokemon>("Illusion");
+      Pokemon o = OnboardPokemon.GetCondition<Pokemon>(Cs.Illusion);
       var form = o == null ? OnboardPokemon.Form : o.Form;
       if (o == null) o = Pokemon;
       var name = o.Name;
@@ -358,7 +358,7 @@ namespace PokemonBattleOnline.Game.Host
       var lv = Pokemon.Lv;
       var shiny = o.Shiny;
       var position = new Position(Pokemon.TeamId, OnboardPokemon.X, OnboardPokemon.CoordY);
-      var substitute = OnboardPokemon.HasCondition("Substitute");
+      var substitute = OnboardPokemon.HasCondition(Cs.Substitute);
       var hp = Pokemon.Hp;
       var state = State;
       var mega = Pokemon.Mega;

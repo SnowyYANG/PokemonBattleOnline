@@ -49,7 +49,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.SHADOW_FORCE: //467
         case Ms.PHANTOM_FORCE:
-          if (def.Defender.OnboardPokemon.RemoveCondition("Protect")) def.Defender.ShowLogPm("DeProtect");
+          if (def.Defender.OnboardPokemon.RemoveCondition(Cs.Protect)) def.Defender.ShowLogPm("DeProtect");
           break;
         case Ms.CLEAR_SMOG: //499
           der.OnboardPokemon.SetLv7D(0, 0, 0, 0, 0, 0, 0);
@@ -60,7 +60,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           {
             if (move.Class == MoveClass.AttackWithTargetLv7DChange) der.ChangeLv7D(def);
             else if (move.Class == MoveClass.AttackWithState) der.AddState(def);
-            if (!def.AbilityE(As.INNER_FOCUS) && (move.FlinchProbability != 0 && def.RandomHappen(move.FlinchProbability) || ATs.Stench(def) || ITs.CanAttackFlinch(def))) der.OnboardPokemon.SetTurnCondition("Flinch");
+            if (!def.AbilityE(As.INNER_FOCUS) && (move.FlinchProbability != 0 && def.RandomHappen(move.FlinchProbability) || ATs.Stench(def) || ITs.CanAttackFlinch(def))) der.OnboardPokemon.SetTurnCondition(Cs.Flinch);
           }
           break;
       }
@@ -85,7 +85,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void Thief(DefContext def)
     {
       var aer = def.AtkContext.Attacker;
-      if (def.AtkContext.HasCondition("Thief") && ITs.CanLostItem(def.Defender))
+      if (def.AtkContext.HasCondition(Cs.Thief) && ITs.CanLostItem(def.Defender))
       {
         var i = def.Defender.Pokemon.Item;
         def.Defender.RemoveItem();
@@ -110,7 +110,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (ITs.CanLostItem(def.Defender))
       {
         var i = def.Defender.Pokemon.Item;
-        if (ITs.Berry(i)) def.SetCondition("EatenBerry", i);
+        if (ITs.Berry(i)) def.SetCondition(Cs.EatenBerry, i);
       }
     }
 

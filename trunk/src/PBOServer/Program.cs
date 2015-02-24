@@ -32,7 +32,7 @@ namespace PokemonBattleOnline.PBO.Server
         using (var pack = new ZipData(r + "res\\rom.zip"))
         {
           RomData.Load(pack, "/rom.xml");
-          LearnList.Load(pack, "/learnset");
+          Learnset.Load(pack, "/learnset");
         }
         Console.WriteLine("OK!");
 

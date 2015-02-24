@@ -20,11 +20,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case Ms.BIDE: //117
           MultiTurn(atk, 3);
-          atk.SetCondition("Bide", new Condition());
+          atk.SetCondition(Cs.Bide, new Condition());
           break;
         case Ms.THIEF: //168
         case Ms.COVET: //343
-          if (aer.Pokemon.Item == 0) atk.SetCondition("Thief");
+          if (aer.Pokemon.Item == 0) atk.SetCondition(Cs.Thief);
           break;
         case Ms.ROLLOUT: //205
         case Ms.ICE_BALL:
@@ -33,14 +33,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         case Ms.PRESENT: //217
           {
             var random = atk.Controller.GetRandomInt(0, 99);
-            atk.SetCondition("Present", random < 20 ? 0 : random < 60 ? 40 : random < 90 ? 80 : 100);
+            atk.SetCondition(Cs.Present, random < 20 ? 0 : random < 60 ? 40 : random < 90 ? 80 : 100);
           }
           break;
         case Ms.MAGNITUDE: //222
           Magnitude(atk);
           break;
         case Ms.PURSUIT: //228
-          if (aer.OnboardPokemon.HasCondition("Pursuiting")) atk.IgnoreSwitchItem = true;
+          if (aer.OnboardPokemon.HasCondition(Cs.Pursuiting)) atk.IgnoreSwitchItem = true;
           break;
         case Ms.UPROAR: //253
           MultiTurn(atk, 3);
@@ -52,19 +52,19 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var random = atk.Controller.GetRandomInt(0, 99);
       if (random >= 95)
       {
-        atk.SetCondition("Magnitude", 7);
+        atk.SetCondition(Cs.Magnitude, 7);
         atk.Controller.ReportBuilder.ShowLog("Magnitude", 10);
       }
       else
       {
         var a = random < 5 ? 0 : random < 16 ? 1 : random < 35 ? 2 : random < 65 ? 3 : random < 85 ? 4 : 5;
-        atk.SetCondition("Magnitude", a);
+        atk.SetCondition(Cs.Magnitude, a);
         atk.Controller.ReportBuilder.ShowLog("Magnitude", 4 + a);
       }
     }
     private static void MultiTurn(AtkContext atk, int turn, bool isRandom = false)
     {
-      atk.SetCondition("MultiTurn", new Condition() { Turn = turn, Bool = isRandom });
+      atk.SetCondition(Cs.MultiTurn, new Condition() { Turn = turn, Bool = isRandom });
     }
   }
 }

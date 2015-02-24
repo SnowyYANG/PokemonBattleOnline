@@ -12,14 +12,14 @@ namespace PokemonBattleOnline.Game.Host
   {
     public static void MagicCoat(AtkContext atk)
     {
-      var list = atk.GetCondition<List<PokemonProxy>>("MagicCoat");
+      var list = atk.GetCondition<List<PokemonProxy>>(Cs.MagicCoat);
       if (list != null)
       {
-        atk.RemoveCondition("MagicCoat");
+        atk.RemoveCondition(Cs.MagicCoat);
         foreach (var d in list)
         {
           var a = new AtkContext(d);
-          a.SetCondition("IgnoreMagicCoat");
+          a.SetCondition(Cs.IgnoreMagicCoat);
           a.StartExecute(atk.Move, atk.Attacker.Tile, d.RaiseAbility(As.MAGIC_BOUNCE) ? "MagicBounce" : "MagicCoat");
           if (atk.Target == null) break;
         }
@@ -31,7 +31,7 @@ namespace PokemonBattleOnline.Game.Host
       var aer = atk.Attacker;
       IEnumerable<Tile> targets = null;
       Board b = aer.Controller.Board;
-      bool remote = atk.Move.Flags.IsRemote;
+      bool remote = atk.Move.IsRemote;
       int team = aer.Pokemon.TeamId;
       int rTeam = 1 - team;
       int x = aer.OnboardPokemon.X;
@@ -125,7 +125,7 @@ namespace PokemonBattleOnline.Game.Host
         pm.ShowLogPm("SuctionCups");
         return false;
       }
-      if (pm.OnboardPokemon.HasCondition("Ingrain"))
+      if (pm.OnboardPokemon.HasCondition(Cs.Ingrain))
       {
         pm.ShowLogPm("IngrainCantMove");
         return false;
@@ -149,18 +149,18 @@ namespace PokemonBattleOnline.Game.Host
       switch (atk.Move.Id)
       {
         case Ms.COUNTER: //68
-          Counter(atk, "PhysicalDamage");
+          Counter(atk, Cs.PhysicalDamage);
           break;
         case Ms.MIRROR_COAT: //243
-          Counter(atk, "SpecialDamage");
+          Counter(atk, Cs.SpecialDamage);
           break;
         case Ms.METAL_BURST: //368
-          Counter(atk, "Damage");
+          Counter(atk, Cs.Damage);
           break;
         case Ms.BIDE:
-          if (atk.GetCondition("MultiTurn").Turn == 1)
+          if (atk.GetCondition(Cs.MultiTurn).Turn == 1)
           {
-            var o = atk.GetCondition("Bide");
+            var o = atk.GetCondition(Cs.Bide);
             var targets = new List<DefContext>();
             if (o.By != null)
             {
@@ -172,7 +172,7 @@ namespace PokemonBattleOnline.Game.Host
           }
           break;
         default:
-          IEnumerable<Tile> ts = GetRangeTiles(atk, MTs.GetRange(atk.Attacker, atk.Move), select);
+          IEnumerable<Tile> ts = GetRangeTiles(atk, atk.Move.GetRange(atk.Attacker), select);
           if (ts != null)
           {
             var targets = new List<DefContext>();
@@ -183,7 +183,7 @@ namespace PokemonBattleOnline.Game.Host
           break;
       }
     }
-    private static void Counter(AtkContext atk, string condition)
+    private static void Counter(AtkContext atk, Cs condition)
     {
       var o = atk.Attacker.OnboardPokemon.GetCondition(condition);
       if (o != null)
@@ -201,7 +201,7 @@ namespace PokemonBattleOnline.Game.Host
     #region CalculateTargets
     public static void FilterDefContext(AtkContext atk)
     {
-      if ((atk.Move.Id == Ms.FUTURE_SIGHT || atk.Move.Id == Ms.DOOM_DESIRE) && !atk.HasCondition("FSDD")) return;
+      if ((atk.Move.Id == Ms.FUTURE_SIGHT || atk.Move.Id == Ms.DOOM_DESIRE) && !atk.HasCondition(Cs.FSDD)) return;
       if (atk.Targets == null) return;
       ATs.ReTarget(atk);
       List<DefContext> targets = atk.Targets.ToList();
@@ -232,24 +232,24 @@ namespace PokemonBattleOnline.Game.Host
         }
       #endregion
       #region WideGuard QuickGuard CraftyShield MatBlock
-      if (move.Category != MoveCategory.Status && move.Range != MoveRange.Single)
+      if (move.Move.Category != MoveCategory.Status && move.Move.Range != MoveRange.Single)
         foreach (var def in targets.ToArray())
-          if (def.Defender.Field.HasCondition("WideGuard"))
+          if (def.Defender.Field.HasCondition(Cs.WideGuard))
           {
             def.Defender.ShowLogPm("WideGuard");
             targets.Remove(def);
           }
       if (aer.Priority > 0 && move.Id != Ms.FEINT)
         foreach (var def in targets.ToArray())
-          if (def.Defender.Field.HasCondition("QuickGuard"))
+          if (def.Defender.Field.HasCondition(Cs.QuickGuard))
           {
             def.Defender.ShowLogPm("QuickGuard");
             targets.Remove(def);
           }
-      if (move.Category == MoveCategory.Status)
+      if (move.Move.Category == MoveCategory.Status)
       {
         foreach (var def in targets.ToArray())
-          if (def.Defender.Field.HasCondition("CraftyShield"))
+          if (def.Defender.Field.HasCondition(Cs.CraftyShield))
           {
             def.Defender.ShowLogPm("CraftyShield");
             targets.Remove(def);
@@ -258,56 +258,56 @@ namespace PokemonBattleOnline.Game.Host
       else
       {
         var d0 = targets.FirstOrDefault();
-        if (d0 != null && d0.Defender.Field.HasCondition("MatBlock"))
+        if (d0 != null && d0.Defender.Field.HasCondition(Cs.MatBlock))
         {
           d0.Defender.Controller.ReportBuilder.ShowLog("MatBlock", move.Id);
           var td = d0.Defender.Pokemon.TeamId;
           foreach (var d in targets.ToArray())
             if (d.Defender.Pokemon.TeamId == td) targets.Remove(d);
           d0 = targets.FirstOrDefault();
-          if (d0 != null && d0.Defender.Field.HasCondition("MatBlock")) targets.Clear();
+          if (d0 != null && d0.Defender.Field.HasCondition(Cs.MatBlock)) targets.Clear();
         }
       }
       #endregion
       #region Protect KingsShield SpikyShield
-      if (move.Flags.Protectable)
+      if (move.Protectable)
       {
         foreach (DefContext d in targets.ToArray())
-          if (d.Defender.OnboardPokemon.HasCondition("Protect"))
+          if (d.Defender.OnboardPokemon.HasCondition(Cs.Protect))
           {
             d.Defender.ShowLogPm("Protect");
             targets.Remove(d);
           }
       }
-      if (move.Category != MoveCategory.Status)
+      if (move.Move.Category != MoveCategory.Status)
       {
         foreach(var d in targets.ToArray())
-          if (d.Defender.OnboardPokemon.HasCondition("SpikyShield"))
+          if (d.Defender.OnboardPokemon.HasCondition(Cs.SpikyShield))
           {
             d.Defender.ShowLogPm("Protect");
-            if (move.Flags.NeedTouch) aer.EffectHurtByOneNth(8);
+            if (move.NeedTouch) aer.EffectHurtByOneNth(8);
             targets.Remove(d);
           }
         foreach(var d in targets.ToArray())
-          if (d.Defender.OnboardPokemon.HasCondition("KingsShield"))
+          if (d.Defender.OnboardPokemon.HasCondition(Cs.KingsShield))
           {
             d.Defender.ShowLogPm("Protect");
-            if (move.Flags.NeedTouch) aer.ChangeLv7D(d.Defender, StatType.Atk, -2, false);
+            if (move.NeedTouch) aer.ChangeLv7D(d.Defender, StatType.Atk, -2, false);
             targets.Remove(d);
           }
       }
       #endregion
       #region Check for Telepathy (and possibly other abilities)
       {
-        var mc = move.Flags.MagicCoat && !atk.HasCondition("IgnoreMagicCoat");
+        var mc = move.MagicCoat && !atk.HasCondition(Cs.IgnoreMagicCoat);
         var ab = atk.DefenderAbilityAvailable();
         foreach (DefContext def in targets.ToArray())
           if (def.Defender != atk.Attacker && (mc && STs.MagicCoat(atk, def.Defender) || ab && !CanImplement.Execute(def))) targets.Remove(def);
       }
       #endregion
-      if (move.Category == MoveCategory.Status && !atk.IgnoreSubstitute())
+      if (move.Move.Category == MoveCategory.Status && !atk.IgnoreSubstitute())
         foreach (DefContext d in targets.ToArray())
-          if (d.Defender != aer && d.Defender.OnboardPokemon.HasCondition("Substitute"))
+          if (d.Defender != aer && d.Defender.OnboardPokemon.HasCondition(Cs.Substitute))
           {
             d.Fail();
             targets.Remove(d);
@@ -342,7 +342,7 @@ namespace PokemonBattleOnline.Game.Host
       Controller c = atk.Controller;
       var move = atk.Move;
       int acc;
-      if (move.Class == MoveClass.OHKO) acc = move.Accuracy + atk.Attacker.Pokemon.Lv - def.Defender.Pokemon.Lv;
+      if (move.Class == MoveClass.OHKO) acc = move.Move.Accuracy + atk.Attacker.Pokemon.Lv - def.Defender.Pokemon.Lv;
       else
       {
         int lv;
@@ -351,7 +351,7 @@ namespace PokemonBattleOnline.Game.Host
         //如果攻击方是天然特性，防御方的回避等级按0计算。 
         //循序渐进无视防御方回避等级。
         //将攻击方的命中等级减去防御方的回避等级。 
-        if (!move.IgnoreDefenderLv7D())
+        if (!move.IgnoreDefenderLv7D)
         {
           var aa = atk.Attacker.Ability;
           if (aa == As.UNAWARE || aa == As.KEEN_EYE) lv -= def.Defender.OnboardPokemon.EvasionLv;
@@ -362,7 +362,7 @@ namespace PokemonBattleOnline.Game.Host
         int numerator = 3, denominator = 3;
         if (lv > 0) numerator += lv;
         else denominator -= lv;
-        acc = (c.Weather == Weather.IntenseSunlight && (move.Id == Ms.THUNDER || move.Id == Ms.HURRICANE) ? 50 : atk.Move.Accuracy) * numerator / denominator;
+        acc = (c.Weather == Weather.IntenseSunlight && (move.Id == Ms.THUNDER || move.Id == Ms.HURRICANE) ? 50 : atk.Move.Move.Accuracy) * numerator / denominator;
         acc *= AccuracyModifier.Execute(def);
       }
       //产生1～100的随机数，如果小于等于命中，判定为命中，否则判定为失误。
@@ -372,7 +372,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       var m = atk.Move.Id;
       return
-        atk.Move.Accuracy == 0
+        atk.Move.Move.Accuracy == 0
         || atk.Attacker.AbilityE(As.NO_GUARD)
         || (m == Ms.THUNDER || m == Ms.HURRICANE) && atk.Controller.Weather == Weather.HeavyRain
         || m == Ms.BLIZZARD && atk.Controller.Weather == Weather.Hailstorm
@@ -383,7 +383,7 @@ namespace PokemonBattleOnline.Game.Host
       var m = def.AtkContext.Move.Id;
       return
         def.NoGuard
-        || (m == Ms.STOMP || m == Ms.DRAGON_RUSH || m == Ms.STEAMROLLER || m == Ms.PHANTOM_FORCE || m == Ms.FLYING_PRESS) && def.Defender.OnboardPokemon.HasCondition("Minimize");
+        || (m == Ms.STOMP || m == Ms.DRAGON_RUSH || m == Ms.STEAMROLLER || m == Ms.PHANTOM_FORCE || m == Ms.FLYING_PRESS) && def.Defender.OnboardPokemon.HasCondition(Cs.Minimize);
     }
     #endregion
 
@@ -393,15 +393,15 @@ namespace PokemonBattleOnline.Game.Host
 
       if (atk.Move.Id == Ms.SPIT_UP || atk.Move.Id == Ms.SWALLOW)
       {
-        int i = aer.OnboardPokemon.GetCondition<int>("Stockpile");
+        int i = aer.OnboardPokemon.GetCondition<int>(Cs.Stockpile);
         aer.ChangeLv7D(atk.Attacker, false, false, 0, -i, 0, -i);
-        aer.OnboardPokemon.RemoveCondition("Stockpile");
+        aer.OnboardPokemon.RemoveCondition(Cs.Stockpile);
         aer.ShowLogPm("DeStockpile");
       }
 
       MagicCoat(atk);
 
-      atk.SetAttackerAction(atk.Move.StiffOneTurn() ? PokemonAction.Stiff : PokemonAction.Done);
+      atk.SetAttackerAction(atk.Move.StiffOneTurn ? PokemonAction.Stiff : PokemonAction.Done);
       if (atk.Targets != null)
         foreach (var d in atk.Targets)
         {
@@ -412,7 +412,7 @@ namespace PokemonBattleOnline.Game.Host
 
       var c = aer.Controller;
       {
-        var o = atk.GetCondition("MultiTurn");
+        var o = atk.GetCondition(Cs.MultiTurn);
         if (o != null)
         {
           o.Turn--;
@@ -421,7 +421,7 @@ namespace PokemonBattleOnline.Game.Host
         }
       }
       {
-        var o = atk.GetCondition<Tile>("EjectButton");
+        var o = atk.GetCondition<Tile>(Cs.EjectButton);
         if (o != null)
         {
           c.PauseForSendOutInput(o);
@@ -430,7 +430,7 @@ namespace PokemonBattleOnline.Game.Host
       }
       {
         var tile = aer.Tile;
-        if (atk.Move.Switch() && tile != null)
+        if (atk.Move.Switch && tile != null)
         {
           c.Withdraw(aer, "SelfWithdraw", 0, true);
           c.PauseForSendOutInput(tile);
