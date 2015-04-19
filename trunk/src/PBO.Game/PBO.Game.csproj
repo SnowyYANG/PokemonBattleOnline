@@ -157,10 +157,7 @@
     <EmbeddedResource Include="dat\Learnset\Tutor_XD.txt" />
     <EmbeddedResource Include="dat\Learnset\Tutor_XY.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\Rom\Learnset\" />
-    <Folder Include="Data\Rom\Move\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="dat\Learnset\Egg_ORAS.txt" />
     <EmbeddedResource Include="dat\Learnset\Event_G3.txt" />
