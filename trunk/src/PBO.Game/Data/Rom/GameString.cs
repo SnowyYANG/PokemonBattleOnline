@@ -153,6 +153,7 @@ namespace PokemonBattleOnline.Game
 
     private string[] Pokemons;
     private Dictionary<int, string> Forms;
+    private Dictionary<int, string> PokemonForms;
     private string[] Moves;
     private string[] Abilities;
     private Dictionary<int, string> Items;
@@ -174,6 +175,7 @@ namespace PokemonBattleOnline.Game
       Language = language;
       Pokemons = new string[RomData.POKEMONS];
       Forms = new Dictionary<int, string>();
+      PokemonForms = new Dictionary<int, string>();
       Moves = new string[RomData.Moves.Count()];
       Abilities = new string[RomData.ABILITIES];
       Items = new Dictionary<int, string>(RomData.Items.Count());
@@ -195,12 +197,12 @@ namespace PokemonBattleOnline.Game
                   Pokemons[num - 1] = str;
                   num *= 100;
                 }
-                else
-                {
-                  Forms[num] = str;
-                  str = string.Format(str, Pokemons[num / 100 - 1]);
-                }
+                else PokemonForms[num] = str;
                 Redirections.Add(new KeyValuePair<string, string>(str, "p" + num));
+                break;
+              case 'f':
+                Forms[num] = str;
+                Redirections.Add(new KeyValuePair<string, string>(str, "f" + num));
                 break;
               case 'm':
                 Moves[num - 1] = str;
@@ -265,13 +267,14 @@ namespace PokemonBattleOnline.Game
     }
     public string Pokemon(int number, int form)
     {
+      if (form == 0) return Pokemon(number);
       var i = number * 100 + form;
-      return string.Format(Forms.ValueOrDefault(i) ?? InnerBackup.Forms.ValueOrDefault(i) ?? Pokemon(number), Pokemon(number));
+      return PokemonForms.ValueOrDefault(i) ?? InnerBackup.PokemonForms.ValueOrDefault(i) ?? Pokemon(number);
     }
-    public string PokemonForm(int number, int form)
+    public string Form(int number, int form)
     {
       var i = number * 100 + form;
-      return string.Format(Forms.ValueOrDefault(i) ?? InnerBackup.Forms.ValueOrDefault(i) ?? Pokemon(number), string.Empty).Trim();
+      return Forms.ValueOrDefault(i) ?? InnerBackup.Forms.ValueOrDefault(i);
     }
     public string Move(int move)
     {

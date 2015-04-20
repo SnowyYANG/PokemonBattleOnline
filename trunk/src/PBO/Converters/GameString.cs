@@ -35,7 +35,7 @@ namespace PokemonBattleOnline.PBO.Converters
     public static readonly PokemonFormShortString C = new PokemonFormShortString();
     protected override object Convert(PokemonForm value)
     {
-      return GameString.Current.PokemonForm(value.Species.Number, value.Index);
+      return GameString.Current.Form(value.Species.Number, value.Index);
     }
   }
   class MoveString : Converter<int>
