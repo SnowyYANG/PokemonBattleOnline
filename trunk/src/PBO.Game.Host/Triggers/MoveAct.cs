@@ -643,7 +643,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             {
                 if (atk.Target.Defender.OnboardPokemon.AddCondition(Cs.Curse))
                 {
-                    aer.ShowLogPm("m_EnCurse", atk.Target.Defender.Id);
+                    aer.ShowLogPm(LogKeys.EnCurse, atk.Target.Defender.Id);
                     aer.Hp -= (aer.Pokemon.MaxHp >> 1);
                     aer.CheckFaint();
                 }
@@ -717,7 +717,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             if (aer.OnboardPokemon.Lv5D.Atk != 6 && aer.Hp > aer.Pokemon.MaxHp >> 1)
             {
                 aer.OnboardPokemon.ChangeLv7D(StatType.Atk, 12);
-                aer.ShowLogPm("m_BellyDrum");
+                aer.ShowLogPm(LogKeys.BellyDrum);
                 aer.Hp -= (aer.Pokemon.MaxHp >> 1);
             }
             else atk.FailAll();
@@ -943,7 +943,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             if (aer.Hp == aer.Pokemon.MaxHp) atk.FailAll();
             else if (PTs.CanAddXXX(aer, aer, true, AttachedState.SLP, true))
             {
-                aer.ShowLogPm("m_Rest");
+                aer.ShowLogPm(LogKeys.Rest);
                 aer.Hp = aer.Pokemon.MaxHp;
                 aer.Pokemon.State = PokemonState.SLP;
                 aer.Pokemon.SLPTurn = 3;
@@ -972,6 +972,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             aer.Pokemon.Hp = hp;
             der.Pokemon.Hp = hp;
             atk.Controller.ReportBuilder.ShowLog("PainSplit", aer.Id, der.Id);
+            atk.Controller.ReportBuilder.ShowLog(LogKeys.painSplit, hp);
         }
         private static void HealBell(AtkContext atk, string log)
         {
@@ -1037,8 +1038,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                 aer.Controller.ReportBuilder.ShowLog("SkillSwap");
                 if (aer.Pokemon.TeamId != der.Pokemon.TeamId)
                 {
-                    aer.ShowLogPm("skillswap", d);
-                    der.ShowLogPm("skillswap", a);
+                    aer.ShowLogPm("skillSwap", d);
+                    der.ShowLogPm("skillSwap", a);
                 }
                 AbilityDetach.Execute(aer);
                 AbilityDetach.Execute(der);
@@ -1055,8 +1056,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             else
             {
                 atk.Target.Defender.ChangeAbility(ability);
-                atk.Target.Defender.ShowLogPm("m_SetAbility", ability);
-                atk.Controller.ReportBuilder.ShowLog("setability", fa);
+                atk.Target.Defender.ShowLogPm(LogKeys.SetAbility, ability);
+                atk.Controller.ReportBuilder.ShowLog(LogKeys.setAbility, fa);
             }
         }
         private static void RolePlay(AtkContext atk)
@@ -1073,8 +1074,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             else
             {
                 atk.Attacker.ChangeAbility(d);
-                atk.Attacker.ShowLogPm("m_SetAbility", d);
-                atk.Controller.ReportBuilder.ShowLog("setability", a);
+                atk.Attacker.ShowLogPm(LogKeys.SetAbility, d);
+                atk.Controller.ReportBuilder.ShowLog(LogKeys.setAbility, a);
             }
         }
         private static void Entrainment(AtkContext atk)
@@ -1091,8 +1092,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             else
             {
                 atk.Target.Defender.ChangeAbility(a);
-                atk.Target.Defender.ShowLogPm("m_SetAbility", a);
-                atk.Controller.ReportBuilder.ShowLog("setability", d);
+                atk.Target.Defender.ShowLogPm(LogKeys.SetAbility, a);
+                atk.Controller.ReportBuilder.ShowLog(LogKeys.setAbility, d);
             }
         }
         private static void Conversion2(AtkContext atk)

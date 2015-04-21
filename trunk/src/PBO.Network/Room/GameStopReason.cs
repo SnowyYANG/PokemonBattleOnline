@@ -8,15 +8,15 @@ using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Network
 {
-  public enum GameStopReason
-  {
-    PlayerGiveUp,
-    PlayerDisconnect,
-    InvalidInput,
-    /// <summary>
-    /// only client check, no server job
-    /// </summary>
-    GameEnd,
-    Error
-  }
+    public enum GameStopReason
+    {
+        PlayerStop,
+        PlayerDisconnect,
+        InvalidInput,
+        /// <summary>
+        /// only client check, no server job
+        /// </summary>
+        GameEnd,
+        Error
+    }
 }

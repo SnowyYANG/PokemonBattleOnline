@@ -39,8 +39,8 @@ namespace PokemonBattleOnline.Game.GameEvents
       var pm = GetPokemon(Pm);
       var h = Hp - pm.Hp.Value;
       pm.Hp.Value = Hp;
-      AppendGameLog(h > 0 ? "+hp" : "-hp", LogStyle.Detail | LogStyle.NoBr | LogStyle.HiddenInBattle, h);
-      AppendGameLog("br");
+      AppendGameLog(h > 0 ? LogKeys.php : LogKeys.nhp, LogStyle.Detail | LogStyle.NoBr | LogStyle.HiddenInBattle, h);
+      AppendGameLog(LogKeys.br);
       Sleep = 17 * Math.Abs(h) + 500;
     }
     public override void Update(SimGame game)

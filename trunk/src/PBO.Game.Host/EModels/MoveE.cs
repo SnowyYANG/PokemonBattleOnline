@@ -138,7 +138,7 @@ namespace PokemonBattleOnline.Game.Host
           if (c.CanSendOut(pms[i])) sendouts.Add(i);
       }
       var tile = pm.Tile;
-      c.Withdraw(pm, "forcewithdraw", 0, false);
+      c.Withdraw(pm, LogKeys.forceWithdraw, 0, false);
       tile.WillSendOutPokemonIndex = sendouts[c.GetRandomInt(0, sendouts.Count - 1)];
       c.SendOut(tile, true, "ForceSendOut");
       return true;

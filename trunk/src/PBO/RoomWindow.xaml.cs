@@ -16,196 +16,211 @@ using PokemonBattleOnline.Network;
 
 namespace PokemonBattleOnline.PBO
 {
-  /// <summary>
-  /// Interaction logic for BattleWindow.xaml
-  /// </summary>
-  public partial class RoomWindow : Window
-  {
-    #region static
-    private static RoomWindow Current;
-    
-    public static void Init()
+    /// <summary>
+    /// Interaction logic for BattleWindow.xaml
+    /// </summary>
+    public partial class RoomWindow : Window
     {
-      RoomController.Quited += RoomController_Quited;
-      RoomController.GameStop += (r, p) => Current.OnGameStop(r, p);
-      RoomController.RoomChat += RoomController_RoomChat;
-      RoomController.TimeReminder += RoomController_TimeReminder;
-      RoomController.TimeUp += (st) => Current.OnTimeUp(st);
-      RoomController.Entered += RoomController_Entered;
-      RoomController.GameInited += RoomController_GameInited;
-      PBOClient.CurrentChanged += PBOClient_CurrentChanged;
-      Current = new RoomWindow() { Visibility = Visibility.Collapsed };
-    }
+        #region static
+        private static RoomWindow Current;
 
-    static void PBOClient_CurrentChanged()
-    {
-      if (PBOClient.Current == null) Current.Reset(null);
-    }
-
-    static void RoomController_GameInited()
-    {
-      Current.OnGameInited();
-    }
-
-    static void RoomController_Entered()
-    {
-      Current.Reset(PBOClient.Current.Room);
-    }
-
-    static void RoomController_TimeReminder(User[] users)
-    {
-      var br = Current.br;
-      switch (users.Length)
-      {
-        case 1: //双打三打pm复数
-          br.AddLogText(string.Format("等待{0}给精灵下达命令。\r\n", users[0].Name));
-          break;
-        case 2:
-          br.AddLogText(string.Format("等待{0}和{1}给精灵下达命令。\r\n", users[0].Name, users[1].Name));
-          break;
-        case 3:
-          br.AddLogText(string.Format("等待{0}、{1}和{2}给精灵下达命令。\r\n", users[0].Name, users[1].Name, users[2].Name));
-          break;
-      }
-    }
-    static void RoomController_RoomChat(string arg1, User arg2)
-    {
-      var br = Current.br;
-      br.AddChatText(arg1, arg2);
-    }
-    static void RoomController_Quited()
-    {
-      Current.Reset(null);
-    }
-
-    public static bool Window_Closing(Window mainWindow)
-    {
-      if (PBOClient.Current != null && PBOClient.Current.User.Room != null)
-      {
-        ShowMessageBox.CantCloseMainWindow(mainWindow);
-        return true;
-      }
-      return false;
-    }
-    #endregion
-
-    private RoomController Room;
-
-    public RoomWindow()
-    {
-      Current = this;
-      InitializeComponent();
-      //nds.ReviewPokemon += (p) => pmReview.Content = p;
-      Teams.ItemsSource = Editor.EditorVM.Current.BattleTeams;
-      Chat.Speak += Chat_Speak;
-    }
-
-    private void Chat_Speak(string chat)
-    {
-      Room.Chat(chat);
-    }
-    private void Start_Click(object sender, RoutedEventArgs e)
-    {
-      var team = Teams.SelectedItem as Editor.TeamVM;
-      if (team != null && team.Model.Pokemons[0] != null)
-      {
-        var pt = team.Model.Pokemons.Where((p) => p != null).ToArray();
-        Room.GamePrepare(pt);
-        PrepareTeam.DataContext = pt;
-        Teams.Visibility = System.Windows.Visibility.Collapsed;
-        Start.Content = "等待其他玩家开始对战...";
-        Start.IsEnabled = false;
-      }
-    }
-
-    private void Reset(RoomController room)
-    {
-      if (room != null)
-      {
-        Prepare.DataContext = Current.Room = room;
-        PX1.Height = new GridLength(room.Room.Settings.Mode == GameMode.Tag ? 32 : 0);
-        Visibility = Visibility.Visible;
-        Teams.Visibility = Visibility.Visible;
-        Prepare.Visibility = Visibility.Visible;
-        Start.IsEnabled = true;
-        Start.Content = "使用所选队伍开始对战！";
-        Title = "对战房间";
-      }
-      else
-      {
-        Current.Visibility = Visibility.Collapsed;
-        nds.Reset();
-        br.Reset();
-        Prepare.DataContext = null;
-        Room = null;
-      }
-    }
-
-    private void OnGameInited()
-    {
-      StringBuilder t0 = new StringBuilder();
-      StringBuilder t1 = new StringBuilder();
-      foreach (var p in Room.Room.Players)
-        if (p.Seat.TeamId() == 0)
+        public static void Init()
         {
-          t0.Append(p.Name);
-          t0.Append(' ');
+            RoomController.Quited += RoomController_Quited;
+            RoomController.GameStop += (r, p) => Current.OnGameStop(r, p);
+            RoomController.RoomChat += RoomController_RoomChat;
+            RoomController.TimeReminder += RoomController_TimeReminder;
+            RoomController.TimeUp += (st) => Current.OnTimeUp(st);
+            RoomController.Entered += RoomController_Entered;
+            RoomController.GameInited += RoomController_GameInited;
+            PBOClient.CurrentChanged += PBOClient_CurrentChanged;
+            Current = new RoomWindow() { Visibility = Visibility.Collapsed };
         }
-        else
+
+        static void PBOClient_CurrentChanged()
         {
-          t1.Append(' ');
-          t1.Append(p.Name);
+            if (PBOClient.Current == null) Current.Reset(null);
         }
-      t0.Append("VS");
-      t0.Append(t1);
-      var title = t0.ToString();
-      Title = title;
 
-      nds.Init(Room);
-      br.Reset();
-      br.Init(Room.Game);
-      Room.Game.GameStart += () =>
+        static void RoomController_GameInited()
         {
-          br.FontSize = 14;
-          Prepare.Visibility = Visibility.Collapsed;
-        };
-    }
+            Current.OnGameInited();
+        }
 
-    private void OnTimeUp(IEnumerable<KeyValuePair<User, int>> spentTime)
-    {
-      var br = Current.br;
-      br.AddLogText("Time Up\r\n");
-      foreach (var pair in spentTime)
-        br.AddUserText(string.Format("{0}使用了{1}秒", pair.Key.Name, pair.Value), pair.Key);
-      OnGameStop();
-    }
-    private void OnGameStop(GameStopReason reason, User player)
-    {
-      if (reason != GameStopReason.GameEnd)
-      {
-        br.FontSize = 12;
-        if (reason == GameStopReason.Error) br.AddLogText("游戏逻辑发生了错误，请将战报与队伍发送给反馈人员，谢谢。");
-        else br.AddLogText(string.Format(GameString.Current.BattleLog("SYS_" + reason.ToString()).LineBreak(), player.Name));
-      }
-      OnGameStop();
-    }
-    private void OnGameStop()
-    {
-      if (Room.User.Seat != Seat.Spectator) br.Save(Title, Room.Client.User.Name);
-      PrepareTeam.DataContext = null;
-      Teams.Visibility = Visibility.Visible;
-      Prepare.Visibility = Visibility.Visible;
-      Start.IsEnabled = true;
-      Start.Content = "使用所选队伍开始对战！";
-      Title = "对战房间";
-      nds.Reset();
-    }
+        static void RoomController_Entered()
+        {
+            Current.Reset(PBOClient.Current.Room);
+        }
 
-    protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
-    {
-      base.OnClosing(e);
-      e.Cancel = true;
-      if (Room != null && (!Room.Room.Battling || ShowMessageBox.ClosingInBattle(this) == MessageBoxResult.Yes)) Room.Quit();
+        static void RoomController_TimeReminder(User[] users)
+        {
+            var br = Current.br;
+            switch (users.Length)
+            {
+                case 1: //双打三打pm复数
+                    br.AddLogText(string.Format("等待{0}给精灵下达命令。\r\n", users[0].Name));
+                    break;
+                case 2:
+                    br.AddLogText(string.Format("等待{0}和{1}给精灵下达命令。\r\n", users[0].Name, users[1].Name));
+                    break;
+                case 3:
+                    br.AddLogText(string.Format("等待{0}、{1}和{2}给精灵下达命令。\r\n", users[0].Name, users[1].Name, users[2].Name));
+                    break;
+            }
+        }
+        static void RoomController_RoomChat(string arg1, User arg2)
+        {
+            var br = Current.br;
+            br.AddChatText(arg1, arg2);
+        }
+        static void RoomController_Quited()
+        {
+            Current.Reset(null);
+        }
+
+        public static bool Window_Closing(Window mainWindow)
+        {
+            if (PBOClient.Current != null && PBOClient.Current.User.Room != null)
+            {
+                ShowMessageBox.CantCloseMainWindow(mainWindow);
+                return true;
+            }
+            return false;
+        }
+        #endregion
+
+        private RoomController Room;
+
+        public RoomWindow()
+        {
+            Current = this;
+            InitializeComponent();
+            //nds.ReviewPokemon += (p) => pmReview.Content = p;
+            Teams.ItemsSource = Editor.EditorVM.Current.BattleTeams;
+            Chat.Speak += Chat_Speak;
+        }
+
+        private void Chat_Speak(string chat)
+        {
+            Room.Chat(chat);
+        }
+        private void Start_Click(object sender, RoutedEventArgs e)
+        {
+            var team = Teams.SelectedItem as Editor.TeamVM;
+            if (team != null && team.Model.Pokemons[0] != null)
+            {
+                var pt = team.Model.Pokemons.Where((p) => p != null).ToArray();
+                Room.GamePrepare(pt);
+                PrepareTeam.DataContext = pt;
+                Teams.Visibility = System.Windows.Visibility.Collapsed;
+                Start.Content = "等待其他玩家开始对战...";
+                Start.IsEnabled = false;
+            }
+        }
+
+        private void Reset(RoomController room)
+        {
+            if (room != null)
+            {
+                Prepare.DataContext = Current.Room = room;
+                PX1.Height = new GridLength(room.Room.Settings.Mode == GameMode.Tag ? 32 : 0);
+                Visibility = Visibility.Visible;
+                Teams.Visibility = Visibility.Visible;
+                Prepare.Visibility = Visibility.Visible;
+                Start.IsEnabled = true;
+                Start.Content = "使用所选队伍开始对战！";
+                Title = "对战房间";
+            }
+            else
+            {
+                Current.Visibility = Visibility.Collapsed;
+                nds.Reset();
+                br.Reset();
+                Prepare.DataContext = null;
+                Room = null;
+            }
+        }
+
+        private void OnGameInited()
+        {
+            StringBuilder t0 = new StringBuilder();
+            StringBuilder t1 = new StringBuilder();
+            foreach (var p in Room.Room.Players)
+                if (p.Seat.TeamId() == 0)
+                {
+                    t0.Append(p.Name);
+                    t0.Append(' ');
+                }
+                else
+                {
+                    t1.Append(' ');
+                    t1.Append(p.Name);
+                }
+            t0.Append("VS");
+            t0.Append(t1);
+            var title = t0.ToString();
+            Title = title;
+
+            nds.Init(Room);
+            br.Reset();
+            br.Init(Room.Game);
+            Room.Game.GameStart += () =>
+              {
+                  br.FontSize = 14;
+                  Prepare.Visibility = Visibility.Collapsed;
+              };
+        }
+
+        private void OnTimeUp(IEnumerable<KeyValuePair<User, int>> spentTime)
+        {
+            var br = Current.br;
+            br.AddLogText("Time Up\r\n");
+            foreach (var pair in spentTime)
+                br.AddUserText(string.Format("{0}使用了{1}秒", pair.Key.Name, pair.Value), pair.Key);
+            OnGameStop();
+        }
+        private void OnGameStop(GameStopReason reason, User player)
+        {
+            if (reason != GameStopReason.GameEnd)
+            {
+                br.FontSize = 12;
+                string key;
+                switch (reason)
+                {
+                    case GameStopReason.PlayerStop:
+                        key = LogKeys.PLAYER_STOP;
+                        break;
+                    case GameStopReason.PlayerDisconnect:
+                        key = LogKeys.PLAYER_DISCONNECT;
+                        break;
+                    case GameStopReason.InvalidInput:
+                        key = LogKeys.INVALID_INPUT;
+                        break;
+                    default: //Error
+                        key = LogKeys.ERROR;
+                        break;
+                }
+                br.AddLogText(string.Format(GameString.Current.BattleLog(key).LineBreak(), player == null ? null : player.Name));
+            }
+            OnGameStop();
+        }
+        private void OnGameStop()
+        {
+            if (Room.User.Seat != Seat.Spectator) br.Save(Title, Room.Client.User.Name);
+            PrepareTeam.DataContext = null;
+            Teams.Visibility = Visibility.Visible;
+            Prepare.Visibility = Visibility.Visible;
+            Start.IsEnabled = true;
+            Start.Content = "使用所选队伍开始对战！";
+            Title = "对战房间";
+            nds.Reset();
+        }
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            e.Cancel = true;
+            if (Room != null && (!Room.Room.Battling || ShowMessageBox.ClosingInBattle(this) == MessageBoxResult.Yes)) Room.Quit();
+        }
     }
-  }
 }

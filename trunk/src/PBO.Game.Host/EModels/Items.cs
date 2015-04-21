@@ -193,7 +193,7 @@ namespace PokemonBattleOnline.Game.Host
             }
           break;
         case Is.ORAN_BERRY:
-          pm.HpRecover(10, false, "m_ItemHpRecover", Is.ORAN_BERRY);
+          pm.HpRecover(10, false, LogKeys.ItemHpRecover, Is.ORAN_BERRY);
           break;
         case Is.PERSIM_BERRY:
           if (op.RemoveCondition(Cs.Confuse)) pm.ShowLogPm("DeConfuse");
@@ -202,14 +202,14 @@ namespace PokemonBattleOnline.Game.Host
           if (pm.State != PokemonState.Normal) pm.DeAbnormalState();
           break;
         case Is.SITRUS_BERRY:
-          pm.HpRecoverByOneNth(3, false, "m_ItemHpRecover", Is.SITRUS_BERRY);
+          pm.HpRecoverByOneNth(3, false, LogKeys.ItemHpRecover, Is.SITRUS_BERRY);
           break;
         case Is.FIGY_BERRY:
         case Is.WIKI_BERRY:
         case Is.MAGO_BERRY:
         case Is.AGUAV_BERRY:
         case Is.IAPAPA_BERRY:
-          pm.HpRecoverByOneNth(8, false, "m_ItemRecover", id);
+          pm.HpRecoverByOneNth(8, false, LogKeys.ItemHpRecover, id);
           if (pm.Pokemon.Nature.DislikeTaste(GetTaste(id))) pm.AddState(pm, AttachedState.Confuse, false);
           break;
         case Is.LIECHI_BERRY:
@@ -314,9 +314,9 @@ namespace PokemonBattleOnline.Game.Host
       if (aer.ItemE(Is.SHELL_BELL))
       {
         if (atk.TotalDamage != 0)
-          aer.HpRecoverByOneNth(atk.TotalDamage >> 3, false, "m_ItemRecover", Is.SHELL_BELL);
+          aer.HpRecoverByOneNth(atk.TotalDamage >> 3, false, LogKeys.ItemHpRecover, Is.SHELL_BELL);
       }
-      else if (aer.ItemE(Is.LIFE_ORB) && aer.EffectHurtByOneNth(10, "m_LifeOrb")) aer.CheckFaint();
+      else if (aer.ItemE(Is.LIFE_ORB) && aer.EffectHurtByOneNth(10, LogKeys.LifeOrb)) aer.CheckFaint();
     }
     public static bool CanAttackFlinch(DefContext def)
     {

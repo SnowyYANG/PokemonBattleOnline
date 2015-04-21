@@ -47,7 +47,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                             if (types.Contains(BattleType.Rock) || types.Contains(BattleType.Steel) || types.Contains(BattleType.Ground) || pm.ItemE(Is.SAFETY_GOGGLES)) continue;
                             int ab = pm.Ability;
                             if (ab == As.OVERCOAT || ab == As.SAND_VEIL || ab == As.SAND_RUSH || ab == As.SAND_FORCE) continue;
-                            if (pm.EffectHurtByOneNth(16, "m_SandstormHurt")) pm.CheckFaint();
+                            if (pm.EffectHurtByOneNth(16, LogKeys.SandstormHurt)) pm.CheckFaint();
                         }
                         break;
                     case Game.Weather.Hailstorm:
@@ -62,7 +62,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                             }
                             else if (
                               !(pm.AbilityE(As.OVERCOAT) || pm.AbilityE(As.SNOW_CLOAK) || pm.OnboardPokemon.HasType(BattleType.Ice))
-                               && pm.EffectHurtByOneNth(16, "m_HailstormHurt"))
+                               && pm.EffectHurtByOneNth(16, LogKeys.HailstormHurt))
                                 pm.CheckFaint();
                         break;
                     case Game.Weather.HeavyRain:
@@ -100,7 +100,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                 if (o != null && o.Turn == c.TurnNumber)
                 {
                     t.RemoveCondition(Cs.Wish);
-                    if (t.Pokemon != null) t.Pokemon.HpRecover(o.Int, false, "m_Wish");
+                    if (t.Pokemon != null) t.Pokemon.HpRecover(o.Int, false, LogKeys.Wish);
                 }
             }
         }
@@ -151,14 +151,14 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                 switch (pm.Item)
                 {
                     case Is.LEFTOVERS:
-                        pm.HpRecoverByOneNth(16, false, "m_ItemRecover2", Is.LEFTOVERS);
+                        pm.HpRecoverByOneNth(16, false, LogKeys.ItemHpRecover2, Is.LEFTOVERS);
                         break;
                     case Is.BLACK_SLUDGE:
                         if (pm.OnboardPokemon.HasType(BattleType.Poison))
                         {
-                            if (pm.CanHpRecover()) pm.HpRecoverByOneNth(16, false, "m_ItemRecover2", Is.BLACK_SLUDGE);
+                            if (pm.CanHpRecover()) pm.HpRecoverByOneNth(16, false, LogKeys.ItemHpRecover2, Is.BLACK_SLUDGE);
                         }
-                        else pm.EffectHurtByOneNth(8, "m_ItemHurt", Is.BLACK_SLUDGE);
+                        else pm.EffectHurtByOneNth(8, LogKeys.ItemHurt, Is.BLACK_SLUDGE);
                         break;
                 }
                 pm.CheckFaint();
@@ -175,7 +175,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                     int hp = pm.Pokemon.MaxHp;
                     if (pm.ItemE(Is.BIG_ROOT)) hp = (int)(hp * 1.3);
                     hp /= 16;
-                    pm.HpRecover(hp, false, "m_AquaRing");
+                    pm.HpRecover(hp, false, LogKeys.AquaRing);
                 }
             foreach (var pm in c.OnboardPokemons)
                 if (pm.OnboardPokemon.HasCondition(Cs.Ingrain))
@@ -183,7 +183,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                     int hp = pm.Pokemon.MaxHp;
                     if (pm.ItemE(Is.BIG_ROOT)) hp = (int)(hp * 1.3);
                     hp /= 16;
-                    pm.HpRecover(hp, false, "m_Ingrain");
+                    pm.HpRecover(hp, false, LogKeys.Ingrain);
                 }
             foreach (var pm in c.OnboardPokemons.ToArray())
             {
@@ -191,7 +191,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                 if (tile != null && tile.Pokemon != null)
                 {
                     var hp = pm.Hp;
-                    if (pm.EffectHurtByOneNth(8, "m_LeechSeed"))
+                    if (pm.EffectHurtByOneNth(8, LogKeys.LeechSeed))
                     {
                         hp -= pm.Hp;
                         var recover = tile.Pokemon;
@@ -226,22 +226,22 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                             if (pm.CanHpRecover())
                             {
                                 pm.RaiseAbility();
-                                pm.HpRecoverByOneNth(8, false, "m_PoisonHeal");
+                                pm.HpRecoverByOneNth(8, false, LogKeys.PoisonHeal);
                             }
                         }
                         else if (pm.State == PokemonState.BadlyPSN)
                         {
                             int turn = 1 + c.TurnNumber - pm.OnboardPokemon.GetCondition<int>(Cs.BadlyPSN);
                             int hp = pm.Pokemon.MaxHp * (turn > 15 ? 15 : turn) / 16;
-                            pm.EffectHurt(hp, "m_PSN");
+                            pm.EffectHurt(hp, LogKeys.PSN);
                         }
-                        else pm.EffectHurtByOneNth(8, "m_PSN");
+                        else pm.EffectHurtByOneNth(8, LogKeys.PSN);
                         break;
                     case PokemonState.BRN:
-                        pm.EffectHurtByOneNth(8, "m_BRN");
+                        pm.EffectHurtByOneNth(8, LogKeys.BRN);
                         break;
                     case PokemonState.SLP:
-                        if (pm.OnboardPokemon.HasCondition(Cs.Nightmare)) pm.EffectHurtByOneNth(4, "m_Nightmare");
+                        if (pm.OnboardPokemon.HasCondition(Cs.Nightmare)) pm.EffectHurtByOneNth(4, LogKeys.Nightmare);
                         break;
                 }
                 pm.CheckFaint();
@@ -251,7 +251,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         private static void Curse(Controller c)
         {
             foreach (var pm in c.OnboardPokemons.ToArray())
-                if (pm.OnboardPokemon.HasCondition(Cs.Curse) && pm.EffectHurtByOneNth(4, "m_Curse")) pm.CheckFaint();
+                if (pm.OnboardPokemon.HasCondition(Cs.Curse) && pm.EffectHurtByOneNth(4, LogKeys.Curse)) pm.CheckFaint();
         }
         //11.0 Bind, Wrap, Fire Spin, Clamp, Whirlpool, Sand Tomb, Magma Storm
         private static void Trap(Controller c)
@@ -265,7 +265,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                         pm.OnboardPokemon.RemoveCondition(Cs.Trap);
                         pm.ShowLogPm("TrapFree", trap.Move.Id);
                     }
-                    else if (pm.EffectHurtByOneNth(trap.Bool ? 6 : 8, "m_TrapHurt", trap.Move.Id)) pm.CheckFaint();
+                    else if (pm.EffectHurtByOneNth(trap.Bool ? 6 : 8, LogKeys.TrapHurt, trap.Move.Id)) pm.CheckFaint();
             }
         }
         //12.0 Taunt ends
@@ -482,7 +482,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                                         pm.RaiseAbility();
                                         first = false;
                                     }
-                                    target.EffectHurtByOneNth(8, "m_BadDreams");
+                                    target.EffectHurtByOneNth(8, LogKeys.BadDreams);
                                 }
                         }
                         break;
@@ -522,7 +522,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                         pm.AddState(pm, AttachedState.BRN, false, 0, "ItemEnBRN", Is.FLAME_ORB);
                         break;
                     case Is.STICKY_BARB:
-                        pm.EffectHurtByOneNth(8, "m_ItemHurt", Is.STICKY_BARB);
+                        pm.EffectHurtByOneNth(8, LogKeys.ItemHurt, Is.STICKY_BARB);
                         break;
                 }
                 if (ab == As.PICKUP && pm.Pokemon.Item == 0)

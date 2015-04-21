@@ -54,7 +54,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
               {
                 case Ms.JUMP_KICK:
                 case Ms.HIGH_JUMP_KICK:
-                  aer.EffectHurtByOneNth(2, "m_FailSelfHurt");
+                  aer.EffectHurtByOneNth(2, LogKeys.FailSelfHurt);
                   break;
                 case Ms.SELFDESTRUCT:
                 case Ms.EXPLOSION:
