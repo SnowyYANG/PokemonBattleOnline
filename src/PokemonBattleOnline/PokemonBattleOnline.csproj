@@ -22,8 +22,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\build\dll\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <OutputPath>..\..\debug\dll\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CLIENT, SERVER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -31,8 +31,7 @@
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants>CLIENT, SERVER</DefineConstants>
     <ErrorReport>none</ErrorReport>
     <WarningLevel>0</WarningLevel>
   </PropertyGroup>
@@ -47,8 +46,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\build\test\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;ETV, TEST</DefineConstants>
+    <OutputPath>..\..\debug\test\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;TEST</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -70,7 +69,6 @@
     <Compile Include="DisposableObject.cs" />
     <Compile Include="ObservableList.cs" />
     <Compile Include="PairValue.cs" />
-    <Compile Include="SimpleData.cs" />
     <Compile Include="extensions.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="PBOMarks.cs" />

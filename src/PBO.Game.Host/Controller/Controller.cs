@@ -20,7 +20,7 @@ namespace PokemonBattleOnline.Game.Host
     private readonly TurnController TurnController;
     
     private Random random;
-#if ETV
+#if TEST
     private Random randomSeeds;
 #endif
 
@@ -41,7 +41,7 @@ namespace PokemonBattleOnline.Game.Host
       SwitchController = new SwitchController(this);
       InputController = new InputController(this);
       TurnController = new TurnController(this);
-#if ETV
+#if TEST
       randomSeeds = new Random(1);
       random = new Random(randomSeeds.Next());
 #else
@@ -160,7 +160,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       if (InputController.NeedInput)
       {
-#if ETV
+#if TEST
         random = new Random(randomSeeds.Next());
 #else
         random = new Random();

@@ -7,7 +7,7 @@ namespace PokemonBattleOnline
 {
   public static class PBOMarks
   {
-    public const string TITLE = "POKEMON BATTLE ONLINE v6.0 <ETV>";
+    public const string TITLE = "POKEMON BATTLE ONLINE v6.0";
     public const string PBO = "http://pbo.codeplex.com/";
     public const string JSON = "http://schemas.datacontract.org/2004/07/";
     public const string STANDARD = "http://www.w3.org/2001/XMLSchema";
