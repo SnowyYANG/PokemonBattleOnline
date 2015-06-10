@@ -107,10 +107,10 @@
     <Compile Include="PokemonAction.cs" />
     <Compile Include="Controller\Controller.cs" />
     <Compile Include="MoveProxy.cs" />
-    <Compile Include="Controller\Comparer.cs" />
+    <Compile Include="Comparer.cs" />
     <Compile Include="PokemonProxy.cs" />
     <Compile Include="Controller\Switch.cs" />
-    <Compile Include="Controller\ReportBuilder.cs" />
+    <Compile Include="ReportBuilder.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\ConditionalObject.cs" />
     <Compile Include="Models\Field.cs" />
