@@ -22,11 +22,6 @@ namespace PokemonBattleOnline.Test
     static void Main(string[] args)
     {
       AppDomain.CurrentDomain.ProcessExit += (sender, e) => EndLog();
-      using (var pack = new ZipData("..\\..\\res\\rom.zip"))
-      {
-        RomData.Load(pack, "/rom.xml");
-        Learnset.Load(pack, "/learnset");
-      }
       GameString.Load("..\\..\\res\\string", "zh", "en");
       PBOServer.NewServer(9999);
       Thread.Sleep(1000);
@@ -49,7 +44,7 @@ namespace PokemonBattleOnline.Test
                 C1.Room.PlayerController.RequireInput += (ir) => IR1 = ir;
               }
             };
-          C1.NewRoom(null, new Network.GameSettings(GameMode.Single), Seat.Player00);
+          C1.NewRoom(null, new GameSettings(GameMode.Single), Seat.Player00);
         }
         else
         {

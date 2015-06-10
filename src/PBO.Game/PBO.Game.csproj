@@ -81,6 +81,7 @@
     <Compile Include="Data\Rom\PokemonValidator.cs" />
     <Compile Include="Data\Rom\StatType.cs" />
     <Compile Include="IGameSettings.cs" />
+    <Compile Include="Interactive\GameEvents\GameEnd.cs" />
     <Compile Include="Interactive\GameEvents\Mimic.cs" />
     <Compile Include="Interactive\GameEvents\SetItem.cs" />
     <Compile Include="Interactive\GameEvents\MoveHurt.cs" />

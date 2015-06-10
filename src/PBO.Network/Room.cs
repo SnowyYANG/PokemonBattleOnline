@@ -13,10 +13,9 @@ namespace PokemonBattleOnline.Network
   {
     private User[] players;
 
-    public Room(int id, string name, GameSettings settings)
+    public Room(int id, GameSettings settings)
     {
       Id = id;
-      _name = name;
       _settings = settings;
       players = new User[4];
       _spectators = new ObservableList<User>();
@@ -25,19 +24,14 @@ namespace PokemonBattleOnline.Network
     [DataMember(Name = "a")]
     public int Id
     { get; private set; }
-
-    [DataMember(Name = "b", EmitDefaultValue = false)]
-    private string _name;
-    private string Name
-    { get { return _name; } }
     
-    [DataMember(Name = "c")]
+    [DataMember(Name = "b_")]
     private readonly GameSettings _settings;
     public GameSettings Settings
     { get { return _settings; } }
 
     private static PropertyChangedEventArgs BATTLING = new PropertyChangedEventArgs("Battling");
-    [DataMember(Name = "d", EmitDefaultValue = false)]
+    [DataMember(Name = "c", EmitDefaultValue = false)]
     private bool _battling;
     public bool Battling
     {

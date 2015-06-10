@@ -22,18 +22,6 @@ namespace PokemonBattleOnline.PBO.Server
       try
       {
         PreLog("Loading data");
-        var r =
-#if DEBUG
-          "..\\"
-#else
-          string.Empty
-#endif
-          ;
-        using (var pack = new ZipData(r + "res\\rom.zip"))
-        {
-          RomData.Load(pack, "/rom.xml");
-          Learnset.Load(pack, "/learnset");
-        }
         Console.WriteLine("OK!");
 
         PreLog("Opening server");

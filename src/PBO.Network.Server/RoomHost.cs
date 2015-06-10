@@ -18,10 +18,10 @@ namespace PokemonBattleOnline.Network
     private InitingGame initingGame;
     private GameContext game;
  
-    public RoomHost(Server server, int id, string name, GameSettings settings)
+    public RoomHost(Server server, int id, GameSettings settings)
     {
       Server = server;
-      Room = new Room(id, name, settings);
+      Room = new Room(id, settings);
       Users = new Dictionary<int, ServerUser>();
     }
 
@@ -110,7 +110,7 @@ namespace PokemonBattleOnline.Network
         var seat = su.User.Seat;
         if (initingGame.Prepare(seat.TeamId(), seat.TeamIndex(), pokemons))
         {
-          Send(new SetPrepare(seat, true));
+          Send(new SetPrepareS2C(seat, true));
           TryStartGame();
         }
       }
@@ -123,7 +123,7 @@ namespace PokemonBattleOnline.Network
         if (IsPrepared(seat))
         {
           initingGame.UnPrepare(seat.TeamId(), su.User.Seat.TeamIndex());
-          Send(new SetPrepare(seat, false));
+          Send(new SetPrepareS2C(seat, false));
         }
       }
     }
@@ -139,12 +139,12 @@ namespace PokemonBattleOnline.Network
       if (game != null) su.Send(new GameUpdateS2C(game.GetLastLeapFragment()));
       else if (initingGame != null)
       {
-        if (IsPrepared(Seat.Player00)) su.Send(new SetPrepare(Seat.Player00, true));
-        if (IsPrepared(Seat.Player10)) su.Send(new SetPrepare(Seat.Player10, true));
+        if (IsPrepared(Seat.Player00)) su.Send(new SetPrepareS2C(Seat.Player00, true));
+        if (IsPrepared(Seat.Player10)) su.Send(new SetPrepareS2C(Seat.Player10, true));
         if (Room.Settings.Mode.PlayersPerTeam() == 2)
         {
-          if (IsPrepared(Seat.Player01)) su.Send(new SetPrepare(Seat.Player01, true));
-          if (IsPrepared(Seat.Player11)) su.Send(new SetPrepare(Seat.Player11, true));
+          if (IsPrepared(Seat.Player01)) su.Send(new SetPrepareS2C(Seat.Player01, true));
+          if (IsPrepared(Seat.Player11)) su.Send(new SetPrepareS2C(Seat.Player11, true));
         }
       }
     }
@@ -161,7 +161,7 @@ namespace PokemonBattleOnline.Network
       else if (Room.Players.Count() == 1) Server.RemoveRoom(this);
       else
       {
-        if (game != null) OnGameStop(id, GameStopReason.PlayerGiveUp);
+        if (game != null) OnGameStop(id, GameStopReason.PlayerStop);
         else UnPrepare(su);
         Users.Remove(id);
         Room[seat] = null;
@@ -182,13 +182,6 @@ namespace PokemonBattleOnline.Network
       if (game != null)
         if (game.InputAction(seat.TeamId(), seat.TeamIndex(), action)) game.TryContinue();
         else OnGameStop(su.User.Id, GameStopReason.InvalidInput);
-    }
-
-    public void GiveUpGame(ServerUser su)
-    {
-      var seat = su.User.Seat;
-      if (seat != Seat.Spectator && game != null)
-        OnGameStop(su.User.Id, GameStopReason.PlayerGiveUp);
     }
 
     public void Dispose()

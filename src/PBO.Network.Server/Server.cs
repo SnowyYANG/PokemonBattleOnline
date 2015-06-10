@@ -62,7 +62,7 @@ namespace PokemonBattleOnline.Network
         Banlist.Add(ip);
         List<ServerUser> tmp = new List<ServerUser>();
         foreach (KeyValuePair<int, ServerUser> ea in Users)
-            if (ea.Value.Network.EndPoint.Address.Address == ip.Address)
+            if (ea.Value.Network.EndPoint.Address.Equals(ip))
                 tmp.Add(ea.Value);
 
         foreach (var i in tmp)
@@ -101,10 +101,10 @@ namespace PokemonBattleOnline.Network
     {
       return Rooms.ValueOrDefault(id);
     }
-    internal RoomHost AddRoom(string name, GameSettings settings)
+    internal RoomHost AddRoom(GameSettings settings)
     {
       var id = RoomIds.GetId();
-      var rc = new RoomHost(this, id, name, settings);
+      var rc = new RoomHost(this, id, settings);
       Rooms.Add(id, rc);
       Send(Commands.RoomS2C.NewRoom(id, settings));
       return rc;

@@ -20,7 +20,7 @@ namespace PokemonBattleOnline.Game
     }
     protected void AppendGameLog(string key, LogStyle style, ValueType arg0 = null, ValueType arg1 = null, ValueType arg2 = null)
     {
-      Game.AppendGameLogByKey(key, style, arg0, arg1, arg2);
+      Game.AppendGameLog(key, style, arg0, arg1, arg2);
     }
     protected PokemonOutward GetPokemon(int id)
     {

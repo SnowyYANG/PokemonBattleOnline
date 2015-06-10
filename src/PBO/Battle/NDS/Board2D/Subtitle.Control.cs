@@ -23,8 +23,8 @@ namespace PokemonBattleOnline.PBO.Battle
         if (e.PropertyName == null || e.PropertyName == "SelectedPanel")
           switch (cp.SelectedPanel)
           {
-            case ControlPanelVM.STOP:
-              nest.SetText("真的要中止战斗么？");
+            case ControlPanelVM.RUN:
+              nest.SetText("真的要放弃战斗么？");
               break;
             case ControlPanelVM.MAIN:
               nest.SetTextForcibly(cp.ControllingPokemon.Pokemon.Name + "要做什么？");
