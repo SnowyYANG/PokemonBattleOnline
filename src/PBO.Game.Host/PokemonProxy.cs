@@ -20,7 +20,6 @@ namespace PokemonBattleOnline.Game.Host
             NullOnboardPokemon = new OnboardPokemon(pokemon, -1);
             StruggleMove = new MoveProxy(new Move(RomData.GetMove(Ms.STRUGGLE), 1), this);
             _moves = new List<MoveProxy>(4);
-            outward = new PokemonOutward(Id, Pokemon.TeamId, Pokemon.MaxHp);
         }
 
         internal readonly OnboardPokemon NullOnboardPokemon;
@@ -355,10 +354,10 @@ namespace PokemonBattleOnline.Game.Host
 
         private PokemonOutward outward;
         /// <summary>
-        /// may multi referenced in one report fragment
+        /// 同一精灵的Outward在一段战报中可能出现多次，每次应是不同的Outward
         /// </summary>
         /// <returns></returns>
-        internal PokemonOutward GetOutward()
+        internal PokemonOutward GetOutward(bool newInstance)
         {
             Pokemon o = OnboardPokemon.GetCondition<Pokemon>(Cs.Illusion);
             var form = o == null ? OnboardPokemon.Form : o.Form;
@@ -372,6 +371,7 @@ namespace PokemonBattleOnline.Game.Host
             var hp = Pokemon.Hp;
             var state = State;
             var mega = Pokemon.Mega;
+            if (newInstance) outward = new PokemonOutward(Id, Pokemon.TeamId, Pokemon.MaxHp);
             outward.SetAll(name, form, gender, lv, position, substitute, hp, state, shiny, mega);
             return outward;
         }

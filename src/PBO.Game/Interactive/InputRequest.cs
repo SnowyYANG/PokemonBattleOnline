@@ -210,7 +210,7 @@ namespace PokemonBattleOnline.Game
             }
             input.SendOut(x, pokemon);
             //多打中有多只精灵倒下，要把哪只精灵收回来
-            //单打和4P没有这种需要
+            //单打和合作没有这种需要
             InputFinished(input);
             return true;
         }

@@ -38,7 +38,7 @@ namespace PokemonBattleOnline.Game.Host
             t[1] = Controller.Teams[1].GetOutward();
             List<PokemonOutward> pms = new List<PokemonOutward>();
             {
-                foreach (PokemonProxy p in Controller.ActingPokemons) pms.Add(p.GetOutward());
+                foreach (PokemonProxy p in Controller.ActingPokemons) pms.Add(p.GetOutward(false));
                 current = new ReportFragment(Controller.TurnNumber, t, pms.ToArray(), Controller.Board.Weather);
             }
         }
@@ -108,12 +108,12 @@ namespace PokemonBattleOnline.Game.Host
         }
         public void Transform(PokemonProxy pm)
         {
-            var o = pm.GetOutward();
+            var o = pm.GetOutward(true);
             Add(new SetOutward() { Pm = pm.Id, Number = o.Form.Species.Number, Form = o.Form.Index, Moves = pm.Moves.Select((m) => m.MoveE.Id).ToArray() });
         }
         public void DeIllusion(PokemonProxy pm)
         {
-            var o = pm.GetOutward();
+            var o = pm.GetOutward(true);
             Add(new SetOutward() { Pm = pm.Id, Number = o.Form.Species.Number, Form = o.Form.Index, Name = o.RawName, Gender = o.Gender });
         }
         public void ChangeForm(PokemonProxy pm)
@@ -130,7 +130,7 @@ namespace PokemonBattleOnline.Game.Host
         }
         public void SendOut(PokemonProxy pm, int formerIndex)
         {
-            Add(new SendOut() { Pm = pm.GetOutward(), FormerIndex = formerIndex });
+            Add(new SendOut() { Pm = pm.GetOutward(true), FormerIndex = formerIndex });
         }
         public void Withdraw(PokemonProxy pm)
         {

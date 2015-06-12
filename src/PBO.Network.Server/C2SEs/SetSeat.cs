@@ -17,12 +17,12 @@ namespace PokemonBattleOnline.Network.C2SEs
             if (fr == null)
             {
                 var r = GameSettings == null ? server.GetRoom(Room) : server.AddRoom(GameSettings);
-                if (r != null && r.Room.IsValidSeat(Seat)) r.AddUser(su, Seat);
+                if (r != null) r.AddUser(su, Seat);
             }
             else
             {
                 if (Room == 0) fr.RemoveUser(su);
-                else if (fr.Room.IsValidSeat(Seat)) fr.ChangeSeat(su, Seat);
+                else fr.ChangeSeat(su, Seat);
             }
         }
     }

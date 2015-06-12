@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PBO.Game.Host\PBO.Game.Host.csproj">

@@ -10,183 +10,198 @@ using PokemonBattleOnline.Network.Commands;
 
 namespace PokemonBattleOnline.Network
 {
-  internal class RoomHost : IDisposable
-  {
-    public readonly Server Server;
-    public readonly Room Room;
-    private readonly Dictionary<int, ServerUser> Users;
-    private InitingGame initingGame;
-    private GameContext game;
- 
-    public RoomHost(Server server, int id, GameSettings settings)
+    internal class RoomHost : IDisposable
     {
-      Server = server;
-      Room = new Room(id, settings);
-      Users = new Dictionary<int, ServerUser>();
-    }
+        public readonly Server Server;
+        public readonly Room Room;
+        private readonly Dictionary<int, ServerUser> Users;
+        private InitingGame initingGame;
+        private GameContext game;
 
-    public void Send(IS2C s2c)
-    {
-      foreach(var su in Users.Values) su.Send(s2c);
-    }
-
-    private void TryStartGame()
-    {
-      if (initingGame.CanComplete)
-      {
-        Room.Battling = true;
-        Server.Send(RoomS2C.ChangeBattling(Room.Id));
-        if (Room.Settings.Mode.PlayersPerTeam() == 2)
+        public RoomHost(Server server, int id, GameSettings settings)
         {
-          Server.GetUser(Room[0, 0].Id).Send(new PartnerInfoS2C(initingGame.GetPokemons(0, 1)));
-          Server.GetUser(Room[0, 1].Id).Send(new PartnerInfoS2C(initingGame.GetPokemons(0, 0)));
-          Server.GetUser(Room[1, 0].Id).Send(new PartnerInfoS2C(initingGame.GetPokemons(1, 1)));
-          Server.GetUser(Room[1, 1].Id).Send(new PartnerInfoS2C(initingGame.GetPokemons(1, 0)));
+            Server = server;
+            Room = new Room(id, settings);
+            Users = new Dictionary<int, ServerUser>();
         }
-        game = initingGame.Complete();
-        initingGame = null;
-        game.GameUpdated += OnGameUpdate;
-        game.GameEnd += EndGame;
-        game.TimeUp += OnTimeUp;
-        game.WaitingNotify += OnWaitingForInput;
-        game.Error += OnError;
-        game.Start();
-      }
-    }
 
-    private void EndGame()
-    {
-      game.Dispose();
-      game = null;
-      Room.Battling = false;
-      Server.Send(RoomS2C.ChangeBattling(Room.Id));
-    }
-    private void OnError()
-    {
-      EndGame();
-      Server.Send(GameEndS2C.GameStop(0, GameStopReason.Error));
-    }
-    private void OnGameStop(int userId, GameStopReason reason)
-    {
-      EndGame();
-      Send(GameEndS2C.GameStop(userId, reason));
-    }
-    private void OnTimeUp(int[,] time)
-    {
-      EndGame();
-      var ps = new List<KeyValuePair<int, int>>(4);
-      foreach (var p in Room.Players) ps.Add(new KeyValuePair<int, int>(p.Id, time[p.Seat.TeamId(), p.Seat.TeamIndex()]));
-      Send(GameEndS2C.TimeUp(ps.ToArray()));
-    }
-    private void OnWaitingForInput(bool[,] players)
-    {
-      var ps = new List<int>(4);
-      foreach(var p in Room.Players)
-        if (players[p.Seat.TeamId(), p.Seat.TeamIndex()]) ps.Add(p.Id);
-      Send(new WaitingForInputS2C(ps.ToArray()));
-    }
-    private void OnGameUpdate(ReportFragment fragment, InputRequest[,] requirements)
-    {
-      if (requirements != null)
-      {
-        foreach(var p in Room.Players)
+        public void Send(IS2C s2c)
         {
-          var r = requirements[p.Seat.TeamId(), p.Seat.TeamIndex()];
-          if (r != null) Server.GetUser(p.Id).Send(new RequireInputS2C(r));
+            foreach (var su in Users.Values) su.Send(s2c);
         }
-      }
-      Send(new GameUpdateS2C(fragment));
-    }
 
-    private bool IsPrepared(Seat seat)
-    {
-      return initingGame != null && initingGame.GetPokemons(seat.TeamId(), seat.TeamIndex()) != null;
-    }
-    public void Prepare(ServerUser su, IPokemonData[] pokemons)
-    {
-      if (game == null)
-      {
-        if (initingGame == null) initingGame = new InitingGame(Room.Settings);
-        var seat = su.User.Seat;
-        if (initingGame.Prepare(seat.TeamId(), seat.TeamIndex(), pokemons))
+        private void TryStartGame()
         {
-          Send(new SetPrepareS2C(seat, true));
-          TryStartGame();
+            if (initingGame.CanComplete)
+            {
+                Room.Battling = true;
+                Server.Send(RoomS2C.ChangeBattling(Room.Id));
+                if (Room.Settings.Mode.PlayersPerTeam() == 2)
+                {
+                    Server.GetUser(Room[0, 0].Id).Send(new PartnerInfoS2C(initingGame.GetPokemons(0, 1)));
+                    Server.GetUser(Room[0, 1].Id).Send(new PartnerInfoS2C(initingGame.GetPokemons(0, 0)));
+                    Server.GetUser(Room[1, 0].Id).Send(new PartnerInfoS2C(initingGame.GetPokemons(1, 1)));
+                    Server.GetUser(Room[1, 1].Id).Send(new PartnerInfoS2C(initingGame.GetPokemons(1, 0)));
+                }
+                game = initingGame.Complete();
+                initingGame = null;
+                game.GameUpdated += OnGameUpdate;
+                game.GameEnd += EndGame;
+                game.TimeUp += OnTimeUp;
+                game.WaitingNotify += OnWaitingForInput;
+                game.Error += OnError;
+                game.Start();
+            }
         }
-      }
-    }
-    public void UnPrepare(ServerUser su)
-    {
-      if (game == null)
-      {
-        var seat = su.User.Seat;
-        if (IsPrepared(seat))
+
+        private void EndGame()
         {
-          initingGame.UnPrepare(seat.TeamId(), su.User.Seat.TeamIndex());
-          Send(new SetPrepareS2C(seat, false));
+            game.Dispose();
+            game = null;
+            Room.Battling = false;
+            Server.Send(RoomS2C.ChangeBattling(Room.Id));
         }
-      }
-    }
-
-    public void AddUser(ServerUser su, Seat seat)
-    {
-      var user = su.User;
-      if (seat == Seat.Spectator) Room.AddSpectator(user);
-      else if (Room[seat] == null) Room[seat] = user;
-      else return;
-      Users.Add(user.Id, su);
-      Server.Send(SetSeatS2C.EnterRoom(user.Id, Room.Id, seat));
-      if (game != null) su.Send(new GameUpdateS2C(game.GetLastLeapFragment()));
-      else if (initingGame != null)
-      {
-        if (IsPrepared(Seat.Player00)) su.Send(new SetPrepareS2C(Seat.Player00, true));
-        if (IsPrepared(Seat.Player10)) su.Send(new SetPrepareS2C(Seat.Player10, true));
-        if (Room.Settings.Mode.PlayersPerTeam() == 2)
+        private void OnError()
         {
-          if (IsPrepared(Seat.Player01)) su.Send(new SetPrepareS2C(Seat.Player01, true));
-          if (IsPrepared(Seat.Player11)) su.Send(new SetPrepareS2C(Seat.Player11, true));
+            EndGame();
+            Server.Send(GameEndS2C.GameStop(0, GameStopReason.Error));
         }
-      }
-    }
-    public void RemoveUser(ServerUser su)
-    {
-      var id = su.User.Id;
-      var seat = su.User.Seat;
-      if (seat == Seat.Spectator)
-      {
-        Users.Remove(id);
-        Room.RemoveSpectator(su.User);
-        Server.Send(SetSeatS2C.LeaveRoom(id));
-      }
-      else if (Room.Players.Count() == 1) Server.RemoveRoom(this);
-      else
-      {
-        if (game != null) OnGameStop(id, GameStopReason.PlayerStop);
-        else UnPrepare(su);
-        Users.Remove(id);
-        Room[seat] = null;
-        Server.Send(SetSeatS2C.LeaveRoom(id));
-      }
-    }
-    public void ChangeSeat(ServerUser su, Seat seat)
-    {
-      //if there is only one player, s/he cannot spectate
-      //prepared player cannot change seat
-      //no one can change seat while room is battling
-      throw new NotImplementedException();
-    }
+        private void OnGameStop(int userId, GameStopReason reason)
+        {
+            EndGame();
+            Send(GameEndS2C.GameStop(userId, reason));
+        }
+        private void OnTimeUp(int[,] time)
+        {
+            EndGame();
+            var ps = new List<KeyValuePair<int, int>>(4);
+            foreach (var p in Room.Players) ps.Add(new KeyValuePair<int, int>(p.Id, time[p.Seat.TeamId(), p.Seat.TeamIndex()]));
+            Send(GameEndS2C.TimeUp(ps.ToArray()));
+        }
+        private void OnWaitingForInput(bool[,] players)
+        {
+            var ps = new List<int>(4);
+            foreach (var p in Room.Players)
+                if (players[p.Seat.TeamId(), p.Seat.TeamIndex()]) ps.Add(p.Id);
+            Send(new WaitingForInputS2C(ps.ToArray()));
+        }
+        private void OnGameUpdate(ReportFragment fragment, InputRequest[,] requirements)
+        {
+            if (requirements != null)
+            {
+                foreach (var p in Room.Players)
+                {
+                    var r = requirements[p.Seat.TeamId(), p.Seat.TeamIndex()];
+                    if (r != null) Server.GetUser(p.Id).Send(new RequireInputS2C(r));
+                }
+            }
+            Send(new GameUpdateS2C(fragment));
+        }
 
-    public void Input(ServerUser su, ActionInput action)
-    {
-      var seat = su.User.Seat;
-      if (game != null)
-        if (game.InputAction(seat.TeamId(), seat.TeamIndex(), action)) game.TryContinue();
-        else OnGameStop(su.User.Id, GameStopReason.InvalidInput);
-    }
+        private bool IsPrepared(Seat seat)
+        {
+            return initingGame != null && seat != Seat.Spectator && initingGame.GetPokemons(seat.TeamId(), seat.TeamIndex()) != null;
+        }
+        public void Prepare(ServerUser su, IPokemonData[] pokemons)
+        {
+            if (game == null)
+            {
+                if (initingGame == null) initingGame = new InitingGame(Room.Settings);
+                var seat = su.User.Seat;
+                if (initingGame.Prepare(seat.TeamId(), seat.TeamIndex(), pokemons))
+                {
+                    Send(new SetPrepareS2C(seat, true));
+                    TryStartGame();
+                }
+            }
+        }
+        public void UnPrepare(ServerUser su)
+        {
+            if (game == null)
+            {
+                var seat = su.User.Seat;
+                if (IsPrepared(seat))
+                {
+                    initingGame.UnPrepare(seat.TeamId(), su.User.Seat.TeamIndex());
+                    Send(new SetPrepareS2C(seat, false));
+                }
+            }
+        }
 
-    public void Dispose()
-    {
-      if (game != null) game.Dispose();
+        public void AddUser(ServerUser su, Seat seat)
+        {
+            var user = su.User;
+            if (user.Room == null && Room.IsValidSeat(seat) && Room[seat] == null)
+            {
+                if (seat == Seat.Spectator) Room.AddSpectator(user);
+                else Room[seat] = user;
+                Users.Add(user.Id, su);
+                Server.Send(SetSeatS2C.InRoom(user));
+                if (game != null) su.Send(new GameUpdateS2C(game.GetLastLeapFragment()));
+                else if (initingGame != null)
+                {
+                    if (IsPrepared(Seat.Player00)) su.Send(new SetPrepareS2C(Seat.Player00, true));
+                    if (IsPrepared(Seat.Player10)) su.Send(new SetPrepareS2C(Seat.Player10, true));
+                    if (Room.Settings.Mode.PlayersPerTeam() == 2)
+                    {
+                        if (IsPrepared(Seat.Player01)) su.Send(new SetPrepareS2C(Seat.Player01, true));
+                        if (IsPrepared(Seat.Player11)) su.Send(new SetPrepareS2C(Seat.Player11, true));
+                    }
+                }
+            }
+        }
+        public void RemoveUser(ServerUser su)
+        {
+            var id = su.User.Id;
+            var seat = su.User.Seat;
+            if (seat == Seat.Spectator)
+            {
+                Users.Remove(id);
+                Room.RemoveSpectator(su.User);
+                Server.Send(SetSeatS2C.LeaveRoom(id));
+            }
+            else if (Room.Players.Count() == 1) Server.RemoveRoom(this);
+            else
+            {
+                if (game != null) OnGameStop(id, GameStopReason.PlayerStop);
+                else UnPrepare(su);
+                Users.Remove(id);
+                Room[seat] = null;
+                Server.Send(SetSeatS2C.LeaveRoom(id));
+            }
+        }
+        public void ChangeSeat(ServerUser su, Seat seat)
+        {
+            var user = su.User;
+            if (game == null && Room.IsValidSeat(seat) && user.Seat != seat && Room[seat] == null)
+            {
+                if (user.Seat == Seat.Spectator) Room[seat] = user;
+                else if (seat == Seat.Spectator)
+                {
+                    UnPrepare(su);
+                    Room.AddSpectator(user);
+                }
+                else if (Room.Players.Count() != 1)
+                {
+                    UnPrepare(su);
+                    Room[seat] = su.User;
+                }
+                else return;
+                Server.Send(SetSeatS2C.InRoom(user));
+            }
+        }
+
+        public void Input(ServerUser su, ActionInput action)
+        {
+            var seat = su.User.Seat;
+            if (game != null)
+                if (game.InputAction(seat.TeamId(), seat.TeamIndex(), action)) game.TryContinue();
+                else OnGameStop(su.User.Id, GameStopReason.InvalidInput);
+        }
+
+        public void Dispose()
+        {
+            if (game != null) game.Dispose();
+        }
     }
-  }
 }
