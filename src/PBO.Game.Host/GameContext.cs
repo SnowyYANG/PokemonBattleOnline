@@ -88,32 +88,28 @@ namespace PokemonBattleOnline.Game.Host
             }
             return r;
         }
-        private readonly object InputLocker = new object();
         public bool InputAction(int teamId, int teamIndex, ActionInput input)
         {
             if (gaming)
             {
-                lock (InputLocker)
+                if (input.GiveUp) Controller.InputGiveUp(teamId, teamIndex);
+                else
                 {
-                    if (input.GiveUp) Controller.InputGiveUp(teamId, teamIndex);
-                    else
+                    try
                     {
-                        try
+                        for (int x = 0; x < Controller.GameSettings.Mode.XBound(); ++x)
                         {
-                            for (int x = 0; x < Controller.GameSettings.Mode.XBound(); ++x)
+                            var i = input.Get(x);
+                            if (i != null)
                             {
-                                var i = input.Get(x);
-                                if (i != null)
-                                {
-                                    if (Controller.GameSettings.Mode.GetPlayerIndex(x) != teamIndex) return false;
-                                    if (!Input(i, Controller, Controller.Board[teamId][x])) return false;
-                                }
+                                if (Controller.GameSettings.Mode.GetPlayerIndex(x) != teamIndex) return false;
+                                if (!Input(i, Controller, Controller.Board[teamId][x])) return false;
                             }
                         }
-                        catch
-                        {
-                            Error();
-                        }
+                    }
+                    catch
+                    {
+                        Error();
                     }
                     return Controller.CheckInputSucceed(teamId, teamIndex);
                 }
