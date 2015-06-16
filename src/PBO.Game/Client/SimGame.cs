@@ -2,42 +2,40 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Game
 {
-  public class SimGame
-  {
-    public readonly IGameSettings Settings;
-    public readonly SimPlayer Player;
-    public readonly SimOnboardPokemon[] OnboardPokemons;
-
-    public SimGame(IGameSettings settings, SimPlayer player, IPokemonData[] parner)
+    public class SimGame
     {
-      Settings = settings;
-      Player = player;
-      OnboardPokemons = new SimOnboardPokemon[Settings.Mode.XBound()];
-      Pokemons = new Dictionary<int, SimPokemon>();
-      foreach (var pm in player.Pokemons) Pokemons.Add(pm.Id, pm);
-      if (parner != null)
-        for (int i = 0; i < parner.Length; i++)
+        public readonly IGameSettings Settings;
+        public readonly SimPlayer Player;
+        public readonly SimPlayer[] Team;
+        public readonly SimOnboardPokemon[] OnboardPokemons;
+
+        public SimGame(IGameSettings settings, SimPlayer player, SimPlayer partner)
         {
-          var id = player.Team * 50 + (1 - player.TeamIndex) * 10 + i;
-          Pokemons.Add(id, new SimPokemon(id, null, parner[i]));
+            Settings = settings;
+            Player = player;
+            Team = new SimPlayer[Settings.Mode.PlayersPerTeam()];
+            Team[player.TeamIndex] = Player;
+            if (partner != null) Team[partner.TeamIndex] = partner;
+            OnboardPokemons = new SimOnboardPokemon[Settings.Mode.XBound()];
+            Pokemons = new Dictionary<int, SimPokemon>();
+            foreach(var p in Team)
+                foreach (var pm in p.Pokemons) Pokemons.Add(pm.Id, pm);
+        }
+
+        public Dictionary<int, SimPokemon> Pokemons
+        { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="report"></param>
+        /// <returns>RequireInput</returns>
+        public void Update(ReportFragment report)
+        {
+            foreach (GameEvent e in report.Events) e.Update(this);
         }
     }
-
-    public Dictionary<int, SimPokemon> Pokemons
-    { get; private set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="report"></param>
-    /// <returns>RequireInput</returns>
-    public void Update(ReportFragment report)
-    {
-      foreach (GameEvent e in report.Events) e.Update(this);
-    }
-  }
 }

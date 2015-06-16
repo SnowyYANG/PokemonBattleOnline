@@ -103,7 +103,7 @@ namespace PokemonBattleOnline.Game.Host
         private void BeginTurn()
         {
             bool needInput = false;
-            foreach (PokemonProxy p in Pokemons)
+            foreach (PokemonProxy p in ActingPokemons)
                 needInput |= p.CheckNeedInput();
             if (needInput) Controller.PauseForTurnInput();
         }
@@ -118,13 +118,13 @@ namespace PokemonBattleOnline.Game.Host
         private void Switch()
         {
             LOOP:
-            PokemonProxy p = ActingPokemons.FirstOrDefault((pm) => pm.Action == PokemonAction.WillSwitch);
-            if (p != null)
-            {
-                p.Switch();
-                ReportBuilder.AddHorizontalLine();
-                goto LOOP;
-            }
+            foreach(var p in ActingPokemons)
+                if (p.Action == PokemonAction.WillSwitch)
+                {
+                    p.Switch();
+                    ReportBuilder.AddHorizontalLine();
+                    goto LOOP; //ActingPokemons的顺序可能变化，重新查找第一个符合条件的精灵
+                }
         }
         private void CheckFocusPunch()
         {
@@ -147,16 +147,16 @@ namespace PokemonBattleOnline.Game.Host
         private void Move()
         {
             LOOP:
-            PokemonProxy p = ActingPokemons.FirstOrDefault((pm) => pm.CanMove);
-            if (p != null)
-            {
-                p.Move();
-                if (Controller.CanContinue)
+            foreach (var p in ActingPokemons)
+                if (p.CanMove)
                 {
-                    ReportBuilder.AddHorizontalLine();
-                    goto LOOP;
+                    p.Move();
+                    if (Controller.CanContinue)
+                    {
+                        ReportBuilder.AddHorizontalLine();
+                        goto LOOP; //ActingPokemons顺序可能有变化，所以重新foreach
+                    }
                 }
-            }
         }
         private void EndTurnEffects()
         {

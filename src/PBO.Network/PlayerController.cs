@@ -7,39 +7,43 @@ using PokemonBattleOnline.Network.Commands;
 
 namespace PokemonBattleOnline.Network
 {
-  public class PlayerController
-  {
-    public event Action<InputRequest> RequireInput;
-
-    private readonly Client Client;
-
-    internal PlayerController(RoomController room, IPokemonData[] pokemons, IPokemonData[] parner)
+    public class PlayerController
     {
-      Client = room._Client;
-      _game = new SimGame(room.Room.Settings, new SimPlayer(room.User.Seat.TeamId(), room.User.Seat.TeamIndex(), pokemons), parner);
-    }
+        public event Action<InputRequest> RequireInput;
 
-    public SimPlayer Player
-    { get { return _game.Player; } }
-    private readonly SimGame _game;
-    public SimGame Game
-    { get { return _game; } }
+        private readonly Client Client;
 
-    public void Input(ActionInput input)
-    {
-      Client.Send(new Commands.InputC2S(input));
-    }
-    public void GiveUp()
-    {
-      Client.Send(new Commands.GiveUpC2S());
-    }
+        internal PlayerController(RoomController room, IPokemonData[] pokemons, IPokemonData[] partner)
+        {
+            Client = room._Client;
+            var team = room.User.Seat.TeamId();
+            var pli = room.User.Seat.TeamIndex();
+            var pl = new SimPlayer(team, pli, pokemons);
+            var pa = partner == null ? null : new SimPlayer(team, 1 - pli, partner);
+            _game = new SimGame(room.Room.Settings, pl, pa);
+        }
 
-    internal void OnRequireInput(InputRequest inputRequest)
-    {
+        public SimPlayer Player
+        { get { return _game.Player; } }
+        private readonly SimGame _game;
+        public SimGame Game
+        { get { return _game; } }
+
+        public void Input(ActionInput input)
+        {
+            Client.Send(new InputC2S(input));
+        }
+        public void GiveUp()
+        {
+            Client.Send(new GiveUpC2S());
+        }
+
+        internal void OnRequireInput(InputRequest inputRequest)
+        {
 #if TEST
-      if (RequireInput != null)
+            if (RequireInput != null)
 #endif
-        RequireInput(inputRequest);
+                RequireInput(inputRequest);
+        }
     }
-  }
 }

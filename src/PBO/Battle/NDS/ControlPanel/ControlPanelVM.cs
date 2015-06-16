@@ -33,6 +33,7 @@ namespace PokemonBattleOnline.PBO.Battle
             Timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(1) };
             _time = 180;
             _selectedPanel = INACTIVE;
+            _pokemons = new SimPokemon[6];
             Controller.RequireInput += RequireInput;
             c.Game.GameEnd += () => Timer.Stop();
             Timer.Tick += (sender, e) => Time--;
@@ -87,7 +88,7 @@ namespace PokemonBattleOnline.PBO.Battle
         { get { return Request != null && Request.CanMega ? Visibility.Visible : Visibility.Collapsed; } }
 
         public SimOnboardPokemon ControllingPokemon
-        { get { return Controller.Game.OnboardPokemons.FirstOrDefault(); } }
+        { get { return Controller.Game.OnboardPokemons.ValueOrDefault(Request.CurrentX); } }
 
         public Visibility UndoVisibility
         { get { return Visibility.Collapsed; } }
@@ -95,8 +96,9 @@ namespace PokemonBattleOnline.PBO.Battle
         public bool IsReturnEnabled
         { get { return ControllingPokemon != null; } }
 
-        public IEnumerable<SimPokemon> Pokemons
-        { get { return Controller.Player.Pokemons; } }
+        private SimPokemon[] _pokemons;
+        public SimPokemon[] Pokemons
+        { get { return _pokemons; } }
 
         public TargetPanel TargetPanel
         { get { return null; } }
@@ -117,6 +119,16 @@ namespace PokemonBattleOnline.PBO.Battle
             _selectedPanel = request.IsSendOut ? POKEMONS : MAIN;
             _mega = false;
             _time = 180 - request.Time;
+            {
+                var step = Game.Settings.Mode.PlayersPerTeam();
+                var i = 0;
+                foreach (var pm in Controller.Game.Team[0].Pokemons) _pokemons[i += step] = pm;
+                if (step == 2)
+                {
+                    i = 1;
+                    foreach (var pm in Controller.Game.Team[1].Pokemons) _pokemons[i += step] = pm;
+                }
+            }
             Timer.Start();
             OnPropertyChanged();
         }

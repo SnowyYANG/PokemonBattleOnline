@@ -109,7 +109,10 @@ namespace PokemonBattleOnline.Game.Host
         public void Transform(PokemonProxy pm)
         {
             var o = pm.GetOutward(true);
-            Add(new SetOutward() { Pm = pm.Id, Number = o.Form.Species.Number, Form = o.Form.Index, Moves = pm.Moves.Select((m) => m.MoveE.Id).ToArray() });
+            var moves = new int[pm.Moves.Count()];
+            var i = 0;
+            foreach (var m in pm.Moves) moves[i++] = m.Move.Type.Id;
+            Add(new SetOutward() { Pm = pm.Id, Number = o.Form.Species.Number, Form = o.Form.Index, Moves = moves });
         }
         public void DeIllusion(PokemonProxy pm)
         {

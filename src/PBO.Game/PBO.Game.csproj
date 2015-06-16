@@ -38,8 +38,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
     <OutputPath>..\..\debug\test\</OutputPath>
-    <DefineConstants>TEST</DefineConstants>
-    <Optimize>true</Optimize>
+    <DefineConstants>TRACE;TEST</DefineConstants>
+    <Optimize>false</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
