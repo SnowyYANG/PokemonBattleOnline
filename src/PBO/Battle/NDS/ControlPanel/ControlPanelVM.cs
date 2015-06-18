@@ -10,140 +10,152 @@ using PokemonBattleOnline.Network;
 
 namespace PokemonBattleOnline.PBO.Battle
 {
-  class ControlPanelVM : ObservableObject
-  {
-    public const int INACTIVE = -1;
-    public const int MAIN = 0;
-    public const int FIGHT = 1;
-    public const int POKEMONS = 2;
-    public const int STOP = 3;
-    public const int TARGET = 4;
-
-    public event Action<string> InputFailed;
-
-    readonly PlayerController Controller;
-    readonly GameOutward Game;
-    readonly DispatcherTimer Timer;
-    InputRequest Request;
-
-    public ControlPanelVM(RoomController c)
+    class ControlPanelVM : ObservableObject
     {
-      Controller = c.PlayerController;
-      Game = c.Game;
-      Timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(1) };
-      _time = 180;
-      _selectedPanel = INACTIVE;
-      Controller.RequireInput += RequireInput;
-      c.Game.GameEnd += () => Timer.Stop();
-      Timer.Tick += (sender, e) => Time--;
-    }
+        public const int INACTIVE = -1;
+        public const int MAIN = 0;
+        public const int FIGHT = 1;
+        public const int POKEMONS = 2;
+        public const int RUN = 3;
+        public const int TARGET = 4;
 
-    private int _time;
-    public int Time
-    {
-      get { return _time; }
-      private set
-      {
-        if (_time != value)
+        public event Action<string> InputFailed;
+
+        readonly PlayerController Controller;
+        readonly GameOutward Game;
+        readonly DispatcherTimer Timer;
+        InputRequest Request;
+
+        public ControlPanelVM(RoomController c)
         {
-          _time = value;
-          OnPropertyChanged("Time");
+            Controller = c.PlayerController;
+            Game = c.Game;
+            Timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(1) };
+            _time = 180;
+            _selectedPanel = INACTIVE;
+            _pokemons = new SimPokemon[6];
+            Controller.RequireInput += RequireInput;
+            c.Game.GameEnd += () => Timer.Stop();
+            Timer.Tick += (sender, e) => Time--;
         }
-      }
-    }
 
-    private int _selectedPanel;
-    public int SelectedPanel
-    {
-      get { return _selectedPanel; }
-      set
-      {
-        if (_selectedPanel != value)
+        private int _time;
+        public int Time
         {
-          _selectedPanel = value;
-          OnPropertyChanged("SelectedPanel");
+            get { return _time; }
+            private set
+            {
+                if (_time != value)
+                {
+                    _time = value;
+                    OnPropertyChanged("Time");
+                }
+            }
         }
-      }
-    }
 
-    public Weather Weather
-    { get { return Game.Board.Weather; } }
-
-    private bool _mega;
-    public bool Mega
-    {
-      get { return Request != null && Request.CanMega && _mega; }
-      set
-      {
-        if (_mega != value)
+        private int _selectedPanel;
+        public int SelectedPanel
         {
-          _mega = value;
-          OnPropertyChanged("Mega");
+            get { return _selectedPanel; }
+            set
+            {
+                if (_selectedPanel != value)
+                {
+                    _selectedPanel = value;
+                    OnPropertyChanged("SelectedPanel");
+                }
+            }
         }
-      }
-    }
 
-    public Visibility MegaVisibility
-    { get { return Request != null && Request.CanMega ? Visibility.Visible : Visibility.Collapsed; } }
+        public Weather Weather
+        { get { return Game.Board.Weather; } }
 
-    public SimOnboardPokemon ControllingPokemon
-    { get { return Controller.Game.OnboardPokemons.FirstOrDefault(); } }
+        private bool _mega;
+        public bool Mega
+        {
+            get { return Request != null && Request.CanMega && _mega; }
+            set
+            {
+                if (_mega != value)
+                {
+                    _mega = value;
+                    OnPropertyChanged("Mega");
+                }
+            }
+        }
 
-    public Visibility UndoVisibility
-    { get { return Visibility.Collapsed; } }
-    
-    public bool IsReturnEnabled
-    { get { return ControllingPokemon != null; } }
-    
-    public IEnumerable<SimPokemon> Pokemons
-    { get { return Controller.Player.Pokemons; } }
+        public Visibility MegaVisibility
+        { get { return Request != null && Request.CanMega ? Visibility.Visible : Visibility.Collapsed; } }
 
-    public TargetPanel TargetPanel
-    { get { return null; } }
-    
-    public PokemonOutward[] PokemonsOnBoard
-    { get { return null; } }
+        public SimOnboardPokemon ControllingPokemon
+        { get { return Controller.Game.OnboardPokemons.ValueOrDefault(Request.CurrentX); } }
 
-    private void RequireInput(InputRequest request)
-    {
-      Request = request;
-      request.Init(Controller.Game);
-      request.InputFinished += (i) =>
-      {
-        SelectedPanel = INACTIVE;
-        Controller.Input(i);
-        Timer.Stop();
-      };
-      _selectedPanel = request.IsSendOut ? POKEMONS : MAIN;
-      _mega = false;
-      _time = 180 - request.Time;
-      Timer.Start();
-      OnPropertyChanged();
-    }
+        public Visibility UndoVisibility
+        { get { return Visibility.Collapsed; } }
 
-    public void Pokemon_Click(SimPokemon pokemon)
-    {
-      if (Request.IsSendOut)
-      {
-        if (!Request.Pokemon(pokemon, 0)) InputFailed(Request.GetErrorMessage());
-      }
-      else
-      {
-        if (!Request.Pokemon(pokemon)) InputFailed(Request.GetErrorMessage());
-      }
+        public bool IsReturnEnabled
+        { get { return ControllingPokemon != null; } }
+
+        private SimPokemon[] _pokemons;
+        public SimPokemon[] Pokemons
+        { get { return _pokemons; } }
+
+        public TargetPanel TargetPanel
+        { get { return null; } }
+
+        public PokemonOutward[] PokemonsOnBoard
+        { get { return null; } }
+
+        private void RequireInput(InputRequest request)
+        {
+            Request = request;
+            request.Init(Controller.Game);
+            request.InputFinished += (i) =>
+            {
+                SelectedPanel = INACTIVE;
+                Controller.Input(i);
+                Timer.Stop();
+            };
+            _selectedPanel = request.IsSendOut ? POKEMONS : MAIN;
+            _mega = false;
+            _time = 180 - request.Time;
+            {
+                var step = Game.Settings.Mode.PlayersPerTeam();
+                var i = 0;
+                foreach (var pm in Controller.Game.Team[0].Pokemons) _pokemons[i += step] = pm;
+                if (step == 2)
+                {
+                    i = 1;
+                    foreach (var pm in Controller.Game.Team[1].Pokemons) _pokemons[i += step] = pm;
+                }
+            }
+            Timer.Start();
+            OnPropertyChanged();
+        }
+
+        public void Pokemon_Click(SimPokemon pokemon)
+        {
+            if (Request.IsSendOut)
+            {
+                if (!Request.Pokemon(pokemon, 0)) InputFailed(Request.GetErrorMessage());
+            }
+            else
+            {
+                if (!Request.Pokemon(pokemon)) InputFailed(Request.GetErrorMessage());
+            }
+        }
+        public void Fight_Click()
+        {
+            if (!Request.Fight()) SelectedPanel = FIGHT;
+        }
+        public void Move_Click(SimMove move)
+        {
+            if (move.PP.Value == 0) return;
+            if (!Request.Move(move, Mega)) InputFailed(Request.GetErrorMessage());
+        }
+        public void GiveUp_Click()
+        {
+            Request.GiveUp();
+        }
     }
-    public void Fight_Click()
-    {
-      if (!Request.Fight()) SelectedPanel = FIGHT;
-    }
-    public void Move_Click(SimMove move)
-    {
-      if (move.PP.Value == 0) return;
-      if (!Request.Move(move, Mega)) InputFailed(Request.GetErrorMessage());
-    }
-    public void GiveUp_Click()
-    {
-      
-    }
-  }
 }

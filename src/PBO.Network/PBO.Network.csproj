@@ -37,11 +37,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
     <OutputPath>..\..\debug\test\</OutputPath>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>none</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DefineConstants>TEST</DefineConstants>
+    <DefineConstants>TRACE;TEST</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -57,27 +57,27 @@
     <Compile Include="Commands\GameS2Cs.cs" />
     <Compile Include="Commands\GameC2Ss.cs" />
     <Compile Include="Commands\RoomS2C.cs" />
-    <Compile Include="Lobby\Client.cs" />
+    <Compile Include="Client.cs" />
     <Compile Include="ClientInitInfo.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Commands\Chat.cs" />
     <Compile Include="Commands\Seat.cs" />
     <Compile Include="Commands\UserS2C.cs" />
-    <Compile Include="Room\PlayerController.cs" />
-    <Compile Include="Room\RoomController.cs" />
-    <Compile Include="Lobby\ClientController.cs" />
+    <Compile Include="PlayerController.cs" />
+    <Compile Include="RoomController.cs" />
+    <Compile Include="ClientController.cs" />
     <Compile Include="LoginClient.cs" />
-    <Compile Include="Lobby\Room.cs" />
-    <Compile Include="Lobby\Seat.cs" />
-    <Compile Include="Lobby\User.cs" />
+    <Compile Include="Room.cs" />
+    <Compile Include="Seat.cs" />
+    <Compile Include="User.cs" />
     <Compile Include="Network\IPackReceivedListener.cs" />
     <Compile Include="Network\PackHelper.cs" />
     <Compile Include="Network\TcpClient.cs" />
     <Compile Include="Network\TcpPack.cs" />
     <Compile Include="PBOClient.cs" />
-    <Compile Include="Room\GameSettings.cs" />
+    <Compile Include="GameSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Room\GameStopReason.cs" />
+    <Compile Include="GameStopReason.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PBO.Game\PBO.Game.csproj">

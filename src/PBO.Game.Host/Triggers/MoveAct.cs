@@ -1141,6 +1141,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             if (last == null || aer.Moves.Any((m) => m.MoveE == last)) atk.FailAll();
             else
             {
+                foreach (var m in aer.Moves)
+                    if (m.MoveE == last)
+                    {
+                        atk.FailAll();
+                        return;
+                    }
                 aer.ChangeMove(atk.Move, last);
                 aer.Controller.ReportBuilder.Mimic(aer, last);
             }

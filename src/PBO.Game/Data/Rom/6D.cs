@@ -31,7 +31,8 @@ namespace PokemonBattleOnline.Game
         }
     }
 
-    public class ReadOnly6D : I6D
+    [DataContract(Namespace = PBOMarks.JSON)]//不需要可序列化，为了兼容前代存档
+    public struct ReadOnly6D : I6D
     {
         public ReadOnly6D(int h, int a, int d, int sa, int sd, int s)
         {
@@ -53,26 +54,32 @@ namespace PokemonBattleOnline.Game
             _speed = values.Speed;
         }
 
+        [DataMember(Name = "H", Order = 0)]
         private readonly int _hp;
         public int Hp
         { get { return _hp; } }
 
+        [DataMember(Name = "A", Order = 1)]
         private readonly int _atk;
         public int Atk
         { get { return _atk; } }
 
+        [DataMember(Name = "D", Order = 2)]
         private readonly int _def;
         public int Def
         { get { return _def; } }
 
+        [DataMember(Name = "SA", Order = 3)]
         private readonly int _spAtk;
         public int SpAtk
         { get { return _spAtk; } }
 
+        [DataMember(Name = "SD", Order = 4)]
         private readonly int _spDef;
         public int SpDef
         { get { return _spDef; } }
 
+        [DataMember(Name = "S", Order = 5)]
         private readonly int _speed;
         public int Speed
         { get { return _speed; } }

@@ -88,17 +88,17 @@ namespace PokemonBattleOnline.Game.Host
         {
             using (var sr = new System.IO.StreamReader(System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("PokemonBattleOnline.Game.Host.dat.Moves.txt")))
             {
-                Moves = new MoveTypeE[RomData.MOVES];
-                for (int i = 0; i < RomData.MOVES; ++i) Moves[i] = new MoveTypeE(RomData.GetMove(i + 1), sr.ReadLine());
+                Moves = new MoveTypeE[RomData.MOVES + 1];
+                for (int i = 1; i <= RomData.MOVES; ++i) Moves[i] = new MoveTypeE(RomData.GetMove(i), sr.ReadLine());
             }
         }
         public static MoveTypeE Get(MoveType move)
         {
-            return Get(move.Id - 1);
+            return Get(move.Id);
         }
         public static MoveTypeE Get(int id)
         {
-            return Moves[id - 1];
+            return Moves[id];
         }
 
         public readonly MoveType Move;
@@ -129,9 +129,9 @@ namespace PokemonBattleOnline.Game.Host
             if (!string.IsNullOrEmpty(s[3]))
             {
                 var t1 = (StatType)Enum.Parse(typeof(StatType), s[3]);
-                var t2 = (StatType)Enum.Parse(typeof(StatType), s[4]);
-                var t3 = (StatType)Enum.Parse(typeof(StatType), s[5]);
-                Lv7DChanges = new MoveLv7DChanges(t1, t2, t3, int.Parse(s[6]), int.Parse(s[7]), int.Parse(s[8]), int.Parse(s[9]));
+                var t2 = string.IsNullOrEmpty(s[4]) ? StatType.Invalid : (StatType)Enum.Parse(typeof(StatType), s[4]);
+                var t3 = string.IsNullOrEmpty(s[5]) ? StatType.Invalid : (StatType)Enum.Parse(typeof(StatType), s[5]);
+                Lv7DChanges = new MoveLv7DChanges(t1, t2, t3, int.Parse(s[6]), string.IsNullOrEmpty(s[7]) ? 0 : int.Parse(s[7]), string.IsNullOrEmpty(s[8]) ? 0 : int.Parse(s[8]), int.Parse(s[9]));
             }
             NeedTouch = s[10][0] == '1';
             Protectable = s[11][0] == '1';

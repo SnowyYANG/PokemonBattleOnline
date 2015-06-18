@@ -23,7 +23,7 @@
                 </Canvas.Background>
                 <b:GameButton Click="Fight_Click" Padding="2,1" Shape="M113,0 A113,70 180 1 1 113,140 A113,70 180 1 1 113,0 Z" Image="/PBO;component/images/ControlPanel/Fight.png" Width="226" Height="140" Canvas.Left="47" Canvas.Top="34"/>
                 <b:GameButton Click="Pokemons_Click" Shape="M1,63 A58,58 120 0 1 90,11 V63 Z" Image="/PBO;component/images/ControlPanel/Pokemon.png" Padding="1,1,0,0" Width="90" Height="63" Canvas.Bottom="0" Canvas.Right="0"/>
-                <Button Visibility="Collapsed" Content="中止" Click="Stop_Click" Height="44" Width="76" Canvas.Bottom="0" Canvas.Left="110"/>
+                <Button Content="Run" Opacity="0.8" Click="Run_Click" Height="44" Width="76" Canvas.Bottom="0" Canvas.Left="110"/>
             </Canvas>
         </TabItem>
         <TabItem>
@@ -277,8 +277,8 @@
         </TabItem>
         <TabItem>
             <Grid>
-                <Button Content="放弃战斗" Margin="0,31,0,0" Click="Giveup_Click"/>
-                <Button Content="继续战斗！" Margin="0,79,0,0" Click="Return_Click"/>
+                <Button Content="是" Margin="0,31,0,0" VerticalAlignment="Top" Click="GiveUp_Click"/>
+                <Button Content="否" Margin="0,79,0,0" VerticalAlignment="Top" Click="Return_Click"/>
             </Grid>
         </TabItem>
         <TabItem></TabItem>

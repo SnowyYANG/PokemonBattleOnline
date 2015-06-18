@@ -8,14 +8,14 @@ using PokemonBattleOnline.Game;
 namespace PokemonBattleOnline.Network.Commands
 {
   [DataContract(Name = "sp", Namespace = PBOMarks.JSON)]
-  public class SetPrepare : IS2C
+  public class SetPrepareS2C : IS2C
   {
     [DataMember(Name = "a", EmitDefaultValue = false)]
     Seat Seat;
     [DataMember(Name = "b", EmitDefaultValue = false)]
     bool Prepare;
 
-    public SetPrepare(Seat seat, bool prepare)
+    public SetPrepareS2C(Seat seat, bool prepare)
     {
       Seat = seat;
       Prepare = prepare;

@@ -7,17 +7,10 @@ using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Game
 {
-    [Flags]
-    public enum InputType
-    {
-        Struggle = 1,
-        UseMove = 2,
-        SendOut = 4,
-    }
     public class SelectMoveFail
     {
         public readonly string Key;
-        public readonly int Move; //知道怎么区分Block和Only了吧...
+        public readonly int Move; //区分Block和Only
 
         public SelectMoveFail(string key, int move)
         {
@@ -25,7 +18,7 @@ namespace PokemonBattleOnline.Game
             Move = move;
         }
     }
-    [DataContract(Name = "pir", Namespace = PBOMarks.PBO)]
+    [DataContract(Name = "pir", Namespace = PBOMarks.JSON)]
     public sealed class PmInputRequest
     {
         [DataMember(EmitDefaultValue = false)]
@@ -157,18 +150,6 @@ namespace PokemonBattleOnline.Game
                 if (Pms[CurrentX++] != null) break;
             if (CurrentX == Pms.Length) InputFinished(input);
         }
-        private void CheckSendOutFinished()
-        {
-#if MULTI
-      if (Tiles.Length == 0)
-      {
-      }
-      else
-#endif
-            {
-                InputFinished(input);
-            }
-        }
         public void Init(SimGame game)
         {
             this.game = game;
@@ -228,7 +209,9 @@ namespace PokemonBattleOnline.Game
                 return false;
             }
             input.SendOut(x, pokemon);
-            CheckSendOutFinished();
+            //多打中有多只精灵倒下，要把哪只精灵收回来
+            //单打和合作没有这种需要
+            InputFinished(input);
             return true;
         }
         public bool Pokemon(SimPokemon pokemon)
@@ -242,13 +225,15 @@ namespace PokemonBattleOnline.Game
             error = Pms[CurrentX].GetErrorMessage();
             return false;
         }
-        public void Undo()
+        public void GiveUp()
         {
-            throw new NotImplementedException();
+            input.GiveUp = true;
+            InputFinished(input);
         }
-        //void TurnLeft();
-        //void TurnRight();
-        //void MoveToCenter();
+        //public void Undo();
+        //public void TurnLeft();
+        //public void TurnRight();
+        //public void MoveToCenter();
         #endregion
     }
 }
