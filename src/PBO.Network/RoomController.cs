@@ -161,7 +161,7 @@ namespace PokemonBattleOnline.Network
     private PokemonData[] Self;
     public void GamePrepare(PokemonData[] team)
     {
-      if (team.Length != 0 && User.Seat != Seat.Spectator && !Room.Battling)
+      if (team.Length != 0 && User.Seat != Seat.Spectator && Room != null && !Room.Battling)
       {
         Self = team;
         _Client.Send(PrepareC2S.Prepare(team));

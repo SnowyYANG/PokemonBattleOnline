@@ -54,7 +54,7 @@ namespace PokemonBattleOnline.Test
         }
         public void EditTeam(List<PokemonData> team)
         {
-            if (C.Room == null) C.EnterRoom(C.Rooms.Last(), Seat);
+            if (C.Room.Room == null) C.EnterRoom(C.Rooms.Last(), Seat);
             if (team != null)
             {
                 Team.Clear();
@@ -152,18 +152,18 @@ namespace PokemonBattleOnline.Test
                 var ir = IR;
                 IR = null;
                 LOOP:
-                Console.Write(Name + "Battle: ");
+                Console.Write(Name + " Battle: ");
                 var line = Console.ReadLine();
                 var ai = new ActionInput(pc.Game.Settings.Mode.XBound());
                 switch (line)
                 {
                     case "":
-                        if (pc.Game.OnboardPokemons[0] != null)
+                        if (pc.Game.OnboardPokemons[ir.CurrentX] != null)
                         {
-                            var moves = pc.Game.OnboardPokemons[0].Moves;
+                            var moves = pc.Game.OnboardPokemons[ir.CurrentX].Moves;
                             int i;
                             for (i = 0; i < 4; ++i) if (moves[i] == null) break;
-                            ai.UseMove(0, moves[Random.Next(0, i)], false);
+                            ai.UseMove(ir.CurrentX, moves[Random.Next(0, i)], false);
                         }
                         else
                         {
@@ -185,7 +185,7 @@ namespace PokemonBattleOnline.Test
                     case "mega !4":
                         if (ir.CanMega)
                         {
-                            var move = pc.Game.OnboardPokemons[0].Moves[line[6] - '1'];
+                            var move = pc.Game.OnboardPokemons[ir.CurrentX].Moves[line[6] - '1'];
                             if (move == null) goto default;
                             ai.UseMove(ir.CurrentX, move, true);
                         }
@@ -196,7 +196,7 @@ namespace PokemonBattleOnline.Test
                     case "!3":
                     case "!4":
                         {
-                            var move = pc.Game.OnboardPokemons[0].Moves[line[1] - '1'];
+                            var move = pc.Game.OnboardPokemons[ir.CurrentX].Moves[line[1] - '1'];
                             if (move == null) goto default;
                             ai.UseMove(ir.CurrentX, move, false);
                         }
@@ -210,7 +210,7 @@ namespace PokemonBattleOnline.Test
                         {
                             var p = PM[line[1] - '1'];
                             if (p == null || p.Hp.Value == 0 || p.Owner.GetPokemon(0) == p) goto default;
-                            if (pc.Game.OnboardPokemons[0] != null) ai.Switch(0, p);
+                            if (pc.Game.OnboardPokemons[ir.CurrentX] != null) ai.Switch(ir.CurrentX, p);
                             else ai.SendOut(ir.CurrentX, p);
                         }
                         break;

@@ -29,7 +29,7 @@ namespace PokemonBattleOnline.Test
                 {
                     case "P00":
                         C00 = new TestClient(c.Controller, Seat.Player00);
-                        C00.C.NewRoom(new GameSettings(GameMode.Single), Seat.Player00);
+                        C00.C.NewRoom(new GameSettings(GameMode.Tag), Seat.Player00);
                         break;
                     case "P01":
                         C01 = new TestClient(c.Controller, Seat.Player01);
@@ -52,13 +52,13 @@ namespace PokemonBattleOnline.Test
             l01.BeginLogin();
             l10.BeginLogin();
             l11.BeginLogin();
-
+            Console.ReadKey();
 
             TEAM:
             C00.EditTeam(null);
             C01.EditTeam(C00.Team);
             C10.EditTeam(C01.Team);
-            C11.EditTeam(C11.Team);
+            C11.EditTeam(C10.Team);
 
             LogLine("============BATTLE============");
             BATTLE:

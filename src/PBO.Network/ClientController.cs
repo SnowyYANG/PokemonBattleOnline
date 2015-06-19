@@ -51,6 +51,9 @@ namespace PokemonBattleOnline.Network
         public User User
         { get { return _user; } }
         private readonly RoomController _room;
+        /// <summary>
+        /// 单实例，RoomController.Room为房间实体
+        /// </summary>
         public RoomController Room
         { get { return _room; } }
         private readonly ObservableList<User> _users;
