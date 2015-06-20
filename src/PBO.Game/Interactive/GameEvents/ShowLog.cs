@@ -10,6 +10,7 @@ namespace PokemonBattleOnline.Game
     {
         public const string SendOut1 = "SendOut1";
         public const string SendOut2 = "SendOut2";
+        public const string SendOut22 = "SendOut22";
         public const string SendOut3 = "SendOut3";
         
         public const string PLAYER_STOP = "PLAYER_STOP"; //{0}强制退出了游戏。
@@ -508,7 +509,7 @@ namespace PokemonBattleOnline.Game
             }
             protected override void Update()
             {
-                if (Key == LogKeys.SendOut1 || Key == LogKeys.SendOut2 || Key == LogKeys.SendOut3)
+                if (Key == LogKeys.SendOut1 || Key == LogKeys.SendOut2 || Key == LogKeys.SendOut22 || Key == LogKeys.SendOut3)
                 {
                     AppendGameLog(Key + "_r", LogStyle.HiddenAfterBattle, I0, I1, I2);
                     AppendGameLog(Key + "_f", LogStyle.HiddenInBattle, I0, I1, I2);
