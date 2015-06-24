@@ -37,8 +37,8 @@ namespace PokemonBattleOnline.PBO.Battle
       int observerTeamId;
       if (userController.PlayerController != null) observerTeamId = userController.PlayerController.Player.Team;
       else observerTeamId = 0;
-      opms.ItemsSource = game.Board.Pokemons[observerTeamId];
-      rpms.ItemsSource = game.Board.Pokemons[1 - observerTeamId];
+      opms.DataContext = game.Board.Pokemons[observerTeamId];
+      rpms.DataContext = game.Board.Pokemons[1 - observerTeamId];
       board.Init(game.Board, observerTeamId);
     }
 

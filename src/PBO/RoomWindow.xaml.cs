@@ -123,6 +123,7 @@ namespace PokemonBattleOnline.PBO
             if (room != null)
             {
                 Prepare.DataContext = Current.Room = room;
+                PX1.Height = new GridLength(room.Room.Settings.Mode == GameMode.Tag ? 32 : 0);
                 Visibility = Visibility.Visible;
                 Teams.Visibility = Visibility.Visible;
                 Prepare.Visibility = Visibility.Visible;

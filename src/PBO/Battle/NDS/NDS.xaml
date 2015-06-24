@@ -17,77 +17,92 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <DataTemplate x:Key="StateBar">
-            <Canvas Width="76" Height="19" UseLayoutRounding="True" SnapsToDevicePixels="True">
-                <Canvas.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="FontFamily" Value="SimSun"/>
-                    </Style>
-                </Canvas.Resources>
-                <Canvas.Background>
-                    <ImageBrush ImageSource="/PBO;component/images/UpperScreen/StateBar/Pokemon.png" />
-                </Canvas.Background>
-                <Label Content="{Binding Name}" Style="{x:Static ui:Controls.STextBlock}" FontSize="13" Canvas.Right="50" Canvas.Top="-6"/>
-                <Label Content="{Binding Lv}" Style="{x:Static ui:Controls.STextBlock}" FontSize="12" FontWeight="Bold" Canvas.Left="49" Canvas.Top="-5"/>
-                <Image DataContext="{Binding Gender}" Style="{StaticResource BitmapGenderLabel}" Canvas.Left="27" Canvas.Top="-6"/>
-                <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="-45" Canvas.Top="7"/>
-                <Image x:Name="mega" Visibility="Collapsed" Source="/PBO;component/images/UpperScreen/StateBar/Mega.png" Height="15" Width="15" Canvas.Left="35" Canvas.Top="-7"/>
-                <b:LifeBarWithText DataContext="{Binding Hp}" Canvas.Left="21" Canvas.Top="10"/>
-            </Canvas>
-            <DataTemplate.Triggers>
-                <DataTrigger Binding="{Binding Mega}" Value="True">
-                    <Setter TargetName="mega" Property="Visibility" Value="Visible"/>
-                </DataTrigger>
-            </DataTemplate.Triggers>
-        </DataTemplate>
-        <DataTemplate x:Key="FoeStateBar">
-            <Canvas Width="76" Height="19" UseLayoutRounding="True" SnapsToDevicePixels="True">
-                <Canvas.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="FontFamily" Value="SimSun"/>
-                    </Style>
-                </Canvas.Resources>
-                <Canvas.Background>
-                    <ImageBrush ImageSource="/PBO;component/images/UpperScreen/StateBar/Pokemon.png" />
-                </Canvas.Background>
-                <Label Content="{Binding Name}" Style="{x:Static ui:Controls.STextBlock}" FontSize="13" Canvas.Right="50" Canvas.Top="-6"/>
-                <Label Content="{Binding Lv}" Style="{x:Static ui:Controls.STextBlock}" FontSize="12" FontWeight="Bold" Canvas.Left="49" Canvas.Top="-5"/>
-                <Image DataContext="{Binding Gender}" Style="{StaticResource BitmapGenderLabel}" Canvas.Left="27" Canvas.Top="-6"/>
-                <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="-45" Canvas.Top="7"/>
-                <Image x:Name="mega" Visibility="Collapsed" Source="/PBO;component/images/UpperScreen/StateBar/Mega.png" Height="15" Width="15" Canvas.Left="35" Canvas.Top="-7"/>
-                <b:LifeBar DataContext="{Binding Hp}" Canvas.Left="21" Canvas.Top="10"/>
-            </Canvas>
-            <DataTemplate.Triggers>
-                <DataTrigger Binding="{Binding Mega}" Value="True">
-                    <Setter TargetName="mega" Property="Visibility" Value="Visible"/>
-                </DataTrigger>
-            </DataTemplate.Triggers>
-        </DataTemplate>
     </UserControl.Resources>
     <Canvas Background="Black" Height="480" Width="400">
         <b:BattleField2D x:Name="board" IsHitTestVisible="False"/>
-        <ItemsControl x:Name="rpms" ItemTemplate="{StaticResource FoeStateBar}" Canvas.Right="14" Canvas.Top="9" IsHitTestVisible="False">
-            <ItemsControl.ItemContainerStyle>
+        <Canvas x:Name="rpms" Canvas.Right="14" Canvas.Top="9" IsHitTestVisible="False">
+            <Canvas.Resources>
                 <Style TargetType="ContentPresenter">
+                    <Setter Property="ContentTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <Canvas Width="76" Height="19" UseLayoutRounding="True" SnapsToDevicePixels="True">
+                                    <Canvas.Resources>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontFamily" Value="SimSun"/>
+                                        </Style>
+                                    </Canvas.Resources>
+                                    <Canvas.Background>
+                                        <ImageBrush ImageSource="/PBO;component/images/UpperScreen/StateBar/Pokemon.png" />
+                                    </Canvas.Background>
+                                    <Label Content="{Binding Name}" Style="{x:Static ui:Controls.STextBlock}" FontSize="13" Canvas.Right="50" Canvas.Top="-6"/>
+                                    <Label Content="{Binding Lv}" Style="{x:Static ui:Controls.STextBlock}" FontSize="12" FontWeight="Bold" Canvas.Left="49" Canvas.Top="-5"/>
+                                    <Image DataContext="{Binding Gender}" Style="{StaticResource BitmapGenderLabel}" Canvas.Left="27" Canvas.Top="-6"/>
+                                    <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="-45" Canvas.Top="7"/>
+                                    <Image x:Name="mega" Visibility="Collapsed" Source="/PBO;component/images/UpperScreen/StateBar/Mega.png" Height="15" Width="15" Canvas.Left="35" Canvas.Top="-7"/>
+                                    <b:LifeBar DataContext="{Binding Hp}" Canvas.Left="21" Canvas.Top="10"/>
+                                </Canvas>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Mega}" Value="True">
+                                        <Setter TargetName="mega" Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
                     <Style.Triggers>
                         <Trigger Property="Content" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Hidden"/>
                         </Trigger>
                     </Style.Triggers>
                 </Style>
-            </ItemsControl.ItemContainerStyle>
-        </ItemsControl>
-        <ItemsControl x:Name="opms" ItemTemplate="{StaticResource StateBar}" Canvas.Left="51" Canvas.Top="212" IsHitTestVisible="False">
-            <ItemsControl.ItemContainerStyle>
+            </Canvas.Resources>
+            <ContentPresenter Content="{Binding [0]}" Canvas.Right="0"/>
+            <ContentPresenter Content="{Binding [1]}" Canvas.Right="150"/>
+        </Canvas>
+        <Canvas x:Name="opms" Canvas.Left="51" Canvas.Top="212" IsHitTestVisible="False">
+            <Canvas.Resources>
                 <Style TargetType="ContentPresenter">
+                    <Setter Property="ContentTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <Canvas Width="76" Height="19" UseLayoutRounding="True" SnapsToDevicePixels="True">
+                                    <Canvas.Resources>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontFamily" Value="SimSun"/>
+                                        </Style>
+                                    </Canvas.Resources>
+                                    <Canvas.Background>
+                                        <ImageBrush ImageSource="/PBO;component/images/UpperScreen/StateBar/Pokemon.png" />
+                                    </Canvas.Background>
+                                    <Label Content="{Binding Name}" Style="{x:Static ui:Controls.STextBlock}" FontSize="13" Canvas.Right="50" Canvas.Top="-6"/>
+                                    <Label Content="{Binding Lv}" Style="{x:Static ui:Controls.STextBlock}" FontSize="12" FontWeight="Bold" Canvas.Left="49" Canvas.Top="-5"/>
+                                    <Image DataContext="{Binding Gender}" Style="{StaticResource BitmapGenderLabel}" Canvas.Left="27" Canvas.Top="-6"/>
+                                    <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="-45" Canvas.Top="7"/>
+                                    <Image x:Name="mega" Visibility="Collapsed" Source="/PBO;component/images/UpperScreen/StateBar/Mega.png" Height="15" Width="15" Canvas.Left="35" Canvas.Top="-7"/>
+                                    <b:LifeBarWithText DataContext="{Binding Hp}" Canvas.Left="21" Canvas.Top="10"/>
+                                </Canvas>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Mega}" Value="True">
+                                        <Setter TargetName="mega" Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
                     <Style.Triggers>
                         <Trigger Property="Content" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Hidden"/>
                         </Trigger>
                     </Style.Triggers>
                 </Style>
-            </ItemsControl.ItemContainerStyle>
-        </ItemsControl>
+            </Canvas.Resources>
+            <ContentPresenter Content="{Binding [0]}" Canvas.Left="0"/>
+            <ContentPresenter Content="{Binding [1]}" Canvas.Left="150"/>
+        </Canvas>
         <b:Subtitle x:Name="subtitle" IsHitTestVisible="False" Canvas.Bottom="240"/>
         <b:ControlPanel x:Name="cp" Canvas.Left="40" Canvas.Top="240"/>
     </Canvas>

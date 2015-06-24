@@ -14,8 +14,9 @@ namespace PokemonBattleOnline
 
         public IdsPool()
         {
+            //ConcurrentBag在一次测试中值为{2, 3, 4, 4, ...}
             Pool = new ConcurrentBag<int>();
-            //尝试避免Interlocked.Increment方法返回0
+            //Interlocked.Increment有一次返回了0，可能是我错觉，总之尝试避免
             max = 0;
         }
 
