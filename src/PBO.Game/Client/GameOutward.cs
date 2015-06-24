@@ -25,8 +25,15 @@ namespace PokemonBattleOnline.Game
             Settings = settings;
             Players = players;
             Board = new BoardOutward(Settings);
-            Board.Teams[0] = new TeamOutward(players[0, 0]);
-            Board.Teams[1] = new TeamOutward(players[1, 0]);
+            var tn0 = players[0, 0];
+            var tn1 = players[1, 0];
+            if (Settings.Mode.PlayersPerTeam() == 2)
+            {
+                tn0 += " " + players[0, 1];
+                tn1 += " " + players[1, 1];
+            }
+            Board.Teams[0] = new TeamOutward(tn0);
+            Board.Teams[1] = new TeamOutward(tn1);
 #if TEST
             LogAppended = delegate { };
             TurnEnd = delegate { };
