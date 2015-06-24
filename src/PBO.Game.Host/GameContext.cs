@@ -111,8 +111,8 @@ namespace PokemonBattleOnline.Game.Host
                     {
                         Error();
                     }
-                    return Controller.CheckInputSucceed(teamId, teamIndex);
                 }
+                return Controller.CheckInputSucceed(teamId, teamIndex);
             }
             return false;
         }
