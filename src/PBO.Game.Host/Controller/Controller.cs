@@ -30,10 +30,12 @@ namespace PokemonBattleOnline.Game.Host
             Board = new Board(GameSettings);
 
             Teams = new Team[2];
+            var ppt = settings.Mode.PlayersPerTeam();
             for (int t = 0; t < Teams.Length; ++t)
             {
-                var players = new Player[settings.Mode.PlayersPerTeam()];
-                for (int p = 0; p < settings.Mode.PlayersPerTeam(); ++p) players[p] = new Player(this, t, p, pms[t, p]);
+                var players = new Player[ppt];
+                players[0] = new Player(this, t, 0, pms[t, 0]);
+                if (ppt == 2) players[1] = new Player(this, t, 1, pms[t, 1]);
                 Teams[t] = new Team(t, players, settings);
             }
 
@@ -177,12 +179,13 @@ namespace PokemonBattleOnline.Game.Host
         {
             if (InputController.PauseForEndTurnInput()) PauseForInput();
         }
+
         private void PauseForInput()
         {
             if (InputController.NeedInput)
             {
 #if TEST
-        random = new Random(randomSeeds.Next());
+                random = new Random(randomSeeds.Next());
 #else
                 random = new Random();
 #endif

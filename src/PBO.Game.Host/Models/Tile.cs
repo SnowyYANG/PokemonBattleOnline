@@ -12,21 +12,18 @@ namespace PokemonBattleOnline.Game.Host
         public readonly Field Field;
         public readonly int X;
 
-        internal Tile(Field team, int x, IGameSettings gameSettings)
+        public Tile(Field team, int x)
         {
             Field = team;
             X = x;
-            _speed = (Team << 3) + x;
-            WillSendOutPokemonIndex = gameSettings.Mode.GetPokemonIndex(x);
         }
 
         public int Team
         { get { return Field.Team; } }
-        public PokemonProxy Pokemon
-        { get; internal set; }
+        public PokemonProxy Pokemon;
 
-        public int WillSendOutPokemonIndex
-        { get; internal set; }
+        public int WillSendOutPokemonIndex;
+
         private int _speed;
         public int Speed
         {
@@ -37,7 +34,7 @@ namespace PokemonBattleOnline.Game.Host
             }
         }
 
-        internal void Debut()
+        public void Debut()
         {
             var pm = Pokemon;
             var h = pm.Hp != pm.Pokemon.MaxHp;

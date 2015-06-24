@@ -151,6 +151,7 @@ namespace PokemonBattleOnline.Test
             {
                 var ir = IR;
                 IR = null;
+                ir.Init(pc.Game);
                 LOOP:
                 Console.Write(Name + " Battle: ");
                 var line = Console.ReadLine();

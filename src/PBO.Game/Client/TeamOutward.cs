@@ -42,7 +42,7 @@ namespace PokemonBattleOnline.Game
         }
         internal void StateChanged(PokemonOutward pm)
         {
-            this[pm.TeamIndex] = pm.Hp.Value == 0 ? BallState.Faint : pm.State == PokemonState.Normal ? BallState.Normal : BallState.Abnormal;
+            this[pm.TeamIndex * 3 + pm.PokemonIndex] = pm.Hp.Value == 0 ? BallState.Faint : pm.State == PokemonState.Normal ? BallState.Normal : BallState.Abnormal;
             OnPropertyChanged();
         }
         internal void SwitchPokemon(int index, int a, int b)

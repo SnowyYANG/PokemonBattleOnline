@@ -19,14 +19,14 @@ namespace PokemonBattleOnline.Game.GameEvents
             Pm.Init(Game);
             Game.Board[Pm.Position.Team, Pm.Position.X] = Pm;
             Game.Board.OnPokemonSentOut(Pm.Position.Team, Pm.Position.X);
-            Game.Board.Teams[Pm.Position.Team].SwitchPokemon(Pm.TeamIndex, FormerIndex, Game.Settings.Mode.GetPokemonIndex(Pm.Position.X));
+            Game.Board.Teams[Pm.Position.Team].SwitchPokemon(Pm.TeamIndex, FormerIndex, Pm.PokemonIndex);
         }
         public override void Update(SimGame game)
         {
             if (Pm.Position.Team == game.Player.Team)
             {
                 if (Pm.TeamIndex == game.Player.TeamIndex) game.OnboardPokemons[Pm.Position.X] = new SimOnboardPokemon(game.Pokemons[Pm.Id], Pm);
-                game.Team[Pm.TeamIndex].SwitchPokemon(game.Settings.Mode.GetPokemonIndex(Pm.Position.X), FormerIndex);
+                game.Team[Pm.TeamIndex].SwitchPokemon(Pm.PokemonIndex, FormerIndex);
             }
         }
     }

@@ -72,7 +72,7 @@ namespace PokemonBattleOnline.PBO.Lobby
 
     private void NewRoom_Click(object sender, RoutedEventArgs e)
     {
-      Controller.NewRoom(null, new GameSettings(Game.GameMode.Single), Seat.Player00);
+      Controller.NewRoom(new GameSettings(Game.GameMode.Single), Seat.Player00);
     }
 
     private void Exit_Click(object sender, RoutedEventArgs e)

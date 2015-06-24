@@ -14,11 +14,18 @@ namespace PokemonBattleOnline.Game.Host
         {
             TeamId = teamId;
             TeamIndex = teamIndex;
+            var tiles = new List<Tile>();
+            foreach (var t in controller.Board[teamId].Tiles)
+                if (controller.GameSettings.Mode.GetPlayerIndex(t.X) == teamIndex) tiles.Add(t);
+            _tiles = tiles.ToArray();
             _pokemons = new PokemonProxy[pokemons.Length];
             for (int i = 0; i < pokemons.Length; i++)
                 _pokemons[i] = new PokemonProxy(new Pokemon(controller, teamId * 50 + teamIndex * 10 + i, this, pokemons[i]));
         }
 
+        private readonly Tile[] _tiles;
+        public IEnumerable<Tile> Tiles
+        { get { return _tiles; } }
         private readonly PokemonProxy[] _pokemons;
         public IEnumerable<PokemonProxy> Pokemons
         { get { return _pokemons; } }

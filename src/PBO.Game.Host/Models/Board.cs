@@ -41,7 +41,7 @@ namespace PokemonBattleOnline.Game.Host
         public IEnumerable<PokemonProxy> Pokemons
         { get; private set; }
 
-        internal void RefreshPokemons()
+        public void RefreshPokemons()
         {
             var pms = new List<PokemonProxy>();
             foreach (var t in Tiles)

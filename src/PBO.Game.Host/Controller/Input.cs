@@ -22,16 +22,15 @@ namespace PokemonBattleOnline.Game.Host
         public bool CheckInputSucceed(Player player)
         {
             if (!player.GiveUp)
-                foreach (Tile t in Controller.Board[player.TeamId].Tiles)
-                    if (Controller.GetPlayer(t) == player)
-                        if (t.Pokemon != null)
-                        {
-                            if (t.Pokemon.Action == PokemonAction.WaitingForInput) return false;
-                        }
-                        else
-                        {
-                            if (t.WillSendOutPokemonIndex < GameSettings.Mode.OnboardPokemonsPerPlayer() && Controller.CanSendOut(t)) return false;
-                        }
+                foreach (Tile t in player.Tiles)
+                    if (t.Pokemon != null)
+                    {
+                        if (t.Pokemon.Action == PokemonAction.WaitingForInput) return false;
+                    }
+                    else
+                    {
+                        if (t.WillSendOutPokemonIndex < GameSettings.Mode.OnboardPokemonsPerPlayer() && Controller.CanSendOut(t)) return false;
+                    }
             Controller.Timer.Pause(player);
             _requirements[player.TeamId, player.TeamIndex] = null;
             return true;
@@ -74,28 +73,31 @@ namespace PokemonBattleOnline.Game.Host
             }
             return pir;
         }
+        
+        int[,] time = new int[2, 2];
+        PmInputRequest[,][] pirs = new PmInputRequest[2, 2][];
         public bool PauseForTurnInput()
         {
             if (!Controller.CanContinue) return false;
-            List<PmInputRequest>[,] pms = new List<PmInputRequest>[2, 2];
-            int[,] time = new int[2, 2];
+            var xn = GameSettings.Mode.XBound();
+            pirs[0, 0] = pirs[0, 1] = pirs[1, 0] = pirs[1, 1] = null;
             foreach (var p in Controller.ActingPokemons)
                 if (p.Action == PokemonAction.WaitingForInput)
                 {
                     var player = p.Pokemon.Owner;
                     var id = player.TeamId;
                     var index = player.TeamIndex;
-                    if (pms[id, index] == null)
+                    if (pirs[id, index] == null)
                     {
-                        pms[id, index] = new List<PmInputRequest>();
+                        pirs[id, index] = new PmInputRequest[xn];
                         time[id, index] = player.SpentTime;
                     }
-                    pms[player.TeamId, player.TeamIndex].Add(NewInputRequest(p));
+                    pirs[id, index][p.OnboardPokemon.X] = NewInputRequest(p);
                 }
-            if (pms[0, 0] != null) _requirements[0, 0] = new InputRequest() { Pms = pms[0, 0].ToArray(), Time = time[0, 0] };
-            if (pms[0, 1] != null) _requirements[0, 1] = new InputRequest() { Pms = pms[0, 1].ToArray(), Time = time[0, 1] };
-            if (pms[1, 0] != null) _requirements[1, 0] = new InputRequest() { Pms = pms[1, 0].ToArray(), Time = time[1, 0] };
-            if (pms[1, 1] != null) _requirements[1, 1] = new InputRequest() { Pms = pms[1, 1].ToArray(), Time = time[1, 1] };
+            if (pirs[0, 0] != null) _requirements[0, 0] = new InputRequest() { Pms = pirs[0, 0], Time = time[0, 0] };
+            if (pirs[0, 1] != null) _requirements[0, 1] = new InputRequest() { Pms = pirs[0, 1], Time = time[0, 1] };
+            if (pirs[1, 0] != null) _requirements[1, 0] = new InputRequest() { Pms = pirs[1, 0], Time = time[1, 0] };
+            if (pirs[1, 1] != null) _requirements[1, 1] = new InputRequest() { Pms = pirs[1, 1], Time = time[1, 1] };
             return true;
         }
         public bool PauseForEndTurnInput()
@@ -115,7 +117,7 @@ namespace PokemonBattleOnline.Game.Host
             if (Controller.CanSendOut(tile))
             {
                 var player = Controller.GetPlayer(tile);
-                _requirements[player.TeamId, player.TeamIndex] = new InputRequest() { Xs = new int[] { tile.X }, Time = player.SpentTime };
+                _requirements[player.TeamId, player.TeamIndex] = new InputRequest() { X = tile.X, Time = player.SpentTime };
             }
             return true;
         }

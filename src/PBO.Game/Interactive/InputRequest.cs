@@ -115,10 +115,18 @@ namespace PokemonBattleOnline.Game
         [DataMember(EmitDefaultValue = false)]
         public PmInputRequest[] Pms;
 
+        /// <summary>
+        /// 逃生按钮 追击死亡 （回合末精灵登场Pms和X均为null）
+        /// </summary>
         [DataMember(EmitDefaultValue = false)]
-        public int[] Xs;
+        private int x;
+        public int? X
+        {
+            get { return x == 0 ? null : (int?)(x - 1); }
+            set { x = value == null ? 0 : x + 1; }
+        }
 
-        [DataMember(Name = "c")]
+        [DataMember(Name = "a")]
         public int Time;
 
         public InputRequest()
@@ -127,7 +135,7 @@ namespace PokemonBattleOnline.Game
         protected InputRequest(InputRequest ir)
         {
             Pms = ir.Pms;
-            Xs = ir.Xs;
+            X = ir.X;
             Time = ir.Time;
         }
 
