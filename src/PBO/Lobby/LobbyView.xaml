@@ -21,7 +21,6 @@
                             <ItemsControl Name="Rooms" ItemsPanel="{x:Static ui:Controls.WrapPanel}">
                                 <ItemsControl.ItemContainerStyle>
                                     <Style TargetType="ContentPresenter">
-                                        <Setter Property="Height" Value="32"/>
                                         <Setter Property="Width" Value="256"/>
                                         <Setter Property="Margin" Value="0,2"/>
                                         <Setter Property="ContentTemplate">
@@ -30,7 +29,7 @@
                                                     <l:RoomView x:Name="rv" DataContext="{Binding}"/>
                                                     <DataTemplate.Triggers>
                                                         <DataTrigger Binding="{Binding}" Value="{x:Null}">
-                                                            <Setter TargetName="rv" Property="Visibility" Value="Collapsed"/>
+                                                            <Setter TargetName="rv" Property="Visibility" Value="Hidden"/>
                                                         </DataTrigger>
                                                     </DataTemplate.Triggers>
                                                 </DataTemplate>
@@ -39,30 +38,31 @@
                                     </Style>
                                 </ItemsControl.ItemContainerStyle>
                             </ItemsControl>
-                            <Button Click="NewRoom_Click" Cursor="Hand" VerticalAlignment="Top" HorizontalAlignment="Left" Height="32" Width="256">
-                                <Button.Template>
-                                    <ControlTemplate TargetType="Button">
-                                        <Grid Background="Transparent">
-                                            <Grid x:Name="bg" Opacity="0.5">
-                                                <Rectangle IsHitTestVisible="False" StrokeThickness="2" Stroke="#80f0ffff"/>
-                                                <Ellipse IsHitTestVisible="False" Height="10" Width="10" Stroke="#80f0ffff" StrokeThickness="2"/>
-                                                <Ellipse IsHitTestVisible="False" Height="20" Width="20" Stroke="#80f0ffff" StrokeThickness="2"/>
-                                                <Line IsHitTestVisible="False" Y2="11" StrokeThickness="2" Stroke="#80f0ffff" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="1,0,0,0"/>
-                                                <Line IsHitTestVisible="False" Y2="11" StrokeThickness="2" Stroke="#80f0ffff" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="1,0,0,0"/>
-                                            </Grid>
-                                            <TextBlock Text="开 启 新 房 间" Foreground="#336699" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="bg" Property="Opacity" Value="1"/>
-                                            </Trigger>
-                                            <Trigger Property="IsPressed" Value="True">
-                                                <Setter TargetName="bg" Property="Background" Value="#40ffffff"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
+                            <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Height="32" Width="256">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Background="Transparent" Opacity="0.5" Grid.ColumnSpan="2">
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Opacity" Value="1"/>
+                                                    <Setter Property="Background" Value="#40ffffff"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                    <Rectangle IsHitTestVisible="False" StrokeThickness="2" Stroke="#80f0ffff"/>
+                                    <Ellipse IsHitTestVisible="False" Height="10" Width="10" Stroke="#80f0ffff" StrokeThickness="2"/>
+                                    <Ellipse IsHitTestVisible="False" Height="20" Width="20" Stroke="#80f0ffff" StrokeThickness="2"/>
+                                    <Line IsHitTestVisible="False" Y2="11" StrokeThickness="2" Stroke="#80f0ffff" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="1,0,0,0"/>
+                                    <Line IsHitTestVisible="False" Y2="11" StrokeThickness="2" Stroke="#80f0ffff" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="1,0,0,0"/>
+                                </Grid>
+                                <Button Content="单打" Click="SingleBattle_Click"/>
+                                <Button Content="合作" Click="TagBattle_Click" Foreground="#336699" Grid.Column="1"/>
+                            </Grid>
                         </Grid>
                     </ScrollViewer>
                 </TabItem>

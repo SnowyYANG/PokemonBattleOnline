@@ -88,7 +88,7 @@ namespace PokemonBattleOnline.PBO.Battle
         { get { return Request != null && Request.CanMega ? Visibility.Visible : Visibility.Collapsed; } }
 
         public SimOnboardPokemon ControllingPokemon
-        { get { return Controller.Game.OnboardPokemons.ValueOrDefault(Request.CurrentX); } }
+        { get { return Request == null ? null : Controller.Game.OnboardPokemons.ValueOrDefault(Request.CurrentX); } }
 
         public Visibility UndoVisibility
         { get { return Visibility.Collapsed; } }

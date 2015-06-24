@@ -9,9 +9,9 @@ namespace PokemonBattleOnline.Network.Commands
     [DataContract(Namespace = PBOMarks.JSON)]
     public class SetSeatC2S : IC2S
     {
-        public static SetSeatC2S NewRoom(GameSettings settings, Seat seat)
+        public static SetSeatC2S NewRoom(GameSettings settings)
         {
-            return new SetSeatC2S(0, seat, settings);
+            return new SetSeatC2S(0, 0, settings);
         }
         public static SetSeatC2S EnterRoom(int room, Seat seat)
         {

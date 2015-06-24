@@ -12,72 +12,76 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PokemonBattleOnline.Network;
-using PokemonBattleOnline.PBO.Elements;
 
 namespace PokemonBattleOnline.PBO.Lobby
 {
-  /// <summary>
-  /// Interaction logic for LobbyView.xaml
-  /// </summary>
-  public partial class LobbyView : UserControl
-  {
-    private ClientController Controller;
-    
-    public LobbyView()
+    /// <summary>
+    /// Interaction logic for LobbyView.xaml
+    /// </summary>
+    public partial class LobbyView : UserControl
     {
-      InitializeComponent();
-    }
+        private ClientController Controller;
 
-    internal void Init(ClientController controller)
-    {
-      Controller = controller;
-      Rooms.ItemsSource = controller.Rooms;
-      Users.ItemsSource = controller.Users;
-      chat.Init(controller);
-    }
+        public LobbyView()
+        {
+            InitializeComponent();
+        }
 
-    private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
-    {
-      if (ActualWidth > 500)
-      {
-        Grid.SetRowSpan(upper, 2);
-        Grid.SetColumnSpan(upper, 1);
-        Grid.SetRow(chat, 0);
-        Grid.SetRowSpan(chat, 2);
-        Grid.SetColumn(chat, 1);
-        Grid.SetColumnSpan(chat, 1);
-        Grid.SetColumnSpan(split, 1);
-        Grid.SetRowSpan(split, 2);
-        upper.Margin = new Thickness(0, 0, 3, 0);
-        split.Cursor = Cursors.SizeWE;
-        split.HorizontalAlignment = System.Windows.HorizontalAlignment.Right;
-        split.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
-      }
-      else
-      {
-        Grid.SetRowSpan(upper, 1);
-        Grid.SetColumnSpan(upper, 2);
-        Grid.SetRow(chat, 1);
-        Grid.SetRowSpan(chat, 1);
-        Grid.SetColumn(chat, 0);
-        Grid.SetColumnSpan(chat, 2);
-        Grid.SetColumnSpan(split, 2);
-        Grid.SetRowSpan(split, 1);
-        upper.Margin = new Thickness(0, 0, 0, 3);
-        split.Cursor = Cursors.SizeNS;
-        split.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
-        split.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
-      }
-    }
+        internal void Init(ClientController controller)
+        {
+            Controller = controller;
+            Rooms.ItemsSource = controller.Rooms;
+            Users.ItemsSource = controller.Users;
+            chat.Init(controller);
+        }
 
-    private void NewRoom_Click(object sender, RoutedEventArgs e)
-    {
-      Controller.NewRoom(new GameSettings(Game.GameMode.Single), Seat.Player00);
-    }
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (ActualWidth > 500)
+            {
+                Grid.SetRowSpan(upper, 2);
+                Grid.SetColumnSpan(upper, 1);
+                Grid.SetRow(chat, 0);
+                Grid.SetRowSpan(chat, 2);
+                Grid.SetColumn(chat, 1);
+                Grid.SetColumnSpan(chat, 1);
+                Grid.SetColumnSpan(split, 1);
+                Grid.SetRowSpan(split, 2);
+                upper.Margin = new Thickness(0, 0, 3, 0);
+                split.Cursor = Cursors.SizeWE;
+                split.HorizontalAlignment = System.Windows.HorizontalAlignment.Right;
+                split.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
+            }
+            else
+            {
+                Grid.SetRowSpan(upper, 1);
+                Grid.SetColumnSpan(upper, 2);
+                Grid.SetRow(chat, 1);
+                Grid.SetRowSpan(chat, 1);
+                Grid.SetColumn(chat, 0);
+                Grid.SetColumnSpan(chat, 2);
+                Grid.SetColumnSpan(split, 2);
+                Grid.SetRowSpan(split, 1);
+                upper.Margin = new Thickness(0, 0, 0, 3);
+                split.Cursor = Cursors.SizeNS;
+                split.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
+                split.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
+            }
+        }
 
-    private void Exit_Click(object sender, RoutedEventArgs e)
-    {
-      if (MessageBox.Show("真的要退出么？", "PBO", MessageBoxButton.YesNo) == MessageBoxResult.Yes) PBOClient.Exit();
+        private void SingleBattle_Click(object sender, RoutedEventArgs e)
+        {
+            Controller.NewRoom(new GameSettings(Game.GameMode.Single));
+        }
+
+        private void TagBattle_Click(object sender, RoutedEventArgs e)
+        {
+            Controller.NewRoom(new GameSettings(Game.GameMode.Tag));
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("真的要退出么？", "PBO", MessageBoxButton.YesNo) == MessageBoxResult.Yes) PBOClient.Exit();
+        }
     }
-  }
 }

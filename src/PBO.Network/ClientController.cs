@@ -118,9 +118,9 @@ namespace PokemonBattleOnline.Network
         {
             Client.Send(ChatC2S.PrivateChat(to.Id, chat));
         }
-        public void NewRoom(GameSettings settings, Seat seat)
+        public void NewRoom(GameSettings settings)
         {
-            if (User.Room == null) Client.Send(SetSeatC2S.NewRoom(settings, seat));
+            if (User.Room == null) Client.Send(SetSeatC2S.NewRoom(settings));
         }
         public void EnterRoom(Room room, Seat seat)
         {

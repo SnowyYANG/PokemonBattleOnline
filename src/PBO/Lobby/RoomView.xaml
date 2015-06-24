@@ -2,8 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
-             xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters"
-             Height="32">
+             xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters">
     <Grid>
         <Grid.Resources>
             <Style TargetType="ContentControl" x:Key="UserL">
@@ -50,18 +49,30 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Style TargetType="Line">
+                <Setter Property="Y2" Value="11"/>
+                <Setter Property="IsHitTestVisible" Value="False"/>
+                <Setter Property="StrokeThickness" Value="2"/>
+                <Setter Property="Stroke" Value="#80f0ffff"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="1,0,0,0"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Settings.Mode}" Value="Tag">
+                        <Setter Property="Y2" Value="27"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
         </Grid.Resources>
         <Rectangle IsHitTestVisible="False" StrokeThickness="2" Stroke="#80f0ffff" Fill="#40ffffff"/>
         <Ellipse IsHitTestVisible="False" Height="10" Width="10" Stroke="#80f0ffff" StrokeThickness="2"/>
         <Ellipse IsHitTestVisible="False" Height="20" Width="20" Stroke="#80f0ffff" StrokeThickness="2"/>
-        <Line IsHitTestVisible="False" Y2="11" StrokeThickness="2" Stroke="#80f0ffff" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="1,0,0,0"/>
-        <Line IsHitTestVisible="False" Y2="11" StrokeThickness="2" Stroke="#80f0ffff" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="1,0,0,0"/>
+        <Line VerticalAlignment="Top"/>
+        <Line VerticalAlignment="Bottom"/>
         <ContentControl Content="{Binding [0]}" Style="{StaticResource UserL}" MouseLeftButtonDown="P00_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <ContentControl Content="{Binding [2]}" Style="{StaticResource UserR}" MouseLeftButtonDown="P10_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="2"/>
-        
+        <ContentControl Content="{Binding [2]}" Style="{StaticResource UserR}" MouseLeftButtonDown="P10_Click" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         <Grid Name="PX1" Margin="0,32,0,0" Height="32">
-            <ContentControl Content="{Binding [1]}" Style="{StaticResource UserL}" MouseLeftButtonDown="P01_Click" ContentTemplate="{x:Static ui:Cartes.User}" HorizontalAlignment="Left"/>
-            <ContentControl Content="{Binding [3]}" Style="{StaticResource UserR}" MouseLeftButtonDown="P11_Click" ContentTemplate="{x:Static ui:Cartes.UserR}" HorizontalAlignment="Right" Grid.Column="2"/>
+            <ContentControl Content="{Binding [1]}" Style="{StaticResource UserL}" MouseLeftButtonDown="P01_Click" HorizontalAlignment="Left"/>
+            <ContentControl Content="{Binding [3]}" Style="{StaticResource UserR}" MouseLeftButtonDown="P11_Click" HorizontalAlignment="Right"/>
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="Collapsed"/>
