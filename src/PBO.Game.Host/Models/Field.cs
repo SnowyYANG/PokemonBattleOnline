@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PokemonBattleOnline.Game;
-using PokemonBattleOnline.Game.Host.Triggers;
 
 namespace PokemonBattleOnline.Game.Host
 {
@@ -18,6 +16,7 @@ namespace PokemonBattleOnline.Game.Host
             tiles = new Tile[settings.Mode.XBound()];
             for (int x = 0; x < tiles.Length; ++x)
                 tiles[x] = new Tile(this, x) { WillSendOutPokemonIndex = settings.Mode.GetPokemonIndex(x) };
+            _pokemons = new List<PokemonProxy>(tiles.Length);
         }
 
         public Tile this[int x]
@@ -25,23 +24,40 @@ namespace PokemonBattleOnline.Game.Host
 
         public IEnumerable<Tile> Tiles
         { get { return tiles; } }
+
+        private bool refresh;
+        private List<PokemonProxy> _pokemons;
         public IEnumerable<PokemonProxy> Pokemons
         {
             get
             {
-                return
-                  from t in Tiles
-                  where t.Pokemon != null
-                  select t.Pokemon;
+                if (refresh)
+                {
+                    _pokemons.Clear();
+                    foreach (var t in tiles)
+                        if (t.Pokemon != null) _pokemons.Add(t.Pokemon);
+                    refresh = false;
+                }
+                return _pokemons;
             }
         }
 
-        public IEnumerable<PokemonProxy> GetPokemons(int minX, int maxX)
+        public void RefreshPokemons()
         {
-            return
-              from t in Tiles
-              where t.X >= minX && t.X < maxX && t.Pokemon != null
-              select t.Pokemon;
+            refresh = true;
+        }
+
+        private List<PokemonProxy> pms = new List<PokemonProxy>(3);
+        public IEnumerable<PokemonProxy> GetAdjacentPokemonsByX(int x)
+        {
+            pms.Clear();
+            foreach (var t in tiles)
+                if (x - 1 <= t.X && t.X <= x + 1 && t.Pokemon != null) pms.Add(t.Pokemon);
+            return pms;
+        }
+        public IEnumerable<PokemonProxy> GetAdjacentPokemonsByOpponentX(int x)
+        {
+            return GetAdjacentPokemonsByX(tiles.Length - 1 - x);
         }
     }
 }

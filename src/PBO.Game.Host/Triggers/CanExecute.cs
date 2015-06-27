@@ -81,7 +81,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static bool Imprison(PokemonProxy p)
     {
       var move = p.SelectedMove.MoveE;
-      foreach (PokemonProxy pm in p.Controller.Board[1 - p.Pokemon.TeamId].GetPokemons(p.OnboardPokemon.X - 1, p.OnboardPokemon.X + 1))
+      foreach (PokemonProxy pm in p.Controller.Board[1 - p.Pokemon.TeamId].GetAdjacentPokemonsByOpponentX(p.OnboardPokemon.X))
         if (pm.OnboardPokemon.HasCondition(Cs.Imprison))
           foreach (MoveProxy m in pm.Moves)
             if (m.MoveE == move)
@@ -110,7 +110,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           pm.OnboardPokemon.SetCondition(Cs.Confuse, count);
           if (pm.Controller.OneNth(2))
           {
-            pm.ShowLogPm(LogKeys.ConfuseWork);
+            pm.ShowLogPm(Ls.ConfuseWork);
             var e = new GameEvents.ShowHp() { Pm = pm.Id };
             pm.Controller.ReportBuilder.Add(e);
             pm.MoveHurt((pm.Pokemon.Lv * 2 / 5 + 2) * 40 * OnboardPokemon.Get5D(pm.OnboardPokemon.FiveD.Atk, pm.OnboardPokemon.Lv5D.Atk) / OnboardPokemon.Get5D(pm.OnboardPokemon.FiveD.Def, pm.OnboardPokemon.Lv5D.Def) / 50 + 2, true);

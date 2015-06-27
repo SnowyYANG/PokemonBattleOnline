@@ -71,8 +71,11 @@ namespace PokemonBattleOnline.Game.Host
         #region Access
         internal Player GetPlayer(Tile tile)
         {
-            return Teams[tile.Team].GetPlayer(GameSettings.Mode.GetPlayerIndex(tile.X));
+            return Teams[tile.Field.Team].GetPlayer(GameSettings.Mode.GetPlayerIndex(tile.X));
         }
+        /// <summary>
+        /// 返回随机整数，范围[min, max]。
+        /// </summary>
         public int GetRandomInt(int min, int max)
         {
             return min == max ? min : random.Next(min, max + 1);
@@ -243,19 +246,22 @@ namespace PokemonBattleOnline.Game.Host
         {
             if (SwitchController.Withdraw(pm, log, arg1, canPursuit))
             {
+                pm.Field.RefreshPokemons();
                 Board.RefreshPokemons();
                 return true;
             }
             return false;
         }
-        internal void GameStartSendOut(IEnumerable<Tile> tiles)
+        internal void GameStartSendOut(Field field)
         {
-            SwitchController.GameStartSendOut(tiles);
+            SwitchController.GameStartSendOut(field.Tiles);
+            field.RefreshPokemons();
         }
-        public bool SendOut(Tile position, bool debut = true, string log = LogKeys.SendOut1)
+        public bool SendOut(Tile position, bool debut = true, string log = Ls.SendOut1)
         {
             if (SwitchController.SendOut(position, debut, log))
             {
+                position.Field.RefreshPokemons();
                 Board.RefreshPokemons();
                 return true;
             }

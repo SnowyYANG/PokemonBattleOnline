@@ -19,7 +19,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                     RecoverBerry(pm, 20);
                     break;
                 case Is.SITRUS_BERRY: //138
-                    if (pm.Hp << 1 < pm.Pokemon.MaxHp) pm.HpRecoverByOneNth(4, false, LogKeys.ItemHpRecover, 138, true);
+                    if (pm.Hp << 1 < pm.Pokemon.MaxHp) pm.HpRecoverByOneNth(4, false, Ls.ItemHpRecover, 138, true);
                     break;
                 case Is.FIGY_BERRY: //139
                 case Is.WIKI_BERRY: //140
@@ -82,13 +82,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         }
         private static void RecoverBerry(PokemonProxy pm, int hp)
         {
-            if (pm.Hp << 1 <= pm.Pokemon.MaxHp) pm.HpRecover(hp, false, LogKeys.ItemHpRecover, pm.Pokemon.Item, true);
+            if (pm.Hp << 1 <= pm.Pokemon.MaxHp) pm.HpRecover(hp, false, Ls.ItemHpRecover, pm.Pokemon.Item, true);
         }
         private static void TastyBerry(PokemonProxy pm)
         {
             if (ATs.Gluttony(pm) && pm.CanHpRecover(false))
             {
-                pm.HpRecoverByOneNth(8, false, LogKeys.ItemHpRecover, pm.Pokemon.Item, true);
+                pm.HpRecoverByOneNth(8, false, Ls.ItemHpRecover, pm.Pokemon.Item, true);
                 if (pm.Pokemon.Nature.DislikeTaste(ITs.GetTaste(pm.Pokemon.Item))) pm.AddState(pm, AttachedState.Confuse, false);
             }
         }

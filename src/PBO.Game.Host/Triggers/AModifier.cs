@@ -98,7 +98,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (p != atk.Attacker)
           {
             var a = p.Ability;
-            if (a == 57 || a == 58) return 0x1800;
+            if (a == As.PLUS || a == As.MINUS) return 0x1800;
           }
       return 0x1000;
     }

@@ -7,46 +7,57 @@ namespace PokemonBattleOnline.Game.Host
 {
     internal class Board : ConditionalObject
     {
-        private readonly Field[] fields;
-        private readonly Tile[] tiles;
         private readonly Terrain terrain;
-        public readonly int XBound;
         public Weather Weather;
 
         internal Board(IGameSettings settings)
         {
-            GameMode mode = settings.Mode;
-            XBound = mode.XBound();
             Weather = Weather.Normal;
             terrain = settings.Terrain;
             {
-                tiles = new Tile[2 * XBound];
-                fields = new Field[2];
+                _tiles = new Tile[2 * settings.Mode.XBound()];
+                _fields = new Field[2];
                 int j = 0;
                 for (int i = 0; i < 2; i++)
                 {
-                    fields[i] = new Field(i, settings);
-                    foreach (var t in fields[i].Tiles) tiles[j++] = t;
+                    _fields[i] = new Field(i, settings);
+                    foreach (var t in _fields[i].Tiles) _tiles[j++] = t;
                 }
             }
-            Pokemons = Enumerable.Empty<PokemonProxy>();
+            _pokemons = new List<PokemonProxy>(_tiles.Length);
         }
 
+        private readonly Field[] _fields;
         public IEnumerable<Field> Fields
-        { get { return fields; } }
+        { get { return _fields; } }
+
+        private readonly Tile[] _tiles;
         public IEnumerable<Tile> Tiles
-        { get { return tiles; } }
+        { get { return _tiles; } }
+
         public Field this[int team]
-        { get { return fields.ValueOrDefault(team); } }
+        { get { return _fields.ValueOrDefault(team); } }
+
+        private bool refresh;
+        private List<PokemonProxy> _pokemons;
         public IEnumerable<PokemonProxy> Pokemons
-        { get; private set; }
+        {
+            get
+            {
+                if (refresh)
+                {
+                    _pokemons.Clear();
+                    foreach (var t in _tiles)
+                        if (t.Pokemon != null) _pokemons.Add(t.Pokemon);
+                    refresh = false;
+                }
+                return _pokemons;
+            }
+        }
 
         public void RefreshPokemons()
         {
-            var pms = new List<PokemonProxy>();
-            foreach (var t in Tiles)
-                if (t.Pokemon != null) pms.Add(t.Pokemon);
-            Pokemons = pms;
+            refresh = true;
         }
     }
 }

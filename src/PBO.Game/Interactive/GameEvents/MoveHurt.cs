@@ -30,9 +30,9 @@ namespace PokemonBattleOnline.Game.GameEvents
       {
         PokemonOutward p = GetPokemon(Pms[i]);
         p.Hurt(Damages[i]);
-        AppendGameLog(LogKeys.Hurt, LogStyle.Detail | LogStyle.NoBr, Pms[i]);
-        AppendGameLog(LogKeys.nhp, LogStyle.Detail | LogStyle.NoBr | LogStyle.HiddenInBattle, -Damages[i]);
-        AppendGameLog(LogKeys.br, LogStyle.Detail);
+        AppendGameLog(Ls.Hurt, LogStyle.Detail | LogStyle.NoBr, Pms[i]);
+        AppendGameLog(Ls.nhp, LogStyle.Detail | LogStyle.NoBr | LogStyle.HiddenInBattle, -Damages[i]);
+        AppendGameLog(Ls.br, LogStyle.Detail);
         if (Damages[i] > max) max = Damages[i];
       }
       Sleep = 17 * max + 1000;

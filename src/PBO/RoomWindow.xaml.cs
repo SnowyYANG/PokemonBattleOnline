@@ -188,16 +188,16 @@ namespace PokemonBattleOnline.PBO
                 switch (reason)
                 {
                     case GameStopReason.PlayerStop:
-                        key = LogKeys.PLAYER_STOP;
+                        key = Ls.PLAYER_STOP;
                         break;
                     case GameStopReason.PlayerDisconnect:
-                        key = LogKeys.PLAYER_DISCONNECT;
+                        key = Ls.PLAYER_DISCONNECT;
                         break;
                     case GameStopReason.InvalidInput:
-                        key = LogKeys.INVALID_INPUT;
+                        key = Ls.INVALID_INPUT;
                         break;
                     default: //Error
-                        key = LogKeys.ERROR;
+                        key = Ls.ERROR;
                         break;
                 }
                 br.AddLogText(string.Format(GameString.Current.BattleLog(key).LineBreak(), player == null ? null : player.Name));

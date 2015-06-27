@@ -11,7 +11,7 @@ namespace PokemonBattleOnline.Game.Host
     {
         public static void RaiseAbility(this PokemonProxy pm)
         {
-            pm.ShowLogPm(LogKeys.Ability, pm.OnboardPokemon.Ability);
+            pm.ShowLogPm(Ls.Ability, pm.OnboardPokemon.Ability);
         }
         public static bool RaiseAbility(this PokemonProxy pm, int abilityId)
         {
@@ -131,7 +131,7 @@ namespace PokemonBattleOnline.Game.Host
         {
             int ab = sendout.OnboardPokemon.Ability;
             if (Trace(ab))
-                foreach (var pm in sendout.Controller.Board[1 - sendout.Pokemon.TeamId].GetPokemons(sendout.OnboardPokemon.X - 1, sendout.OnboardPokemon.X + 1))
+                foreach (var pm in sendout.Controller.Board[1 - sendout.Pokemon.TeamId].GetAdjacentPokemonsByOpponentX(sendout.OnboardPokemon.X))
                     if (pm.RaiseAbility(As.TRACE))
                     {
                         pm.ChangeAbility(sendout.OnboardPokemon.Ability);

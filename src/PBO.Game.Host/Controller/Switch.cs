@@ -71,18 +71,18 @@ namespace PokemonBattleOnline.Game.Host
             int pm1, pm2;
             if (pms.Length == 1)
             {
-                log = LogKeys.SendOut1;
+                log = Ls.SendOut1;
                 pm1 = pm2 = 0;
             }
             else if (pms.Length == 2)
             {
-                log = pms[0].Pokemon.Owner == pms[1].Pokemon.Owner ? LogKeys.SendOut2 : LogKeys.SendOut22;
+                log = pms[0].Pokemon.Owner == pms[1].Pokemon.Owner ? Ls.SendOut2 : Ls.SendOut22;
                 pm1 = pms[1].Id;
                 pm2 = 0;
             }
             else
             {
-                log = LogKeys.SendOut3;
+                log = Ls.SendOut3;
                 pm1 = pms[1].Id;
                 pm2 = pms[2].Id;
             }

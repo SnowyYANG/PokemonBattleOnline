@@ -18,8 +18,7 @@ namespace PokemonBattleOnline.Game.Host
             X = x;
         }
 
-        public int Team
-        { get { return Field.Team; } }
+        public Player Player;
         public PokemonProxy Pokemon;
 
         public int WillSendOutPokemonIndex;

@@ -184,8 +184,8 @@ namespace PokemonBattleOnline.Game.Host
         {
             if (Controller.TurnNumber == 0)
             {
-                Controller.GameStartSendOut(Board[0].Tiles);
-                Controller.GameStartSendOut(Board[1].Tiles);
+                Controller.GameStartSendOut(Board[0]);
+                Controller.GameStartSendOut(Board[1]);
                 Board.RefreshPokemons();
             }
             else

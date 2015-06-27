@@ -19,11 +19,11 @@ namespace PokemonBattleOnline.Game
         /// </summary>
         Single,
         /// <summary>
-        /// 本方随机01
+        /// 本方随机01 包括使用者自己 点穴
         /// </summary>
         RandomSelfPokemon,
         /// <summary>
-        /// 本方选择02
+        /// 本方选择02 不包括使用者自己
         /// </summary>
         SingleAlly,
         /// <summary>
@@ -31,7 +31,7 @@ namespace PokemonBattleOnline.Game
         /// </summary>
         SingleFoe,
         /// <summary>
-        /// 所有临近 自爆、冲浪04
+        /// 所有临近04 自爆、冲浪
         /// </summary>
         Adjacent,
         /// <summary>

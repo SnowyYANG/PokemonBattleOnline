@@ -30,7 +30,7 @@ namespace PokemonBattleOnline.Game.GameEvents
             }
             else
             {
-                AppendGameLog(LogKeys.br, LogStyle.Center | LogStyle.Bold);
+                AppendGameLog(Ls.br, LogStyle.Center | LogStyle.Bold);
                 AppendGameLog("GameResult0", LogStyle.Center | LogStyle.Bold, Lose == 0 ? 1 : 0);
                 AppendGameLog("GameResult1", LogStyle.Center | LogStyle.Bold, team0, team1);
             }

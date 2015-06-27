@@ -34,7 +34,11 @@ namespace PokemonBattleOnline.Network.C2SEs
                 {
                     var teamId = Random.Next(2);
                     var teamIndex = Random.Next(GameSettings.Mode.PlayersPerTeam());
+#if TEST
+                    r.AddUser(su, Seat.Player00);
+#else
                     r.AddUser(su, (Seat)(teamId * 2 + teamIndex));
+#endif
                 }
             }
         }

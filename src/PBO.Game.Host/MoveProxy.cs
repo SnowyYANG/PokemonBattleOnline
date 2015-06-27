@@ -68,7 +68,7 @@ namespace PokemonBattleOnline.Game.Host
                     if (o != null && o.Move != MoveE) return new SelectMoveFail("Encore", Owner.AtkContext.MoveProxy.MoveE.Id);
                 }
                 //封印
-                foreach (var pm in Owner.Controller.Board[1 - Owner.Pokemon.TeamId].GetPokemons(Owner.OnboardPokemon.X - 1, Owner.OnboardPokemon.X + 1))
+                foreach (var pm in Owner.Controller.Board[1 - Owner.Pokemon.TeamId].GetAdjacentPokemonsByOpponentX(Owner.OnboardPokemon.X))
                     if (pm.OnboardPokemon.HasCondition(Cs.Imprison))
                         foreach (var m in pm.Moves)
                             if (m.MoveE == MoveE) return new SelectMoveFail("Imprison", MoveE.Id);

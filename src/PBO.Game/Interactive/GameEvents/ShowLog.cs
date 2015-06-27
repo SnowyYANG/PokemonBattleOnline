@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Game
 {
-    public static class LogKeys
+    public static class Ls
     {
         public const string SendOut1 = "SendOut1";
         public const string SendOut2 = "SendOut2";
@@ -430,57 +430,57 @@ namespace PokemonBattleOnline.Game
             {
                 switch (key)
                 {
-                    case LogKeys.PLAYER_DISCONNECT:
-                    case LogKeys.INVALID_INPUT:
-                    case LogKeys.NO_KEY:
-                    case LogKeys.ERROR:
-                    case LogKeys.UNFINISHED:
+                    case Ls.PLAYER_DISCONNECT:
+                    case Ls.INVALID_INPUT:
+                    case Ls.NO_KEY:
+                    case Ls.ERROR:
+                    case Ls.UNFINISHED:
                         return LogStyle.SYS;
-                    case LogKeys.PSN:
-                    case LogKeys.BRN:
-                    case LogKeys.Nightmare:
-                    case LogKeys.TrapHurt:
-                    case LogKeys.ReHurt:
-                    case LogKeys.HpRecover:
-                    case LogKeys.SandstormHurt:
-                    case LogKeys.HailstormHurt:
-                    case LogKeys.SetAbility:
-                    case LogKeys.RockyHelmet:
-                    case LogKeys.PoisonHeal:
-                    case LogKeys.BadDreams:
-                    case LogKeys.AquaRing:
-                    case LogKeys.LeechSeed:
-                    case LogKeys.BellyDrum:
-                    case LogKeys.Rest:
-                    case LogKeys.Wish:
-                    case LogKeys.Ingrain:
-                    case LogKeys.EnSubstitute:
-                    case LogKeys.Spikes:
-                    case LogKeys.StealthRock:
-                    case LogKeys.HpAbsorb:
-                    case LogKeys.FailSelfHurt:
-                    case LogKeys.ItemHpRecover:
-                    case LogKeys.ItemHpRecover2:
-                    case LogKeys.LifeOrb:
-                    case LogKeys.ReHurtItem:
-                    case LogKeys.ItemHurt:
-                    case LogKeys.EnCurse:
-                    case LogKeys.Curse:
-                    case LogKeys.FlameBurst:
-                    case LogKeys.FireSea:
-                    case LogKeys.ConfuseWork:
-                    case LogKeys.Hurt:
-                    case LogKeys.Powder:
-                    case LogKeys.Ability:
+                    case Ls.PSN:
+                    case Ls.BRN:
+                    case Ls.Nightmare:
+                    case Ls.TrapHurt:
+                    case Ls.ReHurt:
+                    case Ls.HpRecover:
+                    case Ls.SandstormHurt:
+                    case Ls.HailstormHurt:
+                    case Ls.SetAbility:
+                    case Ls.RockyHelmet:
+                    case Ls.PoisonHeal:
+                    case Ls.BadDreams:
+                    case Ls.AquaRing:
+                    case Ls.LeechSeed:
+                    case Ls.BellyDrum:
+                    case Ls.Rest:
+                    case Ls.Wish:
+                    case Ls.Ingrain:
+                    case Ls.EnSubstitute:
+                    case Ls.Spikes:
+                    case Ls.StealthRock:
+                    case Ls.HpAbsorb:
+                    case Ls.FailSelfHurt:
+                    case Ls.ItemHpRecover:
+                    case Ls.ItemHpRecover2:
+                    case Ls.LifeOrb:
+                    case Ls.ReHurtItem:
+                    case Ls.ItemHurt:
+                    case Ls.EnCurse:
+                    case Ls.Curse:
+                    case Ls.FlameBurst:
+                    case Ls.FireSea:
+                    case Ls.ConfuseWork:
+                    case Ls.Hurt:
+                    case Ls.Powder:
+                    case Ls.Ability:
                         return LogStyle.NoBr;
-                    case LogKeys.br:
-                    case LogKeys.setAbility:
-                    case LogKeys.skillSwap:
-                    case LogKeys.forceWithdraw:
-                    case LogKeys.painSplit:
+                    case Ls.br:
+                    case Ls.setAbility:
+                    case Ls.skillSwap:
+                    case Ls.forceWithdraw:
+                    case Ls.painSplit:
                         return LogStyle.Detail;
-                    case LogKeys.php:
-                    case LogKeys.nhp:
+                    case Ls.php:
+                    case Ls.nhp:
                         throw new Exception("Invalid key");
                     default:
                         return LogStyle.Default;
@@ -509,7 +509,7 @@ namespace PokemonBattleOnline.Game
             }
             protected override void Update()
             {
-                if (Key == LogKeys.SendOut1 || Key == LogKeys.SendOut2 || Key == LogKeys.SendOut22 || Key == LogKeys.SendOut3)
+                if (Key == Ls.SendOut1 || Key == Ls.SendOut2 || Key == Ls.SendOut22 || Key == Ls.SendOut3)
                 {
                     AppendGameLog(Key + "_r", LogStyle.HiddenAfterBattle, I0, I1, I2);
                     AppendGameLog(Key + "_f", LogStyle.HiddenInBattle, I0, I1, I2);

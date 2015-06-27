@@ -94,7 +94,7 @@ namespace PokemonBattleOnline.Game
         {
             var log = GameString.Current.BattleLog(key);
             if (log != null) LogAppended(string.Format(this, log, arg0, arg1, arg2), style);
-            else if (key != LogKeys.NO_KEY) AppendGameLog(LogKeys.NO_KEY, LogStyle.SYS, key);
+            else if (key != Ls.NO_KEY) AppendGameLog(Ls.NO_KEY, LogStyle.SYS, key);
         }
         public void EndTurn()
         {
