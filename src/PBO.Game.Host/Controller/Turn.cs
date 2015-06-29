@@ -156,6 +156,7 @@ namespace PokemonBattleOnline.Game.Host
                         ReportBuilder.AddHorizontalLine();
                         goto LOOP; //ActingPokemons顺序可能有变化，所以重新foreach
                     }
+                    break; //游戏结束的时候，ActingPokemons因为精灵下场变化
                 }
         }
         private void EndTurnEffects()
