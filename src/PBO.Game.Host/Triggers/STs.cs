@@ -100,7 +100,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
       if (canPursuit && pm.Hp != 0)
       {
-        foreach (var p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetAdjacentPokemonsByOpponentX(pm.OnboardPokemon.X).ToArray())
+        foreach (var p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetAdjacentPokemonsByOppositeX(pm.OnboardPokemon.X).ToArray())
           if (p.SelectedMove != null && p.SelectedMove.MoveE.Id == Ms.PURSUIT && p.CanMove)
           {
             p.OnboardPokemon.SetCondition(Cs.Pursuiting);

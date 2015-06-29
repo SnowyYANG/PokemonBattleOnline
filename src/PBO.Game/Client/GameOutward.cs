@@ -18,22 +18,19 @@ namespace PokemonBattleOnline.Game
         public event Action TurnEnd;
         public readonly IGameSettings Settings;
         public readonly BoardOutward Board;
-        private readonly string[,] Players;
 
         public GameOutward(IGameSettings settings, string[,] players)
         {
             Settings = settings;
-            Players = players;
             Board = new BoardOutward(Settings);
-            var tn0 = players[0, 0];
-            var tn1 = players[1, 0];
+            var ppp = settings.Mode.PokemonsPerPlayer();
+            Board.Players[0, 0] = new PlayerOutward(players[0, 0], ppp);
+            Board.Players[1, 0] = new PlayerOutward(players[1, 0], ppp);
             if (Settings.Mode.PlayersPerTeam() == 2)
             {
-                tn0 += " " + players[0, 1];
-                tn1 += " " + players[1, 1];
+                Board.Players[0, 1] = new PlayerOutward(players[0, 1], ppp);
+                Board.Players[1, 1] = new PlayerOutward(players[1, 1], ppp);
             }
-            Board.Teams[0] = new TeamOutward(tn0);
-            Board.Teams[1] = new TeamOutward(tn1);
 #if TEST
             LogAppended = delegate { };
             TurnEnd = delegate { };
@@ -42,10 +39,6 @@ namespace PokemonBattleOnline.Game
         public int TurnNumber
         { get; set; }
 
-        public string GetPlayerName(int team, int index)
-        {
-            return Players[team, index];
-        }
         public PokemonOutward GetPokemon(int id)
         {
             foreach (var team in Board.Pokemons)
@@ -62,8 +55,8 @@ namespace PokemonBattleOnline.Game
             TurnNumber = fragment.TurnNumber;
             for (int t = 0; t < 2; t++)
             {
-                Board.Teams[t].SetAll(fragment.Teams[t]);
-                for (int x = 0; x < Settings.Mode.XBound(); x++) Board[t, x] = fragment[t, x];
+                for (int i = 0; i < Settings.Mode.PlayersPerTeam(); ++i) Board.Players[t, i].SetAll(fragment.GetPlayer(t, i));
+                for (int x = 0; x < Settings.Mode.XBound(); x++) Board[t, x] = fragment.GetPokemon(t, x);
                 Board.Weather = fragment.Weather;
             }
             UIDispatcher.Invoke(GameStart);
@@ -124,7 +117,7 @@ namespace PokemonBattleOnline.Game
                             case "p":
                                 {
                                     var pm = GetPokemon(id);
-                                    if (pm != null) r = string.Format(GameString.Current.BattleLog("OwnersPokemon"), pm.Owner, pm.Name);
+                                    if (pm != null) r = string.Format(GameString.Current.BattleLog("OwnersPokemon"), pm.Owner.Name, pm.Name);
                                 }
                                 break;
                             case "m":
@@ -143,8 +136,11 @@ namespace PokemonBattleOnline.Game
                                 r = GameString.Current.StatType((StatType)id);
                                 break;
                             case "t":
-                                var t = Board.Teams.ValueOrDefault(id);
-                                if (t != null) r = t.Name;
+                                if (id == 0 || id == 1)
+                                {
+                                    r = Board.Players[id, 0].Name;
+                                    if (Settings.Mode.PlayersPerTeam() == 2) r += " " + Board.Players[id, 1].Name;
+                                }
                                 break;
                             default:
                                 if (format.StartsWith("pm."))

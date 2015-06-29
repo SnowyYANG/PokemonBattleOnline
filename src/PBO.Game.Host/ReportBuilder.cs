@@ -33,9 +33,15 @@ namespace PokemonBattleOnline.Game.Host
                 else lastFragment = lastLeapFragment.NonLeap();
             }
 
-            BallState[][] t = new BallState[2][];
-            t[0] = Controller.Teams[0].GetOutward();
-            t[1] = Controller.Teams[1].GetOutward();
+            var ppt = Controller.GameSettings.Mode.PlayersPerTeam();
+            BallState[,][] t = new BallState[2, ppt][];
+            t[0, 0] = Controller.Teams[0].GetPlayer(0).GetOutward();
+            t[1, 0] = Controller.Teams[1].GetPlayer(0).GetOutward();
+            if (ppt == 2)
+            {
+                t[0, 1] = Controller.Teams[0].GetPlayer(1).GetOutward();
+                t[1, 1] = Controller.Teams[1].GetPlayer(1).GetOutward();
+            }
             List<PokemonOutward> pms = new List<PokemonOutward>();
             {
                 foreach (PokemonProxy p in Controller.ActingPokemons) pms.Add(p.GetOutward(false));

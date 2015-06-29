@@ -55,7 +55,7 @@ namespace PokemonBattleOnline.Game.Host
                 if (x - 1 <= t.X && t.X <= x + 1 && t.Pokemon != null) pms.Add(t.Pokemon);
             return pms;
         }
-        public IEnumerable<PokemonProxy> GetAdjacentPokemonsByOpponentX(int x)
+        public IEnumerable<PokemonProxy> GetAdjacentPokemonsByOppositeX(int x)
         {
             return GetAdjacentPokemonsByX(tiles.Length - 1 - x);
         }

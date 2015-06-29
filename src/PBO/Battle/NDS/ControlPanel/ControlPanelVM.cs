@@ -122,11 +122,19 @@ namespace PokemonBattleOnline.PBO.Battle
             {
                 var step = Game.Settings.Mode.PlayersPerTeam();
                 var i = 0;
-                foreach (var pm in Controller.Game.Team[0].Pokemons) _pokemons[i += step] = pm;
+                foreach (var pm in Controller.Game.Team[0].Pokemons)
+                {
+                    _pokemons[i] = pm;
+                    i += step;
+                }
                 if (step == 2)
                 {
                     i = 1;
-                    foreach (var pm in Controller.Game.Team[1].Pokemons) _pokemons[i += step] = pm;
+                    foreach (var pm in Controller.Game.Team[1].Pokemons)
+                    {
+                        _pokemons[i] = pm;
+                        i += step;
+                    }
                 }
             }
             Timer.Start();

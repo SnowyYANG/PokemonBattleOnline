@@ -37,7 +37,7 @@ namespace PokemonBattleOnline.Game
         }
         public void SwitchPokemon(int origin, int sendout)
         {
-            if (origin >= 0 && origin < _pokemons.Length && sendout >= 0 && sendout < _pokemons.Length)
+            if (0 <= origin && origin < _pokemons.Length && 0 <= sendout && sendout < _pokemons.Length)
             {
                 SimPokemon temp = _pokemons[origin];
                 _pokemons[origin] = _pokemons[sendout];

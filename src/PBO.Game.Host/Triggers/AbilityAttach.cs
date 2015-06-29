@@ -87,7 +87,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           break;
         case As.INTIMIDATE:
           pm.RaiseAbility();
-          foreach (var p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetAdjacentPokemonsByOpponentX(pm.OnboardPokemon.X))
+          foreach (var p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetAdjacentPokemonsByOppositeX(pm.OnboardPokemon.X))
             if (p.OnboardPokemon.HasCondition(Cs.Substitute)) p.ShowLogPm("NoEffect");
             else p.ChangeLv7D(pm, StatType.Atk, -1, true);
           break;
@@ -153,7 +153,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       var moves = new List<KeyValuePair<PokemonProxy, MoveTypeE>>();
       {
         int maxPower = 0;
-        foreach (PokemonProxy p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetAdjacentPokemonsByOpponentX(pm.OnboardPokemon.X))
+        foreach (PokemonProxy p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetAdjacentPokemonsByOppositeX(pm.OnboardPokemon.X))
           foreach (MoveProxy m in p.Moves)
           {
             int power = m.MoveE.Move.Power;
@@ -185,7 +185,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static void Trace(PokemonProxy pm)
     {
       var pms = new List<PokemonProxy>();
-      foreach (var p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetAdjacentPokemonsByOpponentX(pm.OnboardPokemon.X))
+      foreach (var p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetAdjacentPokemonsByOppositeX(pm.OnboardPokemon.X))
         if (ATs.Trace(p.OnboardPokemon.Ability)) pms.Add(p);
       var n = pms.Count;
       if (n != 0)
@@ -208,7 +208,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
       if (sa || a)
       {
         var stats = new List<StatType>();
-        foreach (var p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetAdjacentPokemonsByOpponentX(pm.OnboardPokemon.X))
+        foreach (var p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetAdjacentPokemonsByOppositeX(pm.OnboardPokemon.X))
           if (p.OnboardPokemon.FiveD.Def > p.OnboardPokemon.FiveD.SpDef)
           {
             if (sa) stats.Add(StatType.SpAtk);
@@ -224,7 +224,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     }
     private static void Anticipation(PokemonProxy pm)
     {
-      foreach (var p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetAdjacentPokemonsByOpponentX(pm.OnboardPokemon.X))
+      foreach (var p in pm.Controller.Board[1 - pm.Pokemon.TeamId].GetAdjacentPokemonsByOppositeX(pm.OnboardPokemon.X))
         foreach (var m in p.Moves)
           if (m.MoveE.Class == MoveClass.OHKO || m.MoveE.Move.Type.EffectRevise(pm.OnboardPokemon.Types) > 0)
           {

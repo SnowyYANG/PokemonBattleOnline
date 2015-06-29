@@ -12,14 +12,14 @@ namespace PokemonBattleOnline.Game
 
         public readonly ReadOnlyObservableCollection<PokemonOutward>[] Pokemons;
         public readonly Terrain Terrain;
+        public readonly IGameSettings Settings;
 
         private readonly ObservableCollection<PokemonOutward>[] pokemons;
-        private readonly IGameSettings Settings;
 
         internal BoardOutward(IGameSettings settings)
         {
             Settings = settings;
-            Teams = new TeamOutward[2];
+            Players = new PlayerOutward[2, Settings.Mode.PlayersPerTeam()];
             pokemons = new ObservableCollection<PokemonOutward>[2];
             Pokemons = new ReadOnlyObservableCollection<PokemonOutward>[2];
             _weather = Weather.Normal;
@@ -53,7 +53,7 @@ namespace PokemonBattleOnline.Game
                 _weather = value;
             }
         }
-        public TeamOutward[] Teams
+        public PlayerOutward[,] Players
         { get; private set; }
 
         internal void OnPokemonSentOut(int team, int x)

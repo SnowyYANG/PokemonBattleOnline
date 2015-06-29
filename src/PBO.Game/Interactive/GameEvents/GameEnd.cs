@@ -21,18 +21,21 @@ namespace PokemonBattleOnline.Game.GameEvents
 
         protected override void Update()
         {
-            int team0 = Game.Board.Teams[0].AliveCount;
-            int team1 = Game.Board.Teams[1].AliveCount;
+            int[] r = new int[2];
+            for (int t = 0; t < 2; ++t)
+                for (int i = 0; i < Game.Settings.Mode.PlayersPerTeam(); ++i)
+                    foreach (var p in Game.Board.Players[t, i].Balls)
+                        if (p == BallState.Normal || p == BallState.Abnormal) ++r[0];
             if (Lose == 2)
             {
                 AppendGameLog("GameResultTie", LogStyle.Center | LogStyle.Bold, 0, 1);
-                if (team0 != 0) AppendGameLog("GameResult1", LogStyle.Center | LogStyle.Bold, team0, team1);
+                if (r[0] != 0) AppendGameLog("GameResult1", LogStyle.Center | LogStyle.Bold, r[0], r[1]);
             }
             else
             {
                 AppendGameLog(Ls.br, LogStyle.Center | LogStyle.Bold);
                 AppendGameLog("GameResult0", LogStyle.Center | LogStyle.Bold, Lose == 0 ? 1 : 0);
-                AppendGameLog("GameResult1", LogStyle.Center | LogStyle.Bold, team0, team1);
+                AppendGameLog("GameResult1", LogStyle.Center | LogStyle.Bold, r[0], r[1]);
             }
             Game.EndGame();
         }

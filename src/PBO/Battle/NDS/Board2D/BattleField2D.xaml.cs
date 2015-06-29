@@ -26,20 +26,25 @@ namespace PokemonBattleOnline.PBO.Battle
         public BattleField2D()
         {
             InitializeComponent();
-            PO0.Back = PO1.Back = true;
+            P0.Back = P1.Back = true;
         }
 
         internal void Init(BoardOutward board, int observeTeam)
         {
             Board = board;
             ObserveTeam = observeTeam;
-            Team.DataContext = board.Teams[observeTeam];
-            FoeTeam.DataContext = board.Teams[1 - observeTeam];
+            Player0.ItemsSource = board.Players[observeTeam, 0].Balls;
+            PlayerO0.ItemsSource = board.Players[1 - observeTeam, 0].Balls;
+            if (Board.Settings.Mode.PlayersPerTeam() == 2)
+            {
+                Player1.ItemsSource = board.Players[observeTeam, 1].Balls;
+                PlayerO1.ItemsSource = board.Players[1 - observeTeam, 1].Balls;
+            }
             board.PokemonSentOut += OnPokemonSentOut;
         }
         void OnPokemonSentOut(int team, int x)
         {
-            var c = team == ObserveTeam ? (x == 0 ? PO0 : PO1) : x == 0 ? PF0 : PF1;
+            var c = team == ObserveTeam ? x == 0 ? P0 : P1 : x == 0 ? PO0 : PO1;
             c.SendOut(Board[team, x]);
         }
     }

@@ -81,7 +81,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     private static bool Imprison(PokemonProxy p)
     {
       var move = p.SelectedMove.MoveE;
-      foreach (PokemonProxy pm in p.Controller.Board[1 - p.Pokemon.TeamId].GetAdjacentPokemonsByOpponentX(p.OnboardPokemon.X))
+      foreach (PokemonProxy pm in p.Controller.Board[1 - p.Pokemon.TeamId].GetAdjacentPokemonsByOppositeX(p.OnboardPokemon.X))
         if (pm.OnboardPokemon.HasCondition(Cs.Imprison))
           foreach (MoveProxy m in pm.Moves)
             if (m.MoveE == move)

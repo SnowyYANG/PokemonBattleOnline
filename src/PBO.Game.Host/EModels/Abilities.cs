@@ -131,7 +131,7 @@ namespace PokemonBattleOnline.Game.Host
         {
             int ab = sendout.OnboardPokemon.Ability;
             if (Trace(ab))
-                foreach (var pm in sendout.Controller.Board[1 - sendout.Pokemon.TeamId].GetAdjacentPokemonsByOpponentX(sendout.OnboardPokemon.X))
+                foreach (var pm in sendout.Controller.Board[1 - sendout.Pokemon.TeamId].GetAdjacentPokemonsByOppositeX(sendout.OnboardPokemon.X))
                     if (pm.RaiseAbility(As.TRACE))
                     {
                         pm.ChangeAbility(sendout.OnboardPokemon.Ability);

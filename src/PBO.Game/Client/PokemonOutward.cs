@@ -54,9 +54,6 @@ namespace PokemonBattleOnline.Game
             _mega = mega;
         }
 
-        public string Owner
-        { get; private set; }
-
         [DataMember(EmitDefaultValue = false)]
         private string _name;
         public string RawName
@@ -114,7 +111,7 @@ namespace PokemonBattleOnline.Game
                 {
                     var former = _state;
                     _state = value;
-                    if (team != null) team.StateChanged(this);
+                    if (Owner != null) Owner.StateChanged(this);
                     OnPropertyChanged(STATE);
                 }
             }
@@ -170,7 +167,8 @@ namespace PokemonBattleOnline.Game
 
         #region Client
         private IPokemonOutwardEvents listener;
-        private TeamOutward team;
+        public PlayerOutward Owner
+        { get; private set; }
         internal int TeamIndex
         { get; private set; }
         internal int PokemonIndex
@@ -274,17 +272,16 @@ namespace PokemonBattleOnline.Game
                     r = GameString.Current.PokemonState(State);
                     break;
                 case "Owner.Name":
-                    r = Owner;
+                    r = Owner.Name;
                     break;
             }
             return r;
         }
         public void Init(GameOutward game)
         {
-            team = game.Board.Teams[Position.Team];
             TeamIndex = game.Settings.Mode.GetPlayerIndex(Position.X);
             PokemonIndex = game.Settings.Mode.GetPokemonIndex(Position.X);
-            Owner = game.GetPlayerName(Position.Team, TeamIndex);
+            Owner = game.Board.Players[Position.Team, TeamIndex];
         }
         public void AddListener(IPokemonOutwardEvents listener)
         {

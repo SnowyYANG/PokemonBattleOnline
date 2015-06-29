@@ -529,7 +529,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                 {
                     var items = new List<int>();
                     var owners = new List<OnboardPokemon>();
-                    foreach (var p in c.Board[1 - pm.Pokemon.TeamId].GetAdjacentPokemonsByOpponentX(pm.OnboardPokemon.X))
+                    foreach (var p in c.Board[1 - pm.Pokemon.TeamId].GetAdjacentPokemonsByOppositeX(pm.OnboardPokemon.X))
                     {
                         var i = p.OnboardPokemon.GetCondition<int>(Cs.UsedItem);
                         if (i != 0)

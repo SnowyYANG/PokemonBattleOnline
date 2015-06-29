@@ -106,7 +106,7 @@
     <Compile Include="Models\Terrain.cs" />
     <Compile Include="Client\BoardOutward.cs" />
     <Compile Include="Client\GameOutward.cs" />
-    <Compile Include="Client\TeamOutward.cs" />
+    <Compile Include="Client\PlayerOutward.cs" />
     <Compile Include="Client\PokemonOutward.cs" />
     <Compile Include="Models\Weather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
