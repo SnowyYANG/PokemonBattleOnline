@@ -22,8 +22,8 @@
                     <ImageBrush ImageSource="/PBO;component/images/ControlPanel/MainMenu.png"/>
                 </Canvas.Background>
                 <b:GameButton Click="Fight_Click" Padding="2,1" Shape="M113,0 A113,70 180 1 1 113,140 A113,70 180 1 1 113,0 Z" Image="/PBO;component/images/ControlPanel/Fight.png" Width="226" Height="140" Canvas.Left="47" Canvas.Top="34"/>
-                <b:GameButton Click="Pokemons_Click" Shape="M1,63 A58,58 120 0 1 90,11 V63 Z" Image="/PBO;component/images/ControlPanel/Pokemon.png" Padding="1,1,0,0" Width="90" Height="63" Canvas.Bottom="0" Canvas.Right="0"/>
-                <Button Content="Run" Opacity="0.8" Click="Run_Click" Height="44" Width="76" Canvas.Bottom="0" Canvas.Left="110"/>
+                <b:GameButton Click="Pokemons_Click" Padding="1,1,0,0" Shape="M1,63 A58,58 120 0 1 90,11 V63 Z" Image="/PBO;component/images/ControlPanel/Pokemon.png" Width="90" Height="63" Canvas.Bottom="0" Canvas.Right="0"/>
+                <b:GameButton Click="Run_Click" Padding="1,1,1,0" Shape="M0,50 A49,49 180 0 1 98,50 Z" Image="/PBO;component/images/ControlPanel/Run.png" Height="50" Width="98" Canvas.Bottom="0" Canvas.Left="110"/>
             </Canvas>
         </TabItem>
         <TabItem>

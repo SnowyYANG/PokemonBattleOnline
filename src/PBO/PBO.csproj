@@ -491,6 +491,9 @@
     <Resource Include="images\UpperScreen\StateBar\Alpha.png" />
     <Resource Include="images\UpperScreen\StateBar\Omega.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\ControlPanel\Run.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
