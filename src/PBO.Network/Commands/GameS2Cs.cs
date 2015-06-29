@@ -7,134 +7,134 @@ using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Network.Commands
 {
-  [DataContract(Name = "sp", Namespace = PBOMarks.JSON)]
-  public class SetPrepareS2C : IS2C
-  {
-    [DataMember(Name = "a", EmitDefaultValue = false)]
-    Seat Seat;
-    [DataMember(Name = "b", EmitDefaultValue = false)]
-    bool Prepare;
-
-    public SetPrepareS2C(Seat seat, bool prepare)
+    [DataContract(Name = "sp", Namespace = PBOMarks.JSON)]
+    public class SetPrepareS2C : IS2C
     {
-      Seat = seat;
-      Prepare = prepare;
+        [DataMember(Name = "a", EmitDefaultValue = false)]
+        Seat Seat;
+        [DataMember(Name = "b", EmitDefaultValue = false)]
+        bool Prepare;
+
+        public SetPrepareS2C(Seat seat, bool prepare)
+        {
+            Seat = seat;
+            Prepare = prepare;
+        }
+
+        void IS2C.Execute(Client client)
+        {
+            var room = client.Controller.Room;
+            switch (Seat)
+            {
+                case Seat.Player00:
+                    room.Prepare00 = Prepare;
+                    break;
+                case Seat.Player01:
+                    room.Prepare01 = Prepare;
+                    break;
+                case Seat.Player10:
+                    room.Prepare10 = Prepare;
+                    break;
+                case Seat.Player11:
+                    room.Prepare11 = Prepare;
+                    break;
+            }
+        }
     }
 
-    void IS2C.Execute(Client client)
+    [DataContract(Name = "pi", Namespace = PBOMarks.JSON)]
+    public class PartnerInfoS2C : IS2C
     {
-      var room = client.Controller.Room;
-      switch (Seat)
-      {
-        case Seat.Player00:
-          room.Prepare00 = Prepare;
-          break;
-        case Seat.Player01:
-          room.Prepare01 = Prepare;
-          break;
-        case Seat.Player10:
-          room.Prepare10 = Prepare;
-          break;
-        case Seat.Player11:
-          room.Prepare11 = Prepare;
-          break;
-      }
-    }
-  }
-  
-  [DataContract(Name = "pi", Namespace = PBOMarks.JSON)]
-  public class PartnerInfoS2C : IS2C
-  {
-    [DataMember]
-    PokemonData[] a_;
+        [DataMember]
+        PokemonData[] a_;
 
-    public PartnerInfoS2C(IPokemonData[] pms)
-    {
-      a_ = new PokemonData[pms.Length];
-      for (int i = 0; i < pms.Length; ++i) a_[i] = (PokemonData)pms[0];
+        public PartnerInfoS2C(IPokemonData[] pms)
+        {
+            a_ = new PokemonData[pms.Length];
+            for (int i = 0; i < pms.Length; ++i) a_[i] = (PokemonData)pms[i];
+        }
+
+        void IS2C.Execute(Client client)
+        {
+            client.Controller.Room.Partner = a_;
+        }
     }
 
-    void IS2C.Execute(Client client)
+    [DataContract(Name = "ri", Namespace = PBOMarks.JSON)]
+    public class RequireInputS2C : InputRequest, IS2C
     {
-      client.Controller.Room.Partner = a_;
-    }
-  }
+        public RequireInputS2C(InputRequest ir)
+          : base(ir)
+        {
+        }
 
-  [DataContract(Name = "ri", Namespace = PBOMarks.JSON)]
-  public class RequireInputS2C : InputRequest, IS2C
-  {
-    public RequireInputS2C(InputRequest ir)
-      : base(ir)
-    {
-    }
-
-    void IS2C.Execute(Client client)
-    {
-      client.Controller.Room.InputRequest = this;
-    }
-  }
-
-  [DataContract(Name = "wi", Namespace = PBOMarks.JSON)]
-  public class WaitingForInputS2C : IS2C
-  {
-    [DataMember(Name = "a")]
-    int[] Players;
-
-    public WaitingForInputS2C(int[] players)
-    {
-      Players = players;
+        void IS2C.Execute(Client client)
+        {
+            client.Controller.Room.InputRequest = this;
+        }
     }
 
-    void IS2C.Execute(Client client)
+    [DataContract(Name = "wi", Namespace = PBOMarks.JSON)]
+    public class WaitingForInputS2C : IS2C
     {
-      RoomController.OnTimeReminder(Players.Select((p) => client.Controller.GetUser(p)).ToArray());
-    }
-  }
+        [DataMember(Name = "a")]
+        int[] Players;
 
-  [DataContract(Name = "gu", Namespace = PBOMarks.JSON)]
-  public class GameUpdateS2C : ReportFragment, IS2C
-  {
-    public GameUpdateS2C(ReportFragment rf)
-      : base(rf)
-    {
+        public WaitingForInputS2C(int[] players)
+        {
+            Players = players;
+        }
+
+        void IS2C.Execute(Client client)
+        {
+            RoomController.OnTimeReminder(Players.Select((p) => client.Controller.GetUser(p)).ToArray());
+        }
     }
 
-    void IS2C.Execute(Client client)
+    [DataContract(Name = "gu", Namespace = PBOMarks.JSON)]
+    public class GameUpdateS2C : ReportFragment, IS2C
     {
-      var room = client.Controller.Room;
-      if (room.Game == null) room.GameStart(this);
-      room.Update(this);
-    }
-  }
+        public GameUpdateS2C(ReportFragment rf)
+          : base(rf)
+        {
+        }
 
-  [DataContract(Name = "ge", Namespace = PBOMarks.JSON)]
-  public class GameEndS2C : IS2C
-  {
-    public static GameEndS2C GameStop(int player, GameStopReason reason)
-    {
-      return new GameEndS2C() { Player = player, Reason = reason };
+        void IS2C.Execute(Client client)
+        {
+            var room = client.Controller.Room;
+            if (room.Game == null) room.GameStart(this);
+            room.Update(this);
+        }
     }
-    public static GameEndS2C TimeUp(KeyValuePair<int, int>[] time)
-    {
-      return new GameEndS2C() { Time = time };
-    }
-    [DataMember(EmitDefaultValue = false)]
-    int Player;
-    [DataMember(EmitDefaultValue = false)]
-    GameStopReason Reason;
 
-    [DataMember(EmitDefaultValue = false)]
-    KeyValuePair<int, int>[] Time;
+    [DataContract(Name = "ge", Namespace = PBOMarks.JSON)]
+    public class GameEndS2C : IS2C
+    {
+        public static GameEndS2C GameStop(int player, GameStopReason reason)
+        {
+            return new GameEndS2C() { Player = player, Reason = reason };
+        }
+        public static GameEndS2C TimeUp(KeyValuePair<int, int>[] time)
+        {
+            return new GameEndS2C() { Time = time };
+        }
+        [DataMember(EmitDefaultValue = false)]
+        int Player;
+        [DataMember(EmitDefaultValue = false)]
+        GameStopReason Reason;
 
-    private GameEndS2C()
-    {
+        [DataMember(EmitDefaultValue = false)]
+        KeyValuePair<int, int>[] Time;
+
+        private GameEndS2C()
+        {
+        }
+        void IS2C.Execute(Client client)
+        {
+            if (Player != 0) client.Controller.Room.OnGameStop(Reason, client.Controller.GetUser(Player));
+            else if (Time != null) RoomController.OnTimeUp(Time.Select((p) => new KeyValuePair<User, int>(client.Controller.GetUser(p.Key), p.Value)).ToArray());
+            else client.Controller.Room.OnGameStop(Reason, null);
+            client.Controller.Room.Reset();
+        }
     }
-    void IS2C.Execute(Client client)
-    {
-      if (Player != 0) client.Controller.Room.OnGameStop(Reason, client.Controller.GetUser(Player));
-      else if (Time != null) RoomController.OnTimeUp(Time.Select((p) => new KeyValuePair<User, int>(client.Controller.GetUser(p.Key), p.Value)).ToArray());
-      else client.Controller.Room.OnGameStop(Reason, null);
-      client.Controller.Room.Reset();
-    }
-  }
 }
