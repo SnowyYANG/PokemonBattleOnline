@@ -63,19 +63,19 @@ namespace PokemonBattleOnline.Game
         }
         public void Update(IEnumerable<GameEvent> events)
         {
-            foreach (GameEvent e in events)
+            try
             {
-                try
+                foreach (GameEvent e in events)
                 {
                     UIDispatcher.Invoke((Action<GameOutward>)e.Update, this);
-                }
-                catch (Exception ex)
-                {
-                    UIDispatcher.Invoke(Error, ex);
-                }
 #if !TEST
-                System.Threading.Thread.Sleep(e.Sleep);
+                    System.Threading.Thread.Sleep(e.Sleep);
 #endif
+                }
+            }
+            catch (Exception ex)
+            {
+                UIDispatcher.Invoke(Error, ex);
             }
         }
         public void EndGame()

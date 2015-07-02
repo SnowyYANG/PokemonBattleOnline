@@ -59,7 +59,6 @@
     <Compile Include="C2SEs\SetSeat.cs" />
     <Compile Include="RoomHost.cs" />
     <Compile Include="IC2SE.cs" />
-    <Compile Include="Network\IdsPool.cs" />
     <Compile Include="LoginServer.cs" />
     <Compile Include="LoginUser.cs" />
     <Compile Include="PBOServer.cs" />

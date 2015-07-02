@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Remoting.Messaging;
 using PokemonBattleOnline.Game;
 using PokemonBattleOnline.Network.Commands;
 
@@ -34,11 +35,9 @@ namespace PokemonBattleOnline.Network
         public static event Action GameInited;
 
         internal readonly Client _Client;
-        private readonly Dispatcher Dispatcher;
 
         internal RoomController(Client client)
         {
-            Dispatcher = new Dispatcher("RoomController", true);
             _Client = client;
         }
 
@@ -210,26 +209,29 @@ namespace PokemonBattleOnline.Network
 
         internal InputRequest InputRequest;
 
+        private IAsyncResult lastAsyncResult;
         internal void Update(ReportFragment rf)
         {
-            Dispatcher.BeginInvoke(() =>
-              {
-                  Game.Update(rf.Events);
-                  if (PlayerController != null)
-                  {
-                      PlayerController.Game.Update(rf);
-                      if (InputRequest != null)
-                      {
-                          PlayerController.OnRequireInput(InputRequest);
-                          InputRequest = null;
-                      }
-                  }
-              });
+            var d = new Action<IAsyncResult, ReportFragment>(UpdateImplement);
+             lastAsyncResult = d.BeginInvoke(lastAsyncResult, rf, UpdateImplementCallback, null);
         }
-
-        public void Dispose()
+        private void UpdateImplement(IAsyncResult lastAsyncResult, ReportFragment rf)
         {
-            Dispatcher.Dispose();
+            if (lastAsyncResult != null) lastAsyncResult.AsyncWaitHandle.WaitOne();
+            Game.Update(rf.Events);
+            if (PlayerController != null)
+            {
+                PlayerController.Game.Update(rf);
+                if (InputRequest != null)
+                {
+                    PlayerController.OnRequireInput(InputRequest);
+                    InputRequest = null;
+                }
+            }
+        }
+        private static void UpdateImplementCallback(IAsyncResult ar)
+        {
+            ((Action<IAsyncResult, ReportFragment>)((AsyncResult)ar).AsyncDelegate).EndInvoke(ar);
         }
     }
 }
