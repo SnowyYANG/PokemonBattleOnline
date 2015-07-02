@@ -176,15 +176,15 @@ namespace PokemonBattleOnline.Network
             if (game == null && Room.IsValidSeat(seat) && user.Seat != seat && Room[seat] == null)
             {
                 if (user.Seat == Seat.Spectator) Room[seat] = user;
-                else if (seat == Seat.Spectator)
+                else if (seat != Seat.Spectator)
                 {
                     UnPrepare(su);
-                    Room.AddSpectator(user);
+                    Room[seat] = su.User;
                 }
                 else if (Room.Players.Count() != 1)
                 {
                     UnPrepare(su);
-                    Room[seat] = su.User;
+                    Room.AddSpectator(user);
                 }
                 else return;
                 Server.Send(SetSeatS2C.InRoom(user));

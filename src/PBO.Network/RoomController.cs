@@ -146,8 +146,8 @@ namespace PokemonBattleOnline.Network
 
         public void ChangeSeat(Seat seat)
         {
-            //too complex logic
-            throw new NotImplementedException();
+            if (Game == null && Room.IsValidSeat(seat) && User.Seat != seat && Room[seat] == null && !(seat == Seat.Spectator && Room.Players.Count() == 1))
+                _Client.Send(SetSeatC2S.ChangeSeat(Room.Id, seat));
         }
         public void Chat(string chat)
         {
