@@ -138,8 +138,8 @@ namespace PokemonBattleOnline.Game
                             case "t":
                                 if (id == 0 || id == 1)
                                 {
-                                    r = Board.Players[id, 0].Name;
-                                    if (Settings.Mode.PlayersPerTeam() == 2) r += " " + Board.Players[id, 1].Name;
+                                    var p0 = Board.Players[id, 0].Name;
+                                    r = Settings.Mode.PlayersPerTeam() == 1 ? p0 : string.Format(GameString.Current.BattleLog("Team2"), p0, Board.Players[id, 1].Name);
                                 }
                                 break;
                             default:
