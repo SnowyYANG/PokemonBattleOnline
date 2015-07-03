@@ -49,7 +49,7 @@ namespace PokemonBattleOnline.Game.GameEvents
         }
         public override void Update(SimGame game)
         {
-            if (team == game.Player.Team)
+            if (team == game.Player.Team && game.OnboardPokemons[x] != null)
             {
                 var pm = game.OnboardPokemons[x].Pokemon;
                 game.OnboardPokemons[x] = null;
