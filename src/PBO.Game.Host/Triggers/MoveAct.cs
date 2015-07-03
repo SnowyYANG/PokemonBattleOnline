@@ -1177,7 +1177,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             {
                 var tile = atk.Attacker.SelectedTarget;
                 //使用猫手发动预知未来，不会选择空场地。
-                if (tile == null) tile = MoveE.GetRangeTiles(atk, MoveRange.Single, null).FirstOrDefault(); 
+                if (tile == null) tile = MoveE.GetRangeTiles(atk, MoveRange.SelectedTarget, null).FirstOrDefault(); 
                 if (tile == null || tile.HasCondition(Cs.FSDD)) atk.FailAll();
                 else
                 {

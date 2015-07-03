@@ -39,10 +39,10 @@ namespace PokemonBattleOnline.Game.Host
             var ox = xn - 1 - x;
             switch (range)
             {
-                case MoveRange.SelfField: //do nothing
-                case MoveRange.FoeField: //do nothing
+                case MoveRange.TeamField: //do nothing
+                case MoveRange.OpponentField: //do nothing
                 case MoveRange.Board: //do nothing
-                case MoveRange.SelfPokemons: //防音防不住治愈铃铛，所以这只是个摆设
+                case MoveRange.TeamPokemons: //防音防不住治愈铃铛，所以这只是个摆设
                     break;
                 case MoveRange.Adjacent:
                     {
@@ -56,7 +56,7 @@ namespace PokemonBattleOnline.Game.Host
                         targets = ts;
                     }
                     break;
-                case MoveRange.FoePokemons:
+                case MoveRange.OpponentPokemons:
                     {
                         var ts = new List<Tile>();
                         Tile t;
@@ -69,7 +69,7 @@ namespace PokemonBattleOnline.Game.Host
                 case MoveRange.All:
                     targets = b.Tiles;
                     break;
-                case MoveRange.SingleAlly:
+                case MoveRange.SelectedTeammate:
                     if (select == null)
                     {
                         var pms = new List<PokemonProxy>();
@@ -79,29 +79,29 @@ namespace PokemonBattleOnline.Game.Host
                     }
                     else targets = new Tile[] { select };
                     break;
-                case MoveRange.RandomFoePokemon:
+                case MoveRange.RandomOpponentPokemon:
                     {
                         var pms = (List<PokemonProxy>)(remote? b[oTeam].Pokemons : b[oTeam].GetAdjacentPokemonsByX(ox));
                         targets = pms.Any() ? new Tile[] { pms[aer.Controller.GetRandomInt(0, pms.Count - 1)].Tile } : Enumerable.Empty<Tile>();
                     }
                     break;
-                case MoveRange.Single:
-                    if (select == null || select.Field.Team == oTeam) goto case MoveRange.SingleFoe;
+                case MoveRange.SelectedTarget:
+                    if (select == null || select.Field.Team == oTeam) goto case MoveRange.SelectedOpponent;
                     targets = new Tile[] { select };
                     break;
-                case MoveRange.SingleFoe:
+                case MoveRange.SelectedOpponent:
                     //非鬼系选诅咒后变诅咒随机对方一个精灵
-                    if (select == null) goto case MoveRange.RandomFoePokemon;
+                    if (select == null) goto case MoveRange.RandomOpponentPokemon;
                     //因为移动或交换位置造成距离不足，技能失败
                     if (!(remote || ox - 1 <= select.X && select.X <= ox + 1)) targets = Enumerable.Empty<Tile>();
                     if (select.Pokemon != null) targets = new Tile[] { select };
                     else if (b[oTeam][ox].Pokemon != null) targets = new Tile[] { b[oTeam][ox] }; //据说正对面精灵优先
-                    else goto case MoveRange.RandomFoePokemon;
+                    else goto case MoveRange.RandomOpponentPokemon;
                     break;
                 case MoveRange.Self: //done?
                     targets = new Tile[] { aer.Tile };
                     break;
-                case MoveRange.RandomSelfPokemon:
+                case MoveRange.RandomTeamPokemon:
                     {
                         var pms = (List<PokemonProxy>)(remote ? b[team].Pokemons : b[team].GetAdjacentPokemonsByX(x));
                         targets = new Tile[] { pms[aer.Controller.GetRandomInt(0, pms.Count - 1)].Tile };
@@ -164,7 +164,7 @@ namespace PokemonBattleOnline.Game.Host
                         var targets = new List<DefContext>();
                         if (o.By != null)
                         {
-                            var t = GetRangeTiles(atk, MoveRange.Single, o.By.Tile).FirstOrDefault();
+                            var t = GetRangeTiles(atk, MoveRange.SelectedTarget, o.By.Tile).FirstOrDefault();
                             if (t != null && t.Pokemon != null) targets.Add(new DefContext(atk, t.Pokemon));
                         }
                         if (!targets.Any()) atk.Attacker.ShowLogPm("UseMove", Ms.BIDE); //奇葩的战报
@@ -232,7 +232,7 @@ namespace PokemonBattleOnline.Game.Host
                 }
             #endregion
             #region WideGuard QuickGuard CraftyShield MatBlock
-            if (move.Move.Category != MoveCategory.Status && move.Move.Range != MoveRange.Single)
+            if (move.Move.Category != MoveCategory.Status && move.Move.Range != MoveRange.SelectedTarget)
                 foreach (var def in targets.ToArray())
                     if (def.Defender.Field.HasCondition(Cs.WideGuard))
                     {

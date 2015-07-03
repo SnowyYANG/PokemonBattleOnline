@@ -54,7 +54,7 @@ namespace PokemonBattleOnline.Game.Host
         public static void Pressure(AtkContext atk, MoveRange range)
         {
             var ts =
-              atk.Move.Move.Range == MoveRange.Board || atk.Move.Move.Range == MoveRange.FoeField ?
+              atk.Move.Move.Range == MoveRange.Board || atk.Move.Move.Range == MoveRange.OpponentField ?
               atk.Attacker.Controller.Board[1 - atk.Attacker.Pokemon.TeamId].Pokemons :
               atk.Targets == null ?
               Enumerable.Empty<PokemonProxy>() : null;
@@ -158,7 +158,7 @@ namespace PokemonBattleOnline.Game.Host
         }
         internal static void ReTarget(AtkContext atk)
         {
-            if (atk.Move.Move.Range == MoveRange.Single)
+            if (atk.Move.Move.Range == MoveRange.SelectedTarget)
             {
                 int ab = 0;
                 if (atk.Type == BattleType.Electric) ab = As.LIGHTNINGROD;

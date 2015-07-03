@@ -405,7 +405,7 @@ namespace PokemonBattleOnline.Game.Host
 
         public MoveRange GetRange(PokemonProxy pm)
         {
-            return Id == Ms.CURSE ? pm.OnboardPokemon.HasType(BattleType.Ghost) ? MoveRange.Single : MoveRange.Self : Move.Range;
+            return Id == Ms.CURSE ? pm.OnboardPokemon.HasType(BattleType.Ghost) ? MoveRange.SelectedTarget : MoveRange.Self : Move.Range;
         }
 
         public bool HasProbabilitiedAdditonalEffects
