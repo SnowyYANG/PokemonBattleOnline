@@ -14,35 +14,53 @@ using System.Windows.Shapes;
 
 namespace PokemonBattleOnline.PBO.Battle
 {
-  public class GameButton : Button
-  {
-    static GameButton()
+    public class GameButton : Button
     {
-      DefaultStyleKeyProperty.OverrideMetadata(typeof(GameButton), new FrameworkPropertyMetadata(typeof(GameButton)));
+        static GameButton()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(GameButton), new FrameworkPropertyMetadata(typeof(GameButton)));
+        }
+
+        public static readonly DependencyProperty ShapeProperty = DependencyProperty.Register("Shape", typeof(Geometry), typeof(GameButton));
+        public Geometry Shape
+        {
+            get { return (Geometry)GetValue(ShapeProperty); }
+            set { SetValue(ShapeProperty, value); }
+        }
+
+        public static readonly DependencyProperty ImageProperty = DependencyProperty.Register("Image", typeof(ImageSource), typeof(GameButton));
+        public ImageSource Image
+        {
+            get { return (ImageSource)GetValue(ImageProperty); }
+            set { SetValue(ImageProperty, value); }
+        }
+
+        public static readonly DependencyProperty HorizontalFlipProperty = DependencyProperty.Register("HorizontalFlip", typeof(bool), typeof(GameButton));
+        public bool HorizontalFlip
+        {
+            get { return (bool)GetValue(HorizontalFlipProperty); }
+            set { SetValue(HorizontalFlipProperty, value); }
+        }
+
+        public static readonly DependencyPropertyKey SimPressedKey = DependencyProperty.RegisterReadOnly("SimPressed", typeof(bool), typeof(GameButton), new PropertyMetadata(false));
+        private bool _SimPressed;
+        public bool SimPressed
+        {
+            get { return (bool)GetValue(SimPressedKey.DependencyProperty); }
+            set
+            {
+                _SimPressed = value;
+                SetValue(SimPressedKey.DependencyProperty, value | IsPressed);
+            }
+        }
+
+        public event DependencyPropertyChangedEventHandler IsPressedChanged;
+
+        protected override void OnIsPressedChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnIsPressedChanged(e);
+            SetValue(SimPressedKey.DependencyProperty, _SimPressed | IsPressed);
+            if (IsPressedChanged != null) IsPressedChanged(this, e);
+        }
     }
-    #region Shape
-    public static readonly DependencyProperty ShapeProperty = DependencyProperty.Register("Shape", typeof(Geometry), typeof(GameButton));
-    public Geometry Shape
-    {
-      get { return (Geometry)GetValue(ShapeProperty); }
-      set { SetValue(ShapeProperty, value); }
-    }
-    #endregion
-    #region Image
-    public static readonly DependencyProperty ImageProperty = DependencyProperty.Register("Image", typeof(ImageSource), typeof(GameButton));
-    public ImageSource Image
-    {
-      get { return (ImageSource)GetValue(ImageProperty); }
-      set { SetValue(ImageProperty, value); }
-    }
-    #endregion
-    #region HorizontalFlip
-    public static readonly DependencyProperty HorizontalFlipProperty = DependencyProperty.Register("HorizontalFlip", typeof(bool), typeof(GameButton));
-    public bool HorizontalFlip
-    {
-      get { return (bool)GetValue(HorizontalFlipProperty); }
-      set { SetValue(ImageProperty, value); }
-    }
-    #endregion
-  }
 }
