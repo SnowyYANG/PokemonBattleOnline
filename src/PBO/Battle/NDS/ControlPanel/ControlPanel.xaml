@@ -157,108 +157,6 @@
                     <ImageBrush ImageSource="/PBO;component/images/ControlPanel/Background.png"/>
                 </Canvas.Background>
                 <Canvas.Resources>
-                    <Style x:Key="L" TargetType="b:GameButton">
-                        <EventSetter Event="Click" Handler="Pokemon_Click"/>
-                        <Setter Property="Width" Value="160"/>
-                        <Setter Property="Height" Value="54"/>
-                        <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Pokemon/Button.png"/>
-                        <Setter Property="Shape" Value="M0,0 H135 A25,25 180 1 1 135,50 H0 Z"/>
-                        <Setter Property="Padding" Value="0,1,1,1"/>
-                        <Setter Property="ContentTemplate">
-                            <Setter.Value>
-                                <DataTemplate>
-                                    <Canvas UseLayoutRounding="True" IsHitTestVisible="False">
-                                        <Canvas.Resources>
-                                            <Style TargetType="Label" BasedOn="{x:Static ui:Controls.STextBlock}">
-                                                <Setter Property="FontWeight" Value="Bold"/>
-                                                <Setter Property="Canvas.Top" Value="36"/>
-                                            </Style>
-                                        </Canvas.Resources>
-                                        <Image Source="{Binding Converter={x:Static c:PokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Top="4"/>
-                                        <Image Name="item" Stretch="Uniform" Source="/PBO;component/images/Item.png" Width="8" Height="10" Canvas.Left="28" Canvas.Top="26" SnapsToDevicePixels="True" />
-                                        <TextBlock Text="{Binding Name}" Foreground="Black" FontSize="14" Width="54" Canvas.Left="39" Canvas.Top="9"/>
-                                        <b:LifeBarSimplified DataContext="{Binding Hp}" Canvas.Left="56" Canvas.Top="27"/>
-                                        <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="11" Canvas.Top="38"/>
-                                        <Label Name="lvt" Content="Lv." Visibility="Collapsed" Canvas.Left="10"/>
-                                        <Label Name="lv" Content="{Binding Lv}" Visibility="Collapsed" Canvas.Left="27"/>
-                                        <Label Content="{Binding Hp.Value}" Canvas.Right="67"/>
-                                        <Label Content="/" Canvas.Left="97"/>
-                                        <Label Content="{Binding Hp.Origin}" Canvas.Left="107"/>
-                                    </Canvas>
-                                    <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding State}" Value="Normal">
-                                            <Setter TargetName="lvt" Property="Visibility" Value="Visible"/>
-                                            <Setter TargetName="lv" Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Item}" Value="0">
-                                            <Setter TargetName="item" Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                    </DataTemplate.Triggers>
-                                </DataTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Content.Hp.Value,RelativeSource={RelativeSource Self}}" Value="0">
-                                <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Pokemon/FaintButton.png"/>
-                            </DataTrigger>
-                            <Trigger Property="Content" Value="{x:Null}">
-                                <Setter Property="IsEnabled" Value="False"/>
-                                <Setter Property="ContentTemplate" Value="{x:Null}"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                    <Style x:Key="R" TargetType="b:GameButton">
-                        <EventSetter Event="Click" Handler="Pokemon_Click"/>
-                        <Setter Property="Canvas.Right" Value="0"/>
-                        <Setter Property="Padding" Value="1,1,0,1"/>
-                        <Setter Property="Width" Value="160"/>
-                        <Setter Property="Height" Value="54"/>
-                        <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Pokemon/Button.png"/>
-                        <Setter Property="Shape" Value="M0,0 H135 A25,25 180 1 1 135,50 H0 Z"/>
-                        <Setter Property="HorizontalFlip" Value="True"/>
-                        <Setter Property="ContentTemplate">
-                            <Setter.Value>
-                                <DataTemplate>
-                                    <Canvas Margin="8,0,0,0" UseLayoutRounding="True" IsHitTestVisible="False">
-                                        <Canvas.Resources>
-                                            <Style TargetType="Label" BasedOn="{x:Static ui:Controls.STextBlock}">
-                                                <Setter Property="FontWeight" Value="Bold"/>
-                                                <Setter Property="Canvas.Top" Value="36"/>
-                                            </Style>
-                                        </Canvas.Resources>
-                                        <Image Source="{Binding Converter={x:Static c:PokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Top="4"/>
-                                        <Image Name="item" Stretch="Uniform" Source="/PBO;component/images/Item.png" Width="8" Height="10" Canvas.Left="28" Canvas.Top="26" SnapsToDevicePixels="True" />
-                                        <TextBlock Text="{Binding Name}" Foreground="Black" FontSize="14" Width="54" Canvas.Left="39" Canvas.Top="9"/>
-                                        <b:LifeBarSimplified DataContext="{Binding Hp}" Canvas.Left="56" Canvas.Top="27"/>
-                                        <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="11" Canvas.Top="38"/>
-                                        <Label Name="lvt" Content="Lv." Visibility="Collapsed" Canvas.Left="10"/>
-                                        <Label Name="lv" Content="{Binding Lv}" Visibility="Collapsed" Canvas.Left="27"/>
-                                        <Label Content="{Binding Hp.Value}" Canvas.Right="57"/>
-                                        <Label Content="/" Canvas.Left="97"/>
-                                        <Label Content="{Binding Hp.Origin}" Canvas.Left="107"/>
-                                    </Canvas>
-                                    <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding State}" Value="Normal">
-                                            <Setter TargetName="lvt" Property="Visibility" Value="Visible"/>
-                                            <Setter TargetName="lv" Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Item}" Value="0">
-                                            <Setter TargetName="item" Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                    </DataTemplate.Triggers>
-                                </DataTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Content.Hp.Value,RelativeSource={RelativeSource Self}}" Value="0">
-                                <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Pokemon/FaintButton.png"/>
-                            </DataTrigger>
-                            <Trigger Property="Content" Value="{x:Null}">
-                                <Setter Property="IsEnabled" Value="False"/>
-                                <Setter Property="ContentTemplate" Value="{x:Null}"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
                 </Canvas.Resources>
                 <Border Background="#80000000" BorderThickness="2" CornerRadius="12" Canvas.Left="-15" Canvas.Top="204" Width="272" Height="24">
                     <Border.Effect>
@@ -267,12 +165,126 @@
                 </Border>
                 <TextBlock Text="点击一次预览 再次点击交换" Foreground="#f8f8f8" Margin="5,208,0,0"/>
                 <b:GameButton Click="Return_Click" Style="{x:Null}" IsEnabled="{Binding IsReturnEnabled}" Shape="M3,47 A44,44 120 0 1 67,7 V47 Z" Padding="2,2,0,0" Width="67" Height="47" Image="/PBO;component/images/ControlPanel/Return.png" Canvas.Bottom="0" Canvas.Right="0"/>
-                <b:GameButton Content="{Binding Pokemons[0]}" Style="{StaticResource L}" Canvas.Top="3"/>
-                <b:GameButton Content="{Binding Pokemons[1]}" Style="{StaticResource R}" Canvas.Top="8"/>
-                <b:GameButton Content="{Binding Pokemons[2]}" Style="{StaticResource L}" Canvas.Top="63"/>
-                <b:GameButton Content="{Binding Pokemons[3]}" Style="{StaticResource R}" Canvas.Top="68"/>
-                <b:GameButton Content="{Binding Pokemons[4]}" Style="{StaticResource L}" Canvas.Top="123"/>
-                <b:GameButton Content="{Binding Pokemons[5]}" Style="{StaticResource R}" Canvas.Top="128"/>
+                <b:GameButton x:Name="pl" Content="{Binding Pokemons[0]}" Canvas.Top="3">
+                    <b:GameButton.Resources>
+                        <Style x:Key="L" TargetType="b:GameButton">
+                            <EventSetter Event="Click" Handler="Pokemon_Click"/>
+                            <Setter Property="Width" Value="160"/>
+                            <Setter Property="Height" Value="54"/>
+                            <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Pokemon/Button.png"/>
+                            <Setter Property="Shape" Value="M0,0 H135 A25,25 180 1 1 135,50 H0 Z"/>
+                            <Setter Property="Padding" Value="0,1,1,1"/>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <Canvas UseLayoutRounding="True" IsHitTestVisible="False">
+                                            <Canvas.Resources>
+                                                <Style TargetType="Label" BasedOn="{x:Static ui:Controls.STextBlock}">
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                    <Setter Property="Canvas.Top" Value="36"/>
+                                                </Style>
+                                            </Canvas.Resources>
+                                            <Image Source="{Binding Converter={x:Static c:PokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Top="4"/>
+                                            <Image Name="item" Stretch="Uniform" Source="/PBO;component/images/Item.png" Width="8" Height="10" Canvas.Left="28" Canvas.Top="26" SnapsToDevicePixels="True" />
+                                            <TextBlock Text="{Binding Name}" Foreground="Black" FontSize="14" Width="54" Canvas.Left="39" Canvas.Top="9"/>
+                                            <b:LifeBarSimplified DataContext="{Binding Hp}" Canvas.Left="56" Canvas.Top="27"/>
+                                            <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="11" Canvas.Top="38"/>
+                                            <Label Name="lvt" Content="Lv." Visibility="Collapsed" Canvas.Left="10"/>
+                                            <Label Name="lv" Content="{Binding Lv}" Visibility="Collapsed" Canvas.Left="27"/>
+                                            <Label Content="{Binding Hp.Value}" Canvas.Right="67"/>
+                                            <Label Content="/" Canvas.Left="97"/>
+                                            <Label Content="{Binding Hp.Origin}" Canvas.Left="107"/>
+                                        </Canvas>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding State}" Value="Normal">
+                                                <Setter TargetName="lvt" Property="Visibility" Value="Visible"/>
+                                                <Setter TargetName="lv" Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Item}" Value="0">
+                                                <Setter TargetName="item" Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Content.Hp.Value,RelativeSource={RelativeSource Self}}" Value="0">
+                                    <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Pokemon/FaintButton.png"/>
+                                </DataTrigger>
+                                <Trigger Property="Content" Value="{x:Null}">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                    <Setter Property="ContentTemplate" Value="{x:Null}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                        <Style x:Key="PL" TargetType="b:GameButton" BasedOn="{StaticResource L}">
+                            <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Pokemon/Partner.png"/>
+                        </Style>
+                    </b:GameButton.Resources>
+                </b:GameButton>
+                <b:GameButton x:Name="pr" Content="{Binding Pokemons[1]}" Canvas.Top="8">
+                    <b:GameButton.Resources>
+                        <Style x:Key="R" TargetType="b:GameButton">
+                            <EventSetter Event="Click" Handler="Pokemon_Click"/>
+                            <Setter Property="Canvas.Right" Value="0"/>
+                            <Setter Property="Padding" Value="1,1,0,1"/>
+                            <Setter Property="Width" Value="160"/>
+                            <Setter Property="Height" Value="54"/>
+                            <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Pokemon/Button.png"/>
+                            <Setter Property="Shape" Value="M0,0 H135 A25,25 180 1 1 135,50 H0 Z"/>
+                            <Setter Property="HorizontalFlip" Value="True"/>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <Canvas Margin="8,0,0,0" UseLayoutRounding="True" IsHitTestVisible="False">
+                                            <Canvas.Resources>
+                                                <Style TargetType="Label" BasedOn="{x:Static ui:Controls.STextBlock}">
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                    <Setter Property="Canvas.Top" Value="36"/>
+                                                </Style>
+                                            </Canvas.Resources>
+                                            <Image Source="{Binding Converter={x:Static c:PokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Top="4"/>
+                                            <Image Name="item" Stretch="Uniform" Source="/PBO;component/images/Item.png" Width="8" Height="10" Canvas.Left="28" Canvas.Top="26" SnapsToDevicePixels="True" />
+                                            <TextBlock Text="{Binding Name}" Foreground="Black" FontSize="14" Width="54" Canvas.Left="39" Canvas.Top="9"/>
+                                            <b:LifeBarSimplified DataContext="{Binding Hp}" Canvas.Left="56" Canvas.Top="27"/>
+                                            <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="11" Canvas.Top="38"/>
+                                            <Label Name="lvt" Content="Lv." Visibility="Collapsed" Canvas.Left="10"/>
+                                            <Label Name="lv" Content="{Binding Lv}" Visibility="Collapsed" Canvas.Left="27"/>
+                                            <Label Content="{Binding Hp.Value}" Canvas.Right="57"/>
+                                            <Label Content="/" Canvas.Left="97"/>
+                                            <Label Content="{Binding Hp.Origin}" Canvas.Left="107"/>
+                                        </Canvas>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding State}" Value="Normal">
+                                                <Setter TargetName="lvt" Property="Visibility" Value="Visible"/>
+                                                <Setter TargetName="lv" Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Item}" Value="0">
+                                                <Setter TargetName="item" Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Content.Hp.Value,RelativeSource={RelativeSource Self}}" Value="0">
+                                    <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Pokemon/FaintButton.png"/>
+                                </DataTrigger>
+                                <Trigger Property="Content" Value="{x:Null}">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                    <Setter Property="ContentTemplate" Value="{x:Null}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                        <Style x:Key="PR" TargetType="b:GameButton" BasedOn="{StaticResource R}">
+                            <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Pokemon/Partner.png"/>
+                        </Style>
+                    </b:GameButton.Resources>
+                </b:GameButton>
+                <b:GameButton Content="{Binding Pokemons[2]}" Style="{Binding Style,ElementName=pl}" Canvas.Top="63"/>
+                <b:GameButton Content="{Binding Pokemons[3]}" Style="{Binding Style,ElementName=pr}" Canvas.Top="68"/>
+                <b:GameButton Content="{Binding Pokemons[4]}" Style="{Binding Style,ElementName=pl}" Canvas.Top="123"/>
+                <b:GameButton Content="{Binding Pokemons[5]}" Style="{Binding Style,ElementName=pr}" Canvas.Top="128"/>
             </Canvas>
         </TabItem>
         <TabItem>

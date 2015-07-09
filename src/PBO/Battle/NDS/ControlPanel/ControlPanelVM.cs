@@ -21,15 +21,20 @@ namespace PokemonBattleOnline.PBO.Battle
 
         public event Action<string> InputFailed;
 
-        readonly PlayerController Controller;
-        readonly GameOutward Game;
-        readonly DispatcherTimer Timer;
-        InputRequest Request;
+        private readonly PlayerController Controller;
+        private readonly GameOutward Game;
+        /// <summary>
+        /// 0 非合作对战, 1 队友精灵在左列, 2 队友精灵在右列
+        /// </summary>
+        public readonly int Partner;
+        private readonly DispatcherTimer Timer;
+        private InputRequest Request;
 
         public ControlPanelVM(RoomController c)
         {
             Controller = c.PlayerController;
             Game = c.Game;
+            if (Game.Settings.Mode.PlayersPerTeam() == 2) Partner = 2 - Controller.Player.TeamIndex;
             Timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(1) };
             _time = 180;
             _selectedPanel = INACTIVE;

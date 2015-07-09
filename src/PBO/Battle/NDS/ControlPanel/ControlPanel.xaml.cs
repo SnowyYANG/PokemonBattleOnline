@@ -77,6 +77,8 @@ namespace PokemonBattleOnline.PBO.Battle
         internal void Init(ControlPanelVM cp)
         {
             DataContext = vm = cp;
+            pl.Style = (Style)pl.Resources[vm.Partner == 1 ? "PL" : "L"];
+            pr.Style = (Style)pr.Resources[vm.Partner == 2 ? "PR" : "R"];
             Current.Content = null;
         }
 
