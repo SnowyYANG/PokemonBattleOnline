@@ -50,7 +50,7 @@ namespace PokemonBattleOnline.PBO.Battle
             set
             {
                 _SimPressed = value;
-                SetValue(SimPressedKey.DependencyProperty, value | IsPressed);
+                SetValue(SimPressedKey, value | IsPressed);
             }
         }
 
@@ -59,7 +59,7 @@ namespace PokemonBattleOnline.PBO.Battle
         protected override void OnIsPressedChanged(DependencyPropertyChangedEventArgs e)
         {
             base.OnIsPressedChanged(e);
-            SetValue(SimPressedKey.DependencyProperty, _SimPressed | IsPressed);
+            SetValue(SimPressedKey, _SimPressed | IsPressed);
             if (IsPressedChanged != null) IsPressedChanged(this, e);
         }
     }

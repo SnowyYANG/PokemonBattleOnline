@@ -38,9 +38,9 @@
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
-                        <!--<Trigger Property="SimPressed" Value="False">
+                        <Trigger Property="SimPressed" Value="False">
                             <Setter TargetName="main" Property="Margin" Value="0"/>
-                        </Trigger>-->
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="main" Property="Opacity" Value="0.5"/>
                         </Trigger>
