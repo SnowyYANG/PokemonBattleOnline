@@ -5,8 +5,6 @@
         xmlns:b="clr-namespace:PokemonBattleOnline.PBO.Battle"
         xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters"
         Height="240" Width="320" SnapsToDevicePixels="True" UseLayoutRounding="True">
-    <Canvas.Resources>
-    </Canvas.Resources>
     <Canvas.Background>
         <ImageBrush ImageSource="/PBO;component/images/ControlPanel/BackgroundD.png"/>
     </Canvas.Background>
@@ -156,8 +154,6 @@
                 <Canvas.Background>
                     <ImageBrush ImageSource="/PBO;component/images/ControlPanel/Background.png"/>
                 </Canvas.Background>
-                <Canvas.Resources>
-                </Canvas.Resources>
                 <Border Background="#80000000" BorderThickness="2" CornerRadius="12" Canvas.Left="-15" Canvas.Top="204" Width="272" Height="24">
                     <Border.Effect>
                         <BlurEffect/>
@@ -289,11 +285,45 @@
         </TabItem>
         <TabItem>
             <Grid>
-                <Button Content="是" Margin="0,31,0,0" VerticalAlignment="Top" Click="GiveUp_Click"/>
-                <Button Content="否" Margin="0,79,0,0" VerticalAlignment="Top" Click="Return_Click"/>
+                <Grid.Background>
+                    <ImageBrush ImageSource="/PBO;component/images/ControlPanel/Background.png"/>
+                </Grid.Background>
+                <Grid.Resources>
+                    <Style TargetType="b:GameButton">
+                        <Setter Property="Shape" Value="M18.5,0 H261.5 A18.5,18.5 180 1 1 261.5,37 H18.5 A18.5,18.5 180 1 1 18.5,0Z"/>
+                        <Setter Property="Padding" Value="2,1"/>
+                        <Setter Property="Height" Value="37"/>
+                        <Setter Property="VerticalAlignment" Value="Top"/>
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Grid.Resources>
+                <Rectangle IsHitTestVisible="False" Height="150" Margin="0,70,0,0" VerticalAlignment="Top">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="#00000000"/>
+                            <GradientStop Color="#66000000" Offset="0.05"/>
+                            <GradientStop Color="#66000000" Offset="0.95"/>
+                            <GradientStop Color="#00000000" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <b:GameButton Image="/PBO;component/images/ControlPanel/Yes.png" Content="是" Click="GiveUp_Click" Margin="20,90,20,0"/>
+                <b:GameButton Image="/PBO;component/images/ControlPanel/No.png" Content="否" Click="Return_Click" Margin="20,160,20,0"/>
             </Grid>
         </TabItem>
-        <TabItem></TabItem>
+        <TabItem>
+            <Canvas>
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/PBO;component/images/ControlPanel/Fight/Background.png"/>
+                </Canvas.Background>
+            </Canvas>
+        </TabItem>
     </TabControl>
     <StackPanel Orientation="Horizontal" Canvas.Top="-88" Canvas.Right="-35">
         <Label Content="剩余时间：" Style="{x:Static ui:Controls.STextBlock}" FontSize="13"/>

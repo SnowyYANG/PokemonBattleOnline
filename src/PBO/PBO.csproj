@@ -497,6 +497,14 @@
   <ItemGroup>
     <Resource Include="images\ControlPanel\Pokemon\Partner.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\ControlPanel\No.png" />
+    <Resource Include="images\ControlPanel\Yes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\ControlPanel\Fight\Opponent.png" />
+    <Resource Include="images\ControlPanel\Fight\Team.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
