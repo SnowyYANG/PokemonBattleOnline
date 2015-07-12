@@ -163,11 +163,11 @@ namespace PokemonBattleOnline.Game
             this.game = game;
             CurrentX = -1;
             if (Pms != null)
-                for (int i = 0; i < Pms.Length; ++i)
-                    if (Pms[i] != null)
+                for (int x = 0; x < Pms.Length; ++x)
+                    if (Pms[x] != null)
                     {
-                        Pms[i].Init(game, game.OnboardPokemons[i]);
-                        if (CurrentX == -1) CurrentX = i;
+                        Pms[x].Init(game, game.OnboardPokemons[x]);
+                        if (CurrentX == -1) CurrentX = x;
                     }
             input = new ActionInput(game.Settings.Mode.XBound());
         }

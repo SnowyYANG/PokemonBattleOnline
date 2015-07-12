@@ -13,6 +13,18 @@
             <Style TargetType="TabItem">
                 <Setter Property="Visibility" Value="Collapsed"/>
             </Style>
+            <Style x:Key="ReturnButton" TargetType="b:GameButton">
+                <EventSetter Event="Click" Handler="Return_Click"/>
+                <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Return.png"/>
+                <Setter Property="Shape" Value="M3,47 A44,44 120 0 1 67,7 V47 Z"/>
+                <Setter Property="Padding" Value="2,2,0,0"/>
+                <Setter Property="Width" Value="67"/>
+                <Setter Property="Height" Value="47"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="Canvas.Right" Value="0"/>
+                <Setter Property="Canvas.Bottom" Value="0"/>
+            </Style>
         </TabControl.Resources>
         <TabItem>
             <Canvas>
@@ -127,7 +139,7 @@
                         </Style.Triggers>
                     </Style>
                 </Grid.Style>
-                <b:GameButton Click="Return_Click" Style="{x:Null}" Shape="M3,47 A44,44 120 0 1 67,7 V47 Z" Padding="2,2,0,0" Width="67" Height="47" Image="/PBO;component/images/ControlPanel/Return.png" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                <b:GameButton Style="{StaticResource ReturnButton}"/>
                 <b:GameButton Content="{Binding ControllingPokemon.Moves[0]}" Style="{StaticResource L}" Margin="0,41,0,0"/>
                 <b:GameButton Content="{Binding ControllingPokemon.Moves[1]}" Style="{StaticResource R}" Margin="0,41,0,0"/>
                 <b:GameButton Content="{Binding ControllingPokemon.Moves[2]}" Style="{StaticResource L}" Margin="0,101,0,0"/>
@@ -160,7 +172,7 @@
                     </Border.Effect>
                 </Border>
                 <TextBlock Text="点击一次预览 再次点击交换" Foreground="#f8f8f8" Margin="5,208,0,0"/>
-                <b:GameButton Click="Return_Click" Style="{x:Null}" IsEnabled="{Binding IsReturnEnabled}" Shape="M3,47 A44,44 120 0 1 67,7 V47 Z" Padding="2,2,0,0" Width="67" Height="47" Image="/PBO;component/images/ControlPanel/Return.png" Canvas.Bottom="0" Canvas.Right="0"/>
+                <b:GameButton IsEnabled="{Binding IsReturnEnabled}" Style="{StaticResource ReturnButton}"/>
                 <b:GameButton x:Name="pl" Content="{Binding Pokemons[0]}" Canvas.Top="3">
                     <b:GameButton.Resources>
                         <Style x:Key="L" TargetType="b:GameButton">
@@ -319,9 +331,45 @@
         </TabItem>
         <TabItem>
             <Canvas>
+                <Canvas.Resources>
+                    <Style x:Key="O" TargetType="b:GameButton">
+                        <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Fight/Opponent.png"/>
+                        <Setter Property="Width" Value="75"/>
+                        <Setter Property="Height" Value="43"/>
+                        <Setter Property="Canvas.Top" Value="53"/>
+                    </Style>
+                    <Style x:Key="T" TargetType="b:GameButton">
+                        <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Fight/Team.png"/>
+                        <Setter Property="Width" Value="75"/>
+                        <Setter Property="Height" Value="43"/>
+                        <Setter Property="Canvas.Top" Value="128"/>
+                    </Style>
+                    <Style TargetType="Line">
+                        <Setter Property="Stroke" Value="#d9f976"/>
+                        <Setter Property="StrokeThickness" Value="10"/>
+                    </Style>
+                    <Style TargetType="Rectangle">
+                        <Setter Property="RadiusX" Value="25"/>
+                        <Setter Property="RadiusY" Value="25"/>
+                        <Setter Property="Fill" Value="#d9f976"/>
+                        <Setter Property="Width" Value="81"/>
+                        <Setter Property="Height" Value="49"/>
+                    </Style>
+                </Canvas.Resources>
                 <Canvas.Background>
                     <ImageBrush ImageSource="/PBO;component/images/ControlPanel/Fight/Background.png"/>
                 </Canvas.Background>
+                <Line X1="119" Y1="75" X2="204" Y2="75"/>
+                <Line X1="119" Y1="150" X2="204" Y2="150"/>
+                <Line X1="82" Y1="96" X2="82" Y2="128"/>
+                <Line X1="242" Y1="96" X2="242" Y2="128"/>
+                <Rectangle Canvas.Left="41" Canvas.Top="50"/>
+                <Rectangle Canvas.Left="41" Canvas.Top="125"/>
+                <Rectangle Canvas.Left="201" Canvas.Top="50"/>
+                <Rectangle Canvas.Left="201" Canvas.Top="125"/>
+                <b:GameButton Style="{StaticResource ReturnButton}"/>
+                <b:GameButton Style="{StaticResource O}" Canvas.Left="44"/>
+                <b:GameButton Style="{StaticResource T}" Canvas.Left="204"/>
             </Canvas>
         </TabItem>
     </TabControl>

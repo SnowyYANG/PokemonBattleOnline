@@ -76,7 +76,7 @@ namespace PokemonBattleOnline.PBO.Lobby
 
         private void TagBattle_Click(object sender, RoutedEventArgs e)
         {
-            Controller.NewRoom(new GameSettings(Game.GameMode.Tag));
+            Controller.NewRoom(new GameSettings(Game.GameMode.Multi));
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)

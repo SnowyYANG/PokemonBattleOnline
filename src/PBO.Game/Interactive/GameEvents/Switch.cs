@@ -25,7 +25,7 @@ namespace PokemonBattleOnline.Game.GameEvents
         {
             if (Pm.Position.Team == game.Player.Team)
             {
-                if (Pm.TeamIndex == game.Player.TeamIndex) game.OnboardPokemons[Pm.Position.X] = new SimOnboardPokemon(game.Pokemons[Pm.Id], Pm);
+                game.OnboardPokemons[Pm.Position.X] = new SimOnboardPokemon(game.Pokemons[Pm.Id], Pm);
                 game.Team[Pm.TeamIndex].SwitchPokemon(Pm.PokemonIndex, FormerIndex);
             }
         }
@@ -49,7 +49,7 @@ namespace PokemonBattleOnline.Game.GameEvents
         }
         public override void Update(SimGame game)
         {
-            if (team == game.Player.Team && game.OnboardPokemons[x] != null)
+            if (team == game.Player.Team)
             {
                 var pm = game.OnboardPokemons[x].Pokemon;
                 game.OnboardPokemons[x] = null;

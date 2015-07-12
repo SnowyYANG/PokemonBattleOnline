@@ -9,7 +9,7 @@ namespace PokemonBattleOnline.Game
     {
         Single,
         Double,
-        Tag,
+        Multi,
         Triple,
         Rotation,
         Sky,
@@ -21,7 +21,7 @@ namespace PokemonBattleOnline.Game
         {
             switch (mode)
             {
-                case GameMode.Tag:
+                case GameMode.Multi:
                 case GameMode.Double:
                     return 2;
                 case GameMode.Triple:
@@ -33,11 +33,11 @@ namespace PokemonBattleOnline.Game
         }
         public static int PlayersPerTeam(this GameMode mode)
         {
-            return mode == GameMode.Tag ? 2 : 1;
+            return mode == GameMode.Multi ? 2 : 1;
         }
         public static int PokemonsPerPlayer(this GameMode mode)
         {
-            return mode == GameMode.Tag ? 3 : 6;
+            return mode == GameMode.Multi ? 3 : 6;
         }
         public static int OnboardPokemonsPerPlayer(this GameMode mode)
         {
@@ -54,7 +54,7 @@ namespace PokemonBattleOnline.Game
         }
         public static int GetPlayerIndex(this GameMode mode, int x)
         {
-            return mode == GameMode.Tag ? x : 0;
+            return mode == GameMode.Multi ? x : 0;
         }
         public static int GetPokemonIndex(this GameMode mode, int x)
         {

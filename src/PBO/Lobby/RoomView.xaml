@@ -57,7 +57,7 @@
                 <Setter Property="HorizontalAlignment" Value="Center"/>
                 <Setter Property="Margin" Value="1,0,0,0"/>
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding Settings.Mode}" Value="Tag">
+                    <DataTrigger Binding="{Binding Settings.Mode}" Value="Multi">
                         <Setter Property="Y2" Value="27"/>
                     </DataTrigger>
                 </Style.Triggers>
@@ -77,7 +77,7 @@
                 <Style TargetType="Grid">
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Settings.Mode}" Value="Tag">
+                        <DataTrigger Binding="{Binding Settings.Mode}" Value="Multi">
                             <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                     </Style.Triggers>

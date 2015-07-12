@@ -29,7 +29,7 @@ namespace PokemonBattleOnline.Test
                 {
                     case "P00":
                         C00 = new TestClient(c.Controller, Seat.Player00);
-                        C00.C.NewRoom(new GameSettings(GameMode.Tag));
+                        C00.C.NewRoom(new GameSettings(GameMode.Multi));
                         break;
                     case "P01":
                         C01 = new TestClient(c.Controller, Seat.Player01);

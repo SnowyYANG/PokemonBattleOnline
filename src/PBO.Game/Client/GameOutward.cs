@@ -49,7 +49,7 @@ namespace PokemonBattleOnline.Game
         public void Start(ReportFragment fragment)
         {
             LogAppended(PBOMarks.TITLE, LogStyle.Bold);
-            AppendGameLog("GameMode", LogStyle.Default, Settings.Mode == GameMode.Single ? "单打" : Settings.Mode == GameMode.Tag ? "合作" : Settings.Mode.ToString());
+            AppendGameLog("GameMode", LogStyle.Default, Settings.Mode == GameMode.Single ? "单打" : Settings.Mode == GameMode.Multi ? "合作" : Settings.Mode.ToString());
             if (Settings.SleepRule) AppendGameLog("GameRule", LogStyle.Default, "催眠条款");
             if (fragment.TurnNumber >= 0) AppendGameLog("GameContinue", LogStyle.Default);
             TurnNumber = fragment.TurnNumber;
