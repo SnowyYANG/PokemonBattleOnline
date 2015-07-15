@@ -32,6 +32,33 @@
                     <ImageBrush ImageSource="/PBO;component/images/ControlPanel/MainMenu.png"/>
                 </Canvas.Background>
                 <b:GameButton Click="Fight_Click" Padding="2,1" Shape="M113,0 A113,70 180 1 1 113,140 A113,70 180 1 1 113,0 Z" Image="/PBO;component/images/ControlPanel/Fight.png" Width="226" Height="140" Canvas.Left="47" Canvas.Top="34"/>
+                <Grid Width="320" Height="32" IsHitTestVisible="False" Canvas.Top="120">
+                    <ListBox SelectedItem="{Binding ControllingPokemon,Mode=OneWay}" ItemsSource="{Binding OnboardPokemons}" ScrollViewer.VerticalScrollBarVisibility="Hidden" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" Margin="-1" HorizontalAlignment="Center">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Image Source="{TemplateBinding Content,Converter={x:Static c:SimOnboardPokemonIcon.C}}" Stretch="Uniform" SnapsToDevicePixels="True" Height="32"/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Margin" Value="8,0"/>
+                                <Setter Property="Opacity" Value="0.5"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Opacity" Value="1"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                </Grid>
                 <b:GameButton Click="Pokemons_Click" Padding="1,1,0,0" Shape="M1,63 A58,58 120 0 1 90,11 V63 Z" Image="/PBO;component/images/ControlPanel/Pokemon.png" Width="90" Height="63" Canvas.Bottom="0" Canvas.Right="0"/>
                 <b:GameButton Click="Run_Click" Padding="1,1,1,0" Shape="M0,50 A49,49 180 0 1 98,50 Z" Image="/PBO;component/images/ControlPanel/Run.png" Height="50" Width="98" Canvas.Bottom="0" Canvas.Left="110"/>
             </Canvas>
@@ -347,6 +374,7 @@
                     <Style TargetType="Line">
                         <Setter Property="Stroke" Value="#d9f976"/>
                         <Setter Property="StrokeThickness" Value="10"/>
+                        <Setter Property="IsHitTestVisible" Value="False"/>
                     </Style>
                     <Style TargetType="Rectangle">
                         <Setter Property="RadiusX" Value="25"/>
@@ -354,6 +382,7 @@
                         <Setter Property="Fill" Value="#d9f976"/>
                         <Setter Property="Width" Value="81"/>
                         <Setter Property="Height" Value="49"/>
+                        <Setter Property="IsHitTestVisible" Value="False"/>
                     </Style>
                 </Canvas.Resources>
                 <Canvas.Background>

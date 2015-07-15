@@ -110,7 +110,7 @@
                 </ComboBox>
             </Grid>
         </Border>
-        <ListBox x:Name="avs" Visibility="Collapsed" SelectionChanged="avs_SelectionChanged" Background="{x:Null}" BorderThickness="0" SelectedItem="{Binding ElementName=avatar,Path=Content}" ItemsSource="{x:Static c:IdAvatar.Avatars}" ItemTemplate="{x:Static ui:Cartes.Avatar}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <ListBox x:Name="avs" SelectedItem="{Binding ElementName=avatar,Path=Content}" ItemsSource="{x:Static c:IdAvatar.Avatars}" ItemTemplate="{x:Static ui:Cartes.Avatar}" SelectionChanged="avs_SelectionChanged" Visibility="Collapsed" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="{x:Null}" BorderThickness="0" BorderBrush="{x:Null}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel HorizontalAlignment="Center"/>

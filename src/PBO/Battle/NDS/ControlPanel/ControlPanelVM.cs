@@ -38,6 +38,7 @@ namespace PokemonBattleOnline.PBO.Battle
             Timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(1) };
             _time = 180;
             _selectedPanel = INACTIVE;
+            _onboardPokemons = new ObservableList<SimOnboardPokemon>(Controller.Game.OnboardPokemons);
             _pokemons = new SimPokemon[6];
             Controller.RequireInput += RequireInput;
             c.Game.GameEnd += () => Timer.Stop();
@@ -95,6 +96,10 @@ namespace PokemonBattleOnline.PBO.Battle
         public SimOnboardPokemon ControllingPokemon
         { get { return Request == null ? null : Controller.Game.OnboardPokemons.ValueOrDefault(Request.CurrentX); } }
 
+        private readonly ObservableList<SimOnboardPokemon> _onboardPokemons;
+        public IEnumerable<SimOnboardPokemon> OnboardPokemons
+        { get { return _onboardPokemons; } }
+
         public Visibility UndoVisibility
         { get { return Visibility.Collapsed; } }
 
@@ -106,9 +111,6 @@ namespace PokemonBattleOnline.PBO.Battle
         { get { return _pokemons; } }
 
         public TargetPanel TargetPanel
-        { get { return null; } }
-
-        public PokemonOutward[] PokemonsOnBoard
         { get { return null; } }
 
         private void RequireInput(InputRequest request)
@@ -124,6 +126,7 @@ namespace PokemonBattleOnline.PBO.Battle
             _selectedPanel = request.IsSendOut ? POKEMONS : MAIN;
             _mega = false;
             _time = 180 - request.Time;
+            for (int i = 0; i < Controller.Game.OnboardPokemons.Length; ++i) _onboardPokemons[i] = Controller.Game.OnboardPokemons[i];
             {
                 var step = Game.Settings.Mode.PlayersPerTeam();
                 var i = 0;
