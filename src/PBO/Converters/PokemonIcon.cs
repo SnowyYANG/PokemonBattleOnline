@@ -6,9 +6,9 @@ using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.PBO.Converters
 {
-    public class PokemonIcon : Converter<SimPokemon>
+    public class SimPokemonIcon : Converter<SimPokemon>
     {
-        public static readonly PokemonIcon C = new PokemonIcon();
+        public static readonly SimPokemonIcon C = new SimPokemonIcon();
 
         protected override object Convert(SimPokemon value)
         {
@@ -22,6 +22,15 @@ namespace PokemonBattleOnline.PBO.Converters
         protected override object Convert(SimOnboardPokemon value)
         {
             return ImageService.GetPokemonIcon(value.Pokemon.Form, value.Pokemon.Gender);
+        }
+    }
+    public class PokemonOutwardIcon : Converter<PokemonOutward>
+    {
+        public static readonly PokemonOutwardIcon C = new PokemonOutwardIcon();
+
+        protected override object Convert(PokemonOutward value)
+        {
+            return ImageService.GetPokemonIcon(value.Form, value.Gender);
         }
     }
     public class PokemonDataIcon : Converter<IPokemonData>

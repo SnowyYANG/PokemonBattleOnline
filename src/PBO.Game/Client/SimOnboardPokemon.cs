@@ -7,12 +7,13 @@ namespace PokemonBattleOnline.Game
 {
     public class SimOnboardPokemon
     {
+        public readonly SimPokemon Pokemon;
         public readonly PokemonOutward Outward;
         public int X;
 
         internal SimOnboardPokemon(SimPokemon pokemon, PokemonOutward outward)
         {
-            _pokemon = pokemon;
+            Pokemon = pokemon;
             Outward = outward;
             X = outward.Position.X;
             Moves = new SimMove[4];
@@ -21,10 +22,6 @@ namespace PokemonBattleOnline.Game
 
         public int Id
         { get { return Pokemon.Id; } }
-
-        private readonly SimPokemon _pokemon;
-        public SimPokemon Pokemon
-        { get { return _pokemon; } }
 
         public SimMove[] Moves
         { get; private set; }

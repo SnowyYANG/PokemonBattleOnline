@@ -219,9 +219,10 @@
                                                     <Setter Property="Canvas.Top" Value="36"/>
                                                 </Style>
                                             </Canvas.Resources>
-                                            <Image Source="{Binding Converter={x:Static c:PokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Top="4"/>
+                                            <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Top="4"/>
                                             <Image Name="item" Stretch="Uniform" Source="/PBO;component/images/Item.png" Width="8" Height="10" Canvas.Left="28" Canvas.Top="26" SnapsToDevicePixels="True" />
                                             <TextBlock Text="{Binding Name}" Foreground="Black" FontSize="14" Width="54" Canvas.Left="39" Canvas.Top="9"/>
+                                            <ContentPresenter Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Left="139" Canvas.Top="9"/>
                                             <b:LifeBarSimplified DataContext="{Binding Hp}" Canvas.Left="56" Canvas.Top="27"/>
                                             <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="11" Canvas.Top="38"/>
                                             <Label Name="lvt" Content="Lv." Visibility="Collapsed" Canvas.Left="10"/>
@@ -278,9 +279,10 @@
                                                     <Setter Property="Canvas.Top" Value="36"/>
                                                 </Style>
                                             </Canvas.Resources>
-                                            <Image Source="{Binding Converter={x:Static c:PokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Top="4"/>
+                                            <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Top="4"/>
                                             <Image Name="item" Stretch="Uniform" Source="/PBO;component/images/Item.png" Width="8" Height="10" Canvas.Left="28" Canvas.Top="26" SnapsToDevicePixels="True" />
                                             <TextBlock Text="{Binding Name}" Foreground="Black" FontSize="14" Width="54" Canvas.Left="39" Canvas.Top="9"/>
+                                            <ContentPresenter Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Left="139" Canvas.Top="9"/>
                                             <b:LifeBarSimplified DataContext="{Binding Hp}" Canvas.Left="56" Canvas.Top="27"/>
                                             <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="11" Canvas.Top="38"/>
                                             <Label Name="lvt" Content="Lv." Visibility="Collapsed" Canvas.Left="10"/>
@@ -357,19 +359,43 @@
             </Grid>
         </TabItem>
         <TabItem>
-            <Canvas>
+            <Canvas DataContext="{Binding TargetPanel}">
                 <Canvas.Resources>
                     <Style x:Key="O" TargetType="b:GameButton">
                         <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Fight/Opponent.png"/>
                         <Setter Property="Width" Value="75"/>
                         <Setter Property="Height" Value="43"/>
                         <Setter Property="Canvas.Top" Value="53"/>
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Canvas IsHitTestVisible="False">
+                                        <Rectangle RadiusX="5" RadiusY="5" Fill="#80000000" Width="100" Height="24" Canvas.Left="-15" Canvas.Top="-12"/>
+                                        <TextBlock Text="{Binding Name}" FontSize="14" Foreground="#ffffff" Width="100" Canvas.Left="-15" Canvas.Top="-9"/>
+                                        <ContentPresenter Content="{Binding Gender}" TextBlock.FontSize="14" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Left="58" Canvas.Top="13"/>
+                                        <Image Source="{Binding Converter={x:Static c:PokemonOutwardIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Bottom="1" Canvas.Right="23"/>
+                                    </Canvas>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
                     <Style x:Key="T" TargetType="b:GameButton">
                         <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Fight/Team.png"/>
                         <Setter Property="Width" Value="75"/>
                         <Setter Property="Height" Value="43"/>
                         <Setter Property="Canvas.Top" Value="128"/>
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Canvas IsHitTestVisible="False">
+                                        <Rectangle RadiusX="5" RadiusY="5" Fill="#80000000" Width="100" Height="24" Canvas.Left="-15" Canvas.Top="-12"/>
+                                        <TextBlock Text="{Binding Name}" FontSize="14" Foreground="#ffffff" Width="100" Canvas.Left="-15" Canvas.Top="-9"/>
+                                        <ContentPresenter Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Left="58" Canvas.Top="13"/>
+                                        <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Bottom="1" Canvas.Right="23"/>
+                                    </Canvas>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
                     <Style TargetType="Line">
                         <Setter Property="Stroke" Value="#d9f976"/>
@@ -388,16 +414,18 @@
                 <Canvas.Background>
                     <ImageBrush ImageSource="/PBO;component/images/ControlPanel/Fight/Background.png"/>
                 </Canvas.Background>
-                <Line X1="119" Y1="75" X2="204" Y2="75"/>
-                <Line X1="119" Y1="150" X2="204" Y2="150"/>
-                <Line X1="82" Y1="96" X2="82" Y2="128"/>
-                <Line X1="242" Y1="96" X2="242" Y2="128"/>
-                <Rectangle Canvas.Left="41" Canvas.Top="50"/>
-                <Rectangle Canvas.Left="41" Canvas.Top="125"/>
-                <Rectangle Canvas.Left="201" Canvas.Top="50"/>
-                <Rectangle Canvas.Left="201" Canvas.Top="125"/>
+                <Line Visibility="{Binding VO1O0}" X1="119" Y1="75" X2="204" Y2="75"/>
+                <Line Visibility="{Binding V01}" X1="119" Y1="150" X2="204" Y2="150"/>
+                <Line Visibility="{Binding V0O1}" X1="82" Y1="96" X2="82" Y2="128"/>
+                <Line Visibility="{Binding V1O0}" X1="242" Y1="96" X2="242" Y2="128"/>
+                <Rectangle Visibility="{Binding VO1}" Canvas.Left="41" Canvas.Top="50"/>
+                <Rectangle Visibility="{Binding VO0}" Canvas.Left="201" Canvas.Top="50"/>
+                <Rectangle Visibility="{Binding V0}" Canvas.Left="41" Canvas.Top="125"/>
+                <Rectangle Visibility="{Binding V1}" Canvas.Left="201" Canvas.Top="125"/>
                 <b:GameButton Style="{StaticResource ReturnButton}"/>
                 <b:GameButton Style="{StaticResource O}" Canvas.Left="44"/>
+                <b:GameButton Style="{StaticResource O}" Canvas.Left="204"/>
+                <b:GameButton Style="{StaticResource T}" Canvas.Left="44"/>
                 <b:GameButton Style="{StaticResource T}" Canvas.Left="204"/>
             </Canvas>
         </TabItem>
@@ -423,7 +451,7 @@
                     </Canvas.Resources>
                     <Rectangle Width="256" Height="3" Fill="Black"/>
                     <Rectangle Canvas.Top="5" Width="256" Height="22" Fill="Black"/>
-                    <Image Source="{Binding Converter={x:Static c:PokemonIcon.C}}" Height="32" Width="32" Canvas.Left="8" Canvas.Top="-4"/>
+                    <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="32" Width="32" Canvas.Left="8" Canvas.Top="-4"/>
                     <TextBlock Text="{Binding Name}" Canvas.Left="40" Canvas.Top="8" Width="111" />
                     <ContentPresenter Content="{Binding Form.Type1}" ContentTemplate="{x:Static ui:Labels.BattleType}" Width="40" Canvas.Right="3" Canvas.Top="8"/>
                     <ContentPresenter Content="{Binding Form.Type2}" ContentTemplate="{x:Static ui:Labels.BattleType}" Width="40" Canvas.Right="45" Canvas.Top="8"/>

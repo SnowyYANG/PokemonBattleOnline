@@ -10,7 +10,6 @@ namespace PokemonBattleOnline.PBO.Elements
   public static class Cartes
   {
     public static readonly DataTemplate Avatar;
-    public static readonly DataTemplate Pokemon;
     public static readonly DataTemplate User;
     public static readonly DataTemplate UserR;
     public static readonly SolidColorBrush[] Brushes;
@@ -21,7 +20,6 @@ namespace PokemonBattleOnline.PBO.Elements
       Avatar = (DataTemplate)rd["Avatar"];
       User = (DataTemplate)rd["User"];
       UserR = (DataTemplate)rd["UserR"];
-      Pokemon = Helper.GetObject<DataTemplate>("Elements/Cartes", "Pokemon");
       Brushes = new SolidColorBrush[9];
       Brushes[0] = (SolidColorBrush)rd["Red"];
       Brushes[1] = (SolidColorBrush)rd["Blue"];

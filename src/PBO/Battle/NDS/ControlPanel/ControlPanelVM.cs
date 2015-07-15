@@ -110,8 +110,9 @@ namespace PokemonBattleOnline.PBO.Battle
         public SimPokemon[] Pokemons
         { get { return _pokemons; } }
 
+        private TargetPanel _targetPanel;
         public TargetPanel TargetPanel
-        { get { return null; } }
+        { get { return _targetPanel; } }
 
         private void RequireInput(InputRequest request)
         {
