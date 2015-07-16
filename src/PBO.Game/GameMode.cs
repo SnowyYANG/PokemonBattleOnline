@@ -69,7 +69,7 @@ namespace PokemonBattleOnline.Game
         }
         public static bool NeedTarget(this GameMode mode)
         {
-            return mode != GameMode.Single && mode != GameMode.Sky && mode != GameMode.Inverse;
+            return mode == GameMode.Double || mode == GameMode.Multi || mode == GameMode.Triple;
         }
     }
 }
