@@ -35,6 +35,7 @@ namespace PokemonBattleOnline.PBO.Battle
             Controller = c.PlayerController;
             Game = c.Game;
             if (Game.Settings.Mode.PlayersPerTeam() == 2) Partner = 2 - Controller.Player.TeamIndex;
+            if (Game.Settings.Mode.NeedTarget()) _targetPanel = new TargetPanelVM(Controller.Player.Team);
             Timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(1) };
             _time = 180;
             _selectedPanel = INACTIVE;
@@ -106,16 +107,17 @@ namespace PokemonBattleOnline.PBO.Battle
         public bool IsReturnEnabled
         { get { return ControllingPokemon != null; } }
 
-        private SimPokemon[] _pokemons;
+        private readonly SimPokemon[] _pokemons;
         public SimPokemon[] Pokemons
         { get { return _pokemons; } }
 
-        private TargetPanel _targetPanel;
-        public TargetPanel TargetPanel
+        private TargetPanelVM _targetPanel;
+        public TargetPanelVM TargetPanel
         { get { return _targetPanel; } }
 
         private void RequireInput(InputRequest request)
         {
+            _time = 180 - request.Time;
             Request = request;
             request.Init(Controller.Game);
             request.InputFinished += (i) =>
@@ -124,10 +126,21 @@ namespace PokemonBattleOnline.PBO.Battle
                 Controller.Input(i);
                 Timer.Stop();
             };
-            _selectedPanel = request.IsSendOut ? POKEMONS : MAIN;
-            _mega = false;
-            _time = 180 - request.Time;
-            for (int i = 0; i < Controller.Game.OnboardPokemons.Length; ++i) _onboardPokemons[i] = Controller.Game.OnboardPokemons[i];
+            if (request.IsSendOut) _selectedPanel = POKEMONS;
+            else
+            {
+                _selectedPanel = MAIN;
+                _mega = false;
+                for (int i = 0; i < Controller.Game.OnboardPokemons.Length; ++i)
+                    _onboardPokemons[i] = Controller.Game.OnboardPokemons[i];
+                if (_targetPanel != null)
+                {
+                    _targetPanel.PO1.Pokemon = Game.Board[1 - Controller.Player.Team, 1];
+                    _targetPanel.PO0.Pokemon = Game.Board[1 - Controller.Player.Team, 0];
+                    _targetPanel.P0.Pokemon = _onboardPokemons[0].Pokemon;
+                    _targetPanel.P1.Pokemon = _onboardPokemons[1].Pokemon;
+                }
+            }
             {
                 var step = Game.Settings.Mode.PlayersPerTeam();
                 var i = 0;
@@ -168,7 +181,20 @@ namespace PokemonBattleOnline.PBO.Battle
         public void Move_Click(SimMove move)
         {
             if (move.PP.Value == 0) return;
-            if (!Request.Move(move, Mega)) InputFailed(Request.GetErrorMessage());
+            if (Request.Move(move, Mega))
+            {
+                if (Request.NeedTarget)
+                {
+                    TargetPanel.Set(Request.CurrentX, Request.MoveRange);
+                    SelectedPanel = TARGET;
+                }
+            }
+            else InputFailed(Request.GetErrorMessage());
+        }
+        public void Target_Click(TargetVM target)
+        {
+            if (TargetPanel.CanSelect) Request.Target(target.Team, target.X);
+            else Request.Target();
         }
         public void GiveUp_Click()
         {

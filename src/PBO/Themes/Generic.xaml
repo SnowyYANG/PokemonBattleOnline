@@ -15,7 +15,7 @@
                     <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" UseLayoutRounding="True">
                         <Path Name="mask" Data="{TemplateBinding Shape}" Stroke="{x:Null}" Fill="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="None" StrokeThickness="0" IsHitTestVisible="True"/>
                         <Image Name="main" Source="{TemplateBinding Image}" Stretch="Fill" Margin="{TemplateBinding Padding}" IsHitTestVisible="False"/>
-                        <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                        <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" IsHitTestVisible="False"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HorizontalFlip" Value="True">

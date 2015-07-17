@@ -46,7 +46,11 @@ namespace PokemonBattleOnline.Game.Host
                     if (move.PP != 0)
                     {
                         var f = move.IfSelected();
-                        if (f == null) struggle = false;
+                        if (f == null)
+                        {
+                            struggle = false;
+                            if (move.MoveE.Id == Ms.CURSE && move.MoveE.GetRange(pm) == MoveRange.SelectedTarget) pir.Curse = true;
+                        }
                         else
                         {
                             if (pir.Block == null) pir.Block = new string[pm.Moves.Count()];

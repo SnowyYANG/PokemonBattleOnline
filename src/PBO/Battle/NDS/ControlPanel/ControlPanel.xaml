@@ -212,7 +212,7 @@
                             <Setter Property="ContentTemplate">
                                 <Setter.Value>
                                     <DataTemplate>
-                                        <Canvas UseLayoutRounding="True" IsHitTestVisible="False">
+                                        <Canvas UseLayoutRounding="True">
                                             <Canvas.Resources>
                                                 <Style TargetType="Label" BasedOn="{x:Static ui:Controls.STextBlock}">
                                                     <Setter Property="FontWeight" Value="Bold"/>
@@ -272,7 +272,7 @@
                             <Setter Property="ContentTemplate">
                                 <Setter.Value>
                                     <DataTemplate>
-                                        <Canvas Margin="8,0,0,0" UseLayoutRounding="True" IsHitTestVisible="False">
+                                        <Canvas Margin="8,0,0,0" UseLayoutRounding="True">
                                             <Canvas.Resources>
                                                 <Style TargetType="Label" BasedOn="{x:Static ui:Controls.STextBlock}">
                                                     <Setter Property="FontWeight" Value="Bold"/>
@@ -362,36 +362,42 @@
             <Canvas DataContext="{Binding TargetPanel}">
                 <Canvas.Resources>
                     <Style x:Key="O" TargetType="b:GameButton">
+                        <EventSetter Event="Click" Handler="Target_Click"/>
                         <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Fight/Opponent.png"/>
+                        <Setter Property="Shape" Value="M21.5,0 H53.5 A21.5,21.5 180 1 1 53.5,43 H21.5 A21.5,21.5 180 1 1 21.5,0Z"/>
+                        <Setter Property="Padding" Value="2,1"/>
                         <Setter Property="Width" Value="75"/>
                         <Setter Property="Height" Value="43"/>
                         <Setter Property="Canvas.Top" Value="53"/>
                         <Setter Property="ContentTemplate">
                             <Setter.Value>
                                 <DataTemplate>
-                                    <Canvas IsHitTestVisible="False">
+                                    <Canvas DataContext="{Binding Pokemon}">
                                         <Rectangle RadiusX="5" RadiusY="5" Fill="#80000000" Width="100" Height="24" Canvas.Left="-15" Canvas.Top="-12"/>
                                         <TextBlock Text="{Binding Name}" FontSize="14" Foreground="#ffffff" Width="100" Canvas.Left="-15" Canvas.Top="-9"/>
                                         <ContentPresenter Content="{Binding Gender}" TextBlock.FontSize="14" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Left="58" Canvas.Top="13"/>
-                                        <Image Source="{Binding Converter={x:Static c:PokemonOutwardIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Bottom="1" Canvas.Right="23"/>
+                                        <Image Source="{Binding Converter={x:Static c:PokemonOutwardIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Bottom="3" Canvas.Right="23"/>
                                     </Canvas>
                                 </DataTemplate>
                             </Setter.Value>
                         </Setter>
                     </Style>
                     <Style x:Key="T" TargetType="b:GameButton">
+                        <EventSetter Event="Click" Handler="Target_Click"/>
                         <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Fight/Team.png"/>
+                        <Setter Property="Shape" Value="M21.5,0 H53.5 A21.5,21.5 180 1 1 53.5,43 H21.5 A21.5,21.5 180 1 1 21.5,0Z"/>
+                        <Setter Property="Padding" Value="2,1"/>
                         <Setter Property="Width" Value="75"/>
                         <Setter Property="Height" Value="43"/>
                         <Setter Property="Canvas.Top" Value="128"/>
                         <Setter Property="ContentTemplate">
                             <Setter.Value>
                                 <DataTemplate>
-                                    <Canvas IsHitTestVisible="False">
+                                    <Canvas DataContext="{Binding Pokemon}">
                                         <Rectangle RadiusX="5" RadiusY="5" Fill="#80000000" Width="100" Height="24" Canvas.Left="-15" Canvas.Top="-12"/>
                                         <TextBlock Text="{Binding Name}" FontSize="14" Foreground="#ffffff" Width="100" Canvas.Left="-15" Canvas.Top="-9"/>
                                         <ContentPresenter Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Left="58" Canvas.Top="13"/>
-                                        <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Bottom="1" Canvas.Right="23"/>
+                                        <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Bottom="3" Canvas.Right="23"/>
                                     </Canvas>
                                 </DataTemplate>
                             </Setter.Value>
@@ -423,10 +429,10 @@
                 <Rectangle Visibility="{Binding V0}" Canvas.Left="41" Canvas.Top="125"/>
                 <Rectangle Visibility="{Binding V1}" Canvas.Left="201" Canvas.Top="125"/>
                 <b:GameButton Style="{StaticResource ReturnButton}"/>
-                <b:GameButton Style="{StaticResource O}" Canvas.Left="44"/>
-                <b:GameButton Style="{StaticResource O}" Canvas.Left="204"/>
-                <b:GameButton Style="{StaticResource T}" Canvas.Left="44"/>
-                <b:GameButton Style="{StaticResource T}" Canvas.Left="204"/>
+                <b:GameButton x:Name="tO1" IsPressedChanged="Target_IsPressedChanged" Content="{Binding PO1}" IsHitTestVisible="{Binding PO1.IsEnabled}" Style="{StaticResource O}" Canvas.Left="44"/>
+                <b:GameButton x:Name="tO0" IsPressedChanged="Target_IsPressedChanged" Content="{Binding PO0}" IsHitTestVisible="{Binding PO0.IsEnabled}" Style="{StaticResource O}" Canvas.Left="204"/>
+                <b:GameButton x:Name="t0" IsPressedChanged="Target_IsPressedChanged" Content="{Binding P0}" IsHitTestVisible="{Binding P0.IsEnabled}" Style="{StaticResource T}" Canvas.Left="44"/>
+                <b:GameButton x:Name="t1" IsPressedChanged="Target_IsPressedChanged" Content="{Binding P1}" IsHitTestVisible="{Binding P1.IsEnabled}" Style="{StaticResource T}" Canvas.Left="204"/>
             </Canvas>
         </TabItem>
     </TabControl>

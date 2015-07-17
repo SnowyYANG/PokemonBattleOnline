@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
-using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Game
 {
@@ -35,6 +34,12 @@ namespace PokemonBattleOnline.Game
 
         [DataMember(EmitDefaultValue = false)]
         public bool CanMega;
+
+        /// <summary>
+        /// 持有诅咒技能且可选目标
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public bool Curse;
 
         #region Client
         private SimGame Game;
@@ -77,10 +82,6 @@ namespace PokemonBattleOnline.Game
                         break;
                     }
             return error == null;
-        }
-        public void Target(PokemonOutward target = null)
-        {
-            throw new NotImplementedException();
         }
         /// <summary>
         /// 判断pokemon是否在场和Hp
@@ -151,11 +152,15 @@ namespace PokemonBattleOnline.Game
         { get; private set; }
         public bool CanMega
         { get { return Pms != null && Pms[CurrentX].CanMega; } }
+        public bool NeedTarget
+        { get { return game.Settings.Mode.NeedTarget(); } }
+        public MoveRange MoveRange
+        { get; private set; }
 
         private void NextPm()
         {
-            while (CurrentX < Pms.Length)
-                if (Pms[CurrentX++] != null) break;
+            while (++CurrentX < Pms.Length)
+                if (Pms[CurrentX] != null) break;
             if (CurrentX == Pms.Length) InputFinished(input);
         }
         public void Init(SimGame game)
@@ -186,11 +191,20 @@ namespace PokemonBattleOnline.Game
             error = Pms[CurrentX].GetErrorMessage();
             return false;
         }
+
+        private SimMove move;
+        private bool mega;
         public bool Move(SimMove move, bool mega)
         {
             if (Pms[CurrentX].Move(move))
             {
-                if (!game.Settings.Mode.NeedTarget())
+                if (NeedTarget)
+                {
+                    MoveRange = move.Type.Id == Ms.CURSE && Pms[CurrentX].Curse ? MoveRange.SelectedTarget : move.Type.Range;
+                    this.move = move;
+                    this.mega = mega;
+                }
+                else
                 {
                     input.UseMove(CurrentX, move, mega);
                     NextPm();
@@ -200,9 +214,25 @@ namespace PokemonBattleOnline.Game
             error = Pms[CurrentX].GetErrorMessage();
             return false;
         }
-        public void Target(PokemonOutward target = null)
+        public void Target(int team, int x)
         {
-            Pms[CurrentX].Target(target);
+            if (move != null)
+            {
+                input.UseMove(CurrentX, move, mega, team, x);
+                move = null;
+                mega = false;
+                NextPm();
+            }
+        }
+        public void Target()
+        {
+            if (move != null)
+            {
+                input.UseMove(CurrentX, move, mega);
+                move = null;
+                mega = false;
+                NextPm();
+            }
         }
         public bool Pokemon(SimPokemon pokemon, int x)
         {

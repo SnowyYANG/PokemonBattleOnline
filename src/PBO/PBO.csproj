@@ -313,7 +313,7 @@
     </Compile>
     <Compile Include="Battle\BattleReport\DocumentBattleReport.cs" />
     <Compile Include="Battle\NDS\ControlPanel\ControlPanelVM.cs" />
-    <Compile Include="Battle\NDS\ControlPanel\TargetPanel.cs" />
+    <Compile Include="Battle\NDS\ControlPanel\TargetPanelVM.cs" />
     <Page Include="Battle\BattleReport\BattleReport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
