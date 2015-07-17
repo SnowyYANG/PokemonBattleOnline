@@ -25,7 +25,7 @@ namespace PokemonBattleOnline.Game.GameEvents
             for (int t = 0; t < 2; ++t)
                 for (int i = 0; i < Game.Settings.Mode.PlayersPerTeam(); ++i)
                     foreach (var p in Game.Board.Players[t, i].Balls)
-                        if (p == BallState.Normal || p == BallState.Abnormal) ++r[0];
+                        if (p == BallState.Normal || p == BallState.Abnormal) ++r[t];
             if (Lose == 2)
             {
                 AppendGameLog("GameResultTie", LogStyle.Center | LogStyle.Bold, 0, 1);
