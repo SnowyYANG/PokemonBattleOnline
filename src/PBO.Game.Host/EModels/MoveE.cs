@@ -30,12 +30,11 @@ namespace PokemonBattleOnline.Game.Host
             var aer = atk.Attacker;
             IEnumerable<Tile> targets = null;
             Board b = aer.Controller.Board;
-            var xn = aer.Controller.GameSettings.Mode.XBound();
             var remote = atk.Move.IsRemote;
             var team = aer.Pokemon.TeamId;
             var oTeam = 1 - team;
             var x = aer.OnboardPokemon.X;
-            var ox = xn - 1 - x;
+            var ox = aer.Controller.GameSettings.Mode.XBound() - 1 - x;
             switch (range)
             {
                 case MoveRange.TeamField: //do nothing
@@ -50,7 +49,7 @@ namespace PokemonBattleOnline.Game.Host
                         t = b[team][x - 1]; if (t != null) ts.Add(t);
                         t = b[team][x + 1]; if (t != null) ts.Add(t);
                         t = b[oTeam][ox - 1]; if (t != null) ts.Add(t);
-                        if (t != null) ts.Add(b[oTeam][ox]);
+                        ts.Add(b[oTeam][ox]);
                         t = b[oTeam][ox + 1]; if (t != null) ts.Add(t);
                         targets = ts;
                     }
