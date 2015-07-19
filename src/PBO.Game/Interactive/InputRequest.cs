@@ -120,11 +120,11 @@ namespace PokemonBattleOnline.Game
         /// 逃生按钮 追击死亡 （回合末精灵登场Pms和X均为null）
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
-        private int x;
-        public int? X
+        private int i;
+        public int? Index
         {
-            get { return x == 0 ? null : (int?)(x - 1); }
-            set { x = value == null ? 0 : x + 1; }
+            get { return i == 0 ? null : (int?)(i - 1); }
+            set { i = value == null ? 0 : i + 1; }
         }
 
         [DataMember(Name = "a")]
@@ -136,7 +136,7 @@ namespace PokemonBattleOnline.Game
         protected InputRequest(InputRequest ir)
         {
             Pms = ir.Pms;
-            X = ir.X;
+            Index = ir.Index;
             Time = ir.Time;
         }
 
@@ -234,7 +234,7 @@ namespace PokemonBattleOnline.Game
                 NextPm();
             }
         }
-        public bool Pokemon(SimPokemon pokemon, int x)
+        public bool Pokemon(SimPokemon pokemon, int index)
         {
             if (pokemon.Hp.Value == 0)
             {
@@ -246,7 +246,7 @@ namespace PokemonBattleOnline.Game
                 error = string.Format(GameString.Current.BattleLog("PokemonFighting"), pokemon.Name);
                 return false;
             }
-            input.SendOut(x, pokemon);
+            input.SendOut(index, pokemon);
             //多打中有多只精灵倒下，要把哪只精灵收回来
             //单打和合作没有这种需要
             InputFinished(input);

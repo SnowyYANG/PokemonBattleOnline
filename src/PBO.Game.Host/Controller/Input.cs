@@ -121,7 +121,7 @@ namespace PokemonBattleOnline.Game.Host
             if (Controller.CanSendOut(tile))
             {
                 var player = Controller.GetPlayer(tile);
-                _requirements[player.TeamId, player.TeamIndex] = new InputRequest() { X = tile.X, Time = player.SpentTime };
+                _requirements[player.TeamId, player.TeamIndex] = new InputRequest() { Index = Controller.GameSettings.Mode.GetPokemonIndex(tile.X), Time = player.SpentTime };
             }
             return true;
         }

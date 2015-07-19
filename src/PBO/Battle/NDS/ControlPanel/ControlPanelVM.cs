@@ -167,7 +167,7 @@ namespace PokemonBattleOnline.PBO.Battle
         {
             if (Request.IsSendOut)
             {
-                if (!Request.Pokemon(pokemon, 0)) InputFailed(Request.GetErrorMessage());
+                if (!Request.Pokemon(pokemon, Request.Index ?? 0)) InputFailed(Request.GetErrorMessage());
             }
             else
             {
