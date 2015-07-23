@@ -38,9 +38,7 @@
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="False">
+                        <Trigger Property="SimPressed" Value="False">
                             <Setter TargetName="main" Property="Margin" Value="0"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
