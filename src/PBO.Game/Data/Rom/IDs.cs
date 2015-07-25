@@ -7,7 +7,39 @@ namespace PokemonBattleOnline.Game
 {
     public static class Ps
     {
-        public const int _493_ARCUES = 493;
+        public const int PIKACHU = 25;
+        public const int UNOWN = 201;
+        /// <summary>
+        /// 图图犬 ドーブル
+        /// </summary>
+        public const int SMEARGLE = 235;
+        public const int DEOXYS = 386;
+        public const int BURMY = 412;
+        public const int WORMADAM = 413;
+        public const int SHELLOS = 422;
+        public const int GASTRODON = 423;
+        public const int ROTOM = 479;
+        public const int GIRATINA = 487;
+        public const int SHAYMIN = 492;
+        public const int ARCEUS = 493;
+        public const int BASCULIN = 550;
+        public const int DEERLING = 585;
+        public const int SAWSBUCK = 586;
+        public const int TORNADUS = 641;
+        public const int THUNDURUS = 642;
+        public const int LANDORUS = 645;
+        public const int KYUREM = 646;
+        public const int KELDEO = 647;
+        public const int GENESECT = 649;
+        public const int VIVILLON = 666;
+        public const int FLABEBE = 669;
+        public const int FLOETTE = 670;
+        public const int FLORGES = 671;
+        public const int FURFROU = 676;
+        public const int MEOWSTIC = 678;
+        public const int PUMPKABOO = 710;
+        public const int GOURGEIST = 711;
+        public const int HOOPA = 720;
     }
     public static class As
     {

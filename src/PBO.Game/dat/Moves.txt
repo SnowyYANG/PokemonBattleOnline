@@ -618,4 +618,4 @@ Fairy	Special	140	90	5	SelectedTarget
 Water	Special	110	85	10	OpponentPokemons
 Ground	Physical	120	85	10	OpponentPokemons
 Flying	Physical	120	100	5	SelectedTarget
-Dark	Special	100	101	5	SelectedTarget
+Dark	Special	100	0	5	SelectedTarget

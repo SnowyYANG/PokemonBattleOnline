@@ -54,9 +54,9 @@ namespace PokemonBattleOnline.Game
             }
         }
 
-        private static readonly int[] CAN_CHOOSE_FORM = { 201, 386, 412, 413, 422, 423, 479, 492, 550, 585, 586, 641, 642, 645, 646, 666, 669, 670, 671, 676, 710, 711 };
+        private static readonly int[] CAN_CHOOSE_FORM = { Ps.UNOWN, Ps.DEOXYS, Ps.BURMY, Ps.WORMADAM, Ps.SHELLOS, Ps.GASTRODON, Ps.ROTOM, Ps.SHAYMIN, Ps.BASCULIN, Ps.DEERLING, Ps.SAWSBUCK, Ps.TORNADUS, Ps.THUNDURUS, Ps.LANDORUS, Ps.KYUREM, Ps.VIVILLON, Ps.FLABEBE, Ps.FLOETTE, Ps.FLORGES, Ps.FURFROU, Ps.PUMPKABOO, Ps.GOURGEIST, Ps.HOOPA };
         public bool CanChooseForm
-        { get { return CAN_CHOOSE_FORM.Contains(number) || number == KELDEO && HasMove(Ms.SECRET_SWORD); } }
+        { get { return CAN_CHOOSE_FORM.Contains(number) || number == Ps.KELDEO && HasMove(Ms.SECRET_SWORD); } }
 
         private PokemonForm _form;
         public PokemonForm Form
@@ -93,7 +93,7 @@ namespace PokemonBattleOnline.Game
                         _happiness = 0;
                         _item = 0;
                     }
-                    else if (number == 413 || number == 479 || number == 646) _moves.Clear();
+                    else if (number == Ps.WORMADAM || number == Ps.ROTOM || number == Ps.KYUREM) _moves.Clear();
                     _abilityIndex = 0;
 
                     OnPropertyChanged();
@@ -300,33 +300,23 @@ namespace PokemonBattleOnline.Game
         { get { return _moves; } }
         #endregion
 
-        #region const
-        private const int WORMADAM = 413;
-        private const int ROTOM = 479;
-        private const int GIRATINA = 487;
-        private const int ARCEUS = 493;
-        private const int GENESECT = 649;
-        private const int KYUREM = 646;
-        private const int KELDEO = 647;
-        private const int MEOWSTIC = 678;
-        #endregion
         private bool CheckSpForm()
         {
             switch (number)
             {
-                case ARCEUS:
+                case Ps.ARCEUS:
                     form = _item / 1000 == Is.FLAME_PLATE / 1000 ? _item - Is.FLAME_PLATE + 1 : 0;
                     break;
-                case GIRATINA:
+                case Ps.GIRATINA:
                     form = _item == Is.GRISEOUS_ORB ? 1 : 0;
                     break;
-                case GENESECT:
+                case Ps.GENESECT:
                     form = _item / 100 == Is.DOUSE_DRIVE / 100 ? _item - Is.DOUSE_DRIVE + 1 : 0;
                     break;
-                case KELDEO:
+                case Ps.KELDEO:
                     if (!HasMove(Ms.SECRET_SWORD)) form = 0;
                     break;
-                case MEOWSTIC:
+                case Ps.MEOWSTIC:
                     form = _gender == PokemonGender.Female ? 1 : 0;
                     break;
             }
@@ -344,7 +334,7 @@ namespace PokemonBattleOnline.Game
             if (_moves.Count < 4 && !HasMove(move.Id))
             {
                 _moves.Add(new LearnedMove(move));
-                if (number == KELDEO && move.Id == Ms.SECRET_SWORD) OnPropertyChanged("CanChooseForm");
+                if (number == Ps.KELDEO && move.Id == Ms.SECRET_SWORD) OnPropertyChanged("CanChooseForm");
                 return true;
             }
             return false;
@@ -357,7 +347,7 @@ namespace PokemonBattleOnline.Game
                 {
                     _moves.Remove(m);
                     if (CheckSpForm()) OnPropertyChanged();
-                    if (number == KELDEO && move.Id == Ms.SECRET_SWORD) OnPropertyChanged("CanChooseForm");
+                    if (number == Ps.KELDEO && move.Id == Ms.SECRET_SWORD) OnPropertyChanged("CanChooseForm");
                     return true;
                 }
             return false;

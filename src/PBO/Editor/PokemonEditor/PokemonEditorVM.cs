@@ -10,7 +10,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using PokemonBattleOnline.Game;
-using PokemonBattleOnline.PBO.Elements;
 
 namespace PokemonBattleOnline.PBO.Editor
 {
@@ -150,7 +149,7 @@ namespace PokemonBattleOnline.PBO.Editor
                     var oldNumber = Model.Form.Species.Number;
                     var dataChanged = Model.Form.Data != value.Data;
                     Model.Form = value;
-                    if (oldNumber != value.Species.Number || oldNumber == 413 || oldNumber == 479 || oldNumber == 646 || oldNumber == 670 && dataChanged || oldNumber == 678) RefreshLearnset();
+                    if (oldNumber != value.Species.Number || oldNumber == Ps.WORMADAM || oldNumber == Ps.ROTOM || oldNumber == Ps.KYUREM || oldNumber == Ps.FLOETTE && dataChanged || oldNumber == Ps.MEOWSTIC) RefreshLearnset();
                     if (dataChanged) Stats.RefreshAll();
                     RefreshImage();
                     OnPropertyChanged();
@@ -172,7 +171,7 @@ namespace PokemonBattleOnline.PBO.Editor
                         if (form.Data != PokemonForm.Data)
                         {
                             Stats.RefreshAll();
-                            if (PokemonForm.Species.Number == 678) RefreshLearnset();
+                            if (PokemonForm.Species.Number == Ps.MEOWSTIC) RefreshLearnset();
                         }
                     }
                     OnPropertyChanged("Gender");
@@ -232,35 +231,35 @@ namespace PokemonBattleOnline.PBO.Editor
         }
         private void GetLearnset(int number, int form)
         {
-            if (!(number == 413 || number == 479 || number == 646 || number == 670 && form == 5 || number == 678)) form = 0;
+            if (!(number == Ps.WORMADAM || number == Ps.ROTOM || number == Ps.KYUREM || number == Ps.FLOETTE && form == 5 || number == Ps.MEOWSTIC)) form = 0;
             GetGenericLearnset(number, form);
             switch (number)
             {
-                case 25:
+                case Ps.PIKACHU:
                     //025.01	309:ORAS
                     //025.02	556:ORAS
                     //025.03	577:ORAS
                     //025.04	604:ORAS
                     //025.05	560:ORAS
-                    if (form != 0 && form != 6) GetLearnVM(form == 1 ? 309 : form == 2 ? 556 : form == 3 ? 577 : form == 4 ? 604 : 560).AddMethod(LearnCategory.Other);
+                    if (form != 0 && form != 6) GetLearnVM(form == 1 ? Ms.METEOR_MASH : form == 2 ? Ms.ICICLE_CRASH : form == 3 ? Ms.DRAINING_KISS : form == 4 ? Ms.ELECTRIC_TERRAIN : Ms.FLYING_PRESS).AddMethod(LearnCategory.Other);
                     break;
-                case 235:
+                case Ps.SMEARGLE:
                     for (var m = 1; m <= RomData.Moves.Count(); ++m)
                         if (m != Ms.STRUGGLE && m != Ms.CHATTER) GetLearnVM(m).AddMethod(LearnCategory.Other);
                     break;
-                case 479:
+                case Ps.ROTOM:
                     //479.01  315:Pt
                     //479.02  56:Pt
                     //479.03  59:Pt
                     //479.04  403:Pt
                     //479.05  437:Pt
-                    if (form != 0) GetLearnVM(form == 1 ? 315 : form == 2 ? 56 : form == 3 ? 59 : form == 4 ? 403 : 437).AddMethod(LearnCategory.Other);
+                    if (form != 0) GetLearnVM(form == 1 ? Ms.OVERHEAT : form == 2 ? Ms.HYDRO_PUMP : form == 3 ? Ms.BLIZZARD : form == 4 ? Ms.AIR_SLASH : Ms.LEAF_STORM).AddMethod(LearnCategory.Other);
                     break;
-                case 492:
-                    GetGenericLearnset(492, 1 - form);
+                case Ps.SHAYMIN:
+                    GetGenericLearnset(Ps.SHAYMIN, 1 - form);
                     break;
                 default:
-                    if (!(number == 670 && form == 5))
+                    if (!(number == Ps.FLOETTE && form == 5))
                         foreach (var e1 in RomData.Evolutions)
                             if (e1.To == number)
                             {
@@ -380,7 +379,7 @@ namespace PokemonBattleOnline.PBO.Editor
             {
                 RefreshOptionalVisibility();
                 _learnset[m.Id].IsLearned = false;
-                if (m.Id == Ms.SECRET_SWORD && PokemonSpecies.Number == 647) RefreshImage();
+                if (m.Id == Ms.SECRET_SWORD && PokemonSpecies.Number == Ps.KELDEO) RefreshImage();
             }
         }
 
