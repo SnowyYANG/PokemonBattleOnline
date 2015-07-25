@@ -78,6 +78,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                         foreach (var m in aer.Moves)
                             if (!m.HasUsed && m.MoveE.Id != Ms.LAST_RESORT) goto FAIL;
                         return true;
+                    case Ms.ALLY_SWITCH:
+                        if (aer.Controller.GameSettings.Mode == GameMode.Double || aer.Controller.GameSettings.Mode == GameMode.Triple && aer.OnboardPokemon.X != 1) return true;
+                        break;
                     case Ms.BESTOW: //516
                         if (aer.Pokemon.Item == 0 || ITs.NeverLostItem(aer.Pokemon)) return true;
                         break;
