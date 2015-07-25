@@ -223,17 +223,17 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                 case Ms.FUSION_FLARE: //558
                     {
                         var b = der.Controller.Board;
-                        b.SetTurnCondition(Cs.FusionFlare);
+                        b.SetTurnCondition(Cs.Fusion);
                         var o = b.GetCondition(Cs.LastMove);
-                        if (o != null && o.Move.Id == Ms.FUSION_BOLT && b.HasCondition(Cs.FusionBolt)) m = 0x2000;
+                        if (o != null && o.Move.Id == Ms.FUSION_BOLT && b.HasCondition(Cs.Fusion)) m = 0x2000;
                     }
                     break;
                 case Ms.FUSION_BOLT: //559
                     {
                         var b = der.Controller.Board;
-                        b.SetTurnCondition(Cs.FusionBolt);
+                        b.SetTurnCondition(Cs.Fusion);
                         var o = b.GetCondition(Cs.LastMove);
-                        if (o != null && o.Move.Id == Ms.FUSION_FLARE && b.HasCondition(Cs.FusionFlare)) m = 0x2000;
+                        if (o != null && o.Move.Id == Ms.FUSION_FLARE && b.HasCondition(Cs.Fusion)) m = 0x2000;
                     }
                     break;
                 case Ms.FACADE: //263

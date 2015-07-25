@@ -98,9 +98,9 @@ namespace PokemonBattleOnline.Game.Host
         CanAttack,
         SmackDown,
         Thief,
-        MistyTerrain,//
-        ElectricTerrain,//
-        GrassyTerrain,//
+        MistyTerrain,
+        ElectricTerrain,
+        GrassyTerrain,
         Weather,
         Nightmare,
         Curse,
@@ -117,8 +117,7 @@ namespace PokemonBattleOnline.Game.Host
         Charge,
         DefenseCurl,
         Powder,
-        FusionFlare,//
-        FusionBolt,//
+        Fusion,
         FaintTurn,
         Swamp,
         HadItem,
