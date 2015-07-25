@@ -67,7 +67,7 @@ namespace PokemonBattleOnline.Game.Host
                 Error();
             }
         }
-        private bool Input(XActionInput input, Controller controller, Tile tile)
+        private bool Input(IInput input, Controller controller, Tile tile)
         {
             bool r = false;
             if (input.SendOutIndex > 0) r = controller.InputSendOut(tile, input.SendOutIndex);
@@ -97,13 +97,12 @@ namespace PokemonBattleOnline.Game.Host
                 {
                     try
                     {
-                        for (int x = 0; x < Controller.GameSettings.Mode.XBound(); ++x)
+                        for (int i = 0; i < Controller.GameSettings.Mode.PokemonsPerPlayer(); ++i)
                         {
-                            var i = input.Get(x);
-                            if (i != null)
+                            var iai = input.Get(i);
+                            if (iai != null)
                             {
-                                if (Controller.GameSettings.Mode.GetPlayerIndex(x) != teamIndex) return false;
-                                if (!Input(i, Controller, Controller.Board[teamId][x])) return false;
+                                if (!Input(iai, Controller, Controller.Board[teamId][teamIndex + i])) return false;
                             }
                         }
                     }

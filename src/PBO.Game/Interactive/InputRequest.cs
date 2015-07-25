@@ -113,30 +113,46 @@ namespace PokemonBattleOnline.Game
     [DataContract(Name = "ir", Namespace = PBOMarks.JSON)]
     public class InputRequest
     {
+        [DataMember(Name = "a")]
+        public readonly int Time;
+
         [DataMember(EmitDefaultValue = false)]
-        public PmInputRequest[] Pms;
+        public readonly PmInputRequest[] Pms;
+
+        [DataMember(EmitDefaultValue = false)]
+        private readonly int i;
+        public int? Index
+        { get { return i == 0 ? null : (int?)(i - 1); } }
 
         /// <summary>
-        /// 逃生按钮 追击死亡 （回合末精灵登场Pms和X均为null）
+        /// 回合末选择精灵登场
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        private int i;
-        public int? Index
+        public InputRequest(int time)
         {
-            get { return i == 0 ? null : (int?)(i - 1); }
-            set { i = value == null ? 0 : i + 1; }
+            Time = time;
         }
-
-        [DataMember(Name = "a")]
-        public int Time;
-
-        public InputRequest()
+        /// <summary>
+        /// 逃生按钮 追击死亡
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="i">被换上的精灵将在队伍中的位置</param>
+        public InputRequest(int time, int i)
         {
+            Time = time;
+            this.i = i + 1;
+        }
+        /// <summary>
+        /// 回合前选择精灵出招、换精灵，pms的顺序为精灵在队伍中的位置顺序，可能null，最多GameMode.PokemonsPerPlayer
+        /// </summary>
+        public InputRequest(int time, PmInputRequest[] pms)
+        {
+            Time = time;
+            Pms = pms;
         }
         protected InputRequest(InputRequest ir)
         {
             Pms = ir.Pms;
-            Index = ir.Index;
+            i = ir.i;
             Time = ir.Time;
         }
 
@@ -148,10 +164,10 @@ namespace PokemonBattleOnline.Game
 
         public bool IsSendOut
         { get { return Pms == null; } }
-        public int CurrentX
+        public int CurrentI
         { get; private set; }
         public bool CanMega
-        { get { return Pms != null && Pms[CurrentX].CanMega; } }
+        { get { return Pms != null && Pms[CurrentI].CanMega; } }
         public bool NeedTarget
         { get { return game.Settings.Mode.NeedTarget(); } }
         public MoveRange MoveRange
@@ -159,22 +175,22 @@ namespace PokemonBattleOnline.Game
 
         private void NextPm()
         {
-            while (++CurrentX < Pms.Length)
-                if (Pms[CurrentX] != null) break;
-            if (CurrentX == Pms.Length) InputFinished(input);
+            while (++CurrentI < Pms.Length)
+                if (Pms[CurrentI] != null) break;
+            if (CurrentI == Pms.Length) InputFinished(input);
         }
         public void Init(SimGame game)
         {
             this.game = game;
-            CurrentX = -1;
+            CurrentI = -1;
             if (Pms != null)
-                for (int x = 0; x < Pms.Length; ++x)
-                    if (Pms[x] != null)
+                for (int i = 0; i < Pms.Length; ++i)
+                    if (Pms[i] != null)
                     {
-                        Pms[x].Init(game, game.OnboardPokemons[x]);
-                        if (CurrentX == -1) CurrentX = x;
+                        Pms[i].Init(game, game.OnboardPokemons[i]);
+                        if (CurrentI == -1) CurrentI = i;
                     }
-            input = new ActionInput(game.Settings.Mode.XBound());
+            input = new ActionInput(game.Settings.Mode.PokemonsPerPlayer());
         }
         public string GetErrorMessage()
         {
@@ -182,13 +198,13 @@ namespace PokemonBattleOnline.Game
         }
         public bool Fight()
         {
-            if (Pms[CurrentX].Fight())
+            if (Pms[CurrentI].Fight())
             {
-                input.Struggle(CurrentX);
+                input.Struggle(CurrentI);
                 NextPm();
                 return true;
             }
-            error = Pms[CurrentX].GetErrorMessage();
+            error = Pms[CurrentI].GetErrorMessage();
             return false;
         }
 
@@ -196,29 +212,29 @@ namespace PokemonBattleOnline.Game
         private bool mega;
         public bool Move(SimMove move, bool mega)
         {
-            if (Pms[CurrentX].Move(move))
+            if (Pms[CurrentI].Move(move))
             {
                 if (NeedTarget)
                 {
-                    MoveRange = move.Type.Id == Ms.CURSE && Pms[CurrentX].Curse ? MoveRange.SelectedTarget : move.Type.Range;
+                    MoveRange = move.Type.Id == Ms.CURSE && Pms[CurrentI].Curse ? MoveRange.SelectedTarget : move.Type.Range;
                     this.move = move;
                     this.mega = mega;
                 }
                 else
                 {
-                    input.UseMove(CurrentX, move, mega);
+                    input.UseMove(CurrentI, move, mega);
                     NextPm();
                 }
                 return true;
             }
-            error = Pms[CurrentX].GetErrorMessage();
+            error = Pms[CurrentI].GetErrorMessage();
             return false;
         }
         public void Target(int team, int x)
         {
             if (move != null)
             {
-                input.UseMove(CurrentX, move, mega, team, x);
+                input.UseMove(CurrentI, move, mega, team, x);
                 move = null;
                 mega = false;
                 NextPm();
@@ -228,7 +244,7 @@ namespace PokemonBattleOnline.Game
         {
             if (move != null)
             {
-                input.UseMove(CurrentX, move, mega);
+                input.UseMove(CurrentI, move, mega);
                 move = null;
                 mega = false;
                 NextPm();
@@ -254,13 +270,13 @@ namespace PokemonBattleOnline.Game
         }
         public bool Pokemon(SimPokemon pokemon)
         {
-            if (Pms[CurrentX].Pokemon(pokemon))
+            if (Pms[CurrentI].Pokemon(pokemon))
             {
-                input.Switch(CurrentX, pokemon);
+                input.Switch(CurrentI, pokemon);
                 NextPm();
                 return true;
             }
-            error = Pms[CurrentX].GetErrorMessage();
+            error = Pms[CurrentI].GetErrorMessage();
             return false;
         }
         public void GiveUp()

@@ -96,12 +96,12 @@ namespace PokemonBattleOnline.Game.Host
                         pirs[id, index] = new PmInputRequest[xn];
                         time[id, index] = player.SpentTime;
                     }
-                    pirs[id, index][p.OnboardPokemon.X] = NewInputRequest(p);
+                    pirs[id, index][GameSettings.Mode.GetPokemonIndex(p.OnboardPokemon.X)] = NewInputRequest(p);
                 }
-            if (pirs[0, 0] != null) _requirements[0, 0] = new InputRequest() { Pms = pirs[0, 0], Time = time[0, 0] };
-            if (pirs[0, 1] != null) _requirements[0, 1] = new InputRequest() { Pms = pirs[0, 1], Time = time[0, 1] };
-            if (pirs[1, 0] != null) _requirements[1, 0] = new InputRequest() { Pms = pirs[1, 0], Time = time[1, 0] };
-            if (pirs[1, 1] != null) _requirements[1, 1] = new InputRequest() { Pms = pirs[1, 1], Time = time[1, 1] };
+            if (pirs[0, 0] != null) _requirements[0, 0] = new InputRequest(time[0, 0], pirs[0, 0]);
+            if (pirs[0, 1] != null) _requirements[0, 1] = new InputRequest(time[0, 1], pirs[0, 1]);
+            if (pirs[1, 0] != null) _requirements[1, 0] = new InputRequest(time[1, 0], pirs[1, 0]);
+            if (pirs[1, 1] != null) _requirements[1, 1] = new InputRequest(time[1, 1], pirs[1, 1]);
             return true;
         }
         public bool PauseForEndTurnInput()
@@ -111,7 +111,7 @@ namespace PokemonBattleOnline.Game.Host
                 if (Controller.CanSendOut(t))
                 {
                     var player = Controller.GetPlayer(t);
-                    if (_requirements[player.TeamId, player.TeamIndex] == null) _requirements[player.TeamId, player.TeamIndex] = new InputRequest() { Time = player.SpentTime };
+                    if (_requirements[player.TeamId, player.TeamIndex] == null) _requirements[player.TeamId, player.TeamIndex] = new InputRequest(player.SpentTime);
                 }
             return true;
         }
@@ -121,7 +121,7 @@ namespace PokemonBattleOnline.Game.Host
             if (Controller.CanSendOut(tile))
             {
                 var player = Controller.GetPlayer(tile);
-                _requirements[player.TeamId, player.TeamIndex] = new InputRequest() { Index = Controller.GameSettings.Mode.GetPokemonIndex(tile.X), Time = player.SpentTime };
+                _requirements[player.TeamId, player.TeamIndex] = new InputRequest(player.SpentTime, Controller.GameSettings.Mode.GetPokemonIndex(tile.X));
             }
             return true;
         }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Threading;
 using PokemonBattleOnline.Game;
@@ -39,7 +38,6 @@ namespace PokemonBattleOnline.PBO.Battle
             Timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(1) };
             _time = 180;
             _selectedPanel = INACTIVE;
-            _onboardPokemons = new ObservableList<SimOnboardPokemon>(Controller.Game.OnboardPokemons);
             _pokemons = new SimPokemon[6];
             Controller.RequireInput += RequireInput;
             c.Game.GameEnd += () => Timer.Stop();
@@ -95,11 +93,10 @@ namespace PokemonBattleOnline.PBO.Battle
         { get { return Request != null && Request.CanMega ? Visibility.Visible : Visibility.Collapsed; } }
 
         public SimOnboardPokemon ControllingPokemon
-        { get { return Request == null ? null : Controller.Game.OnboardPokemons.ValueOrDefault(Request.CurrentX); } }
+        { get { return Request == null || Request.CurrentI == -1 ? null : Controller.Game.OnboardPokemons[Controller.Player.TeamIndex + Request.CurrentI]; } }
 
-        private readonly ObservableList<SimOnboardPokemon> _onboardPokemons;
-        public IEnumerable<SimOnboardPokemon> OnboardPokemons
-        { get { return _onboardPokemons; } }
+        public IEnumerable<SimPokemon> OnboardPokemons
+        { get; private set; }
 
         public Visibility UndoVisibility
         { get { return Visibility.Collapsed; } }
@@ -131,14 +128,16 @@ namespace PokemonBattleOnline.PBO.Battle
             {
                 _selectedPanel = MAIN;
                 _mega = false;
-                for (int i = 0; i < Controller.Game.OnboardPokemons.Length; ++i)
-                    _onboardPokemons[i] = Controller.Game.OnboardPokemons[i];
+                var op = new SimPokemon[Controller.Game.OnboardPokemons.Length];
+                for(int i = 0; i < op.Length; ++i)
+                    if (Controller.Game.OnboardPokemons[i] != null) op[i] = Controller.Game.OnboardPokemons[i].Pokemon;
+                OnboardPokemons = op;
                 if (_targetPanel != null)
                 {
                     _targetPanel.PO1.Pokemon = Game.Board[1 - Controller.Player.Team, 1];
                     _targetPanel.PO0.Pokemon = Game.Board[1 - Controller.Player.Team, 0];
-                    _targetPanel.P0.Pokemon = _onboardPokemons[0].Pokemon;
-                    _targetPanel.P1.Pokemon = _onboardPokemons[1].Pokemon;
+                    _targetPanel.P0.Pokemon = op[0];
+                    _targetPanel.P1.Pokemon = op[1];
                 }
             }
             {
@@ -185,7 +184,7 @@ namespace PokemonBattleOnline.PBO.Battle
             {
                 if (Request.NeedTarget)
                 {
-                    TargetPanel.Set(Request.CurrentX, Request.MoveRange);
+                    TargetPanel.Set(Controller.Player.TeamIndex + Request.CurrentI, Request.MoveRange);
                     SelectedPanel = TARGET;
                 }
             }

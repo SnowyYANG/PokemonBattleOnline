@@ -159,12 +159,12 @@ namespace PokemonBattleOnline.Test
                 switch (line)
                 {
                     case "":
-                        if (pc.Game.OnboardPokemons[ir.CurrentX] != null)
+                        if (pc.Game.OnboardPokemons[ir.CurrentI] != null)
                         {
-                            var moves = pc.Game.OnboardPokemons[ir.CurrentX].Moves;
+                            var moves = pc.Game.OnboardPokemons[ir.CurrentI].Moves;
                             int i;
                             for (i = 0; i < 4; ++i) if (moves[i] == null) break;
-                            ai.UseMove(ir.CurrentX, moves[Random.Next(0, i)], false);
+                            ai.UseMove(ir.CurrentI, moves[Random.Next(0, i)], false);
                         }
                         else
                         {
@@ -174,7 +174,7 @@ namespace PokemonBattleOnline.Test
                                 var p = pc.Game.Player.GetPokemon(i);
                                 if (p != null && p.Hp.Value > 0) ii.Add(i);
                             }
-                            ai.SendOut(ir.CurrentX, pc.Game.Player.GetPokemon(ii[Random.Next(0, ii.Count)]));
+                            ai.SendOut(ir.CurrentI, pc.Game.Player.GetPokemon(ii[Random.Next(0, ii.Count)]));
                         }
                         break;
                     case "ok":
@@ -186,9 +186,9 @@ namespace PokemonBattleOnline.Test
                     case "mega !4":
                         if (ir.CanMega)
                         {
-                            var move = pc.Game.OnboardPokemons[ir.CurrentX].Moves[line[6] - '1'];
+                            var move = pc.Game.OnboardPokemons[ir.CurrentI].Moves[line[6] - '1'];
                             if (move == null) goto default;
-                            ai.UseMove(ir.CurrentX, move, true);
+                            ai.UseMove(ir.CurrentI, move, true);
                         }
                         else Console.WriteLine("Cannot Mega");
                         break;
@@ -197,9 +197,9 @@ namespace PokemonBattleOnline.Test
                     case "!3":
                     case "!4":
                         {
-                            var move = pc.Game.OnboardPokemons[ir.CurrentX].Moves[line[1] - '1'];
+                            var move = pc.Game.OnboardPokemons[ir.CurrentI].Moves[line[1] - '1'];
                             if (move == null) goto default;
-                            ai.UseMove(ir.CurrentX, move, false);
+                            ai.UseMove(ir.CurrentI, move, false);
                         }
                         break;
                     case "#1":
@@ -211,8 +211,8 @@ namespace PokemonBattleOnline.Test
                         {
                             var p = PM[line[1] - '1'];
                             if (p == null || p.Hp.Value == 0 || p.Owner.GetPokemon(0) == p) goto default;
-                            if (pc.Game.OnboardPokemons[ir.CurrentX] != null) ai.Switch(ir.CurrentX, p);
-                            else ai.SendOut(ir.CurrentX, p);
+                            if (pc.Game.OnboardPokemons[ir.CurrentI] != null) ai.Switch(ir.CurrentI, p);
+                            else ai.SendOut(ir.CurrentI, p);
                         }
                         break;
                     default:

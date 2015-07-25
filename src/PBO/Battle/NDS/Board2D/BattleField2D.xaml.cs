@@ -40,6 +40,11 @@ namespace PokemonBattleOnline.PBO.Battle
                 Player1.ItemsSource = board.Players[observeTeam, 1].Balls;
                 PlayerO1.ItemsSource = board.Players[1 - observeTeam, 1].Balls;
             }
+            else Player1.ItemsSource = PlayerO1.ItemsSource = null;
+            P0.Withdrawn();
+            P1.Withdrawn();
+            PO0.Withdrawn();
+            PO1.Withdrawn();
             board.PokemonSentOut += OnPokemonSentOut;
         }
         void OnPokemonSentOut(int team, int x)

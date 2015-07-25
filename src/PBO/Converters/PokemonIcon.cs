@@ -15,15 +15,6 @@ namespace PokemonBattleOnline.PBO.Converters
             return ImageService.GetPokemonIcon(value.Form, value.Gender);
         }
     }
-    public class SimOnboardPokemonIcon : Converter<SimOnboardPokemon>
-    {
-        public static readonly SimOnboardPokemonIcon C = new SimOnboardPokemonIcon();
-
-        protected override object Convert(SimOnboardPokemon value)
-        {
-            return ImageService.GetPokemonIcon(value.Pokemon.Form, value.Pokemon.Gender);
-        }
-    }
     public class PokemonOutwardIcon : Converter<PokemonOutward>
     {
         public static readonly PokemonOutwardIcon C = new PokemonOutwardIcon();
