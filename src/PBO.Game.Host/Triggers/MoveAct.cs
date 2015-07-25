@@ -211,7 +211,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                     aer.Faint();
                     atk.Target.Defender.ChangeLv7D(aer, true, false, -2, 0, -2);
                     break;
-                case Ms.FOLLOW_ME:
+                case Ms.FOLLOW_ME: //266
                 case Ms.RAGE_POWDER:
                     if (aer.OnboardPokemon.AddTurnCondition(Cs.FollowMe, move.Id)) aer.ShowLogPm(Ls.EnFollowMe);
                     else atk.FailAll();
@@ -221,6 +221,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                         var der = atk.Target.Defender;
                         if (der.OnboardPokemon.AddCondition(Cs.Taunt, 3)) der.ShowLogPm("EnTaunt");
                         else atk.FailAll();
+                    }
+                    break;
+                case Ms.HELPING_HAND: //270
+                    {
+                        var der = atk.Target.Defender;
+                        der.OnboardPokemon.SetCondition(Cs.HelpingHand, der.OnboardPokemon.GetCondition<int>(Cs.HelpingHand) + 1);
+                        aer.ShowLogPm(Ls.HelpingHand, der.Id);
                     }
                     break;
                 case Ms.TRICK: //271

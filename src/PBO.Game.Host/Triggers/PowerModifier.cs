@@ -23,7 +23,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             //If user used Charge the previous turn and move is Electric type.
             if (atk.Type == BattleType.Electric && atk.Attacker.OnboardPokemon.GetCondition<int>(Cs.Charge) == c.TurnNumber) m *= 0x2000;
             //If user has been the target of Helping Hand this turn.
-#warning HelpingHand
+            var hh = aer.OnboardPokemon.GetCondition<int>(Cs.HelpingHand);
+            if (hh > 0) m *= 0x1800;
+            if (hh > 1) m *= 0x1800;
             //If Water Sport was used by any Pokémon still on the field and move is Fire type.
             //If Mud Sport was used by any Pokémon still on the field and move is Electric type.
             if ((atk.Type == BattleType.Fire && c.Board.HasCondition(Cs.WaterSport)) ||

@@ -124,6 +124,7 @@ namespace PokemonBattleOnline.Game.Host
         HadItem,
         Unburden,
         Endure,
-        FollowMe
+        FollowMe,
+        HelpingHand
     }
 }
