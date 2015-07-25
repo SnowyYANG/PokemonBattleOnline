@@ -18,7 +18,6 @@ namespace PokemonBattleOnline.Game.Host
             X = x;
         }
 
-        public Player Player;
         public PokemonProxy Pokemon;
 
         public int WillSendOutPokemonIndex;

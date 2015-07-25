@@ -211,6 +211,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                     aer.Faint();
                     atk.Target.Defender.ChangeLv7D(aer, true, false, -2, 0, -2);
                     break;
+                case Ms.FOLLOW_ME:
+                case Ms.RAGE_POWDER:
+                    if (aer.OnboardPokemon.AddTurnCondition(Cs.FollowMe, move.Id)) aer.ShowLogPm(Ls.EnFollowMe);
+                    else atk.FailAll();
+                    break;
                 case Ms.TAUNT: //269
                     {
                         var der = atk.Target.Defender;

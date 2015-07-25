@@ -213,7 +213,7 @@ namespace PokemonBattleOnline.Game
         //DeMagnetRise:{0:p}的电磁力消失了！
         //Charge:{0:p}开始充电了！
         //EnYawn:引诱了{0:p}进入梦乡！
-        //FollowMe:{0:p}成为了注目的对象！
+        public const string EnFollowMe = "EnFollowMe"; //EnFollowMe:{0:p}成为了注目的对象！
         //HeartSwap:{0:p}和{1:p}交换了能力等级！
         //PowerSwap:{0:p}和{1:p}交换了攻击与特攻能力等级！
         //GuardSwap:{0:p}和{1:p}交换了防御与特防能力等级！

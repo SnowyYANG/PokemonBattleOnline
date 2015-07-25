@@ -48,6 +48,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                     break;
                 case Ms.SHADOW_FORCE: //467
                 case Ms.PHANTOM_FORCE:
+                case Ms.HYPERSPACE_HOLE:
                 case Ms.HYPERSPACE_FURY:
                     if (def.Defender.OnboardPokemon.RemoveCondition(Cs.Protect)) def.Defender.ShowLogPm("DeProtect");
                     break;

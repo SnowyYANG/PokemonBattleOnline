@@ -156,27 +156,6 @@ namespace PokemonBattleOnline.Game.Host
                     }
                 }
         }
-        internal static void ReTarget(AtkContext atk)
-        {
-            if (atk.Move.Move.Range == MoveRange.SelectedTarget)
-            {
-                int ab = 0;
-                if (atk.Type == BattleType.Electric) ab = As.LIGHTNINGROD;
-                else if (atk.Type == BattleType.Water) ab = As.STORM_DRAIN;
-                if (ab != 0)
-                    foreach (var pm in atk.Controller.Board.Pokemons)
-                        if (pm.AbilityE(ab))
-                        {
-                            if (pm != atk.Attacker && pm != atk.Target.Defender)
-                            {
-                                pm.RaiseAbility();
-                                pm.ShowLogPm("ReTarget");
-                                atk.SetTargets(new DefContext[] { new DefContext(atk, pm) });
-                            }
-                            return;
-                        }
-            }
-        }
         internal static void RecoverAfterMoldBreaker(PokemonProxy pm)
         {
             int id = pm.Ability;

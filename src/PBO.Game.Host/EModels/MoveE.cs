@@ -201,10 +201,45 @@ namespace PokemonBattleOnline.Game.Host
         {
             if ((atk.Move.Id == Ms.FUTURE_SIGHT || atk.Move.Id == Ms.DOOM_DESIRE) && !atk.HasCondition(Cs.FSDD)) return;
             if (atk.Targets == null) return;
-            ATs.ReTarget(atk);
-            List<DefContext> targets = atk.Targets.ToList();
             var move = atk.Move;
             var aer = atk.Attacker;
+
+            if (move.GetRange(aer) == MoveRange.SelectedTarget)
+            {
+                var all = atk.Move.IsRemote || aer.Controller.GameSettings.Mode != GameMode.Triple;
+                PokemonProxy retarget = null;
+                var rp = !(aer.OnboardPokemon.HasType(BattleType.Grass) || aer.AbilityE(As.OVERCOAT) || aer.ItemE(Is.SAFETY_GOGGLES));
+                foreach (var pm in atk.Controller.ActingPokemons)
+                    if (pm.Pokemon.TeamId != aer.Pokemon.TeamId && pm != atk.Target.Defender && (all || aer.OnboardPokemon.X == 1 || aer.OnboardPokemon.X != pm.OnboardPokemon.X))
+                    {
+                        var fm = pm.OnboardPokemon.GetCondition<int>(Cs.FollowMe);
+                        if (fm != 0 && (rp || fm != Ms.RAGE_POWDER))
+                        {
+                            retarget = pm;
+                            break;
+                        }
+                    }
+                if (retarget == null)
+                {
+                    int ab = 0;
+                    if (atk.Type == BattleType.Electric) ab = As.LIGHTNINGROD;
+                    else if (atk.Type == BattleType.Water) ab = As.STORM_DRAIN;
+                    if (ab != 0)
+                        foreach (var pm in atk.Controller.Board.Pokemons)
+                            if (pm != aer && pm != atk.Target.Defender && (all || aer.OnboardPokemon.X == 1 || pm.OnboardPokemon.X == 1 || aer.Pokemon.TeamId != pm.Pokemon.TeamId && aer.OnboardPokemon.X != pm.OnboardPokemon.X) && pm.RaiseAbility(ab))
+                            {
+                                retarget = pm;
+                                break;
+                            }
+                }
+                if (retarget != null)
+                {
+                    retarget.ShowLogPm("ReTarget");
+                    atk.SetTargets(new DefContext[] { new DefContext(atk, retarget) });
+                }
+            }
+
+            List<DefContext> targets = atk.Targets.ToList();
 
             #region Check CoordY
             {

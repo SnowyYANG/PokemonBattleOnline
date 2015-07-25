@@ -123,6 +123,7 @@ namespace PokemonBattleOnline.Game.Host
         Swamp,
         HadItem,
         Unburden,
-        Endure
+        Endure,
+        FollowMe
     }
 }

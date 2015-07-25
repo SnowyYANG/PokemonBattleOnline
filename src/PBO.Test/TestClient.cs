@@ -161,7 +161,7 @@ namespace PokemonBattleOnline.Test
                     case "":
                         if (pc.Game.OnboardPokemons[ir.CurrentI] != null)
                         {
-                            var moves = pc.Game.OnboardPokemons[ir.CurrentI].Moves;
+                            var moves = pc.Game.OnboardPokemons[ir.CurrentI + pc.Player.TeamIndex].Moves;
                             int i;
                             for (i = 0; i < 4; ++i) if (moves[i] == null) break;
                             ai.UseMove(ir.CurrentI, moves[Random.Next(0, i)], false);
