@@ -378,24 +378,21 @@ namespace PokemonBattleOnline.Game.Host
         }
         public static bool CanHit(DefContext def)
         {
-            AtkContext atk = def.AtkContext;
-            Controller c = atk.Controller;
+            var atk = def.AtkContext;
+            var aer = atk.Attacker;
+            var c = atk.Controller;
             var move = atk.Move;
             int acc;
-            if (move.Class == MoveClass.OHKO) acc = move.Move.Accuracy + atk.Attacker.Pokemon.Lv - def.Defender.Pokemon.Lv;
+            if (move.Class == MoveClass.OHKO) acc = move.Move.Accuracy + aer.Pokemon.Lv - def.Defender.Pokemon.Lv;
             else
             {
                 int lv;
                 if (def.AbilityE(As.UNAWARE)) lv = 0;
-                else lv = def.AtkContext.Attacker.OnboardPokemon.AccuracyLv;
+                else lv = aer.OnboardPokemon.AccuracyLv;
                 //如果攻击方是天然特性，防御方的回避等级按0计算。 
                 //循序渐进无视防御方回避等级。
                 //将攻击方的命中等级减去防御方的回避等级。 
-                if (!move.IgnoreDefenderLv7D)
-                {
-                    var aa = atk.Attacker.Ability;
-                    if (aa == As.UNAWARE || aa == As.KEEN_EYE) lv -= def.Defender.OnboardPokemon.EvasionLv;
-                }
+                if (!(move.IgnoreDefenderLv7D || aer.AbilityE(As.UNAWARE) || aer.AbilityE(As.KEEN_EYE))) lv -= def.Defender.OnboardPokemon.EvasionLv;
                 if (lv < -6) lv = -6;
                 else if (lv > 6) lv = 6;
                 //用技能基础命中乘以命中等级修正，向下取整。
