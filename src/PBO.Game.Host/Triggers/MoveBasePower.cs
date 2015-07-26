@@ -136,6 +136,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                             break;
                         }
                     break;
+                case Ms.WATER_PLEDGE:
+                case Ms.FIRE_PLEDGE:
+                case Ms.GRASS_PLEDGE:
+                    var pledge = aer.Field.GetCondition<int>(Cs.Plege);
+                    def.BasePower = pledge != 0 && pledge != move.Id ? 150 : move.Move.Power;
+                    break;
                 default:
                     def.BasePower = move.Move.Power;
                     break;

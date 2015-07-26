@@ -358,11 +358,11 @@
         //DeStealthRock:{0:t}的队伍周围的隐蔽石砾消失了！
         //EnWideGuard:广域防御守护了{0:t}的队伍的周围！
         //EnQuickGuard:快速防御守护了{0:t}的队伍的周围！
-        //EnRainbow:{0:t}的队伍上空出现了彩虹！
+        public const string EnRainbow = "EnRainbow"; //{0:t}的队伍上空出现了彩虹！
         //DeRainbow:彩虹从{0:t}的队伍上空消失了！
-        //EnFireSea:火海包围了{0:t}的队伍！
+        public const string EnFireSea = "EnFireSea"; //火海包围了{0:t}的队伍！
         //DeFireSea:包围{0:t}的队伍的火海消失了！
-        //EnSwamp:{0:t}的队伍的周围出现了湿原野！
+        public const string EnSwamp = "EnSwamp"; //{0:t}的队伍的周围出现了湿原野！
         //DeSwamp:{0:t}的队伍周围的的湿原野消失了！
         //Unnerve:{0:t}的队伍因为紧张而吃不下树果了！
         //EnWonderRoom:制造出了防御与特防互换的空间！
@@ -375,9 +375,11 @@
         //EnTrap611:{0:p}被困在虫群里了！
         //EnZenMode:{0:p}的不倒翁模式发动！
         //DeZenMode:{0:p}的不倒翁模式解除！
-        //subtitle_AssaultVest:[暂]因为{2}的效果不能使用变化技能！
         //Protect:{0:p}保护了自己！
         //EnProtect:{0:p}进入了守护的姿势！
+        public const string Pledge = "Pledge"; //{0:p}等待着{1:p}的技能...
+        public const string Pledges = "Pledges"; //两个技能交汇了！成为了组合技！
+        //subtitle_AssaultVest:[暂]因为{2}的效果不能使用变化技能！
         //EnMatBlock:{0:p}准备叠毯子阻止攻击！
         //MatBlock:踢出去的毯子阻止了{0:m}！
         //EnStickyWeb:{0:t}的场地被巨大的黏网覆盖！

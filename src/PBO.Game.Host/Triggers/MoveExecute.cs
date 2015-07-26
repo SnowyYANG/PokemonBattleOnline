@@ -47,7 +47,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                             {
                                 case Ms.JUMP_KICK:
                                 case Ms.HIGH_JUMP_KICK:
-                                    aer.EffectHurtByOneNth(2, Ls.FailSelfHurt);
+                                    if (aer.EffectHurtByOneNth(2, Ls.FailSelfHurt)) aer.CheckFaint();
                                     break;
                                 case Ms.SELFDESTRUCT:
                                 case Ms.EXPLOSION:
@@ -79,6 +79,20 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                     atk.Target.Defender.OnboardPokemon.RemoveCondition(Cs.SkyDrop);
                 }
             }
+
+            if (aer.Controller.GameSettings.Mode.XBound() != 1 && (move.Id == Ms.WATER_PLEDGE || move.Id == Ms.FIRE_PLEDGE || move.Id == Ms.GRASS_PLEDGE))
+                if (aer.Field.AddTurnCondition(Cs.Plege, move.Id))
+                {
+                    foreach (var pm in aer.Controller.ActingPokemons)
+                        if (pm.Pokemon.TeamId == aer.Pokemon.TeamId && pm.SelectedMove != null &&
+                            pm.SelectedMove.MoveE.Id != move.Id && (pm.SelectedMove.MoveE.Id == Ms.WATER_PLEDGE || pm.SelectedMove.MoveE.Id == Ms.FIRE_PLEDGE || pm.SelectedMove.MoveE.Id == Ms.GRASS_PLEDGE) &&
+                            pm.CanMove)
+                        {
+                            aer.ShowLogPm(Ls.Pledge, pm.Id);
+                            aer.Controller.Board.SetTurnCondition(Cs.NextActingPokemon, pm);
+                            return;
+                        }
+                }
 
             if (move.Snatchable)
                 foreach (var pm in atk.Controller.ActingPokemons)

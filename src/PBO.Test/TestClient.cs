@@ -159,7 +159,7 @@ namespace PokemonBattleOnline.Test
                 switch (line)
                 {
                     case "":
-                        if (pc.Game.OnboardPokemons[ir.CurrentI] != null)
+                        if (pc.Game.OnboardPokemons[ir.CurrentI + pc.Player.TeamIndex] != null)
                         {
                             var moves = pc.Game.OnboardPokemons[ir.CurrentI + pc.Player.TeamIndex].Moves;
                             int i;

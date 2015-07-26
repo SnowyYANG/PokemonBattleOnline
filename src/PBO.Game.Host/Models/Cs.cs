@@ -128,6 +128,9 @@ namespace PokemonBattleOnline.Game.Host
         FocusPunch,
         Round,
         NextActingPokemon,
-        Quash
+        Quash,
+        FireSea,
+        Rainbow,
+        Plege
     }
 }

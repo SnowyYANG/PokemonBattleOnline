@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PokemonBattleOnline.Game;
-using PokemonBattleOnline.Game.GameEvents;
 
 namespace PokemonBattleOnline.Game.Host.Triggers
 {
@@ -104,12 +102,12 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                 }
             }
         }
-        //5.0 [pass] Fire Pledge + Grass Pledge damage
+        //5.0 Fire Pledge + Grass Pledge damage
         //5.1 Shed Skin, Hydration, Healer
         //5.2 Leftovers, Black Sludge
         private static void PropertyChange(Controller c)
         {
-            if (c.Board.HasCondition(Cs.GrassyTerrain))
+            if (c.Board.HasCondition(Cs.GrassyTerrain)) //顺序未测
             {
                 foreach (var pm in c.OnboardPokemons)
                     if (HasEffect.IsGroundAffectable(pm, true, false)) pm.HpRecoverByOneNth(16);
@@ -117,17 +115,18 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             bool? hydration = null;
             foreach (var pm in c.OnboardPokemons.ToArray())
             {
+                if (pm.Field.HasCondition(Cs.FireSea) && !pm.OnboardPokemon.HasType(BattleType.Fire)) pm.EffectHurtByOneNth(8, Ls.FireSea);
                 switch (pm.Ability)
                 {
                     case As.SHED_SKIN:
-                        if (pm.State != Game.PokemonState.Normal && c.RandomHappen(30))
+                        if (pm.State != PokemonState.Normal && c.RandomHappen(30))
                         {
                             pm.RaiseAbility();
                             pm.DeAbnormalState();
                         }
                         break;
                     case As.HYDRATION:
-                        if (pm.State != Game.PokemonState.Normal)
+                        if (pm.State != PokemonState.Normal)
                         {
                             if (hydration == null) hydration = c.Weather == Game.Weather.HeavyRain;
                             if (hydration == true)
@@ -140,7 +139,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                     case As.HEALER:
                         var ps = new List<PokemonProxy>();
                         foreach (var p in pm.Field.Pokemons)
-                            if (p != pm && p.State != Game.PokemonState.Normal) ps.Add(p);
+                            if (p != pm && p.State != PokemonState.Normal) ps.Add(p);
                         if (ps.Count != 0 && c.RandomHappen(30))
                         {
                             pm.RaiseAbility();
@@ -360,7 +359,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         //21.3 Mist ends
         //21.4 Tailwind ends
         //21.5 Lucky Chant ends
-        //21.6 [pass] Water Pledge + Fire Pledge ends, Fire Pledge + Grass Pledge ends, Grass Pledge + Water Pledge ends
+        //21.6 Water Pledge + Fire Pledge ends, Fire Pledge + Grass Pledge ends, Grass Pledge + Water Pledge ends
         private static void FieldCondition(Controller c)
         {
             foreach (var f in c.Board.Fields)
@@ -371,6 +370,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                 FieldCondition(Cs.Mist, f, c);
                 FieldCondition(Cs.Tailwind, f, c);
                 FieldCondition(Cs.LuckyChant, f, c);
+                FieldCondition(Cs.Rainbow, f, c);
+                FieldCondition(Cs.FireSea, f, c);
+                FieldCondition(Cs.Swamp, f, c);
             }
         }
         private static void FieldCondition(Cs condition, Field f, Controller c)

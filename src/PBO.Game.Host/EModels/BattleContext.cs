@@ -86,7 +86,7 @@ namespace PokemonBattleOnline.Game.Host
         {
             if (percentage == 0) return true;
             var a = Attacker.Ability;
-            return a != As.SHEER_FORCE && Controller.RandomHappen(a == As.SERENE_GRACE ? percentage *= 3 : percentage);
+            return !Attacker.AbilityE(As.SHEER_FORCE) && Controller.RandomHappen(Attacker.AbilityE(As.SERENE_GRACE) ? percentage * 3 : Attacker.Field.HasCondition(Cs.Rainbow) ? percentage * 2 : percentage);
         }
         public void FailAll(string log = "Fail0", int arg0 = 0, int arg1 = 0)
         {

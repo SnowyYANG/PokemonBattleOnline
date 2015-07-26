@@ -602,9 +602,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                     var x = def.Defender.OnboardPokemon.X;
                     var f = atk.Controller.Board[def.Defender.Pokemon.TeamId];
                     var t = f[x - 1];
-                    if (t != null && t.Pokemon != null) t.Pokemon.EffectHurtByOneNth(16, Ls.FlameBurst);
+                    if (t != null && t.Pokemon != null && t.Pokemon.EffectHurtByOneNth(16, Ls.FlameBurst)) t.Pokemon.CheckFaint();
                     t = f[x + 1];
-                    if (t != null && t.Pokemon != null) t.Pokemon.EffectHurtByOneNth(16, Ls.FlameBurst);
+                    if (t != null && t.Pokemon != null && t.Pokemon.EffectHurtByOneNth(16, Ls.FlameBurst)) t.Pokemon.CheckFaint();
                 }
 
                 foreach (DefContext d in defs)
