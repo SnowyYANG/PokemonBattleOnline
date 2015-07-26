@@ -132,7 +132,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                     foreach (var pm in aer.Controller.ActingPokemons)
                         if (pm.SelectedMove != null && pm.SelectedMove.MoveE == move && pm.Pokemon.TeamId == aer.Pokemon.TeamId && pm.CanMove)
                         {
-                            aer.Controller.Board.AddTurnCondition(Cs.NextActingPokemon, pm);
+                            aer.Controller.Board.SetTurnCondition(Cs.NextActingPokemon, pm);
                             break;
                         }
                     break;
