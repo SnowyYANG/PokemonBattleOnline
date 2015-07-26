@@ -15,9 +15,6 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             if (MoveNotFail.Execute(atk))
                 switch (move)
                 {
-                    case Ms.SNATCH:
-                        Snatch(atk);
-                        break;
                     case Ms.METRONOME: //118
                         Metronome(atk);
                         break;
@@ -32,6 +29,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                         break;
                     case Ms.ASSIST: //274
                         Assist(atk);
+                        break;
+                    case Ms.SNATCH: //289
+                        Snatch(atk);
                         break;
                     case Ms.ME_FIRST: //382
                         MeFirst(atk);

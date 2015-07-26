@@ -46,7 +46,7 @@ namespace PokemonBattleOnline.Game.Host
 
         public void SetAttackerAction(PokemonAction action)
         {
-            //预知未来 破灭之愿 攻击方已下场
+            //预知未来、破灭之愿的攻击方已下场，不应改变Action
             if (Attacker.AtkContext == this) Attacker.Action = action;
         }
 

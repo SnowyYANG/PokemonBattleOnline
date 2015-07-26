@@ -585,6 +585,16 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                     }
                 if (move.Class == MoveClass.AttackWithSelfLv7DChange && atk.RandomHappen(move.Lv7DChanges.Probability)) aer.ChangeLv7D(atk.Attacker, move);
 
+                if (move.Id == Ms.FLAME_BURST) //未测试，暂时在这
+                {
+                    var x = def.Defender.OnboardPokemon.X;
+                    var f = atk.Controller.Board[def.Defender.Pokemon.TeamId];
+                    var t = f[x - 1];
+                    if (t != null && t.Pokemon != null) t.Pokemon.EffectHurtByOneNth(16, Ls.FlameBurst);
+                    t = f[x + 1];
+                    if (t != null && t.Pokemon != null) t.Pokemon.EffectHurtByOneNth(16, Ls.FlameBurst);
+                }
+
                 foreach (DefContext d in defs)
                     if (!d.HitSubstitute)
                     {
