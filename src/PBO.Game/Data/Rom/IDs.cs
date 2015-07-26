@@ -8,6 +8,8 @@
         /// 图图犬 ドーブル
         /// </summary>
         public const int SMEARGLE = 235;
+        public const int KYOGRE = 382;
+        public const int GROUNDON = 383;
         public const int RAYQUAZA = 384;
         public const int DEOXYS = 386;
         public const int BURMY = 412;

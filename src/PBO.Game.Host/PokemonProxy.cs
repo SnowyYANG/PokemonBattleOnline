@@ -279,6 +279,7 @@ namespace PokemonBattleOnline.Game.Host
                 if (!(OnboardPokemon.HasCondition(Cs.Substitute) || AbilityE(As.OVERCOAT))) EHTs.Debut(this);
                 if (!PTs.CheckFaint(this))
                 {
+                    if (ItemE(Is.BLUE_ORB) && PTs.CanChangeForm(this, Ps.KYOGRE, 1) || ItemE(Is.RED_ORB) && PTs.CanChangeForm(this, Ps.GROUNDON, 1)) ;
                     if (OnboardPokemon.Ability != As.FLOWER_GIFT && OnboardPokemon.Ability != As.FORECAST) AbilityAttach.Execute(this);
                     if (!ITs.AirBalloon(this)) ITs.Attach(this);
                 }
