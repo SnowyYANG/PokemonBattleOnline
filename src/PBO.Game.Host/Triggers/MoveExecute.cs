@@ -75,7 +75,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                 if (move.Id == Ms.SKY_DROP)
                 {
                     aer.CoordY = CoordY.Plate;
-                    atk.Target.Defender.OnboardPokemon.CoordY = CoordY.Plate;
+                    atk.Target.Defender.CoordY = CoordY.Plate;
                     atk.Target.Defender.OnboardPokemon.RemoveCondition(Cs.SkyDrop);
                 }
             }
