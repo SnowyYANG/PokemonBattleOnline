@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Game.Host.Triggers
 {
@@ -249,10 +248,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                     if (atk.Attacker.Field.GetCondition<int>(Cs.FaintTurn) == der.Controller.TurnNumber - 1) m = 0x2000;
                     break;
             }
-            //If move was called using Me First.
             if (atk.HasCondition(Cs.MeFirst)) m *= 0x1800;
-            //If move is SolarBeam in non-sunny, non-default weather.
-
             switch (move)
             {
                 case Ms.SOLAR_BEAM:

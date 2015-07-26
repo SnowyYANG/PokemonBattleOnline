@@ -141,18 +141,28 @@ namespace PokemonBattleOnline.Game.Host
         private void Move()
         {
             LOOP:
-            foreach (var p in ActingPokemons)
-                if (p.CanMove)
-                {
-                    if (p.OnboardPokemon.HasCondition(Cs.SkyDrop)) p.Action = PokemonAction.Done;
-                    else
+            var pm = Board.GetCondition<PokemonProxy>(Cs.NextActingPokemon);
+            if (pm == null || !pm.CanMove)
+            {
+                pm = null;
+                foreach (var p in ActingPokemons)
+                    if (p.CanMove)
                     {
-                        p.Move();
-                        if (Controller.CanContinue) ReportBuilder.AddHorizontalLine();
-                        else break;
+                        pm = p;
+                        break;
                     }
-                    goto LOOP; //ActingPokemons顺序可能有变化，所以重新foreach
+            }
+            if (pm != null)
+            {
+                if (pm.OnboardPokemon.HasCondition(Cs.SkyDrop)) pm.Action = PokemonAction.Done;
+                else
+                {
+                    pm.Move();
+                    if (Controller.CanContinue) ReportBuilder.AddHorizontalLine();
+                    else return;
                 }
+                goto LOOP;
+            }
         }
         private void EndTurnEffects()
         {
