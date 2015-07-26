@@ -146,6 +146,15 @@ namespace PokemonBattleOnline.Game.Host
             {
                 pm = null;
                 foreach (var p in ActingPokemons)
+                    if (p.CanMove && !p.OnboardPokemon.HasCondition(Cs.Quash))
+                    {
+                        pm = p;
+                        break;
+                    }
+            }
+            if (pm == null)
+            {
+                foreach (var p in ActingPokemons)
                     if (p.CanMove)
                     {
                         pm = p;

@@ -302,8 +302,8 @@
         public const string EnSkyDrop = "EnSkyDrop"; //{0:p}把{1:p}带到空中去了！
         //DeSkyDrop:{0:p}从自由降落中解脱了！
         //EnSmackDown:{0:p}被击落到了地面上！
-        //Quash:{0:p}的顺序被推迟了！
-        //AfterYou:{0:p}听信了对手的话！
+        public const string Quash = "Quash"; //{0:p}的顺序被推迟了！
+        public const string AfterYou = "AfterYou"; //{0:p}听信了对手的话！
         //AllySwitch:{0:p}和{1:p}交换了位置！
         //EnTelekinesis:{0:p}漂浮在空中！
         //DeTelekinesis:{0:p}被从念动力中释放了！

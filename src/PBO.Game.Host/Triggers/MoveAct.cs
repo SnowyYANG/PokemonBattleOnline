@@ -342,8 +342,20 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                 case Ms.ENTRAINMENT: //494
                     Entrainment(atk);
                     break;
+                case Ms.AFTER_YOU: //495
+                    if (atk.Target.Defender.CanMove)
+                    {
+                        aer.Controller.Board.SetTurnCondition(Cs.NextActingPokemon, atk.Target.Defender);
+                        atk.Target.Defender.ShowLogPm(Ls.AfterYou);
+                    }
+                    else atk.FailAll();
+                    break;
                 case Ms.SHELL_SMASH: //504
                     aer.ChangeLv7D(aer, true, false, 2, -1, 2, -1, 2);
+                    break;
+                case Ms.QUASH: //511
+                    if (atk.Target.Defender.CanMove && atk.Target.Defender.OnboardPokemon.AddTurnCondition(Cs.Quash)) atk.Target.Defender.ShowLogPm(Ls.Quash);
+                    else atk.FailAll();
                     break;
                 case Ms.REFLECT_TYPE: //513
                     ReflectType(atk);

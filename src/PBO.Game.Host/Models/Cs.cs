@@ -127,6 +127,7 @@ namespace PokemonBattleOnline.Game.Host
         HelpingHand,
         FocusPunch,
         Round,
-        NextActingPokemon
+        NextActingPokemon,
+        Quash
     }
 }
