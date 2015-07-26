@@ -36,6 +36,9 @@ namespace PokemonBattleOnline.Game.Host
 
         public Controller Controller
         { get { return Attacker.Controller; } }
+        /// <summary>
+        /// null: 不需要目标的技能 empty: 技能需要目标但是没有目标
+        /// </summary>
         public IEnumerable<DefContext> Targets
         { get; private set; }
         public DefContext Target
@@ -43,6 +46,7 @@ namespace PokemonBattleOnline.Game.Host
 
         public void SetAttackerAction(PokemonAction action)
         {
+            //预知未来 破灭之愿 攻击方已下场
             if (Attacker.AtkContext == this) Attacker.Action = action;
         }
 
@@ -53,7 +57,7 @@ namespace PokemonBattleOnline.Game.Host
             {
                 if (log != null) Attacker.ShowLogPm(log, Move.Id);
                 InitAtkContext.Execute(this);
-                MoveE.BuildDefContext(this, selectTile);
+                if (!Move.PrepareOneTurn || Move.Id == Ms.SKY_DROP) MoveE.BuildDefContext(this, selectTile);
                 if (MoveProxy != null) ATs.Pressure(this, Move.GetRange(Attacker));
                 MoveExecute.Execute(this);
             }
@@ -62,7 +66,7 @@ namespace PokemonBattleOnline.Game.Host
         public void ContinueExecute(Tile selectTile)
         {
             TotalDamage = 0;
-            MoveE.BuildDefContext(this, selectTile);
+            if (Move.Id != Ms.SKY_DROP) MoveE.BuildDefContext(this, selectTile);
             MoveExecute.Execute(this);
         }
         public void SetTargets(IEnumerable<DefContext> targets)

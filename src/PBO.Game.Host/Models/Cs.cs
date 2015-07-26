@@ -124,6 +124,7 @@ namespace PokemonBattleOnline.Game.Host
         Unburden,
         Endure,
         FollowMe,
-        HelpingHand
+        HelpingHand,
+        FocusPunch
     }
 }

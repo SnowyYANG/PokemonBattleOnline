@@ -345,6 +345,13 @@ namespace PokemonBattleOnline.Game.Host
                         d.Fail();
                         targets.Remove(d);
                     }
+            if (move.Id == Ms.SKY_DROP)
+                foreach (var d in targets.ToArray())
+                    if (d.Defender.OnboardPokemon.Weight >= 200)
+                    {
+                        d.Fail();
+                        targets.Remove(d);
+                    }
             #region Check for misses
             if (!MustHit(atk))
             {

@@ -299,7 +299,7 @@
         //Autotomize:{0:p}身体变轻了！
         //Incinerate:{0:p}的{1:i}被烧没了！
         //Bestow:{0:p}从{2:p}那里获得了{1:i}！
-        //EnSkyDrop:{0:p}把{1:p}带到空中去了！
+        public const string EnSkyDrop = "EnSkyDrop"; //{0:p}把{1:p}带到空中去了！
         //DeSkyDrop:{0:p}从自由降落中解脱了！
         //EnSmackDown:{0:p}被击落到了地面上！
         //Quash:{0:p}的顺序被推迟了！

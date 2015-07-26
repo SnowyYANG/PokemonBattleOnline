@@ -69,7 +69,6 @@ namespace PokemonBattleOnline.Game.Host
                     break;
                 case 2:
                     Switch();
-                    CheckFocusPunch();//暂定，实际上不在这
                     break;
                 case 3:
                     Mega();
@@ -126,11 +125,6 @@ namespace PokemonBattleOnline.Game.Host
                     goto LOOP; //ActingPokemons的顺序可能变化，重新查找第一个符合条件的精灵
                 }
         }
-        private void CheckFocusPunch()
-        {
-            foreach (PokemonProxy p in ActingPokemons)
-                if (p.Action == PokemonAction.MoveAttached && p.SelectedMove.MoveE.Id == Ms.FOCUS_PUNCH) p.ShowLogPm("EnFocusPunch");
-        }
         private void Mega()
         {
             var m = false;
@@ -150,13 +144,14 @@ namespace PokemonBattleOnline.Game.Host
             foreach (var p in ActingPokemons)
                 if (p.CanMove)
                 {
-                    p.Move();
-                    if (Controller.CanContinue)
+                    if (p.OnboardPokemon.HasCondition(Cs.SkyDrop)) p.Action = PokemonAction.Done;
+                    else
                     {
-                        ReportBuilder.AddHorizontalLine();
-                        goto LOOP; //ActingPokemons顺序可能有变化，所以重新foreach
+                        p.Move();
+                        if (Controller.CanContinue) ReportBuilder.AddHorizontalLine();
+                        else break;
                     }
-                    break; //游戏结束的时候，ActingPokemons因为精灵下场变化
+                    goto LOOP; //ActingPokemons顺序可能有变化，所以重新foreach
                 }
         }
         private void EndTurnEffects()

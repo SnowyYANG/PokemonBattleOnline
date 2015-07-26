@@ -171,7 +171,7 @@ namespace PokemonBattleOnline.Game.Host
             get
             {
                 if (OnboardPokemon.HasType(BattleType.Ghost) || ItemE(Is.SHED_SHELL)) return true;
-                if (OnboardPokemon.HasCondition(Cs.Trap) || OnboardPokemon.HasCondition(Cs.Ingrain) || OnboardPokemon.HasCondition(Cs.CantSelectWithdraw) || Controller.Board.GetCondition<int>(Cs.FairyLock, -1) == Controller.TurnNumber) return false;
+                if (OnboardPokemon.HasCondition(Cs.Trap) || OnboardPokemon.HasCondition(Cs.Ingrain) || OnboardPokemon.HasCondition(Cs.CantSelectWithdraw) || OnboardPokemon.HasCondition(Cs.SkyDrop) || Controller.Board.GetCondition<int>(Cs.FairyLock, -1) == Controller.TurnNumber) return false;
                 bool arenaTrap = false, magnetPull = false, shadowTag = false;
                 foreach (var pm in Controller.GetOnboardPokemons(1 - Pokemon.TeamId))
                 {
@@ -299,6 +299,7 @@ namespace PokemonBattleOnline.Game.Host
         }
         internal void Move()
         {
+            STs.FocusPunch(Controller);
             LastMoveTurn = Controller.TurnNumber;
             STs.WillAct(this);
             switch (Action)
