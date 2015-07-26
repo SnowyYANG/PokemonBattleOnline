@@ -261,6 +261,12 @@ namespace PokemonBattleOnline.Game.Host
             {
                 foreach (var p in Pokemon.Owner.Pokemons)
                     if (p.SelectMega || p.Pokemon.Mega) return false;
+                if (PTs.CanChangeForm(this, Ps.RAYQUAZA, 1))
+                {
+                    foreach (var m in Moves)
+                        if (m.MoveE.Id == Ms.DRAGON_ASCENT) return true;
+                    return false;
+                }
                 return PTs.CanChangeForm(this, ITs.MegaNumber(Pokemon.Item), ITs.MegaForm(Pokemon.Item));
             }
         }

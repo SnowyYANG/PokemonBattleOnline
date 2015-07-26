@@ -54,24 +54,27 @@ namespace PokemonBattleOnline.PBO.Battle
         private void RefreshImage()
         {
             var s = Pokemon.IsSubstitute ? Back ? ImageService.GetSpBack("substitute") : ImageService.GetSpFront("substitute") : Back ? ImageService.GetPokemonBack(Pokemon.Form, Pokemon.Gender, Pokemon.Shiny) : ImageService.GetPokemonFront(Pokemon.Form, Pokemon.Gender, Pokemon.Shiny);
-            double scale;
-            var gen5 = s.PixelHeight <= 96;
-            if (Back && gen5)
-            {
-                scale = 2;
-                Image.SetValue(RenderOptions.BitmapScalingModeProperty, BitmapScalingMode.NearestNeighbor);
-            }
-            else if (!Back && !gen5)
-            {
-                scale = 0.5;
-                Image.SetValue(RenderOptions.BitmapScalingModeProperty, BitmapScalingMode.Fant);
-            }
-            else scale = 1;
             Image.Source = s;
-            Image.SetValue(Canvas.LeftProperty, -s.PixelWidth * scale / 2);
-            Image.SetValue(Canvas.BottomProperty, -s.PixelHeight * scale / 2);
-            Image.Width = s.PixelWidth * scale;
-            Image.Height = s.PixelHeight * scale;
+            if (s != null)
+            {
+                double scale;
+                var gen5 = s.PixelHeight <= 96;
+                if (Back && gen5)
+                {
+                    scale = 2;
+                    Image.SetValue(RenderOptions.BitmapScalingModeProperty, BitmapScalingMode.NearestNeighbor);
+                }
+                else if (!Back && !gen5)
+                {
+                    scale = 0.5;
+                    Image.SetValue(RenderOptions.BitmapScalingModeProperty, BitmapScalingMode.Fant);
+                }
+                else scale = 1;
+                Image.SetValue(Canvas.LeftProperty, -s.PixelWidth * scale / 2);
+                Image.SetValue(Canvas.BottomProperty, -s.PixelHeight * scale / 2);
+                Image.Width = s.PixelWidth * scale;
+                Image.Height = s.PixelHeight * scale;
+            }
             FaintAnimation.From = Image.Height;
             BeginChangeImageAnimation.To = Back ? 30 : 15;
         }
