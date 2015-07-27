@@ -97,7 +97,7 @@ namespace PokemonBattleOnline.Game.Host
                 {
                     try
                     {
-                        for (int i = 0; i < Controller.GameSettings.Mode.PokemonsPerPlayer(); ++i)
+                        for (int i = 0; i < Controller.GameSettings.Mode.OnboardPokemonsPerPlayer(); ++i)
                         {
                             var iai = input.Get(i);
                             if (iai != null)

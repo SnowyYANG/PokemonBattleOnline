@@ -16,7 +16,8 @@ namespace PokemonBattleOnline.Game.Host
         {
             Comparer = new Comparer(controller.Board);
             _tiles = Board.Tiles.ToArray(); //this is a copy
-            ActingPokemons = new List<PokemonProxy>();
+            ActingPokemons = new List<PokemonProxy>(_tiles.Length);
+            _pokemons = new List<PokemonProxy>(_tiles.Length);
         }
 
         public List<PokemonProxy> ActingPokemons
@@ -26,8 +27,27 @@ namespace PokemonBattleOnline.Game.Host
         public IEnumerable<Tile> Tiles
         { get { return _tiles; } }
 
+        private bool refresh;
+        private readonly List<PokemonProxy> _pokemons;
         public IEnumerable<PokemonProxy> Pokemons
-        { get { return Tiles.Where((t) => t.Pokemon != null).Select((t) => t.Pokemon); } }
+        {
+            get
+            {
+                if (refresh)
+                {
+                    _pokemons.Clear();
+                    foreach (var t in _tiles)
+                        if (t.Pokemon != null) _pokemons.Add(t.Pokemon);
+                    refresh = false;
+                }
+                return _pokemons;
+            }
+        }
+        public void RefreshPokemons()
+        {
+            Board.RefreshPokemons();
+            refresh = true;
+        }
 
         private void SortActingPokemons()
         {
@@ -202,7 +222,7 @@ namespace PokemonBattleOnline.Game.Host
             {
                 Controller.GameStartSendOut(Board[0]);
                 Controller.GameStartSendOut(Board[1]);
-                Board.RefreshPokemons();
+                RefreshPokemons();
             }
             else
                 foreach (Tile t in Tiles)

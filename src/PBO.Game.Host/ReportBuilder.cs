@@ -44,7 +44,7 @@ namespace PokemonBattleOnline.Game.Host
             }
             List<PokemonOutward> pms = new List<PokemonOutward>();
             {
-                foreach (PokemonProxy p in Controller.ActingPokemons) pms.Add(p.GetOutward());
+                foreach (PokemonProxy p in Controller.Board.Pokemons) pms.Add(p.GetOutward());
                 current = new ReportFragment(Controller.TurnNumber, t, pms.ToArray(), Controller.Board.Weather);
             }
         }

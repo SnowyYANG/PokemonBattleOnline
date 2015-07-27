@@ -261,7 +261,7 @@ namespace PokemonBattleOnline.Game.Host
             if (SwitchController.Withdraw(pm, log, arg1, canPursuit))
             {
                 pm.Field.RefreshPokemons();
-                Board.RefreshPokemons();
+                TurnController.RefreshPokemons();
                 return true;
             }
             return false;
@@ -276,7 +276,7 @@ namespace PokemonBattleOnline.Game.Host
             if (SwitchController.SendOut(position, debut, log))
             {
                 position.Field.RefreshPokemons();
-                Board.RefreshPokemons();
+                TurnController.RefreshPokemons();
                 return true;
             }
             return false;

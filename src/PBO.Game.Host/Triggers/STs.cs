@@ -184,7 +184,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         public static void FocusPunch(Controller c)
         {
             if (c.Board.AddCondition(Cs.FocusPunch))
-                foreach (PokemonProxy p in c.ActingPokemons)
+                foreach (PokemonProxy p in c.OnboardPokemons)
                     if (p.Action == PokemonAction.MoveAttached && p.SelectedMove.MoveE.Id == Ms.FOCUS_PUNCH) p.ShowLogPm("EnFocusPunch");
         }
         public static bool MagicCoat(AtkContext atk, PokemonProxy der)

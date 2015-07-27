@@ -41,7 +41,7 @@ namespace PokemonBattleOnline.Game.Host
                     goto STATE;
                 case AttachedState.SLP:
                     if (!(ability && pm.AbilityE(As.SOUNDPROOF)))
-                        foreach (var p in pm.Controller.ActingPokemons)
+                        foreach (var p in pm.Controller.OnboardPokemons)
                             if (p.Action == PokemonAction.Moving && pm.AtkContext.Move.Id == Ms.UPROAR)
                             {
                                 if (showFail)

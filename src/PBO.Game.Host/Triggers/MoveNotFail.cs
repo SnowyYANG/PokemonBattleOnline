@@ -63,7 +63,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                         if (ITs.CanLostItem(aer) && ITs.CanUseItem(aer) && ITs.Berry(aer.Pokemon.Item)) return true;
                         break;
                     case Ms.FLING: //374
-                        if (ITs.CanLostItem(aer) && ITs.CanUseItem(aer) && MTs.FlingPower(aer.Pokemon.Item) != 0) return true;
+                        if (ITs.CanLostItem(aer) && ITs.CanUseItem(aer) && MoveBasePower.FlingPower(aer.Pokemon.Item) != 0) return true;
                         break;
                     case Ms.ME_FIRST: //382
                     case Ms.SUCKER_PUNCH: //389

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PokemonBattleOnline.Game.GameEvents;
 using PokemonBattleOnline.Game.Host.Triggers;
 
 namespace PokemonBattleOnline.Game.Host
@@ -209,7 +208,7 @@ namespace PokemonBattleOnline.Game.Host
                 var all = atk.Move.IsRemote || aer.Controller.GameSettings.Mode != GameMode.Triple;
                 PokemonProxy retarget = null;
                 var rp = !(aer.OnboardPokemon.HasType(BattleType.Grass) || aer.AbilityE(As.OVERCOAT) || aer.ItemE(Is.SAFETY_GOGGLES));
-                foreach (var pm in atk.Controller.ActingPokemons)
+                foreach (var pm in atk.Controller.OnboardPokemons)
                     if (pm.Pokemon.TeamId != aer.Pokemon.TeamId && pm != atk.Target.Defender && (all || aer.OnboardPokemon.X == 1 || aer.OnboardPokemon.X != pm.OnboardPokemon.X))
                     {
                         var fm = pm.OnboardPokemon.GetCondition<int>(Cs.FollowMe);

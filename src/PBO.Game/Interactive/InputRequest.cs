@@ -190,7 +190,7 @@ namespace PokemonBattleOnline.Game
                         Pms[i].Init(game, game.OnboardPokemons[i]);
                         if (CurrentI == -1) CurrentI = i;
                     }
-            input = new ActionInput(game.Settings.Mode.PokemonsPerPlayer());
+            input = new ActionInput(game.Settings.Mode.OnboardPokemonsPerPlayer());
         }
         public string GetErrorMessage()
         {

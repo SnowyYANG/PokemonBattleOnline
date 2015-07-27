@@ -55,14 +55,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EModels\MoveTypeE.cs" />
+    <Compile Include="MoveTypeE.cs" />
     <Compile Include="GoTimer.cs" />
     <Compile Include="Models\Cs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Simple6D.cs" />
     <Compile Include="Triggers\AbilityAttach.cs" />
     <Compile Include="Triggers\AbilityDetach.cs" />
-    <Compile Include="EModels\Rules.cs" />
+    <Compile Include="Triggers\Rules.cs" />
     <Compile Include="Triggers\AccuracyModifier.cs" />
     <Compile Include="Triggers\AModifier.cs" />
     <Compile Include="Triggers\HasEffect.cs" />
@@ -95,13 +95,12 @@
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\Pokemon.cs" />
     <Compile Include="Models\Team.cs" />
-    <Compile Include="EModels\Modifier.cs" />
+    <Compile Include="Models\Modifier.cs" />
     <Compile Include="Models\Condition.cs" />
-    <Compile Include="EModels\BattleContext.cs" />
-    <Compile Include="EModels\MoveE.cs" />
-    <Compile Include="EModels\Abilities.cs" />
-    <Compile Include="EModels\Items.cs" />
-    <Compile Include="Triggers\MTs.cs" />
+    <Compile Include="Models\BattleContext.cs" />
+    <Compile Include="MoveE.cs" />
+    <Compile Include="Triggers\ATs.cs" />
+    <Compile Include="Triggers\ITs.cs" />
     <Compile Include="Controller\ControllerComponent.cs" />
     <Compile Include="Controller\Turn.cs" />
     <Compile Include="PokemonAction.cs" />

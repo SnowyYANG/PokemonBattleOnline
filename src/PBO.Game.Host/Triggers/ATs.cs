@@ -43,11 +43,8 @@ namespace PokemonBattleOnline.Game.Host
 
         public static bool IgnoreWeather(Controller c)
         {
-            foreach (PokemonProxy p in c.ActingPokemons)
-            {
-                var a = p.Ability;
-                if (a == As.AIR_LOCK || a == As.CLOUD_NINE) return true;
-            }
+            foreach (PokemonProxy p in c.OnboardPokemons)
+                if (p.AbilityE(As.AIR_LOCK) || p.AbilityE(As.CLOUD_NINE)) return true;
             return false;
         }
         public static void Pressure(AtkContext atk, MoveRange range)
@@ -153,7 +150,7 @@ namespace PokemonBattleOnline.Game.Host
 
         internal static void SlowStart(Controller Controller)
         {
-            foreach (var pm in Controller.ActingPokemons)
+            foreach (var pm in Controller.OnboardPokemons)
                 if (pm.AbilityE(As.SLOW_START))
                 {
                     int turn = pm.OnboardPokemon.GetCondition<int>(Cs.SlowStart);
@@ -213,7 +210,7 @@ namespace PokemonBattleOnline.Game.Host
             {
                 if (pm.CanChangeForm(681, 0) && RaiseAbility(pm, As.STANCE_CHANGE)) pm.ChangeForm(0, false, "StanceChangeShield");
             }
-            else if (pm.SelectedMove.MoveE.Move.Category != MoveCategory.Status && pm.CanChangeForm(681, 1) && ATs.RaiseAbility(pm, As.STANCE_CHANGE)) pm.ChangeForm(1, false, "StanceChangeSword");
+            else if (pm.SelectedMove.MoveE.Move.Category != MoveCategory.Status && pm.CanChangeForm(681, 1) && RaiseAbility(pm, As.STANCE_CHANGE)) pm.ChangeForm(1, false, "StanceChangeSword");
         }
         public static void DeSpWeather(PokemonProxy pm, int ability, string log)
         {

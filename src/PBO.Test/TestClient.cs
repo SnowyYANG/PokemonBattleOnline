@@ -159,14 +159,7 @@ namespace PokemonBattleOnline.Test
                 switch (line)
                 {
                     case "":
-                        if (pc.Game.OnboardPokemons[ir.CurrentI + pc.Player.TeamIndex] != null)
-                        {
-                            var moves = pc.Game.OnboardPokemons[ir.CurrentI + pc.Player.TeamIndex].Moves;
-                            int i;
-                            for (i = 0; i < 4; ++i) if (moves[i] == null) break;
-                            ai.UseMove(ir.CurrentI, moves[Random.Next(0, i)], false);
-                        }
-                        else
+                        if (ir.IsSendOut)
                         {
                             var ii = new List<int>();
                             for (int i = 1; i < 6; ++i)
@@ -174,7 +167,14 @@ namespace PokemonBattleOnline.Test
                                 var p = pc.Game.Player.GetPokemon(i);
                                 if (p != null && p.Hp.Value > 0) ii.Add(i);
                             }
-                            ai.SendOut(ir.CurrentI, pc.Game.Player.GetPokemon(ii[Random.Next(0, ii.Count)]));
+                            ai.SendOut(0, pc.Game.Player.GetPokemon(ii[Random.Next(0, ii.Count)]));
+                        }
+                        else
+                        {
+                            var moves = pc.Game.OnboardPokemons[ir.CurrentI + pc.Player.TeamIndex].Moves;
+                            int i;
+                            for (i = 0; i < 4; ++i) if (moves[i] == null) break;
+                            ai.UseMove(ir.CurrentI, moves[Random.Next(0, i)], false);
                         }
                         break;
                     case "ok":

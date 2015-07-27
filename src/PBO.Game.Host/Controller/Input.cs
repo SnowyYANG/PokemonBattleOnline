@@ -85,7 +85,7 @@ namespace PokemonBattleOnline.Game.Host
             if (!Controller.CanContinue) return false;
             var xn = GameSettings.Mode.XBound();
             pirs[0, 0] = pirs[0, 1] = pirs[1, 0] = pirs[1, 1] = null;
-            foreach (var p in Controller.ActingPokemons)
+            foreach (var p in Controller.Board.Pokemons)
                 if (p.Action == PokemonAction.WaitingForInput)
                 {
                     var player = p.Pokemon.Owner;

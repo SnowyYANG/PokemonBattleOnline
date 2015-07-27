@@ -95,7 +95,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                 }
 
             if (move.Snatchable)
-                foreach (var pm in atk.Controller.ActingPokemons)
+                foreach (var pm in atk.Controller.OnboardPokemons)
                     if (pm.OnboardPokemon.HasCondition(Cs.Snatch))
                     {
                         pm.OnboardPokemon.RemoveCondition(Cs.Snatch);
