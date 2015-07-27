@@ -21,7 +21,7 @@ namespace PokemonBattleOnline.Game.Host
 
         private Random random;
 #if TEST
-    private Random randomSeeds;
+        private Random randomSeeds;
 #endif
 
         internal Controller(IGameSettings settings, IPokemonData[,][] pms)
@@ -54,15 +54,18 @@ namespace PokemonBattleOnline.Game.Host
         }
 
         /// <summary>
-        /// sorted by action speed
+        /// 按行动速度排序
         /// </summary>
         public List<PokemonProxy> ActingPokemons
         { get { return TurnController.ActingPokemons; } }
         /// <summary>
-        /// sorted by speed
+        /// 按速度排序
         /// </summary>
         public IEnumerable<Tile> Tiles
         { get { return TurnController.Tiles; } }
+        /// <summary>
+        /// 按速度排序
+        /// </summary>
         public IEnumerable<PokemonProxy> OnboardPokemons
         { get { return TurnController.Pokemons; } }
         public int TurnNumber
