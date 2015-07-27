@@ -131,6 +131,7 @@ namespace PokemonBattleOnline.Game.Host
         Quash,
         FireSea,
         Rainbow,
-        Plege
+        Plege,
+        SpWeather
     }
 }

@@ -145,9 +145,9 @@ namespace PokemonBattleOnline.Game.Host
         {
             Add(new Withdraw() { Pm = pm.Id });
         }
-        public void ShowWeather(Controller controller)
+        public void SetWeather(Weather weather)
         {
-            Add(new ShowWeather(controller.Board.Weather));
+            Add(new SetWeather(weather));
         }
         public void SetY(PokemonProxy pm)
         {

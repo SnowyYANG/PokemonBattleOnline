@@ -198,7 +198,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                     if (type == BattleType.Water) def.ModifyDamage(0x800);
                     else if (type == BattleType.Fire) def.ModifyDamage(0x1800);
                 }
-                else if (w == Weather.HeavyRain)
+                else if (w == Weather.Rain)
                 {
                     if (type == BattleType.Water) def.ModifyDamage(0x1800);
                     else if (type == BattleType.Fire) def.ModifyDamage(0x800);
@@ -214,7 +214,15 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                 def.ModifyDamage((Modifier)(atk.Attacker.AbilityE(As.ADAPTABILITY) ? 0x2000 : 0x1800));
             //6.Alter with type effectiveness
             CalculateEffectRevise(def);
-            if (def.EffectRevise > 0) def.Damage <<= def.EffectRevise;
+            if (def.EffectRevise > 0)
+            {
+                if (atk.Type.EffectRevise(BattleType.Flying) > 0 && def.Defender.OnboardPokemon.HasType(BattleType.Flying) && aer.Controller.Board.GetCondition<int>(Cs.SpWeather) == As.DELTA_STREAM)
+                {
+                    c.ReportBuilder.ShowLog(Ls.MysteriousAirCurrent);
+                    def.ModifyDamage(0x800);
+                }
+                def.Damage <<= def.EffectRevise;
+            }
             else if (def.EffectRevise < 0) def.Damage >>= -def.EffectRevise;
             //7.Alter with user's burn
             if (move.Move.Category == MoveCategory.Physical && aer.State == PokemonState.BRN && !aer.AbilityE(As.GUTS)) def.Damage >>= 1;

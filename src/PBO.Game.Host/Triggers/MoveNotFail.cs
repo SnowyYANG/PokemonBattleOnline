@@ -25,12 +25,11 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                         break;
                     case Ms.SELFDESTRUCT: //120
                     case Ms.EXPLOSION:
-                        foreach (var p in aer.Controller.Board.Pokemons)
-                            if (p.RaiseAbility(As.DAMP))
-                            {
-                                atk.FailAll("FailSp", atk.Attacker.Id, atk.Move.Id);
-                                return false;
-                            }
+                        if (aer.Controller.Board.Pokemons.RaiseAbility(As.DAMP) != null)
+                        {
+                            atk.FailAll("FailSp", atk.Attacker.Id, atk.Move.Id);
+                            return false;
+                        }
                         return true;
                     case Ms.REST: //156
                         if (aer.Hp == aer.Pokemon.MaxHp)

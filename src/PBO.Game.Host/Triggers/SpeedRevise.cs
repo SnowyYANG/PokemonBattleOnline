@@ -19,7 +19,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
           if (pm.Controller.Weather == Weather.Sandstorm) speed <<= 1;
           break;
         case As.SWIFT_SWIM:
-          if (pm.Controller.Weather == Weather.HeavyRain) speed <<= 1;
+          if (pm.Controller.Weather == Weather.Rain) speed <<= 1;
           break;
         case As.UNBURDEN:
           if (pm.Pokemon.Item == 0 && pm.OnboardPokemon.HasCondition(Cs.HadItem)) speed <<= 1;

@@ -107,7 +107,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                         if (pm.Hp == 0) return;
                     }
             }
-            foreach (var p in pm.Controller.OnboardPokemons)
+            foreach (var p in pm.Controller.Board.Pokemons)
                 if (p != pm)
                 {
                     var op = p.OnboardPokemon;
@@ -134,16 +134,32 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                     }
                 }
         }
-        public static bool SetWeather(PokemonProxy pm, Weather weather, bool ability)
+        public static bool SetWeather(PokemonProxy pm, Weather weather, bool ability, bool showFail)
         {
             var c = pm.Controller;
-            if (c.Board.Weather == weather) return false;
-            c.Board.Weather = weather;
+            if (c.Board.Weather == weather)
+            {
+                if (showFail) c.ReportBuilder.ShowLog(Ls.Fail0);
+                return false;
+            }
             if (ability) pm.RaiseAbility();
-            c.ReportBuilder.ShowWeather(c);
-            if (!ATs.IgnoreWeather(c)) ATs.WeatherChanged(c);
-            c.Board.SetCondition(Cs.Weather, (c.TurnNumber == 0 ? 1 : c.TurnNumber) + (pm.ItemE(weather.Item()) ? 7 : 4));
-            return true;
+            switch (c.Board.GetCondition<int>(Cs.SpWeather))
+            {
+                case As.PRIMORDIAL_SEA:
+                    c.ReportBuilder.ShowLog(Ls.HeavyRain2);
+                    return false;
+                case As.DESOLATE_LAND:
+                    c.ReportBuilder.ShowLog(Ls.HarshSunlight2);
+                    return false;
+                case As.DELTA_STREAM:
+                    c.ReportBuilder.ShowLog(Ls.MysteriousAirCurrent2);
+                    return false;
+                default:
+                    c.ReportBuilder.ShowLog("En" + weather);
+                    c.Weather = weather;
+                    c.Board.SetCondition(Cs.Weather, (c.TurnNumber == 0 ? 1 : c.TurnNumber) + (pm.ItemE(weather.Item()) ? 7 : 4));
+                    return true;
+            }
         }
         public static bool Remaining1HP(PokemonProxy pm, bool ability)
         {

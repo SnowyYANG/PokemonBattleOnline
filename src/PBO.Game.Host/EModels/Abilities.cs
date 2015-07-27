@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PokemonBattleOnline.Game.GameEvents;
 using PokemonBattleOnline.Game.Host.Triggers;
 
 namespace PokemonBattleOnline.Game.Host
@@ -79,6 +78,15 @@ namespace PokemonBattleOnline.Game.Host
                     break;
                 case As.UNNERVE:
                     foreach (var p in pm.Controller.GetOnboardPokemons(1 - pm.Pokemon.TeamId)) ITs.Attach(p);
+                    break;
+                case As.PRIMORDIAL_SEA:
+                    DeSpWeather(pm, ability, Ls.DeHeavyRain);
+                    break;
+                case As.DESOLATE_LAND:
+                    DeSpWeather(pm, ability, Ls.DeHarshSunlight);
+                    break;
+                case As.DELTA_STREAM:
+                    DeSpWeather(pm, ability, Ls.DeMysteriousAirCurrent);
                     break;
             }
         }
@@ -206,6 +214,16 @@ namespace PokemonBattleOnline.Game.Host
                 if (pm.CanChangeForm(681, 0) && RaiseAbility(pm, As.STANCE_CHANGE)) pm.ChangeForm(0, false, "StanceChangeShield");
             }
             else if (pm.SelectedMove.MoveE.Move.Category != MoveCategory.Status && pm.CanChangeForm(681, 1) && ATs.RaiseAbility(pm, As.STANCE_CHANGE)) pm.ChangeForm(1, false, "StanceChangeSword");
+        }
+        public static void DeSpWeather(PokemonProxy pm, int ability, string log)
+        {
+            var c = pm.Controller;
+            if (c.Board.GetCondition<int>(Cs.SpWeather) == ability && c.Board.Pokemons.HasAbility(ability) == null)
+            {
+                c.ReportBuilder.ShowLog(log);
+                c.Board.RemoveCondition(Cs.SpWeather);
+                c.Weather = Weather.Normal;
+            }
         }
     }
 }

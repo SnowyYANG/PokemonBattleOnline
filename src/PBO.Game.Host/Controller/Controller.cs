@@ -88,8 +88,22 @@ namespace PokemonBattleOnline.Game.Host
         {
             return random.Next(n) == 0;
         }
+        /// <summary>
+        /// getter: 是否有天气效果 setter: 无战报，但是会改变客户端天气显示效果
+        /// </summary>
         public Weather Weather
-        { get { return ATs.IgnoreWeather(this) ? Weather.Normal : Board.Weather; } }
+        {
+            get { return ATs.IgnoreWeather(this) ? Weather.Normal : Board.Weather; }
+            set
+            {
+                if (Board.Weather != value)
+                {
+                    Board.Weather = value;
+                    ReportBuilder.SetWeather(value);
+                    if (!ATs.IgnoreWeather(this)) ATs.WeatherChanged(this);
+                }
+            }
+        }
         /// <summary>
         /// sorted by speed
         /// </summary>

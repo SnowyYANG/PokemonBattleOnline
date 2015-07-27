@@ -127,6 +127,19 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                 atk.FailAll(null);
                 return;
             }
+            if (atk.Move.Move.Category != MoveCategory.Status)
+            {
+                if (atk.Type == BattleType.Fire && aer.Controller.Board.GetCondition<int>(Cs.SpWeather) == As.PRIMORDIAL_SEA)
+                {
+                    atk.FailAll(Ls.HeavyRain);
+                    return;
+                }
+                if (atk.Type == BattleType.Water && aer.Controller.Board.GetCondition<int>(Cs.SpWeather) == As.DESOLATE_LAND)
+                {
+                    atk.FailAll(Ls.HarshSunlight);
+                    return;
+                }
+            }
             if (aer.AbilityE(As.PROTEAN) && aer.OnboardPokemon.SetTypes(atk.Type))
             {
                 aer.RaiseAbility();

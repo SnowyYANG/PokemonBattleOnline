@@ -411,7 +411,7 @@ namespace PokemonBattleOnline.Game.Host
             return
               atk.Move.Move.Accuracy == 0
               || atk.Attacker.AbilityE(As.NO_GUARD)
-              || (m == Ms.THUNDER || m == Ms.HURRICANE) && atk.Controller.Weather == Weather.HeavyRain
+              || (m == Ms.THUNDER || m == Ms.HURRICANE) && atk.Controller.Weather == Weather.Rain
               || m == Ms.BLIZZARD && atk.Controller.Weather == Weather.Hailstorm
               || atk.Attacker.OnboardPokemon.HasType(BattleType.Poison) && m == Ms.TOXIC;
         }

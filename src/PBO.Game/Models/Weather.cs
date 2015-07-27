@@ -9,8 +9,8 @@ namespace PokemonBattleOnline.Game
     {
         Normal,
         IntenseSunlight,
-        HeavyRain,
+        Rain,
         Hailstorm,
-        Sandstorm,
+        Sandstorm
     }
 }

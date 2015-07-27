@@ -307,7 +307,10 @@
         //AllySwitch:{0:p}和{1:p}交换了位置！
         //EnTelekinesis:{0:p}漂浮在空中！
         //DeTelekinesis:{0:p}被从念动力中释放了！
-        //Fail0:但是没能成功！！
+        /// <summary>
+        /// 但是没能成功！！
+        /// </summary>
+        public const string Fail0 = "Fail0";
         //SuperHurt0:效果拔群!
         //WeakHurt0:没有什么效果...
         //CT0:打中了要害！
@@ -419,15 +422,24 @@
         public const string MegaPre384 = "MegaPre384";//{0:pm.Owner.Name}的强烈祈祷向{0:pm.Name}传达——
         public const string EnHeavyRain = "EnHeavyRain";//开始降强雨了！
         public const string HeavyRain = "HeavyRain";//受到强雨的影响火系技能的效果消失了！
-        public const string HeavyRain2 = "HeavyRain2";//强雨的势态没有停止！
-        public const string DeHeavyRain = "DeHeavyRain";//强雨停止了！
-        public const string EnHarshSunlight = "EnHarshSunlight";//阳光变得非常强烈！
+        /// <summary>
+        /// 强雨的势态没有停止！
+        /// </summary>
+        public const string HeavyRain2 = "HeavyRain2";
+        /// <summary>
+        /// 强雨停止了！
+        /// </summary>
+        public const string DeHeavyRain = "DeHeavyRain";
+        /// <summary>
+        /// 阳光变得非常强烈！
+        /// </summary>
+        public const string EnHarshSunlight = "EnHarshSunlight";
         public const string HarshSunlight = "HarshSunlight";//受到强烈阳光的影响水系技能被蒸发了！
         public const string HarshSunlight2 = "HarshSunlight2";//强烈阳光没有消失！
         public const string DeHarshSunlight = "DeHarshSunlight";//阳光复原了！
-        public const string EnStrongWinds = "EnStrongWinds";//谜之乱气流保护着飞行精灵！
-        public const string StrongWinds = "StrongWinds";//谜之乱气流减弱了攻击！
-        public const string StrongWinds2 = "StrongWinds2";//谜之乱气流没有停止！
-        public const string DeStrongWinds = "DeStrongWinds";//谜之乱气流消失了！
+        public const string EnMysteriousAirCurrent = "EnMysteriousAirCurrent";//谜之乱气流保护着飞行精灵！
+        public const string MysteriousAirCurrent = "MysteriousAirCurrent";//谜之乱气流减弱了攻击！
+        public const string MysteriousAirCurrent2 = "MysteriousAirCurrent2";//谜之乱气流没有停止！
+        public const string DeMysteriousAirCurrent = "DeMysteriousAirCurrent";//谜之乱气流消失了！
     }
 }

@@ -115,7 +115,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             if (type == BattleType.Dark || type == BattleType.Fairy)
             {
                 var a = type == BattleType.Dark ? As.DARK_AURA : As.FAIRY_AURA;
-                if (aer.Controller.OnboardPokemons.HasAbility(a) != null) m *= (Modifier)(aer.Controller.OnboardPokemons.HasAbility(As.AURA_BREAK) == null ? 0x1555 : 0xc00);
+                if (aer.Controller.Board.Pokemons.HasAbility(a) != null) m *= (Modifier)(aer.Controller.Board.Pokemons.HasAbility(As.AURA_BREAK) == null ? 0x1555 : 0xc00);
             }
 
             return m;

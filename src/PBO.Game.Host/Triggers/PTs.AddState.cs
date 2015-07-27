@@ -15,7 +15,7 @@ namespace PokemonBattleOnline.Game.Host
         private static bool CanAddState(this PokemonProxy pm, PokemonProxy by, bool ability, AttachedState state, bool showFail)
         {
             if (!pm.AliveOnboard) return false;
-            string fail = pm.Controller.GameSettings.Mode.NeedTarget() ? "Fail" : "Fail0";
+            string fail = pm.Controller.GameSettings.Mode.NeedTarget() ? "Fail" : Ls.Fail0;
             switch (state)
             {
                 case AttachedState.BRN:
@@ -121,7 +121,7 @@ namespace PokemonBattleOnline.Game.Host
         {
             if (state == AttachedState.SLP && pm.State == PokemonState.SLP)
             {
-                if (showFail) pm.Controller.ReportBuilder.ShowLog("Fail0");
+                if (showFail) pm.Controller.ReportBuilder.ShowLog(Ls.Fail0);
                 return false;
             }
             if (Safeguard(pm, by, showFail)

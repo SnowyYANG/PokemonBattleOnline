@@ -7,19 +7,18 @@ using System.Runtime.Serialization;
 namespace PokemonBattleOnline.Game.GameEvents
 {
   [DataContract(Namespace = PBOMarks.JSON)]
-  public class ShowWeather : GameEvent
+  public class SetWeather : GameEvent
   {
     [DataMember(Name = "a")]
     Weather Weather;
 
-    public ShowWeather(Weather weather)
+    public SetWeather(Weather weather)
     {
       Weather = weather;
     }
 
     protected override void Update()
     {
-      AppendGameLog(Weather == Weather.Normal ? "De" + Game.Board.Weather : "En" + Weather);
       Game.Board.Weather = Weather;
     }
   }

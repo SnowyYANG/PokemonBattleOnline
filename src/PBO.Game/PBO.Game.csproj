@@ -88,7 +88,7 @@
     <Compile Include="Interactive\GameEvents\SetPP.cs" />
     <Compile Include="Interactive\GameEvents\Sp.cs" />
     <Compile Include="Interactive\GameEvents\Substitute.cs" />
-    <Compile Include="Interactive\GameEvents\ShowWeather.cs" />
+    <Compile Include="Interactive\GameEvents\SetWeather.cs" />
     <Compile Include="GameMode.cs" />
     <Compile Include="Interactive\GameEvent.cs" />
     <Compile Include="Interactive\GameEvents\SetProperties.cs" />

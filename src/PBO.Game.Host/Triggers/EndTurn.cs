@@ -9,7 +9,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
     {
         public static void Execute(Controller c)
         {
-            Weather(c); if (!c.CanContinue) return;
+            WeatherEffect(c); if (!c.CanContinue) return;
             FSDD(c); if (!c.CanContinue) return;
             Wish(c); if (!c.CanContinue) return;
             PropertyChange(c); if (!c.CanContinue) return;
@@ -24,21 +24,20 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             ZenMode(c);
         }
         //1.0 weather ends, Sandstorm/Hail damage, Rain Dish/Dry Skin/Ice Body/SolarPower
-        private static void Weather(Controller c)
+        private static void WeatherEffect(Controller c)
         {
             if (c.Board.GetCondition<int>(Cs.Weather) == c.TurnNumber)
             {
-                c.ReportBuilder.ShowLog("De" + c.Board.Weather.ToString());
-                c.Board.Weather = Game.Weather.Normal;
+                c.Weather = Weather.Normal;
                 c.Board.RemoveCondition(Cs.Weather);
             }
             else
             {
-                if (c.Board.Weather == Game.Weather.Sandstorm) c.ReportBuilder.ShowLog("Sandstorm");
-                else if (c.Board.Weather == Game.Weather.Hailstorm) c.ReportBuilder.ShowLog("Hailstorm");
+                if (c.Board.Weather == Weather.Sandstorm) c.ReportBuilder.ShowLog("Sandstorm");
+                else if (c.Board.Weather == Weather.Hailstorm) c.ReportBuilder.ShowLog("Hailstorm");
                 switch (c.Weather)
                 {
-                    case Game.Weather.Sandstorm:
+                    case Weather.Sandstorm:
                         foreach (var pm in c.OnboardPokemons.ToArray())
                         {
                             var types = pm.OnboardPokemon.Types;
@@ -48,7 +47,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                             if (pm.EffectHurtByOneNth(16, Ls.SandstormHurt)) pm.CheckFaint();
                         }
                         break;
-                    case Game.Weather.Hailstorm:
+                    case Weather.Hailstorm:
                         foreach (var pm in c.OnboardPokemons.ToArray())
                             if (pm.AbilityE(As.ICE_BODY))
                             {
@@ -63,13 +62,13 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                                && pm.EffectHurtByOneNth(16, Ls.HailstormHurt))
                                 pm.CheckFaint();
                         break;
-                    case Game.Weather.HeavyRain:
+                    case Weather.Rain:
                         foreach (var pm in c.OnboardPokemons)
                             if (pm.CanHpRecover())
                                 if (pm.RaiseAbility(As.RAIN_DISH)) pm.HpRecoverByOneNth(16);
                                 else if (pm.RaiseAbility(As.DRY_SKIN)) pm.HpRecoverByOneNth(8);
                         break;
-                    case Game.Weather.IntenseSunlight:
+                    case Weather.IntenseSunlight:
                         foreach (var pm in c.OnboardPokemons.ToArray())
                             if ((pm.RaiseAbility(As.SOLAR_POWER) || pm.RaiseAbility(As.DRY_SKIN)) && pm.EffectHurtByOneNth(8)) pm.CheckFaint();
                         break;
@@ -128,7 +127,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                     case As.HYDRATION:
                         if (pm.State != PokemonState.Normal)
                         {
-                            if (hydration == null) hydration = c.Weather == Game.Weather.HeavyRain;
+                            if (hydration == null) hydration = c.Weather == Weather.Rain;
                             if (hydration == true)
                             {
                                 pm.RaiseAbility();

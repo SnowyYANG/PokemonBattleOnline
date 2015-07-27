@@ -151,7 +151,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                     WeatherMove(atk, Weather.Sandstorm);
                     break;
                 case Ms.RAIN_DANCE: //240
-                    WeatherMove(atk, Weather.HeavyRain);
+                    WeatherMove(atk, Weather.Rain);
                     break;
                 case Ms.SUNNY_DAY: //241
                     WeatherMove(atk, Weather.IntenseSunlight);
@@ -957,7 +957,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         private static void WonderRoom(AtkContext atk)
         {
             var c = atk.Controller;
-            foreach (var pm in c.OnboardPokemons)
+            foreach (var pm in c.Board.Pokemons)
             {
                 var stats = pm.OnboardPokemon.FiveD;
                 var d = stats.Def;
@@ -1289,7 +1289,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         private static void WeatherMove(AtkContext atk, Weather weather)
         {
             var c = atk.Controller;
-            if (!STs.SetWeather(atk.Attacker, weather, false)) atk.FailAll();
+            if (!STs.SetWeather(atk.Attacker, weather, false, true)) atk.FailAll(null);
         }
         private static void AddTurnCondition(AtkContext atk, Cs condition)
         {
