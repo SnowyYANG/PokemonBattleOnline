@@ -129,7 +129,7 @@ namespace PokemonBattleOnline.PBO
                 Prepare.Visibility = Visibility.Visible;
                 Start.IsEnabled = true;
                 Start.Content = "使用所选队伍开始对战！";
-                Title = "对战房间";
+                Title = room.Room.Settings.Mode == GameMode.Multi ? "合作对战房间" : "单打对战房间";
             }
             else
             {

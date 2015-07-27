@@ -90,6 +90,11 @@ namespace PokemonBattleOnline.Game
         /// <returns></returns>
         public bool Pokemon(SimPokemon pokemon)
         {
+            if (pokemon.Owner != Game.Player)
+            {
+                error = GameString.Current.BattleLog("PokemonIsPartner");
+                return false;
+            }
             if (pokemon.Hp.Value == 0)
             {
                 error = string.Format(GameString.Current.BattleLog("PokemonFainted"), pokemon.Name);
@@ -252,6 +257,11 @@ namespace PokemonBattleOnline.Game
         }
         public bool Pokemon(SimPokemon pokemon, int index)
         {
+            if (pokemon.Owner != game.Player)
+            {
+                error = GameString.Current.BattleLog("PokemonIsPartner");
+                return false;
+            }
             if (pokemon.Hp.Value == 0)
             {
                 error = string.Format(GameString.Current.BattleLog("PokemonFainted"), pokemon.Name);

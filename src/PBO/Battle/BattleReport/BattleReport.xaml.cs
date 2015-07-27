@@ -86,7 +86,7 @@ namespace PokemonBattleOnline.PBO.Battle
     }
     public void AddChatText(string chat, User user)
     {
-      AddUserText((user.Name + "：" + chat).LineBreak(), user);
+      AddUserText(user.Name + "：" + chat, user);
     }
 
     internal void Save(string title, string player)
