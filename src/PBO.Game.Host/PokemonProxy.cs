@@ -279,7 +279,7 @@ namespace PokemonBattleOnline.Game.Host
                 if (!(OnboardPokemon.HasCondition(Cs.Substitute) || AbilityE(As.OVERCOAT))) EHTs.Debut(this);
                 if (!PTs.CheckFaint(this))
                 {
-                    if (ItemE(Is.BLUE_ORB) && PTs.CanChangeForm(this, Ps.KYOGRE, 1) || ItemE(Is.RED_ORB) && PTs.CanChangeForm(this, Ps.GROUNDON, 1)) ;
+                    if (ItemE(Is.BLUE_ORB) && PTs.CanChangeForm(this, Ps.KYOGRE, 1) || ItemE(Is.RED_ORB) && PTs.CanChangeForm(this, Ps.GROUNDON, 1)) PTs.ChangeForm(this, 1, true, Ls.Primal);
                     if (OnboardPokemon.Ability != As.FLOWER_GIFT && OnboardPokemon.Ability != As.FORECAST) AbilityAttach.Execute(this);
                     if (!ITs.AirBalloon(this)) ITs.Attach(this);
                 }
@@ -358,12 +358,11 @@ namespace PokemonBattleOnline.Game.Host
             } //switch(Action)
         }
 
-        private PokemonOutward outward;
         /// <summary>
         /// 同一精灵的Outward在一段战报中可能出现多次，每次应是不同的Outward
         /// </summary>
         /// <returns></returns>
-        internal PokemonOutward GetOutward(bool newInstance)
+        internal PokemonOutward GetOutward()
         {
             Pokemon o = OnboardPokemon.GetCondition<Pokemon>(Cs.Illusion);
             var form = o == null ? OnboardPokemon.Form : o.Form;
@@ -376,9 +375,8 @@ namespace PokemonBattleOnline.Game.Host
             var substitute = OnboardPokemon.HasCondition(Cs.Substitute);
             var hp = Pokemon.Hp;
             var state = State;
-            var mega = Pokemon.Mega;
-            if (newInstance) outward = new PokemonOutward(Id, Pokemon.TeamId, Pokemon.MaxHp);
-            outward.SetAll(name, form, gender, lv, position, substitute, hp, state, shiny, mega);
+            var outward = new PokemonOutward(Id, Pokemon.TeamId, Pokemon.MaxHp);
+            outward.SetAll(name, form, gender, lv, position, substitute, hp, state, shiny);
             return outward;
         }
         #endregion

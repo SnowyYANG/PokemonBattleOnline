@@ -46,7 +46,7 @@ namespace PokemonBattleOnline.Game.Host
     {
       pm.OnboardPokemon.ChangeForm(pm.OnboardPokemon.Form.Species.GetForm(form));
       if (forever) pm.Pokemon.Form = pm.OnboardPokemon.Form;
-      pm.Controller.ReportBuilder.ChangeForm(pm);
+      pm.Controller.ReportBuilder.ChangeForm(pm, forever);
       if (log != null) ShowLogPm(pm, log);
       AbilityAttach.Execute(pm);
     }

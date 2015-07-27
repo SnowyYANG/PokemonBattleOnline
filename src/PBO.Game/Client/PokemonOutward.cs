@@ -39,7 +39,7 @@ namespace PokemonBattleOnline.Game
         /// <summary>
         /// will not notify property changes
         /// </summary>
-        public void SetAll(string name, PokemonForm form, PokemonGender gender, int lv, Position position, bool substitute, int hp, PokemonState state, bool shiny, bool mega)
+        public void SetAll(string name, PokemonForm form, PokemonGender gender, int lv, Position position, bool substitute, int hp, PokemonState state, bool shiny)
         {
             _name = name;
             Form = form;
@@ -51,7 +51,6 @@ namespace PokemonBattleOnline.Game
             Hp.Value = hp;
             _state = state;
             Shiny = shiny;
-            _mega = mega;
         }
 
         [DataMember(EmitDefaultValue = false)]
@@ -137,18 +136,15 @@ namespace PokemonBattleOnline.Game
             set { Hp.Value = value; }
         }
 
-        [DataMember(EmitDefaultValue = false)]
-        private bool _mega;
-        public bool Mega
+        public string Mega
         {
-            get { return _mega; }
-            set
+            get
             {
-                if (_mega != value)
-                {
-                    _mega = value;
-                    OnPropertyChanged("Mega");
-                }
+                if (Form.IsMega) return "Mega";
+                if (Form.Index == 1)
+                    if (Form.Species.Number == Ps.KYOGRE) return "Alpha";
+                    else if (Form.Species.Number == Ps.GROUNDON) return "Omega";
+                return null;
             }
         }
 
@@ -241,6 +237,7 @@ namespace PokemonBattleOnline.Game
             if (listener != null)
 #endif
                 listener.ImageChanged();
+            OnPropertyChanged("Mega");
         }
         /// <summary>
         /// PokemonOutward是可以序列化的，主机端不要调用这些方法

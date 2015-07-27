@@ -39,12 +39,18 @@
                                     <Label Content="{Binding Lv}" Style="{x:Static ui:Controls.STextBlock}" FontSize="12" FontWeight="Bold" Canvas.Left="49" Canvas.Top="-5"/>
                                     <Image DataContext="{Binding Gender}" Style="{StaticResource BitmapGenderLabel}" Canvas.Left="27" Canvas.Top="-6"/>
                                     <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="-45" Canvas.Top="7"/>
-                                    <Image x:Name="mega" Visibility="Collapsed" Source="/PBO;component/images/UpperScreen/StateBar/Mega.png" Height="15" Width="15" Canvas.Left="35" Canvas.Top="-7"/>
+                                    <Image x:Name="mega" Height="15" Width="15" Canvas.Left="35" Canvas.Top="-7"/>
                                     <b:LifeBar DataContext="{Binding Hp}" Canvas.Left="21" Canvas.Top="10"/>
                                 </Canvas>
                                 <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding Mega}" Value="True">
-                                        <Setter TargetName="mega" Property="Visibility" Value="Visible"/>
+                                    <DataTrigger Binding="{Binding Mega}" Value="Mega">
+                                        <Setter TargetName="mega" Property="Source" Value="/PBO;component/images/UpperScreen/StateBar/Mega.png"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Mega}" Value="Alpha">
+                                        <Setter TargetName="mega" Property="Source" Value="/PBO;component/images/UpperScreen/StateBar/Alpha.png"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Mega}" Value="Omega">
+                                        <Setter TargetName="mega" Property="Source" Value="/PBO;component/images/UpperScreen/StateBar/Omega.png"/>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding}" Value="{x:Null}">
                                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -82,12 +88,18 @@
                                     <Label Content="{Binding Lv}" Style="{x:Static ui:Controls.STextBlock}" FontSize="12" FontWeight="Bold" Canvas.Left="49" Canvas.Top="-5"/>
                                     <Image DataContext="{Binding Gender}" Style="{StaticResource BitmapGenderLabel}" Canvas.Left="27" Canvas.Top="-6"/>
                                     <ContentControl Content="{Binding State}" ContentTemplate="{x:Static ui:Labels.PokemonState}" Canvas.Left="-45" Canvas.Top="7"/>
-                                    <Image x:Name="mega" Visibility="Collapsed" Source="/PBO;component/images/UpperScreen/StateBar/Mega.png" Height="15" Width="15" Canvas.Left="35" Canvas.Top="-7"/>
+                                    <Image x:Name="mega" Height="15" Width="15" Canvas.Left="35" Canvas.Top="-7"/>
                                     <b:LifeBarWithText DataContext="{Binding Hp}" Canvas.Left="21" Canvas.Top="10"/>
                                 </Canvas>
                                 <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding Mega}" Value="True">
-                                        <Setter TargetName="mega" Property="Visibility" Value="Visible"/>
+                                    <DataTrigger Binding="{Binding Mega}" Value="Mega">
+                                        <Setter TargetName="mega" Property="Source" Value="/PBO;component/images/UpperScreen/StateBar/Mega.png"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Mega}" Value="Alpha">
+                                        <Setter TargetName="mega" Property="Source" Value="/PBO;component/images/UpperScreen/StateBar/Alpha.png"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Mega}" Value="Omega">
+                                        <Setter TargetName="mega" Property="Source" Value="/PBO;component/images/UpperScreen/StateBar/Omega.png"/>
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>

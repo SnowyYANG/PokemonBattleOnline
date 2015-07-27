@@ -131,7 +131,8 @@ namespace PokemonBattleOnline.Game.Host
             foreach (var p in ActingPokemons)
                 if (p.Action == PokemonAction.MoveAttached && p.SelectMega)
                 {
-                    if (p.Pokemon.Item != 0) p.ShowLogPm("MegaPre", p.Pokemon.Item);
+                    if (p.Pokemon.Item == 0) p.ShowLogPm(Ls.MegaPre384);
+                    else p.ShowLogPm("MegaPre", p.Pokemon.Item);
                     p.Pokemon.Mega = true;
                     p.ChangeForm(ITs.MegaForm(p.Pokemon.Item), true, "Mega");
                     m = true;

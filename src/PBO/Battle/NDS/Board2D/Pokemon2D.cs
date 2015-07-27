@@ -54,6 +54,7 @@ namespace PokemonBattleOnline.PBO.Battle
         private void RefreshImage()
         {
             var s = Pokemon.IsSubstitute ? Back ? ImageService.GetSpBack("substitute") : ImageService.GetSpFront("substitute") : Back ? ImageService.GetPokemonBack(Pokemon.Form, Pokemon.Gender, Pokemon.Shiny) : ImageService.GetPokemonFront(Pokemon.Form, Pokemon.Gender, Pokemon.Shiny);
+            if (s == null) s = ImageService.GetPokemonIcon(Pokemon.Form, Pokemon.Gender);
             Image.Source = s;
             if (s != null)
             {
@@ -74,8 +75,8 @@ namespace PokemonBattleOnline.PBO.Battle
                 Image.SetValue(Canvas.BottomProperty, -s.PixelHeight * scale / 2);
                 Image.Width = s.PixelWidth * scale;
                 Image.Height = s.PixelHeight * scale;
+                FaintAnimation.From = Image.Height;
             }
-            FaintAnimation.From = Image.Height;
             BeginChangeImageAnimation.To = Back ? 30 : 15;
         }
         public void SendOut(PokemonOutward pm)

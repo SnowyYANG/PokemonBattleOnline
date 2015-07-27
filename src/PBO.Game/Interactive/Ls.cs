@@ -415,5 +415,19 @@
         //Celebrate:恭喜{0:pm.Owner.Name}！
         //MegaPre:{0:pm.Name}的{1:i}与{0:pm.Owner.Name}的键钥之石产生共鸣！
         //Mega:{0:p}超强进化成了{0:pm.Form}！
+        public const string Primal = "Primal"; //{0:p}的原始回归！取回了原始的姿态！
+        public const string MegaPre384 = "MegaPre384";//{0:pm.Owner.Name}的强烈祈祷向{0:pm.Name}传达——
+        public const string EnHeavyRain = "EnHeavyRain";//开始降强雨了！
+        public const string HeavyRain = "HeavyRain";//受到强雨的影响火系技能的效果消失了！
+        public const string HeavyRain2 = "HeavyRain2";//强雨的势态没有停止！
+        public const string DeHeavyRain = "DeHeavyRain";//强雨停止了！
+        public const string EnHarshSunlight = "EnHarshSunlight";//阳光变得非常强烈！
+        public const string HarshSunlight = "HarshSunlight";//受到强烈阳光的影响水系技能被蒸发了！
+        public const string HarshSunlight2 = "HarshSunlight2";//强烈阳光没有消失！
+        public const string DeHarshSunlight = "DeHarshSunlight";//阳光复原了！
+        public const string EnStrongWinds = "EnStrongWinds";//谜之乱气流保护着飞行精灵！
+        public const string StrongWinds = "StrongWinds";//谜之乱气流减弱了攻击！
+        public const string StrongWinds2 = "StrongWinds2";//谜之乱气流没有停止！
+        public const string DeStrongWinds = "DeStrongWinds";//谜之乱气流消失了！
     }
 }

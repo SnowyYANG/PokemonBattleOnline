@@ -44,7 +44,7 @@ namespace PokemonBattleOnline.Game.Host
             }
             List<PokemonOutward> pms = new List<PokemonOutward>();
             {
-                foreach (PokemonProxy p in Controller.ActingPokemons) pms.Add(p.GetOutward(false));
+                foreach (PokemonProxy p in Controller.ActingPokemons) pms.Add(p.GetOutward());
                 current = new ReportFragment(Controller.TurnNumber, t, pms.ToArray(), Controller.Board.Weather);
             }
         }
@@ -114,7 +114,7 @@ namespace PokemonBattleOnline.Game.Host
         }
         public void Transform(PokemonProxy pm)
         {
-            var o = pm.GetOutward(true);
+            var o = pm.GetOutward();
             var moves = new int[pm.Moves.Count()];
             var i = 0;
             foreach (var m in pm.Moves) moves[i++] = m.Move.Type.Id;
@@ -122,12 +122,12 @@ namespace PokemonBattleOnline.Game.Host
         }
         public void DeIllusion(PokemonProxy pm)
         {
-            var o = pm.GetOutward(true);
+            var o = pm.GetOutward();
             Add(new SetOutward() { Pm = pm.Id, Number = o.Form.Species.Number, Form = o.Form.Index, Name = o.RawName, Gender = o.Gender });
         }
-        public void ChangeForm(PokemonProxy pm)
+        public void ChangeForm(PokemonProxy pm, bool forever)
         {
-            Add(new SetOutward() { Pm = pm.Id, Form = pm.OnboardPokemon.Form.Index, Forever = pm.OnboardPokemon.Form == pm.Pokemon.Form, Mega = pm.Pokemon.Mega });
+            Add(new SetOutward() { Pm = pm.Id, Form = pm.OnboardPokemon.Form.Index, Forever = forever });
         }
         public void EnSubstitute(PokemonProxy pm)
         {
@@ -139,7 +139,7 @@ namespace PokemonBattleOnline.Game.Host
         }
         public void SendOut(PokemonProxy pm, int formerIndex)
         {
-            Add(new SendOut() { Pm = pm.GetOutward(true), FormerIndex = formerIndex });
+            Add(new SendOut() { Pm = pm.GetOutward(), FormerIndex = formerIndex });
         }
         public void Withdraw(PokemonProxy pm)
         {
