@@ -48,7 +48,7 @@
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
-                                <Setter Property="Margin" Value="8,0"/>
+                                <Setter Property="Margin" Value="4,0"/>
                                 <Setter Property="Opacity" Value="0.5"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
@@ -376,7 +376,7 @@
                                         <Rectangle RadiusX="5" RadiusY="5" Fill="#80000000" Width="100" Height="24" Canvas.Left="-15" Canvas.Top="-12"/>
                                         <TextBlock Text="{Binding Name}" FontSize="14" Foreground="#ffffff" Width="100" Canvas.Left="-15" Canvas.Top="-9"/>
                                         <ContentPresenter Content="{Binding Gender}" TextBlock.FontSize="14" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Left="58" Canvas.Top="13"/>
-                                        <Image Source="{Binding Converter={x:Static c:PokemonOutwardIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Bottom="3" Canvas.Right="23"/>
+                                        <Image Source="{Binding Converter={x:Static c:PokemonOutwardIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Bottom="3" Canvas.Right="20"/>
                                     </Canvas>
                                 </DataTemplate>
                             </Setter.Value>
@@ -397,7 +397,7 @@
                                         <Rectangle RadiusX="5" RadiusY="5" Fill="#80000000" Width="100" Height="24" Canvas.Left="-15" Canvas.Top="-12"/>
                                         <TextBlock Text="{Binding Name}" FontSize="14" Foreground="#ffffff" Width="100" Canvas.Left="-15" Canvas.Top="-9"/>
                                         <ContentPresenter Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Left="58" Canvas.Top="13"/>
-                                        <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Bottom="3" Canvas.Right="23"/>
+                                        <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Bottom="3" Canvas.Right="20"/>
                                     </Canvas>
                                 </DataTemplate>
                             </Setter.Value>
@@ -457,7 +457,7 @@
                     </Canvas.Resources>
                     <Rectangle Width="256" Height="3" Fill="Black"/>
                     <Rectangle Canvas.Top="5" Width="256" Height="22" Fill="Black"/>
-                    <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="32" Width="32" Canvas.Left="8" Canvas.Top="-4"/>
+                    <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="32" Width="32" Canvas.Left="4" Canvas.Top="-4"/>
                     <TextBlock Text="{Binding Name}" Canvas.Left="40" Canvas.Top="8" Width="111" />
                     <ContentPresenter Content="{Binding Form.Type1}" ContentTemplate="{x:Static ui:Labels.BattleType}" Width="40" Canvas.Right="3" Canvas.Top="8"/>
                     <ContentPresenter Content="{Binding Form.Type2}" ContentTemplate="{x:Static ui:Labels.BattleType}" Width="40" Canvas.Right="45" Canvas.Top="8"/>

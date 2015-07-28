@@ -20,7 +20,7 @@ namespace PokemonBattleOnline.PBO.Editor
       rd = GetDictionary("R");
       PokemonSpecies = (DataTemplate)rd["PokemonSpecies"];
       SelectedMove = (DataTemplate)rd["LearnedMove"];
-      P00000 = Helper.GetImage(@"00000.png");
+      P00000 = Helper.GetImage("000.00.png");
     }
 
     private static ResourceDictionary GetDictionary(string name)

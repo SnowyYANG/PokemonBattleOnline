@@ -123,13 +123,23 @@ namespace PokemonBattleOnline.PBO
             if (room != null)
             {
                 Prepare.DataContext = Current.Room = room;
-                PX1.Height = new GridLength(room.Room.Settings.Mode == GameMode.Multi ? 32 : 0);
+                if (room.Room.Settings.Mode == GameMode.Multi)
+                {
+                    PX1.Height = new GridLength(32);
+                    Title = "合作对战房间";
+                    p3.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    PX1.Height = new GridLength(0);
+                    Title = "单打对战房间";
+                    p3.Visibility = Visibility.Visible;
+                }
                 Visibility = Visibility.Visible;
                 Teams.Visibility = Visibility.Visible;
                 Prepare.Visibility = Visibility.Visible;
                 Start.IsEnabled = true;
                 Start.Content = "使用所选队伍开始对战！";
-                Title = room.Room.Settings.Mode == GameMode.Multi ? "合作对战房间" : "单打对战房间";
             }
             else
             {
