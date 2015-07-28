@@ -377,7 +377,7 @@
     <Resource Include="images\UpperScreen\Terrains\wifi.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\00000.png" />
+    <Resource Include="images\000.00.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\PokemonState\bPSN.png" />
