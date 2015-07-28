@@ -59,13 +59,13 @@ namespace PokemonBattleOnline.PBO.Battle
             if (s != null)
             {
                 double scale;
-                var gen5 = s.PixelHeight <= 96;
-                if (Back && gen5)
+                var o = s.PixelHeight <= 96 || s.PixelHeight == 240 && s.PixelWidth < 320; //gen5 小图 非满下屏的图源为原始尺寸
+                if (Back && o)
                 {
                     scale = 2;
                     Image.SetValue(RenderOptions.BitmapScalingModeProperty, BitmapScalingMode.NearestNeighbor);
                 }
-                else if (!Back && !gen5)
+                else if (!Back && !o)
                 {
                     scale = 0.5;
                     Image.SetValue(RenderOptions.BitmapScalingModeProperty, BitmapScalingMode.Fant);
