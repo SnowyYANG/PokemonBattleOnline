@@ -3,11 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="clr-namespace:PokemonBattleOnline.PBO.Elements"
              xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters">
-    <UserControl.ContextMenu>
-        <ContextMenu>
-            <MenuItem Header="观战" Click="Watch_Click"/>
-        </ContextMenu>
-    </UserControl.ContextMenu>
     <Grid>
         <Grid.Resources>
             <Style TargetType="ContentControl" x:Key="UserL">
@@ -17,7 +12,7 @@
                 <Setter Property="ContentTemplate">
                     <Setter.Value>
                         <DataTemplate>
-                            <Grid Background="Transparent">
+                            <Grid x:Name="grid" Background="Transparent" IsHitTestVisible="False">
                                 <Image Source="{Binding Avatar,Converter={x:Static c:IdAvatar.C}}" Height="32" Width="32" HorizontalAlignment="Left"/>
                                 <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" Margin="35,2,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                 <TextBlock x:Name="n" Text="等待玩家" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -26,7 +21,11 @@
                                 <DataTrigger Binding="{Binding}" Value="{x:Null}">
                                     <Setter TargetName="n" Property="Visibility" Value="Visible"/>
                                     <Setter Property="Cursor" Value="Hand"/>
+                                    <Setter TargetName="grid" Property="IsHitTestVisible" Value="True"/>
                                 </DataTrigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="grid" Property="Background" Value="#80ffffff"/>
+                                </Trigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
                     </Setter.Value>
@@ -39,7 +38,7 @@
                 <Setter Property="ContentTemplate">
                     <Setter.Value>
                         <DataTemplate>
-                            <Grid Background="Transparent">
+                            <Grid x:Name="grid" Background="Transparent" IsHitTestVisible="False">
                                 <Image Source="{Binding Avatar,Converter={x:Static c:IdAvatar.C}}" Height="32" Width="32" HorizontalAlignment="Right"/>
                                 <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" Margin="0,2,35,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                                 <TextBlock x:Name="n" Text="等待玩家" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -48,7 +47,11 @@
                                 <DataTrigger Binding="{Binding}" Value="{x:Null}">
                                     <Setter TargetName="n" Property="Visibility" Value="Visible"/>
                                     <Setter Property="Cursor" Value="Hand"/>
+                                    <Setter TargetName="grid" Property="IsHitTestVisible" Value="True"/>
                                 </DataTrigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="grid" Property="Background" Value="#80ffffff"/>
+                                </Trigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
                     </Setter.Value>
@@ -68,7 +71,18 @@
                 </Style.Triggers>
             </Style>
         </Grid.Resources>
-        <Rectangle IsHitTestVisible="False" StrokeThickness="2" Stroke="#80f0ffff" Fill="#40ffffff"/>
+        <Rectangle MouseLeftButtonDown="Watch_Click" StrokeThickness="2" Stroke="#80f0ffff" Cursor="Hand" ToolTip="观战">
+            <Rectangle.Style>
+                <Style TargetType="Rectangle">
+                    <Setter Property="Fill" Value="#40ffffff"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Fill" Value="#80ffffff"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Rectangle.Style>
+        </Rectangle>
         <Ellipse IsHitTestVisible="False" Height="10" Width="10" Stroke="#80f0ffff" StrokeThickness="2"/>
         <Ellipse IsHitTestVisible="False" Height="20" Width="20" Stroke="#80f0ffff" StrokeThickness="2"/>
         <Line VerticalAlignment="Top"/>
