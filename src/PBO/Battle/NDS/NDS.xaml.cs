@@ -17,34 +17,46 @@ using PokemonBattleOnline.Network;
 
 namespace PokemonBattleOnline.PBO.Battle
 {
-  /// <summary>
-  /// Interaction logic for Simulation.xaml
-  /// </summary>
-  public partial class NDS : UserControl
-  {
-    public NDS()
+    /// <summary>
+    /// Interaction logic for Simulation.xaml
+    /// </summary>
+    public partial class NDS : UserControl
     {
-      InitializeComponent();
-      subtitle.VisibilityChanged += (v) => opms.Visibility = v == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-    }
+        public NDS()
+        {
+            InitializeComponent();
+            subtitle.VisibilityChanged += (v) => opms.Visibility = v == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+        }
 
-    internal void Init(RoomController userController)
-    {
-      var game = userController.Game;
-      var controlPanel = new ControlPanelVM(userController);
-      cp.Init(controlPanel);
-      subtitle.Init(controlPanel);
-      int observerTeamId;
-      if (userController.PlayerController != null) observerTeamId = userController.PlayerController.Player.Team;
-      else observerTeamId = 0;
-      opms.DataContext = game.Board.Pokemons[observerTeamId];
-      rpms.DataContext = game.Board.Pokemons[1 - observerTeamId];
-      board.Init(game.Board, observerTeamId);
+        internal void Init(RoomController userController)
+        {
+            if (userController != null)
+            {
+                var game = userController.Game;
+                int observerTeamId;
+                if (userController.PlayerController == null)
+                {
+                    cp.Init(null);
+                    subtitle.Init(null);
+                    observerTeamId = 0;
+                }
+                else
+                {
+                    var controlPanel = new ControlPanelVM(userController);
+                    cp.Init(controlPanel);
+                    subtitle.Init(controlPanel);
+                    observerTeamId = userController.PlayerController.Player.Team;
+                }
+                opms.DataContext = game.Board.Pokemons[observerTeamId];
+                rpms.DataContext = game.Board.Pokemons[1 - observerTeamId];
+                board.Init(game.Board, observerTeamId);
+                Visibility = Visibility.Visible;
+            }
+            else
+            {
+                cp.Init(null);
+                Visibility = Visibility.Collapsed;
+            }
+        }
     }
-
-    internal void Reset()
-    {
-      cp.Reset();
-    }
-  }
 }

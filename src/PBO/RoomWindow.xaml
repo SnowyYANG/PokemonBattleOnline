@@ -9,10 +9,10 @@
         ResizeMode="CanMinimize" SizeToContent="WidthAndHeight" Title="对战房间" Background="#f5f5f5" TextOptions.TextRenderingMode="Grayscale">
     <Grid Height="480" Width="700">
         <b:BattleReport x:Name="br" Margin="405,0,0,22" Background="White"/>
-        <Canvas Name="Game" Width="400" HorizontalAlignment="Left">
-            <b:NDS x:Name="nds" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Canvas Width="400" HorizontalAlignment="Left">
+            <b:NDS x:Name="Game" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </Canvas>
-        <Grid Name="Prepare" Background="#f5f5f5" Width="400" HorizontalAlignment="Left">
+        <Grid x:Name="Prepare" Background="#f5f5f5" Width="400" HorizontalAlignment="Left">
             <Grid.RowDefinitions>
                 <RowDefinition Height="32"/>
                 <RowDefinition Name="PX1" Height="0"/>

@@ -15,35 +15,39 @@ using PokemonBattleOnline.Network;
 
 namespace PokemonBattleOnline.PBO.Lobby
 {
-  /// <summary>
-  /// Interaction logic for Room.xaml
-  /// </summary>
-  public partial class RoomView : UserControl
-  {
-    public RoomView()
+    /// <summary>
+    /// Interaction logic for Room.xaml
+    /// </summary>
+    public partial class RoomView : UserControl
     {
-      InitializeComponent();
-    }
+        public RoomView()
+        {
+            InitializeComponent();
+        }
 
-    private void SetSeat(Seat seat)
-    {
-      PBOClient.Current.EnterRoom((Room)DataContext, seat);
+        private void SetSeat(Seat seat)
+        {
+            PBOClient.Current.EnterRoom((Room)DataContext, seat);
+        }
+        private void P00_Click(object sender, RoutedEventArgs e)
+        {
+            SetSeat(Seat.Player00);
+        }
+        private void P10_Click(object sender, RoutedEventArgs e)
+        {
+            SetSeat(Seat.Player10);
+        }
+        private void P01_Click(object sender, RoutedEventArgs e)
+        {
+            SetSeat(Seat.Player01);
+        }
+        private void P11_Click(object sender, RoutedEventArgs e)
+        {
+            SetSeat(Seat.Player11);
+        }
+        private void Watch_Click(object sender, RoutedEventArgs e)
+        {
+            SetSeat(Seat.Spectator);
+        }
     }
-    private void P00_Click(object sender, RoutedEventArgs e)
-    {
-      SetSeat(Seat.Player00);
-    }
-    private void P10_Click(object sender, RoutedEventArgs e)
-    {
-      SetSeat(Seat.Player10);
-    }
-    private void P01_Click(object sender, RoutedEventArgs e)
-    {
-      SetSeat(Seat.Player01);
-    }
-    private void P11_Click(object sender, RoutedEventArgs e)
-    {
-      SetSeat(Seat.Player11);
-    }
-  }
 }

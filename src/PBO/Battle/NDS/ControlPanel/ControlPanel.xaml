@@ -5,9 +5,6 @@
         xmlns:b="clr-namespace:PokemonBattleOnline.PBO.Battle"
         xmlns:c="clr-namespace:PokemonBattleOnline.PBO.Converters"
         Height="240" Width="320" SnapsToDevicePixels="True" UseLayoutRounding="True">
-    <Canvas.Background>
-        <ImageBrush ImageSource="/PBO;component/images/ControlPanel/BackgroundD.png"/>
-    </Canvas.Background>
     <TabControl Height="240" Width="320" SnapsToDevicePixels="True" UseLayoutRounding="True" Name="controlPanel" SelectedIndex="{Binding SelectedPanel,Mode=TwoWay}" Background="{x:Null}" Padding="0,0,0,-2" TabStripPlacement="Bottom" BorderThickness="0" SelectionChanged="TabControl_SelectionChanged">
         <TabControl.Resources>
             <Style TargetType="TabItem">
@@ -26,6 +23,9 @@
                 <Setter Property="Canvas.Bottom" Value="0"/>
             </Style>
         </TabControl.Resources>
+        <TabItem>
+            <Image Height="240" Width="320" Source="/PBO;component/images/ControlPanel/BackgroundD.png"/>
+        </TabItem>
         <TabItem>
             <Canvas>
                 <Canvas.Background>
@@ -187,6 +187,83 @@
                     </ToggleButton.Template>
                 </ToggleButton>
             </Grid>
+        </TabItem>
+        <TabItem>
+            <Canvas DataContext="{Binding TargetPanel}">
+                <Canvas.Resources>
+                    <Style x:Key="O" TargetType="b:GameButton">
+                        <EventSetter Event="Click" Handler="Target_Click"/>
+                        <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Fight/Opponent.png"/>
+                        <Setter Property="Shape" Value="M21.5,0 H53.5 A21.5,21.5 180 1 1 53.5,43 H21.5 A21.5,21.5 180 1 1 21.5,0Z"/>
+                        <Setter Property="Padding" Value="2,1"/>
+                        <Setter Property="Width" Value="75"/>
+                        <Setter Property="Height" Value="43"/>
+                        <Setter Property="Canvas.Top" Value="53"/>
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Canvas DataContext="{Binding Pokemon}">
+                                        <Rectangle RadiusX="5" RadiusY="5" Fill="#80000000" Width="100" Height="24" Canvas.Left="-15" Canvas.Top="-12"/>
+                                        <TextBlock Text="{Binding Name}" FontSize="14" Foreground="#ffffff" Width="100" Canvas.Left="-15" Canvas.Top="-9"/>
+                                        <ContentPresenter Content="{Binding Gender}" TextBlock.FontSize="14" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Left="58" Canvas.Top="13"/>
+                                        <Image Source="{Binding Converter={x:Static c:PokemonOutwardIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Bottom="3" Canvas.Right="20"/>
+                                    </Canvas>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <Style x:Key="T" TargetType="b:GameButton">
+                        <EventSetter Event="Click" Handler="Target_Click"/>
+                        <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Fight/Team.png"/>
+                        <Setter Property="Shape" Value="M21.5,0 H53.5 A21.5,21.5 180 1 1 53.5,43 H21.5 A21.5,21.5 180 1 1 21.5,0Z"/>
+                        <Setter Property="Padding" Value="2,1"/>
+                        <Setter Property="Width" Value="75"/>
+                        <Setter Property="Height" Value="43"/>
+                        <Setter Property="Canvas.Top" Value="128"/>
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Canvas DataContext="{Binding Pokemon}">
+                                        <Rectangle RadiusX="5" RadiusY="5" Fill="#80000000" Width="100" Height="24" Canvas.Left="-15" Canvas.Top="-12"/>
+                                        <TextBlock Text="{Binding Name}" FontSize="14" Foreground="#ffffff" Width="100" Canvas.Left="-15" Canvas.Top="-9"/>
+                                        <ContentPresenter Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Left="58" Canvas.Top="13"/>
+                                        <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Bottom="3" Canvas.Right="20"/>
+                                    </Canvas>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <Style TargetType="Line">
+                        <Setter Property="Stroke" Value="#d9f976"/>
+                        <Setter Property="StrokeThickness" Value="10"/>
+                        <Setter Property="IsHitTestVisible" Value="False"/>
+                    </Style>
+                    <Style TargetType="Rectangle">
+                        <Setter Property="RadiusX" Value="25"/>
+                        <Setter Property="RadiusY" Value="25"/>
+                        <Setter Property="Fill" Value="#d9f976"/>
+                        <Setter Property="Width" Value="81"/>
+                        <Setter Property="Height" Value="49"/>
+                        <Setter Property="IsHitTestVisible" Value="False"/>
+                    </Style>
+                </Canvas.Resources>
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/PBO;component/images/ControlPanel/Fight/Background.png"/>
+                </Canvas.Background>
+                <Line Visibility="{Binding VO1O0}" X1="119" Y1="75" X2="204" Y2="75"/>
+                <Line Visibility="{Binding V01}" X1="119" Y1="150" X2="204" Y2="150"/>
+                <Line Visibility="{Binding V0O1}" X1="82" Y1="96" X2="82" Y2="128"/>
+                <Line Visibility="{Binding V1O0}" X1="242" Y1="96" X2="242" Y2="128"/>
+                <Rectangle Visibility="{Binding VO1}" Canvas.Left="41" Canvas.Top="50"/>
+                <Rectangle Visibility="{Binding VO0}" Canvas.Left="201" Canvas.Top="50"/>
+                <Rectangle Visibility="{Binding V0}" Canvas.Left="41" Canvas.Top="125"/>
+                <Rectangle Visibility="{Binding V1}" Canvas.Left="201" Canvas.Top="125"/>
+                <b:GameButton Style="{StaticResource ReturnButton}"/>
+                <b:GameButton x:Name="tO1" IsPressedChanged="Target_IsPressedChanged" Content="{Binding PO1}" IsHitTestVisible="{Binding PO1.IsEnabled}" Style="{StaticResource O}" Canvas.Left="44"/>
+                <b:GameButton x:Name="tO0" IsPressedChanged="Target_IsPressedChanged" Content="{Binding PO0}" IsHitTestVisible="{Binding PO0.IsEnabled}" Style="{StaticResource O}" Canvas.Left="204"/>
+                <b:GameButton x:Name="t0" IsPressedChanged="Target_IsPressedChanged" Content="{Binding P0}" IsHitTestVisible="{Binding P0.IsEnabled}" Style="{StaticResource T}" Canvas.Left="44"/>
+                <b:GameButton x:Name="t1" IsPressedChanged="Target_IsPressedChanged" Content="{Binding P1}" IsHitTestVisible="{Binding P1.IsEnabled}" Style="{StaticResource T}" Canvas.Left="204"/>
+            </Canvas>
         </TabItem>
         <TabItem>
             <Canvas>
@@ -358,85 +435,8 @@
                 <b:GameButton Image="/PBO;component/images/ControlPanel/No.png" Content="否" Click="Return_Click" Margin="20,160,20,0"/>
             </Grid>
         </TabItem>
-        <TabItem>
-            <Canvas DataContext="{Binding TargetPanel}">
-                <Canvas.Resources>
-                    <Style x:Key="O" TargetType="b:GameButton">
-                        <EventSetter Event="Click" Handler="Target_Click"/>
-                        <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Fight/Opponent.png"/>
-                        <Setter Property="Shape" Value="M21.5,0 H53.5 A21.5,21.5 180 1 1 53.5,43 H21.5 A21.5,21.5 180 1 1 21.5,0Z"/>
-                        <Setter Property="Padding" Value="2,1"/>
-                        <Setter Property="Width" Value="75"/>
-                        <Setter Property="Height" Value="43"/>
-                        <Setter Property="Canvas.Top" Value="53"/>
-                        <Setter Property="ContentTemplate">
-                            <Setter.Value>
-                                <DataTemplate>
-                                    <Canvas DataContext="{Binding Pokemon}">
-                                        <Rectangle RadiusX="5" RadiusY="5" Fill="#80000000" Width="100" Height="24" Canvas.Left="-15" Canvas.Top="-12"/>
-                                        <TextBlock Text="{Binding Name}" FontSize="14" Foreground="#ffffff" Width="100" Canvas.Left="-15" Canvas.Top="-9"/>
-                                        <ContentPresenter Content="{Binding Gender}" TextBlock.FontSize="14" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Left="58" Canvas.Top="13"/>
-                                        <Image Source="{Binding Converter={x:Static c:PokemonOutwardIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Bottom="3" Canvas.Right="20"/>
-                                    </Canvas>
-                                </DataTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                    <Style x:Key="T" TargetType="b:GameButton">
-                        <EventSetter Event="Click" Handler="Target_Click"/>
-                        <Setter Property="Image" Value="/PBO;component/images/ControlPanel/Fight/Team.png"/>
-                        <Setter Property="Shape" Value="M21.5,0 H53.5 A21.5,21.5 180 1 1 53.5,43 H21.5 A21.5,21.5 180 1 1 21.5,0Z"/>
-                        <Setter Property="Padding" Value="2,1"/>
-                        <Setter Property="Width" Value="75"/>
-                        <Setter Property="Height" Value="43"/>
-                        <Setter Property="Canvas.Top" Value="128"/>
-                        <Setter Property="ContentTemplate">
-                            <Setter.Value>
-                                <DataTemplate>
-                                    <Canvas DataContext="{Binding Pokemon}">
-                                        <Rectangle RadiusX="5" RadiusY="5" Fill="#80000000" Width="100" Height="24" Canvas.Left="-15" Canvas.Top="-12"/>
-                                        <TextBlock Text="{Binding Name}" FontSize="14" Foreground="#ffffff" Width="100" Canvas.Left="-15" Canvas.Top="-9"/>
-                                        <ContentPresenter Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Left="58" Canvas.Top="13"/>
-                                        <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Bottom="3" Canvas.Right="20"/>
-                                    </Canvas>
-                                </DataTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                    <Style TargetType="Line">
-                        <Setter Property="Stroke" Value="#d9f976"/>
-                        <Setter Property="StrokeThickness" Value="10"/>
-                        <Setter Property="IsHitTestVisible" Value="False"/>
-                    </Style>
-                    <Style TargetType="Rectangle">
-                        <Setter Property="RadiusX" Value="25"/>
-                        <Setter Property="RadiusY" Value="25"/>
-                        <Setter Property="Fill" Value="#d9f976"/>
-                        <Setter Property="Width" Value="81"/>
-                        <Setter Property="Height" Value="49"/>
-                        <Setter Property="IsHitTestVisible" Value="False"/>
-                    </Style>
-                </Canvas.Resources>
-                <Canvas.Background>
-                    <ImageBrush ImageSource="/PBO;component/images/ControlPanel/Fight/Background.png"/>
-                </Canvas.Background>
-                <Line Visibility="{Binding VO1O0}" X1="119" Y1="75" X2="204" Y2="75"/>
-                <Line Visibility="{Binding V01}" X1="119" Y1="150" X2="204" Y2="150"/>
-                <Line Visibility="{Binding V0O1}" X1="82" Y1="96" X2="82" Y2="128"/>
-                <Line Visibility="{Binding V1O0}" X1="242" Y1="96" X2="242" Y2="128"/>
-                <Rectangle Visibility="{Binding VO1}" Canvas.Left="41" Canvas.Top="50"/>
-                <Rectangle Visibility="{Binding VO0}" Canvas.Left="201" Canvas.Top="50"/>
-                <Rectangle Visibility="{Binding V0}" Canvas.Left="41" Canvas.Top="125"/>
-                <Rectangle Visibility="{Binding V1}" Canvas.Left="201" Canvas.Top="125"/>
-                <b:GameButton Style="{StaticResource ReturnButton}"/>
-                <b:GameButton x:Name="tO1" IsPressedChanged="Target_IsPressedChanged" Content="{Binding PO1}" IsHitTestVisible="{Binding PO1.IsEnabled}" Style="{StaticResource O}" Canvas.Left="44"/>
-                <b:GameButton x:Name="tO0" IsPressedChanged="Target_IsPressedChanged" Content="{Binding PO0}" IsHitTestVisible="{Binding PO0.IsEnabled}" Style="{StaticResource O}" Canvas.Left="204"/>
-                <b:GameButton x:Name="t0" IsPressedChanged="Target_IsPressedChanged" Content="{Binding P0}" IsHitTestVisible="{Binding P0.IsEnabled}" Style="{StaticResource T}" Canvas.Left="44"/>
-                <b:GameButton x:Name="t1" IsPressedChanged="Target_IsPressedChanged" Content="{Binding P1}" IsHitTestVisible="{Binding P1.IsEnabled}" Style="{StaticResource T}" Canvas.Left="204"/>
-            </Canvas>
-        </TabItem>
     </TabControl>
-    <StackPanel Orientation="Horizontal" Canvas.Top="-88" Canvas.Right="-35">
+    <StackPanel x:Name="Time" Orientation="Horizontal" Canvas.Top="-88" Canvas.Right="-35">
         <Label Content="剩余时间：" Style="{x:Static ui:Controls.STextBlock}" FontSize="13"/>
         <Label Content="{Binding Time}" Style="{x:Static ui:Controls.STextBlock}" FontSize="13"/>        
     </StackPanel>

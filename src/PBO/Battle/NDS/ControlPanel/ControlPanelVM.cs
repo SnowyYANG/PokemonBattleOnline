@@ -11,12 +11,12 @@ namespace PokemonBattleOnline.PBO.Battle
 {
     class ControlPanelVM : ObservableObject
     {
-        public const int INACTIVE = -1;
-        public const int MAIN = 0;
-        public const int FIGHT = 1;
-        public const int POKEMONS = 2;
-        public const int RUN = 3;
-        public const int TARGET = 4;
+        public const int INACTIVE = 0;
+        public const int MAIN = 1;
+        public const int FIGHT = 2;
+        public const int TARGET = 3;
+        public const int POKEMONS = 4;
+        public const int RUN = 5;
 
         public event Action<string> InputFailed;
 

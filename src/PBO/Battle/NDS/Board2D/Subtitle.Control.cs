@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.PBO.Battle
 {
@@ -27,7 +26,7 @@ namespace PokemonBattleOnline.PBO.Battle
               nest.SetText("真的要放弃战斗么？");
               break;
             case ControlPanelVM.MAIN:
-              nest.SetTextForcibly(cp.ControllingPokemon.Pokemon.Name + "要做什么？");
+              if (cp.ControllingPokemon != null) nest.SetTextForcibly(cp.ControllingPokemon.Pokemon.Name + "要做什么？");
               break;
           }
         else if (e.PropertyName == "ControllingPokemon" && cp.SelectedPanel == ControlPanelVM.MAIN && cp.ControllingPokemon != null)

@@ -117,9 +117,28 @@ namespace PokemonBattleOnline.PBO
                 Start.IsEnabled = false;
             }
         }
-
+        
+        private void ResetPrepare()
+        {
+            PrepareTeam.DataContext = null;
+            if (Room.User.Seat == Seat.Spectator)
+            {
+                Teams.Visibility = Visibility.Collapsed;
+                Prepare.Visibility = Visibility.Collapsed;
+                Start.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                Teams.Visibility = Visibility.Visible;
+                Prepare.Visibility = Visibility.Visible;
+                Start.Visibility = Visibility.Visible;
+                Start.IsEnabled = true;
+                Start.Content = "使用所选队伍开始对战！";
+            }
+        }
         private void Reset(RoomController room)
         {
+            Game.Init(null);
             if (room != null)
             {
                 Prepare.DataContext = Current.Room = room;
@@ -136,15 +155,11 @@ namespace PokemonBattleOnline.PBO
                     p3.Visibility = Visibility.Visible;
                 }
                 Visibility = Visibility.Visible;
-                Teams.Visibility = Visibility.Visible;
-                Prepare.Visibility = Visibility.Visible;
-                Start.IsEnabled = true;
-                Start.Content = "使用所选队伍开始对战！";
+                ResetPrepare();
             }
             else
             {
                 Current.Visibility = Visibility.Collapsed;
-                nds.Reset();
                 br.Reset();
                 Prepare.DataContext = null;
                 Room = null;
@@ -171,7 +186,7 @@ namespace PokemonBattleOnline.PBO
             var title = t0.ToString();
             Title = title;
 
-            nds.Init(Room);
+            Game.Init(Room);
             br.Reset();
             br.Init(Room.Game);
             Room.Game.GameStart += () =>
@@ -216,21 +231,20 @@ namespace PokemonBattleOnline.PBO
         }
         private void OnGameStop()
         {
-            if (Room.User.Seat != Seat.Spectator) br.Save(Title, Room.Client.User.Name);
-            PrepareTeam.DataContext = null;
-            Teams.Visibility = Visibility.Visible;
-            Prepare.Visibility = Visibility.Visible;
-            Start.IsEnabled = true;
-            Start.Content = "使用所选队伍开始对战！";
-            Title = "对战房间";
-            nds.Reset();
+            Title = Room.Room.Settings.Mode == GameMode.Multi ? "合作对战房间" : "单打对战房间";
+            if (Room.User.Seat != Seat.Spectator)
+            {
+                br.Save(Title, Room.Client.User.Name);
+                ResetPrepare();
+            }
+            Game.Init(null);
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
             base.OnClosing(e);
             e.Cancel = true;
-            if (Room != null && (!Room.Room.Battling || ShowMessageBox.ClosingInBattle(this) == MessageBoxResult.Yes)) Room.Quit();
+            if (Room != null && (Room.PlayerController == null || ShowMessageBox.ClosingInBattle(this) == MessageBoxResult.Yes)) Room.Quit();
         }
     }
 }
