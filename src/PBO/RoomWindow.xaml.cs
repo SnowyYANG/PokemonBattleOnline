@@ -234,8 +234,8 @@ namespace PokemonBattleOnline.PBO
         }
         private void OnGameStop()
         {
+            br.Save(Title, Room.Client.User.Name);
             Title = Room.Room.Settings.Mode == GameMode.Multi ? "合作对战房间" : "单打对战房间";
-            if (Room.User.Seat != Seat.Spectator) br.Save(Title, Room.Client.User.Name);
             ResetPrepare();
             Game.Init(null);
         }

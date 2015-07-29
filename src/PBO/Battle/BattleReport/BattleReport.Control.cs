@@ -18,77 +18,84 @@ using PokemonBattleOnline.PBO.Elements;
 
 namespace PokemonBattleOnline.PBO.Battle
 {
-  /// <summary>
-  /// Interaction logic for BattleReport.xaml
-  /// </summary>
-  public partial class BattleReport : UserControl
-  {
-    private class Control
+    /// <summary>
+    /// Interaction logic for BattleReport.xaml
+    /// </summary>
+    public partial class BattleReport : UserControl
     {
-      private readonly BattleReport Nest;
-      private readonly DocumentBattleReport RealTime;
-      private readonly DocumentBattleReport Full;
-      private readonly StringBuilder TextReport;
-
-      public Control(BattleReport battlereport)
-      {
-        Nest = battlereport;
-        beginTurn = true;
-        RealTime = new DocumentBattleReport(Nest.Battling);
-        Full = new DocumentBattleReport(Nest.Full);
-        TextReport = new StringBuilder();
-      }
-
-      bool beginTurn;
-      public void TurnEnd()
-      {
-        beginTurn = true;
-      }
-      public void GameLogAppended(string text, LogStyle style)
-      {
-        if (!style.HasFlag(LogStyle.HiddenAfterBattle))
+        private class Control
         {
-          if (style.HasFlag(LogStyle.NoBr)) TextReport.Append(text);
-          else TextReport.AppendLine(text);
-        }
-        UIDispatcher.Invoke(() =>
-          {
-            var align = style.HasFlag(LogStyle.Center) ? TextAlignment.Center : style.HasFlag(LogStyle.EndTurn) ? TextAlignment.Right : TextAlignment.Left;
-            var color = SBrushes.GetBrush(style);
-            var bold = style.HasFlag(LogStyle.Bold);
-            if (!style.HasFlag(LogStyle.NoBr)) text = text.LineBreak();
-            if (!style.HasFlag(LogStyle.HiddenInBattle)) RealTime.AddText(text, color, align, bold);
-            if (!style.HasFlag(LogStyle.HiddenAfterBattle)) Full.AddText(text, color, align, bold);
-            Nest.AutoScroll();
-            if (beginTurn)
+            private readonly BattleReport Nest;
+            private readonly DocumentBattleReport RealTime;
+            private readonly DocumentBattleReport Full;
+            private readonly StringBuilder TextReport;
+
+            public Control(BattleReport battlereport)
             {
-              //Nest.nowTurn = new LinkedListNode<TextElement>(currentRealTime.Inlines.Last());
-              //Nest.turnsBookmark.AddLast(Nest.nowTurn);
-              beginTurn = false;
+                Nest = battlereport;
+                beginTurn = true;
+                RealTime = new DocumentBattleReport(Nest.Battling);
+                Full = new DocumentBattleReport(Nest.Full);
+                TextReport = new StringBuilder();
             }
-          });
-      }
 
-      public void AddText(string text, Brush foreground, TextAlignment alignment = TextAlignment.Left, bool bold = false)
-      {
-        RealTime.AddText(text, foreground, alignment, bold);
-        Full.AddText(text, foreground, alignment, bold);
-      }
+            bool beginTurn;
+            public void TurnEnd()
+            {
+                beginTurn = true;
+            }
+            public void GameLogAppended(string text, LogStyle style)
+            {
+                if (!style.HasFlag(LogStyle.HiddenAfterBattle))
+                {
+                    if (style.HasFlag(LogStyle.NoBr)) TextReport.Append(text);
+                    else TextReport.AppendLine(text);
+                }
+                UIDispatcher.Invoke(() =>
+                  {
+                      var align = style.HasFlag(LogStyle.Center) ? TextAlignment.Center : style.HasFlag(LogStyle.EndTurn) ? TextAlignment.Right : TextAlignment.Left;
+                      var color = SBrushes.GetBrush(style);
+                      var bold = style.HasFlag(LogStyle.Bold);
+                      if (!style.HasFlag(LogStyle.NoBr)) text = text.LineBreak();
+                      if (!style.HasFlag(LogStyle.HiddenInBattle)) RealTime.AddText(text, color, align, bold);
+                      if (!style.HasFlag(LogStyle.HiddenAfterBattle)) Full.AddText(text, color, align, bold);
+                      Nest.AutoScroll();
+                      if (beginTurn)
+                      {
+                  //Nest.nowTurn = new LinkedListNode<TextElement>(currentRealTime.Inlines.Last());
+                  //Nest.turnsBookmark.AddLast(Nest.nowTurn);
+                  beginTurn = false;
+                      }
+                  });
+            }
 
-      public void Save(string title, string player)
-      {
-        try
-        {
-          var path = "..\\MyPBO\\Logs\\" + player;
-          if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-          using (StreamWriter sw = new System.IO.StreamWriter(path + string.Format("\\[{0}] {1}", DateTime.Now.ToString("yyyy-MM-dd-HHmmss"), title) + ".txt", false, Encoding.Unicode))
-            sw.Write(TextReport);
+            public void AddText(string text, Brush foreground, TextAlignment alignment = TextAlignment.Left, bool bold = false)
+            {
+                RealTime.AddText(text, foreground, alignment, bold);
+                Full.AddText(text, foreground, alignment, bold);
+            }
+
+            public void Save(string title, string player)
+            {
+                try
+                {
+                    var r =
+#if DEBUG
+        "..\\"
+#else
+        string.Empty
+#endif
+        ;
+                    var path = r + "MyPBO\\Logs\\" + player;
+                    if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+                    using (StreamWriter sw = new System.IO.StreamWriter(path + string.Format("\\[{0}] {1}", DateTime.Now.ToString("yyyy-MM-dd-HHmmss"), title) + ".txt", false, Encoding.Unicode))
+                        sw.Write(TextReport);
+                }
+                catch
+                {
+                    ShowMessageBox.SaveLogFail();
+                }
+            }
         }
-        catch
-        {
-          ShowMessageBox.SaveLogFail();
-        }
-      }
     }
-  }
 }
