@@ -21,7 +21,6 @@ namespace PokemonBattleOnline.Game.Host
             _pokemons = new PokemonProxy[pokemons.Length];
             for (int i = 0; i < pokemons.Length; i++)
                 _pokemons[i] = new PokemonProxy(new Pokemon(controller, teamId * 50 + teamIndex * 10 + i, this, pokemons[i]));
-            outward = new BallState[pokemons.Length];
         }
 
         private readonly Tile[] _tiles;
@@ -64,12 +63,10 @@ namespace PokemonBattleOnline.Game.Host
             }
         }
 
-        private BallState[] outward;
-        public BallState[] GetOutward()
+        public void GetOutward(BallState[] outward)
         {
-            for (int i = 0; i < outward.Length; ++i)
+            for (int i = 0; i < _pokemons.Length; ++i)
                 outward[i] = _pokemons[i].Hp == 0 ? BallState.Faint : _pokemons[i].State == PokemonState.Normal ? BallState.Normal : BallState.Abnormal;
-            return outward;
         }
     }
 }

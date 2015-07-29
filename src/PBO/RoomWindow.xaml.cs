@@ -121,16 +121,19 @@ namespace PokemonBattleOnline.PBO
         private void ResetPrepare()
         {
             PrepareTeam.DataContext = null;
+            Prepare.Visibility = Visibility.Visible;
             if (Room.User.Seat == Seat.Spectator)
             {
+                Spectating.Visibility = Visibility.Visible;
+                PrepareTeam.Visibility = Visibility.Collapsed;
                 Teams.Visibility = Visibility.Collapsed;
-                Prepare.Visibility = Visibility.Collapsed;
                 Start.Visibility = Visibility.Collapsed;
             }
             else
             {
+                Spectating.Visibility = Visibility.Collapsed;
+                PrepareTeam.Visibility = Visibility.Visible;
                 Teams.Visibility = Visibility.Visible;
-                Prepare.Visibility = Visibility.Visible;
                 Start.Visibility = Visibility.Visible;
                 Start.IsEnabled = true;
                 Start.Content = "使用所选队伍开始对战！";
@@ -190,10 +193,10 @@ namespace PokemonBattleOnline.PBO
             br.Reset();
             br.Init(Room.Game);
             Room.Game.GameStart += () =>
-              {
-                  br.FontSize = 14;
-                  Prepare.Visibility = Visibility.Collapsed;
-              };
+                {
+                    br.FontSize = 14;
+                    Prepare.Visibility = Visibility.Collapsed;
+                };
         }
 
         private void OnTimeUp(IEnumerable<KeyValuePair<User, int>> spentTime)
@@ -232,11 +235,8 @@ namespace PokemonBattleOnline.PBO
         private void OnGameStop()
         {
             Title = Room.Room.Settings.Mode == GameMode.Multi ? "合作对战房间" : "单打对战房间";
-            if (Room.User.Seat != Seat.Spectator)
-            {
-                br.Save(Title, Room.Client.User.Name);
-                ResetPrepare();
-            }
+            if (Room.User.Seat != Seat.Spectator) br.Save(Title, Room.Client.User.Name);
+            ResetPrepare();
             Game.Init(null);
         }
 

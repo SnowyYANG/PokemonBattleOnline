@@ -91,19 +91,34 @@ namespace PokemonBattleOnline.Network.Commands
         }
     }
 
-    [DataContract(Name = "gu", Namespace = PBOMarks.JSON)]
-    public class GameUpdateS2C : ReportFragment, IS2C
+    [DataContract(Name = "gs", Namespace = PBOMarks.JSON)]
+    public class GameStartS2C : ReportFragment, IS2C
     {
-        public GameUpdateS2C(ReportFragment rf)
+        public GameStartS2C(ReportFragment rf)
           : base(rf)
         {
         }
 
         void IS2C.Execute(Client client)
         {
-            var room = client.Controller.Room;
-            if (room.Game == null) room.GameStart(this);
-            room.Update(this);
+            client.Controller.Room.GameStart(this);
+        }
+    }
+
+    [DataContract(Name = "gu", Namespace = PBOMarks.JSON)]
+    public class GameUpdateS2C : IS2C
+    {
+        [DataMember]
+        public GameEvent[] Es;
+
+        public GameUpdateS2C(GameEvent[] events)
+        {
+            Es = events;
+        }
+
+        void IS2C.Execute(Client client)
+        {
+            client.Controller.Room.Update(Es);
         }
     }
 

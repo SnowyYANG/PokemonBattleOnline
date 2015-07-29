@@ -191,7 +191,7 @@ namespace PokemonBattleOnline.Network
         }
 
         internal PokemonData[] Partner;
-        internal void GameStart(ReportFragment gameUpdateS2C)
+        internal void GameStart(ReportFragment gf)
         {
             Dictionary<int, string> ps = new Dictionary<int, string>();
             var mi = Room.Settings.Mode.PlayersPerTeam();
@@ -203,25 +203,25 @@ namespace PokemonBattleOnline.Network
                 PlayerController = new PlayerController(this, Self, Partner);
                 Partner = null;
             }
-            Game = new GameOutward(Room.Settings, players);
-            Game.Start(gameUpdateS2C);
+            Game = new GameOutward(Room.Settings, players, gf);
+            Game.Start();
         }
 
         internal InputRequest InputRequest;
 
         private IAsyncResult lastAsyncResult;
-        internal void Update(ReportFragment rf)
+        internal void Update(GameEvent[] es)
         {
-            var d = new Action<IAsyncResult, ReportFragment>(UpdateImplement);
-             lastAsyncResult = d.BeginInvoke(lastAsyncResult, rf, UpdateImplementCallback, null);
+            var d = new Action<IAsyncResult, GameEvent[]>(UpdateImplement);
+            lastAsyncResult = d.BeginInvoke(lastAsyncResult, es, UpdateImplementCallback, null);
         }
-        private void UpdateImplement(IAsyncResult lastAsyncResult, ReportFragment rf)
+        private void UpdateImplement(IAsyncResult lastAsyncResult, GameEvent[] es)
         {
             if (lastAsyncResult != null) lastAsyncResult.AsyncWaitHandle.WaitOne();
-            Game.Update(rf.Events);
+            Game.Update(es);
             if (PlayerController != null)
             {
-                PlayerController.Game.Update(rf);
+                PlayerController.Game.Update(es);
                 if (InputRequest != null)
                 {
                     PlayerController.OnRequireInput(InputRequest);
@@ -231,7 +231,7 @@ namespace PokemonBattleOnline.Network
         }
         private static void UpdateImplementCallback(IAsyncResult ar)
         {
-            ((Action<IAsyncResult, ReportFragment>)((AsyncResult)ar).AsyncDelegate).EndInvoke(ar);
+            ((Action<IAsyncResult, GameEvent[]>)((AsyncResult)ar).AsyncDelegate).EndInvoke(ar);
         }
     }
 }

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using PokemonBattleOnline.Game;
 using PokemonBattleOnline.Game.Host;
 using PokemonBattleOnline.Network.Commands;
@@ -50,6 +48,7 @@ namespace PokemonBattleOnline.Network
                 game.TimeUp += OnTimeUp;
                 game.WaitingNotify += OnWaitingForInput;
                 game.Error += OnError;
+                Send(new GameStartS2C(game.GetFragment()));
                 game.Start();
             }
         }
@@ -85,7 +84,7 @@ namespace PokemonBattleOnline.Network
                 if (players[p.Seat.TeamId(), p.Seat.TeamIndex()]) ps.Add(p.Id);
             Send(new WaitingForInputS2C(ps.ToArray()));
         }
-        private void OnGameUpdate(ReportFragment fragment, InputRequest[,] requirements)
+        private void OnGameUpdate(GameEvent[] events, InputRequest[,] requirements)
         {
             if (requirements != null)
             {
@@ -95,7 +94,7 @@ namespace PokemonBattleOnline.Network
                     if (r != null) Server.GetUser(p.Id).Send(new RequireInputS2C(r));
                 }
             }
-            Send(new GameUpdateS2C(fragment));
+            Send(new GameUpdateS2C(events));
         }
 
         private bool IsPrepared(Seat seat)
@@ -137,7 +136,7 @@ namespace PokemonBattleOnline.Network
                 else Room[seat] = user;
                 Users.Add(user.Id, su);
                 Server.Send(SetSeatS2C.InRoom(user));
-                if (game != null) su.Send(new GameUpdateS2C(game.GetLastLeapFragment()));
+                if (game != null) su.Send(new GameStartS2C(game.GetFragment()));
                 else if (initingGame != null)
                 {
                     if (IsPrepared(Seat.Player00)) su.Send(new SetPrepareS2C(Seat.Player00, true));

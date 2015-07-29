@@ -10,56 +10,52 @@ namespace PokemonBattleOnline.Game.Host
     {
         private readonly Controller Controller;
         private readonly DateTime Begin;
-        private ReportFragment lastLeapFragment;
-        private ReportFragment lastFragment;
-        private ReportFragment current;
+        private readonly ReportFragment fragment;
+        private readonly List<GameEvent> events;
 
         internal ReportBuilder(Controller controller)
         {
             Controller = controller;
             TurnNumber = -1;
             Begin = DateTime.Now;
+            fragment = new ReportFragment(controller.GameSettings);
+            events = new List<GameEvent>(15);
+            RefreshFragment();
         }
 
         public int TurnNumber
         { get; private set; }
 
-        public void NewFragment()
+        private void RefreshFragmentImplement()
         {
-            if (current != null)
+            fragment.TurnNumber = TurnNumber;
+            fragment.Weather = Controller.Board.Weather;
+            Controller.Teams[0].GetPlayer(0).GetOutward(fragment.P00);
+            Controller.Teams[1].GetPlayer(0).GetOutward(fragment.P10);
+            if (Controller.GameSettings.Mode.PlayersPerTeam() == 2)
             {
-                lastLeapFragment = current;
-                if (lastFragment == null) lastFragment = lastLeapFragment;
-                else lastFragment = lastLeapFragment.NonLeap();
+                Controller.Teams[0].GetPlayer(1).GetOutward(fragment.P01);
+                Controller.Teams[1].GetPlayer(1).GetOutward(fragment.P11);
             }
-
-            var ppt = Controller.GameSettings.Mode.PlayersPerTeam();
-            BallState[,][] t = new BallState[2, ppt][];
-            t[0, 0] = Controller.Teams[0].GetPlayer(0).GetOutward();
-            t[1, 0] = Controller.Teams[1].GetPlayer(0).GetOutward();
-            if (ppt == 2)
-            {
-                t[0, 1] = Controller.Teams[0].GetPlayer(1).GetOutward();
-                t[1, 1] = Controller.Teams[1].GetPlayer(1).GetOutward();
-            }
-            List<PokemonOutward> pms = new List<PokemonOutward>();
-            {
-                foreach (PokemonProxy p in Controller.Board.Pokemons) pms.Add(p.GetOutward());
-                current = new ReportFragment(Controller.TurnNumber, t, pms.ToArray(), Controller.Board.Weather);
-            }
+            var pms = new List<PokemonOutward>();
+            foreach (PokemonProxy p in Controller.Board.Pokemons) pms.Add(p.GetOutward());
+            fragment.Pokemons = pms.ToArray();
+        }
+        public GameEvent[] RefreshFragment()
+        {
+            RefreshFragmentImplement();
+            var r = events.ToArray();
+            events.Clear();
+            return r;
         }
         public ReportFragment GetFragment()
         {
-            return lastFragment;
+            return fragment;
         }
-        public ReportFragment GetLeapFragment()
-        {
-            return lastLeapFragment;
-        }
-        public ReportFragment GameEnd(bool lose0, bool lose1)
+        public GameEvent[] GameEnd(bool lose0, bool lose1)
         {
             Add(new GameEnd(lose0, lose1));
-            return current.NonLeap();
+            return events.ToArray();
         }
         internal void TimeTick()
         {
@@ -74,7 +70,7 @@ namespace PokemonBattleOnline.Game.Host
 
         public void Add(GameEvent e)
         {
-            current.AddEvent(e);
+            events.Add(e);
         }
         public void ShowLog(string key, int arg0 = 0, int arg1 = 0, int arg2 = 0)
         {
@@ -85,8 +81,8 @@ namespace PokemonBattleOnline.Game.Host
         }
         public void AddHorizontalLine()
         {
-            var last = current.Events.LastOrDefault();
-            if (!(last is HorizontalLine || last is TimeTick || last is BeginTurn)) current.AddEvent(new HorizontalLine());
+            var last = events.LastOrDefault();
+            if (!(last is HorizontalLine || last is TimeTick || last is BeginTurn)) Add(new HorizontalLine());
         }
         public void Mimic(PokemonProxy pm, MoveTypeE move)
         {

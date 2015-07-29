@@ -112,13 +112,27 @@ namespace PokemonBattleOnline.PBO.Battle
         {
             ImageEffect.BeginAnimation(BlurEffect.RadiusProperty, BeginChangeImageAnimation);
         }
-        public void Withdrawn()
+        void IPokemonOutwardEvents.Withdrawn()
         {
             Image.Source = null;
             if (Pokemon != null)
             {
                 Pokemon.RemoveListener(this);
                 Pokemon = null;
+            }
+        }
+        public void SetPokemon(PokemonOutward pokemon)
+        {
+            if (Pokemon != pokemon)
+            {
+                if (Pokemon != null) Pokemon.RemoveListener(this);
+                Pokemon = pokemon;
+                if (Pokemon != null)
+                {
+                    Image.Visibility = Pokemon.Position.Y == CoordY.Plate ? Visibility.Visible : Visibility.Collapsed;
+                    Pokemon.AddListener(this);
+                    RefreshImage();
+                }
             }
         }
     }

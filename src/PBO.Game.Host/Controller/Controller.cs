@@ -7,7 +7,7 @@ namespace PokemonBattleOnline.Game.Host
 {
     internal class Controller : IDisposable
     {
-        public event Action<ReportFragment, InputRequest[,]> GameUpdated;
+        public event Action<GameEvent[], InputRequest[,]> GameUpdated;
         public event Action GameEnd;
 
         public readonly ReportBuilder ReportBuilder;
@@ -140,7 +140,6 @@ namespace PokemonBattleOnline.Game.Host
         }
         internal void StartGameLoop()
         {
-            ReportBuilder.NewFragment();
             TurnController.StartGameLoop();
         }
         internal void TryContinueGameLoop()
@@ -209,9 +208,8 @@ namespace PokemonBattleOnline.Game.Host
 #else
                 random = new Random();
 #endif
-                ReportBuilder.NewFragment();
                 var r = InputController.InputRequirements;
-                GameUpdated(ReportBuilder.GetFragment(), r);
+                GameUpdated(ReportBuilder.RefreshFragment(), r);
                 var players = new List<Player>();
                 if (r[0, 0] != null) players.Add(Teams[0].GetPlayer(0));
                 if (r[0, 1] != null) players.Add(Teams[0].GetPlayer(1));

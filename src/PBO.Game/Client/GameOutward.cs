@@ -19,18 +19,25 @@ namespace PokemonBattleOnline.Game
         public readonly IGameSettings Settings;
         public readonly BoardOutward Board;
 
-        public GameOutward(IGameSettings settings, string[,] players)
+        public GameOutward(IGameSettings settings, string[,] players, ReportFragment fragment)
         {
             Settings = settings;
             Board = new BoardOutward(Settings);
+            TurnNumber = fragment.TurnNumber;
             var ppp = settings.Mode.PokemonsPerPlayer();
             Board.Players[0, 0] = new PlayerOutward(players[0, 0], ppp);
             Board.Players[1, 0] = new PlayerOutward(players[1, 0], ppp);
+            Board.Players[0, 0].SetAll(fragment.P00);
+            Board.Players[1, 0].SetAll(fragment.P10);
             if (Settings.Mode.PlayersPerTeam() == 2)
             {
                 Board.Players[0, 1] = new PlayerOutward(players[0, 1], ppp);
                 Board.Players[1, 1] = new PlayerOutward(players[1, 1], ppp);
+                Board.Players[0, 1].SetAll(fragment.P01);
+                Board.Players[1, 1].SetAll(fragment.P11);
             }
+            Board.Weather = fragment.Weather;
+            foreach (var pm in fragment.Pokemons) pm.Init(this);
 #if TEST
             LogAppended = delegate { };
             TurnEnd = delegate { };
@@ -46,19 +53,12 @@ namespace PokemonBattleOnline.Game
                     if (pm != null && pm.Id == id) return pm;
             return null;
         }
-        public void Start(ReportFragment fragment)
+        public void Start()
         {
             LogAppended(PBOMarks.TITLE, LogStyle.Bold);
             AppendGameLog("GameMode", LogStyle.Default, Settings.Mode == GameMode.Single ? "单打" : Settings.Mode == GameMode.Multi ? "合作" : Settings.Mode.ToString());
             if (Settings.SleepRule) AppendGameLog("GameRule", LogStyle.Default, "催眠条款");
-            if (fragment.TurnNumber >= 0) AppendGameLog("GameContinue", LogStyle.Default);
-            TurnNumber = fragment.TurnNumber;
-            for (int t = 0; t < 2; t++)
-            {
-                for (int i = 0; i < Settings.Mode.PlayersPerTeam(); ++i) Board.Players[t, i].SetAll(fragment.GetPlayer(t, i));
-                for (int x = 0; x < Settings.Mode.XBound(); x++) Board[t, x] = fragment.GetPokemon(t, x);
-                Board.Weather = fragment.Weather;
-            }
+            if (TurnNumber >= 0) AppendGameLog("GameContinue", LogStyle.Default);
             UIDispatcher.Invoke(GameStart);
         }
         public void Update(IEnumerable<GameEvent> events)

@@ -19,7 +19,7 @@ namespace PokemonBattleOnline.Game.Host
             Controller = new Controller(settings, pokemons);
         }
 
-        public event Action<ReportFragment, InputRequest[,]> GameUpdated
+        public event Action<GameEvent[], InputRequest[,]> GameUpdated
         {
             add { Controller.GameUpdated += value; }
             remove { Controller.GameUpdated -= value; }
@@ -115,9 +115,9 @@ namespace PokemonBattleOnline.Game.Host
             }
             return false;
         }
-        public ReportFragment GetLastLeapFragment() // for spectator
+        public ReportFragment GetFragment()
         {
-            return Controller.ReportBuilder.GetLeapFragment(); //is null possible?
+            return Controller.ReportBuilder.GetFragment(); //is null possible?
         }
 
         private bool _isDisposed;

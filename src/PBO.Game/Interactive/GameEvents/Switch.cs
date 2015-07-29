@@ -17,7 +17,6 @@ namespace PokemonBattleOnline.Game.GameEvents
         protected override void Update()
         {
             Pm.Init(Game);
-            Game.Board[Pm.Position.Team, Pm.Position.X] = Pm;
             Game.Board.OnPokemonSentOut(Pm.Position.Team, Pm.Position.X);
             Game.Board.Players[Pm.Position.Team, Pm.TeamIndex].SwitchPokemon(FormerIndex, Pm.PokemonIndex);
         }

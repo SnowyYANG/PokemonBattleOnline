@@ -35,16 +35,21 @@ namespace PokemonBattleOnline.PBO.Battle
             ObserveTeam = observeTeam;
             Player0.ItemsSource = board.Players[observeTeam, 0].Balls;
             PlayerO0.ItemsSource = board.Players[1 - observeTeam, 0].Balls;
+            P0.SetPokemon(board[observeTeam, 0]);
+            PO0.SetPokemon(board[1 - observeTeam, 0]);
             if (Board.Settings.Mode.PlayersPerTeam() == 2)
             {
                 Player1.ItemsSource = board.Players[observeTeam, 1].Balls;
                 PlayerO1.ItemsSource = board.Players[1 - observeTeam, 1].Balls;
+                P1.SetPokemon(board[observeTeam, 1]);
+                PO1.SetPokemon(board[1 - observeTeam, 1]);
             }
-            else Player1.ItemsSource = PlayerO1.ItemsSource = null;
-            P0.Withdrawn();
-            P1.Withdrawn();
-            PO0.Withdrawn();
-            PO1.Withdrawn();
+            else
+            {
+                Player1.ItemsSource = PlayerO1.ItemsSource = null;
+                P1.SetPokemon(null);
+                PO1.SetPokemon(null);
+            }
             board.PokemonSentOut += OnPokemonSentOut;
         }
         void OnPokemonSentOut(int team, int x)
