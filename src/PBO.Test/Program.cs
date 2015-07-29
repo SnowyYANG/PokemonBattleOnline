@@ -19,7 +19,7 @@ namespace PokemonBattleOnline.Test
         static void Main(string[] args)
         {
             AppDomain.CurrentDomain.ProcessExit += (sender, e) => EndLog();
-            GameString.Load("..\\..\\res\\string", "zh", "en");
+            GameString.Load("..\\..\\res", "zh", "en");
             PBOServer.NewServer(9999);
             Thread.Sleep(1000);
             RoomController.GameStop += (r, u) => LogLine(r.ToString() + (u == null ? " " : " " + u.Name));
