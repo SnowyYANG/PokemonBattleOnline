@@ -325,7 +325,7 @@ namespace PokemonBattleOnline.Game.Host
         {
             if (pm.ItemE(Is.POWER_HERB))
             {
-                pm.ShowLogPm("PowerHerb", Is.POWER_HERB);
+                pm.ShowLogPm(Ls.PowerHerb, Is.POWER_HERB);
                 pm.ConsumeItem();
                 pm.CoordY = CoordY.Plate;
                 return true;

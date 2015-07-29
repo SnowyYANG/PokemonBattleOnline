@@ -207,7 +207,10 @@
         //DeMagnetRise:{0:p}的电磁力消失了！
         //Charge:{0:p}开始充电了！
         //EnYawn:引诱了{0:p}进入梦乡！
-        public const string EnFollowMe = "EnFollowMe"; //{0:p}成为了注目的对象！
+        /// <summary>
+        /// {0:p}成为了注目的对象！
+        /// </summary>
+        public const string EnFollowMe = "EnFollowMe";
         //HeartSwap:{0:p}和{1:p}交换了能力等级！
         //PowerSwap:{0:p}和{1:p}交换了攻击与特攻能力等级！
         //GuardSwap:{0:p}和{1:p}交换了防御与特防能力等级！
@@ -280,11 +283,17 @@
         //ItemEnFocusEnergy:{0:p}使用{1:i}后，充满了干劲！
         //FocusItem:{0:p}使用{1:i}撑了下来！
         //WhiteHerb:{0:p}使用了{1:i}复原了所有能力值！
-        //PowerHerb:{0:p}使用了{1:i}使全身充满了力量！
+        /// <summary>
+        /// {0:p}使用了{1:i}使全身充满了力量！
+        /// </summary>
+        public const string PowerHerb = "PowerHerb";
         //QuickItem:{0:p}使用了{1:i}使行动变快了！
         //MicleBerry:{0:p}使用了{1:i}使得下个使用的技能更容易命中了！
         //EnFocusEnergy:{0:p}的干劲十足！
-        public const string HelpingHand = "HelpingHand"; //{0:p}准备帮助{1:p}！
+        /// <summary>
+        /// {0:p}准备帮助{1:p}！
+        /// </summary>
+        public const string HelpingHand = "HelpingHand";
         //PsychUp:{0:p}复制了{1:p}的能力变化！
         //KnockOff:{2:p}把{0:p}的{1:i}打掉了！
         //Thief:{0:p}从{2:p}那里夺走了{1:i}！
@@ -299,11 +308,20 @@
         //Autotomize:{0:p}身体变轻了！
         //Incinerate:{0:p}的{1:i}被烧没了！
         //Bestow:{0:p}从{2:p}那里获得了{1:i}！
-        public const string EnSkyDrop = "EnSkyDrop"; //{0:p}把{1:p}带到空中去了！
+        /// <summary>
+        /// {0:p}把{1:p}带到空中去了！
+        /// </summary>
+        public const string EnSkyDrop = "EnSkyDrop";
         //DeSkyDrop:{0:p}从自由降落中解脱了！
         //EnSmackDown:{0:p}被击落到了地面上！
-        public const string Quash = "Quash"; //{0:p}的顺序被推迟了！
-        public const string AfterYou = "AfterYou"; //{0:p}听信了对手的话！
+        /// <summary>
+        /// {0:p}的顺序被推迟了！
+        /// </summary>
+        public const string Quash = "Quash";
+        /// <summary>
+        /// {0:p}听信了对手的话！
+        /// </summary>
+        public const string AfterYou = "AfterYou";
         //AllySwitch:{0:p}和{1:p}交换了位置！
         //EnTelekinesis:{0:p}漂浮在空中！
         //DeTelekinesis:{0:p}被从念动力中释放了！
@@ -361,11 +379,20 @@
         //DeStealthRock:{0:t}的队伍周围的隐蔽石砾消失了！
         //EnWideGuard:广域防御守护了{0:t}的队伍的周围！
         //EnQuickGuard:快速防御守护了{0:t}的队伍的周围！
-        public const string EnRainbow = "EnRainbow"; //{0:t}的队伍上空出现了彩虹！
+        /// <summary>
+        /// {0:t}的队伍上空出现了彩虹！
+        /// </summary>
+        public const string EnRainbow = "EnRainbow";
         //DeRainbow:彩虹从{0:t}的队伍上空消失了！
-        public const string EnFireSea = "EnFireSea"; //火海包围了{0:t}的队伍！
+        /// <summary>
+        /// 火海包围了{0:t}的队伍！
+        /// </summary>
+        public const string EnFireSea = "EnFireSea";
         //DeFireSea:包围{0:t}的队伍的火海消失了！
-        public const string EnSwamp = "EnSwamp"; //{0:t}的队伍的周围出现了湿原野！
+        /// <summary>
+        /// {0:t}的队伍的周围出现了湿原野！
+        /// </summary>
+        public const string EnSwamp = "EnSwamp";
         //DeSwamp:{0:t}的队伍周围的的湿原野消失了！
         //Unnerve:{0:t}的队伍因为紧张而吃不下树果了！
         //EnWonderRoom:制造出了防御与特防互换的空间！
@@ -380,8 +407,14 @@
         //DeZenMode:{0:p}的不倒翁模式解除！
         //Protect:{0:p}保护了自己！
         //EnProtect:{0:p}进入了守护的姿势！
-        public const string Pledge = "Pledge"; //{0:p}等待着{1:p}的技能...
-        public const string Pledges = "Pledges"; //两个技能交汇了！成为了组合技！
+        /// <summary>
+        /// {0:p}等待着{1:p}的技能...
+        /// </summary>
+        public const string Pledge = "Pledge";
+        /// <summary>
+        /// 两个技能交汇了！成为了组合技！
+        /// </summary>
+        public const string Pledges = "Pledges";
         //subtitle_AssaultVest:[暂]因为{2}的效果不能使用变化技能！
         //EnMatBlock:{0:p}准备叠毯子阻止攻击！
         //MatBlock:踢出去的毯子阻止了{0:m}！
@@ -418,10 +451,22 @@
         //Celebrate:恭喜{0:pm.Owner.Name}！
         //MegaPre:{0:pm.Name}的{1:i}与{0:pm.Owner.Name}的键钥之石产生共鸣！
         //Mega:{0:p}超强进化成了{0:pm.Form}！
-        public const string Primal = "Primal"; //{0:p}的原始回归！取回了原始的姿态！
-        public const string MegaPre384 = "MegaPre384";//{0:pm.Owner.Name}的强烈祈祷向{0:pm.Name}传达——
-        public const string EnHeavyRain = "EnHeavyRain";//开始降强雨了！
-        public const string HeavyRain = "HeavyRain";//受到强雨的影响火系技能的效果消失了！
+        /// <summary>
+        /// {0:p}的原始回归！取回了原始的姿态！
+        /// </summary>
+        public const string Primal = "Primal";
+        /// <summary>
+        /// {0:pm.Owner.Name}的强烈祈祷向{0:pm.Name}传达——
+        /// </summary>
+        public const string MegaPre384 = "MegaPre384";
+        /// <summary>
+        /// 开始降强雨了！
+        /// </summary>
+        public const string EnHeavyRain = "EnHeavyRain";
+        /// <summary>
+        /// 受到强雨的影响火系技能的效果消失了！
+        /// </summary>
+        public const string HeavyRain = "HeavyRain";
         /// <summary>
         /// 强雨的势态没有停止！
         /// </summary>
@@ -434,12 +479,33 @@
         /// 阳光变得非常强烈！
         /// </summary>
         public const string EnHarshSunlight = "EnHarshSunlight";
-        public const string HarshSunlight = "HarshSunlight";//受到强烈阳光的影响水系技能被蒸发了！
-        public const string HarshSunlight2 = "HarshSunlight2";//强烈阳光没有消失！
-        public const string DeHarshSunlight = "DeHarshSunlight";//阳光复原了！
-        public const string EnMysteriousAirCurrent = "EnMysteriousAirCurrent";//谜之乱气流保护着飞行精灵！
-        public const string MysteriousAirCurrent = "MysteriousAirCurrent";//谜之乱气流减弱了攻击！
-        public const string MysteriousAirCurrent2 = "MysteriousAirCurrent2";//谜之乱气流没有停止！
-        public const string DeMysteriousAirCurrent = "DeMysteriousAirCurrent";//谜之乱气流消失了！
+        /// <summary>
+        /// 受到强烈阳光的影响水系技能被蒸发了！
+        /// </summary>
+        public const string HarshSunlight = "HarshSunlight";
+        /// <summary>
+        /// 强烈阳光没有消失！
+        /// </summary>
+        public const string HarshSunlight2 = "HarshSunlight2";
+        /// <summary>
+        /// 阳光复原了！
+        /// </summary>
+        public const string DeHarshSunlight = "DeHarshSunlight";
+        /// <summary>
+        /// 谜之乱气流保护着飞行精灵！
+        /// </summary>
+        public const string EnMysteriousAirCurrent = "EnMysteriousAirCurrent";
+        /// <summary>
+        /// 谜之乱气流减弱了攻击！
+        /// </summary>
+        public const string MysteriousAirCurrent = "MysteriousAirCurrent";
+        /// <summary>
+        /// 谜之乱气流没有停止！
+        /// </summary>
+        public const string MysteriousAirCurrent2 = "MysteriousAirCurrent2";
+        /// <summary>
+        /// 谜之乱气流消失了！
+        /// </summary>
+        public const string DeMysteriousAirCurrent = "DeMysteriousAirCurrent";
     }
 }

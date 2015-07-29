@@ -57,7 +57,7 @@ namespace PokemonBattleOnline.Game.Host
             {
                 if (log != null) Attacker.ShowLogPm(log, Move.Id);
                 InitAtkContext.Execute(this);
-                if (!Move.PrepareOneTurn || Move.Id == Ms.SKY_DROP) MoveE.BuildDefContext(this, selectTile);
+                MoveE.BuildDefContext(this, selectTile); //蓄力技如果选择的是压力特性的精灵，在第一回合就会扣取2点PP，即使最后攻击到的不是压力特性的精灵。
                 if (MoveProxy != null) ATs.Pressure(this, Move.GetRange(Attacker));
                 MoveExecute.Execute(this);
             }
