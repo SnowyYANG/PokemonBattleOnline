@@ -128,7 +128,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         }
         private static void Imposter(PokemonProxy pm)
         {
-            var t = pm.Controller.Board[1 - pm.Pokemon.TeamId][pm.OnboardPokemon.X].Pokemon;
+            var t = pm.Controller.Board[1 - pm.Pokemon.TeamId][pm.Controller.GameSettings.Mode.XBound() - pm.OnboardPokemon.X - 1].Pokemon;
             if (pm.CanTransform(t))
             {
                 pm.RaiseAbility();
