@@ -201,7 +201,10 @@
         //EnGrudge:{0:p}想要将怨恨施加给对方！
         //Grudge:{0:p}因为怨恨，PP耗尽了！
         //Spite:消减了{0:p}的{1:m}的{2}点PP！
-        //Transform:{0:p}变成了{1:p}！
+        /// <summary>
+        /// {0:p}变成了{1:p}！
+        /// </summary>
+        public const string Transform = "Transform";
         //LockOn:{0:p}瞄准了{1:p}！
         //EnMagnetRise:{0:p}利用电磁力浮起来了！
         //DeMagnetRise:{0:p}的电磁力消失了！

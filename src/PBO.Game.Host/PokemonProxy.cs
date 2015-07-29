@@ -127,6 +127,7 @@ namespace PokemonBattleOnline.Game.Host
             _moves.Clear();
             foreach (var m in target._moves) _moves.Add(new MoveProxy(m.MoveE, this));
             Controller.ReportBuilder.Transform(this);
+            Controller.ReportBuilder.ShowLog(Ls.Transform, Id, target.Id);
         }
         public void ChangeMove(MoveTypeE from, MoveTypeE to)
         {
