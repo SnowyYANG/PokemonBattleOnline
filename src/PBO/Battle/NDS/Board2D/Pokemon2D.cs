@@ -127,7 +127,8 @@ namespace PokemonBattleOnline.PBO.Battle
             {
                 if (Pokemon != null) Pokemon.RemoveListener(this);
                 Pokemon = pokemon;
-                if (Pokemon != null)
+                if (Pokemon == null) Image.Source = null;
+                else
                 {
                     Image.Visibility = Pokemon.Position.Y == CoordY.Plate ? Visibility.Visible : Visibility.Collapsed;
                     Pokemon.AddListener(this);
