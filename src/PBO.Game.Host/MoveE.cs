@@ -246,9 +246,9 @@ namespace PokemonBattleOnline.Game.Host
                 foreach (DefContext def in targets.ToArray())
                 {
                     ++count;
-                    if (!(def.Defender.CoordY == CoordY.Plate || def.NoGuard))
+                    if (!(def.Defender.CoordY == CoordY.Plate || def.NoGuard || IsYInRange(def)))
                     {
-                        def.Defender.ShowLogPm("Miss");
+                        def.Defender.ShowLogPm(Ls.Miss);
                         targets.Remove(def);
                     }
                 }
@@ -359,7 +359,7 @@ namespace PokemonBattleOnline.Game.Host
                     if (!(MustHit(def) || CanHit(def)))
                     {
                         targets.Remove(def);
-                        def.Defender.ShowLogPm("Miss");
+                        def.Defender.ShowLogPm(Ls.Miss);
                     }
             }
             #endregion

@@ -69,16 +69,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
             var move = atk.Move;
             var aer = atk.Attacker;
 
-            if (move.PrepareOneTurn)
-            {
-                if (PrepareOneTurn(atk)) return;
-                if (move.Id == Ms.SKY_DROP)
-                {
-                    aer.CoordY = CoordY.Plate;
-                    atk.Target.Defender.CoordY = CoordY.Plate;
-                    atk.Target.Defender.OnboardPokemon.RemoveCondition(Cs.SkyDrop);
-                }
-            }
+            if (move.PrepareOneTurn && PrepareOneTurn(atk)) return;
 
             if (aer.Controller.GameSettings.Mode.XBound() != 1 && (move.Id == Ms.WATER_PLEDGE || move.Id == Ms.FIRE_PLEDGE || move.Id == Ms.GRASS_PLEDGE))
                 if (aer.Field.AddTurnCondition(Cs.Plege, move.Id))
@@ -246,9 +237,9 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         private static bool PrepareOneTurn(AtkContext atk)
         {
             var aer = atk.Attacker;
-            var m = atk.Move.Id;
             if (aer.Action == PokemonAction.MoveAttached)
             {
+                var m = atk.Move.Id;
                 switch (m)
                 {
                     case Ms.FLY: //19
@@ -267,18 +258,18 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                         break;
                     case Ms.SKY_DROP:
                         MoveE.FilterDefContext(atk);
-                        if (atk.Target == null)
+                        if (atk.Target == null) atk.FailAll(null);
+                        else
                         {
-                            atk.FailAll(null);
-                            return true;
+                            aer.CoordY = CoordY.Air;
+                            atk.Target.Defender.CoordY = CoordY.Air;
+                            atk.Target.Defender.OnboardPokemon.SetCondition(Cs.SkyDrop);
+                            aer.ShowLogPm(Ls.EnSkyDrop, atk.Target.Defender.Id);
+                            atk.SetAttackerAction(PokemonAction.Moving);
                         }
-                        aer.CoordY = CoordY.Air;
-                        atk.Target.Defender.CoordY = CoordY.Air;
-                        atk.Target.Defender.OnboardPokemon.SetCondition(Cs.SkyDrop);
-                        break;
+                        return true;
                 }
-                if (m == Ms.SKY_DROP) aer.ShowLogPm(Ls.EnSkyDrop, atk.Target.Defender.Id);
-                else aer.ShowLogPm("Prepare" + m.ToString());
+                aer.ShowLogPm("Prepare" + m.ToString());
                 if (m == Ms.SKULL_BASH) aer.ChangeLv7D(atk.Attacker, StatType.Def, 1, false);
                 atk.SetAttackerAction(PokemonAction.Moving);
                 return !(m == Ms.SOLAR_BEAM && aer.Controller.Weather == Weather.IntenseSunlight || ITs.PowerHerb(aer));

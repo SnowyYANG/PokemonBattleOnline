@@ -7,12 +7,30 @@
         public const string SendOut22 = "SendOut22";
         public const string SendOut3 = "SendOut3";
 
-        public const string PLAYER_STOP = "PLAYER_STOP"; //{0}强制退出了游戏。
-        public const string PLAYER_DISCONNECT = "PLAYER_DISCONNECT"; //{0}断线了，游戏中止。
-        public const string INVALID_INPUT = "INVALID_INPUT";//{0}给精灵下达了错误的命令，游戏中止。
-        public const string NO_KEY = "NO_KEY"; //无法匹配主机传送过来的战报，战报关键字为{0}。
-        public const string ERROR = "ERROR"; //主机发生了一个错误，数据包损坏或主机程序被篡改。
-        public const string UNFINISHED = "UNFINISHED"; //{0:p}使用的技能{1:m}尚未制作。
+        /// <summary>
+        /// {0}强制退出了游戏。
+        /// </summary>
+        public const string PLAYER_STOP = "PLAYER_STOP";
+        /// <summary>
+        /// {0}断线了，游戏中止。
+        /// </summary>
+        public const string PLAYER_DISCONNECT = "PLAYER_DISCONNECT";
+        /// <summary>
+        /// {0}给精灵下达了错误的命令，游戏中止。
+        /// </summary>
+        public const string INVALID_INPUT = "INVALID_INPUT";
+        /// <summary>
+        /// 无法匹配主机传送过来的战报，战报关键字为{0}。
+        /// </summary>
+        public const string NO_KEY = "NO_KEY";
+        /// <summary>
+        /// 主机发生了一个错误，数据包损坏或主机程序被篡改。
+        /// </summary>
+        public const string ERROR = "ERROR";
+        /// <summary>
+        /// {0:p}使用的技能{1:m}尚未制作。
+        /// </summary>
+        public const string UNFINISHED = "UNFINISHED";
 
         public const string PSN = "PSN"; //{0:p}受到了毒的伤害！
         public const string BRN = "BRN"; //{0:p}受到了烧伤的伤害！
@@ -81,7 +99,10 @@
         //7DLockAll:{0:p}的能力不能下降！
         //7DLock:{0:p}的{1:s}不能下降！
         //NoEffect:对{0:p}完全没有效果...
-        //Miss:没有打中{0:p}！
+        /// <summary>
+        /// 没有打中{0:p}！
+        /// </summary>
+        public const string Miss = "Miss";
         //Antiberry:{1:i}下降了给予{0:p}的伤害！
         //FormChange:{0:p}的形态改变了！
         //TurnLeft:{0}的精灵向左旋转了！
@@ -336,14 +357,38 @@
         //WeakHurt0:没有什么效果...
         //CT0:打中了要害！
         //NoPP:但是技能已经没有剩余的PP点数了！
-        //EnIntenseSunlight:阳光变强烈了！
-        //EnHeavyRain:开始下雨了！
-        //EnSandstorm:开始刮沙尘暴了！
-        //EnHailstorm:开始下冰雹了！
-        //DeIntenseSunlight:阳光恢复了原样！
-        //DeHeavyRain:雨停了！
-        //DeSandstorm:沙尘暴停了！
-        //DeHailstorm:冰雹停了！
+        /// <summary>
+        /// 阳光变强烈了！
+        /// </summary>
+        public const string EnIntenseSunlight = "EnIntenseSunlight";
+        /// <summary>
+        /// 开始下雨了！
+        /// </summary>
+        public const string EnRain = "EnRain";
+        /// <summary>
+        /// 开始刮沙尘暴了！
+        /// </summary>
+        public const string EnSandstorm = "EnSandstorm";
+        /// <summary>
+        /// 开始下冰雹了！
+        /// </summary>
+        public const string EnHailstorm = "EnHailstorm";
+        /// <summary>
+        /// 阳光恢复了原样！
+        /// </summary>
+        public const string DeIntenseSunlight = "DeIntenseSunlight";
+        /// <summary>
+        /// 雨停了！
+        /// </summary>
+        public const string DeRain = "DeRain";
+        /// <summary>
+        /// 沙尘暴停了！
+        /// </summary>
+        public const string DeSandstorm = "DeSandstorm";
+        /// <summary>
+        /// 冰雹停了！
+        /// </summary>
+        public const string DeHailstorm = "DeHailstorm";
         //AirLock:天气的影响消失了！
         //Sandstorm:沙尘暴刮得很凶！
         //Hailstorm:冰雹下得很凶！

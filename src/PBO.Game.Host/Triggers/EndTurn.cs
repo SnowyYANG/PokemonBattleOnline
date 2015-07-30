@@ -28,6 +28,8 @@ namespace PokemonBattleOnline.Game.Host.Triggers
         {
             if (c.Board.GetCondition<int>(Cs.Weather) == c.TurnNumber)
             {
+                var w = c.Board.Weather;
+                c.ReportBuilder.ShowLog(w == Weather.IntenseSunlight ? Ls.DeIntenseSunlight : w == Weather.Rain ? Ls.DeRain : w == Weather.Hailstorm ? Ls.DeHailstorm : Ls.DeSandstorm);
                 c.Weather = Weather.Normal;
                 c.Board.RemoveCondition(Cs.Weather);
             }

@@ -66,7 +66,7 @@ namespace PokemonBattleOnline.Game.Host
         public void ContinueExecute(Tile selectTile)
         {
             TotalDamage = 0;
-            if (Move.Id != Ms.SKY_DROP) MoveE.BuildDefContext(this, selectTile);
+            if (Move.Id != Ms.SKY_DROP) MoveE.BuildDefContext(this, selectTile); //如果被带入空中的精灵被打死
             MoveExecute.Execute(this);
         }
         public void SetTargets(IEnumerable<DefContext> targets)

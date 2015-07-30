@@ -155,7 +155,7 @@ namespace PokemonBattleOnline.Game.Host.Triggers
                     c.ReportBuilder.ShowLog(Ls.MysteriousAirCurrent2);
                     return false;
                 default:
-                    c.ReportBuilder.ShowLog("En" + weather);
+                    c.ReportBuilder.ShowLog(weather == Weather.IntenseSunlight ? Ls.EnIntenseSunlight : weather == Weather.Rain ? Ls.EnRain : weather == Weather.Hailstorm ? Ls.EnHailstorm : Ls.EnSandstorm);
                     c.Weather = weather;
                     c.Board.SetCondition(Cs.Weather, (c.TurnNumber == 0 ? 1 : c.TurnNumber) + (pm.ItemE(weather.Item()) ? 7 : 4));
                     return true;

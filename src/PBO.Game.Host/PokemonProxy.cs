@@ -315,6 +315,16 @@ namespace PokemonBattleOnline.Game.Host
                     Action = PokemonAction.Done;
                     break;
                 case PokemonAction.Moving:
+                    if (AtkContext.Move.Id == Ms.SKY_DROP)
+                    {
+                        CoordY = CoordY.Plate;
+                        if (AtkContext.Target.Defender.AliveOnboard)
+                        {
+                            AtkContext.Target.Defender.CoordY = CoordY.Plate;
+                            AtkContext.Target.Defender.OnboardPokemon.RemoveCondition(Cs.SkyDrop);
+                        }
+                        else AtkContext.SetTargets(Enumerable.Empty<DefContext>());
+                    }
                     if (CanExecute())
                     {
                         if (AtkContext.Move.Id != Ms.BIDE) PTs.ShowLogPm(this, "UseMove", AtkContext.Move.Id);

@@ -95,7 +95,7 @@
     <Compile Include="Interactive\GameEvents\ShowLog.cs" />
     <Compile Include="Interactive\GameEvents\Switch.cs" />
     <Compile Include="Data\Rom\LogStyle.cs" />
-    <Compile Include="Interactive\Ls.cs" />
+    <Compile Include="Data\Rom\Ls.cs" />
     <Compile Include="Interactive\ReportFragment.cs" />
     <Compile Include="Client\SimGame.cs" />
     <Compile Include="Interactive\ActionInput.cs" />
