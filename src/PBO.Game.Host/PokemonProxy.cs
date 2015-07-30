@@ -243,8 +243,7 @@ namespace PokemonBattleOnline.Game.Host
             {
                 Action = PokemonAction.WillMove;
                 SelectedMove = move;
-                if (target != null)
-                    SelectedTarget = target;
+                SelectedTarget = target;
                 SelectMega = mega;
                 return true;
             }
