@@ -15,7 +15,7 @@
         </ContextMenu>
     </UserControl.ContextMenu>
     <Canvas>
-        <Polygon Name="Stroke" Canvas.Top="4" Points="1.5,16 6.5,4.5 25.5,4.5 30.5,16 25.5,27.5 6.5,27.5">
+        <Polygon Name="Stroke" Points="1.5,16 6.5,4.5 25.5,4.5 30.5,16 25.5,27.5 6.5,27.5">
             <Polygon.Style>
                 <Style TargetType="Polygon">
                     <Setter Property="Stroke" Value="{x:Null}"/>
