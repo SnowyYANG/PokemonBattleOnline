@@ -24,13 +24,13 @@
         /// </summary>
         public const string NO_KEY = "NO_KEY";
         /// <summary>
-        /// 主机发生了一个错误，数据包损坏或主机程序被篡改。
+        /// 主机发生了错误，游戏中止。
         /// </summary>
-        public const string ERROR = "ERROR";
+        public const string SERROR = "SERROR";
         /// <summary>
-        /// {0:p}使用的技能{1:m}尚未制作。
+        /// 客户端发生了错误，请退出对战窗口，必要时重启客户端。
         /// </summary>
-        public const string UNFINISHED = "UNFINISHED";
+        public const string CERROR = "CERROR";
 
         public const string PSN = "PSN"; //{0:p}受到了毒的伤害！
         public const string BRN = "BRN"; //{0:p}受到了烧伤的伤害！

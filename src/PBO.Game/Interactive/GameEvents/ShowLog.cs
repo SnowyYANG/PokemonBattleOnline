@@ -16,8 +16,7 @@ namespace PokemonBattleOnline.Game.GameEvents
                 case Ls.PLAYER_DISCONNECT:
                 case Ls.INVALID_INPUT:
                 case Ls.NO_KEY:
-                case Ls.ERROR:
-                case Ls.UNFINISHED:
+                case Ls.SERROR:
                     return LogStyle.SYS;
                 case Ls.PSN:
                 case Ls.BRN:

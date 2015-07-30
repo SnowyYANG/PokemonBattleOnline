@@ -225,7 +225,7 @@ namespace PokemonBattleOnline.PBO
                         key = Ls.INVALID_INPUT;
                         break;
                     default: //Error
-                        key = Ls.ERROR;
+                        key = Ls.SERROR;
                         break;
                 }
                 br.AddLogText(string.Format(GameString.Current.BattleLog(key).LineBreak(), player == null ? null : player.Name));
