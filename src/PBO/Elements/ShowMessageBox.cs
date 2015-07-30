@@ -32,10 +32,6 @@ namespace PokemonBattleOnline.PBO
       //虽然我的目的是不干扰其他窗体，不过如果UI真的只有一个线程，会有效果么
       return MessageBox.Show(window, "现在退出将输掉这场对战，确定退出？", PBO, MessageBoxButton.YesNo, MessageBoxImage.None, MessageBoxResult.No);
     }
-    public static MessageBoxResult GiveUpBattle(Window window)
-    {
-      return MessageBox.Show(window, "这将输掉这场对战，确定放弃？", PBO, MessageBoxButton.YesNo);
-    }
     public static MessageBoxResult SaveLogFail()
     {
       return MessageBox.Show("存储战报失败！");
