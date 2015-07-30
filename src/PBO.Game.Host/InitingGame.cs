@@ -11,9 +11,11 @@ namespace PokemonBattleOnline.Game.Host
     public class InitingGame
     {
         private readonly IPokemonData[,][] pokemons;
+        public readonly int Id;
 
-        public InitingGame(IGameSettings settings)
+        public InitingGame(int id, IGameSettings settings)
         {
+            Id = id;
             _settings = settings;
             pokemons = new IPokemonData[2, settings.Mode.PlayersPerTeam()][];
         }
@@ -35,7 +37,7 @@ namespace PokemonBattleOnline.Game.Host
         {
             if (CanComplete)
             {
-                var game = new GameContext(Settings, pokemons);
+                var game = new GameContext(Id, Settings, pokemons);
                 return game;
             }
             return null;

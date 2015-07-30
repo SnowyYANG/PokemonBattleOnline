@@ -41,6 +41,7 @@ namespace PokemonBattleOnline.Network
                     Server.GetUser(Room[1, 0].Id).Send(new PartnerInfoS2C(initingGame.GetPokemons(1, 1)));
                     Server.GetUser(Room[1, 1].Id).Send(new PartnerInfoS2C(initingGame.GetPokemons(1, 0)));
                 }
+                Record.Add(Room, initingGame);
                 game = initingGame.Complete();
                 initingGame = null;
                 game.GameUpdated += OnGameUpdate;
@@ -55,6 +56,7 @@ namespace PokemonBattleOnline.Network
 
         private void EndGame()
         {
+            Record.Add(Room, game);
             game.Dispose();
             game = null;
             Room.Battling = false;
@@ -62,16 +64,19 @@ namespace PokemonBattleOnline.Network
         }
         private void OnError()
         {
+            Record.Error(Room, game);
             EndGame();
             Server.Send(GameEndS2C.GameStop(0, GameStopReason.Error));
         }
         private void OnGameStop(int userId, GameStopReason reason)
         {
+            Record.Add(Room, game, reason, userId);
             EndGame();
             Send(GameEndS2C.GameStop(userId, reason));
         }
         private void OnTimeUp(int[,] time)
         {
+            Record.Add(Room, game, "TimeUp");
             EndGame();
             var ps = new List<KeyValuePair<int, int>>(4);
             foreach (var p in Room.Players) ps.Add(new KeyValuePair<int, int>(p.Id, time[p.Seat.TeamId(), p.Seat.TeamIndex()]));
@@ -101,11 +106,12 @@ namespace PokemonBattleOnline.Network
         {
             return initingGame != null && seat != Seat.Spectator && initingGame.GetPokemons(seat.TeamId(), seat.TeamIndex()) != null;
         }
+        private int GameId;
         public void Prepare(ServerUser su, IPokemonData[] pokemons)
         {
             if (game == null)
             {
-                if (initingGame == null) initingGame = new InitingGame(Room.Settings);
+                if (initingGame == null) initingGame = new InitingGame(++GameId, Room.Settings);
                 var seat = su.User.Seat;
                 if (initingGame.Prepare(seat.TeamId(), seat.TeamIndex(), pokemons))
                 {

@@ -10,11 +10,13 @@ namespace PokemonBattleOnline.Game.Host
     /// </summary>
     public class GameContext : IDisposable
     {
+        public readonly int Id;
         private readonly Controller Controller;
         private bool gaming;
 
-        internal GameContext(IGameSettings settings, IPokemonData[,][] pokemons)
+        internal GameContext(int id, IGameSettings settings, IPokemonData[,][] pokemons)
         {
+            Id = id;
             Controller = new Controller(settings, pokemons);
         }
 
