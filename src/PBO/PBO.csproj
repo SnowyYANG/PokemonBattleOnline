@@ -99,10 +99,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Elements\Controls\UIButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="LobbyPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -148,6 +144,7 @@
     </Compile>
     <Compile Include="Converters\AllString.cs" />
     <Compile Include="Converters\GameString.cs" />
+    <Compile Include="Converters\UserColor.cs" />
     <Compile Include="Editor\PokemonBank\PokemonBank.xaml.cs">
       <DependentUpon>PokemonBank.xaml</DependentUpon>
     </Compile>
@@ -164,7 +161,6 @@
       <DependentUpon>EvBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Elements\Controls\LimitedValueRule.cs" />
-    <Compile Include="Elements\Controls\UIButton.cs" />
     <Compile Include="LobbyPanel.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>LobbyPanel.xaml</DependentUpon>
@@ -225,7 +221,6 @@
       <DependentUpon>LifeBarSimplified.xaml</DependentUpon>
     </Compile>
     <Compile Include="Elements\Controls\NumericUpdown.cs" />
-    <Compile Include="Elements\Controls\UITextBox.cs" />
     <Compile Include="Converters\BattleType.cs" />
     <Compile Include="Converters\Converter.cs" />
     <Compile Include="Converters\IntString.cs" />
@@ -244,14 +239,6 @@
     <Page Include="Battle\NDS\LifeBars\LifeBarSimplified.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Elements\Controls\UITextBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Elements\Controls\NumericUpdown.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Elements\Controls\Controls.xaml">
       <SubType>Designer</SubType>

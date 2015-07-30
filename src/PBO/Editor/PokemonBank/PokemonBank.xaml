@@ -39,8 +39,40 @@
                         </Style>
                     </ItemsControl.ItemContainerStyle>
                 </ItemsControl>
-                <ui:UIButton Content="新建队伍" Click="NewTeam_Click" Shape="M5.5,1.5 L100.5,1.5 104.5,10 100.5,18.5 5.5,18.5 1.5,10Z"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <ui:UIButton Content="从剪贴板导入" Click="PasteTeam_Click" Shape="M5.5,1.5 L100.5,1.5 104.5,10 100.5,18.5 5.5,18.5 1.5,10Z" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="160,0,0,0"/>
+                <Grid Height="32" Width="292" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Grid.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Grid x:Name="grid" Background="Transparent">
+                                            <TextBlock Text="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="grid" Property="Background" Value="#40ffffff"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="grid" Property="Background" Value="#80ffffff"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Grid.Resources>
+                    <Rectangle IsHitTestVisible="False" Margin="3,2">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#80ffffff" Offset="0.5"/>
+                                <GradientStop Color="#00ffffff" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Button Content="新建队伍" Click="NewTeam_Click" Foreground="#006600" Margin="3,2,146,2"/>
+                    <Button Content="从剪贴板导入" Click="PasteTeam_Click" Foreground="#333333" Margin="146,2,3,2"/>
+                </Grid>
             </Grid>
         </ScrollViewer>
         <Canvas IsHitTestVisible="False">
