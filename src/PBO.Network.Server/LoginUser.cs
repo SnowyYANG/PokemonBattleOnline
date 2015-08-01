@@ -34,7 +34,10 @@ namespace PokemonBattleOnline.Network
                 {
                     case 0: //version
                         var v = pack.ToUInt16();
-                        if (v != PBOMarks.VERSION) Dispose();
+                        if (v != PBOMarks.VERSION)
+                        {
+                            Dispose();
+                        }
                         else
                         {
                             state = 1;

@@ -21,7 +21,7 @@ namespace PokemonBattleOnline.Network
 
         public static event Action<Client> LoginSucceed;
         public static event Action Disconnect;
-        public static event Action BadVersion;
+        public static event Action<UInt16> BadVersion;
         public static event Action BadName;
         public static event Action Full;
 
@@ -72,9 +72,20 @@ namespace PokemonBattleOnline.Network
                 isFailed = true;
             }
         }
+        private void OnBadVersion(UInt16 version)
+        {
+            if (!isFailed)
+            {
+                TimeBomb.Dispose();
+                UIDispatcher.Invoke(BadVersion, version);
+                if (Network != null) Network.Dispose();
+                isFailed = true;
+            }
+        }
         private void OnLoginFailed()
         {
-            OnLoginFailed(state == 1 ? BadName : BadVersion);
+            if (state == 1) OnLoginFailed(BadName);
+            else OnBadVersion(0);
         }
 
         private byte state;
@@ -89,7 +100,11 @@ namespace PokemonBattleOnline.Network
                         Network.Sender.Send(Name.ToPack());
                     }
                     else if (pack.ToByte() == 'f') OnLoginFailed(Full); //实际上这条消息在version发送前就会收到
-                    else OnLoginFailed(BadVersion);
+                    else
+                    {
+                        var v = pack.ToUInt16();
+                        OnBadVersion(v ?? 0);
+                    }
                     break;
                 case 1:
                     if (pack.IsEmpty())
