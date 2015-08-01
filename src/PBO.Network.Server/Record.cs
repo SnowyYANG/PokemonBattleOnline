@@ -68,7 +68,14 @@ namespace PokemonBattleOnline.Network
 
         public static void Add(Room room, InitingGame ig)
         {
-            if (room != null && ig != null && IgPath != null) ((Action<int, InitingGame>)AddInitingGameImplement).BeginInvoke(room.Id, ig, Callback, null);
+            if (room != null && ig != null && IgPath != null)
+            {
+                try
+                {
+                    ((Action<int, InitingGame>)AddInitingGameImplement).BeginInvoke(room.Id, ig, Callback, null);
+                }
+                catch { }
+            }
         }
         private static readonly object igLocker = new object();
         private static void AddInitingGameImplement(int room, InitingGame ig)
@@ -130,7 +137,14 @@ namespace PokemonBattleOnline.Network
         }
         public static void Error(Room room, GameContext game)
         {
-            if (room != null && game != null && EPath != null) ((Action<int, int>)ErrorImplement).BeginInvoke(room.Id, game.Id, Callback, null);
+            if (room != null && game != null && EPath != null)
+            {
+                try
+                {
+                    ((Action<int, int>)ErrorImplement).BeginInvoke(room.Id, game.Id, Callback, null);
+                }
+                catch { }
+            }
         }
         private static readonly object eLocker = new object();
         public static void ErrorImplement(int room, int game)
