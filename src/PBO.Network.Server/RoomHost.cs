@@ -28,6 +28,7 @@ namespace PokemonBattleOnline.Network
             foreach (var su in Users.Values) su.Send(s2c);
         }
 
+        private InitingGame rig;
         private void TryStartGame()
         {
             if (initingGame.CanComplete)
@@ -41,7 +42,7 @@ namespace PokemonBattleOnline.Network
                     Server.GetUser(Room[1, 0].Id).Send(new PartnerInfoS2C(initingGame.GetPokemons(1, 1)));
                     Server.GetUser(Room[1, 1].Id).Send(new PartnerInfoS2C(initingGame.GetPokemons(1, 0)));
                 }
-                Record.Add(Room, initingGame);
+                rig = initingGame;
                 game = initingGame.Complete();
                 initingGame = null;
                 game.GameUpdated += OnGameUpdate;
@@ -56,6 +57,7 @@ namespace PokemonBattleOnline.Network
 
         private void EndGame()
         {
+            Record.Add(Room, rig);
             Record.Add(Room, game);
             game.Dispose();
             game = null;
