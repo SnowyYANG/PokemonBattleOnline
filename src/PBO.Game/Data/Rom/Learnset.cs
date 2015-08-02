@@ -74,8 +74,10 @@ namespace PokemonBattleOnline.Game
         public readonly TMHMTutorLearnset TM;
         public readonly TMHMTutorLearnset Tutor;
         public readonly TMHMTutorLearnset HM;
+        public readonly TMHMTutorLearnset E1;
+        public readonly TMHMTutorLearnset E2;
 
-        public GameLearnset(string name, LvLearnset lv, EggLearnset egg, TMHMTutorLearnset tm, TMHMTutorLearnset tutor, TMHMTutorLearnset hm)
+        public GameLearnset(string name, LvLearnset lv, EggLearnset egg, TMHMTutorLearnset tm, TMHMTutorLearnset tutor, TMHMTutorLearnset hm, TMHMTutorLearnset e1, TMHMTutorLearnset e2)
         {
             Name = name;
             Lv = lv;
@@ -83,6 +85,8 @@ namespace PokemonBattleOnline.Game
             TM = tm;
             Tutor = tutor;
             HM = hm;
+            E1 = e1;
+            E2 = e2;
         }
     }
     public class GenLearnset
@@ -99,9 +103,9 @@ namespace PokemonBattleOnline.Game
         public IEnumerable<GameLearnset> Games
         { get { return games.Values; } }
 
-        internal void Add(string game, LvLearnset lv, EggLearnset egg, TMHMTutorLearnset tm, TMHMTutorLearnset tutor, TMHMTutorLearnset hm)
+        internal void Add(string game, LvLearnset lv, EggLearnset egg, TMHMTutorLearnset tm, TMHMTutorLearnset tutor, TMHMTutorLearnset hm, TMHMTutorLearnset e1, TMHMTutorLearnset e2)
         {
-            games.Add(game, new GameLearnset(game, lv, egg, tm, tutor, hm));
+            games.Add(game, new GameLearnset(game, lv, egg, tm, tutor, hm, e1, e2));
         }
     }
     public class Learnset
@@ -129,7 +133,7 @@ namespace PokemonBattleOnline.Game
                     }
                     LvLearnset lv = null;
                     EggLearnset egg = null;
-                    TMHMTutorLearnset tm = null, hm = null, tutor = null;
+                    TMHMTutorLearnset tm = null, hm = null, tutor = null, e1 = null, e2 = null;
                     for (int i = 2; i < s.Length; ++i)
                     {
                         var table = s[i];
@@ -186,10 +190,21 @@ namespace PokemonBattleOnline.Game
                                 }
                                 break;
                             case 'v': //Event
+                                {
+                                    var e = tmhmts.ValueOrDefault(table);
+                                    if (e == null)
+                                    {
+                                        e = new TMHMTutorLearnset();
+                                        LoadEvents(dll.GetManifestResourceStream("PokemonBattleOnline.Game.dat.Learnset." + table + ".txt"), e);
+                                        tmhmts.Add(table, e);
+                                    }
+                                    if (e1 == null) e1 = e;
+                                    else e2 = e;
+                                }
                                 break;
                         }
                     }//for (int i = 2;
-                    gll.Add(s[1], lv, egg, tm, tutor, hm);
+                    gll.Add(s[1], lv, egg, tm, tutor, hm, e1, e2);
                 }
                 Index[gll.Gen - 3] = gll;
             }
@@ -276,6 +291,26 @@ namespace PokemonBattleOnline.Game
                     //[0].[1] [2],[3]...
                     var s = line.Split(SPLIT_CHARS, StringSplitOptions.RemoveEmptyEntries);
                     for (int i = 2; i < s.Length; ++i) moves.Add(int.Parse(s[i]));
+                    if (moves.Any())
+                    {
+                        tutor.Set(int.Parse(s[0]), int.Parse(s[1]), moves.ToArray());
+                        moves.Clear();
+                    }
+                }
+        }
+        private static void LoadEvents(Stream stream, TMHMTutorLearnset tutor)
+        {
+            var moves = new List<int>();
+            using (var sr = new StreamReader(stream))
+                for (string line = sr.ReadLine(); !string.IsNullOrWhiteSpace(line); line = sr.ReadLine())
+                {
+                    //[0].[1] [2],[3]...
+                    var s = line.Split(SPLIT_CHARS, StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 2; i < s.Length; ++i)
+                    {
+                        var m = s[i].Split(':');
+                        moves.Add(int.Parse(m[0]));
+                    }
                     if (moves.Any())
                     {
                         tutor.Set(int.Parse(s[0]), int.Parse(s[1]), moves.ToArray());
