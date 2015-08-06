@@ -48,7 +48,7 @@
                 </Style>
             </Polygon.Style>
         </Polygon>
-        <Image Name="icon" IsHitTestVisible="False" Height="32" Canvas.Left="-4" Stretch="Uniform">
+        <Image Name="icon" IsHitTestVisible="False" Height="30" Width="40" Canvas.Left="-4" Canvas.Bottom="0">
             <Image.ToolTip>
                 <ToolTip Content="{Binding Model}">
                     <ToolTip.ContentTemplate>

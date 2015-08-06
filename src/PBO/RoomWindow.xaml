@@ -24,24 +24,24 @@
             <ContentControl Content="{Binding Room[3]}" ContentTemplate="{x:Static ui:Cartes.UserR}" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1"/>
             <TextBlock Text="VS" Foreground="#333333" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.RowSpan="2"/>
             <TextBlock Name="Spectating" Text="观战中，游戏尚未开始，等待游戏开始。" Margin="0,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="2"/>
-            <StackPanel Name="PrepareTeam" Orientation="Horizontal" Margin="0,32,0,0" Height="32" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="2">
-                <Image Height="32" Stretch="Uniform" Source="{Binding [0],Converter={x:Static c:PokemonDataIcon.C}}"/>
-                <Image Height="32" Stretch="Uniform" Source="{Binding [1],Converter={x:Static c:PokemonDataIcon.C}}"/>
-                <Image Height="32" Stretch="Uniform" Source="{Binding [2],Converter={x:Static c:PokemonDataIcon.C}}"/>
-                <Image x:Name="p3" Height="32" Stretch="Uniform" Source="{Binding [3],Converter={x:Static c:PokemonDataIcon.C}}"/>
-                <Image Visibility="{Binding Visibility,ElementName=p3}" Height="32" Stretch="Uniform" Source="{Binding [4],Converter={x:Static c:PokemonDataIcon.C}}"/>
-                <Image Visibility="{Binding Visibility,ElementName=p3}" Height="32" Stretch="Uniform" Source="{Binding [5],Converter={x:Static c:PokemonDataIcon.C}}"/>
+            <StackPanel Name="PrepareTeam" Orientation="Horizontal" Margin="0,32,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="2">
+                <Image Height="30" Width="40" Source="{Binding [0],Converter={x:Static c:PokemonDataIcon.C}}"/>
+                <Image Height="30" Width="40" Source="{Binding [1],Converter={x:Static c:PokemonDataIcon.C}}"/>
+                <Image Height="30" Width="40" Source="{Binding [2],Converter={x:Static c:PokemonDataIcon.C}}"/>
+                <Image x:Name="p3" Height="30" Width="40" Source="{Binding [3],Converter={x:Static c:PokemonDataIcon.C}}"/>
+                <Image Visibility="{Binding Visibility,ElementName=p3}" Height="30" Width="40" Source="{Binding [4],Converter={x:Static c:PokemonDataIcon.C}}"/>
+                <Image Visibility="{Binding Visibility,ElementName=p3}" Height="30" Width="40" Source="{Binding [5],Converter={x:Static c:PokemonDataIcon.C}}"/>
             </StackPanel>
             <ListBox Name="Teams" Margin="0,32,0,0" Grid.Row="2" BorderBrush="{x:Null}" Background="White" BorderThickness="0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Height="32">
-                            <Image Height="32" Width="40" Source="{Binding [0].RIcon}"/>
-                            <Image Height="32" Width="40" Source="{Binding [1].RIcon}"/>
-                            <Image Height="32" Width="40" Source="{Binding [2].RIcon}"/>
-                            <Image Visibility="{Binding Visibility,ElementName=p3}" Height="32" Width="40" Source="{Binding [3].RIcon}"/>
-                            <Image Visibility="{Binding Visibility,ElementName=p3}" Height="32" Width="40" Source="{Binding [4].RIcon}"/>
-                            <Image Visibility="{Binding Visibility,ElementName=p3}" Height="32" Width="40" Source="{Binding [5].RIcon}"/>
+                        <StackPanel Orientation="Horizontal" Height="30">
+                            <Image Height="30" Width="40" Source="{Binding [0].RIcon}"/>
+                            <Image Height="30" Width="40" Source="{Binding [1].RIcon}"/>
+                            <Image Height="30" Width="40" Source="{Binding [2].RIcon}"/>
+                            <Image Visibility="{Binding Visibility,ElementName=p3}" Height="30" Width="40" Source="{Binding [3].RIcon}"/>
+                            <Image Visibility="{Binding Visibility,ElementName=p3}" Height="30" Width="40" Source="{Binding [4].RIcon}"/>
+                            <Image Visibility="{Binding Visibility,ElementName=p3}" Height="30" Width="40" Source="{Binding [5].RIcon}"/>
                             <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
                         </StackPanel>
                     </DataTemplate>

@@ -11,7 +11,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.PBO.Editor
 {
@@ -37,8 +36,8 @@ namespace PokemonBattleOnline.PBO.Editor
             {
                 data.icon.Source = null;
                 var p = e.GetPosition(this);
-                Canvas.SetLeft(DragIcon, p.X - 16);
-                Canvas.SetTop(DragIcon, p.Y - 16);
+                Canvas.SetLeft(DragIcon, p.X - DragIcon.ActualWidth / 2);
+                Canvas.SetTop(DragIcon, p.Y - DragIcon.ActualHeight / 2);
             }
         }
         protected override void OnGiveFeedback(GiveFeedbackEventArgs e)

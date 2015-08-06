@@ -44,7 +44,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
-                                            <Image Source="{TemplateBinding Content,Converter={x:Static c:SimPokemonIcon.C}}" Stretch="Uniform" SnapsToDevicePixels="True" Height="32"/>
+                                            <Image Source="{TemplateBinding Content,Converter={x:Static c:SimPokemonIcon.C}}" SnapsToDevicePixels="True" Height="30" Width="40"/>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -206,7 +206,7 @@
                                         <Rectangle RadiusX="5" RadiusY="5" Fill="#80000000" Width="100" Height="24" Canvas.Left="-15" Canvas.Top="-12"/>
                                         <TextBlock Text="{Binding Name}" FontSize="14" Foreground="#ffffff" Width="100" Canvas.Left="-15" Canvas.Top="-9"/>
                                         <ContentPresenter Content="{Binding Gender}" TextBlock.FontSize="14" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Left="58" Canvas.Top="13"/>
-                                        <Image Source="{Binding Converter={x:Static c:PokemonOutwardIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Bottom="3" Canvas.Right="20"/>
+                                        <Image Source="{Binding Converter={x:Static c:PokemonOutwardIcon.C}}" Height="30" Width="40" SnapsToDevicePixels="True" Canvas.Bottom="3" Canvas.Right="18"/>
                                     </Canvas>
                                 </DataTemplate>
                             </Setter.Value>
@@ -227,7 +227,7 @@
                                         <Rectangle RadiusX="5" RadiusY="5" Fill="#80000000" Width="100" Height="24" Canvas.Left="-15" Canvas.Top="-12"/>
                                         <TextBlock Text="{Binding Name}" FontSize="14" Foreground="#ffffff" Width="100" Canvas.Left="-15" Canvas.Top="-9"/>
                                         <ContentPresenter Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Left="58" Canvas.Top="13"/>
-                                        <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Bottom="3" Canvas.Right="20"/>
+                                        <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="30" Width="40" SnapsToDevicePixels="True" Canvas.Bottom="3" Canvas.Right="18"/>
                                     </Canvas>
                                 </DataTemplate>
                             </Setter.Value>
@@ -296,7 +296,7 @@
                                                     <Setter Property="Canvas.Top" Value="36"/>
                                                 </Style>
                                             </Canvas.Resources>
-                                            <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Top="4"/>
+                                            <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="30" Width="40" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Top="4"/>
                                             <Image Name="item" Stretch="Uniform" Source="/PBO;component/images/Item.png" Width="8" Height="10" Canvas.Left="28" Canvas.Top="26" SnapsToDevicePixels="True" />
                                             <TextBlock Text="{Binding Name}" Foreground="Black" FontSize="14" Width="54" Canvas.Left="39" Canvas.Top="9"/>
                                             <ContentPresenter Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Left="139" Canvas.Top="9"/>
@@ -356,7 +356,7 @@
                                                     <Setter Property="Canvas.Top" Value="36"/>
                                                 </Style>
                                             </Canvas.Resources>
-                                            <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="32" Stretch="Uniform" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Top="4"/>
+                                            <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="30" Width="40" SnapsToDevicePixels="True" Canvas.Left="-1" Canvas.Top="6"/>
                                             <Image Name="item" Stretch="Uniform" Source="/PBO;component/images/Item.png" Width="8" Height="10" Canvas.Left="28" Canvas.Top="26" SnapsToDevicePixels="True" />
                                             <TextBlock Text="{Binding Name}" Foreground="Black" FontSize="14" Width="54" Canvas.Left="39" Canvas.Top="9"/>
                                             <ContentPresenter Content="{Binding Gender}" ContentTemplate="{x:Static ui:Labels.Gender}" Canvas.Left="139" Canvas.Top="9"/>
@@ -457,7 +457,7 @@
                     </Canvas.Resources>
                     <Rectangle Width="256" Height="3" Fill="Black"/>
                     <Rectangle Canvas.Top="5" Width="256" Height="22" Fill="Black"/>
-                    <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="32" Width="32" Canvas.Left="4" Canvas.Top="-4"/>
+                    <Image Source="{Binding Converter={x:Static c:SimPokemonIcon.C}}" Height="30" Width="40"/>
                     <TextBlock Text="{Binding Name}" Canvas.Left="40" Canvas.Top="8" Width="111" />
                     <ContentPresenter Content="{Binding Form.Type1}" ContentTemplate="{x:Static ui:Labels.BattleType}" Width="40" Canvas.Right="3" Canvas.Top="8"/>
                     <ContentPresenter Content="{Binding Form.Type2}" ContentTemplate="{x:Static ui:Labels.BattleType}" Width="40" Canvas.Right="45" Canvas.Top="8"/>
