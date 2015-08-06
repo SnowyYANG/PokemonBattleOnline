@@ -115,12 +115,6 @@ namespace PokemonBattleOnline.PBO
                 Teams.Visibility = System.Windows.Visibility.Collapsed;
                 Start.Content = "等待其他玩家开始对战...";
                 Start.IsEnabled = false;
-                try
-                {
-                    var ev = Editor.EditorVM.Current;
-                    if (ev != null) ev.Save();
-                }
-                catch { }
             }
         }
         

@@ -15,44 +15,46 @@ using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.PBO.Editor
 {
-  /// <summary>
-  /// Interaction logic for PokemonBank.xaml
-  /// </summary>
-  public partial class PokemonBank : UserControl
-  {
-    public static PokemonBank Current
-    { get; private set; }
+    /// <summary>
+    /// Interaction logic for PokemonBank.xaml
+    /// </summary>
+    public partial class PokemonBank : UserControl
+    {
+        public static PokemonBank Current
+        { get; private set; }
 
-    public PokemonBank()
-    {
-      Current = this;
-      InitializeComponent();
-    }
+        public PokemonBank()
+        {
+            Current = this;
+            InitializeComponent();
+        }
 
-    protected override void OnPreviewDragOver(DragEventArgs e)
-    {
-      base.OnPreviewDragOver(e);
-      var data = (PokemonIcon)e.Data.GetData(typeof(PokemonIcon));
-      if (data != null)
-      {
-        data.icon.Source = null;
-        var p = e.GetPosition(this);
-        Canvas.SetLeft(DragIcon, p.X - 16);
-        Canvas.SetTop(DragIcon, p.Y - 16);
-      }
-    }
-    protected override void OnGiveFeedback(GiveFeedbackEventArgs e)
-    {
-      e.Handled = true;
-    }
-    private void NewTeam_Click(object sender, RoutedEventArgs e)
-    {
-      EditorVM.Current.NewTeam();
-    }
+        protected override void OnPreviewDragOver(DragEventArgs e)
+        {
+            base.OnPreviewDragOver(e);
+            var data = (PokemonIcon)e.Data.GetData(typeof(PokemonIcon));
+            if (data != null)
+            {
+                data.icon.Source = null;
+                var p = e.GetPosition(this);
+                Canvas.SetLeft(DragIcon, p.X - 16);
+                Canvas.SetTop(DragIcon, p.Y - 16);
+            }
+        }
+        protected override void OnGiveFeedback(GiveFeedbackEventArgs e)
+        {
+            e.Handled = true;
+        }
+        private void NewTeam_Click(object sender, RoutedEventArgs e)
+        {
+            EditorVM.Current.Save();
+            EditorVM.Current.NewTeam();
+        }
 
-    private void PasteTeam_Click(object sender, RoutedEventArgs e)
-    {
-      EditorVM.Current.ImportTeam(Clipboard.GetText());
+        private void PasteTeam_Click(object sender, RoutedEventArgs e)
+        {
+            EditorVM.Current.ImportTeam(Clipboard.GetText());
+            EditorVM.Current.Save();
+        }
     }
-  }
 }
