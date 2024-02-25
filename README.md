@@ -1,6 +1,6 @@
 # Pokemon Battle Online
 
-宝可梦对战模拟器，Gen6世代限定（包含ORAS），支持4P。  
+宝可梦对战模拟器，第六世代限定（包含XY、ORAS），支持4P。  
 项目已更新到.net 4.8，请用Visual Studio 2022打开。  
 图片和部分UI设计版权在宝可梦官方，另招募宝可梦同人图画师（联系<snowyyang@outlook.com>）。
 
