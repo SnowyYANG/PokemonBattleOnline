@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>PBOtest H5 Client</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 12px; }
+    #messages { border:1px solid #ccc; height:300px; overflow:auto; padding:6px; margin-bottom:8px; }
+    .msg { margin:4px 0; }
+    .meta { color:#666; font-size:12px; }
+    input, select, button { margin-right:6px; }
+  </style>
+</head>
+<body>
+  <h1>PBOtest H5 Client</h1>
+
+  <div>
+    <label>Server: <input id="server" value="localhost:8080"></label>
+    <label>Room: <input id="room" value="room1"></label>
+    <label>Nickname: <input id="nickname" value="user"></label>
+    <label>Seat:
+      <select id="seat">
+        <option value="spectator">spectator</option>
+        <option value="player1">player1</option>
+        <option value="player2">player2</option>
+      </select>
+    </label>
+    <button id="connectBtn">Connect</button>
+    <button id="quitBtn" disabled>Quit</button>
+  </div>
+
+  <div id="messages"></div>
+
+  <div>
+    <input id="chatInput" placeholder="Type chat..." style="width:60%">
+    <button id="sendChatBtn" disabled>Send</button>
+  </div>
+
+  <div style="margin-top:8px;">
+    <label>Team: <input id="team" value="A" style="width:40px"></label>
+    <label>Mode:
+      <select id="mode">
+        <option value="single">single</option>
+        <option value="coop">coop</option>
+      </select>
+    </label>
+    <button id="prepareBtn" disabled>Prepare</button>
+  </div>
+
+  <script>
+    let ws = null;
+    let connected = false;
+    const messagesEl = document.getElementById('messages');
+    const connectBtn = document.getElementById('connectBtn');
+    const quitBtn = document.getElementById('quitBtn');
+    const sendChatBtn = document.getElementById('sendChatBtn');
+    const prepareBtn = document.getElementById('prepareBtn');
+
+    function log(text, meta) {
+      const d = document.createElement('div');
+      d.className = 'msg';
+      d.innerHTML = text + (meta ? (' <span class="meta">' + meta + '</span>') : '');
+      messagesEl.appendChild(d);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function connect() {
+      if (connected) return;
+      const room = document.getElementById('room').value.trim();
+      const nickname = document.getElementById('nickname').value.trim();
+      const seat = document.getElementById('seat').value;
+      if (!room || !nickname) { alert('room and nickname required'); return; }
+
+      ws = new WebSocket('ws://'+document.getElementById('server').value.trim());
+
+      ws.addEventListener('open', () => {
+        log('WebSocket connected');
+        // Send login object required by server
+        ws.send(JSON.stringify({
+          secret: 'PBOtest',
+          room: room,
+          nickname: nickname,
+          seat: seat,
+          version: '0.1-h5'
+        }));
+        connected = true;
+        connectBtn.disabled = true;
+        quitBtn.disabled = false;
+        sendChatBtn.disabled = false;
+        prepareBtn.disabled = false;
+        //startHeartbeat();
+      });
+
+      ws.addEventListener('message', (ev) => {
+        let data = ev.data;
+        try {
+          if (typeof data === 'string' && (data[0] === '{' || data[0] === '[')) data = JSON.parse(data);
+        } catch (e) {
+          log('Received non-json message: ' + ev.data);
+          return;
+        }
+
+        // handle server messages
+        if (data.secret) {
+          log('Server: ' + (data.message || 'welcome'), 'version:' + (data.serverVersion || data.version || 'unknown'));
+          return;
+        }
+
+        // standard heads from server: chat, gameStart, userQuit, userClosed, ...
+        switch (data.head) {
+          case 'chat':
+            log((data.nickname ? ('['+data.nickname+'] ') : '') + data.message, 'chat');
+            break;
+          case 'gameStart':
+            log('Game starting with teams: ' + JSON.stringify(data.teams), 'gameStart');
+            break;
+          case 'userQuit':
+            log('User quit: ' + data.nickname, 'userQuit');
+            break;
+          case 'userClosed':
+            log('User disconnected: ' + data.nickname, 'userClosed');
+            break;
+          default:
+            log('Unknown message: ' + JSON.stringify(data));
+        }
+      });
+
+      ws.addEventListener('close', () => {
+        log('WebSocket closed');
+        connected = false;
+        connectBtn.disabled = false;
+        quitBtn.disabled = true;
+        sendChatBtn.disabled = true;
+        prepareBtn.disabled = true;
+        stopHeartbeat();
+      });
+
+      ws.addEventListener('error', (e) => {
+        console.error('ws error', e);
+        log('WebSocket error');
+      });
+    }
+
+    function sendHead(obj) {
+      if (!ws || ws.readyState !== WebSocket.OPEN) { log('Not connected'); return; }
+      ws.send(JSON.stringify(obj));
+    }
+
+    document.getElementById('sendChatBtn').addEventListener('click', () => {
+      const text = document.getElementById('chatInput').value.trim();
+      if (!text) return;
+      sendHead({ head: 'chat', message: text });
+      // locally echo
+      log('[me] ' + text, 'chat');
+      document.getElementById('chatInput').value = '';
+    });
+
+    prepareBtn.addEventListener('click', () => {
+      const team = document.getElementById('team').value;
+      const mode = document.getElementById('mode').value;
+      sendHead({ head: 'prepare', team: team, mode: mode });
+      log('Prepared: team=' + team + ' mode=' + mode, 'prepare');
+    });
+
+    quitBtn.addEventListener('click', () => {
+      sendHead({ head: 'quit' });
+      // close locally
+      if (ws) ws.close();
+    });
+
+    connectBtn.addEventListener('click', () => connect());
+
+    // Heartbeat: browsers cannot send raw websocket ping frames.
+    // We'll send periodic heartbeat messages (server doesn't treat them as ping,
+    // but it's useful for detecting connection loss client-side).
+    let hbTimer = null;
+    function startHeartbeat() {
+      stopHeartbeat();
+      hbTimer = setInterval(() => {
+        if (ws && ws.readyState === WebSocket.OPEN) {
+          try {
+            ws.send(JSON.stringify({ head: 'heartbeat', t: Date.now() }));
+          } catch (e) { /* ignore */ }
+        }
+      }, 15000);
+    }
+    function stopHeartbeat() {
+      if (hbTimer) { clearInterval(hbTimer); hbTimer = null; }
+    }
+
+    // quick auto-connect for dev
+    // connect();
+  </script>
+</body>
+</html>
