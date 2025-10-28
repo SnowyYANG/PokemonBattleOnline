@@ -1,4 +1,5 @@
 const WebSocket = require('ws');
+const {pokemonData2Proxy, pokemonData2Sim} = require('./pokemon.js');
 
 const wss = new WebSocket.Server({ port: 8080 }, () => {
   console.log('WebSocket server listening on ws://localhost:8080');
@@ -63,16 +64,39 @@ wss.on('connection', (ws, req) => {
               team: data.team,
               mode: data.mode
             }
+            preparedTeams.push(preparedTeam);
+            clientLog('prepared');
             if (data.mode == 'single') {
-              let others = preparedTeams.filter(t => t.room == clientInfo.room && t.clientId !== clientInfo.id)
-              if (others[0]) {
-                if (others[0].mode == preparedTeam.mode) {
-                  preparedTeams = preparedTeams.filter(t => t.room != clientInfo.room);
+              const prepare = preparedTeams.filter(t => t.room == clientInfo.room)
+              if (prepare.length == 2 && prepare[0].seat != prepare[1].seat && prepare[0].mode == prepare[1].mode) {
                   //game start
-                  send(clientInfo.room, { head: 'gameStart', teams: [preparedTeam, others[0]] });
-                } else {
-                  preparedTeams.push(preparedTeam);
-                }
+                  let team0 = prepare[0].team.map(p => pokemonData2Proxy(p, 0))
+                  let team1 = prepare[1].team.map(p => pokemonData2Proxy(p, 1))
+                  let game = {
+                    id: Date.now() + Math.random().toString(36).substring(2, 9),
+                    gaming: true,
+                    teams: [[team0], [team1]],
+                  }
+                  games.push(game)
+                  preparedTeams = preparedTeams.filter(t => t.room != clientInfo.room); //remove current
+                  send(clientInfo.room, { 
+                    head: 'game.start', 
+                    gameId: game.id,
+                    mode: data.mode,
+                    teams: [prepare[0].team.map(p => pokemonData2Sim(p, 0)), prepare[1].team.map(p => pokemonData2Sim(p, 1))]
+                  })
+                  send(clientInfo.room, {
+                    head: 'game.sendOut',
+                    nickname: prepare[0].nickname,
+                    pokemonname: team0[0].name
+                  })
+                  send(clientInfo.room, {
+                    head: 'game.sendOut',
+                    nickname: prepare[1].nickname,
+                    pokemonname: team1[0].name
+                  })
+              } else {
+                //clear prepare and notify error
               }
             }
           }  else {

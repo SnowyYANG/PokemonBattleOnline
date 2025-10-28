@@ -6,46 +6,48 @@
   <style>
     body { font-family: Arial, sans-serif; margin: 12px; }
     #messages { border:1px solid #ccc; height:300px; overflow:auto; padding:6px; margin-bottom:8px; }
-    .msg { margin:4px 0; }
-    .meta { color:#666; font-size:12px; }
     input, select, button { margin-right:6px; }
   </style>
 </head>
 <body>
   <h1>PBOtest H5 Client</h1>
 
-  <div>
-    <label>Server: <input id="server" value="localhost:8080"></label>
-    <label>Room: <input id="room" value="room1"></label>
-    <label>Nickname: <input id="nickname" value="user"></label>
-    <label>Seat:
-      <select id="seat">
-        <option value="spectator">spectator</option>
-        <option value="player1">player1</option>
-        <option value="player2">player2</option>
-      </select>
-    </label>
-    <button id="connectBtn">Connect</button>
-    <button id="quitBtn" disabled>Quit</button>
-  </div>
+  <main style="max-width: 600px;">
+    <details open>
+      <summary>Login</summary>
+      <label>Server: <input id="server" value="localhost:8080"></label>
+      <label>Room: <input id="room" value="room1"></label>
+      <label>Nickname: <input id="nickname" value="user"></label>
+      <label>Seat:
+        <select id="seat">
+          <option value="spectator">spectator</option>
+          <option value="player1">player1</option>
+          <option value="player2">player2</option>
+        </select>
+      </label>
+      <button id="connectBtn">Connect</button>
+      <button id="quitBtn" disabled>Quit</button>
+    </details>
 
-  <div id="messages"></div>
+    <div id="messages"></div>
 
-  <div>
-    <input id="chatInput" placeholder="Type chat..." style="width:60%">
-    <button id="sendChatBtn" disabled>Send</button>
-  </div>
+    <details open>
+      <summary>Prepare</summary>
+      <label>Mode:
+        <select id="mode">
+          <option value="single">single</option>
+        </select>
+      </label>
+      <label>Team: </label><button id="prepareBtn">Prepare</button>
+      <textarea id="logArea" style="width:100%;height:150px;">图图犬 摇手指</textarea>
+    </details>
 
-  <div style="margin-top:8px;">
-    <label>Team: <input id="team" value="A" style="width:40px"></label>
-    <label>Mode:
-      <select id="mode">
-        <option value="single">single</option>
-        <option value="coop">coop</option>
-      </select>
-    </label>
-    <button id="prepareBtn" disabled>Prepare</button>
-  </div>
+    <details open>
+      <summary>Chat</summary>
+      <input id="chatInput" placeholder="Type chat..." style="width:60%">
+      <button id="sendChatBtn" disabled>Send</button>
+    </details open>
+  </main>
 
   <script>
     let ws = null;
@@ -58,14 +60,12 @@
 
     function log(text, meta) {
       const d = document.createElement('div');
-      d.className = 'msg';
-      d.innerHTML = text + (meta ? (' <span class="meta">' + meta + '</span>') : '');
+      d.innerHTML = text;
       messagesEl.appendChild(d);
       messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
-    function connect() {
-      if (connected) return;
+    connectBtn.onclick = (_) => {
       const room = document.getElementById('room').value.trim();
       const nickname = document.getElementById('nickname').value.trim();
       const seat = document.getElementById('seat').value;
@@ -111,17 +111,23 @@
           case 'chat':
             log((data.nickname ? ('['+data.nickname+'] ') : '') + data.message, 'chat');
             break;
-          case 'gameStart':
-            log('Game starting with teams: ' + JSON.stringify(data.teams), 'gameStart');
+          case 'game.start':
+            log('PokemonBattleOnline-test v0.10')
+            log('对战模式：' + (data.mode == 'single'? '单打': '未知'))
+            log('对战规则：催眠条款')
+            log('对战开始！')
+            break;
+          case 'game.sendOut':
+            log(data.nickname + '放出了' + data.pokemonname + '！', 'game.sendOut')
             break;
           case 'userQuit':
-            log('User quit: ' + data.nickname, 'userQuit');
+            log('User quit: ' + data.nickname, 'userQuit')
             break;
           case 'userClosed':
-            log('User disconnected: ' + data.nickname, 'userClosed');
+            log('User disconnected: ' + data.nickname, 'userClosed')
             break;
           default:
-            log('Unknown message: ' + JSON.stringify(data));
+            log('Unknown message: ' + JSON.stringify(data))
         }
       });
 
@@ -141,7 +147,7 @@
       });
     }
 
-    function sendHead(obj) {
+    function send(obj) {
       if (!ws || ws.readyState !== WebSocket.OPEN) { log('Not connected'); return; }
       ws.send(JSON.stringify(obj));
     }
@@ -149,44 +155,40 @@
     document.getElementById('sendChatBtn').addEventListener('click', () => {
       const text = document.getElementById('chatInput').value.trim();
       if (!text) return;
-      sendHead({ head: 'chat', message: text });
+      send({ head: 'chat', message: text });
       // locally echo
       log('[me] ' + text, 'chat');
       document.getElementById('chatInput').value = '';
     });
 
-    prepareBtn.addEventListener('click', () => {
-      const team = document.getElementById('team').value;
+    prepareBtn.onclick = (_) => {
+      //const team = document.getElementById('team').value;
       const mode = document.getElementById('mode').value;
-      sendHead({ head: 'prepare', team: team, mode: mode });
-      log('Prepared: team=' + team + ' mode=' + mode, 'prepare');
-    });
+      let team = [{
+        index: 0,
+        name: '图图犬',
+        number: 235,
+        form: 0,
+        lv: 100,
+        gender: 'm',
+        iv: [31,31,31,31,31,31],
+        ev: [252,252,4,0,0,0],
+        item:0,
+        abilityIndex: 0,
+        nature: 0,
+        happiness: 255,
+        moves: [118], //摇手指
+        movesPP: [2],
+      }]
+      send({ head: 'prepare', team: team, mode: mode });
+      log('Prepared: team=' + team[0].name + ' mode=' + mode, 'prepare');
+    }
 
     quitBtn.addEventListener('click', () => {
-      sendHead({ head: 'quit' });
+      send({ head: 'quit' });
       // close locally
       if (ws) ws.close();
     });
-
-    connectBtn.addEventListener('click', () => connect());
-
-    // Heartbeat: browsers cannot send raw websocket ping frames.
-    // We'll send periodic heartbeat messages (server doesn't treat them as ping,
-    // but it's useful for detecting connection loss client-side).
-    let hbTimer = null;
-    function startHeartbeat() {
-      stopHeartbeat();
-      hbTimer = setInterval(() => {
-        if (ws && ws.readyState === WebSocket.OPEN) {
-          try {
-            ws.send(JSON.stringify({ head: 'heartbeat', t: Date.now() }));
-          } catch (e) { /* ignore */ }
-        }
-      }, 15000);
-    }
-    function stopHeartbeat() {
-      if (hbTimer) { clearInterval(hbTimer); hbTimer = null; }
-    }
 
     // quick auto-connect for dev
     // connect();
