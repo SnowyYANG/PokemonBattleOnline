@@ -10,11 +10,11 @@ namespace PokemonBattleOnline
   /// </summary>
   public static class UIDispatcher
   {
-    private static System.Windows.Threading.Dispatcher wpf;
+    private static System.Threading.SynchronizationContext syncContext;
 
-    public static void Init(System.Windows.Threading.Dispatcher dispatcher)
+    public static void Init(System.Threading.SynchronizationContext context)
     {
-      wpf = dispatcher;
+      syncContext = context;
     }
 
     public static void Invoke(Action action)
@@ -25,8 +25,8 @@ namespace PokemonBattleOnline
 #endif
         if (action != null)
         {
-          if (wpf == null || wpf.CheckAccess()) action();
-          else wpf.Invoke(action);
+          if (syncContext == null || System.Threading.SynchronizationContext.Current == syncContext) action();
+          else syncContext.Send(_ => action(), null);
         }
 #if DEBUG
       }
@@ -44,8 +44,8 @@ namespace PokemonBattleOnline
 #endif
         if (method != null)
         {
-          if (wpf == null || wpf.CheckAccess()) method.DynamicInvoke(args);
-          else wpf.Invoke(method, args);
+          if (syncContext == null || System.Threading.SynchronizationContext.Current == syncContext) method.DynamicInvoke(args);
+          else syncContext.Send(_ => method.DynamicInvoke(args), null);
         }
 #if DEBUG
       }
@@ -63,8 +63,8 @@ namespace PokemonBattleOnline
 #endif
         if (method != null)
         {
-          if (wpf == null) method.DynamicInvoke(args);
-          else wpf.BeginInvoke(method, args);
+          if (syncContext == null) method.DynamicInvoke(args);
+          else syncContext.Post(_ => method.DynamicInvoke(args), null);
         }
 #if DEBUG
       }
