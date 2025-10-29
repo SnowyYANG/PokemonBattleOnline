@@ -27,10 +27,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\PBO.Game\PBO.Game.csproj" />
     <ProjectReference Include="..\PokemonBattleOnline\PokemonBattleOnline.csproj" />
   </ItemGroup>
