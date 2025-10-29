@@ -23,7 +23,7 @@ namespace PokemonBattleOnline.Network.Commands
 
         void IS2C.Execute(PboClient client)
         {
-            var room = client.Room;
+            var room = client.RoomController;
             switch (Seat)
             {
                 case Seat.Player00:
@@ -56,7 +56,7 @@ namespace PokemonBattleOnline.Network.Commands
 
         void IS2C.Execute(PboClient client)
         {
-            client.Room.Partner = a_;
+            client.RoomController.Partner = a_;
         }
     }
 
@@ -70,7 +70,7 @@ namespace PokemonBattleOnline.Network.Commands
 
         void IS2C.Execute(PboClient client)
         {
-            client.Room.InputRequest = this;
+            client.RoomController.InputRequest = this;
         }
     }
 
@@ -87,7 +87,7 @@ namespace PokemonBattleOnline.Network.Commands
 
         void IS2C.Execute(PboClient client)
         {
-            RoomController.OnTimeReminder(Players.Select((p) => client.Room.GetUser(p)).ToArray());
+            RoomController.OnTimeReminder(Players.Select((p) => client.RoomController.GetUser(p)).ToArray());
         }
     }
 
@@ -101,7 +101,7 @@ namespace PokemonBattleOnline.Network.Commands
 
         void IS2C.Execute(PboClient client)
         {
-            client.Room.GameStart(this);
+            client.RoomController.GameStart(this);
         }
     }
 
@@ -126,7 +126,7 @@ namespace PokemonBattleOnline.Network.Commands
 
         void IS2C.Execute(PboClient client)
         {
-            client.Room.Update(Es);
+            client.RoomController.Update(Es);
         }
     }
 
@@ -154,10 +154,10 @@ namespace PokemonBattleOnline.Network.Commands
         }
         void IS2C.Execute(PboClient client)
         {
-            if (Player != null) client.Room.OnGameStop(Reason, client.Room.GetUser(Player));
-            else if (Time != null) RoomController.OnTimeUp(Time.Select((p) => new KeyValuePair<User, int>(client.Room.GetUser(p.Key), p.Value)).ToArray());
-            else client.Room.OnGameStop(Reason, null);
-            client.Room.Reset();
+            if (Player != null) client.RoomController.OnGameStop(Reason, client.RoomController.GetUser(Player));
+            else if (Time != null) RoomController.OnTimeUp(Time.Select((p) => new KeyValuePair<User, int>(client.RoomController.GetUser(p.Key), p.Value)).ToArray());
+            else client.RoomController.OnGameStop(Reason, null);
+            client.RoomController.Reset();
         }
     }
 }

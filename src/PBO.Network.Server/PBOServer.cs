@@ -46,7 +46,7 @@ namespace PokemonBattleOnline.Network
                 string json;
                 using (var ms = new MemoryStream())
                 {
-                    var serializer = new DataContractJsonSerializer(s2c.GetType());
+                    var serializer = PboUser.S2CSerializer;
                     serializer.WriteObject(ms, s2c);
                     ms.Position = 0;
                     using (var sr = new StreamReader(ms))
@@ -64,12 +64,13 @@ namespace PokemonBattleOnline.Network
         {
             return Users.ValueOrDefault(id);
         }
-        internal void AddUser(string id, PboUser user)
+        internal void AddUser(string id, PboUser user, string roomId)
         {
             lock (Locker)
             {
                 RoomHost rh = null;
-                if (!Rooms.TryGetValue(user.User.Room.Id, out rh)) rh = AddRoom(user.User.Room.Id);
+                if (!Rooms.TryGetValue(roomId, out rh)) rh = AddRoom(roomId);
+                user.Room = rh;
                 user.Send(new ClientInitS2C(id, rh.Room.GetUsers()));
                 rh.AddUser(user, user.User.Seat);
                 user.Room.Send(UserS2C.AddUser(user.ID, user.User.Name, user.Room.Room.Id, user.User.Seat));
@@ -81,8 +82,8 @@ namespace PokemonBattleOnline.Network
         {
             lock (Locker)
             {
+                user.Room?.Send(UserS2C.RemoveUser(user.ID));
                 if (user.Room != null) user.Room.RemoveUser(user);
-                user.Room.Send(UserS2C.RemoveUser(user.ID));
                 Users.Remove(user.ID);
             }
             Console.WriteLine("({0}) {1} has left the lobby.", DateTime.Now, user.User.Name);

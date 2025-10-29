@@ -42,11 +42,13 @@ namespace PokemonBattleOnline.Network.Commands
 
         void IS2C.Execute(PboClient client)
         {
-            client.inited = true;
-            foreach(var user in _roomUsers)
+            client.MyId = ID;
+            client.RoomController = new RoomController(client, new Room(client.MyRoomId));
+            foreach (var user in _roomUsers)
             {
-                client.Room = new RoomController(client);
+                client.RoomController.Room.AddUser(user.Id, user.Name, user.Seat);
             }
+            client.inited = true;
         }
     }
     [DataContract(Name = "welcome", Namespace = PBOMarks.JSON)]

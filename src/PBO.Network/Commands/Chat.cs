@@ -59,7 +59,7 @@ namespace PokemonBattleOnline.Network.Commands
 
         void IS2C.Execute(PboClient client)
         {
-            var user = client.Room.GetUser(From);
+            var user = client.RoomController.GetUser(From);
             if (user != null)
                 switch (Mode)
                 {

@@ -10,9 +10,9 @@ namespace PokemonBattleOnline.Network.Commands
     [DataContract(Name = "prepare", Namespace = PBOMarks.JSON)]
     public class PrepareC2S : IC2S
     {
-        public static PrepareC2S Prepare(PokemonData[] pms)
+        public static PrepareC2S Prepare(PokemonData[] pms, GameSettings settings)
         {
-            return new PrepareC2S(pms);
+            return new PrepareC2S(pms) { Settings = settings };
         }
         public static PrepareC2S UnPrepare()
         {
@@ -33,7 +33,7 @@ namespace PokemonBattleOnline.Network.Commands
         {
         }
     }
-    [DataContract(Namespace = PBOMarks.JSON)]
+    [DataContract(Name = "input", Namespace = PBOMarks.JSON)]
     public class InputC2S : ActionInput, IC2S
     {
         public InputC2S(ActionInput action)

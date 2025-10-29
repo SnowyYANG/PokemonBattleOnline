@@ -7,7 +7,7 @@ using PokemonBattleOnline.Network.Commands;
 
 namespace PokemonBattleOnline.Network
 {
-    internal class RoomController : ObservableObject
+    public class RoomController : ObservableObject
     {
         public static event Action<string, User> RoomChat;
         internal static void OnRoomChat(string chat, User user)
@@ -35,9 +35,10 @@ namespace PokemonBattleOnline.Network
 
         internal readonly PboClient _Client;
 
-        internal RoomController(PboClient client)
+        internal RoomController(PboClient client, Room room)
         {
             _Client = client;
+            Room = room;
         }
 
         public Seat MySeat
@@ -154,9 +155,10 @@ namespace PokemonBattleOnline.Network
         {
             if (team.Length != 0 && MySeat != Seat.Spectator && Room != null && !Room.Battling)
             {
+                Room.Settings = settings;
                 if (team.Length > Room.Settings.Mode.PokemonsPerPlayer()) team = team.SubArray(0, Room.Settings.Mode.PokemonsPerPlayer());
                 Self = team;
-                _Client.Send(PrepareC2S.Prepare(team));
+                _Client.Send(PrepareC2S.Prepare(team, settings));
             }
         }
         public void GameUnPrepare()
@@ -204,12 +206,6 @@ namespace PokemonBattleOnline.Network
         private IAsyncResult lastAsyncResult;
         internal void Update(GameEvent[] es)
         {
-            var d = new Action<IAsyncResult, GameEvent[]>(UpdateImplement);
-            lastAsyncResult = d.BeginInvoke(lastAsyncResult, es, UpdateImplementCallback, null);
-        }
-        private void UpdateImplement(IAsyncResult lastAsyncResult, GameEvent[] es)
-        {
-            if (lastAsyncResult != null) lastAsyncResult.AsyncWaitHandle.WaitOne();
             Game.Update(es);
             if (PlayerController != null)
             {
@@ -220,11 +216,6 @@ namespace PokemonBattleOnline.Network
                     InputRequest = null;
                 }
             }
-        }
-        private void UpdateImplementCallback(IAsyncResult ar)
-        {
-            var d = new Action<IAsyncResult, GameEvent[]>(UpdateImplement);
-            d.EndInvoke(ar);
         }
 
         public User GetUser(string ID)

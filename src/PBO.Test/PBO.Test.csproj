@@ -15,17 +15,33 @@
     <Copyright>http://pbo.codeplex.com/license</Copyright>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
+    <BaseOutputPath></BaseOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\debug\test\</OutputPath>
+    <OutputPath>..\..\bin\</OutputPath>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PBO.Game.Host\PBO.Game.Host.csproj" />
-    <ProjectReference Include="..\PBO.Game\PBO.Game.csproj" />
-    <ProjectReference Include="..\PBO.Network.Server\PBO.Network.Server.csproj" />
-    <ProjectReference Include="..\PBO.Network\PBO.Network.csproj" />
-    <ProjectReference Include="..\PokemonBattleOnline\PokemonBattleOnline.csproj" />
+    <ProjectReference Include="..\PBO.Game.Host\PBO.Game.Host.csproj">
+      <CopyLocalSatelliteAssemblies>True</CopyLocalSatelliteAssemblies>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PBO.Game\PBO.Game.csproj">
+      <CopyLocalSatelliteAssemblies>True</CopyLocalSatelliteAssemblies>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PBO.Network.Server\PBO.Network.Server.csproj">
+      <CopyLocalSatelliteAssemblies>True</CopyLocalSatelliteAssemblies>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PBO.Network\PBO.Network.csproj">
+      <CopyLocalSatelliteAssemblies>True</CopyLocalSatelliteAssemblies>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PokemonBattleOnline\PokemonBattleOnline.csproj">
+      <CopyLocalSatelliteAssemblies>True</CopyLocalSatelliteAssemblies>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
 </Project>

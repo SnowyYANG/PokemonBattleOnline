@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Network.C2SEs
 {
-    [DataContract(Namespace = PBOMarks.JSON)]
+    [DataContract(Name = "prepare", Namespace = PBOMarks.JSON)]
     internal class PrepareC2S : Commands.PrepareC2S, IC2SE
     {
         public void Execute(PboUser su)
@@ -17,7 +17,7 @@ namespace PokemonBattleOnline.Network.C2SEs
                 else room.UnPrepare(su);
         }
     }
-    [DataContract(Namespace = PBOMarks.JSON)]
+    [DataContract(Name = "input", Namespace = PBOMarks.JSON)]
     internal class InputC2S : Commands.InputC2S, IC2SE
     {
         private InputC2S()

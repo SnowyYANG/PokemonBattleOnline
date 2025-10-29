@@ -11,13 +11,13 @@ using WebSocketSharp.Server;
 
 internal class PboUser : WebSocketBehavior
 {
-    private static readonly DataContractJsonSerializer C2SSerializer;
+    private static readonly DataContractJsonSerializer C2SESerializer;
     public static readonly DataContractJsonSerializer S2CSerializer;
 
     static PboUser()
     {
-        var c2s = typeof(IC2SE);
-        C2SSerializer = new DataContractJsonSerializer(c2s, c2s.SubClasses());
+        var c2se = typeof(IC2SE);
+        C2SESerializer = new DataContractJsonSerializer(c2se, c2se.SubClasses());
         var s2c = typeof(IS2C);
         S2CSerializer = new DataContractJsonSerializer(s2c, s2c.SubClasses());
     }
@@ -48,7 +48,7 @@ internal class PboUser : WebSocketBehavior
         lock (Locker)
         {
             User = new User(ID, name, room, seat);
-            Server.AddUser(ID, this);
+            Server.AddUser(ID, this, room);
         }
     }
 
@@ -63,7 +63,7 @@ internal class PboUser : WebSocketBehavior
         IC2SE c2s = null;
         using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(e.Data)))
         {
-            c2s = (IC2SE)C2SSerializer.ReadObject(ms) as IC2SE;
+            c2s = (IC2SE)C2SESerializer.ReadObject(ms);
         }
         lock (Locker)
         {
@@ -100,7 +100,7 @@ internal class PboUser : WebSocketBehavior
     {
         using (var ms = new MemoryStream())
         {
-            C2SSerializer.WriteObject(ms, command);
+            S2CSerializer.WriteObject(ms, command);
             ms.Position = 0;
             using (var sr = new StreamReader(ms, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, bufferSize: 1024, leaveOpen: true))
             {

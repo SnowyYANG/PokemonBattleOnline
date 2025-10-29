@@ -29,7 +29,7 @@ namespace PokemonBattleOnline.Network.Commands
         {
             if (Battling)
             {
-                var room = client.Room.Room;
+                var room = client.RoomController.Room;
                 room.Battling = !room.Battling;
             }
         }

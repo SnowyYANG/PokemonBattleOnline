@@ -112,11 +112,12 @@ namespace PokemonBattleOnline.Network
         {
             if (game == null)
             {
-                if (initingGame == null) initingGame = new InitingGame(++GameId, Room.Settings);
+                if (initingGame == null) initingGame = new InitingGame(++GameId, settings);
                 var seat = su.User.Seat;
                 if (initingGame.Prepare(seat.TeamId(), seat.TeamIndex(), pokemons))
                 {
                     Send(new SetPrepareS2C(seat, true));
+                    Room.Settings = settings;
                     TryStartGame();
                 }
             }
@@ -137,7 +138,7 @@ namespace PokemonBattleOnline.Network
         public void AddUser(PboUser su, Seat seat)
         {
             var user = su.User;
-            if (user.Room == null && Room.IsValidSeat(seat) && Room[seat] == null)
+            if (user.Room == null && Room[seat] == null)
             {
                 if (seat == Seat.Spectator) Room.AddSpectator(user);
                 else Room[seat] = user;
@@ -148,11 +149,8 @@ namespace PokemonBattleOnline.Network
                 {
                     if (IsPrepared(Seat.Player00)) su.Send(new SetPrepareS2C(Seat.Player00, true));
                     if (IsPrepared(Seat.Player10)) su.Send(new SetPrepareS2C(Seat.Player10, true));
-                    if (Room.Settings.Mode.PlayersPerTeam() == 2)
-                    {
-                        if (IsPrepared(Seat.Player01)) su.Send(new SetPrepareS2C(Seat.Player01, true));
-                        if (IsPrepared(Seat.Player11)) su.Send(new SetPrepareS2C(Seat.Player11, true));
-                    }
+                    if (IsPrepared(Seat.Player01)) su.Send(new SetPrepareS2C(Seat.Player01, true));
+                    if (IsPrepared(Seat.Player11)) su.Send(new SetPrepareS2C(Seat.Player11, true));
                 }
             }
         }

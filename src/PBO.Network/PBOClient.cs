@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PokemonBattleOnline.Game;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,7 +15,8 @@ namespace PokemonBattleOnline.Network
         private static readonly DataContractJsonSerializer S2CSerializer;
         
         internal WebSocketSharp.WebSocket ws;
-        internal RoomController Room;
+        public RoomController RoomController
+        { get; internal set; }
         internal bool inited;
 
         static PboClient()
@@ -24,6 +26,28 @@ namespace PokemonBattleOnline.Network
             var s2c = typeof(IS2C);
             S2CSerializer = new DataContractJsonSerializer(s2c, s2c.SubClasses());
         }
+
+        public string MyId
+        { get; internal set; }
+
+        public string MyRoomId
+        { get; private set; }
+
+        public Room Room => RoomController.Room;
+
+        private User _user;
+        public User User
+        {
+            get
+            {
+                if (_user == null) _user = RoomController.GetUser(MyId);
+                return _user;
+            }
+        }
+
+        public PlayerController PlayerController => RoomController.PlayerController;
+
+        public GameOutward Game => RoomController.Game;
 
         public PboClient(string url)
         {
@@ -41,6 +65,7 @@ namespace PokemonBattleOnline.Network
 
         public void Init(string name, string room, Seat seat)
         {
+            MyRoomId = room;
             var init = new Commands.ClientInitC2S()
             {
                 name = name,
