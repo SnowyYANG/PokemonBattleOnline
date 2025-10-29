@@ -19,6 +19,7 @@ namespace PokemonBattleOnline.PBO.Server
       NI = new NotifyIcon();
       NI.Icon = new System.Drawing.Icon(typeof(TaskbarIcon), "server.ico");
       NI.Text = PBOMarks.TITLE + " Server";
+      // TODO 不再支持 ContextMenu。请改用 ContextMenuStrip。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
       NI.ContextMenu = new ContextMenu(new MenuItem[] { new MenuItem("退出", Quit_Click) });
       hWnd = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
       if (hWnd != IntPtr.Zero) NI.MouseClick += NI_MouseClick;
