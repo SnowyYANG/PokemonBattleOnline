@@ -6,42 +6,32 @@ using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Network.Commands
 {
-  [DataContract(Namespace = PBOMarks.JSON)]
-  public class RoomS2C : IS2C
-  {
-    public static RoomS2C NewRoom(int id, GameSettings settings)
+    [DataContract(Name = "room", Namespace = PBOMarks.JSON)]
+    public class RoomS2C : IS2C
     {
-      return new RoomS2C() { Id = id, Settings = settings };
-    }
-    public static RoomS2C RemoveRoom(int id)
-    {
-      return new RoomS2C() { Id = id };
-    }
-    public static RoomS2C ChangeBattling(int id)
-    {
-      return new RoomS2C() { Id = id, Battling = true };
-    }
-    
-    [DataMember(Name = "a")]
-    private int Id;
-    [DataMember(Name = "b_", EmitDefaultValue = false)]
-    private GameSettings Settings;
-    [DataMember(Name = "c", EmitDefaultValue = false)]
-    private bool Battling;
+        public static RoomS2C ChangeBattling(string id)
+        {
+            return new RoomS2C() { Id = id, Battling = true };
+        }
 
-    private RoomS2C()
-    {
-    }
+        [DataMember(Name = "id")]
+        private string Id;
+        [DataMember(Name = "b_", EmitDefaultValue = false)]
+        private GameSettings Settings;
+        [DataMember(Name = "battling", EmitDefaultValue = false)]
+        private bool Battling;
 
-    void IS2C.Execute(Client client)
-    {
-      if (Battling)
-      {
-        var room = client.Controller.GetRoom(Id);
-        room.Battling = !room.Battling;
-      }
-      else if (Settings == null) client.Controller.RemoveRoom(Id);
-      else client.Controller.AddRoom(new Room(Id, Settings));
+        private RoomS2C()
+        {
+        }
+
+        void IS2C.Execute(PboClient client)
+        {
+            if (Battling)
+            {
+                var room = client.Room.Room;
+                room.Battling = !room.Battling;
+            }
+        }
     }
-  }
 }

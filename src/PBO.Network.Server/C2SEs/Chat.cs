@@ -10,7 +10,7 @@ namespace PokemonBattleOnline.Network.C2SEs
   [DataContract(Namespace = PBOMarks.JSON)]
   internal class ChatC2S : Commands.ChatC2S, IC2SE
   {
-    public void Execute(ServerUser su)
+    public void Execute(PboUser su)
     {
       var id = su.User.Id;
       var server = su.Server;
@@ -18,15 +18,12 @@ namespace PokemonBattleOnline.Network.C2SEs
       switch (Mode)
       {
         case ChatMode.Public:
-          server.Send(s2c);
           break;
         case ChatMode.Room:
           var room = su.Room;
           if (room != null) room.Send(s2c);
           break;
         case ChatMode.Private:
-          var to = server.GetUser(To);
-          if (to != null) to.Send(s2c);
           break;
       }
     }

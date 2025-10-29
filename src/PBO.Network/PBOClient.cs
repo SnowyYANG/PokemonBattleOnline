@@ -1,103 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Net;
+using System.Runtime.Serialization.Json;
+using System.Text;
 
 namespace PokemonBattleOnline.Network
 {
-    /// <summary>
-    /// 提供静态全局访问
-    /// </summary>
-    public static class PBOClient
+    public class PboClient
     {
-        public static event Action Disconnected;
-        public static event Action CurrentChanged;
-        public static event Action LoginFailed_Full
-        {
-            add { LoginClient.Full += value; }
-            remove { LoginClient.Full -= value; }
-        }
-        public static event Action LoginFailed_Name
-        {
-            add { LoginClient.BadName += value; }
-            remove { LoginClient.BadName -= value; }
-        }
-        public static event Action<UInt16> LoginFailed_Version
-        {
-            add { LoginClient.BadVersion += value; }
-            remove { LoginClient.BadVersion -= value; }
-        }
-        public static event Action LoginFailed_Disconnect
-        {
-            add { LoginClient.Disconnect += value; }
-            remove { LoginClient.Disconnect -= value; }
-        }
-        private static readonly object Locker = new object();
+        private static readonly DataContractJsonSerializer C2SSerializer;
+        private static readonly DataContractJsonSerializer S2CSerializer;
+        
+        internal WebSocketSharp.WebSocket ws;
+        internal RoomController Room;
+        internal bool inited;
 
-        static PBOClient()
+        static PboClient()
         {
-            LoginClient.LoginSucceed += LoginSucceed;
-            LoginClient.BadName += LoginFailed;
-            LoginClient.BadVersion += LoginClient_BadVersion; ;
-            LoginClient.Disconnect += LoginFailed;
-            LoginClient.Full += LoginFailed;
-            ClientController.Disconnected += OnDisconnected;
+            var c2s = typeof(IC2S);
+            C2SSerializer = new DataContractJsonSerializer(c2s, c2s.SubClasses());
+            var s2c = typeof(IS2C);
+            S2CSerializer = new DataContractJsonSerializer(s2c, s2c.SubClasses());
         }
 
-        private static void LoginClient_BadVersion(ushort obj)
+        public PboClient(string url)
         {
-            LoginFailed();
-        }
-
-        private static Client _current;
-        /// <summary>
-        /// get is not thread safe
-        /// </summary>
-        public static ClientController Current
-        { get { return _current == null ? null : _current.Controller; } }
-
-        private static void LoginSucceed(Client obj)
-        {
-            currentLogin = null;
-            _current = obj;
-            UIDispatcher.Invoke(CurrentChanged);
-        }
-        private static void LoginFailed()
-        {
-            currentLogin = null;
-        }
-
-        private static LoginClient currentLogin;
-        public static bool Login(string server, string name, ushort avatar)
-        {
-            return Login(server, PBOMarks.DEFAULT_PORT, name, avatar);
-        }
-        public static bool Login(string server, int port, string name, ushort avatar)
-        {
-            lock (Locker)
+            ws = new WebSocketSharp.WebSocket(url);
+            ws.OnMessage += (s, e) =>
             {
-                if (_current == null && currentLogin == null)
+                using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(e.Data)))
                 {
-                    currentLogin = new LoginClient(server, port, name, avatar);
-                    currentLogin.BeginLogin();
-                    return true;
+                    var obj = S2CSerializer.ReadObject(ms) as IS2C;
+                    obj.Execute(this);
                 }
-                return false;
-            }
+            };
+            ws.Connect();
         }
 
-        public static void Exit()
+        public void Init(string name, string room, Seat seat)
         {
-            _current.Controller.Exit();
-            _current = null;
-            CurrentChanged();
+            var init = new Commands.ClientInitC2S()
+            {
+                name = name,
+                room = room,
+                seat = seat,
+                version = PBOMarks.VERSION.ToString(),
+            };
+            Send(init);
         }
-        private static void OnDisconnected()
+
+        public void Send(IC2S command)
         {
-            UIDispatcher.Invoke(Disconnected);
-            _current = null;
-            UIDispatcher.Invoke(CurrentChanged);
+            using (var ms = new MemoryStream())
+            {
+                C2SSerializer.WriteObject(ms, command);
+                ms.Position = 0;
+                using (var sr = new StreamReader(ms, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, bufferSize: 1024, leaveOpen: true))
+                {
+                    ws.Send(sr.ReadToEnd());
+                }
+            }
         }
     }
 }

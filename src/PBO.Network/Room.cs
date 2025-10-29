@@ -13,25 +13,23 @@ namespace PokemonBattleOnline.Network
     {
         private User[] players;
 
-        public Room(int id, GameSettings settings)
+        public Room(string id)
         {
             Id = id;
-            _settings = settings;
             players = new User[4];
             _spectators = new ObservableList<User>();
         }
 
-        [DataMember(Name = "a")]
-        public int Id
+        [DataMember(Name = "id")]
+        public string Id
         { get; private set; }
 
-        [DataMember(Name = "b_")]
-        private readonly GameSettings _settings;
+        [DataMember(Name = "settings")]
         public GameSettings Settings
-        { get { return _settings; } }
+        { get; set; }
 
         private static PropertyChangedEventArgs BATTLING = new PropertyChangedEventArgs("Battling");
-        [DataMember(Name = "c", EmitDefaultValue = false)]
+        [DataMember(Name = "battling", EmitDefaultValue = false)]
         private bool _battling;
         public bool Battling
         {
@@ -89,6 +87,32 @@ namespace PokemonBattleOnline.Network
             return Settings.Mode.PlayersPerTeam() == 2 || Seat != Seat.Player01 && Seat != Seat.Player11;
         }
 
+        public void AddUser(string id, string name, Seat seat)
+        {
+            var user = new User(id, name, Id, seat);
+            if (seat == Seat.Spectator) AddSpectator(user);
+            else this[user.Seat] = user;
+        }
+        public void RemoveUser(string id)
+        {
+            foreach(var user in Spectators)
+                if (user.Id == id)
+                {
+                    RemoveSpectator(user);
+                    return;
+                }
+            foreach (var user in Players)
+                if (user.Id == id)
+                {
+                    this[user.Seat] = null;
+                    return;
+                }
+        }
+        public User[] GetUsers()
+        {
+            return Players.Concat(Spectators).ToArray();
+        }
+
         public void AddSpectator(User user)
         {
             if (user.Room == this) players[(int)user.Seat] = null;//房间内换座位
@@ -98,7 +122,7 @@ namespace PokemonBattleOnline.Network
         }
         public void RemoveSpectator(User user)
         {
-            if (_spectators.Remove(user)) user.Room = null;
+            _spectators.Remove(user);
         }
 
         #region for serialization
@@ -153,17 +177,5 @@ namespace PokemonBattleOnline.Network
             }
         }
         #endregion
-
-        public void RemoveUsers()
-        {
-            for (int i = 0; i < 4; ++i)
-                if (players[i] != null)
-                {
-                    players[i].Room = null;
-                    players[i] = null;
-                }
-            foreach (var u in _spectators) u.Room = null;
-            _spectators.Clear();
-        }
     }
 }

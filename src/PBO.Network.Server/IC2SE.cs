@@ -7,6 +7,6 @@ namespace PokemonBattleOnline.Network
 {
   internal interface IC2SE
   {
-    void Execute(ServerUser user);
+    void Execute(PboUser user);
   }
 }

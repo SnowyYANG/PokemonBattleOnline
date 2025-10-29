@@ -7,7 +7,7 @@ using PokemonBattleOnline.Network.Commands;
 
 namespace PokemonBattleOnline.Network
 {
-    public class RoomController : ObservableObject
+    internal class RoomController : ObservableObject
     {
         public static event Action<string, User> RoomChat;
         internal static void OnRoomChat(string chat, User user)
@@ -33,19 +33,17 @@ namespace PokemonBattleOnline.Network
         public static event Action Quited;
         public static event Action GameInited;
 
-        internal readonly Client _Client;
+        internal readonly PboClient _Client;
 
-        internal RoomController(Client client)
+        internal RoomController(PboClient client)
         {
             _Client = client;
         }
 
-        public ClientController Client
-        { get { return _Client.Controller; } }
-        public User User
-        { get { return _Client.Controller.User; } }
+        public Seat MySeat
+        { get; internal set; }
         public Room Room
-        { get { return _Client.Controller.User.Room; } }
+        { get; internal set; }
         private GameOutward _game;
         public GameOutward Game
         {
@@ -142,24 +140,19 @@ namespace PokemonBattleOnline.Network
             }
         }
 
-        public void ChangeSeat(Seat seat)
-        {
-            if (Game == null && Room.IsValidSeat(seat) && User.Seat != seat && Room[seat] == null && !(seat == Seat.Spectator && Room.Players.Count() == 1))
-                _Client.Send(SetSeatC2S.ChangeSeat(Room.Id, seat));
-        }
         public void Chat(string chat)
         {
             _Client.Send(ChatC2S.RoomChat(chat));
         }
         public void Quit()
         {
-            _Client.Send(SetSeatC2S.LeaveRoom());
+            _Client.ws.Close(WebSocketSharp.CloseStatusCode.Normal);
         }
 
         private PokemonData[] Self;
-        public void GamePrepare(PokemonData[] team)
+        public void GamePrepare(GameSettings settings, PokemonData[] team)
         {
-            if (team.Length != 0 && User.Seat != Seat.Spectator && Room != null && !Room.Battling)
+            if (team.Length != 0 && MySeat != Seat.Spectator && Room != null && !Room.Battling)
             {
                 if (team.Length > Room.Settings.Mode.PokemonsPerPlayer()) team = team.SubArray(0, Room.Settings.Mode.PokemonsPerPlayer());
                 Self = team;
@@ -168,7 +161,7 @@ namespace PokemonBattleOnline.Network
         }
         public void GameUnPrepare()
         {
-            if (User.Seat != Seat.Spectator && !Room.Battling) _Client.Send(PrepareC2S.UnPrepare());
+            if (MySeat != Seat.Spectator && !Room.Battling) _Client.Send(PrepareC2S.UnPrepare());
         }
 
         internal void Reset()
@@ -197,7 +190,7 @@ namespace PokemonBattleOnline.Network
             string[,] players = new string[2, mi];
             for (int t = 0; t < 2; ++t)
                 for (int i = 0; i < mi; ++i) players[t, i] = Room[t, i].Name;
-            if (User.Seat != Seat.Spectator)
+            if (MySeat != Seat.Spectator)
             {
                 PlayerController = new PlayerController(this, Self, Partner);
                 Partner = null;
@@ -228,9 +221,21 @@ namespace PokemonBattleOnline.Network
                 }
             }
         }
-        private static void UpdateImplementCallback(IAsyncResult ar)
+        private void UpdateImplementCallback(IAsyncResult ar)
         {
-            ((Action<IAsyncResult, GameEvent[]>)((AsyncResult)ar).AsyncDelegate).EndInvoke(ar);
+            var d = new Action<IAsyncResult, GameEvent[]>(UpdateImplement);
+            d.EndInvoke(ar);
+        }
+
+        public User GetUser(string ID)
+        {
+            foreach (var user in Room.Players)
+                if (user?.Id == ID)
+                    return user;
+            foreach (var user in Room.Spectators)
+                if (user?.Id == ID)
+                    return user;
+            return null;
         }
     }
 }

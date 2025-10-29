@@ -34,6 +34,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="WebSocketSharp" Version="1.0.3-rc11" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\PBO.Game\PBO.Game.csproj" />
     <ProjectReference Include="..\PokemonBattleOnline\PokemonBattleOnline.csproj" />
   </ItemGroup>

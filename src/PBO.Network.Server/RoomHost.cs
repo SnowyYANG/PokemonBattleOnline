@@ -10,17 +10,16 @@ namespace PokemonBattleOnline.Network
 {
     internal class RoomHost : IDisposable
     {
-        public readonly Server Server;
+        public readonly PboServer Server;
         public readonly Room Room;
-        private readonly Dictionary<int, ServerUser> Users;
+        private readonly Dictionary<string, PboUser> Users = new Dictionary<string, PboUser>();
         private InitingGame initingGame;
         private GameContext game;
 
-        public RoomHost(Server server, int id, GameSettings settings)
+        public RoomHost(PboServer server, string id)
         {
             Server = server;
-            Room = new Room(id, settings);
-            Users = new Dictionary<int, ServerUser>();
+            Room = new Room(id);
         }
 
         public void Send(IS2C s2c)
@@ -34,7 +33,7 @@ namespace PokemonBattleOnline.Network
             if (initingGame.CanComplete)
             {
                 Room.Battling = true;
-                Server.Send(RoomS2C.ChangeBattling(Room.Id));
+                Send(RoomS2C.ChangeBattling(Room.Id));
                 if (Room.Settings.Mode.PlayersPerTeam() == 2)
                 {
                     Server.GetUser(Room[0, 0].Id).Send(new PartnerInfoS2C(initingGame.GetPokemons(0, 1)));
@@ -62,15 +61,15 @@ namespace PokemonBattleOnline.Network
             game.Dispose();
             game = null;
             Room.Battling = false;
-            Server.Send(RoomS2C.ChangeBattling(Room.Id));
+            Send(RoomS2C.ChangeBattling(Room.Id));
         }
         private void OnError()
         {
             Record.Error(Room, game);
             EndGame();
-            Server.Send(GameEndS2C.GameStop(0, GameStopReason.Error));
+            Send(GameEndS2C.GameStop(null, GameStopReason.Error));
         }
-        private void OnGameStop(int userId, GameStopReason reason)
+        private void OnGameStop(string userId, GameStopReason reason)
         {
             Record.Add(Room, game, reason, userId);
             EndGame();
@@ -80,13 +79,13 @@ namespace PokemonBattleOnline.Network
         {
             Record.Add(Room, game, "TimeUp");
             EndGame();
-            var ps = new List<KeyValuePair<int, int>>(4);
-            foreach (var p in Room.Players) ps.Add(new KeyValuePair<int, int>(p.Id, time[p.Seat.TeamId(), p.Seat.TeamIndex()]));
+            var ps = new List<KeyValuePair<string, int>>(4);
+            foreach (var p in Room.Players) ps.Add(new KeyValuePair<string, int>(p.Id, time[p.Seat.TeamId(), p.Seat.TeamIndex()]));
             Send(GameEndS2C.TimeUp(ps.ToArray()));
         }
         private void OnWaitingForInput(bool[,] players)
         {
-            var ps = new List<int>(4);
+            var ps = new List<string>(4);
             foreach (var p in Room.Players)
                 if (players[p.Seat.TeamId(), p.Seat.TeamIndex()]) ps.Add(p.Id);
             Send(new WaitingForInputS2C(ps.ToArray()));
@@ -109,7 +108,7 @@ namespace PokemonBattleOnline.Network
             return initingGame != null && seat != Seat.Spectator && initingGame.GetPokemons(seat.TeamId(), seat.TeamIndex()) != null;
         }
         private int GameId;
-        public void Prepare(ServerUser su, IPokemonData[] pokemons)
+        public void Prepare(PboUser su, GameSettings settings, IPokemonData[] pokemons)
         {
             if (game == null)
             {
@@ -122,7 +121,7 @@ namespace PokemonBattleOnline.Network
                 }
             }
         }
-        public void UnPrepare(ServerUser su)
+        public void UnPrepare(PboUser su)
         {
             if (game == null)
             {
@@ -135,15 +134,15 @@ namespace PokemonBattleOnline.Network
             }
         }
 
-        public void AddUser(ServerUser su, Seat seat)
+        public void AddUser(PboUser su, Seat seat)
         {
             var user = su.User;
             if (user.Room == null && Room.IsValidSeat(seat) && Room[seat] == null)
             {
                 if (seat == Seat.Spectator) Room.AddSpectator(user);
                 else Room[seat] = user;
-                Users.Add(user.Id, su);
-                Server.Send(SetSeatS2C.InRoom(user));
+                Users.Add(su.ID, su);
+                //Server.Send(SetSeatS2C.InRoom(user));
                 if (game != null) su.Send(new GameStartS2C(game.GetFragment()));
                 else if (initingGame != null)
                 {
@@ -157,7 +156,7 @@ namespace PokemonBattleOnline.Network
                 }
             }
         }
-        public void RemoveUser(ServerUser su)
+        public void RemoveUser(PboUser su)
         {
             var id = su.User.Id;
             var seat = su.User.Seat;
@@ -165,7 +164,7 @@ namespace PokemonBattleOnline.Network
             {
                 Users.Remove(id);
                 Room.RemoveSpectator(su.User);
-                Server.Send(SetSeatS2C.LeaveRoom(id));
+                //Send(SetSeatS2C.LeaveRoom(id));
             }
             else if (Room.Players.Count() == 1) Server.RemoveRoom(this);
             else
@@ -174,31 +173,11 @@ namespace PokemonBattleOnline.Network
                 else UnPrepare(su);
                 Users.Remove(id);
                 Room[seat] = null;
-                Server.Send(SetSeatS2C.LeaveRoom(id));
-            }
-        }
-        public void ChangeSeat(ServerUser su, Seat seat)
-        {
-            var user = su.User;
-            if (game == null && Room.IsValidSeat(seat) && user.Seat != seat && Room[seat] == null)
-            {
-                if (user.Seat == Seat.Spectator) Room[seat] = user;
-                else if (seat != Seat.Spectator)
-                {
-                    UnPrepare(su);
-                    Room[seat] = su.User;
-                }
-                else if (Room.Players.Count() != 1)
-                {
-                    UnPrepare(su);
-                    Room.AddSpectator(user);
-                }
-                else return;
-                Server.Send(SetSeatS2C.InRoom(user));
+                //Server.Send(SetSeatS2C.LeaveRoom(id));
             }
         }
 
-        public void Input(ServerUser su, ActionInput action)
+        public void Input(PboUser su, ActionInput action)
         {
             var seat = su.User.Seat;
             if (game != null)

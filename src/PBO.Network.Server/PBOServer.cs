@@ -1,45 +1,122 @@
-﻿using System;
+﻿using PokemonBattleOnline.Network.Commands;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Runtime.Serialization.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Threading;
+using WebSocketSharp;
+using WebSocketSharp.Server;
 
 namespace PokemonBattleOnline.Network
 {
-  /// <summary>
-  /// 提供静态全局访问
-  /// </summary>
-  public static class PBOServer
-  {
-    private static readonly object Locker;
+    public class PboServer : IDisposable
+    {
+        internal readonly object Locker = new object();
 
-    static PBOServer()
-    {
-      Locker = new object();
-    }
+        private static void OnKeepAlive(object state)
+        {
+#if !TEST
+            var server = (PboServer)state;
+            var lastPack = DateTime.Now.AddMilliseconds(-2d * PBOMarks.TIMEOUT);
+#endif
+        }
 
-    private static Server _current;
-    public static Server Current
-    {
-      get
-      {
-        lock (Locker)
+        private readonly WebSocketServer ws;
+        private readonly Dictionary<string, PboUser> Users = new Dictionary<string, PboUser>(); //已登录用户
+        private readonly Dictionary<string, RoomHost> Rooms = new Dictionary<string, RoomHost>();
+        private readonly int Port;
+        private readonly Timer KeepAliveTimer;
+
+        public PboServer(int port)
         {
-          return _current;
+            ws = new WebSocketServer(port);
+            ws.AddWebSocketService("/", () => new PboUser(this));
+            Port = port;
+            KeepAliveTimer = new Timer(OnKeepAlive, this, PBOMarks.TIMEOUT << 1, PBOMarks.TIMEOUT << 1);
+            ws.Start();
         }
-      }
-      set
-      {
-        lock (Locker)
+
+        internal void Send(IS2C s2c)
         {
-          _current = value;
+            try
+            {
+                string json;
+                using (var ms = new MemoryStream())
+                {
+                    var serializer = new DataContractJsonSerializer(s2c.GetType());
+                    serializer.WriteObject(ms, s2c);
+                    ms.Position = 0;
+                    using (var sr = new StreamReader(ms))
+                    {
+                        json = sr.ReadToEnd();
+                    }
+                }
+                foreach (var u in Users.Values) u.Send(json);
+            }
+            catch
+            {
+            }
         }
-      }
+        internal PboUser GetUser(string id)
+        {
+            return Users.ValueOrDefault(id);
+        }
+        internal void AddUser(string id, PboUser user)
+        {
+            lock (Locker)
+            {
+                RoomHost rh = null;
+                if (!Rooms.TryGetValue(user.User.Room.Id, out rh)) rh = AddRoom(user.User.Room.Id);
+                user.Send(new ClientInitS2C(id, rh.Room.GetUsers()));
+                rh.AddUser(user, user.User.Seat);
+                user.Room.Send(UserS2C.AddUser(user.ID, user.User.Name, user.Room.Room.Id, user.User.Seat));
+                Users.Add(user.ID, user);
+            }
+            Console.WriteLine("({0}) {1} has entered the lobby.", DateTime.Now, user.User.Name);
+        }
+        internal void RemoveUser(PboUser user)
+        {
+            lock (Locker)
+            {
+                if (user.Room != null) user.Room.RemoveUser(user);
+                user.Room.Send(UserS2C.RemoveUser(user.ID));
+                Users.Remove(user.ID);
+            }
+            Console.WriteLine("({0}) {1} has left the lobby.", DateTime.Now, user.User.Name);
+        }
+        internal RoomHost GetRoom(string id)
+        {
+            return Rooms.ValueOrDefault(id);
+        }
+
+        /// <summary>
+        /// 追加空房间
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        private RoomHost AddRoom(string id)
+        {
+            var rc = new RoomHost(this, id);
+            Rooms.Add(id, rc);
+            return rc;
+        }
+
+        internal void RemoveRoom(RoomHost rc)
+        {
+            var room = rc.Room;
+            if (Rooms.Remove(room.Id))
+            {
+                rc.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            KeepAliveTimer.Dispose();
+            ws.Stop();
+        }
     }
-    
-    public static void NewServer(int port = PBOMarks.DEFAULT_PORT)
-    {
-      Current = new Server(port);
-      Current.Start();
-    }
-  }
 }

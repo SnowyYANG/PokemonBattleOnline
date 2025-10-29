@@ -6,70 +6,78 @@ using System.Threading;
 using System.IO;
 using PokemonBattleOnline.Game;
 using PokemonBattleOnline.Network;
+using PokemonBattleOnline.Network.Commands;
+using System.Text.Json;
+using System.Runtime.Serialization.Json;
+using PokemonBattleOnline.Game.GameEvents;
 
 namespace PokemonBattleOnline.Test
 {
     class Program
     {
-        static TestClient C00;
-        static TestClient C01;
-        static TestClient C10;
-        static TestClient C11;
+        //static TestClient C00;
+        //static TestClient C01;
+        //static TestClient C10;
+        //static TestClient C11;
 
         static void Main(string[] args)
         {
-            AppDomain.CurrentDomain.ProcessExit += (sender, e) => EndLog();
-            GameString.Load("..\\..\\res", "zh", "en");
-            PBOServer.NewServer(9999);
-            Thread.Sleep(1000);
-            RoomController.GameStop += (r, u) => LogLine(r.ToString() + (u == null ? " " : " " + u.Name));
-            LoginClient.LoginSucceed += (c) =>
-            {
-                switch (c.Controller.User.Name)
-                {
-                    case "P00":
-                        C00 = new TestClient(c.Controller, Seat.Player00);
-                        C00.C.NewRoom(new GameSettings(GameMode.Multi));
-                        break;
-                    case "P01":
-                        C01 = new TestClient(c.Controller, Seat.Player01);
-                        break;
-                    case "P10":
-                        C10 = new TestClient(c.Controller, Seat.Player10);
-                        break;
-                    case "P11":
-                        C11 = new TestClient(c.Controller, Seat.Player11);
-                        break;
-                }
-                Console.WriteLine(c.Controller.User.Name + "logined.");
-            };
-
-            var l00 = new LoginClient("127.0.0.1", 9999, "P00", 1);
-            var l01 = new LoginClient("127.0.0.1", 9999, "P01", 1);
-            var l10 = new LoginClient("127.0.0.1", 9999, "P10", 1);
-            var l11 = new LoginClient("127.0.0.1", 9999, "P11", 1);
-            l00.BeginLogin();
-            l01.BeginLogin();
-            l10.BeginLogin();
-            l11.BeginLogin();
+            var o = new GameUpdateS2C(new GameEvent[] { new ShowHp() { Pm = 1, Hp = 3 }, new ShowLog("test"), new Mimic() { Pm = 4, Move = 5 } });
+            var ser = new DataContractJsonSerializer(o.GetType());
+            ser.WriteObject(Console.OpenStandardOutput(), o);
             Console.ReadKey();
+            //AppDomain.CurrentDomain.ProcessExit += (sender, e) => EndLog();
+            //GameString.Load("..\\..\\res", "zh", "en");
+            //PBOServer.NewServer(9999);
+            //Thread.Sleep(1000);
+            //RoomController.GameStop += (r, u) => LogLine(r.ToString() + (u == null ? " " : " " + u.Name));
+            //LoginClient.LoginSucceed += (c) =>
+            //{
+            //    switch (c.Controller.User.Name)
+            //    {
+            //        case "P00":
+            //            C00 = new TestClient(c.Controller, Seat.Player00);
+            //            C00.C.NewRoom(new GameSettings(GameMode.Multi));
+            //            break;
+            //        case "P01":
+            //            C01 = new TestClient(c.Controller, Seat.Player01);
+            //            break;
+            //        case "P10":
+            //            C10 = new TestClient(c.Controller, Seat.Player10);
+            //            break;
+            //        case "P11":
+            //            C11 = new TestClient(c.Controller, Seat.Player11);
+            //            break;
+            //    }
+            //    Console.WriteLine(c.Controller.User.Name + "logined.");
+            //};
 
-            TEAM:
-            C00.EditTeam(null);
-            C01.EditTeam(C00.Team);
-            C10.EditTeam(C01.Team);
-            C11.EditTeam(C10.Team);
+            //var l00 = new LoginClient("127.0.0.1", 9999, "P00", 1);
+            //var l01 = new LoginClient("127.0.0.1", 9999, "P01", 1);
+            //var l10 = new LoginClient("127.0.0.1", 9999, "P10", 1);
+            //var l11 = new LoginClient("127.0.0.1", 9999, "P11", 1);
+            //l00.BeginLogin();
+            //l01.BeginLogin();
+            //l10.BeginLogin();
+            //l11.BeginLogin();
+            //Console.ReadKey();
 
-            LogLine("============BATTLE============");
-            BATTLE:
-            Thread.Sleep(500);
-            if (C00.Battle() && C01.Battle() && C10.Battle() && C11.Battle()) goto BATTLE;
-            else
-            {
-                Console.WriteLine("------------------------------");
-                EndLog();
-                goto TEAM;
-            }
+            //TEAM:
+            //C00.EditTeam(null);
+            //C01.EditTeam(C00.Team);
+            //C10.EditTeam(C01.Team);
+            //C11.EditTeam(C10.Team);
+
+            //LogLine("============BATTLE============");
+            //BATTLE:
+            //Thread.Sleep(500);
+            //if (C00.Battle() && C01.Battle() && C10.Battle() && C11.Battle()) goto BATTLE;
+            //else
+            //{
+            //    Console.WriteLine("------------------------------");
+            //    EndLog();
+            //    goto TEAM;
+            //}
         }
         static StreamWriter log;
         static void BeginLog()

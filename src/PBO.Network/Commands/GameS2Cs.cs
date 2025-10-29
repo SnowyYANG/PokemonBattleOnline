@@ -7,12 +7,12 @@ using PokemonBattleOnline.Game;
 
 namespace PokemonBattleOnline.Network.Commands
 {
-    [DataContract(Name = "sp", Namespace = PBOMarks.JSON)]
+    [DataContract(Name = "prepare", Namespace = PBOMarks.JSON)]
     public class SetPrepareS2C : IS2C
     {
-        [DataMember(Name = "a", EmitDefaultValue = false)]
+        [DataMember(Name = "seat", EmitDefaultValue = false)]
         Seat Seat;
-        [DataMember(Name = "b", EmitDefaultValue = false)]
+        [DataMember(Name = "value", EmitDefaultValue = false)]
         bool Prepare;
 
         public SetPrepareS2C(Seat seat, bool prepare)
@@ -21,9 +21,9 @@ namespace PokemonBattleOnline.Network.Commands
             Prepare = prepare;
         }
 
-        void IS2C.Execute(Client client)
+        void IS2C.Execute(PboClient client)
         {
-            var room = client.Controller.Room;
+            var room = client.Room;
             switch (Seat)
             {
                 case Seat.Player00:
@@ -42,7 +42,7 @@ namespace PokemonBattleOnline.Network.Commands
         }
     }
 
-    [DataContract(Name = "pi", Namespace = PBOMarks.JSON)]
+    [DataContract(Name = "partnerinfo", Namespace = PBOMarks.JSON)]
     public class PartnerInfoS2C : IS2C
     {
         [DataMember]
@@ -54,13 +54,13 @@ namespace PokemonBattleOnline.Network.Commands
             for (int i = 0; i < pms.Length; ++i) a_[i] = (PokemonData)pms[i];
         }
 
-        void IS2C.Execute(Client client)
+        void IS2C.Execute(PboClient client)
         {
-            client.Controller.Room.Partner = a_;
+            client.Room.Partner = a_;
         }
     }
 
-    [DataContract(Name = "ri", Namespace = PBOMarks.JSON)]
+    [DataContract(Name = "requireinput", Namespace = PBOMarks.JSON)]
     public class RequireInputS2C : InputRequest, IS2C
     {
         public RequireInputS2C(InputRequest ir)
@@ -68,30 +68,30 @@ namespace PokemonBattleOnline.Network.Commands
         {
         }
 
-        void IS2C.Execute(Client client)
+        void IS2C.Execute(PboClient client)
         {
-            client.Controller.Room.InputRequest = this;
+            client.Room.InputRequest = this;
         }
     }
 
-    [DataContract(Name = "wi", Namespace = PBOMarks.JSON)]
+    [DataContract(Name = "waiting", Namespace = PBOMarks.JSON)]
     public class WaitingForInputS2C : IS2C
     {
         [DataMember(Name = "a")]
-        int[] Players;
+        string[] Players;
 
-        public WaitingForInputS2C(int[] players)
+        public WaitingForInputS2C(string[] players)
         {
             Players = players;
         }
 
-        void IS2C.Execute(Client client)
+        void IS2C.Execute(PboClient client)
         {
-            RoomController.OnTimeReminder(Players.Select((p) => client.Controller.GetUser(p)).ToArray());
+            RoomController.OnTimeReminder(Players.Select((p) => client.Room.GetUser(p)).ToArray());
         }
     }
 
-    [DataContract(Name = "gs", Namespace = PBOMarks.JSON)]
+    [DataContract(Name = "gamestart", Namespace = PBOMarks.JSON)]
     public class GameStartS2C : ReportFragment, IS2C
     {
         public GameStartS2C(ReportFragment rf)
@@ -99,15 +99,23 @@ namespace PokemonBattleOnline.Network.Commands
         {
         }
 
-        void IS2C.Execute(Client client)
+        void IS2C.Execute(PboClient client)
         {
-            client.Controller.Room.GameStart(this);
+            client.Room.GameStart(this);
         }
     }
 
-    [DataContract(Name = "gu", Namespace = PBOMarks.JSON)]
+    [KnownType("KnownEvents")]
+    [DataContract(Name = "gameupdate", Namespace = PBOMarks.JSON)]
     public class GameUpdateS2C : IS2C
     {
+        static Type[] knownGameEvents;
+        static IEnumerable<Type> KnownEvents()
+        {
+            if (knownGameEvents == null) knownGameEvents = typeof(GameEvent).SubClasses();
+            return knownGameEvents;
+        }
+
         [DataMember]
         public GameEvent[] Es;
 
@@ -116,40 +124,40 @@ namespace PokemonBattleOnline.Network.Commands
             Es = events;
         }
 
-        void IS2C.Execute(Client client)
+        void IS2C.Execute(PboClient client)
         {
-            client.Controller.Room.Update(Es);
+            client.Room.Update(Es);
         }
     }
 
-    [DataContract(Name = "ge", Namespace = PBOMarks.JSON)]
+    [DataContract(Name = "gameend", Namespace = PBOMarks.JSON)]
     public class GameEndS2C : IS2C
     {
-        public static GameEndS2C GameStop(int player, GameStopReason reason)
+        public static GameEndS2C GameStop(string player, GameStopReason reason)
         {
             return new GameEndS2C() { Player = player, Reason = reason };
         }
-        public static GameEndS2C TimeUp(KeyValuePair<int, int>[] time)
+        public static GameEndS2C TimeUp(KeyValuePair<string, int>[] time)
         {
             return new GameEndS2C() { Time = time };
         }
         [DataMember(EmitDefaultValue = false)]
-        int Player;
+        string Player;
         [DataMember(EmitDefaultValue = false)]
         GameStopReason Reason;
 
         [DataMember(EmitDefaultValue = false)]
-        KeyValuePair<int, int>[] Time;
+        KeyValuePair<string, int>[] Time;
 
         private GameEndS2C()
         {
         }
-        void IS2C.Execute(Client client)
+        void IS2C.Execute(PboClient client)
         {
-            if (Player != 0) client.Controller.Room.OnGameStop(Reason, client.Controller.GetUser(Player));
-            else if (Time != null) RoomController.OnTimeUp(Time.Select((p) => new KeyValuePair<User, int>(client.Controller.GetUser(p.Key), p.Value)).ToArray());
-            else client.Controller.Room.OnGameStop(Reason, null);
-            client.Controller.Room.Reset();
+            if (Player != null) client.Room.OnGameStop(Reason, client.Room.GetUser(Player));
+            else if (Time != null) RoomController.OnTimeUp(Time.Select((p) => new KeyValuePair<User, int>(client.Room.GetUser(p.Key), p.Value)).ToArray());
+            else client.Room.OnGameStop(Reason, null);
+            client.Room.Reset();
         }
     }
 }

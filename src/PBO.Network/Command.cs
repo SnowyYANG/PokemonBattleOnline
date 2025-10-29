@@ -9,7 +9,7 @@ namespace PokemonBattleOnline.Network
 {
   public interface IS2C
   {
-    void Execute(Client client);
+    void Execute(PboClient client);
   }
   public interface IC2S
   {

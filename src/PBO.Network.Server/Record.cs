@@ -56,11 +56,11 @@ namespace PokemonBattleOnline.Network
                 sw.Write(',');
             }
         }
-        private static void Callback(IAsyncResult ar)
+        private static void AIGICallback(IAsyncResult ar)
         {
             try
             {
-                ((Action<int, InitingGame>)((AsyncResult)ar).AsyncDelegate).EndInvoke(ar);
+                ((Action<string, InitingGame>)AddInitingGameImplement).EndInvoke(ar);
             }
             catch { }
         }
@@ -71,13 +71,13 @@ namespace PokemonBattleOnline.Network
             {
                 try
                 {
-                    ((Action<int, InitingGame>)AddInitingGameImplement).BeginInvoke(room.Id, ig, Callback, null);
+                    ((Action<string, InitingGame>)AddInitingGameImplement).BeginInvoke(room.Id, ig, AIGICallback, null);
                 }
                 catch { }
             }
         }
         private static readonly object igLocker = new object();
-        private static void AddInitingGameImplement(int room, InitingGame ig)
+        private static void AddInitingGameImplement(string room, InitingGame ig)
         {
             var pms = ig.GetPokemons(0, 0);
             lock (igLocker)
@@ -130,7 +130,7 @@ namespace PokemonBattleOnline.Network
         {
 
         }
-        public static void Add(Room room, GameContext game, GameStopReason reason, int userId)
+        public static void Add(Room room, GameContext game, GameStopReason reason, string userId)
         {
 
         }
@@ -140,13 +140,21 @@ namespace PokemonBattleOnline.Network
             {
                 try
                 {
-                    ((Action<int, int>)ErrorImplement).BeginInvoke(room.Id, game.Id, Callback, null);
+                    ((Action<string, int>)ErrorImplement).BeginInvoke(room.Id, game.Id, ErrorCallback, null);
                 }
                 catch { }
             }
         }
+        public static void ErrorCallback(IAsyncResult ar)
+        {
+            try
+            {
+                ((Action<string, int>)ErrorImplement).EndInvoke(ar);
+            }
+            catch { }
+        }
         private static readonly object eLocker = new object();
-        public static void ErrorImplement(int room, int game)
+        public static void ErrorImplement(string room, int game)
         {
             lock (eLocker)
             {

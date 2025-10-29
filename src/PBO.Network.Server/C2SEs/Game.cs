@@ -9,11 +9,11 @@ namespace PokemonBattleOnline.Network.C2SEs
     [DataContract(Namespace = PBOMarks.JSON)]
     internal class PrepareC2S : Commands.PrepareC2S, IC2SE
     {
-        public void Execute(ServerUser su)
+        public void Execute(PboUser su)
         {
             var room = su.Room;
             if (room != null)
-                if (Pms != null) room.Prepare(su, Pms);
+                if (Pms != null) room.Prepare(su, Settings, Pms);
                 else room.UnPrepare(su);
         }
     }
@@ -24,7 +24,7 @@ namespace PokemonBattleOnline.Network.C2SEs
           : base()
         {
         }
-        public void Execute(ServerUser su)
+        public void Execute(PboUser su)
         {
             var room = su.Room;
             if (room != null) room.Input(su, this);

@@ -11,13 +11,13 @@ namespace PokemonBattleOnline.Network
     {
         public event Action<InputRequest> RequireInput;
 
-        private readonly Client Client;
+        private readonly PboClient Client;
 
         internal PlayerController(RoomController room, IPokemonData[] pokemons, IPokemonData[] partner)
         {
             Client = room._Client;
-            var team = room.User.Seat.TeamId();
-            var pli = room.User.Seat.TeamIndex();
+            var team = room.MySeat.TeamId();
+            var pli = room.MySeat.TeamIndex();
             var pl = new SimPlayer(team, pli, pokemons);
             var pa = partner == null ? null : new SimPlayer(team, 1 - pli, partner);
             _game = new SimGame(room.Room.Settings, pl, pa);
