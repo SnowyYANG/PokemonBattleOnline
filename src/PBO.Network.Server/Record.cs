@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using System.Runtime.Remoting.Messaging;
 using PokemonBattleOnline.Game;
 using PokemonBattleOnline.Game.Host;
 
