@@ -7,6 +7,7 @@ using System.IO.Compression;
 using System.Threading;
 using System.Runtime.Serialization.Json;
 using PokemonBattleOnline.Network.Commands;
+using System.Net.Sockets;
 
 namespace PokemonBattleOnline.Network
 {
