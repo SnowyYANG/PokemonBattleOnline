@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientWebSocketExtensions.cs" />
     <Compile Include="Commands\GameS2Cs.cs" />
     <Compile Include="Commands\GameC2Ss.cs" />
     <Compile Include="Commands\RoomS2C.cs" />
@@ -76,10 +77,6 @@
     <Compile Include="Room.cs" />
     <Compile Include="Seat.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="Network\IPackReceivedListener.cs" />
-    <Compile Include="Network\PackHelper.cs" />
-    <Compile Include="Network\TcpClient.cs" />
-    <Compile Include="Network\TcpPack.cs" />
     <Compile Include="PBOClient.cs" />
     <Compile Include="GameSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

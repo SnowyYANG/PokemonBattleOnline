@@ -10,7 +10,7 @@ using PokemonBattleOnline.Network.Commands;
 
 namespace PokemonBattleOnline.Network
 {
-    public class Client : IPackReceivedListener, IDisposable
+    public class Client : IObjectReceivedListener, IDisposable
     {
         private static readonly DataContractJsonSerializer C2SSerializer;
         private static readonly DataContractJsonSerializer S2CSerializer;
@@ -46,7 +46,7 @@ namespace PokemonBattleOnline.Network
             KeepAlive = new Timer(OnKeepAlive, network, PBOMarks.TIMEOUT, PBOMarks.TIMEOUT);
         }
 
-        void IPackReceivedListener.OnPackReceived(byte[] pack)
+        void IObjectReceivedListener.OnPackReceived(byte[] pack)
         {
             if (!pack.IsEmpty())
                 using (var ms = new MemoryStream(pack, false))
