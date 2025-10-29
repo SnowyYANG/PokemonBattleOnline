@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using System.IO.Packaging;
+using System.IO.Compression;
 
 namespace PokemonBattleOnline
 {
   public class ZipData : IDisposable
   {
-    private readonly Package Pack;
+    private readonly ZipArchive Pack;
     
     public ZipData(string pack)
     {
-      Pack = ZipPackage.Open(new FileStream(pack, FileMode.Open, FileAccess.Read, FileShare.Read));
+      Pack = new ZipArchive(new FileStream(pack, FileMode.Open, FileAccess.Read, FileShare.Read), ZipArchiveMode.Read);
     }
 
     public Stream GetStream(string path)
     {
       if (!string.IsNullOrEmpty(path) && path[0] != '/') path = "/" + path;
-      return Pack.GetPart(new Uri(path, UriKind.Relative)).GetStream(FileMode.Open, FileAccess.Read);
+      var entry = Pack.GetEntry(path.TrimStart('/'));
+      return entry?.Open();
     }
 
     public void Dispose()
