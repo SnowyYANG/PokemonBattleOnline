@@ -9,6 +9,12 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <Configurations>Debug;Release;Test</Configurations>
+    <AssemblyTitle>PBO.Test</AssemblyTitle>
+    <Company>http://pbo.codeplex.com/</Company>
+    <Product>PBO.Test</Product>
+    <Copyright>http://pbo.codeplex.com/license</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
