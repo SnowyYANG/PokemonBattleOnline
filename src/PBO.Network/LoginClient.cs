@@ -91,7 +91,7 @@ namespace PokemonBattleOnline.Network
         }
 
         private byte state;
-        void IObjectReceivedListener.OnPackReceived(string json)
+        void IObjectReceivedListener.OnPackReceived(byte[] pack)
         {
             switch (state)
             {
