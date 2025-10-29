@@ -58,8 +58,6 @@ namespace PokemonBattleOnline.Network
                 client.Disconnected += OnLoginFailed;
                 TimeBomb.Change(PBOMarks.TIMEOUT, Timeout.Infinite);
                 Network = client;
-                Network.Listener = this;
-                Network.Sender.Send(PBOMarks.VERSION.ToPack());
             }
         }
 
@@ -99,7 +97,6 @@ namespace PokemonBattleOnline.Network
                     if (pack.IsEmpty())
                     {
                         state = 1;
-                        Network.Sender.Send(Name.ToPack());
                     }
                     else if (pack.ToByte() == 'f') OnLoginFailed(Full); //实际上这条消息在version发送前就会收到
                     else
@@ -112,7 +109,6 @@ namespace PokemonBattleOnline.Network
                     if (pack.IsEmpty())
                     {
                         state = 2;
-                        Network.Sender.Send(Avatar.ToPack());
                     }
                     else OnLoginFailed(BadName);
                     break;
