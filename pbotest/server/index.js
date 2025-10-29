@@ -75,7 +75,35 @@ wss.on('connection', (ws, req) => {
                   let game = {
                     id: Date.now() + Math.random().toString(36).substring(2, 9),
                     gaming: true,
-                    teams: [[team0], [team1]],
+                    turnNumber: 0,
+                    settings: {
+                      mode: 'single',
+                      sleepRule: true,
+                      terrain: 'ground',
+                    },
+                    teams: [[{
+                      id: prepare[0].clientId,
+                      nickname: prepare[0].nickname,
+                      teamIndex: 0,
+                      mega: false,
+                      giveUp: false,
+                      pokemons: team0,
+                    }], [{
+                      id: prepare[1].clientId,
+                      nickname: prepare[1].nickname,
+                      teamIndex: 1,
+                      mega: false,
+                      giveUp: false,
+                      pokemons: team1,
+                    }]],
+                    board: {
+                      weather: 'normal',
+                      terrain: 'ground',
+                      fields: [
+                        {teamId: 0, tiles: [{ x: 0, pokemon: null, nextSendOutPokemonIndex: -1, buff:{}, turnBuff:new Set() }]},
+                        {teamId: 1, tiles: [{ x: 0, pokemon: null, nextSendOutPokemonIndex: -1, buff:{}, turnBuff:new Set() }]}
+                      ],
+                    },
                   }
                   games.push(game)
                   preparedTeams = preparedTeams.filter(t => t.room != clientInfo.room); //remove current
@@ -99,7 +127,7 @@ wss.on('connection', (ws, req) => {
                 //clear prepare and notify error
               }
             }
-          }  else {
+          } else {
             clientLog('Spectator attempted to send prepare message, ignored.');
           }
           break;

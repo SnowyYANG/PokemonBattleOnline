@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace PokemonBattleOnline.Network
 {
-    internal class LoginUser : IPackReceivedListener, IDisposable
+    internal class LoginUser : IObjectReceivedListener, IDisposable
     {
         public readonly TcpUser Network;
         private readonly LoginServer Server;
@@ -25,7 +25,7 @@ namespace PokemonBattleOnline.Network
         { get; private set; }
 
         private byte state;
-        void IPackReceivedListener.OnPackReceived(byte[] pack)
+        void IObjectReceivedListener.OnPackReceived(byte[] pack)
         {
             try
             {

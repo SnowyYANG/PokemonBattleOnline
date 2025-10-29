@@ -10,7 +10,7 @@ using System.Runtime.Serialization.Json;
 
 namespace PokemonBattleOnline.Network
 {
-    internal class ServerUser : IPackReceivedListener, IDisposable
+    internal class ServerUser : IObjectReceivedListener, IDisposable
     {
         private static readonly DataContractJsonSerializer C2SSerializer;
         public static readonly DataContractJsonSerializer S2CSerializer;
@@ -43,7 +43,7 @@ namespace PokemonBattleOnline.Network
         public RoomHost Room
         { get { return User.Room == null ? null : Server.GetRoom(User.Room.Id); } }
 
-        void IPackReceivedListener.OnPackReceived(byte[] pack)
+        void IObjectReceivedListener.OnPackReceived(byte[] pack)
         {
             try
             {

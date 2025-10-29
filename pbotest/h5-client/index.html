@@ -50,19 +50,33 @@
   </main>
 
   <script>
-    let ws = null;
-    let connected = false;
+    let ws = null
+    let connected = false
+    let simGame = null
+    let gameOutward = null
+
     const messagesEl = document.getElementById('messages');
     const connectBtn = document.getElementById('connectBtn');
     const quitBtn = document.getElementById('quitBtn');
     const sendChatBtn = document.getElementById('sendChatBtn');
     const prepareBtn = document.getElementById('prepareBtn');
+    const gameLogs = await fetch('gamelogs.json').then(res => res.json());
 
     function log(text, meta) {
       const d = document.createElement('div');
       d.innerHTML = text;
       messagesEl.appendChild(d);
       messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function gameLog(key, data = []) {
+      const template = gameLogs[key];
+      if (!template) return key;
+      log(template.replace(/{(\d+)(?:\.([a-zA-Z0-9_]+))?}/g, (_, index, prop) => {
+        const val = data[index];
+        if (prop) return val && val[prop] !== undefined ? val[prop] : `{${index}.${prop}}`;
+        return val !== undefined ? val : `{${index}}`;
+      }), 'gamelog');
     }
 
     connectBtn.onclick = (_) => {
@@ -112,10 +126,18 @@
             log((data.nickname ? ('['+data.nickname+'] ') : '') + data.message, 'chat');
             break;
           case 'game.start':
-            log('PokemonBattleOnline-test v0.10')
-            log('对战模式：' + (data.mode == 'single'? '单打': '未知'))
-            log('对战规则：催眠条款')
-            log('对战开始！')
+            gameLog('title')
+            gameLog('GameMode', [data.settings.mode == 'single'? '单打': '未知'])
+            if (data.settings.sleepRule) gameLog('GameRule', ['催眠条款'])
+            gameLog(data.turnNumber == 0 ? 'GameStart' : 'GameContinue')
+            gameOutward = {
+              settings: data.settings,
+              board: {
+                weather: data.board.weather,
+                terrain: data.board.terrain,
+              },
+              turnNumber: data.turnNumber,
+            }
             break;
           case 'game.sendOut':
             log(data.nickname + '放出了' + data.pokemonname + '！', 'game.sendOut')

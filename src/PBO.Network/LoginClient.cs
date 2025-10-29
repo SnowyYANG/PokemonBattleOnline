@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 
@@ -11,7 +12,7 @@ namespace PokemonBattleOnline.Network
 #else
   internal
 #endif
-    class LoginClient : IPackReceivedListener
+    class LoginClient : IObjectReceivedListener
     {
         private static void OnLoginTimeout(object state)
         {
@@ -47,7 +48,7 @@ namespace PokemonBattleOnline.Network
             else TcpClient.BeginConnect(Server, Port, TcpConnectCallback);
         }
 
-        private TcpClient Network;
+        private ClientWebSocket Network;
         private void TcpConnectCallback(TcpClient client)
         {
             if (client == null) OnLoginFailed(Disconnect);
@@ -89,7 +90,7 @@ namespace PokemonBattleOnline.Network
         }
 
         private byte state;
-        void IPackReceivedListener.OnPackReceived(byte[] pack)
+        void IObjectReceivedListener.OnPackReceived(string json)
         {
             switch (state)
             {

@@ -43,7 +43,7 @@ namespace PokemonBattleOnline.Network
 
         public IPEndPoint EndPoint
         { get { return (IPEndPoint)Socket.RemoteEndPoint; } }
-        public IPackReceivedListener Listener
+        public IObjectReceivedListener Listener
         {
             get { return Receiver.Listener; }
             set { Receiver.Listener = value; }
