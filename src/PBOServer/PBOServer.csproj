@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>Exe</OutputType>
     <RootNamespace>PokemonBattleOnline.PBO.Server</RootNamespace>
@@ -13,7 +13,6 @@
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <Configurations>Debug;Release;Test</Configurations>
-    <ApplicationIcon>server.ico</ApplicationIcon>
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
@@ -38,8 +37,5 @@
     <ProjectReference Include="..\PBO.Network.Server\PBO.Network.Server.csproj" />
     <ProjectReference Include="..\PBO.Network\PBO.Network.csproj" />
     <ProjectReference Include="..\PokemonBattleOnline\PokemonBattleOnline.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="server.ico" />
   </ItemGroup>
 </Project>

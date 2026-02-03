@@ -12,7 +12,7 @@ namespace PokemonBattleOnline.PBO.Server
     {
         internal static void process(string command)
         {
-            if (command.StartsWith("ban "))
+            /*if (command.StartsWith("ban "))
             {
                 command = command.Substring(4);
                 char[] cd = { '.' };
@@ -21,11 +21,11 @@ namespace PokemonBattleOnline.PBO.Server
                 for (int i = 0; i < 4; i++)
                     ips[i] = (byte)Convert.ToInt32(st[i]);
                 IPAddress ip = new IPAddress(ips);
-                if (PBOServer.Current.Banlist.IndexOf(ip) >= 0)
+                if (PboServer.Current.Banlist.IndexOf(ip) >= 0)
                     Console.WriteLine(ip.ToString() + " is already in banlist.");
                 else
                 {
-                    PBOServer.Current.BanIp(ip);
+                    PboServer.Current.BanIp(ip);
                     Console.WriteLine(ip.ToString() + " banned.");
                 }
             }
@@ -39,17 +39,17 @@ namespace PokemonBattleOnline.PBO.Server
                     ips[i] = (byte)Convert.ToInt32(st[i]);
 
                 IPAddress ip = new IPAddress(ips);
-                if (PBOServer.Current.Banlist.IndexOf(ip) >= 0)
+                if (PboServer.Current.Banlist.IndexOf(ip) >= 0)
                 {
-                    PBOServer.Current.UnbanIp(ip);
+                    PboServer.Current.UnbanIp(ip);
                     Console.WriteLine(ip.ToString() + " unbanned.");
                 }
                 else
                     Console.WriteLine(ip.ToString() + " isn't in banlist.");
             }
             else if (command == "list" || command == "l")
-                PBOServer.Current.ListUsers();
-
+                PboServer.Current.ListUsers();
+*/
         }
     }
 }

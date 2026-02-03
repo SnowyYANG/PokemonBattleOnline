@@ -14,6 +14,8 @@ namespace PokemonBattleOnline.Network
 {
     public class PboServer : IDisposable
     {
+        public static PboServer Current { get; private set; }
+
         internal readonly object Locker = new object();
 
         private static void OnKeepAlive(object state)
@@ -32,10 +34,15 @@ namespace PokemonBattleOnline.Network
 
         public PboServer(int port)
         {
+            Current = this;
             ws = new WebSocketServer(port);
             ws.AddWebSocketService("/", () => new PboUser(this));
             Port = port;
             KeepAliveTimer = new Timer(OnKeepAlive, this, PBOMarks.TIMEOUT << 1, PBOMarks.TIMEOUT << 1);
+        }
+
+        public void Start()
+        {
             ws.Start();
         }
 

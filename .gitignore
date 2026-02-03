@@ -5,3 +5,4 @@ bin
 /debug
 /server
 *.suo
+/net10.0-windows

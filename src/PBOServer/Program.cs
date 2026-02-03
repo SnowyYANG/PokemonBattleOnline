@@ -10,6 +10,7 @@ namespace PokemonBattleOnline.PBO.Server
 {
     class Program
     {
+        static PboServer server;
         static void PreLog(string message)
         {
             Console.Write(DateTime.Now.ToString("(hh:mm:ss) "));
@@ -33,12 +34,11 @@ namespace PokemonBattleOnline.PBO.Server
                 Console.WriteLine("OK!");
 
                 PreLog("Opening server");
-                PBOServer.NewServer(PBOMarks.DEFAULT_PORT);
-                PBOServer.Current.Start();
+                server = new PboServer(PBOMarks.DEFAULT_PORT);
+                server.Start();
                 Console.WriteLine("OK!");
 
                 PreLog("Initing taskbar notify icon");
-                new Thread(TaskbarIcon.Init).Start();
                 Console.WriteLine("OK!");
 
                 Console.WriteLine();
@@ -51,8 +51,7 @@ namespace PokemonBattleOnline.PBO.Server
                 var line = Console.ReadLine();
                 if (line.Equals("quit", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    PBOServer.Current.Dispose();
-                    TaskbarIcon.Close();
+                    PboServer.Current.Dispose();
                     Record.UnInit();
                     return 0;
                 }
