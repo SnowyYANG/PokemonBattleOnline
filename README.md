@@ -8,7 +8,6 @@
 
 
 
-## /pbotest
+## net8-h5分支
 
-node.js服务器与HTML5网页客户端，使用WebSocket通信。
-
+.net core 8服务器与HTML5网页客户端，使用WebSocket通信。
