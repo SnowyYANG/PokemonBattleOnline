@@ -6,8 +6,7 @@
 
 《Pokémon Champions》发布后本repository可能全部删除。
 
+## net10-h5分支
 
-
-## net8-h5分支
-
-.net core 8服务器与HTML5网页客户端，使用WebSocket通信。
+.net 10服务器与HTML5网页客户端，使用WebSocket通信。  
+开发中……
