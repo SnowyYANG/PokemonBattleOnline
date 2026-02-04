@@ -147,7 +147,7 @@ namespace PokemonBattleOnline.Network
         }
         public void Quit()
         {
-            _Client.ws.Close(WebSocketSharp.CloseStatusCode.Normal);
+            _Client.ws.Stop();
         }
 
         private PokemonData[] Self;

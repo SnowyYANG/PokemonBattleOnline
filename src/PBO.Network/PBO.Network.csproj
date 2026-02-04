@@ -35,7 +35,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="WatsonWebsocket" Version="4.1.7" />
-    <PackageReference Include="WebSocketSharp" Version="1.0.3-rc11" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PBO.Game\PBO.Game.csproj" />

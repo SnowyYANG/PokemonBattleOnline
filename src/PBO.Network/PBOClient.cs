@@ -13,8 +13,9 @@ namespace PokemonBattleOnline.Network
     {
         private static readonly DataContractJsonSerializer C2SSerializer;
         private static readonly DataContractJsonSerializer S2CSerializer;
-        
-        internal WebSocketSharp.WebSocket ws;
+
+        public WatsonWebsocket.WatsonWsClient ws;
+
         public RoomController RoomController
         { get; internal set; }
         internal bool inited;
@@ -51,16 +52,16 @@ namespace PokemonBattleOnline.Network
 
         public PboClient(string url)
         {
-            ws = new WebSocketSharp.WebSocket(url);
-            ws.OnMessage += (s, e) =>
+            ws = new WatsonWebsocket.WatsonWsClient(new Uri(url));
+            ws.MessageReceived += (s, e) =>
             {
-                using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(e.Data)))
+                using (var ms = new MemoryStream(e.Data.Array, e.Data.Offset, e.Data.Count))
                 {
                     var obj = S2CSerializer.ReadObject(ms) as IS2C;
                     obj.Execute(this);
                 }
             };
-            ws.Connect();
+            ws.Start();
         }
 
         public void Init(string name, string room, Seat seat)
@@ -76,7 +77,7 @@ namespace PokemonBattleOnline.Network
             Send(init);
         }
 
-        public void Send(IC2S command)
+        public async void Send(IC2S command)
         {
             using (var ms = new MemoryStream())
             {
@@ -84,7 +85,7 @@ namespace PokemonBattleOnline.Network
                 ms.Position = 0;
                 using (var sr = new StreamReader(ms, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, bufferSize: 1024, leaveOpen: true))
                 {
-                    ws.Send(sr.ReadToEnd());
+                    await ws.SendAsync(sr.ReadToEnd());
                 }
             }
         }
