@@ -10,18 +10,13 @@ namespace PokemonBattleOnline.Network
     [DataContract(Namespace = PBOMarks.JSON)]
     public class User : ObservableObject
     {
-        public User(string id, string name, string room, Seat seat)
+        public User(string name, string room, Seat seat)
         {
-            _id = id;
             _name = name;
             RoomId = room;
             Seat = seat;
         }
 
-        [DataMember(Name = "id")]
-        private readonly string _id;
-        public string Id
-        { get { return _id; } }
         [DataMember(Name = "name")]
         private readonly string _name;
         public string Name

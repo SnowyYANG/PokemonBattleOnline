@@ -71,7 +71,7 @@ namespace PokemonBattleOnline.Network
             {
                 try
                 {
-                    ((Action<string, InitingGame>)AddInitingGameImplement).BeginInvoke(room.Id, ig, AIGICallback, null);
+                    ((Action<string, InitingGame>)AddInitingGameImplement)(room.Id, ig);
                 }
                 catch { }
             }
@@ -140,7 +140,7 @@ namespace PokemonBattleOnline.Network
             {
                 try
                 {
-                    ((Action<string, int>)ErrorImplement).BeginInvoke(room.Id, game.Id, ErrorCallback, null);
+                    ((Action<string, int>)ErrorImplement)(room.Id, game.Id);
                 }
                 catch { }
             }

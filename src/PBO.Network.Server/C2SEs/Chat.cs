@@ -7,14 +7,14 @@ using PokemonBattleOnline.Network.Commands;
 
 namespace PokemonBattleOnline.Network.C2SEs
 {
-  [DataContract(Namespace = PBOMarks.JSON)]
+  [DataContract(Name = "chat", Namespace = PBOMarks.JSON)]
   internal class ChatC2S : Commands.ChatC2S, IC2SE
   {
     public void Execute(PboUser su)
     {
-      var id = su.User.Id;
+      var name = su.User.Name;
       var server = su.Server;
-      var s2c = new ChatS2C(Mode, id, Chat);
+      var s2c = new ChatS2C(Mode, name, Chat);
       switch (Mode)
       {
         case ChatMode.Public:

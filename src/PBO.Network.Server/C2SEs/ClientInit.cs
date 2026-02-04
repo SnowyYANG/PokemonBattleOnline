@@ -12,7 +12,7 @@ namespace PokemonBattleOnline.Network.C2SEs
     {
         public void Execute(PboUser su)
         {
-            su.Init(name, room, seat);
+            su.Server.AddUser(su, name, room, seat);
         }
     }
 }

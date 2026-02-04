@@ -181,7 +181,7 @@ namespace PokemonBattleOnline.Network
         internal void OnQuited()
         {
             Reset();
-            UIDispatcher.BeginInvoke(Quited);
+            Quited();
         }
 
         internal PokemonData[] Partner;
@@ -218,13 +218,13 @@ namespace PokemonBattleOnline.Network
             }
         }
 
-        public User GetUser(string ID)
+        public User GetUser(string name)
         {
             foreach (var user in Room.Players)
-                if (user?.Id == ID)
+                if (user?.Name == name)
                     return user;
             foreach (var user in Room.Spectators)
-                if (user?.Id == ID)
+                if (user?.Name == name)
                     return user;
             return null;
         }

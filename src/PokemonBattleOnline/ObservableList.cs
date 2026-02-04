@@ -28,11 +28,11 @@ namespace PokemonBattleOnline
     
     protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
     {
-      UIDispatcher.BeginInvoke(BaseOnCollectionChanged, e);
+      BaseOnCollectionChanged(e);
     }
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
-      UIDispatcher.BeginInvoke(BaseOnPropertyChanged, e);
+      BaseOnPropertyChanged(e);
     }
   }
 }

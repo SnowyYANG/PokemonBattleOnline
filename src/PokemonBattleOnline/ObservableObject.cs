@@ -25,7 +25,7 @@ namespace PokemonBattleOnline
 
     protected void OnPropertyChanged(PropertyChangedEventArgs e)
     {
-      if (_propertyChanged != null) UIDispatcher.BeginInvoke(_propertyChanged, this, e);
+      _propertyChanged?.Invoke(this, e);
     }
     protected void OnPropertyChanged(string propertyName)
     {

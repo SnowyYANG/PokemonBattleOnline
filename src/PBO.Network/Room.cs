@@ -87,22 +87,22 @@ namespace PokemonBattleOnline.Network
             return Settings.Mode.PlayersPerTeam() == 2 || Seat != Seat.Player01 && Seat != Seat.Player11;
         }
 
-        public void AddUser(string id, string name, Seat seat)
+        public void AddUser(string name, Seat seat)
         {
-            var user = new User(id, name, Id, seat);
+            var user = new User(name, Id, seat);
             if (seat == Seat.Spectator) AddSpectator(user);
             else this[user.Seat] = user;
         }
-        public void RemoveUser(string id)
+        public void RemoveUser(string name)
         {
             foreach(var user in Spectators)
-                if (user.Id == id)
+                if (user.Name == name)
                 {
                     RemoveSpectator(user);
                     return;
                 }
             foreach (var user in Players)
-                if (user.Id == id)
+                if (user.Name == name)
                 {
                     this[user.Seat] = null;
                     return;

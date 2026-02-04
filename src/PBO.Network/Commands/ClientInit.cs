@@ -46,7 +46,7 @@ namespace PokemonBattleOnline.Network.Commands
             client.RoomController = new RoomController(client, new Room(client.MyRoomId));
             foreach (var user in _roomUsers)
             {
-                client.RoomController.Room.AddUser(user.Id, user.Name, user.Seat);
+                client.RoomController.Room.AddUser(user.Name, user.Seat);
             }
             client.inited = true;
         }
@@ -59,7 +59,7 @@ namespace PokemonBattleOnline.Network.Commands
 
         public WelcomeS2C(string version)
         {
-            ServerVersion = "Pbo-test " + version;
+            ServerVersion = "net10-" + version;
         }
 
         void IS2C.Execute(PboClient client)

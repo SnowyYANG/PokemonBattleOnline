@@ -55,24 +55,5 @@ namespace PokemonBattleOnline
       }
 #endif
     }
-    public static void BeginInvoke(Delegate method, params object[] args)
-    {
-#if DEBUG
-      try
-      {
-#endif
-        if (method != null)
-        {
-          if (syncContext == null) method.DynamicInvoke(args);
-          else syncContext.Post(_ => method.DynamicInvoke(args), null);
-        }
-#if DEBUG
-      }
-      catch
-      {
-        System.Diagnostics.Debugger.Break();
-      }
-#endif
-    }
   }
 }

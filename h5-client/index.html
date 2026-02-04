@@ -15,14 +15,14 @@
   <main style="max-width: 600px;">
     <details open>
       <summary>Login</summary>
-      <label>Server: <input id="server" value="localhost:8080"></label>
+      <label>Server: <input id="server" value="localhost:9705"></label>
       <label>Room: <input id="room" value="room1"></label>
       <label>Nickname: <input id="nickname" value="user"></label>
       <label>Seat:
         <select id="seat">
           <option value="spectator">spectator</option>
-          <option value="player1">player1</option>
-          <option value="player2">player2</option>
+          <option value="player00">player1</option>
+          <option value="player10">player2</option>
         </select>
       </label>
       <button id="connectBtn">Connect</button>
@@ -60,7 +60,12 @@
     const quitBtn = document.getElementById('quitBtn');
     const sendChatBtn = document.getElementById('sendChatBtn');
     const prepareBtn = document.getElementById('prepareBtn');
-    const gameLogs = await fetch('gamelogs.json').then(res => res.json());
+    let gameLogs = []
+    fetch('gamelogs.json', {
+      origin: 'same-origin',
+    }).then(res => res.json()).then(async data => {
+      gameLogs = data;
+    });
 
     function log(text, meta) {
       const d = document.createElement('div');
@@ -90,13 +95,12 @@
       ws.addEventListener('open', () => {
         log('WebSocket connected');
         // Send login object required by server
-        ws.send(JSON.stringify({
-          secret: 'PBOtest',
+        send('init', {
+          version: '0.1-h5',
+          name: nickname,
           room: room,
-          nickname: nickname,
           seat: seat,
-          version: '0.1-h5'
-        }));
+        });
         connected = true;
         connectBtn.disabled = true;
         quitBtn.disabled = false;
@@ -114,14 +118,16 @@
           return;
         }
 
-        // handle server messages
-        if (data.secret) {
-          log('Server: ' + (data.message || 'welcome'), 'version:' + (data.serverVersion || data.version || 'unknown'));
-          return;
-        }
-
         // standard heads from server: chat, gameStart, userQuit, userClosed, ...
-        switch (data.head) {
+        switch (data.__type.substring(0, data.type.indexOf(':#'))) {
+          case 'welcome':
+            send('init', {
+              version: 'h5-0.1',
+              name: nickname,
+              room: room,
+              seat: seat,
+            });
+            break;
           case 'chat':
             log((data.nickname ? ('['+data.nickname+'] ') : '') + data.message, 'chat');
             break;
@@ -168,17 +174,18 @@
       });
     }
 
-    function send(obj) {
+    function send(type, obj) {
       if (!ws || ws.readyState !== WebSocket.OPEN) { log('Not connected'); return; }
-      ws.send(JSON.stringify(obj));
+      ws.send(JSON.stringify({
+        __type: type + ':#',
+        ...obj
+      }));
     }
 
     document.getElementById('sendChatBtn').addEventListener('click', () => {
       const text = document.getElementById('chatInput').value.trim();
       if (!text) return;
-      send({ head: 'chat', message: text });
-      // locally echo
-      log('[me] ' + text, 'chat');
+      send('chat', { mode: 0, msg: text });
       document.getElementById('chatInput').value = '';
     });
 
@@ -201,12 +208,12 @@
         moves: [118], //摇手指
         movesPP: [2],
       }]
-      send({ head: 'prepare', team: team, mode: mode });
+      send('prepare', { head: 'prepare', team: team, mode: mode });
       log('Prepared: team=' + team[0].name + ' mode=' + mode, 'prepare');
     }
 
     quitBtn.addEventListener('click', () => {
-      send({ head: 'quit' });
+      send('quit', { head: 'quit' });
       // close locally
       if (ws) ws.close();
     });
