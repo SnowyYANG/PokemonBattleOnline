@@ -18,7 +18,7 @@ namespace PokemonBattleOnline.Network.Commands
         [DataMember]
         public string room;
 
-        [DataMember]
+        [EnumMember]
         public Seat seat;
     }
     

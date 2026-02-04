@@ -72,7 +72,7 @@ namespace PokemonBattleOnline.Network
 
         internal async void Send(PboUser user, IS2C s2c)
         {
-            Send(user.Guid, s2c);
+            if (user != null) Send(user.Guid, s2c);
         }
 
         internal async void Send(Guid clientGuid, IS2C s2c)
@@ -130,7 +130,6 @@ namespace PokemonBattleOnline.Network
             IC2SE c2s = null;
             using (var ms = new MemoryStream(args.Data.Array, args.Data.Offset, args.Data.Count))
             {
-                Console.WriteLine("Message: " + Encoding.UTF8.GetString(args.Data.Array, args.Data.Offset, args.Data.Count));
                 try
                 {
                     c2s = (IC2SE)C2SESerializer.ReadObject(ms);
