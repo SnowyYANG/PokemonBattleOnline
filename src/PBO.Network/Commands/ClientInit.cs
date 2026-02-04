@@ -3,29 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace PokemonBattleOnline.Network.Commands
 {
-    [DataContract(Name = "init", Namespace = PBOMarks.JSON)]
     public class ClientInitC2S : IC2S
     {
-        [DataMember]
-        public string version;
+        public string version {get;set;}
 
-        [DataMember]
-        public string name;
+        public string name {get;set;}
         
-        [DataMember]
-        public string room;
+        public string room {get;set;}
 
-        [EnumMember]
-        public Seat seat;
+        public Seat seat {get;set;}
     }
     
-    [DataContract(Name = "init", Namespace = PBOMarks.JSON)]
     public class ClientInitS2C : IS2C
     {
-        [DataMember(Name = "id")]
+        public string type => "init";
+        [JsonPropertyName("id")]
         public readonly string ID;
 
         public ClientInitS2C(string user, User[] roomUsers)
@@ -34,7 +30,7 @@ namespace PokemonBattleOnline.Network.Commands
             _roomUsers = roomUsers;
         }
 
-        [DataMember(Name = "users")]
+        [JsonPropertyName("users")]
         private readonly User[] _roomUsers;
         public IEnumerable<User> RoomUsers
         { get { return _roomUsers; } }
@@ -51,12 +47,12 @@ namespace PokemonBattleOnline.Network.Commands
             client.inited = true;
         }
     }
-    [DataContract(Name = "welcome", Namespace = PBOMarks.JSON)]
     public class WelcomeS2C : IS2C
     {
-        [DataMember]
-        public string ServerVersion;
+        public string type => "welcome";
 
+        [JsonPropertyName("version")]
+        public string ServerVersion {get;set;}
         public WelcomeS2C(string version)
         {
             ServerVersion = "net10-" + version;

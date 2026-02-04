@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace PokemonBattleOnline.Network.Commands
 {
-    [DataContract(Namespace = PBOMarks.JSON)]
     public enum ChatMode
     {
         [EnumMember(Value = "room")]
@@ -16,7 +16,6 @@ namespace PokemonBattleOnline.Network.Commands
         [EnumMember(Value = "public")]
         Public,
     }
-    [DataContract(Name = "chat", Namespace = PBOMarks.JSON)]
     public class ChatC2S : IC2S
     {
         public static ChatC2S RoomChat(string chat)
@@ -24,12 +23,11 @@ namespace PokemonBattleOnline.Network.Commands
             return new ChatC2S(ChatMode.Room, 0, chat);
         }
 
-        [DataMember(Name = "mode", EmitDefaultValue = false)]
-        [EnumMember]
-        protected readonly ChatMode Mode;
+        [JsonPropertyName("mode")]
+        public ChatMode Mode {get;set;}
 
-        [DataMember(Name = "msg")]
-        protected readonly string Chat;
+        [JsonPropertyName("msg")]
+        public string Chat {get;set;}
 
         private ChatC2S(ChatMode mode, int to, string chat)
         {
@@ -40,20 +38,18 @@ namespace PokemonBattleOnline.Network.Commands
         {
         }
     }
-    [DataContract(Name = "chat", Namespace = PBOMarks.JSON)]
     public class ChatS2C : IS2C
     {
-        [DataMember(Name = "mode", EmitDefaultValue = false)]
-        private readonly ChatMode Mode;
+        public string type => "chat";
+        
+        [JsonPropertyName("mode")]
+        public ChatMode Mode {get;set;}
 
-        /// <summary>
-        /// private mode only
-        /// </summary>
-        [DataMember(Name = "from", EmitDefaultValue = false)]
-        private readonly string From;
+        [JsonPropertyName("from")]
+        public string From {get;set;}
 
-        [DataMember(Name = "msg")]
-        private readonly string Chat;
+        [JsonPropertyName("msg")]
+        public string Chat {get;set;}
 
         public ChatS2C(ChatMode mode, string from, string chat)
         {

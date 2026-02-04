@@ -130,11 +130,13 @@ namespace PokemonBattleOnline.Network
             }
         }
 
-        public void AddUser(PboUser su, Seat seat)
+        public bool AddUser(PboUser su, Seat seat)
         {
             var user = su.User;
-            if (user.Room == null && Room[seat] == null)
+            if (seat == Seat.Spectator || Room[seat] == null)
             {
+                su.Room = this;
+                user.RoomId = Room.Id;
                 if (seat == Seat.Spectator) Room.AddSpectator(user);
                 else Room[seat] = user;
                 Users.Add(su.User.Name, su);
@@ -147,7 +149,9 @@ namespace PokemonBattleOnline.Network
                     if (IsPrepared(Seat.Player01)) Server.Send(su.User.Name, new SetPrepareS2C(Seat.Player01, true));
                     if (IsPrepared(Seat.Player11)) Server.Send(su.User.Name, new SetPrepareS2C(Seat.Player11, true));
                 }
+                return true;
             }
+            return false;
         }
         public void RemoveUser(PboUser su)
         {

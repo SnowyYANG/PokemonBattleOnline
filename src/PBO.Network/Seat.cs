@@ -6,19 +6,18 @@ using System.Text;
 
 namespace PokemonBattleOnline.Network
 {
-  [DataContract(Namespace = PBOMarks.JSON)]
   public enum Seat
   {
     [EnumMember(Value = "player00")]
-    Player00,
+    Player00 = 0,
     [EnumMember(Value = "player01")]
-    Player01,
+    Player01 = 1,
     [EnumMember(Value = "player10")]
-    Player10,
+    Player10 = 2,
     [EnumMember(Value = "player11")]
-    Player11,
+    Player11 = 3,
     [EnumMember(Value = "spectator")]
-    Spectator
+    Spectator = 4
   }
   public static class SeatExtensions
   {

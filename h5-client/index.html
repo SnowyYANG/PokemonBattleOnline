@@ -85,22 +85,12 @@
     }
 
     connectBtn.onclick = (_) => {
-      const room = document.getElementById('room').value.trim();
-      const nickname = document.getElementById('nickname').value.trim();
-      const seat = document.getElementById('seat').value;
       if (!room || !nickname) { alert('room and nickname required'); return; }
 
       ws = new WebSocket('ws://'+document.getElementById('server').value.trim());
 
       ws.addEventListener('open', () => {
         log('WebSocket connected');
-        // Send login object required by server
-        send('init', {
-          version: '0.1-h5',
-          name: nickname,
-          room: room,
-          seat: seat,
-        });
         connected = true;
         connectBtn.disabled = true;
         quitBtn.disabled = false;
@@ -119,17 +109,19 @@
         }
 
         // standard heads from server: chat, gameStart, userQuit, userClosed, ...
-        switch (data.__type.substring(0, data.type.indexOf(':#'))) {
+        switch (data.type) {
           case 'welcome':
             send('init', {
-              version: 'h5-0.1',
-              name: nickname,
-              room: room,
-              seat: seat,
+              version: 'h5-6001',
+              name: document.getElementById('nickname').value.trim(),
+              room: document.getElementById('room').value.trim(),
+              seat: document.getElementById('seat').value,
             });
             break;
+          case 'init':
+            break;
           case 'chat':
-            log((data.nickname ? ('['+data.nickname+'] ') : '') + data.message, 'chat');
+            log('['+ (data.from || '?') +'] '  + data.msg, 'chat');
             break;
           case 'game.start':
             gameLog('title')
@@ -177,7 +169,7 @@
     function send(type, obj) {
       if (!ws || ws.readyState !== WebSocket.OPEN) { log('Not connected'); return; }
       ws.send(JSON.stringify({
-        __type: type + ':#',
+        type: type,
         ...obj
       }));
     }
@@ -185,7 +177,7 @@
     document.getElementById('sendChatBtn').addEventListener('click', () => {
       const text = document.getElementById('chatInput').value.trim();
       if (!text) return;
-      send('chat', { mode: 0, msg: text });
+      send('chat', { mode: 'room', msg: text });
       document.getElementById('chatInput').value = '';
     });
 

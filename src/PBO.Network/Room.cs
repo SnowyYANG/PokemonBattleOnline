@@ -52,10 +52,10 @@ namespace PokemonBattleOnline.Network
             {
                 if (0 <= index && index < 4)
                 {
-                    if (value == null) players[index].Room = null; //离开房间
+                    if (value == null) players[index].RoomId = null; //离开房间
                     else
                     {
-                        if (value.Room != this) value.Room = this; //进入房间
+                        if (value.RoomId != this.Id) value.RoomId = this.Id; //进入房间
                         else if (value.Seat == Seat.Spectator) _spectators.Remove(value); //本房间内换座位
                         else players[(int)value.Seat] = null;
                         value.Seat = (Seat)index;
@@ -115,8 +115,7 @@ namespace PokemonBattleOnline.Network
 
         public void AddSpectator(User user)
         {
-            if (user.Room == this) players[(int)user.Seat] = null;//房间内换座位
-            else user.Room = this;
+            user.RoomId = Id;
             user.Seat = Seat.Spectator;
             _spectators.Add(user);
         }
@@ -169,7 +168,7 @@ namespace PokemonBattleOnline.Network
                 {
                     foreach (var u in value)
                     {
-                        u.Room = this;
+                        u.RoomId = this.Id;
                         u.Seat = Seat.Spectator;
                     }
                     _spectators = new ObservableList<User>(value);

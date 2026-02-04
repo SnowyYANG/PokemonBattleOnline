@@ -25,25 +25,6 @@ namespace PokemonBattleOnline.Network
         [DataMember(Name = "room")]
         public string RoomId;
 
-        private Room _room;
-        /// <summary>
-        /// setter is only for Room class
-        /// </summary>
-        public Room Room
-        {
-            get
-            {
-                return _room;
-            }
-            internal set
-            {
-                if (_room != value)
-                {
-                    _room = value;
-                    RoomId = _room == null ? null : _room.Id;
-                }
-            }
-        }
         [DataMember(Name = "seat")]
         public Seat Seat
         { get; internal set; }

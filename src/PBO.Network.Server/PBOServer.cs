@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -14,18 +13,7 @@ namespace PokemonBattleOnline.Network
 {
     public class PboServer : IDisposable
     {
-        private static readonly DataContractJsonSerializer C2SESerializer;
-        public static readonly DataContractJsonSerializer S2CSerializer;
         public static PboServer Current { get; private set; }
-
-        static PboServer()
-        {
-            var c2se = typeof(IC2SE);
-            C2SESerializer = new DataContractJsonSerializer(c2se, c2se.SubClasses());
-            var s2c = typeof(IS2C);
-            S2CSerializer = new DataContractJsonSerializer(s2c, s2c.SubClasses());
-        }
-
 
         internal readonly object Locker = new object();
 
@@ -77,19 +65,10 @@ namespace PokemonBattleOnline.Network
 
         internal async void Send(Guid clientGuid, IS2C s2c)
         {
+            Console.WriteLine("Sending to client " + clientGuid);
             try
             {
-                string json;
-                using (var ms = new MemoryStream())
-                {
-                    S2CSerializer.WriteObject(ms, s2c);
-                    ms.Position = 0;
-                    using (var sr = new StreamReader(ms))
-                    {
-                        json = sr.ReadToEnd();
-                    }
-                }
-                await ws.SendAsync(clientGuid, json);
+                await ws.SendAsync(clientGuid, JsonSerializer.Serialize(s2c, s2c.GetType()));
             }
             catch
             {
@@ -98,11 +77,13 @@ namespace PokemonBattleOnline.Network
 
         internal async void Send(string name, IS2C s2c)
         {
+            Console.WriteLine("Sending to user " + name);
             Send(GetUser(name), s2c);
         }
 
         internal async void Send(RoomHost room, IS2C s2c)
         {
+            Console.WriteLine("Sending to room " + room.Room.Id);
             foreach (var su in room.Users.Values) Send(su.User.Name, s2c);
         }
 
@@ -137,7 +118,12 @@ namespace PokemonBattleOnline.Network
             {
                 try
                 {
-                    c2s = (IC2SE)C2SESerializer.ReadObject(ms);
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true,
+                        Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
+                    };
+                    c2s = (IC2SE)JsonSerializer.Deserialize(ms, typeof(IC2SE), options);
                 }
                 catch (Exception ex)
                 {
@@ -153,13 +139,24 @@ namespace PokemonBattleOnline.Network
             lock (Locker)
             {
                 var user = GetUser(args.Client.Guid);
-                if (user == null && c2s is IC2SE)
+                if (user == null)
                 {
-                    user = new PboUser(this) { Guid = args.Client.Guid };
-                }
+                    if (c2s is IC2SE)
+                    {
+                        user = new PboUser(this) { Guid = args.Client.Guid };
+                    }
+                    Console.WriteLine("no user with guid " + args.Client.Guid);
+                } 
                 if (user != null)
                 {
-                    c2s.Execute(user);
+                    try
+                    {
+                        c2s.Execute(user);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error executing command: " + ex.ToString());
+                    }
                 }
             }
         }
@@ -182,11 +179,16 @@ namespace PokemonBattleOnline.Network
                     rh = AddRoom(roomId);
                     Console.WriteLine("new room " + roomId);
                 }
-                user.Room = rh;
                 Send(user, new ClientInitS2C(name, rh.Room.GetUsers()));
-                rh.AddUser(user, user.User.Seat);
-                Send(user.Room, UserS2C.AddUser(user.User.Name, user.Room.Room.Id, user.User.Seat));
-                Users.Add(user.User.Name, user);
+                if (rh.AddUser(user, user.User.Seat))
+                {
+                    Send(user.Room, UserS2C.AddUser(name, roomId, seat));
+                    Users.Add(user.User.Name, user);
+                }
+                else
+                {
+                    Console.WriteLine("failed to add user " + name + " to room " + roomId + "at seat " + seat);
+                }
             }
             Console.WriteLine("({0}) {1} has entered the lobby.", DateTime.Now, user.User.Name);
         }
