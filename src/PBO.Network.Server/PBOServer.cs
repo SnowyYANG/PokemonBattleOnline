@@ -68,7 +68,12 @@ namespace PokemonBattleOnline.Network
             Console.WriteLine("Sending to client " + clientGuid);
             try
             {
-                await ws.SendAsync(clientGuid, JsonSerializer.Serialize(s2c, s2c.GetType()));
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                    Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
+                };
+                await ws.SendAsync(clientGuid, JsonSerializer.Serialize(s2c, s2c.GetType(), options));
             }
             catch
             {
