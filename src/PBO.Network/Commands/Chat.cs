@@ -6,10 +6,14 @@ using System.Runtime.Serialization;
 
 namespace PokemonBattleOnline.Network.Commands
 {
+    [DataContract(Namespace = PBOMarks.JSON)]
     public enum ChatMode
     {
+        [EnumMember(Value = "room")]
         Room,
+        [EnumMember(Value = "private")]
         Private,
+        [EnumMember(Value = "public")]
         Public,
     }
     [DataContract(Name = "chat", Namespace = PBOMarks.JSON)]
@@ -21,6 +25,7 @@ namespace PokemonBattleOnline.Network.Commands
         }
 
         [DataMember(Name = "mode", EmitDefaultValue = false)]
+        [EnumMember]
         protected readonly ChatMode Mode;
 
         [DataMember(Name = "msg")]

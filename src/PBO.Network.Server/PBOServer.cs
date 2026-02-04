@@ -101,6 +101,11 @@ namespace PokemonBattleOnline.Network
             Send(GetUser(name), s2c);
         }
 
+        internal async void Send(RoomHost room, IS2C s2c)
+        {
+            foreach (var su in room.Users.Values) Send(su.User.Name, s2c);
+        }
+
         internal void ClientConnected(object sender, ConnectionEventArgs args)
         {
             Console.WriteLine("ClientConnected: " + args.Client.Guid);
@@ -180,7 +185,7 @@ namespace PokemonBattleOnline.Network
                 user.Room = rh;
                 Send(user, new ClientInitS2C(name, rh.Room.GetUsers()));
                 rh.AddUser(user, user.User.Seat);
-                user.Room.Send(UserS2C.AddUser(user.User.Name, user.Room.Room.Id, user.User.Seat));
+                Send(user.Room, UserS2C.AddUser(user.User.Name, user.Room.Room.Id, user.User.Seat));
                 Users.Add(user.User.Name, user);
             }
             Console.WriteLine("({0}) {1} has entered the lobby.", DateTime.Now, user.User.Name);
@@ -189,8 +194,11 @@ namespace PokemonBattleOnline.Network
         {
             lock (Locker)
             {
-                user.Room?.Send(UserS2C.RemoveUser(user.User.Name));
-                user.Room?.RemoveUser(user);
+                if (user.Room != null)
+                {
+                    Send(user.Room, UserS2C.RemoveUser(user.User.Name));
+                    user.Room.RemoveUser(user);
+                }
                 Users.Remove(user.User.Name);
             }
             Console.WriteLine("({0}) {1} has left the lobby.", DateTime.Now, user.User.Name);

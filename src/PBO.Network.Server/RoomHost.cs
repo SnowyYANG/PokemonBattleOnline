@@ -12,7 +12,7 @@ namespace PokemonBattleOnline.Network
     {
         public readonly PboServer Server;
         public readonly Room Room;
-        private readonly Dictionary<string, PboUser> Users = new Dictionary<string, PboUser>();
+        internal readonly Dictionary<string, PboUser> Users = new Dictionary<string, PboUser>();
         private InitingGame initingGame;
         private GameContext game;
 
@@ -22,18 +22,13 @@ namespace PokemonBattleOnline.Network
             Room = new Room(id);
         }
 
-        public void Send(IS2C s2c)
-        {
-            foreach (var su in Users.Values) Server.Send(su.User.Name, s2c);
-        }
-
         private InitingGame rig;
         private void TryStartGame()
         {
             if (initingGame.CanComplete)
             {
                 Room.Battling = true;
-                Send(RoomS2C.ChangeBattling(Room.Id));
+                Server.Send(this, RoomS2C.ChangeBattling(Room.Id));
                 if (Room.Settings.Mode.PlayersPerTeam() == 2)
                 {
                     Server.Send(Room[0, 0].Name, new PartnerInfoS2C(initingGame.GetPokemons(0, 1)));
@@ -49,7 +44,7 @@ namespace PokemonBattleOnline.Network
                 game.TimeUp += OnTimeUp;
                 game.WaitingNotify += OnWaitingForInput;
                 game.Error += OnError;
-                Send(new GameStartS2C(game.GetFragment()));
+                Server.Send(this, new GameStartS2C(game.GetFragment()));
                 game.Start();
             }
         }
@@ -61,19 +56,19 @@ namespace PokemonBattleOnline.Network
             game.Dispose();
             game = null;
             Room.Battling = false;
-            Send(RoomS2C.ChangeBattling(Room.Id));
+            Server.Send(this, RoomS2C.ChangeBattling(Room.Id));
         }
         private void OnError()
         {
             Record.Error(Room, game);
             EndGame();
-            Send(GameEndS2C.GameStop(null, GameStopReason.Error));
+            Server.Send(this, GameEndS2C.GameStop(null, GameStopReason.Error));
         }
         private void OnGameStop(string userId, GameStopReason reason)
         {
             Record.Add(Room, game, reason, userId);
             EndGame();
-            Send(GameEndS2C.GameStop(userId, reason));
+            Server.Send(this, GameEndS2C.GameStop(userId, reason));
         }
         private void OnTimeUp(int[,] time)
         {
@@ -81,14 +76,14 @@ namespace PokemonBattleOnline.Network
             EndGame();
             var ps = new List<KeyValuePair<string, int>>(4);
             foreach (var p in Room.Players) ps.Add(new KeyValuePair<string, int>(p.Name, time[p.Seat.TeamId(), p.Seat.TeamIndex()]));
-            Send(GameEndS2C.TimeUp(ps.ToArray()));
+            Server.Send(this, GameEndS2C.TimeUp(ps.ToArray()));
         }
         private void OnWaitingForInput(bool[,] players)
         {
             var ps = new List<string>(4);
             foreach (var p in Room.Players)
                 if (players[p.Seat.TeamId(), p.Seat.TeamIndex()]) ps.Add(p.Name);
-            Send(new WaitingForInputS2C(ps.ToArray()));
+            Server.Send(this, new WaitingForInputS2C(ps.ToArray()));
         }
         private void OnGameUpdate(GameEvent[] events, InputRequest[,] requirements)
         {
@@ -100,7 +95,7 @@ namespace PokemonBattleOnline.Network
                     if (r != null) Server.Send(p.Name, new RequireInputS2C(r));
                 }
             }
-            Send(new GameUpdateS2C(events));
+            Server.Send(this, new GameUpdateS2C(events));
         }
 
         private bool IsPrepared(Seat seat)
@@ -116,7 +111,7 @@ namespace PokemonBattleOnline.Network
                 var seat = su.User.Seat;
                 if (initingGame.Prepare(seat.TeamId(), seat.TeamIndex(), pokemons))
                 {
-                    Send(new SetPrepareS2C(seat, true));
+                    Server.Send(this, new SetPrepareS2C(seat, true));
                     Room.Settings = settings;
                     TryStartGame();
                 }
@@ -130,7 +125,7 @@ namespace PokemonBattleOnline.Network
                 if (IsPrepared(seat))
                 {
                     initingGame.UnPrepare(seat.TeamId(), su.User.Seat.TeamIndex());
-                    Send(new SetPrepareS2C(seat, false));
+                    Server.Send(this, new SetPrepareS2C(seat, false));
                 }
             }
         }

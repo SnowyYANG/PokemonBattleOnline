@@ -21,7 +21,7 @@ namespace PokemonBattleOnline.Network.C2SEs
           break;
         case ChatMode.Room:
           var room = su.Room;
-          if (room != null) room.Send(s2c);
+          if (room != null) su.Server.Send(room, s2c);
           break;
         case ChatMode.Private:
           break;
